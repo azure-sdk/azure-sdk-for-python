@@ -139,7 +139,7 @@ def start_test_proxy(request) -> None:
                 root = os.getenv("BUILD_SOURCESDIRECTORY", repo_root)
                 log = open(os.path.join(root, "_proxy_log_{}.log".format(envname)), "a")
 
-                _LOGGER.info("{} is calculated repo root".format(root))
+                _LOGGER.info("{} is cal culated repo root".format(root))
                 proc = subprocess.Popen(
                     shlex.split('test-proxy --storage-location="{}" --urls "{}"'.format(root, PROXY_URL)),
                     stdout=log,
