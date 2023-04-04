@@ -7,18 +7,21 @@
 # --------------------------------------------------------------------------
 
 from copy import deepcopy
-from typing import Any, Awaitable, TYPE_CHECKING
+from typing import Any, Awaitable, Optional, TYPE_CHECKING
 
 from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.mgmt.core import AsyncARMPipelineClient
 
-from .. import models
+from .. import models as _models
 from .._serialization import Deserializer, Serializer
 from ._configuration import CostManagementClientConfiguration
 from .operations import (
     AlertsOperations,
     BenefitRecommendationsOperations,
+    BenefitUtilizationSummariesAsyncOperations,
     BenefitUtilizationSummariesOperations,
+    BillingAccountScopeOperations,
+    BillingProfileScopeOperations,
     DimensionsOperations,
     ExportsOperations,
     ForecastOperations,
@@ -30,6 +33,10 @@ from .operations import (
     Operations,
     PriceSheetOperations,
     QueryOperations,
+    ReservationOrderScopeOperations,
+    ReservationScopeOperations,
+    SavingsPlanOrderScopeOperations,
+    SavingsPlanScopeOperations,
     ScheduledActionsOperations,
     ViewsOperations,
 )
@@ -45,20 +52,33 @@ class CostManagementClient:  # pylint: disable=client-accepts-api-version-keywor
 
     :ivar operations: Operations operations
     :vartype operations: azure.mgmt.costmanagement.aio.operations.Operations
-    :ivar views: ViewsOperations operations
-    :vartype views: azure.mgmt.costmanagement.aio.operations.ViewsOperations
-    :ivar alerts: AlertsOperations operations
-    :vartype alerts: azure.mgmt.costmanagement.aio.operations.AlertsOperations
-    :ivar forecast: ForecastOperations operations
-    :vartype forecast: azure.mgmt.costmanagement.aio.operations.ForecastOperations
-    :ivar dimensions: DimensionsOperations operations
-    :vartype dimensions: azure.mgmt.costmanagement.aio.operations.DimensionsOperations
-    :ivar query: QueryOperations operations
-    :vartype query: azure.mgmt.costmanagement.aio.operations.QueryOperations
-    :ivar generate_reservation_details_report: GenerateReservationDetailsReportOperations
+    :ivar benefit_recommendations: BenefitRecommendationsOperations operations
+    :vartype benefit_recommendations:
+     azure.mgmt.costmanagement.aio.operations.BenefitRecommendationsOperations
+    :ivar benefit_utilization_summaries: BenefitUtilizationSummariesOperations operations
+    :vartype benefit_utilization_summaries:
+     azure.mgmt.costmanagement.aio.operations.BenefitUtilizationSummariesOperations
+    :ivar billing_account_scope: BillingAccountScopeOperations operations
+    :vartype billing_account_scope:
+     azure.mgmt.costmanagement.aio.operations.BillingAccountScopeOperations
+    :ivar billing_profile_scope: BillingProfileScopeOperations operations
+    :vartype billing_profile_scope:
+     azure.mgmt.costmanagement.aio.operations.BillingProfileScopeOperations
+    :ivar reservation_order_scope: ReservationOrderScopeOperations operations
+    :vartype reservation_order_scope:
+     azure.mgmt.costmanagement.aio.operations.ReservationOrderScopeOperations
+    :ivar reservation_scope: ReservationScopeOperations operations
+    :vartype reservation_scope: azure.mgmt.costmanagement.aio.operations.ReservationScopeOperations
+    :ivar savings_plan_order_scope: SavingsPlanOrderScopeOperations operations
+    :vartype savings_plan_order_scope:
+     azure.mgmt.costmanagement.aio.operations.SavingsPlanOrderScopeOperations
+    :ivar savings_plan_scope: SavingsPlanScopeOperations operations
+    :vartype savings_plan_scope:
+     azure.mgmt.costmanagement.aio.operations.SavingsPlanScopeOperations
+    :ivar benefit_utilization_summaries_async: BenefitUtilizationSummariesAsyncOperations
      operations
-    :vartype generate_reservation_details_report:
-     azure.mgmt.costmanagement.aio.operations.GenerateReservationDetailsReportOperations
+    :vartype benefit_utilization_summaries_async:
+     azure.mgmt.costmanagement.aio.operations.BenefitUtilizationSummariesAsyncOperations
     :ivar exports: ExportsOperations operations
     :vartype exports: azure.mgmt.costmanagement.aio.operations.ExportsOperations
     :ivar generate_cost_details_report: GenerateCostDetailsReportOperations operations
@@ -75,21 +95,32 @@ class CostManagementClient:  # pylint: disable=client-accepts-api-version-keywor
      GenerateDetailedCostReportOperationStatusOperations operations
     :vartype generate_detailed_cost_report_operation_status:
      azure.mgmt.costmanagement.aio.operations.GenerateDetailedCostReportOperationStatusOperations
+    :ivar views: ViewsOperations operations
+    :vartype views: azure.mgmt.costmanagement.aio.operations.ViewsOperations
+    :ivar alerts: AlertsOperations operations
+    :vartype alerts: azure.mgmt.costmanagement.aio.operations.AlertsOperations
+    :ivar forecast: ForecastOperations operations
+    :vartype forecast: azure.mgmt.costmanagement.aio.operations.ForecastOperations
+    :ivar dimensions: DimensionsOperations operations
+    :vartype dimensions: azure.mgmt.costmanagement.aio.operations.DimensionsOperations
+    :ivar query: QueryOperations operations
+    :vartype query: azure.mgmt.costmanagement.aio.operations.QueryOperations
+    :ivar generate_reservation_details_report: GenerateReservationDetailsReportOperations
+     operations
+    :vartype generate_reservation_details_report:
+     azure.mgmt.costmanagement.aio.operations.GenerateReservationDetailsReportOperations
     :ivar price_sheet: PriceSheetOperations operations
     :vartype price_sheet: azure.mgmt.costmanagement.aio.operations.PriceSheetOperations
     :ivar scheduled_actions: ScheduledActionsOperations operations
     :vartype scheduled_actions: azure.mgmt.costmanagement.aio.operations.ScheduledActionsOperations
-    :ivar benefit_recommendations: BenefitRecommendationsOperations operations
-    :vartype benefit_recommendations:
-     azure.mgmt.costmanagement.aio.operations.BenefitRecommendationsOperations
-    :ivar benefit_utilization_summaries: BenefitUtilizationSummariesOperations operations
-    :vartype benefit_utilization_summaries:
-     azure.mgmt.costmanagement.aio.operations.BenefitUtilizationSummariesOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
+    :param if_match: ETag of the Entity. Not required when creating an entity, but required when
+     updating an entity. Default value is None.
+    :type if_match: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2022-10-01". Note that overriding this
+    :keyword api_version: Api Version. Default value is "2023-03-01". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -97,22 +128,45 @@ class CostManagementClient:  # pylint: disable=client-accepts-api-version-keywor
     """
 
     def __init__(
-        self, credential: "AsyncTokenCredential", base_url: str = "https://management.azure.com", **kwargs: Any
+        self,
+        credential: "AsyncTokenCredential",
+        if_match: Optional[str] = None,
+        base_url: str = "https://management.azure.com",
+        **kwargs: Any
     ) -> None:
-        self._config = CostManagementClientConfiguration(credential=credential, **kwargs)
-        self._client = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        self._config = CostManagementClientConfiguration(credential=credential, if_match=if_match, **kwargs)
+        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
-        client_models = {k: v for k, v in models.__dict__.items() if isinstance(v, type)}
+        client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
-        self.views = ViewsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.alerts = AlertsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.forecast = ForecastOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.dimensions = DimensionsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.query = QueryOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.generate_reservation_details_report = GenerateReservationDetailsReportOperations(
+        self.benefit_recommendations = BenefitRecommendationsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.benefit_utilization_summaries = BenefitUtilizationSummariesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.billing_account_scope = BillingAccountScopeOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.billing_profile_scope = BillingProfileScopeOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.reservation_order_scope = ReservationOrderScopeOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.reservation_scope = ReservationScopeOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.savings_plan_order_scope = SavingsPlanOrderScopeOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.savings_plan_scope = SavingsPlanScopeOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.benefit_utilization_summaries_async = BenefitUtilizationSummariesAsyncOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.exports = ExportsOperations(self._client, self._config, self._serialize, self._deserialize)
@@ -128,14 +182,16 @@ class CostManagementClient:  # pylint: disable=client-accepts-api-version-keywor
         self.generate_detailed_cost_report_operation_status = GenerateDetailedCostReportOperationStatusOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.views = ViewsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.alerts = AlertsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.forecast = ForecastOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.dimensions = DimensionsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.query = QueryOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.generate_reservation_details_report = GenerateReservationDetailsReportOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.price_sheet = PriceSheetOperations(self._client, self._config, self._serialize, self._deserialize)
         self.scheduled_actions = ScheduledActionsOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.benefit_recommendations = BenefitRecommendationsOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.benefit_utilization_summaries = BenefitUtilizationSummariesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
 
@@ -168,5 +224,5 @@ class CostManagementClient:  # pylint: disable=client-accepts-api-version-keywor
         await self._client.__aenter__()
         return self
 
-    async def __aexit__(self, *exc_details) -> None:
+    async def __aexit__(self, *exc_details: Any) -> None:
         await self._client.__aexit__(*exc_details)

@@ -53,7 +53,7 @@ class CostManagementProxyResource(_serialization.Model):
         "e_tag": {"key": "eTag", "type": "str"},
     }
 
-    def __init__(self, *, e_tag: Optional[str] = None, **kwargs):
+    def __init__(self, *, e_tag: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword e_tag: eTag of the resource. To handle concurrent update scenario, this field will be
          used to determine whether the user is updating the latest version or not.
@@ -144,8 +144,8 @@ class Alert(CostManagementProxyResource):  # pylint: disable=too-many-instance-a
         modification_time: Optional[str] = None,
         status_modification_user_name: Optional[str] = None,
         status_modification_time: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword e_tag: eTag of the resource. To handle concurrent update scenario, this field will be
          used to determine whether the user is updating the latest version or not.
@@ -217,8 +217,8 @@ class AlertPropertiesDefinition(_serialization.Model):
         type: Optional[Union[str, "_models.AlertType"]] = None,
         category: Optional[Union[str, "_models.AlertCategory"]] = None,
         criteria: Optional[Union[str, "_models.AlertCriteria"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword type: type of alert. Known values are: "Budget", "Invoice", "Credit", "Quota",
          "General", "xCloud", and "BudgetForecast".
@@ -340,8 +340,8 @@ class AlertPropertiesDetails(_serialization.Model):  # pylint: disable=too-many-
         enrollment_start_date: Optional[str] = None,
         enrollment_end_date: Optional[str] = None,
         invoicing_threshold: Optional[float] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword time_grain_type: Type of timegrain cadence. Known values are: "None", "Monthly",
          "Quarterly", "Annually", "BillingMonth", "BillingQuarter", and "BillingAnnual".
@@ -436,7 +436,7 @@ class AlertsResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -498,7 +498,7 @@ class AllSavingsBenefitDetails(_serialization.Model):
         "wastage_cost": {"key": "wastageCost", "type": "float"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.overage_cost = None
@@ -533,11 +533,68 @@ class AllSavingsList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
         self.next_link = None
+
+
+class AsyncOperationStatusProperties(_serialization.Model):
+    """Object representing the report url and valid until date of the async report generated.
+
+    :ivar report_url: Sas url to the async benefit utilization summaries report. Will be empty if
+     the report is in Running or Failed state. Known values are: "Kind", "AvgUtilizationPercentage",
+     "BenefitOrderId", "BenefitId", "BenefitType", "MaxUtilizationPercentage",
+     "MinUtilizationPercentage", "UsageDate", and "UtilizedPercentage".
+    :vartype report_url: str or
+     ~azure.mgmt.costmanagement.models.BenefitUtilizationSummaryReportSchema
+    :ivar secondary_report_url: Sas url to async benefit utilization summaries report in secondary
+     storage in case of primary outage. Will be empty if the report is in Running or Failed state.
+     Known values are: "Kind", "AvgUtilizationPercentage", "BenefitOrderId", "BenefitId",
+     "BenefitType", "MaxUtilizationPercentage", "MinUtilizationPercentage", "UsageDate", and
+     "UtilizedPercentage".
+    :vartype secondary_report_url: str or
+     ~azure.mgmt.costmanagement.models.BenefitUtilizationSummaryReportSchema
+    :ivar valid_until: The date that the sas url provided in reportUrl expires.
+    :vartype valid_until: ~datetime.datetime
+    """
+
+    _attribute_map = {
+        "report_url": {"key": "reportUrl", "type": "str"},
+        "secondary_report_url": {"key": "secondaryReportUrl", "type": "str"},
+        "valid_until": {"key": "validUntil", "type": "iso-8601"},
+    }
+
+    def __init__(
+        self,
+        *,
+        report_url: Optional[Union[str, "_models.BenefitUtilizationSummaryReportSchema"]] = None,
+        secondary_report_url: Optional[Union[str, "_models.BenefitUtilizationSummaryReportSchema"]] = None,
+        valid_until: Optional[datetime.datetime] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword report_url: Sas url to the async benefit utilization summaries report. Will be empty
+         if the report is in Running or Failed state. Known values are: "Kind",
+         "AvgUtilizationPercentage", "BenefitOrderId", "BenefitId", "BenefitType",
+         "MaxUtilizationPercentage", "MinUtilizationPercentage", "UsageDate", and "UtilizedPercentage".
+        :paramtype report_url: str or
+         ~azure.mgmt.costmanagement.models.BenefitUtilizationSummaryReportSchema
+        :keyword secondary_report_url: Sas url to async benefit utilization summaries report in
+         secondary storage in case of primary outage. Will be empty if the report is in Running or
+         Failed state. Known values are: "Kind", "AvgUtilizationPercentage", "BenefitOrderId",
+         "BenefitId", "BenefitType", "MaxUtilizationPercentage", "MinUtilizationPercentage",
+         "UsageDate", and "UtilizedPercentage".
+        :paramtype secondary_report_url: str or
+         ~azure.mgmt.costmanagement.models.BenefitUtilizationSummaryReportSchema
+        :keyword valid_until: The date that the sas url provided in reportUrl expires.
+        :paramtype valid_until: ~datetime.datetime
+        """
+        super().__init__(**kwargs)
+        self.report_url = report_url
+        self.secondary_report_url = secondary_report_url
+        self.valid_until = valid_until
 
 
 class Resource(_serialization.Model):
@@ -567,7 +624,7 @@ class Resource(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -606,7 +663,7 @@ class BenefitResource(Resource):
         "kind": {"key": "kind", "type": "str"},
     }
 
-    def __init__(self, *, kind: Optional[Union[str, "_models.BenefitKind"]] = None, **kwargs):
+    def __init__(self, *, kind: Optional[Union[str, "_models.BenefitKind"]] = None, **kwargs: Any) -> None:
         """
         :keyword kind: Reservation or SavingsPlan. Known values are: "IncludedQuantity", "Reservation",
          and "SavingsPlan".
@@ -655,8 +712,8 @@ class BenefitRecommendationModel(BenefitResource):
         *,
         kind: Optional[Union[str, "_models.BenefitKind"]] = None,
         properties: Optional["_models.BenefitRecommendationProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword kind: Reservation or SavingsPlan. Known values are: "IncludedQuantity", "Reservation",
          and "SavingsPlan".
@@ -758,8 +815,8 @@ class BenefitRecommendationProperties(_serialization.Model):  # pylint: disable=
         term: Optional[Union[str, "_models.Term"]] = None,
         commitment_granularity: Optional[Union[str, "_models.Grain"]] = None,
         recommendation_details: Optional["_models.AllSavingsBenefitDetails"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword look_back_period: The number of days of usage evaluated for computing the
          recommendations. Known values are: "Last7Days", "Last30Days", and "Last60Days".
@@ -789,7 +846,7 @@ class BenefitRecommendationProperties(_serialization.Model):  # pylint: disable=
         self.cost_without_benefit = None
         self.recommendation_details = recommendation_details
         self.all_recommendation_details = None
-        self.scope = None  # type: Optional[str]
+        self.scope: Optional[str] = None
 
 
 class BenefitRecommendationsListResult(_serialization.Model):
@@ -813,7 +870,7 @@ class BenefitRecommendationsListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -841,11 +898,159 @@ class BenefitUtilizationSummariesListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
         self.next_link = None
+
+
+class BenefitUtilizationSummariesOperationStatus(_serialization.Model):
+    """Status of a benefit utilization summaries report. Provides Async Benefit Utilization Summaries
+    Request input, status, and report sas url.
+
+    :ivar input: Input given to create the benefit utilization summaries report.
+    :vartype input: ~azure.mgmt.costmanagement.models.BenefitUtilizationSummariesRequest
+    :ivar status: The status of the creation of the benefit utilization summaries report. Known
+     values are: "Running", "Complete", and "Failed".
+    :vartype status: str or ~azure.mgmt.costmanagement.models.Status
+    :ivar properties: Contains sas url to the async benefit utilization summaries report and a date
+     that the url is valid until. These values will be empty if the report is in a Running or Failed
+     state.
+    :vartype properties: ~azure.mgmt.costmanagement.models.AsyncOperationStatusProperties
+    """
+
+    _attribute_map = {
+        "input": {"key": "input", "type": "BenefitUtilizationSummariesRequest"},
+        "status": {"key": "status", "type": "str"},
+        "properties": {"key": "properties", "type": "AsyncOperationStatusProperties"},
+    }
+
+    def __init__(
+        self,
+        *,
+        input: Optional["_models.BenefitUtilizationSummariesRequest"] = None,
+        status: Optional[Union[str, "_models.Status"]] = None,
+        properties: Optional["_models.AsyncOperationStatusProperties"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword input: Input given to create the benefit utilization summaries report.
+        :paramtype input: ~azure.mgmt.costmanagement.models.BenefitUtilizationSummariesRequest
+        :keyword status: The status of the creation of the benefit utilization summaries report. Known
+         values are: "Running", "Complete", and "Failed".
+        :paramtype status: str or ~azure.mgmt.costmanagement.models.Status
+        :keyword properties: Contains sas url to the async benefit utilization summaries report and a
+         date that the url is valid until. These values will be empty if the report is in a Running or
+         Failed state.
+        :paramtype properties: ~azure.mgmt.costmanagement.models.AsyncOperationStatusProperties
+        """
+        super().__init__(**kwargs)
+        self.input = input
+        self.status = status
+        self.properties = properties
+
+
+class BenefitUtilizationSummariesRequest(_serialization.Model):
+    """Properties of an async benefit utilization summaries request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar billing_account_id: Billing account the benefit utilization summaries report is for.
+     Required for billing account and billing profile scopes. Not supported for any benefit scopes.
+    :vartype billing_account_id: str
+    :ivar billing_profile_id: Billing profile id the benefit utilization summaries report is for.
+     Required for billing profile scope. Not supported for billing account or any benefit scopes.
+    :vartype billing_profile_id: str
+    :ivar benefit_order_id: Benefit order id the benefit utilization summaries report is for.
+     Required for benefit order and benefit id scopes. Not supported for any billing scopes.
+    :vartype benefit_order_id: str
+    :ivar benefit_id: Benefit id the benefit utilization summaries report is for. Required for
+     benefit id scope. Not supported for benefit order or any billing scopes.
+    :vartype benefit_id: str
+    :ivar grain: The grain the summaries data is served at in the report. Accepted values are
+     'Daily' or 'Monthly'. Required. Known values are: "Hourly", "Daily", and "Monthly".
+    :vartype grain: str or ~azure.mgmt.costmanagement.models.Grain
+    :ivar start_date: The start date of the summaries data that will be served in the report.
+     Required.
+    :vartype start_date: ~datetime.datetime
+    :ivar end_date: The end date of the summaries data that will be served in the report. Required.
+    :vartype end_date: ~datetime.datetime
+    :ivar kind: The type of benefit data requested. Required for billing account and billing
+     profile scopes. Implied and not to be passed at benefit scopes. Supported values are
+     Reservation and SavingsPlan. Known values are: "IncludedQuantity", "Reservation", and
+     "SavingsPlan".
+    :vartype kind: str or ~azure.mgmt.costmanagement.models.BenefitKind
+    """
+
+    _validation = {
+        "grain": {"required": True},
+        "start_date": {"required": True},
+        "end_date": {"required": True},
+    }
+
+    _attribute_map = {
+        "billing_account_id": {"key": "billingAccountId", "type": "str"},
+        "billing_profile_id": {"key": "billingProfileId", "type": "str"},
+        "benefit_order_id": {"key": "benefitOrderId", "type": "str"},
+        "benefit_id": {"key": "benefitId", "type": "str"},
+        "grain": {"key": "grain", "type": "str"},
+        "start_date": {"key": "startDate", "type": "iso-8601"},
+        "end_date": {"key": "endDate", "type": "iso-8601"},
+        "kind": {"key": "kind", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        grain: Union[str, "_models.Grain"],
+        start_date: datetime.datetime,
+        end_date: datetime.datetime,
+        billing_account_id: Optional[str] = None,
+        billing_profile_id: Optional[str] = None,
+        benefit_order_id: Optional[str] = None,
+        benefit_id: Optional[str] = None,
+        kind: Optional[Union[str, "_models.BenefitKind"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword billing_account_id: Billing account the benefit utilization summaries report is for.
+         Required for billing account and billing profile scopes. Not supported for any benefit scopes.
+        :paramtype billing_account_id: str
+        :keyword billing_profile_id: Billing profile id the benefit utilization summaries report is
+         for. Required for billing profile scope. Not supported for billing account or any benefit
+         scopes.
+        :paramtype billing_profile_id: str
+        :keyword benefit_order_id: Benefit order id the benefit utilization summaries report is for.
+         Required for benefit order and benefit id scopes. Not supported for any billing scopes.
+        :paramtype benefit_order_id: str
+        :keyword benefit_id: Benefit id the benefit utilization summaries report is for. Required for
+         benefit id scope. Not supported for benefit order or any billing scopes.
+        :paramtype benefit_id: str
+        :keyword grain: The grain the summaries data is served at in the report. Accepted values are
+         'Daily' or 'Monthly'. Required. Known values are: "Hourly", "Daily", and "Monthly".
+        :paramtype grain: str or ~azure.mgmt.costmanagement.models.Grain
+        :keyword start_date: The start date of the summaries data that will be served in the report.
+         Required.
+        :paramtype start_date: ~datetime.datetime
+        :keyword end_date: The end date of the summaries data that will be served in the report.
+         Required.
+        :paramtype end_date: ~datetime.datetime
+        :keyword kind: The type of benefit data requested. Required for billing account and billing
+         profile scopes. Implied and not to be passed at benefit scopes. Supported values are
+         Reservation and SavingsPlan. Known values are: "IncludedQuantity", "Reservation", and
+         "SavingsPlan".
+        :paramtype kind: str or ~azure.mgmt.costmanagement.models.BenefitKind
+        """
+        super().__init__(**kwargs)
+        self.billing_account_id = billing_account_id
+        self.billing_profile_id = billing_profile_id
+        self.benefit_order_id = benefit_order_id
+        self.benefit_id = benefit_id
+        self.grain = grain
+        self.start_date = start_date
+        self.end_date = end_date
+        self.kind = kind
 
 
 class BenefitUtilizationSummary(Resource):
@@ -892,10 +1097,10 @@ class BenefitUtilizationSummary(Resource):
         }
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.kind = None  # type: Optional[str]
+        self.kind: Optional[str] = None
 
 
 class BenefitUtilizationSummaryProperties(_serialization.Model):
@@ -932,7 +1137,7 @@ class BenefitUtilizationSummaryProperties(_serialization.Model):
         "usage_date": {"key": "usageDate", "type": "iso-8601"},
     }
 
-    def __init__(self, *, benefit_type: Optional[Union[str, "_models.BenefitKind"]] = None, **kwargs):
+    def __init__(self, *, benefit_type: Optional[Union[str, "_models.BenefitKind"]] = None, **kwargs: Any) -> None:
         """
         :keyword benefit_type: The benefit type. Supported values: 'SavingsPlan'. Known values are:
          "IncludedQuantity", "Reservation", and "SavingsPlan".
@@ -960,7 +1165,7 @@ class BlobInfo(_serialization.Model):
         "byte_count": {"key": "byteCount", "type": "int"},
     }
 
-    def __init__(self, *, blob_link: Optional[str] = None, byte_count: Optional[int] = None, **kwargs):
+    def __init__(self, *, blob_link: Optional[str] = None, byte_count: Optional[int] = None, **kwargs: Any) -> None:
         """
         :keyword blob_link: Link to the blob to download file.
         :paramtype blob_link: str
@@ -986,7 +1191,7 @@ class CheckNameAvailabilityRequest(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, type: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, type: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: The name of the resource for which availability needs to be checked.
         :paramtype name: str
@@ -1022,8 +1227,8 @@ class CheckNameAvailabilityResponse(_serialization.Model):
         name_available: Optional[bool] = None,
         reason: Optional[Union[str, "_models.CheckNameAvailabilityReason"]] = None,
         message: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name_available: Indicates if the resource name is available.
         :paramtype name_available: bool
@@ -1087,8 +1292,8 @@ class CommonExportProperties(_serialization.Model):
         format: Optional[Union[str, "_models.FormatType"]] = None,
         run_history: Optional["_models.ExportExecutionListResult"] = None,
         partition_data: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword format: The format of the export being delivered. Currently only 'Csv' is supported.
          "Csv"
@@ -1186,8 +1391,8 @@ class CostDetailsOperationResults(_serialization.Model):  # pylint: disable=too-
         blobs: Optional[List["_models.BlobInfo"]] = None,
         request_scope: Optional[str] = None,
         request_body: Optional["_models.GenerateCostDetailsReportRequestDefinition"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: The id of the long running operation.
         :paramtype id: str
@@ -1239,7 +1444,8 @@ class CostDetailsOperationResults(_serialization.Model):  # pylint: disable=too-
 
 
 class CostDetailsTimePeriod(_serialization.Model):
-    """The start and end date for pulling data for the cost detailed report. API only allows data to be pulled for 1 month or less and no older than 13 months.
+    """The start and end date for pulling data for the cost detailed report. API only allows data to
+    be pulled for 1 month or less and no older than 13 months.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -1259,7 +1465,7 @@ class CostDetailsTimePeriod(_serialization.Model):
         "end": {"key": "end", "type": "str"},
     }
 
-    def __init__(self, *, start: str, end: str, **kwargs):
+    def __init__(self, *, start: str, end: str, **kwargs: Any) -> None:
         """
         :keyword start: The start date to pull data from. example format 2020-03-15. Required.
         :paramtype start: str
@@ -1308,7 +1514,7 @@ class Operation(_serialization.Model):
         "action_type": {"key": "actionType", "type": "str"},
     }
 
-    def __init__(self, *, display: Optional["_models.OperationDisplay"] = None, **kwargs):
+    def __init__(self, *, display: Optional["_models.OperationDisplay"] = None, **kwargs: Any) -> None:
         """
         :keyword display: Localized display information for this particular operation.
         :paramtype display: ~azure.mgmt.costmanagement.models.OperationDisplay
@@ -1362,7 +1568,7 @@ class CostManagementOperation(Operation):
         "id": {"key": "id", "type": "str"},
     }
 
-    def __init__(self, *, display: Optional["_models.OperationDisplay"] = None, **kwargs):
+    def __init__(self, *, display: Optional["_models.OperationDisplay"] = None, **kwargs: Any) -> None:
         """
         :keyword display: Localized display information for this particular operation.
         :paramtype display: ~azure.mgmt.costmanagement.models.OperationDisplay
@@ -1412,7 +1618,7 @@ class CostManagementResource(_serialization.Model):
         "tags": {"key": "tags", "type": "{str}"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -1500,7 +1706,7 @@ class Dimension(CostManagementResource):  # pylint: disable=too-many-instance-at
         "next_link": {"key": "properties.nextLink", "type": "str"},
     }
 
-    def __init__(self, *, data: Optional[List[str]] = None, **kwargs):
+    def __init__(self, *, data: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
         :keyword data: Dimension data.
         :paramtype data: list[str]
@@ -1534,7 +1740,7 @@ class DimensionsListResult(_serialization.Model):
         "value": {"key": "value", "type": "[Dimension]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -1596,8 +1802,8 @@ class DismissAlertPayload(_serialization.Model):  # pylint: disable=too-many-ins
         modification_time: Optional[str] = None,
         status_modification_user_name: Optional[str] = None,
         status_modification_time: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword definition: defines the type of alert.
         :paramtype definition: ~azure.mgmt.costmanagement.models.AlertPropertiesDefinition
@@ -1662,7 +1868,9 @@ class DownloadURL(_serialization.Model):
         "download_url": {"key": "downloadUrl", "type": "str"},
     }
 
-    def __init__(self, *, valid_till: Optional[datetime.datetime] = None, download_url: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, valid_till: Optional[datetime.datetime] = None, download_url: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword valid_till: The time at which report URL becomes invalid/expires in UTC e.g.
          2020-12-08T05:55:59.4394737Z.
@@ -1697,37 +1905,103 @@ class ErrorDetails(_serialization.Model):
         "message": {"key": "message", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.code = None
         self.message = None
 
 
+class ErrorDetailsWithNestedDetails(ErrorDetails):
+    """The details of the error.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar code: Error code.
+    :vartype code: str
+    :ivar message: Error message indicating why the operation failed.
+    :vartype message: str
+    :ivar details: The additional details of the error.
+    :vartype details: list[~azure.mgmt.costmanagement.models.ErrorDetails]
+    """
+
+    _validation = {
+        "code": {"readonly": True},
+        "message": {"readonly": True},
+        "details": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "code": {"key": "code", "type": "str"},
+        "message": {"key": "message", "type": "str"},
+        "details": {"key": "details", "type": "[ErrorDetails]"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.details = None
+
+
 class ErrorResponse(_serialization.Model):
-    """Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+    """Error response indicates that the service is not able to process the incoming request. The
+    reason is provided in the error message.
 
     Some Error responses:
 
 
     *
-      429 TooManyRequests - Request is throttled. Retry after waiting for the time specified in the "x-ms-ratelimit-microsoft.consumption-retry-after" header.
+      429 TooManyRequests - Request is throttled. Retry after waiting for the time specified in the
+    "x-ms-ratelimit-microsoft.consumption-retry-after" header.
 
     *
-      503 ServiceUnavailable - Service is temporarily unavailable. Retry after waiting for the time specified in the "Retry-After" header.
+      503 ServiceUnavailable - Service is temporarily unavailable. Retry after waiting for the time
+    specified in the "Retry-After" header.
 
-        :ivar error: The details of the error.
-        :vartype error: ~azure.mgmt.costmanagement.models.ErrorDetails
+    :ivar error: The details of the error.
+    :vartype error: ~azure.mgmt.costmanagement.models.ErrorDetails
     """
 
     _attribute_map = {
         "error": {"key": "error", "type": "ErrorDetails"},
     }
 
-    def __init__(self, *, error: Optional["_models.ErrorDetails"] = None, **kwargs):
+    def __init__(self, *, error: Optional["_models.ErrorDetails"] = None, **kwargs: Any) -> None:
         """
         :keyword error: The details of the error.
         :paramtype error: ~azure.mgmt.costmanagement.models.ErrorDetails
+        """
+        super().__init__(**kwargs)
+        self.error = error
+
+
+class ErrorResponseWithNestedDetails(_serialization.Model):
+    """Error response indicates that the service is not able to process the incoming request. The
+    reason is provided in the error message.
+
+    Some Error responses:
+
+
+    *
+      429 TooManyRequests - Request is throttled. Retry after waiting for the time specified in the
+    "x-ms-ratelimit-microsoft.consumption-retry-after" header.
+
+    *
+      503 ServiceUnavailable - Service is temporarily unavailable. Retry after waiting for the time
+    specified in the "Retry-After" header.
+
+    :ivar error: The details of the error.
+    :vartype error: ~azure.mgmt.costmanagement.models.ErrorDetailsWithNestedDetails
+    """
+
+    _attribute_map = {
+        "error": {"key": "error", "type": "ErrorDetailsWithNestedDetails"},
+    }
+
+    def __init__(self, *, error: Optional["_models.ErrorDetailsWithNestedDetails"] = None, **kwargs: Any) -> None:
+        """
+        :keyword error: The details of the error.
+        :paramtype error: ~azure.mgmt.costmanagement.models.ErrorDetailsWithNestedDetails
         """
         super().__init__(**kwargs)
         self.error = error
@@ -1798,8 +2072,8 @@ class Export(CostManagementProxyResource):  # pylint: disable=too-many-instance-
         run_history: Optional["_models.ExportExecutionListResult"] = None,
         partition_data: Optional[bool] = None,
         schedule: Optional["_models.ExportSchedule"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword e_tag: eTag of the resource. To handle concurrent update scenario, this field will be
          used to determine whether the user is updating the latest version or not.
@@ -1850,8 +2124,8 @@ class ExportDataset(_serialization.Model):
         *,
         granularity: Optional[Union[str, "_models.GranularityType"]] = None,
         configuration: Optional["_models.ExportDatasetConfiguration"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword granularity: The granularity of rows in the export. Currently only 'Daily' is
          supported. "Daily"
@@ -1865,7 +2139,8 @@ class ExportDataset(_serialization.Model):
 
 
 class ExportDatasetConfiguration(_serialization.Model):
-    """The export dataset configuration. Allows columns to be selected for the export. If not provided then the export will include all available columns.
+    """The export dataset configuration. Allows columns to be selected for the export. If not provided
+    then the export will include all available columns.
 
     :ivar columns: Array of column names to be included in the export. If not provided then the
      export will include all available columns. The available columns can vary by customer channel
@@ -1877,7 +2152,7 @@ class ExportDatasetConfiguration(_serialization.Model):
         "columns": {"key": "columns", "type": "[str]"},
     }
 
-    def __init__(self, *, columns: Optional[List[str]] = None, **kwargs):
+    def __init__(self, *, columns: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
         :keyword columns: Array of column names to be included in the export. If not provided then the
          export will include all available columns. The available columns can vary by customer channel
@@ -1926,8 +2201,8 @@ class ExportDefinition(_serialization.Model):
         timeframe: Union[str, "_models.TimeframeType"],
         time_period: Optional["_models.ExportTimePeriod"] = None,
         data_set: Optional["_models.ExportDataset"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword type: The type of the export. Note that 'Usage' is equivalent to 'ActualCost' and is
          applicable to exports that do not yet provide data for charges or amortization for service
@@ -1950,7 +2225,22 @@ class ExportDefinition(_serialization.Model):
 
 
 class ExportDeliveryDestination(_serialization.Model):
-    """This represents the blob storage account location where exports of costs will be delivered. There are two ways to configure the destination. The approach recommended for most customers is to specify the resourceId of the storage account. This requires a one-time registration of the account's subscription with the Microsoft.CostManagementExports resource provider in order to give Cost Management services access to the storage. When creating an export in the Azure portal this registration is performed automatically but API users may need to register the subscription explicitly (for more information see https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-manager-supported-services ). Another way to configure the destination is available ONLY to Partners with a Microsoft Partner Agreement plan who are global admins of their billing account. These Partners, instead of specifying the resourceId of a storage account, can specify the storage account name along with a SAS token for the account. This allows exports of costs to a storage account in any tenant. The SAS token should be created for the blob service with Service/Container/Object resource types and with Read/Write/Delete/List/Add/Create permissions (for more information see https://docs.microsoft.com/en-us/azure/cost-management-billing/costs/export-cost-data-storage-account-sas-key ).
+    """This represents the blob storage account location where exports of costs will be delivered.
+    There are two ways to configure the destination. The approach recommended for most customers is
+    to specify the resourceId of the storage account. This requires a one-time registration of the
+    account's subscription with the Microsoft.CostManagementExports resource provider in order to
+    give Cost Management services access to the storage. When creating an export in the Azure
+    portal this registration is performed automatically but API users may need to register the
+    subscription explicitly (for more information see
+    https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-manager-supported-services
+    ). Another way to configure the destination is available ONLY to Partners with a Microsoft
+    Partner Agreement plan who are global admins of their billing account. These Partners, instead
+    of specifying the resourceId of a storage account, can specify the storage account name along
+    with a SAS token for the account. This allows exports of costs to a storage account in any
+    tenant. The SAS token should be created for the blob service with Service/Container/Object
+    resource types and with Read/Write/Delete/List/Add/Create permissions (for more information see
+    https://docs.microsoft.com/en-us/azure/cost-management-billing/costs/export-cost-data-storage-account-sas-key
+    ).
 
     All required parameters must be populated in order to send to Azure.
 
@@ -1993,8 +2283,8 @@ class ExportDeliveryDestination(_serialization.Model):
         root_folder_path: Optional[str] = None,
         sas_token: Optional[str] = None,
         storage_account: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword resource_id: The resource id of the storage account where exports will be delivered.
          This is not required if a sasToken and storageAccount are specified.
@@ -2039,7 +2329,7 @@ class ExportDeliveryInfo(_serialization.Model):
         "destination": {"key": "destination", "type": "ExportDeliveryDestination"},
     }
 
-    def __init__(self, *, destination: "_models.ExportDeliveryDestination", **kwargs):
+    def __init__(self, *, destination: "_models.ExportDeliveryDestination", **kwargs: Any) -> None:
         """
         :keyword destination: Has destination for the export being delivered. Required.
         :paramtype destination: ~azure.mgmt.costmanagement.models.ExportDeliveryDestination
@@ -2065,7 +2355,7 @@ class ExportExecutionListResult(_serialization.Model):
         "value": {"key": "value", "type": "[ExportRun]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -2088,7 +2378,7 @@ class ExportListResult(_serialization.Model):
         "value": {"key": "value", "type": "[Export]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -2146,8 +2436,8 @@ class ExportProperties(CommonExportProperties):
         run_history: Optional["_models.ExportExecutionListResult"] = None,
         partition_data: Optional[bool] = None,
         schedule: Optional["_models.ExportSchedule"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword format: The format of the export being delivered. Currently only 'Csv' is supported.
          "Csv"
@@ -2196,7 +2486,9 @@ class ExportRecurrencePeriod(_serialization.Model):
         "to": {"key": "to", "type": "iso-8601"},
     }
 
-    def __init__(self, *, from_property: datetime.datetime, to: Optional[datetime.datetime] = None, **kwargs):
+    def __init__(
+        self, *, from_property: datetime.datetime, to: Optional[datetime.datetime] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword from_property: The start date of recurrence. Required.
         :paramtype from_property: ~datetime.datetime
@@ -2279,8 +2571,8 @@ class ExportRun(CostManagementProxyResource):  # pylint: disable=too-many-instan
         file_name: Optional[str] = None,
         run_settings: Optional["_models.CommonExportProperties"] = None,
         error: Optional["_models.ErrorDetails"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword e_tag: eTag of the resource. To handle concurrent update scenario, this field will be
          used to determine whether the user is updating the latest version or not.
@@ -2345,8 +2637,8 @@ class ExportSchedule(_serialization.Model):
         status: Optional[Union[str, "_models.StatusType"]] = None,
         recurrence: Optional[Union[str, "_models.RecurrenceType"]] = None,
         recurrence_period: Optional["_models.ExportRecurrencePeriod"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword status: The status of the export's schedule. If 'Inactive', the export's schedule is
          paused. Known values are: "Active" and "Inactive".
@@ -2365,7 +2657,8 @@ class ExportSchedule(_serialization.Model):
 
 
 class ExportTimePeriod(_serialization.Model):
-    """The date range for data in the export. This should only be specified with timeFrame set to 'Custom'. The maximum date range is 3 months.
+    """The date range for data in the export. This should only be specified with timeFrame set to
+    'Custom'. The maximum date range is 3 months.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -2385,7 +2678,7 @@ class ExportTimePeriod(_serialization.Model):
         "to": {"key": "to", "type": "iso-8601"},
     }
 
-    def __init__(self, *, from_property: datetime.datetime, to: datetime.datetime, **kwargs):
+    def __init__(self, *, from_property: datetime.datetime, to: datetime.datetime, **kwargs: Any) -> None:
         """
         :keyword from_property: The start date for export data. Required.
         :paramtype from_property: ~datetime.datetime
@@ -2408,7 +2701,7 @@ class FileDestination(_serialization.Model):
         "file_formats": {"key": "fileFormats", "type": "[str]"},
     }
 
-    def __init__(self, *, file_formats: Optional[List[Union[str, "_models.FileFormat"]]] = None, **kwargs):
+    def __init__(self, *, file_formats: Optional[List[Union[str, "_models.FileFormat"]]] = None, **kwargs: Any) -> None:
         """
         :keyword file_formats: Destination of the view data. Currently only CSV format is supported.
         :paramtype file_formats: list[str or ~azure.mgmt.costmanagement.models.FileFormat]
@@ -2440,8 +2733,8 @@ class ForecastAggregation(_serialization.Model):
     }
 
     def __init__(
-        self, *, name: Union[str, "_models.FunctionName"], function: Union[str, "_models.FunctionType"], **kwargs
-    ):
+        self, *, name: Union[str, "_models.FunctionName"], function: Union[str, "_models.FunctionType"], **kwargs: Any
+    ) -> None:
         """
         :keyword name: The name of the column to aggregate. Required. Known values are:
          "PreTaxCostUSD", "Cost", "CostUSD", and "PreTaxCost".
@@ -2468,7 +2761,7 @@ class ForecastColumn(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, type: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, type: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: The name of column.
         :paramtype name: str
@@ -2487,7 +2780,7 @@ class ForecastComparisonExpression(_serialization.Model):
 
     :ivar name: The name of the column to use in comparison. Required.
     :vartype name: str
-    :ivar operator: The operator to use for comparison. Required. "In"
+    :ivar operator: The operator to use for comparison. Required. Known values are: "In" and "In".
     :vartype operator: str or ~azure.mgmt.costmanagement.models.ForecastOperatorType
     :ivar values: Array of values to use for comparison. Required.
     :vartype values: list[str]
@@ -2505,11 +2798,14 @@ class ForecastComparisonExpression(_serialization.Model):
         "values": {"key": "values", "type": "[str]"},
     }
 
-    def __init__(self, *, name: str, operator: Union[str, "_models.ForecastOperatorType"], values: List[str], **kwargs):
+    def __init__(
+        self, *, name: str, operator: Union[str, "_models.ForecastOperatorType"], values: List[str], **kwargs: Any
+    ) -> None:
         """
         :keyword name: The name of the column to use in comparison. Required.
         :paramtype name: str
-        :keyword operator: The operator to use for comparison. Required. "In"
+        :keyword operator: The operator to use for comparison. Required. Known values are: "In" and
+         "In".
         :paramtype operator: str or ~azure.mgmt.costmanagement.models.ForecastOperatorType
         :keyword values: Array of values to use for comparison. Required.
         :paramtype values: list[str]
@@ -2556,8 +2852,8 @@ class ForecastDataset(_serialization.Model):
         granularity: Optional[Union[str, "_models.GranularityType"]] = None,
         configuration: Optional["_models.ForecastDatasetConfiguration"] = None,
         filter: Optional["_models.ForecastFilter"] = None,  # pylint: disable=redefined-builtin
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword granularity: The granularity of rows in the forecast. "Daily"
         :paramtype granularity: str or ~azure.mgmt.costmanagement.models.GranularityType
@@ -2590,7 +2886,7 @@ class ForecastDatasetConfiguration(_serialization.Model):
         "columns": {"key": "columns", "type": "[str]"},
     }
 
-    def __init__(self, *, columns: Optional[List[str]] = None, **kwargs):
+    def __init__(self, *, columns: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
         :keyword columns: Array of column names to be included in the forecast. Any valid forecast
          column name is allowed. If not provided, then forecast includes all columns.
@@ -2645,8 +2941,8 @@ class ForecastDefinition(_serialization.Model):
         time_period: Optional["_models.ForecastTimePeriod"] = None,
         include_actual_cost: Optional[bool] = None,
         include_fresh_partial_cost: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword type: The type of the forecast. Required. Known values are: "Usage", "ActualCost", and
          "AmortizedCost".
@@ -2705,8 +3001,8 @@ class ForecastFilter(_serialization.Model):
         or_property: Optional[List["_models.ForecastFilter"]] = None,
         dimensions: Optional["_models.ForecastComparisonExpression"] = None,
         tags: Optional["_models.ForecastComparisonExpression"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword and_property: The logical "AND" expression. Must have at least 2 items.
         :paramtype and_property: list[~azure.mgmt.costmanagement.models.ForecastFilter]
@@ -2780,8 +3076,8 @@ class ForecastResult(CostManagementResource):
         next_link: Optional[str] = None,
         columns: Optional[List["_models.ForecastColumn"]] = None,
         rows: Optional[List[List[Any]]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword next_link: The link (url) to the next page of results.
         :paramtype next_link: str
@@ -2817,7 +3113,7 @@ class ForecastTimePeriod(_serialization.Model):
         "to": {"key": "to", "type": "iso-8601"},
     }
 
-    def __init__(self, *, from_property: datetime.datetime, to: datetime.datetime, **kwargs):
+    def __init__(self, *, from_property: datetime.datetime, to: datetime.datetime, **kwargs: Any) -> None:
         """
         :keyword from_property: The start date to pull data from. Required.
         :paramtype from_property: ~datetime.datetime
@@ -2830,38 +3126,46 @@ class ForecastTimePeriod(_serialization.Model):
 
 
 class GenerateCostDetailsReportErrorResponse(_serialization.Model):
-    """Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+    """Error response indicates that the service is not able to process the incoming request. The
+    reason is provided in the error message.
 
     Some Error responses:
 
 
     *
-      400 Bad Request - Invalid Request Payload. Request payload provided is not in a json format or had an invalid member not accepted in the request payload.
+      400 Bad Request - Invalid Request Payload. Request payload provided is not in a json format
+    or had an invalid member not accepted in the request payload.
 
     *
-      400 Bad Request - Invalid request payload:  can only have either timePeriod or invoiceId or billingPeriod. API only allows data to be pulled for either timePeriod or invoiceId or billingPeriod. Customer should provide only one of these parameters.
+      400 Bad Request - Invalid request payload:  can only have either timePeriod or invoiceId or
+    billingPeriod. API only allows data to be pulled for either timePeriod or invoiceId or
+    billingPeriod. Customer should provide only one of these parameters.
 
     *
-      400 Bad Request - Start date must be after . API only allows data to be pulled no older than 13 months from now.
+      400 Bad Request - Start date must be after . API only allows data to be pulled no older than
+    13 months from now.
 
     *
-      400 Bad Request - The maximum allowed date range is 1 months. API only allows data to be pulled for 1 month or less.
+      400 Bad Request - The maximum allowed date range is 1 months. API only allows data to be
+    pulled for 1 month or less.
 
     *
-      429 TooManyRequests - Request is throttled. Retry after waiting for the time specified in the "retry-after" header.
+      429 TooManyRequests - Request is throttled. Retry after waiting for the time specified in the
+    "retry-after" header.
 
     *
-      503 ServiceUnavailable - Service is temporarily unavailable. Retry after waiting for the time specified in the "Retry-After" header.
+      503 ServiceUnavailable - Service is temporarily unavailable. Retry after waiting for the time
+    specified in the "Retry-After" header.
 
-        :ivar error: The details of the error.
-        :vartype error: ~azure.mgmt.costmanagement.models.ErrorDetails
+    :ivar error: The details of the error.
+    :vartype error: ~azure.mgmt.costmanagement.models.ErrorDetails
     """
 
     _attribute_map = {
         "error": {"key": "error", "type": "ErrorDetails"},
     }
 
-    def __init__(self, *, error: Optional["_models.ErrorDetails"] = None, **kwargs):
+    def __init__(self, *, error: Optional["_models.ErrorDetails"] = None, **kwargs: Any) -> None:
         """
         :keyword error: The details of the error.
         :paramtype error: ~azure.mgmt.costmanagement.models.ErrorDetails
@@ -2910,8 +3214,8 @@ class GenerateCostDetailsReportRequestDefinition(_serialization.Model):
         time_period: Optional["_models.CostDetailsTimePeriod"] = None,
         billing_period: Optional[str] = None,
         invoice_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword metric: The type of the detailed report. By default ActualCost is provided. Known
          values are: "ActualCost" and "AmortizedCost".
@@ -2981,8 +3285,8 @@ class GenerateDetailedCostReportDefinition(_serialization.Model):
         billing_period: Optional[str] = None,
         invoice_id: Optional[str] = None,
         customer_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword metric: The type of the detailed report. By default ActualCost is provided. Known
          values are: "ActualCost" and "AmortizedCost".
@@ -3013,29 +3317,34 @@ class GenerateDetailedCostReportDefinition(_serialization.Model):
 
 
 class GenerateDetailedCostReportErrorResponse(_serialization.Model):
-    """Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+    """Error response indicates that the service is not able to process the incoming request. The
+    reason is provided in the error message.
 
     Some Error responses:
 
 
     *
-      413 Request Entity Too Large - Request is throttled. The amount of data required to fulfill the request exceeds the maximum size permitted of 2Gb. Please utilize our Exports feature instead.
+      413 Request Entity Too Large - Request is throttled. The amount of data required to fulfill
+    the request exceeds the maximum size permitted of 2Gb. Please utilize our Exports feature
+    instead.
 
     *
-      429 TooManyRequests - Request is throttled. Retry after waiting for the time specified in the "x-ms-ratelimit-microsoft.consumption-retry-after" header.
+      429 TooManyRequests - Request is throttled. Retry after waiting for the time specified in the
+    "x-ms-ratelimit-microsoft.consumption-retry-after" header.
 
     *
-      503 ServiceUnavailable - Service is temporarily unavailable. Retry after waiting for the time specified in the "Retry-After" header.
+      503 ServiceUnavailable - Service is temporarily unavailable. Retry after waiting for the time
+    specified in the "Retry-After" header.
 
-        :ivar error: The details of the error.
-        :vartype error: ~azure.mgmt.costmanagement.models.ErrorDetails
+    :ivar error: The details of the error.
+    :vartype error: ~azure.mgmt.costmanagement.models.ErrorDetails
     """
 
     _attribute_map = {
         "error": {"key": "error", "type": "ErrorDetails"},
     }
 
-    def __init__(self, *, error: Optional["_models.ErrorDetails"] = None, **kwargs):
+    def __init__(self, *, error: Optional["_models.ErrorDetails"] = None, **kwargs: Any) -> None:
         """
         :keyword error: The details of the error.
         :paramtype error: ~azure.mgmt.costmanagement.models.ErrorDetails
@@ -3086,8 +3395,8 @@ class GenerateDetailedCostReportOperationResult(_serialization.Model):
         type: Optional[str] = None,
         valid_till: Optional[datetime.datetime] = None,
         download_url: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: The ARM resource id of the long running operation.
         :paramtype id: str
@@ -3120,7 +3429,7 @@ class GenerateDetailedCostReportOperationStatuses(_serialization.Model):
     :ivar name: The name of the long running operation.
     :vartype name: str
     :ivar status: The status of the long running operation.
-    :vartype status: ~azure.mgmt.costmanagement.models.Status
+    :vartype status: ~azure.mgmt.costmanagement.models.StatusAutoGenerated
     :ivar type: The type of the long running operation.
     :vartype type: str
     :ivar error: The details of the error.
@@ -3142,7 +3451,7 @@ class GenerateDetailedCostReportOperationStatuses(_serialization.Model):
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
-        "status": {"key": "status", "type": "Status"},
+        "status": {"key": "status", "type": "StatusAutoGenerated"},
         "type": {"key": "type", "type": "str"},
         "error": {"key": "error", "type": "ErrorDetails"},
         "expiry_time": {"key": "properties.expiryTime", "type": "iso-8601"},
@@ -3155,20 +3464,20 @@ class GenerateDetailedCostReportOperationStatuses(_serialization.Model):
         *,
         id: Optional[str] = None,  # pylint: disable=redefined-builtin
         name: Optional[str] = None,
-        status: Optional["_models.Status"] = None,
+        status: Optional["_models.StatusAutoGenerated"] = None,
         type: Optional[str] = None,
         error: Optional["_models.ErrorDetails"] = None,
         valid_till: Optional[datetime.datetime] = None,
         download_url: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: The ID of the long running operation.
         :paramtype id: str
         :keyword name: The name of the long running operation.
         :paramtype name: str
         :keyword status: The status of the long running operation.
-        :paramtype status: ~azure.mgmt.costmanagement.models.Status
+        :paramtype status: ~azure.mgmt.costmanagement.models.StatusAutoGenerated
         :keyword type: The type of the long running operation.
         :paramtype type: str
         :keyword error: The details of the error.
@@ -3211,7 +3520,7 @@ class GenerateDetailedCostReportTimePeriod(_serialization.Model):
         "end": {"key": "end", "type": "str"},
     }
 
-    def __init__(self, *, start: str, end: str, **kwargs):
+    def __init__(self, *, start: str, end: str, **kwargs: Any) -> None:
         """
         :keyword start: The start date to pull data from. example format 2020-03-15. Required.
         :paramtype start: str
@@ -3282,14 +3591,14 @@ class IncludedQuantityUtilizationSummary(BenefitUtilizationSummary):
         "utilization_percentage": {"key": "properties.utilizationPercentage", "type": "float"},
     }
 
-    def __init__(self, *, benefit_type: Optional[Union[str, "_models.BenefitKind"]] = None, **kwargs):
+    def __init__(self, *, benefit_type: Optional[Union[str, "_models.BenefitKind"]] = None, **kwargs: Any) -> None:
         """
         :keyword benefit_type: The benefit type. Supported values: 'SavingsPlan'. Known values are:
          "IncludedQuantity", "Reservation", and "SavingsPlan".
         :paramtype benefit_type: str or ~azure.mgmt.costmanagement.models.BenefitKind
         """
         super().__init__(**kwargs)
-        self.kind = "IncludedQuantity"  # type: str
+        self.kind: str = "IncludedQuantity"
         self.arm_sku_name = None
         self.benefit_id = None
         self.benefit_order_id = None
@@ -3336,7 +3645,7 @@ class IncludedQuantityUtilizationSummaryProperties(BenefitUtilizationSummaryProp
         "utilization_percentage": {"key": "utilizationPercentage", "type": "float"},
     }
 
-    def __init__(self, *, benefit_type: Optional[Union[str, "_models.BenefitKind"]] = None, **kwargs):
+    def __init__(self, *, benefit_type: Optional[Union[str, "_models.BenefitKind"]] = None, **kwargs: Any) -> None:
         """
         :keyword benefit_type: The benefit type. Supported values: 'SavingsPlan'. Known values are:
          "IncludedQuantity", "Reservation", and "SavingsPlan".
@@ -3369,8 +3678,8 @@ class KpiProperties(_serialization.Model):
         type: Optional[Union[str, "_models.KpiType"]] = None,
         id: Optional[str] = None,  # pylint: disable=redefined-builtin
         enabled: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword type: KPI type (Forecast, Budget). Known values are: "Forecast" and "Budget".
         :paramtype type: str or ~azure.mgmt.costmanagement.models.KpiType
@@ -3424,8 +3733,8 @@ class NotificationProperties(_serialization.Model):
         language: Optional[str] = None,
         message: Optional[str] = None,
         regional_format: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword to: Array of email addresses. Required.
         :paramtype to: list[str]
@@ -3481,7 +3790,7 @@ class OperationDisplay(_serialization.Model):
         "description": {"key": "description", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.provider = None
@@ -3491,7 +3800,8 @@ class OperationDisplay(_serialization.Model):
 
 
 class OperationListResult(_serialization.Model):
-    """Result of listing cost management operations. It contains a list of operations and a URL link to get the next set of results.
+    """Result of listing cost management operations. It contains a list of operations and a URL link
+    to get the next set of results.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -3512,7 +3822,7 @@ class OperationListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -3546,8 +3856,8 @@ class OperationStatus(_serialization.Model):
         status: Optional[Union[str, "_models.OperationStatusType"]] = None,
         report_url: Optional[Union[str, "_models.ReservationReportSchema"]] = None,
         valid_until: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword status: The status of the long running operation. Known values are: "Running",
          "Completed", and "Failed".
@@ -3581,7 +3891,9 @@ class PivotProperties(_serialization.Model):
         "name": {"key": "name", "type": "str"},
     }
 
-    def __init__(self, *, type: Optional[Union[str, "_models.PivotType"]] = None, name: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, type: Optional[Union[str, "_models.PivotType"]] = None, name: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword type: Data type to show in view. Known values are: "Dimension" and "TagKey".
         :paramtype type: str or ~azure.mgmt.costmanagement.models.PivotType
@@ -3594,7 +3906,8 @@ class PivotProperties(_serialization.Model):
 
 
 class ProxyResource(Resource):
-    """The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location.
+    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
+    tags and a location.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -3620,7 +3933,7 @@ class ProxyResource(Resource):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
 
@@ -3646,7 +3959,7 @@ class QueryAggregation(_serialization.Model):
         "function": {"key": "function", "type": "str"},
     }
 
-    def __init__(self, *, name: str, function: Union[str, "_models.FunctionType"], **kwargs):
+    def __init__(self, *, name: str, function: Union[str, "_models.FunctionType"], **kwargs: Any) -> None:
         """
         :keyword name: The name of the column to aggregate. Required.
         :paramtype name: str
@@ -3672,7 +3985,7 @@ class QueryColumn(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, type: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, type: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: The name of column.
         :paramtype name: str
@@ -3691,7 +4004,7 @@ class QueryComparisonExpression(_serialization.Model):
 
     :ivar name: The name of the column to use in comparison. Required.
     :vartype name: str
-    :ivar operator: The operator to use for comparison. Required. "In"
+    :ivar operator: The operator to use for comparison. Required. Known values are: "In" and "In".
     :vartype operator: str or ~azure.mgmt.costmanagement.models.QueryOperatorType
     :ivar values: Array of values to use for comparison. Required.
     :vartype values: list[str]
@@ -3709,11 +4022,14 @@ class QueryComparisonExpression(_serialization.Model):
         "values": {"key": "values", "type": "[str]"},
     }
 
-    def __init__(self, *, name: str, operator: Union[str, "_models.QueryOperatorType"], values: List[str], **kwargs):
+    def __init__(
+        self, *, name: str, operator: Union[str, "_models.QueryOperatorType"], values: List[str], **kwargs: Any
+    ) -> None:
         """
         :keyword name: The name of the column to use in comparison. Required.
         :paramtype name: str
-        :keyword operator: The operator to use for comparison. Required. "In"
+        :keyword operator: The operator to use for comparison. Required. Known values are: "In" and
+         "In".
         :paramtype operator: str or ~azure.mgmt.costmanagement.models.QueryOperatorType
         :keyword values: Array of values to use for comparison. Required.
         :paramtype values: list[str]
@@ -3764,8 +4080,8 @@ class QueryDataset(_serialization.Model):
         aggregation: Optional[Dict[str, "_models.QueryAggregation"]] = None,
         grouping: Optional[List["_models.QueryGrouping"]] = None,
         filter: Optional["_models.QueryFilter"] = None,  # pylint: disable=redefined-builtin
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword granularity: The granularity of rows in the query. "Daily"
         :paramtype granularity: str or ~azure.mgmt.costmanagement.models.GranularityType
@@ -3803,7 +4119,7 @@ class QueryDatasetConfiguration(_serialization.Model):
         "columns": {"key": "columns", "type": "[str]"},
     }
 
-    def __init__(self, *, columns: Optional[List[str]] = None, **kwargs):
+    def __init__(self, *, columns: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
         :keyword columns: Array of column names to be included in the query. Any valid query column
          name is allowed. If not provided, then query includes all columns.
@@ -3851,8 +4167,8 @@ class QueryDefinition(_serialization.Model):
         timeframe: Union[str, "_models.TimeframeType"],
         dataset: "_models.QueryDataset",
         time_period: Optional["_models.QueryTimePeriod"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword type: The type of the query. Required. Known values are: "Usage", "ActualCost", and
          "AmortizedCost".
@@ -3905,8 +4221,8 @@ class QueryFilter(_serialization.Model):
         or_property: Optional[List["_models.QueryFilter"]] = None,
         dimensions: Optional["_models.QueryComparisonExpression"] = None,
         tags: Optional["_models.QueryComparisonExpression"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword and_property: The logical "AND" expression. Must have at least 2 items.
         :paramtype and_property: list[~azure.mgmt.costmanagement.models.QueryFilter]
@@ -3929,7 +4245,8 @@ class QueryGrouping(_serialization.Model):
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar type: Has type of the column to group. Required. Known values are: "Tag" and "Dimension".
+    :ivar type: Has type of the column to group. Required. Known values are: "TagKey" and
+     "Dimension".
     :vartype type: str or ~azure.mgmt.costmanagement.models.QueryColumnType
     :ivar name: The name of the column to group. Required.
     :vartype name: str
@@ -3945,9 +4262,9 @@ class QueryGrouping(_serialization.Model):
         "name": {"key": "name", "type": "str"},
     }
 
-    def __init__(self, *, type: Union[str, "_models.QueryColumnType"], name: str, **kwargs):
+    def __init__(self, *, type: Union[str, "_models.QueryColumnType"], name: str, **kwargs: Any) -> None:
         """
-        :keyword type: Has type of the column to group. Required. Known values are: "Tag" and
+        :keyword type: Has type of the column to group. Required. Known values are: "TagKey" and
          "Dimension".
         :paramtype type: str or ~azure.mgmt.costmanagement.models.QueryColumnType
         :keyword name: The name of the column to group. Required.
@@ -4014,8 +4331,8 @@ class QueryResult(CostManagementResource):
         next_link: Optional[str] = None,
         columns: Optional[List["_models.QueryColumn"]] = None,
         rows: Optional[List[List[Any]]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword next_link: The link (url) to the next page of results.
         :paramtype next_link: str
@@ -4051,7 +4368,7 @@ class QueryTimePeriod(_serialization.Model):
         "to": {"key": "to", "type": "iso-8601"},
     }
 
-    def __init__(self, *, from_property: datetime.datetime, to: datetime.datetime, **kwargs):
+    def __init__(self, *, from_property: datetime.datetime, to: datetime.datetime, **kwargs: Any) -> None:
         """
         :keyword from_property: The start date to pull data from. Required.
         :paramtype from_property: ~datetime.datetime
@@ -4064,7 +4381,8 @@ class QueryTimePeriod(_serialization.Model):
 
 
 class RecommendationUsageDetails(_serialization.Model):
-    """On-demand charges between firstConsumptionDate and lastConsumptionDate that were used for computing benefit recommendations.
+    """On-demand charges between firstConsumptionDate and lastConsumptionDate that were used for
+    computing benefit recommendations.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -4085,7 +4403,7 @@ class RecommendationUsageDetails(_serialization.Model):
         "charges": {"key": "charges", "type": "[float]"},
     }
 
-    def __init__(self, *, usage_grain: Optional[Union[str, "_models.Grain"]] = None, **kwargs):
+    def __init__(self, *, usage_grain: Optional[Union[str, "_models.Grain"]] = None, **kwargs: Any) -> None:
         """
         :keyword usage_grain: The grain of the usage. Supported values: 'Hourly'. Known values are:
          "Hourly", "Daily", and "Monthly".
@@ -4117,7 +4435,7 @@ class ReportConfigAggregation(_serialization.Model):
         "function": {"key": "function", "type": "str"},
     }
 
-    def __init__(self, *, name: str, function: Union[str, "_models.FunctionType"], **kwargs):
+    def __init__(self, *, name: str, function: Union[str, "_models.FunctionType"], **kwargs: Any) -> None:
         """
         :keyword name: The name of the column to aggregate. Required.
         :paramtype name: str
@@ -4136,8 +4454,8 @@ class ReportConfigComparisonExpression(_serialization.Model):
 
     :ivar name: The name of the column to use in comparison. Required.
     :vartype name: str
-    :ivar operator: The operator to use for comparison. Required. Known values are: "In" and
-     "Contains".
+    :ivar operator: The operator to use for comparison. Required. Known values are: "In",
+     "Contains", and "In".
     :vartype operator: str or ~azure.mgmt.costmanagement.models.OperatorType
     :ivar values: Array of values to use for comparison. Required.
     :vartype values: list[str]
@@ -4155,12 +4473,14 @@ class ReportConfigComparisonExpression(_serialization.Model):
         "values": {"key": "values", "type": "[str]"},
     }
 
-    def __init__(self, *, name: str, operator: Union[str, "_models.OperatorType"], values: List[str], **kwargs):
+    def __init__(
+        self, *, name: str, operator: Union[str, "_models.OperatorType"], values: List[str], **kwargs: Any
+    ) -> None:
         """
         :keyword name: The name of the column to use in comparison. Required.
         :paramtype name: str
-        :keyword operator: The operator to use for comparison. Required. Known values are: "In" and
-         "Contains".
+        :keyword operator: The operator to use for comparison. Required. Known values are: "In",
+         "Contains", and "In".
         :paramtype operator: str or ~azure.mgmt.costmanagement.models.OperatorType
         :keyword values: Array of values to use for comparison. Required.
         :paramtype values: list[str]
@@ -4215,8 +4535,8 @@ class ReportConfigDataset(_serialization.Model):
         grouping: Optional[List["_models.ReportConfigGrouping"]] = None,
         sorting: Optional[List["_models.ReportConfigSorting"]] = None,
         filter: Optional["_models.ReportConfigFilter"] = None,  # pylint: disable=redefined-builtin
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword granularity: The granularity of rows in the report. Known values are: "Daily" and
          "Monthly".
@@ -4257,7 +4577,7 @@ class ReportConfigDatasetConfiguration(_serialization.Model):
         "columns": {"key": "columns", "type": "[str]"},
     }
 
-    def __init__(self, *, columns: Optional[List[str]] = None, **kwargs):
+    def __init__(self, *, columns: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
         :keyword columns: Array of column names to be included in the report. Any valid report column
          name is allowed. If not provided, then report includes all columns.
@@ -4299,8 +4619,8 @@ class ReportConfigFilter(_serialization.Model):
         or_property: Optional[List["_models.ReportConfigFilter"]] = None,
         dimensions: Optional["_models.ReportConfigComparisonExpression"] = None,
         tags: Optional["_models.ReportConfigComparisonExpression"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword and_property: The logical "AND" expression. Must have at least 2 items.
         :paramtype and_property: list[~azure.mgmt.costmanagement.models.ReportConfigFilter]
@@ -4323,8 +4643,9 @@ class ReportConfigGrouping(_serialization.Model):
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar type: Has type of the column to group. Required. Known values are: "Tag" and "Dimension".
-    :vartype type: str or ~azure.mgmt.costmanagement.models.ReportConfigColumnType
+    :ivar type: Has type of the column to group. Required. Known values are: "TagKey" and
+     "Dimension".
+    :vartype type: str or ~azure.mgmt.costmanagement.models.QueryColumnType
     :ivar name: The name of the column to group. This version supports subscription lowest possible
      grain. Required.
     :vartype name: str
@@ -4340,11 +4661,11 @@ class ReportConfigGrouping(_serialization.Model):
         "name": {"key": "name", "type": "str"},
     }
 
-    def __init__(self, *, type: Union[str, "_models.ReportConfigColumnType"], name: str, **kwargs):
+    def __init__(self, *, type: Union[str, "_models.QueryColumnType"], name: str, **kwargs: Any) -> None:
         """
-        :keyword type: Has type of the column to group. Required. Known values are: "Tag" and
+        :keyword type: Has type of the column to group. Required. Known values are: "TagKey" and
          "Dimension".
-        :paramtype type: str or ~azure.mgmt.costmanagement.models.ReportConfigColumnType
+        :paramtype type: str or ~azure.mgmt.costmanagement.models.QueryColumnType
         :keyword name: The name of the column to group. This version supports subscription lowest
          possible grain. Required.
         :paramtype name: str
@@ -4375,8 +4696,8 @@ class ReportConfigSorting(_serialization.Model):
     }
 
     def __init__(
-        self, *, name: str, direction: Optional[Union[str, "_models.ReportConfigSortingType"]] = None, **kwargs
-    ):
+        self, *, name: str, direction: Optional[Union[str, "_models.ReportConfigSortingType"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword direction: Direction of sort. Known values are: "Ascending" and "Descending".
         :paramtype direction: str or ~azure.mgmt.costmanagement.models.ReportConfigSortingType
@@ -4409,7 +4730,7 @@ class ReportConfigTimePeriod(_serialization.Model):
         "to": {"key": "to", "type": "iso-8601"},
     }
 
-    def __init__(self, *, from_property: datetime.datetime, to: datetime.datetime, **kwargs):
+    def __init__(self, *, from_property: datetime.datetime, to: datetime.datetime, **kwargs: Any) -> None:
         """
         :keyword from_property: The start date to pull data from. Required.
         :paramtype from_property: ~datetime.datetime
@@ -4453,14 +4774,14 @@ class SavingsPlanUtilizationSummary(BenefitUtilizationSummary):  # pylint: disab
     :vartype usage_date: ~datetime.datetime
     :ivar avg_utilization_percentage: This is the average hourly utilization for each date range
      that corresponds to given grain (Daily, Monthly). Suppose the API call is for usageDate >
-     2022-10-01 and usageDate < 2022-10-31 at a daily granularity. There will be one record per
+     2023-03-01 and usageDate < 2022-10-31 at a daily granularity. There will be one record per
      benefit id for each day. For a single day, the avgUtilizationPercentage value will be equal to
      the average of the set of values where the set contains 24 utilization percentage entries one
      for each hour in a specific day.
     :vartype avg_utilization_percentage: float
     :ivar min_utilization_percentage: This is the minimum hourly utilization for each date range
      that corresponds to given grain (Daily, Monthly). Suppose the API call is for usageDate >
-     2022-10-01 and usageDate < 2022-10-31 at a daily granularity. There will be one record per
+     2023-03-01 and usageDate < 2022-10-31 at a daily granularity. There will be one record per
      benefit id for each day. For a single day, the minUtilizationPercentage value will be equal to
      the smallest in the set of values where the set contains 24 utilization percentage entries one
      for each hour in a specific day. If on the day 2022-10-18, the lowest utilization percentage
@@ -4468,7 +4789,7 @@ class SavingsPlanUtilizationSummary(BenefitUtilizationSummary):  # pylint: disab
     :vartype min_utilization_percentage: float
     :ivar max_utilization_percentage: This is the maximum hourly utilization for each date range
      that corresponds to given grain (Daily, Monthly). Suppose the API call is for usageDate >
-     2022-10-01 and usageDate < 2022-10-31 at a daily granularity. There will be one record per
+     2023-03-01 and usageDate < 2022-10-31 at a daily granularity. There will be one record per
      benefit id for each day. For a single day, the maxUtilizationPercentage value will be equal to
      the largest in the set of values where the set contains 24 utilization percentage entries one
      for each hour in a specific day. If on the day 2022-10-18, the largest utilization percentage
@@ -4505,14 +4826,14 @@ class SavingsPlanUtilizationSummary(BenefitUtilizationSummary):  # pylint: disab
         "max_utilization_percentage": {"key": "properties.maxUtilizationPercentage", "type": "float"},
     }
 
-    def __init__(self, *, benefit_type: Optional[Union[str, "_models.BenefitKind"]] = None, **kwargs):
+    def __init__(self, *, benefit_type: Optional[Union[str, "_models.BenefitKind"]] = None, **kwargs: Any) -> None:
         """
         :keyword benefit_type: The benefit type. Supported values: 'SavingsPlan'. Known values are:
          "IncludedQuantity", "Reservation", and "SavingsPlan".
         :paramtype benefit_type: str or ~azure.mgmt.costmanagement.models.BenefitKind
         """
         super().__init__(**kwargs)
-        self.kind = "SavingsPlan"  # type: str
+        self.kind: str = "SavingsPlan"
         self.arm_sku_name = None
         self.benefit_id = None
         self.benefit_order_id = None
@@ -4542,14 +4863,14 @@ class SavingsPlanUtilizationSummaryProperties(BenefitUtilizationSummaryPropertie
     :vartype usage_date: ~datetime.datetime
     :ivar avg_utilization_percentage: This is the average hourly utilization for each date range
      that corresponds to given grain (Daily, Monthly). Suppose the API call is for usageDate >
-     2022-10-01 and usageDate < 2022-10-31 at a daily granularity. There will be one record per
+     2023-03-01 and usageDate < 2022-10-31 at a daily granularity. There will be one record per
      benefit id for each day. For a single day, the avgUtilizationPercentage value will be equal to
      the average of the set of values where the set contains 24 utilization percentage entries one
      for each hour in a specific day.
     :vartype avg_utilization_percentage: float
     :ivar min_utilization_percentage: This is the minimum hourly utilization for each date range
      that corresponds to given grain (Daily, Monthly). Suppose the API call is for usageDate >
-     2022-10-01 and usageDate < 2022-10-31 at a daily granularity. There will be one record per
+     2023-03-01 and usageDate < 2022-10-31 at a daily granularity. There will be one record per
      benefit id for each day. For a single day, the minUtilizationPercentage value will be equal to
      the smallest in the set of values where the set contains 24 utilization percentage entries one
      for each hour in a specific day. If on the day 2022-10-18, the lowest utilization percentage
@@ -4557,7 +4878,7 @@ class SavingsPlanUtilizationSummaryProperties(BenefitUtilizationSummaryPropertie
     :vartype min_utilization_percentage: float
     :ivar max_utilization_percentage: This is the maximum hourly utilization for each date range
      that corresponds to given grain (Daily, Monthly). Suppose the API call is for usageDate >
-     2022-10-01 and usageDate < 2022-10-31 at a daily granularity. There will be one record per
+     2023-03-01 and usageDate < 2022-10-31 at a daily granularity. There will be one record per
      benefit id for each day. For a single day, the maxUtilizationPercentage value will be equal to
      the largest in the set of values where the set contains 24 utilization percentage entries one
      for each hour in a specific day. If on the day 2022-10-18, the largest utilization percentage
@@ -4586,7 +4907,7 @@ class SavingsPlanUtilizationSummaryProperties(BenefitUtilizationSummaryPropertie
         "max_utilization_percentage": {"key": "maxUtilizationPercentage", "type": "float"},
     }
 
-    def __init__(self, *, benefit_type: Optional[Union[str, "_models.BenefitKind"]] = None, **kwargs):
+    def __init__(self, *, benefit_type: Optional[Union[str, "_models.BenefitKind"]] = None, **kwargs: Any) -> None:
         """
         :keyword benefit_type: The benefit type. Supported values: 'SavingsPlan'. Known values are:
          "IncludedQuantity", "Reservation", and "SavingsPlan".
@@ -4611,7 +4932,9 @@ class ScheduledActionProxyResource(ProxyResource):
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar e_tag: Resource Etag.
+    :ivar e_tag: Resource Etag. For update calls, eTag is mandatory. Fetch the resource's eTag by
+     doing a 'GET' call first and then including the latest eTag as part of the request body or
+     'If-Match' header while performing the update. For create calls, eTag is not required.
     :vartype e_tag: str
     :ivar kind: Kind of the scheduled action. Known values are: "Email" and "InsightAlert".
     :vartype kind: str or ~azure.mgmt.costmanagement.models.ScheduledActionKind
@@ -4636,7 +4959,7 @@ class ScheduledActionProxyResource(ProxyResource):
         "system_data": {"key": "systemData", "type": "SystemData"},
     }
 
-    def __init__(self, *, kind: Optional[Union[str, "_models.ScheduledActionKind"]] = None, **kwargs):
+    def __init__(self, *, kind: Optional[Union[str, "_models.ScheduledActionKind"]] = None, **kwargs: Any) -> None:
         """
         :keyword kind: Kind of the scheduled action. Known values are: "Email" and "InsightAlert".
         :paramtype kind: str or ~azure.mgmt.costmanagement.models.ScheduledActionKind
@@ -4660,7 +4983,9 @@ class ScheduledAction(ScheduledActionProxyResource):  # pylint: disable=too-many
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar e_tag: Resource Etag.
+    :ivar e_tag: Resource Etag. For update calls, eTag is mandatory. Fetch the resource's eTag by
+     doing a 'GET' call first and then including the latest eTag as part of the request body or
+     'If-Match' header while performing the update. For create calls, eTag is not required.
     :vartype e_tag: str
     :ivar kind: Kind of the scheduled action. Known values are: "Email" and "InsightAlert".
     :vartype kind: str or ~azure.mgmt.costmanagement.models.ScheduledActionKind
@@ -4739,8 +5064,8 @@ class ScheduledAction(ScheduledActionProxyResource):  # pylint: disable=too-many
         scope: Optional[str] = None,
         status: Optional[Union[str, "_models.ScheduledActionStatus"]] = None,
         view_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword kind: Kind of the scheduled action. Known values are: "Email" and "InsightAlert".
         :paramtype kind: str or ~azure.mgmt.costmanagement.models.ScheduledActionKind
@@ -4811,7 +5136,7 @@ class ScheduledActionListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -4870,8 +5195,8 @@ class ScheduleProperties(_serialization.Model):
         days_of_week: Optional[List[Union[str, "_models.DaysOfWeek"]]] = None,
         weeks_of_month: Optional[List[Union[str, "_models.WeeksOfMonth"]]] = None,
         day_of_month: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword frequency: Frequency of the schedule. Required. Known values are: "Daily", "Weekly",
          and "Monthly".
@@ -4985,8 +5310,8 @@ class SharedScopeBenefitRecommendationProperties(
         term: Optional[Union[str, "_models.Term"]] = None,
         commitment_granularity: Optional[Union[str, "_models.Grain"]] = None,
         recommendation_details: Optional["_models.AllSavingsBenefitDetails"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword look_back_period: The number of days of usage evaluated for computing the
          recommendations. Known values are: "Last7Days", "Last30Days", and "Last60Days".
@@ -5011,7 +5336,7 @@ class SharedScopeBenefitRecommendationProperties(
             recommendation_details=recommendation_details,
             **kwargs
         )
-        self.scope = "Shared"  # type: str
+        self.scope: str = "Shared"
 
 
 class SingleScopeBenefitRecommendationProperties(
@@ -5106,8 +5431,8 @@ class SingleScopeBenefitRecommendationProperties(
         term: Optional[Union[str, "_models.Term"]] = None,
         commitment_granularity: Optional[Union[str, "_models.Grain"]] = None,
         recommendation_details: Optional["_models.AllSavingsBenefitDetails"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword look_back_period: The number of days of usage evaluated for computing the
          recommendations. Known values are: "Last7Days", "Last30Days", and "Last60Days".
@@ -5132,12 +5457,12 @@ class SingleScopeBenefitRecommendationProperties(
             recommendation_details=recommendation_details,
             **kwargs
         )
-        self.scope = "Single"  # type: str
+        self.scope: str = "Single"
         self.subscription_id = None
         self.resource_group = None
 
 
-class Status(_serialization.Model):
+class StatusAutoGenerated(_serialization.Model):
     """The status of the long running operation.
 
     :ivar status: The status of the long running operation. Known values are: "InProgress",
@@ -5149,7 +5474,9 @@ class Status(_serialization.Model):
         "status": {"key": "status", "type": "str"},
     }
 
-    def __init__(self, *, status: Optional[Union[str, "_models.ReportOperationStatusType"]] = None, **kwargs):
+    def __init__(
+        self, *, status: Optional[Union[str, "_models.ReportOperationStatusType"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword status: The status of the long running operation. Known values are: "InProgress",
          "Completed", "Failed", "Queued", "NoDataFound", "ReadyToDownload", and "TimedOut".
@@ -5196,8 +5523,8 @@ class SystemData(_serialization.Model):
         last_modified_by: Optional[str] = None,
         last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
         last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword created_by: The identity that created the resource.
         :paramtype created_by: str
@@ -5342,8 +5669,8 @@ class View(CostManagementProxyResource):  # pylint: disable=too-many-instance-at
         time_period: Optional["_models.ReportConfigTimePeriod"] = None,
         data_set: Optional["_models.ReportConfigDataset"] = None,
         include_monetary_commitment: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword e_tag: eTag of the resource. To handle concurrent update scenario, this field will be
          used to determine whether the user is updating the latest version or not.
@@ -5435,7 +5762,7 @@ class ViewListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
