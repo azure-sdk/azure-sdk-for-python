@@ -10,19 +10,30 @@ from ._alert_rules_operations import AlertRulesOperations
 from ._actions_operations import ActionsOperations
 from ._alert_rule_templates_operations import AlertRuleTemplatesOperations
 from ._automation_rules_operations import AutomationRulesOperations
+from ._entities_operations import EntitiesOperations
 from ._incidents_operations import IncidentsOperations
 from ._bookmarks_operations import BookmarksOperations
 from ._bookmark_relations_operations import BookmarkRelationsOperations
 from ._bookmark_operations import BookmarkOperations
+from ._content_packages_operations import ContentPackagesOperations
+from ._content_package_operations import ContentPackageOperations
+from ._product_packages_operations import ProductPackagesOperations
+from ._product_package_operations import ProductPackageOperations
+from ._product_templates_operations import ProductTemplatesOperations
+from ._product_template_operations import ProductTemplateOperations
+from ._content_templates_operations import ContentTemplatesOperations
+from ._content_template_operations import ContentTemplateOperations
 from ._ip_geodata_operations import IPGeodataOperations
 from ._domain_whois_operations import DomainWhoisOperations
-from ._entities_operations import EntitiesOperations
 from ._entities_get_timeline_operations import EntitiesGetTimelineOperations
 from ._entities_relations_operations import EntitiesRelationsOperations
 from ._entity_relations_operations import EntityRelationsOperations
 from ._entity_queries_operations import EntityQueriesOperations
 from ._entity_query_templates_operations import EntityQueryTemplatesOperations
 from ._file_imports_operations import FileImportsOperations
+from ._hunts_operations import HuntsOperations
+from ._hunt_relations_operations import HuntRelationsOperations
+from ._hunt_comments_operations import HuntCommentsOperations
 from ._incident_comments_operations import IncidentCommentsOperations
 from ._incident_relations_operations import IncidentRelationsOperations
 from ._incident_tasks_operations import IncidentTasksOperations
@@ -39,8 +50,16 @@ from ._source_controls_operations import SourceControlsOperations
 from ._threat_intelligence_indicator_operations import ThreatIntelligenceIndicatorOperations
 from ._threat_intelligence_indicators_operations import ThreatIntelligenceIndicatorsOperations
 from ._threat_intelligence_indicator_metrics_operations import ThreatIntelligenceIndicatorMetricsOperations
+from ._triggered_analytics_rule_run_operations import TriggeredAnalyticsRuleRunOperations
+from ._get_triggered_analytics_rule_runs_operations import GetTriggeredAnalyticsRuleRunsOperations
+from ._alert_rule_operations import AlertRuleOperations
 from ._watchlists_operations import WatchlistsOperations
 from ._watchlist_items_operations import WatchlistItemsOperations
+from ._workspace_manager_groups_operations import WorkspaceManagerGroupsOperations
+from ._workspace_manager_assignments_operations import WorkspaceManagerAssignmentsOperations
+from ._workspace_manager_assignment_jobs_operations import WorkspaceManagerAssignmentJobsOperations
+from ._workspace_manager_configurations_operations import WorkspaceManagerConfigurationsOperations
+from ._workspace_manager_members_operations import WorkspaceManagerMembersOperations
 from ._data_connectors_operations import DataConnectorsOperations
 from ._data_connectors_check_requirements_operations import DataConnectorsCheckRequirementsOperations
 from ._operations import Operations
@@ -54,19 +73,30 @@ __all__ = [
     "ActionsOperations",
     "AlertRuleTemplatesOperations",
     "AutomationRulesOperations",
+    "EntitiesOperations",
     "IncidentsOperations",
     "BookmarksOperations",
     "BookmarkRelationsOperations",
     "BookmarkOperations",
+    "ContentPackagesOperations",
+    "ContentPackageOperations",
+    "ProductPackagesOperations",
+    "ProductPackageOperations",
+    "ProductTemplatesOperations",
+    "ProductTemplateOperations",
+    "ContentTemplatesOperations",
+    "ContentTemplateOperations",
     "IPGeodataOperations",
     "DomainWhoisOperations",
-    "EntitiesOperations",
     "EntitiesGetTimelineOperations",
     "EntitiesRelationsOperations",
     "EntityRelationsOperations",
     "EntityQueriesOperations",
     "EntityQueryTemplatesOperations",
     "FileImportsOperations",
+    "HuntsOperations",
+    "HuntRelationsOperations",
+    "HuntCommentsOperations",
     "IncidentCommentsOperations",
     "IncidentRelationsOperations",
     "IncidentTasksOperations",
@@ -83,8 +113,16 @@ __all__ = [
     "ThreatIntelligenceIndicatorOperations",
     "ThreatIntelligenceIndicatorsOperations",
     "ThreatIntelligenceIndicatorMetricsOperations",
+    "TriggeredAnalyticsRuleRunOperations",
+    "GetTriggeredAnalyticsRuleRunsOperations",
+    "AlertRuleOperations",
     "WatchlistsOperations",
     "WatchlistItemsOperations",
+    "WorkspaceManagerGroupsOperations",
+    "WorkspaceManagerAssignmentsOperations",
+    "WorkspaceManagerAssignmentJobsOperations",
+    "WorkspaceManagerConfigurationsOperations",
+    "WorkspaceManagerMembersOperations",
     "DataConnectorsOperations",
     "DataConnectorsCheckRequirementsOperations",
     "Operations",

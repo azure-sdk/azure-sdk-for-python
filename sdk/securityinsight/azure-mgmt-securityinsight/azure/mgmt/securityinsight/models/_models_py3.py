@@ -34,7 +34,8 @@ class DataConnectorsCheckRequirements(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     AwsCloudTrailCheckRequirements, AwsS3CheckRequirements, AADCheckRequirements,
     AATPCheckRequirements, ASCCheckRequirements, Dynamics365CheckRequirements,
-    IoTCheckRequirements, MCASCheckRequirements, MDATPCheckRequirements, MSTICheckRequirements,
+    IoTCheckRequirements, MCASCheckRequirements, MDATPCheckRequirements,
+    MicrosoftPurviewInformationProtectionCheckRequirements, MSTICheckRequirements,
     MtpCheckRequirements, Office365ProjectCheckRequirements, OfficeATPCheckRequirements,
     OfficeIRMCheckRequirements, OfficePowerBICheckRequirements, TICheckRequirements,
     TiTaxiiCheckRequirements
@@ -44,10 +45,10 @@ class DataConnectorsCheckRequirements(_serialization.Model):
     :ivar kind: Describes the kind of connector to be checked. Required. Known values are:
      "AzureActiveDirectory", "AzureSecurityCenter", "MicrosoftCloudAppSecurity",
      "ThreatIntelligence", "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM",
-     "Office365Project", "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "Office365Project", "MicrosoftPurviewInformationProtection", "OfficePowerBI",
+     "AmazonWebServicesCloudTrail", "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     """
 
@@ -70,6 +71,7 @@ class DataConnectorsCheckRequirements(_serialization.Model):
             "IOT": "IoTCheckRequirements",
             "MicrosoftCloudAppSecurity": "MCASCheckRequirements",
             "MicrosoftDefenderAdvancedThreatProtection": "MDATPCheckRequirements",
+            "MicrosoftPurviewInformationProtection": "MicrosoftPurviewInformationProtectionCheckRequirements",
             "MicrosoftThreatIntelligence": "MSTICheckRequirements",
             "MicrosoftThreatProtection": "MtpCheckRequirements",
             "Office365Project": "Office365ProjectCheckRequirements",
@@ -81,24 +83,24 @@ class DataConnectorsCheckRequirements(_serialization.Model):
         }
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: Optional[str] = None
 
 
 class AADCheckRequirements(DataConnectorsCheckRequirements):
-    """Represents AAD (Azure Active Directory) requirements check request.
+    """Represents AADIP (Azure Active Directory Identity Protection) requirements check request.
 
     All required parameters must be populated in order to send to Azure.
 
     :ivar kind: Describes the kind of connector to be checked. Required. Known values are:
      "AzureActiveDirectory", "AzureSecurityCenter", "MicrosoftCloudAppSecurity",
      "ThreatIntelligence", "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM",
-     "Office365Project", "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "Office365Project", "MicrosoftPurviewInformationProtection", "OfficePowerBI",
+     "AmazonWebServicesCloudTrail", "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     :ivar tenant_id: The tenant id to connect to, and get the data from.
     :vartype tenant_id: str
@@ -113,7 +115,7 @@ class AADCheckRequirements(DataConnectorsCheckRequirements):
         "tenant_id": {"key": "properties.tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from.
         :paramtype tenant_id: str
@@ -140,7 +142,7 @@ class DataConnectorTenantId(_serialization.Model):
         "tenant_id": {"key": "tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: str, **kwargs):
+    def __init__(self, *, tenant_id: str, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
         :paramtype tenant_id: str
@@ -150,7 +152,7 @@ class DataConnectorTenantId(_serialization.Model):
 
 
 class AADCheckRequirementsProperties(DataConnectorTenantId):
-    """AAD (Azure Active Directory) requirements check properties.
+    """AADIP (Azure Active Directory Identity Protection) requirements check properties.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -166,7 +168,7 @@ class AADCheckRequirementsProperties(DataConnectorTenantId):
         "tenant_id": {"key": "tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: str, **kwargs):
+    def __init__(self, *, tenant_id: str, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
         :paramtype tenant_id: str
@@ -206,7 +208,7 @@ class Resource(_serialization.Model):
         "system_data": {"key": "systemData", "type": "SystemData"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -250,7 +252,7 @@ class ResourceWithEtag(Resource):
         "etag": {"key": "etag", "type": "str"},
     }
 
-    def __init__(self, *, etag: Optional[str] = None, **kwargs):
+    def __init__(self, *, etag: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -266,9 +268,9 @@ class DataConnector(ResourceWithEtag):
     CodelessApiPollingDataConnector, AwsCloudTrailDataConnector, AwsS3DataConnector,
     AADDataConnector, AATPDataConnector, ASCDataConnector, Dynamics365DataConnector,
     CodelessUiDataConnector, IoTDataConnector, MCASDataConnector, MDATPDataConnector,
-    MSTIDataConnector, MTPDataConnector, OfficeDataConnector, Office365ProjectDataConnector,
-    OfficeATPDataConnector, OfficeIRMDataConnector, OfficePowerBIDataConnector, TIDataConnector,
-    TiTaxiiDataConnector
+    MicrosoftPurviewInformationProtectionDataConnector, MSTIDataConnector, MTPDataConnector,
+    OfficeDataConnector, Office365ProjectDataConnector, OfficeATPDataConnector,
+    OfficeIRMDataConnector, OfficePowerBIDataConnector, TIDataConnector, TiTaxiiDataConnector
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -290,10 +292,10 @@ class DataConnector(ResourceWithEtag):
     :ivar kind: The data connector kind. Required. Known values are: "AzureActiveDirectory",
      "AzureSecurityCenter", "MicrosoftCloudAppSecurity", "ThreatIntelligence",
      "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM", "Office365Project",
-     "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "MicrosoftPurviewInformationProtection", "OfficePowerBI", "AmazonWebServicesCloudTrail",
+     "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     """
 
@@ -327,6 +329,7 @@ class DataConnector(ResourceWithEtag):
             "IOT": "IoTDataConnector",
             "MicrosoftCloudAppSecurity": "MCASDataConnector",
             "MicrosoftDefenderAdvancedThreatProtection": "MDATPDataConnector",
+            "MicrosoftPurviewInformationProtection": "MicrosoftPurviewInformationProtectionDataConnector",
             "MicrosoftThreatIntelligence": "MSTIDataConnector",
             "MicrosoftThreatProtection": "MTPDataConnector",
             "Office365": "OfficeDataConnector",
@@ -339,7 +342,7 @@ class DataConnector(ResourceWithEtag):
         }
     }
 
-    def __init__(self, *, etag: Optional[str] = None, **kwargs):
+    def __init__(self, *, etag: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -349,7 +352,7 @@ class DataConnector(ResourceWithEtag):
 
 
 class AADDataConnector(DataConnector):
-    """Represents AAD (Azure Active Directory) data connector.
+    """Represents AADIP (Azure Active Directory Identity Protection) data connector.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -371,10 +374,10 @@ class AADDataConnector(DataConnector):
     :ivar kind: The data connector kind. Required. Known values are: "AzureActiveDirectory",
      "AzureSecurityCenter", "MicrosoftCloudAppSecurity", "ThreatIntelligence",
      "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM", "Office365Project",
-     "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "MicrosoftPurviewInformationProtection", "OfficePowerBI", "AmazonWebServicesCloudTrail",
+     "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     :ivar tenant_id: The tenant id to connect to, and get the data from.
     :vartype tenant_id: str
@@ -407,8 +410,8 @@ class AADDataConnector(DataConnector):
         etag: Optional[str] = None,
         tenant_id: Optional[str] = None,
         data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -434,7 +437,7 @@ class DataConnectorWithAlertsProperties(_serialization.Model):
         "data_types": {"key": "dataTypes", "type": "AlertsDataTypeOfDataConnector"},
     }
 
-    def __init__(self, *, data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None, **kwargs):
+    def __init__(self, *, data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None, **kwargs: Any) -> None:
         """
         :keyword data_types: The available data types for the connector.
         :paramtype data_types: ~azure.mgmt.securityinsight.models.AlertsDataTypeOfDataConnector
@@ -444,7 +447,7 @@ class DataConnectorWithAlertsProperties(_serialization.Model):
 
 
 class AADDataConnectorProperties(DataConnectorTenantId, DataConnectorWithAlertsProperties):
-    """AAD (Azure Active Directory) data connector properties.
+    """AADIP (Azure Active Directory Identity Protection) data connector properties.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -464,8 +467,8 @@ class AADDataConnectorProperties(DataConnectorTenantId, DataConnectorWithAlertsP
     }
 
     def __init__(
-        self, *, tenant_id: str, data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None, **kwargs
-    ):
+        self, *, tenant_id: str, data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword data_types: The available data types for the connector.
         :paramtype data_types: ~azure.mgmt.securityinsight.models.AlertsDataTypeOfDataConnector
@@ -485,10 +488,10 @@ class AATPCheckRequirements(DataConnectorsCheckRequirements):
     :ivar kind: Describes the kind of connector to be checked. Required. Known values are:
      "AzureActiveDirectory", "AzureSecurityCenter", "MicrosoftCloudAppSecurity",
      "ThreatIntelligence", "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM",
-     "Office365Project", "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "Office365Project", "MicrosoftPurviewInformationProtection", "OfficePowerBI",
+     "AmazonWebServicesCloudTrail", "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     :ivar tenant_id: The tenant id to connect to, and get the data from.
     :vartype tenant_id: str
@@ -503,7 +506,7 @@ class AATPCheckRequirements(DataConnectorsCheckRequirements):
         "tenant_id": {"key": "properties.tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from.
         :paramtype tenant_id: str
@@ -530,7 +533,7 @@ class AATPCheckRequirementsProperties(DataConnectorTenantId):
         "tenant_id": {"key": "tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: str, **kwargs):
+    def __init__(self, *, tenant_id: str, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
         :paramtype tenant_id: str
@@ -561,10 +564,10 @@ class AATPDataConnector(DataConnector):
     :ivar kind: The data connector kind. Required. Known values are: "AzureActiveDirectory",
      "AzureSecurityCenter", "MicrosoftCloudAppSecurity", "ThreatIntelligence",
      "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM", "Office365Project",
-     "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "MicrosoftPurviewInformationProtection", "OfficePowerBI", "AmazonWebServicesCloudTrail",
+     "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     :ivar tenant_id: The tenant id to connect to, and get the data from.
     :vartype tenant_id: str
@@ -597,8 +600,8 @@ class AATPDataConnector(DataConnector):
         etag: Optional[str] = None,
         tenant_id: Optional[str] = None,
         data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -634,8 +637,8 @@ class AATPDataConnectorProperties(DataConnectorTenantId, DataConnectorWithAlerts
     }
 
     def __init__(
-        self, *, tenant_id: str, data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None, **kwargs
-    ):
+        self, *, tenant_id: str, data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword data_types: The available data types for the connector.
         :paramtype data_types: ~azure.mgmt.securityinsight.models.AlertsDataTypeOfDataConnector
@@ -675,7 +678,7 @@ class Entity(Resource):
      "AzureResource", "CloudApplication", "DnsResolution", "FileHash", "Ip", "Malware", "Process",
      "RegistryKey", "RegistryValue", "SecurityGroup", "Url", "IoTDevice", "SecurityAlert",
      "Bookmark", "MailCluster", "MailMessage", "Mailbox", "SubmissionMail", and "Nic".
-    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKind
+    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKindEnum
     """
 
     _validation = {
@@ -721,7 +724,7 @@ class Entity(Resource):
         }
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: Optional[str] = None
@@ -749,7 +752,7 @@ class AccountEntity(Entity):  # pylint: disable=too-many-instance-attributes
      "AzureResource", "CloudApplication", "DnsResolution", "FileHash", "Ip", "Malware", "Process",
      "RegistryKey", "RegistryValue", "SecurityGroup", "Url", "IoTDevice", "SecurityAlert",
      "Bookmark", "MailCluster", "MailMessage", "Mailbox", "SubmissionMail", and "Nic".
-    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKind
+    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKindEnum
     :ivar additional_data: A bag of custom fields that should be part of the entity and will be
      presented to the user.
     :vartype additional_data: dict[str, any]
@@ -831,7 +834,7 @@ class AccountEntity(Entity):  # pylint: disable=too-many-instance-attributes
         "dns_domain": {"key": "properties.dnsDomain", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: str = "Account"
@@ -874,7 +877,7 @@ class EntityCommonProperties(_serialization.Model):
         "friendly_name": {"key": "friendlyName", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.additional_data = None
@@ -957,7 +960,7 @@ class AccountEntityProperties(EntityCommonProperties):  # pylint: disable=too-ma
         "dns_domain": {"key": "dnsDomain", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.aad_tenant_id = None
@@ -993,7 +996,7 @@ class ActionPropertiesBase(_serialization.Model):
         "logic_app_resource_id": {"key": "logicAppResourceId", "type": "str"},
     }
 
-    def __init__(self, *, logic_app_resource_id: str, **kwargs):
+    def __init__(self, *, logic_app_resource_id: str, **kwargs: Any) -> None:
         """
         :keyword logic_app_resource_id: Logic App Resource Id,
          /subscriptions/{my-subscription}/resourceGroups/{my-resource-group}/providers/Microsoft.Logic/workflows/{my-workflow-id}.
@@ -1052,8 +1055,8 @@ class ActionRequest(ResourceWithEtag):
         etag: Optional[str] = None,
         logic_app_resource_id: Optional[str] = None,
         trigger_uri: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -1091,7 +1094,7 @@ class ActionRequestProperties(ActionPropertiesBase):
         "trigger_uri": {"key": "triggerUri", "type": "str"},
     }
 
-    def __init__(self, *, logic_app_resource_id: str, trigger_uri: str, **kwargs):
+    def __init__(self, *, logic_app_resource_id: str, trigger_uri: str, **kwargs: Any) -> None:
         """
         :keyword logic_app_resource_id: Logic App Resource Id,
          /subscriptions/{my-subscription}/resourceGroups/{my-resource-group}/providers/Microsoft.Logic/workflows/{my-workflow-id}.
@@ -1152,8 +1155,8 @@ class ActionResponse(ResourceWithEtag):
         etag: Optional[str] = None,
         logic_app_resource_id: Optional[str] = None,
         workflow_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -1190,7 +1193,7 @@ class ActionResponseProperties(ActionPropertiesBase):
         "workflow_id": {"key": "workflowId", "type": "str"},
     }
 
-    def __init__(self, *, logic_app_resource_id: str, workflow_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, logic_app_resource_id: str, workflow_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword logic_app_resource_id: Logic App Resource Id,
          /subscriptions/{my-subscription}/resourceGroups/{my-resource-group}/providers/Microsoft.Logic/workflows/{my-workflow-id}.
@@ -1226,7 +1229,7 @@ class ActionsList(_serialization.Model):
         "value": {"key": "value", "type": "[ActionResponse]"},
     }
 
-    def __init__(self, *, value: List["_models.ActionResponse"], **kwargs):
+    def __init__(self, *, value: List["_models.ActionResponse"], **kwargs: Any) -> None:
         """
         :keyword value: Array of actions. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.ActionResponse]
@@ -1282,7 +1285,7 @@ class CustomEntityQuery(ResourceWithEtag):
 
     _subtype_map = {"kind": {"Activity": "ActivityCustomEntityQuery"}}
 
-    def __init__(self, *, etag: Optional[str] = None, **kwargs):
+    def __init__(self, *, etag: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -1389,8 +1392,8 @@ class ActivityCustomEntityQuery(CustomEntityQuery):  # pylint: disable=too-many-
         entities_filter: Optional[Dict[str, List[str]]] = None,
         template_name: Optional[str] = None,
         enabled: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -1445,7 +1448,7 @@ class ActivityEntityQueriesPropertiesQueryDefinitions(_serialization.Model):
         "query": {"key": "query", "type": "str"},
     }
 
-    def __init__(self, *, query: Optional[str] = None, **kwargs):
+    def __init__(self, *, query: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword query: The Activity query to run on a given entity.
         :paramtype query: str
@@ -1501,7 +1504,7 @@ class EntityQuery(ResourceWithEtag):
 
     _subtype_map = {"kind": {"Activity": "ActivityEntityQuery", "Expansion": "ExpansionEntityQuery"}}
 
-    def __init__(self, *, etag: Optional[str] = None, **kwargs):
+    def __init__(self, *, etag: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -1609,8 +1612,8 @@ class ActivityEntityQuery(EntityQuery):  # pylint: disable=too-many-instance-att
         entities_filter: Optional[Dict[str, List[str]]] = None,
         template_name: Optional[str] = None,
         enabled: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -1697,7 +1700,7 @@ class EntityQueryTemplate(Resource):
 
     _subtype_map = {"kind": {"Activity": "ActivityEntityQueryTemplate"}}
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: Optional[str] = None
@@ -1785,8 +1788,8 @@ class ActivityEntityQueryTemplate(EntityQueryTemplate):  # pylint: disable=too-m
         input_entity_type: Optional[Union[str, "_models.EntityType"]] = None,
         required_input_fields_sets: Optional[List[List[str]]] = None,
         entities_filter: Optional[Dict[str, List[str]]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword title: The entity query title.
         :paramtype title: str
@@ -1838,7 +1841,7 @@ class ActivityEntityQueryTemplatePropertiesQueryDefinitions(_serialization.Model
         "summarize_by": {"key": "summarizeBy", "type": "str"},
     }
 
-    def __init__(self, *, query: Optional[str] = None, summarize_by: Optional[str] = None, **kwargs):
+    def __init__(self, *, query: Optional[str] = None, summarize_by: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword query: The Activity query to run on a given entity.
         :paramtype query: str
@@ -1881,7 +1884,7 @@ class EntityTimelineItem(_serialization.Model):
         }
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: Optional[str] = None
@@ -1943,8 +1946,8 @@ class ActivityTimelineItem(EntityTimelineItem):
         last_activity_time_utc: datetime.datetime,
         content: str,
         title: str,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword query_id: The activity query id. Required.
         :paramtype query_id: str
@@ -1994,7 +1997,7 @@ class AddIncidentTaskActionProperties(_serialization.Model):
         "description": {"key": "description", "type": "str"},
     }
 
-    def __init__(self, *, title: str, description: Optional[str] = None, **kwargs):
+    def __init__(self, *, title: str, description: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword title: The title of the task. Required.
         :paramtype title: str
@@ -2040,8 +2043,8 @@ class AlertDetailsOverride(_serialization.Model):
         alert_tactics_column_name: Optional[str] = None,
         alert_severity_column_name: Optional[str] = None,
         alert_dynamic_properties: Optional[List["_models.AlertPropertyMapping"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword alert_display_name_format: the format containing columns name(s) to override the alert
          name.
@@ -2086,8 +2089,8 @@ class AlertPropertyMapping(_serialization.Model):
         *,
         alert_property: Optional[Union[str, "_models.AlertProperty"]] = None,
         value: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword alert_property: The V3 alert property. Known values are: "AlertLink",
          "ConfidenceLevel", "ConfidenceScore", "ExtendedLinks", "ProductName", "ProviderName",
@@ -2159,7 +2162,7 @@ class AlertRule(ResourceWithEtag):
         }
     }
 
-    def __init__(self, *, etag: Optional[str] = None, **kwargs):
+    def __init__(self, *, etag: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -2191,7 +2194,7 @@ class AlertRulesList(_serialization.Model):
         "value": {"key": "value", "type": "[AlertRule]"},
     }
 
-    def __init__(self, *, value: List["_models.AlertRule"], **kwargs):
+    def __init__(self, *, value: List["_models.AlertRule"], **kwargs: Any) -> None:
         """
         :keyword value: Array of alert rules. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.AlertRule]
@@ -2257,7 +2260,7 @@ class AlertRuleTemplate(Resource):
         }
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: Optional[str] = None
@@ -2277,7 +2280,9 @@ class AlertRuleTemplateDataSource(_serialization.Model):
         "data_types": {"key": "dataTypes", "type": "[str]"},
     }
 
-    def __init__(self, *, connector_id: Optional[str] = None, data_types: Optional[List[str]] = None, **kwargs):
+    def __init__(
+        self, *, connector_id: Optional[str] = None, data_types: Optional[List[str]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword connector_id: The connector id that provides the following data types.
         :paramtype connector_id: str
@@ -2336,8 +2341,8 @@ class AlertRuleTemplatePropertiesBase(_serialization.Model):
         display_name: Optional[str] = None,
         required_data_connectors: Optional[List["_models.AlertRuleTemplateDataSource"]] = None,
         status: Optional[Union[str, "_models.TemplateStatus"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword alert_rules_created_by_template_count: the number of alert rules that were created by
          this template.
@@ -2386,7 +2391,7 @@ class AlertRuleTemplatesList(_serialization.Model):
         "value": {"key": "value", "type": "[AlertRuleTemplate]"},
     }
 
-    def __init__(self, *, value: List["_models.AlertRuleTemplate"], **kwargs):
+    def __init__(self, *, value: List["_models.AlertRuleTemplate"], **kwargs: Any) -> None:
         """
         :keyword value: Array of alert rule templates. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.AlertRuleTemplate]
@@ -2451,8 +2456,8 @@ class AlertRuleTemplateWithMitreProperties(AlertRuleTemplatePropertiesBase):
         status: Optional[Union[str, "_models.TemplateStatus"]] = None,
         tactics: Optional[List[Union[str, "_models.AttackTactic"]]] = None,
         techniques: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword alert_rules_created_by_template_count: the number of alert rules that were created by
          this template.
@@ -2501,13 +2506,39 @@ class AlertsDataTypeOfDataConnector(_serialization.Model):
         "alerts": {"key": "alerts", "type": "DataConnectorDataTypeCommon"},
     }
 
-    def __init__(self, *, alerts: "_models.DataConnectorDataTypeCommon", **kwargs):
+    def __init__(self, *, alerts: "_models.DataConnectorDataTypeCommon", **kwargs: Any) -> None:
         """
         :keyword alerts: Alerts data type connection. Required.
         :paramtype alerts: ~azure.mgmt.securityinsight.models.DataConnectorDataTypeCommon
         """
         super().__init__(**kwargs)
         self.alerts = alerts
+
+
+class AnalyticsRuleRunTrigger(_serialization.Model):
+    """Analytics Rule Run Trigger request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar execution_time_utc: Required.
+    :vartype execution_time_utc: ~datetime.datetime
+    """
+
+    _validation = {
+        "execution_time_utc": {"required": True},
+    }
+
+    _attribute_map = {
+        "execution_time_utc": {"key": "properties.executionTimeUtc", "type": "iso-8601"},
+    }
+
+    def __init__(self, *, execution_time_utc: datetime.datetime, **kwargs: Any) -> None:
+        """
+        :keyword execution_time_utc: Required.
+        :paramtype execution_time_utc: ~datetime.datetime
+        """
+        super().__init__(**kwargs)
+        self.execution_time_utc = execution_time_utc
 
 
 class Settings(ResourceWithEtag):
@@ -2559,7 +2590,7 @@ class Settings(ResourceWithEtag):
         "kind": {"Anomalies": "Anomalies", "EntityAnalytics": "EntityAnalytics", "EyesOn": "EyesOn", "Ueba": "Ueba"}
     }
 
-    def __init__(self, *, etag: Optional[str] = None, **kwargs):
+    def __init__(self, *, etag: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -2614,7 +2645,7 @@ class Anomalies(Settings):
         "is_enabled": {"key": "properties.isEnabled", "type": "bool"},
     }
 
-    def __init__(self, *, etag: Optional[str] = None, **kwargs):
+    def __init__(self, *, etag: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -2670,7 +2701,7 @@ class SecurityMLAnalyticsSetting(ResourceWithEtag):
 
     _subtype_map = {"kind": {"Anomaly": "AnomalySecurityMLAnalyticsSettings"}}
 
-    def __init__(self, *, etag: Optional[str] = None, **kwargs):
+    def __init__(self, *, etag: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -2788,8 +2819,8 @@ class AnomalySecurityMLAnalyticsSettings(SecurityMLAnalyticsSetting):  # pylint:
         is_default_settings: Optional[bool] = None,
         anomaly_settings_version: Optional[int] = None,
         settings_definition_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -2915,8 +2946,8 @@ class AnomalyTimelineItem(EntityTimelineItem):  # pylint: disable=too-many-insta
         intent: Optional[str] = None,
         techniques: Optional[List[str]] = None,
         reasons: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword azure_resource_id: The anomaly azure resource id. Required.
         :paramtype azure_resource_id: str
@@ -2964,10 +2995,10 @@ class ASCCheckRequirements(DataConnectorsCheckRequirements):
     :ivar kind: Describes the kind of connector to be checked. Required. Known values are:
      "AzureActiveDirectory", "AzureSecurityCenter", "MicrosoftCloudAppSecurity",
      "ThreatIntelligence", "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM",
-     "Office365Project", "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "Office365Project", "MicrosoftPurviewInformationProtection", "OfficePowerBI",
+     "AmazonWebServicesCloudTrail", "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     :ivar subscription_id: The subscription id to connect to, and get the data from.
     :vartype subscription_id: str
@@ -2982,7 +3013,7 @@ class ASCCheckRequirements(DataConnectorsCheckRequirements):
         "subscription_id": {"key": "properties.subscriptionId", "type": "str"},
     }
 
-    def __init__(self, *, subscription_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, subscription_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword subscription_id: The subscription id to connect to, and get the data from.
         :paramtype subscription_id: str
@@ -3015,10 +3046,10 @@ class ASCDataConnector(DataConnector):
     :ivar kind: The data connector kind. Required. Known values are: "AzureActiveDirectory",
      "AzureSecurityCenter", "MicrosoftCloudAppSecurity", "ThreatIntelligence",
      "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM", "Office365Project",
-     "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "MicrosoftPurviewInformationProtection", "OfficePowerBI", "AmazonWebServicesCloudTrail",
+     "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     :ivar data_types: The available data types for the connector.
     :vartype data_types: ~azure.mgmt.securityinsight.models.AlertsDataTypeOfDataConnector
@@ -3051,8 +3082,8 @@ class ASCDataConnector(DataConnector):
         etag: Optional[str] = None,
         data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None,
         subscription_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -3086,8 +3117,8 @@ class ASCDataConnectorProperties(DataConnectorWithAlertsProperties):
         *,
         data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None,
         subscription_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword data_types: The available data types for the connector.
         :paramtype data_types: ~azure.mgmt.securityinsight.models.AlertsDataTypeOfDataConnector
@@ -3096,6 +3127,26 @@ class ASCDataConnectorProperties(DataConnectorWithAlertsProperties):
         """
         super().__init__(data_types=data_types, **kwargs)
         self.subscription_id = subscription_id
+
+
+class AssignmentItem(_serialization.Model):
+    """An entity describing a content item.
+
+    :ivar resource_id: The resource id of the content item.
+    :vartype resource_id: str
+    """
+
+    _attribute_map = {
+        "resource_id": {"key": "resourceId", "type": "str"},
+    }
+
+    def __init__(self, *, resource_id: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword resource_id: The resource id of the content item.
+        :paramtype resource_id: str
+        """
+        super().__init__(**kwargs)
+        self.resource_id = resource_id
 
 
 class AutomationRule(ResourceWithEtag):  # pylint: disable=too-many-instance-attributes
@@ -3175,8 +3226,8 @@ class AutomationRule(ResourceWithEtag):  # pylint: disable=too-many-instance-att
         triggering_logic: "_models.AutomationRuleTriggeringLogic",
         actions: List["_models.AutomationRuleAction"],
         etag: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -3234,7 +3285,7 @@ class AutomationRuleAction(_serialization.Model):
         }
     }
 
-    def __init__(self, *, order: int, **kwargs):
+    def __init__(self, *, order: int, **kwargs: Any) -> None:
         """
         :keyword order: Required.
         :paramtype order: int
@@ -3271,8 +3322,12 @@ class AutomationRuleAddIncidentTaskAction(AutomationRuleAction):
     }
 
     def __init__(
-        self, *, order: int, action_configuration: Optional["_models.AddIncidentTaskActionProperties"] = None, **kwargs
-    ):
+        self,
+        *,
+        order: int,
+        action_configuration: Optional["_models.AddIncidentTaskActionProperties"] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword order: Required.
         :paramtype order: int
@@ -3288,7 +3343,7 @@ class AutomationRuleAddIncidentTaskAction(AutomationRuleAction):
 class AutomationRuleBooleanCondition(_serialization.Model):
     """AutomationRuleBooleanCondition.
 
-    :ivar operator: Known values are: "And" and "Or".
+    :ivar operator: Known values are: "And", "Or", "And", and "Or".
     :vartype operator: str or
      ~azure.mgmt.securityinsight.models.AutomationRuleBooleanConditionSupportedOperator
     :ivar inner_conditions:
@@ -3309,10 +3364,10 @@ class AutomationRuleBooleanCondition(_serialization.Model):
         *,
         operator: Optional[Union[str, "_models.AutomationRuleBooleanConditionSupportedOperator"]] = None,
         inner_conditions: Optional[List["_models.AutomationRuleCondition"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword operator: Known values are: "And" and "Or".
+        :keyword operator: Known values are: "And", "Or", "And", and "Or".
         :paramtype operator: str or
          ~azure.mgmt.securityinsight.models.AutomationRuleBooleanConditionSupportedOperator
         :keyword inner_conditions:
@@ -3355,7 +3410,7 @@ class AutomationRuleCondition(_serialization.Model):
         }
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.condition_type: Optional[str] = None
@@ -3387,8 +3442,8 @@ class AutomationRuleModifyPropertiesAction(AutomationRuleAction):
     }
 
     def __init__(
-        self, *, order: int, action_configuration: Optional["_models.IncidentPropertiesAction"] = None, **kwargs
-    ):
+        self, *, order: int, action_configuration: Optional["_models.IncidentPropertiesAction"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword order: Required.
         :paramtype order: int
@@ -3425,8 +3480,8 @@ class AutomationRulePropertyArrayChangedValuesCondition(_serialization.Model):
         change_type: Optional[
             Union[str, "_models.AutomationRulePropertyArrayChangedConditionSupportedChangeType"]
         ] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword array_type: Known values are: "Alerts", "Labels", "Tactics", and "Comments".
         :paramtype array_type: str or
@@ -3471,8 +3526,8 @@ class AutomationRulePropertyArrayValuesCondition(_serialization.Model):
             Union[str, "_models.AutomationRulePropertyArrayConditionSupportedArrayConditionType"]
         ] = None,
         item_conditions: Optional[List["_models.AutomationRuleCondition"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword array_type: Known values are: "CustomDetails" and "CustomDetailValues".
         :paramtype array_type: str or
@@ -3523,8 +3578,8 @@ class AutomationRulePropertyValuesChangedCondition(_serialization.Model):
         change_type: Optional[Union[str, "_models.AutomationRulePropertyChangedConditionSupportedChangedType"]] = None,
         operator: Optional[Union[str, "_models.AutomationRulePropertyConditionSupportedOperator"]] = None,
         property_values: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword property_name: Known values are: "IncidentSeverity", "IncidentStatus", and
          "IncidentOwner".
@@ -3588,8 +3643,8 @@ class AutomationRulePropertyValuesCondition(_serialization.Model):
         property_name: Optional[Union[str, "_models.AutomationRulePropertyConditionSupportedProperty"]] = None,
         operator: Optional[Union[str, "_models.AutomationRulePropertyConditionSupportedOperator"]] = None,
         property_values: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword property_name: The property to evaluate in an automation rule property condition.
          Known values are: "IncidentTitle", "IncidentDescription", "IncidentSeverity", "IncidentStatus",
@@ -3648,8 +3703,8 @@ class AutomationRuleRunPlaybookAction(AutomationRuleAction):
     }
 
     def __init__(
-        self, *, order: int, action_configuration: Optional["_models.PlaybookActionProperties"] = None, **kwargs
-    ):
+        self, *, order: int, action_configuration: Optional["_models.PlaybookActionProperties"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword order: Required.
         :paramtype order: int
@@ -3676,8 +3731,8 @@ class AutomationRulesList(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.AutomationRule"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.AutomationRule"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value:
         :paramtype value: list[~azure.mgmt.securityinsight.models.AutomationRule]
@@ -3731,8 +3786,8 @@ class AutomationRuleTriggeringLogic(_serialization.Model):
         triggers_when: Union[str, "_models.TriggersWhen"],
         expiration_time_utc: Optional[datetime.datetime] = None,
         conditions: Optional[List["_models.AutomationRuleCondition"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword is_enabled: Determines whether the automation rule is enabled or disabled. Required.
         :paramtype is_enabled: bool
@@ -3769,7 +3824,9 @@ class Availability(_serialization.Model):
         "is_preview": {"key": "isPreview", "type": "bool"},
     }
 
-    def __init__(self, *, status: Optional[Literal[1]] = None, is_preview: Optional[bool] = None, **kwargs):
+    def __init__(
+        self, *, status: Optional[Literal[1]] = None, is_preview: Optional[bool] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword status: The connector Availability Status. Default value is 1.
         :paramtype status: int
@@ -3789,10 +3846,10 @@ class AwsCloudTrailCheckRequirements(DataConnectorsCheckRequirements):
     :ivar kind: Describes the kind of connector to be checked. Required. Known values are:
      "AzureActiveDirectory", "AzureSecurityCenter", "MicrosoftCloudAppSecurity",
      "ThreatIntelligence", "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM",
-     "Office365Project", "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "Office365Project", "MicrosoftPurviewInformationProtection", "OfficePowerBI",
+     "AmazonWebServicesCloudTrail", "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     """
 
@@ -3804,7 +3861,7 @@ class AwsCloudTrailCheckRequirements(DataConnectorsCheckRequirements):
         "kind": {"key": "kind", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: str = "AmazonWebServicesCloudTrail"
@@ -3833,10 +3890,10 @@ class AwsCloudTrailDataConnector(DataConnector):
     :ivar kind: The data connector kind. Required. Known values are: "AzureActiveDirectory",
      "AzureSecurityCenter", "MicrosoftCloudAppSecurity", "ThreatIntelligence",
      "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM", "Office365Project",
-     "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "MicrosoftPurviewInformationProtection", "OfficePowerBI", "AmazonWebServicesCloudTrail",
+     "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     :ivar aws_role_arn: The Aws Role Arn (with CloudTrailReadOnly policy) that is used to access
      the Aws account.
@@ -3870,8 +3927,8 @@ class AwsCloudTrailDataConnector(DataConnector):
         etag: Optional[str] = None,
         aws_role_arn: Optional[str] = None,
         data_types: Optional["_models.AwsCloudTrailDataConnectorDataTypes"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -3904,7 +3961,7 @@ class AwsCloudTrailDataConnectorDataTypes(_serialization.Model):
         "logs": {"key": "logs", "type": "AwsCloudTrailDataConnectorDataTypesLogs"},
     }
 
-    def __init__(self, *, logs: "_models.AwsCloudTrailDataConnectorDataTypesLogs", **kwargs):
+    def __init__(self, *, logs: "_models.AwsCloudTrailDataConnectorDataTypesLogs", **kwargs: Any) -> None:
         """
         :keyword logs: Logs data type. Required.
         :paramtype logs: ~azure.mgmt.securityinsight.models.AwsCloudTrailDataConnectorDataTypesLogs
@@ -3931,7 +3988,7 @@ class DataConnectorDataTypeCommon(_serialization.Model):
         "state": {"key": "state", "type": "str"},
     }
 
-    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs):
+    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs: Any) -> None:
         """
         :keyword state: Describe whether this data type connection is enabled or not. Required. Known
          values are: "Enabled" and "Disabled".
@@ -3959,7 +4016,7 @@ class AwsCloudTrailDataConnectorDataTypesLogs(DataConnectorDataTypeCommon):
         "state": {"key": "state", "type": "str"},
     }
 
-    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs):
+    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs: Any) -> None:
         """
         :keyword state: Describe whether this data type connection is enabled or not. Required. Known
          values are: "Enabled" and "Disabled".
@@ -3976,10 +4033,10 @@ class AwsS3CheckRequirements(DataConnectorsCheckRequirements):
     :ivar kind: Describes the kind of connector to be checked. Required. Known values are:
      "AzureActiveDirectory", "AzureSecurityCenter", "MicrosoftCloudAppSecurity",
      "ThreatIntelligence", "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM",
-     "Office365Project", "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "Office365Project", "MicrosoftPurviewInformationProtection", "OfficePowerBI",
+     "AmazonWebServicesCloudTrail", "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     """
 
@@ -3991,7 +4048,7 @@ class AwsS3CheckRequirements(DataConnectorsCheckRequirements):
         "kind": {"key": "kind", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: str = "AmazonWebServicesS3"
@@ -4020,10 +4077,10 @@ class AwsS3DataConnector(DataConnector):
     :ivar kind: The data connector kind. Required. Known values are: "AzureActiveDirectory",
      "AzureSecurityCenter", "MicrosoftCloudAppSecurity", "ThreatIntelligence",
      "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM", "Office365Project",
-     "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "MicrosoftPurviewInformationProtection", "OfficePowerBI", "AmazonWebServicesCloudTrail",
+     "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     :ivar destination_table: The logs destination table name in LogAnalytics.
     :vartype destination_table: str
@@ -4064,8 +4121,8 @@ class AwsS3DataConnector(DataConnector):
         sqs_urls: Optional[List[str]] = None,
         role_arn: Optional[str] = None,
         data_types: Optional["_models.AwsS3DataConnectorDataTypes"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -4103,7 +4160,7 @@ class AwsS3DataConnectorDataTypes(_serialization.Model):
         "logs": {"key": "logs", "type": "AwsS3DataConnectorDataTypesLogs"},
     }
 
-    def __init__(self, *, logs: "_models.AwsS3DataConnectorDataTypesLogs", **kwargs):
+    def __init__(self, *, logs: "_models.AwsS3DataConnectorDataTypesLogs", **kwargs: Any) -> None:
         """
         :keyword logs: Logs data type. Required.
         :paramtype logs: ~azure.mgmt.securityinsight.models.AwsS3DataConnectorDataTypesLogs
@@ -4130,7 +4187,7 @@ class AwsS3DataConnectorDataTypesLogs(DataConnectorDataTypeCommon):
         "state": {"key": "state", "type": "str"},
     }
 
-    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs):
+    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs: Any) -> None:
         """
         :keyword state: Describe whether this data type connection is enabled or not. Required. Known
          values are: "Enabled" and "Disabled".
@@ -4153,7 +4210,9 @@ class AzureDevOpsResourceInfo(_serialization.Model):
         "service_connection_id": {"key": "serviceConnectionId", "type": "str"},
     }
 
-    def __init__(self, *, pipeline_id: Optional[str] = None, service_connection_id: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, pipeline_id: Optional[str] = None, service_connection_id: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword pipeline_id: Id of the pipeline created for the source-control.
         :paramtype pipeline_id: str
@@ -4163,6 +4222,48 @@ class AzureDevOpsResourceInfo(_serialization.Model):
         super().__init__(**kwargs)
         self.pipeline_id = pipeline_id
         self.service_connection_id = service_connection_id
+
+
+class AzureEntityResource(Resource):
+    """The resource model definition for an Azure Resource Manager resource with an etag.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.securityinsight.models.SystemData
+    :ivar etag: Resource Etag.
+    :vartype etag: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "etag": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "etag": {"key": "etag", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.etag = None
 
 
 class AzureResourceEntity(Entity):
@@ -4187,7 +4288,7 @@ class AzureResourceEntity(Entity):
      "AzureResource", "CloudApplication", "DnsResolution", "FileHash", "Ip", "Malware", "Process",
      "RegistryKey", "RegistryValue", "SecurityGroup", "Url", "IoTDevice", "SecurityAlert",
      "Bookmark", "MailCluster", "MailMessage", "Mailbox", "SubmissionMail", and "Nic".
-    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKind
+    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKindEnum
     :ivar additional_data: A bag of custom fields that should be part of the entity and will be
      presented to the user.
     :vartype additional_data: dict[str, any]
@@ -4224,7 +4325,7 @@ class AzureResourceEntity(Entity):
         "subscription_id": {"key": "properties.subscriptionId", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: str = "AzureResource"
@@ -4265,7 +4366,7 @@ class AzureResourceEntityProperties(EntityCommonProperties):
         "subscription_id": {"key": "subscriptionId", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.resource_id = None
@@ -4375,8 +4476,8 @@ class Bookmark(ResourceWithEtag):  # pylint: disable=too-many-instance-attribute
         entity_mappings: Optional[List["_models.BookmarkEntityMappings"]] = None,
         tactics: Optional[List[Union[str, "_models.AttackTactic"]]] = None,
         techniques: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -4451,8 +4552,8 @@ class BookmarkEntityMappings(_serialization.Model):
         *,
         entity_type: Optional[str] = None,
         field_mappings: Optional[List["_models.EntityFieldMapping"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword entity_type: The entity type.
         :paramtype entity_type: str
@@ -4489,8 +4590,8 @@ class BookmarkExpandParameters(_serialization.Model):
         end_time: Optional[datetime.datetime] = None,
         expansion_id: Optional[str] = None,
         start_time: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword end_time: The end date filter, so the only expansion results returned are before this
          date.
@@ -4526,8 +4627,8 @@ class BookmarkExpandResponse(_serialization.Model):
         *,
         meta_data: Optional["_models.ExpansionResultsMetadata"] = None,
         value: Optional["_models.BookmarkExpandResponseValue"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword meta_data: The metadata from the expansion operation results.
         :paramtype meta_data: ~azure.mgmt.securityinsight.models.ExpansionResultsMetadata
@@ -4558,8 +4659,8 @@ class BookmarkExpandResponseValue(_serialization.Model):
         *,
         entities: Optional[List["_models.Entity"]] = None,
         edges: Optional[List["_models.ConnectedEntity"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword entities: Array of the expansion result entities.
         :paramtype entities: list[~azure.mgmt.securityinsight.models.Entity]
@@ -4594,7 +4695,7 @@ class BookmarkList(_serialization.Model):
         "value": {"key": "value", "type": "[Bookmark]"},
     }
 
-    def __init__(self, *, value: List["_models.Bookmark"], **kwargs):
+    def __init__(self, *, value: List["_models.Bookmark"], **kwargs: Any) -> None:
         """
         :keyword value: Array of bookmarks. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.Bookmark]
@@ -4658,8 +4759,8 @@ class BookmarkTimelineItem(EntityTimelineItem):
         event_time: Optional[datetime.datetime] = None,
         created_by: Optional["_models.UserInfo"] = None,
         labels: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword azure_resource_id: The bookmark azure resource id. Required.
         :paramtype azure_resource_id: str
@@ -4691,7 +4792,8 @@ class BookmarkTimelineItem(EntityTimelineItem):
 
 
 class BooleanConditionProperties(AutomationRuleCondition):
-    """Describes an automation rule condition that applies a boolean operator (e.g AND, OR) to conditions.
+    """Describes an automation rule condition that applies a boolean operator (e.g AND, OR) to
+    conditions.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -4712,7 +4814,9 @@ class BooleanConditionProperties(AutomationRuleCondition):
         "condition_properties": {"key": "conditionProperties", "type": "AutomationRuleBooleanCondition"},
     }
 
-    def __init__(self, *, condition_properties: Optional["_models.AutomationRuleBooleanCondition"] = None, **kwargs):
+    def __init__(
+        self, *, condition_properties: Optional["_models.AutomationRuleBooleanCondition"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword condition_properties:
         :paramtype condition_properties:
@@ -4750,8 +4854,8 @@ class ClientInfo(_serialization.Model):
         name: Optional[str] = None,
         object_id: Optional[str] = None,
         user_principal_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword email: The email of the client.
         :paramtype email: str
@@ -4791,7 +4895,7 @@ class CloudApplicationEntity(Entity):
      "AzureResource", "CloudApplication", "DnsResolution", "FileHash", "Ip", "Malware", "Process",
      "RegistryKey", "RegistryValue", "SecurityGroup", "Url", "IoTDevice", "SecurityAlert",
      "Bookmark", "MailCluster", "MailMessage", "Mailbox", "SubmissionMail", and "Nic".
-    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKind
+    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKindEnum
     :ivar additional_data: A bag of custom fields that should be part of the entity and will be
      presented to the user.
     :vartype additional_data: dict[str, any]
@@ -4833,7 +4937,7 @@ class CloudApplicationEntity(Entity):
         "instance_name": {"key": "properties.instanceName", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: str = "CloudApplication"
@@ -4880,7 +4984,7 @@ class CloudApplicationEntityProperties(EntityCommonProperties):
         "instance_name": {"key": "instanceName", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.app_id = None
@@ -4911,7 +5015,7 @@ class CloudErrorBody(_serialization.Model):
         "message": {"key": "message", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.code = None
@@ -4941,10 +5045,10 @@ class CodelessApiPollingDataConnector(DataConnector):
     :ivar kind: The data connector kind. Required. Known values are: "AzureActiveDirectory",
      "AzureSecurityCenter", "MicrosoftCloudAppSecurity", "ThreatIntelligence",
      "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM", "Office365Project",
-     "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "MicrosoftPurviewInformationProtection", "OfficePowerBI", "AmazonWebServicesCloudTrail",
+     "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     :ivar connector_ui_config: Config to describe the instructions blade.
     :vartype connector_ui_config:
@@ -4979,8 +5083,8 @@ class CodelessApiPollingDataConnector(DataConnector):
         etag: Optional[str] = None,
         connector_ui_config: Optional["_models.CodelessUiConnectorConfigProperties"] = None,
         polling_config: Optional["_models.CodelessConnectorPollingConfigProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -5070,8 +5174,8 @@ class CodelessConnectorPollingAuthProperties(_serialization.Model):  # pylint: d
         token_endpoint_query_parameters: Optional[JSON] = None,
         is_client_secret_in_header: Optional[bool] = None,
         scope: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword auth_type: The authentication type. Required.
         :paramtype auth_type: str
@@ -5161,8 +5265,8 @@ class CodelessConnectorPollingConfigProperties(_serialization.Model):
         is_active: Optional[bool] = None,
         paging: Optional["_models.CodelessConnectorPollingPagingProperties"] = None,
         response: Optional["_models.CodelessConnectorPollingResponseProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword is_active: The poller active status.
         :paramtype is_active: bool
@@ -5243,8 +5347,8 @@ class CodelessConnectorPollingPagingProperties(_serialization.Model):
         search_the_latest_time_stamp_from_events_list: Optional[str] = None,
         page_size_para_name: Optional[str] = None,
         page_size: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword paging_type: Describes the type. could be 'None', 'PageToken', 'PageCount',
          'TimeStamp'. Required.
@@ -5352,8 +5456,8 @@ class CodelessConnectorPollingRequestProperties(_serialization.Model):  # pylint
         query_parameters_template: Optional[str] = None,
         start_time_attribute_name: Optional[str] = None,
         end_time_attribute_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword api_endpoint: Describe the endpoint we should pull the data from. Required.
         :paramtype api_endpoint: str
@@ -5437,8 +5541,8 @@ class CodelessConnectorPollingResponseProperties(_serialization.Model):
         success_status_json_path: Optional[str] = None,
         success_status_value: Optional[str] = None,
         is_gzip_compressed: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword events_json_paths: Describes the path we should extract the data in the response.
          Required.
@@ -5547,8 +5651,8 @@ class CodelessUiConnectorConfigProperties(_serialization.Model):  # pylint: disa
         permissions: "_models.Permissions",
         instruction_steps: List["_models.CodelessUiConnectorConfigPropertiesInstructionStepsItem"],
         custom_image: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword title: Connector blade title. Required.
         :paramtype title: str
@@ -5616,8 +5720,8 @@ class ConnectivityCriteria(_serialization.Model):
         *,
         type: Optional[Union[str, "_models.ConnectivityType"]] = None,
         value: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword type: type of connectivity. "IsConnectedQuery"
         :paramtype type: str or ~azure.mgmt.securityinsight.models.ConnectivityType
@@ -5648,8 +5752,8 @@ class CodelessUiConnectorConfigPropertiesConnectivityCriteriaItem(ConnectivityCr
         *,
         type: Optional[Union[str, "_models.ConnectivityType"]] = None,
         value: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword type: type of connectivity. "IsConnectedQuery"
         :paramtype type: str or ~azure.mgmt.securityinsight.models.ConnectivityType
@@ -5674,7 +5778,9 @@ class LastDataReceivedDataType(_serialization.Model):
         "last_data_received_query": {"key": "lastDataReceivedQuery", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, last_data_received_query: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, name: Optional[str] = None, last_data_received_query: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword name: Name of the data type to show in the graph. can be use with
          {{graphQueriesTableName}} placeholder.
@@ -5702,7 +5808,9 @@ class CodelessUiConnectorConfigPropertiesDataTypesItem(LastDataReceivedDataType)
         "last_data_received_query": {"key": "lastDataReceivedQuery", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, last_data_received_query: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, name: Optional[str] = None, last_data_received_query: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword name: Name of the data type to show in the graph. can be use with
          {{graphQueriesTableName}} placeholder.
@@ -5736,8 +5844,8 @@ class GraphQueries(_serialization.Model):
         metric_name: Optional[str] = None,
         legend: Optional[str] = None,
         base_query: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword metric_name: the metric that the query is checking.
         :paramtype metric_name: str
@@ -5775,8 +5883,8 @@ class CodelessUiConnectorConfigPropertiesGraphQueriesItem(GraphQueries):
         metric_name: Optional[str] = None,
         legend: Optional[str] = None,
         base_query: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword metric_name: the metric that the query is checking.
         :paramtype metric_name: str
@@ -5812,8 +5920,8 @@ class InstructionSteps(_serialization.Model):
         title: Optional[str] = None,
         description: Optional[str] = None,
         instructions: Optional[List["_models.InstructionStepsInstructionsItem"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword title: Instruction step title.
         :paramtype title: str
@@ -5853,8 +5961,8 @@ class CodelessUiConnectorConfigPropertiesInstructionStepsItem(InstructionSteps):
         title: Optional[str] = None,
         description: Optional[str] = None,
         instructions: Optional[List["_models.InstructionStepsInstructionsItem"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword title: Instruction step title.
         :paramtype title: str
@@ -5881,7 +5989,7 @@ class SampleQueries(_serialization.Model):
         "query": {"key": "query", "type": "str"},
     }
 
-    def __init__(self, *, description: Optional[str] = None, query: Optional[str] = None, **kwargs):
+    def __init__(self, *, description: Optional[str] = None, query: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword description: The sample query description.
         :paramtype description: str
@@ -5907,7 +6015,7 @@ class CodelessUiConnectorConfigPropertiesSampleQueriesItem(SampleQueries):
         "query": {"key": "query", "type": "str"},
     }
 
-    def __init__(self, *, description: Optional[str] = None, query: Optional[str] = None, **kwargs):
+    def __init__(self, *, description: Optional[str] = None, query: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword description: The sample query description.
         :paramtype description: str
@@ -5940,10 +6048,10 @@ class CodelessUiDataConnector(DataConnector):
     :ivar kind: The data connector kind. Required. Known values are: "AzureActiveDirectory",
      "AzureSecurityCenter", "MicrosoftCloudAppSecurity", "ThreatIntelligence",
      "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM", "Office365Project",
-     "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "MicrosoftPurviewInformationProtection", "OfficePowerBI", "AmazonWebServicesCloudTrail",
+     "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     :ivar connector_ui_config: Config to describe the instructions blade.
     :vartype connector_ui_config:
@@ -5973,8 +6081,8 @@ class CodelessUiDataConnector(DataConnector):
         *,
         etag: Optional[str] = None,
         connector_ui_config: Optional["_models.CodelessUiConnectorConfigProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -6001,7 +6109,9 @@ class ConnectedEntity(_serialization.Model):
         "additional_data": {"key": "additionalData", "type": "object"},
     }
 
-    def __init__(self, *, target_entity_id: Optional[str] = None, additional_data: Optional[JSON] = None, **kwargs):
+    def __init__(
+        self, *, target_entity_id: Optional[str] = None, additional_data: Optional[JSON] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword target_entity_id: Entity Id of the connected entity.
         :paramtype target_entity_id: str
@@ -6034,7 +6144,9 @@ class ConnectorInstructionModelBase(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, *, type: Union[str, "_models.SettingType"], parameters: Optional[JSON] = None, **kwargs):
+    def __init__(
+        self, *, type: Union[str, "_models.SettingType"], parameters: Optional[JSON] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword parameters: The parameters for the setting.
         :paramtype parameters: JSON
@@ -6068,7 +6180,7 @@ class Content(_serialization.Model):
         "description": {"key": "description", "type": "str"},
     }
 
-    def __init__(self, *, title: str, description: str, **kwargs):
+    def __init__(self, *, title: str, description: str, **kwargs: Any) -> None:
         """
         :keyword title: Title of the content. Required.
         :paramtype title: str
@@ -6095,8 +6207,12 @@ class ContentPathMap(_serialization.Model):
     }
 
     def __init__(
-        self, *, content_type: Optional[Union[str, "_models.ContentType"]] = None, path: Optional[str] = None, **kwargs
-    ):
+        self,
+        *,
+        content_type: Optional[Union[str, "_models.ContentType"]] = None,
+        path: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword content_type: Content type. Known values are: "AnalyticRule" and "Workbook".
         :paramtype content_type: str or ~azure.mgmt.securityinsight.models.ContentType
@@ -6122,7 +6238,7 @@ class CustomsPermission(_serialization.Model):
         "description": {"key": "description", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, description: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, description: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Customs permissions name.
         :paramtype name: str
@@ -6148,7 +6264,7 @@ class Customs(CustomsPermission):
         "description": {"key": "description", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, description: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, description: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Customs permissions name.
         :paramtype name: str
@@ -6217,8 +6333,8 @@ class DataConnectorConnectBody(_serialization.Model):  # pylint: disable=too-man
         user_name: Optional[str] = None,
         password: Optional[str] = None,
         request_config_user_input_values: Optional[List[JSON]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword kind: The authentication kind used to poll the data. Known values are: "Basic",
          "OAuth2", and "APIKey".
@@ -6285,7 +6401,7 @@ class DataConnectorList(_serialization.Model):
         "value": {"key": "value", "type": "[DataConnector]"},
     }
 
-    def __init__(self, *, value: List["_models.DataConnector"], **kwargs):
+    def __init__(self, *, value: List["_models.DataConnector"], **kwargs: Any) -> None:
         """
         :keyword value: Array of data connectors. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.DataConnector]
@@ -6317,8 +6433,8 @@ class DataConnectorRequirementsState(_serialization.Model):
         *,
         authorization_state: Optional[Union[str, "_models.DataConnectorAuthorizationState"]] = None,
         license_state: Optional[Union[str, "_models.DataConnectorLicenseState"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword authorization_state: Authorization state for this connector. Known values are: "Valid"
          and "Invalid".
@@ -6344,7 +6460,7 @@ class DataTypeDefinitions(_serialization.Model):
         "data_type": {"key": "dataType", "type": "str"},
     }
 
-    def __init__(self, *, data_type: Optional[str] = None, **kwargs):
+    def __init__(self, *, data_type: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword data_type: The data type name.
         :paramtype data_type: str
@@ -6386,8 +6502,8 @@ class Deployment(_serialization.Model):
         deployment_result: Optional[Union[str, "_models.DeploymentResult"]] = None,
         deployment_time: Optional[datetime.datetime] = None,
         deployment_logs_url: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword deployment_id: Deployment identifier.
         :paramtype deployment_id: str
@@ -6435,8 +6551,8 @@ class DeploymentInfo(_serialization.Model):
         deployment_fetch_status: Optional[Union[str, "_models.DeploymentFetchStatus"]] = None,
         deployment: Optional["_models.Deployment"] = None,
         message: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword deployment_fetch_status: Status while fetching the last deployment. Known values are:
          "Success", "Unauthorized", and "NotFound".
@@ -6475,7 +6591,7 @@ class DnsEntity(Entity):  # pylint: disable=too-many-instance-attributes
      "AzureResource", "CloudApplication", "DnsResolution", "FileHash", "Ip", "Malware", "Process",
      "RegistryKey", "RegistryValue", "SecurityGroup", "Url", "IoTDevice", "SecurityAlert",
      "Bookmark", "MailCluster", "MailMessage", "Mailbox", "SubmissionMail", and "Nic".
-    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKind
+    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKindEnum
     :ivar additional_data: A bag of custom fields that should be part of the entity and will be
      presented to the user.
     :vartype additional_data: dict[str, any]
@@ -6520,7 +6636,7 @@ class DnsEntity(Entity):  # pylint: disable=too-many-instance-attributes
         "ip_address_entity_ids": {"key": "properties.ipAddressEntityIds", "type": "[str]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: str = "DnsResolution"
@@ -6571,7 +6687,7 @@ class DnsEntityProperties(EntityCommonProperties):
         "ip_address_entity_ids": {"key": "ipAddressEntityIds", "type": "[str]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.dns_server_ip_entity_id = None
@@ -6588,10 +6704,10 @@ class Dynamics365CheckRequirements(DataConnectorsCheckRequirements):
     :ivar kind: Describes the kind of connector to be checked. Required. Known values are:
      "AzureActiveDirectory", "AzureSecurityCenter", "MicrosoftCloudAppSecurity",
      "ThreatIntelligence", "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM",
-     "Office365Project", "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "Office365Project", "MicrosoftPurviewInformationProtection", "OfficePowerBI",
+     "AmazonWebServicesCloudTrail", "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     :ivar tenant_id: The tenant id to connect to, and get the data from.
     :vartype tenant_id: str
@@ -6606,7 +6722,7 @@ class Dynamics365CheckRequirements(DataConnectorsCheckRequirements):
         "tenant_id": {"key": "properties.tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from.
         :paramtype tenant_id: str
@@ -6633,7 +6749,7 @@ class Dynamics365CheckRequirementsProperties(DataConnectorTenantId):
         "tenant_id": {"key": "tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: str, **kwargs):
+    def __init__(self, *, tenant_id: str, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
         :paramtype tenant_id: str
@@ -6664,10 +6780,10 @@ class Dynamics365DataConnector(DataConnector):
     :ivar kind: The data connector kind. Required. Known values are: "AzureActiveDirectory",
      "AzureSecurityCenter", "MicrosoftCloudAppSecurity", "ThreatIntelligence",
      "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM", "Office365Project",
-     "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "MicrosoftPurviewInformationProtection", "OfficePowerBI", "AmazonWebServicesCloudTrail",
+     "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     :ivar tenant_id: The tenant id to connect to, and get the data from.
     :vartype tenant_id: str
@@ -6700,8 +6816,8 @@ class Dynamics365DataConnector(DataConnector):
         etag: Optional[str] = None,
         tenant_id: Optional[str] = None,
         data_types: Optional["_models.Dynamics365DataConnectorDataTypes"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -6741,8 +6857,8 @@ class Dynamics365DataConnectorDataTypes(_serialization.Model):
         self,
         *,
         dynamics365_cds_activities: "_models.Dynamics365DataConnectorDataTypesDynamics365CdsActivities",
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword dynamics365_cds_activities: Common Data Service data type connection. Required.
         :paramtype dynamics365_cds_activities:
@@ -6770,7 +6886,7 @@ class Dynamics365DataConnectorDataTypesDynamics365CdsActivities(DataConnectorDat
         "state": {"key": "state", "type": "str"},
     }
 
-    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs):
+    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs: Any) -> None:
         """
         :keyword state: Describe whether this data type connection is enabled or not. Required. Known
          values are: "Enabled" and "Disabled".
@@ -6800,7 +6916,9 @@ class Dynamics365DataConnectorProperties(DataConnectorTenantId):
         "data_types": {"key": "dataTypes", "type": "Dynamics365DataConnectorDataTypes"},
     }
 
-    def __init__(self, *, tenant_id: str, data_types: "_models.Dynamics365DataConnectorDataTypes", **kwargs):
+    def __init__(
+        self, *, tenant_id: str, data_types: "_models.Dynamics365DataConnectorDataTypes", **kwargs: Any
+    ) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
         :paramtype tenant_id: str
@@ -6846,8 +6964,8 @@ class EnrichmentDomainWhois(_serialization.Model):
         updated: Optional[datetime.datetime] = None,
         expires: Optional[datetime.datetime] = None,
         parsed_whois: Optional["_models.EnrichmentDomainWhoisDetails"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword domain: The domain for this whois record.
         :paramtype domain: str
@@ -6922,8 +7040,8 @@ class EnrichmentDomainWhoisContact(_serialization.Model):
         phone: Optional[str] = None,
         fax: Optional[str] = None,
         email: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: The name of this contact.
         :paramtype name: str
@@ -6986,8 +7104,8 @@ class EnrichmentDomainWhoisContacts(_serialization.Model):
         billing: Optional["_models.EnrichmentDomainWhoisContact"] = None,
         registrant: Optional["_models.EnrichmentDomainWhoisContact"] = None,
         tech: Optional["_models.EnrichmentDomainWhoisContact"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword admin: The admin contact for this whois record.
         :paramtype admin: ~azure.mgmt.securityinsight.models.EnrichmentDomainWhoisContact
@@ -7032,8 +7150,8 @@ class EnrichmentDomainWhoisDetails(_serialization.Model):
         contacts: Optional["_models.EnrichmentDomainWhoisContacts"] = None,
         name_servers: Optional[List[str]] = None,
         statuses: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword registrar: The registrar associated with this domain.
         :paramtype registrar: ~azure.mgmt.securityinsight.models.EnrichmentDomainWhoisRegistrarDetails
@@ -7086,8 +7204,8 @@ class EnrichmentDomainWhoisRegistrarDetails(_serialization.Model):
         iana_id: Optional[str] = None,
         url: Optional[str] = None,
         whois_server: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: The name of this registrar.
         :paramtype name: str
@@ -7193,8 +7311,8 @@ class EnrichmentIpGeodata(_serialization.Model):  # pylint: disable=too-many-ins
         state: Optional[str] = None,
         state_cf: Optional[int] = None,
         state_code: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword asn: The autonomous system number associated with this IP address.
         :paramtype asn: str
@@ -7305,8 +7423,8 @@ class EntityAnalytics(Settings):
         *,
         etag: Optional[str] = None,
         entity_providers: Optional[List[Union[str, "_models.EntityProviders"]]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -7334,8 +7452,8 @@ class EntityEdges(_serialization.Model):
     }
 
     def __init__(
-        self, *, target_entity_id: Optional[str] = None, additional_data: Optional[Dict[str, Any]] = None, **kwargs
-    ):
+        self, *, target_entity_id: Optional[str] = None, additional_data: Optional[Dict[str, Any]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword target_entity_id: The target entity Id.
         :paramtype target_entity_id: str
@@ -7373,8 +7491,8 @@ class EntityExpandParameters(_serialization.Model):
         end_time: Optional[datetime.datetime] = None,
         expansion_id: Optional[str] = None,
         start_time: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword end_time: The end date filter, so the only expansion results returned are before this
          date.
@@ -7410,8 +7528,8 @@ class EntityExpandResponse(_serialization.Model):
         *,
         meta_data: Optional["_models.ExpansionResultsMetadata"] = None,
         value: Optional["_models.EntityExpandResponseValue"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword meta_data: The metadata from the expansion operation results.
         :paramtype meta_data: ~azure.mgmt.securityinsight.models.ExpansionResultsMetadata
@@ -7442,8 +7560,8 @@ class EntityExpandResponseValue(_serialization.Model):
         *,
         entities: Optional[List["_models.Entity"]] = None,
         edges: Optional[List["_models.EntityEdges"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword entities: Array of the expansion result entities.
         :paramtype entities: list[~azure.mgmt.securityinsight.models.Entity]
@@ -7469,7 +7587,7 @@ class EntityFieldMapping(_serialization.Model):
         "value": {"key": "value", "type": "str"},
     }
 
-    def __init__(self, *, identifier: Optional[str] = None, value: Optional[str] = None, **kwargs):
+    def __init__(self, *, identifier: Optional[str] = None, value: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword identifier: Alert V3 identifier.
         :paramtype identifier: str
@@ -7518,8 +7636,8 @@ class EntityGetInsightsParameters(_serialization.Model):
         end_time: datetime.datetime,
         add_default_extended_time_range: Optional[bool] = None,
         insight_query_ids: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword start_time: The start timeline date, so the results returned are after this date.
          Required.
@@ -7560,8 +7678,8 @@ class EntityGetInsightsResponse(_serialization.Model):
         *,
         meta_data: Optional["_models.GetInsightsResultsMetadata"] = None,
         value: Optional[List["_models.EntityInsightItem"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword meta_data: The metadata from the get insights operation results.
         :paramtype meta_data: ~azure.mgmt.securityinsight.models.GetInsightsResultsMetadata
@@ -7601,8 +7719,8 @@ class EntityInsightItem(_serialization.Model):
         query_time_interval: Optional["_models.EntityInsightItemQueryTimeInterval"] = None,
         table_query_results: Optional["_models.InsightsTableResult"] = None,
         chart_query_results: Optional[List["_models.InsightsTableResult"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword query_id: The query id of the insight.
         :paramtype query_id: str
@@ -7636,8 +7754,12 @@ class EntityInsightItemQueryTimeInterval(_serialization.Model):
     }
 
     def __init__(
-        self, *, start_time: Optional[datetime.datetime] = None, end_time: Optional[datetime.datetime] = None, **kwargs
-    ):
+        self,
+        *,
+        start_time: Optional[datetime.datetime] = None,
+        end_time: Optional[datetime.datetime] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword start_time: Insight query start time.
         :paramtype start_time: ~datetime.datetime
@@ -7672,7 +7794,7 @@ class EntityList(_serialization.Model):
         "value": {"key": "value", "type": "[Entity]"},
     }
 
-    def __init__(self, *, value: List["_models.Entity"], **kwargs):
+    def __init__(self, *, value: List["_models.Entity"], **kwargs: Any) -> None:
         """
         :keyword value: Array of entities. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.Entity]
@@ -7680,6 +7802,51 @@ class EntityList(_serialization.Model):
         super().__init__(**kwargs)
         self.next_link = None
         self.value = value
+
+
+class EntityManualTriggerRequestBody(_serialization.Model):
+    """Describes the request body for triggering a playbook on an entity.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar incident_arm_id: Incident ARM id.
+    :vartype incident_arm_id: str
+    :ivar tenant_id: The tenant id of the playbook resource.
+    :vartype tenant_id: str
+    :ivar logic_apps_resource_id: The resource id of the playbook resource. Required.
+    :vartype logic_apps_resource_id: str
+    """
+
+    _validation = {
+        "logic_apps_resource_id": {"required": True},
+    }
+
+    _attribute_map = {
+        "incident_arm_id": {"key": "incidentArmId", "type": "str"},
+        "tenant_id": {"key": "tenantId", "type": "str"},
+        "logic_apps_resource_id": {"key": "logicAppsResourceId", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        logic_apps_resource_id: str,
+        incident_arm_id: Optional[str] = None,
+        tenant_id: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword incident_arm_id: Incident ARM id.
+        :paramtype incident_arm_id: str
+        :keyword tenant_id: The tenant id of the playbook resource.
+        :paramtype tenant_id: str
+        :keyword logic_apps_resource_id: The resource id of the playbook resource. Required.
+        :paramtype logic_apps_resource_id: str
+        """
+        super().__init__(**kwargs)
+        self.incident_arm_id = incident_arm_id
+        self.tenant_id = tenant_id
+        self.logic_apps_resource_id = logic_apps_resource_id
 
 
 class EntityMapping(_serialization.Model):
@@ -7704,8 +7871,8 @@ class EntityMapping(_serialization.Model):
         *,
         entity_type: Optional[Union[str, "_models.EntityMappingType"]] = None,
         field_mappings: Optional[List["_models.FieldMapping"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword entity_type: The V3 type of the mapped entity. Known values are: "Account", "Host",
          "IP", "Malware", "File", "Process", "CloudApplication", "DNS", "AzureResource", "FileHash",
@@ -7755,7 +7922,7 @@ class EntityQueryItem(_serialization.Model):
 
     _subtype_map = {"kind": {"Insight": "InsightQueryItem"}}
 
-    def __init__(self, *, name: Optional[str] = None, type: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, type: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Query Template ARM Name.
         :paramtype name: str
@@ -7800,8 +7967,8 @@ class EntityQueryItemProperties(_serialization.Model):
         input_entity_type: Optional[Union[str, "_models.EntityType"]] = None,
         required_input_fields_sets: Optional[List[List[str]]] = None,
         entities_filter: Optional[JSON] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword data_types: Data types for template.
         :paramtype data_types:
@@ -7834,7 +8001,7 @@ class EntityQueryItemPropertiesDataTypesItem(_serialization.Model):
         "data_type": {"key": "dataType", "type": "str"},
     }
 
-    def __init__(self, *, data_type: Optional[str] = None, **kwargs):
+    def __init__(self, *, data_type: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword data_type: Data type name.
         :paramtype data_type: str
@@ -7866,7 +8033,7 @@ class EntityQueryList(_serialization.Model):
         "value": {"key": "value", "type": "[EntityQuery]"},
     }
 
-    def __init__(self, *, value: List["_models.EntityQuery"], **kwargs):
+    def __init__(self, *, value: List["_models.EntityQuery"], **kwargs: Any) -> None:
         """
         :keyword value: Array of entity queries. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.EntityQuery]
@@ -7899,7 +8066,7 @@ class EntityQueryTemplateList(_serialization.Model):
         "value": {"key": "value", "type": "[EntityQueryTemplate]"},
     }
 
-    def __init__(self, *, value: List["_models.EntityQueryTemplate"], **kwargs):
+    def __init__(self, *, value: List["_models.EntityQueryTemplate"], **kwargs: Any) -> None:
         """
         :keyword value: Array of entity query templates. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.EntityQueryTemplate]
@@ -7944,8 +8111,8 @@ class EntityTimelineParameters(_serialization.Model):
         end_time: datetime.datetime,
         kinds: Optional[List[Union[str, "_models.EntityTimelineKind"]]] = None,
         number_of_bucket: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword kinds: Array of timeline Item kinds.
         :paramtype kinds: list[str or ~azure.mgmt.securityinsight.models.EntityTimelineKind]
@@ -7984,8 +8151,8 @@ class EntityTimelineResponse(_serialization.Model):
         *,
         meta_data: Optional["_models.TimelineResultsMetadata"] = None,
         value: Optional[List["_models.EntityTimelineItem"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword meta_data: The metadata from the timeline operation results.
         :paramtype meta_data: ~azure.mgmt.securityinsight.models.TimelineResultsMetadata
@@ -7995,6 +8162,133 @@ class EntityTimelineResponse(_serialization.Model):
         super().__init__(**kwargs)
         self.meta_data = meta_data
         self.value = value
+
+
+class Error(_serialization.Model):
+    """The error description for why a publication failed.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar member_resource_name: The member resource name for which the publication error occured.
+     Required.
+    :vartype member_resource_name: str
+    :ivar error_message: The error message. Required.
+    :vartype error_message: str
+    """
+
+    _validation = {
+        "member_resource_name": {"required": True},
+        "error_message": {"required": True},
+    }
+
+    _attribute_map = {
+        "member_resource_name": {"key": "memberResourceName", "type": "str"},
+        "error_message": {"key": "errorMessage", "type": "str"},
+    }
+
+    def __init__(self, *, member_resource_name: str, error_message: str, **kwargs: Any) -> None:
+        """
+        :keyword member_resource_name: The member resource name for which the publication error
+         occured. Required.
+        :paramtype member_resource_name: str
+        :keyword error_message: The error message. Required.
+        :paramtype error_message: str
+        """
+        super().__init__(**kwargs)
+        self.member_resource_name = member_resource_name
+        self.error_message = error_message
+
+
+class ErrorAdditionalInfo(_serialization.Model):
+    """The resource management error additional info.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar type: The additional info type.
+    :vartype type: str
+    :ivar info: The additional info.
+    :vartype info: JSON
+    """
+
+    _validation = {
+        "type": {"readonly": True},
+        "info": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "type": {"key": "type", "type": "str"},
+        "info": {"key": "info", "type": "object"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.type = None
+        self.info = None
+
+
+class ErrorDetail(_serialization.Model):
+    """The error detail.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar code: The error code.
+    :vartype code: str
+    :ivar message: The error message.
+    :vartype message: str
+    :ivar target: The error target.
+    :vartype target: str
+    :ivar details: The error details.
+    :vartype details: list[~azure.mgmt.securityinsight.models.ErrorDetail]
+    :ivar additional_info: The error additional info.
+    :vartype additional_info: list[~azure.mgmt.securityinsight.models.ErrorAdditionalInfo]
+    """
+
+    _validation = {
+        "code": {"readonly": True},
+        "message": {"readonly": True},
+        "target": {"readonly": True},
+        "details": {"readonly": True},
+        "additional_info": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "code": {"key": "code", "type": "str"},
+        "message": {"key": "message", "type": "str"},
+        "target": {"key": "target", "type": "str"},
+        "details": {"key": "details", "type": "[ErrorDetail]"},
+        "additional_info": {"key": "additionalInfo", "type": "[ErrorAdditionalInfo]"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.code = None
+        self.message = None
+        self.target = None
+        self.details = None
+        self.additional_info = None
+
+
+class ErrorResponse(_serialization.Model):
+    """Common error response for all Azure Resource Manager APIs to return error details for failed
+    operations. (This also follows the OData error response format.).
+
+    :ivar error: The error object.
+    :vartype error: ~azure.mgmt.securityinsight.models.ErrorDetail
+    """
+
+    _attribute_map = {
+        "error": {"key": "error", "type": "ErrorDetail"},
+    }
+
+    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs: Any) -> None:
+        """
+        :keyword error: The error object.
+        :paramtype error: ~azure.mgmt.securityinsight.models.ErrorDetail
+        """
+        super().__init__(**kwargs)
+        self.error = error
 
 
 class EventGroupingSettings(_serialization.Model):
@@ -8011,8 +8305,8 @@ class EventGroupingSettings(_serialization.Model):
     }
 
     def __init__(
-        self, *, aggregation_kind: Optional[Union[str, "_models.EventGroupingAggregationKind"]] = None, **kwargs
-    ):
+        self, *, aggregation_kind: Optional[Union[str, "_models.EventGroupingAggregationKind"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword aggregation_kind: The event grouping aggregation kinds. Known values are:
          "SingleAlert" and "AlertPerResult".
@@ -8097,8 +8391,8 @@ class ExpansionEntityQuery(EntityQuery):  # pylint: disable=too-many-instance-at
         input_fields: Optional[List[str]] = None,
         output_entity_types: Optional[List[Union[str, "_models.EntityType"]]] = None,
         query_template: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -8148,7 +8442,7 @@ class ExpansionResultAggregation(_serialization.Model):
      "Malware", "Process", "RegistryKey", "RegistryValue", "SecurityGroup", "Url", "IoTDevice",
      "SecurityAlert", "Bookmark", "MailCluster", "MailMessage", "Mailbox", "SubmissionMail", and
      "Nic".
-    :vartype entity_kind: str or ~azure.mgmt.securityinsight.models.EntityKind
+    :vartype entity_kind: str or ~azure.mgmt.securityinsight.models.EntityKindEnum
     """
 
     _validation = {
@@ -8167,11 +8461,11 @@ class ExpansionResultAggregation(_serialization.Model):
         self,
         *,
         count: int,
-        entity_kind: Union[str, "_models.EntityKind"],
+        entity_kind: Union[str, "_models.EntityKindEnum"],
         aggregation_type: Optional[str] = None,
         display_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword aggregation_type: The common type of the aggregation. (for e.g. entity field name).
         :paramtype aggregation_type: str
@@ -8185,7 +8479,7 @@ class ExpansionResultAggregation(_serialization.Model):
          "Malware", "Process", "RegistryKey", "RegistryValue", "SecurityGroup", "Url", "IoTDevice",
          "SecurityAlert", "Bookmark", "MailCluster", "MailMessage", "Mailbox", "SubmissionMail", and
          "Nic".
-        :paramtype entity_kind: str or ~azure.mgmt.securityinsight.models.EntityKind
+        :paramtype entity_kind: str or ~azure.mgmt.securityinsight.models.EntityKindEnum
         """
         super().__init__(**kwargs)
         self.aggregation_type = aggregation_type
@@ -8205,7 +8499,9 @@ class ExpansionResultsMetadata(_serialization.Model):
         "aggregations": {"key": "aggregations", "type": "[ExpansionResultAggregation]"},
     }
 
-    def __init__(self, *, aggregations: Optional[List["_models.ExpansionResultAggregation"]] = None, **kwargs):
+    def __init__(
+        self, *, aggregations: Optional[List["_models.ExpansionResultAggregation"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword aggregations: Information of the aggregated nodes in the expansion result.
         :paramtype aggregations: list[~azure.mgmt.securityinsight.models.ExpansionResultAggregation]
@@ -8260,7 +8556,7 @@ class EyesOn(Settings):
         "is_enabled": {"key": "properties.isEnabled", "type": "bool"},
     }
 
-    def __init__(self, *, etag: Optional[str] = None, **kwargs):
+    def __init__(self, *, etag: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -8284,7 +8580,7 @@ class FieldMapping(_serialization.Model):
         "column_name": {"key": "columnName", "type": "str"},
     }
 
-    def __init__(self, *, identifier: Optional[str] = None, column_name: Optional[str] = None, **kwargs):
+    def __init__(self, *, identifier: Optional[str] = None, column_name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword identifier: the V3 identifier of the entity.
         :paramtype identifier: str
@@ -8318,7 +8614,7 @@ class FileEntity(Entity):  # pylint: disable=too-many-instance-attributes
      "AzureResource", "CloudApplication", "DnsResolution", "FileHash", "Ip", "Malware", "Process",
      "RegistryKey", "RegistryValue", "SecurityGroup", "Url", "IoTDevice", "SecurityAlert",
      "Bookmark", "MailCluster", "MailMessage", "Mailbox", "SubmissionMail", and "Nic".
-    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKind
+    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKindEnum
     :ivar additional_data: A bag of custom fields that should be part of the entity and will be
      presented to the user.
     :vartype additional_data: dict[str, any]
@@ -8363,7 +8659,7 @@ class FileEntity(Entity):  # pylint: disable=too-many-instance-attributes
         "host_entity_id": {"key": "properties.hostEntityId", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: str = "File"
@@ -8414,7 +8710,7 @@ class FileEntityProperties(EntityCommonProperties):
         "host_entity_id": {"key": "hostEntityId", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.directory = None
@@ -8445,7 +8741,7 @@ class FileHashEntity(Entity):
      "AzureResource", "CloudApplication", "DnsResolution", "FileHash", "Ip", "Malware", "Process",
      "RegistryKey", "RegistryValue", "SecurityGroup", "Url", "IoTDevice", "SecurityAlert",
      "Bookmark", "MailCluster", "MailMessage", "Mailbox", "SubmissionMail", and "Nic".
-    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKind
+    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKindEnum
     :ivar additional_data: A bag of custom fields that should be part of the entity and will be
      presented to the user.
     :vartype additional_data: dict[str, any]
@@ -8483,7 +8779,7 @@ class FileHashEntity(Entity):
         "hash_value": {"key": "properties.hashValue", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: str = "FileHash"
@@ -8525,7 +8821,7 @@ class FileHashEntityProperties(EntityCommonProperties):
         "hash_value": {"key": "hashValue", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.algorithm = None
@@ -8626,8 +8922,8 @@ class FileImport(Resource):  # pylint: disable=too-many-instance-attributes
         content_type: Optional[Union[str, "_models.FileImportContentType"]] = None,
         import_file: Optional["_models.FileMetadata"] = None,
         source: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword ingestion_mode: Describes how to ingest the records in the file. Known values are:
          "IngestOnlyIfAllAreValid", "IngestAnyValidRecords", and "Unspecified".
@@ -8679,7 +8975,7 @@ class FileImportList(_serialization.Model):
         "value": {"key": "value", "type": "[FileImport]"},
     }
 
-    def __init__(self, *, value: List["_models.FileImport"], **kwargs):
+    def __init__(self, *, value: List["_models.FileImport"], **kwargs: Any) -> None:
         """
         :keyword value: Array of file imports. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.FileImport]
@@ -8726,8 +9022,8 @@ class FileMetadata(_serialization.Model):
         file_format: Optional[Union[str, "_models.FileFormat"]] = None,
         file_name: Optional[str] = None,
         file_size: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword file_format: The format of the file. Known values are: "CSV", "JSON", and
          "Unspecified".
@@ -8837,8 +9133,8 @@ class FusionAlertRule(AlertRule):  # pylint: disable=too-many-instance-attribute
         enabled: Optional[bool] = None,
         source_settings: Optional[List["_models.FusionSourceSettings"]] = None,
         scenario_exclusion_patterns: Optional[List["_models.FusionScenarioExclusionPattern"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -8961,8 +9257,8 @@ class FusionAlertRuleTemplate(AlertRuleTemplate):  # pylint: disable=too-many-in
         tactics: Optional[List[Union[str, "_models.AttackTactic"]]] = None,
         techniques: Optional[List[str]] = None,
         source_settings: Optional[List["_models.FusionTemplateSourceSetting"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword alert_rules_created_by_template_count: the number of alert rules that were created by
          this template.
@@ -9025,7 +9321,7 @@ class FusionScenarioExclusionPattern(_serialization.Model):
         "date_added_in_utc": {"key": "dateAddedInUTC", "type": "str"},
     }
 
-    def __init__(self, *, exclusion_pattern: str, date_added_in_utc: str, **kwargs):
+    def __init__(self, *, exclusion_pattern: str, date_added_in_utc: str, **kwargs: Any) -> None:
         """
         :keyword exclusion_pattern: Scenario exclusion pattern. Required.
         :paramtype exclusion_pattern: str
@@ -9070,8 +9366,8 @@ class FusionSourceSettings(_serialization.Model):
         enabled: bool,
         source_name: str,
         source_sub_types: Optional[List["_models.FusionSourceSubTypeSetting"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword enabled: Determines whether this source signal is enabled or disabled in Fusion
          detection. Required.
@@ -9131,8 +9427,8 @@ class FusionSourceSubTypeSetting(_serialization.Model):
         enabled: bool,
         source_sub_type_name: str,
         severity_filters: "_models.FusionSubTypeSeverityFilter",
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword enabled: Determines whether this source subtype under source signal is enabled or
          disabled in Fusion detection. Required.
@@ -9173,7 +9469,9 @@ class FusionSubTypeSeverityFilter(_serialization.Model):
         "filters": {"key": "filters", "type": "[FusionSubTypeSeverityFiltersItem]"},
     }
 
-    def __init__(self, *, filters: Optional[List["_models.FusionSubTypeSeverityFiltersItem"]] = None, **kwargs):
+    def __init__(
+        self, *, filters: Optional[List["_models.FusionSubTypeSeverityFiltersItem"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword filters: Individual Severity configuration settings for a given source subtype
          consumed in Fusion detection.
@@ -9207,7 +9505,7 @@ class FusionSubTypeSeverityFiltersItem(_serialization.Model):
         "enabled": {"key": "enabled", "type": "bool"},
     }
 
-    def __init__(self, *, severity: Union[str, "_models.AlertSeverity"], enabled: bool, **kwargs):
+    def __init__(self, *, severity: Union[str, "_models.AlertSeverity"], enabled: bool, **kwargs: Any) -> None:
         """
         :keyword severity: The Severity for a given source subtype consumed in Fusion detection.
          Required. Known values are: "High", "Medium", "Low", and "Informational".
@@ -9247,8 +9545,8 @@ class FusionTemplateSourceSetting(_serialization.Model):
         *,
         source_name: str,
         source_sub_types: Optional[List["_models.FusionTemplateSourceSubType"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword source_name: The name of a source signal consumed in Fusion detection. Required.
         :paramtype source_name: str
@@ -9294,8 +9592,12 @@ class FusionTemplateSourceSubType(_serialization.Model):
     }
 
     def __init__(
-        self, *, source_sub_type_name: str, severity_filter: "_models.FusionTemplateSubTypeSeverityFilter", **kwargs
-    ):
+        self,
+        *,
+        source_sub_type_name: str,
+        severity_filter: "_models.FusionTemplateSubTypeSeverityFilter",
+        **kwargs: Any
+    ) -> None:
         """
         :keyword source_sub_type_name: The name of source subtype under a source signal consumed in
          Fusion detection. Required.
@@ -9338,8 +9640,8 @@ class FusionTemplateSubTypeSeverityFilter(_serialization.Model):
         *,
         is_supported: bool,
         severity_filters: Optional[List[Union[str, "_models.AlertSeverity"]]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword is_supported: Determines whether severity configuration is supported for this source
          subtype consumed in Fusion detection. Required.
@@ -9367,13 +9669,11 @@ class GeoLocation(_serialization.Model):
     :ivar country_name: Country name according to ISO 3166 Alpha 2: the lowercase of the English
      Short Name.
     :vartype country_name: str
-    :ivar latitude: The longitude of the identified location, expressed as a floating point number
-     with range of -180 to 180, with positive numbers representing East and negative numbers
-     representing West. Latitude and longitude are derived from the city or postal code.
+    :ivar latitude: The latitude of the identified location, expressed as a floating point number
+     with range of - 90 to 90. Latitude and longitude are derived from the city or postal code.
     :vartype latitude: float
-    :ivar longitude: The latitude of the identified location, expressed as a floating point number
-     with range of - 90 to 90, with positive numbers representing North and negative numbers
-     representing South. Latitude and longitude are derived from the city or postal code.
+    :ivar longitude: The longitude of the identified location, expressed as a floating point number
+     with range of -180 to 180. Latitude and longitude are derived from the city or postal code.
     :vartype longitude: float
     :ivar state: State name.
     :vartype state: str
@@ -9399,7 +9699,7 @@ class GeoLocation(_serialization.Model):
         "state": {"key": "state", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.asn = None
@@ -9441,8 +9741,8 @@ class GetInsightsErrorKind(_serialization.Model):
         kind: Union[str, "_models.GetInsightsError"],
         error_message: str,
         query_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword kind: the query kind. Required. "Insight"
         :paramtype kind: str or ~azure.mgmt.securityinsight.models.GetInsightsError
@@ -9477,7 +9777,9 @@ class GetInsightsResultsMetadata(_serialization.Model):
         "errors": {"key": "errors", "type": "[GetInsightsErrorKind]"},
     }
 
-    def __init__(self, *, total_count: int, errors: Optional[List["_models.GetInsightsErrorKind"]] = None, **kwargs):
+    def __init__(
+        self, *, total_count: int, errors: Optional[List["_models.GetInsightsErrorKind"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword total_count: the total items found for the insights request. Required.
         :paramtype total_count: int
@@ -9500,7 +9802,7 @@ class GetQueriesResponse(_serialization.Model):
         "value": {"key": "value", "type": "[EntityQueryItem]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.EntityQueryItem"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.EntityQueryItem"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The query result values.
         :paramtype value: list[~azure.mgmt.securityinsight.models.EntityQueryItem]
@@ -9520,7 +9822,7 @@ class GitHubResourceInfo(_serialization.Model):
         "app_installation_id": {"key": "appInstallationId", "type": "str"},
     }
 
-    def __init__(self, *, app_installation_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, app_installation_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword app_installation_id: GitHub application installation id.
         :paramtype app_installation_id: str
@@ -9583,8 +9885,8 @@ class GroupingConfiguration(_serialization.Model):
         group_by_entities: Optional[List[Union[str, "_models.EntityMappingType"]]] = None,
         group_by_alert_details: Optional[List[Union[str, "_models.AlertDetail"]]] = None,
         group_by_custom_details: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword enabled: Grouping enabled. Required.
         :paramtype enabled: bool
@@ -9639,7 +9941,7 @@ class HostEntity(Entity):  # pylint: disable=too-many-instance-attributes
      "AzureResource", "CloudApplication", "DnsResolution", "FileHash", "Ip", "Malware", "Process",
      "RegistryKey", "RegistryValue", "SecurityGroup", "Url", "IoTDevice", "SecurityAlert",
      "Bookmark", "MailCluster", "MailMessage", "Mailbox", "SubmissionMail", and "Nic".
-    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKind
+    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKindEnum
     :ivar additional_data: A bag of custom fields that should be part of the entity and will be
      presented to the user.
     :vartype additional_data: dict[str, any]
@@ -9707,7 +10009,7 @@ class HostEntity(Entity):  # pylint: disable=too-many-instance-attributes
         "os_version": {"key": "properties.osVersion", "type": "str"},
     }
 
-    def __init__(self, *, os_family: Optional[Union[str, "_models.OSFamily"]] = None, **kwargs):
+    def __init__(self, *, os_family: Optional[Union[str, "_models.OSFamily"]] = None, **kwargs: Any) -> None:
         """
         :keyword os_family: The operating system type. Known values are: "Linux", "Windows", "Android",
          "IOS", and "Unknown".
@@ -9790,7 +10092,7 @@ class HostEntityProperties(EntityCommonProperties):  # pylint: disable=too-many-
         "os_version": {"key": "osVersion", "type": "str"},
     }
 
-    def __init__(self, *, os_family: Optional[Union[str, "_models.OSFamily"]] = None, **kwargs):
+    def __init__(self, *, os_family: Optional[Union[str, "_models.OSFamily"]] = None, **kwargs: Any) -> None:
         """
         :keyword os_family: The operating system type. Known values are: "Linux", "Windows", "Android",
          "IOS", and "Unknown".
@@ -9806,6 +10108,196 @@ class HostEntityProperties(EntityCommonProperties):  # pylint: disable=too-many-
         self.oms_agent_id = None
         self.os_family = os_family
         self.os_version = None
+
+
+class Hunt(ResourceWithEtag):  # pylint: disable=too-many-instance-attributes
+    """Represents a Hunt in Azure Security Insights.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.securityinsight.models.SystemData
+    :ivar etag: Etag of the azure resource.
+    :vartype etag: str
+    :ivar display_name: The display name of the hunt.
+    :vartype display_name: str
+    :ivar description: The description of the hunt.
+    :vartype description: str
+    :ivar status: The status of the hunt. Known values are: "New", "Active", "Closed", "Succeeded",
+     "Failed", and "InProgress".
+    :vartype status: str or ~azure.mgmt.securityinsight.models.Status
+    :ivar hypothesis_status: The hypothesis status of the hunt. Known values are: "Unknown",
+     "Invalidated", and "Validated".
+    :vartype hypothesis_status: str or ~azure.mgmt.securityinsight.models.HypothesisStatus
+    :ivar attack_tactics: A list of mitre attack tactics the hunt is associated with.
+    :vartype attack_tactics: list[str or ~azure.mgmt.securityinsight.models.AttackTactic]
+    :ivar attack_techniques: A list of a mitre attack techniques the hunt is associated with.
+    :vartype attack_techniques: list[str]
+    :ivar labels: List of labels relevant to this hunt.
+    :vartype labels: list[str]
+    :ivar owner: Describes a user that the hunt is assigned to.
+    :vartype owner: ~azure.mgmt.securityinsight.models.HuntOwner
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "etag": {"key": "etag", "type": "str"},
+        "display_name": {"key": "properties.displayName", "type": "str"},
+        "description": {"key": "properties.description", "type": "str"},
+        "status": {"key": "properties.status", "type": "str"},
+        "hypothesis_status": {"key": "properties.hypothesisStatus", "type": "str"},
+        "attack_tactics": {"key": "properties.attackTactics", "type": "[str]"},
+        "attack_techniques": {"key": "properties.attackTechniques", "type": "[str]"},
+        "labels": {"key": "properties.labels", "type": "[str]"},
+        "owner": {"key": "properties.owner", "type": "HuntOwner"},
+    }
+
+    def __init__(
+        self,
+        *,
+        etag: Optional[str] = None,
+        display_name: Optional[str] = None,
+        description: Optional[str] = None,
+        status: Optional[Union[str, "_models.Status"]] = None,
+        hypothesis_status: Union[str, "_models.HypothesisStatus"] = "Unknown",
+        attack_tactics: Optional[List[Union[str, "_models.AttackTactic"]]] = None,
+        attack_techniques: Optional[List[str]] = None,
+        labels: Optional[List[str]] = None,
+        owner: Optional["_models.HuntOwner"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword etag: Etag of the azure resource.
+        :paramtype etag: str
+        :keyword display_name: The display name of the hunt.
+        :paramtype display_name: str
+        :keyword description: The description of the hunt.
+        :paramtype description: str
+        :keyword status: The status of the hunt. Known values are: "New", "Active", "Closed",
+         "Succeeded", "Failed", and "InProgress".
+        :paramtype status: str or ~azure.mgmt.securityinsight.models.Status
+        :keyword hypothesis_status: The hypothesis status of the hunt. Known values are: "Unknown",
+         "Invalidated", and "Validated".
+        :paramtype hypothesis_status: str or ~azure.mgmt.securityinsight.models.HypothesisStatus
+        :keyword attack_tactics: A list of mitre attack tactics the hunt is associated with.
+        :paramtype attack_tactics: list[str or ~azure.mgmt.securityinsight.models.AttackTactic]
+        :keyword attack_techniques: A list of a mitre attack techniques the hunt is associated with.
+        :paramtype attack_techniques: list[str]
+        :keyword labels: List of labels relevant to this hunt.
+        :paramtype labels: list[str]
+        :keyword owner: Describes a user that the hunt is assigned to.
+        :paramtype owner: ~azure.mgmt.securityinsight.models.HuntOwner
+        """
+        super().__init__(etag=etag, **kwargs)
+        self.display_name = display_name
+        self.description = description
+        self.status = status
+        self.hypothesis_status = hypothesis_status
+        self.attack_tactics = attack_tactics
+        self.attack_techniques = attack_techniques
+        self.labels = labels
+        self.owner = owner
+
+
+class HuntComment(ResourceWithEtag):
+    """Represents a Hunt Comment in Azure Security Insights.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.securityinsight.models.SystemData
+    :ivar etag: Etag of the azure resource.
+    :vartype etag: str
+    :ivar message: The message for the comment.
+    :vartype message: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "etag": {"key": "etag", "type": "str"},
+        "message": {"key": "properties.message", "type": "str"},
+    }
+
+    def __init__(self, *, etag: Optional[str] = None, message: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword etag: Etag of the azure resource.
+        :paramtype etag: str
+        :keyword message: The message for the comment.
+        :paramtype message: str
+        """
+        super().__init__(etag=etag, **kwargs)
+        self.message = message
+
+
+class HuntCommentList(_serialization.Model):
+    """List of all hunt comments.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar next_link: URL to fetch the next set of hunt comments.
+    :vartype next_link: str
+    :ivar value: Array of hunt comments. Required.
+    :vartype value: list[~azure.mgmt.securityinsight.models.HuntComment]
+    """
+
+    _validation = {
+        "next_link": {"readonly": True},
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "next_link": {"key": "nextLink", "type": "str"},
+        "value": {"key": "value", "type": "[HuntComment]"},
+    }
+
+    def __init__(self, *, value: List["_models.HuntComment"], **kwargs: Any) -> None:
+        """
+        :keyword value: Array of hunt comments. Required.
+        :paramtype value: list[~azure.mgmt.securityinsight.models.HuntComment]
+        """
+        super().__init__(**kwargs)
+        self.next_link = None
+        self.value = value
 
 
 class HuntingBookmark(Entity):  # pylint: disable=too-many-instance-attributes
@@ -9830,7 +10322,7 @@ class HuntingBookmark(Entity):  # pylint: disable=too-many-instance-attributes
      "AzureResource", "CloudApplication", "DnsResolution", "FileHash", "Ip", "Malware", "Process",
      "RegistryKey", "RegistryValue", "SecurityGroup", "Url", "IoTDevice", "SecurityAlert",
      "Bookmark", "MailCluster", "MailMessage", "Mailbox", "SubmissionMail", and "Nic".
-    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKind
+    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKindEnum
     :ivar additional_data: A bag of custom fields that should be part of the entity and will be
      presented to the user.
     :vartype additional_data: dict[str, any]
@@ -9906,8 +10398,8 @@ class HuntingBookmark(Entity):  # pylint: disable=too-many-instance-attributes
         updated: Optional[datetime.datetime] = None,
         updated_by: Optional["_models.UserInfo"] = None,
         incident_info: Optional["_models.IncidentInfo"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword created: The time the bookmark was created.
         :paramtype created: ~datetime.datetime
@@ -10023,8 +10515,8 @@ class HuntingBookmarkProperties(EntityCommonProperties):  # pylint: disable=too-
         updated: Optional[datetime.datetime] = None,
         updated_by: Optional["_models.UserInfo"] = None,
         incident_info: Optional["_models.IncidentInfo"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword created: The time the bookmark was created.
         :paramtype created: ~datetime.datetime
@@ -10061,6 +10553,204 @@ class HuntingBookmarkProperties(EntityCommonProperties):  # pylint: disable=too-
         self.updated = updated
         self.updated_by = updated_by
         self.incident_info = incident_info
+
+
+class HuntList(_serialization.Model):
+    """List all the hunts.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar next_link: URL to fetch the next set of hunts.
+    :vartype next_link: str
+    :ivar value: Array of hunts. Required.
+    :vartype value: list[~azure.mgmt.securityinsight.models.Hunt]
+    """
+
+    _validation = {
+        "next_link": {"readonly": True},
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "next_link": {"key": "nextLink", "type": "str"},
+        "value": {"key": "value", "type": "[Hunt]"},
+    }
+
+    def __init__(self, *, value: List["_models.Hunt"], **kwargs: Any) -> None:
+        """
+        :keyword value: Array of hunts. Required.
+        :paramtype value: list[~azure.mgmt.securityinsight.models.Hunt]
+        """
+        super().__init__(**kwargs)
+        self.next_link = None
+        self.value = value
+
+
+class HuntOwner(_serialization.Model):
+    """Describes a user that the hunt is assigned to.
+
+    :ivar email: The email of the user the hunt is assigned to.
+    :vartype email: str
+    :ivar assigned_to: The name of the user the hunt is assigned to.
+    :vartype assigned_to: str
+    :ivar object_id: The object id of the user the hunt is assigned to.
+    :vartype object_id: str
+    :ivar user_principal_name: The user principal name of the user the hunt is assigned to.
+    :vartype user_principal_name: str
+    :ivar owner_type: The type of the owner the hunt is assigned to. Known values are: "Unknown",
+     "User", and "Group".
+    :vartype owner_type: str or ~azure.mgmt.securityinsight.models.OwnerType
+    """
+
+    _attribute_map = {
+        "email": {"key": "email", "type": "str"},
+        "assigned_to": {"key": "assignedTo", "type": "str"},
+        "object_id": {"key": "objectId", "type": "str"},
+        "user_principal_name": {"key": "userPrincipalName", "type": "str"},
+        "owner_type": {"key": "ownerType", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        email: Optional[str] = None,
+        assigned_to: Optional[str] = None,
+        object_id: Optional[str] = None,
+        user_principal_name: Optional[str] = None,
+        owner_type: Optional[Union[str, "_models.OwnerType"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword email: The email of the user the hunt is assigned to.
+        :paramtype email: str
+        :keyword assigned_to: The name of the user the hunt is assigned to.
+        :paramtype assigned_to: str
+        :keyword object_id: The object id of the user the hunt is assigned to.
+        :paramtype object_id: str
+        :keyword user_principal_name: The user principal name of the user the hunt is assigned to.
+        :paramtype user_principal_name: str
+        :keyword owner_type: The type of the owner the hunt is assigned to. Known values are:
+         "Unknown", "User", and "Group".
+        :paramtype owner_type: str or ~azure.mgmt.securityinsight.models.OwnerType
+        """
+        super().__init__(**kwargs)
+        self.email = email
+        self.assigned_to = assigned_to
+        self.object_id = object_id
+        self.user_principal_name = user_principal_name
+        self.owner_type = owner_type
+
+
+class HuntRelation(ResourceWithEtag):
+    """Represents a Hunt Relation in Azure Security Insights.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.securityinsight.models.SystemData
+    :ivar etag: Etag of the azure resource.
+    :vartype etag: str
+    :ivar related_resource_id: The id of the related resource.
+    :vartype related_resource_id: str
+    :ivar related_resource_name: The name of the related resource.
+    :vartype related_resource_name: str
+    :ivar relation_type: The type of the hunt relation.
+    :vartype relation_type: str
+    :ivar related_resource_kind: The resource that the relation is related to.
+    :vartype related_resource_kind: str
+    :ivar labels: List of labels relevant to this hunt.
+    :vartype labels: list[str]
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "related_resource_name": {"readonly": True},
+        "relation_type": {"readonly": True},
+        "related_resource_kind": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "etag": {"key": "etag", "type": "str"},
+        "related_resource_id": {"key": "properties.relatedResourceId", "type": "str"},
+        "related_resource_name": {"key": "properties.relatedResourceName", "type": "str"},
+        "relation_type": {"key": "properties.relationType", "type": "str"},
+        "related_resource_kind": {"key": "properties.relatedResourceKind", "type": "str"},
+        "labels": {"key": "properties.labels", "type": "[str]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        etag: Optional[str] = None,
+        related_resource_id: Optional[str] = None,
+        labels: Optional[List[str]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword etag: Etag of the azure resource.
+        :paramtype etag: str
+        :keyword related_resource_id: The id of the related resource.
+        :paramtype related_resource_id: str
+        :keyword labels: List of labels relevant to this hunt.
+        :paramtype labels: list[str]
+        """
+        super().__init__(etag=etag, **kwargs)
+        self.related_resource_id = related_resource_id
+        self.related_resource_name = None
+        self.relation_type = None
+        self.related_resource_kind = None
+        self.labels = labels
+
+
+class HuntRelationList(_serialization.Model):
+    """List of all the hunt relations.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar next_link: URL to fetch the next set of hunt relations.
+    :vartype next_link: str
+    :ivar value: Array of hunt relations. Required.
+    :vartype value: list[~azure.mgmt.securityinsight.models.HuntRelation]
+    """
+
+    _validation = {
+        "next_link": {"readonly": True},
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "next_link": {"key": "nextLink", "type": "str"},
+        "value": {"key": "value", "type": "[HuntRelation]"},
+    }
+
+    def __init__(self, *, value: List["_models.HuntRelation"], **kwargs: Any) -> None:
+        """
+        :keyword value: Array of hunt relations. Required.
+        :paramtype value: list[~azure.mgmt.securityinsight.models.HuntRelation]
+        """
+        super().__init__(**kwargs)
+        self.next_link = None
+        self.value = value
 
 
 class Incident(ResourceWithEtag):  # pylint: disable=too-many-instance-attributes
@@ -10140,6 +10830,8 @@ class Incident(ResourceWithEtag):  # pylint: disable=too-many-instance-attribute
         "additional_data": {"readonly": True},
         "related_analytic_rule_ids": {"readonly": True},
         "incident_url": {"readonly": True},
+        "provider_name": {"readonly": True},
+        "provider_incident_id": {"readonly": True},
     }
 
     _attribute_map = {
@@ -10185,11 +10877,9 @@ class Incident(ResourceWithEtag):  # pylint: disable=too-many-instance-attribute
         labels: Optional[List["_models.IncidentLabel"]] = None,
         first_activity_time_utc: Optional[datetime.datetime] = None,
         last_activity_time_utc: Optional[datetime.datetime] = None,
-        provider_name: Optional[str] = None,
-        provider_incident_id: Optional[str] = None,
         team_information: Optional["_models.TeamInformation"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -10220,10 +10910,6 @@ class Incident(ResourceWithEtag):  # pylint: disable=too-many-instance-attribute
         :paramtype first_activity_time_utc: ~datetime.datetime
         :keyword last_activity_time_utc: The time of the last activity in the incident.
         :paramtype last_activity_time_utc: ~datetime.datetime
-        :keyword provider_name: The name of the source provider that generated the incident.
-        :paramtype provider_name: str
-        :keyword provider_incident_id: The incident ID assigned by the incident provider.
-        :paramtype provider_incident_id: str
         :keyword team_information: Describes a team for the incident.
         :paramtype team_information: ~azure.mgmt.securityinsight.models.TeamInformation
         """
@@ -10245,8 +10931,8 @@ class Incident(ResourceWithEtag):  # pylint: disable=too-many-instance-attribute
         self.additional_data = None
         self.related_analytic_rule_ids = None
         self.incident_url = None
-        self.provider_name = provider_name
-        self.provider_incident_id = provider_incident_id
+        self.provider_name = None
+        self.provider_incident_id = None
         self.team_information = team_information
 
 
@@ -10292,7 +10978,7 @@ class IncidentAdditionalData(_serialization.Model):
         "provider_incident_url": {"key": "providerIncidentUrl", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.alerts_count = None
@@ -10321,7 +11007,7 @@ class IncidentAlertList(_serialization.Model):
         "value": {"key": "value", "type": "[SecurityAlert]"},
     }
 
-    def __init__(self, *, value: List["_models.SecurityAlert"], **kwargs):
+    def __init__(self, *, value: List["_models.SecurityAlert"], **kwargs: Any) -> None:
         """
         :keyword value: Array of incident alerts. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.SecurityAlert]
@@ -10347,7 +11033,7 @@ class IncidentBookmarkList(_serialization.Model):
         "value": {"key": "value", "type": "[HuntingBookmark]"},
     }
 
-    def __init__(self, *, value: List["_models.HuntingBookmark"], **kwargs):
+    def __init__(self, *, value: List["_models.HuntingBookmark"], **kwargs: Any) -> None:
         """
         :keyword value: Array of incident bookmarks. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.HuntingBookmark]
@@ -10406,7 +11092,7 @@ class IncidentComment(ResourceWithEtag):
         "author": {"key": "properties.author", "type": "ClientInfo"},
     }
 
-    def __init__(self, *, etag: Optional[str] = None, message: Optional[str] = None, **kwargs):
+    def __init__(self, *, etag: Optional[str] = None, message: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -10443,7 +11129,7 @@ class IncidentCommentList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: List["_models.IncidentComment"], **kwargs):
+    def __init__(self, *, value: List["_models.IncidentComment"], **kwargs: Any) -> None:
         """
         :keyword value: Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.IncidentComment]
@@ -10479,8 +11165,8 @@ class IncidentConfiguration(_serialization.Model):
         *,
         create_incident: bool,
         grouping_configuration: Optional["_models.GroupingConfiguration"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword create_incident: Create incidents from alerts triggered by this analytics rule.
          Required.
@@ -10513,8 +11199,8 @@ class IncidentEntitiesResponse(_serialization.Model):
         *,
         entities: Optional[List["_models.Entity"]] = None,
         meta_data: Optional[List["_models.IncidentEntitiesResultsMetadata"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword entities: Array of the incident related entities.
         :paramtype entities: list[~azure.mgmt.securityinsight.models.Entity]
@@ -10536,7 +11222,7 @@ class IncidentEntitiesResultsMetadata(_serialization.Model):
      "Malware", "Process", "RegistryKey", "RegistryValue", "SecurityGroup", "Url", "IoTDevice",
      "SecurityAlert", "Bookmark", "MailCluster", "MailMessage", "Mailbox", "SubmissionMail", and
      "Nic".
-    :vartype entity_kind: str or ~azure.mgmt.securityinsight.models.EntityKind
+    :vartype entity_kind: str or ~azure.mgmt.securityinsight.models.EntityKindEnum
     :ivar count: Total number of aggregations of the given kind in the incident related entities
      result. Required.
     :vartype count: int
@@ -10552,14 +11238,14 @@ class IncidentEntitiesResultsMetadata(_serialization.Model):
         "count": {"key": "count", "type": "int"},
     }
 
-    def __init__(self, *, entity_kind: Union[str, "_models.EntityKind"], count: int, **kwargs):
+    def __init__(self, *, entity_kind: Union[str, "_models.EntityKindEnum"], count: int, **kwargs: Any) -> None:
         """
         :keyword entity_kind: The kind of the aggregated entity. Required. Known values are: "Account",
          "Host", "File", "AzureResource", "CloudApplication", "DnsResolution", "FileHash", "Ip",
          "Malware", "Process", "RegistryKey", "RegistryValue", "SecurityGroup", "Url", "IoTDevice",
          "SecurityAlert", "Bookmark", "MailCluster", "MailMessage", "Mailbox", "SubmissionMail", and
          "Nic".
-        :paramtype entity_kind: str or ~azure.mgmt.securityinsight.models.EntityKind
+        :paramtype entity_kind: str or ~azure.mgmt.securityinsight.models.EntityKindEnum
         :keyword count: Total number of aggregations of the given kind in the incident related entities
          result. Required.
         :paramtype count: int
@@ -10597,8 +11283,8 @@ class IncidentInfo(_serialization.Model):
         severity: Optional[Union[str, "_models.IncidentSeverity"]] = None,
         title: Optional[str] = None,
         relation_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword incident_id: Incident Id.
         :paramtype incident_id: str
@@ -10640,7 +11326,7 @@ class IncidentLabel(_serialization.Model):
         "label_type": {"key": "labelType", "type": "str"},
     }
 
-    def __init__(self, *, label_name: str, **kwargs):
+    def __init__(self, *, label_name: str, **kwargs: Any) -> None:
         """
         :keyword label_name: The name of the label. Required.
         :paramtype label_name: str
@@ -10673,7 +11359,7 @@ class IncidentList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: List["_models.Incident"], **kwargs):
+    def __init__(self, *, value: List["_models.Incident"], **kwargs: Any) -> None:
         """
         :keyword value: Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.Incident]
@@ -10715,8 +11401,8 @@ class IncidentOwnerInfo(_serialization.Model):
         object_id: Optional[str] = None,
         user_principal_name: Optional[str] = None,
         owner_type: Optional[Union[str, "_models.OwnerType"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword email: The email of the user the incident is assigned to.
         :paramtype email: str
@@ -10782,8 +11468,8 @@ class IncidentPropertiesAction(_serialization.Model):
         classification_comment: Optional[str] = None,
         owner: Optional["_models.IncidentOwnerInfo"] = None,
         labels: Optional[List["_models.IncidentLabel"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword severity: The severity of the incident. Known values are: "High", "Medium", "Low", and
          "Informational".
@@ -10886,8 +11572,8 @@ class IncidentTask(ResourceWithEtag):  # pylint: disable=too-many-instance-attri
         description: Optional[str] = None,
         created_by: Optional["_models.ClientInfo"] = None,
         last_modified_by: Optional["_models.ClientInfo"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -10928,8 +11614,8 @@ class IncidentTaskList(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.IncidentTask"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.IncidentTask"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value:
         :paramtype value: list[~azure.mgmt.securityinsight.models.IncidentTask]
@@ -10980,8 +11666,8 @@ class InsightQueryItem(EntityQueryItem):
         name: Optional[str] = None,
         type: Optional[str] = None,
         properties: Optional["_models.InsightQueryItemProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Query Template ARM Name.
         :paramtype name: str
@@ -11061,8 +11747,8 @@ class InsightQueryItemProperties(EntityQueryItemProperties):  # pylint: disable=
         additional_query: Optional["_models.InsightQueryItemPropertiesAdditionalQuery"] = None,
         default_time_range: Optional["_models.InsightQueryItemPropertiesDefaultTimeRange"] = None,
         reference_time_range: Optional["_models.InsightQueryItemPropertiesReferenceTimeRange"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword data_types: Data types for template.
         :paramtype data_types:
@@ -11127,7 +11813,7 @@ class InsightQueryItemPropertiesAdditionalQuery(_serialization.Model):
         "text": {"key": "text", "type": "str"},
     }
 
-    def __init__(self, *, query: Optional[str] = None, text: Optional[str] = None, **kwargs):
+    def __init__(self, *, query: Optional[str] = None, text: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword query: The insight query.
         :paramtype query: str
@@ -11153,7 +11839,7 @@ class InsightQueryItemPropertiesDefaultTimeRange(_serialization.Model):
         "after_range": {"key": "afterRange", "type": "str"},
     }
 
-    def __init__(self, *, before_range: Optional[str] = None, after_range: Optional[str] = None, **kwargs):
+    def __init__(self, *, before_range: Optional[str] = None, after_range: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword before_range: The padding for the start time of the query.
         :paramtype before_range: str
@@ -11176,7 +11862,7 @@ class InsightQueryItemPropertiesReferenceTimeRange(_serialization.Model):
         "before_range": {"key": "beforeRange", "type": "str"},
     }
 
-    def __init__(self, *, before_range: Optional[str] = None, **kwargs):
+    def __init__(self, *, before_range: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword before_range: Additional query time for looking back.
         :paramtype before_range: str
@@ -11216,8 +11902,8 @@ class InsightQueryItemPropertiesTableQuery(_serialization.Model):
         queries_definitions: Optional[
             List["_models.InsightQueryItemPropertiesTableQueryQueriesDefinitionsItem"]
         ] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword columns_definitions: List of insight column definitions.
         :paramtype columns_definitions:
@@ -11255,8 +11941,8 @@ class InsightQueryItemPropertiesTableQueryColumnsDefinitionsItem(_serialization.
         header: Optional[str] = None,
         output_type: Optional[Union[str, "_models.OutputType"]] = None,
         support_deep_link: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword header: Insight column header.
         :paramtype header: str
@@ -11305,8 +11991,8 @@ class InsightQueryItemPropertiesTableQueryQueriesDefinitionsItem(_serialization.
         link_columns_definitions: Optional[
             List["_models.InsightQueryItemPropertiesTableQueryQueriesDefinitionsPropertiesItemsItem"]
         ] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword filter: Insight column header.
         :paramtype filter: str
@@ -11339,7 +12025,7 @@ class InsightQueryItemPropertiesTableQueryQueriesDefinitionsPropertiesItemsItem(
         "query": {"key": "Query", "type": "str"},
     }
 
-    def __init__(self, *, projected_name: Optional[str] = None, query: Optional[str] = None, **kwargs):
+    def __init__(self, *, projected_name: Optional[str] = None, query: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword projected_name: Insight Link Definition Projected Name.
         :paramtype projected_name: str
@@ -11370,8 +12056,8 @@ class InsightsTableResult(_serialization.Model):
         *,
         columns: Optional[List["_models.InsightsTableResultColumnsItem"]] = None,
         rows: Optional[List[List[str]]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword columns: Columns Metadata of the table.
         :paramtype columns: list[~azure.mgmt.securityinsight.models.InsightsTableResultColumnsItem]
@@ -11397,7 +12083,7 @@ class InsightsTableResultColumnsItem(_serialization.Model):
         "name": {"key": "name", "type": "str"},
     }
 
-    def __init__(self, *, type: Optional[str] = None, name: Optional[str] = None, **kwargs):
+    def __init__(self, *, type: Optional[str] = None, name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword type: the type of the colum.
         :paramtype type: str
@@ -11440,8 +12126,8 @@ class Instructions(_serialization.Model):
         actions_to_be_performed: str,
         recommendation_importance: str,
         how_to_perform_action_details: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword actions_to_be_performed: What actions should be taken to complete the recommendation.
          Required.
@@ -11478,7 +12164,9 @@ class InstructionStepsInstructionsItem(ConnectorInstructionModelBase):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, *, type: Union[str, "_models.SettingType"], parameters: Optional[JSON] = None, **kwargs):
+    def __init__(
+        self, *, type: Union[str, "_models.SettingType"], parameters: Optional[JSON] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword parameters: The parameters for the setting.
         :paramtype parameters: JSON
@@ -11497,10 +12185,10 @@ class IoTCheckRequirements(DataConnectorsCheckRequirements):
     :ivar kind: Describes the kind of connector to be checked. Required. Known values are:
      "AzureActiveDirectory", "AzureSecurityCenter", "MicrosoftCloudAppSecurity",
      "ThreatIntelligence", "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM",
-     "Office365Project", "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "Office365Project", "MicrosoftPurviewInformationProtection", "OfficePowerBI",
+     "AmazonWebServicesCloudTrail", "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     :ivar subscription_id: The subscription id to connect to, and get the data from.
     :vartype subscription_id: str
@@ -11515,7 +12203,7 @@ class IoTCheckRequirements(DataConnectorsCheckRequirements):
         "subscription_id": {"key": "properties.subscriptionId", "type": "str"},
     }
 
-    def __init__(self, *, subscription_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, subscription_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword subscription_id: The subscription id to connect to, and get the data from.
         :paramtype subscription_id: str
@@ -11548,10 +12236,10 @@ class IoTDataConnector(DataConnector):
     :ivar kind: The data connector kind. Required. Known values are: "AzureActiveDirectory",
      "AzureSecurityCenter", "MicrosoftCloudAppSecurity", "ThreatIntelligence",
      "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM", "Office365Project",
-     "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "MicrosoftPurviewInformationProtection", "OfficePowerBI", "AmazonWebServicesCloudTrail",
+     "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     :ivar data_types: The available data types for the connector.
     :vartype data_types: ~azure.mgmt.securityinsight.models.AlertsDataTypeOfDataConnector
@@ -11584,8 +12272,8 @@ class IoTDataConnector(DataConnector):
         etag: Optional[str] = None,
         data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None,
         subscription_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -11619,8 +12307,8 @@ class IoTDataConnectorProperties(DataConnectorWithAlertsProperties):
         *,
         data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None,
         subscription_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword data_types: The available data types for the connector.
         :paramtype data_types: ~azure.mgmt.securityinsight.models.AlertsDataTypeOfDataConnector
@@ -11653,7 +12341,7 @@ class IoTDeviceEntity(Entity):  # pylint: disable=too-many-instance-attributes
      "AzureResource", "CloudApplication", "DnsResolution", "FileHash", "Ip", "Malware", "Process",
      "RegistryKey", "RegistryValue", "SecurityGroup", "Url", "IoTDevice", "SecurityAlert",
      "Bookmark", "MailCluster", "MailMessage", "Mailbox", "SubmissionMail", and "Nic".
-    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKind
+    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKindEnum
     :ivar additional_data: A bag of custom fields that should be part of the entity and will be
      presented to the user.
     :vartype additional_data: dict[str, any]
@@ -11795,8 +12483,8 @@ class IoTDeviceEntity(Entity):  # pylint: disable=too-many-instance-attributes
     }
 
     def __init__(  # pylint: disable=too-many-locals
-        self, *, importance: Optional[Union[str, "_models.DeviceImportance"]] = None, **kwargs
-    ):
+        self, *, importance: Optional[Union[str, "_models.DeviceImportance"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword importance: Device importance, determines if the device classified as 'crown jewel'.
          Known values are: "Unknown", "Low", "Normal", and "High".
@@ -11972,8 +12660,8 @@ class IoTDeviceEntityProperties(EntityCommonProperties):  # pylint: disable=too-
     }
 
     def __init__(  # pylint: disable=too-many-locals
-        self, *, importance: Optional[Union[str, "_models.DeviceImportance"]] = None, **kwargs
-    ):
+        self, *, importance: Optional[Union[str, "_models.DeviceImportance"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword importance: Device importance, determines if the device classified as 'crown jewel'.
          Known values are: "Unknown", "Low", "Normal", and "High".
@@ -12032,7 +12720,7 @@ class IpEntity(Entity):
      "AzureResource", "CloudApplication", "DnsResolution", "FileHash", "Ip", "Malware", "Process",
      "RegistryKey", "RegistryValue", "SecurityGroup", "Url", "IoTDevice", "SecurityAlert",
      "Bookmark", "MailCluster", "MailMessage", "Mailbox", "SubmissionMail", and "Nic".
-    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKind
+    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKindEnum
     :ivar additional_data: A bag of custom fields that should be part of the entity and will be
      presented to the user.
     :vartype additional_data: dict[str, any]
@@ -12073,7 +12761,7 @@ class IpEntity(Entity):
         "threat_intelligence": {"key": "properties.threatIntelligence", "type": "[ThreatIntelligence]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: str = "Ip"
@@ -12119,12 +12807,161 @@ class IpEntityProperties(EntityCommonProperties):
         "threat_intelligence": {"key": "threatIntelligence", "type": "[ThreatIntelligence]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.address = None
         self.location = None
         self.threat_intelligence = None
+
+
+class Job(ResourceWithEtag):
+    """The assignment job.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.securityinsight.models.SystemData
+    :ivar etag: Etag of the azure resource.
+    :vartype etag: str
+    :ivar end_time: The time the job completed.
+    :vartype end_time: ~datetime.datetime
+    :ivar items: List of items published by the job.
+    :vartype items: list[~azure.mgmt.securityinsight.models.JobItem]
+    :ivar provisioning_state: State of the job. Known values are: "Accepted", "InProgress",
+     "Succeeded", "Failed", and "Canceled".
+    :vartype provisioning_state: str or ~azure.mgmt.securityinsight.models.ProvisioningState
+    :ivar start_time: The time the job started.
+    :vartype start_time: ~datetime.datetime
+    :ivar error_message: Message to describe error, if an error exists.
+    :vartype error_message: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "end_time": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+        "start_time": {"readonly": True},
+        "error_message": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "etag": {"key": "etag", "type": "str"},
+        "end_time": {"key": "properties.endTime", "type": "iso-8601"},
+        "items": {"key": "properties.items", "type": "[JobItem]"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "start_time": {"key": "properties.startTime", "type": "iso-8601"},
+        "error_message": {"key": "properties.errorMessage", "type": "str"},
+    }
+
+    def __init__(
+        self, *, etag: Optional[str] = None, items: Optional[List["_models.JobItem"]] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword etag: Etag of the azure resource.
+        :paramtype etag: str
+        :keyword items: List of items published by the job.
+        :paramtype items: list[~azure.mgmt.securityinsight.models.JobItem]
+        """
+        super().__init__(etag=etag, **kwargs)
+        self.end_time = None
+        self.items = items
+        self.provisioning_state = None
+        self.start_time = None
+        self.error_message = None
+
+
+class JobItem(_serialization.Model):
+    """An entity describing the publish status of a content item.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar resource_id: The resource id of the content item.
+    :vartype resource_id: str
+    :ivar status: Status of the item publication. Known values are: "New", "Active", "Closed",
+     "Succeeded", "Failed", and "InProgress".
+    :vartype status: str or ~azure.mgmt.securityinsight.models.Status
+    :ivar execution_time: The time the item publishing was completed.
+    :vartype execution_time: ~datetime.datetime
+    :ivar errors: The list of error descriptions if the item publication fails.
+    :vartype errors: list[~azure.mgmt.securityinsight.models.Error]
+    """
+
+    _validation = {
+        "status": {"readonly": True},
+        "execution_time": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "resource_id": {"key": "resourceId", "type": "str"},
+        "status": {"key": "status", "type": "str"},
+        "execution_time": {"key": "executionTime", "type": "iso-8601"},
+        "errors": {"key": "errors", "type": "[Error]"},
+    }
+
+    def __init__(
+        self, *, resource_id: Optional[str] = None, errors: Optional[List["_models.Error"]] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword resource_id: The resource id of the content item.
+        :paramtype resource_id: str
+        :keyword errors: The list of error descriptions if the item publication fails.
+        :paramtype errors: list[~azure.mgmt.securityinsight.models.Error]
+        """
+        super().__init__(**kwargs)
+        self.resource_id = resource_id
+        self.status = None
+        self.execution_time = None
+        self.errors = errors
+
+
+class JobList(_serialization.Model):
+    """List of all the jobs.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar next_link: URL to fetch the next set of jobs.
+    :vartype next_link: str
+    :ivar value: Array of jobs. Required.
+    :vartype value: list[~azure.mgmt.securityinsight.models.Job]
+    """
+
+    _validation = {
+        "next_link": {"readonly": True},
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "next_link": {"key": "nextLink", "type": "str"},
+        "value": {"key": "value", "type": "[Job]"},
+    }
+
+    def __init__(self, *, value: List["_models.Job"], **kwargs: Any) -> None:
+        """
+        :keyword value: Array of jobs. Required.
+        :paramtype value: list[~azure.mgmt.securityinsight.models.Job]
+        """
+        super().__init__(**kwargs)
+        self.next_link = None
+        self.value = value
 
 
 class MailboxEntity(Entity):  # pylint: disable=too-many-instance-attributes
@@ -12149,7 +12986,7 @@ class MailboxEntity(Entity):  # pylint: disable=too-many-instance-attributes
      "AzureResource", "CloudApplication", "DnsResolution", "FileHash", "Ip", "Malware", "Process",
      "RegistryKey", "RegistryValue", "SecurityGroup", "Url", "IoTDevice", "SecurityAlert",
      "Bookmark", "MailCluster", "MailMessage", "Mailbox", "SubmissionMail", and "Nic".
-    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKind
+    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKindEnum
     :ivar additional_data: A bag of custom fields that should be part of the entity and will be
      presented to the user.
     :vartype additional_data: dict[str, any]
@@ -12195,7 +13032,7 @@ class MailboxEntity(Entity):  # pylint: disable=too-many-instance-attributes
         "external_directory_object_id": {"key": "properties.externalDirectoryObjectId", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: str = "Mailbox"
@@ -12247,7 +13084,7 @@ class MailboxEntityProperties(EntityCommonProperties):
         "external_directory_object_id": {"key": "externalDirectoryObjectId", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.mailbox_primary_address = None
@@ -12278,7 +13115,7 @@ class MailClusterEntity(Entity):  # pylint: disable=too-many-instance-attributes
      "AzureResource", "CloudApplication", "DnsResolution", "FileHash", "Ip", "Malware", "Process",
      "RegistryKey", "RegistryValue", "SecurityGroup", "Url", "IoTDevice", "SecurityAlert",
      "Bookmark", "MailCluster", "MailMessage", "Mailbox", "SubmissionMail", and "Nic".
-    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKind
+    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKindEnum
     :ivar additional_data: A bag of custom fields that should be part of the entity and will be
      presented to the user.
     :vartype additional_data: dict[str, any]
@@ -12368,7 +13205,7 @@ class MailClusterEntity(Entity):  # pylint: disable=too-many-instance-attributes
         "cluster_group": {"key": "properties.clusterGroup", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: str = "MailCluster"
@@ -12475,7 +13312,7 @@ class MailClusterEntityProperties(EntityCommonProperties):  # pylint: disable=to
         "cluster_group": {"key": "clusterGroup", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.network_message_ids = None
@@ -12517,7 +13354,7 @@ class MailMessageEntity(Entity):  # pylint: disable=too-many-instance-attributes
      "AzureResource", "CloudApplication", "DnsResolution", "FileHash", "Ip", "Malware", "Process",
      "RegistryKey", "RegistryValue", "SecurityGroup", "Url", "IoTDevice", "SecurityAlert",
      "Bookmark", "MailCluster", "MailMessage", "Mailbox", "SubmissionMail", and "Nic".
-    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKind
+    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKindEnum
     :ivar additional_data: A bag of custom fields that should be part of the entity and will be
      presented to the user.
     :vartype additional_data: dict[str, any]
@@ -12655,8 +13492,8 @@ class MailMessageEntity(Entity):  # pylint: disable=too-many-instance-attributes
         antispam_direction: Optional[Union[str, "_models.AntispamMailDirection"]] = None,
         delivery_action: Optional[Union[str, "_models.DeliveryAction"]] = None,
         delivery_location: Optional[Union[str, "_models.DeliveryLocation"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword body_fingerprint_bin1: The bodyFingerprintBin1.
         :paramtype body_fingerprint_bin1: int
@@ -12843,8 +13680,8 @@ class MailMessageEntityProperties(EntityCommonProperties):  # pylint: disable=to
         antispam_direction: Optional[Union[str, "_models.AntispamMailDirection"]] = None,
         delivery_action: Optional[Union[str, "_models.DeliveryAction"]] = None,
         delivery_location: Optional[Union[str, "_models.DeliveryLocation"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword body_fingerprint_bin1: The bodyFingerprintBin1.
         :paramtype body_fingerprint_bin1: int
@@ -12918,7 +13755,7 @@ class MalwareEntity(Entity):  # pylint: disable=too-many-instance-attributes
      "AzureResource", "CloudApplication", "DnsResolution", "FileHash", "Ip", "Malware", "Process",
      "RegistryKey", "RegistryValue", "SecurityGroup", "Url", "IoTDevice", "SecurityAlert",
      "Bookmark", "MailCluster", "MailMessage", "Mailbox", "SubmissionMail", and "Nic".
-    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKind
+    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKindEnum
     :ivar additional_data: A bag of custom fields that should be part of the entity and will be
      presented to the user.
     :vartype additional_data: dict[str, any]
@@ -12964,7 +13801,7 @@ class MalwareEntity(Entity):  # pylint: disable=too-many-instance-attributes
         "process_entity_ids": {"key": "properties.processEntityIds", "type": "[str]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: str = "Malware"
@@ -13016,7 +13853,7 @@ class MalwareEntityProperties(EntityCommonProperties):
         "process_entity_ids": {"key": "processEntityIds", "type": "[str]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.category = None
@@ -13045,7 +13882,7 @@ class ManualTriggerRequestBody(_serialization.Model):
         "logic_apps_resource_id": {"key": "logicAppsResourceId", "type": "str"},
     }
 
-    def __init__(self, *, logic_apps_resource_id: str, tenant_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, logic_apps_resource_id: str, tenant_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword tenant_id:
         :paramtype tenant_id: str
@@ -13065,10 +13902,10 @@ class MCASCheckRequirements(DataConnectorsCheckRequirements):
     :ivar kind: Describes the kind of connector to be checked. Required. Known values are:
      "AzureActiveDirectory", "AzureSecurityCenter", "MicrosoftCloudAppSecurity",
      "ThreatIntelligence", "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM",
-     "Office365Project", "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "Office365Project", "MicrosoftPurviewInformationProtection", "OfficePowerBI",
+     "AmazonWebServicesCloudTrail", "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     :ivar tenant_id: The tenant id to connect to, and get the data from.
     :vartype tenant_id: str
@@ -13083,7 +13920,7 @@ class MCASCheckRequirements(DataConnectorsCheckRequirements):
         "tenant_id": {"key": "properties.tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from.
         :paramtype tenant_id: str
@@ -13110,7 +13947,7 @@ class MCASCheckRequirementsProperties(DataConnectorTenantId):
         "tenant_id": {"key": "tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: str, **kwargs):
+    def __init__(self, *, tenant_id: str, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
         :paramtype tenant_id: str
@@ -13141,10 +13978,10 @@ class MCASDataConnector(DataConnector):
     :ivar kind: The data connector kind. Required. Known values are: "AzureActiveDirectory",
      "AzureSecurityCenter", "MicrosoftCloudAppSecurity", "ThreatIntelligence",
      "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM", "Office365Project",
-     "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "MicrosoftPurviewInformationProtection", "OfficePowerBI", "AmazonWebServicesCloudTrail",
+     "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     :ivar tenant_id: The tenant id to connect to, and get the data from.
     :vartype tenant_id: str
@@ -13177,8 +14014,8 @@ class MCASDataConnector(DataConnector):
         etag: Optional[str] = None,
         tenant_id: Optional[str] = None,
         data_types: Optional["_models.MCASDataConnectorDataTypes"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -13218,8 +14055,8 @@ class MCASDataConnectorDataTypes(AlertsDataTypeOfDataConnector):
         *,
         alerts: "_models.DataConnectorDataTypeCommon",
         discovery_logs: Optional["_models.DataConnectorDataTypeCommon"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword alerts: Alerts data type connection. Required.
         :paramtype alerts: ~azure.mgmt.securityinsight.models.DataConnectorDataTypeCommon
@@ -13251,7 +14088,7 @@ class MCASDataConnectorProperties(DataConnectorTenantId):
         "data_types": {"key": "dataTypes", "type": "MCASDataConnectorDataTypes"},
     }
 
-    def __init__(self, *, tenant_id: str, data_types: "_models.MCASDataConnectorDataTypes", **kwargs):
+    def __init__(self, *, tenant_id: str, data_types: "_models.MCASDataConnectorDataTypes", **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
         :paramtype tenant_id: str
@@ -13270,10 +14107,10 @@ class MDATPCheckRequirements(DataConnectorsCheckRequirements):
     :ivar kind: Describes the kind of connector to be checked. Required. Known values are:
      "AzureActiveDirectory", "AzureSecurityCenter", "MicrosoftCloudAppSecurity",
      "ThreatIntelligence", "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM",
-     "Office365Project", "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "Office365Project", "MicrosoftPurviewInformationProtection", "OfficePowerBI",
+     "AmazonWebServicesCloudTrail", "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     :ivar tenant_id: The tenant id to connect to, and get the data from.
     :vartype tenant_id: str
@@ -13288,7 +14125,7 @@ class MDATPCheckRequirements(DataConnectorsCheckRequirements):
         "tenant_id": {"key": "properties.tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from.
         :paramtype tenant_id: str
@@ -13315,7 +14152,7 @@ class MDATPCheckRequirementsProperties(DataConnectorTenantId):
         "tenant_id": {"key": "tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: str, **kwargs):
+    def __init__(self, *, tenant_id: str, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
         :paramtype tenant_id: str
@@ -13346,10 +14183,10 @@ class MDATPDataConnector(DataConnector):
     :ivar kind: The data connector kind. Required. Known values are: "AzureActiveDirectory",
      "AzureSecurityCenter", "MicrosoftCloudAppSecurity", "ThreatIntelligence",
      "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM", "Office365Project",
-     "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "MicrosoftPurviewInformationProtection", "OfficePowerBI", "AmazonWebServicesCloudTrail",
+     "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     :ivar tenant_id: The tenant id to connect to, and get the data from.
     :vartype tenant_id: str
@@ -13382,8 +14219,8 @@ class MDATPDataConnector(DataConnector):
         etag: Optional[str] = None,
         tenant_id: Optional[str] = None,
         data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -13419,8 +14256,8 @@ class MDATPDataConnectorProperties(DataConnectorTenantId, DataConnectorWithAlert
     }
 
     def __init__(
-        self, *, tenant_id: str, data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None, **kwargs
-    ):
+        self, *, tenant_id: str, data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword data_types: The available data types for the connector.
         :paramtype data_types: ~azure.mgmt.securityinsight.models.AlertsDataTypeOfDataConnector
@@ -13450,8 +14287,8 @@ class MetadataAuthor(_serialization.Model):
     }
 
     def __init__(
-        self, *, name: Optional[str] = None, email: Optional[str] = None, link: Optional[str] = None, **kwargs
-    ):
+        self, *, name: Optional[str] = None, email: Optional[str] = None, link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword name: Name of the author. Company or person.
         :paramtype name: str
@@ -13480,7 +14317,9 @@ class MetadataCategories(_serialization.Model):
         "verticals": {"key": "verticals", "type": "[str]"},
     }
 
-    def __init__(self, *, domains: Optional[List[str]] = None, verticals: Optional[List[str]] = None, **kwargs):
+    def __init__(
+        self, *, domains: Optional[List[str]] = None, verticals: Optional[List[str]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword domains: domain for the solution content item.
         :paramtype domains: list[str]
@@ -13493,7 +14332,9 @@ class MetadataCategories(_serialization.Model):
 
 
 class MetadataDependencies(_serialization.Model):
-    """Dependencies for the content item, what other content items it requires to work.  Can describe more complex dependencies using a recursive/nested structure. For a single dependency an id/kind/version can be supplied or operator/criteria for complex dependencies.
+    """Dependencies for the content item, what other content items it requires to work.  Can describe
+    more complex dependencies using a recursive/nested structure. For a single dependency an
+    id/kind/version can be supplied or operator/criteria for complex dependencies.
 
     :ivar content_id: Id of the content item we depend on.
     :vartype content_id: str
@@ -13510,7 +14351,7 @@ class MetadataDependencies(_serialization.Model):
     :ivar name: Name of the content item.
     :vartype name: str
     :ivar operator: Operator used for list of dependencies in criteria array. Known values are:
-     "AND" and "OR".
+     "AND", "OR", "AND", and "OR".
     :vartype operator: str or ~azure.mgmt.securityinsight.models.Operator
     :ivar criteria: This is the list of dependencies we must fulfill, according to the AND/OR
      operator.
@@ -13535,8 +14376,8 @@ class MetadataDependencies(_serialization.Model):
         name: Optional[str] = None,
         operator: Optional[Union[str, "_models.Operator"]] = None,
         criteria: Optional[List["_models.MetadataDependencies"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword content_id: Id of the content item we depend on.
         :paramtype content_id: str
@@ -13553,11 +14394,160 @@ class MetadataDependencies(_serialization.Model):
         :keyword name: Name of the content item.
         :paramtype name: str
         :keyword operator: Operator used for list of dependencies in criteria array. Known values are:
-         "AND" and "OR".
+         "AND", "OR", "AND", and "OR".
         :paramtype operator: str or ~azure.mgmt.securityinsight.models.Operator
         :keyword criteria: This is the list of dependencies we must fulfill, according to the AND/OR
          operator.
         :paramtype criteria: list[~azure.mgmt.securityinsight.models.MetadataDependencies]
+        """
+        super().__init__(**kwargs)
+        self.content_id = content_id
+        self.kind = kind
+        self.version = version
+        self.name = name
+        self.operator = operator
+        self.criteria = criteria
+
+
+class MetadataDependenciesAutoGenerated(_serialization.Model):
+    """Dependencies for the content item, what other content items it requires to work.  Can describe
+    more complex dependencies using a recursive/nested structure. For a single dependency an
+    id/kind/version can be supplied or operator/criteria for complex dependencies.
+
+    :ivar content_id: Id of the content item we depend on.
+    :vartype content_id: str
+    :ivar kind: Type of the content item we depend on.
+    :vartype kind: str
+    :ivar version: Version of the the content item we depend on.  Can be blank, * or missing to
+     indicate any version fulfills the dependency.  If version does not match our defined numeric
+     format then an exact match is required.
+    :vartype version: str
+    :ivar name: Name of the content item.
+    :vartype name: str
+    :ivar operator: Operator used for list of dependencies in criteria array. Known values are:
+     "AND", "OR", "AND", and "OR".
+    :vartype operator: str or ~azure.mgmt.securityinsight.models.Operator
+    :ivar criteria: This is the list of dependencies we must fulfill, according to the AND/OR
+     operator.
+    :vartype criteria: list[~azure.mgmt.securityinsight.models.MetadataDependenciesAutoGenerated]
+    """
+
+    _attribute_map = {
+        "content_id": {"key": "contentId", "type": "str"},
+        "kind": {"key": "kind", "type": "str"},
+        "version": {"key": "version", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "operator": {"key": "operator", "type": "str"},
+        "criteria": {"key": "criteria", "type": "[MetadataDependenciesAutoGenerated]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        content_id: Optional[str] = None,
+        kind: Optional[str] = None,
+        version: Optional[str] = None,
+        name: Optional[str] = None,
+        operator: Optional[Union[str, "_models.Operator"]] = None,
+        criteria: Optional[List["_models.MetadataDependenciesAutoGenerated"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword content_id: Id of the content item we depend on.
+        :paramtype content_id: str
+        :keyword kind: Type of the content item we depend on.
+        :paramtype kind: str
+        :keyword version: Version of the the content item we depend on.  Can be blank, * or missing to
+         indicate any version fulfills the dependency.  If version does not match our defined numeric
+         format then an exact match is required.
+        :paramtype version: str
+        :keyword name: Name of the content item.
+        :paramtype name: str
+        :keyword operator: Operator used for list of dependencies in criteria array. Known values are:
+         "AND", "OR", "AND", and "OR".
+        :paramtype operator: str or ~azure.mgmt.securityinsight.models.Operator
+        :keyword criteria: This is the list of dependencies we must fulfill, according to the AND/OR
+         operator.
+        :paramtype criteria: list[~azure.mgmt.securityinsight.models.MetadataDependenciesAutoGenerated]
+        """
+        super().__init__(**kwargs)
+        self.content_id = content_id
+        self.kind = kind
+        self.version = version
+        self.name = name
+        self.operator = operator
+        self.criteria = criteria
+
+
+class MetadataDependenciesAutoGenerated2(_serialization.Model):
+    """Dependencies for the content item, what other content items it requires to work.  Can describe
+    more complex dependencies using a recursive/nested structure. For a single dependency an
+    id/kind/version can be supplied or operator/criteria for complex dependencies.
+
+    :ivar content_id: Id of the content item we depend on.
+    :vartype content_id: str
+    :ivar kind: Type of the content item we depend on. Known values are: "DataConnector",
+     "DataType", "Workbook", "WorkbookTemplate", "Playbook", "PlaybookTemplate",
+     "AnalyticsRuleTemplate", "AnalyticsRule", "HuntingQuery", "InvestigationQuery", "Parser",
+     "Watchlist", "WatchlistTemplate", "Solution", "AzureFunction", "LogicAppsCustomConnector", and
+     "AutomationRule".
+    :vartype kind: str or ~azure.mgmt.securityinsight.models.Kind
+    :ivar version: Version of the the content item we depend on.  Can be blank, * or missing to
+     indicate any version fulfills the dependency.  If version does not match our defined numeric
+     format then an exact match is required.
+    :vartype version: str
+    :ivar name: Name of the content item.
+    :vartype name: str
+    :ivar operator: Operator used for list of dependencies in criteria array. Known values are:
+     "AND", "OR", "AND", and "OR".
+    :vartype operator: str or ~azure.mgmt.securityinsight.models.Operator
+    :ivar criteria: This is the list of dependencies we must fulfill, according to the AND/OR
+     operator.
+    :vartype criteria: list[~azure.mgmt.securityinsight.models.MetadataDependenciesAutoGenerated2]
+    """
+
+    _attribute_map = {
+        "content_id": {"key": "contentId", "type": "str"},
+        "kind": {"key": "kind", "type": "str"},
+        "version": {"key": "version", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "operator": {"key": "operator", "type": "str"},
+        "criteria": {"key": "criteria", "type": "[MetadataDependenciesAutoGenerated2]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        content_id: Optional[str] = None,
+        kind: Optional[Union[str, "_models.Kind"]] = None,
+        version: Optional[str] = None,
+        name: Optional[str] = None,
+        operator: Optional[Union[str, "_models.Operator"]] = None,
+        criteria: Optional[List["_models.MetadataDependenciesAutoGenerated2"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword content_id: Id of the content item we depend on.
+        :paramtype content_id: str
+        :keyword kind: Type of the content item we depend on. Known values are: "DataConnector",
+         "DataType", "Workbook", "WorkbookTemplate", "Playbook", "PlaybookTemplate",
+         "AnalyticsRuleTemplate", "AnalyticsRule", "HuntingQuery", "InvestigationQuery", "Parser",
+         "Watchlist", "WatchlistTemplate", "Solution", "AzureFunction", "LogicAppsCustomConnector", and
+         "AutomationRule".
+        :paramtype kind: str or ~azure.mgmt.securityinsight.models.Kind
+        :keyword version: Version of the the content item we depend on.  Can be blank, * or missing to
+         indicate any version fulfills the dependency.  If version does not match our defined numeric
+         format then an exact match is required.
+        :paramtype version: str
+        :keyword name: Name of the content item.
+        :paramtype name: str
+        :keyword operator: Operator used for list of dependencies in criteria array. Known values are:
+         "AND", "OR", "AND", and "OR".
+        :paramtype operator: str or ~azure.mgmt.securityinsight.models.Operator
+        :keyword criteria: This is the list of dependencies we must fulfill, according to the AND/OR
+         operator.
+        :paramtype criteria:
+         list[~azure.mgmt.securityinsight.models.MetadataDependenciesAutoGenerated2]
         """
         super().__init__(**kwargs)
         self.content_id = content_id
@@ -13591,7 +14581,7 @@ class MetadataList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: List["_models.MetadataModel"], **kwargs):
+    def __init__(self, *, value: List["_models.MetadataModel"], **kwargs: Any) -> None:
         """
         :keyword value: Array of metadata. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.MetadataModel]
@@ -13630,12 +14620,8 @@ class MetadataModel(ResourceWithEtag):  # pylint: disable=too-many-instance-attr
      1.0.0, 1.0.0.0), following ARM template best practices.  Can also be any string, but then we
      cannot guarantee any version checks.
     :vartype version: str
-    :ivar kind: The kind of content the metadata is for. Known values are: "DataConnector",
-     "DataType", "Workbook", "WorkbookTemplate", "Playbook", "PlaybookTemplate",
-     "AnalyticsRuleTemplate", "AnalyticsRule", "HuntingQuery", "InvestigationQuery", "Parser",
-     "Watchlist", "WatchlistTemplate", "Solution", "AzureFunction", "LogicAppsCustomConnector", and
-     "AutomationRule".
-    :vartype kind: str or ~azure.mgmt.securityinsight.models.Kind
+    :ivar kind: The kind of content the metadata is for.
+    :vartype kind: str
     :ivar source: Source of the content.  This is where/how it was created.
     :vartype source: ~azure.mgmt.securityinsight.models.MetadataSource
     :ivar author: The creator of the content item.
@@ -13645,7 +14631,7 @@ class MetadataModel(ResourceWithEtag):  # pylint: disable=too-many-instance-attr
     :ivar dependencies: Dependencies for the content item, what other content items it requires to
      work.  Can describe more complex dependencies using a recursive/nested structure. For a single
      dependency an id/kind/version can be supplied or operator/criteria for complex formats.
-    :vartype dependencies: ~azure.mgmt.securityinsight.models.MetadataDependencies
+    :vartype dependencies: ~azure.mgmt.securityinsight.models.MetadataDependenciesAutoGenerated
     :ivar categories: Categories for the solution content item.
     :vartype categories: ~azure.mgmt.securityinsight.models.MetadataCategories
     :ivar providers: Providers for the solution content item.
@@ -13694,7 +14680,7 @@ class MetadataModel(ResourceWithEtag):  # pylint: disable=too-many-instance-attr
         "source": {"key": "properties.source", "type": "MetadataSource"},
         "author": {"key": "properties.author", "type": "MetadataAuthor"},
         "support": {"key": "properties.support", "type": "MetadataSupport"},
-        "dependencies": {"key": "properties.dependencies", "type": "MetadataDependencies"},
+        "dependencies": {"key": "properties.dependencies", "type": "MetadataDependenciesAutoGenerated"},
         "categories": {"key": "properties.categories", "type": "MetadataCategories"},
         "providers": {"key": "properties.providers", "type": "[str]"},
         "first_publish_date": {"key": "properties.firstPublishDate", "type": "date"},
@@ -13715,11 +14701,11 @@ class MetadataModel(ResourceWithEtag):  # pylint: disable=too-many-instance-attr
         content_id: Optional[str] = None,
         parent_id: Optional[str] = None,
         version: Optional[str] = None,
-        kind: Optional[Union[str, "_models.Kind"]] = None,
+        kind: Optional[str] = None,
         source: Optional["_models.MetadataSource"] = None,
         author: Optional["_models.MetadataAuthor"] = None,
         support: Optional["_models.MetadataSupport"] = None,
-        dependencies: Optional["_models.MetadataDependencies"] = None,
+        dependencies: Optional["_models.MetadataDependenciesAutoGenerated"] = None,
         categories: Optional["_models.MetadataCategories"] = None,
         providers: Optional[List[str]] = None,
         first_publish_date: Optional[datetime.date] = None,
@@ -13731,8 +14717,8 @@ class MetadataModel(ResourceWithEtag):  # pylint: disable=too-many-instance-attr
         threat_analysis_techniques: Optional[List[str]] = None,
         preview_images: Optional[List[str]] = None,
         preview_images_dark: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -13747,12 +14733,8 @@ class MetadataModel(ResourceWithEtag):  # pylint: disable=too-many-instance-attr
          1.0, 1.0.0, 1.0.0.0), following ARM template best practices.  Can also be any string, but then
          we cannot guarantee any version checks.
         :paramtype version: str
-        :keyword kind: The kind of content the metadata is for. Known values are: "DataConnector",
-         "DataType", "Workbook", "WorkbookTemplate", "Playbook", "PlaybookTemplate",
-         "AnalyticsRuleTemplate", "AnalyticsRule", "HuntingQuery", "InvestigationQuery", "Parser",
-         "Watchlist", "WatchlistTemplate", "Solution", "AzureFunction", "LogicAppsCustomConnector", and
-         "AutomationRule".
-        :paramtype kind: str or ~azure.mgmt.securityinsight.models.Kind
+        :keyword kind: The kind of content the metadata is for.
+        :paramtype kind: str
         :keyword source: Source of the content.  This is where/how it was created.
         :paramtype source: ~azure.mgmt.securityinsight.models.MetadataSource
         :keyword author: The creator of the content item.
@@ -13762,7 +14744,7 @@ class MetadataModel(ResourceWithEtag):  # pylint: disable=too-many-instance-attr
         :keyword dependencies: Dependencies for the content item, what other content items it requires
          to work.  Can describe more complex dependencies using a recursive/nested structure. For a
          single dependency an id/kind/version can be supplied or operator/criteria for complex formats.
-        :paramtype dependencies: ~azure.mgmt.securityinsight.models.MetadataDependencies
+        :paramtype dependencies: ~azure.mgmt.securityinsight.models.MetadataDependenciesAutoGenerated
         :keyword categories: Categories for the solution content item.
         :paramtype categories: ~azure.mgmt.securityinsight.models.MetadataCategories
         :keyword providers: Providers for the solution content item.
@@ -13841,12 +14823,8 @@ class MetadataPatch(ResourceWithEtag):  # pylint: disable=too-many-instance-attr
      1.0.0, 1.0.0.0), following ARM template best practices.  Can also be any string, but then we
      cannot guarantee any version checks.
     :vartype version: str
-    :ivar kind: The kind of content the metadata is for. Known values are: "DataConnector",
-     "DataType", "Workbook", "WorkbookTemplate", "Playbook", "PlaybookTemplate",
-     "AnalyticsRuleTemplate", "AnalyticsRule", "HuntingQuery", "InvestigationQuery", "Parser",
-     "Watchlist", "WatchlistTemplate", "Solution", "AzureFunction", "LogicAppsCustomConnector", and
-     "AutomationRule".
-    :vartype kind: str or ~azure.mgmt.securityinsight.models.Kind
+    :ivar kind: The kind of content the metadata is for.
+    :vartype kind: str
     :ivar source: Source of the content.  This is where/how it was created.
     :vartype source: ~azure.mgmt.securityinsight.models.MetadataSource
     :ivar author: The creator of the content item.
@@ -13856,7 +14834,7 @@ class MetadataPatch(ResourceWithEtag):  # pylint: disable=too-many-instance-attr
     :ivar dependencies: Dependencies for the content item, what other content items it requires to
      work.  Can describe more complex dependencies using a recursive/nested structure. For a single
      dependency an id/kind/version can be supplied or operator/criteria for complex formats.
-    :vartype dependencies: ~azure.mgmt.securityinsight.models.MetadataDependencies
+    :vartype dependencies: ~azure.mgmt.securityinsight.models.MetadataDependenciesAutoGenerated
     :ivar categories: Categories for the solution content item.
     :vartype categories: ~azure.mgmt.securityinsight.models.MetadataCategories
     :ivar providers: Providers for the solution content item.
@@ -13905,7 +14883,7 @@ class MetadataPatch(ResourceWithEtag):  # pylint: disable=too-many-instance-attr
         "source": {"key": "properties.source", "type": "MetadataSource"},
         "author": {"key": "properties.author", "type": "MetadataAuthor"},
         "support": {"key": "properties.support", "type": "MetadataSupport"},
-        "dependencies": {"key": "properties.dependencies", "type": "MetadataDependencies"},
+        "dependencies": {"key": "properties.dependencies", "type": "MetadataDependenciesAutoGenerated"},
         "categories": {"key": "properties.categories", "type": "MetadataCategories"},
         "providers": {"key": "properties.providers", "type": "[str]"},
         "first_publish_date": {"key": "properties.firstPublishDate", "type": "date"},
@@ -13926,11 +14904,11 @@ class MetadataPatch(ResourceWithEtag):  # pylint: disable=too-many-instance-attr
         content_id: Optional[str] = None,
         parent_id: Optional[str] = None,
         version: Optional[str] = None,
-        kind: Optional[Union[str, "_models.Kind"]] = None,
+        kind: Optional[str] = None,
         source: Optional["_models.MetadataSource"] = None,
         author: Optional["_models.MetadataAuthor"] = None,
         support: Optional["_models.MetadataSupport"] = None,
-        dependencies: Optional["_models.MetadataDependencies"] = None,
+        dependencies: Optional["_models.MetadataDependenciesAutoGenerated"] = None,
         categories: Optional["_models.MetadataCategories"] = None,
         providers: Optional[List[str]] = None,
         first_publish_date: Optional[datetime.date] = None,
@@ -13942,8 +14920,8 @@ class MetadataPatch(ResourceWithEtag):  # pylint: disable=too-many-instance-attr
         threat_analysis_techniques: Optional[List[str]] = None,
         preview_images: Optional[List[str]] = None,
         preview_images_dark: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -13958,12 +14936,8 @@ class MetadataPatch(ResourceWithEtag):  # pylint: disable=too-many-instance-attr
          1.0, 1.0.0, 1.0.0.0), following ARM template best practices.  Can also be any string, but then
          we cannot guarantee any version checks.
         :paramtype version: str
-        :keyword kind: The kind of content the metadata is for. Known values are: "DataConnector",
-         "DataType", "Workbook", "WorkbookTemplate", "Playbook", "PlaybookTemplate",
-         "AnalyticsRuleTemplate", "AnalyticsRule", "HuntingQuery", "InvestigationQuery", "Parser",
-         "Watchlist", "WatchlistTemplate", "Solution", "AzureFunction", "LogicAppsCustomConnector", and
-         "AutomationRule".
-        :paramtype kind: str or ~azure.mgmt.securityinsight.models.Kind
+        :keyword kind: The kind of content the metadata is for.
+        :paramtype kind: str
         :keyword source: Source of the content.  This is where/how it was created.
         :paramtype source: ~azure.mgmt.securityinsight.models.MetadataSource
         :keyword author: The creator of the content item.
@@ -13973,7 +14947,7 @@ class MetadataPatch(ResourceWithEtag):  # pylint: disable=too-many-instance-attr
         :keyword dependencies: Dependencies for the content item, what other content items it requires
          to work.  Can describe more complex dependencies using a recursive/nested structure. For a
          single dependency an id/kind/version can be supplied or operator/criteria for complex formats.
-        :paramtype dependencies: ~azure.mgmt.securityinsight.models.MetadataDependencies
+        :paramtype dependencies: ~azure.mgmt.securityinsight.models.MetadataDependenciesAutoGenerated
         :keyword categories: Categories for the solution content item.
         :paramtype categories: ~azure.mgmt.securityinsight.models.MetadataCategories
         :keyword providers: Providers for the solution content item.
@@ -14053,8 +15027,8 @@ class MetadataSource(_serialization.Model):
         kind: Union[str, "_models.SourceKind"],
         name: Optional[str] = None,
         source_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword kind: Source type of the content. Required. Known values are: "LocalWorkspace",
          "Community", "Solution", and "SourceRepository".
@@ -14105,8 +15079,8 @@ class MetadataSupport(_serialization.Model):
         name: Optional[str] = None,
         email: Optional[str] = None,
         link: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tier: Type of support for content item. Required. Known values are: "Microsoft",
          "Partner", and "Community".
@@ -14123,6 +15097,244 @@ class MetadataSupport(_serialization.Model):
         self.name = name
         self.email = email
         self.link = link
+
+
+class MicrosoftPurviewInformationProtectionCheckRequirements(DataConnectorsCheckRequirements):
+    """Represents MicrosoftPurviewInformationProtection requirements check request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar kind: Describes the kind of connector to be checked. Required. Known values are:
+     "AzureActiveDirectory", "AzureSecurityCenter", "MicrosoftCloudAppSecurity",
+     "ThreatIntelligence", "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM",
+     "Office365Project", "MicrosoftPurviewInformationProtection", "OfficePowerBI",
+     "AmazonWebServicesCloudTrail", "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
+    :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
+    :ivar tenant_id: The tenant id to connect to, and get the data from.
+    :vartype tenant_id: str
+    """
+
+    _validation = {
+        "kind": {"required": True},
+    }
+
+    _attribute_map = {
+        "kind": {"key": "kind", "type": "str"},
+        "tenant_id": {"key": "properties.tenantId", "type": "str"},
+    }
+
+    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword tenant_id: The tenant id to connect to, and get the data from.
+        :paramtype tenant_id: str
+        """
+        super().__init__(**kwargs)
+        self.kind: str = "MicrosoftPurviewInformationProtection"
+        self.tenant_id = tenant_id
+
+
+class MicrosoftPurviewInformationProtectionCheckRequirementsProperties(DataConnectorTenantId):
+    """MicrosoftPurviewInformationProtection requirements check properties.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar tenant_id: The tenant id to connect to, and get the data from. Required.
+    :vartype tenant_id: str
+    """
+
+    _validation = {
+        "tenant_id": {"required": True},
+    }
+
+    _attribute_map = {
+        "tenant_id": {"key": "tenantId", "type": "str"},
+    }
+
+    def __init__(self, *, tenant_id: str, **kwargs: Any) -> None:
+        """
+        :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
+        :paramtype tenant_id: str
+        """
+        super().__init__(tenant_id=tenant_id, **kwargs)
+
+
+class MicrosoftPurviewInformationProtectionConnectorDataTypes(_serialization.Model):
+    """The available data types for Microsoft Purview Information Protection data connector.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar logs: Logs data type. Required.
+    :vartype logs:
+     ~azure.mgmt.securityinsight.models.MicrosoftPurviewInformationProtectionConnectorDataTypesLogs
+    """
+
+    _validation = {
+        "logs": {"required": True},
+    }
+
+    _attribute_map = {
+        "logs": {"key": "logs", "type": "MicrosoftPurviewInformationProtectionConnectorDataTypesLogs"},
+    }
+
+    def __init__(
+        self, *, logs: "_models.MicrosoftPurviewInformationProtectionConnectorDataTypesLogs", **kwargs: Any
+    ) -> None:
+        """
+        :keyword logs: Logs data type. Required.
+        :paramtype logs:
+         ~azure.mgmt.securityinsight.models.MicrosoftPurviewInformationProtectionConnectorDataTypesLogs
+        """
+        super().__init__(**kwargs)
+        self.logs = logs
+
+
+class MicrosoftPurviewInformationProtectionConnectorDataTypesLogs(DataConnectorDataTypeCommon):
+    """Logs data type.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar state: Describe whether this data type connection is enabled or not. Required. Known
+     values are: "Enabled" and "Disabled".
+    :vartype state: str or ~azure.mgmt.securityinsight.models.DataTypeState
+    """
+
+    _validation = {
+        "state": {"required": True},
+    }
+
+    _attribute_map = {
+        "state": {"key": "state", "type": "str"},
+    }
+
+    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs: Any) -> None:
+        """
+        :keyword state: Describe whether this data type connection is enabled or not. Required. Known
+         values are: "Enabled" and "Disabled".
+        :paramtype state: str or ~azure.mgmt.securityinsight.models.DataTypeState
+        """
+        super().__init__(state=state, **kwargs)
+
+
+class MicrosoftPurviewInformationProtectionDataConnector(DataConnector):
+    """Represents Microsoft Purview Information Protection data connector.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.securityinsight.models.SystemData
+    :ivar etag: Etag of the azure resource.
+    :vartype etag: str
+    :ivar kind: The data connector kind. Required. Known values are: "AzureActiveDirectory",
+     "AzureSecurityCenter", "MicrosoftCloudAppSecurity", "ThreatIntelligence",
+     "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM", "Office365Project",
+     "MicrosoftPurviewInformationProtection", "OfficePowerBI", "AmazonWebServicesCloudTrail",
+     "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
+    :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
+    :ivar tenant_id: The tenant id to connect to, and get the data from.
+    :vartype tenant_id: str
+    :ivar data_types: The available data types for the connector.
+    :vartype data_types:
+     ~azure.mgmt.securityinsight.models.MicrosoftPurviewInformationProtectionConnectorDataTypes
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "kind": {"required": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "etag": {"key": "etag", "type": "str"},
+        "kind": {"key": "kind", "type": "str"},
+        "tenant_id": {"key": "properties.tenantId", "type": "str"},
+        "data_types": {
+            "key": "properties.dataTypes",
+            "type": "MicrosoftPurviewInformationProtectionConnectorDataTypes",
+        },
+    }
+
+    def __init__(
+        self,
+        *,
+        etag: Optional[str] = None,
+        tenant_id: Optional[str] = None,
+        data_types: Optional["_models.MicrosoftPurviewInformationProtectionConnectorDataTypes"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword etag: Etag of the azure resource.
+        :paramtype etag: str
+        :keyword tenant_id: The tenant id to connect to, and get the data from.
+        :paramtype tenant_id: str
+        :keyword data_types: The available data types for the connector.
+        :paramtype data_types:
+         ~azure.mgmt.securityinsight.models.MicrosoftPurviewInformationProtectionConnectorDataTypes
+        """
+        super().__init__(etag=etag, **kwargs)
+        self.kind: str = "MicrosoftPurviewInformationProtection"
+        self.tenant_id = tenant_id
+        self.data_types = data_types
+
+
+class MicrosoftPurviewInformationProtectionDataConnectorProperties(DataConnectorTenantId):
+    """Microsoft Purview Information Protection data connector properties.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar tenant_id: The tenant id to connect to, and get the data from. Required.
+    :vartype tenant_id: str
+    :ivar data_types: The available data types for the connector. Required.
+    :vartype data_types:
+     ~azure.mgmt.securityinsight.models.MicrosoftPurviewInformationProtectionConnectorDataTypes
+    """
+
+    _validation = {
+        "tenant_id": {"required": True},
+        "data_types": {"required": True},
+    }
+
+    _attribute_map = {
+        "tenant_id": {"key": "tenantId", "type": "str"},
+        "data_types": {"key": "dataTypes", "type": "MicrosoftPurviewInformationProtectionConnectorDataTypes"},
+    }
+
+    def __init__(
+        self,
+        *,
+        tenant_id: str,
+        data_types: "_models.MicrosoftPurviewInformationProtectionConnectorDataTypes",
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
+        :paramtype tenant_id: str
+        :keyword data_types: The available data types for the connector. Required.
+        :paramtype data_types:
+         ~azure.mgmt.securityinsight.models.MicrosoftPurviewInformationProtectionConnectorDataTypes
+        """
+        super().__init__(tenant_id=tenant_id, **kwargs)
+        self.data_types = data_types
 
 
 class MicrosoftSecurityIncidentCreationAlertRule(AlertRule):  # pylint: disable=too-many-instance-attributes
@@ -14212,8 +15424,8 @@ class MicrosoftSecurityIncidentCreationAlertRule(AlertRule):  # pylint: disable=
         description: Optional[str] = None,
         display_name: Optional[str] = None,
         enabled: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -14291,8 +15503,8 @@ class MicrosoftSecurityIncidentCreationAlertRuleCommonProperties(_serialization.
         display_names_filter: Optional[List[str]] = None,
         display_names_exclude_filter: Optional[List[str]] = None,
         severities_filter: Optional[List[Union[str, "_models.AlertSeverity"]]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword display_names_filter: the alerts' displayNames on which the cases will be generated.
         :paramtype display_names_filter: list[str]
@@ -14378,8 +15590,8 @@ class MicrosoftSecurityIncidentCreationAlertRuleProperties(MicrosoftSecurityInci
         severities_filter: Optional[List[Union[str, "_models.AlertSeverity"]]] = None,
         alert_rule_template_name: Optional[str] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword display_names_filter: the alerts' displayNames on which the cases will be generated.
         :paramtype display_names_filter: list[str]
@@ -14518,8 +15730,8 @@ class MicrosoftSecurityIncidentCreationAlertRuleTemplate(
         display_names_exclude_filter: Optional[List[str]] = None,
         product_filter: Optional[Union[str, "_models.MicrosoftSecurityProductName"]] = None,
         severities_filter: Optional[List[Union[str, "_models.AlertSeverity"]]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword alert_rules_created_by_template_count: the number of alert rules that were created by
          this template.
@@ -14632,8 +15844,8 @@ class MicrosoftSecurityIncidentCreationAlertRuleTemplateProperties(
         display_names_exclude_filter: Optional[List[str]] = None,
         product_filter: Optional[Union[str, "_models.MicrosoftSecurityProductName"]] = None,
         severities_filter: Optional[List[Union[str, "_models.AlertSeverity"]]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword alert_rules_created_by_template_count: the number of alert rules that were created by
          this template.
@@ -14756,8 +15968,8 @@ class MLBehaviorAnalyticsAlertRule(AlertRule):  # pylint: disable=too-many-insta
         etag: Optional[str] = None,
         alert_rule_template_name: Optional[str] = None,
         enabled: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -14869,8 +16081,8 @@ class MLBehaviorAnalyticsAlertRuleTemplate(AlertRuleTemplate):  # pylint: disabl
         tactics: Optional[List[Union[str, "_models.AttackTactic"]]] = None,
         techniques: Optional[List[str]] = None,
         severity: Optional[Union[str, "_models.AlertSeverity"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword alert_rules_created_by_template_count: the number of alert rules that were created by
          this template.
@@ -14970,8 +16182,8 @@ class MLBehaviorAnalyticsAlertRuleTemplateProperties(AlertRuleTemplateWithMitreP
         status: Optional[Union[str, "_models.TemplateStatus"]] = None,
         tactics: Optional[List[Union[str, "_models.AttackTactic"]]] = None,
         techniques: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword alert_rules_created_by_template_count: the number of alert rules that were created by
          this template.
@@ -15015,10 +16227,10 @@ class MSTICheckRequirements(DataConnectorsCheckRequirements):
     :ivar kind: Describes the kind of connector to be checked. Required. Known values are:
      "AzureActiveDirectory", "AzureSecurityCenter", "MicrosoftCloudAppSecurity",
      "ThreatIntelligence", "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM",
-     "Office365Project", "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "Office365Project", "MicrosoftPurviewInformationProtection", "OfficePowerBI",
+     "AmazonWebServicesCloudTrail", "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     :ivar tenant_id: The tenant id to connect to, and get the data from.
     :vartype tenant_id: str
@@ -15033,7 +16245,7 @@ class MSTICheckRequirements(DataConnectorsCheckRequirements):
         "tenant_id": {"key": "properties.tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from.
         :paramtype tenant_id: str
@@ -15060,7 +16272,7 @@ class MSTICheckRequirementsProperties(DataConnectorTenantId):
         "tenant_id": {"key": "tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: str, **kwargs):
+    def __init__(self, *, tenant_id: str, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
         :paramtype tenant_id: str
@@ -15091,10 +16303,10 @@ class MSTIDataConnector(DataConnector):
     :ivar kind: The data connector kind. Required. Known values are: "AzureActiveDirectory",
      "AzureSecurityCenter", "MicrosoftCloudAppSecurity", "ThreatIntelligence",
      "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM", "Office365Project",
-     "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "MicrosoftPurviewInformationProtection", "OfficePowerBI", "AmazonWebServicesCloudTrail",
+     "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     :ivar tenant_id: The tenant id to connect to, and get the data from.
     :vartype tenant_id: str
@@ -15127,8 +16339,8 @@ class MSTIDataConnector(DataConnector):
         etag: Optional[str] = None,
         tenant_id: Optional[str] = None,
         data_types: Optional["_models.MSTIDataConnectorDataTypes"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -15148,10 +16360,6 @@ class MSTIDataConnectorDataTypes(_serialization.Model):
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar bing_safety_phishing_url: Data type for Microsoft Threat Intelligence Platforms data
-     connector. Required.
-    :vartype bing_safety_phishing_url:
-     ~azure.mgmt.securityinsight.models.MSTIDataConnectorDataTypesBingSafetyPhishingURL
     :ivar microsoft_emerging_threat_feed: Data type for Microsoft Threat Intelligence Platforms
      data connector. Required.
     :vartype microsoft_emerging_threat_feed:
@@ -15159,15 +16367,10 @@ class MSTIDataConnectorDataTypes(_serialization.Model):
     """
 
     _validation = {
-        "bing_safety_phishing_url": {"required": True},
         "microsoft_emerging_threat_feed": {"required": True},
     }
 
     _attribute_map = {
-        "bing_safety_phishing_url": {
-            "key": "bingSafetyPhishingURL",
-            "type": "MSTIDataConnectorDataTypesBingSafetyPhishingURL",
-        },
         "microsoft_emerging_threat_feed": {
             "key": "microsoftEmergingThreatFeed",
             "type": "MSTIDataConnectorDataTypesMicrosoftEmergingThreatFeed",
@@ -15177,57 +16380,17 @@ class MSTIDataConnectorDataTypes(_serialization.Model):
     def __init__(
         self,
         *,
-        bing_safety_phishing_url: "_models.MSTIDataConnectorDataTypesBingSafetyPhishingURL",
         microsoft_emerging_threat_feed: "_models.MSTIDataConnectorDataTypesMicrosoftEmergingThreatFeed",
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword bing_safety_phishing_url: Data type for Microsoft Threat Intelligence Platforms data
-         connector. Required.
-        :paramtype bing_safety_phishing_url:
-         ~azure.mgmt.securityinsight.models.MSTIDataConnectorDataTypesBingSafetyPhishingURL
         :keyword microsoft_emerging_threat_feed: Data type for Microsoft Threat Intelligence Platforms
          data connector. Required.
         :paramtype microsoft_emerging_threat_feed:
          ~azure.mgmt.securityinsight.models.MSTIDataConnectorDataTypesMicrosoftEmergingThreatFeed
         """
         super().__init__(**kwargs)
-        self.bing_safety_phishing_url = bing_safety_phishing_url
         self.microsoft_emerging_threat_feed = microsoft_emerging_threat_feed
-
-
-class MSTIDataConnectorDataTypesBingSafetyPhishingURL(DataConnectorDataTypeCommon):
-    """Data type for Microsoft Threat Intelligence Platforms data connector.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar state: Describe whether this data type connection is enabled or not. Required. Known
-     values are: "Enabled" and "Disabled".
-    :vartype state: str or ~azure.mgmt.securityinsight.models.DataTypeState
-    :ivar lookback_period: lookback period. Required.
-    :vartype lookback_period: str
-    """
-
-    _validation = {
-        "state": {"required": True},
-        "lookback_period": {"required": True},
-    }
-
-    _attribute_map = {
-        "state": {"key": "state", "type": "str"},
-        "lookback_period": {"key": "lookbackPeriod", "type": "str"},
-    }
-
-    def __init__(self, *, state: Union[str, "_models.DataTypeState"], lookback_period: str, **kwargs):
-        """
-        :keyword state: Describe whether this data type connection is enabled or not. Required. Known
-         values are: "Enabled" and "Disabled".
-        :paramtype state: str or ~azure.mgmt.securityinsight.models.DataTypeState
-        :keyword lookback_period: lookback period. Required.
-        :paramtype lookback_period: str
-        """
-        super().__init__(state=state, **kwargs)
-        self.lookback_period = lookback_period
 
 
 class MSTIDataConnectorDataTypesMicrosoftEmergingThreatFeed(DataConnectorDataTypeCommon):
@@ -15238,7 +16401,7 @@ class MSTIDataConnectorDataTypesMicrosoftEmergingThreatFeed(DataConnectorDataTyp
     :ivar state: Describe whether this data type connection is enabled or not. Required. Known
      values are: "Enabled" and "Disabled".
     :vartype state: str or ~azure.mgmt.securityinsight.models.DataTypeState
-    :ivar lookback_period: lookback period. Required.
+    :ivar lookback_period: The lookback period for the feed to be imported. Required.
     :vartype lookback_period: str
     """
 
@@ -15252,12 +16415,12 @@ class MSTIDataConnectorDataTypesMicrosoftEmergingThreatFeed(DataConnectorDataTyp
         "lookback_period": {"key": "lookbackPeriod", "type": "str"},
     }
 
-    def __init__(self, *, state: Union[str, "_models.DataTypeState"], lookback_period: str, **kwargs):
+    def __init__(self, *, state: Union[str, "_models.DataTypeState"], lookback_period: str, **kwargs: Any) -> None:
         """
         :keyword state: Describe whether this data type connection is enabled or not. Required. Known
          values are: "Enabled" and "Disabled".
         :paramtype state: str or ~azure.mgmt.securityinsight.models.DataTypeState
-        :keyword lookback_period: lookback period. Required.
+        :keyword lookback_period: The lookback period for the feed to be imported. Required.
         :paramtype lookback_period: str
         """
         super().__init__(state=state, **kwargs)
@@ -15285,7 +16448,7 @@ class MSTIDataConnectorProperties(DataConnectorTenantId):
         "data_types": {"key": "dataTypes", "type": "MSTIDataConnectorDataTypes"},
     }
 
-    def __init__(self, *, tenant_id: str, data_types: "_models.MSTIDataConnectorDataTypes", **kwargs):
+    def __init__(self, *, tenant_id: str, data_types: "_models.MSTIDataConnectorDataTypes", **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
         :paramtype tenant_id: str
@@ -15304,10 +16467,10 @@ class MtpCheckRequirements(DataConnectorsCheckRequirements):
     :ivar kind: Describes the kind of connector to be checked. Required. Known values are:
      "AzureActiveDirectory", "AzureSecurityCenter", "MicrosoftCloudAppSecurity",
      "ThreatIntelligence", "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM",
-     "Office365Project", "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "Office365Project", "MicrosoftPurviewInformationProtection", "OfficePowerBI",
+     "AmazonWebServicesCloudTrail", "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     :ivar tenant_id: The tenant id to connect to, and get the data from.
     :vartype tenant_id: str
@@ -15322,7 +16485,7 @@ class MtpCheckRequirements(DataConnectorsCheckRequirements):
         "tenant_id": {"key": "properties.tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from.
         :paramtype tenant_id: str
@@ -15349,7 +16512,7 @@ class MTPCheckRequirementsProperties(DataConnectorTenantId):
         "tenant_id": {"key": "tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: str, **kwargs):
+    def __init__(self, *, tenant_id: str, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
         :paramtype tenant_id: str
@@ -15380,15 +16543,17 @@ class MTPDataConnector(DataConnector):
     :ivar kind: The data connector kind. Required. Known values are: "AzureActiveDirectory",
      "AzureSecurityCenter", "MicrosoftCloudAppSecurity", "ThreatIntelligence",
      "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM", "Office365Project",
-     "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "MicrosoftPurviewInformationProtection", "OfficePowerBI", "AmazonWebServicesCloudTrail",
+     "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     :ivar tenant_id: The tenant id to connect to, and get the data from.
     :vartype tenant_id: str
     :ivar data_types: The available data types for the connector.
     :vartype data_types: ~azure.mgmt.securityinsight.models.MTPDataConnectorDataTypes
+    :ivar filtered_providers: The available filtered providers for the connector.
+    :vartype filtered_providers: ~azure.mgmt.securityinsight.models.MtpFilteredProviders
     """
 
     _validation = {
@@ -15408,6 +16573,7 @@ class MTPDataConnector(DataConnector):
         "kind": {"key": "kind", "type": "str"},
         "tenant_id": {"key": "properties.tenantId", "type": "str"},
         "data_types": {"key": "properties.dataTypes", "type": "MTPDataConnectorDataTypes"},
+        "filtered_providers": {"key": "properties.filteredProviders", "type": "MtpFilteredProviders"},
     }
 
     def __init__(
@@ -15416,8 +16582,9 @@ class MTPDataConnector(DataConnector):
         etag: Optional[str] = None,
         tenant_id: Optional[str] = None,
         data_types: Optional["_models.MTPDataConnectorDataTypes"] = None,
-        **kwargs
-    ):
+        filtered_providers: Optional["_models.MtpFilteredProviders"] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -15425,11 +16592,14 @@ class MTPDataConnector(DataConnector):
         :paramtype tenant_id: str
         :keyword data_types: The available data types for the connector.
         :paramtype data_types: ~azure.mgmt.securityinsight.models.MTPDataConnectorDataTypes
+        :keyword filtered_providers: The available filtered providers for the connector.
+        :paramtype filtered_providers: ~azure.mgmt.securityinsight.models.MtpFilteredProviders
         """
         super().__init__(etag=etag, **kwargs)
         self.kind: str = "MicrosoftThreatProtection"
         self.tenant_id = tenant_id
         self.data_types = data_types
+        self.filtered_providers = filtered_providers
 
 
 class MTPDataConnectorDataTypes(_serialization.Model):
@@ -15437,8 +16607,11 @@ class MTPDataConnectorDataTypes(_serialization.Model):
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar incidents: Data type for Microsoft Threat Protection Platforms data connector. Required.
+    :ivar incidents: Incidents data type for Microsoft Threat Protection Platforms data connector.
+     Required.
     :vartype incidents: ~azure.mgmt.securityinsight.models.MTPDataConnectorDataTypesIncidents
+    :ivar alerts: Alerts data type for Microsoft Threat Protection Platforms data connector.
+    :vartype alerts: ~azure.mgmt.securityinsight.models.MTPDataConnectorDataTypesAlerts
     """
 
     _validation = {
@@ -15447,20 +16620,30 @@ class MTPDataConnectorDataTypes(_serialization.Model):
 
     _attribute_map = {
         "incidents": {"key": "incidents", "type": "MTPDataConnectorDataTypesIncidents"},
+        "alerts": {"key": "alerts", "type": "MTPDataConnectorDataTypesAlerts"},
     }
 
-    def __init__(self, *, incidents: "_models.MTPDataConnectorDataTypesIncidents", **kwargs):
+    def __init__(
+        self,
+        *,
+        incidents: "_models.MTPDataConnectorDataTypesIncidents",
+        alerts: Optional["_models.MTPDataConnectorDataTypesAlerts"] = None,
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword incidents: Data type for Microsoft Threat Protection Platforms data connector.
-         Required.
+        :keyword incidents: Incidents data type for Microsoft Threat Protection Platforms data
+         connector. Required.
         :paramtype incidents: ~azure.mgmt.securityinsight.models.MTPDataConnectorDataTypesIncidents
+        :keyword alerts: Alerts data type for Microsoft Threat Protection Platforms data connector.
+        :paramtype alerts: ~azure.mgmt.securityinsight.models.MTPDataConnectorDataTypesAlerts
         """
         super().__init__(**kwargs)
         self.incidents = incidents
+        self.alerts = alerts
 
 
-class MTPDataConnectorDataTypesIncidents(DataConnectorDataTypeCommon):
-    """Data type for Microsoft Threat Protection Platforms data connector.
+class MTPDataConnectorDataTypesAlerts(DataConnectorDataTypeCommon):
+    """Alerts data type for Microsoft Threat Protection Platforms data connector.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -15477,7 +16660,34 @@ class MTPDataConnectorDataTypesIncidents(DataConnectorDataTypeCommon):
         "state": {"key": "state", "type": "str"},
     }
 
-    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs):
+    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs: Any) -> None:
+        """
+        :keyword state: Describe whether this data type connection is enabled or not. Required. Known
+         values are: "Enabled" and "Disabled".
+        :paramtype state: str or ~azure.mgmt.securityinsight.models.DataTypeState
+        """
+        super().__init__(state=state, **kwargs)
+
+
+class MTPDataConnectorDataTypesIncidents(DataConnectorDataTypeCommon):
+    """Incidents data type for Microsoft Threat Protection Platforms data connector.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar state: Describe whether this data type connection is enabled or not. Required. Known
+     values are: "Enabled" and "Disabled".
+    :vartype state: str or ~azure.mgmt.securityinsight.models.DataTypeState
+    """
+
+    _validation = {
+        "state": {"required": True},
+    }
+
+    _attribute_map = {
+        "state": {"key": "state", "type": "str"},
+    }
+
+    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs: Any) -> None:
         """
         :keyword state: Describe whether this data type connection is enabled or not. Required. Known
          values are: "Enabled" and "Disabled".
@@ -15495,6 +16705,8 @@ class MTPDataConnectorProperties(DataConnectorTenantId):
     :vartype tenant_id: str
     :ivar data_types: The available data types for the connector. Required.
     :vartype data_types: ~azure.mgmt.securityinsight.models.MTPDataConnectorDataTypes
+    :ivar filtered_providers: The available filtered providers for the connector.
+    :vartype filtered_providers: ~azure.mgmt.securityinsight.models.MtpFilteredProviders
     """
 
     _validation = {
@@ -15505,17 +16717,58 @@ class MTPDataConnectorProperties(DataConnectorTenantId):
     _attribute_map = {
         "tenant_id": {"key": "tenantId", "type": "str"},
         "data_types": {"key": "dataTypes", "type": "MTPDataConnectorDataTypes"},
+        "filtered_providers": {"key": "filteredProviders", "type": "MtpFilteredProviders"},
     }
 
-    def __init__(self, *, tenant_id: str, data_types: "_models.MTPDataConnectorDataTypes", **kwargs):
+    def __init__(
+        self,
+        *,
+        tenant_id: str,
+        data_types: "_models.MTPDataConnectorDataTypes",
+        filtered_providers: Optional["_models.MtpFilteredProviders"] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
         :paramtype tenant_id: str
         :keyword data_types: The available data types for the connector. Required.
         :paramtype data_types: ~azure.mgmt.securityinsight.models.MTPDataConnectorDataTypes
+        :keyword filtered_providers: The available filtered providers for the connector.
+        :paramtype filtered_providers: ~azure.mgmt.securityinsight.models.MtpFilteredProviders
         """
         super().__init__(tenant_id=tenant_id, **kwargs)
         self.data_types = data_types
+        self.filtered_providers = filtered_providers
+
+
+class MtpFilteredProviders(_serialization.Model):
+    """Represents the connector's Filtered providers.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar alerts: Alerts filtered providers. When filters are not applied, all alerts will stream
+     through the MTP pipeline, still in private preview for all products EXCEPT MDA and MDI, which
+     are in GA state. Required.
+    :vartype alerts: list[str or ~azure.mgmt.securityinsight.models.MtpProvider]
+    """
+
+    _validation = {
+        "alerts": {"required": True},
+    }
+
+    _attribute_map = {
+        "alerts": {"key": "alerts", "type": "[str]"},
+    }
+
+    def __init__(self, *, alerts: List[Union[str, "_models.MtpProvider"]], **kwargs: Any) -> None:
+        """
+        :keyword alerts: Alerts filtered providers. When filters are not applied, all alerts will
+         stream through the MTP pipeline, still in private preview for all products EXCEPT MDA and MDI,
+         which are in GA state. Required.
+        :paramtype alerts: list[str or ~azure.mgmt.securityinsight.models.MtpProvider]
+        """
+        super().__init__(**kwargs)
+        self.alerts = alerts
 
 
 class NicEntity(Entity):
@@ -15540,7 +16793,7 @@ class NicEntity(Entity):
      "AzureResource", "CloudApplication", "DnsResolution", "FileHash", "Ip", "Malware", "Process",
      "RegistryKey", "RegistryValue", "SecurityGroup", "Url", "IoTDevice", "SecurityAlert",
      "Bookmark", "MailCluster", "MailMessage", "Mailbox", "SubmissionMail", and "Nic".
-    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKind
+    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKindEnum
     :ivar additional_data: A bag of custom fields that should be part of the entity and will be
      presented to the user.
     :vartype additional_data: dict[str, any]
@@ -15581,7 +16834,7 @@ class NicEntity(Entity):
         "vlans": {"key": "properties.vlans", "type": "[str]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: str = "Nic"
@@ -15627,7 +16880,7 @@ class NicEntityProperties(EntityCommonProperties):
         "vlans": {"key": "vlans", "type": "[str]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.mac_address = None
@@ -15761,8 +17014,8 @@ class NrtAlertRule(AlertRule):  # pylint: disable=too-many-instance-attributes
         alert_details_override: Optional["_models.AlertDetailsOverride"] = None,
         event_grouping_settings: Optional["_models.EventGroupingSettings"] = None,
         sentinel_entities_mappings: Optional[List["_models.SentinelEntityMapping"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -15952,8 +17205,8 @@ class NrtAlertRuleTemplate(AlertRuleTemplate):  # pylint: disable=too-many-insta
         alert_details_override: Optional["_models.AlertDetailsOverride"] = None,
         event_grouping_settings: Optional["_models.EventGroupingSettings"] = None,
         sentinel_entities_mappings: Optional[List["_models.SentinelEntityMapping"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword alert_rules_created_by_template_count: the number of alert rules that were created by
          this template.
@@ -16061,8 +17314,8 @@ class QueryBasedAlertRuleTemplateProperties(_serialization.Model):
         alert_details_override: Optional["_models.AlertDetailsOverride"] = None,
         event_grouping_settings: Optional["_models.EventGroupingSettings"] = None,
         sentinel_entities_mappings: Optional[List["_models.SentinelEntityMapping"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword query: The query that creates alerts for this rule.
         :paramtype query: str
@@ -16189,8 +17442,8 @@ class NrtAlertRuleTemplateProperties(
         status: Optional[Union[str, "_models.TemplateStatus"]] = None,
         tactics: Optional[List[Union[str, "_models.AttackTactic"]]] = None,
         techniques: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword query: The query that creates alerts for this rule.
         :paramtype query: str
@@ -16275,10 +17528,10 @@ class Office365ProjectCheckRequirements(DataConnectorsCheckRequirements):
     :ivar kind: Describes the kind of connector to be checked. Required. Known values are:
      "AzureActiveDirectory", "AzureSecurityCenter", "MicrosoftCloudAppSecurity",
      "ThreatIntelligence", "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM",
-     "Office365Project", "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "Office365Project", "MicrosoftPurviewInformationProtection", "OfficePowerBI",
+     "AmazonWebServicesCloudTrail", "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     :ivar tenant_id: The tenant id to connect to, and get the data from.
     :vartype tenant_id: str
@@ -16293,7 +17546,7 @@ class Office365ProjectCheckRequirements(DataConnectorsCheckRequirements):
         "tenant_id": {"key": "properties.tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from.
         :paramtype tenant_id: str
@@ -16320,7 +17573,7 @@ class Office365ProjectCheckRequirementsProperties(DataConnectorTenantId):
         "tenant_id": {"key": "tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: str, **kwargs):
+    def __init__(self, *, tenant_id: str, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
         :paramtype tenant_id: str
@@ -16345,7 +17598,7 @@ class Office365ProjectConnectorDataTypes(_serialization.Model):
         "logs": {"key": "logs", "type": "Office365ProjectConnectorDataTypesLogs"},
     }
 
-    def __init__(self, *, logs: "_models.Office365ProjectConnectorDataTypesLogs", **kwargs):
+    def __init__(self, *, logs: "_models.Office365ProjectConnectorDataTypesLogs", **kwargs: Any) -> None:
         """
         :keyword logs: Logs data type. Required.
         :paramtype logs: ~azure.mgmt.securityinsight.models.Office365ProjectConnectorDataTypesLogs
@@ -16372,7 +17625,7 @@ class Office365ProjectConnectorDataTypesLogs(DataConnectorDataTypeCommon):
         "state": {"key": "state", "type": "str"},
     }
 
-    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs):
+    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs: Any) -> None:
         """
         :keyword state: Describe whether this data type connection is enabled or not. Required. Known
          values are: "Enabled" and "Disabled".
@@ -16404,10 +17657,10 @@ class Office365ProjectDataConnector(DataConnector):
     :ivar kind: The data connector kind. Required. Known values are: "AzureActiveDirectory",
      "AzureSecurityCenter", "MicrosoftCloudAppSecurity", "ThreatIntelligence",
      "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM", "Office365Project",
-     "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "MicrosoftPurviewInformationProtection", "OfficePowerBI", "AmazonWebServicesCloudTrail",
+     "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     :ivar tenant_id: The tenant id to connect to, and get the data from.
     :vartype tenant_id: str
@@ -16440,8 +17693,8 @@ class Office365ProjectDataConnector(DataConnector):
         etag: Optional[str] = None,
         tenant_id: Optional[str] = None,
         data_types: Optional["_models.Office365ProjectConnectorDataTypes"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -16477,7 +17730,9 @@ class Office365ProjectDataConnectorProperties(DataConnectorTenantId):
         "data_types": {"key": "dataTypes", "type": "Office365ProjectConnectorDataTypes"},
     }
 
-    def __init__(self, *, tenant_id: str, data_types: "_models.Office365ProjectConnectorDataTypes", **kwargs):
+    def __init__(
+        self, *, tenant_id: str, data_types: "_models.Office365ProjectConnectorDataTypes", **kwargs: Any
+    ) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
         :paramtype tenant_id: str
@@ -16496,10 +17751,10 @@ class OfficeATPCheckRequirements(DataConnectorsCheckRequirements):
     :ivar kind: Describes the kind of connector to be checked. Required. Known values are:
      "AzureActiveDirectory", "AzureSecurityCenter", "MicrosoftCloudAppSecurity",
      "ThreatIntelligence", "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM",
-     "Office365Project", "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "Office365Project", "MicrosoftPurviewInformationProtection", "OfficePowerBI",
+     "AmazonWebServicesCloudTrail", "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     :ivar tenant_id: The tenant id to connect to, and get the data from.
     :vartype tenant_id: str
@@ -16514,7 +17769,7 @@ class OfficeATPCheckRequirements(DataConnectorsCheckRequirements):
         "tenant_id": {"key": "properties.tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from.
         :paramtype tenant_id: str
@@ -16541,7 +17796,7 @@ class OfficeATPCheckRequirementsProperties(DataConnectorTenantId):
         "tenant_id": {"key": "tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: str, **kwargs):
+    def __init__(self, *, tenant_id: str, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
         :paramtype tenant_id: str
@@ -16572,10 +17827,10 @@ class OfficeATPDataConnector(DataConnector):
     :ivar kind: The data connector kind. Required. Known values are: "AzureActiveDirectory",
      "AzureSecurityCenter", "MicrosoftCloudAppSecurity", "ThreatIntelligence",
      "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM", "Office365Project",
-     "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "MicrosoftPurviewInformationProtection", "OfficePowerBI", "AmazonWebServicesCloudTrail",
+     "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     :ivar tenant_id: The tenant id to connect to, and get the data from.
     :vartype tenant_id: str
@@ -16608,8 +17863,8 @@ class OfficeATPDataConnector(DataConnector):
         etag: Optional[str] = None,
         tenant_id: Optional[str] = None,
         data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -16645,8 +17900,8 @@ class OfficeATPDataConnectorProperties(DataConnectorTenantId, DataConnectorWithA
     }
 
     def __init__(
-        self, *, tenant_id: str, data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None, **kwargs
-    ):
+        self, *, tenant_id: str, data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword data_types: The available data types for the connector.
         :paramtype data_types: ~azure.mgmt.securityinsight.models.AlertsDataTypeOfDataConnector
@@ -16696,7 +17951,7 @@ class OfficeConsent(Resource):
         "consent_id": {"key": "properties.consentId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: Optional[str] = None, consent_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, tenant_id: Optional[str] = None, consent_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenantId of the Office365 with the consent.
         :paramtype tenant_id: str
@@ -16731,7 +17986,7 @@ class OfficeConsentList(_serialization.Model):
         "value": {"key": "value", "type": "[OfficeConsent]"},
     }
 
-    def __init__(self, *, value: List["_models.OfficeConsent"], **kwargs):
+    def __init__(self, *, value: List["_models.OfficeConsent"], **kwargs: Any) -> None:
         """
         :keyword value: Array of the consents. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.OfficeConsent]
@@ -16764,10 +18019,10 @@ class OfficeDataConnector(DataConnector):
     :ivar kind: The data connector kind. Required. Known values are: "AzureActiveDirectory",
      "AzureSecurityCenter", "MicrosoftCloudAppSecurity", "ThreatIntelligence",
      "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM", "Office365Project",
-     "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "MicrosoftPurviewInformationProtection", "OfficePowerBI", "AmazonWebServicesCloudTrail",
+     "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     :ivar tenant_id: The tenant id to connect to, and get the data from.
     :vartype tenant_id: str
@@ -16800,8 +18055,8 @@ class OfficeDataConnector(DataConnector):
         etag: Optional[str] = None,
         tenant_id: Optional[str] = None,
         data_types: Optional["_models.OfficeDataConnectorDataTypes"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -16847,8 +18102,8 @@ class OfficeDataConnectorDataTypes(_serialization.Model):
         exchange: "_models.OfficeDataConnectorDataTypesExchange",
         share_point: "_models.OfficeDataConnectorDataTypesSharePoint",
         teams: "_models.OfficeDataConnectorDataTypesTeams",
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword exchange: Exchange data type connection. Required.
         :paramtype exchange: ~azure.mgmt.securityinsight.models.OfficeDataConnectorDataTypesExchange
@@ -16882,7 +18137,7 @@ class OfficeDataConnectorDataTypesExchange(DataConnectorDataTypeCommon):
         "state": {"key": "state", "type": "str"},
     }
 
-    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs):
+    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs: Any) -> None:
         """
         :keyword state: Describe whether this data type connection is enabled or not. Required. Known
          values are: "Enabled" and "Disabled".
@@ -16909,7 +18164,7 @@ class OfficeDataConnectorDataTypesSharePoint(DataConnectorDataTypeCommon):
         "state": {"key": "state", "type": "str"},
     }
 
-    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs):
+    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs: Any) -> None:
         """
         :keyword state: Describe whether this data type connection is enabled or not. Required. Known
          values are: "Enabled" and "Disabled".
@@ -16936,7 +18191,7 @@ class OfficeDataConnectorDataTypesTeams(DataConnectorDataTypeCommon):
         "state": {"key": "state", "type": "str"},
     }
 
-    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs):
+    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs: Any) -> None:
         """
         :keyword state: Describe whether this data type connection is enabled or not. Required. Known
          values are: "Enabled" and "Disabled".
@@ -16966,7 +18221,7 @@ class OfficeDataConnectorProperties(DataConnectorTenantId):
         "data_types": {"key": "dataTypes", "type": "OfficeDataConnectorDataTypes"},
     }
 
-    def __init__(self, *, tenant_id: str, data_types: "_models.OfficeDataConnectorDataTypes", **kwargs):
+    def __init__(self, *, tenant_id: str, data_types: "_models.OfficeDataConnectorDataTypes", **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
         :paramtype tenant_id: str
@@ -16985,10 +18240,10 @@ class OfficeIRMCheckRequirements(DataConnectorsCheckRequirements):
     :ivar kind: Describes the kind of connector to be checked. Required. Known values are:
      "AzureActiveDirectory", "AzureSecurityCenter", "MicrosoftCloudAppSecurity",
      "ThreatIntelligence", "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM",
-     "Office365Project", "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "Office365Project", "MicrosoftPurviewInformationProtection", "OfficePowerBI",
+     "AmazonWebServicesCloudTrail", "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     :ivar tenant_id: The tenant id to connect to, and get the data from.
     :vartype tenant_id: str
@@ -17003,7 +18258,7 @@ class OfficeIRMCheckRequirements(DataConnectorsCheckRequirements):
         "tenant_id": {"key": "properties.tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from.
         :paramtype tenant_id: str
@@ -17030,7 +18285,7 @@ class OfficeIRMCheckRequirementsProperties(DataConnectorTenantId):
         "tenant_id": {"key": "tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: str, **kwargs):
+    def __init__(self, *, tenant_id: str, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
         :paramtype tenant_id: str
@@ -17061,10 +18316,10 @@ class OfficeIRMDataConnector(DataConnector):
     :ivar kind: The data connector kind. Required. Known values are: "AzureActiveDirectory",
      "AzureSecurityCenter", "MicrosoftCloudAppSecurity", "ThreatIntelligence",
      "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM", "Office365Project",
-     "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "MicrosoftPurviewInformationProtection", "OfficePowerBI", "AmazonWebServicesCloudTrail",
+     "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     :ivar tenant_id: The tenant id to connect to, and get the data from.
     :vartype tenant_id: str
@@ -17097,8 +18352,8 @@ class OfficeIRMDataConnector(DataConnector):
         etag: Optional[str] = None,
         tenant_id: Optional[str] = None,
         data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -17134,8 +18389,8 @@ class OfficeIRMDataConnectorProperties(DataConnectorTenantId, DataConnectorWithA
     }
 
     def __init__(
-        self, *, tenant_id: str, data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None, **kwargs
-    ):
+        self, *, tenant_id: str, data_types: Optional["_models.AlertsDataTypeOfDataConnector"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword data_types: The available data types for the connector.
         :paramtype data_types: ~azure.mgmt.securityinsight.models.AlertsDataTypeOfDataConnector
@@ -17155,10 +18410,10 @@ class OfficePowerBICheckRequirements(DataConnectorsCheckRequirements):
     :ivar kind: Describes the kind of connector to be checked. Required. Known values are:
      "AzureActiveDirectory", "AzureSecurityCenter", "MicrosoftCloudAppSecurity",
      "ThreatIntelligence", "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM",
-     "Office365Project", "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "Office365Project", "MicrosoftPurviewInformationProtection", "OfficePowerBI",
+     "AmazonWebServicesCloudTrail", "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     :ivar tenant_id: The tenant id to connect to, and get the data from.
     :vartype tenant_id: str
@@ -17173,7 +18428,7 @@ class OfficePowerBICheckRequirements(DataConnectorsCheckRequirements):
         "tenant_id": {"key": "properties.tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from.
         :paramtype tenant_id: str
@@ -17200,7 +18455,7 @@ class OfficePowerBICheckRequirementsProperties(DataConnectorTenantId):
         "tenant_id": {"key": "tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: str, **kwargs):
+    def __init__(self, *, tenant_id: str, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
         :paramtype tenant_id: str
@@ -17225,7 +18480,7 @@ class OfficePowerBIConnectorDataTypes(_serialization.Model):
         "logs": {"key": "logs", "type": "OfficePowerBIConnectorDataTypesLogs"},
     }
 
-    def __init__(self, *, logs: "_models.OfficePowerBIConnectorDataTypesLogs", **kwargs):
+    def __init__(self, *, logs: "_models.OfficePowerBIConnectorDataTypesLogs", **kwargs: Any) -> None:
         """
         :keyword logs: Logs data type. Required.
         :paramtype logs: ~azure.mgmt.securityinsight.models.OfficePowerBIConnectorDataTypesLogs
@@ -17252,7 +18507,7 @@ class OfficePowerBIConnectorDataTypesLogs(DataConnectorDataTypeCommon):
         "state": {"key": "state", "type": "str"},
     }
 
-    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs):
+    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs: Any) -> None:
         """
         :keyword state: Describe whether this data type connection is enabled or not. Required. Known
          values are: "Enabled" and "Disabled".
@@ -17284,10 +18539,10 @@ class OfficePowerBIDataConnector(DataConnector):
     :ivar kind: The data connector kind. Required. Known values are: "AzureActiveDirectory",
      "AzureSecurityCenter", "MicrosoftCloudAppSecurity", "ThreatIntelligence",
      "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM", "Office365Project",
-     "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "MicrosoftPurviewInformationProtection", "OfficePowerBI", "AmazonWebServicesCloudTrail",
+     "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     :ivar tenant_id: The tenant id to connect to, and get the data from.
     :vartype tenant_id: str
@@ -17320,8 +18575,8 @@ class OfficePowerBIDataConnector(DataConnector):
         etag: Optional[str] = None,
         tenant_id: Optional[str] = None,
         data_types: Optional["_models.OfficePowerBIConnectorDataTypes"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -17357,7 +18612,7 @@ class OfficePowerBIDataConnectorProperties(DataConnectorTenantId):
         "data_types": {"key": "dataTypes", "type": "OfficePowerBIConnectorDataTypes"},
     }
 
-    def __init__(self, *, tenant_id: str, data_types: "_models.OfficePowerBIConnectorDataTypes", **kwargs):
+    def __init__(self, *, tenant_id: str, data_types: "_models.OfficePowerBIConnectorDataTypes", **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
         :paramtype tenant_id: str
@@ -17395,8 +18650,8 @@ class Operation(_serialization.Model):
         name: Optional[str] = None,
         origin: Optional[str] = None,
         is_data_action: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword display: Properties of the operation.
         :paramtype display: ~azure.mgmt.securityinsight.models.OperationDisplay
@@ -17441,8 +18696,8 @@ class OperationDisplay(_serialization.Model):
         operation: Optional[str] = None,
         provider: Optional[str] = None,
         resource: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword description: Description of the operation.
         :paramtype description: str
@@ -17483,7 +18738,7 @@ class OperationsList(_serialization.Model):
         "value": {"key": "value", "type": "[Operation]"},
     }
 
-    def __init__(self, *, value: List["_models.Operation"], **kwargs):
+    def __init__(self, *, value: List["_models.Operation"], **kwargs: Any) -> None:
         """
         :keyword value: Array of operations. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.Operation]
@@ -17491,6 +18746,501 @@ class OperationsList(_serialization.Model):
         super().__init__(**kwargs)
         self.next_link = None
         self.value = value
+
+
+class PackageList(_serialization.Model):
+    """List available packages.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar next_link: URL to fetch the next set of packages.
+    :vartype next_link: str
+    :ivar value: Array of packages. Required.
+    :vartype value: list[~azure.mgmt.securityinsight.models.PackageModel]
+    """
+
+    _validation = {
+        "next_link": {"readonly": True},
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "next_link": {"key": "nextLink", "type": "str"},
+        "value": {"key": "value", "type": "[PackageModel]"},
+    }
+
+    def __init__(self, *, value: List["_models.PackageModel"], **kwargs: Any) -> None:
+        """
+        :keyword value: Array of packages. Required.
+        :paramtype value: list[~azure.mgmt.securityinsight.models.PackageModel]
+        """
+        super().__init__(**kwargs)
+        self.next_link = None
+        self.value = value
+
+
+class PackageListAutoGenerated(_serialization.Model):
+    """List available packages.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar next_link: URL to fetch the next set of packages.
+    :vartype next_link: str
+    :ivar value: Array of packages. Required.
+    :vartype value: list[~azure.mgmt.securityinsight.models.PackageModelAutoGenerated]
+    """
+
+    _validation = {
+        "next_link": {"readonly": True},
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "next_link": {"key": "nextLink", "type": "str"},
+        "value": {"key": "value", "type": "[PackageModelAutoGenerated]"},
+    }
+
+    def __init__(self, *, value: List["_models.PackageModelAutoGenerated"], **kwargs: Any) -> None:
+        """
+        :keyword value: Array of packages. Required.
+        :paramtype value: list[~azure.mgmt.securityinsight.models.PackageModelAutoGenerated]
+        """
+        super().__init__(**kwargs)
+        self.next_link = None
+        self.value = value
+
+
+class PackageModel(ResourceWithEtag):  # pylint: disable=too-many-instance-attributes
+    """Represents a Package in Azure Security Insights.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.securityinsight.models.SystemData
+    :ivar etag: Etag of the azure resource.
+    :vartype etag: str
+    :ivar content_id: The package id.
+    :vartype content_id: str
+    :ivar content_kind: The package kind. Known values are: "Solution" and "Standalone".
+    :vartype content_kind: str or ~azure.mgmt.securityinsight.models.PackageKind
+    :ivar content_schema_version: The version of the content schema.
+    :vartype content_schema_version: str
+    :ivar is_new: Flag indicates if this is a newly published package. Known values are: "true" and
+     "false".
+    :vartype is_new: str or ~azure.mgmt.securityinsight.models.Flag
+    :ivar is_preview: Flag indicates if this package is in preview. Known values are: "true" and
+     "false".
+    :vartype is_preview: str or ~azure.mgmt.securityinsight.models.Flag
+    :ivar is_featured: Flag indicates if this package is among the featured list. Known values are:
+     "true" and "false".
+    :vartype is_featured: str or ~azure.mgmt.securityinsight.models.Flag
+    :ivar version: the latest version number of the package.
+    :vartype version: str
+    :ivar display_name: The display name of the package.
+    :vartype display_name: str
+    :ivar description: The description of the package.
+    :vartype description: str
+    :ivar publisher_display_name: The publisher display name of the package.
+    :vartype publisher_display_name: str
+    :ivar source: The source of the package.
+    :vartype source: ~azure.mgmt.securityinsight.models.MetadataSource
+    :ivar author: The author of the package.
+    :vartype author: ~azure.mgmt.securityinsight.models.MetadataAuthor
+    :ivar support: The support tier of the package.
+    :vartype support: ~azure.mgmt.securityinsight.models.MetadataSupport
+    :ivar dependencies: The support tier of the package.
+    :vartype dependencies: ~azure.mgmt.securityinsight.models.MetadataDependencies
+    :ivar providers: Providers for the package item.
+    :vartype providers: list[str]
+    :ivar first_publish_date: first publish date package item.
+    :vartype first_publish_date: ~datetime.date
+    :ivar last_publish_date: last publish date for the package item.
+    :vartype last_publish_date: ~datetime.date
+    :ivar categories: The categories of the package.
+    :vartype categories: ~azure.mgmt.securityinsight.models.MetadataCategories
+    :ivar threat_analysis_tactics: the tactics the resource covers.
+    :vartype threat_analysis_tactics: list[str]
+    :ivar threat_analytics_techniques: the techniques the resource covers, these have to be aligned
+     with the tactics being used.
+    :vartype threat_analytics_techniques: list[str]
+    :ivar icon: the icon identifier. this id can later be fetched from the content metadata.
+    :vartype icon: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "etag": {"key": "etag", "type": "str"},
+        "content_id": {"key": "properties.contentId", "type": "str"},
+        "content_kind": {"key": "properties.contentKind", "type": "str"},
+        "content_schema_version": {"key": "properties.contentSchemaVersion", "type": "str"},
+        "is_new": {"key": "properties.isNew", "type": "str"},
+        "is_preview": {"key": "properties.isPreview", "type": "str"},
+        "is_featured": {"key": "properties.isFeatured", "type": "str"},
+        "version": {"key": "properties.version", "type": "str"},
+        "display_name": {"key": "properties.displayName", "type": "str"},
+        "description": {"key": "properties.description", "type": "str"},
+        "publisher_display_name": {"key": "properties.publisherDisplayName", "type": "str"},
+        "source": {"key": "properties.source", "type": "MetadataSource"},
+        "author": {"key": "properties.author", "type": "MetadataAuthor"},
+        "support": {"key": "properties.support", "type": "MetadataSupport"},
+        "dependencies": {"key": "properties.dependencies", "type": "MetadataDependencies"},
+        "providers": {"key": "properties.providers", "type": "[str]"},
+        "first_publish_date": {"key": "properties.firstPublishDate", "type": "date"},
+        "last_publish_date": {"key": "properties.lastPublishDate", "type": "date"},
+        "categories": {"key": "properties.categories", "type": "MetadataCategories"},
+        "threat_analysis_tactics": {"key": "properties.threatAnalysisTactics", "type": "[str]"},
+        "threat_analytics_techniques": {"key": "properties.threatAnalyticsTechniques", "type": "[str]"},
+        "icon": {"key": "properties.icon", "type": "str"},
+    }
+
+    def __init__(  # pylint: disable=too-many-locals
+        self,
+        *,
+        etag: Optional[str] = None,
+        content_id: Optional[str] = None,
+        content_kind: Optional[Union[str, "_models.PackageKind"]] = None,
+        content_schema_version: Optional[str] = None,
+        is_new: Optional[Union[str, "_models.Flag"]] = None,
+        is_preview: Optional[Union[str, "_models.Flag"]] = None,
+        is_featured: Optional[Union[str, "_models.Flag"]] = None,
+        version: Optional[str] = None,
+        display_name: Optional[str] = None,
+        description: Optional[str] = None,
+        publisher_display_name: Optional[str] = None,
+        source: Optional["_models.MetadataSource"] = None,
+        author: Optional["_models.MetadataAuthor"] = None,
+        support: Optional["_models.MetadataSupport"] = None,
+        dependencies: Optional["_models.MetadataDependencies"] = None,
+        providers: Optional[List[str]] = None,
+        first_publish_date: Optional[datetime.date] = None,
+        last_publish_date: Optional[datetime.date] = None,
+        categories: Optional["_models.MetadataCategories"] = None,
+        threat_analysis_tactics: Optional[List[str]] = None,
+        threat_analytics_techniques: Optional[List[str]] = None,
+        icon: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword etag: Etag of the azure resource.
+        :paramtype etag: str
+        :keyword content_id: The package id.
+        :paramtype content_id: str
+        :keyword content_kind: The package kind. Known values are: "Solution" and "Standalone".
+        :paramtype content_kind: str or ~azure.mgmt.securityinsight.models.PackageKind
+        :keyword content_schema_version: The version of the content schema.
+        :paramtype content_schema_version: str
+        :keyword is_new: Flag indicates if this is a newly published package. Known values are: "true"
+         and "false".
+        :paramtype is_new: str or ~azure.mgmt.securityinsight.models.Flag
+        :keyword is_preview: Flag indicates if this package is in preview. Known values are: "true" and
+         "false".
+        :paramtype is_preview: str or ~azure.mgmt.securityinsight.models.Flag
+        :keyword is_featured: Flag indicates if this package is among the featured list. Known values
+         are: "true" and "false".
+        :paramtype is_featured: str or ~azure.mgmt.securityinsight.models.Flag
+        :keyword version: the latest version number of the package.
+        :paramtype version: str
+        :keyword display_name: The display name of the package.
+        :paramtype display_name: str
+        :keyword description: The description of the package.
+        :paramtype description: str
+        :keyword publisher_display_name: The publisher display name of the package.
+        :paramtype publisher_display_name: str
+        :keyword source: The source of the package.
+        :paramtype source: ~azure.mgmt.securityinsight.models.MetadataSource
+        :keyword author: The author of the package.
+        :paramtype author: ~azure.mgmt.securityinsight.models.MetadataAuthor
+        :keyword support: The support tier of the package.
+        :paramtype support: ~azure.mgmt.securityinsight.models.MetadataSupport
+        :keyword dependencies: The support tier of the package.
+        :paramtype dependencies: ~azure.mgmt.securityinsight.models.MetadataDependencies
+        :keyword providers: Providers for the package item.
+        :paramtype providers: list[str]
+        :keyword first_publish_date: first publish date package item.
+        :paramtype first_publish_date: ~datetime.date
+        :keyword last_publish_date: last publish date for the package item.
+        :paramtype last_publish_date: ~datetime.date
+        :keyword categories: The categories of the package.
+        :paramtype categories: ~azure.mgmt.securityinsight.models.MetadataCategories
+        :keyword threat_analysis_tactics: the tactics the resource covers.
+        :paramtype threat_analysis_tactics: list[str]
+        :keyword threat_analytics_techniques: the techniques the resource covers, these have to be
+         aligned with the tactics being used.
+        :paramtype threat_analytics_techniques: list[str]
+        :keyword icon: the icon identifier. this id can later be fetched from the content metadata.
+        :paramtype icon: str
+        """
+        super().__init__(etag=etag, **kwargs)
+        self.content_id = content_id
+        self.content_kind = content_kind
+        self.content_schema_version = content_schema_version
+        self.is_new = is_new
+        self.is_preview = is_preview
+        self.is_featured = is_featured
+        self.version = version
+        self.display_name = display_name
+        self.description = description
+        self.publisher_display_name = publisher_display_name
+        self.source = source
+        self.author = author
+        self.support = support
+        self.dependencies = dependencies
+        self.providers = providers
+        self.first_publish_date = first_publish_date
+        self.last_publish_date = last_publish_date
+        self.categories = categories
+        self.threat_analysis_tactics = threat_analysis_tactics
+        self.threat_analytics_techniques = threat_analytics_techniques
+        self.icon = icon
+
+
+class PackageModelAutoGenerated(ResourceWithEtag):  # pylint: disable=too-many-instance-attributes
+    """Represents a Package in Azure Security Insights.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.securityinsight.models.SystemData
+    :ivar etag: Etag of the azure resource.
+    :vartype etag: str
+    :ivar content_id: The content id of the package.
+    :vartype content_id: str
+    :ivar content_kind: The package kind. Known values are: "Solution" and "Standalone".
+    :vartype content_kind: str or ~azure.mgmt.securityinsight.models.PackageKind
+    :ivar installed_version: The version of the installed package, null or absent means not
+     installed.
+    :vartype installed_version: str
+    :ivar content_schema_version: The version of the content schema.
+    :vartype content_schema_version: str
+    :ivar resource_id: The metadata resource id.
+    :vartype resource_id: str
+    :ivar is_new: Flag indicates if this is a newly published package. Known values are: "true" and
+     "false".
+    :vartype is_new: str or ~azure.mgmt.securityinsight.models.Flag
+    :ivar is_preview: Flag indicates if this package is in preview. Known values are: "true" and
+     "false".
+    :vartype is_preview: str or ~azure.mgmt.securityinsight.models.Flag
+    :ivar is_featured: Flag indicates if this package is among the featured list. Known values are:
+     "true" and "false".
+    :vartype is_featured: str or ~azure.mgmt.securityinsight.models.Flag
+    :ivar version: the latest version number of the package.
+    :vartype version: str
+    :ivar display_name: The display name of the package.
+    :vartype display_name: str
+    :ivar description: The description of the package.
+    :vartype description: str
+    :ivar publisher_display_name: The publisher display name of the package.
+    :vartype publisher_display_name: str
+    :ivar source: The source of the package.
+    :vartype source: ~azure.mgmt.securityinsight.models.MetadataSource
+    :ivar author: The author of the package.
+    :vartype author: ~azure.mgmt.securityinsight.models.MetadataAuthor
+    :ivar support: The support tier of the package.
+    :vartype support: ~azure.mgmt.securityinsight.models.MetadataSupport
+    :ivar dependencies: The support tier of the package.
+    :vartype dependencies: ~azure.mgmt.securityinsight.models.MetadataDependencies
+    :ivar providers: Providers for the package item.
+    :vartype providers: list[str]
+    :ivar first_publish_date: first publish date package item.
+    :vartype first_publish_date: ~datetime.date
+    :ivar last_publish_date: last publish date for the package item.
+    :vartype last_publish_date: ~datetime.date
+    :ivar categories: The categories of the package.
+    :vartype categories: ~azure.mgmt.securityinsight.models.MetadataCategories
+    :ivar threat_analysis_tactics: the tactics the resource covers.
+    :vartype threat_analysis_tactics: list[str]
+    :ivar threat_analytics_techniques: the techniques the resource covers, these have to be aligned
+     with the tactics being used.
+    :vartype threat_analytics_techniques: list[str]
+    :ivar icon: the icon identifier. this id can later be fetched from the content metadata.
+    :vartype icon: str
+    :ivar packaged_content: the json to deploy.
+    :vartype packaged_content: JSON
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "etag": {"key": "etag", "type": "str"},
+        "content_id": {"key": "properties.contentId", "type": "str"},
+        "content_kind": {"key": "properties.contentKind", "type": "str"},
+        "installed_version": {"key": "properties.installedVersion", "type": "str"},
+        "content_schema_version": {"key": "properties.contentSchemaVersion", "type": "str"},
+        "resource_id": {"key": "properties.resourceId", "type": "str"},
+        "is_new": {"key": "properties.isNew", "type": "str"},
+        "is_preview": {"key": "properties.isPreview", "type": "str"},
+        "is_featured": {"key": "properties.isFeatured", "type": "str"},
+        "version": {"key": "properties.version", "type": "str"},
+        "display_name": {"key": "properties.displayName", "type": "str"},
+        "description": {"key": "properties.description", "type": "str"},
+        "publisher_display_name": {"key": "properties.publisherDisplayName", "type": "str"},
+        "source": {"key": "properties.source", "type": "MetadataSource"},
+        "author": {"key": "properties.author", "type": "MetadataAuthor"},
+        "support": {"key": "properties.support", "type": "MetadataSupport"},
+        "dependencies": {"key": "properties.dependencies", "type": "MetadataDependencies"},
+        "providers": {"key": "properties.providers", "type": "[str]"},
+        "first_publish_date": {"key": "properties.firstPublishDate", "type": "date"},
+        "last_publish_date": {"key": "properties.lastPublishDate", "type": "date"},
+        "categories": {"key": "properties.categories", "type": "MetadataCategories"},
+        "threat_analysis_tactics": {"key": "properties.threatAnalysisTactics", "type": "[str]"},
+        "threat_analytics_techniques": {"key": "properties.threatAnalyticsTechniques", "type": "[str]"},
+        "icon": {"key": "properties.icon", "type": "str"},
+        "packaged_content": {"key": "properties.packagedContent", "type": "object"},
+    }
+
+    def __init__(  # pylint: disable=too-many-locals
+        self,
+        *,
+        etag: Optional[str] = None,
+        content_id: Optional[str] = None,
+        content_kind: Optional[Union[str, "_models.PackageKind"]] = None,
+        installed_version: Optional[str] = None,
+        content_schema_version: Optional[str] = None,
+        resource_id: Optional[str] = None,
+        is_new: Optional[Union[str, "_models.Flag"]] = None,
+        is_preview: Optional[Union[str, "_models.Flag"]] = None,
+        is_featured: Optional[Union[str, "_models.Flag"]] = None,
+        version: Optional[str] = None,
+        display_name: Optional[str] = None,
+        description: Optional[str] = None,
+        publisher_display_name: Optional[str] = None,
+        source: Optional["_models.MetadataSource"] = None,
+        author: Optional["_models.MetadataAuthor"] = None,
+        support: Optional["_models.MetadataSupport"] = None,
+        dependencies: Optional["_models.MetadataDependencies"] = None,
+        providers: Optional[List[str]] = None,
+        first_publish_date: Optional[datetime.date] = None,
+        last_publish_date: Optional[datetime.date] = None,
+        categories: Optional["_models.MetadataCategories"] = None,
+        threat_analysis_tactics: Optional[List[str]] = None,
+        threat_analytics_techniques: Optional[List[str]] = None,
+        icon: Optional[str] = None,
+        packaged_content: Optional[JSON] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword etag: Etag of the azure resource.
+        :paramtype etag: str
+        :keyword content_id: The content id of the package.
+        :paramtype content_id: str
+        :keyword content_kind: The package kind. Known values are: "Solution" and "Standalone".
+        :paramtype content_kind: str or ~azure.mgmt.securityinsight.models.PackageKind
+        :keyword installed_version: The version of the installed package, null or absent means not
+         installed.
+        :paramtype installed_version: str
+        :keyword content_schema_version: The version of the content schema.
+        :paramtype content_schema_version: str
+        :keyword resource_id: The metadata resource id.
+        :paramtype resource_id: str
+        :keyword is_new: Flag indicates if this is a newly published package. Known values are: "true"
+         and "false".
+        :paramtype is_new: str or ~azure.mgmt.securityinsight.models.Flag
+        :keyword is_preview: Flag indicates if this package is in preview. Known values are: "true" and
+         "false".
+        :paramtype is_preview: str or ~azure.mgmt.securityinsight.models.Flag
+        :keyword is_featured: Flag indicates if this package is among the featured list. Known values
+         are: "true" and "false".
+        :paramtype is_featured: str or ~azure.mgmt.securityinsight.models.Flag
+        :keyword version: the latest version number of the package.
+        :paramtype version: str
+        :keyword display_name: The display name of the package.
+        :paramtype display_name: str
+        :keyword description: The description of the package.
+        :paramtype description: str
+        :keyword publisher_display_name: The publisher display name of the package.
+        :paramtype publisher_display_name: str
+        :keyword source: The source of the package.
+        :paramtype source: ~azure.mgmt.securityinsight.models.MetadataSource
+        :keyword author: The author of the package.
+        :paramtype author: ~azure.mgmt.securityinsight.models.MetadataAuthor
+        :keyword support: The support tier of the package.
+        :paramtype support: ~azure.mgmt.securityinsight.models.MetadataSupport
+        :keyword dependencies: The support tier of the package.
+        :paramtype dependencies: ~azure.mgmt.securityinsight.models.MetadataDependencies
+        :keyword providers: Providers for the package item.
+        :paramtype providers: list[str]
+        :keyword first_publish_date: first publish date package item.
+        :paramtype first_publish_date: ~datetime.date
+        :keyword last_publish_date: last publish date for the package item.
+        :paramtype last_publish_date: ~datetime.date
+        :keyword categories: The categories of the package.
+        :paramtype categories: ~azure.mgmt.securityinsight.models.MetadataCategories
+        :keyword threat_analysis_tactics: the tactics the resource covers.
+        :paramtype threat_analysis_tactics: list[str]
+        :keyword threat_analytics_techniques: the techniques the resource covers, these have to be
+         aligned with the tactics being used.
+        :paramtype threat_analytics_techniques: list[str]
+        :keyword icon: the icon identifier. this id can later be fetched from the content metadata.
+        :paramtype icon: str
+        :keyword packaged_content: the json to deploy.
+        :paramtype packaged_content: JSON
+        """
+        super().__init__(etag=etag, **kwargs)
+        self.content_id = content_id
+        self.content_kind = content_kind
+        self.installed_version = installed_version
+        self.content_schema_version = content_schema_version
+        self.resource_id = resource_id
+        self.is_new = is_new
+        self.is_preview = is_preview
+        self.is_featured = is_featured
+        self.version = version
+        self.display_name = display_name
+        self.description = description
+        self.publisher_display_name = publisher_display_name
+        self.source = source
+        self.author = author
+        self.support = support
+        self.dependencies = dependencies
+        self.providers = providers
+        self.first_publish_date = first_publish_date
+        self.last_publish_date = last_publish_date
+        self.categories = categories
+        self.threat_analysis_tactics = threat_analysis_tactics
+        self.threat_analytics_techniques = threat_analytics_techniques
+        self.icon = icon
+        self.packaged_content = packaged_content
 
 
 class Permissions(_serialization.Model):
@@ -17513,8 +19263,8 @@ class Permissions(_serialization.Model):
         *,
         resource_provider: Optional[List["_models.PermissionsResourceProviderItem"]] = None,
         customs: Optional[List["_models.PermissionsCustomsItem"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword resource_provider: Resource provider permissions required for the connector.
         :paramtype resource_provider:
@@ -17541,7 +19291,7 @@ class PermissionsCustomsItem(Customs):
         "description": {"key": "description", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, description: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, description: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Customs permissions name.
         :paramtype name: str
@@ -17587,8 +19337,8 @@ class ResourceProvider(_serialization.Model):
         provider_display_name: Optional[str] = None,
         scope: Optional[Union[str, "_models.PermissionProviderScope"]] = None,
         required_permissions: Optional["_models.RequiredPermissions"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword provider: Provider name. Known values are: "Microsoft.OperationalInsights/solutions",
          "Microsoft.OperationalInsights/workspaces",
@@ -17650,8 +19400,8 @@ class PermissionsResourceProviderItem(ResourceProvider):
         provider_display_name: Optional[str] = None,
         scope: Optional[Union[str, "_models.PermissionProviderScope"]] = None,
         required_permissions: Optional["_models.RequiredPermissions"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword provider: Provider name. Known values are: "Microsoft.OperationalInsights/solutions",
          "Microsoft.OperationalInsights/workspaces",
@@ -17682,20 +19432,26 @@ class PermissionsResourceProviderItem(ResourceProvider):
 class PlaybookActionProperties(_serialization.Model):
     """PlaybookActionProperties.
 
-    :ivar logic_app_resource_id: The resource id of the playbook resource.
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar logic_app_resource_id: The resource id of the playbook resource. Required.
     :vartype logic_app_resource_id: str
     :ivar tenant_id: The tenant id of the playbook resource.
     :vartype tenant_id: str
     """
+
+    _validation = {
+        "logic_app_resource_id": {"required": True},
+    }
 
     _attribute_map = {
         "logic_app_resource_id": {"key": "logicAppResourceId", "type": "str"},
         "tenant_id": {"key": "tenantId", "type": "str"},
     }
 
-    def __init__(self, *, logic_app_resource_id: Optional[str] = None, tenant_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, logic_app_resource_id: str, tenant_id: Optional[str] = None, **kwargs: Any) -> None:
         """
-        :keyword logic_app_resource_id: The resource id of the playbook resource.
+        :keyword logic_app_resource_id: The resource id of the playbook resource. Required.
         :paramtype logic_app_resource_id: str
         :keyword tenant_id: The tenant id of the playbook resource.
         :paramtype tenant_id: str
@@ -17727,7 +19483,7 @@ class ProcessEntity(Entity):  # pylint: disable=too-many-instance-attributes
      "AzureResource", "CloudApplication", "DnsResolution", "FileHash", "Ip", "Malware", "Process",
      "RegistryKey", "RegistryValue", "SecurityGroup", "Url", "IoTDevice", "SecurityAlert",
      "Bookmark", "MailCluster", "MailMessage", "Mailbox", "SubmissionMail", and "Nic".
-    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKind
+    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKindEnum
     :ivar additional_data: A bag of custom fields that should be part of the entity and will be
      presented to the user.
     :vartype additional_data: dict[str, any]
@@ -17792,7 +19548,9 @@ class ProcessEntity(Entity):  # pylint: disable=too-many-instance-attributes
         "process_id": {"key": "properties.processId", "type": "str"},
     }
 
-    def __init__(self, *, elevation_token: Optional[Union[str, "_models.ElevationToken"]] = None, **kwargs):
+    def __init__(
+        self, *, elevation_token: Optional[Union[str, "_models.ElevationToken"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword elevation_token: The elevation token associated with the process. Known values are:
          "Default", "Full", and "Limited".
@@ -17872,7 +19630,9 @@ class ProcessEntityProperties(EntityCommonProperties):  # pylint: disable=too-ma
         "process_id": {"key": "processId", "type": "str"},
     }
 
-    def __init__(self, *, elevation_token: Optional[Union[str, "_models.ElevationToken"]] = None, **kwargs):
+    def __init__(
+        self, *, elevation_token: Optional[Union[str, "_models.ElevationToken"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword elevation_token: The elevation token associated with the process. Known values are:
          "Default", "Full", and "Limited".
@@ -17919,8 +19679,8 @@ class PropertyArrayChangedConditionProperties(AutomationRuleCondition):
         self,
         *,
         condition_properties: Optional["_models.AutomationRulePropertyArrayChangedValuesCondition"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword condition_properties:
         :paramtype condition_properties:
@@ -17954,8 +19714,11 @@ class PropertyArrayConditionProperties(AutomationRuleCondition):
     }
 
     def __init__(
-        self, *, condition_properties: Optional["_models.AutomationRulePropertyArrayValuesCondition"] = None, **kwargs
-    ):
+        self,
+        *,
+        condition_properties: Optional["_models.AutomationRulePropertyArrayValuesCondition"] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword condition_properties:
         :paramtype condition_properties:
@@ -17989,8 +19752,11 @@ class PropertyChangedConditionProperties(AutomationRuleCondition):
     }
 
     def __init__(
-        self, *, condition_properties: Optional["_models.AutomationRulePropertyValuesChangedCondition"] = None, **kwargs
-    ):
+        self,
+        *,
+        condition_properties: Optional["_models.AutomationRulePropertyValuesChangedCondition"] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword condition_properties:
         :paramtype condition_properties:
@@ -18024,8 +19790,8 @@ class PropertyConditionProperties(AutomationRuleCondition):
     }
 
     def __init__(
-        self, *, condition_properties: Optional["_models.AutomationRulePropertyValuesCondition"] = None, **kwargs
-    ):
+        self, *, condition_properties: Optional["_models.AutomationRulePropertyValuesCondition"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword condition_properties:
         :paramtype condition_properties:
@@ -18148,8 +19914,8 @@ class Recommendation(_serialization.Model):  # pylint: disable=too-many-instance
         hide_until_time_utc: Optional[datetime.datetime] = None,
         display_until_time_utc: Optional[datetime.datetime] = None,
         visible: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: id of recommendation. Required.
         :paramtype id: str
@@ -18230,7 +19996,7 @@ class RecommendationList(_serialization.Model):
         "value": {"key": "value", "type": "[Recommendation]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Recommendation"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.Recommendation"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: An list of recommendations.
         :paramtype value: list[~azure.mgmt.securityinsight.models.Recommendation]
@@ -18260,8 +20026,8 @@ class RecommendationPatch(_serialization.Model):
         *,
         state: Optional[Union[str, "_models.State"]] = None,
         hide_until_time_utc: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword state: State of the recommendation. Known values are: "Active", "Disabled",
          "CompletedByUser", "CompletedByAction", and "Hidden".
@@ -18300,8 +20066,8 @@ class RecommendedAction(_serialization.Model):
     }
 
     def __init__(
-        self, *, link_text: str, link_url: str, state: Optional[Union[str, "_models.Priority"]] = None, **kwargs
-    ):
+        self, *, link_text: str, link_url: str, state: Optional[Union[str, "_models.Priority"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword link_text: Text of the link to complete the action. Required.
         :paramtype link_text: str
@@ -18338,7 +20104,7 @@ class RegistryKeyEntity(Entity):
      "AzureResource", "CloudApplication", "DnsResolution", "FileHash", "Ip", "Malware", "Process",
      "RegistryKey", "RegistryValue", "SecurityGroup", "Url", "IoTDevice", "SecurityAlert",
      "Bookmark", "MailCluster", "MailMessage", "Mailbox", "SubmissionMail", and "Nic".
-    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKind
+    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKindEnum
     :ivar additional_data: A bag of custom fields that should be part of the entity and will be
      presented to the user.
     :vartype additional_data: dict[str, any]
@@ -18378,7 +20144,7 @@ class RegistryKeyEntity(Entity):
         "key": {"key": "properties.key", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: str = "RegistryKey"
@@ -18422,7 +20188,7 @@ class RegistryKeyEntityProperties(EntityCommonProperties):
         "key": {"key": "key", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.hive = None
@@ -18451,7 +20217,7 @@ class RegistryValueEntity(Entity):  # pylint: disable=too-many-instance-attribut
      "AzureResource", "CloudApplication", "DnsResolution", "FileHash", "Ip", "Malware", "Process",
      "RegistryKey", "RegistryValue", "SecurityGroup", "Url", "IoTDevice", "SecurityAlert",
      "Bookmark", "MailCluster", "MailMessage", "Mailbox", "SubmissionMail", and "Nic".
-    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKind
+    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKindEnum
     :ivar additional_data: A bag of custom fields that should be part of the entity and will be
      presented to the user.
     :vartype additional_data: dict[str, any]
@@ -18498,7 +20264,7 @@ class RegistryValueEntity(Entity):  # pylint: disable=too-many-instance-attribut
         "value_type": {"key": "properties.valueType", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: str = "RegistryValue"
@@ -18551,7 +20317,7 @@ class RegistryValueEntityProperties(EntityCommonProperties):
         "value_type": {"key": "valueType", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.key_entity_id = None
@@ -18610,7 +20376,7 @@ class Relation(ResourceWithEtag):
         "related_resource_kind": {"key": "properties.relatedResourceKind", "type": "str"},
     }
 
-    def __init__(self, *, etag: Optional[str] = None, related_resource_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, etag: Optional[str] = None, related_resource_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -18647,7 +20413,7 @@ class RelationList(_serialization.Model):
         "value": {"key": "value", "type": "[Relation]"},
     }
 
-    def __init__(self, *, value: List["_models.Relation"], **kwargs):
+    def __init__(self, *, value: List["_models.Relation"], **kwargs: Any) -> None:
         """
         :keyword value: Array of relations. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.Relation]
@@ -18680,8 +20446,8 @@ class Repo(_serialization.Model):
         url: Optional[str] = None,
         full_name: Optional[str] = None,
         branches: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword url: The url to access the repository.
         :paramtype url: str
@@ -18719,7 +20485,7 @@ class RepoList(_serialization.Model):
         "value": {"key": "value", "type": "[Repo]"},
     }
 
-    def __init__(self, *, value: List["_models.Repo"], **kwargs):
+    def __init__(self, *, value: List["_models.Repo"], **kwargs: Any) -> None:
         """
         :keyword value: Array of repositories. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.Repo]
@@ -18760,8 +20526,8 @@ class Repository(_serialization.Model):
         display_url: Optional[str] = None,
         deployment_logs_url: Optional[str] = None,
         path_mapping: Optional[List["_models.ContentPathMap"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword url: Url of repository.
         :paramtype url: str
@@ -18806,8 +20572,8 @@ class RepositoryResourceInfo(_serialization.Model):
         webhook: Optional["_models.Webhook"] = None,
         git_hub_resource_info: Optional["_models.GitHubResourceInfo"] = None,
         azure_dev_ops_resource_info: Optional["_models.AzureDevOpsResourceInfo"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword webhook: The webhook object created for the source-control.
         :paramtype webhook: ~azure.mgmt.securityinsight.models.Webhook
@@ -18851,8 +20617,8 @@ class RequiredPermissions(_serialization.Model):
         write: Optional[bool] = None,
         read: Optional[bool] = None,
         delete: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword action: action permission.
         :paramtype action: bool
@@ -19013,8 +20779,8 @@ class ScheduledAlertRule(AlertRule):  # pylint: disable=too-many-instance-attrib
         tactics: Optional[List[Union[str, "_models.AttackTactic"]]] = None,
         techniques: Optional[List[str]] = None,
         incident_configuration: Optional["_models.IncidentConfiguration"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -19156,8 +20922,8 @@ class ScheduledAlertRuleCommonProperties(_serialization.Model):  # pylint: disab
         entity_mappings: Optional[List["_models.EntityMapping"]] = None,
         alert_details_override: Optional["_models.AlertDetailsOverride"] = None,
         sentinel_entities_mappings: Optional[List["_models.SentinelEntityMapping"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword query: The query that creates alerts for this rule.
         :paramtype query: str
@@ -19319,8 +21085,8 @@ class ScheduledAlertRuleProperties(ScheduledAlertRuleCommonProperties):  # pylin
         tactics: Optional[List[Union[str, "_models.AttackTactic"]]] = None,
         techniques: Optional[List[str]] = None,
         incident_configuration: Optional["_models.IncidentConfiguration"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword query: The query that creates alerts for this rule.
         :paramtype query: str
@@ -19540,8 +21306,8 @@ class ScheduledAlertRuleTemplate(AlertRuleTemplate):  # pylint: disable=too-many
         entity_mappings: Optional[List["_models.EntityMapping"]] = None,
         alert_details_override: Optional["_models.AlertDetailsOverride"] = None,
         sentinel_entities_mappings: Optional[List["_models.SentinelEntityMapping"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword alert_rules_created_by_template_count: the number of alert rules that were created by
          this template.
@@ -19638,7 +21404,7 @@ class SecurityAlert(Entity):  # pylint: disable=too-many-instance-attributes
      "AzureResource", "CloudApplication", "DnsResolution", "FileHash", "Ip", "Malware", "Process",
      "RegistryKey", "RegistryValue", "SecurityGroup", "Url", "IoTDevice", "SecurityAlert",
      "Bookmark", "MailCluster", "MailMessage", "Mailbox", "SubmissionMail", and "Nic".
-    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKind
+    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKindEnum
     :ivar additional_data: A bag of custom fields that should be part of the entity and will be
      presented to the user.
     :vartype additional_data: dict[str, any]
@@ -19784,8 +21550,8 @@ class SecurityAlert(Entity):  # pylint: disable=too-many-instance-attributes
     }
 
     def __init__(  # pylint: disable=too-many-locals
-        self, *, severity: Optional[Union[str, "_models.AlertSeverity"]] = None, **kwargs
-    ):
+        self, *, severity: Optional[Union[str, "_models.AlertSeverity"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword severity: The severity of the alert. Known values are: "High", "Medium", "Low", and
          "Informational".
@@ -19959,8 +21725,8 @@ class SecurityAlertProperties(EntityCommonProperties):  # pylint: disable=too-ma
     }
 
     def __init__(  # pylint: disable=too-many-locals
-        self, *, severity: Optional[Union[str, "_models.AlertSeverity"]] = None, **kwargs
-    ):
+        self, *, severity: Optional[Union[str, "_models.AlertSeverity"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword severity: The severity of the alert. Known values are: "High", "Medium", "Low", and
          "Informational".
@@ -20015,7 +21781,7 @@ class SecurityAlertPropertiesConfidenceReasonsItem(_serialization.Model):
         "reason_type": {"key": "reasonType", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.reason = None
@@ -20100,8 +21866,8 @@ class SecurityAlertTimelineItem(EntityTimelineItem):  # pylint: disable=too-many
         product_name: Optional[str] = None,
         description: Optional[str] = None,
         techniques: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword azure_resource_id: The alert azure resource id. Required.
         :paramtype azure_resource_id: str
@@ -20162,7 +21928,7 @@ class SecurityGroupEntity(Entity):
      "AzureResource", "CloudApplication", "DnsResolution", "FileHash", "Ip", "Malware", "Process",
      "RegistryKey", "RegistryValue", "SecurityGroup", "Url", "IoTDevice", "SecurityAlert",
      "Bookmark", "MailCluster", "MailMessage", "Mailbox", "SubmissionMail", and "Nic".
-    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKind
+    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKindEnum
     :ivar additional_data: A bag of custom fields that should be part of the entity and will be
      presented to the user.
     :vartype additional_data: dict[str, any]
@@ -20205,7 +21971,7 @@ class SecurityGroupEntity(Entity):
         "sid": {"key": "properties.sid", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: str = "SecurityGroup"
@@ -20253,7 +22019,7 @@ class SecurityGroupEntityProperties(EntityCommonProperties):
         "sid": {"key": "sid", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.distinguished_name = None
@@ -20275,7 +22041,9 @@ class SecurityMLAnalyticsSettingsDataSource(_serialization.Model):
         "data_types": {"key": "dataTypes", "type": "[str]"},
     }
 
-    def __init__(self, *, connector_id: Optional[str] = None, data_types: Optional[List[str]] = None, **kwargs):
+    def __init__(
+        self, *, connector_id: Optional[str] = None, data_types: Optional[List[str]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword connector_id: The connector id that provides the following data types.
         :paramtype connector_id: str
@@ -20310,7 +22078,7 @@ class SecurityMLAnalyticsSettingsList(_serialization.Model):
         "value": {"key": "value", "type": "[SecurityMLAnalyticsSetting]"},
     }
 
-    def __init__(self, *, value: List["_models.SecurityMLAnalyticsSetting"], **kwargs):
+    def __init__(self, *, value: List["_models.SecurityMLAnalyticsSetting"], **kwargs: Any) -> None:
         """
         :keyword value: Array of SecurityMLAnalyticsSettings. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.SecurityMLAnalyticsSetting]
@@ -20331,7 +22099,7 @@ class SentinelEntityMapping(_serialization.Model):
         "column_name": {"key": "columnName", "type": "str"},
     }
 
-    def __init__(self, *, column_name: Optional[str] = None, **kwargs):
+    def __init__(self, *, column_name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword column_name: the column name to be mapped to the SentinelEntities.
         :paramtype column_name: str
@@ -20378,7 +22146,9 @@ class SentinelOnboardingState(ResourceWithEtag):
         "customer_managed_key": {"key": "properties.customerManagedKey", "type": "bool"},
     }
 
-    def __init__(self, *, etag: Optional[str] = None, customer_managed_key: Optional[bool] = None, **kwargs):
+    def __init__(
+        self, *, etag: Optional[str] = None, customer_managed_key: Optional[bool] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -20406,7 +22176,7 @@ class SentinelOnboardingStatesList(_serialization.Model):
         "value": {"key": "value", "type": "[SentinelOnboardingState]"},
     }
 
-    def __init__(self, *, value: List["_models.SentinelOnboardingState"], **kwargs):
+    def __init__(self, *, value: List["_models.SentinelOnboardingState"], **kwargs: Any) -> None:
         """
         :keyword value: Array of Sentinel onboarding states. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.SentinelOnboardingState]
@@ -20432,7 +22202,7 @@ class SettingList(_serialization.Model):
         "value": {"key": "value", "type": "[Settings]"},
     }
 
-    def __init__(self, *, value: List["_models.Settings"], **kwargs):
+    def __init__(self, *, value: List["_models.Settings"], **kwargs: Any) -> None:
         """
         :keyword value: Array of settings. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.Settings]
@@ -20519,8 +22289,8 @@ class SourceControl(ResourceWithEtag):  # pylint: disable=too-many-instance-attr
         repository: Optional["_models.Repository"] = None,
         repository_resource_info: Optional["_models.RepositoryResourceInfo"] = None,
         last_deployment_info: Optional["_models.DeploymentInfo"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -20582,7 +22352,7 @@ class SourceControlList(_serialization.Model):
         "value": {"key": "value", "type": "[SourceControl]"},
     }
 
-    def __init__(self, *, value: List["_models.SourceControl"], **kwargs):
+    def __init__(self, *, value: List["_models.SourceControl"], **kwargs: Any) -> None:
         """
         :keyword value: Array of source controls. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.SourceControl]
@@ -20614,7 +22384,7 @@ class SubmissionMailEntity(Entity):  # pylint: disable=too-many-instance-attribu
      "AzureResource", "CloudApplication", "DnsResolution", "FileHash", "Ip", "Malware", "Process",
      "RegistryKey", "RegistryValue", "SecurityGroup", "Url", "IoTDevice", "SecurityAlert",
      "Bookmark", "MailCluster", "MailMessage", "Mailbox", "SubmissionMail", and "Nic".
-    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKind
+    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKindEnum
     :ivar additional_data: A bag of custom fields that should be part of the entity and will be
      presented to the user.
     :vartype additional_data: dict[str, any]
@@ -20684,7 +22454,7 @@ class SubmissionMailEntity(Entity):  # pylint: disable=too-many-instance-attribu
         "report_type": {"key": "properties.reportType", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: str = "SubmissionMail"
@@ -20766,7 +22536,7 @@ class SubmissionMailEntityProperties(EntityCommonProperties):  # pylint: disable
         "report_type": {"key": "reportType", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.network_message_id = None
@@ -20818,8 +22588,8 @@ class SystemData(_serialization.Model):
         last_modified_by: Optional[str] = None,
         last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
         last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword created_by: The identity that created the resource.
         :paramtype created_by: str
@@ -20878,7 +22648,7 @@ class TeamInformation(_serialization.Model):
         "description": {"key": "description", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.team_id = None
@@ -20921,8 +22691,8 @@ class TeamProperties(_serialization.Model):
         team_description: Optional[str] = None,
         group_ids: Optional[List[str]] = None,
         member_ids: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword team_name: The name of the team. Required.
         :paramtype team_name: str
@@ -20938,6 +22708,559 @@ class TeamProperties(_serialization.Model):
         self.team_description = team_description
         self.group_ids = group_ids
         self.member_ids = member_ids
+
+
+class TemplateList(_serialization.Model):
+    """List of all the template.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar value: Array of templates. Required.
+    :vartype value: list[~azure.mgmt.securityinsight.models.TemplateModel]
+    :ivar next_link: URL to fetch the next page of template.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[TemplateModel]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, *, value: List["_models.TemplateModel"], **kwargs: Any) -> None:
+        """
+        :keyword value: Array of templates. Required.
+        :paramtype value: list[~azure.mgmt.securityinsight.models.TemplateModel]
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = None
+
+
+class TemplateListAutoGenerated(_serialization.Model):
+    """List of all the template.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar value: Array of templates. Required.
+    :vartype value: list[~azure.mgmt.securityinsight.models.TemplateModelAutoGenerated]
+    :ivar next_link: URL to fetch the next page of template.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[TemplateModelAutoGenerated]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, *, value: List["_models.TemplateModelAutoGenerated"], **kwargs: Any) -> None:
+        """
+        :keyword value: Array of templates. Required.
+        :paramtype value: list[~azure.mgmt.securityinsight.models.TemplateModelAutoGenerated]
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = None
+
+
+class TemplateModel(ResourceWithEtag):  # pylint: disable=too-many-instance-attributes
+    """Template resource definition.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.securityinsight.models.SystemData
+    :ivar etag: Etag of the azure resource.
+    :vartype etag: str
+    :ivar content_id: Static ID for the content.  Used to identify dependencies and content from
+     solutions or community.  Hard-coded/static for out of the box content and solutions. Dynamic
+     for user-created.  This is the resource name.
+    :vartype content_id: str
+    :ivar parent_id: Full parent resource ID of the content item the template is for.  This is the
+     full resource ID including the scope (subscription and resource group).
+    :vartype parent_id: str
+    :ivar version: Version of the content.  Default and recommended format is numeric (e.g. 1, 1.0,
+     1.0.0, 1.0.0.0), following ARM metadata best practices.  Can also be any string, but then we
+     cannot guarantee any version checks.
+    :vartype version: str
+    :ivar display_name: The display name of the template.
+    :vartype display_name: str
+    :ivar content_kind: The kind of content the template is for. Known values are: "DataConnector",
+     "DataType", "Workbook", "WorkbookTemplate", "Playbook", "PlaybookTemplate",
+     "AnalyticsRuleTemplate", "AnalyticsRule", "HuntingQuery", "InvestigationQuery", "Parser",
+     "Watchlist", "WatchlistTemplate", "Solution", "AzureFunction", "LogicAppsCustomConnector", and
+     "AutomationRule".
+    :vartype content_kind: str or ~azure.mgmt.securityinsight.models.Kind
+    :ivar source: Source of the content.  This is where/how it was created.
+    :vartype source: ~azure.mgmt.securityinsight.models.MetadataSource
+    :ivar author: The creator of the content item.
+    :vartype author: ~azure.mgmt.securityinsight.models.MetadataAuthor
+    :ivar support: Support information for the template - type, name, contact information.
+    :vartype support: ~azure.mgmt.securityinsight.models.MetadataSupport
+    :ivar dependencies: Dependencies for the content item, what other content items it requires to
+     work.  Can describe more complex dependencies using a recursive/nested structure. For a single
+     dependency an id/kind/version can be supplied or operator/criteria for complex formats.
+    :vartype dependencies: ~azure.mgmt.securityinsight.models.MetadataDependencies
+    :ivar categories: Categories for the item.
+    :vartype categories: ~azure.mgmt.securityinsight.models.MetadataCategories
+    :ivar providers: Providers for the content item.
+    :vartype providers: list[str]
+    :ivar first_publish_date: first publish date content item.
+    :vartype first_publish_date: ~datetime.date
+    :ivar last_publish_date: last publish date for the content item.
+    :vartype last_publish_date: ~datetime.date
+    :ivar custom_version: The custom version of the content. A optional free text.
+    :vartype custom_version: str
+    :ivar content_schema_version: Schema version of the content. Can be used to distinguish between
+     different flow based on the schema version.
+    :vartype content_schema_version: str
+    :ivar icon: the icon identifier. this id can later be fetched from the content metadata.
+    :vartype icon: str
+    :ivar threat_analysis_tactics: the tactics the resource covers.
+    :vartype threat_analysis_tactics: list[str]
+    :ivar threat_analysis_techniques: the techniques the resource covers, these have to be aligned
+     with the tactics being used.
+    :vartype threat_analysis_techniques: list[str]
+    :ivar preview_images: preview image file names. These will be taken from the solution
+     artifacts.
+    :vartype preview_images: list[str]
+    :ivar preview_images_dark: preview image file names. These will be taken from the solution
+     artifacts. used for dark theme support.
+    :vartype preview_images_dark: list[str]
+    :ivar package_id: the package Id contains this template.
+    :vartype package_id: str
+    :ivar package_kind: the packageKind of the package contains this template. Known values are:
+     "Solution" and "Standalone".
+    :vartype package_kind: str or ~azure.mgmt.securityinsight.models.PackageKind
+    :ivar package_name: the name of the package contains this template.
+    :vartype package_name: str
+    :ivar packaged_content: the json to deploy.
+    :vartype packaged_content: JSON
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "etag": {"key": "etag", "type": "str"},
+        "content_id": {"key": "properties.contentId", "type": "str"},
+        "parent_id": {"key": "properties.parentId", "type": "str"},
+        "version": {"key": "properties.version", "type": "str"},
+        "display_name": {"key": "properties.displayName", "type": "str"},
+        "content_kind": {"key": "properties.contentKind", "type": "str"},
+        "source": {"key": "properties.source", "type": "MetadataSource"},
+        "author": {"key": "properties.author", "type": "MetadataAuthor"},
+        "support": {"key": "properties.support", "type": "MetadataSupport"},
+        "dependencies": {"key": "properties.dependencies", "type": "MetadataDependencies"},
+        "categories": {"key": "properties.categories", "type": "MetadataCategories"},
+        "providers": {"key": "properties.providers", "type": "[str]"},
+        "first_publish_date": {"key": "properties.firstPublishDate", "type": "date"},
+        "last_publish_date": {"key": "properties.lastPublishDate", "type": "date"},
+        "custom_version": {"key": "properties.customVersion", "type": "str"},
+        "content_schema_version": {"key": "properties.contentSchemaVersion", "type": "str"},
+        "icon": {"key": "properties.icon", "type": "str"},
+        "threat_analysis_tactics": {"key": "properties.threatAnalysisTactics", "type": "[str]"},
+        "threat_analysis_techniques": {"key": "properties.threatAnalysisTechniques", "type": "[str]"},
+        "preview_images": {"key": "properties.previewImages", "type": "[str]"},
+        "preview_images_dark": {"key": "properties.previewImagesDark", "type": "[str]"},
+        "package_id": {"key": "properties.packageId", "type": "str"},
+        "package_kind": {"key": "properties.packageKind", "type": "str"},
+        "package_name": {"key": "properties.packageName", "type": "str"},
+        "packaged_content": {"key": "properties.packagedContent", "type": "object"},
+    }
+
+    def __init__(  # pylint: disable=too-many-locals
+        self,
+        *,
+        etag: Optional[str] = None,
+        content_id: Optional[str] = None,
+        parent_id: Optional[str] = None,
+        version: Optional[str] = None,
+        display_name: Optional[str] = None,
+        content_kind: Optional[Union[str, "_models.Kind"]] = None,
+        source: Optional["_models.MetadataSource"] = None,
+        author: Optional["_models.MetadataAuthor"] = None,
+        support: Optional["_models.MetadataSupport"] = None,
+        dependencies: Optional["_models.MetadataDependencies"] = None,
+        categories: Optional["_models.MetadataCategories"] = None,
+        providers: Optional[List[str]] = None,
+        first_publish_date: Optional[datetime.date] = None,
+        last_publish_date: Optional[datetime.date] = None,
+        custom_version: Optional[str] = None,
+        content_schema_version: Optional[str] = None,
+        icon: Optional[str] = None,
+        threat_analysis_tactics: Optional[List[str]] = None,
+        threat_analysis_techniques: Optional[List[str]] = None,
+        preview_images: Optional[List[str]] = None,
+        preview_images_dark: Optional[List[str]] = None,
+        package_id: Optional[str] = None,
+        package_kind: Optional[Union[str, "_models.PackageKind"]] = None,
+        package_name: Optional[str] = None,
+        packaged_content: Optional[JSON] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword etag: Etag of the azure resource.
+        :paramtype etag: str
+        :keyword content_id: Static ID for the content.  Used to identify dependencies and content from
+         solutions or community.  Hard-coded/static for out of the box content and solutions. Dynamic
+         for user-created.  This is the resource name.
+        :paramtype content_id: str
+        :keyword parent_id: Full parent resource ID of the content item the template is for.  This is
+         the full resource ID including the scope (subscription and resource group).
+        :paramtype parent_id: str
+        :keyword version: Version of the content.  Default and recommended format is numeric (e.g. 1,
+         1.0, 1.0.0, 1.0.0.0), following ARM metadata best practices.  Can also be any string, but then
+         we cannot guarantee any version checks.
+        :paramtype version: str
+        :keyword display_name: The display name of the template.
+        :paramtype display_name: str
+        :keyword content_kind: The kind of content the template is for. Known values are:
+         "DataConnector", "DataType", "Workbook", "WorkbookTemplate", "Playbook", "PlaybookTemplate",
+         "AnalyticsRuleTemplate", "AnalyticsRule", "HuntingQuery", "InvestigationQuery", "Parser",
+         "Watchlist", "WatchlistTemplate", "Solution", "AzureFunction", "LogicAppsCustomConnector", and
+         "AutomationRule".
+        :paramtype content_kind: str or ~azure.mgmt.securityinsight.models.Kind
+        :keyword source: Source of the content.  This is where/how it was created.
+        :paramtype source: ~azure.mgmt.securityinsight.models.MetadataSource
+        :keyword author: The creator of the content item.
+        :paramtype author: ~azure.mgmt.securityinsight.models.MetadataAuthor
+        :keyword support: Support information for the template - type, name, contact information.
+        :paramtype support: ~azure.mgmt.securityinsight.models.MetadataSupport
+        :keyword dependencies: Dependencies for the content item, what other content items it requires
+         to work.  Can describe more complex dependencies using a recursive/nested structure. For a
+         single dependency an id/kind/version can be supplied or operator/criteria for complex formats.
+        :paramtype dependencies: ~azure.mgmt.securityinsight.models.MetadataDependencies
+        :keyword categories: Categories for the item.
+        :paramtype categories: ~azure.mgmt.securityinsight.models.MetadataCategories
+        :keyword providers: Providers for the content item.
+        :paramtype providers: list[str]
+        :keyword first_publish_date: first publish date content item.
+        :paramtype first_publish_date: ~datetime.date
+        :keyword last_publish_date: last publish date for the content item.
+        :paramtype last_publish_date: ~datetime.date
+        :keyword custom_version: The custom version of the content. A optional free text.
+        :paramtype custom_version: str
+        :keyword content_schema_version: Schema version of the content. Can be used to distinguish
+         between different flow based on the schema version.
+        :paramtype content_schema_version: str
+        :keyword icon: the icon identifier. this id can later be fetched from the content metadata.
+        :paramtype icon: str
+        :keyword threat_analysis_tactics: the tactics the resource covers.
+        :paramtype threat_analysis_tactics: list[str]
+        :keyword threat_analysis_techniques: the techniques the resource covers, these have to be
+         aligned with the tactics being used.
+        :paramtype threat_analysis_techniques: list[str]
+        :keyword preview_images: preview image file names. These will be taken from the solution
+         artifacts.
+        :paramtype preview_images: list[str]
+        :keyword preview_images_dark: preview image file names. These will be taken from the solution
+         artifacts. used for dark theme support.
+        :paramtype preview_images_dark: list[str]
+        :keyword package_id: the package Id contains this template.
+        :paramtype package_id: str
+        :keyword package_kind: the packageKind of the package contains this template. Known values are:
+         "Solution" and "Standalone".
+        :paramtype package_kind: str or ~azure.mgmt.securityinsight.models.PackageKind
+        :keyword package_name: the name of the package contains this template.
+        :paramtype package_name: str
+        :keyword packaged_content: the json to deploy.
+        :paramtype packaged_content: JSON
+        """
+        super().__init__(etag=etag, **kwargs)
+        self.content_id = content_id
+        self.parent_id = parent_id
+        self.version = version
+        self.display_name = display_name
+        self.content_kind = content_kind
+        self.source = source
+        self.author = author
+        self.support = support
+        self.dependencies = dependencies
+        self.categories = categories
+        self.providers = providers
+        self.first_publish_date = first_publish_date
+        self.last_publish_date = last_publish_date
+        self.custom_version = custom_version
+        self.content_schema_version = content_schema_version
+        self.icon = icon
+        self.threat_analysis_tactics = threat_analysis_tactics
+        self.threat_analysis_techniques = threat_analysis_techniques
+        self.preview_images = preview_images
+        self.preview_images_dark = preview_images_dark
+        self.package_id = package_id
+        self.package_kind = package_kind
+        self.package_name = package_name
+        self.packaged_content = packaged_content
+
+
+class TemplateModelAutoGenerated(ResourceWithEtag):  # pylint: disable=too-many-instance-attributes
+    """Template resource definition.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.securityinsight.models.SystemData
+    :ivar etag: Etag of the azure resource.
+    :vartype etag: str
+    :ivar content_id: Static ID for the content.  Used to identify dependencies and content from
+     solutions or community.  Hard-coded/static for out of the box content and solutions. Dynamic
+     for user-created.  This is the resource name.
+    :vartype content_id: str
+    :ivar version: Version of the content.  Default and recommended format is numeric (e.g. 1, 1.0,
+     1.0.0, 1.0.0.0), following ARM metadata best practices.  Can also be any string, but then we
+     cannot guarantee any version checks.
+    :vartype version: str
+    :ivar display_name: The display name of the template.
+    :vartype display_name: str
+    :ivar content_kind: The kind of content the template is for. Known values are: "DataConnector",
+     "DataType", "Workbook", "WorkbookTemplate", "Playbook", "PlaybookTemplate",
+     "AnalyticsRuleTemplate", "AnalyticsRule", "HuntingQuery", "InvestigationQuery", "Parser",
+     "Watchlist", "WatchlistTemplate", "Solution", "AzureFunction", "LogicAppsCustomConnector", and
+     "AutomationRule".
+    :vartype content_kind: str or ~azure.mgmt.securityinsight.models.Kind
+    :ivar source: Source of the content.  This is where/how it was created.
+    :vartype source: ~azure.mgmt.securityinsight.models.MetadataSource
+    :ivar author: The creator of the content item.
+    :vartype author: ~azure.mgmt.securityinsight.models.MetadataAuthor
+    :ivar support: Support information for the template - type, name, contact information.
+    :vartype support: ~azure.mgmt.securityinsight.models.MetadataSupport
+    :ivar dependencies: Dependencies for the content item, what other content items it requires to
+     work.  Can describe more complex dependencies using a recursive/nested structure. For a single
+     dependency an id/kind/version can be supplied or operator/criteria for complex formats.
+    :vartype dependencies: ~azure.mgmt.securityinsight.models.MetadataDependencies
+    :ivar categories: Categories for the item.
+    :vartype categories: ~azure.mgmt.securityinsight.models.MetadataCategories
+    :ivar providers: Providers for the content item.
+    :vartype providers: list[str]
+    :ivar first_publish_date: first publish date content item.
+    :vartype first_publish_date: ~datetime.date
+    :ivar last_publish_date: last publish date for the content item.
+    :vartype last_publish_date: ~datetime.date
+    :ivar custom_version: The custom version of the content. A optional free text.
+    :vartype custom_version: str
+    :ivar content_schema_version: Schema version of the content. Can be used to distinguish between
+     different flow based on the schema version.
+    :vartype content_schema_version: str
+    :ivar icon: the icon identifier. this id can later be fetched from the content metadata.
+    :vartype icon: str
+    :ivar threat_analysis_tactics: the tactics the resource covers.
+    :vartype threat_analysis_tactics: list[str]
+    :ivar threat_analysis_techniques: the techniques the resource covers, these have to be aligned
+     with the tactics being used.
+    :vartype threat_analysis_techniques: list[str]
+    :ivar preview_images: preview image file names. These will be taken from the solution
+     artifacts.
+    :vartype preview_images: list[str]
+    :ivar preview_images_dark: preview image file names. These will be taken from the solution
+     artifacts. used for dark theme support.
+    :vartype preview_images_dark: list[str]
+    :ivar package_id: the package Id contains this template.
+    :vartype package_id: str
+    :ivar package_kind: the packageKind of the package contains this template. Known values are:
+     "Solution" and "Standalone".
+    :vartype package_kind: str or ~azure.mgmt.securityinsight.models.PackageKind
+    :ivar package_name: the name of the package contains this template.
+    :vartype package_name: str
+    :ivar main_template: The JSON of the ARM template to deploy active content.
+    :vartype main_template: JSON
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "etag": {"key": "etag", "type": "str"},
+        "content_id": {"key": "properties.contentId", "type": "str"},
+        "version": {"key": "properties.version", "type": "str"},
+        "display_name": {"key": "properties.displayName", "type": "str"},
+        "content_kind": {"key": "properties.contentKind", "type": "str"},
+        "source": {"key": "properties.source", "type": "MetadataSource"},
+        "author": {"key": "properties.author", "type": "MetadataAuthor"},
+        "support": {"key": "properties.support", "type": "MetadataSupport"},
+        "dependencies": {"key": "properties.dependencies", "type": "MetadataDependencies"},
+        "categories": {"key": "properties.categories", "type": "MetadataCategories"},
+        "providers": {"key": "properties.providers", "type": "[str]"},
+        "first_publish_date": {"key": "properties.firstPublishDate", "type": "date"},
+        "last_publish_date": {"key": "properties.lastPublishDate", "type": "date"},
+        "custom_version": {"key": "properties.customVersion", "type": "str"},
+        "content_schema_version": {"key": "properties.contentSchemaVersion", "type": "str"},
+        "icon": {"key": "properties.icon", "type": "str"},
+        "threat_analysis_tactics": {"key": "properties.threatAnalysisTactics", "type": "[str]"},
+        "threat_analysis_techniques": {"key": "properties.threatAnalysisTechniques", "type": "[str]"},
+        "preview_images": {"key": "properties.previewImages", "type": "[str]"},
+        "preview_images_dark": {"key": "properties.previewImagesDark", "type": "[str]"},
+        "package_id": {"key": "properties.packageId", "type": "str"},
+        "package_kind": {"key": "properties.packageKind", "type": "str"},
+        "package_name": {"key": "properties.packageName", "type": "str"},
+        "main_template": {"key": "properties.mainTemplate", "type": "object"},
+    }
+
+    def __init__(  # pylint: disable=too-many-locals
+        self,
+        *,
+        etag: Optional[str] = None,
+        content_id: Optional[str] = None,
+        version: Optional[str] = None,
+        display_name: Optional[str] = None,
+        content_kind: Optional[Union[str, "_models.Kind"]] = None,
+        source: Optional["_models.MetadataSource"] = None,
+        author: Optional["_models.MetadataAuthor"] = None,
+        support: Optional["_models.MetadataSupport"] = None,
+        dependencies: Optional["_models.MetadataDependencies"] = None,
+        categories: Optional["_models.MetadataCategories"] = None,
+        providers: Optional[List[str]] = None,
+        first_publish_date: Optional[datetime.date] = None,
+        last_publish_date: Optional[datetime.date] = None,
+        custom_version: Optional[str] = None,
+        content_schema_version: Optional[str] = None,
+        icon: Optional[str] = None,
+        threat_analysis_tactics: Optional[List[str]] = None,
+        threat_analysis_techniques: Optional[List[str]] = None,
+        preview_images: Optional[List[str]] = None,
+        preview_images_dark: Optional[List[str]] = None,
+        package_id: Optional[str] = None,
+        package_kind: Optional[Union[str, "_models.PackageKind"]] = None,
+        package_name: Optional[str] = None,
+        main_template: Optional[JSON] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword etag: Etag of the azure resource.
+        :paramtype etag: str
+        :keyword content_id: Static ID for the content.  Used to identify dependencies and content from
+         solutions or community.  Hard-coded/static for out of the box content and solutions. Dynamic
+         for user-created.  This is the resource name.
+        :paramtype content_id: str
+        :keyword version: Version of the content.  Default and recommended format is numeric (e.g. 1,
+         1.0, 1.0.0, 1.0.0.0), following ARM metadata best practices.  Can also be any string, but then
+         we cannot guarantee any version checks.
+        :paramtype version: str
+        :keyword display_name: The display name of the template.
+        :paramtype display_name: str
+        :keyword content_kind: The kind of content the template is for. Known values are:
+         "DataConnector", "DataType", "Workbook", "WorkbookTemplate", "Playbook", "PlaybookTemplate",
+         "AnalyticsRuleTemplate", "AnalyticsRule", "HuntingQuery", "InvestigationQuery", "Parser",
+         "Watchlist", "WatchlistTemplate", "Solution", "AzureFunction", "LogicAppsCustomConnector", and
+         "AutomationRule".
+        :paramtype content_kind: str or ~azure.mgmt.securityinsight.models.Kind
+        :keyword source: Source of the content.  This is where/how it was created.
+        :paramtype source: ~azure.mgmt.securityinsight.models.MetadataSource
+        :keyword author: The creator of the content item.
+        :paramtype author: ~azure.mgmt.securityinsight.models.MetadataAuthor
+        :keyword support: Support information for the template - type, name, contact information.
+        :paramtype support: ~azure.mgmt.securityinsight.models.MetadataSupport
+        :keyword dependencies: Dependencies for the content item, what other content items it requires
+         to work.  Can describe more complex dependencies using a recursive/nested structure. For a
+         single dependency an id/kind/version can be supplied or operator/criteria for complex formats.
+        :paramtype dependencies: ~azure.mgmt.securityinsight.models.MetadataDependencies
+        :keyword categories: Categories for the item.
+        :paramtype categories: ~azure.mgmt.securityinsight.models.MetadataCategories
+        :keyword providers: Providers for the content item.
+        :paramtype providers: list[str]
+        :keyword first_publish_date: first publish date content item.
+        :paramtype first_publish_date: ~datetime.date
+        :keyword last_publish_date: last publish date for the content item.
+        :paramtype last_publish_date: ~datetime.date
+        :keyword custom_version: The custom version of the content. A optional free text.
+        :paramtype custom_version: str
+        :keyword content_schema_version: Schema version of the content. Can be used to distinguish
+         between different flow based on the schema version.
+        :paramtype content_schema_version: str
+        :keyword icon: the icon identifier. this id can later be fetched from the content metadata.
+        :paramtype icon: str
+        :keyword threat_analysis_tactics: the tactics the resource covers.
+        :paramtype threat_analysis_tactics: list[str]
+        :keyword threat_analysis_techniques: the techniques the resource covers, these have to be
+         aligned with the tactics being used.
+        :paramtype threat_analysis_techniques: list[str]
+        :keyword preview_images: preview image file names. These will be taken from the solution
+         artifacts.
+        :paramtype preview_images: list[str]
+        :keyword preview_images_dark: preview image file names. These will be taken from the solution
+         artifacts. used for dark theme support.
+        :paramtype preview_images_dark: list[str]
+        :keyword package_id: the package Id contains this template.
+        :paramtype package_id: str
+        :keyword package_kind: the packageKind of the package contains this template. Known values are:
+         "Solution" and "Standalone".
+        :paramtype package_kind: str or ~azure.mgmt.securityinsight.models.PackageKind
+        :keyword package_name: the name of the package contains this template.
+        :paramtype package_name: str
+        :keyword main_template: The JSON of the ARM template to deploy active content.
+        :paramtype main_template: JSON
+        """
+        super().__init__(etag=etag, **kwargs)
+        self.content_id = content_id
+        self.version = version
+        self.display_name = display_name
+        self.content_kind = content_kind
+        self.source = source
+        self.author = author
+        self.support = support
+        self.dependencies = dependencies
+        self.categories = categories
+        self.providers = providers
+        self.first_publish_date = first_publish_date
+        self.last_publish_date = last_publish_date
+        self.custom_version = custom_version
+        self.content_schema_version = content_schema_version
+        self.icon = icon
+        self.threat_analysis_tactics = threat_analysis_tactics
+        self.threat_analysis_techniques = threat_analysis_techniques
+        self.preview_images = preview_images
+        self.preview_images_dark = preview_images_dark
+        self.package_id = package_id
+        self.package_kind = package_kind
+        self.package_name = package_name
+        self.main_template = main_template
 
 
 class ThreatIntelligence(_serialization.Model):
@@ -20978,7 +23301,7 @@ class ThreatIntelligence(_serialization.Model):
         "threat_type": {"key": "threatType", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.confidence = None
@@ -21069,8 +23392,8 @@ class ThreatIntelligenceAlertRule(AlertRule):  # pylint: disable=too-many-instan
         etag: Optional[str] = None,
         alert_rule_template_name: Optional[str] = None,
         enabled: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -21182,8 +23505,8 @@ class ThreatIntelligenceAlertRuleTemplate(AlertRuleTemplate):  # pylint: disable
         tactics: Optional[List[Union[str, "_models.AttackTactic"]]] = None,
         techniques: Optional[List[str]] = None,
         severity: Optional[Union[str, "_models.AlertSeverity"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword alert_rules_created_by_template_count: the number of alert rules that were created by
          this template.
@@ -21283,8 +23606,8 @@ class ThreatIntelligenceAlertRuleTemplateProperties(AlertRuleTemplateWithMitrePr
         status: Optional[Union[str, "_models.TemplateStatus"]] = None,
         tactics: Optional[List[Union[str, "_models.AttackTactic"]]] = None,
         techniques: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword alert_rules_created_by_template_count: the number of alert rules that were created by
          this template.
@@ -21331,7 +23654,7 @@ class ThreatIntelligenceAppendTags(_serialization.Model):
         "threat_intelligence_tags": {"key": "threatIntelligenceTags", "type": "[str]"},
     }
 
-    def __init__(self, *, threat_intelligence_tags: Optional[List[str]] = None, **kwargs):
+    def __init__(self, *, threat_intelligence_tags: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
         :keyword threat_intelligence_tags: List of tags to be appended.
         :paramtype threat_intelligence_tags: list[str]
@@ -21371,8 +23694,8 @@ class ThreatIntelligenceExternalReference(_serialization.Model):
         source_name: Optional[str] = None,
         url: Optional[str] = None,
         hashes: Optional[Dict[str, str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword description: External reference description.
         :paramtype description: str
@@ -21456,8 +23779,8 @@ class ThreatIntelligenceFilteringCriteria(_serialization.Model):  # pylint: disa
         ids: Optional[List[str]] = None,
         keywords: Optional[List[str]] = None,
         skip_token: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword page_size: Page size.
         :paramtype page_size: int
@@ -21525,8 +23848,8 @@ class ThreatIntelligenceGranularMarkingModel(_serialization.Model):
         language: Optional[str] = None,
         marking_ref: Optional[int] = None,
         selectors: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword language: Language granular marking model.
         :paramtype language: str
@@ -21565,7 +23888,7 @@ class ThreatIntelligenceInformation(ResourceWithEtag):
     :ivar etag: Etag of the azure resource.
     :vartype etag: str
     :ivar kind: The kind of the entity. Required. "indicator"
-    :vartype kind: str or ~azure.mgmt.securityinsight.models.ThreatIntelligenceResourceKindEnum
+    :vartype kind: str or ~azure.mgmt.securityinsight.models.ThreatIntelligenceResourceInnerKind
     """
 
     _validation = {
@@ -21587,7 +23910,7 @@ class ThreatIntelligenceInformation(ResourceWithEtag):
 
     _subtype_map = {"kind": {"indicator": "ThreatIntelligenceIndicatorModel"}}
 
-    def __init__(self, *, etag: Optional[str] = None, **kwargs):
+    def __init__(self, *, etag: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -21617,7 +23940,7 @@ class ThreatIntelligenceIndicatorModel(ThreatIntelligenceInformation):  # pylint
     :ivar etag: Etag of the azure resource.
     :vartype etag: str
     :ivar kind: The kind of the entity. Required. "indicator"
-    :vartype kind: str or ~azure.mgmt.securityinsight.models.ThreatIntelligenceResourceKindEnum
+    :vartype kind: str or ~azure.mgmt.securityinsight.models.ThreatIntelligenceResourceInnerKind
     :ivar additional_data: A bag of custom fields that should be part of the entity and will be
      presented to the user.
     :vartype additional_data: dict[str, any]
@@ -21770,8 +24093,8 @@ class ThreatIntelligenceIndicatorModel(ThreatIntelligenceInformation):  # pylint
         created: Optional[str] = None,
         modified: Optional[str] = None,
         extensions: Optional[Dict[str, Any]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -22012,8 +24335,8 @@ class ThreatIntelligenceIndicatorProperties(EntityCommonProperties):  # pylint: 
         created: Optional[str] = None,
         modified: Optional[str] = None,
         extensions: Optional[Dict[str, Any]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword threat_intelligence_tags: List of tags.
         :paramtype threat_intelligence_tags: list[str]
@@ -22130,7 +24453,7 @@ class ThreatIntelligenceInformationList(_serialization.Model):
         "value": {"key": "value", "type": "[ThreatIntelligenceInformation]"},
     }
 
-    def __init__(self, *, value: List["_models.ThreatIntelligenceInformation"], **kwargs):
+    def __init__(self, *, value: List["_models.ThreatIntelligenceInformation"], **kwargs: Any) -> None:
         """
         :keyword value: Array of threat intelligence information objects. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.ThreatIntelligenceInformation]
@@ -22154,7 +24477,9 @@ class ThreatIntelligenceKillChainPhase(_serialization.Model):
         "phase_name": {"key": "phaseName", "type": "str"},
     }
 
-    def __init__(self, *, kill_chain_name: Optional[str] = None, phase_name: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, kill_chain_name: Optional[str] = None, phase_name: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword kill_chain_name: Kill chainName name.
         :paramtype kill_chain_name: str
@@ -22196,8 +24521,8 @@ class ThreatIntelligenceMetric(_serialization.Model):
         threat_type_metrics: Optional[List["_models.ThreatIntelligenceMetricEntity"]] = None,
         pattern_type_metrics: Optional[List["_models.ThreatIntelligenceMetricEntity"]] = None,
         source_metrics: Optional[List["_models.ThreatIntelligenceMetricEntity"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword last_updated_time_utc: Last updated indicator metric.
         :paramtype last_updated_time_utc: str
@@ -22232,7 +24557,7 @@ class ThreatIntelligenceMetricEntity(_serialization.Model):
         "metric_value": {"key": "metricValue", "type": "int"},
     }
 
-    def __init__(self, *, metric_name: Optional[str] = None, metric_value: Optional[int] = None, **kwargs):
+    def __init__(self, *, metric_name: Optional[str] = None, metric_value: Optional[int] = None, **kwargs: Any) -> None:
         """
         :keyword metric_name: Metric name.
         :paramtype metric_name: str
@@ -22255,7 +24580,7 @@ class ThreatIntelligenceMetrics(_serialization.Model):
         "properties": {"key": "properties", "type": "ThreatIntelligenceMetric"},
     }
 
-    def __init__(self, *, properties: Optional["_models.ThreatIntelligenceMetric"] = None, **kwargs):
+    def __init__(self, *, properties: Optional["_models.ThreatIntelligenceMetric"] = None, **kwargs: Any) -> None:
         """
         :keyword properties: Threat intelligence metrics.
         :paramtype properties: ~azure.mgmt.securityinsight.models.ThreatIntelligenceMetric
@@ -22281,7 +24606,7 @@ class ThreatIntelligenceMetricsList(_serialization.Model):
         "value": {"key": "value", "type": "[ThreatIntelligenceMetrics]"},
     }
 
-    def __init__(self, *, value: List["_models.ThreatIntelligenceMetrics"], **kwargs):
+    def __init__(self, *, value: List["_models.ThreatIntelligenceMetrics"], **kwargs: Any) -> None:
         """
         :keyword value: Array of threat intelligence metric fields (type/threat type/source). Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.ThreatIntelligenceMetrics]
@@ -22310,8 +24635,8 @@ class ThreatIntelligenceParsedPattern(_serialization.Model):
         *,
         pattern_type_key: Optional[str] = None,
         pattern_type_values: Optional[List["_models.ThreatIntelligenceParsedPatternTypeValue"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword pattern_type_key: Pattern type key.
         :paramtype pattern_type_key: str
@@ -22338,7 +24663,7 @@ class ThreatIntelligenceParsedPatternTypeValue(_serialization.Model):
         "value": {"key": "value", "type": "str"},
     }
 
-    def __init__(self, *, value_type: Optional[str] = None, value: Optional[str] = None, **kwargs):
+    def __init__(self, *, value_type: Optional[str] = None, value: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword value_type: Type of the value.
         :paramtype value_type: str
@@ -22357,8 +24682,7 @@ class ThreatIntelligenceSortingCriteria(_serialization.Model):
     :vartype item_key: str
     :ivar sort_order: Sorting order (ascending/descending/unsorted). Known values are: "unsorted",
      "ascending", and "descending".
-    :vartype sort_order: str or
-     ~azure.mgmt.securityinsight.models.ThreatIntelligenceSortingCriteriaEnum
+    :vartype sort_order: str or ~azure.mgmt.securityinsight.models.ThreatIntelligenceSortingOrder
     """
 
     _attribute_map = {
@@ -22370,16 +24694,15 @@ class ThreatIntelligenceSortingCriteria(_serialization.Model):
         self,
         *,
         item_key: Optional[str] = None,
-        sort_order: Optional[Union[str, "_models.ThreatIntelligenceSortingCriteriaEnum"]] = None,
-        **kwargs
-    ):
+        sort_order: Optional[Union[str, "_models.ThreatIntelligenceSortingOrder"]] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword item_key: Column name.
         :paramtype item_key: str
         :keyword sort_order: Sorting order (ascending/descending/unsorted). Known values are:
          "unsorted", "ascending", and "descending".
-        :paramtype sort_order: str or
-         ~azure.mgmt.securityinsight.models.ThreatIntelligenceSortingCriteriaEnum
+        :paramtype sort_order: str or ~azure.mgmt.securityinsight.models.ThreatIntelligenceSortingOrder
         """
         super().__init__(**kwargs)
         self.item_key = item_key
@@ -22394,10 +24717,10 @@ class TICheckRequirements(DataConnectorsCheckRequirements):
     :ivar kind: Describes the kind of connector to be checked. Required. Known values are:
      "AzureActiveDirectory", "AzureSecurityCenter", "MicrosoftCloudAppSecurity",
      "ThreatIntelligence", "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM",
-     "Office365Project", "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "Office365Project", "MicrosoftPurviewInformationProtection", "OfficePowerBI",
+     "AmazonWebServicesCloudTrail", "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     :ivar tenant_id: The tenant id to connect to, and get the data from.
     :vartype tenant_id: str
@@ -22412,7 +24735,7 @@ class TICheckRequirements(DataConnectorsCheckRequirements):
         "tenant_id": {"key": "properties.tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from.
         :paramtype tenant_id: str
@@ -22439,7 +24762,7 @@ class TICheckRequirementsProperties(DataConnectorTenantId):
         "tenant_id": {"key": "tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: str, **kwargs):
+    def __init__(self, *, tenant_id: str, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
         :paramtype tenant_id: str
@@ -22470,10 +24793,10 @@ class TIDataConnector(DataConnector):
     :ivar kind: The data connector kind. Required. Known values are: "AzureActiveDirectory",
      "AzureSecurityCenter", "MicrosoftCloudAppSecurity", "ThreatIntelligence",
      "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM", "Office365Project",
-     "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "MicrosoftPurviewInformationProtection", "OfficePowerBI", "AmazonWebServicesCloudTrail",
+     "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     :ivar tenant_id: The tenant id to connect to, and get the data from.
     :vartype tenant_id: str
@@ -22510,8 +24833,8 @@ class TIDataConnector(DataConnector):
         tenant_id: Optional[str] = None,
         tip_lookback_period: Optional[datetime.datetime] = None,
         data_types: Optional["_models.TIDataConnectorDataTypes"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -22546,7 +24869,7 @@ class TIDataConnectorDataTypes(_serialization.Model):
         "indicators": {"key": "indicators", "type": "TIDataConnectorDataTypesIndicators"},
     }
 
-    def __init__(self, *, indicators: "_models.TIDataConnectorDataTypesIndicators", **kwargs):
+    def __init__(self, *, indicators: "_models.TIDataConnectorDataTypesIndicators", **kwargs: Any) -> None:
         """
         :keyword indicators: Data type for indicators connection. Required.
         :paramtype indicators: ~azure.mgmt.securityinsight.models.TIDataConnectorDataTypesIndicators
@@ -22573,7 +24896,7 @@ class TIDataConnectorDataTypesIndicators(DataConnectorDataTypeCommon):
         "state": {"key": "state", "type": "str"},
     }
 
-    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs):
+    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs: Any) -> None:
         """
         :keyword state: Describe whether this data type connection is enabled or not. Required. Known
          values are: "Enabled" and "Disabled".
@@ -22612,8 +24935,8 @@ class TIDataConnectorProperties(DataConnectorTenantId):
         tenant_id: str,
         data_types: "_models.TIDataConnectorDataTypes",
         tip_lookback_period: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
         :paramtype tenant_id: str
@@ -22649,7 +24972,7 @@ class TimelineAggregation(_serialization.Model):
         "kind": {"key": "kind", "type": "str"},
     }
 
-    def __init__(self, *, count: int, kind: Union[str, "_models.EntityTimelineKind"], **kwargs):
+    def __init__(self, *, count: int, kind: Union[str, "_models.EntityTimelineKind"], **kwargs: Any) -> None:
         """
         :keyword count: the total items found for a kind. Required.
         :paramtype count: int
@@ -22693,8 +25016,8 @@ class TimelineError(_serialization.Model):
         kind: Union[str, "_models.EntityTimelineKind"],
         error_message: str,
         query_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword kind: the query kind. Required. Known values are: "Activity", "Bookmark",
          "SecurityAlert", and "Anomaly".
@@ -22740,8 +25063,8 @@ class TimelineResultsMetadata(_serialization.Model):
         total_count: int,
         aggregations: List["_models.TimelineAggregation"],
         errors: Optional[List["_models.TimelineError"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword total_count: the total items found for the timeline request. Required.
         :paramtype total_count: int
@@ -22764,10 +25087,10 @@ class TiTaxiiCheckRequirements(DataConnectorsCheckRequirements):
     :ivar kind: Describes the kind of connector to be checked. Required. Known values are:
      "AzureActiveDirectory", "AzureSecurityCenter", "MicrosoftCloudAppSecurity",
      "ThreatIntelligence", "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM",
-     "Office365Project", "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "Office365Project", "MicrosoftPurviewInformationProtection", "OfficePowerBI",
+     "AmazonWebServicesCloudTrail", "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     :ivar tenant_id: The tenant id to connect to, and get the data from.
     :vartype tenant_id: str
@@ -22782,7 +25105,7 @@ class TiTaxiiCheckRequirements(DataConnectorsCheckRequirements):
         "tenant_id": {"key": "properties.tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, tenant_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from.
         :paramtype tenant_id: str
@@ -22809,7 +25132,7 @@ class TiTaxiiCheckRequirementsProperties(DataConnectorTenantId):
         "tenant_id": {"key": "tenantId", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: str, **kwargs):
+    def __init__(self, *, tenant_id: str, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
         :paramtype tenant_id: str
@@ -22840,10 +25163,10 @@ class TiTaxiiDataConnector(DataConnector):  # pylint: disable=too-many-instance-
     :ivar kind: The data connector kind. Required. Known values are: "AzureActiveDirectory",
      "AzureSecurityCenter", "MicrosoftCloudAppSecurity", "ThreatIntelligence",
      "ThreatIntelligenceTaxii", "Office365", "OfficeATP", "OfficeIRM", "Office365Project",
-     "OfficePowerBI", "AmazonWebServicesCloudTrail", "AmazonWebServicesS3",
-     "AzureAdvancedThreatProtection", "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365",
-     "MicrosoftThreatProtection", "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and
-     "IOT".
+     "MicrosoftPurviewInformationProtection", "OfficePowerBI", "AmazonWebServicesCloudTrail",
+     "AmazonWebServicesS3", "AzureAdvancedThreatProtection",
+     "MicrosoftDefenderAdvancedThreatProtection", "Dynamics365", "MicrosoftThreatProtection",
+     "MicrosoftThreatIntelligence", "GenericUI", "APIPolling", and "IOT".
     :vartype kind: str or ~azure.mgmt.securityinsight.models.DataConnectorKind
     :ivar tenant_id: The tenant id to connect to, and get the data from.
     :vartype tenant_id: str
@@ -22909,8 +25232,8 @@ class TiTaxiiDataConnector(DataConnector):  # pylint: disable=too-many-instance-
         taxii_lookback_period: Optional[datetime.datetime] = None,
         polling_frequency: Optional[Union[str, "_models.PollingFrequency"]] = None,
         data_types: Optional["_models.TiTaxiiDataConnectorDataTypes"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -22968,7 +25291,7 @@ class TiTaxiiDataConnectorDataTypes(_serialization.Model):
         "taxii_client": {"key": "taxiiClient", "type": "TiTaxiiDataConnectorDataTypesTaxiiClient"},
     }
 
-    def __init__(self, *, taxii_client: "_models.TiTaxiiDataConnectorDataTypesTaxiiClient", **kwargs):
+    def __init__(self, *, taxii_client: "_models.TiTaxiiDataConnectorDataTypesTaxiiClient", **kwargs: Any) -> None:
         """
         :keyword taxii_client: Data type for TAXII connector. Required.
         :paramtype taxii_client:
@@ -22996,7 +25319,7 @@ class TiTaxiiDataConnectorDataTypesTaxiiClient(DataConnectorDataTypeCommon):
         "state": {"key": "state", "type": "str"},
     }
 
-    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs):
+    def __init__(self, *, state: Union[str, "_models.DataTypeState"], **kwargs: Any) -> None:
         """
         :keyword state: Describe whether this data type connection is enabled or not. Required. Known
          values are: "Enabled" and "Disabled".
@@ -23066,8 +25389,8 @@ class TiTaxiiDataConnectorProperties(DataConnectorTenantId):
         user_name: Optional[str] = None,
         password: Optional[str] = None,
         taxii_lookback_period: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tenant_id: The tenant id to connect to, and get the data from. Required.
         :paramtype tenant_id: str
@@ -23102,6 +25425,130 @@ class TiTaxiiDataConnectorProperties(DataConnectorTenantId):
         self.taxii_lookback_period = taxii_lookback_period
         self.polling_frequency = polling_frequency
         self.data_types = data_types
+
+
+class TriggeredAnalyticsRuleRun(ResourceWithEtag):
+    """The triggered analytics rule run.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.securityinsight.models.SystemData
+    :ivar etag: Etag of the azure resource.
+    :vartype etag: str
+    :ivar execution_time_utc: Required.
+    :vartype execution_time_utc: ~datetime.datetime
+    :ivar rule_id: Required.
+    :vartype rule_id: str
+    :ivar triggered_analytics_rule_run_id: Required.
+    :vartype triggered_analytics_rule_run_id: str
+    :ivar provisioning_state: The triggered analytics rule run provisioning state. Required. Known
+     values are: "Accepted", "InProgress", "Succeeded", "Failed", and "Canceled".
+    :vartype provisioning_state: str or ~azure.mgmt.securityinsight.models.ProvisioningState
+    :ivar rule_run_additional_data: Dictionary of :code:`<any>`.
+    :vartype rule_run_additional_data: dict[str, any]
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "execution_time_utc": {"required": True},
+        "rule_id": {"required": True},
+        "triggered_analytics_rule_run_id": {"required": True},
+        "provisioning_state": {"required": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "etag": {"key": "etag", "type": "str"},
+        "execution_time_utc": {"key": "properties.executionTimeUtc", "type": "iso-8601"},
+        "rule_id": {"key": "properties.ruleId", "type": "str"},
+        "triggered_analytics_rule_run_id": {"key": "properties.triggeredAnalyticsRuleRunId", "type": "str"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "rule_run_additional_data": {"key": "properties.ruleRunAdditionalData", "type": "{object}"},
+    }
+
+    def __init__(
+        self,
+        *,
+        execution_time_utc: datetime.datetime,
+        rule_id: str,
+        triggered_analytics_rule_run_id: str,
+        provisioning_state: Union[str, "_models.ProvisioningState"],
+        etag: Optional[str] = None,
+        rule_run_additional_data: Optional[Dict[str, Any]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword etag: Etag of the azure resource.
+        :paramtype etag: str
+        :keyword execution_time_utc: Required.
+        :paramtype execution_time_utc: ~datetime.datetime
+        :keyword rule_id: Required.
+        :paramtype rule_id: str
+        :keyword triggered_analytics_rule_run_id: Required.
+        :paramtype triggered_analytics_rule_run_id: str
+        :keyword provisioning_state: The triggered analytics rule run provisioning state. Required.
+         Known values are: "Accepted", "InProgress", "Succeeded", "Failed", and "Canceled".
+        :paramtype provisioning_state: str or ~azure.mgmt.securityinsight.models.ProvisioningState
+        :keyword rule_run_additional_data: Dictionary of :code:`<any>`.
+        :paramtype rule_run_additional_data: dict[str, any]
+        """
+        super().__init__(etag=etag, **kwargs)
+        self.execution_time_utc = execution_time_utc
+        self.rule_id = rule_id
+        self.triggered_analytics_rule_run_id = triggered_analytics_rule_run_id
+        self.provisioning_state = provisioning_state
+        self.rule_run_additional_data = rule_run_additional_data
+
+
+class TriggeredAnalyticsRuleRuns(_serialization.Model):
+    """The triggered analytics rule run array.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar value: Required.
+    :vartype value: list[~azure.mgmt.securityinsight.models.TriggeredAnalyticsRuleRun]
+    :ivar next_link:
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[TriggeredAnalyticsRuleRun]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, *, value: List["_models.TriggeredAnalyticsRuleRun"], **kwargs: Any) -> None:
+        """
+        :keyword value: Required.
+        :paramtype value: list[~azure.mgmt.securityinsight.models.TriggeredAnalyticsRuleRun]
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = None
 
 
 class Ueba(Settings):
@@ -23154,8 +25601,8 @@ class Ueba(Settings):
         *,
         etag: Optional[str] = None,
         data_sources: Optional[List[Union[str, "_models.UebaDataSources"]]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -23189,7 +25636,7 @@ class UrlEntity(Entity):
      "AzureResource", "CloudApplication", "DnsResolution", "FileHash", "Ip", "Malware", "Process",
      "RegistryKey", "RegistryValue", "SecurityGroup", "Url", "IoTDevice", "SecurityAlert",
      "Bookmark", "MailCluster", "MailMessage", "Mailbox", "SubmissionMail", and "Nic".
-    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKind
+    :vartype kind: str or ~azure.mgmt.securityinsight.models.EntityKindEnum
     :ivar additional_data: A bag of custom fields that should be part of the entity and will be
      presented to the user.
     :vartype additional_data: dict[str, any]
@@ -23222,7 +25669,7 @@ class UrlEntity(Entity):
         "url": {"key": "properties.url", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind: str = "Url"
@@ -23258,7 +25705,7 @@ class UrlEntityProperties(EntityCommonProperties):
         "url": {"key": "url", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.url = None
@@ -23288,7 +25735,7 @@ class UserInfo(_serialization.Model):
         "object_id": {"key": "objectId", "type": "str"},
     }
 
-    def __init__(self, *, object_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, object_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword object_id: The object id of the user.
         :paramtype object_id: str
@@ -23319,7 +25766,7 @@ class ValidationError(_serialization.Model):
         "error_messages": {"key": "errorMessages", "type": "[str]"},
     }
 
-    def __init__(self, *, record_index: Optional[int] = None, **kwargs):
+    def __init__(self, *, record_index: Optional[int] = None, **kwargs: Any) -> None:
         """
         :keyword record_index: The number of the record that has the error.
         :paramtype record_index: int
@@ -23459,8 +25906,8 @@ class Watchlist(ResourceWithEtag):  # pylint: disable=too-many-instance-attribut
         items_search_key: Optional[str] = None,
         content_type: Optional[str] = None,
         upload_status: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -23617,8 +26064,8 @@ class WatchlistItem(ResourceWithEtag):  # pylint: disable=too-many-instance-attr
         updated_by: Optional["_models.UserInfo"] = None,
         items_key_value: Optional[Dict[str, Any]] = None,
         entity_mapping: Optional[Dict[str, Any]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Etag of the azure resource.
         :paramtype etag: str
@@ -23679,7 +26126,7 @@ class WatchlistItemList(_serialization.Model):
         "value": {"key": "value", "type": "[WatchlistItem]"},
     }
 
-    def __init__(self, *, value: List["_models.WatchlistItem"], **kwargs):
+    def __init__(self, *, value: List["_models.WatchlistItem"], **kwargs: Any) -> None:
         """
         :keyword value: Array of watchlist items. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.WatchlistItem]
@@ -23712,7 +26159,7 @@ class WatchlistList(_serialization.Model):
         "value": {"key": "value", "type": "[Watchlist]"},
     }
 
-    def __init__(self, *, value: List["_models.Watchlist"], **kwargs):
+    def __init__(self, *, value: List["_models.Watchlist"], **kwargs: Any) -> None:
         """
         :keyword value: Array of watchlist. Required.
         :paramtype value: list[~azure.mgmt.securityinsight.models.Watchlist]
@@ -23749,8 +26196,8 @@ class Webhook(_serialization.Model):
         webhook_url: Optional[str] = None,
         webhook_secret_update_time: Optional[str] = None,
         rotate_webhook_secret: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword webhook_id: Unique identifier for the webhook.
         :paramtype webhook_id: str
@@ -23767,3 +26214,392 @@ class Webhook(_serialization.Model):
         self.webhook_url = webhook_url
         self.webhook_secret_update_time = webhook_secret_update_time
         self.rotate_webhook_secret = rotate_webhook_secret
+
+
+class WorkspaceManagerAssignment(AzureEntityResource):
+    """The workspace manager assignment.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.securityinsight.models.SystemData
+    :ivar etag: Resource Etag.
+    :vartype etag: str
+    :ivar target_resource_name: The resource name of the workspace manager group targeted by the
+     workspace manager assignment.
+    :vartype target_resource_name: str
+    :ivar last_job_end_time: The time the last job associated to this assignment ended at.
+    :vartype last_job_end_time: ~datetime.datetime
+    :ivar last_job_provisioning_state: State of the last job associated to this assignment. Known
+     values are: "Accepted", "InProgress", "Succeeded", "Failed", and "Canceled".
+    :vartype last_job_provisioning_state: str or
+     ~azure.mgmt.securityinsight.models.ProvisioningState
+    :ivar items: List of resources included in this workspace manager assignment.
+    :vartype items: list[~azure.mgmt.securityinsight.models.AssignmentItem]
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "etag": {"readonly": True},
+        "last_job_end_time": {"readonly": True},
+        "last_job_provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "etag": {"key": "etag", "type": "str"},
+        "target_resource_name": {"key": "properties.targetResourceName", "type": "str"},
+        "last_job_end_time": {"key": "properties.lastJobEndTime", "type": "iso-8601"},
+        "last_job_provisioning_state": {"key": "properties.lastJobProvisioningState", "type": "str"},
+        "items": {"key": "properties.items", "type": "[AssignmentItem]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        target_resource_name: Optional[str] = None,
+        items: Optional[List["_models.AssignmentItem"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword target_resource_name: The resource name of the workspace manager group targeted by the
+         workspace manager assignment.
+        :paramtype target_resource_name: str
+        :keyword items: List of resources included in this workspace manager assignment.
+        :paramtype items: list[~azure.mgmt.securityinsight.models.AssignmentItem]
+        """
+        super().__init__(**kwargs)
+        self.target_resource_name = target_resource_name
+        self.last_job_end_time = None
+        self.last_job_provisioning_state = None
+        self.items = items
+
+
+class WorkspaceManagerAssignmentList(_serialization.Model):
+    """List of all the workspace manager assignments.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar next_link: URL to fetch the next set of workspace manager assignments.
+    :vartype next_link: str
+    :ivar value: Array of workspace manager assignments. Required.
+    :vartype value: list[~azure.mgmt.securityinsight.models.WorkspaceManagerAssignment]
+    """
+
+    _validation = {
+        "next_link": {"readonly": True},
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "next_link": {"key": "nextLink", "type": "str"},
+        "value": {"key": "value", "type": "[WorkspaceManagerAssignment]"},
+    }
+
+    def __init__(self, *, value: List["_models.WorkspaceManagerAssignment"], **kwargs: Any) -> None:
+        """
+        :keyword value: Array of workspace manager assignments. Required.
+        :paramtype value: list[~azure.mgmt.securityinsight.models.WorkspaceManagerAssignment]
+        """
+        super().__init__(**kwargs)
+        self.next_link = None
+        self.value = value
+
+
+class WorkspaceManagerConfiguration(AzureEntityResource):
+    """The workspace manager configuration.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.securityinsight.models.SystemData
+    :ivar etag: Resource Etag.
+    :vartype etag: str
+    :ivar mode: The current mode of the workspace manager configuration. Known values are:
+     "Enabled" and "Disabled".
+    :vartype mode: str or ~azure.mgmt.securityinsight.models.Mode
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "etag": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "etag": {"key": "etag", "type": "str"},
+        "mode": {"key": "properties.mode", "type": "str"},
+    }
+
+    def __init__(self, *, mode: Optional[Union[str, "_models.Mode"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword mode: The current mode of the workspace manager configuration. Known values are:
+         "Enabled" and "Disabled".
+        :paramtype mode: str or ~azure.mgmt.securityinsight.models.Mode
+        """
+        super().__init__(**kwargs)
+        self.mode = mode
+
+
+class WorkspaceManagerConfigurationList(_serialization.Model):
+    """List all the workspace manager configurations for the workspace.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar next_link: URL to fetch the next set of workspace manager configurations.
+    :vartype next_link: str
+    :ivar value: Array of workspace manager configurations. Required.
+    :vartype value: list[~azure.mgmt.securityinsight.models.WorkspaceManagerConfiguration]
+    """
+
+    _validation = {
+        "next_link": {"readonly": True},
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "next_link": {"key": "nextLink", "type": "str"},
+        "value": {"key": "value", "type": "[WorkspaceManagerConfiguration]"},
+    }
+
+    def __init__(self, *, value: List["_models.WorkspaceManagerConfiguration"], **kwargs: Any) -> None:
+        """
+        :keyword value: Array of workspace manager configurations. Required.
+        :paramtype value: list[~azure.mgmt.securityinsight.models.WorkspaceManagerConfiguration]
+        """
+        super().__init__(**kwargs)
+        self.next_link = None
+        self.value = value
+
+
+class WorkspaceManagerGroup(AzureEntityResource):
+    """The workspace manager group.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.securityinsight.models.SystemData
+    :ivar etag: Resource Etag.
+    :vartype etag: str
+    :ivar description: The description of the workspace manager group.
+    :vartype description: str
+    :ivar display_name: The display name of the workspace manager group.
+    :vartype display_name: str
+    :ivar member_resource_names: The names of the workspace manager members participating in this
+     group.
+    :vartype member_resource_names: list[str]
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "etag": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "etag": {"key": "etag", "type": "str"},
+        "description": {"key": "properties.description", "type": "str"},
+        "display_name": {"key": "properties.displayName", "type": "str"},
+        "member_resource_names": {"key": "properties.memberResourceNames", "type": "[str]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        description: Optional[str] = None,
+        display_name: Optional[str] = None,
+        member_resource_names: Optional[List[str]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword description: The description of the workspace manager group.
+        :paramtype description: str
+        :keyword display_name: The display name of the workspace manager group.
+        :paramtype display_name: str
+        :keyword member_resource_names: The names of the workspace manager members participating in
+         this group.
+        :paramtype member_resource_names: list[str]
+        """
+        super().__init__(**kwargs)
+        self.description = description
+        self.display_name = display_name
+        self.member_resource_names = member_resource_names
+
+
+class WorkspaceManagerGroupList(_serialization.Model):
+    """List of all the workspace manager groups.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar next_link: URL to fetch the next set of workspace manager groups.
+    :vartype next_link: str
+    :ivar value: Array of workspace manager groups. Required.
+    :vartype value: list[~azure.mgmt.securityinsight.models.WorkspaceManagerGroup]
+    """
+
+    _validation = {
+        "next_link": {"readonly": True},
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "next_link": {"key": "nextLink", "type": "str"},
+        "value": {"key": "value", "type": "[WorkspaceManagerGroup]"},
+    }
+
+    def __init__(self, *, value: List["_models.WorkspaceManagerGroup"], **kwargs: Any) -> None:
+        """
+        :keyword value: Array of workspace manager groups. Required.
+        :paramtype value: list[~azure.mgmt.securityinsight.models.WorkspaceManagerGroup]
+        """
+        super().__init__(**kwargs)
+        self.next_link = None
+        self.value = value
+
+
+class WorkspaceManagerMember(AzureEntityResource):
+    """The workspace manager member.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.securityinsight.models.SystemData
+    :ivar etag: Resource Etag.
+    :vartype etag: str
+    :ivar target_workspace_id: Fully qualified resource ID of the target Sentinel workspace joining
+     the given Sentinel workspace manager.
+    :vartype target_workspace_id: str
+    :ivar target_workspace_tenant_id: Tenant id of the target Sentinel workspace joining the given
+     Sentinel workspace manager.
+    :vartype target_workspace_tenant_id: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "etag": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "etag": {"key": "etag", "type": "str"},
+        "target_workspace_id": {"key": "properties.targetWorkspaceId", "type": "str"},
+        "target_workspace_tenant_id": {"key": "properties.targetWorkspaceTenantId", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        target_workspace_id: Optional[str] = None,
+        target_workspace_tenant_id: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword target_workspace_id: Fully qualified resource ID of the target Sentinel workspace
+         joining the given Sentinel workspace manager.
+        :paramtype target_workspace_id: str
+        :keyword target_workspace_tenant_id: Tenant id of the target Sentinel workspace joining the
+         given Sentinel workspace manager.
+        :paramtype target_workspace_tenant_id: str
+        """
+        super().__init__(**kwargs)
+        self.target_workspace_id = target_workspace_id
+        self.target_workspace_tenant_id = target_workspace_tenant_id
+
+
+class WorkspaceManagerMembersList(_serialization.Model):
+    """List of workspace manager members.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar next_link: URL to fetch the next set of workspace manager members.
+    :vartype next_link: str
+    :ivar value: Array of workspace manager members. Required.
+    :vartype value: list[~azure.mgmt.securityinsight.models.WorkspaceManagerMember]
+    """
+
+    _validation = {
+        "next_link": {"readonly": True},
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "next_link": {"key": "nextLink", "type": "str"},
+        "value": {"key": "value", "type": "[WorkspaceManagerMember]"},
+    }
+
+    def __init__(self, *, value: List["_models.WorkspaceManagerMember"], **kwargs: Any) -> None:
+        """
+        :keyword value: Array of workspace manager members. Required.
+        :paramtype value: list[~azure.mgmt.securityinsight.models.WorkspaceManagerMember]
+        """
+        super().__init__(**kwargs)
+        self.next_link = None
+        self.value = value
