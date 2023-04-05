@@ -7,7 +7,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import datetime
-import sys
 from typing import Any, Callable, Dict, IO, Optional, TypeVar, Union, overload
 
 from azure.core.exceptions import (
@@ -33,10 +32,6 @@ from ...operations._metrics_operations import (
     build_list_request,
 )
 
-if sys.version_info >= (3, 8):
-    from typing import Literal  # pylint: disable=no-name-in-module, ungrouped-imports
-else:
-    from typing_extensions import Literal  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -142,7 +137,7 @@ class MetricsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-05-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-05-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-05-01"))
         cls: ClsType[_models.SubscriptionScopeMetricResponse] = kwargs.pop("cls", None)
 
         request = build_list_at_subscription_scope_request(
@@ -445,7 +440,7 @@ class MetricsOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-05-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-05-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-05-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.SubscriptionScopeMetricResponse] = kwargs.pop("cls", None)
 
@@ -590,7 +585,7 @@ class MetricsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-05-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-05-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-05-01"))
         cls: ClsType[_models.Response] = kwargs.pop("cls", None)
 
         request = build_list_request(
