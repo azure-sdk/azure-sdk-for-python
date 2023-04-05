@@ -14,7 +14,7 @@ from azure.mgmt.redisenterprise import RedisEnterpriseManagementClient
     pip install azure-identity
     pip install azure-mgmt-redisenterprise
 # USAGE
-    python redis_enterprise_delete_private_endpoint_connection.py
+    python redis_enterprise_databases_flush.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,14 +29,19 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.private_endpoint_connections.begin_delete(
+    response = client.databases.begin_flush(
         resource_group_name="rg1",
         cluster_name="cache1",
-        private_endpoint_connection_name="pectest01",
+        database_name="default",
+        parameters={
+            "ids": [
+                "/subscriptions/subid2/resourceGroups/rg2/providers/Microsoft.Cache/redisEnterprise/cache2/databases/default"
+            ]
+        },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2023-03-01-preview/examples/RedisEnterpriseDeletePrivateEndpointConnection.json
+# x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2023-03-01-preview/examples/RedisEnterpriseDatabasesFlush.json
 if __name__ == "__main__":
     main()
