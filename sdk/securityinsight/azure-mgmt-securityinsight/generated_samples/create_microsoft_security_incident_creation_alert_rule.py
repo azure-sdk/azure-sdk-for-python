@@ -46,6 +46,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-12-01-preview/examples/alertRules/CreateMicrosoftSecurityIncidentCreationAlertRule.json
+# x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2023-04-01-preview/examples/alertRules/CreateMicrosoftSecurityIncidentCreationAlertRule.json
 if __name__ == "__main__":
     main()
