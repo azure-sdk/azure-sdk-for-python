@@ -1,0 +1,15 @@
+{
+  "commit": "c3a183ba349b4863511a89c357923644c036678a",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/cognitiveservices/AnomalyDetector",
+  "@azure-tools/typespec-python": {
+    "version": "0.7.0",
+    "resolved": "https://registry.npmjs.org/@azure-tools/typespec-python/-/typespec-python-0.7.0.tgz",
+    "dependencies": {
+      "@autorest/python": {
+        "version": "6.4.7",
+        "resolved": "https://registry.npmjs.org/@autorest/python/-/python-6.4.7.tgz"
+      }
+    }
+  }
+}
