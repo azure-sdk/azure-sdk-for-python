@@ -30,7 +30,7 @@ def main():
     )
 
     response = client.settings.get(
-        setting_name="MCAS",
+        setting_name="WDATP",
     )
     print(response)
 

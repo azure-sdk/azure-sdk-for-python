@@ -30,7 +30,7 @@ def main():
     )
 
     response = client.settings.update(
-        setting_name="MCAS",
+        setting_name="WDATP",
         setting={"kind": "DataExportSettings", "properties": {"enabled": True}},
     )
     print(response)
