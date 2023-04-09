@@ -39,6 +39,9 @@ from ._source_controls_operations import SourceControlsOperations
 from ._threat_intelligence_indicator_operations import ThreatIntelligenceIndicatorOperations
 from ._threat_intelligence_indicators_operations import ThreatIntelligenceIndicatorsOperations
 from ._threat_intelligence_indicator_metrics_operations import ThreatIntelligenceIndicatorMetricsOperations
+from ._triggered_analytics_rule_run_operations import TriggeredAnalyticsRuleRunOperations
+from ._get_triggered_analytics_rule_runs_operations import GetTriggeredAnalyticsRuleRunsOperations
+from ._alert_rule_operations import AlertRuleOperations
 from ._watchlists_operations import WatchlistsOperations
 from ._watchlist_items_operations import WatchlistItemsOperations
 from ._data_connectors_operations import DataConnectorsOperations
@@ -83,6 +86,9 @@ __all__ = [
     "ThreatIntelligenceIndicatorOperations",
     "ThreatIntelligenceIndicatorsOperations",
     "ThreatIntelligenceIndicatorMetricsOperations",
+    "TriggeredAnalyticsRuleRunOperations",
+    "GetTriggeredAnalyticsRuleRunsOperations",
+    "AlertRuleOperations",
     "WatchlistsOperations",
     "WatchlistItemsOperations",
     "DataConnectorsOperations",

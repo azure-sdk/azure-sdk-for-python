@@ -17,6 +17,7 @@ from ._configuration import SecurityInsightsConfiguration
 from ._serialization import Deserializer, Serializer
 from .operations import (
     ActionsOperations,
+    AlertRuleOperations,
     AlertRuleTemplatesOperations,
     AlertRulesOperations,
     AutomationRulesOperations,
@@ -35,6 +36,7 @@ from .operations import (
     FileImportsOperations,
     GetOperations,
     GetRecommendationsOperations,
+    GetTriggeredAnalyticsRuleRunsOperations,
     IPGeodataOperations,
     IncidentCommentsOperations,
     IncidentRelationsOperations,
@@ -51,6 +53,7 @@ from .operations import (
     ThreatIntelligenceIndicatorMetricsOperations,
     ThreatIntelligenceIndicatorOperations,
     ThreatIntelligenceIndicatorsOperations,
+    TriggeredAnalyticsRuleRunOperations,
     UpdateOperations,
     WatchlistItemsOperations,
     WatchlistsOperations,
@@ -140,6 +143,14 @@ class SecurityInsights:  # pylint: disable=client-accepts-api-version-keyword,to
      operations
     :vartype threat_intelligence_indicator_metrics:
      azure.mgmt.securityinsight.operations.ThreatIntelligenceIndicatorMetricsOperations
+    :ivar triggered_analytics_rule_run: TriggeredAnalyticsRuleRunOperations operations
+    :vartype triggered_analytics_rule_run:
+     azure.mgmt.securityinsight.operations.TriggeredAnalyticsRuleRunOperations
+    :ivar get_triggered_analytics_rule_runs: GetTriggeredAnalyticsRuleRunsOperations operations
+    :vartype get_triggered_analytics_rule_runs:
+     azure.mgmt.securityinsight.operations.GetTriggeredAnalyticsRuleRunsOperations
+    :ivar alert_rule: AlertRuleOperations operations
+    :vartype alert_rule: azure.mgmt.securityinsight.operations.AlertRuleOperations
     :ivar watchlists: WatchlistsOperations operations
     :vartype watchlists: azure.mgmt.securityinsight.operations.WatchlistsOperations
     :ivar watchlist_items: WatchlistItemsOperations operations
@@ -157,7 +168,7 @@ class SecurityInsights:  # pylint: disable=client-accepts-api-version-keyword,to
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2022-12-01-preview". Note that overriding
+    :keyword api_version: Api Version. Default value is "2023-04-01-preview". Note that overriding
      this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -172,7 +183,7 @@ class SecurityInsights:  # pylint: disable=client-accepts-api-version-keyword,to
         **kwargs: Any
     ) -> None:
         self._config = SecurityInsightsConfiguration(credential=credential, subscription_id=subscription_id, **kwargs)
-        self._client = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        self._client: ARMPipelineClient = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
@@ -243,6 +254,13 @@ class SecurityInsights:  # pylint: disable=client-accepts-api-version-keyword,to
         self.threat_intelligence_indicator_metrics = ThreatIntelligenceIndicatorMetricsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.triggered_analytics_rule_run = TriggeredAnalyticsRuleRunOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.get_triggered_analytics_rule_runs = GetTriggeredAnalyticsRuleRunsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.alert_rule = AlertRuleOperations(self._client, self._config, self._serialize, self._deserialize)
         self.watchlists = WatchlistsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.watchlist_items = WatchlistItemsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.data_connectors = DataConnectorsOperations(self._client, self._config, self._serialize, self._deserialize)
@@ -280,5 +298,5 @@ class SecurityInsights:  # pylint: disable=client-accepts-api-version-keyword,to
         self._client.__enter__()
         return self
 
-    def __exit__(self, *exc_details) -> None:
+    def __exit__(self, *exc_details: Any) -> None:
         self._client.__exit__(*exc_details)
