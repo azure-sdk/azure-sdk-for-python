@@ -17,6 +17,7 @@ from ._configuration import AlertsManagementClientConfiguration
 from ._serialization import Deserializer, Serializer
 from .operations import (
     AlertProcessingRulesOperations,
+    AlertRuleRecommendationsOperations,
     AlertsOperations,
     Operations,
     PrometheusRuleGroupsOperations,
@@ -31,20 +32,25 @@ if TYPE_CHECKING:
 class AlertsManagementClient:  # pylint: disable=client-accepts-api-version-keyword
     """AlertsManagement Client.
 
-    :ivar alert_processing_rules: AlertProcessingRulesOperations operations
-    :vartype alert_processing_rules:
-     azure.mgmt.alertsmanagement.operations.AlertProcessingRulesOperations
     :ivar prometheus_rule_groups: PrometheusRuleGroupsOperations operations
     :vartype prometheus_rule_groups:
      azure.mgmt.alertsmanagement.operations.PrometheusRuleGroupsOperations
+    :ivar alert_processing_rules: AlertProcessingRulesOperations operations
+    :vartype alert_processing_rules:
+     azure.mgmt.alertsmanagement.operations.AlertProcessingRulesOperations
     :ivar operations: Operations operations
     :vartype operations: azure.mgmt.alertsmanagement.operations.Operations
     :ivar alerts: AlertsOperations operations
     :vartype alerts: azure.mgmt.alertsmanagement.operations.AlertsOperations
     :ivar smart_groups: SmartGroupsOperations operations
     :vartype smart_groups: azure.mgmt.alertsmanagement.operations.SmartGroupsOperations
+    :ivar alert_rule_recommendations: AlertRuleRecommendationsOperations operations
+    :vartype alert_rule_recommendations:
+     azure.mgmt.alertsmanagement.operations.AlertRuleRecommendationsOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
+    :param target_type: The recommendations target type. Required.
+    :type target_type: str
     :param subscription_id: The ID of the target subscription. Required.
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
@@ -54,28 +60,32 @@ class AlertsManagementClient:  # pylint: disable=client-accepts-api-version-keyw
     def __init__(
         self,
         credential: "TokenCredential",
+        target_type: str,
         subscription_id: str,
         base_url: str = "https://management.azure.com",
         **kwargs: Any
     ) -> None:
         self._config = AlertsManagementClientConfiguration(
-            credential=credential, subscription_id=subscription_id, **kwargs
+            credential=credential, target_type=target_type, subscription_id=subscription_id, **kwargs
         )
-        self._client = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        self._client: ARMPipelineClient = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
-        self.alert_processing_rules = AlertProcessingRulesOperations(
+        self.prometheus_rule_groups = PrometheusRuleGroupsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
-        self.prometheus_rule_groups = PrometheusRuleGroupsOperations(
+        self.alert_processing_rules = AlertProcessingRulesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
         self.alerts = AlertsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.smart_groups = SmartGroupsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.alert_rule_recommendations = AlertRuleRecommendationsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> HttpResponse:
         """Runs the network request through the client's chained policies.
@@ -106,5 +116,5 @@ class AlertsManagementClient:  # pylint: disable=client-accepts-api-version-keyw
         self._client.__enter__()
         return self
 
-    def __exit__(self, *exc_details) -> None:
+    def __exit__(self, *exc_details: Any) -> None:
         self._client.__exit__(*exc_details)
