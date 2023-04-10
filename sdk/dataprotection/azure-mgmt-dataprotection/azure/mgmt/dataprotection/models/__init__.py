@@ -102,6 +102,7 @@ from ._models_py3 import KubernetesClusterRestoreCriteria
 from ._models_py3 import KubernetesPVRestoreCriteria
 from ._models_py3 import KubernetesStorageClassRestoreCriteria
 from ._models_py3 import MonitoringSettings
+from ._models_py3 import NamespacedNameResource
 from ._models_py3 import OperationExtendedInfo
 from ._models_py3 import OperationJobExtendedInfo
 from ._models_py3 import OperationResource
@@ -116,6 +117,10 @@ from ._models_py3 import RecoveryPointDataStoreDetails
 from ._models_py3 import RecoveryPointsFilters
 from ._models_py3 import ResourceGuard
 from ._models_py3 import ResourceGuardOperation
+from ._models_py3 import ResourceGuardOperationDetail
+from ._models_py3 import ResourceGuardProxyBase
+from ._models_py3 import ResourceGuardProxyBaseResource
+from ._models_py3 import ResourceGuardProxyBaseResourceList
 from ._models_py3 import ResourceGuardResource
 from ._models_py3 import ResourceGuardResourceList
 from ._models_py3 import ResourceMoveDetails
@@ -141,6 +146,8 @@ from ._models_py3 import TargetCopySetting
 from ._models_py3 import TargetDetails
 from ._models_py3 import TriggerBackupRequest
 from ._models_py3 import TriggerContext
+from ._models_py3 import UnlockDeleteRequest
+from ._models_py3 import UnlockDeleteResponse
 from ._models_py3 import UserFacingError
 from ._models_py3 import ValidateForBackupRequest
 from ._models_py3 import ValidateRestoreRequestObject
@@ -275,6 +282,7 @@ __all__ = [
     "KubernetesPVRestoreCriteria",
     "KubernetesStorageClassRestoreCriteria",
     "MonitoringSettings",
+    "NamespacedNameResource",
     "OperationExtendedInfo",
     "OperationJobExtendedInfo",
     "OperationResource",
@@ -289,6 +297,10 @@ __all__ = [
     "RecoveryPointsFilters",
     "ResourceGuard",
     "ResourceGuardOperation",
+    "ResourceGuardOperationDetail",
+    "ResourceGuardProxyBase",
+    "ResourceGuardProxyBaseResource",
+    "ResourceGuardProxyBaseResourceList",
     "ResourceGuardResource",
     "ResourceGuardResourceList",
     "ResourceMoveDetails",
@@ -314,6 +326,8 @@ __all__ = [
     "TargetDetails",
     "TriggerBackupRequest",
     "TriggerContext",
+    "UnlockDeleteRequest",
+    "UnlockDeleteResponse",
     "UserFacingError",
     "ValidateForBackupRequest",
     "ValidateRestoreRequestObject",

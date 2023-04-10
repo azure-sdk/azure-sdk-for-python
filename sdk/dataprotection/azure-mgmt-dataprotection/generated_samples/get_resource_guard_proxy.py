@@ -14,7 +14,7 @@ from azure.mgmt.dataprotection import DataProtectionMgmtClient
     pip install azure-identity
     pip install azure-mgmt-dataprotection
 # USAGE
-    python trigger_export_jobs.py
+    python get_resource_guard_proxy.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,16 +26,17 @@ from azure.mgmt.dataprotection import DataProtectionMgmtClient
 def main():
     client = DataProtectionMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="00000000-0000-0000-0000-000000000000",
+        subscription_id="5e13b949-1218-4d18-8b99-7e12155ec4f7",
     )
 
-    response = client.export_jobs.begin_trigger(
-        resource_group_name="SwaggerTestRg",
-        vault_name="NetSDKTestRsVault",
-    ).result()
+    response = client.dpp_resource_guard_proxy.get(
+        resource_group_name="SampleResourceGroup",
+        vault_name="sampleVault",
+        resource_guard_proxy_name="swaggerExample",
+    )
     print(response)
 
 
-# x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-05-01/examples/JobCRUD/TriggerExportJobs.json
+# x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-05-01/examples/ResourceGuardProxyCRUD/GetResourceGuardProxy.json
 if __name__ == "__main__":
     main()
