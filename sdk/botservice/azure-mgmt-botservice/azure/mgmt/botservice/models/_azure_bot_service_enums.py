@@ -37,10 +37,10 @@ class ChannelName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 class EmailChannelAuthMethod(float, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Email channel auth method. 0 Password (Default); 1 Graph."""
 
-    #: Basic authentication.
     PASSWORD = 0
-    #: Modern authentication.
+    """Basic authentication."""
     GRAPH = 1
+    """Modern authentication."""
 
 
 class Key(str, Enum, metaclass=CaseInsensitiveEnumMeta):

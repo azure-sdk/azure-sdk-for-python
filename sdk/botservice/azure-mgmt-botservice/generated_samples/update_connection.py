@@ -39,6 +39,8 @@ def main():
             "properties": {
                 "clientId": "sampleclientid",
                 "clientSecret": "samplesecret",
+                "id": "sampleId",
+                "name": "sampleName",
                 "parameters": [{"key": "key1", "value": "value1"}, {"key": "key2", "value": "value2"}],
                 "scopes": "samplescope",
                 "serviceProviderDisplayName": "serviceProviderDisplayName",

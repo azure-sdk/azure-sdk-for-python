@@ -82,7 +82,7 @@ class Channel(_serialization.Model):
         }
     }
 
-    def __init__(self, *, etag: Optional[str] = None, location: str = "global", **kwargs):
+    def __init__(self, *, etag: Optional[str] = None, location: str = "global", **kwargs: Any) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -125,7 +125,7 @@ class AcsChatChannel(Channel):
         "location": {"key": "location", "type": "str"},
     }
 
-    def __init__(self, *, etag: Optional[str] = None, location: str = "global", **kwargs):
+    def __init__(self, *, etag: Optional[str] = None, location: str = "global", **kwargs: Any) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -174,8 +174,8 @@ class AlexaChannel(Channel):
         etag: Optional[str] = None,
         location: str = "global",
         properties: Optional["_models.AlexaChannelProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -220,7 +220,7 @@ class AlexaChannelProperties(_serialization.Model):
         "is_enabled": {"key": "isEnabled", "type": "bool"},
     }
 
-    def __init__(self, *, alexa_skill_id: str, is_enabled: bool, **kwargs):
+    def __init__(self, *, alexa_skill_id: str, is_enabled: bool, **kwargs: Any) -> None:
         """
         :keyword alexa_skill_id: The Alexa skill Id. Required.
         :paramtype alexa_skill_id: str
@@ -287,8 +287,8 @@ class Resource(_serialization.Model):
         sku: Optional["_models.Sku"] = None,
         kind: Optional[Union[str, "_models.Kind"]] = None,
         etag: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Specifies the location of the resource.
         :paramtype location: str
@@ -371,8 +371,8 @@ class Bot(Resource):
         kind: Optional[Union[str, "_models.Kind"]] = None,
         etag: Optional[str] = None,
         properties: Optional["_models.BotProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Specifies the location of the resource.
         :paramtype location: str
@@ -449,8 +449,8 @@ class BotChannel(Resource):
         kind: Optional[Union[str, "_models.Kind"]] = None,
         etag: Optional[str] = None,
         properties: Optional["_models.Channel"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Specifies the location of the resource.
         :paramtype location: str
@@ -638,8 +638,8 @@ class BotProperties(_serialization.Model):  # pylint: disable=too-many-instance-
         open_with_hint: Optional[str] = None,
         app_password_hint: Optional[str] = None,
         publishing_credentials: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword display_name: The Name of the bot. Required.
         :paramtype display_name: str
@@ -759,7 +759,7 @@ class BotResponseList(_serialization.Model):
         "value": {"key": "value", "type": "[Bot]"},
     }
 
-    def __init__(self, *, next_link: Optional[str] = None, **kwargs):
+    def __init__(self, *, next_link: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword next_link: The link used to get the next page of bot service resources.
         :paramtype next_link: str
@@ -789,7 +789,7 @@ class ChannelResponseList(_serialization.Model):
         "value": {"key": "value", "type": "[BotChannel]"},
     }
 
-    def __init__(self, *, next_link: Optional[str] = None, **kwargs):
+    def __init__(self, *, next_link: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword next_link: The link used to get the next page of bot service channel resources.
         :paramtype next_link: str
@@ -851,8 +851,8 @@ class ChannelSettings(_serialization.Model):
         is_enabled: Optional[bool] = None,
         disable_local_auth: Optional[bool] = None,
         require_terms_agreement: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword extension_key1: The extensionKey1.
         :paramtype extension_key1: str
@@ -903,7 +903,7 @@ class CheckNameAvailabilityRequestBody(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, type: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, type: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: the name of the bot for which availability needs to be checked.
         :paramtype name: str
@@ -916,7 +916,8 @@ class CheckNameAvailabilityRequestBody(_serialization.Model):
 
 
 class CheckNameAvailabilityResponseBody(_serialization.Model):
-    """The response body returned for a request to Bot Service Management to check availability of a bot name.
+    """The response body returned for a request to Bot Service Management to check availability of a
+    bot name.
 
     :ivar valid: indicates if the bot name is valid.
     :vartype valid: bool
@@ -934,8 +935,13 @@ class CheckNameAvailabilityResponseBody(_serialization.Model):
     }
 
     def __init__(
-        self, *, valid: Optional[bool] = None, message: Optional[str] = None, abs_code: Optional[str] = None, **kwargs
-    ):
+        self,
+        *,
+        valid: Optional[bool] = None,
+        message: Optional[str] = None,
+        abs_code: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword valid: indicates if the bot name is valid.
         :paramtype valid: bool
@@ -968,7 +974,7 @@ class ConnectionItemName(_serialization.Model):
         "name": {"key": "name", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.name = None
@@ -1031,8 +1037,8 @@ class ConnectionSetting(Resource):
         kind: Optional[Union[str, "_models.Kind"]] = None,
         etag: Optional[str] = None,
         properties: Optional["_models.ConnectionSettingProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Specifies the location of the resource.
         :paramtype location: str
@@ -1053,7 +1059,8 @@ class ConnectionSetting(Resource):
 
 
 class ConnectionSettingParameter(_serialization.Model):
-    """Extra Parameter in a Connection Setting Properties to indicate service provider specific properties.
+    """Extra Parameter in a Connection Setting Properties to indicate service provider specific
+    properties.
 
     :ivar key: Key for the Connection Setting Parameter.
     :vartype key: str
@@ -1066,7 +1073,7 @@ class ConnectionSettingParameter(_serialization.Model):
         "value": {"key": "value", "type": "str"},
     }
 
-    def __init__(self, *, key: Optional[str] = None, value: Optional[str] = None, **kwargs):
+    def __init__(self, *, key: Optional[str] = None, value: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword key: Key for the Connection Setting Parameter.
         :paramtype key: str
@@ -1083,6 +1090,10 @@ class ConnectionSettingProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
+    :ivar id: Id of the Connection Setting.
+    :vartype id: str
+    :ivar name: Name of the Connection Setting.
+    :vartype name: str
     :ivar client_id: Client Id associated with the Connection Setting.
     :vartype client_id: str
     :ivar setting_id: Setting Id set by the service for the Connection Setting.
@@ -1107,6 +1118,8 @@ class ConnectionSettingProperties(_serialization.Model):
     }
 
     _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
         "client_id": {"key": "clientId", "type": "str"},
         "setting_id": {"key": "settingId", "type": "str"},
         "client_secret": {"key": "clientSecret", "type": "str"},
@@ -1120,6 +1133,8 @@ class ConnectionSettingProperties(_serialization.Model):
     def __init__(
         self,
         *,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        name: Optional[str] = None,
         client_id: Optional[str] = None,
         client_secret: Optional[str] = None,
         scopes: str = "",
@@ -1127,9 +1142,13 @@ class ConnectionSettingProperties(_serialization.Model):
         service_provider_display_name: Optional[str] = None,
         parameters: Optional[List["_models.ConnectionSettingParameter"]] = None,
         provisioning_state: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
+        :keyword id: Id of the Connection Setting.
+        :paramtype id: str
+        :keyword name: Name of the Connection Setting.
+        :paramtype name: str
         :keyword client_id: Client Id associated with the Connection Setting.
         :paramtype client_id: str
         :keyword client_secret: Client Secret associated with the Connection Setting.
@@ -1147,6 +1166,8 @@ class ConnectionSettingProperties(_serialization.Model):
         :paramtype provisioning_state: str
         """
         super().__init__(**kwargs)
+        self.id = id
+        self.name = name
         self.client_id = client_id
         self.setting_id = None
         self.client_secret = client_secret
@@ -1178,7 +1199,7 @@ class ConnectionSettingResponseList(_serialization.Model):
         "value": {"key": "value", "type": "[ConnectionSetting]"},
     }
 
-    def __init__(self, *, next_link: Optional[str] = None, **kwargs):
+    def __init__(self, *, next_link: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword next_link: The link used to get the next page of bot service connection setting
          resources.
@@ -1217,8 +1238,8 @@ class CreateEmailSignInUrlResponse(_serialization.Model):
         *,
         location: Optional[str] = None,
         properties: Optional["_models.CreateEmailSignInUrlResponseProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Specifies the location of the resource.
         :paramtype location: str
@@ -1242,7 +1263,7 @@ class CreateEmailSignInUrlResponseProperties(_serialization.Model):
         "url": {"key": "url", "type": "str"},
     }
 
-    def __init__(self, *, url: Optional[str] = None, **kwargs):
+    def __init__(self, *, url: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword url: Sign in url.
         :paramtype url: str
@@ -1289,8 +1310,8 @@ class DirectLineChannel(Channel):
         etag: Optional[str] = None,
         location: str = "global",
         properties: Optional["_models.DirectLineChannelProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -1331,8 +1352,8 @@ class DirectLineChannelProperties(_serialization.Model):
         extension_key1: str = "",
         extension_key2: str = "",
         direct_line_embed_code: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword sites: The list of Direct Line sites.
         :paramtype sites: list[~azure.mgmt.botservice.models.DirectLineSite]
@@ -1451,8 +1472,8 @@ class Site(_serialization.Model):  # pylint: disable=too-many-instance-attribute
         trusted_origins: Optional[List[str]] = None,
         is_web_chat_speech_enabled: bool = False,
         is_webchat_preview_enabled: bool = False,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tenant_id: Tenant Id.
         :paramtype tenant_id: str
@@ -1612,8 +1633,8 @@ class DirectLineSite(Site):  # pylint: disable=too-many-instance-attributes
         trusted_origins: Optional[List[str]] = None,
         is_web_chat_speech_enabled: bool = False,
         is_webchat_preview_enabled: bool = False,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tenant_id: Tenant Id.
         :paramtype tenant_id: str
@@ -1708,8 +1729,8 @@ class DirectLineSpeechChannel(Channel):
         etag: Optional[str] = None,
         location: str = "global",
         properties: Optional["_models.DirectLineSpeechChannelProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -1764,8 +1785,8 @@ class DirectLineSpeechChannelProperties(_serialization.Model):
         custom_voice_deployment_id: Optional[str] = None,
         custom_speech_model_id: Optional[str] = None,
         is_default_bot_for_cog_svc_account: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword cognitive_service_resource_id: The cognitive service id with this channel
          registration.
@@ -1833,8 +1854,8 @@ class EmailChannel(Channel):
         etag: Optional[str] = None,
         location: str = "global",
         properties: Optional["_models.EmailChannelProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -1888,8 +1909,8 @@ class EmailChannelProperties(_serialization.Model):
         auth_method: Optional[Union[float, "_models.EmailChannelAuthMethod"]] = None,
         password: Optional[str] = None,
         magic_code: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword email_address: The email address. Required.
         :paramtype email_address: str
@@ -1923,7 +1944,7 @@ class Error(_serialization.Model):
         "error": {"key": "error", "type": "ErrorBody"},
     }
 
-    def __init__(self, *, error: Optional["_models.ErrorBody"] = None, **kwargs):
+    def __init__(self, *, error: Optional["_models.ErrorBody"] = None, **kwargs: Any) -> None:
         """
         :keyword error: The error body.
         :paramtype error: ~azure.mgmt.botservice.models.ErrorBody
@@ -1953,7 +1974,7 @@ class ErrorBody(_serialization.Model):
         "message": {"key": "message", "type": "str"},
     }
 
-    def __init__(self, *, code: str, message: str, **kwargs):
+    def __init__(self, *, code: str, message: str, **kwargs: Any) -> None:
         """
         :keyword code: error code. Required.
         :paramtype code: str
@@ -2003,8 +2024,8 @@ class FacebookChannel(Channel):
         etag: Optional[str] = None,
         location: str = "global",
         properties: Optional["_models.FacebookChannelProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -2064,8 +2085,8 @@ class FacebookChannelProperties(_serialization.Model):
         is_enabled: bool,
         pages: Optional[List["_models.FacebookPage"]] = None,
         app_secret: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword pages: The list of Facebook pages.
         :paramtype pages: list[~azure.mgmt.botservice.models.FacebookPage]
@@ -2107,7 +2128,9 @@ class FacebookPage(_serialization.Model):
         "access_token": {"key": "accessToken", "type": "str"},
     }
 
-    def __init__(self, *, id: str, access_token: Optional[str] = None, **kwargs):  # pylint: disable=redefined-builtin
+    def __init__(
+        self, *, id: str, access_token: Optional[str] = None, **kwargs: Any  # pylint: disable=redefined-builtin
+    ) -> None:
         """
         :keyword id: Page id. Required.
         :paramtype id: str
@@ -2121,7 +2144,8 @@ class FacebookPage(_serialization.Model):
 
 
 class HostSettingsResponse(_serialization.Model):
-    """The response body returned for a request to Bot Service Management to check per subscription hostSettings.
+    """The response body returned for a request to Bot Service Management to check per subscription
+    hostSettings.
 
     :ivar o_auth_url: For in-conversation bot user authentication.
     :vartype o_auth_url: str
@@ -2165,8 +2189,8 @@ class HostSettingsResponse(_serialization.Model):
         to_channel_from_bot_o_auth_scope: Optional[str] = None,
         validate_authority: Optional[bool] = None,
         bot_open_id_metadata: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword o_auth_url: For in-conversation bot user authentication.
         :paramtype o_auth_url: str
@@ -2236,8 +2260,8 @@ class KikChannel(Channel):
         etag: Optional[str] = None,
         location: str = "global",
         properties: Optional["_models.KikChannelProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -2286,8 +2310,8 @@ class KikChannelProperties(_serialization.Model):
         is_enabled: bool,
         api_key: Optional[str] = None,
         is_validated: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword user_name: The Kik user name. Required.
         :paramtype user_name: str
@@ -2344,8 +2368,8 @@ class LineChannel(Channel):
         etag: Optional[str] = None,
         location: str = "global",
         properties: Optional["_models.LineChannelProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -2386,7 +2410,7 @@ class LineChannelProperties(_serialization.Model):
         "is_validated": {"key": "isValidated", "type": "bool"},
     }
 
-    def __init__(self, *, line_registrations: List["_models.LineRegistration"], **kwargs):
+    def __init__(self, *, line_registrations: List["_models.LineRegistration"], **kwargs: Any) -> None:
         """
         :keyword line_registrations: The list of line channel registrations. Required.
         :paramtype line_registrations: list[~azure.mgmt.botservice.models.LineRegistration]
@@ -2420,7 +2444,9 @@ class LineRegistration(_serialization.Model):
         "channel_access_token": {"key": "channelAccessToken", "type": "str"},
     }
 
-    def __init__(self, *, channel_secret: Optional[str] = None, channel_access_token: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, channel_secret: Optional[str] = None, channel_access_token: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword channel_secret: Secret for the line channel registration.
         :paramtype channel_secret: str
@@ -2510,8 +2536,8 @@ class ListChannelWithKeysResponse(BotChannel):  # pylint: disable=too-many-insta
         provisioning_state: Optional[str] = None,
         entity_tag: Optional[str] = None,
         changed_time: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Specifies the location of the resource.
         :paramtype location: str
@@ -2574,7 +2600,7 @@ class M365Extensions(Channel):
         "location": {"key": "location", "type": "str"},
     }
 
-    def __init__(self, *, etag: Optional[str] = None, location: str = "global", **kwargs):
+    def __init__(self, *, etag: Optional[str] = None, location: str = "global", **kwargs: Any) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -2623,8 +2649,8 @@ class MsTeamsChannel(Channel):
         etag: Optional[str] = None,
         location: str = "global",
         properties: Optional["_models.MsTeamsChannelProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -2679,8 +2705,8 @@ class MsTeamsChannelProperties(_serialization.Model):
         incoming_call_route: Optional[str] = None,
         deployment_environment: str = "FallbackDeploymentEnvironment",
         accepted_terms: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword enable_calling: Enable calling for Microsoft Teams channel.
         :paramtype enable_calling: bool
@@ -2733,7 +2759,7 @@ class Omnichannel(Channel):
         "location": {"key": "location", "type": "str"},
     }
 
-    def __init__(self, *, etag: Optional[str] = None, location: str = "global", **kwargs):
+    def __init__(self, *, etag: Optional[str] = None, location: str = "global", **kwargs: Any) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -2771,8 +2797,8 @@ class OperationDisplayInfo(_serialization.Model):
         operation: Optional[str] = None,
         provider: Optional[str] = None,
         resource: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword description: The description of the operation.
         :paramtype description: str
@@ -2817,8 +2843,8 @@ class OperationEntity(_serialization.Model):
         display: Optional["_models.OperationDisplayInfo"] = None,
         origin: Optional[str] = None,
         properties: Optional[JSON] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Operation name: {provider}/{resource}/{operation}.
         :paramtype name: str
@@ -2851,8 +2877,8 @@ class OperationEntityListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, next_link: Optional[str] = None, value: Optional[List["_models.OperationEntity"]] = None, **kwargs
-    ):
+        self, *, next_link: Optional[str] = None, value: Optional[List["_models.OperationEntity"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword next_link: The link used to get the next page of operations.
         :paramtype next_link: str
@@ -2894,7 +2920,7 @@ class OperationResultsDescription(_serialization.Model):
         "start_time": {"key": "startTime", "type": "iso-8601"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -2932,7 +2958,7 @@ class OutlookChannel(Channel):
         "location": {"key": "location", "type": "str"},
     }
 
-    def __init__(self, *, etag: Optional[str] = None, location: str = "global", **kwargs):
+    def __init__(self, *, etag: Optional[str] = None, location: str = "global", **kwargs: Any) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -2960,7 +2986,7 @@ class PrivateEndpoint(_serialization.Model):
         "id": {"key": "id", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -2993,7 +3019,7 @@ class PrivateLinkResourceBase(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -3054,8 +3080,8 @@ class PrivateEndpointConnection(PrivateLinkResourceBase):
         private_endpoint: Optional["_models.PrivateEndpoint"] = None,
         private_link_service_connection_state: Optional["_models.PrivateLinkServiceConnectionState"] = None,
         group_ids: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword private_endpoint: The resource of private end point.
         :paramtype private_endpoint: ~azure.mgmt.botservice.models.PrivateEndpoint
@@ -3084,7 +3110,7 @@ class PrivateEndpointConnectionListResult(_serialization.Model):
         "value": {"key": "value", "type": "[PrivateEndpointConnection]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.PrivateEndpointConnection"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.PrivateEndpointConnection"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Array of private endpoint connections.
         :paramtype value: list[~azure.mgmt.botservice.models.PrivateEndpointConnection]
@@ -3131,7 +3157,7 @@ class PrivateLinkResource(PrivateLinkResourceBase):
         "required_zone_names": {"key": "properties.requiredZoneNames", "type": "[str]"},
     }
 
-    def __init__(self, *, required_zone_names: Optional[List[str]] = None, **kwargs):
+    def __init__(self, *, required_zone_names: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
         :keyword required_zone_names: The private link resource Private link DNS zone name.
         :paramtype required_zone_names: list[str]
@@ -3153,7 +3179,7 @@ class PrivateLinkResourceListResult(_serialization.Model):
         "value": {"key": "value", "type": "[PrivateLinkResource]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.PrivateLinkResource"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.PrivateLinkResource"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Array of private link resources.
         :paramtype value: list[~azure.mgmt.botservice.models.PrivateLinkResource]
@@ -3163,7 +3189,8 @@ class PrivateLinkResourceListResult(_serialization.Model):
 
 
 class PrivateLinkServiceConnectionState(_serialization.Model):
-    """A collection of information about the state of the connection between service consumer and provider.
+    """A collection of information about the state of the connection between service consumer and
+    provider.
 
     :ivar status: Indicates whether the connection has been Approved/Rejected/Removed by the owner
      of the service. Known values are: "Pending", "Approved", and "Rejected".
@@ -3187,8 +3214,8 @@ class PrivateLinkServiceConnectionState(_serialization.Model):
         status: Optional[Union[str, "_models.PrivateEndpointServiceConnectionStatus"]] = None,
         description: Optional[str] = None,
         actions_required: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword status: Indicates whether the connection has been Approved/Rejected/Removed by the
          owner of the service. Known values are: "Pending", "Approved", and "Rejected".
@@ -3219,7 +3246,7 @@ class QnAMakerEndpointKeysRequestBody(_serialization.Model):
         "authkey": {"key": "authkey", "type": "str"},
     }
 
-    def __init__(self, *, hostname: Optional[str] = None, authkey: Optional[str] = None, **kwargs):
+    def __init__(self, *, hostname: Optional[str] = None, authkey: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword hostname: the host name of the QnA Maker endpoint.
         :paramtype hostname: str
@@ -3258,8 +3285,8 @@ class QnAMakerEndpointKeysResponse(_serialization.Model):
         secondary_endpoint_key: Optional[str] = None,
         installed_version: Optional[str] = None,
         last_stable_version: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword primary_endpoint_key: Primary Access Key.
         :paramtype primary_endpoint_key: str
@@ -3306,7 +3333,7 @@ class SearchAssistant(Channel):
         "location": {"key": "location", "type": "str"},
     }
 
-    def __init__(self, *, etag: Optional[str] = None, location: str = "global", **kwargs):
+    def __init__(self, *, etag: Optional[str] = None, location: str = "global", **kwargs: Any) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -3328,7 +3355,7 @@ class ServiceProvider(_serialization.Model):
         "properties": {"key": "properties", "type": "ServiceProviderProperties"},
     }
 
-    def __init__(self, *, properties: Optional["_models.ServiceProviderProperties"] = None, **kwargs):
+    def __init__(self, *, properties: Optional["_models.ServiceProviderProperties"] = None, **kwargs: Any) -> None:
         """
         :keyword properties: The Properties of a Service Provider Object.
         :paramtype properties: ~azure.mgmt.botservice.models.ServiceProviderProperties
@@ -3378,7 +3405,7 @@ class ServiceProviderParameter(_serialization.Model):
         "metadata": {"key": "metadata", "type": "ServiceProviderParameterMetadata"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.name = None
@@ -3402,8 +3429,8 @@ class ServiceProviderParameterMetadata(_serialization.Model):
     }
 
     def __init__(
-        self, *, constraints: Optional["_models.ServiceProviderParameterMetadataConstraints"] = None, **kwargs
-    ):
+        self, *, constraints: Optional["_models.ServiceProviderParameterMetadataConstraints"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword constraints: the constraints of the bot meta data.
         :paramtype constraints:
@@ -3424,7 +3451,7 @@ class ServiceProviderParameterMetadataConstraints(_serialization.Model):
         "required": {"key": "required", "type": "bool"},
     }
 
-    def __init__(self, *, required: Optional[bool] = None, **kwargs):
+    def __init__(self, *, required: Optional[bool] = None, **kwargs: Any) -> None:
         """
         :keyword required: Whether required the constraints of the bot meta data.
         :paramtype required: bool
@@ -3469,8 +3496,12 @@ class ServiceProviderProperties(_serialization.Model):
     }
 
     def __init__(
-        self, *, icon_url: str = "", parameters: Optional[List["_models.ServiceProviderParameter"]] = None, **kwargs
-    ):
+        self,
+        *,
+        icon_url: str = "",
+        parameters: Optional[List["_models.ServiceProviderParameter"]] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword icon_url: The URL of icon.
         :paramtype icon_url: str
@@ -3506,7 +3537,7 @@ class ServiceProviderResponseList(_serialization.Model):
         "value": {"key": "value", "type": "[ServiceProvider]"},
     }
 
-    def __init__(self, *, next_link: Optional[str] = None, **kwargs):
+    def __init__(self, *, next_link: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword next_link: The link used to get the next page of bot service providers.
         :paramtype next_link: str
@@ -3517,7 +3548,8 @@ class ServiceProviderResponseList(_serialization.Model):
 
 
 class SiteInfo(_serialization.Model):
-    """Site information for WebChat or DirectLine Channels to identify which site to regenerate keys for.
+    """Site information for WebChat or DirectLine Channels to identify which site to regenerate keys
+    for.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -3538,7 +3570,7 @@ class SiteInfo(_serialization.Model):
         "key": {"key": "key", "type": "str"},
     }
 
-    def __init__(self, *, site_name: str, key: Union[str, "_models.Key"], **kwargs):
+    def __init__(self, *, site_name: str, key: Union[str, "_models.Key"], **kwargs: Any) -> None:
         """
         :keyword site_name: The site name. Required.
         :paramtype site_name: str
@@ -3575,7 +3607,7 @@ class Sku(_serialization.Model):
         "tier": {"key": "tier", "type": "str"},
     }
 
-    def __init__(self, *, name: Union[str, "_models.SkuName"], **kwargs):
+    def __init__(self, *, name: Union[str, "_models.SkuName"], **kwargs: Any) -> None:
         """
         :keyword name: The sku name. Required. Known values are: "F0" and "S1".
         :paramtype name: str or ~azure.mgmt.botservice.models.SkuName
@@ -3623,8 +3655,8 @@ class SkypeChannel(Channel):
         etag: Optional[str] = None,
         location: str = "global",
         properties: Optional["_models.SkypeChannelProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -3695,8 +3727,8 @@ class SkypeChannelProperties(_serialization.Model):
         groups_mode: Optional[str] = None,
         calling_web_hook: Optional[str] = None,
         incoming_call_route: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword enable_messaging: Enable messaging for Skype channel.
         :paramtype enable_messaging: bool
@@ -3770,8 +3802,8 @@ class SlackChannel(Channel):
         etag: Optional[str] = None,
         location: str = "global",
         properties: Optional["_models.SlackChannelProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -3851,8 +3883,8 @@ class SlackChannelProperties(_serialization.Model):  # pylint: disable=too-many-
         landing_page_url: Optional[str] = None,
         register_before_o_auth_flow: Optional[bool] = None,
         signing_secret: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_id: The Slack client id.
         :paramtype client_id: str
@@ -3926,8 +3958,8 @@ class SmsChannel(Channel):
         etag: Optional[str] = None,
         location: str = "global",
         properties: Optional["_models.SmsChannelProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -3982,8 +4014,8 @@ class SmsChannelProperties(_serialization.Model):
         is_enabled: bool,
         auth_token: Optional[str] = None,
         is_validated: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword phone: The Sms phone. Required.
         :paramtype phone: str
@@ -4044,8 +4076,8 @@ class TelegramChannel(Channel):
         etag: Optional[str] = None,
         location: str = "global",
         properties: Optional["_models.TelegramChannelProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -4084,8 +4116,13 @@ class TelegramChannelProperties(_serialization.Model):
     }
 
     def __init__(
-        self, *, is_enabled: bool, access_token: Optional[str] = None, is_validated: Optional[bool] = None, **kwargs
-    ):
+        self,
+        *,
+        is_enabled: bool,
+        access_token: Optional[str] = None,
+        is_validated: Optional[bool] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword access_token: The Telegram access token. Value only returned through POST to the
          action Channel List API, otherwise empty.
@@ -4139,8 +4176,8 @@ class TelephonyChannel(Channel):
         etag: Optional[str] = None,
         location: str = "global",
         properties: Optional["_models.TelephonyChannelProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -4194,8 +4231,8 @@ class TelephonyChannelProperties(_serialization.Model):
         default_locale: Optional[str] = None,
         premium_sku: Optional[str] = None,
         is_enabled: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword phone_numbers: The list of Telephony phone numbers.
         :paramtype phone_numbers: list[~azure.mgmt.botservice.models.TelephonyPhoneNumbers]
@@ -4258,8 +4295,8 @@ class TelephonyChannelResourceApiConfiguration(_serialization.Model):
         cognitive_service_region: Optional[str] = None,
         cognitive_service_resource_id: Optional[str] = None,
         default_locale: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: The id of config.
         :paramtype id: str
@@ -4334,8 +4371,8 @@ class TelephonyPhoneNumbers(_serialization.Model):
         cognitive_service_resource_id: Optional[str] = None,
         default_locale: Optional[str] = None,
         offer_type: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: The element id.
         :paramtype id: str
@@ -4409,8 +4446,8 @@ class WebChatChannel(Channel):
         etag: Optional[str] = None,
         location: str = "global",
         properties: Optional["_models.WebChatChannelProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Entity Tag of the resource.
         :paramtype etag: str
@@ -4444,7 +4481,7 @@ class WebChatChannelProperties(_serialization.Model):
         "sites": {"key": "sites", "type": "[WebChatSite]"},
     }
 
-    def __init__(self, *, sites: Optional[List["_models.WebChatSite"]] = None, **kwargs):
+    def __init__(self, *, sites: Optional[List["_models.WebChatSite"]] = None, **kwargs: Any) -> None:
         """
         :keyword sites: The list of Web Chat sites.
         :paramtype sites: list[~azure.mgmt.botservice.models.WebChatSite]
@@ -4555,8 +4592,8 @@ class WebChatSite(Site):  # pylint: disable=too-many-instance-attributes
         trusted_origins: Optional[List[str]] = None,
         is_web_chat_speech_enabled: bool = False,
         is_webchat_preview_enabled: bool = False,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tenant_id: Tenant Id.
         :paramtype tenant_id: str
