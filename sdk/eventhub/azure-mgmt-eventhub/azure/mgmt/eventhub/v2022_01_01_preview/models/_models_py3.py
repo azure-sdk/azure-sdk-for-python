@@ -751,6 +751,8 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
     :vartype system_data: ~azure.mgmt.eventhub.v2022_01_01_preview.models.SystemData
     :ivar created_at: The UTC time when the Event Hubs Cluster was created.
     :vartype created_at: str
+    :ivar provisioning_state: Provisioning state of the Cluster.
+    :vartype provisioning_state: str
     :ivar updated_at: The UTC time when the Event Hubs Cluster was last updated.
     :vartype updated_at: str
     :ivar metric_id: The metric ID of the cluster resource. Provided by the service and not
@@ -768,6 +770,7 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
         "type": {"readonly": True},
         "system_data": {"readonly": True},
         "created_at": {"readonly": True},
+        "provisioning_state": {"readonly": True},
         "updated_at": {"readonly": True},
         "metric_id": {"readonly": True},
         "status": {"readonly": True},
@@ -782,6 +785,7 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
         "sku": {"key": "sku", "type": "ClusterSku"},
         "system_data": {"key": "systemData", "type": "SystemData"},
         "created_at": {"key": "properties.createdAt", "type": "str"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "updated_at": {"key": "properties.updatedAt", "type": "str"},
         "metric_id": {"key": "properties.metricId", "type": "str"},
         "status": {"key": "properties.status", "type": "str"},
@@ -811,6 +815,7 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
         self.sku = sku
         self.system_data = None
         self.created_at = None
+        self.provisioning_state = None
         self.updated_at = None
         self.metric_id = None
         self.status = None
