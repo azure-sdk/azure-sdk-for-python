@@ -36,6 +36,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2022-03-01/examples/PolicyRestrictions_CheckAtManagementGroupScope.json
+# x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2023-03-01/examples/PolicyRestrictions_CheckAtManagementGroupScope.json
 if __name__ == "__main__":
     main()

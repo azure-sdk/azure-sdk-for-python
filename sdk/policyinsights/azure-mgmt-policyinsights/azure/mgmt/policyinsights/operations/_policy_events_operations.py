@@ -61,7 +61,7 @@ def build_list_query_results_for_management_group_request(
     management_groups_namespace: Literal["Microsoft.Management"] = kwargs.pop(
         "management_groups_namespace", "Microsoft.Management"
     )
-    api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -106,7 +106,7 @@ def build_next_link_request(next_link: str, *, skip_token: Optional[str] = None,
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -145,7 +145,7 @@ def build_list_query_results_for_subscription_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -189,7 +189,7 @@ def build_next_link_request(next_link: str, *, skip_token: Optional[str] = None,
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -229,7 +229,7 @@ def build_list_query_results_for_resource_group_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -274,7 +274,7 @@ def build_next_link_request(next_link: str, *, skip_token: Optional[str] = None,
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -314,7 +314,7 @@ def build_list_query_results_for_resource_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -360,7 +360,7 @@ def build_next_link_request(next_link: str, *, skip_token: Optional[str] = None,
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -403,7 +403,7 @@ def build_list_query_results_for_policy_set_definition_request(
     authorization_namespace: Literal["Microsoft.Authorization"] = kwargs.pop(
         "authorization_namespace", "Microsoft.Authorization"
     )
-    api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -449,7 +449,7 @@ def build_next_link_request(next_link: str, *, skip_token: Optional[str] = None,
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -492,7 +492,7 @@ def build_list_query_results_for_policy_definition_request(
     authorization_namespace: Literal["Microsoft.Authorization"] = kwargs.pop(
         "authorization_namespace", "Microsoft.Authorization"
     )
-    api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -538,7 +538,7 @@ def build_next_link_request(next_link: str, *, skip_token: Optional[str] = None,
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -581,7 +581,7 @@ def build_list_query_results_for_subscription_level_policy_assignment_request(
     authorization_namespace: Literal["Microsoft.Authorization"] = kwargs.pop(
         "authorization_namespace", "Microsoft.Authorization"
     )
-    api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -627,7 +627,7 @@ def build_next_link_request(next_link: str, *, skip_token: Optional[str] = None,
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -671,7 +671,7 @@ def build_list_query_results_for_resource_group_level_policy_assignment_request(
     authorization_namespace: Literal["Microsoft.Authorization"] = kwargs.pop(
         "authorization_namespace", "Microsoft.Authorization"
     )
-    api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -718,7 +718,7 @@ def build_next_link_request(next_link: str, *, skip_token: Optional[str] = None,
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -791,7 +791,7 @@ class PolicyEventsOperations:
         management_groups_namespace: Literal["Microsoft.Management"] = kwargs.pop(
             "management_groups_namespace", "Microsoft.Management"
         )
-        api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
         cls: ClsType[_models.PolicyEventsQueryResults] = kwargs.pop("cls", None)
 
         error_map = {
@@ -884,8 +884,9 @@ class PolicyEventsOperations:
         def get_next(next_link=None):
             request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -927,7 +928,7 @@ class PolicyEventsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
         cls: ClsType[_models.PolicyEventsQueryResults] = kwargs.pop("cls", None)
 
         error_map = {
@@ -1019,8 +1020,9 @@ class PolicyEventsOperations:
         def get_next(next_link=None):
             request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1065,7 +1067,7 @@ class PolicyEventsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
         cls: ClsType[_models.PolicyEventsQueryResults] = kwargs.pop("cls", None)
 
         error_map = {
@@ -1158,8 +1160,9 @@ class PolicyEventsOperations:
         def get_next(next_link=None):
             request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1201,7 +1204,7 @@ class PolicyEventsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
         cls: ClsType[_models.PolicyEventsQueryResults] = kwargs.pop("cls", None)
 
         error_map = {
@@ -1298,8 +1301,9 @@ class PolicyEventsOperations:
         def get_next(next_link=None):
             request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1351,7 +1355,7 @@ class PolicyEventsOperations:
         authorization_namespace: Literal["Microsoft.Authorization"] = kwargs.pop(
             "authorization_namespace", "Microsoft.Authorization"
         )
-        api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
         cls: ClsType[_models.PolicyEventsQueryResults] = kwargs.pop("cls", None)
 
         error_map = {
@@ -1445,8 +1449,9 @@ class PolicyEventsOperations:
         def get_next(next_link=None):
             request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1498,7 +1503,7 @@ class PolicyEventsOperations:
         authorization_namespace: Literal["Microsoft.Authorization"] = kwargs.pop(
             "authorization_namespace", "Microsoft.Authorization"
         )
-        api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
         cls: ClsType[_models.PolicyEventsQueryResults] = kwargs.pop("cls", None)
 
         error_map = {
@@ -1592,8 +1597,9 @@ class PolicyEventsOperations:
         def get_next(next_link=None):
             request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1645,7 +1651,7 @@ class PolicyEventsOperations:
         authorization_namespace: Literal["Microsoft.Authorization"] = kwargs.pop(
             "authorization_namespace", "Microsoft.Authorization"
         )
-        api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
         cls: ClsType[_models.PolicyEventsQueryResults] = kwargs.pop("cls", None)
 
         error_map = {
@@ -1739,8 +1745,9 @@ class PolicyEventsOperations:
         def get_next(next_link=None):
             request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1795,7 +1802,7 @@ class PolicyEventsOperations:
         authorization_namespace: Literal["Microsoft.Authorization"] = kwargs.pop(
             "authorization_namespace", "Microsoft.Authorization"
         )
-        api_version: Literal["2019-10-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-10-01"))
         cls: ClsType[_models.PolicyEventsQueryResults] = kwargs.pop("cls", None)
 
         error_map = {
@@ -1890,8 +1897,9 @@ class PolicyEventsOperations:
         def get_next(next_link=None):
             request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 

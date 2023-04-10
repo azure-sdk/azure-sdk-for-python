@@ -10,6 +10,7 @@ from ._models_py3 import Attestation
 from ._models_py3 import AttestationEvidence
 from ._models_py3 import AttestationListResult
 from ._models_py3 import CheckManagementGroupRestrictionsRequest
+from ._models_py3 import CheckRestrictionEvaluationDetails
 from ._models_py3 import CheckRestrictionsRequest
 from ._models_py3 import CheckRestrictionsResourceDetails
 from ._models_py3 import CheckRestrictionsResult
@@ -38,6 +39,7 @@ from ._models_py3 import PendingField
 from ._models_py3 import PolicyAssignmentSummary
 from ._models_py3 import PolicyDefinitionSummary
 from ._models_py3 import PolicyDetails
+from ._models_py3 import PolicyEffectDetails
 from ._models_py3 import PolicyEvaluationDetails
 from ._models_py3 import PolicyEvaluationResult
 from ._models_py3 import PolicyEvent
@@ -89,6 +91,7 @@ __all__ = [
     "AttestationEvidence",
     "AttestationListResult",
     "CheckManagementGroupRestrictionsRequest",
+    "CheckRestrictionEvaluationDetails",
     "CheckRestrictionsRequest",
     "CheckRestrictionsResourceDetails",
     "CheckRestrictionsResult",
@@ -117,6 +120,7 @@ __all__ = [
     "PolicyAssignmentSummary",
     "PolicyDefinitionSummary",
     "PolicyDetails",
+    "PolicyEffectDetails",
     "PolicyEvaluationDetails",
     "PolicyEvaluationResult",
     "PolicyEvent",

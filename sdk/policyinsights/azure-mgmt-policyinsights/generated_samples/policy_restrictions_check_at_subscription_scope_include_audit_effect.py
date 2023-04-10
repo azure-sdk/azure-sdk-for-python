@@ -14,7 +14,7 @@ from azure.mgmt.policyinsights import PolicyInsightsClient
     pip install azure-identity
     pip install azure-mgmt-policyinsights
 # USAGE
-    python policy_restrictions_check_at_subscription_scope.py
+    python policy_restrictions_check_at_subscription_scope_include_audit_effect.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -31,6 +31,7 @@ def main():
 
     response = client.policy_restrictions.check_at_subscription_scope(
         parameters={
+            "includeAuditEffect": True,
             "pendingFields": [
                 {"field": "name", "values": ["myVMName"]},
                 {"field": "location", "values": ["eastus", "westus", "westus2", "westeurope"]},
@@ -45,6 +46,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2023-03-01/examples/PolicyRestrictions_CheckAtSubscriptionScope.json
+# x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2023-03-01/examples/PolicyRestrictions_CheckAtSubscriptionScopeIncludeAuditEffect.json
 if __name__ == "__main__":
     main()

@@ -121,7 +121,7 @@ class ComponentPolicyStatesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-04-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-04-01"))
         cls: ClsType[_models.ComponentPolicyStatesQueryResults] = kwargs.pop("cls", None)
 
         request = build_list_query_results_for_subscription_request(
@@ -142,8 +142,9 @@ class ComponentPolicyStatesOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -225,7 +226,7 @@ class ComponentPolicyStatesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-04-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-04-01"))
         cls: ClsType[_models.ComponentPolicyStatesQueryResults] = kwargs.pop("cls", None)
 
         request = build_list_query_results_for_resource_group_request(
@@ -247,8 +248,9 @@ class ComponentPolicyStatesOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -330,7 +332,7 @@ class ComponentPolicyStatesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-04-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-04-01"))
         cls: ClsType[_models.ComponentPolicyStatesQueryResults] = kwargs.pop("cls", None)
 
         request = build_list_query_results_for_resource_request(
@@ -352,8 +354,9 @@ class ComponentPolicyStatesOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -442,7 +445,7 @@ class ComponentPolicyStatesOperations:
         authorization_namespace: Literal["Microsoft.Authorization"] = kwargs.pop(
             "authorization_namespace", "Microsoft.Authorization"
         )
-        api_version: Literal["2022-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-04-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-04-01"))
         cls: ClsType[_models.ComponentPolicyStatesQueryResults] = kwargs.pop("cls", None)
 
         request = build_list_query_results_for_policy_definition_request(
@@ -465,8 +468,9 @@ class ComponentPolicyStatesOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -555,7 +559,7 @@ class ComponentPolicyStatesOperations:
         authorization_namespace: Literal["Microsoft.Authorization"] = kwargs.pop(
             "authorization_namespace", "Microsoft.Authorization"
         )
-        api_version: Literal["2022-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-04-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-04-01"))
         cls: ClsType[_models.ComponentPolicyStatesQueryResults] = kwargs.pop("cls", None)
 
         request = build_list_query_results_for_subscription_level_policy_assignment_request(
@@ -578,8 +582,9 @@ class ComponentPolicyStatesOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -671,7 +676,7 @@ class ComponentPolicyStatesOperations:
         authorization_namespace: Literal["Microsoft.Authorization"] = kwargs.pop(
             "authorization_namespace", "Microsoft.Authorization"
         )
-        api_version: Literal["2022-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-04-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-04-01"))
         cls: ClsType[_models.ComponentPolicyStatesQueryResults] = kwargs.pop("cls", None)
 
         request = build_list_query_results_for_resource_group_level_policy_assignment_request(
@@ -695,8 +700,9 @@ class ComponentPolicyStatesOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response

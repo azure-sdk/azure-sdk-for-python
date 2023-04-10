@@ -51,7 +51,7 @@ class Resource(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -148,8 +148,8 @@ class Attestation(Resource):  # pylint: disable=too-many-instance-attributes
         evidence: Optional[List["_models.AttestationEvidence"]] = None,
         assessment_date: Optional[datetime.datetime] = None,
         metadata: Optional[JSON] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword policy_assignment_id: The resource ID of the policy assignment that the attestation is
          setting the state for. Required.
@@ -205,7 +205,7 @@ class AttestationEvidence(_serialization.Model):
         "source_uri": {"key": "sourceUri", "type": "str"},
     }
 
-    def __init__(self, *, description: Optional[str] = None, source_uri: Optional[str] = None, **kwargs):
+    def __init__(self, *, description: Optional[str] = None, source_uri: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword description: The description for this piece of evidence.
         :paramtype description: str
@@ -238,7 +238,7 @@ class AttestationListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -265,8 +265,8 @@ class CheckManagementGroupRestrictionsRequest(_serialization.Model):
         *,
         resource_details: Optional["_models.CheckRestrictionsResourceDetails"] = None,
         pending_fields: Optional[List["_models.PendingField"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword resource_details: The information about the resource that will be evaluated.
         :paramtype resource_details: ~azure.mgmt.policyinsights.models.CheckRestrictionsResourceDetails
@@ -279,6 +279,51 @@ class CheckManagementGroupRestrictionsRequest(_serialization.Model):
         self.pending_fields = pending_fields
 
 
+class CheckRestrictionEvaluationDetails(_serialization.Model):
+    """Policy evaluation details.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar evaluated_expressions: Details of the evaluated expressions.
+    :vartype evaluated_expressions:
+     list[~azure.mgmt.policyinsights.models.ExpressionEvaluationDetails]
+    :ivar if_not_exists_details: Evaluation details of IfNotExists effect.
+    :vartype if_not_exists_details: ~azure.mgmt.policyinsights.models.IfNotExistsEvaluationDetails
+    :ivar reason: The reason for the evaluation result.
+    :vartype reason: str
+    """
+
+    _validation = {
+        "reason": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "evaluated_expressions": {"key": "evaluatedExpressions", "type": "[ExpressionEvaluationDetails]"},
+        "if_not_exists_details": {"key": "ifNotExistsDetails", "type": "IfNotExistsEvaluationDetails"},
+        "reason": {"key": "reason", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        evaluated_expressions: Optional[List["_models.ExpressionEvaluationDetails"]] = None,
+        if_not_exists_details: Optional["_models.IfNotExistsEvaluationDetails"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword evaluated_expressions: Details of the evaluated expressions.
+        :paramtype evaluated_expressions:
+         list[~azure.mgmt.policyinsights.models.ExpressionEvaluationDetails]
+        :keyword if_not_exists_details: Evaluation details of IfNotExists effect.
+        :paramtype if_not_exists_details:
+         ~azure.mgmt.policyinsights.models.IfNotExistsEvaluationDetails
+        """
+        super().__init__(**kwargs)
+        self.evaluated_expressions = evaluated_expressions
+        self.if_not_exists_details = if_not_exists_details
+        self.reason = None
+
+
 class CheckRestrictionsRequest(_serialization.Model):
     """The check policy restrictions parameters describing the resource that is being evaluated.
 
@@ -289,6 +334,9 @@ class CheckRestrictionsRequest(_serialization.Model):
     :ivar pending_fields: The list of fields and values that should be evaluated for potential
      restrictions.
     :vartype pending_fields: list[~azure.mgmt.policyinsights.models.PendingField]
+    :ivar include_audit_effect: Whether to include policies with the 'audit' effect in the results.
+     Defaults to false.
+    :vartype include_audit_effect: bool
     """
 
     _validation = {
@@ -298,6 +346,7 @@ class CheckRestrictionsRequest(_serialization.Model):
     _attribute_map = {
         "resource_details": {"key": "resourceDetails", "type": "CheckRestrictionsResourceDetails"},
         "pending_fields": {"key": "pendingFields", "type": "[PendingField]"},
+        "include_audit_effect": {"key": "includeAuditEffect", "type": "bool"},
     }
 
     def __init__(
@@ -305,18 +354,23 @@ class CheckRestrictionsRequest(_serialization.Model):
         *,
         resource_details: "_models.CheckRestrictionsResourceDetails",
         pending_fields: Optional[List["_models.PendingField"]] = None,
-        **kwargs
-    ):
+        include_audit_effect: bool = False,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword resource_details: The information about the resource that will be evaluated. Required.
         :paramtype resource_details: ~azure.mgmt.policyinsights.models.CheckRestrictionsResourceDetails
         :keyword pending_fields: The list of fields and values that should be evaluated for potential
          restrictions.
         :paramtype pending_fields: list[~azure.mgmt.policyinsights.models.PendingField]
+        :keyword include_audit_effect: Whether to include policies with the 'audit' effect in the
+         results. Defaults to false.
+        :paramtype include_audit_effect: bool
         """
         super().__init__(**kwargs)
         self.resource_details = resource_details
         self.pending_fields = pending_fields
+        self.include_audit_effect = include_audit_effect
 
 
 class CheckRestrictionsResourceDetails(_serialization.Model):
@@ -345,8 +399,8 @@ class CheckRestrictionsResourceDetails(_serialization.Model):
     }
 
     def __init__(
-        self, *, resource_content: JSON, api_version: Optional[str] = None, scope: Optional[str] = None, **kwargs
-    ):
+        self, *, resource_content: JSON, api_version: Optional[str] = None, scope: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword resource_content: The resource content. This should include whatever properties are
          already known and can be a partial set of all resource properties. Required.
@@ -389,7 +443,7 @@ class CheckRestrictionsResult(_serialization.Model):
         },
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.field_restrictions = None
@@ -408,7 +462,9 @@ class CheckRestrictionsResultContentEvaluationResult(_serialization.Model):
         "policy_evaluations": {"key": "policyEvaluations", "type": "[PolicyEvaluationResult]"},
     }
 
-    def __init__(self, *, policy_evaluations: Optional[List["_models.PolicyEvaluationResult"]] = None, **kwargs):
+    def __init__(
+        self, *, policy_evaluations: Optional[List["_models.PolicyEvaluationResult"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword policy_evaluations: Policy evaluation results against the given resource content. This
          will indicate if the partial content that was provided will be denied as-is.
@@ -432,7 +488,7 @@ class ComplianceDetail(_serialization.Model):
         "count": {"key": "count", "type": "int"},
     }
 
-    def __init__(self, *, compliance_state: Optional[str] = None, count: Optional[int] = None, **kwargs):
+    def __init__(self, *, compliance_state: Optional[str] = None, count: Optional[int] = None, **kwargs: Any) -> None:
         """
         :keyword compliance_state: The compliance state.
         :paramtype compliance_state: str
@@ -489,8 +545,8 @@ class ComponentEventDetails(_serialization.Model):
         tenant_id: Optional[str] = None,
         principal_oid: Optional[str] = None,
         policy_definition_action: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword additional_properties: Unmatched properties from the message are deserialized to this
          collection.
@@ -562,7 +618,7 @@ class ComponentExpressionEvaluationDetails(_serialization.Model):
         "operator": {"key": "operator", "type": "str"},
     }
 
-    def __init__(self, *, result: Optional[str] = None, **kwargs):
+    def __init__(self, *, result: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword result: Evaluation result.
         :paramtype result: str
@@ -598,7 +654,7 @@ class ComponentPolicyEvaluationDetails(_serialization.Model):
         "reason": {"key": "reason", "type": "str"},
     }
 
-    def __init__(self, *, reason: Optional[str] = None, **kwargs):
+    def __init__(self, *, reason: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword reason: Additional textual reason for the evaluation outcome.
         :paramtype reason: str
@@ -767,8 +823,8 @@ class ComponentPolicyState(_serialization.Model):  # pylint: disable=too-many-in
         *,
         additional_properties: Optional[Dict[str, Any]] = None,
         policy_evaluation_details: Optional["_models.ComponentPolicyEvaluationDetails"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword additional_properties: Unmatched properties from the message are deserialized to this
          collection.
@@ -842,8 +898,8 @@ class ComponentPolicyStatesQueryResults(_serialization.Model):
         odata_context: Optional[str] = None,
         odata_count: Optional[int] = None,
         value: Optional[List["_models.ComponentPolicyState"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword odata_context: OData context string; used by OData clients to resolve type information
          based on metadata.
@@ -896,8 +952,8 @@ class ComponentStateDetails(_serialization.Model):
         name: Optional[str] = None,
         timestamp: Optional[datetime.datetime] = None,
         compliance_state: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword additional_properties: Unmatched properties from the message are deserialized to this
          collection.
@@ -955,7 +1011,7 @@ class ErrorDefinition(_serialization.Model):
         "additional_info": {"key": "additionalInfo", "type": "[TypedErrorInfo]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.code = None
@@ -998,7 +1054,7 @@ class ErrorDefinitionAutoGenerated(_serialization.Model):
         "additional_info": {"key": "additionalInfo", "type": "[TypedErrorInfo]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.code = None
@@ -1041,7 +1097,7 @@ class ErrorDefinitionAutoGenerated2(_serialization.Model):
         "additional_info": {"key": "additionalInfo", "type": "[TypedErrorInfo]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.code = None
@@ -1062,7 +1118,7 @@ class ErrorResponse(_serialization.Model):
         "error": {"key": "error", "type": "ErrorDefinition"},
     }
 
-    def __init__(self, *, error: Optional["_models.ErrorDefinition"] = None, **kwargs):
+    def __init__(self, *, error: Optional["_models.ErrorDefinition"] = None, **kwargs: Any) -> None:
         """
         :keyword error: The error details.
         :paramtype error: ~azure.mgmt.policyinsights.models.ErrorDefinition
@@ -1082,7 +1138,7 @@ class ErrorResponseAutoGenerated(_serialization.Model):
         "error": {"key": "error", "type": "ErrorDefinitionAutoGenerated"},
     }
 
-    def __init__(self, *, error: Optional["_models.ErrorDefinitionAutoGenerated"] = None, **kwargs):
+    def __init__(self, *, error: Optional["_models.ErrorDefinitionAutoGenerated"] = None, **kwargs: Any) -> None:
         """
         :keyword error: The error details.
         :paramtype error: ~azure.mgmt.policyinsights.models.ErrorDefinitionAutoGenerated
@@ -1102,7 +1158,7 @@ class ErrorResponseAutoGenerated2(_serialization.Model):
         "error": {"key": "error", "type": "ErrorDefinitionAutoGenerated2"},
     }
 
-    def __init__(self, *, error: Optional["_models.ErrorDefinitionAutoGenerated2"] = None, **kwargs):
+    def __init__(self, *, error: Optional["_models.ErrorDefinitionAutoGenerated2"] = None, **kwargs: Any) -> None:
         """
         :keyword error: The error details.
         :paramtype error: ~azure.mgmt.policyinsights.models.ErrorDefinitionAutoGenerated2
@@ -1155,8 +1211,8 @@ class ExpressionEvaluationDetails(_serialization.Model):
         expression_value: Optional[JSON] = None,
         target_value: Optional[JSON] = None,
         operator: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword result: Evaluation result.
         :paramtype result: str
@@ -1187,7 +1243,7 @@ class FieldRestriction(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar result: The type of restriction that is imposed on the field. Known values are:
-     "Required", "Removed", and "Deny".
+     "Required", "Removed", "Deny", and "Audit".
     :vartype result: str or ~azure.mgmt.policyinsights.models.FieldRestrictionResult
     :ivar default_value: The value that policy will set for the field if the user does not provide
      a value.
@@ -1196,6 +1252,11 @@ class FieldRestriction(_serialization.Model):
     :vartype values: list[str]
     :ivar policy: The details of the policy that is causing the field restriction.
     :vartype policy: ~azure.mgmt.policyinsights.models.PolicyReference
+    :ivar policy_effect: The effect of the policy that is causing the field restriction.
+     http://aka.ms/policyeffects.
+    :vartype policy_effect: str
+    :ivar reason: The reason for the restriction.
+    :vartype reason: str
     """
 
     _validation = {
@@ -1203,6 +1264,8 @@ class FieldRestriction(_serialization.Model):
         "default_value": {"readonly": True},
         "values": {"readonly": True},
         "policy": {"readonly": True},
+        "policy_effect": {"readonly": True},
+        "reason": {"readonly": True},
     }
 
     _attribute_map = {
@@ -1210,15 +1273,19 @@ class FieldRestriction(_serialization.Model):
         "default_value": {"key": "defaultValue", "type": "str"},
         "values": {"key": "values", "type": "[str]"},
         "policy": {"key": "policy", "type": "PolicyReference"},
+        "policy_effect": {"key": "policyEffect", "type": "str"},
+        "reason": {"key": "reason", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result = None
         self.default_value = None
         self.values = None
         self.policy = None
+        self.policy_effect = None
+        self.reason = None
 
 
 class FieldRestrictions(_serialization.Model):
@@ -1242,7 +1309,7 @@ class FieldRestrictions(_serialization.Model):
         "restrictions": {"key": "restrictions", "type": "[FieldRestriction]"},
     }
 
-    def __init__(self, *, restrictions: Optional[List["_models.FieldRestriction"]] = None, **kwargs):
+    def __init__(self, *, restrictions: Optional[List["_models.FieldRestriction"]] = None, **kwargs: Any) -> None:
         """
         :keyword restrictions: The restrictions placed on that field by policy.
         :paramtype restrictions: list[~azure.mgmt.policyinsights.models.FieldRestriction]
@@ -1267,7 +1334,9 @@ class IfNotExistsEvaluationDetails(_serialization.Model):
         "total_resources": {"key": "totalResources", "type": "int"},
     }
 
-    def __init__(self, *, resource_id: Optional[str] = None, total_resources: Optional[int] = None, **kwargs):
+    def __init__(
+        self, *, resource_id: Optional[str] = None, total_resources: Optional[int] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword resource_id: ID of the last evaluated resource for IfNotExists effect.
         :paramtype resource_id: str
@@ -1303,8 +1372,8 @@ class Operation(_serialization.Model):
         name: Optional[str] = None,
         is_data_action: Optional[bool] = None,
         display: Optional["_models.OperationDisplay"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Operation name.
         :paramtype name: str
@@ -1346,8 +1415,8 @@ class OperationDisplay(_serialization.Model):
         resource: Optional[str] = None,
         operation: Optional[str] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword provider: Resource provider name.
         :paramtype provider: str
@@ -1384,8 +1453,8 @@ class OperationsListResults(_serialization.Model):
     }
 
     def __init__(
-        self, *, odata_count: Optional[int] = None, value: Optional[List["_models.Operation"]] = None, **kwargs
-    ):
+        self, *, odata_count: Optional[int] = None, value: Optional[List["_models.Operation"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword odata_count: OData entity count; represents the number of operations returned.
         :paramtype odata_count: int
@@ -1419,7 +1488,7 @@ class PendingField(_serialization.Model):
         "values": {"key": "values", "type": "[str]"},
     }
 
-    def __init__(self, *, field: str, values: Optional[List[str]] = None, **kwargs):
+    def __init__(self, *, field: str, values: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
         :keyword field: The name of the field. This can be a top-level property like 'name' or 'type'
          or an Azure Policy field alias. Required.
@@ -1465,8 +1534,8 @@ class PolicyAssignmentSummary(_serialization.Model):
         results: Optional["_models.SummaryResults"] = None,
         policy_definitions: Optional[List["_models.PolicyDefinitionSummary"]] = None,
         policy_groups: Optional[List["_models.PolicyGroupSummary"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword policy_assignment_id: Policy assignment ID.
         :paramtype policy_assignment_id: str
@@ -1519,8 +1588,8 @@ class PolicyDefinitionSummary(_serialization.Model):
         policy_definition_group_names: Optional[List[str]] = None,
         effect: Optional[str] = None,
         results: Optional["_models.SummaryResults"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword policy_definition_id: Policy definition ID.
         :paramtype policy_definition_id: str
@@ -1579,7 +1648,7 @@ class PolicyDetails(_serialization.Model):
         "policy_definition_reference_id": {"key": "policyDefinitionReferenceId", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.policy_definition_id = None
@@ -1588,6 +1657,29 @@ class PolicyDetails(_serialization.Model):
         self.policy_assignment_scope = None
         self.policy_set_definition_id = None
         self.policy_definition_reference_id = None
+
+
+class PolicyEffectDetails(_serialization.Model):
+    """The details of the effect that was applied to the resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar policy_effect: The effect that was applied to the resource. http://aka.ms/policyeffects.
+    :vartype policy_effect: str
+    """
+
+    _validation = {
+        "policy_effect": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "policy_effect": {"key": "policyEffect", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.policy_effect = None
 
 
 class PolicyEvaluationDetails(_serialization.Model):
@@ -1610,8 +1702,8 @@ class PolicyEvaluationDetails(_serialization.Model):
         *,
         evaluated_expressions: Optional[List["_models.ExpressionEvaluationDetails"]] = None,
         if_not_exists_details: Optional["_models.IfNotExistsEvaluationDetails"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword evaluated_expressions: Details of the evaluated expressions.
         :paramtype evaluated_expressions:
@@ -1637,27 +1729,33 @@ class PolicyEvaluationResult(_serialization.Model):
     :vartype evaluation_result: str
     :ivar evaluation_details: The detailed results of the policy expressions and values that were
      evaluated.
-    :vartype evaluation_details: ~azure.mgmt.policyinsights.models.PolicyEvaluationDetails
+    :vartype evaluation_details:
+     ~azure.mgmt.policyinsights.models.CheckRestrictionEvaluationDetails
+    :ivar effect_details: The details of the effect that was applied to the resource.
+    :vartype effect_details: ~azure.mgmt.policyinsights.models.PolicyEffectDetails
     """
 
     _validation = {
         "policy_info": {"readonly": True},
         "evaluation_result": {"readonly": True},
         "evaluation_details": {"readonly": True},
+        "effect_details": {"readonly": True},
     }
 
     _attribute_map = {
         "policy_info": {"key": "policyInfo", "type": "PolicyReference"},
         "evaluation_result": {"key": "evaluationResult", "type": "str"},
-        "evaluation_details": {"key": "evaluationDetails", "type": "PolicyEvaluationDetails"},
+        "evaluation_details": {"key": "evaluationDetails", "type": "CheckRestrictionEvaluationDetails"},
+        "effect_details": {"key": "effectDetails", "type": "PolicyEffectDetails"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.policy_info = None
         self.evaluation_result = None
         self.evaluation_details = None
+        self.effect_details = None
 
 
 class PolicyEvent(_serialization.Model):  # pylint: disable=too-many-instance-attributes
@@ -1812,8 +1910,8 @@ class PolicyEvent(_serialization.Model):  # pylint: disable=too-many-instance-at
         tenant_id: Optional[str] = None,
         principal_oid: Optional[str] = None,
         components: Optional[List["_models.ComponentEventDetails"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword additional_properties: Unmatched properties from the message are deserialized to this
          collection.
@@ -1960,8 +2058,8 @@ class PolicyEventsQueryResults(_serialization.Model):
         odata_count: Optional[int] = None,
         odata_next_link: Optional[str] = None,
         value: Optional[List["_models.PolicyEvent"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword odata_context: OData context string; used by OData clients to resolve type information
          based on metadata.
@@ -1996,8 +2094,12 @@ class PolicyGroupSummary(_serialization.Model):
     }
 
     def __init__(
-        self, *, policy_group_name: Optional[str] = None, results: Optional["_models.SummaryResults"] = None, **kwargs
-    ):
+        self,
+        *,
+        policy_group_name: Optional[str] = None,
+        results: Optional["_models.SummaryResults"] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword policy_group_name: Policy group name.
         :paramtype policy_group_name: str
@@ -2066,7 +2168,7 @@ class PolicyMetadata(_serialization.Model):  # pylint: disable=too-many-instance
         "requirements": {"key": "properties.requirements", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -2103,7 +2205,7 @@ class PolicyMetadataCollection(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -2147,7 +2249,7 @@ class PolicyMetadataSlimProperties(_serialization.Model):
         "metadata": {"key": "metadata", "type": "object"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.metadata_id = None
@@ -2203,7 +2305,7 @@ class PolicyMetadataProperties(PolicyMetadataSlimProperties):
         "requirements": {"key": "requirements", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.description = None
@@ -2240,7 +2342,7 @@ class PolicyReference(_serialization.Model):
         "policy_assignment_id": {"key": "policyAssignmentId", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.policy_definition_id = None
@@ -2418,8 +2520,8 @@ class PolicyState(_serialization.Model):  # pylint: disable=too-many-instance-at
         policy_evaluation_details: Optional["_models.PolicyEvaluationDetails"] = None,
         policy_definition_group_names: Optional[List[str]] = None,
         components: Optional[List["_models.ComponentStateDetails"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword additional_properties: Unmatched properties from the message are deserialized to this
          collection.
@@ -2569,8 +2671,8 @@ class PolicyStatesQueryResults(_serialization.Model):
         odata_count: Optional[int] = None,
         odata_next_link: Optional[str] = None,
         value: Optional[List["_models.PolicyState"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword odata_context: OData context string; used by OData clients to resolve type information
          based on metadata.
@@ -2625,7 +2727,7 @@ class PolicyTrackedResource(_serialization.Model):
         "last_update_utc": {"key": "lastUpdateUtc", "type": "iso-8601"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.tracked_resource_id = None
@@ -2656,7 +2758,7 @@ class PolicyTrackedResourcesQueryResults(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -2674,7 +2776,7 @@ class QueryFailure(_serialization.Model):
         "error": {"key": "error", "type": "QueryFailureError"},
     }
 
-    def __init__(self, *, error: Optional["_models.QueryFailureError"] = None, **kwargs):
+    def __init__(self, *, error: Optional["_models.QueryFailureError"] = None, **kwargs: Any) -> None:
         """
         :keyword error: Error definition.
         :paramtype error: ~azure.mgmt.policyinsights.models.QueryFailureError
@@ -2704,7 +2806,7 @@ class QueryFailureError(_serialization.Model):
         "message": {"key": "message", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.code = None
@@ -2769,8 +2871,8 @@ class QueryOptions(_serialization.Model):
         apply: Optional[str] = None,
         skip_token: Optional[str] = None,
         expand: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword top: Maximum number of records to return.
         :paramtype top: int
@@ -2835,7 +2937,9 @@ class Remediation(_serialization.Model):  # pylint: disable=too-many-instance-at
      "ReEvaluateCompliance".
     :vartype resource_discovery_mode: str or
      ~azure.mgmt.policyinsights.models.ResourceDiscoveryMode
-    :ivar provisioning_state: The status of the remediation.
+    :ivar provisioning_state: The status of the remediation. This refers to the entire remediation
+     task, not individual deployments. Allowed values are Evaluating, Canceled, Cancelling, Failed,
+     Complete, or Succeeded.
     :vartype provisioning_state: str
     :ivar created_on: The time at which the remediation was created.
     :vartype created_on: ~datetime.datetime
@@ -2907,8 +3011,8 @@ class Remediation(_serialization.Model):  # pylint: disable=too-many-instance-at
         resource_count: Optional[int] = None,
         parallel_deployments: Optional[int] = None,
         failure_threshold: Optional["_models.RemediationPropertiesFailureThreshold"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword policy_assignment_id: The resource ID of the policy assignment that should be
          remediated.
@@ -2997,7 +3101,7 @@ class RemediationDeployment(_serialization.Model):
         "last_updated_on": {"key": "lastUpdatedOn", "type": "iso-8601"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.remediated_resource_id = None
@@ -3030,7 +3134,7 @@ class RemediationDeploymentsListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -3064,7 +3168,7 @@ class RemediationDeploymentSummary(_serialization.Model):
         "failed_deployments": {"key": "failedDeployments", "type": "int"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.total_deployments = None
@@ -3083,7 +3187,7 @@ class RemediationFilters(_serialization.Model):
         "locations": {"key": "locations", "type": "[str]"},
     }
 
-    def __init__(self, *, locations: Optional[List[str]] = None, **kwargs):
+    def __init__(self, *, locations: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
         :keyword locations: The resource locations that will be remediated.
         :paramtype locations: list[str]
@@ -3113,7 +3217,7 @@ class RemediationListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -3133,7 +3237,7 @@ class RemediationPropertiesFailureThreshold(_serialization.Model):
         "percentage": {"key": "percentage", "type": "float"},
     }
 
-    def __init__(self, *, percentage: Optional[float] = None, **kwargs):
+    def __init__(self, *, percentage: Optional[float] = None, **kwargs: Any) -> None:
         """
         :keyword percentage: A number between 0.0 to 1.0 representing the percentage failure threshold.
          The remediation will fail if the percentage of failed remediation operations (i.e. failed
@@ -3193,7 +3297,7 @@ class SlimPolicyMetadata(_serialization.Model):
         "metadata": {"key": "properties.metadata", "type": "object"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -3236,8 +3340,8 @@ class SummarizeResults(_serialization.Model):
         odata_context: Optional[str] = None,
         odata_count: Optional[int] = None,
         value: Optional[List["_models.Summary"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword odata_context: OData context string; used by OData clients to resolve type information
          based on metadata.
@@ -3282,8 +3386,8 @@ class Summary(_serialization.Model):
         odata_context: Optional[str] = None,
         results: Optional["_models.SummaryResults"] = None,
         policy_assignments: Optional[List["_models.PolicyAssignmentSummary"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword odata_id: OData entity ID; always set to null since summaries do not have an entity
          ID.
@@ -3347,8 +3451,8 @@ class SummaryResults(_serialization.Model):
         resource_details: Optional[List["_models.ComplianceDetail"]] = None,
         policy_details: Optional[List["_models.ComplianceDetail"]] = None,
         policy_group_details: Optional[List["_models.ComplianceDetail"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword query_results_uri: HTTP POST URI for queryResults action on Microsoft.PolicyInsights
          to retrieve raw results for the compliance summary. This property will not be available by
@@ -3413,8 +3517,8 @@ class SystemData(_serialization.Model):
         last_modified_by: Optional[str] = None,
         last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
         last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword created_by: The identity that created the resource.
         :paramtype created_by: str
@@ -3466,7 +3570,7 @@ class TrackedResourceModificationDetails(_serialization.Model):
         "deployment_time": {"key": "deploymentTime", "type": "iso-8601"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.policy_details = None
@@ -3495,7 +3599,7 @@ class TypedErrorInfo(_serialization.Model):
         "info": {"key": "info", "type": "object"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.type = None
