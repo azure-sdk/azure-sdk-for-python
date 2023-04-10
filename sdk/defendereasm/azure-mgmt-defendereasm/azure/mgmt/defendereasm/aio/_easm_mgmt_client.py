@@ -15,7 +15,7 @@ from azure.mgmt.core import AsyncARMPipelineClient
 from .. import models as _models
 from .._serialization import Deserializer, Serializer
 from ._configuration import EasmMgmtClientConfiguration
-from .operations import LabelsOperations, Operations, WorkspacesOperations
+from .operations import LabelsOperations, Operations, TasksOperations, WorkspacesOperations
 
 if TYPE_CHECKING:
     # pylint: disable=unused-import,ungrouped-imports
@@ -29,6 +29,8 @@ class EasmMgmtClient:  # pylint: disable=client-accepts-api-version-keyword
     :vartype workspaces: azure.mgmt.defendereasm.aio.operations.WorkspacesOperations
     :ivar labels: LabelsOperations operations
     :vartype labels: azure.mgmt.defendereasm.aio.operations.LabelsOperations
+    :ivar tasks: TasksOperations operations
+    :vartype tasks: azure.mgmt.defendereasm.aio.operations.TasksOperations
     :ivar operations: Operations operations
     :vartype operations: azure.mgmt.defendereasm.aio.operations.Operations
     :param credential: Credential needed for the client to connect to Azure. Required.
@@ -37,7 +39,7 @@ class EasmMgmtClient:  # pylint: disable=client-accepts-api-version-keyword
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2022-04-01-preview". Note that overriding
+    :keyword api_version: Api Version. Default value is "2023-04-01-preview". Note that overriding
      this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -52,7 +54,7 @@ class EasmMgmtClient:  # pylint: disable=client-accepts-api-version-keyword
         **kwargs: Any
     ) -> None:
         self._config = EasmMgmtClientConfiguration(credential=credential, subscription_id=subscription_id, **kwargs)
-        self._client = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
@@ -60,6 +62,7 @@ class EasmMgmtClient:  # pylint: disable=client-accepts-api-version-keyword
         self._serialize.client_side_validation = False
         self.workspaces = WorkspacesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.labels = LabelsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.tasks = TasksOperations(self._client, self._config, self._serialize, self._deserialize)
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> Awaitable[AsyncHttpResponse]:

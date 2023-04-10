@@ -20,6 +20,8 @@ from ._models_py3 import ProxyResource
 from ._models_py3 import Resource
 from ._models_py3 import ResourceBaseProperties
 from ._models_py3 import SystemData
+from ._models_py3 import TaskResource
+from ._models_py3 import TaskResourceProperties
 from ._models_py3 import TrackedResource
 from ._models_py3 import WorkspacePatchResource
 from ._models_py3 import WorkspaceResource
@@ -48,6 +50,8 @@ __all__ = [
     "Resource",
     "ResourceBaseProperties",
     "SystemData",
+    "TaskResource",
+    "TaskResourceProperties",
     "TrackedResource",
     "WorkspacePatchResource",
     "WorkspaceResource",
