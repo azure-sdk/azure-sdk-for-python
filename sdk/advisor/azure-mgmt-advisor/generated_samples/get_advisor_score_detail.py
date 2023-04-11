@@ -14,7 +14,7 @@ from azure.mgmt.advisor import AdvisorManagementClient
     pip install azure-identity
     pip install azure-mgmt-advisor
 # USAGE
-    python put_configurations.py
+    python get_advisor_score_detail.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,28 +29,12 @@ def main():
         subscription_id="subscriptionId",
     )
 
-    response = client.configurations.create_in_subscription(
-        configuration_name="default",
-        config_contract={
-            "properties": {
-                "digests": [
-                    {
-                        "actionGroupResourceId": "/subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/microsoft.insights/actionGroups/actionGroupName",
-                        "categories": ["HighAvailability", "Security", "Performance", "Cost", "OperationalExcellence"],
-                        "frequency": 30,
-                        "language": "en",
-                        "name": "digestConfigName",
-                        "state": "Active",
-                    }
-                ],
-                "exclude": True,
-                "lowCpuThreshold": "5",
-            }
-        },
+    response = client.advisor_scores.get(
+        name="Cost",
     )
     print(response)
 
 
-# x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2020-01-01/examples/CreateConfiguration.json
+# x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2022-10-01/examples/GetAdvisorScoreDetail.json
 if __name__ == "__main__":
     main()

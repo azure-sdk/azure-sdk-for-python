@@ -34,6 +34,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2020-01-01/examples/ListSuppressions.json
+# x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2022-10-01/examples/ListSuppressions.json
 if __name__ == "__main__":
     main()

@@ -12,10 +12,12 @@ from typing import Any, Awaitable, TYPE_CHECKING
 from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.mgmt.core import AsyncARMPipelineClient
 
-from .. import models
+from .. import models as _models
 from .._serialization import Deserializer, Serializer
 from ._configuration import AdvisorManagementClientConfiguration
 from .operations import (
+    AdvisorManagementClientOperationsMixin,
+    AdvisorScoresOperations,
     ConfigurationsOperations,
     Operations,
     RecommendationMetadataOperations,
@@ -28,7 +30,9 @@ if TYPE_CHECKING:
     from azure.core.credentials_async import AsyncTokenCredential
 
 
-class AdvisorManagementClient:  # pylint: disable=client-accepts-api-version-keyword
+class AdvisorManagementClient(
+    AdvisorManagementClientOperationsMixin
+):  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
     """REST APIs for Azure Advisor.
 
     :ivar recommendation_metadata: RecommendationMetadataOperations operations
@@ -42,13 +46,15 @@ class AdvisorManagementClient:  # pylint: disable=client-accepts-api-version-key
     :vartype operations: azure.mgmt.advisor.aio.operations.Operations
     :ivar suppressions: SuppressionsOperations operations
     :vartype suppressions: azure.mgmt.advisor.aio.operations.SuppressionsOperations
+    :ivar advisor_scores: AdvisorScoresOperations operations
+    :vartype advisor_scores: azure.mgmt.advisor.aio.operations.AdvisorScoresOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
     :param subscription_id: The Azure subscription ID. Required.
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2020-01-01". Note that overriding this
+    :keyword api_version: Api Version. Default value is "2022-10-01". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str
     """
@@ -63,9 +69,9 @@ class AdvisorManagementClient:  # pylint: disable=client-accepts-api-version-key
         self._config = AdvisorManagementClientConfiguration(
             credential=credential, subscription_id=subscription_id, **kwargs
         )
-        self._client = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
-        client_models = {k: v for k, v in models.__dict__.items() if isinstance(v, type)}
+        client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
@@ -76,6 +82,7 @@ class AdvisorManagementClient:  # pylint: disable=client-accepts-api-version-key
         self.recommendations = RecommendationsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
         self.suppressions = SuppressionsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.advisor_scores = AdvisorScoresOperations(self._client, self._config, self._serialize, self._deserialize)
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> Awaitable[AsyncHttpResponse]:
         """Runs the network request through the client's chained policies.
@@ -106,5 +113,5 @@ class AdvisorManagementClient:  # pylint: disable=client-accepts-api-version-key
         await self._client.__aenter__()
         return self
 
-    async def __aexit__(self, *exc_details) -> None:
+    async def __aexit__(self, *exc_details: Any) -> None:
         await self._client.__aexit__(*exc_details)
