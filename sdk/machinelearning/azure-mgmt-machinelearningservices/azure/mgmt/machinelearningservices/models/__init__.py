@@ -9,11 +9,14 @@
 from ._models_py3 import AKS
 from ._models_py3 import AKSSchema
 from ._models_py3 import AKSSchemaProperties
+from ._models_py3 import AccessKeyAuthTypeWorkspaceConnectionProperties
 from ._models_py3 import AccountKeyDatastoreCredentials
 from ._models_py3 import AccountKeyDatastoreSecrets
+from ._models_py3 import AcrDetails
 from ._models_py3 import AksComputeSecrets
 from ._models_py3 import AksComputeSecretsProperties
 from ._models_py3 import AksNetworkingConfiguration
+from ._models_py3 import AllNodes
 from ._models_py3 import AmlCompute
 from ._models_py3 import AmlComputeNodeInformation
 from ._models_py3 import AmlComputeNodesInformation
@@ -24,6 +27,7 @@ from ._models_py3 import AmlOperationDisplay
 from ._models_py3 import AmlOperationListResult
 from ._models_py3 import AmlToken
 from ._models_py3 import AmlUserFeature
+from ._models_py3 import ArmResourceId
 from ._models_py3 import AssetBase
 from ._models_py3 import AssetContainer
 from ._models_py3 import AssetJobInput
@@ -39,26 +43,36 @@ from ._models_py3 import AutoScaleProperties
 from ._models_py3 import AutoSeasonality
 from ._models_py3 import AutoTargetLags
 from ._models_py3 import AutoTargetRollingWindowSize
+from ._models_py3 import AutologgerSettings
 from ._models_py3 import AzureBlobDatastore
 from ._models_py3 import AzureDataLakeGen1Datastore
 from ._models_py3 import AzureDataLakeGen2Datastore
+from ._models_py3 import AzureDatastore
 from ._models_py3 import AzureFileDatastore
+from ._models_py3 import AzureMLBatchInferencingServer
+from ._models_py3 import AzureMLOnlineInferencingServer
 from ._models_py3 import BanditPolicy
+from ._models_py3 import BaseEnvironmentId
+from ._models_py3 import BaseEnvironmentSource
 from ._models_py3 import BatchDeployment
+from ._models_py3 import BatchDeploymentConfiguration
 from ._models_py3 import BatchDeploymentProperties
 from ._models_py3 import BatchDeploymentTrackedResourceArmPaginatedResult
 from ._models_py3 import BatchEndpoint
 from ._models_py3 import BatchEndpointDefaults
 from ._models_py3 import BatchEndpointProperties
 from ._models_py3 import BatchEndpointTrackedResourceArmPaginatedResult
+from ._models_py3 import BatchPipelineComponentDeploymentConfiguration
 from ._models_py3 import BatchRetrySettings
 from ._models_py3 import BayesianSamplingAlgorithm
+from ._models_py3 import BindOptions
 from ._models_py3 import BuildContext
 from ._models_py3 import CertificateDatastoreCredentials
 from ._models_py3 import CertificateDatastoreSecrets
 from ._models_py3 import Classification
 from ._models_py3 import ClassificationTrainingSettings
 from ._models_py3 import ClusterUpdateParameters
+from ._models_py3 import CocoExportSummary
 from ._models_py3 import CodeConfiguration
 from ._models_py3 import CodeContainer
 from ._models_py3 import CodeContainerProperties
@@ -78,6 +92,7 @@ from ._models_py3 import ComponentVersionResourceArmPaginatedResult
 from ._models_py3 import Compute
 from ._models_py3 import ComputeInstance
 from ._models_py3 import ComputeInstanceApplication
+from ._models_py3 import ComputeInstanceAutologgerSettings
 from ._models_py3 import ComputeInstanceConnectivityEndpoints
 from ._models_py3 import ComputeInstanceContainer
 from ._models_py3 import ComputeInstanceCreatedBy
@@ -91,6 +106,7 @@ from ._models_py3 import ComputeInstanceSshSettings
 from ._models_py3 import ComputeInstanceVersion
 from ._models_py3 import ComputeResource
 from ._models_py3 import ComputeResourceSchema
+from ._models_py3 import ComputeRuntimeDto
 from ._models_py3 import ComputeSchedules
 from ._models_py3 import ComputeSecrets
 from ._models_py3 import ComputeStartStopSchedule
@@ -98,11 +114,14 @@ from ._models_py3 import ContainerResourceRequirements
 from ._models_py3 import ContainerResourceSettings
 from ._models_py3 import CosmosDbSettings
 from ._models_py3 import CronTrigger
+from ._models_py3 import CsvExportSummary
 from ._models_py3 import CustomForecastHorizon
+from ._models_py3 import CustomInferencingServer
 from ._models_py3 import CustomModelJobInput
 from ._models_py3 import CustomModelJobOutput
 from ._models_py3 import CustomNCrossValidations
 from ._models_py3 import CustomSeasonality
+from ._models_py3 import CustomService
 from ._models_py3 import CustomTargetLags
 from ._models_py3 import CustomTargetRollingWindowSize
 from ._models_py3 import DataContainer
@@ -121,6 +140,7 @@ from ._models_py3 import DatabricksComputeSecrets
 from ._models_py3 import DatabricksComputeSecretsProperties
 from ._models_py3 import DatabricksProperties
 from ._models_py3 import DatabricksSchema
+from ._models_py3 import DatasetExportSummary
 from ._models_py3 import Datastore
 from ._models_py3 import DatastoreCredentials
 from ._models_py3 import DatastoreProperties
@@ -136,9 +156,13 @@ from ._models_py3 import DiagnoseResponseResultValue
 from ._models_py3 import DiagnoseResult
 from ._models_py3 import DiagnoseWorkspaceParameters
 from ._models_py3 import DistributionConfiguration
+from ._models_py3 import Docker
 from ._models_py3 import EarlyTerminationPolicy
 from ._models_py3 import EncryptionKeyVaultProperties
+from ._models_py3 import EncryptionKeyVaultUpdateProperties
 from ._models_py3 import EncryptionProperty
+from ._models_py3 import EncryptionUpdateProperties
+from ._models_py3 import Endpoint
 from ._models_py3 import EndpointAuthKeys
 from ._models_py3 import EndpointAuthToken
 from ._models_py3 import EndpointDeploymentPropertiesBase
@@ -147,6 +171,7 @@ from ._models_py3 import EndpointScheduleAction
 from ._models_py3 import EnvironmentContainer
 from ._models_py3 import EnvironmentContainerProperties
 from ._models_py3 import EnvironmentContainerResourceArmPaginatedResult
+from ._models_py3 import EnvironmentVariable
 from ._models_py3 import EnvironmentVersion
 from ._models_py3 import EnvironmentVersionProperties
 from ._models_py3 import EnvironmentVersionResourceArmPaginatedResult
@@ -155,29 +180,56 @@ from ._models_py3 import ErrorDetail
 from ._models_py3 import ErrorResponse
 from ._models_py3 import EstimatedVMPrice
 from ._models_py3 import EstimatedVMPrices
+from ._models_py3 import ExportSummary
 from ._models_py3 import ExternalFQDNResponse
 from ._models_py3 import FQDNEndpoint
 from ._models_py3 import FQDNEndpointDetail
 from ._models_py3 import FQDNEndpoints
 from ._models_py3 import FQDNEndpointsProperties
+from ._models_py3 import Feature
+from ._models_py3 import FeatureArmPaginatedResult
+from ._models_py3 import FeatureStoreSettings
+from ._models_py3 import FeatureWindow
+from ._models_py3 import FeaturesetContainer
+from ._models_py3 import FeaturesetContainerProperties
+from ._models_py3 import FeaturesetContainerResourceArmPaginatedResult
+from ._models_py3 import FeaturesetJob
+from ._models_py3 import FeaturesetJobArmPaginatedResult
+from ._models_py3 import FeaturesetSpecification
+from ._models_py3 import FeaturesetVersion
+from ._models_py3 import FeaturesetVersionBackfillRequest
+from ._models_py3 import FeaturesetVersionBackfillResponse
+from ._models_py3 import FeaturesetVersionProperties
+from ._models_py3 import FeaturesetVersionResourceArmPaginatedResult
+from ._models_py3 import FeaturestoreEntityContainer
+from ._models_py3 import FeaturestoreEntityContainerProperties
+from ._models_py3 import FeaturestoreEntityContainerResourceArmPaginatedResult
+from ._models_py3 import FeaturestoreEntityVersion
+from ._models_py3 import FeaturestoreEntityVersionProperties
+from ._models_py3 import FeaturestoreEntityVersionResourceArmPaginatedResult
 from ._models_py3 import FeaturizationSettings
 from ._models_py3 import FlavorData
 from ._models_py3 import ForecastHorizon
 from ._models_py3 import Forecasting
 from ._models_py3 import ForecastingSettings
 from ._models_py3 import ForecastingTrainingSettings
+from ._models_py3 import GetFeatureRequest
 from ._models_py3 import GridSamplingAlgorithm
 from ._models_py3 import HDInsight
 from ._models_py3 import HDInsightProperties
 from ._models_py3 import HDInsightSchema
+from ._models_py3 import HdfsDatastore
 from ._models_py3 import IdAssetReference
 from ._models_py3 import IdentityConfiguration
 from ._models_py3 import IdentityForCmk
+from ._models_py3 import IdleShutdownSetting
+from ._models_py3 import Image
 from ._models_py3 import ImageClassification
 from ._models_py3 import ImageClassificationBase
 from ._models_py3 import ImageClassificationMultilabel
 from ._models_py3 import ImageInstanceSegmentation
 from ._models_py3 import ImageLimitSettings
+from ._models_py3 import ImageMetadata
 from ._models_py3 import ImageModelDistributionSettings
 from ._models_py3 import ImageModelDistributionSettingsClassification
 from ._models_py3 import ImageModelDistributionSettingsObjectDetection
@@ -188,7 +240,9 @@ from ._models_py3 import ImageObjectDetection
 from ._models_py3 import ImageObjectDetectionBase
 from ._models_py3 import ImageSweepSettings
 from ._models_py3 import ImageVertical
+from ._models_py3 import IndexColumn
 from ._models_py3 import InferenceContainerProperties
+from ._models_py3 import InferencingServer
 from ._models_py3 import InstanceTypeSchema
 from ._models_py3 import InstanceTypeSchemaResources
 from ._models_py3 import JobBase
@@ -200,10 +254,25 @@ from ._models_py3 import JobOutput
 from ._models_py3 import JobResourceConfiguration
 from ._models_py3 import JobScheduleAction
 from ._models_py3 import JobService
+from ._models_py3 import KerberosCredentials
+from ._models_py3 import KerberosKeytabCredentials
+from ._models_py3 import KerberosKeytabSecrets
+from ._models_py3 import KerberosPasswordCredentials
+from ._models_py3 import KerberosPasswordSecrets
 from ._models_py3 import Kubernetes
 from ._models_py3 import KubernetesOnlineDeployment
 from ._models_py3 import KubernetesProperties
 from ._models_py3 import KubernetesSchema
+from ._models_py3 import LabelCategory
+from ._models_py3 import LabelClass
+from ._models_py3 import LabelingDataConfiguration
+from ._models_py3 import LabelingJob
+from ._models_py3 import LabelingJobImageProperties
+from ._models_py3 import LabelingJobInstructions
+from ._models_py3 import LabelingJobMediaProperties
+from ._models_py3 import LabelingJobProperties
+from ._models_py3 import LabelingJobResourceArmPaginatedResult
+from ._models_py3 import LabelingJobTextProperties
 from ._models_py3 import ListAmlUserFeatureResult
 from ._models_py3 import ListNotebookKeysResult
 from ._models_py3 import ListStorageAccountKeysResult
@@ -211,6 +280,9 @@ from ._models_py3 import ListUsagesResult
 from ._models_py3 import ListWorkspaceKeysResult
 from ._models_py3 import ListWorkspaceQuotas
 from ._models_py3 import LiteralJobInput
+from ._models_py3 import MLAssistConfiguration
+from ._models_py3 import MLAssistConfigurationDisabled
+from ._models_py3 import MLAssistConfigurationEnabled
 from ._models_py3 import MLFlowModelJobInput
 from ._models_py3 import MLFlowModelJobOutput
 from ._models_py3 import MLTableData
@@ -220,24 +292,33 @@ from ._models_py3 import ManagedIdentity
 from ._models_py3 import ManagedIdentityAuthTypeWorkspaceConnectionProperties
 from ._models_py3 import ManagedOnlineDeployment
 from ._models_py3 import ManagedServiceIdentity
+from ._models_py3 import MaterializationComputeResource
+from ._models_py3 import MaterializationSettings
 from ._models_py3 import MedianStoppingPolicy
+from ._models_py3 import ModelConfiguration
 from ._models_py3 import ModelContainer
 from ._models_py3 import ModelContainerProperties
 from ._models_py3 import ModelContainerResourceArmPaginatedResult
+from ._models_py3 import ModelPackageInput
 from ._models_py3 import ModelVersion
 from ._models_py3 import ModelVersionProperties
 from ._models_py3 import ModelVersionResourceArmPaginatedResult
 from ._models_py3 import Mpi
 from ._models_py3 import NCrossValidations
+from ._models_py3 import NlpFixedParameters
+from ._models_py3 import NlpParameterSubspace
+from ._models_py3 import NlpSweepSettings
 from ._models_py3 import NlpVertical
 from ._models_py3 import NlpVerticalFeaturizationSettings
 from ._models_py3 import NlpVerticalLimitSettings
 from ._models_py3 import NodeStateCounts
+from ._models_py3 import Nodes
 from ._models_py3 import NoneAuthTypeWorkspaceConnectionProperties
 from ._models_py3 import NoneDatastoreCredentials
 from ._models_py3 import NotebookAccessTokenResult
 from ._models_py3 import NotebookPreparationError
 from ._models_py3 import NotebookResourceInfo
+from ._models_py3 import NotificationSetting
 from ._models_py3 import Objective
 from ._models_py3 import OnlineDeployment
 from ._models_py3 import OnlineDeploymentProperties
@@ -245,10 +326,17 @@ from ._models_py3 import OnlineDeploymentTrackedResourceArmPaginatedResult
 from ._models_py3 import OnlineEndpoint
 from ._models_py3 import OnlineEndpointProperties
 from ._models_py3 import OnlineEndpointTrackedResourceArmPaginatedResult
+from ._models_py3 import OnlineInferenceConfiguration
 from ._models_py3 import OnlineRequestSettings
 from ._models_py3 import OnlineScaleSettings
 from ._models_py3 import OutputPathAssetReference
 from ._models_py3 import PATAuthTypeWorkspaceConnectionProperties
+from ._models_py3 import PackageInputPathBase
+from ._models_py3 import PackageInputPathId
+from ._models_py3 import PackageInputPathUrl
+from ._models_py3 import PackageInputPathVersion
+from ._models_py3 import PackageRequest
+from ._models_py3 import PackageResponse
 from ._models_py3 import PaginatedComputeResourcesList
 from ._models_py3 import PartialBatchDeployment
 from ._models_py3 import PartialBatchDeploymentPartialMinimalTrackedResourceWithProperties
@@ -256,6 +344,7 @@ from ._models_py3 import PartialManagedServiceIdentity
 from ._models_py3 import PartialMinimalTrackedResource
 from ._models_py3 import PartialMinimalTrackedResourceWithIdentity
 from ._models_py3 import PartialMinimalTrackedResourceWithSku
+from ._models_py3 import PartialRegistryPartialTrackedResource
 from ._models_py3 import PartialSku
 from ._models_py3 import Password
 from ._models_py3 import PersonalComputeInstanceSettings
@@ -267,14 +356,20 @@ from ._models_py3 import PrivateLinkResource
 from ._models_py3 import PrivateLinkResourceListResult
 from ._models_py3 import PrivateLinkServiceConnectionState
 from ._models_py3 import ProbeSettings
+from ._models_py3 import ProgressMetrics
 from ._models_py3 import PyTorch
+from ._models_py3 import QueueSettings
 from ._models_py3 import QuotaBaseProperties
 from ._models_py3 import QuotaUpdateParameters
 from ._models_py3 import RandomSamplingAlgorithm
 from ._models_py3 import RecurrenceSchedule
 from ._models_py3 import RecurrenceTrigger
 from ._models_py3 import RegenerateEndpointKeysRequest
+from ._models_py3 import Registry
 from ._models_py3 import RegistryListCredentialsResult
+from ._models_py3 import RegistryProperties
+from ._models_py3 import RegistryRegionArmDetails
+from ._models_py3 import RegistryTrackedResourceArmPaginatedResult
 from ._models_py3 import Regression
 from ._models_py3 import RegressionTrainingSettings
 from ._models_py3 import Resource
@@ -299,6 +394,7 @@ from ._models_py3 import ScriptReference
 from ._models_py3 import ScriptsToExecute
 from ._models_py3 import Seasonality
 from ._models_py3 import ServiceManagedResourcesSettings
+from ._models_py3 import ServicePrincipalAuthTypeWorkspaceConnectionProperties
 from ._models_py3 import ServicePrincipalDatastoreCredentials
 from ._models_py3 import ServicePrincipalDatastoreSecrets
 from ._models_py3 import SetupScripts
@@ -308,14 +404,26 @@ from ._models_py3 import SkuCapacity
 from ._models_py3 import SkuResource
 from ._models_py3 import SkuResourceArmPaginatedResult
 from ._models_py3 import SkuSetting
+from ._models_py3 import SparkJob
+from ._models_py3 import SparkJobEntry
+from ._models_py3 import SparkJobPythonEntry
+from ._models_py3 import SparkJobScalaEntry
+from ._models_py3 import SparkResourceConfiguration
 from ._models_py3 import SslConfiguration
 from ._models_py3 import StackEnsembleSettings
+from ._models_py3 import StatusMessage
+from ._models_py3 import StorageAccountDetails
 from ._models_py3 import SweepJob
 from ._models_py3 import SweepJobLimits
 from ._models_py3 import SynapseSpark
 from ._models_py3 import SynapseSparkProperties
+from ._models_py3 import SystemCreatedAcrAccount
+from ._models_py3 import SystemCreatedStorageAccount
 from ._models_py3 import SystemData
 from ._models_py3 import SystemService
+from ._models_py3 import TableFixedParameters
+from ._models_py3 import TableParameterSubspace
+from ._models_py3 import TableSweepSettings
 from ._models_py3 import TableVertical
 from ._models_py3 import TableVerticalFeaturizationSettings
 from ._models_py3 import TableVerticalLimitSettings
@@ -326,10 +434,12 @@ from ._models_py3 import TensorFlow
 from ._models_py3 import TextClassification
 from ._models_py3 import TextClassificationMultilabel
 from ._models_py3 import TextNer
+from ._models_py3 import TmpfsOptions
 from ._models_py3 import TrackedResource
 from ._models_py3 import TrainingSettings
 from ._models_py3 import TrialComponent
 from ._models_py3 import TriggerBase
+from ._models_py3 import TritonInferencingServer
 from ._models_py3 import TritonModelJobInput
 from ._models_py3 import TritonModelJobOutput
 from ._models_py3 import TruncationSelectionPolicy
@@ -345,6 +455,8 @@ from ._models_py3 import Usage
 from ._models_py3 import UsageName
 from ._models_py3 import UserAccountCredentials
 from ._models_py3 import UserAssignedIdentity
+from ._models_py3 import UserCreatedAcrAccount
+from ._models_py3 import UserCreatedStorageAccount
 from ._models_py3 import UserIdentity
 from ._models_py3 import UsernamePasswordAuthTypeWorkspaceConnectionProperties
 from ._models_py3 import VirtualMachine
@@ -356,12 +468,16 @@ from ._models_py3 import VirtualMachineSecretsSchema
 from ._models_py3 import VirtualMachineSize
 from ._models_py3 import VirtualMachineSizeListResult
 from ._models_py3 import VirtualMachineSshCredentials
+from ._models_py3 import VolumeDefinition
+from ._models_py3 import VolumeOptions
 from ._models_py3 import Workspace
+from ._models_py3 import WorkspaceConnectionAccessKey
 from ._models_py3 import WorkspaceConnectionManagedIdentity
 from ._models_py3 import WorkspaceConnectionPersonalAccessToken
 from ._models_py3 import WorkspaceConnectionPropertiesV2
 from ._models_py3 import WorkspaceConnectionPropertiesV2BasicResource
 from ._models_py3 import WorkspaceConnectionPropertiesV2BasicResourceArmPaginatedResult
+from ._models_py3 import WorkspaceConnectionServicePrincipal
 from ._models_py3 import WorkspaceConnectionSharedAccessSignature
 from ._models_py3 import WorkspaceConnectionUsernamePassword
 from ._models_py3 import WorkspaceListResult
@@ -369,8 +485,11 @@ from ._models_py3 import WorkspaceUpdateParameters
 
 from ._machine_learning_services_mgmt_client_enums import AllocationState
 from ._machine_learning_services_mgmt_client_enums import ApplicationSharingPolicy
+from ._machine_learning_services_mgmt_client_enums import AssetProvisioningState
 from ._machine_learning_services_mgmt_client_enums import AutoRebuildSetting
 from ._machine_learning_services_mgmt_client_enums import Autosave
+from ._machine_learning_services_mgmt_client_enums import BaseEnvironmentSourceType
+from ._machine_learning_services_mgmt_client_enums import BatchDeploymentConfigurationType
 from ._machine_learning_services_mgmt_client_enums import BatchLoggingLevel
 from ._machine_learning_services_mgmt_client_enums import BatchOutputAction
 from ._machine_learning_services_mgmt_client_enums import BillingCurrency
@@ -396,37 +515,57 @@ from ._machine_learning_services_mgmt_client_enums import DiagnoseResultLevel
 from ._machine_learning_services_mgmt_client_enums import DistributionType
 from ._machine_learning_services_mgmt_client_enums import EarlyTerminationPolicyType
 from ._machine_learning_services_mgmt_client_enums import EgressPublicNetworkAccessType
+from ._machine_learning_services_mgmt_client_enums import EmailNotificationEnableType
 from ._machine_learning_services_mgmt_client_enums import EncryptionStatus
 from ._machine_learning_services_mgmt_client_enums import EndpointAuthMode
 from ._machine_learning_services_mgmt_client_enums import EndpointComputeType
 from ._machine_learning_services_mgmt_client_enums import EndpointProvisioningState
 from ._machine_learning_services_mgmt_client_enums import EnvironmentType
+from ._machine_learning_services_mgmt_client_enums import EnvironmentVariableType
+from ._machine_learning_services_mgmt_client_enums import ExportFormatType
+from ._machine_learning_services_mgmt_client_enums import FeatureDataType
 from ._machine_learning_services_mgmt_client_enums import FeatureLags
+from ._machine_learning_services_mgmt_client_enums import FeaturestoreJobType
 from ._machine_learning_services_mgmt_client_enums import FeaturizationMode
 from ._machine_learning_services_mgmt_client_enums import ForecastHorizonMode
 from ._machine_learning_services_mgmt_client_enums import ForecastingModels
 from ._machine_learning_services_mgmt_client_enums import ForecastingPrimaryMetrics
 from ._machine_learning_services_mgmt_client_enums import Goal
 from ._machine_learning_services_mgmt_client_enums import IdentityConfigurationType
+from ._machine_learning_services_mgmt_client_enums import ImageAnnotationType
+from ._machine_learning_services_mgmt_client_enums import ImageType
+from ._machine_learning_services_mgmt_client_enums import IncrementalDataRefresh
+from ._machine_learning_services_mgmt_client_enums import InferencingServerType
 from ._machine_learning_services_mgmt_client_enums import InputDeliveryMode
+from ._machine_learning_services_mgmt_client_enums import InputPathType
 from ._machine_learning_services_mgmt_client_enums import InstanceSegmentationPrimaryMetrics
 from ._machine_learning_services_mgmt_client_enums import JobInputType
 from ._machine_learning_services_mgmt_client_enums import JobLimitsType
 from ._machine_learning_services_mgmt_client_enums import JobOutputType
+from ._machine_learning_services_mgmt_client_enums import JobProvisioningState
 from ._machine_learning_services_mgmt_client_enums import JobStatus
+from ._machine_learning_services_mgmt_client_enums import JobTier
 from ._machine_learning_services_mgmt_client_enums import JobType
 from ._machine_learning_services_mgmt_client_enums import KeyType
 from ._machine_learning_services_mgmt_client_enums import LearningRateScheduler
 from ._machine_learning_services_mgmt_client_enums import ListViewType
 from ._machine_learning_services_mgmt_client_enums import LoadBalancerType
 from ._machine_learning_services_mgmt_client_enums import LogVerbosity
+from ._machine_learning_services_mgmt_client_enums import MLAssistConfigurationType
+from ._machine_learning_services_mgmt_client_enums import MLFlowAutologgerState
 from ._machine_learning_services_mgmt_client_enums import ManagedServiceIdentityType
+from ._machine_learning_services_mgmt_client_enums import MaterializationStoreType
+from ._machine_learning_services_mgmt_client_enums import MediaType
+from ._machine_learning_services_mgmt_client_enums import MlflowAutologger
 from ._machine_learning_services_mgmt_client_enums import ModelSize
 from ._machine_learning_services_mgmt_client_enums import MountAction
 from ._machine_learning_services_mgmt_client_enums import MountState
+from ._machine_learning_services_mgmt_client_enums import MultiSelect
 from ._machine_learning_services_mgmt_client_enums import NCrossValidationsMode
 from ._machine_learning_services_mgmt_client_enums import Network
+from ._machine_learning_services_mgmt_client_enums import NlpLearningRateScheduler
 from ._machine_learning_services_mgmt_client_enums import NodeState
+from ._machine_learning_services_mgmt_client_enums import NodesValueType
 from ._machine_learning_services_mgmt_client_enums import ObjectDetectionPrimaryMetrics
 from ._machine_learning_services_mgmt_client_enums import OperatingSystemType
 from ._machine_learning_services_mgmt_client_enums import OperationName
@@ -435,8 +574,12 @@ from ._machine_learning_services_mgmt_client_enums import OperationTrigger
 from ._machine_learning_services_mgmt_client_enums import OrderString
 from ._machine_learning_services_mgmt_client_enums import OsType
 from ._machine_learning_services_mgmt_client_enums import OutputDeliveryMode
+from ._machine_learning_services_mgmt_client_enums import PackageBuildState
+from ._machine_learning_services_mgmt_client_enums import PackageInputDeliveryMode
+from ._machine_learning_services_mgmt_client_enums import PackageInputType
 from ._machine_learning_services_mgmt_client_enums import PrivateEndpointConnectionProvisioningState
 from ._machine_learning_services_mgmt_client_enums import PrivateEndpointServiceConnectionStatus
+from ._machine_learning_services_mgmt_client_enums import Protocol
 from ._machine_learning_services_mgmt_client_enums import ProvisioningState
 from ._machine_learning_services_mgmt_client_enums import ProvisioningStatus
 from ._machine_learning_services_mgmt_client_enums import PublicNetworkAccess
@@ -462,16 +605,20 @@ from ._machine_learning_services_mgmt_client_enums import ShortSeriesHandlingCon
 from ._machine_learning_services_mgmt_client_enums import SkuScaleType
 from ._machine_learning_services_mgmt_client_enums import SkuTier
 from ._machine_learning_services_mgmt_client_enums import SourceType
+from ._machine_learning_services_mgmt_client_enums import SparkJobEntryType
 from ._machine_learning_services_mgmt_client_enums import SshPublicAccess
 from ._machine_learning_services_mgmt_client_enums import SslConfigStatus
 from ._machine_learning_services_mgmt_client_enums import StackMetaLearnerType
 from ._machine_learning_services_mgmt_client_enums import Status
+from ._machine_learning_services_mgmt_client_enums import StatusMessageLevel
 from ._machine_learning_services_mgmt_client_enums import StochasticOptimizer
 from ._machine_learning_services_mgmt_client_enums import StorageAccountType
 from ._machine_learning_services_mgmt_client_enums import TargetAggregationFunction
 from ._machine_learning_services_mgmt_client_enums import TargetLagsMode
 from ._machine_learning_services_mgmt_client_enums import TargetRollingWindowSizeMode
 from ._machine_learning_services_mgmt_client_enums import TaskType
+from ._machine_learning_services_mgmt_client_enums import TextAnnotationType
+from ._machine_learning_services_mgmt_client_enums import TrainingMode
 from ._machine_learning_services_mgmt_client_enums import TriggerType
 from ._machine_learning_services_mgmt_client_enums import UnderlyingResourceAction
 from ._machine_learning_services_mgmt_client_enums import UnitOfMeasure
@@ -482,6 +629,7 @@ from ._machine_learning_services_mgmt_client_enums import VMTier
 from ._machine_learning_services_mgmt_client_enums import ValidationMetricType
 from ._machine_learning_services_mgmt_client_enums import ValueFormat
 from ._machine_learning_services_mgmt_client_enums import VmPriority
+from ._machine_learning_services_mgmt_client_enums import VolumeDefinitionType
 from ._machine_learning_services_mgmt_client_enums import WeekDay
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
@@ -491,11 +639,14 @@ __all__ = [
     "AKS",
     "AKSSchema",
     "AKSSchemaProperties",
+    "AccessKeyAuthTypeWorkspaceConnectionProperties",
     "AccountKeyDatastoreCredentials",
     "AccountKeyDatastoreSecrets",
+    "AcrDetails",
     "AksComputeSecrets",
     "AksComputeSecretsProperties",
     "AksNetworkingConfiguration",
+    "AllNodes",
     "AmlCompute",
     "AmlComputeNodeInformation",
     "AmlComputeNodesInformation",
@@ -506,6 +657,7 @@ __all__ = [
     "AmlOperationListResult",
     "AmlToken",
     "AmlUserFeature",
+    "ArmResourceId",
     "AssetBase",
     "AssetContainer",
     "AssetJobInput",
@@ -521,26 +673,36 @@ __all__ = [
     "AutoSeasonality",
     "AutoTargetLags",
     "AutoTargetRollingWindowSize",
+    "AutologgerSettings",
     "AzureBlobDatastore",
     "AzureDataLakeGen1Datastore",
     "AzureDataLakeGen2Datastore",
+    "AzureDatastore",
     "AzureFileDatastore",
+    "AzureMLBatchInferencingServer",
+    "AzureMLOnlineInferencingServer",
     "BanditPolicy",
+    "BaseEnvironmentId",
+    "BaseEnvironmentSource",
     "BatchDeployment",
+    "BatchDeploymentConfiguration",
     "BatchDeploymentProperties",
     "BatchDeploymentTrackedResourceArmPaginatedResult",
     "BatchEndpoint",
     "BatchEndpointDefaults",
     "BatchEndpointProperties",
     "BatchEndpointTrackedResourceArmPaginatedResult",
+    "BatchPipelineComponentDeploymentConfiguration",
     "BatchRetrySettings",
     "BayesianSamplingAlgorithm",
+    "BindOptions",
     "BuildContext",
     "CertificateDatastoreCredentials",
     "CertificateDatastoreSecrets",
     "Classification",
     "ClassificationTrainingSettings",
     "ClusterUpdateParameters",
+    "CocoExportSummary",
     "CodeConfiguration",
     "CodeContainer",
     "CodeContainerProperties",
@@ -560,6 +722,7 @@ __all__ = [
     "Compute",
     "ComputeInstance",
     "ComputeInstanceApplication",
+    "ComputeInstanceAutologgerSettings",
     "ComputeInstanceConnectivityEndpoints",
     "ComputeInstanceContainer",
     "ComputeInstanceCreatedBy",
@@ -573,6 +736,7 @@ __all__ = [
     "ComputeInstanceVersion",
     "ComputeResource",
     "ComputeResourceSchema",
+    "ComputeRuntimeDto",
     "ComputeSchedules",
     "ComputeSecrets",
     "ComputeStartStopSchedule",
@@ -580,11 +744,14 @@ __all__ = [
     "ContainerResourceSettings",
     "CosmosDbSettings",
     "CronTrigger",
+    "CsvExportSummary",
     "CustomForecastHorizon",
+    "CustomInferencingServer",
     "CustomModelJobInput",
     "CustomModelJobOutput",
     "CustomNCrossValidations",
     "CustomSeasonality",
+    "CustomService",
     "CustomTargetLags",
     "CustomTargetRollingWindowSize",
     "DataContainer",
@@ -603,6 +770,7 @@ __all__ = [
     "DatabricksComputeSecretsProperties",
     "DatabricksProperties",
     "DatabricksSchema",
+    "DatasetExportSummary",
     "Datastore",
     "DatastoreCredentials",
     "DatastoreProperties",
@@ -618,9 +786,13 @@ __all__ = [
     "DiagnoseResult",
     "DiagnoseWorkspaceParameters",
     "DistributionConfiguration",
+    "Docker",
     "EarlyTerminationPolicy",
     "EncryptionKeyVaultProperties",
+    "EncryptionKeyVaultUpdateProperties",
     "EncryptionProperty",
+    "EncryptionUpdateProperties",
+    "Endpoint",
     "EndpointAuthKeys",
     "EndpointAuthToken",
     "EndpointDeploymentPropertiesBase",
@@ -629,6 +801,7 @@ __all__ = [
     "EnvironmentContainer",
     "EnvironmentContainerProperties",
     "EnvironmentContainerResourceArmPaginatedResult",
+    "EnvironmentVariable",
     "EnvironmentVersion",
     "EnvironmentVersionProperties",
     "EnvironmentVersionResourceArmPaginatedResult",
@@ -637,29 +810,56 @@ __all__ = [
     "ErrorResponse",
     "EstimatedVMPrice",
     "EstimatedVMPrices",
+    "ExportSummary",
     "ExternalFQDNResponse",
     "FQDNEndpoint",
     "FQDNEndpointDetail",
     "FQDNEndpoints",
     "FQDNEndpointsProperties",
+    "Feature",
+    "FeatureArmPaginatedResult",
+    "FeatureStoreSettings",
+    "FeatureWindow",
+    "FeaturesetContainer",
+    "FeaturesetContainerProperties",
+    "FeaturesetContainerResourceArmPaginatedResult",
+    "FeaturesetJob",
+    "FeaturesetJobArmPaginatedResult",
+    "FeaturesetSpecification",
+    "FeaturesetVersion",
+    "FeaturesetVersionBackfillRequest",
+    "FeaturesetVersionBackfillResponse",
+    "FeaturesetVersionProperties",
+    "FeaturesetVersionResourceArmPaginatedResult",
+    "FeaturestoreEntityContainer",
+    "FeaturestoreEntityContainerProperties",
+    "FeaturestoreEntityContainerResourceArmPaginatedResult",
+    "FeaturestoreEntityVersion",
+    "FeaturestoreEntityVersionProperties",
+    "FeaturestoreEntityVersionResourceArmPaginatedResult",
     "FeaturizationSettings",
     "FlavorData",
     "ForecastHorizon",
     "Forecasting",
     "ForecastingSettings",
     "ForecastingTrainingSettings",
+    "GetFeatureRequest",
     "GridSamplingAlgorithm",
     "HDInsight",
     "HDInsightProperties",
     "HDInsightSchema",
+    "HdfsDatastore",
     "IdAssetReference",
     "IdentityConfiguration",
     "IdentityForCmk",
+    "IdleShutdownSetting",
+    "Image",
     "ImageClassification",
     "ImageClassificationBase",
     "ImageClassificationMultilabel",
     "ImageInstanceSegmentation",
     "ImageLimitSettings",
+    "ImageMetadata",
     "ImageModelDistributionSettings",
     "ImageModelDistributionSettingsClassification",
     "ImageModelDistributionSettingsObjectDetection",
@@ -670,7 +870,9 @@ __all__ = [
     "ImageObjectDetectionBase",
     "ImageSweepSettings",
     "ImageVertical",
+    "IndexColumn",
     "InferenceContainerProperties",
+    "InferencingServer",
     "InstanceTypeSchema",
     "InstanceTypeSchemaResources",
     "JobBase",
@@ -682,10 +884,25 @@ __all__ = [
     "JobResourceConfiguration",
     "JobScheduleAction",
     "JobService",
+    "KerberosCredentials",
+    "KerberosKeytabCredentials",
+    "KerberosKeytabSecrets",
+    "KerberosPasswordCredentials",
+    "KerberosPasswordSecrets",
     "Kubernetes",
     "KubernetesOnlineDeployment",
     "KubernetesProperties",
     "KubernetesSchema",
+    "LabelCategory",
+    "LabelClass",
+    "LabelingDataConfiguration",
+    "LabelingJob",
+    "LabelingJobImageProperties",
+    "LabelingJobInstructions",
+    "LabelingJobMediaProperties",
+    "LabelingJobProperties",
+    "LabelingJobResourceArmPaginatedResult",
+    "LabelingJobTextProperties",
     "ListAmlUserFeatureResult",
     "ListNotebookKeysResult",
     "ListStorageAccountKeysResult",
@@ -693,6 +910,9 @@ __all__ = [
     "ListWorkspaceKeysResult",
     "ListWorkspaceQuotas",
     "LiteralJobInput",
+    "MLAssistConfiguration",
+    "MLAssistConfigurationDisabled",
+    "MLAssistConfigurationEnabled",
     "MLFlowModelJobInput",
     "MLFlowModelJobOutput",
     "MLTableData",
@@ -702,24 +922,33 @@ __all__ = [
     "ManagedIdentityAuthTypeWorkspaceConnectionProperties",
     "ManagedOnlineDeployment",
     "ManagedServiceIdentity",
+    "MaterializationComputeResource",
+    "MaterializationSettings",
     "MedianStoppingPolicy",
+    "ModelConfiguration",
     "ModelContainer",
     "ModelContainerProperties",
     "ModelContainerResourceArmPaginatedResult",
+    "ModelPackageInput",
     "ModelVersion",
     "ModelVersionProperties",
     "ModelVersionResourceArmPaginatedResult",
     "Mpi",
     "NCrossValidations",
+    "NlpFixedParameters",
+    "NlpParameterSubspace",
+    "NlpSweepSettings",
     "NlpVertical",
     "NlpVerticalFeaturizationSettings",
     "NlpVerticalLimitSettings",
     "NodeStateCounts",
+    "Nodes",
     "NoneAuthTypeWorkspaceConnectionProperties",
     "NoneDatastoreCredentials",
     "NotebookAccessTokenResult",
     "NotebookPreparationError",
     "NotebookResourceInfo",
+    "NotificationSetting",
     "Objective",
     "OnlineDeployment",
     "OnlineDeploymentProperties",
@@ -727,10 +956,17 @@ __all__ = [
     "OnlineEndpoint",
     "OnlineEndpointProperties",
     "OnlineEndpointTrackedResourceArmPaginatedResult",
+    "OnlineInferenceConfiguration",
     "OnlineRequestSettings",
     "OnlineScaleSettings",
     "OutputPathAssetReference",
     "PATAuthTypeWorkspaceConnectionProperties",
+    "PackageInputPathBase",
+    "PackageInputPathId",
+    "PackageInputPathUrl",
+    "PackageInputPathVersion",
+    "PackageRequest",
+    "PackageResponse",
     "PaginatedComputeResourcesList",
     "PartialBatchDeployment",
     "PartialBatchDeploymentPartialMinimalTrackedResourceWithProperties",
@@ -738,6 +974,7 @@ __all__ = [
     "PartialMinimalTrackedResource",
     "PartialMinimalTrackedResourceWithIdentity",
     "PartialMinimalTrackedResourceWithSku",
+    "PartialRegistryPartialTrackedResource",
     "PartialSku",
     "Password",
     "PersonalComputeInstanceSettings",
@@ -749,14 +986,20 @@ __all__ = [
     "PrivateLinkResourceListResult",
     "PrivateLinkServiceConnectionState",
     "ProbeSettings",
+    "ProgressMetrics",
     "PyTorch",
+    "QueueSettings",
     "QuotaBaseProperties",
     "QuotaUpdateParameters",
     "RandomSamplingAlgorithm",
     "RecurrenceSchedule",
     "RecurrenceTrigger",
     "RegenerateEndpointKeysRequest",
+    "Registry",
     "RegistryListCredentialsResult",
+    "RegistryProperties",
+    "RegistryRegionArmDetails",
+    "RegistryTrackedResourceArmPaginatedResult",
     "Regression",
     "RegressionTrainingSettings",
     "Resource",
@@ -781,6 +1024,7 @@ __all__ = [
     "ScriptsToExecute",
     "Seasonality",
     "ServiceManagedResourcesSettings",
+    "ServicePrincipalAuthTypeWorkspaceConnectionProperties",
     "ServicePrincipalDatastoreCredentials",
     "ServicePrincipalDatastoreSecrets",
     "SetupScripts",
@@ -790,14 +1034,26 @@ __all__ = [
     "SkuResource",
     "SkuResourceArmPaginatedResult",
     "SkuSetting",
+    "SparkJob",
+    "SparkJobEntry",
+    "SparkJobPythonEntry",
+    "SparkJobScalaEntry",
+    "SparkResourceConfiguration",
     "SslConfiguration",
     "StackEnsembleSettings",
+    "StatusMessage",
+    "StorageAccountDetails",
     "SweepJob",
     "SweepJobLimits",
     "SynapseSpark",
     "SynapseSparkProperties",
+    "SystemCreatedAcrAccount",
+    "SystemCreatedStorageAccount",
     "SystemData",
     "SystemService",
+    "TableFixedParameters",
+    "TableParameterSubspace",
+    "TableSweepSettings",
     "TableVertical",
     "TableVerticalFeaturizationSettings",
     "TableVerticalLimitSettings",
@@ -808,10 +1064,12 @@ __all__ = [
     "TextClassification",
     "TextClassificationMultilabel",
     "TextNer",
+    "TmpfsOptions",
     "TrackedResource",
     "TrainingSettings",
     "TrialComponent",
     "TriggerBase",
+    "TritonInferencingServer",
     "TritonModelJobInput",
     "TritonModelJobOutput",
     "TruncationSelectionPolicy",
@@ -827,6 +1085,8 @@ __all__ = [
     "UsageName",
     "UserAccountCredentials",
     "UserAssignedIdentity",
+    "UserCreatedAcrAccount",
+    "UserCreatedStorageAccount",
     "UserIdentity",
     "UsernamePasswordAuthTypeWorkspaceConnectionProperties",
     "VirtualMachine",
@@ -838,20 +1098,27 @@ __all__ = [
     "VirtualMachineSize",
     "VirtualMachineSizeListResult",
     "VirtualMachineSshCredentials",
+    "VolumeDefinition",
+    "VolumeOptions",
     "Workspace",
+    "WorkspaceConnectionAccessKey",
     "WorkspaceConnectionManagedIdentity",
     "WorkspaceConnectionPersonalAccessToken",
     "WorkspaceConnectionPropertiesV2",
     "WorkspaceConnectionPropertiesV2BasicResource",
     "WorkspaceConnectionPropertiesV2BasicResourceArmPaginatedResult",
+    "WorkspaceConnectionServicePrincipal",
     "WorkspaceConnectionSharedAccessSignature",
     "WorkspaceConnectionUsernamePassword",
     "WorkspaceListResult",
     "WorkspaceUpdateParameters",
     "AllocationState",
     "ApplicationSharingPolicy",
+    "AssetProvisioningState",
     "AutoRebuildSetting",
     "Autosave",
+    "BaseEnvironmentSourceType",
+    "BatchDeploymentConfigurationType",
     "BatchLoggingLevel",
     "BatchOutputAction",
     "BillingCurrency",
@@ -877,37 +1144,57 @@ __all__ = [
     "DistributionType",
     "EarlyTerminationPolicyType",
     "EgressPublicNetworkAccessType",
+    "EmailNotificationEnableType",
     "EncryptionStatus",
     "EndpointAuthMode",
     "EndpointComputeType",
     "EndpointProvisioningState",
     "EnvironmentType",
+    "EnvironmentVariableType",
+    "ExportFormatType",
+    "FeatureDataType",
     "FeatureLags",
+    "FeaturestoreJobType",
     "FeaturizationMode",
     "ForecastHorizonMode",
     "ForecastingModels",
     "ForecastingPrimaryMetrics",
     "Goal",
     "IdentityConfigurationType",
+    "ImageAnnotationType",
+    "ImageType",
+    "IncrementalDataRefresh",
+    "InferencingServerType",
     "InputDeliveryMode",
+    "InputPathType",
     "InstanceSegmentationPrimaryMetrics",
     "JobInputType",
     "JobLimitsType",
     "JobOutputType",
+    "JobProvisioningState",
     "JobStatus",
+    "JobTier",
     "JobType",
     "KeyType",
     "LearningRateScheduler",
     "ListViewType",
     "LoadBalancerType",
     "LogVerbosity",
+    "MLAssistConfigurationType",
+    "MLFlowAutologgerState",
     "ManagedServiceIdentityType",
+    "MaterializationStoreType",
+    "MediaType",
+    "MlflowAutologger",
     "ModelSize",
     "MountAction",
     "MountState",
+    "MultiSelect",
     "NCrossValidationsMode",
     "Network",
+    "NlpLearningRateScheduler",
     "NodeState",
+    "NodesValueType",
     "ObjectDetectionPrimaryMetrics",
     "OperatingSystemType",
     "OperationName",
@@ -916,8 +1203,12 @@ __all__ = [
     "OrderString",
     "OsType",
     "OutputDeliveryMode",
+    "PackageBuildState",
+    "PackageInputDeliveryMode",
+    "PackageInputType",
     "PrivateEndpointConnectionProvisioningState",
     "PrivateEndpointServiceConnectionStatus",
+    "Protocol",
     "ProvisioningState",
     "ProvisioningStatus",
     "PublicNetworkAccess",
@@ -943,16 +1234,20 @@ __all__ = [
     "SkuScaleType",
     "SkuTier",
     "SourceType",
+    "SparkJobEntryType",
     "SshPublicAccess",
     "SslConfigStatus",
     "StackMetaLearnerType",
     "Status",
+    "StatusMessageLevel",
     "StochasticOptimizer",
     "StorageAccountType",
     "TargetAggregationFunction",
     "TargetLagsMode",
     "TargetRollingWindowSizeMode",
     "TaskType",
+    "TextAnnotationType",
+    "TrainingMode",
     "TriggerType",
     "UnderlyingResourceAction",
     "UnitOfMeasure",
@@ -963,6 +1258,7 @@ __all__ = [
     "ValidationMetricType",
     "ValueFormat",
     "VmPriority",
+    "VolumeDefinitionType",
     "WeekDay",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])

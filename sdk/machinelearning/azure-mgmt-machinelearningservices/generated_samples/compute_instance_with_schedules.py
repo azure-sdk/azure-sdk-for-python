@@ -54,6 +54,7 @@ def main():
                                     "expression": "0 18 * * *",
                                     "startTime": "2021-04-23T01:30:00",
                                     "timeZone": "Pacific Standard Time",
+                                    "triggerType": "Cron",
                                 },
                                 "status": "Enabled",
                                 "triggerType": "Cron",
@@ -69,6 +70,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Compute/createOrUpdate/ComputeInstanceWithSchedules.json
+# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2023-02-01-preview/examples/Compute/createOrUpdate/ComputeInstanceWithSchedules.json
 if __name__ == "__main__":
     main()

@@ -28,7 +28,12 @@ from .operations import (
     DatastoresOperations,
     EnvironmentContainersOperations,
     EnvironmentVersionsOperations,
+    FeaturesetContainersOperations,
+    FeaturesetVersionsOperations,
+    FeaturestoreEntityContainersOperations,
+    FeaturestoreEntityVersionsOperations,
     JobsOperations,
+    LabelingJobsOperations,
     ModelContainersOperations,
     ModelVersionsOperations,
     OnlineDeploymentsOperations,
@@ -37,6 +42,17 @@ from .operations import (
     PrivateEndpointConnectionsOperations,
     PrivateLinkResourcesOperations,
     QuotasOperations,
+    RegistriesOperations,
+    RegistryCodeContainersOperations,
+    RegistryCodeVersionsOperations,
+    RegistryComponentContainersOperations,
+    RegistryComponentVersionsOperations,
+    RegistryDataContainersOperations,
+    RegistryDataVersionsOperations,
+    RegistryEnvironmentContainersOperations,
+    RegistryEnvironmentVersionsOperations,
+    RegistryModelContainersOperations,
+    RegistryModelVersionsOperations,
     SchedulesOperations,
     UsagesOperations,
     VirtualMachineSizesOperations,
@@ -75,6 +91,36 @@ class MachineLearningServicesMgmtClient:  # pylint: disable=client-accepts-api-v
     :ivar workspace_connections: WorkspaceConnectionsOperations operations
     :vartype workspace_connections:
      azure.mgmt.machinelearningservices.aio.operations.WorkspaceConnectionsOperations
+    :ivar registry_code_containers: RegistryCodeContainersOperations operations
+    :vartype registry_code_containers:
+     azure.mgmt.machinelearningservices.aio.operations.RegistryCodeContainersOperations
+    :ivar registry_code_versions: RegistryCodeVersionsOperations operations
+    :vartype registry_code_versions:
+     azure.mgmt.machinelearningservices.aio.operations.RegistryCodeVersionsOperations
+    :ivar registry_component_containers: RegistryComponentContainersOperations operations
+    :vartype registry_component_containers:
+     azure.mgmt.machinelearningservices.aio.operations.RegistryComponentContainersOperations
+    :ivar registry_component_versions: RegistryComponentVersionsOperations operations
+    :vartype registry_component_versions:
+     azure.mgmt.machinelearningservices.aio.operations.RegistryComponentVersionsOperations
+    :ivar registry_data_containers: RegistryDataContainersOperations operations
+    :vartype registry_data_containers:
+     azure.mgmt.machinelearningservices.aio.operations.RegistryDataContainersOperations
+    :ivar registry_data_versions: RegistryDataVersionsOperations operations
+    :vartype registry_data_versions:
+     azure.mgmt.machinelearningservices.aio.operations.RegistryDataVersionsOperations
+    :ivar registry_environment_containers: RegistryEnvironmentContainersOperations operations
+    :vartype registry_environment_containers:
+     azure.mgmt.machinelearningservices.aio.operations.RegistryEnvironmentContainersOperations
+    :ivar registry_environment_versions: RegistryEnvironmentVersionsOperations operations
+    :vartype registry_environment_versions:
+     azure.mgmt.machinelearningservices.aio.operations.RegistryEnvironmentVersionsOperations
+    :ivar registry_model_containers: RegistryModelContainersOperations operations
+    :vartype registry_model_containers:
+     azure.mgmt.machinelearningservices.aio.operations.RegistryModelContainersOperations
+    :ivar registry_model_versions: RegistryModelVersionsOperations operations
+    :vartype registry_model_versions:
+     azure.mgmt.machinelearningservices.aio.operations.RegistryModelVersionsOperations
     :ivar batch_endpoints: BatchEndpointsOperations operations
     :vartype batch_endpoints:
      azure.mgmt.machinelearningservices.aio.operations.BatchEndpointsOperations
@@ -107,8 +153,23 @@ class MachineLearningServicesMgmtClient:  # pylint: disable=client-accepts-api-v
     :ivar environment_versions: EnvironmentVersionsOperations operations
     :vartype environment_versions:
      azure.mgmt.machinelearningservices.aio.operations.EnvironmentVersionsOperations
+    :ivar featureset_containers: FeaturesetContainersOperations operations
+    :vartype featureset_containers:
+     azure.mgmt.machinelearningservices.aio.operations.FeaturesetContainersOperations
+    :ivar featureset_versions: FeaturesetVersionsOperations operations
+    :vartype featureset_versions:
+     azure.mgmt.machinelearningservices.aio.operations.FeaturesetVersionsOperations
+    :ivar featurestore_entity_containers: FeaturestoreEntityContainersOperations operations
+    :vartype featurestore_entity_containers:
+     azure.mgmt.machinelearningservices.aio.operations.FeaturestoreEntityContainersOperations
+    :ivar featurestore_entity_versions: FeaturestoreEntityVersionsOperations operations
+    :vartype featurestore_entity_versions:
+     azure.mgmt.machinelearningservices.aio.operations.FeaturestoreEntityVersionsOperations
     :ivar jobs: JobsOperations operations
     :vartype jobs: azure.mgmt.machinelearningservices.aio.operations.JobsOperations
+    :ivar labeling_jobs: LabelingJobsOperations operations
+    :vartype labeling_jobs:
+     azure.mgmt.machinelearningservices.aio.operations.LabelingJobsOperations
     :ivar model_containers: ModelContainersOperations operations
     :vartype model_containers:
      azure.mgmt.machinelearningservices.aio.operations.ModelContainersOperations
@@ -123,6 +184,8 @@ class MachineLearningServicesMgmtClient:  # pylint: disable=client-accepts-api-v
      azure.mgmt.machinelearningservices.aio.operations.OnlineDeploymentsOperations
     :ivar schedules: SchedulesOperations operations
     :vartype schedules: azure.mgmt.machinelearningservices.aio.operations.SchedulesOperations
+    :ivar registries: RegistriesOperations operations
+    :vartype registries: azure.mgmt.machinelearningservices.aio.operations.RegistriesOperations
     :ivar workspace_features: WorkspaceFeaturesOperations operations
     :vartype workspace_features:
      azure.mgmt.machinelearningservices.aio.operations.WorkspaceFeaturesOperations
@@ -132,8 +195,8 @@ class MachineLearningServicesMgmtClient:  # pylint: disable=client-accepts-api-v
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2022-10-01". Note that overriding this
-     default value may result in unsupported behavior.
+    :keyword api_version: Api Version. Default value is "2023-02-01-preview". Note that overriding
+     this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
      Retry-After header is present.
@@ -149,7 +212,7 @@ class MachineLearningServicesMgmtClient:  # pylint: disable=client-accepts-api-v
         self._config = MachineLearningServicesMgmtClientConfiguration(
             credential=credential, subscription_id=subscription_id, **kwargs
         )
-        self._client = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
@@ -170,6 +233,36 @@ class MachineLearningServicesMgmtClient:  # pylint: disable=client-accepts-api-v
             self._client, self._config, self._serialize, self._deserialize
         )
         self.workspace_connections = WorkspaceConnectionsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.registry_code_containers = RegistryCodeContainersOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.registry_code_versions = RegistryCodeVersionsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.registry_component_containers = RegistryComponentContainersOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.registry_component_versions = RegistryComponentVersionsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.registry_data_containers = RegistryDataContainersOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.registry_data_versions = RegistryDataVersionsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.registry_environment_containers = RegistryEnvironmentContainersOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.registry_environment_versions = RegistryEnvironmentVersionsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.registry_model_containers = RegistryModelContainersOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.registry_model_versions = RegistryModelVersionsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.batch_endpoints = BatchEndpointsOperations(self._client, self._config, self._serialize, self._deserialize)
@@ -193,7 +286,20 @@ class MachineLearningServicesMgmtClient:  # pylint: disable=client-accepts-api-v
         self.environment_versions = EnvironmentVersionsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.featureset_containers = FeaturesetContainersOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.featureset_versions = FeaturesetVersionsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.featurestore_entity_containers = FeaturestoreEntityContainersOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.featurestore_entity_versions = FeaturestoreEntityVersionsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.jobs = JobsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.labeling_jobs = LabelingJobsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.model_containers = ModelContainersOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
@@ -205,6 +311,7 @@ class MachineLearningServicesMgmtClient:  # pylint: disable=client-accepts-api-v
             self._client, self._config, self._serialize, self._deserialize
         )
         self.schedules = SchedulesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.registries = RegistriesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.workspace_features = WorkspaceFeaturesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
@@ -238,5 +345,5 @@ class MachineLearningServicesMgmtClient:  # pylint: disable=client-accepts-api-v
         await self._client.__aenter__()
         return self
 
-    async def __aexit__(self, *exc_details) -> None:
+    async def __aexit__(self, *exc_details: Any) -> None:
         await self._client.__aexit__(*exc_details)
