@@ -14,7 +14,7 @@ from azure.mgmt.sql import SqlManagementClient
     pip install azure-identity
     pip install azure-mgmt-sql
 # USAGE
-    python server_communication_link_list.py
+    python import_database_using_database_extensions.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,17 +26,29 @@ from azure.mgmt.sql import SqlManagementClient
 def main():
     client = SqlManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="00000000-1111-2222-3333-444444444444",
+        subscription_id="17ca4d13-bf7d-4c33-a60e-b87a2820a325",
     )
 
-    response = client.server_communication_links.list_by_server(
-        resource_group_name="sqlcrudtest-7398",
-        server_name="sqlcrudtest-4645",
-    )
-    for item in response:
-        print(item)
+    response = client.database_extensions.begin_create_or_update(
+        resource_group_name="rg_062866bf-c4f4-41f9-abf0-b59132ca7924",
+        server_name="srv_2d6be2d2-26c8-4930-8fb6-82a5e95e0e82",
+        database_name="db_2a47e946-e414-4c00-94ac-ed886bb78302",
+        extension_name="Import",
+        parameters={
+            "properties": {
+                "administratorLogin": "login",
+                "administratorLoginPassword": "password",
+                "authenticationType": "Sql",
+                "operationMode": "Import",
+                "storageKey": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "storageKeyType": "StorageAccessKey",
+                "storageUri": "https://teststorage.blob.core.windows.net/testcontainer/Manifest.xml",
+            }
+        },
+    ).result()
+    print(response)
 
 
-# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/stable/2014-04-01/examples/ServerCommunicationLinkList.json
+# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-11-01-preview/examples/ImportDatabaseUsingDatabaseExtensions.json
 if __name__ == "__main__":
     main()

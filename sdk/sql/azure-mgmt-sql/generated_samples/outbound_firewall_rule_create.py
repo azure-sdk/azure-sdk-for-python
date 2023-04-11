@@ -14,7 +14,7 @@ from azure.mgmt.sql import SqlManagementClient
     pip install azure-identity
     pip install azure-mgmt-sql
 # USAGE
-    python service_objective_get.py
+    python outbound_firewall_rule_create.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,14 +29,14 @@ def main():
         subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.service_objectives.get(
-        resource_group_name="group1",
-        server_name="sqlcrudtest",
-        service_objective_name="29dd7459-4a7c-4e56-be22-f0adda49440d",
-    )
+    response = client.outbound_firewall_rules.begin_create_or_update(
+        resource_group_name="sqlcrudtest-7398",
+        server_name="sqlcrudtest-4645",
+        outbound_rule_fqdn="server.database.windows.net",
+    ).result()
     print(response)
 
 
-# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/stable/2014-04-01/examples/ServiceObjectiveGet.json
+# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-11-01-preview/examples/OutboundFirewallRuleCreate.json
 if __name__ == "__main__":
     main()
