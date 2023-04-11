@@ -304,7 +304,9 @@ def build_purge_deleted_request(name: str, location: str, subscription_id: str, 
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_check_mhsm_name_availability_request(subscription_id: str, **kwargs: Any) -> HttpRequest:
+def build_check_mhsm_name_availability_request(  # pylint: disable=name-too-long
+    subscription_id: str, **kwargs: Any
+) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 

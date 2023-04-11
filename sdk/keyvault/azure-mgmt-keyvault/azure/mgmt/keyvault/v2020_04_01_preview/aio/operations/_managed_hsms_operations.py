@@ -336,14 +336,17 @@ class ManagedHsmsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ManagedHsmError, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
+        response_headers = {}
         if response.status_code == 200:
             deserialized = self._deserialize("ManagedHsm", pipeline_response)
 
         if response.status_code == 202:
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+
             deserialized = self._deserialize("ManagedHsm", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
 
