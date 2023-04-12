@@ -95,7 +95,7 @@ class SqlPoolBlobAuditingPoliciesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-06-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-06-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-06-01"))
         blob_auditing_policy_name: Literal["default"] = kwargs.pop("blob_auditing_policy_name", "default")
         cls: ClsType[_models.SqlPoolBlobAuditingPolicy] = kwargs.pop("cls", None)
 
@@ -113,8 +113,9 @@ class SqlPoolBlobAuditingPoliciesOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -226,8 +227,8 @@ class SqlPoolBlobAuditingPoliciesOperations:
         :type workspace_name: str
         :param sql_pool_name: SQL pool name. Required.
         :type sql_pool_name: str
-        :param parameters: The database blob auditing policy. Is either a model type or a IO type.
-         Required.
+        :param parameters: The database blob auditing policy. Is either a SqlPoolBlobAuditingPolicy
+         type or a IO type. Required.
         :type parameters: ~azure.mgmt.synapse.models.SqlPoolBlobAuditingPolicy or IO
         :keyword blob_auditing_policy_name: The name of the blob auditing policy. Default value is
          "default". Note that overriding this default value may result in unsupported behavior.
@@ -251,7 +252,7 @@ class SqlPoolBlobAuditingPoliciesOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-06-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-06-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-06-01"))
         blob_auditing_policy_name: Literal["default"] = kwargs.pop("blob_auditing_policy_name", "default")
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.SqlPoolBlobAuditingPolicy] = kwargs.pop("cls", None)
@@ -281,8 +282,9 @@ class SqlPoolBlobAuditingPoliciesOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -329,7 +331,7 @@ class SqlPoolBlobAuditingPoliciesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-06-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-06-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-06-01"))
         cls: ClsType[_models.SqlPoolBlobAuditingPolicyListResult] = kwargs.pop("cls", None)
 
         error_map = {
@@ -373,8 +375,9 @@ class SqlPoolBlobAuditingPoliciesOperations:
         async def get_next(next_link=None):
             request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 

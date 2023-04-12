@@ -14,7 +14,7 @@ from azure.mgmt.synapse import SynapseManagementClient
     pip install azure-identity
     pip install azure-mgmt-synapse
 # USAGE
-    python create_or_update_big_data_pool.py
+    python workspace_per_subscription_usage_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,33 +26,15 @@ from azure.mgmt.synapse import SynapseManagementClient
 def main():
     client = SynapseManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="01234567-89ab-4def-0123-456789abcdef",
+        subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.big_data_pools.begin_create_or_update(
-        resource_group_name="ExampleResourceGroup",
-        workspace_name="ExampleWorkspace",
-        big_data_pool_name="ExamplePool",
-        big_data_pool_info={
-            "location": "West US 2",
-            "properties": {
-                "autoPause": {"delayInMinutes": 15, "enabled": True},
-                "autoScale": {"enabled": True, "maxNodeCount": 50, "minNodeCount": 3},
-                "defaultSparkLogFolder": "/logs",
-                "isAutotuneEnabled": False,
-                "libraryRequirements": {"content": "", "filename": "requirements.txt"},
-                "nodeCount": 4,
-                "nodeSize": "Medium",
-                "nodeSizeFamily": "MemoryOptimized",
-                "sparkEventsFolder": "/events",
-                "sparkVersion": "3.3",
-            },
-            "tags": {"key": "value"},
-        },
-    ).result()
+    response = client.operations.get_workspace_per_subscription_quota(
+        location="WestUS",
+    )
     print(response)
 
 
-# x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/CreateOrUpdateBigDataPool.json
+# x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/WorkspacePerSubscriptionUsageGet.json
 if __name__ == "__main__":
     main()
