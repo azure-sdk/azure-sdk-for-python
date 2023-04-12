@@ -48,7 +48,7 @@ class Resource(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -84,7 +84,7 @@ class Addon(Resource):
         "properties": {"key": "properties", "type": "AddonProperties"},
     }
 
-    def __init__(self, *, properties: Optional["_models.AddonProperties"] = None, **kwargs):
+    def __init__(self, *, properties: Optional["_models.AddonProperties"] = None, **kwargs: Any) -> None:
         """
         :keyword properties: The properties of an addon resource.
         :paramtype properties: ~azure.mgmt.avs.models.AddonProperties
@@ -130,7 +130,7 @@ class AddonProperties(_serialization.Model):
         }
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.addon_type: Optional[str] = None
@@ -165,7 +165,7 @@ class AddonArcProperties(AddonProperties):
         "v_center": {"key": "vCenter", "type": "str"},
     }
 
-    def __init__(self, *, v_center: Optional[str] = None, **kwargs):
+    def __init__(self, *, v_center: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword v_center: The VMware vCenter resource ID.
         :paramtype v_center: str
@@ -204,7 +204,7 @@ class AddonHcxProperties(AddonProperties):
         "offer": {"key": "offer", "type": "str"},
     }
 
-    def __init__(self, *, offer: str, **kwargs):
+    def __init__(self, *, offer: str, **kwargs: Any) -> None:
         """
         :keyword offer: The HCX offer, example VMware MaaS Cloud Provider (Enterprise). Required.
         :paramtype offer: str
@@ -235,7 +235,7 @@ class AddonList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -270,7 +270,7 @@ class AddonSrmProperties(AddonProperties):
         "license_key": {"key": "licenseKey", "type": "str"},
     }
 
-    def __init__(self, *, license_key: Optional[str] = None, **kwargs):
+    def __init__(self, *, license_key: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword license_key: The Site Recovery Manager (SRM) license.
         :paramtype license_key: str
@@ -309,7 +309,7 @@ class AddonVrProperties(AddonProperties):
         "vrs_count": {"key": "vrsCount", "type": "int"},
     }
 
-    def __init__(self, *, vrs_count: int, **kwargs):
+    def __init__(self, *, vrs_count: int, **kwargs: Any) -> None:
         """
         :keyword vrs_count: The vSphere Replication Server (VRS) count. Required.
         :paramtype vrs_count: int
@@ -348,7 +348,7 @@ class AdminCredentials(_serialization.Model):
         "vcenter_password": {"key": "vcenterPassword", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.nsxt_username = None
@@ -381,8 +381,8 @@ class AvailabilityProperties(_serialization.Model):
         strategy: Optional[Union[str, "_models.AvailabilityStrategy"]] = None,
         zone: Optional[int] = None,
         secondary_zone: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword strategy: The availability strategy for the private cloud. Known values are:
          "SingleZone" and "DualZone".
@@ -427,7 +427,7 @@ class Circuit(_serialization.Model):
         "express_route_private_peering_id": {"key": "expressRoutePrivatePeeringID", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.primary_subnet = None
@@ -469,7 +469,7 @@ class CloudLink(Resource):
         "linked_cloud": {"key": "properties.linkedCloud", "type": "str"},
     }
 
-    def __init__(self, *, linked_cloud: Optional[str] = None, **kwargs):
+    def __init__(self, *, linked_cloud: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword linked_cloud: Identifier of the other private cloud participating in the link.
         :paramtype linked_cloud: str
@@ -500,7 +500,7 @@ class CloudLinkList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -554,8 +554,13 @@ class Cluster(Resource):
     }
 
     def __init__(
-        self, *, sku: "_models.Sku", cluster_size: Optional[int] = None, hosts: Optional[List[str]] = None, **kwargs
-    ):
+        self,
+        *,
+        sku: "_models.Sku",
+        cluster_size: Optional[int] = None,
+        hosts: Optional[List[str]] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword sku: The cluster SKU. Required.
         :paramtype sku: ~azure.mgmt.avs.models.Sku
@@ -593,7 +598,7 @@ class ClusterList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -628,7 +633,7 @@ class CommonClusterProperties(_serialization.Model):
         "hosts": {"key": "hosts", "type": "[str]"},
     }
 
-    def __init__(self, *, cluster_size: Optional[int] = None, hosts: Optional[List[str]] = None, **kwargs):
+    def __init__(self, *, cluster_size: Optional[int] = None, hosts: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
         :keyword cluster_size: The cluster size.
         :paramtype cluster_size: int
@@ -670,7 +675,7 @@ class ClusterProperties(CommonClusterProperties):
         "hosts": {"key": "hosts", "type": "[str]"},
     }
 
-    def __init__(self, *, cluster_size: Optional[int] = None, hosts: Optional[List[str]] = None, **kwargs):
+    def __init__(self, *, cluster_size: Optional[int] = None, hosts: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
         :keyword cluster_size: The cluster size.
         :paramtype cluster_size: int
@@ -694,7 +699,7 @@ class ClusterUpdate(_serialization.Model):
         "hosts": {"key": "properties.hosts", "type": "[str]"},
     }
 
-    def __init__(self, *, cluster_size: Optional[int] = None, hosts: Optional[List[str]] = None, **kwargs):
+    def __init__(self, *, cluster_size: Optional[int] = None, hosts: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
         :keyword cluster_size: The cluster size.
         :paramtype cluster_size: int
@@ -727,7 +732,7 @@ class ClusterZone(_serialization.Model):
         "zone": {"key": "zone", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.hosts = None
@@ -745,7 +750,7 @@ class ClusterZoneList(_serialization.Model):
         "zones": {"key": "zones", "type": "[ClusterZone]"},
     }
 
-    def __init__(self, *, zones: Optional[List["_models.ClusterZone"]] = None, **kwargs):
+    def __init__(self, *, zones: Optional[List["_models.ClusterZone"]] = None, **kwargs: Any) -> None:
         """
         :keyword zones: Zone and associated hosts info.
         :paramtype zones: list[~azure.mgmt.avs.models.ClusterZone]
@@ -801,8 +806,8 @@ class Datastore(Resource):
         *,
         net_app_volume: Optional["_models.NetAppVolume"] = None,
         disk_pool_volume: Optional["_models.DiskPoolVolume"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword net_app_volume: An Azure NetApp Files volume.
         :paramtype net_app_volume: ~azure.mgmt.avs.models.NetAppVolume
@@ -837,7 +842,7 @@ class DatastoreList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -876,8 +881,13 @@ class DiskPoolVolume(_serialization.Model):
     }
 
     def __init__(
-        self, *, target_id: str, lun_name: str, mount_option: Union[str, "_models.MountOptionEnum"] = "MOUNT", **kwargs
-    ):
+        self,
+        *,
+        target_id: str,
+        lun_name: str,
+        mount_option: Union[str, "_models.MountOptionEnum"] = "MOUNT",
+        **kwargs: Any
+    ) -> None:
         """
         :keyword target_id: Azure resource ID of the iSCSI target. Required.
         :paramtype target_id: str
@@ -914,8 +924,8 @@ class Encryption(_serialization.Model):
         *,
         status: Optional[Union[str, "_models.EncryptionState"]] = None,
         key_vault_properties: Optional["_models.EncryptionKeyVaultProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword status: Status of customer managed encryption key. Known values are: "Enabled" and
          "Disabled".
@@ -970,8 +980,8 @@ class EncryptionKeyVaultProperties(_serialization.Model):
         key_name: Optional[str] = None,
         key_version: Optional[str] = None,
         key_vault_url: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword key_name: The name of the key.
         :paramtype key_name: str
@@ -1014,7 +1024,7 @@ class Endpoints(_serialization.Model):
         "hcx_cloud_manager": {"key": "hcxCloudManager", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.nsxt_manager = None
@@ -1043,7 +1053,7 @@ class ErrorAdditionalInfo(_serialization.Model):
         "info": {"key": "info", "type": "object"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.type = None
@@ -1051,7 +1061,8 @@ class ErrorAdditionalInfo(_serialization.Model):
 
 
 class ErrorResponse(_serialization.Model):
-    """Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.).
+    """Common error response for all Azure Resource Manager APIs to return error details for failed
+    operations. (This also follows the OData error response format.).
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -1083,7 +1094,7 @@ class ErrorResponse(_serialization.Model):
         "additional_info": {"key": "additionalInfo", "type": "[ErrorAdditionalInfo]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.code = None
@@ -1135,7 +1146,7 @@ class ExpressRouteAuthorization(Resource):
         "express_route_id": {"key": "properties.expressRouteId", "type": "str"},
     }
 
-    def __init__(self, *, express_route_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, express_route_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword express_route_id: The ID of the ExpressRoute Circuit.
         :paramtype express_route_id: str
@@ -1168,7 +1179,7 @@ class ExpressRouteAuthorizationList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -1234,8 +1245,8 @@ class GlobalReachConnection(Resource):
         authorization_key: Optional[str] = None,
         peer_express_route_circuit: Optional[str] = None,
         express_route_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword authorization_key: Authorization key from the peer express route used for the global
          reach connection.
@@ -1277,7 +1288,7 @@ class GlobalReachConnectionList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -1318,7 +1329,7 @@ class HcxEnterpriseSite(Resource):
         "status": {"key": "properties.status", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.activation_key = None
@@ -1346,7 +1357,7 @@ class HcxEnterpriseSiteList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -1407,8 +1418,8 @@ class IdentitySource(_serialization.Model):
         ssl: Optional[Union[str, "_models.SslEnum"]] = None,
         username: Optional[str] = None,
         password: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: The name of the identity source.
         :paramtype name: str
@@ -1470,8 +1481,8 @@ class LogSpecification(_serialization.Model):
         name: Optional[str] = None,
         display_name: Optional[str] = None,
         blob_duration: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Name of the log.
         :paramtype name: str
@@ -1514,7 +1525,7 @@ class ManagementCluster(CommonClusterProperties):
         "hosts": {"key": "hosts", "type": "[str]"},
     }
 
-    def __init__(self, *, cluster_size: Optional[int] = None, hosts: Optional[List[str]] = None, **kwargs):
+    def __init__(self, *, cluster_size: Optional[int] = None, hosts: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
         :keyword cluster_size: The cluster size.
         :paramtype cluster_size: int
@@ -1552,8 +1563,8 @@ class MetricDimension(_serialization.Model):
         display_name: Optional[str] = None,
         internal_name: Optional[str] = None,
         to_be_exported_for_shoebox: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Name of the dimension.
         :paramtype name: str
@@ -1638,8 +1649,8 @@ class MetricSpecification(_serialization.Model):  # pylint: disable=too-many-ins
         enable_regional_mdm_account: Optional[str] = None,
         source_mdm_account: Optional[str] = None,
         source_mdm_namespace: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Name of the metric.
         :paramtype name: str
@@ -1705,7 +1716,7 @@ class NetAppVolume(_serialization.Model):
         "id": {"key": "id", "type": "str"},
     }
 
-    def __init__(self, *, id: str, **kwargs):  # pylint: disable=redefined-builtin
+    def __init__(self, *, id: str, **kwargs: Any) -> None:  # pylint: disable=redefined-builtin
         """
         :keyword id: Azure resource ID of the NetApp volume. Required.
         :paramtype id: str
@@ -1751,8 +1762,8 @@ class Operation(_serialization.Model):
         is_data_action: Optional[bool] = None,
         origin: Optional[str] = None,
         properties: Optional["_models.OperationProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword is_data_action: Gets or sets a value indicating whether the operation is a data action
          or not.
@@ -1799,7 +1810,7 @@ class OperationDisplay(_serialization.Model):
         "description": {"key": "description", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.provider = None
@@ -1829,7 +1840,7 @@ class OperationList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -1847,7 +1858,9 @@ class OperationProperties(_serialization.Model):
         "service_specification": {"key": "serviceSpecification", "type": "ServiceSpecification"},
     }
 
-    def __init__(self, *, service_specification: Optional["_models.ServiceSpecification"] = None, **kwargs):
+    def __init__(
+        self, *, service_specification: Optional["_models.ServiceSpecification"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword service_specification: Service specifications of the operation.
         :paramtype service_specification: ~azure.mgmt.avs.models.ServiceSpecification
@@ -1877,7 +1890,7 @@ class PlacementPoliciesList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -1912,7 +1925,7 @@ class PlacementPolicy(Resource):
         "properties": {"key": "properties", "type": "PlacementPolicyProperties"},
     }
 
-    def __init__(self, *, properties: Optional["_models.PlacementPolicyProperties"] = None, **kwargs):
+    def __init__(self, *, properties: Optional["_models.PlacementPolicyProperties"] = None, **kwargs: Any) -> None:
         """
         :keyword properties: placement policy properties.
         :paramtype properties: ~azure.mgmt.avs.models.PlacementPolicyProperties
@@ -1962,8 +1975,8 @@ class PlacementPolicyProperties(_serialization.Model):
         *,
         state: Optional[Union[str, "_models.PlacementPolicyState"]] = None,
         display_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword state: Whether the placement policy is enabled or disabled. Known values are:
          "Enabled" and "Disabled".
@@ -2012,8 +2025,8 @@ class PlacementPolicyUpdate(_serialization.Model):
         host_members: Optional[List[str]] = None,
         affinity_strength: Optional[Union[str, "_models.AffinityStrength"]] = None,
         azure_hybrid_benefit_type: Optional[Union[str, "_models.AzureHybridBenefitType"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword state: Whether the placement policy is enabled or disabled. Known values are:
          "Enabled" and "Disabled".
@@ -2068,7 +2081,7 @@ class TrackedResource(Resource):
         "tags": {"key": "tags", "type": "{str}"},
     }
 
-    def __init__(self, *, location: Optional[str] = None, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, location: Optional[str] = None, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword location: Resource location.
         :paramtype location: str
@@ -2214,8 +2227,8 @@ class PrivateCloud(TrackedResource):  # pylint: disable=too-many-instance-attrib
         vcenter_password: Optional[str] = None,
         nsxt_password: Optional[str] = None,
         secondary_circuit: Optional["_models.Circuit"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Resource location.
         :paramtype location: str
@@ -2305,7 +2318,7 @@ class PrivateCloudIdentity(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, *, type: Optional[Union[str, "_models.ResourceIdentityType"]] = None, **kwargs):
+    def __init__(self, *, type: Optional[Union[str, "_models.ResourceIdentityType"]] = None, **kwargs: Any) -> None:
         """
         :keyword type: The type of identity used for the private cloud. The type 'SystemAssigned'
          refers to an implicitly created identity. The type 'None' will remove any identities from the
@@ -2339,7 +2352,7 @@ class PrivateCloudList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -2379,8 +2392,8 @@ class PrivateCloudUpdateProperties(_serialization.Model):
         identity_sources: Optional[List["_models.IdentitySource"]] = None,
         availability: Optional["_models.AvailabilityProperties"] = None,
         encryption: Optional["_models.Encryption"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword management_cluster: The default cluster used for management.
         :paramtype management_cluster: ~azure.mgmt.avs.models.ManagementCluster
@@ -2509,8 +2522,8 @@ class PrivateCloudProperties(PrivateCloudUpdateProperties):  # pylint: disable=t
         vcenter_password: Optional[str] = None,
         nsxt_password: Optional[str] = None,
         secondary_circuit: Optional["_models.Circuit"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword management_cluster: The default cluster used for management.
         :paramtype management_cluster: ~azure.mgmt.avs.models.ManagementCluster
@@ -2605,8 +2618,8 @@ class PrivateCloudUpdate(_serialization.Model):
         identity_sources: Optional[List["_models.IdentitySource"]] = None,
         availability: Optional["_models.AvailabilityProperties"] = None,
         encryption: Optional["_models.Encryption"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -2660,7 +2673,7 @@ class ProxyResource(Resource):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
 
@@ -2699,7 +2712,7 @@ class ScriptExecutionParameter(_serialization.Model):
         }
     }
 
-    def __init__(self, *, name: str, **kwargs):
+    def __init__(self, *, name: str, **kwargs: Any) -> None:
         """
         :keyword name: The parameter name. Required.
         :paramtype name: str
@@ -2737,7 +2750,9 @@ class PSCredentialExecutionParameter(ScriptExecutionParameter):
         "password": {"key": "password", "type": "str"},
     }
 
-    def __init__(self, *, name: str, username: Optional[str] = None, password: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, name: str, username: Optional[str] = None, password: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword name: The parameter name. Required.
         :paramtype name: str
@@ -2774,7 +2789,7 @@ class Quota(_serialization.Model):
         "quota_enabled": {"key": "quotaEnabled", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.hosts_remaining = None
@@ -2818,7 +2833,7 @@ class ScriptCmdlet(ProxyResource):
         "parameters": {"key": "properties.parameters", "type": "[ScriptParameter]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.description = None
@@ -2847,7 +2862,7 @@ class ScriptCmdletsList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -2947,8 +2962,8 @@ class ScriptExecution(ProxyResource):  # pylint: disable=too-many-instance-attri
         retention: Optional[str] = None,
         output: Optional[List[str]] = None,
         named_outputs: Optional[Dict[str, JSON]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword script_cmdlet_id: A reference to the script cmdlet resource if user is running a AVS
          script.
@@ -3010,7 +3025,7 @@ class ScriptExecutionsList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -3058,7 +3073,7 @@ class ScriptPackage(ProxyResource):
         "uri": {"key": "properties.uri", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.description = None
@@ -3088,7 +3103,7 @@ class ScriptPackagesList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -3131,7 +3146,7 @@ class ScriptParameter(_serialization.Model):
         "optional": {"key": "optional", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: The parameter name that the script will expect a parameter value for.
         :paramtype name: str
@@ -3169,7 +3184,7 @@ class ScriptSecureStringExecutionParameter(ScriptExecutionParameter):
         "secure_value": {"key": "secureValue", "type": "str"},
     }
 
-    def __init__(self, *, name: str, secure_value: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: str, secure_value: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: The parameter name. Required.
         :paramtype name: str
@@ -3206,7 +3221,7 @@ class ScriptStringExecutionParameter(ScriptExecutionParameter):
         "value": {"key": "value", "type": "str"},
     }
 
-    def __init__(self, *, name: str, value: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: str, value: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: The parameter name. Required.
         :paramtype name: str
@@ -3237,8 +3252,8 @@ class ServiceSpecification(_serialization.Model):
         *,
         log_specifications: Optional[List["_models.LogSpecification"]] = None,
         metric_specifications: Optional[List["_models.MetricSpecification"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword log_specifications: Specifications of the Log for Azure Monitoring.
         :paramtype log_specifications: list[~azure.mgmt.avs.models.LogSpecification]
@@ -3267,7 +3282,7 @@ class Sku(_serialization.Model):
         "name": {"key": "name", "type": "str"},
     }
 
-    def __init__(self, *, name: str, **kwargs):
+    def __init__(self, *, name: str, **kwargs: Any) -> None:
         """
         :keyword name: The name of the SKU. Required.
         :paramtype name: str
@@ -3298,7 +3313,7 @@ class Trial(_serialization.Model):
         "available_hosts": {"key": "availableHosts", "type": "int"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.status = None
@@ -3348,7 +3363,7 @@ class VirtualMachine(ProxyResource):
         "restrict_movement": {"key": "properties.restrictMovement", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.display_name = None
@@ -3370,8 +3385,11 @@ class VirtualMachineRestrictMovement(_serialization.Model):
     }
 
     def __init__(
-        self, *, restrict_movement: Optional[Union[str, "_models.VirtualMachineRestrictMovementState"]] = None, **kwargs
-    ):
+        self,
+        *,
+        restrict_movement: Optional[Union[str, "_models.VirtualMachineRestrictMovementState"]] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword restrict_movement: Whether VM DRS-driven movement is restricted (enabled) or not
          (disabled). Known values are: "Enabled" and "Disabled".
@@ -3402,7 +3420,7 @@ class VirtualMachinesList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -3471,8 +3489,8 @@ class VmHostPlacementPolicyProperties(PlacementPolicyProperties):
         display_name: Optional[str] = None,
         affinity_strength: Optional[Union[str, "_models.AffinityStrength"]] = None,
         azure_hybrid_benefit_type: Optional[Union[str, "_models.AzureHybridBenefitType"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword state: Whether the placement policy is enabled or disabled. Known values are:
          "Enabled" and "Disabled".
@@ -3549,8 +3567,8 @@ class VmPlacementPolicyProperties(PlacementPolicyProperties):
         affinity_type: Union[str, "_models.AffinityType"],
         state: Optional[Union[str, "_models.PlacementPolicyState"]] = None,
         display_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword state: Whether the placement policy is enabled or disabled. Known values are:
          "Enabled" and "Disabled".
@@ -3594,7 +3612,7 @@ class WorkloadNetwork(ProxyResource):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
 
@@ -3627,7 +3645,7 @@ class WorkloadNetworkDhcp(ProxyResource):
         "properties": {"key": "properties", "type": "WorkloadNetworkDhcpEntity"},
     }
 
-    def __init__(self, *, properties: Optional["_models.WorkloadNetworkDhcpEntity"] = None, **kwargs):
+    def __init__(self, *, properties: Optional["_models.WorkloadNetworkDhcpEntity"] = None, **kwargs: Any) -> None:
         """
         :keyword properties: DHCP properties.
         :paramtype properties: ~azure.mgmt.avs.models.WorkloadNetworkDhcpEntity
@@ -3676,7 +3694,7 @@ class WorkloadNetworkDhcpEntity(_serialization.Model):
 
     _subtype_map = {"dhcp_type": {"RELAY": "WorkloadNetworkDhcpRelay", "SERVER": "WorkloadNetworkDhcpServer"}}
 
-    def __init__(self, *, display_name: Optional[str] = None, revision: Optional[int] = None, **kwargs):
+    def __init__(self, *, display_name: Optional[str] = None, revision: Optional[int] = None, **kwargs: Any) -> None:
         """
         :keyword display_name: Display name of the DHCP entity.
         :paramtype display_name: str
@@ -3712,7 +3730,7 @@ class WorkloadNetworkDhcpList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -3764,8 +3782,8 @@ class WorkloadNetworkDhcpRelay(WorkloadNetworkDhcpEntity):
         display_name: Optional[str] = None,
         revision: Optional[int] = None,
         server_addresses: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword display_name: Display name of the DHCP entity.
         :paramtype display_name: str
@@ -3827,8 +3845,8 @@ class WorkloadNetworkDhcpServer(WorkloadNetworkDhcpEntity):
         revision: Optional[int] = None,
         server_address: Optional[str] = None,
         lease_time: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword display_name: Display name of the DHCP entity.
         :paramtype display_name: str
@@ -3908,8 +3926,8 @@ class WorkloadNetworkDnsService(ProxyResource):  # pylint: disable=too-many-inst
         fqdn_zones: Optional[List[str]] = None,
         log_level: Optional[Union[str, "_models.DnsServiceLogLevelEnum"]] = None,
         revision: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword display_name: Display name of the DNS Service.
         :paramtype display_name: str
@@ -3957,7 +3975,7 @@ class WorkloadNetworkDnsServicesList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -4022,8 +4040,8 @@ class WorkloadNetworkDnsZone(ProxyResource):
         source_ip: Optional[str] = None,
         dns_services: Optional[int] = None,
         revision: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword display_name: Display name of the DNS Zone.
         :paramtype display_name: str
@@ -4069,7 +4087,7 @@ class WorkloadNetworkDnsZonesList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -4108,7 +4126,7 @@ class WorkloadNetworkGateway(ProxyResource):
         "path": {"key": "properties.path", "type": "str"},
     }
 
-    def __init__(self, *, display_name: Optional[str] = None, **kwargs):
+    def __init__(self, *, display_name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword display_name: Display name of the DHCP entity.
         :paramtype display_name: str
@@ -4139,7 +4157,7 @@ class WorkloadNetworkGatewayList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -4167,7 +4185,7 @@ class WorkloadNetworkList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -4233,8 +4251,8 @@ class WorkloadNetworkPortMirroring(ProxyResource):
         source: Optional[str] = None,
         destination: Optional[str] = None,
         revision: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword display_name: Display name of the port mirroring profile.
         :paramtype display_name: str
@@ -4279,7 +4297,7 @@ class WorkloadNetworkPortMirroringList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -4327,7 +4345,9 @@ class WorkloadNetworkPublicIP(ProxyResource):
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
     }
 
-    def __init__(self, *, display_name: Optional[str] = None, number_of_public_i_ps: Optional[int] = None, **kwargs):
+    def __init__(
+        self, *, display_name: Optional[str] = None, number_of_public_i_ps: Optional[int] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword display_name: Display name of the Public IP Block.
         :paramtype display_name: str
@@ -4362,7 +4382,7 @@ class WorkloadNetworkPublicIPsList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -4427,8 +4447,8 @@ class WorkloadNetworkSegment(ProxyResource):
         connected_gateway: Optional[str] = None,
         subnet: Optional["_models.WorkloadNetworkSegmentSubnet"] = None,
         revision: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword display_name: Display name of the segment.
         :paramtype display_name: str
@@ -4460,7 +4480,7 @@ class WorkloadNetworkSegmentPortVif(_serialization.Model):
         "port_name": {"key": "portName", "type": "str"},
     }
 
-    def __init__(self, *, port_name: Optional[str] = None, **kwargs):
+    def __init__(self, *, port_name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword port_name: Name of port or VIF attached to segment.
         :paramtype port_name: str
@@ -4490,7 +4510,7 @@ class WorkloadNetworkSegmentsList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -4511,7 +4531,9 @@ class WorkloadNetworkSegmentSubnet(_serialization.Model):
         "gateway_address": {"key": "gatewayAddress", "type": "str"},
     }
 
-    def __init__(self, *, dhcp_ranges: Optional[List[str]] = None, gateway_address: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, dhcp_ranges: Optional[List[str]] = None, gateway_address: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword dhcp_ranges: DHCP Range assigned for subnet.
         :paramtype dhcp_ranges: list[str]
@@ -4555,7 +4577,7 @@ class WorkloadNetworkVirtualMachine(ProxyResource):
         "vm_type": {"key": "properties.vmType", "type": "str"},
     }
 
-    def __init__(self, *, display_name: Optional[str] = None, **kwargs):
+    def __init__(self, *, display_name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword display_name: Display name of the VM.
         :paramtype display_name: str
@@ -4586,7 +4608,7 @@ class WorkloadNetworkVirtualMachinesList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -4643,8 +4665,8 @@ class WorkloadNetworkVMGroup(ProxyResource):
         display_name: Optional[str] = None,
         members: Optional[List[str]] = None,
         revision: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword display_name: Display name of the VM group.
         :paramtype display_name: str
@@ -4682,7 +4704,7 @@ class WorkloadNetworkVMGroupsList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
