@@ -262,6 +262,7 @@ class HttpStatusCode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SERVICE_UNAVAILABLE = "ServiceUnavailable"
     GATEWAY_TIMEOUT = "GatewayTimeout"
     HTTP_VERSION_NOT_SUPPORTED = "HttpVersionNotSupported"
+    CONTINUE_ENUM = "Continue"
 
 
 class IAASVMPolicyType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
