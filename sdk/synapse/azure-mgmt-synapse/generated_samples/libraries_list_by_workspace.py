@@ -37,6 +37,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/Libraries_ListByWorkspace.json
+# x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2023-05-01/examples/Libraries_ListByWorkspace.json
 if __name__ == "__main__":
     main()

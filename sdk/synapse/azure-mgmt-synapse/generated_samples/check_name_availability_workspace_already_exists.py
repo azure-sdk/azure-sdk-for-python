@@ -35,6 +35,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/CheckNameAvailabilityWorkspaceAlreadyExists.json
+# x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2023-05-01/examples/CheckNameAvailabilityWorkspaceAlreadyExists.json
 if __name__ == "__main__":
     main()

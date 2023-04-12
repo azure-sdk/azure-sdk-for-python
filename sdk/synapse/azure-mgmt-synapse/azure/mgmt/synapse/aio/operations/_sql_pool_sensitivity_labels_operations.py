@@ -8,6 +8,7 @@
 # --------------------------------------------------------------------------
 import sys
 from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, TypeVar, Union, overload
+import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
 from azure.core.exceptions import (
@@ -97,7 +98,7 @@ class SqlPoolSensitivityLabelsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-06-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-06-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.SensitivityLabelListResult] = kwargs.pop("cls", None)
 
         error_map = {
@@ -126,7 +127,18 @@ class SqlPoolSensitivityLabelsOperations:
                 request.url = self._client.format_url(request.url)
 
             else:
-                request = HttpRequest("GET", next_link)
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._config.api_version
+                request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
                 request = _convert_request(request)
                 request.url = self._client.format_url(request.url)
                 request.method = "GET"
@@ -142,8 +154,9 @@ class SqlPoolSensitivityLabelsOperations:
         async def get_next(next_link=None):
             request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -240,7 +253,7 @@ class SqlPoolSensitivityLabelsOperations:
         :type workspace_name: str
         :param sql_pool_name: SQL pool name. Required.
         :type sql_pool_name: str
-        :param parameters: Is either a model type or a IO type. Required.
+        :param parameters: Is either a SensitivityLabelUpdateList type or a IO type. Required.
         :type parameters: ~azure.mgmt.synapse.models.SensitivityLabelUpdateList or IO
         :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
          Default value is None.
@@ -261,7 +274,7 @@ class SqlPoolSensitivityLabelsOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-06-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-06-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
@@ -289,8 +302,9 @@ class SqlPoolSensitivityLabelsOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -345,7 +359,7 @@ class SqlPoolSensitivityLabelsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-06-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-06-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.SensitivityLabelListResult] = kwargs.pop("cls", None)
 
         error_map = {
@@ -376,7 +390,18 @@ class SqlPoolSensitivityLabelsOperations:
                 request.url = self._client.format_url(request.url)
 
             else:
-                request = HttpRequest("GET", next_link)
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._config.api_version
+                request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
                 request = _convert_request(request)
                 request.url = self._client.format_url(request.url)
                 request.method = "GET"
@@ -392,8 +417,9 @@ class SqlPoolSensitivityLabelsOperations:
         async def get_next(next_link=None):
             request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -522,8 +548,8 @@ class SqlPoolSensitivityLabelsOperations:
         :type table_name: str
         :param column_name: The name of the column. Required.
         :type column_name: str
-        :param parameters: The column sensitivity label resource. Is either a model type or a IO type.
-         Required.
+        :param parameters: The column sensitivity label resource. Is either a SensitivityLabel type or
+         a IO type. Required.
         :type parameters: ~azure.mgmt.synapse.models.SensitivityLabel or IO
         :keyword sensitivity_label_source: The source of the sensitivity label. Default value is
          "current". Note that overriding this default value may result in unsupported behavior.
@@ -547,7 +573,7 @@ class SqlPoolSensitivityLabelsOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-06-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-06-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         sensitivity_label_source: Literal["current"] = kwargs.pop("sensitivity_label_source", "current")
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.SensitivityLabel] = kwargs.pop("cls", None)
@@ -580,8 +606,9 @@ class SqlPoolSensitivityLabelsOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -650,7 +677,7 @@ class SqlPoolSensitivityLabelsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-06-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-06-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         sensitivity_label_source: Literal["current"] = kwargs.pop("sensitivity_label_source", "current")
         cls: ClsType[None] = kwargs.pop("cls", None)
 
@@ -671,8 +698,9 @@ class SqlPoolSensitivityLabelsOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -734,7 +762,7 @@ class SqlPoolSensitivityLabelsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-06-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-06-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.SensitivityLabel] = kwargs.pop("cls", None)
 
         request = build_get_request(
@@ -754,8 +782,9 @@ class SqlPoolSensitivityLabelsOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -821,7 +850,7 @@ class SqlPoolSensitivityLabelsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-06-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-06-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         sensitivity_label_source: Literal["recommended"] = kwargs.pop("sensitivity_label_source", "recommended")
         cls: ClsType[None] = kwargs.pop("cls", None)
 
@@ -842,8 +871,9 @@ class SqlPoolSensitivityLabelsOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -904,7 +934,7 @@ class SqlPoolSensitivityLabelsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-06-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-06-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         sensitivity_label_source: Literal["recommended"] = kwargs.pop("sensitivity_label_source", "recommended")
         cls: ClsType[None] = kwargs.pop("cls", None)
 
@@ -925,8 +955,9 @@ class SqlPoolSensitivityLabelsOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response

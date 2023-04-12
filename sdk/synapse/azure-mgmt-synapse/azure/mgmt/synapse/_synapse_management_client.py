@@ -21,7 +21,6 @@ from .operations import (
     DataMaskingPoliciesOperations,
     DataMaskingRulesOperations,
     ExtendedSqlPoolBlobAuditingPoliciesOperations,
-    GetOperations,
     IntegrationRuntimeAuthKeysOperations,
     IntegrationRuntimeConnectionInfosOperations,
     IntegrationRuntimeCredentialsOperations,
@@ -33,15 +32,6 @@ from .operations import (
     IntegrationRuntimesOperations,
     IpFirewallRulesOperations,
     KeysOperations,
-    KustoOperationsOperations,
-    KustoPoolAttachedDatabaseConfigurationsOperations,
-    KustoPoolChildResourceOperations,
-    KustoPoolDataConnectionsOperations,
-    KustoPoolDatabasePrincipalAssignmentsOperations,
-    KustoPoolDatabasesOperations,
-    KustoPoolPrincipalAssignmentsOperations,
-    KustoPoolPrivateLinkResourcesOperations,
-    KustoPoolsOperations,
     LibrariesOperations,
     LibraryOperations,
     Operations,
@@ -51,8 +41,6 @@ from .operations import (
     PrivateLinkHubsOperations,
     PrivateLinkResourcesOperations,
     RestorableDroppedSqlPoolsOperations,
-    SparkConfigurationOperations,
-    SparkConfigurationsOperations,
     SqlPoolBlobAuditingPoliciesOperations,
     SqlPoolColumnsOperations,
     SqlPoolConnectionPoliciesOperations,
@@ -104,12 +92,47 @@ class SynapseManagementClient:  # pylint: disable=client-accepts-api-version-key
     :ivar azure_ad_only_authentications: AzureADOnlyAuthenticationsOperations operations
     :vartype azure_ad_only_authentications:
      azure.mgmt.synapse.operations.AzureADOnlyAuthenticationsOperations
+    :ivar big_data_pools: BigDataPoolsOperations operations
+    :vartype big_data_pools: azure.mgmt.synapse.operations.BigDataPoolsOperations
     :ivar operations: Operations operations
     :vartype operations: azure.mgmt.synapse.operations.Operations
     :ivar ip_firewall_rules: IpFirewallRulesOperations operations
     :vartype ip_firewall_rules: azure.mgmt.synapse.operations.IpFirewallRulesOperations
+    :ivar integration_runtimes: IntegrationRuntimesOperations operations
+    :vartype integration_runtimes: azure.mgmt.synapse.operations.IntegrationRuntimesOperations
+    :ivar integration_runtime_node_ip_address: IntegrationRuntimeNodeIpAddressOperations operations
+    :vartype integration_runtime_node_ip_address:
+     azure.mgmt.synapse.operations.IntegrationRuntimeNodeIpAddressOperations
+    :ivar integration_runtime_object_metadata: IntegrationRuntimeObjectMetadataOperations
+     operations
+    :vartype integration_runtime_object_metadata:
+     azure.mgmt.synapse.operations.IntegrationRuntimeObjectMetadataOperations
+    :ivar integration_runtime_nodes: IntegrationRuntimeNodesOperations operations
+    :vartype integration_runtime_nodes:
+     azure.mgmt.synapse.operations.IntegrationRuntimeNodesOperations
+    :ivar integration_runtime_credentials: IntegrationRuntimeCredentialsOperations operations
+    :vartype integration_runtime_credentials:
+     azure.mgmt.synapse.operations.IntegrationRuntimeCredentialsOperations
+    :ivar integration_runtime_connection_infos: IntegrationRuntimeConnectionInfosOperations
+     operations
+    :vartype integration_runtime_connection_infos:
+     azure.mgmt.synapse.operations.IntegrationRuntimeConnectionInfosOperations
+    :ivar integration_runtime_auth_keys: IntegrationRuntimeAuthKeysOperations operations
+    :vartype integration_runtime_auth_keys:
+     azure.mgmt.synapse.operations.IntegrationRuntimeAuthKeysOperations
+    :ivar integration_runtime_monitoring_data: IntegrationRuntimeMonitoringDataOperations
+     operations
+    :vartype integration_runtime_monitoring_data:
+     azure.mgmt.synapse.operations.IntegrationRuntimeMonitoringDataOperations
+    :ivar integration_runtime_status: IntegrationRuntimeStatusOperations operations
+    :vartype integration_runtime_status:
+     azure.mgmt.synapse.operations.IntegrationRuntimeStatusOperations
     :ivar keys: KeysOperations operations
     :vartype keys: azure.mgmt.synapse.operations.KeysOperations
+    :ivar library: LibraryOperations operations
+    :vartype library: azure.mgmt.synapse.operations.LibraryOperations
+    :ivar libraries: LibrariesOperations operations
+    :vartype libraries: azure.mgmt.synapse.operations.LibrariesOperations
     :ivar private_endpoint_connections: PrivateEndpointConnectionsOperations operations
     :vartype private_endpoint_connections:
      azure.mgmt.synapse.operations.PrivateEndpointConnectionsOperations
@@ -252,79 +275,15 @@ class SynapseManagementClient:  # pylint: disable=client-accepts-api-version-key
     :ivar restorable_dropped_sql_pools: RestorableDroppedSqlPoolsOperations operations
     :vartype restorable_dropped_sql_pools:
      azure.mgmt.synapse.operations.RestorableDroppedSqlPoolsOperations
-    :ivar big_data_pools: BigDataPoolsOperations operations
-    :vartype big_data_pools: azure.mgmt.synapse.operations.BigDataPoolsOperations
-    :ivar library: LibraryOperations operations
-    :vartype library: azure.mgmt.synapse.operations.LibraryOperations
-    :ivar libraries: LibrariesOperations operations
-    :vartype libraries: azure.mgmt.synapse.operations.LibrariesOperations
-    :ivar integration_runtimes: IntegrationRuntimesOperations operations
-    :vartype integration_runtimes: azure.mgmt.synapse.operations.IntegrationRuntimesOperations
-    :ivar integration_runtime_node_ip_address: IntegrationRuntimeNodeIpAddressOperations operations
-    :vartype integration_runtime_node_ip_address:
-     azure.mgmt.synapse.operations.IntegrationRuntimeNodeIpAddressOperations
-    :ivar integration_runtime_object_metadata: IntegrationRuntimeObjectMetadataOperations
-     operations
-    :vartype integration_runtime_object_metadata:
-     azure.mgmt.synapse.operations.IntegrationRuntimeObjectMetadataOperations
-    :ivar integration_runtime_nodes: IntegrationRuntimeNodesOperations operations
-    :vartype integration_runtime_nodes:
-     azure.mgmt.synapse.operations.IntegrationRuntimeNodesOperations
-    :ivar integration_runtime_credentials: IntegrationRuntimeCredentialsOperations operations
-    :vartype integration_runtime_credentials:
-     azure.mgmt.synapse.operations.IntegrationRuntimeCredentialsOperations
-    :ivar integration_runtime_connection_infos: IntegrationRuntimeConnectionInfosOperations
-     operations
-    :vartype integration_runtime_connection_infos:
-     azure.mgmt.synapse.operations.IntegrationRuntimeConnectionInfosOperations
-    :ivar integration_runtime_auth_keys: IntegrationRuntimeAuthKeysOperations operations
-    :vartype integration_runtime_auth_keys:
-     azure.mgmt.synapse.operations.IntegrationRuntimeAuthKeysOperations
-    :ivar integration_runtime_monitoring_data: IntegrationRuntimeMonitoringDataOperations
-     operations
-    :vartype integration_runtime_monitoring_data:
-     azure.mgmt.synapse.operations.IntegrationRuntimeMonitoringDataOperations
-    :ivar integration_runtime_status: IntegrationRuntimeStatusOperations operations
-    :vartype integration_runtime_status:
-     azure.mgmt.synapse.operations.IntegrationRuntimeStatusOperations
-    :ivar get: GetOperations operations
-    :vartype get: azure.mgmt.synapse.operations.GetOperations
-    :ivar spark_configuration: SparkConfigurationOperations operations
-    :vartype spark_configuration: azure.mgmt.synapse.operations.SparkConfigurationOperations
-    :ivar spark_configurations: SparkConfigurationsOperations operations
-    :vartype spark_configurations: azure.mgmt.synapse.operations.SparkConfigurationsOperations
-    :ivar kusto_operations: KustoOperationsOperations operations
-    :vartype kusto_operations: azure.mgmt.synapse.operations.KustoOperationsOperations
-    :ivar kusto_pools: KustoPoolsOperations operations
-    :vartype kusto_pools: azure.mgmt.synapse.operations.KustoPoolsOperations
-    :ivar kusto_pool_child_resource: KustoPoolChildResourceOperations operations
-    :vartype kusto_pool_child_resource:
-     azure.mgmt.synapse.operations.KustoPoolChildResourceOperations
-    :ivar kusto_pool_attached_database_configurations:
-     KustoPoolAttachedDatabaseConfigurationsOperations operations
-    :vartype kusto_pool_attached_database_configurations:
-     azure.mgmt.synapse.operations.KustoPoolAttachedDatabaseConfigurationsOperations
-    :ivar kusto_pool_databases: KustoPoolDatabasesOperations operations
-    :vartype kusto_pool_databases: azure.mgmt.synapse.operations.KustoPoolDatabasesOperations
-    :ivar kusto_pool_data_connections: KustoPoolDataConnectionsOperations operations
-    :vartype kusto_pool_data_connections:
-     azure.mgmt.synapse.operations.KustoPoolDataConnectionsOperations
-    :ivar kusto_pool_principal_assignments: KustoPoolPrincipalAssignmentsOperations operations
-    :vartype kusto_pool_principal_assignments:
-     azure.mgmt.synapse.operations.KustoPoolPrincipalAssignmentsOperations
-    :ivar kusto_pool_database_principal_assignments:
-     KustoPoolDatabasePrincipalAssignmentsOperations operations
-    :vartype kusto_pool_database_principal_assignments:
-     azure.mgmt.synapse.operations.KustoPoolDatabasePrincipalAssignmentsOperations
-    :ivar kusto_pool_private_link_resources: KustoPoolPrivateLinkResourcesOperations operations
-    :vartype kusto_pool_private_link_resources:
-     azure.mgmt.synapse.operations.KustoPoolPrivateLinkResourcesOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
     :param subscription_id: The ID of the target subscription. Required.
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
+    :keyword api_version: Api Version. Default value is "2023-05-01". Note that overriding this
+     default value may result in unsupported behavior.
+    :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
      Retry-After header is present.
     """
@@ -339,7 +298,7 @@ class SynapseManagementClient:  # pylint: disable=client-accepts-api-version-key
         self._config = SynapseManagementClientConfiguration(
             credential=credential, subscription_id=subscription_id, **kwargs
         )
-        self._client = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        self._client: ARMPipelineClient = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
@@ -348,11 +307,41 @@ class SynapseManagementClient:  # pylint: disable=client-accepts-api-version-key
         self.azure_ad_only_authentications = AzureADOnlyAuthenticationsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.big_data_pools = BigDataPoolsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
         self.ip_firewall_rules = IpFirewallRulesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.integration_runtimes = IntegrationRuntimesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.integration_runtime_node_ip_address = IntegrationRuntimeNodeIpAddressOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.integration_runtime_object_metadata = IntegrationRuntimeObjectMetadataOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.integration_runtime_nodes = IntegrationRuntimeNodesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.integration_runtime_credentials = IntegrationRuntimeCredentialsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.integration_runtime_connection_infos = IntegrationRuntimeConnectionInfosOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.integration_runtime_auth_keys = IntegrationRuntimeAuthKeysOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.integration_runtime_monitoring_data = IntegrationRuntimeMonitoringDataOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.integration_runtime_status = IntegrationRuntimeStatusOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.keys = KeysOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.library = LibraryOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.libraries = LibrariesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.private_endpoint_connections = PrivateEndpointConnectionsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
@@ -494,68 +483,6 @@ class SynapseManagementClient:  # pylint: disable=client-accepts-api-version-key
         self.restorable_dropped_sql_pools = RestorableDroppedSqlPoolsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
-        self.big_data_pools = BigDataPoolsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.library = LibraryOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.libraries = LibrariesOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.integration_runtimes = IntegrationRuntimesOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.integration_runtime_node_ip_address = IntegrationRuntimeNodeIpAddressOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.integration_runtime_object_metadata = IntegrationRuntimeObjectMetadataOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.integration_runtime_nodes = IntegrationRuntimeNodesOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.integration_runtime_credentials = IntegrationRuntimeCredentialsOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.integration_runtime_connection_infos = IntegrationRuntimeConnectionInfosOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.integration_runtime_auth_keys = IntegrationRuntimeAuthKeysOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.integration_runtime_monitoring_data = IntegrationRuntimeMonitoringDataOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.integration_runtime_status = IntegrationRuntimeStatusOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.get = GetOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.spark_configuration = SparkConfigurationOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.spark_configurations = SparkConfigurationsOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.kusto_operations = KustoOperationsOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.kusto_pools = KustoPoolsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.kusto_pool_child_resource = KustoPoolChildResourceOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.kusto_pool_attached_database_configurations = KustoPoolAttachedDatabaseConfigurationsOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.kusto_pool_databases = KustoPoolDatabasesOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.kusto_pool_data_connections = KustoPoolDataConnectionsOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.kusto_pool_principal_assignments = KustoPoolPrincipalAssignmentsOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.kusto_pool_database_principal_assignments = KustoPoolDatabasePrincipalAssignmentsOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.kusto_pool_private_link_resources = KustoPoolPrivateLinkResourcesOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> HttpResponse:
         """Runs the network request through the client's chained policies.
@@ -586,5 +513,5 @@ class SynapseManagementClient:  # pylint: disable=client-accepts-api-version-key
         self._client.__enter__()
         return self
 
-    def __exit__(self, *exc_details) -> None:
+    def __exit__(self, *exc_details: Any) -> None:
         self._client.__exit__(*exc_details)
