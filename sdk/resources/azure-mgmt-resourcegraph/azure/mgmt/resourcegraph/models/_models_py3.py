@@ -46,7 +46,7 @@ class Column(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, *, name: str, type: Union[str, "_models.ColumnDataType"], **kwargs):
+    def __init__(self, *, name: str, type: Union[str, "_models.ColumnDataType"], **kwargs: Any) -> None:
         """
         :keyword name: Column name. Required.
         :paramtype name: str
@@ -60,7 +60,8 @@ class Column(_serialization.Model):
 
 
 class DateTimeInterval(_serialization.Model):
-    """An interval in time specifying the date and time for the inclusive start and exclusive end, i.e. ``[start, end)``.
+    """An interval in time specifying the date and time for the inclusive start and exclusive end,
+    i.e. ``[start, end)``.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -84,7 +85,7 @@ class DateTimeInterval(_serialization.Model):
         "end": {"key": "end", "type": "iso-8601"},
     }
 
-    def __init__(self, *, start: datetime.datetime, end: datetime.datetime, **kwargs):
+    def __init__(self, *, start: datetime.datetime, end: datetime.datetime, **kwargs: Any) -> None:
         """
         :keyword start: A datetime indicating the inclusive/closed start of the time interval, i.e.
          ``[``\ **\ ``start``\ **\ ``, end)``. Specifying a ``start`` that occurs chronologically after
@@ -124,7 +125,9 @@ class Error(_serialization.Model):
         "details": {"key": "details", "type": "[ErrorDetails]"},
     }
 
-    def __init__(self, *, code: str, message: str, details: Optional[List["_models.ErrorDetails"]] = None, **kwargs):
+    def __init__(
+        self, *, code: str, message: str, details: Optional[List["_models.ErrorDetails"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword code: Error code identifying the specific error. Required.
         :paramtype code: str
@@ -164,7 +167,9 @@ class ErrorDetails(_serialization.Model):
         "message": {"key": "message", "type": "str"},
     }
 
-    def __init__(self, *, code: str, message: str, additional_properties: Optional[Dict[str, JSON]] = None, **kwargs):
+    def __init__(
+        self, *, code: str, message: str, additional_properties: Optional[Dict[str, JSON]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword additional_properties: Unmatched properties from the message are deserialized to this
          collection.
@@ -197,7 +202,7 @@ class ErrorResponse(_serialization.Model):
         "error": {"key": "error", "type": "Error"},
     }
 
-    def __init__(self, *, error: "_models.Error", **kwargs):
+    def __init__(self, *, error: "_models.Error", **kwargs: Any) -> None:
         """
         :keyword error: Error information. Required.
         :paramtype error: ~azure.mgmt.resourcegraph.models.Error
@@ -207,7 +212,8 @@ class ErrorResponse(_serialization.Model):
 
 
 class Facet(_serialization.Model):
-    """A facet containing additional statistics on the response of a query. Can be either FacetResult or FacetError.
+    """A facet containing additional statistics on the response of a query. Can be either FacetResult
+    or FacetError.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     FacetError, FacetResult
@@ -232,7 +238,7 @@ class Facet(_serialization.Model):
 
     _subtype_map = {"result_type": {"FacetError": "FacetError", "FacetResult": "FacetResult"}}
 
-    def __init__(self, *, expression: str, **kwargs):
+    def __init__(self, *, expression: str, **kwargs: Any) -> None:
         """
         :keyword expression: Facet expression, same as in the corresponding facet request. Required.
         :paramtype expression: str
@@ -267,7 +273,7 @@ class FacetError(Facet):
         "errors": {"key": "errors", "type": "[ErrorDetails]"},
     }
 
-    def __init__(self, *, expression: str, errors: List["_models.ErrorDetails"], **kwargs):
+    def __init__(self, *, expression: str, errors: List["_models.ErrorDetails"], **kwargs: Any) -> None:
         """
         :keyword expression: Facet expression, same as in the corresponding facet request. Required.
         :paramtype expression: str
@@ -299,7 +305,9 @@ class FacetRequest(_serialization.Model):
         "options": {"key": "options", "type": "FacetRequestOptions"},
     }
 
-    def __init__(self, *, expression: str, options: Optional["_models.FacetRequestOptions"] = None, **kwargs):
+    def __init__(
+        self, *, expression: str, options: Optional["_models.FacetRequestOptions"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword expression: The column or list of columns to summarize by. Required.
         :paramtype expression: str
@@ -345,8 +353,8 @@ class FacetRequestOptions(_serialization.Model):
         sort_order: Union[str, "_models.FacetSortOrder"] = "desc",
         filter: Optional[str] = None,  # pylint: disable=redefined-builtin
         top: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword sort_by: The column name or query expression to sort on. Defaults to count if not
          present.
@@ -401,7 +409,7 @@ class FacetResult(Facet):
         "data": {"key": "data", "type": "object"},
     }
 
-    def __init__(self, *, expression: str, total_records: int, count: int, data: JSON, **kwargs):
+    def __init__(self, *, expression: str, total_records: int, count: int, data: JSON, **kwargs: Any) -> None:
         """
         :keyword expression: Facet expression, same as in the corresponding facet request. Required.
         :paramtype expression: str
@@ -443,8 +451,8 @@ class Operation(_serialization.Model):
         name: Optional[str] = None,
         display: Optional["_models.OperationDisplay"] = None,
         origin: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Operation name: {provider}/{resource}/{operation}.
         :paramtype name: str
@@ -486,8 +494,8 @@ class OperationDisplay(_serialization.Model):
         resource: Optional[str] = None,
         operation: Optional[str] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword provider: Service provider: Microsoft Resource Graph.
         :paramtype provider: str
@@ -506,7 +514,8 @@ class OperationDisplay(_serialization.Model):
 
 
 class OperationListResult(_serialization.Model):
-    """Result of the request to list Resource Graph operations. It contains a list of operations and a URL link to get the next set of results.
+    """Result of the request to list Resource Graph operations. It contains a list of operations and a
+    URL link to get the next set of results.
 
     :ivar value: List of Resource Graph operations supported by the Resource Graph resource
      provider.
@@ -517,7 +526,7 @@ class OperationListResult(_serialization.Model):
         "value": {"key": "value", "type": "[Operation]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Operation"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.Operation"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: List of Resource Graph operations supported by the Resource Graph resource
          provider.
@@ -565,8 +574,8 @@ class QueryRequest(_serialization.Model):
         management_groups: Optional[List[str]] = None,
         options: Optional["_models.QueryRequestOptions"] = None,
         facets: Optional[List["_models.FacetRequest"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword subscriptions: Azure subscriptions against which to execute the query.
         :paramtype subscriptions: list[str]
@@ -637,8 +646,8 @@ class QueryRequestOptions(_serialization.Model):
         result_format: Optional[Union[str, "_models.ResultFormat"]] = None,
         allow_partial_scopes: bool = False,
         authorization_scope_filter: Union[str, "_models.AuthorizationScopeFilter"] = "AtScopeAndBelow",
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword skip_token: Continuation token for pagination, capturing the next page size and
          offset, as well as the context of the query.
@@ -718,8 +727,8 @@ class QueryResponse(_serialization.Model):
         data: JSON,
         skip_token: Optional[str] = None,
         facets: Optional[List["_models.Facet"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword total_records: Number of total records matching the query. Required.
         :paramtype total_records: int
@@ -790,8 +799,8 @@ class ResourceChangeData(_serialization.Model):
         resource_id: Optional[str] = None,
         change_type: Optional[Union[str, "_models.ChangeType"]] = None,
         property_changes: Optional[List["_models.ResourcePropertyChange"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword resource_id: The resource for a change.
         :paramtype resource_id: str
@@ -850,8 +859,8 @@ class ResourceSnapshotData(_serialization.Model):
         timestamp: datetime.datetime,
         snapshot_id: Optional[str] = None,
         content: Optional[JSON] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword snapshot_id: The ID of the snapshot.
         :paramtype snapshot_id: str
@@ -903,8 +912,8 @@ class ResourceChangeDataAfterSnapshot(ResourceSnapshotData):
         timestamp: datetime.datetime,
         snapshot_id: Optional[str] = None,
         content: Optional[JSON] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword snapshot_id: The ID of the snapshot.
         :paramtype snapshot_id: str
@@ -953,8 +962,8 @@ class ResourceChangeDataBeforeSnapshot(ResourceSnapshotData):
         timestamp: datetime.datetime,
         snapshot_id: Optional[str] = None,
         content: Optional[JSON] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword snapshot_id: The ID of the snapshot.
         :paramtype snapshot_id: str
@@ -991,7 +1000,7 @@ class ResourceChangeDetailsRequestParameters(_serialization.Model):
         "change_ids": {"key": "changeIds", "type": "[str]"},
     }
 
-    def __init__(self, *, resource_ids: List[str], change_ids: List[str], **kwargs):
+    def __init__(self, *, resource_ids: List[str], change_ids: List[str], **kwargs: Any) -> None:
         """
         :keyword resource_ids: Specifies the list of resources for a change details request. Required.
         :paramtype resource_ids: list[str]
@@ -1030,8 +1039,8 @@ class ResourceChangeList(_serialization.Model):
         *,
         changes: Optional[List["_models.ResourceChangeData"]] = None,
         skip_token: Optional[Any] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword changes: The pageable value returned by the operation, i.e. a list of changes to the
          resource.
@@ -1101,8 +1110,8 @@ class ResourceChangesRequestParameters(_serialization.Model):
         table: Optional[str] = None,
         fetch_property_changes: Optional[bool] = None,
         fetch_snapshots: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword resource_ids: Specifies the list of resources for a changes request.
         :paramtype resource_ids: list[str]
@@ -1157,7 +1166,7 @@ class ResourceChangesRequestParametersInterval(DateTimeInterval):
         "end": {"key": "end", "type": "iso-8601"},
     }
 
-    def __init__(self, *, start: datetime.datetime, end: datetime.datetime, **kwargs):
+    def __init__(self, *, start: datetime.datetime, end: datetime.datetime, **kwargs: Any) -> None:
         """
         :keyword start: A datetime indicating the inclusive/closed start of the time interval, i.e.
          ``[``\ **\ ``start``\ **\ ``, end)``. Specifying a ``start`` that occurs chronologically after
@@ -1211,8 +1220,8 @@ class ResourcePropertyChange(_serialization.Model):
         property_change_type: Union[str, "_models.PropertyChangeType"],
         before_value: Optional[str] = None,
         after_value: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword property_name: The property name. Required.
         :paramtype property_name: str
@@ -1262,8 +1271,8 @@ class ResourcesHistoryRequest(_serialization.Model):
         query: Optional[str] = None,
         options: Optional["_models.ResourcesHistoryRequestOptions"] = None,
         management_groups: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword subscriptions: Azure subscriptions against which to execute the query.
         :paramtype subscriptions: list[str]
@@ -1322,8 +1331,8 @@ class ResourcesHistoryRequestOptions(_serialization.Model):
         skip: Optional[int] = None,
         skip_token: Optional[str] = None,
         result_format: Optional[Union[str, "_models.ResultFormat"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword interval: The time interval used to fetch history.
         :paramtype interval: ~azure.mgmt.resourcegraph.models.DateTimeInterval
@@ -1369,7 +1378,7 @@ class Table(_serialization.Model):
         "rows": {"key": "rows", "type": "[[object]]"},
     }
 
-    def __init__(self, *, columns: List["_models.Column"], rows: List[List[JSON]], **kwargs):
+    def __init__(self, *, columns: List["_models.Column"], rows: List[List[JSON]], **kwargs: Any) -> None:
         """
         :keyword columns: Query result column descriptors. Required.
         :paramtype columns: list[~azure.mgmt.resourcegraph.models.Column]
