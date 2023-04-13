@@ -26,6 +26,22 @@ class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     KEY = "Key"
 
 
+class KubernetesClusterResourceName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """KubernetesClusterResourceName."""
+
+    CONNECTED_CLUSTERS = "connectedClusters"
+    MANAGED_CLUSTERS = "managedClusters"
+    PROVISIONED_CLUSTERS = "provisionedClusters"
+
+
+class KubernetesClusterResourceProviderName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """KubernetesClusterResourceProviderName."""
+
+    MICROSOFT_CONTAINER_SERVICE = "Microsoft.ContainerService"
+    MICROSOFT_KUBERNETES = "Microsoft.Kubernetes"
+    MICROSOFT_HYBRID_CONTAINER_SERVICE = "Microsoft.HybridContainerService"
+
+
 class LevelType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Level of the status."""
 

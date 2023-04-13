@@ -56,6 +56,8 @@ from ._source_control_configuration_client_enums import AKSIdentityType
 from ._source_control_configuration_client_enums import ComplianceStateType
 from ._source_control_configuration_client_enums import CreatedByType
 from ._source_control_configuration_client_enums import FluxComplianceState
+from ._source_control_configuration_client_enums import KubernetesClusterResourceName
+from ._source_control_configuration_client_enums import KubernetesClusterResourceProviderName
 from ._source_control_configuration_client_enums import KustomizationValidationType
 from ._source_control_configuration_client_enums import LevelType
 from ._source_control_configuration_client_enums import MessageLevelType
@@ -119,6 +121,8 @@ __all__ = [
     "ComplianceStateType",
     "CreatedByType",
     "FluxComplianceState",
+    "KubernetesClusterResourceName",
+    "KubernetesClusterResourceProviderName",
     "KustomizationValidationType",
     "LevelType",
     "MessageLevelType",

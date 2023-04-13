@@ -46,6 +46,22 @@ class FluxComplianceState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     UNKNOWN = "Unknown"
 
 
+class KubernetesClusterResourceName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """KubernetesClusterResourceName."""
+
+    CONNECTED_CLUSTERS = "connectedClusters"
+    MANAGED_CLUSTERS = "managedClusters"
+    PROVISIONED_CLUSTERS = "provisionedClusters"
+
+
+class KubernetesClusterResourceProviderName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """KubernetesClusterResourceProviderName."""
+
+    MICROSOFT_CONTAINER_SERVICE = "Microsoft.ContainerService"
+    MICROSOFT_KUBERNETES = "Microsoft.Kubernetes"
+    MICROSOFT_HYBRID_CONTAINER_SERVICE = "Microsoft.HybridContainerService"
+
+
 class KustomizationValidationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Specify whether to validate the Kubernetes objects referenced in the Kustomization before
     applying them to the cluster.

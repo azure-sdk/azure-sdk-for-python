@@ -38,6 +38,8 @@ from ._models_py3 import TrackedResource
 
 from ._source_control_configuration_client_enums import AKSIdentityType
 from ._source_control_configuration_client_enums import CreatedByType
+from ._source_control_configuration_client_enums import KubernetesClusterResourceName
+from ._source_control_configuration_client_enums import KubernetesClusterResourceProviderName
 from ._source_control_configuration_client_enums import LevelType
 from ._source_control_configuration_client_enums import PrivateEndpointConnectionProvisioningState
 from ._source_control_configuration_client_enums import PrivateEndpointServiceConnectionStatus
@@ -79,6 +81,8 @@ __all__ = [
     "TrackedResource",
     "AKSIdentityType",
     "CreatedByType",
+    "KubernetesClusterResourceName",
+    "KubernetesClusterResourceProviderName",
     "LevelType",
     "PrivateEndpointConnectionProvisioningState",
     "PrivateEndpointServiceConnectionStatus",
