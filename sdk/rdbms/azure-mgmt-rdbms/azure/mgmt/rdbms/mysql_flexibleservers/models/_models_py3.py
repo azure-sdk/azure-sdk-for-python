@@ -43,8 +43,12 @@ class AdministratorListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.AzureADAdministrator"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self,
+        *,
+        value: Optional[List["_models.AzureADAdministrator"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: The list of azure ad administrator of a server.
         :paramtype value: list[~azure.mgmt.rdbms.mysql_flexibleservers.models.AzureADAdministrator]
@@ -83,7 +87,7 @@ class Resource(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -92,7 +96,8 @@ class Resource(_serialization.Model):
 
 
 class ProxyResource(Resource):
-    """The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location.
+    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
+    tags and a location.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -118,7 +123,7 @@ class ProxyResource(Resource):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
 
@@ -178,8 +183,8 @@ class AzureADAdministrator(ProxyResource):
         sid: Optional[str] = None,
         tenant_id: Optional[str] = None,
         identity_resource_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword administrator_type: Type of the sever administrator. "ActiveDirectory"
         :paramtype administrator_type: str or
@@ -231,9 +236,9 @@ class Backup(_serialization.Model):
         self,
         *,
         backup_retention_days: Optional[int] = None,
-        geo_redundant_backup: Optional[Union[str, "_models.EnableStatusEnum"]] = None,
-        **kwargs
-    ):
+        geo_redundant_backup: Union[str, "_models.EnableStatusEnum"] = "Disabled",
+        **kwargs: Any
+    ) -> None:
         """
         :keyword backup_retention_days: Backup retention days for the server.
         :paramtype backup_retention_days: int
@@ -269,7 +274,7 @@ class CapabilitiesListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -309,7 +314,7 @@ class CapabilityProperties(_serialization.Model):
         },
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.zone = None
@@ -335,8 +340,12 @@ class Configuration(ProxyResource):  # pylint: disable=too-many-instance-attribu
     :vartype system_data: ~azure.mgmt.rdbms.mysql_flexibleservers.models.SystemData
     :ivar value: Value of the configuration.
     :vartype value: str
+    :ivar current_value: Current value of the configuration.
+    :vartype current_value: str
     :ivar description: Description of the configuration.
     :vartype description: str
+    :ivar documentation_link: The link used to get the document from community or Azure site.
+    :vartype documentation_link: str
     :ivar default_value: Default value of the configuration.
     :vartype default_value: str
     :ivar data_type: Data type of the configuration.
@@ -363,6 +372,7 @@ class Configuration(ProxyResource):  # pylint: disable=too-many-instance-attribu
         "type": {"readonly": True},
         "system_data": {"readonly": True},
         "description": {"readonly": True},
+        "documentation_link": {"readonly": True},
         "default_value": {"readonly": True},
         "data_type": {"readonly": True},
         "allowed_values": {"readonly": True},
@@ -377,7 +387,9 @@ class Configuration(ProxyResource):  # pylint: disable=too-many-instance-attribu
         "type": {"key": "type", "type": "str"},
         "system_data": {"key": "systemData", "type": "SystemData"},
         "value": {"key": "properties.value", "type": "str"},
+        "current_value": {"key": "properties.currentValue", "type": "str"},
         "description": {"key": "properties.description", "type": "str"},
+        "documentation_link": {"key": "properties.documentationLink", "type": "str"},
         "default_value": {"key": "properties.defaultValue", "type": "str"},
         "data_type": {"key": "properties.dataType", "type": "str"},
         "allowed_values": {"key": "properties.allowedValues", "type": "str"},
@@ -391,12 +403,15 @@ class Configuration(ProxyResource):  # pylint: disable=too-many-instance-attribu
         self,
         *,
         value: Optional[str] = None,
+        current_value: Optional[str] = None,
         source: Optional[Union[str, "_models.ConfigurationSource"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: Value of the configuration.
         :paramtype value: str
+        :keyword current_value: Current value of the configuration.
+        :paramtype current_value: str
         :keyword source: Source of the configuration. Known values are: "system-default" and
          "user-override".
         :paramtype source: str or ~azure.mgmt.rdbms.mysql_flexibleservers.models.ConfigurationSource
@@ -404,7 +419,9 @@ class Configuration(ProxyResource):  # pylint: disable=too-many-instance-attribu
         super().__init__(**kwargs)
         self.system_data = None
         self.value = value
+        self.current_value = current_value
         self.description = None
+        self.documentation_link = None
         self.default_value = None
         self.data_type = None
         self.allowed_values = None
@@ -432,8 +449,8 @@ class ConfigurationForBatchUpdate(_serialization.Model):
     }
 
     def __init__(
-        self, *, name: Optional[str] = None, value: Optional[str] = None, source: Optional[str] = None, **kwargs
-    ):
+        self, *, name: Optional[str] = None, value: Optional[str] = None, source: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword name: Name of the configuration.
         :paramtype name: str
@@ -470,8 +487,8 @@ class ConfigurationListForBatchUpdate(_serialization.Model):
         *,
         value: Optional[List["_models.ConfigurationForBatchUpdate"]] = None,
         reset_all_to_default: Optional[Union[str, "_models.ResetAllToDefault"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: The list of server configurations.
         :paramtype value:
@@ -501,8 +518,8 @@ class ConfigurationListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.Configuration"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.Configuration"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: The list of server configurations.
         :paramtype value: list[~azure.mgmt.rdbms.mysql_flexibleservers.models.Configuration]
@@ -551,7 +568,7 @@ class Database(ProxyResource):
         "collation": {"key": "properties.collation", "type": "str"},
     }
 
-    def __init__(self, *, charset: Optional[str] = None, collation: Optional[str] = None, **kwargs):
+    def __init__(self, *, charset: Optional[str] = None, collation: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword charset: The charset of the database.
         :paramtype charset: str
@@ -578,7 +595,9 @@ class DatabaseListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Database"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.Database"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: The list of databases housed in a server.
         :paramtype value: list[~azure.mgmt.rdbms.mysql_flexibleservers.models.Database]
@@ -624,8 +643,8 @@ class DataEncryption(_serialization.Model):
         geo_backup_user_assigned_identity_id: Optional[str] = None,
         geo_backup_key_uri: Optional[str] = None,
         type: Optional[Union[str, "_models.DataEncryptionType"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword primary_user_assigned_identity_id: Primary user identity resource id.
         :paramtype primary_user_assigned_identity_id: str
@@ -670,7 +689,7 @@ class DelegatedSubnetUsage(_serialization.Model):
         "usage": {"key": "usage", "type": "int"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.subnet_name = None
@@ -698,15 +717,60 @@ class ErrorAdditionalInfo(_serialization.Model):
         "info": {"key": "info", "type": "object"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.type = None
         self.info = None
 
 
+class ErrorDetail(_serialization.Model):
+    """The error detail.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar code: The error code.
+    :vartype code: str
+    :ivar message: The error message.
+    :vartype message: str
+    :ivar target: The error target.
+    :vartype target: str
+    :ivar details: The error details.
+    :vartype details: list[~azure.mgmt.rdbms.mysql_flexibleservers.models.ErrorDetail]
+    :ivar additional_info: The error additional info.
+    :vartype additional_info:
+     list[~azure.mgmt.rdbms.mysql_flexibleservers.models.ErrorAdditionalInfo]
+    """
+
+    _validation = {
+        "code": {"readonly": True},
+        "message": {"readonly": True},
+        "target": {"readonly": True},
+        "details": {"readonly": True},
+        "additional_info": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "code": {"key": "code", "type": "str"},
+        "message": {"key": "message", "type": "str"},
+        "target": {"key": "target", "type": "str"},
+        "details": {"key": "details", "type": "[ErrorDetail]"},
+        "additional_info": {"key": "additionalInfo", "type": "[ErrorAdditionalInfo]"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.code = None
+        self.message = None
+        self.target = None
+        self.details = None
+        self.additional_info = None
+
+
 class ErrorResponse(_serialization.Model):
-    """Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.).
+    """Common error response for all Azure Resource Manager APIs to return error details for failed
+    operations. (This also follows the OData error response format.).
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -739,7 +803,7 @@ class ErrorResponse(_serialization.Model):
         "additional_info": {"key": "additionalInfo", "type": "[ErrorAdditionalInfo]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.code = None
@@ -747,6 +811,27 @@ class ErrorResponse(_serialization.Model):
         self.target = None
         self.details = None
         self.additional_info = None
+
+
+class ErrorResponseAutoGenerated(_serialization.Model):
+    """Common error response for all Azure Resource Manager APIs to return error details for failed
+    operations. (This also follows the OData error response format.).
+
+    :ivar error: The error object.
+    :vartype error: ~azure.mgmt.rdbms.mysql_flexibleservers.models.ErrorDetail
+    """
+
+    _attribute_map = {
+        "error": {"key": "error", "type": "ErrorDetail"},
+    }
+
+    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs: Any) -> None:
+        """
+        :keyword error: The error object.
+        :paramtype error: ~azure.mgmt.rdbms.mysql_flexibleservers.models.ErrorDetail
+        """
+        super().__init__(**kwargs)
+        self.error = error
 
 
 class FirewallRule(ProxyResource):
@@ -798,7 +883,7 @@ class FirewallRule(ProxyResource):
         "end_ip_address": {"key": "properties.endIpAddress", "type": "str"},
     }
 
-    def __init__(self, *, start_ip_address: str, end_ip_address: str, **kwargs):
+    def __init__(self, *, start_ip_address: str, end_ip_address: str, **kwargs: Any) -> None:
         """
         :keyword start_ip_address: The start IP address of the server firewall rule. Must be IPv4
          format. Required.
@@ -828,8 +913,8 @@ class FirewallRuleListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.FirewallRule"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.FirewallRule"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: The list of firewall rules in a server.
         :paramtype value: list[~azure.mgmt.rdbms.mysql_flexibleservers.models.FirewallRule]
@@ -852,7 +937,7 @@ class GetPrivateDnsZoneSuffixResponse(_serialization.Model):
         "private_dns_zone_suffix": {"key": "privateDnsZoneSuffix", "type": "str"},
     }
 
-    def __init__(self, *, private_dns_zone_suffix: Optional[str] = None, **kwargs):
+    def __init__(self, *, private_dns_zone_suffix: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword private_dns_zone_suffix: Represents the private DNS zone suffix.
         :paramtype private_dns_zone_suffix: str
@@ -891,8 +976,8 @@ class HighAvailability(_serialization.Model):
         *,
         mode: Optional[Union[str, "_models.HighAvailabilityMode"]] = None,
         standby_availability_zone: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword mode: High availability mode for a server. Known values are: "Disabled",
          "ZoneRedundant", and "SameZone".
@@ -938,8 +1023,8 @@ class Identity(_serialization.Model):
         *,
         type: Optional[Literal["UserAssigned"]] = None,
         user_assigned_identities: Optional[Dict[str, JSON]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword type: Type of managed service identity. Default value is "UserAssigned".
         :paramtype type: str
@@ -1007,8 +1092,8 @@ class LogFile(ProxyResource):
         type_properties_type: Optional[str] = None,
         last_modified_time: Optional[datetime.datetime] = None,
         url: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword size_in_kb: The size in kb of the logFile.
         :paramtype size_in_kb: int
@@ -1044,7 +1129,9 @@ class LogFileListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.LogFile"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.LogFile"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: The list of logFiles in a server.
         :paramtype value: list[~azure.mgmt.rdbms.mysql_flexibleservers.models.LogFile]
@@ -1083,8 +1170,8 @@ class MaintenanceWindow(_serialization.Model):
         start_hour: Optional[int] = None,
         start_minute: Optional[int] = None,
         day_of_week: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword custom_window: indicates whether custom window is enabled or disabled.
         :paramtype custom_window: str
@@ -1125,8 +1212,8 @@ class NameAvailability(_serialization.Model):
         message: Optional[str] = None,
         name_available: Optional[bool] = None,
         reason: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword message: Error Message.
         :paramtype message: str
@@ -1161,7 +1248,7 @@ class NameAvailabilityRequest(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, *, name: str, type: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: str, type: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Resource name to verify. Required.
         :paramtype name: str
@@ -1205,8 +1292,8 @@ class Network(_serialization.Model):
         *,
         delegated_subnet_resource_id: Optional[str] = None,
         private_dns_zone_resource_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword delegated_subnet_resource_id: Delegated subnet resource id used to setup vnet for a
          server.
@@ -1247,8 +1334,8 @@ class Operation(_serialization.Model):
         display: Optional["_models.OperationDisplay"] = None,
         origin: Optional[str] = None,
         properties: Optional[Dict[str, JSON]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: The name of the operation being performed on this particular object.
         :paramtype name: str
@@ -1293,8 +1380,8 @@ class OperationDisplay(_serialization.Model):
         resource: Optional[str] = None,
         operation: Optional[str] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword provider: Operation resource provider name.
         :paramtype provider: str
@@ -1326,7 +1413,9 @@ class OperationListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Operation"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.Operation"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: Collection of available operation details.
         :paramtype value: list[~azure.mgmt.rdbms.mysql_flexibleservers.models.Operation]
@@ -1339,7 +1428,8 @@ class OperationListResult(_serialization.Model):
 
 
 class TrackedResource(Resource):
-    """The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'.
+    """The resource model definition for an Azure Resource Manager tracked top level resource which
+    has 'tags' and a 'location'.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -1374,7 +1464,7 @@ class TrackedResource(Resource):
         "location": {"key": "location", "type": "str"},
     }
 
-    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -1460,6 +1550,7 @@ class Server(TrackedResource):  # pylint: disable=too-many-instance-attributes
         "type": {"readonly": True},
         "location": {"required": True},
         "system_data": {"readonly": True},
+        "replication_role": {"readonly": True},
         "replica_capacity": {"readonly": True, "minimum": 0},
         "state": {"readonly": True},
         "fully_qualified_domain_name": {"readonly": True},
@@ -1507,15 +1598,14 @@ class Server(TrackedResource):  # pylint: disable=too-many-instance-attributes
         create_mode: Optional[Union[str, "_models.CreateMode"]] = None,
         source_server_resource_id: Optional[str] = None,
         restore_point_in_time: Optional[datetime.datetime] = None,
-        replication_role: Optional[Union[str, "_models.ReplicationRole"]] = None,
         data_encryption: Optional["_models.DataEncryption"] = None,
         storage: Optional["_models.Storage"] = None,
         backup: Optional["_models.Backup"] = None,
         high_availability: Optional["_models.HighAvailability"] = None,
         network: Optional["_models.Network"] = None,
         maintenance_window: Optional["_models.MaintenanceWindow"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -1543,10 +1633,6 @@ class Server(TrackedResource):  # pylint: disable=too-many-instance-attributes
         :keyword restore_point_in_time: Restore point creation time (ISO8601 format), specifying the
          time to restore from.
         :paramtype restore_point_in_time: ~datetime.datetime
-        :keyword replication_role: The replication role. Known values are: "None", "Source", and
-         "Replica".
-        :paramtype replication_role: str or
-         ~azure.mgmt.rdbms.mysql_flexibleservers.models.ReplicationRole
         :keyword data_encryption: The Data Encryption for CMK.
         :paramtype data_encryption: ~azure.mgmt.rdbms.mysql_flexibleservers.models.DataEncryption
         :keyword storage: Storage related properties of a server.
@@ -1571,7 +1657,7 @@ class Server(TrackedResource):  # pylint: disable=too-many-instance-attributes
         self.create_mode = create_mode
         self.source_server_resource_id = source_server_resource_id
         self.restore_point_in_time = restore_point_in_time
-        self.replication_role = replication_role
+        self.replication_role = None
         self.replica_capacity = None
         self.data_encryption = data_encryption
         self.state = None
@@ -1629,8 +1715,8 @@ class ServerBackup(ProxyResource):
         backup_type: Optional[str] = None,
         completed_time: Optional[datetime.datetime] = None,
         source: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword backup_type: Backup type.
         :paramtype backup_type: str
@@ -1661,8 +1747,8 @@ class ServerBackupListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.ServerBackup"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.ServerBackup"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: The list of backups of a server.
         :paramtype value: list[~azure.mgmt.rdbms.mysql_flexibleservers.models.ServerBackup]
@@ -1701,7 +1787,7 @@ class ServerEditionCapability(_serialization.Model):
         "supported_server_versions": {"key": "supportedServerVersions", "type": "[ServerVersionCapability]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.name = None
@@ -1711,6 +1797,8 @@ class ServerEditionCapability(_serialization.Model):
 
 class ServerForUpdate(_serialization.Model):  # pylint: disable=too-many-instance-attributes
     """Parameters allowed to update for a server.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar identity: The cmk identity for the server.
     :vartype identity: ~azure.mgmt.rdbms.mysql_flexibleservers.models.Identity
@@ -1738,6 +1826,10 @@ class ServerForUpdate(_serialization.Model):  # pylint: disable=too-many-instanc
     :vartype data_encryption: ~azure.mgmt.rdbms.mysql_flexibleservers.models.DataEncryption
     """
 
+    _validation = {
+        "replication_role": {"readonly": True},
+    }
+
     _attribute_map = {
         "identity": {"key": "identity", "type": "Identity"},
         "sku": {"key": "sku", "type": "Sku"},
@@ -1764,10 +1856,9 @@ class ServerForUpdate(_serialization.Model):  # pylint: disable=too-many-instanc
         backup: Optional["_models.Backup"] = None,
         high_availability: Optional["_models.HighAvailability"] = None,
         maintenance_window: Optional["_models.MaintenanceWindow"] = None,
-        replication_role: Optional[Union[str, "_models.ReplicationRole"]] = None,
         data_encryption: Optional["_models.DataEncryption"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword identity: The cmk identity for the server.
         :paramtype identity: ~azure.mgmt.rdbms.mysql_flexibleservers.models.Identity
@@ -1787,10 +1878,6 @@ class ServerForUpdate(_serialization.Model):  # pylint: disable=too-many-instanc
         :paramtype high_availability: ~azure.mgmt.rdbms.mysql_flexibleservers.models.HighAvailability
         :keyword maintenance_window: Maintenance window of a server.
         :paramtype maintenance_window: ~azure.mgmt.rdbms.mysql_flexibleservers.models.MaintenanceWindow
-        :keyword replication_role: The replication role of the server. Known values are: "None",
-         "Source", and "Replica".
-        :paramtype replication_role: str or
-         ~azure.mgmt.rdbms.mysql_flexibleservers.models.ReplicationRole
         :keyword data_encryption: The Data Encryption for CMK.
         :paramtype data_encryption: ~azure.mgmt.rdbms.mysql_flexibleservers.models.DataEncryption
         """
@@ -1804,7 +1891,7 @@ class ServerForUpdate(_serialization.Model):  # pylint: disable=too-many-instanc
         self.backup = backup
         self.high_availability = high_availability
         self.maintenance_window = maintenance_window
-        self.replication_role = replication_role
+        self.replication_role = None
         self.data_encryption = data_encryption
 
 
@@ -1822,7 +1909,9 @@ class ServerListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Server"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.Server"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: The list of servers.
         :paramtype value: list[~azure.mgmt.rdbms.mysql_flexibleservers.models.Server]
@@ -1853,10 +1942,10 @@ class ServerRestartParameter(_serialization.Model):
     def __init__(
         self,
         *,
-        restart_with_failover: Optional[Union[str, "_models.EnableStatusEnum"]] = None,
+        restart_with_failover: Union[str, "_models.EnableStatusEnum"] = "Disabled",
         max_failover_seconds: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword restart_with_failover: Whether or not failover to standby server when restarting a
          server with high availability enabled. Known values are: "Enabled" and "Disabled".
@@ -1891,7 +1980,7 @@ class ServerVersionCapability(_serialization.Model):
         "supported_skus": {"key": "supportedSkus", "type": "[SkuCapability]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.name = None
@@ -1920,7 +2009,7 @@ class Sku(_serialization.Model):
         "tier": {"key": "tier", "type": "str"},
     }
 
-    def __init__(self, *, name: str, tier: Union[str, "_models.SkuTier"], **kwargs):
+    def __init__(self, *, name: str, tier: Union[str, "_models.SkuTier"], **kwargs: Any) -> None:
         """
         :keyword name: The name of the sku, e.g. Standard_D32s_v3. Required.
         :paramtype name: str
@@ -1962,7 +2051,7 @@ class SkuCapability(_serialization.Model):
         "supported_memory_per_v_core_mb": {"key": "supportedMemoryPerVCoreMB", "type": "int"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.name = None
@@ -2007,10 +2096,10 @@ class Storage(_serialization.Model):
         *,
         storage_size_gb: Optional[int] = None,
         iops: Optional[int] = None,
-        auto_grow: Optional[Union[str, "_models.EnableStatusEnum"]] = None,
-        auto_io_scaling: Optional[Union[str, "_models.EnableStatusEnum"]] = None,
-        **kwargs
-    ):
+        auto_grow: Union[str, "_models.EnableStatusEnum"] = "Disabled",
+        auto_io_scaling: Union[str, "_models.EnableStatusEnum"] = "Disabled",
+        **kwargs: Any
+    ) -> None:
         """
         :keyword storage_size_gb: Max storage size allowed for a server.
         :paramtype storage_size_gb: int
@@ -2065,7 +2154,7 @@ class StorageEditionCapability(_serialization.Model):
         "max_backup_retention_days": {"key": "maxBackupRetentionDays", "type": "int"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.name = None
@@ -2113,8 +2202,8 @@ class SystemData(_serialization.Model):
         last_modified_by: Optional[str] = None,
         last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
         last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword created_by: The identity that created the resource.
         :paramtype created_by: str
@@ -2162,7 +2251,7 @@ class UserAssignedIdentity(_serialization.Model):
         "client_id": {"key": "clientId", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.principal_id = None
@@ -2180,7 +2269,7 @@ class VirtualNetworkSubnetUsageParameter(_serialization.Model):
         "virtual_network_resource_id": {"key": "virtualNetworkResourceId", "type": "str"},
     }
 
-    def __init__(self, *, virtual_network_resource_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, virtual_network_resource_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword virtual_network_resource_id: Virtual network resource id.
         :paramtype virtual_network_resource_id: str
@@ -2215,7 +2304,7 @@ class VirtualNetworkSubnetUsageResult(_serialization.Model):
         "delegated_subnets_usage": {"key": "delegatedSubnetsUsage", "type": "[DelegatedSubnetUsage]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.location = None
