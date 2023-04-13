@@ -29,7 +29,7 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.patch_schedules.create_or_update(
+    response = client.patch_schedules.begin_create_or_update(
         resource_group_name="rg1",
         name="cache1",
         default="default",
@@ -41,10 +41,10 @@ def main():
                 ]
             }
         },
-    )
+    ).result()
     print(response)
 
 
-# x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-06-01/examples/RedisCachePatchSchedulesCreateOrUpdate.json
+# x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2023-06-01/examples/RedisCachePatchSchedulesCreateOrUpdate.json
 if __name__ == "__main__":
     main()

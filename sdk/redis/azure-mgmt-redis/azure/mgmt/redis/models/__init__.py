@@ -46,6 +46,7 @@ from ._models_py3 import RedisLinkedServerWithPropertiesList
 from ._models_py3 import RedisListResult
 from ._models_py3 import RedisPatchSchedule
 from ._models_py3 import RedisPatchScheduleListResult
+from ._models_py3 import RedisPatchScheduleWithProvisioningState
 from ._models_py3 import RedisProperties
 from ._models_py3 import RedisRebootParameters
 from ._models_py3 import RedisRegenerateKeyParameters
@@ -73,7 +74,7 @@ from ._redis_management_client_enums import SkuFamily
 from ._redis_management_client_enums import SkuName
 from ._redis_management_client_enums import TlsVersion
 from ._patch import __all__ as _patch_all
-from ._patch import *  # type: ignore # pylint: disable=unused-wildcard-import
+from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
@@ -117,6 +118,7 @@ __all__ = [
     "RedisListResult",
     "RedisPatchSchedule",
     "RedisPatchScheduleListResult",
+    "RedisPatchScheduleWithProvisioningState",
     "RedisProperties",
     "RedisRebootParameters",
     "RedisRegenerateKeyParameters",
