@@ -14,9 +14,9 @@ from azure.mgmt.cdn import CdnManagementClient
     pip install azure-identity
     pip install azure-mgmt-cdn
 # USAGE
-    python custom_domains_enable_custom_https_using_your_own_certificate.py
+    python afd_profiles_upgrade.py
 
-    Before run the sample, please set the values of the client ID, tenant ID and client secret 
+    Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
     AZURE_CLIENT_SECRET. For more info about how to get the value, please see:
     https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal
@@ -29,15 +29,23 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.custom_domains.begin_enable_custom_https(
+    response = client.afd_profiles.begin_upgrade(
         resource_group_name="RG",
         profile_name="profile1",
-        endpoint_name="endpoint1",
-        custom_domain_name="www-someDomain-net",
+        profile_upgrade_parameters={
+            "wafMappingList": [
+                {
+                    "changeToWafPolicy": {
+                        "id": "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Network/frontdoorwebapplicationfirewallpolicies/waf2"
+                    },
+                    "securityPolicyName": "securityPolicy1",
+                }
+            ]
+        },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/CustomDomains_EnableCustomHttpsUsingBYOC.json
+# x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/preview/2022-11-01-preview/examples/AFDProfiles_Upgrade.json
 if __name__ == "__main__":
     main()

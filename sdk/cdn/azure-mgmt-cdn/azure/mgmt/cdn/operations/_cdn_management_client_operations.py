@@ -25,7 +25,7 @@ from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import MixinABC, _convert_request, _format_url_section
+from .._vendor import CdnManagementClientMixinABC, _convert_request, _format_url_section
 
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
@@ -34,14 +34,14 @@ _SERIALIZER = Serializer()
 _SERIALIZER.client_side_validation = False
 
 
-def build_check_endpoint_name_availability_request(
+def build_check_endpoint_name_availability_request(  # pylint: disable=name-too-long
     resource_group_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version = kwargs.pop("api_version", _params.pop("api-version", "2021-06-01"))  # type: str
-    content_type = kwargs.pop("content_type", _headers.pop("Content-Type", None))  # type: Optional[str]
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-11-01-preview"))
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -56,7 +56,7 @@ def build_check_endpoint_name_availability_request(
         ),
     }
 
-    _url = _format_url_section(_url, **path_format_arguments)
+    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -73,8 +73,8 @@ def build_check_name_availability_request(**kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version = kwargs.pop("api_version", _params.pop("api-version", "2021-06-01"))  # type: str
-    content_type = kwargs.pop("content_type", _headers.pop("Content-Type", None))  # type: Optional[str]
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-11-01-preview"))
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -91,12 +91,14 @@ def build_check_name_availability_request(**kwargs: Any) -> HttpRequest:
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_check_name_availability_with_subscription_request(subscription_id: str, **kwargs: Any) -> HttpRequest:
+def build_check_name_availability_with_subscription_request(  # pylint: disable=name-too-long
+    subscription_id: str, **kwargs: Any
+) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version = kwargs.pop("api_version", _params.pop("api-version", "2021-06-01"))  # type: str
-    content_type = kwargs.pop("content_type", _headers.pop("Content-Type", None))  # type: Optional[str]
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-11-01-preview"))
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -105,7 +107,7 @@ def build_check_name_availability_with_subscription_request(subscription_id: str
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
     }
 
-    _url = _format_url_section(_url, **path_format_arguments)
+    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -122,8 +124,8 @@ def build_validate_probe_request(subscription_id: str, **kwargs: Any) -> HttpReq
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version = kwargs.pop("api_version", _params.pop("api-version", "2021-06-01"))  # type: str
-    content_type = kwargs.pop("content_type", _headers.pop("Content-Type", None))  # type: Optional[str]
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-11-01-preview"))
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -132,7 +134,7 @@ def build_validate_probe_request(subscription_id: str, **kwargs: Any) -> HttpReq
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
     }
 
-    _url = _format_url_section(_url, **path_format_arguments)
+    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -145,7 +147,7 @@ def build_validate_probe_request(subscription_id: str, **kwargs: Any) -> HttpReq
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-class CdnManagementClientOperationsMixin(MixinABC):
+class CdnManagementClientOperationsMixin(CdnManagementClientMixinABC):
     @overload
     def check_endpoint_name_availability(
         self,
@@ -209,8 +211,8 @@ class CdnManagementClientOperationsMixin(MixinABC):
 
         :param resource_group_name: Name of the Resource group within the Azure subscription. Required.
         :type resource_group_name: str
-        :param check_endpoint_name_availability_input: Input to check. Is either a model type or a IO
-         type. Required.
+        :param check_endpoint_name_availability_input: Input to check. Is either a
+         CheckEndpointNameAvailabilityInput type or a IO type. Required.
         :type check_endpoint_name_availability_input:
          ~azure.mgmt.cdn.models.CheckEndpointNameAvailabilityInput or IO
         :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
@@ -232,9 +234,9 @@ class CdnManagementClientOperationsMixin(MixinABC):
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))  # type: str
-        content_type = kwargs.pop("content_type", _headers.pop("Content-Type", None))  # type: Optional[str]
-        cls = kwargs.pop("cls", None)  # type: ClsType[_models.CheckEndpointNameAvailabilityOutput]
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.CheckEndpointNameAvailabilityOutput] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -256,10 +258,11 @@ class CdnManagementClientOperationsMixin(MixinABC):
             params=_params,
         )
         request = _convert_request(request)
-        request.url = self._client.format_url(request.url)  # type: ignore
+        request.url = self._client.format_url(request.url)
 
-        pipeline_response = self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-            request, stream=False, **kwargs
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -276,7 +279,9 @@ class CdnManagementClientOperationsMixin(MixinABC):
 
         return deserialized
 
-    check_endpoint_name_availability.metadata = {"url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/checkEndpointNameAvailability"}  # type: ignore
+    check_endpoint_name_availability.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/checkEndpointNameAvailability"
+    }
 
     @overload
     def check_name_availability(
@@ -325,8 +330,8 @@ class CdnManagementClientOperationsMixin(MixinABC):
         """Check the availability of a resource name. This is needed for resources where name is globally
         unique, such as a CDN endpoint.
 
-        :param check_name_availability_input: Input to check. Is either a model type or a IO type.
-         Required.
+        :param check_name_availability_input: Input to check. Is either a CheckNameAvailabilityInput
+         type or a IO type. Required.
         :type check_name_availability_input: ~azure.mgmt.cdn.models.CheckNameAvailabilityInput or IO
         :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
          Default value is None.
@@ -347,9 +352,9 @@ class CdnManagementClientOperationsMixin(MixinABC):
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))  # type: str
-        content_type = kwargs.pop("content_type", _headers.pop("Content-Type", None))  # type: Optional[str]
-        cls = kwargs.pop("cls", None)  # type: ClsType[_models.CheckNameAvailabilityOutput]
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.CheckNameAvailabilityOutput] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -369,10 +374,11 @@ class CdnManagementClientOperationsMixin(MixinABC):
             params=_params,
         )
         request = _convert_request(request)
-        request.url = self._client.format_url(request.url)  # type: ignore
+        request.url = self._client.format_url(request.url)
 
-        pipeline_response = self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-            request, stream=False, **kwargs
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -389,10 +395,10 @@ class CdnManagementClientOperationsMixin(MixinABC):
 
         return deserialized
 
-    check_name_availability.metadata = {"url": "/providers/Microsoft.Cdn/checkNameAvailability"}  # type: ignore
+    check_name_availability.metadata = {"url": "/providers/Microsoft.Cdn/checkNameAvailability"}
 
     @overload
-    def check_name_availability_with_subscription(
+    def check_name_availability_with_subscription(  # pylint: disable=name-too-long
         self,
         check_name_availability_input: _models.CheckNameAvailabilityInput,
         *,
@@ -414,7 +420,7 @@ class CdnManagementClientOperationsMixin(MixinABC):
         """
 
     @overload
-    def check_name_availability_with_subscription(
+    def check_name_availability_with_subscription(  # pylint: disable=name-too-long
         self, check_name_availability_input: IO, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.CheckNameAvailabilityOutput:
         """Check the availability of a resource name. This is needed for resources where name is globally
@@ -432,14 +438,14 @@ class CdnManagementClientOperationsMixin(MixinABC):
         """
 
     @distributed_trace
-    def check_name_availability_with_subscription(
+    def check_name_availability_with_subscription(  # pylint: disable=name-too-long
         self, check_name_availability_input: Union[_models.CheckNameAvailabilityInput, IO], **kwargs: Any
     ) -> _models.CheckNameAvailabilityOutput:
         """Check the availability of a resource name. This is needed for resources where name is globally
         unique, such as a CDN endpoint.
 
-        :param check_name_availability_input: Input to check. Is either a model type or a IO type.
-         Required.
+        :param check_name_availability_input: Input to check. Is either a CheckNameAvailabilityInput
+         type or a IO type. Required.
         :type check_name_availability_input: ~azure.mgmt.cdn.models.CheckNameAvailabilityInput or IO
         :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
          Default value is None.
@@ -460,9 +466,9 @@ class CdnManagementClientOperationsMixin(MixinABC):
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))  # type: str
-        content_type = kwargs.pop("content_type", _headers.pop("Content-Type", None))  # type: Optional[str]
-        cls = kwargs.pop("cls", None)  # type: ClsType[_models.CheckNameAvailabilityOutput]
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.CheckNameAvailabilityOutput] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -483,10 +489,11 @@ class CdnManagementClientOperationsMixin(MixinABC):
             params=_params,
         )
         request = _convert_request(request)
-        request.url = self._client.format_url(request.url)  # type: ignore
+        request.url = self._client.format_url(request.url)
 
-        pipeline_response = self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-            request, stream=False, **kwargs
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -503,7 +510,9 @@ class CdnManagementClientOperationsMixin(MixinABC):
 
         return deserialized
 
-    check_name_availability_with_subscription.metadata = {"url": "/subscriptions/{subscriptionId}/providers/Microsoft.Cdn/checkNameAvailability"}  # type: ignore
+    check_name_availability_with_subscription.metadata = {
+        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.Cdn/checkNameAvailability"
+    }
 
     @overload
     def validate_probe(
@@ -551,7 +560,8 @@ class CdnManagementClientOperationsMixin(MixinABC):
         a file hosted on the origin server to help accelerate the delivery of dynamic content via the
         CDN endpoint. This path is relative to the origin path specified in the endpoint configuration.
 
-        :param validate_probe_input: Input to check. Is either a model type or a IO type. Required.
+        :param validate_probe_input: Input to check. Is either a ValidateProbeInput type or a IO type.
+         Required.
         :type validate_probe_input: ~azure.mgmt.cdn.models.ValidateProbeInput or IO
         :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
          Default value is None.
@@ -572,9 +582,9 @@ class CdnManagementClientOperationsMixin(MixinABC):
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))  # type: str
-        content_type = kwargs.pop("content_type", _headers.pop("Content-Type", None))  # type: Optional[str]
-        cls = kwargs.pop("cls", None)  # type: ClsType[_models.ValidateProbeOutput]
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.ValidateProbeOutput] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -595,10 +605,11 @@ class CdnManagementClientOperationsMixin(MixinABC):
             params=_params,
         )
         request = _convert_request(request)
-        request.url = self._client.format_url(request.url)  # type: ignore
+        request.url = self._client.format_url(request.url)
 
-        pipeline_response = self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-            request, stream=False, **kwargs
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -615,4 +626,4 @@ class CdnManagementClientOperationsMixin(MixinABC):
 
         return deserialized
 
-    validate_probe.metadata = {"url": "/subscriptions/{subscriptionId}/providers/Microsoft.Cdn/validateProbe"}  # type: ignore
+    validate_probe.metadata = {"url": "/subscriptions/{subscriptionId}/providers/Microsoft.Cdn/validateProbe"}
