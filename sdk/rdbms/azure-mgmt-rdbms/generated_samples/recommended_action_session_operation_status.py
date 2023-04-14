@@ -7,14 +7,14 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
-from azure.mgmt.rdbms import PostgreSQLManagementClient
+from azure.mgmt.rdbms import MySQLManagementClient
 
 """
 # PREREQUISITES
     pip install azure-identity
     pip install azure-mgmt-rdbms
 # USAGE
-    python server_restart_with_failover.py
+    python recommended_action_session_operation_status.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -24,18 +24,18 @@ from azure.mgmt.rdbms import PostgreSQLManagementClient
 
 
 def main():
-    client = PostgreSQLManagementClient(
+    client = MySQLManagementClient(
         credential=DefaultAzureCredential(),
         subscription_id="ffffffff-ffff-ffff-ffff-ffffffffffff",
     )
 
-    response = client.servers.begin_restart(
-        resource_group_name="testrg",
-        server_name="testserver",
-    ).result()
+    response = client.location_based_recommended_action_sessions_operation_status.get(
+        location_name="WestUS",
+        operation_id="aaaabbbb-cccc-dddd-0000-111122223333",
+    )
     print(response)
 
 
-# x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-12-01/examples/ServerRestartWithFailover.json
+# x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/legacy/stable/2018-06-01/examples/RecommendedActionSessionOperationStatus.json
 if __name__ == "__main__":
     main()

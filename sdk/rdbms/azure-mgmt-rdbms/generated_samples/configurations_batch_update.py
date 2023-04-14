@@ -7,14 +7,14 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
-from azure.mgmt.rdbms import PostgreSQLManagementClient
+from azure.mgmt.rdbms import MySQLManagementClient
 
 """
 # PREREQUISITES
     pip install azure-identity
     pip install azure-mgmt-rdbms
 # USAGE
-    python server_create_geo_restore.py
+    python configurations_batch_update.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -24,26 +24,25 @@ from azure.mgmt.rdbms import PostgreSQLManagementClient
 
 
 def main():
-    client = PostgreSQLManagementClient(
+    client = MySQLManagementClient(
         credential=DefaultAzureCredential(),
         subscription_id="ffffffff-ffff-ffff-ffff-ffffffffffff",
     )
 
-    response = client.servers.begin_create(
+    response = client.configurations.begin_batch_update(
         resource_group_name="testrg",
-        server_name="pgtestsvc5geo",
+        server_name="mysqltestserver",
         parameters={
-            "location": "eastus",
-            "properties": {
-                "createMode": "GeoRestore",
-                "pointInTimeUTC": "2021-06-27T00:04:59.4078005+00:00",
-                "sourceServerResourceId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforPostgreSQL/flexibleServers/sourcepgservername",
-            },
+            "resetAllToDefault": "False",
+            "value": [
+                {"name": "event_scheduler", "properties": {"value": "OFF"}},
+                {"name": "div_precision_increment", "properties": {"value": "8"}},
+            ],
         },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-12-01/examples/ServerCreateGeoRestore.json
+# x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Configurations/preview/2021-12-01-preview/examples/ConfigurationsBatchUpdate.json
 if __name__ == "__main__":
     main()
