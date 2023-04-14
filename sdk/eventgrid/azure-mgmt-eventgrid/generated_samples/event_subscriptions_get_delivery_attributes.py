@@ -27,6 +27,7 @@ def main():
     client = EventGridManagementClient(
         credential=DefaultAzureCredential(),
         subscription_id="SUBSCRIPTION_ID",
+        parent_type="PARENT_TYPE",
     )
 
     response = client.event_subscriptions.get_delivery_attributes(

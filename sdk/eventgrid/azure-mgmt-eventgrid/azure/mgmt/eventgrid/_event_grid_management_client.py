@@ -7,7 +7,7 @@
 # --------------------------------------------------------------------------
 
 from copy import deepcopy
-from typing import Any, TYPE_CHECKING
+from typing import Any, TYPE_CHECKING, Union
 
 from azure.core.rest import HttpRequest, HttpResponse
 from azure.mgmt.core import ARMPipelineClient
@@ -101,6 +101,10 @@ class EventGridManagementClient:  # pylint: disable=client-accepts-api-version-k
     :param subscription_id: Subscription credentials that uniquely identify a Microsoft Azure
      subscription. The subscription ID forms part of the URI for every service call. Required.
     :type subscription_id: str
+    :param parent_type: The type of the parent resource. This can be either \'topics\',
+     \'domains\', or \'partnerNamespaces\'. Known values are: "topics", "domains", and
+     "partnerNamespaces". Required.
+    :type parent_type: str or ~azure.mgmt.eventgrid.models.PrivateEndpointConnectionsParentType
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
     :keyword api_version: Api Version. Default value is "2022-06-15". Note that overriding this
@@ -114,13 +118,14 @@ class EventGridManagementClient:  # pylint: disable=client-accepts-api-version-k
         self,
         credential: "TokenCredential",
         subscription_id: str,
+        parent_type: Union[str, _models.PrivateEndpointConnectionsParentType],
         base_url: str = "https://management.azure.com",
         **kwargs: Any
     ) -> None:
         self._config = EventGridManagementClientConfiguration(
-            credential=credential, subscription_id=subscription_id, **kwargs
+            credential=credential, subscription_id=subscription_id, parent_type=parent_type, **kwargs
         )
-        self._client = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        self._client: ARMPipelineClient = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
@@ -203,5 +208,5 @@ class EventGridManagementClient:  # pylint: disable=client-accepts-api-version-k
         self._client.__enter__()
         return self
 
-    def __exit__(self, *exc_details) -> None:
+    def __exit__(self, *exc_details: Any) -> None:
         self._client.__exit__(*exc_details)

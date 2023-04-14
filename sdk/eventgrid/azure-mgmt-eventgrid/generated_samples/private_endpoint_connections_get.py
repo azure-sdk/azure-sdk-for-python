@@ -27,11 +27,11 @@ def main():
     client = EventGridManagementClient(
         credential=DefaultAzureCredential(),
         subscription_id="5b4b650e-28b9-4790-b3ab-ddbd88d727c4",
+        parent_type="topics",
     )
 
     response = client.private_endpoint_connections.get(
         resource_group_name="examplerg",
-        parent_type="topics",
         parent_name="exampletopic1",
         private_endpoint_connection_name="BMTPE5.8A30D251-4C61-489D-A1AA-B37C4A329B8B",
     )

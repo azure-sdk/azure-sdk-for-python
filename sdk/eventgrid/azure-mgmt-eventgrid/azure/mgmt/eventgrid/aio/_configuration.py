@@ -6,19 +6,14 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-import sys
-from typing import Any, TYPE_CHECKING
+from typing import Any, TYPE_CHECKING, Union
 
 from azure.core.configuration import Configuration
 from azure.core.pipeline import policies
 from azure.mgmt.core.policies import ARMHttpLoggingPolicy, AsyncARMChallengeAuthenticationPolicy
 
+from .. import models as _models
 from .._version import VERSION
-
-if sys.version_info >= (3, 8):
-    from typing import Literal  # pylint: disable=no-name-in-module, ungrouped-imports
-else:
-    from typing_extensions import Literal  # type: ignore  # pylint: disable=ungrouped-imports
 
 if TYPE_CHECKING:
     # pylint: disable=unused-import,ungrouped-imports
@@ -36,22 +31,35 @@ class EventGridManagementClientConfiguration(Configuration):  # pylint: disable=
     :param subscription_id: Subscription credentials that uniquely identify a Microsoft Azure
      subscription. The subscription ID forms part of the URI for every service call. Required.
     :type subscription_id: str
+    :param parent_type: The type of the parent resource. This can be either \'topics\',
+     \'domains\', or \'partnerNamespaces\'. Known values are: "topics", "domains", and
+     "partnerNamespaces". Required.
+    :type parent_type: str or ~azure.mgmt.eventgrid.models.PrivateEndpointConnectionsParentType
     :keyword api_version: Api Version. Default value is "2022-06-15". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str
     """
 
-    def __init__(self, credential: "AsyncTokenCredential", subscription_id: str, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        credential: "AsyncTokenCredential",
+        subscription_id: str,
+        parent_type: Union[str, _models.PrivateEndpointConnectionsParentType],
+        **kwargs: Any
+    ) -> None:
         super(EventGridManagementClientConfiguration, self).__init__(**kwargs)
-        api_version: Literal["2022-06-15"] = kwargs.pop("api_version", "2022-06-15")
+        api_version: str = kwargs.pop("api_version", "2022-06-15")
 
         if credential is None:
             raise ValueError("Parameter 'credential' must not be None.")
         if subscription_id is None:
             raise ValueError("Parameter 'subscription_id' must not be None.")
+        if parent_type is None:
+            raise ValueError("Parameter 'parent_type' must not be None.")
 
         self.credential = credential
         self.subscription_id = subscription_id
+        self.parent_type = parent_type
         self.api_version = api_version
         self.credential_scopes = kwargs.pop("credential_scopes", ["https://management.azure.com/.default"])
         kwargs.setdefault("sdk_moniker", "mgmt-eventgrid/{}".format(VERSION))

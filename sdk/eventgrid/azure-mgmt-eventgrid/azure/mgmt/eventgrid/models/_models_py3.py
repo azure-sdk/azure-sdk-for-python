@@ -25,7 +25,10 @@ JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 
 
 class AdvancedFilter(_serialization.Model):
-    """This is the base type that represents an advanced filter. To configure an advanced filter, do not directly instantiate an object of this class. Instead, instantiate an object of a derived class such as BoolEqualsAdvancedFilter, NumberInAdvancedFilter, StringEqualsAdvancedFilter etc. depending on the type of the key based on which you want to filter.
+    """This is the base type that represents an advanced filter. To configure an advanced filter, do
+    not directly instantiate an object of this class. Instead, instantiate an object of a derived
+    class such as BoolEqualsAdvancedFilter, NumberInAdvancedFilter, StringEqualsAdvancedFilter etc.
+    depending on the type of the key based on which you want to filter.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     BoolEqualsAdvancedFilter, IsNotNullAdvancedFilter, IsNullOrUndefinedAdvancedFilter,
@@ -82,7 +85,7 @@ class AdvancedFilter(_serialization.Model):
         }
     }
 
-    def __init__(self, *, key: Optional[str] = None, **kwargs):
+    def __init__(self, *, key: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword key: The field/property in the event based on which you want to filter.
         :paramtype key: str
@@ -129,7 +132,7 @@ class EventSubscriptionDestination(_serialization.Model):
         }
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.endpoint_type: Optional[str] = None
@@ -178,8 +181,8 @@ class AzureFunctionEventSubscriptionDestination(EventSubscriptionDestination):
         max_events_per_batch: int = 1,
         preferred_batch_size_in_kilobytes: int = 64,
         delivery_attribute_mappings: Optional[List["_models.DeliveryAttributeMapping"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword resource_id: The Azure Resource Id that represents the endpoint of the Azure Function
          destination of an event subscription.
@@ -228,7 +231,7 @@ class BoolEqualsAdvancedFilter(AdvancedFilter):
         "value": {"key": "value", "type": "bool"},
     }
 
-    def __init__(self, *, key: Optional[str] = None, value: Optional[bool] = None, **kwargs):
+    def __init__(self, *, key: Optional[str] = None, value: Optional[bool] = None, **kwargs: Any) -> None:
         """
         :keyword key: The field/property in the event based on which you want to filter.
         :paramtype key: str
@@ -265,7 +268,7 @@ class Resource(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -340,8 +343,8 @@ class Channel(Resource):
         provisioning_state: Optional[Union[str, "_models.ChannelProvisioningState"]] = None,
         readiness_state: Optional[Union[str, "_models.ReadinessState"]] = None,
         expiration_time_if_not_activated_utc: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword channel_type: The type of the event channel which represents the direction flow of
          events. "PartnerTopic"
@@ -388,7 +391,9 @@ class ChannelsListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Channel"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.Channel"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: A collection of Channels.
         :paramtype value: list[~azure.mgmt.eventgrid.models.Channel]
@@ -425,8 +430,8 @@ class ChannelUpdateParameters(_serialization.Model):
         *,
         expiration_time_if_not_activated_utc: Optional[datetime.datetime] = None,
         partner_topic_info: Optional["_models.PartnerUpdateTopicInfo"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword expiration_time_if_not_activated_utc: Expiration time of the channel. If this timer
          expires while the corresponding partner topic or partner destination is never activated,
@@ -465,8 +470,8 @@ class ConnectionState(_serialization.Model):
         status: Optional[Union[str, "_models.PersistedConnectionStatus"]] = None,
         description: Optional[str] = None,
         actions_required: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword status: Status of the connection. Known values are: "Pending", "Approved", "Rejected",
          and "Disconnected".
@@ -483,7 +488,10 @@ class ConnectionState(_serialization.Model):
 
 
 class DeadLetterDestination(_serialization.Model):
-    """Information about the dead letter destination for an event subscription. To configure a deadletter destination, do not directly instantiate an object of this class. Instead, instantiate an object of a derived class. Currently, StorageBlobDeadLetterDestination is the only class that derives from this class.
+    """Information about the dead letter destination for an event subscription. To configure a
+    deadletter destination, do not directly instantiate an object of this class. Instead,
+    instantiate an object of a derived class. Currently, StorageBlobDeadLetterDestination is the
+    only class that derives from this class.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     StorageBlobDeadLetterDestination
@@ -505,7 +513,7 @@ class DeadLetterDestination(_serialization.Model):
 
     _subtype_map = {"endpoint_type": {"StorageBlob": "StorageBlobDeadLetterDestination"}}
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.endpoint_type: Optional[str] = None
@@ -533,8 +541,8 @@ class DeadLetterWithResourceIdentity(_serialization.Model):
         *,
         identity: Optional["_models.EventSubscriptionIdentity"] = None,
         dead_letter_destination: Optional["_models.DeadLetterDestination"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword identity: The identity to use when dead-lettering events.
         :paramtype identity: ~azure.mgmt.eventgrid.models.EventSubscriptionIdentity
@@ -560,7 +568,7 @@ class DeliveryAttributeListResult(_serialization.Model):
         "value": {"key": "value", "type": "[DeliveryAttributeMapping]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.DeliveryAttributeMapping"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.DeliveryAttributeMapping"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: A collection of DeliveryAttributeMapping.
         :paramtype value: list[~azure.mgmt.eventgrid.models.DeliveryAttributeMapping]
@@ -595,7 +603,7 @@ class DeliveryAttributeMapping(_serialization.Model):
 
     _subtype_map = {"type": {"Dynamic": "DynamicDeliveryAttributeMapping", "Static": "StaticDeliveryAttributeMapping"}}
 
-    def __init__(self, *, name: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Name of the delivery attribute or header.
         :paramtype name: str
@@ -627,8 +635,8 @@ class DeliveryWithResourceIdentity(_serialization.Model):
         *,
         identity: Optional["_models.EventSubscriptionIdentity"] = None,
         destination: Optional["_models.EventSubscriptionDestination"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword identity: The identity to use when delivering events.
         :paramtype identity: ~azure.mgmt.eventgrid.models.EventSubscriptionIdentity
@@ -677,7 +685,7 @@ class TrackedResource(Resource):
         "tags": {"key": "tags", "type": "{str}"},
     }
 
-    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword location: Location of the resource. Required.
         :paramtype location: str
@@ -833,8 +841,8 @@ class Domain(TrackedResource):  # pylint: disable=too-many-instance-attributes
         auto_create_topic_with_first_subscription: bool = True,
         auto_delete_topic_with_last_subscription: bool = True,
         data_residency_boundary: Optional[Union[str, "_models.DataResidencyBoundary"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Location of the resource. Required.
         :paramtype location: str
@@ -930,7 +938,7 @@ class DomainRegenerateKeyRequest(_serialization.Model):
         "key_name": {"key": "keyName", "type": "str"},
     }
 
-    def __init__(self, *, key_name: str, **kwargs):
+    def __init__(self, *, key_name: str, **kwargs: Any) -> None:
         """
         :keyword key_name: Key name to regenerate key1 or key2. Required.
         :paramtype key_name: str
@@ -953,7 +961,7 @@ class DomainSharedAccessKeys(_serialization.Model):
         "key2": {"key": "key2", "type": "str"},
     }
 
-    def __init__(self, *, key1: Optional[str] = None, key2: Optional[str] = None, **kwargs):
+    def __init__(self, *, key1: Optional[str] = None, key2: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword key1: Shared access key1 for the domain.
         :paramtype key1: str
@@ -979,7 +987,9 @@ class DomainsListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Domain"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.Domain"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: A collection of Domains.
         :paramtype value: list[~azure.mgmt.eventgrid.models.Domain]
@@ -1025,7 +1035,7 @@ class DomainTopic(Resource):
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.system_data = None
@@ -1047,8 +1057,8 @@ class DomainTopicsListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.DomainTopic"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.DomainTopic"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: A collection of Domain Topics.
         :paramtype value: list[~azure.mgmt.eventgrid.models.DomainTopic]
@@ -1143,8 +1153,8 @@ class DomainUpdateParameters(_serialization.Model):
         auto_create_topic_with_first_subscription: Optional[bool] = None,
         auto_delete_topic_with_last_subscription: Optional[bool] = None,
         data_residency_boundary: Optional[Union[str, "_models.DataResidencyBoundary"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Tags of the domains resource.
         :paramtype tags: dict[str, str]
@@ -1232,7 +1242,7 @@ class DynamicDeliveryAttributeMapping(DeliveryAttributeMapping):
         "source_field": {"key": "properties.sourceField", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, source_field: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, source_field: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Name of the delivery attribute or header.
         :paramtype name: str
@@ -1279,8 +1289,8 @@ class EventHubEventSubscriptionDestination(EventSubscriptionDestination):
         *,
         resource_id: Optional[str] = None,
         delivery_attribute_mappings: Optional[List["_models.DeliveryAttributeMapping"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword resource_id: The Azure Resource Id that represents the endpoint of an Event Hub
          destination of an event subscription.
@@ -1397,8 +1407,8 @@ class EventSubscription(Resource):  # pylint: disable=too-many-instance-attribut
         retry_policy: Optional["_models.RetryPolicy"] = None,
         dead_letter_destination: Optional["_models.DeadLetterDestination"] = None,
         dead_letter_with_resource_identity: Optional["_models.DeadLetterWithResourceIdentity"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword destination: Information about the destination where events have to be delivered for
          the event subscription.
@@ -1497,8 +1507,8 @@ class EventSubscriptionFilter(_serialization.Model):
         is_subject_case_sensitive: bool = False,
         enable_advanced_filtering_on_arrays: Optional[bool] = None,
         advanced_filters: Optional[List["_models.AdvancedFilter"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword subject_begins_with: An optional string to filter events for an event subscription
          based on a resource path prefix.
@@ -1545,7 +1555,7 @@ class EventSubscriptionFullUrl(_serialization.Model):
         "endpoint_url": {"key": "endpointUrl", "type": "str"},
     }
 
-    def __init__(self, *, endpoint_url: Optional[str] = None, **kwargs):
+    def __init__(self, *, endpoint_url: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword endpoint_url: The URL that represents the endpoint of the destination of an event
          subscription.
@@ -1576,8 +1586,8 @@ class EventSubscriptionIdentity(_serialization.Model):
         *,
         type: Optional[Union[str, "_models.EventSubscriptionIdentityType"]] = None,
         user_assigned_identity: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword type: The type of managed identity used. The type 'SystemAssigned, UserAssigned'
          includes both an implicitly created identity and a set of user-assigned identities. The type
@@ -1606,8 +1616,12 @@ class EventSubscriptionsListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.EventSubscription"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self,
+        *,
+        value: Optional[List["_models.EventSubscription"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: A collection of EventSubscriptions.
         :paramtype value: list[~azure.mgmt.eventgrid.models.EventSubscription]
@@ -1689,8 +1703,8 @@ class EventSubscriptionUpdateParameters(_serialization.Model):
         retry_policy: Optional["_models.RetryPolicy"] = None,
         dead_letter_destination: Optional["_models.DeadLetterDestination"] = None,
         dead_letter_with_resource_identity: Optional["_models.DeadLetterWithResourceIdentity"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword destination: Information about the destination where events have to be delivered for
          the event subscription.
@@ -1784,8 +1798,8 @@ class EventType(Resource):
         description: Optional[str] = None,
         schema_url: Optional[str] = None,
         is_in_default_set: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword display_name: Display name of the event type.
         :paramtype display_name: str
@@ -1826,8 +1840,8 @@ class EventTypeInfo(_serialization.Model):
         *,
         kind: Optional[Union[str, "_models.EventDefinitionKind"]] = None,
         inline_event_types: Optional[Dict[str, "_models.InlineEventProperties"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword kind: The kind of event type used. "Inline"
         :paramtype kind: str or ~azure.mgmt.eventgrid.models.EventDefinitionKind
@@ -1854,7 +1868,7 @@ class EventTypesListResult(_serialization.Model):
         "value": {"key": "value", "type": "[EventType]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.EventType"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.EventType"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: A collection of event types.
         :paramtype value: list[~azure.mgmt.eventgrid.models.EventType]
@@ -1864,7 +1878,8 @@ class EventTypesListResult(_serialization.Model):
 
 
 class ExtensionTopic(Resource):
-    """Event grid Extension Topic. This is used for getting Event Grid related metrics for Azure resources.
+    """Event grid Extension Topic. This is used for getting Event Grid related metrics for Azure
+    resources.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -1898,7 +1913,7 @@ class ExtensionTopic(Resource):
         "system_topic": {"key": "properties.systemTopic", "type": "str"},
     }
 
-    def __init__(self, *, description: Optional[str] = None, system_topic: Optional[str] = None, **kwargs):
+    def __init__(self, *, description: Optional[str] = None, system_topic: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword description: Description of the extension topic.
         :paramtype description: str
@@ -1946,8 +1961,8 @@ class HybridConnectionEventSubscriptionDestination(EventSubscriptionDestination)
         *,
         resource_id: Optional[str] = None,
         delivery_attribute_mappings: Optional[List["_models.DeliveryAttributeMapping"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword resource_id: The Azure Resource ID of an hybrid connection that is the destination of
          an event subscription.
@@ -1996,8 +2011,8 @@ class IdentityInfo(_serialization.Model):
         principal_id: Optional[str] = None,
         tenant_id: Optional[str] = None,
         user_assigned_identities: Optional[Dict[str, "_models.UserIdentityProperties"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword type: The type of managed identity used. The type 'SystemAssigned, UserAssigned'
          includes both an implicitly created identity and a set of user-assigned identities. The type
@@ -2037,8 +2052,12 @@ class InboundIpRule(_serialization.Model):
     }
 
     def __init__(
-        self, *, ip_mask: Optional[str] = None, action: Optional[Union[str, "_models.IpActionType"]] = None, **kwargs
-    ):
+        self,
+        *,
+        ip_mask: Optional[str] = None,
+        action: Optional[Union[str, "_models.IpActionType"]] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword ip_mask: IP Address in CIDR notation e.g., 10.0.0.0/8.
         :paramtype ip_mask: str
@@ -2077,8 +2096,8 @@ class InlineEventProperties(_serialization.Model):
         display_name: Optional[str] = None,
         documentation_url: Optional[str] = None,
         data_schema_url: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword description: The description for the inline event.
         :paramtype description: str
@@ -2097,7 +2116,9 @@ class InlineEventProperties(_serialization.Model):
 
 
 class InputSchemaMapping(_serialization.Model):
-    """By default, Event Grid expects events to be in the Event Grid event schema. Specifying an input schema mapping enables publishing to Event Grid using a custom input schema. Currently, the only supported type of InputSchemaMapping is 'JsonInputSchemaMapping'.
+    """By default, Event Grid expects events to be in the Event Grid event schema. Specifying an input
+    schema mapping enables publishing to Event Grid using a custom input schema. Currently, the
+    only supported type of InputSchemaMapping is 'JsonInputSchemaMapping'.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     JsonInputSchemaMapping
@@ -2118,7 +2139,7 @@ class InputSchemaMapping(_serialization.Model):
 
     _subtype_map = {"input_schema_mapping_type": {"Json": "JsonInputSchemaMapping"}}
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.input_schema_mapping_type: Optional[str] = None
@@ -2149,7 +2170,7 @@ class IsNotNullAdvancedFilter(AdvancedFilter):
         "key": {"key": "key", "type": "str"},
     }
 
-    def __init__(self, *, key: Optional[str] = None, **kwargs):
+    def __init__(self, *, key: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword key: The field/property in the event based on which you want to filter.
         :paramtype key: str
@@ -2183,7 +2204,7 @@ class IsNullOrUndefinedAdvancedFilter(AdvancedFilter):
         "key": {"key": "key", "type": "str"},
     }
 
-    def __init__(self, *, key: Optional[str] = None, **kwargs):
+    def __init__(self, *, key: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword key: The field/property in the event based on which you want to filter.
         :paramtype key: str
@@ -2193,7 +2214,9 @@ class IsNullOrUndefinedAdvancedFilter(AdvancedFilter):
 
 
 class JsonField(_serialization.Model):
-    """This is used to express the source of an input schema mapping for a single target field in the Event Grid Event schema. This is currently used in the mappings for the 'id', 'topic' and 'eventtime' properties. This represents a field in the input event schema.
+    """This is used to express the source of an input schema mapping for a single target field in the
+    Event Grid Event schema. This is currently used in the mappings for the 'id', 'topic' and
+    'eventtime' properties. This represents a field in the input event schema.
 
     :ivar source_field: Name of a field in the input event schema that's to be used as the source
      of a mapping.
@@ -2204,7 +2227,7 @@ class JsonField(_serialization.Model):
         "source_field": {"key": "sourceField", "type": "str"},
     }
 
-    def __init__(self, *, source_field: Optional[str] = None, **kwargs):
+    def __init__(self, *, source_field: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword source_field: Name of a field in the input event schema that's to be used as the
          source of a mapping.
@@ -2218,14 +2241,15 @@ class JsonFieldWithDefault(_serialization.Model):
     """This is used to express the source of an input schema mapping for a single target field
     in the Event Grid Event schema. This is currently used in the mappings for the 'subject',
     'eventtype' and 'dataversion' properties. This represents a field in the input event schema
-    along with a default value to be used, and at least one of these two properties should be provided.
+    along with a default value to be used, and at least one of these two properties should be
+    provided.
 
-        :ivar source_field: Name of a field in the input event schema that's to be used as the source
-         of a mapping.
-        :vartype source_field: str
-        :ivar default_value: The default value to be used for mapping when a SourceField is not
-         provided or if there's no property with the specified name in the published JSON event payload.
-        :vartype default_value: str
+    :ivar source_field: Name of a field in the input event schema that's to be used as the source
+     of a mapping.
+    :vartype source_field: str
+    :ivar default_value: The default value to be used for mapping when a SourceField is not
+     provided or if there's no property with the specified name in the published JSON event payload.
+    :vartype default_value: str
     """
 
     _attribute_map = {
@@ -2233,7 +2257,9 @@ class JsonFieldWithDefault(_serialization.Model):
         "default_value": {"key": "defaultValue", "type": "str"},
     }
 
-    def __init__(self, *, source_field: Optional[str] = None, default_value: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, source_field: Optional[str] = None, default_value: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword source_field: Name of a field in the input event schema that's to be used as the
          source of a mapping.
@@ -2248,7 +2274,8 @@ class JsonFieldWithDefault(_serialization.Model):
 
 
 class JsonInputSchemaMapping(InputSchemaMapping):
-    """This enables publishing to Event Grid using a custom input schema. This can be used to map properties from a custom input JSON schema to the Event Grid event schema.
+    """This enables publishing to Event Grid using a custom input schema. This can be used to map
+    properties from a custom input JSON schema to the Event Grid event schema.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -2292,8 +2319,8 @@ class JsonInputSchemaMapping(InputSchemaMapping):
         event_type: Optional["_models.JsonFieldWithDefault"] = None,
         subject: Optional["_models.JsonFieldWithDefault"] = None,
         data_version: Optional["_models.JsonFieldWithDefault"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: The mapping information for the Id property of the Event Grid Event.
         :paramtype id: ~azure.mgmt.eventgrid.models.JsonField
@@ -2349,7 +2376,7 @@ class NumberGreaterThanAdvancedFilter(AdvancedFilter):
         "value": {"key": "value", "type": "float"},
     }
 
-    def __init__(self, *, key: Optional[str] = None, value: Optional[float] = None, **kwargs):
+    def __init__(self, *, key: Optional[str] = None, value: Optional[float] = None, **kwargs: Any) -> None:
         """
         :keyword key: The field/property in the event based on which you want to filter.
         :paramtype key: str
@@ -2389,7 +2416,7 @@ class NumberGreaterThanOrEqualsAdvancedFilter(AdvancedFilter):
         "value": {"key": "value", "type": "float"},
     }
 
-    def __init__(self, *, key: Optional[str] = None, value: Optional[float] = None, **kwargs):
+    def __init__(self, *, key: Optional[str] = None, value: Optional[float] = None, **kwargs: Any) -> None:
         """
         :keyword key: The field/property in the event based on which you want to filter.
         :paramtype key: str
@@ -2429,7 +2456,7 @@ class NumberInAdvancedFilter(AdvancedFilter):
         "values": {"key": "values", "type": "[float]"},
     }
 
-    def __init__(self, *, key: Optional[str] = None, values: Optional[List[float]] = None, **kwargs):
+    def __init__(self, *, key: Optional[str] = None, values: Optional[List[float]] = None, **kwargs: Any) -> None:
         """
         :keyword key: The field/property in the event based on which you want to filter.
         :paramtype key: str
@@ -2469,7 +2496,7 @@ class NumberInRangeAdvancedFilter(AdvancedFilter):
         "values": {"key": "values", "type": "[[float]]"},
     }
 
-    def __init__(self, *, key: Optional[str] = None, values: Optional[List[List[float]]] = None, **kwargs):
+    def __init__(self, *, key: Optional[str] = None, values: Optional[List[List[float]]] = None, **kwargs: Any) -> None:
         """
         :keyword key: The field/property in the event based on which you want to filter.
         :paramtype key: str
@@ -2509,7 +2536,7 @@ class NumberLessThanAdvancedFilter(AdvancedFilter):
         "value": {"key": "value", "type": "float"},
     }
 
-    def __init__(self, *, key: Optional[str] = None, value: Optional[float] = None, **kwargs):
+    def __init__(self, *, key: Optional[str] = None, value: Optional[float] = None, **kwargs: Any) -> None:
         """
         :keyword key: The field/property in the event based on which you want to filter.
         :paramtype key: str
@@ -2549,7 +2576,7 @@ class NumberLessThanOrEqualsAdvancedFilter(AdvancedFilter):
         "value": {"key": "value", "type": "float"},
     }
 
-    def __init__(self, *, key: Optional[str] = None, value: Optional[float] = None, **kwargs):
+    def __init__(self, *, key: Optional[str] = None, value: Optional[float] = None, **kwargs: Any) -> None:
         """
         :keyword key: The field/property in the event based on which you want to filter.
         :paramtype key: str
@@ -2589,7 +2616,7 @@ class NumberNotInAdvancedFilter(AdvancedFilter):
         "values": {"key": "values", "type": "[float]"},
     }
 
-    def __init__(self, *, key: Optional[str] = None, values: Optional[List[float]] = None, **kwargs):
+    def __init__(self, *, key: Optional[str] = None, values: Optional[List[float]] = None, **kwargs: Any) -> None:
         """
         :keyword key: The field/property in the event based on which you want to filter.
         :paramtype key: str
@@ -2629,7 +2656,7 @@ class NumberNotInRangeAdvancedFilter(AdvancedFilter):
         "values": {"key": "values", "type": "[[float]]"},
     }
 
-    def __init__(self, *, key: Optional[str] = None, values: Optional[List[List[float]]] = None, **kwargs):
+    def __init__(self, *, key: Optional[str] = None, values: Optional[List[List[float]]] = None, **kwargs: Any) -> None:
         """
         :keyword key: The field/property in the event based on which you want to filter.
         :paramtype key: str
@@ -2673,8 +2700,8 @@ class Operation(_serialization.Model):
         origin: Optional[str] = None,
         is_data_action: Optional[bool] = None,
         properties: Optional[JSON] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Name of the operation.
         :paramtype name: str
@@ -2723,8 +2750,8 @@ class OperationInfo(_serialization.Model):
         resource: Optional[str] = None,
         operation: Optional[str] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword provider: Name of the provider.
         :paramtype provider: str
@@ -2753,7 +2780,7 @@ class OperationsListResult(_serialization.Model):
         "value": {"key": "value", "type": "[Operation]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Operation"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.Operation"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: A collection of operations.
         :paramtype value: list[~azure.mgmt.eventgrid.models.Operation]
@@ -2792,8 +2819,8 @@ class Partner(_serialization.Model):
         partner_registration_immutable_id: Optional[str] = None,
         partner_name: Optional[str] = None,
         authorization_expiration_time_in_utc: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword partner_registration_immutable_id: The immutableId of the corresponding partner
          registration.
@@ -2836,8 +2863,8 @@ class PartnerAuthorization(_serialization.Model):
         *,
         default_maximum_expiration_time_in_days: Optional[int] = None,
         authorized_partners_list: Optional[List["_models.Partner"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword default_maximum_expiration_time_in_days: Time used to validate the authorization
          expiration time for each authorized partner. If DefaultMaximumExpirationTimeInDays is
@@ -2901,8 +2928,8 @@ class PartnerConfiguration(Resource):
         tags: Optional[Dict[str, str]] = None,
         partner_authorization: Optional["_models.PartnerAuthorization"] = None,
         provisioning_state: Optional[Union[str, "_models.PartnerConfigurationProvisioningState"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Location of the resource.
         :paramtype location: str
@@ -2938,8 +2965,12 @@ class PartnerConfigurationsListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.PartnerConfiguration"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self,
+        *,
+        value: Optional[List["_models.PartnerConfiguration"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: A collection of partner configurations.
         :paramtype value: list[~azure.mgmt.eventgrid.models.PartnerConfiguration]
@@ -2974,8 +3005,8 @@ class PartnerConfigurationUpdateParameters(_serialization.Model):
         *,
         tags: Optional[Dict[str, str]] = None,
         default_maximum_expiration_time_in_days: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Tags of the partner configuration resource.
         :paramtype tags: dict[str, str]
@@ -3015,8 +3046,8 @@ class PartnerDetails(_serialization.Model):
         description: Optional[str] = None,
         long_description: Optional[str] = None,
         setup_uri: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword description: This is short description about the partner. The length of this
          description should not exceed 256 characters.
@@ -3134,8 +3165,8 @@ class PartnerNamespace(TrackedResource):  # pylint: disable=too-many-instance-at
         inbound_ip_rules: Optional[List["_models.InboundIpRule"]] = None,
         disable_local_auth: bool = False,
         partner_topic_routing_mode: Union[str, "_models.PartnerTopicRoutingMode"] = "SourceEventAttribute",
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Location of the resource. Required.
         :paramtype location: str
@@ -3196,7 +3227,7 @@ class PartnerNamespaceRegenerateKeyRequest(_serialization.Model):
         "key_name": {"key": "keyName", "type": "str"},
     }
 
-    def __init__(self, *, key_name: str, **kwargs):
+    def __init__(self, *, key_name: str, **kwargs: Any) -> None:
         """
         :keyword key_name: Key name to regenerate (key1 or key2). Required.
         :paramtype key_name: str
@@ -3219,7 +3250,7 @@ class PartnerNamespaceSharedAccessKeys(_serialization.Model):
         "key2": {"key": "key2", "type": "str"},
     }
 
-    def __init__(self, *, key1: Optional[str] = None, key2: Optional[str] = None, **kwargs):
+    def __init__(self, *, key1: Optional[str] = None, key2: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword key1: Shared access key1 for the partner namespace.
         :paramtype key1: str
@@ -3246,8 +3277,12 @@ class PartnerNamespacesListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.PartnerNamespace"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self,
+        *,
+        value: Optional[List["_models.PartnerNamespace"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: A collection of partner namespaces.
         :paramtype value: list[~azure.mgmt.eventgrid.models.PartnerNamespace]
@@ -3293,8 +3328,8 @@ class PartnerNamespaceUpdateParameters(_serialization.Model):
         public_network_access: Optional[Union[str, "_models.PublicNetworkAccess"]] = None,
         inbound_ip_rules: Optional[List["_models.InboundIpRule"]] = None,
         disable_local_auth: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Tags of the Partner Namespace.
         :paramtype tags: dict[str, str]
@@ -3375,8 +3410,8 @@ class PartnerRegistration(TrackedResource):
         location: str,
         tags: Optional[Dict[str, str]] = None,
         partner_registration_immutable_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Location of the resource. Required.
         :paramtype location: str
@@ -3409,8 +3444,12 @@ class PartnerRegistrationsListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.PartnerRegistration"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self,
+        *,
+        value: Optional[List["_models.PartnerRegistration"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: A collection of partner registrations.
         :paramtype value: list[~azure.mgmt.eventgrid.models.PartnerRegistration]
@@ -3433,7 +3472,7 @@ class PartnerRegistrationUpdateParameters(_serialization.Model):
         "tags": {"key": "tags", "type": "{str}"},
     }
 
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword tags: Tags of the partner registration resource.
         :paramtype tags: dict[str, str]
@@ -3535,8 +3574,8 @@ class PartnerTopic(TrackedResource):  # pylint: disable=too-many-instance-attrib
         activation_state: Optional[Union[str, "_models.PartnerTopicActivationState"]] = None,
         partner_topic_friendly_description: Optional[str] = None,
         message_for_activation: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Location of the resource. Required.
         :paramtype location: str
@@ -3622,8 +3661,8 @@ class PartnerTopicInfo(_serialization.Model):
         name: Optional[str] = None,
         event_type_info: Optional["_models.EventTypeInfo"] = None,
         source: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword azure_subscription_id: Azure subscription ID of the subscriber. The partner topic
          associated with the channel will be
@@ -3669,8 +3708,8 @@ class PartnerTopicsListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.PartnerTopic"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.PartnerTopic"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: A collection of partner topics.
         :paramtype value: list[~azure.mgmt.eventgrid.models.PartnerTopic]
@@ -3697,8 +3736,8 @@ class PartnerTopicUpdateParameters(_serialization.Model):
     }
 
     def __init__(
-        self, *, tags: Optional[Dict[str, str]] = None, identity: Optional["_models.IdentityInfo"] = None, **kwargs
-    ):
+        self, *, tags: Optional[Dict[str, str]] = None, identity: Optional["_models.IdentityInfo"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Tags of the Partner Topic resource.
         :paramtype tags: dict[str, str]
@@ -3721,7 +3760,7 @@ class PartnerUpdateTopicInfo(_serialization.Model):
         "event_type_info": {"key": "eventTypeInfo", "type": "EventTypeInfo"},
     }
 
-    def __init__(self, *, event_type_info: Optional["_models.EventTypeInfo"] = None, **kwargs):
+    def __init__(self, *, event_type_info: Optional["_models.EventTypeInfo"] = None, **kwargs: Any) -> None:
         """
         :keyword event_type_info: Event type info for the partner topic.
         :paramtype event_type_info: ~azure.mgmt.eventgrid.models.EventTypeInfo
@@ -3741,7 +3780,7 @@ class PrivateEndpoint(_serialization.Model):
         "id": {"key": "id", "type": "str"},
     }
 
-    def __init__(self, *, id: Optional[str] = None, **kwargs):  # pylint: disable=redefined-builtin
+    def __init__(self, *, id: Optional[str] = None, **kwargs: Any) -> None:  # pylint: disable=redefined-builtin
         """
         :keyword id: The ARM identifier for Private Endpoint.
         :paramtype id: str
@@ -3798,8 +3837,8 @@ class PrivateEndpointConnection(Resource):
         group_ids: Optional[List[str]] = None,
         private_link_service_connection_state: Optional["_models.ConnectionState"] = None,
         provisioning_state: Optional[Union[str, "_models.ResourceProvisioningState"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword private_endpoint: The Private Endpoint resource for this Connection.
         :paramtype private_endpoint: ~azure.mgmt.eventgrid.models.PrivateEndpoint
@@ -3837,8 +3876,8 @@ class PrivateEndpointConnectionListResult(_serialization.Model):
         *,
         value: Optional[List["_models.PrivateEndpointConnection"]] = None,
         next_link: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: A collection of private endpoint connection resources.
         :paramtype value: list[~azure.mgmt.eventgrid.models.PrivateEndpointConnection]
@@ -3889,8 +3928,8 @@ class PrivateLinkResource(_serialization.Model):
         display_name: Optional[str] = None,
         required_members: Optional[List[str]] = None,
         required_zone_names: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: Fully qualified identifier of the resource.
         :paramtype id: str
@@ -3932,8 +3971,12 @@ class PrivateLinkResourcesListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.PrivateLinkResource"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self,
+        *,
+        value: Optional[List["_models.PrivateLinkResource"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: A collection of private link resources.
         :paramtype value: list[~azure.mgmt.eventgrid.models.PrivateLinkResource]
@@ -3959,7 +4002,9 @@ class RetryPolicy(_serialization.Model):
         "event_time_to_live_in_minutes": {"key": "eventTimeToLiveInMinutes", "type": "int"},
     }
 
-    def __init__(self, *, max_delivery_attempts: int = 30, event_time_to_live_in_minutes: int = 1440, **kwargs):
+    def __init__(
+        self, *, max_delivery_attempts: int = 30, event_time_to_live_in_minutes: int = 1440, **kwargs: Any
+    ) -> None:
         """
         :keyword max_delivery_attempts: Maximum number of delivery retry attempts for events.
         :paramtype max_delivery_attempts: int
@@ -4006,8 +4051,8 @@ class ServiceBusQueueEventSubscriptionDestination(EventSubscriptionDestination):
         *,
         resource_id: Optional[str] = None,
         delivery_attribute_mappings: Optional[List["_models.DeliveryAttributeMapping"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword resource_id: The Azure Resource Id that represents the endpoint of the Service Bus
          destination of an event subscription.
@@ -4057,8 +4102,8 @@ class ServiceBusTopicEventSubscriptionDestination(EventSubscriptionDestination):
         *,
         resource_id: Optional[str] = None,
         delivery_attribute_mappings: Optional[List["_models.DeliveryAttributeMapping"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword resource_id: The Azure Resource Id that represents the endpoint of the Service Bus
          Topic destination of an event subscription.
@@ -4100,7 +4145,9 @@ class StaticDeliveryAttributeMapping(DeliveryAttributeMapping):
         "is_secret": {"key": "properties.isSecret", "type": "bool"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, value: Optional[str] = None, is_secret: bool = False, **kwargs):
+    def __init__(
+        self, *, name: Optional[str] = None, value: Optional[str] = None, is_secret: bool = False, **kwargs: Any
+    ) -> None:
         """
         :keyword name: Name of the delivery attribute or header.
         :paramtype name: str
@@ -4141,7 +4188,9 @@ class StorageBlobDeadLetterDestination(DeadLetterDestination):
         "blob_container_name": {"key": "properties.blobContainerName", "type": "str"},
     }
 
-    def __init__(self, *, resource_id: Optional[str] = None, blob_container_name: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, resource_id: Optional[str] = None, blob_container_name: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword resource_id: The Azure Resource ID of the storage account that is the destination of
          the deadletter events.
@@ -4192,8 +4241,8 @@ class StorageQueueEventSubscriptionDestination(EventSubscriptionDestination):
         resource_id: Optional[str] = None,
         queue_name: Optional[str] = None,
         queue_message_time_to_live_in_seconds: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword resource_id: The Azure Resource ID of the storage account that contains the queue that
          is the destination of an event subscription.
@@ -4239,7 +4288,7 @@ class StringBeginsWithAdvancedFilter(AdvancedFilter):
         "values": {"key": "values", "type": "[str]"},
     }
 
-    def __init__(self, *, key: Optional[str] = None, values: Optional[List[str]] = None, **kwargs):
+    def __init__(self, *, key: Optional[str] = None, values: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
         :keyword key: The field/property in the event based on which you want to filter.
         :paramtype key: str
@@ -4279,7 +4328,7 @@ class StringContainsAdvancedFilter(AdvancedFilter):
         "values": {"key": "values", "type": "[str]"},
     }
 
-    def __init__(self, *, key: Optional[str] = None, values: Optional[List[str]] = None, **kwargs):
+    def __init__(self, *, key: Optional[str] = None, values: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
         :keyword key: The field/property in the event based on which you want to filter.
         :paramtype key: str
@@ -4319,7 +4368,7 @@ class StringEndsWithAdvancedFilter(AdvancedFilter):
         "values": {"key": "values", "type": "[str]"},
     }
 
-    def __init__(self, *, key: Optional[str] = None, values: Optional[List[str]] = None, **kwargs):
+    def __init__(self, *, key: Optional[str] = None, values: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
         :keyword key: The field/property in the event based on which you want to filter.
         :paramtype key: str
@@ -4359,7 +4408,7 @@ class StringInAdvancedFilter(AdvancedFilter):
         "values": {"key": "values", "type": "[str]"},
     }
 
-    def __init__(self, *, key: Optional[str] = None, values: Optional[List[str]] = None, **kwargs):
+    def __init__(self, *, key: Optional[str] = None, values: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
         :keyword key: The field/property in the event based on which you want to filter.
         :paramtype key: str
@@ -4399,7 +4448,7 @@ class StringNotBeginsWithAdvancedFilter(AdvancedFilter):
         "values": {"key": "values", "type": "[str]"},
     }
 
-    def __init__(self, *, key: Optional[str] = None, values: Optional[List[str]] = None, **kwargs):
+    def __init__(self, *, key: Optional[str] = None, values: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
         :keyword key: The field/property in the event based on which you want to filter.
         :paramtype key: str
@@ -4439,7 +4488,7 @@ class StringNotContainsAdvancedFilter(AdvancedFilter):
         "values": {"key": "values", "type": "[str]"},
     }
 
-    def __init__(self, *, key: Optional[str] = None, values: Optional[List[str]] = None, **kwargs):
+    def __init__(self, *, key: Optional[str] = None, values: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
         :keyword key: The field/property in the event based on which you want to filter.
         :paramtype key: str
@@ -4479,7 +4528,7 @@ class StringNotEndsWithAdvancedFilter(AdvancedFilter):
         "values": {"key": "values", "type": "[str]"},
     }
 
-    def __init__(self, *, key: Optional[str] = None, values: Optional[List[str]] = None, **kwargs):
+    def __init__(self, *, key: Optional[str] = None, values: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
         :keyword key: The field/property in the event based on which you want to filter.
         :paramtype key: str
@@ -4519,7 +4568,7 @@ class StringNotInAdvancedFilter(AdvancedFilter):
         "values": {"key": "values", "type": "[str]"},
     }
 
-    def __init__(self, *, key: Optional[str] = None, values: Optional[List[str]] = None, **kwargs):
+    def __init__(self, *, key: Optional[str] = None, values: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
         :keyword key: The field/property in the event based on which you want to filter.
         :paramtype key: str
@@ -4568,8 +4617,8 @@ class SystemData(_serialization.Model):
         last_modified_by: Optional[str] = None,
         last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
         last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword created_by: The identity that created the resource.
         :paramtype created_by: str
@@ -4659,8 +4708,8 @@ class SystemTopic(TrackedResource):  # pylint: disable=too-many-instance-attribu
         identity: Optional["_models.IdentityInfo"] = None,
         source: Optional[str] = None,
         topic_type: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Location of the resource. Required.
         :paramtype location: str
@@ -4697,8 +4746,8 @@ class SystemTopicsListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.SystemTopic"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.SystemTopic"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: A collection of system Topics.
         :paramtype value: list[~azure.mgmt.eventgrid.models.SystemTopic]
@@ -4725,8 +4774,8 @@ class SystemTopicUpdateParameters(_serialization.Model):
     }
 
     def __init__(
-        self, *, tags: Optional[Dict[str, str]] = None, identity: Optional["_models.IdentityInfo"] = None, **kwargs
-    ):
+        self, *, tags: Optional[Dict[str, str]] = None, identity: Optional["_models.IdentityInfo"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Tags of the system topic.
         :paramtype tags: dict[str, str]
@@ -4842,8 +4891,8 @@ class Topic(TrackedResource):  # pylint: disable=too-many-instance-attributes
         inbound_ip_rules: Optional[List["_models.InboundIpRule"]] = None,
         disable_local_auth: bool = False,
         data_residency_boundary: Optional[Union[str, "_models.DataResidencyBoundary"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Location of the resource. Required.
         :paramtype location: str
@@ -4908,7 +4957,7 @@ class TopicRegenerateKeyRequest(_serialization.Model):
         "key_name": {"key": "keyName", "type": "str"},
     }
 
-    def __init__(self, *, key_name: str, **kwargs):
+    def __init__(self, *, key_name: str, **kwargs: Any) -> None:
         """
         :keyword key_name: Key name to regenerate key1 or key2. Required.
         :paramtype key_name: str
@@ -4931,7 +4980,7 @@ class TopicSharedAccessKeys(_serialization.Model):
         "key2": {"key": "key2", "type": "str"},
     }
 
-    def __init__(self, *, key1: Optional[str] = None, key2: Optional[str] = None, **kwargs):
+    def __init__(self, *, key1: Optional[str] = None, key2: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword key1: Shared access key1 for the topic.
         :paramtype key1: str
@@ -4957,7 +5006,9 @@ class TopicsListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Topic"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.Topic"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: A collection of Topics.
         :paramtype value: list[~azure.mgmt.eventgrid.models.Topic]
@@ -5032,8 +5083,8 @@ class TopicTypeInfo(Resource):  # pylint: disable=too-many-instance-attributes
         supported_locations: Optional[List[str]] = None,
         source_resource_format: Optional[str] = None,
         supported_scopes_for_source: Optional[List[Union[str, "_models.TopicTypeSourceScope"]]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword provider: Namespace of the provider of the topic type.
         :paramtype provider: str
@@ -5077,7 +5128,7 @@ class TopicTypesListResult(_serialization.Model):
         "value": {"key": "value", "type": "[TopicTypeInfo]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.TopicTypeInfo"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.TopicTypeInfo"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: A collection of topic types.
         :paramtype value: list[~azure.mgmt.eventgrid.models.TopicTypeInfo]
@@ -5129,8 +5180,8 @@ class TopicUpdateParameters(_serialization.Model):
         inbound_ip_rules: Optional[List["_models.InboundIpRule"]] = None,
         disable_local_auth: Optional[bool] = None,
         data_residency_boundary: Optional[Union[str, "_models.DataResidencyBoundary"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Tags of the Topic resource.
         :paramtype tags: dict[str, str]
@@ -5176,7 +5227,7 @@ class UserIdentityProperties(_serialization.Model):
         "client_id": {"key": "clientId", "type": "str"},
     }
 
-    def __init__(self, *, principal_id: Optional[str] = None, client_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, principal_id: Optional[str] = None, client_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword principal_id: The principal id of user assigned identity.
         :paramtype principal_id: str
@@ -5242,8 +5293,8 @@ class VerifiedPartner(Resource):
         partner_display_name: Optional[str] = None,
         partner_topic_details: Optional["_models.PartnerDetails"] = None,
         provisioning_state: Optional[Union[str, "_models.VerifiedPartnerProvisioningState"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword partner_registration_immutable_id: ImmutableId of the corresponding partner
          registration.
@@ -5283,8 +5334,8 @@ class VerifiedPartnersListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.VerifiedPartner"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.VerifiedPartner"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: A collection of verified partners.
         :paramtype value: list[~azure.mgmt.eventgrid.models.VerifiedPartner]
@@ -5359,8 +5410,8 @@ class WebHookEventSubscriptionDestination(EventSubscriptionDestination):
         azure_active_directory_tenant_id: Optional[str] = None,
         azure_active_directory_application_id_or_uri: Optional[str] = None,
         delivery_attribute_mappings: Optional[List["_models.DeliveryAttributeMapping"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword endpoint_url: The URL that represents the endpoint of the destination of an event
          subscription.

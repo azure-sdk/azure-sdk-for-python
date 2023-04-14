@@ -27,6 +27,7 @@ def main():
     client = EventGridManagementClient(
         credential=DefaultAzureCredential(),
         subscription_id="5b4b650e-28b9-4790-b3ab-ddbd88d727c4",
+        parent_type="PARENT_TYPE",
     )
 
     response = client.topics.list_by_subscription()

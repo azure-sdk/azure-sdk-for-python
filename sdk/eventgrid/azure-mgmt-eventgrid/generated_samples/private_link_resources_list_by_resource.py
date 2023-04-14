@@ -27,11 +27,11 @@ def main():
     client = EventGridManagementClient(
         credential=DefaultAzureCredential(),
         subscription_id="5b4b650e-28b9-4790-b3ab-ddbd88d727c4",
+        parent_type="topics",
     )
 
     response = client.private_link_resources.list_by_resource(
         resource_group_name="examplerg",
-        parent_type="topics",
         parent_name="exampletopic1",
     )
     for item in response:
