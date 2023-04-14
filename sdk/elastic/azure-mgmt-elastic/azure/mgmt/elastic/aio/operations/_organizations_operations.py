@@ -25,20 +25,20 @@ from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from ... import models as _models
 from ..._vendor import _convert_request
-from ...operations._external_user_operations import build_create_or_update_request
+from ...operations._organizations_operations import build_get_api_key_request
 
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
 
-class ExternalUserOperations:
+class OrganizationsOperations:
     """
     .. warning::
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
         :class:`~azure.mgmt.elastic.aio.MicrosoftElastic`'s
-        :attr:`external_user` attribute.
+        :attr:`organizations` attribute.
     """
 
     models = _models
@@ -51,97 +51,68 @@ class ExternalUserOperations:
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @overload
-    async def create_or_update(
-        self,
-        resource_group_name: str,
-        monitor_name: str,
-        body: Optional[_models.ExternalUserInfo] = None,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> _models.ExternalUserCreationResponse:
-        """Create User inside elastic deployment which are used by customers to perform operations on the
-        elastic deployment.
+    async def get_api_key(
+        self, body: Optional[_models.UserEmailId] = None, *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.UserApiKeyResponse:
+        """Fetch User API Key from internal database, if it was generated and stored while creating the
+        Elasticsearch Organization.
 
-        Create User inside elastic deployment which are used by customers to perform operations on the
-        elastic deployment.
+        Fetch User API Key from internal database, if it was generated and stored while creating the
+        Elasticsearch Organization.
 
-        :param resource_group_name: The name of the resource group to which the Elastic resource
-         belongs. Required.
-        :type resource_group_name: str
-        :param monitor_name: Monitor resource name. Required.
-        :type monitor_name: str
-        :param body: Elastic External User Creation Parameters. Default value is None.
-        :type body: ~azure.mgmt.elastic.models.ExternalUserInfo
+        :param body: Email Id parameter of the User Organization, of which the API Key must be
+         returned. Default value is None.
+        :type body: ~azure.mgmt.elastic.models.UserEmailId
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: ExternalUserCreationResponse or the result of cls(response)
-        :rtype: ~azure.mgmt.elastic.models.ExternalUserCreationResponse
+        :return: UserApiKeyResponse or the result of cls(response)
+        :rtype: ~azure.mgmt.elastic.models.UserApiKeyResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    async def create_or_update(
-        self,
-        resource_group_name: str,
-        monitor_name: str,
-        body: Optional[IO] = None,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> _models.ExternalUserCreationResponse:
-        """Create User inside elastic deployment which are used by customers to perform operations on the
-        elastic deployment.
+    async def get_api_key(
+        self, body: Optional[IO] = None, *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.UserApiKeyResponse:
+        """Fetch User API Key from internal database, if it was generated and stored while creating the
+        Elasticsearch Organization.
 
-        Create User inside elastic deployment which are used by customers to perform operations on the
-        elastic deployment.
+        Fetch User API Key from internal database, if it was generated and stored while creating the
+        Elasticsearch Organization.
 
-        :param resource_group_name: The name of the resource group to which the Elastic resource
-         belongs. Required.
-        :type resource_group_name: str
-        :param monitor_name: Monitor resource name. Required.
-        :type monitor_name: str
-        :param body: Elastic External User Creation Parameters. Default value is None.
+        :param body: Email Id parameter of the User Organization, of which the API Key must be
+         returned. Default value is None.
         :type body: IO
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: ExternalUserCreationResponse or the result of cls(response)
-        :rtype: ~azure.mgmt.elastic.models.ExternalUserCreationResponse
+        :return: UserApiKeyResponse or the result of cls(response)
+        :rtype: ~azure.mgmt.elastic.models.UserApiKeyResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @distributed_trace_async
-    async def create_or_update(
-        self,
-        resource_group_name: str,
-        monitor_name: str,
-        body: Optional[Union[_models.ExternalUserInfo, IO]] = None,
-        **kwargs: Any
-    ) -> _models.ExternalUserCreationResponse:
-        """Create User inside elastic deployment which are used by customers to perform operations on the
-        elastic deployment.
+    async def get_api_key(
+        self, body: Optional[Union[_models.UserEmailId, IO]] = None, **kwargs: Any
+    ) -> _models.UserApiKeyResponse:
+        """Fetch User API Key from internal database, if it was generated and stored while creating the
+        Elasticsearch Organization.
 
-        Create User inside elastic deployment which are used by customers to perform operations on the
-        elastic deployment.
+        Fetch User API Key from internal database, if it was generated and stored while creating the
+        Elasticsearch Organization.
 
-        :param resource_group_name: The name of the resource group to which the Elastic resource
-         belongs. Required.
-        :type resource_group_name: str
-        :param monitor_name: Monitor resource name. Required.
-        :type monitor_name: str
-        :param body: Elastic External User Creation Parameters. Is either a ExternalUserInfo type or a
-         IO type. Default value is None.
-        :type body: ~azure.mgmt.elastic.models.ExternalUserInfo or IO
+        :param body: Email Id parameter of the User Organization, of which the API Key must be
+         returned. Is either a UserEmailId type or a IO type. Default value is None.
+        :type body: ~azure.mgmt.elastic.models.UserEmailId or IO
         :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
          Default value is None.
         :paramtype content_type: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: ExternalUserCreationResponse or the result of cls(response)
-        :rtype: ~azure.mgmt.elastic.models.ExternalUserCreationResponse
+        :return: UserApiKeyResponse or the result of cls(response)
+        :rtype: ~azure.mgmt.elastic.models.UserApiKeyResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map = {
@@ -157,7 +128,7 @@ class ExternalUserOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.ExternalUserCreationResponse] = kwargs.pop("cls", None)
+        cls: ClsType[_models.UserApiKeyResponse] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -166,19 +137,17 @@ class ExternalUserOperations:
             _content = body
         else:
             if body is not None:
-                _json = self._serialize.body(body, "ExternalUserInfo")
+                _json = self._serialize.body(body, "UserEmailId")
             else:
                 _json = None
 
-        request = build_create_or_update_request(
-            resource_group_name=resource_group_name,
-            monitor_name=monitor_name,
+        request = build_get_api_key_request(
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_or_update.metadata["url"],
+            template_url=self.get_api_key.metadata["url"],
             headers=_headers,
             params=_params,
         )
@@ -199,13 +168,11 @@ class ExternalUserOperations:
             )
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("ExternalUserCreationResponse", pipeline_response)
+        deserialized = self._deserialize("UserApiKeyResponse", pipeline_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})
 
         return deserialized
 
-    create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/createOrUpdateExternalUser"
-    }
+    get_api_key.metadata = {"url": "/subscriptions/{subscriptionId}/providers/Microsoft.Elastic/getOrganizationApiKey"}
