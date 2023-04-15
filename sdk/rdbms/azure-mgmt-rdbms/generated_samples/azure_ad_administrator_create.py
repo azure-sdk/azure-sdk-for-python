@@ -7,14 +7,14 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
-from azure.mgmt.rdbms import PostgreSQLManagementClient
+from azure.mgmt.rdbms import MySQLManagementClient
 
 """
 # PREREQUISITES
     pip install azure-identity
     pip install azure-mgmt-rdbms
 # USAGE
-    python administrator_add.py
+    python azure_ad_administrator_create.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -24,26 +24,28 @@ from azure.mgmt.rdbms import PostgreSQLManagementClient
 
 
 def main():
-    client = PostgreSQLManagementClient(
+    client = MySQLManagementClient(
         credential=DefaultAzureCredential(),
         subscription_id="ffffffff-ffff-ffff-ffff-ffffffffffff",
     )
 
-    response = client.administrators.begin_create(
+    response = client.azure_ad_administrators.begin_create_or_update(
         resource_group_name="testrg",
-        server_name="testserver",
-        object_id="oooooooo-oooo-oooo-oooo-oooooooooooo",
+        server_name="mysqltestsvc4",
+        administrator_name="ActiveDirectory",
         parameters={
             "properties": {
-                "principalName": "testuser1@microsoft.com",
-                "principalType": "User",
-                "tenantId": "tttttttt-tttt-tttt-tttt-tttttttttttt",
+                "administratorType": "ActiveDirectory",
+                "identityResourceId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/test-group/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-umi",
+                "login": "bob@contoso.com",
+                "sid": "c6b82b90-a647-49cb-8a62-0d2d3cb7ac7c",
+                "tenantId": "c12b7025-bfe2-46c1-b463-993b5e4cd467",
             }
         },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-12-01/examples/AdministratorAdd.json
+# x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/AAD/stable/2022-01-01/examples/AzureADAdministratorCreate.json
 if __name__ == "__main__":
     main()
