@@ -14,7 +14,7 @@ from azure.mgmt.healthbot import HealthBotMgmtClient
     pip install azure-identity
     pip install azure-mgmt-healthbot
 # USAGE
-    python bot_update.py
+    python resource_update_patch.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,11 +29,11 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.bots.update(
+    response = client.bots.begin_update(
         resource_group_name="healthbotClient",
         bot_name="samplebotname",
         parameters={"sku": {"name": "F0"}},
-    )
+    ).result()
     print(response)
 
 
