@@ -86,7 +86,7 @@ class TableServicesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-08-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-08-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-08-01"))
         cls: ClsType[_models.ListTableServices] = kwargs.pop("cls", None)
 
         request = build_list_request(
@@ -101,8 +101,9 @@ class TableServicesOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -239,7 +240,7 @@ class TableServicesOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-08-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-08-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-08-01"))
         table_service_name: Literal["default"] = kwargs.pop("table_service_name", "default")
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.TableServiceProperties] = kwargs.pop("cls", None)
@@ -268,8 +269,9 @@ class TableServicesOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -323,7 +325,7 @@ class TableServicesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-08-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-08-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-08-01"))
         table_service_name: Literal["default"] = kwargs.pop("table_service_name", "default")
         cls: ClsType[_models.TableServiceProperties] = kwargs.pop("cls", None)
 
@@ -340,8 +342,9 @@ class TableServicesOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response

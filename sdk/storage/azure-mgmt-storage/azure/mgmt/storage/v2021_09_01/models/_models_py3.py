@@ -1783,7 +1783,8 @@ class DeleteRetentionPolicy(_serialization.Model):
     :ivar enabled: Indicates whether DeleteRetentionPolicy is enabled.
     :vartype enabled: bool
     :ivar days: Indicates the number of days that the deleted item should be retained. The minimum
-     specified value can be 1 and the maximum value can be 365.
+     specified value can be 1 and the maximum value can be 365. 0 will be returned if feature is
+     disabled.
     :vartype days: int
     :ivar allow_permanent_delete: This property when set to true allows deletion of the soft
      deleted blob versions and snapshots. This property cannot be used blob restore policy. This
@@ -1792,7 +1793,7 @@ class DeleteRetentionPolicy(_serialization.Model):
     """
 
     _validation = {
-        "days": {"maximum": 365, "minimum": 1},
+        "days": {"maximum": 365, "minimum": 0},
     }
 
     _attribute_map = {
@@ -1813,7 +1814,8 @@ class DeleteRetentionPolicy(_serialization.Model):
         :keyword enabled: Indicates whether DeleteRetentionPolicy is enabled.
         :paramtype enabled: bool
         :keyword days: Indicates the number of days that the deleted item should be retained. The
-         minimum specified value can be 1 and the maximum value can be 365.
+         minimum specified value can be 1 and the maximum value can be 365. 0 will be returned if
+         feature is disabled.
         :paramtype days: int
         :keyword allow_permanent_delete: This property when set to true allows deletion of the soft
          deleted blob versions and snapshots. This property cannot be used blob restore policy. This
@@ -3376,7 +3378,7 @@ class LeaseContainerRequest(_serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :ivar action: Specifies the lease action. Can be one of the available actions. Required. Known
-     values are: "Acquire", "Renew", "Change", "Release", and "Break".
+     values are: "Acquire", "Renew", "Change", "Release", "Break", and "Break".
     :vartype action: str or ~azure.mgmt.storage.v2021_09_01.models.LeaseContainerRequestAction
     :ivar lease_id: Identifies the lease. Can be specified in any valid GUID string format.
     :vartype lease_id: str
@@ -3415,7 +3417,7 @@ class LeaseContainerRequest(_serialization.Model):
     ) -> None:
         """
         :keyword action: Specifies the lease action. Can be one of the available actions. Required.
-         Known values are: "Acquire", "Renew", "Change", "Release", and "Break".
+         Known values are: "Acquire", "Renew", "Change", "Release", "Break", and "Break".
         :paramtype action: str or ~azure.mgmt.storage.v2021_09_01.models.LeaseContainerRequestAction
         :keyword lease_id: Identifies the lease. Can be specified in any valid GUID string format.
         :paramtype lease_id: str
@@ -3473,7 +3475,7 @@ class LeaseShareRequest(_serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :ivar action: Specifies the lease action. Can be one of the available actions. Required. Known
-     values are: "Acquire", "Renew", "Change", "Release", and "Break".
+     values are: "Acquire", "Renew", "Change", "Release", "Break", and "Break".
     :vartype action: str or ~azure.mgmt.storage.v2021_09_01.models.LeaseShareAction
     :ivar lease_id: Identifies the lease. Can be specified in any valid GUID string format.
     :vartype lease_id: str
@@ -3512,7 +3514,7 @@ class LeaseShareRequest(_serialization.Model):
     ) -> None:
         """
         :keyword action: Specifies the lease action. Can be one of the available actions. Required.
-         Known values are: "Acquire", "Renew", "Change", "Release", and "Break".
+         Known values are: "Acquire", "Renew", "Change", "Release", "Break", and "Break".
         :paramtype action: str or ~azure.mgmt.storage.v2021_09_01.models.LeaseShareAction
         :keyword lease_id: Identifies the lease. Can be specified in any valid GUID string format.
         :paramtype lease_id: str

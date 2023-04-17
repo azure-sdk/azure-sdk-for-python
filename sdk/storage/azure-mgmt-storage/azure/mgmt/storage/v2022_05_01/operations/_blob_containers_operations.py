@@ -56,7 +56,7 @@ def build_list_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2022-05-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -95,7 +95,7 @@ def build_create_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2022-05-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -132,7 +132,7 @@ def build_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2022-05-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -169,7 +169,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2022-05-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -202,7 +202,7 @@ def build_delete_request(
 ) -> HttpRequest:
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2022-05-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
     # Construct URL
     _url = kwargs.pop(
         "template_url",
@@ -231,7 +231,7 @@ def build_set_legal_hold_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2022-05-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -268,7 +268,7 @@ def build_clear_legal_hold_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2022-05-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -299,7 +299,7 @@ def build_clear_legal_hold_request(
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_create_or_update_immutability_policy_request(
+def build_create_or_update_immutability_policy_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     account_name: str,
     container_name: str,
@@ -312,7 +312,7 @@ def build_create_or_update_immutability_policy_request(
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     immutability_policy_name: Literal["default"] = kwargs.pop("immutability_policy_name", "default")
-    api_version: Literal["2022-05-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -359,7 +359,7 @@ def build_get_immutability_policy_request(
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     immutability_policy_name: Literal["default"] = kwargs.pop("immutability_policy_name", "default")
-    api_version: Literal["2022-05-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -403,7 +403,7 @@ def build_delete_immutability_policy_request(
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     immutability_policy_name: Literal["default"] = kwargs.pop("immutability_policy_name", "default")
-    api_version: Literal["2022-05-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -445,7 +445,7 @@ def build_lock_immutability_policy_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2022-05-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -486,7 +486,7 @@ def build_extend_immutability_policy_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2022-05-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -524,7 +524,7 @@ def build_lease_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2022-05-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -561,7 +561,7 @@ def build_object_level_worm_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2022-05-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -645,7 +645,7 @@ class BlobContainersOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-05-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
         cls: ClsType[_models.ListContainerItems] = kwargs.pop("cls", None)
 
         error_map = {
@@ -702,8 +702,9 @@ class BlobContainersOperations:
         def get_next(next_link=None):
             request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -842,7 +843,7 @@ class BlobContainersOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-05-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.BlobContainer] = kwargs.pop("cls", None)
 
@@ -870,8 +871,9 @@ class BlobContainersOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1015,7 +1017,7 @@ class BlobContainersOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-05-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.BlobContainer] = kwargs.pop("cls", None)
 
@@ -1043,8 +1045,9 @@ class BlobContainersOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1098,7 +1101,7 @@ class BlobContainersOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-05-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
         cls: ClsType[_models.BlobContainer] = kwargs.pop("cls", None)
 
         request = build_get_request(
@@ -1114,8 +1117,9 @@ class BlobContainersOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1169,7 +1173,7 @@ class BlobContainersOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-05-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_delete_request(
@@ -1185,8 +1189,9 @@ class BlobContainersOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1325,7 +1330,7 @@ class BlobContainersOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-05-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.LegalHold] = kwargs.pop("cls", None)
 
@@ -1353,8 +1358,9 @@ class BlobContainersOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1494,7 +1500,7 @@ class BlobContainersOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-05-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.LegalHold] = kwargs.pop("cls", None)
 
@@ -1522,8 +1528,9 @@ class BlobContainersOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1693,7 +1700,7 @@ class BlobContainersOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         immutability_policy_name: Literal["default"] = kwargs.pop("immutability_policy_name", "default")
-        api_version: Literal["2022-05-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.ImmutabilityPolicy] = kwargs.pop("cls", None)
 
@@ -1726,8 +1733,9 @@ class BlobContainersOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1799,7 +1807,7 @@ class BlobContainersOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         immutability_policy_name: Literal["default"] = kwargs.pop("immutability_policy_name", "default")
-        api_version: Literal["2022-05-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
         cls: ClsType[_models.ImmutabilityPolicy] = kwargs.pop("cls", None)
 
         request = build_get_immutability_policy_request(
@@ -1817,8 +1825,9 @@ class BlobContainersOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1887,7 +1896,7 @@ class BlobContainersOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         immutability_policy_name: Literal["default"] = kwargs.pop("immutability_policy_name", "default")
-        api_version: Literal["2022-05-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
         cls: ClsType[_models.ImmutabilityPolicy] = kwargs.pop("cls", None)
 
         request = build_delete_immutability_policy_request(
@@ -1905,8 +1914,9 @@ class BlobContainersOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1968,7 +1978,7 @@ class BlobContainersOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-05-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
         cls: ClsType[_models.ImmutabilityPolicy] = kwargs.pop("cls", None)
 
         request = build_lock_immutability_policy_request(
@@ -1985,8 +1995,9 @@ class BlobContainersOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2149,7 +2160,7 @@ class BlobContainersOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-05-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.ImmutabilityPolicy] = kwargs.pop("cls", None)
 
@@ -2181,8 +2192,9 @@ class BlobContainersOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2325,7 +2337,7 @@ class BlobContainersOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-05-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.LeaseContainerResponse] = kwargs.pop("cls", None)
 
@@ -2356,8 +2368,9 @@ class BlobContainersOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2391,7 +2404,7 @@ class BlobContainersOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-05-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_object_level_worm_request(
@@ -2407,8 +2420,9 @@ class BlobContainersOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2460,7 +2474,7 @@ class BlobContainersOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-05-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)

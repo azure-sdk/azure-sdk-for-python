@@ -66,7 +66,7 @@ class AccountImmutabilityPolicyProperties(_serialization.Model):
     """This defines account-level immutability policy properties.
 
     :ivar immutability_period_since_creation_in_days: The immutability period for the blobs in the
-     container since the policy creation, in days.
+     container since the policy creation in days. 0 is returned when state is disabled.
     :vartype immutability_period_since_creation_in_days: int
     :ivar state: The ImmutabilityPolicy state defines the mode of the policy. Disabled state
      disables the policy, Unlocked state allows increase and decrease of immutability retention time
@@ -84,7 +84,7 @@ class AccountImmutabilityPolicyProperties(_serialization.Model):
     """
 
     _validation = {
-        "immutability_period_since_creation_in_days": {"maximum": 146000, "minimum": 1},
+        "immutability_period_since_creation_in_days": {"maximum": 146000, "minimum": 0},
     }
 
     _attribute_map = {
@@ -103,7 +103,7 @@ class AccountImmutabilityPolicyProperties(_serialization.Model):
     ) -> None:
         """
         :keyword immutability_period_since_creation_in_days: The immutability period for the blobs in
-         the container since the policy creation, in days.
+         the container since the policy creation in days. 0 is returned when state is disabled.
         :paramtype immutability_period_since_creation_in_days: int
         :keyword state: The ImmutabilityPolicy state defines the mode of the policy. Disabled state
          disables the policy, Unlocked state allows increase and decrease of immutability retention time
@@ -239,7 +239,7 @@ class ActiveDirectoryProperties(_serialization.Model):
     :vartype net_bios_domain_name: str
     :ivar forest_name: Specifies the Active Directory forest to get.
     :vartype forest_name: str
-    :ivar domain_guid: Specifies the domain GUID. Required.
+    :ivar domain_guid: Specifies the domain GUID.
     :vartype domain_guid: str
     :ivar domain_sid: Specifies the security identifier (SID).
     :vartype domain_sid: str
@@ -254,7 +254,6 @@ class ActiveDirectoryProperties(_serialization.Model):
 
     _validation = {
         "domain_name": {"required": True},
-        "domain_guid": {"required": True},
     }
 
     _attribute_map = {
@@ -272,9 +271,9 @@ class ActiveDirectoryProperties(_serialization.Model):
         self,
         *,
         domain_name: str,
-        domain_guid: str,
         net_bios_domain_name: Optional[str] = None,
         forest_name: Optional[str] = None,
+        domain_guid: Optional[str] = None,
         domain_sid: Optional[str] = None,
         azure_storage_sid: Optional[str] = None,
         sam_account_name: Optional[str] = None,
@@ -289,7 +288,7 @@ class ActiveDirectoryProperties(_serialization.Model):
         :paramtype net_bios_domain_name: str
         :keyword forest_name: Specifies the Active Directory forest to get.
         :paramtype forest_name: str
-        :keyword domain_guid: Specifies the domain GUID. Required.
+        :keyword domain_guid: Specifies the domain GUID.
         :paramtype domain_guid: str
         :keyword domain_sid: Specifies the security identifier (SID).
         :paramtype domain_sid: str
@@ -1777,7 +1776,8 @@ class DeleteRetentionPolicy(_serialization.Model):
     :ivar enabled: Indicates whether DeleteRetentionPolicy is enabled.
     :vartype enabled: bool
     :ivar days: Indicates the number of days that the deleted item should be retained. The minimum
-     specified value can be 1 and the maximum value can be 365.
+     specified value can be 1 and the maximum value can be 365. 0 will be returned when policy is
+     disabled.
     :vartype days: int
     :ivar allow_permanent_delete: This property when set to true allows deletion of the soft
      deleted blob versions and snapshots. This property cannot be used blob restore policy. This
@@ -1786,7 +1786,7 @@ class DeleteRetentionPolicy(_serialization.Model):
     """
 
     _validation = {
-        "days": {"maximum": 365, "minimum": 1},
+        "days": {"maximum": 365, "minimum": 0},
     }
 
     _attribute_map = {
@@ -1807,7 +1807,8 @@ class DeleteRetentionPolicy(_serialization.Model):
         :keyword enabled: Indicates whether DeleteRetentionPolicy is enabled.
         :paramtype enabled: bool
         :keyword days: Indicates the number of days that the deleted item should be retained. The
-         minimum specified value can be 1 and the maximum value can be 365.
+         minimum specified value can be 1 and the maximum value can be 365. 0 will be returned when
+         policy is disabled.
         :paramtype days: int
         :keyword allow_permanent_delete: This property when set to true allows deletion of the soft
          deleted blob versions and snapshots. This property cannot be used blob restore policy. This
@@ -3364,7 +3365,7 @@ class LeaseContainerRequest(_serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :ivar action: Specifies the lease action. Can be one of the available actions. Required. Known
-     values are: "Acquire", "Renew", "Change", "Release", and "Break".
+     values are: "Acquire", "Renew", "Change", "Release", "Break", and "Break".
     :vartype action: str or ~azure.mgmt.storage.v2022_09_01.models.LeaseContainerRequestEnum
     :ivar lease_id: Identifies the lease. Can be specified in any valid GUID string format.
     :vartype lease_id: str
@@ -3403,7 +3404,7 @@ class LeaseContainerRequest(_serialization.Model):
     ) -> None:
         """
         :keyword action: Specifies the lease action. Can be one of the available actions. Required.
-         Known values are: "Acquire", "Renew", "Change", "Release", and "Break".
+         Known values are: "Acquire", "Renew", "Change", "Release", "Break", and "Break".
         :paramtype action: str or ~azure.mgmt.storage.v2022_09_01.models.LeaseContainerRequestEnum
         :keyword lease_id: Identifies the lease. Can be specified in any valid GUID string format.
         :paramtype lease_id: str
@@ -3461,7 +3462,7 @@ class LeaseShareRequest(_serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :ivar action: Specifies the lease action. Can be one of the available actions. Required. Known
-     values are: "Acquire", "Renew", "Change", "Release", and "Break".
+     values are: "Acquire", "Renew", "Change", "Release", "Break", and "Break".
     :vartype action: str or ~azure.mgmt.storage.v2022_09_01.models.LeaseShareAction
     :ivar lease_id: Identifies the lease. Can be specified in any valid GUID string format.
     :vartype lease_id: str
@@ -3500,7 +3501,7 @@ class LeaseShareRequest(_serialization.Model):
     ) -> None:
         """
         :keyword action: Specifies the lease action. Can be one of the available actions. Required.
-         Known values are: "Acquire", "Renew", "Change", "Release", and "Break".
+         Known values are: "Acquire", "Renew", "Change", "Release", "Break", and "Break".
         :paramtype action: str or ~azure.mgmt.storage.v2022_09_01.models.LeaseShareAction
         :keyword lease_id: Identifies the lease. Can be specified in any valid GUID string format.
         :paramtype lease_id: str
@@ -5536,7 +5537,7 @@ class RestorePolicyProperties(_serialization.Model):
     :ivar enabled: Blob restore is enabled if set to true. Required.
     :vartype enabled: bool
     :ivar days: how long this blob can be restored. It should be great than zero and less than
-     DeleteRetentionPolicy.days.
+     DeleteRetentionPolicy.days. 0 will be retruned when policy is disabled.
     :vartype days: int
     :ivar last_enabled_time: Deprecated in favor of minRestoreTime property.
     :vartype last_enabled_time: ~datetime.datetime
@@ -5546,7 +5547,7 @@ class RestorePolicyProperties(_serialization.Model):
 
     _validation = {
         "enabled": {"required": True},
-        "days": {"maximum": 365, "minimum": 1},
+        "days": {"maximum": 365, "minimum": 0},
         "last_enabled_time": {"readonly": True},
         "min_restore_time": {"readonly": True},
     }
@@ -5563,7 +5564,7 @@ class RestorePolicyProperties(_serialization.Model):
         :keyword enabled: Blob restore is enabled if set to true. Required.
         :paramtype enabled: bool
         :keyword days: how long this blob can be restored. It should be great than zero and less than
-         DeleteRetentionPolicy.days.
+         DeleteRetentionPolicy.days. 0 will be retruned when policy is disabled.
         :paramtype days: int
         """
         super().__init__(**kwargs)

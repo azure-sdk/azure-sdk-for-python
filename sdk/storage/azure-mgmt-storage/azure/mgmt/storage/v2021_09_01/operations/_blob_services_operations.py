@@ -45,7 +45,7 @@ def build_list_request(resource_group_name: str, account_name: str, subscription
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2021-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -78,7 +78,7 @@ def build_set_service_properties_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2021-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
     blob_services_name: Literal["default"] = kwargs.pop("blob_services_name", "default")
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
@@ -116,7 +116,7 @@ def build_get_service_properties_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2021-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
     blob_services_name: Literal["default"] = kwargs.pop("blob_services_name", "default")
     accept = _headers.pop("Accept", "application/json")
 
@@ -187,7 +187,7 @@ class BlobServicesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
         cls: ClsType[_models.BlobServiceItems] = kwargs.pop("cls", None)
 
         error_map = {
@@ -241,8 +241,9 @@ class BlobServicesOperations:
         def get_next(next_link=None):
             request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -375,7 +376,7 @@ class BlobServicesOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
         blob_services_name: Literal["default"] = kwargs.pop("blob_services_name", "default")
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.BlobServiceProperties] = kwargs.pop("cls", None)
@@ -404,8 +405,9 @@ class BlobServicesOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -459,7 +461,7 @@ class BlobServicesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
         blob_services_name: Literal["default"] = kwargs.pop("blob_services_name", "default")
         cls: ClsType[_models.BlobServiceProperties] = kwargs.pop("cls", None)
 
@@ -476,8 +478,9 @@ class BlobServicesOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response

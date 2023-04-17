@@ -47,7 +47,7 @@ def build_check_name_availability_request(subscription_id: str, **kwargs: Any) -
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2019-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -78,7 +78,7 @@ def build_create_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2019-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -113,7 +113,7 @@ def build_delete_request(
 ) -> HttpRequest:
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2019-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
     # Construct URL
     _url = kwargs.pop(
         "template_url",
@@ -146,7 +146,7 @@ def build_get_properties_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2019-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -181,7 +181,7 @@ def build_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2019-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -215,7 +215,7 @@ def build_list_request(subscription_id: str, **kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2019-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -239,7 +239,7 @@ def build_list_by_resource_group_request(resource_group_name: str, subscription_
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2019-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -276,7 +276,7 @@ def build_list_keys_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2019-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -311,7 +311,7 @@ def build_regenerate_key_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2019-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -347,7 +347,7 @@ def build_list_account_sas_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2019-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -383,7 +383,7 @@ def build_list_service_sas_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2019-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -418,7 +418,7 @@ def build_failover_request(
 ) -> HttpRequest:
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2019-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
     # Construct URL
     _url = kwargs.pop(
         "template_url",
@@ -440,12 +440,12 @@ def build_failover_request(
     return HttpRequest(method="POST", url=_url, params=_params, **kwargs)
 
 
-def build_revoke_user_delegation_keys_request(
+def build_revoke_user_delegation_keys_request(  # pylint: disable=name-too-long
     resource_group_name: str, account_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2019-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
     # Construct URL
     _url = kwargs.pop(
         "template_url",
@@ -560,7 +560,7 @@ class StorageAccountsOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2019-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.CheckNameAvailabilityResult] = kwargs.pop("cls", None)
 
@@ -585,8 +585,9 @@ class StorageAccountsOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -624,7 +625,7 @@ class StorageAccountsOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2019-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[Optional[_models.StorageAccount]] = kwargs.pop("cls", None)
 
@@ -651,8 +652,9 @@ class StorageAccountsOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -798,7 +800,7 @@ class StorageAccountsOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2019-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.StorageAccount] = kwargs.pop("cls", None)
         polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
@@ -872,7 +874,7 @@ class StorageAccountsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2019-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_delete_request(
@@ -887,8 +889,9 @@ class StorageAccountsOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -943,7 +946,7 @@ class StorageAccountsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2019-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
         cls: ClsType[_models.StorageAccount] = kwargs.pop("cls", None)
 
         request = build_get_properties_request(
@@ -959,8 +962,9 @@ class StorageAccountsOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1100,7 +1104,7 @@ class StorageAccountsOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2019-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.StorageAccount] = kwargs.pop("cls", None)
 
@@ -1127,8 +1131,9 @@ class StorageAccountsOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1161,7 +1166,7 @@ class StorageAccountsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2019-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
         cls: ClsType[_models.StorageAccountListResult] = kwargs.pop("cls", None)
 
         error_map = {
@@ -1213,8 +1218,9 @@ class StorageAccountsOperations:
         def get_next(next_link=None):
             request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1244,7 +1250,7 @@ class StorageAccountsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2019-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
         cls: ClsType[_models.StorageAccountListResult] = kwargs.pop("cls", None)
 
         error_map = {
@@ -1297,8 +1303,9 @@ class StorageAccountsOperations:
         def get_next(next_link=None):
             request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1347,7 +1354,7 @@ class StorageAccountsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2019-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
         cls: ClsType[_models.StorageAccountListKeysResult] = kwargs.pop("cls", None)
 
         request = build_list_keys_request(
@@ -1363,8 +1370,9 @@ class StorageAccountsOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1487,7 +1495,7 @@ class StorageAccountsOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2019-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.StorageAccountListKeysResult] = kwargs.pop("cls", None)
 
@@ -1514,8 +1522,9 @@ class StorageAccountsOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1636,7 +1645,7 @@ class StorageAccountsOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2019-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.ListAccountSasResponse] = kwargs.pop("cls", None)
 
@@ -1663,8 +1672,9 @@ class StorageAccountsOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1783,7 +1793,7 @@ class StorageAccountsOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2019-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.ListServiceSasResponse] = kwargs.pop("cls", None)
 
@@ -1810,8 +1820,9 @@ class StorageAccountsOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1845,7 +1856,7 @@ class StorageAccountsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2019-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_failover_request(
@@ -1860,8 +1871,9 @@ class StorageAccountsOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1905,7 +1917,7 @@ class StorageAccountsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2019-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
@@ -1976,7 +1988,7 @@ class StorageAccountsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2019-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-04-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_revoke_user_delegation_keys_request(
@@ -1991,8 +2003,9 @@ class StorageAccountsOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response

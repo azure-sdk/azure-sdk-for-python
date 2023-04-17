@@ -151,7 +151,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.CheckNameAvailabilityResult] = kwargs.pop("cls", None)
 
@@ -176,8 +176,9 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -215,7 +216,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[Optional[_models.StorageAccount]] = kwargs.pop("cls", None)
 
@@ -242,8 +243,9 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -392,7 +394,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.StorageAccount] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -466,7 +468,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_delete_request(
@@ -481,8 +483,9 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -538,7 +541,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
         cls: ClsType[_models.StorageAccount] = kwargs.pop("cls", None)
 
         request = build_get_properties_request(
@@ -554,8 +557,9 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -695,7 +699,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.StorageAccount] = kwargs.pop("cls", None)
 
@@ -722,8 +726,9 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -757,7 +762,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
         cls: ClsType[_models.StorageAccountListResult] = kwargs.pop("cls", None)
 
         error_map = {
@@ -809,8 +814,9 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         async def get_next(next_link=None):
             request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -843,7 +849,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
         cls: ClsType[_models.StorageAccountListResult] = kwargs.pop("cls", None)
 
         error_map = {
@@ -896,8 +902,9 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         async def get_next(next_link=None):
             request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -946,7 +953,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
         cls: ClsType[_models.StorageAccountListKeysResult] = kwargs.pop("cls", None)
 
         request = build_list_keys_request(
@@ -962,8 +969,9 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1086,7 +1094,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.StorageAccountListKeysResult] = kwargs.pop("cls", None)
 
@@ -1113,8 +1121,9 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1235,7 +1244,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.ListAccountSasResponse] = kwargs.pop("cls", None)
 
@@ -1262,8 +1271,9 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1382,7 +1392,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.ListServiceSasResponse] = kwargs.pop("cls", None)
 
@@ -1409,8 +1419,9 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1444,7 +1455,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_failover_request(
@@ -1459,8 +1470,9 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1504,7 +1516,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
@@ -1546,7 +1558,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/failover"
     }
 
-    async def _hierarchical_namespace_migration_initial(  # pylint: disable=inconsistent-return-statements
+    async def _hierarchical_namespace_migration_initial(  # pylint: disable=inconsistent-return-statements,name-too-long
         self, resource_group_name: str, account_name: str, request_type: str, **kwargs: Any
     ) -> None:
         error_map = {
@@ -1560,7 +1572,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_hierarchical_namespace_migration_request(
@@ -1576,8 +1588,9 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1627,7 +1640,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
@@ -1670,7 +1683,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         "url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/hnsonmigration"
     }
 
-    async def _abort_hierarchical_namespace_migration_initial(  # pylint: disable=inconsistent-return-statements
+    async def _abort_hierarchical_namespace_migration_initial(  # pylint: disable=inconsistent-return-statements,name-too-long
         self, resource_group_name: str, account_name: str, **kwargs: Any
     ) -> None:
         error_map = {
@@ -1684,7 +1697,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_abort_hierarchical_namespace_migration_request(
@@ -1699,8 +1712,9 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1718,7 +1732,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
     }
 
     @distributed_trace_async
-    async def begin_abort_hierarchical_namespace_migration(
+    async def begin_abort_hierarchical_namespace_migration(  # pylint: disable=name-too-long
         self, resource_group_name: str, account_name: str, **kwargs: Any
     ) -> AsyncLROPoller[None]:
         """Abort live Migration of storage account to enable Hns.
@@ -1745,7 +1759,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
@@ -1805,7 +1819,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.BlobRestoreStatus] = kwargs.pop("cls", None)
 
@@ -1832,8 +1846,9 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1975,7 +1990,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.BlobRestoreStatus] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -2051,7 +2066,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_revoke_user_delegation_keys_request(
@@ -2066,8 +2081,9 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
