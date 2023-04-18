@@ -42,6 +42,7 @@ from ._models_py3 import AlertRuleTemplateWithMitreProperties
 from ._models_py3 import AlertRuleTemplatesList
 from ._models_py3 import AlertRulesList
 from ._models_py3 import AlertsDataTypeOfDataConnector
+from ._models_py3 import AnalyticsRuleRunTrigger
 from ._models_py3 import Anomalies
 from ._models_py3 import AnomalySecurityMLAnalyticsSettings
 from ._models_py3 import AnomalyTimelineItem
@@ -68,8 +69,11 @@ from ._models_py3 import AwsS3DataConnector
 from ._models_py3 import AwsS3DataConnectorDataTypes
 from ._models_py3 import AwsS3DataConnectorDataTypesLogs
 from ._models_py3 import AzureDevOpsResourceInfo
+from ._models_py3 import AzureEntityResource
 from ._models_py3 import AzureResourceEntity
 from ._models_py3 import AzureResourceEntityProperties
+from ._models_py3 import BillingStatistic
+from ._models_py3 import BillingStatisticList
 from ._models_py3 import Bookmark
 from ._models_py3 import BookmarkEntityMappings
 from ._models_py3 import BookmarkExpandParameters
@@ -152,6 +156,9 @@ from ._models_py3 import EntityQueryTemplateList
 from ._models_py3 import EntityTimelineItem
 from ._models_py3 import EntityTimelineParameters
 from ._models_py3 import EntityTimelineResponse
+from ._models_py3 import ErrorAdditionalInfo
+from ._models_py3 import ErrorDetail
+from ._models_py3 import ErrorResponse
 from ._models_py3 import EventGroupingSettings
 from ._models_py3 import ExpansionEntityQuery
 from ._models_py3 import ExpansionResultAggregation
@@ -246,6 +253,7 @@ from ._models_py3 import MSTIDataConnectorProperties
 from ._models_py3 import MTPCheckRequirementsProperties
 from ._models_py3 import MTPDataConnector
 from ._models_py3 import MTPDataConnectorDataTypes
+from ._models_py3 import MTPDataConnectorDataTypesAlerts
 from ._models_py3 import MTPDataConnectorDataTypesIncidents
 from ._models_py3 import MTPDataConnectorProperties
 from ._models_py3 import MailClusterEntity
@@ -265,12 +273,19 @@ from ._models_py3 import MetadataModel
 from ._models_py3 import MetadataPatch
 from ._models_py3 import MetadataSource
 from ._models_py3 import MetadataSupport
+from ._models_py3 import MicrosoftPurviewInformationProtectionCheckRequirements
+from ._models_py3 import MicrosoftPurviewInformationProtectionCheckRequirementsProperties
+from ._models_py3 import MicrosoftPurviewInformationProtectionConnectorDataTypes
+from ._models_py3 import MicrosoftPurviewInformationProtectionConnectorDataTypesLogs
+from ._models_py3 import MicrosoftPurviewInformationProtectionDataConnector
+from ._models_py3 import MicrosoftPurviewInformationProtectionDataConnectorProperties
 from ._models_py3 import MicrosoftSecurityIncidentCreationAlertRule
 from ._models_py3 import MicrosoftSecurityIncidentCreationAlertRuleCommonProperties
 from ._models_py3 import MicrosoftSecurityIncidentCreationAlertRuleProperties
 from ._models_py3 import MicrosoftSecurityIncidentCreationAlertRuleTemplate
 from ._models_py3 import MicrosoftSecurityIncidentCreationAlertRuleTemplateProperties
 from ._models_py3 import MtpCheckRequirements
+from ._models_py3 import MtpFilteredProviders
 from ._models_py3 import NicEntity
 from ._models_py3 import NicEntityProperties
 from ._models_py3 import NrtAlertRule
@@ -337,6 +352,7 @@ from ._models_py3 import Resource
 from ._models_py3 import ResourceProvider
 from ._models_py3 import ResourceWithEtag
 from ._models_py3 import SampleQueries
+from ._models_py3 import SapSolutionUsageStatistic
 from ._models_py3 import ScheduledAlertRule
 from ._models_py3 import ScheduledAlertRuleCommonProperties
 from ._models_py3 import ScheduledAlertRuleProperties
@@ -397,6 +413,8 @@ from ._models_py3 import TiTaxiiDataConnectorProperties
 from ._models_py3 import TimelineAggregation
 from ._models_py3 import TimelineError
 from ._models_py3 import TimelineResultsMetadata
+from ._models_py3 import TriggeredAnalyticsRuleRun
+from ._models_py3 import TriggeredAnalyticsRuleRuns
 from ._models_py3 import Ueba
 from ._models_py3 import UrlEntity
 from ._models_py3 import UrlEntityProperties
@@ -425,6 +443,7 @@ from ._security_insights_enums import AutomationRulePropertyChangedConditionSupp
 from ._security_insights_enums import AutomationRulePropertyChangedConditionSupportedPropertyType
 from ._security_insights_enums import AutomationRulePropertyConditionSupportedOperator
 from ._security_insights_enums import AutomationRulePropertyConditionSupportedProperty
+from ._security_insights_enums import BillingStatisticKind
 from ._security_insights_enums import Category
 from ._security_insights_enums import ConditionType
 from ._security_insights_enums import ConfidenceLevel
@@ -455,8 +474,8 @@ from ._security_insights_enums import EntityQueryKind
 from ._security_insights_enums import EntityQueryTemplateKind
 from ._security_insights_enums import EntityTimelineKind
 from ._security_insights_enums import EntityType
-from ._security_insights_enums import Enum13
-from ._security_insights_enums import Enum15
+from ._security_insights_enums import Enum14
+from ._security_insights_enums import Enum16
 from ._security_insights_enums import EventGroupingAggregationKind
 from ._security_insights_enums import FileFormat
 from ._security_insights_enums import FileHashAlgorithm
@@ -474,6 +493,7 @@ from ._security_insights_enums import KillChainIntent
 from ._security_insights_enums import Kind
 from ._security_insights_enums import MatchingMethod
 from ._security_insights_enums import MicrosoftSecurityProductName
+from ._security_insights_enums import MtpProvider
 from ._security_insights_enums import OSFamily
 from ._security_insights_enums import Operator
 from ._security_insights_enums import OutputType
@@ -482,6 +502,7 @@ from ._security_insights_enums import PermissionProviderScope
 from ._security_insights_enums import PollingFrequency
 from ._security_insights_enums import Priority
 from ._security_insights_enums import ProviderName
+from ._security_insights_enums import ProvisioningState
 from ._security_insights_enums import RegistryHive
 from ._security_insights_enums import RegistryValueKind
 from ._security_insights_enums import RepoType
@@ -542,6 +563,7 @@ __all__ = [
     "AlertRuleTemplatesList",
     "AlertRulesList",
     "AlertsDataTypeOfDataConnector",
+    "AnalyticsRuleRunTrigger",
     "Anomalies",
     "AnomalySecurityMLAnalyticsSettings",
     "AnomalyTimelineItem",
@@ -568,8 +590,11 @@ __all__ = [
     "AwsS3DataConnectorDataTypes",
     "AwsS3DataConnectorDataTypesLogs",
     "AzureDevOpsResourceInfo",
+    "AzureEntityResource",
     "AzureResourceEntity",
     "AzureResourceEntityProperties",
+    "BillingStatistic",
+    "BillingStatisticList",
     "Bookmark",
     "BookmarkEntityMappings",
     "BookmarkExpandParameters",
@@ -652,6 +677,9 @@ __all__ = [
     "EntityTimelineItem",
     "EntityTimelineParameters",
     "EntityTimelineResponse",
+    "ErrorAdditionalInfo",
+    "ErrorDetail",
+    "ErrorResponse",
     "EventGroupingSettings",
     "ExpansionEntityQuery",
     "ExpansionResultAggregation",
@@ -746,6 +774,7 @@ __all__ = [
     "MTPCheckRequirementsProperties",
     "MTPDataConnector",
     "MTPDataConnectorDataTypes",
+    "MTPDataConnectorDataTypesAlerts",
     "MTPDataConnectorDataTypesIncidents",
     "MTPDataConnectorProperties",
     "MailClusterEntity",
@@ -765,12 +794,19 @@ __all__ = [
     "MetadataPatch",
     "MetadataSource",
     "MetadataSupport",
+    "MicrosoftPurviewInformationProtectionCheckRequirements",
+    "MicrosoftPurviewInformationProtectionCheckRequirementsProperties",
+    "MicrosoftPurviewInformationProtectionConnectorDataTypes",
+    "MicrosoftPurviewInformationProtectionConnectorDataTypesLogs",
+    "MicrosoftPurviewInformationProtectionDataConnector",
+    "MicrosoftPurviewInformationProtectionDataConnectorProperties",
     "MicrosoftSecurityIncidentCreationAlertRule",
     "MicrosoftSecurityIncidentCreationAlertRuleCommonProperties",
     "MicrosoftSecurityIncidentCreationAlertRuleProperties",
     "MicrosoftSecurityIncidentCreationAlertRuleTemplate",
     "MicrosoftSecurityIncidentCreationAlertRuleTemplateProperties",
     "MtpCheckRequirements",
+    "MtpFilteredProviders",
     "NicEntity",
     "NicEntityProperties",
     "NrtAlertRule",
@@ -837,6 +873,7 @@ __all__ = [
     "ResourceProvider",
     "ResourceWithEtag",
     "SampleQueries",
+    "SapSolutionUsageStatistic",
     "ScheduledAlertRule",
     "ScheduledAlertRuleCommonProperties",
     "ScheduledAlertRuleProperties",
@@ -897,6 +934,8 @@ __all__ = [
     "TimelineAggregation",
     "TimelineError",
     "TimelineResultsMetadata",
+    "TriggeredAnalyticsRuleRun",
+    "TriggeredAnalyticsRuleRuns",
     "Ueba",
     "UrlEntity",
     "UrlEntityProperties",
@@ -924,6 +963,7 @@ __all__ = [
     "AutomationRulePropertyChangedConditionSupportedPropertyType",
     "AutomationRulePropertyConditionSupportedOperator",
     "AutomationRulePropertyConditionSupportedProperty",
+    "BillingStatisticKind",
     "Category",
     "ConditionType",
     "ConfidenceLevel",
@@ -954,8 +994,8 @@ __all__ = [
     "EntityQueryTemplateKind",
     "EntityTimelineKind",
     "EntityType",
-    "Enum13",
-    "Enum15",
+    "Enum14",
+    "Enum16",
     "EventGroupingAggregationKind",
     "FileFormat",
     "FileHashAlgorithm",
@@ -973,6 +1013,7 @@ __all__ = [
     "Kind",
     "MatchingMethod",
     "MicrosoftSecurityProductName",
+    "MtpProvider",
     "OSFamily",
     "Operator",
     "OutputType",
@@ -981,6 +1022,7 @@ __all__ = [
     "PollingFrequency",
     "Priority",
     "ProviderName",
+    "ProvisioningState",
     "RegistryHive",
     "RegistryValueKind",
     "RepoType",
