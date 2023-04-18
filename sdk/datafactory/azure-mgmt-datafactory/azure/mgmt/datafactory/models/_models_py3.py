@@ -5472,8 +5472,9 @@ class AzureBlobFSReadSettings(StoreReadSettings):  # pylint: disable=too-many-in
      configured in the dataset) that you want to copy. Type: string (or Expression with resultType
      string).
     :vartype file_list_path: JSON
-    :ivar enable_partition_discovery: Indicates whether to enable partition discovery.
-    :vartype enable_partition_discovery: bool
+    :ivar enable_partition_discovery: Indicates whether to enable partition discovery. Type:
+     boolean (or Expression with resultType boolean).
+    :vartype enable_partition_discovery: JSON
     :ivar partition_root_path: Specify the root path where partition discovery starts from. Type:
      string (or Expression with resultType string).
     :vartype partition_root_path: JSON
@@ -5501,7 +5502,7 @@ class AzureBlobFSReadSettings(StoreReadSettings):  # pylint: disable=too-many-in
         "wildcard_folder_path": {"key": "wildcardFolderPath", "type": "object"},
         "wildcard_file_name": {"key": "wildcardFileName", "type": "object"},
         "file_list_path": {"key": "fileListPath", "type": "object"},
-        "enable_partition_discovery": {"key": "enablePartitionDiscovery", "type": "bool"},
+        "enable_partition_discovery": {"key": "enablePartitionDiscovery", "type": "object"},
         "partition_root_path": {"key": "partitionRootPath", "type": "object"},
         "delete_files_after_completion": {"key": "deleteFilesAfterCompletion", "type": "object"},
         "modified_datetime_start": {"key": "modifiedDatetimeStart", "type": "object"},
@@ -5518,7 +5519,7 @@ class AzureBlobFSReadSettings(StoreReadSettings):  # pylint: disable=too-many-in
         wildcard_folder_path: Optional[JSON] = None,
         wildcard_file_name: Optional[JSON] = None,
         file_list_path: Optional[JSON] = None,
-        enable_partition_discovery: Optional[bool] = None,
+        enable_partition_discovery: Optional[JSON] = None,
         partition_root_path: Optional[JSON] = None,
         delete_files_after_completion: Optional[JSON] = None,
         modified_datetime_start: Optional[JSON] = None,
@@ -5548,8 +5549,9 @@ class AzureBlobFSReadSettings(StoreReadSettings):  # pylint: disable=too-many-in
          configured in the dataset) that you want to copy. Type: string (or Expression with resultType
          string).
         :paramtype file_list_path: JSON
-        :keyword enable_partition_discovery: Indicates whether to enable partition discovery.
-        :paramtype enable_partition_discovery: bool
+        :keyword enable_partition_discovery: Indicates whether to enable partition discovery. Type:
+         boolean (or Expression with resultType boolean).
+        :paramtype enable_partition_discovery: JSON
         :keyword partition_root_path: Specify the root path where partition discovery starts from.
          Type: string (or Expression with resultType string).
         :paramtype partition_root_path: JSON
@@ -5609,7 +5611,8 @@ class AzureBlobFSSink(CopySink):
     :ivar disable_metrics_collection: If true, disable data store metrics collection. Default is
      false. Type: boolean (or Expression with resultType boolean).
     :vartype disable_metrics_collection: JSON
-    :ivar copy_behavior: The type of copy behavior for copy sink.
+    :ivar copy_behavior: The type of copy behavior for copy sink. Type: string (or Expression with
+     resultType string).
     :vartype copy_behavior: JSON
     :ivar metadata: Specify the custom metadata to be added to sink data. Type: array of objects
      (or Expression with resultType array of objects).
@@ -5669,7 +5672,8 @@ class AzureBlobFSSink(CopySink):
         :keyword disable_metrics_collection: If true, disable data store metrics collection. Default is
          false. Type: boolean (or Expression with resultType boolean).
         :paramtype disable_metrics_collection: JSON
-        :keyword copy_behavior: The type of copy behavior for copy sink.
+        :keyword copy_behavior: The type of copy behavior for copy sink. Type: string (or Expression
+         with resultType string).
         :paramtype copy_behavior: JSON
         :keyword metadata: Specify the custom metadata to be added to sink data. Type: array of objects
          (or Expression with resultType array of objects).
@@ -8516,8 +8520,9 @@ class AzureDataLakeStoreReadSettings(StoreReadSettings):  # pylint: disable=too-
      lexicographical order. Applies under the folderPath in data set, and filter files/sub-folders
      under the folderPath. Type: string (or Expression with resultType string).
     :vartype list_before: JSON
-    :ivar enable_partition_discovery: Indicates whether to enable partition discovery.
-    :vartype enable_partition_discovery: bool
+    :ivar enable_partition_discovery: Indicates whether to enable partition discovery. Type:
+     boolean (or Expression with resultType boolean).
+    :vartype enable_partition_discovery: JSON
     :ivar partition_root_path: Specify the root path where partition discovery starts from. Type:
      string (or Expression with resultType string).
     :vartype partition_root_path: JSON
@@ -8547,7 +8552,7 @@ class AzureDataLakeStoreReadSettings(StoreReadSettings):  # pylint: disable=too-
         "file_list_path": {"key": "fileListPath", "type": "object"},
         "list_after": {"key": "listAfter", "type": "object"},
         "list_before": {"key": "listBefore", "type": "object"},
-        "enable_partition_discovery": {"key": "enablePartitionDiscovery", "type": "bool"},
+        "enable_partition_discovery": {"key": "enablePartitionDiscovery", "type": "object"},
         "partition_root_path": {"key": "partitionRootPath", "type": "object"},
         "delete_files_after_completion": {"key": "deleteFilesAfterCompletion", "type": "object"},
         "modified_datetime_start": {"key": "modifiedDatetimeStart", "type": "object"},
@@ -8566,7 +8571,7 @@ class AzureDataLakeStoreReadSettings(StoreReadSettings):  # pylint: disable=too-
         file_list_path: Optional[JSON] = None,
         list_after: Optional[JSON] = None,
         list_before: Optional[JSON] = None,
-        enable_partition_discovery: Optional[bool] = None,
+        enable_partition_discovery: Optional[JSON] = None,
         partition_root_path: Optional[JSON] = None,
         delete_files_after_completion: Optional[JSON] = None,
         modified_datetime_start: Optional[JSON] = None,
@@ -8604,8 +8609,9 @@ class AzureDataLakeStoreReadSettings(StoreReadSettings):  # pylint: disable=too-
          lexicographical order. Applies under the folderPath in data set, and filter files/sub-folders
          under the folderPath. Type: string (or Expression with resultType string).
         :paramtype list_before: JSON
-        :keyword enable_partition_discovery: Indicates whether to enable partition discovery.
-        :paramtype enable_partition_discovery: bool
+        :keyword enable_partition_discovery: Indicates whether to enable partition discovery. Type:
+         boolean (or Expression with resultType boolean).
+        :paramtype enable_partition_discovery: JSON
         :keyword partition_root_path: Specify the root path where partition discovery starts from.
          Type: string (or Expression with resultType string).
         :paramtype partition_root_path: JSON
@@ -8667,7 +8673,8 @@ class AzureDataLakeStoreSink(CopySink):
     :ivar disable_metrics_collection: If true, disable data store metrics collection. Default is
      false. Type: boolean (or Expression with resultType boolean).
     :vartype disable_metrics_collection: JSON
-    :ivar copy_behavior: The type of copy behavior for copy sink.
+    :ivar copy_behavior: The type of copy behavior for copy sink. Type: string (or Expression with
+     resultType string).
     :vartype copy_behavior: JSON
     :ivar enable_adls_single_file_parallel: Single File Parallel.
     :vartype enable_adls_single_file_parallel: JSON
@@ -8726,7 +8733,8 @@ class AzureDataLakeStoreSink(CopySink):
         :keyword disable_metrics_collection: If true, disable data store metrics collection. Default is
          false. Type: boolean (or Expression with resultType boolean).
         :paramtype disable_metrics_collection: JSON
-        :keyword copy_behavior: The type of copy behavior for copy sink.
+        :keyword copy_behavior: The type of copy behavior for copy sink. Type: string (or Expression
+         with resultType string).
         :paramtype copy_behavior: JSON
         :keyword enable_adls_single_file_parallel: Single File Parallel.
         :paramtype enable_adls_single_file_parallel: JSON
@@ -8849,8 +8857,8 @@ class AzureDataLakeStoreWriteSettings(StoreWriteSettings):
     :ivar copy_behavior: The type of copy behavior for copy sink.
     :vartype copy_behavior: JSON
     :ivar expiry_date_time: Specifies the expiry time of the written files. The time is applied to
-     the UTC time zone in the format of "2018-12-01T05:00:00Z". Default value is NULL. Type: integer
-     (or Expression with resultType integer).
+     the UTC time zone in the format of "2018-12-01T05:00:00Z". Default value is NULL. Type: string
+     (or Expression with resultType string).
     :vartype expiry_date_time: JSON
     """
 
@@ -8891,7 +8899,7 @@ class AzureDataLakeStoreWriteSettings(StoreWriteSettings):
         :paramtype copy_behavior: JSON
         :keyword expiry_date_time: Specifies the expiry time of the written files. The time is applied
          to the UTC time zone in the format of "2018-12-01T05:00:00Z". Default value is NULL. Type:
-         integer (or Expression with resultType integer).
+         string (or Expression with resultType string).
         :paramtype expiry_date_time: JSON
         """
         super().__init__(
@@ -33977,6 +33985,9 @@ class IntegrationRuntimeDataFlowProperties(_serialization.Model):
     :ivar cleanup: Cluster will not be recycled and it will be used in next data flow activity run
      until TTL (time to live) is reached if this is set as false. Default is true.
     :vartype cleanup: bool
+    :ivar custom_properties: Custom properties are used to tune the data flow runtime performance.
+    :vartype custom_properties:
+     list[~azure.mgmt.datafactory.models.IntegrationRuntimeDataFlowPropertiesCustomPropertiesItem]
     """
 
     _validation = {
@@ -33989,6 +34000,10 @@ class IntegrationRuntimeDataFlowProperties(_serialization.Model):
         "core_count": {"key": "coreCount", "type": "int"},
         "time_to_live": {"key": "timeToLive", "type": "int"},
         "cleanup": {"key": "cleanup", "type": "bool"},
+        "custom_properties": {
+            "key": "customProperties",
+            "type": "[IntegrationRuntimeDataFlowPropertiesCustomPropertiesItem]",
+        },
     }
 
     def __init__(
@@ -33999,6 +34014,7 @@ class IntegrationRuntimeDataFlowProperties(_serialization.Model):
         core_count: Optional[int] = None,
         time_to_live: Optional[int] = None,
         cleanup: Optional[bool] = None,
+        custom_properties: Optional[List["_models.IntegrationRuntimeDataFlowPropertiesCustomPropertiesItem"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -34017,6 +34033,10 @@ class IntegrationRuntimeDataFlowProperties(_serialization.Model):
         :keyword cleanup: Cluster will not be recycled and it will be used in next data flow activity
          run until TTL (time to live) is reached if this is set as false. Default is true.
         :paramtype cleanup: bool
+        :keyword custom_properties: Custom properties are used to tune the data flow runtime
+         performance.
+        :paramtype custom_properties:
+         list[~azure.mgmt.datafactory.models.IntegrationRuntimeDataFlowPropertiesCustomPropertiesItem]
         """
         super().__init__(**kwargs)
         self.additional_properties = additional_properties
@@ -34024,6 +34044,33 @@ class IntegrationRuntimeDataFlowProperties(_serialization.Model):
         self.core_count = core_count
         self.time_to_live = time_to_live
         self.cleanup = cleanup
+        self.custom_properties = custom_properties
+
+
+class IntegrationRuntimeDataFlowPropertiesCustomPropertiesItem(_serialization.Model):
+    """IntegrationRuntimeDataFlowPropertiesCustomPropertiesItem.
+
+    :ivar name: Name of custom property.
+    :vartype name: str
+    :ivar value: Value of custom property.
+    :vartype value: str
+    """
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "value": {"key": "value", "type": "str"},
+    }
+
+    def __init__(self, *, name: Optional[str] = None, value: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword name: Name of custom property.
+        :paramtype name: str
+        :keyword value: Value of custom property.
+        :paramtype value: str
+        """
+        super().__init__(**kwargs)
+        self.name = name
+        self.value = value
 
 
 class IntegrationRuntimeDataProxyProperties(_serialization.Model):
@@ -48751,7 +48798,7 @@ class RunQueryFilter(_serialization.Model):
      "ActivityType", "TriggerName", "TriggerRunTimestamp", "RunGroupId", and "LatestOnly".
     :vartype operand: str or ~azure.mgmt.datafactory.models.RunQueryFilterOperand
     :ivar operator: Operator to be used for filter. Required. Known values are: "Equals",
-     "NotEquals", "In", and "NotIn".
+     "NotEquals", "In", "NotIn", and "In".
     :vartype operator: str or ~azure.mgmt.datafactory.models.RunQueryFilterOperator
     :ivar values: List of filter values. Required.
     :vartype values: list[str]
@@ -48786,7 +48833,7 @@ class RunQueryFilter(_serialization.Model):
          "ActivityType", "TriggerName", "TriggerRunTimestamp", "RunGroupId", and "LatestOnly".
         :paramtype operand: str or ~azure.mgmt.datafactory.models.RunQueryFilterOperand
         :keyword operator: Operator to be used for filter. Required. Known values are: "Equals",
-         "NotEquals", "In", and "NotIn".
+         "NotEquals", "In", "NotIn", and "In".
         :paramtype operator: str or ~azure.mgmt.datafactory.models.RunQueryFilterOperator
         :keyword values: List of filter values. Required.
         :paramtype values: list[str]
@@ -54346,6 +54393,8 @@ class SetVariableActivity(ControlActivity):
     :vartype variable_name: str
     :ivar value: Value to be set. Could be a static value or Expression.
     :vartype value: JSON
+    :ivar set_system_variable: If set to true, it sets the pipeline run return value.
+    :vartype set_system_variable: bool
     """
 
     _validation = {
@@ -54362,6 +54411,7 @@ class SetVariableActivity(ControlActivity):
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "variable_name": {"key": "typeProperties.variableName", "type": "str"},
         "value": {"key": "typeProperties.value", "type": "object"},
+        "set_system_variable": {"key": "typeProperties.setSystemVariable", "type": "bool"},
     }
 
     def __init__(
@@ -54374,6 +54424,7 @@ class SetVariableActivity(ControlActivity):
         user_properties: Optional[List["_models.UserProperty"]] = None,
         variable_name: Optional[str] = None,
         value: Optional[JSON] = None,
+        set_system_variable: Optional[bool] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -54392,6 +54443,8 @@ class SetVariableActivity(ControlActivity):
         :paramtype variable_name: str
         :keyword value: Value to be set. Could be a static value or Expression.
         :paramtype value: JSON
+        :keyword set_system_variable: If set to true, it sets the pipeline run return value.
+        :paramtype set_system_variable: bool
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -54404,6 +54457,7 @@ class SetVariableActivity(ControlActivity):
         self.type: str = "SetVariable"
         self.variable_name = variable_name
         self.value = value
+        self.set_system_variable = set_system_variable
 
 
 class SftpLocation(DatasetLocation):

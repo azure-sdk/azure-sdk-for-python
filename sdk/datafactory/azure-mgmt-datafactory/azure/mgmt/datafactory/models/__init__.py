@@ -351,6 +351,7 @@ from ._models_py3 import IntegrationRuntimeConnectionInfo
 from ._models_py3 import IntegrationRuntimeCustomSetupScriptProperties
 from ._models_py3 import IntegrationRuntimeCustomerVirtualNetwork
 from ._models_py3 import IntegrationRuntimeDataFlowProperties
+from ._models_py3 import IntegrationRuntimeDataFlowPropertiesCustomPropertiesItem
 from ._models_py3 import IntegrationRuntimeDataProxyProperties
 from ._models_py3 import IntegrationRuntimeDebugResource
 from ._models_py3 import IntegrationRuntimeListResponse
@@ -1197,6 +1198,7 @@ __all__ = [
     "IntegrationRuntimeCustomSetupScriptProperties",
     "IntegrationRuntimeCustomerVirtualNetwork",
     "IntegrationRuntimeDataFlowProperties",
+    "IntegrationRuntimeDataFlowPropertiesCustomPropertiesItem",
     "IntegrationRuntimeDataProxyProperties",
     "IntegrationRuntimeDebugResource",
     "IntegrationRuntimeListResponse",
