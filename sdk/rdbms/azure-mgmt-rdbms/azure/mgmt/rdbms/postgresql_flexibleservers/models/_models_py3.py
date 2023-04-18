@@ -2353,8 +2353,7 @@ class UserAssignedIdentity(_serialization.Model):
     :vartype user_assigned_identities: dict[str,
      ~azure.mgmt.rdbms.postgresql_flexibleservers.models.UserIdentity]
     :ivar type: the types of identities associated with this resource; currently restricted to
-     'SystemAssigned and UserAssigned'. Required. Known values are: "None", "SystemAssigned", and
-     "UserAssigned".
+     'SystemAssigned and UserAssigned'. Required. Known values are: "None" and "UserAssigned".
     :vartype type: str or ~azure.mgmt.rdbms.postgresql_flexibleservers.models.IdentityType
     """
 
@@ -2379,8 +2378,7 @@ class UserAssignedIdentity(_serialization.Model):
         :paramtype user_assigned_identities: dict[str,
          ~azure.mgmt.rdbms.postgresql_flexibleservers.models.UserIdentity]
         :keyword type: the types of identities associated with this resource; currently restricted to
-         'SystemAssigned and UserAssigned'. Required. Known values are: "None", "SystemAssigned", and
-         "UserAssigned".
+         'SystemAssigned and UserAssigned'. Required. Known values are: "None" and "UserAssigned".
         :paramtype type: str or ~azure.mgmt.rdbms.postgresql_flexibleservers.models.IdentityType
         """
         super().__init__(**kwargs)

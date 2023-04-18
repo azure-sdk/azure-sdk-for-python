@@ -97,7 +97,6 @@ class IdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """
 
     NONE = "None"
-    SYSTEM_ASSIGNED = "SystemAssigned"
     USER_ASSIGNED = "UserAssigned"
 
 
