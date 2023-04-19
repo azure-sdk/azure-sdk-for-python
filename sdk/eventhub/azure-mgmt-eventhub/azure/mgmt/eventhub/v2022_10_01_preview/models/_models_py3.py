@@ -1912,7 +1912,7 @@ class NetworkSecurityPerimeter(_serialization.Model):
         self.location = location
 
 
-class NetworkSecurityPerimeterConfiguration(Resource):
+class NetworkSecurityPerimeterConfiguration(ProxyResource):
     """Network Security Perimeter related configurations of a given namespace.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1922,9 +1922,11 @@ class NetworkSecurityPerimeterConfiguration(Resource):
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-     "Microsoft.Storage/storageAccounts".
+    :ivar type: The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or
+     "Microsoft.EventHub/Namespaces/EventHubs".
     :vartype type: str
+    :ivar location: The geo-location where the resource lives.
+    :vartype location: str
     :ivar provisioning_state: Provisioning state of NetworkSecurityPerimeter configuration
      propagation. Known values are: "Unknown", "Creating", "Updating", "Accepted",
      "InvalidResponse", "Succeeded", "SucceededWithIssues", "Failed", "Deleting", "Deleted", and
@@ -1949,6 +1951,7 @@ class NetworkSecurityPerimeterConfiguration(Resource):
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "location": {"readonly": True},
         "network_security_perimeter": {"readonly": True},
         "resource_association": {"readonly": True},
         "profile": {"readonly": True},
@@ -1958,6 +1961,7 @@ class NetworkSecurityPerimeterConfiguration(Resource):
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "location": {"key": "location", "type": "str"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "provisioning_issues": {"key": "properties.provisioningIssues", "type": "[ProvisioningIssue]"},
         "network_security_perimeter": {

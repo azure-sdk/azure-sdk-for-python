@@ -71,7 +71,7 @@ def build_list_authorization_rules_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_create_or_update_authorization_rule_request(
+def build_create_or_update_authorization_rule_request(  # pylint: disable=name-too-long
     resource_group_name: str, namespace_name: str, authorization_rule_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -511,7 +511,7 @@ def build_get_messaging_plan_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_create_or_update_network_rule_set_request(
+def build_create_or_update_network_rule_set_request(  # pylint: disable=name-too-long
     resource_group_name: str, namespace_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})

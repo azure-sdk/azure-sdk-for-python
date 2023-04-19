@@ -69,7 +69,7 @@ def build_list_by_namespace_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_create_or_update_application_group_request(
+def build_create_or_update_application_group_request(  # pylint: disable=name-too-long
     resource_group_name: str, namespace_name: str, application_group_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})

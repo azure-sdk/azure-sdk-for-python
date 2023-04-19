@@ -320,7 +320,7 @@ class SchemaRegistryOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> _models.SchemaGroup:
-        """create_or_update.
+        """Creates or Updates an EventHub schema group.
 
         :param resource_group_name: Name of the resource group within the azure subscription. Required.
         :type resource_group_name: str
@@ -350,7 +350,7 @@ class SchemaRegistryOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> _models.SchemaGroup:
-        """create_or_update.
+        """Creates or Updates an EventHub schema group.
 
         :param resource_group_name: Name of the resource group within the azure subscription. Required.
         :type resource_group_name: str
@@ -378,7 +378,7 @@ class SchemaRegistryOperations:
         parameters: Union[_models.SchemaGroup, IO],
         **kwargs: Any
     ) -> _models.SchemaGroup:
-        """create_or_update.
+        """Creates or Updates an EventHub schema group.
 
         :param resource_group_name: Name of the resource group within the azure subscription. Required.
         :type resource_group_name: str
@@ -463,7 +463,7 @@ class SchemaRegistryOperations:
     def delete(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, namespace_name: str, schema_group_name: str, **kwargs: Any
     ) -> None:
-        """delete.
+        """Deletes an EventHub schema group.
 
         :param resource_group_name: Name of the resource group within the azure subscription. Required.
         :type resource_group_name: str
@@ -526,7 +526,7 @@ class SchemaRegistryOperations:
     def get(
         self, resource_group_name: str, namespace_name: str, schema_group_name: str, **kwargs: Any
     ) -> _models.SchemaGroup:
-        """get.
+        """Gets the details of an EventHub schema group.
 
         :param resource_group_name: Name of the resource group within the azure subscription. Required.
         :type resource_group_name: str
