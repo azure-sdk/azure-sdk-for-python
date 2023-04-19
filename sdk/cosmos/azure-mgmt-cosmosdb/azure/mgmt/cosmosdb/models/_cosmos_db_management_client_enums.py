@@ -39,6 +39,16 @@ class AuthenticationMethod(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     LDAP = "Ldap"
 
 
+class AzureConnectionMethod(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Which connection method Managed Cassandra should use to conenct to Azure resources it needs.
+    'None' is the deafukt which means conenct directly, 'Vpn' will connect through a VPN endpoint
+    for added security and simplicity.
+    """
+
+    NONE = "None"
+    VPN = "Vpn"
+
+
 class BackupPolicyMigrationStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Describes the status of migration between backup policy types."""
 
@@ -61,6 +71,13 @@ class BackupStorageRedundancy(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     GEO = "Geo"
     LOCAL = "Local"
     ZONE = "Zone"
+
+
+class CheckNameAvailabilityReason(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The reason why the given name is not available."""
+
+    INVALID = "Invalid"
+    ALREADY_EXISTS = "AlreadyExists"
 
 
 class CompositePathSortOrder(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -115,6 +132,7 @@ class CreateMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     DEFAULT = "Default"
     RESTORE = "Restore"
+    POINT_IN_TIME_RESTORE = "PointInTimeRestore"
 
 
 class DatabaseAccountKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -129,6 +147,7 @@ class DataTransferComponent(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """DataTransferComponent."""
 
     COSMOS_DB_CASSANDRA = "CosmosDBCassandra"
+    COSMOS_DB_MONGO = "CosmosDBMongo"
     COSMOS_DB_SQL = "CosmosDBSql"
     AZURE_BLOB_STORAGE = "AzureBlobStorage"
 
@@ -215,6 +234,18 @@ class MinimalTlsVersion(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     TLS12 = "Tls12"
 
 
+class MongoClusterStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The status of the resource at the time the operation was called."""
+
+    READY = "Ready"
+    PROVISIONING = "Provisioning"
+    UPDATING = "Updating"
+    STARTING = "Starting"
+    STOPPING = "Stopping"
+    STOPPED = "Stopped"
+    DROPPING = "Dropping"
+
+
 class MongoRoleDefinitionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Indicates whether the Role Definition was built-in or user created."""
 
@@ -227,6 +258,12 @@ class NetworkAclBypass(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     NONE = "None"
     AZURE_SERVICES = "AzureServices"
+
+
+class NodeKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The kind of a node in the mongo cluster."""
+
+    SHARD = "Shard"
 
 
 class NodeState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -281,6 +318,17 @@ class PrimaryAggregationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     MINIMUM = "Minimum"
     MAXIMUM = "Maximum"
     LAST = "Last"
+
+
+class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The provisioning state of the resource."""
+
+    SUCCEEDED = "Succeeded"
+    FAILED = "Failed"
+    CANCELED = "Canceled"
+    IN_PROGRESS = "InProgress"
+    UPDATING = "Updating"
+    DROPPING = "Dropping"
 
 
 class PublicNetworkAccess(str, Enum, metaclass=CaseInsensitiveEnumMeta):
