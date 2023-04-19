@@ -32,6 +32,7 @@ from .operations import (
     ReplicationPoliciesOperations,
     ReplicationProtectableItemsOperations,
     ReplicationProtectedItemsOperations,
+    ReplicationProtectionClustersOperations,
     ReplicationProtectionContainerMappingsOperations,
     ReplicationProtectionContainersOperations,
     ReplicationProtectionIntentsOperations,
@@ -101,6 +102,9 @@ class SiteRecoveryManagementClient:  # pylint: disable=client-accepts-api-versio
     :ivar target_compute_sizes: TargetComputeSizesOperations operations
     :vartype target_compute_sizes:
      azure.mgmt.recoveryservicessiterecovery.operations.TargetComputeSizesOperations
+    :ivar replication_protection_clusters: ReplicationProtectionClustersOperations operations
+    :vartype replication_protection_clusters:
+     azure.mgmt.recoveryservicessiterecovery.operations.ReplicationProtectionClustersOperations
     :ivar replication_protection_container_mappings:
      ReplicationProtectionContainerMappingsOperations operations
     :vartype replication_protection_container_mappings:
@@ -152,7 +156,7 @@ class SiteRecoveryManagementClient:  # pylint: disable=client-accepts-api-versio
     :type resource_name: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2022-10-01". Note that overriding this
+    :keyword api_version: Api Version. Default value is "2023-03-01". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -175,7 +179,7 @@ class SiteRecoveryManagementClient:  # pylint: disable=client-accepts-api-versio
             resource_name=resource_name,
             **kwargs
         )
-        self._client = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        self._client: ARMPipelineClient = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
@@ -223,6 +227,9 @@ class SiteRecoveryManagementClient:  # pylint: disable=client-accepts-api-versio
         )
         self.recovery_points = RecoveryPointsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.target_compute_sizes = TargetComputeSizesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.replication_protection_clusters = ReplicationProtectionClustersOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.replication_protection_container_mappings = ReplicationProtectionContainerMappingsOperations(
@@ -291,5 +298,5 @@ class SiteRecoveryManagementClient:  # pylint: disable=client-accepts-api-versio
         self._client.__enter__()
         return self
 
-    def __exit__(self, *exc_details) -> None:
+    def __exit__(self, *exc_details: Any) -> None:
         self._client.__exit__(*exc_details)

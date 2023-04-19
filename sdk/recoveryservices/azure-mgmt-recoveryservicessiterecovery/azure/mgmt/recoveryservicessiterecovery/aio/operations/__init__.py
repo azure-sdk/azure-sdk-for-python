@@ -22,6 +22,7 @@ from ._replication_protectable_items_operations import ReplicationProtectableIte
 from ._replication_protected_items_operations import ReplicationProtectedItemsOperations
 from ._recovery_points_operations import RecoveryPointsOperations
 from ._target_compute_sizes_operations import TargetComputeSizesOperations
+from ._replication_protection_clusters_operations import ReplicationProtectionClustersOperations
 from ._replication_protection_container_mappings_operations import ReplicationProtectionContainerMappingsOperations
 from ._replication_recovery_services_providers_operations import ReplicationRecoveryServicesProvidersOperations
 from ._replication_storage_classifications_operations import ReplicationStorageClassificationsOperations
@@ -56,6 +57,7 @@ __all__ = [
     "ReplicationProtectedItemsOperations",
     "RecoveryPointsOperations",
     "TargetComputeSizesOperations",
+    "ReplicationProtectionClustersOperations",
     "ReplicationProtectionContainerMappingsOperations",
     "ReplicationRecoveryServicesProvidersOperations",
     "ReplicationStorageClassificationsOperations",
