@@ -14,7 +14,7 @@ from azure.mgmt.redis import RedisManagementClient
     pip install azure-identity
     pip install azure-mgmt-redis
 # USAGE
-    python redis_cache_list_keys.py
+    python redis_cache_access_policy_assignment_create_update.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,13 +29,22 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.redis.list_keys(
+    response = client.access_policy_assignment.begin_create_update(
         resource_group_name="rg1",
-        name="cache1",
-    )
+        cache_name="cache1",
+        access_policy_name="accessPolicy1",
+        parameters={
+            "properties": {
+                "assignments": [
+                    {"objectId": "6497c918-11ad-41e7-1b0f-7c518a87d0b0", "objectIdAlias": "TestAADAppRedis"},
+                    {"objectId": "6497c918-11ad-41e7-1b0f-7c518a87d0b0", "objectIdAlias": "TestAADAppRedis2123"},
+                ]
+            }
+        },
+    ).result()
     print(response)
 
 
-# x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/preview/2023-05-01/examples/RedisCacheListKeys.json
+# x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/preview/2023-05-01/examples/RedisCacheAccessPolicyAssignmentCreateUpdate.json
 if __name__ == "__main__":
     main()

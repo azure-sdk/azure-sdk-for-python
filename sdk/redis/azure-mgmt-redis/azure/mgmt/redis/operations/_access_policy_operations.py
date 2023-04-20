@@ -38,8 +38,8 @@ _SERIALIZER = Serializer()
 _SERIALIZER.client_side_validation = False
 
 
-def build_create_request(
-    resource_group_name: str, name: str, linked_server_name: str, subscription_id: str, **kwargs: Any
+def build_create_update_request(
+    resource_group_name: str, cache_name: str, access_policy_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -51,14 +51,16 @@ def build_create_request(
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/linkedServers/{linkedServerName}",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/accessPolicies/{accessPolicyName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
-        "name": _SERIALIZER.url("name", name, "str"),
-        "linkedServerName": _SERIALIZER.url("linked_server_name", linked_server_name, "str"),
+        "cacheName": _SERIALIZER.url(
+            "cache_name", cache_name, "str", pattern=r"^([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]|[a-zA-Z0-9])$"
+        ),
+        "accessPolicyName": _SERIALIZER.url("access_policy_name", access_policy_name, "str", pattern=r"^[a-zA-Z0-9]+$"),
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
     }
 
@@ -76,7 +78,7 @@ def build_create_request(
 
 
 def build_delete_request(
-    resource_group_name: str, name: str, linked_server_name: str, subscription_id: str, **kwargs: Any
+    resource_group_name: str, cache_name: str, access_policy_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -87,14 +89,16 @@ def build_delete_request(
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/linkedServers/{linkedServerName}",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/accessPolicies/{accessPolicyName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
-        "name": _SERIALIZER.url("name", name, "str"),
-        "linkedServerName": _SERIALIZER.url("linked_server_name", linked_server_name, "str"),
+        "cacheName": _SERIALIZER.url(
+            "cache_name", cache_name, "str", pattern=r"^([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]|[a-zA-Z0-9])$"
+        ),
+        "accessPolicyName": _SERIALIZER.url("access_policy_name", access_policy_name, "str", pattern=r"^[a-zA-Z0-9]+$"),
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
     }
 
@@ -110,7 +114,7 @@ def build_delete_request(
 
 
 def build_get_request(
-    resource_group_name: str, name: str, linked_server_name: str, subscription_id: str, **kwargs: Any
+    resource_group_name: str, cache_name: str, access_policy_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -121,14 +125,16 @@ def build_get_request(
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/linkedServers/{linkedServerName}",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/accessPolicies/{accessPolicyName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
-        "name": _SERIALIZER.url("name", name, "str"),
-        "linkedServerName": _SERIALIZER.url("linked_server_name", linked_server_name, "str"),
+        "cacheName": _SERIALIZER.url(
+            "cache_name", cache_name, "str", pattern=r"^([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]|[a-zA-Z0-9])$"
+        ),
+        "accessPolicyName": _SERIALIZER.url("access_policy_name", access_policy_name, "str", pattern=r"^[a-zA-Z0-9]+$"),
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
     }
 
@@ -143,7 +149,7 @@ def build_get_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_list_request(resource_group_name: str, name: str, subscription_id: str, **kwargs: Any) -> HttpRequest:
+def build_list_request(resource_group_name: str, cache_name: str, subscription_id: str, **kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
@@ -153,13 +159,15 @@ def build_list_request(resource_group_name: str, name: str, subscription_id: str
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/linkedServers",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/accessPolicies",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
-        "name": _SERIALIZER.url("name", name, "str"),
+        "cacheName": _SERIALIZER.url(
+            "cache_name", cache_name, "str", pattern=r"^([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]|[a-zA-Z0-9])$"
+        ),
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
     }
 
@@ -174,14 +182,14 @@ def build_list_request(resource_group_name: str, name: str, subscription_id: str
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-class LinkedServerOperations:
+class AccessPolicyOperations:
     """
     .. warning::
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
         :class:`~azure.mgmt.redis.RedisManagementClient`'s
-        :attr:`linked_server` attribute.
+        :attr:`access_policy` attribute.
     """
 
     models = _models
@@ -193,14 +201,14 @@ class LinkedServerOperations:
         self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
-    def _create_initial(
+    def _create_update_initial(
         self,
         resource_group_name: str,
-        name: str,
-        linked_server_name: str,
-        parameters: Union[_models.RedisLinkedServerCreateParameters, IO],
+        cache_name: str,
+        access_policy_name: str,
+        parameters: Union[_models.RedisCacheAccessPolicy, IO],
         **kwargs: Any
-    ) -> _models.RedisLinkedServerWithProperties:
+    ) -> _models.RedisCacheAccessPolicy:
         error_map = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -214,7 +222,7 @@ class LinkedServerOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.RedisLinkedServerWithProperties] = kwargs.pop("cls", None)
+        cls: ClsType[_models.RedisCacheAccessPolicy] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -222,18 +230,18 @@ class LinkedServerOperations:
         if isinstance(parameters, (IO, bytes)):
             _content = parameters
         else:
-            _json = self._serialize.body(parameters, "RedisLinkedServerCreateParameters")
+            _json = self._serialize.body(parameters, "RedisCacheAccessPolicy")
 
-        request = build_create_request(
+        request = build_create_update_request(
             resource_group_name=resource_group_name,
-            name=name,
-            linked_server_name=linked_server_name,
+            cache_name=cache_name,
+            access_policy_name=access_policy_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_initial.metadata["url"],
+            template_url=self._create_update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
@@ -253,43 +261,43 @@ class LinkedServerOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if response.status_code == 200:
-            deserialized = self._deserialize("RedisLinkedServerWithProperties", pipeline_response)
+            deserialized = self._deserialize("RedisCacheAccessPolicy", pipeline_response)
 
         if response.status_code == 201:
-            deserialized = self._deserialize("RedisLinkedServerWithProperties", pipeline_response)
+            deserialized = self._deserialize("RedisCacheAccessPolicy", pipeline_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
 
-    _create_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/linkedServers/{linkedServerName}"
+    _create_update_initial.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/accessPolicies/{accessPolicyName}"
     }
 
     @overload
-    def begin_create(
+    def begin_create_update(
         self,
         resource_group_name: str,
-        name: str,
-        linked_server_name: str,
-        parameters: _models.RedisLinkedServerCreateParameters,
+        cache_name: str,
+        access_policy_name: str,
+        parameters: _models.RedisCacheAccessPolicy,
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.RedisLinkedServerWithProperties]:
-        """Adds a linked server to the Redis cache (requires Premium SKU).
+    ) -> LROPoller[_models.RedisCacheAccessPolicy]:
+        """Adds an access policy to the redis cache.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param name: The name of the Redis cache. Required.
-        :type name: str
-        :param linked_server_name: The name of the linked server that is being added to the Redis
+        :param cache_name: The name of the Redis cache. Required.
+        :type cache_name: str
+        :param access_policy_name: The name of the access policy that is being added to the Redis
          cache. Required.
-        :type linked_server_name: str
-        :param parameters: Parameters supplied to the Create Linked server operation. Required.
-        :type parameters: ~azure.mgmt.redis.models.RedisLinkedServerCreateParameters
+        :type access_policy_name: str
+        :param parameters: Parameters supplied to the Create Update Access Policy operation. Required.
+        :type parameters: ~azure.mgmt.redis.models.RedisCacheAccessPolicy
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -301,34 +309,34 @@ class LinkedServerOperations:
         :paramtype polling: bool or ~azure.core.polling.PollingMethod
         :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
          Retry-After header is present.
-        :return: An instance of LROPoller that returns either RedisLinkedServerWithProperties or the
-         result of cls(response)
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.redis.models.RedisLinkedServerWithProperties]
+        :return: An instance of LROPoller that returns either RedisCacheAccessPolicy or the result of
+         cls(response)
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.redis.models.RedisCacheAccessPolicy]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def begin_create(
+    def begin_create_update(
         self,
         resource_group_name: str,
-        name: str,
-        linked_server_name: str,
+        cache_name: str,
+        access_policy_name: str,
         parameters: IO,
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.RedisLinkedServerWithProperties]:
-        """Adds a linked server to the Redis cache (requires Premium SKU).
+    ) -> LROPoller[_models.RedisCacheAccessPolicy]:
+        """Adds an access policy to the redis cache.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param name: The name of the Redis cache. Required.
-        :type name: str
-        :param linked_server_name: The name of the linked server that is being added to the Redis
+        :param cache_name: The name of the Redis cache. Required.
+        :type cache_name: str
+        :param access_policy_name: The name of the access policy that is being added to the Redis
          cache. Required.
-        :type linked_server_name: str
-        :param parameters: Parameters supplied to the Create Linked server operation. Required.
+        :type access_policy_name: str
+        :param parameters: Parameters supplied to the Create Update Access Policy operation. Required.
         :type parameters: IO
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
@@ -341,34 +349,34 @@ class LinkedServerOperations:
         :paramtype polling: bool or ~azure.core.polling.PollingMethod
         :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
          Retry-After header is present.
-        :return: An instance of LROPoller that returns either RedisLinkedServerWithProperties or the
-         result of cls(response)
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.redis.models.RedisLinkedServerWithProperties]
+        :return: An instance of LROPoller that returns either RedisCacheAccessPolicy or the result of
+         cls(response)
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.redis.models.RedisCacheAccessPolicy]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @distributed_trace
-    def begin_create(
+    def begin_create_update(
         self,
         resource_group_name: str,
-        name: str,
-        linked_server_name: str,
-        parameters: Union[_models.RedisLinkedServerCreateParameters, IO],
+        cache_name: str,
+        access_policy_name: str,
+        parameters: Union[_models.RedisCacheAccessPolicy, IO],
         **kwargs: Any
-    ) -> LROPoller[_models.RedisLinkedServerWithProperties]:
-        """Adds a linked server to the Redis cache (requires Premium SKU).
+    ) -> LROPoller[_models.RedisCacheAccessPolicy]:
+        """Adds an access policy to the redis cache.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param name: The name of the Redis cache. Required.
-        :type name: str
-        :param linked_server_name: The name of the linked server that is being added to the Redis
+        :param cache_name: The name of the Redis cache. Required.
+        :type cache_name: str
+        :param access_policy_name: The name of the access policy that is being added to the Redis
          cache. Required.
-        :type linked_server_name: str
-        :param parameters: Parameters supplied to the Create Linked server operation. Is either a
-         RedisLinkedServerCreateParameters type or a IO type. Required.
-        :type parameters: ~azure.mgmt.redis.models.RedisLinkedServerCreateParameters or IO
+        :type access_policy_name: str
+        :param parameters: Parameters supplied to the Create Update Access Policy operation. Is either
+         a RedisCacheAccessPolicy type or a IO type. Required.
+        :type parameters: ~azure.mgmt.redis.models.RedisCacheAccessPolicy or IO
         :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
          Default value is None.
         :paramtype content_type: str
@@ -380,9 +388,9 @@ class LinkedServerOperations:
         :paramtype polling: bool or ~azure.core.polling.PollingMethod
         :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
          Retry-After header is present.
-        :return: An instance of LROPoller that returns either RedisLinkedServerWithProperties or the
-         result of cls(response)
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.redis.models.RedisLinkedServerWithProperties]
+        :return: An instance of LROPoller that returns either RedisCacheAccessPolicy or the result of
+         cls(response)
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.redis.models.RedisCacheAccessPolicy]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -390,15 +398,15 @@ class LinkedServerOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.RedisLinkedServerWithProperties] = kwargs.pop("cls", None)
+        cls: ClsType[_models.RedisCacheAccessPolicy] = kwargs.pop("cls", None)
         polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._create_initial(
+            raw_result = self._create_update_initial(
                 resource_group_name=resource_group_name,
-                name=name,
-                linked_server_name=linked_server_name,
+                cache_name=cache_name,
+                access_policy_name=access_policy_name,
                 parameters=parameters,
                 api_version=api_version,
                 content_type=content_type,
@@ -410,7 +418,7 @@ class LinkedServerOperations:
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("RedisLinkedServerWithProperties", pipeline_response)
+            deserialized = self._deserialize("RedisCacheAccessPolicy", pipeline_response)
             if cls:
                 return cls(pipeline_response, deserialized, {})
             return deserialized
@@ -430,13 +438,13 @@ class LinkedServerOperations:
             )
         return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
-    begin_create.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/linkedServers/{linkedServerName}"
+    begin_create_update.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/accessPolicies/{accessPolicyName}"
     }
 
-    def _delete_initial(  # pylint: disable=inconsistent-return-statements
-        self, resource_group_name: str, name: str, linked_server_name: str, **kwargs: Any
-    ) -> None:
+    def _delete_initial(
+        self, resource_group_name: str, cache_name: str, access_policy_name: str, **kwargs: Any
+    ) -> Optional[_models.RedisCacheAccessPolicy]:
         error_map = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -449,12 +457,12 @@ class LinkedServerOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[None] = kwargs.pop("cls", None)
+        cls: ClsType[Optional[_models.RedisCacheAccessPolicy]] = kwargs.pop("cls", None)
 
         request = build_delete_request(
             resource_group_name=resource_group_name,
-            name=name,
-            linked_server_name=linked_server_name,
+            cache_name=cache_name,
+            access_policy_name=access_policy_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             template_url=self._delete_initial.metadata["url"],
@@ -471,36 +479,41 @@ class LinkedServerOperations:
 
         response = pipeline_response.http_response
 
-        if response.status_code not in [200, 202]:
+        if response.status_code not in [200, 202, 204]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
+        deserialized = None
         response_headers = {}
         if response.status_code == 202:
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
 
+            deserialized = self._deserialize("RedisCacheAccessPolicy", pipeline_response)
+
         if cls:
-            return cls(pipeline_response, None, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)
+
+        return deserialized
 
     _delete_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/linkedServers/{linkedServerName}"
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/accessPolicies/{accessPolicyName}"
     }
 
     @distributed_trace
     def begin_delete(
-        self, resource_group_name: str, name: str, linked_server_name: str, **kwargs: Any
-    ) -> LROPoller[None]:
-        """Deletes the linked server from a redis cache (requires Premium SKU).
+        self, resource_group_name: str, cache_name: str, access_policy_name: str, **kwargs: Any
+    ) -> LROPoller[_models.RedisCacheAccessPolicy]:
+        """Deletes the access policy from a redis cache.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param name: The name of the redis cache. Required.
-        :type name: str
-        :param linked_server_name: The name of the linked server that is being added to the Redis
+        :param cache_name: The name of the Redis cache. Required.
+        :type cache_name: str
+        :param access_policy_name: The name of the access policy that is being deleted from the Redis
          cache. Required.
-        :type linked_server_name: str
+        :type access_policy_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :keyword str continuation_token: A continuation token to restart a poller from a saved state.
         :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
@@ -509,8 +522,9 @@ class LinkedServerOperations:
         :paramtype polling: bool or ~azure.core.polling.PollingMethod
         :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
          Retry-After header is present.
-        :return: An instance of LROPoller that returns either None or the result of cls(response)
-        :rtype: ~azure.core.polling.LROPoller[None]
+        :return: An instance of LROPoller that returns either RedisCacheAccessPolicy or the result of
+         cls(response)
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.redis.models.RedisCacheAccessPolicy]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -522,10 +536,10 @@ class LinkedServerOperations:
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._delete_initial(  # type: ignore
+            raw_result = self._delete_initial(
                 resource_group_name=resource_group_name,
-                name=name,
-                linked_server_name=linked_server_name,
+                cache_name=cache_name,
+                access_policy_name=access_policy_name,
                 api_version=api_version,
                 cls=lambda x, y, z: x,
                 headers=_headers,
@@ -534,12 +548,20 @@ class LinkedServerOperations:
             )
         kwargs.pop("error_map", None)
 
-        def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
+        def get_long_running_output(pipeline_response):
+            response_headers = {}
+            response = pipeline_response.http_response
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+
+            deserialized = self._deserialize("RedisCacheAccessPolicy", pipeline_response)
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, deserialized, response_headers)
+            return deserialized
 
         if polling is True:
-            polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
+            polling_method: PollingMethod = cast(
+                PollingMethod, ARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
         elif polling is False:
             polling_method = cast(PollingMethod, NoPolling())
         else:
@@ -554,25 +576,26 @@ class LinkedServerOperations:
         return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     begin_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/linkedServers/{linkedServerName}"
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/accessPolicies/{accessPolicyName}"
     }
 
     @distributed_trace
     def get(
-        self, resource_group_name: str, name: str, linked_server_name: str, **kwargs: Any
-    ) -> _models.RedisLinkedServerWithProperties:
-        """Gets the detailed information about a linked server of a redis cache (requires Premium SKU).
+        self, resource_group_name: str, cache_name: str, access_policy_name: str, **kwargs: Any
+    ) -> _models.RedisCacheAccessPolicy:
+        """Gets the detailed information about an access policy of a redis cache.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param name: The name of the redis cache. Required.
-        :type name: str
-        :param linked_server_name: The name of the linked server. Required.
-        :type linked_server_name: str
+        :param cache_name: The name of the Redis cache. Required.
+        :type cache_name: str
+        :param access_policy_name: The name of the access policy that is being deleted from the Redis
+         cache. Required.
+        :type access_policy_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: RedisLinkedServerWithProperties or the result of cls(response)
-        :rtype: ~azure.mgmt.redis.models.RedisLinkedServerWithProperties
+        :return: RedisCacheAccessPolicy or the result of cls(response)
+        :rtype: ~azure.mgmt.redis.models.RedisCacheAccessPolicy
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map = {
@@ -587,12 +610,12 @@ class LinkedServerOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.RedisLinkedServerWithProperties] = kwargs.pop("cls", None)
+        cls: ClsType[_models.RedisCacheAccessPolicy] = kwargs.pop("cls", None)
 
         request = build_get_request(
             resource_group_name=resource_group_name,
-            name=name,
-            linked_server_name=linked_server_name,
+            cache_name=cache_name,
+            access_policy_name=access_policy_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             template_url=self.get.metadata["url"],
@@ -614,7 +637,7 @@ class LinkedServerOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("RedisLinkedServerWithProperties", pipeline_response)
+        deserialized = self._deserialize("RedisCacheAccessPolicy", pipeline_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})
@@ -622,31 +645,31 @@ class LinkedServerOperations:
         return deserialized
 
     get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/linkedServers/{linkedServerName}"
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/accessPolicies/{accessPolicyName}"
     }
 
     @distributed_trace
     def list(
-        self, resource_group_name: str, name: str, **kwargs: Any
-    ) -> Iterable["_models.RedisLinkedServerWithProperties"]:
-        """Gets the list of linked servers associated with this redis cache (requires Premium SKU).
+        self, resource_group_name: str, cache_name: str, **kwargs: Any
+    ) -> Iterable["_models.RedisCacheAccessPolicy"]:
+        """Gets the list of access policies associated with this redis cache.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param name: The name of the redis cache. Required.
-        :type name: str
+        :param cache_name: The name of the Redis cache. Required.
+        :type cache_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: An iterator like instance of either RedisLinkedServerWithProperties or the result of
+        :return: An iterator like instance of either RedisCacheAccessPolicy or the result of
          cls(response)
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.redis.models.RedisLinkedServerWithProperties]
+        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.redis.models.RedisCacheAccessPolicy]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.RedisLinkedServerWithPropertiesList] = kwargs.pop("cls", None)
+        cls: ClsType[_models.RedisCacheAccessPolicyList] = kwargs.pop("cls", None)
 
         error_map = {
             401: ClientAuthenticationError,
@@ -661,7 +684,7 @@ class LinkedServerOperations:
 
                 request = build_list_request(
                     resource_group_name=resource_group_name,
-                    name=name,
+                    cache_name=cache_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
                     template_url=self.list.metadata["url"],
@@ -690,7 +713,7 @@ class LinkedServerOperations:
             return request
 
         def extract_data(pipeline_response):
-            deserialized = self._deserialize("RedisLinkedServerWithPropertiesList", pipeline_response)
+            deserialized = self._deserialize("RedisCacheAccessPolicyList", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
@@ -715,5 +738,5 @@ class LinkedServerOperations:
         return ItemPaged(get_next, extract_data)
 
     list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/linkedServers"
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/accessPolicies"
     }

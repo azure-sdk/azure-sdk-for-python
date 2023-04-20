@@ -14,7 +14,7 @@ from azure.mgmt.redis import RedisManagementClient
     pip install azure-identity
     pip install azure-mgmt-redis
 # USAGE
-    python redis_cache_list_private_endpoint_connection.py
+    python redis_cache_linked_server_delete.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,17 +26,17 @@ from azure.mgmt.redis import RedisManagementClient
 def main():
     client = RedisManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="{subscriptionId}",
+        subscription_id="subid",
     )
 
-    response = client.private_endpoint_connections.list(
-        resource_group_name="rgtest01",
-        cache_name="cachetest01",
-    )
-    for item in response:
-        print(item)
+    response = client.linked_server.begin_delete(
+        resource_group_name="rg1",
+        name="cache1",
+        linked_server_name="cache2",
+    ).result()
+    print(response)
 
 
-# x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-06-01/examples/RedisCacheListPrivateEndpointConnections.json
+# x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/preview/2023-05-01/examples/RedisCacheLinkedServer_Delete.json
 if __name__ == "__main__":
     main()

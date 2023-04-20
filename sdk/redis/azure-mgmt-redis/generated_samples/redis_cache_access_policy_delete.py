@@ -14,7 +14,7 @@ from azure.mgmt.redis import RedisManagementClient
     pip install azure-identity
     pip install azure-mgmt-redis
 # USAGE
-    python redis_cache_list_keys.py
+    python redis_cache_access_policy_delete.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,13 +29,14 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.redis.list_keys(
+    response = client.access_policy.begin_delete(
         resource_group_name="rg1",
-        name="cache1",
-    )
+        cache_name="cache1",
+        access_policy_name="accessPolicy1",
+    ).result()
     print(response)
 
 
-# x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/preview/2023-05-01/examples/RedisCacheListKeys.json
+# x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/preview/2023-05-01/examples/RedisCacheAccessPolicyDelete.json
 if __name__ == "__main__":
     main()
