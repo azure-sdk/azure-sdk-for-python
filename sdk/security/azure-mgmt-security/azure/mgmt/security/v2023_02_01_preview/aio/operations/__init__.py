@@ -11,6 +11,8 @@ from ._sql_vulnerability_assessment_scans_operations import SqlVulnerabilityAsse
 from ._sql_vulnerability_assessment_scan_results_operations import SqlVulnerabilityAssessmentScanResultsOperations
 from ._health_reports_operations import HealthReportsOperations
 from ._health_report_operations import HealthReportOperations
+from ._security_center_operations import SecurityCenterOperationsMixin
+from ._sensitivity_settings_operations import SensitivitySettingsOperations
 
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
@@ -22,6 +24,8 @@ __all__ = [
     "SqlVulnerabilityAssessmentScanResultsOperations",
     "HealthReportsOperations",
     "HealthReportOperations",
+    "SecurityCenterOperationsMixin",
+    "SensitivitySettingsOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()

@@ -131,7 +131,7 @@ def build_list_by_resource_group_request(resource_group_name: str, subscription_
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_list_by_resource_group_and_region_request(
+def build_list_by_resource_group_and_region_request(  # pylint: disable=name-too-long
     resource_group_name: str, asc_location: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})

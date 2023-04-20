@@ -96,7 +96,7 @@ def build_list_by_resource_group_request(resource_group_name: str, subscription_
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_list_subscription_level_by_region_request(
+def build_list_subscription_level_by_region_request(  # pylint: disable=name-too-long
     asc_location: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -127,7 +127,7 @@ def build_list_subscription_level_by_region_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_list_resource_group_level_by_region_request(
+def build_list_resource_group_level_by_region_request(  # pylint: disable=name-too-long
     asc_location: str, resource_group_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -231,7 +231,7 @@ def build_get_resource_group_level_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_update_subscription_level_state_to_dismiss_request(
+def build_update_subscription_level_state_to_dismiss_request(  # pylint: disable=name-too-long
     asc_location: str, alert_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -264,7 +264,7 @@ def build_update_subscription_level_state_to_dismiss_request(
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_update_subscription_level_state_to_resolve_request(
+def build_update_subscription_level_state_to_resolve_request(  # pylint: disable=name-too-long
     asc_location: str, alert_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -297,7 +297,7 @@ def build_update_subscription_level_state_to_resolve_request(
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_update_subscription_level_state_to_activate_request(
+def build_update_subscription_level_state_to_activate_request(  # pylint: disable=name-too-long
     asc_location: str, alert_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -330,7 +330,7 @@ def build_update_subscription_level_state_to_activate_request(
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_update_subscription_level_state_to_in_progress_request(
+def build_update_subscription_level_state_to_in_progress_request(  # pylint: disable=name-too-long
     asc_location: str, alert_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -363,7 +363,7 @@ def build_update_subscription_level_state_to_in_progress_request(
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_update_resource_group_level_state_to_resolve_request(
+def build_update_resource_group_level_state_to_resolve_request(  # pylint: disable=name-too-long
     resource_group_name: str, asc_location: str, alert_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -399,7 +399,7 @@ def build_update_resource_group_level_state_to_resolve_request(
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_update_resource_group_level_state_to_dismiss_request(
+def build_update_resource_group_level_state_to_dismiss_request(  # pylint: disable=name-too-long
     resource_group_name: str, asc_location: str, alert_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -435,7 +435,7 @@ def build_update_resource_group_level_state_to_dismiss_request(
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_update_resource_group_level_state_to_activate_request(
+def build_update_resource_group_level_state_to_activate_request(  # pylint: disable=name-too-long
     resource_group_name: str, asc_location: str, alert_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -471,7 +471,7 @@ def build_update_resource_group_level_state_to_activate_request(
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_update_resource_group_level_state_to_in_progress_request(
+def build_update_resource_group_level_state_to_in_progress_request(  # pylint: disable=name-too-long
     resource_group_name: str, asc_location: str, alert_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -1036,7 +1036,7 @@ class AlertsOperations:
     }
 
     @distributed_trace
-    def update_subscription_level_state_to_dismiss(  # pylint: disable=inconsistent-return-statements
+    def update_subscription_level_state_to_dismiss(  # pylint: disable=inconsistent-return-statements,name-too-long
         self, asc_location: str, alert_name: str, **kwargs: Any
     ) -> None:
         """Update the alert's state.
@@ -1096,7 +1096,7 @@ class AlertsOperations:
     }
 
     @distributed_trace
-    def update_subscription_level_state_to_resolve(  # pylint: disable=inconsistent-return-statements
+    def update_subscription_level_state_to_resolve(  # pylint: disable=inconsistent-return-statements,name-too-long
         self, asc_location: str, alert_name: str, **kwargs: Any
     ) -> None:
         """Update the alert's state.
@@ -1156,7 +1156,7 @@ class AlertsOperations:
     }
 
     @distributed_trace
-    def update_subscription_level_state_to_activate(  # pylint: disable=inconsistent-return-statements
+    def update_subscription_level_state_to_activate(  # pylint: disable=inconsistent-return-statements,name-too-long
         self, asc_location: str, alert_name: str, **kwargs: Any
     ) -> None:
         """Update the alert's state.
@@ -1216,7 +1216,7 @@ class AlertsOperations:
     }
 
     @distributed_trace
-    def update_subscription_level_state_to_in_progress(  # pylint: disable=inconsistent-return-statements
+    def update_subscription_level_state_to_in_progress(  # pylint: disable=inconsistent-return-statements,name-too-long
         self, asc_location: str, alert_name: str, **kwargs: Any
     ) -> None:
         """Update the alert's state.
@@ -1276,7 +1276,7 @@ class AlertsOperations:
     }
 
     @distributed_trace
-    def update_resource_group_level_state_to_resolve(  # pylint: disable=inconsistent-return-statements
+    def update_resource_group_level_state_to_resolve(  # pylint: disable=inconsistent-return-statements,name-too-long
         self, resource_group_name: str, asc_location: str, alert_name: str, **kwargs: Any
     ) -> None:
         """Update the alert's state.
@@ -1340,7 +1340,7 @@ class AlertsOperations:
     }
 
     @distributed_trace
-    def update_resource_group_level_state_to_dismiss(  # pylint: disable=inconsistent-return-statements
+    def update_resource_group_level_state_to_dismiss(  # pylint: disable=inconsistent-return-statements,name-too-long
         self, resource_group_name: str, asc_location: str, alert_name: str, **kwargs: Any
     ) -> None:
         """Update the alert's state.
@@ -1404,7 +1404,7 @@ class AlertsOperations:
     }
 
     @distributed_trace
-    def update_resource_group_level_state_to_activate(  # pylint: disable=inconsistent-return-statements
+    def update_resource_group_level_state_to_activate(  # pylint: disable=inconsistent-return-statements,name-too-long
         self, resource_group_name: str, asc_location: str, alert_name: str, **kwargs: Any
     ) -> None:
         """Update the alert's state.
@@ -1468,7 +1468,7 @@ class AlertsOperations:
     }
 
     @distributed_trace
-    def update_resource_group_level_state_to_in_progress(  # pylint: disable=inconsistent-return-statements
+    def update_resource_group_level_state_to_in_progress(  # pylint: disable=inconsistent-return-statements,name-too-long
         self, resource_group_name: str, asc_location: str, alert_name: str, **kwargs: Any
     ) -> None:
         """Update the alert's state.
