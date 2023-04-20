@@ -47,6 +47,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2022-10-01/examples/ManagedEnvironmentsStorages_CreateOrUpdate.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-04-01-preview/examples/ManagedEnvironmentsStorages_CreateOrUpdate.json
 if __name__ == "__main__":
     main()
