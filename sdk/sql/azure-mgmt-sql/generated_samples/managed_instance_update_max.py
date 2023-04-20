@@ -26,7 +26,7 @@ from azure.mgmt.sql import SqlManagementClient
 def main():
     client = SqlManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="20D7082A-0FC7-4468-82BD-542694D5042B",
+        subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
     response = client.managed_instances.begin_update(
@@ -38,7 +38,7 @@ def main():
                 "administratorLoginPassword": "PLACEHOLDER",
                 "collation": "SQL_Latin1_General_CP1_CI_AS",
                 "licenseType": "BasePrice",
-                "maintenanceConfigurationId": "/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_JapanEast_MI_1",
+                "maintenanceConfigurationId": "/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_JapanEast_MI_1",
                 "minimalTlsVersion": "1.2",
                 "proxyOverride": "Redirect",
                 "publicDataEndpointEnabled": False,
@@ -53,6 +53,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedInstanceUpdateMax.json
+# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-11-01-preview/examples/ManagedInstanceUpdateMax.json
 if __name__ == "__main__":
     main()
