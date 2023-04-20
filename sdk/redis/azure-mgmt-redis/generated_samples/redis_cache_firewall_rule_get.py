@@ -37,6 +37,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-06-01/examples/RedisCacheFirewallRuleGet.json
+# x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/preview/2023-05-01/examples/RedisCacheFirewallRuleGet.json
 if __name__ == "__main__":
     main()

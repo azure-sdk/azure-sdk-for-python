@@ -10,6 +10,35 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
+class AccessPolicyAssignmentProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Provisioning state of an access policy assignment set."""
+
+    UPDATING = "Updating"
+    SUCCEEDED = "Succeeded"
+    DELETING = "Deleting"
+    DELETED = "Deleted"
+    CANCELED = "Canceled"
+    FAILED = "Failed"
+
+
+class AccessPolicyProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Provisioning state of access policy."""
+
+    UPDATING = "Updating"
+    SUCCEEDED = "Succeeded"
+    DELETING = "Deleting"
+    DELETED = "Deleted"
+    CANCELED = "Canceled"
+    FAILED = "Failed"
+
+
+class AccessPolicyType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Built-In or Custom access policy."""
+
+    CUSTOM = "Custom"
+    BUILT_IN = "BuiltIn"
+
+
 class DayOfWeek(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Day of the week when a cache can be patched."""
 

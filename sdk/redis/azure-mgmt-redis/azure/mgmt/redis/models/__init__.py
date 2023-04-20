@@ -28,6 +28,11 @@ from ._models_py3 import PrivateLinkResourceListResult
 from ._models_py3 import PrivateLinkServiceConnectionState
 from ._models_py3 import ProxyResource
 from ._models_py3 import RedisAccessKeys
+from ._models_py3 import RedisCacheAccessPolicy
+from ._models_py3 import RedisCacheAccessPolicyAssignment
+from ._models_py3 import RedisCacheAccessPolicyAssignmentList
+from ._models_py3 import RedisCacheAccessPolicyAssignmentSet
+from ._models_py3 import RedisCacheAccessPolicyList
 from ._models_py3 import RedisCommonProperties
 from ._models_py3 import RedisCommonPropertiesRedisConfiguration
 from ._models_py3 import RedisCreateParameters
@@ -59,6 +64,9 @@ from ._models_py3 import TrackedResource
 from ._models_py3 import UpgradeNotification
 from ._models_py3 import UserAssignedIdentity
 
+from ._redis_management_client_enums import AccessPolicyAssignmentProvisioningState
+from ._redis_management_client_enums import AccessPolicyProvisioningState
+from ._redis_management_client_enums import AccessPolicyType
 from ._redis_management_client_enums import DayOfWeek
 from ._redis_management_client_enums import DefaultName
 from ._redis_management_client_enums import ManagedServiceIdentityType
@@ -73,7 +81,7 @@ from ._redis_management_client_enums import SkuFamily
 from ._redis_management_client_enums import SkuName
 from ._redis_management_client_enums import TlsVersion
 from ._patch import __all__ as _patch_all
-from ._patch import *  # type: ignore # pylint: disable=unused-wildcard-import
+from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
@@ -99,6 +107,11 @@ __all__ = [
     "PrivateLinkServiceConnectionState",
     "ProxyResource",
     "RedisAccessKeys",
+    "RedisCacheAccessPolicy",
+    "RedisCacheAccessPolicyAssignment",
+    "RedisCacheAccessPolicyAssignmentList",
+    "RedisCacheAccessPolicyAssignmentSet",
+    "RedisCacheAccessPolicyList",
     "RedisCommonProperties",
     "RedisCommonPropertiesRedisConfiguration",
     "RedisCreateParameters",
@@ -129,6 +142,9 @@ __all__ = [
     "TrackedResource",
     "UpgradeNotification",
     "UserAssignedIdentity",
+    "AccessPolicyAssignmentProvisioningState",
+    "AccessPolicyProvisioningState",
+    "AccessPolicyType",
     "DayOfWeek",
     "DefaultName",
     "ManagedServiceIdentityType",

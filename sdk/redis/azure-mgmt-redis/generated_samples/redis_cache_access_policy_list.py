@@ -14,7 +14,7 @@ from azure.mgmt.redis import RedisManagementClient
     pip install azure-identity
     pip install azure-mgmt-redis
 # USAGE
-    python linked_server_create.py
+    python redis_cache_access_policy_list.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,21 +29,14 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.linked_server.begin_create(
+    response = client.access_policy.list(
         resource_group_name="rg1",
-        name="cache1",
-        linked_server_name="cache2",
-        parameters={
-            "properties": {
-                "linkedRedisCacheId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache2",
-                "linkedRedisCacheLocation": "West US",
-                "serverRole": "Secondary",
-            }
-        },
-    ).result()
-    print(response)
+        cache_name="cache1",
+    )
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-06-01/examples/RedisCacheLinkedServer_Create.json
+# x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/preview/2023-05-01/examples/RedisCacheAccessPolicyList.json
 if __name__ == "__main__":
     main()
