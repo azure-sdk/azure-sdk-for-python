@@ -8,13 +8,20 @@
 # --------------------------------------------------------------------------
 
 import datetime
-from typing import Dict, List, Optional, TYPE_CHECKING, Union
+import sys
+from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
 from .. import _serialization
+
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
 
 if TYPE_CHECKING:
     # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
+JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 
 
 class AvailabilitySet(_serialization.Model):
@@ -74,8 +81,8 @@ class AvailabilitySet(_serialization.Model):
         extended_location: Optional["_models.ExtendedLocation"] = None,
         availability_set_name: Optional[str] = None,
         vmm_server_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Gets or sets the location.
         :paramtype location: str
@@ -116,8 +123,12 @@ class AvailabilitySetListItem(_serialization.Model):
     }
 
     def __init__(
-        self, *, id: Optional[str] = None, name: Optional[str] = None, **kwargs  # pylint: disable=redefined-builtin
-    ):
+        self,
+        *,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        name: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: Gets the ARM Id of the microsoft.scvmm/availabilitySets resource.
         :paramtype id: str
@@ -144,8 +155,8 @@ class AvailabilitySetListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.AvailabilitySet"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.AvailabilitySet"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: List of AvailabilitySets.
         :paramtype value: list[~azure.mgmt.scvmm.models.AvailabilitySet]
@@ -184,8 +195,8 @@ class Checkpoint(_serialization.Model):
         checkpoint_id: Optional[str] = None,
         name: Optional[str] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword parent_checkpoint_id: Gets ID of parent of the checkpoint.
         :paramtype parent_checkpoint_id: str
@@ -280,8 +291,8 @@ class Cloud(_serialization.Model):  # pylint: disable=too-many-instance-attribut
         inventory_item_id: Optional[str] = None,
         uuid: Optional[str] = None,
         vmm_server_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Gets or sets the location. Required.
         :paramtype location: str
@@ -337,8 +348,8 @@ class CloudCapacity(_serialization.Model):
         cpu_count: Optional[int] = None,
         memory_mb: Optional[int] = None,
         vm_count: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword cpu_count: CPUCount specifies the maximum number of CPUs that can be allocated in the
          cloud.
@@ -404,7 +415,7 @@ class InventoryItemProperties(_serialization.Model):
         }
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.inventory_type: Optional[str] = None
@@ -451,7 +462,7 @@ class CloudInventoryItem(InventoryItemProperties):
         "provisioning_state": {"key": "provisioningState", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.inventory_type: str = "Cloud"
@@ -471,7 +482,9 @@ class CloudListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Cloud"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.Cloud"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: List of Clouds.
         :paramtype value: list[~azure.mgmt.scvmm.models.Cloud]
@@ -481,6 +494,34 @@ class CloudListResult(_serialization.Model):
         super().__init__(**kwargs)
         self.value = value
         self.next_link = next_link
+
+
+class ErrorAdditionalInfo(_serialization.Model):
+    """The resource management error additional info.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar type: The additional info type.
+    :vartype type: str
+    :ivar info: The additional info.
+    :vartype info: JSON
+    """
+
+    _validation = {
+        "type": {"readonly": True},
+        "info": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "type": {"key": "type", "type": "str"},
+        "info": {"key": "info", "type": "object"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.type = None
+        self.info = None
 
 
 class ErrorDefinition(_serialization.Model):
@@ -508,12 +549,55 @@ class ErrorDefinition(_serialization.Model):
         "details": {"key": "details", "type": "[ErrorDefinition]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.code = None
         self.message = None
         self.details = None
+
+
+class ErrorDetail(_serialization.Model):
+    """The error detail.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar code: The error code.
+    :vartype code: str
+    :ivar message: The error message.
+    :vartype message: str
+    :ivar target: The error target.
+    :vartype target: str
+    :ivar details: The error details.
+    :vartype details: list[~azure.mgmt.scvmm.models.ErrorDetail]
+    :ivar additional_info: The error additional info.
+    :vartype additional_info: list[~azure.mgmt.scvmm.models.ErrorAdditionalInfo]
+    """
+
+    _validation = {
+        "code": {"readonly": True},
+        "message": {"readonly": True},
+        "target": {"readonly": True},
+        "details": {"readonly": True},
+        "additional_info": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "code": {"key": "code", "type": "str"},
+        "message": {"key": "message", "type": "str"},
+        "target": {"key": "target", "type": "str"},
+        "details": {"key": "details", "type": "[ErrorDetail]"},
+        "additional_info": {"key": "additionalInfo", "type": "[ErrorAdditionalInfo]"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.code = None
+        self.message = None
+        self.target = None
+        self.details = None
+        self.additional_info = None
 
 
 class ErrorResponse(_serialization.Model):
@@ -527,7 +611,7 @@ class ErrorResponse(_serialization.Model):
         "error": {"key": "error", "type": "ErrorDefinition"},
     }
 
-    def __init__(self, *, error: Optional["_models.ErrorDefinition"] = None, **kwargs):
+    def __init__(self, *, error: Optional["_models.ErrorDefinition"] = None, **kwargs: Any) -> None:
         """
         :keyword error: The error details.
         :paramtype error: ~azure.mgmt.scvmm.models.ErrorDefinition
@@ -550,7 +634,7 @@ class ExtendedLocation(_serialization.Model):
         "name": {"key": "name", "type": "str"},
     }
 
-    def __init__(self, *, type: Optional[str] = None, name: Optional[str] = None, **kwargs):
+    def __init__(self, *, type: Optional[str] = None, name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword type: The extended location type.
         :paramtype type: str
@@ -560,6 +644,281 @@ class ExtendedLocation(_serialization.Model):
         super().__init__(**kwargs)
         self.type = type
         self.name = name
+
+
+class Resource(_serialization.Model):
+    """Common fields that are returned in the response for all Azure Resource Manager resources.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.scvmm.models.SystemData
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.id = None
+        self.name = None
+        self.type = None
+        self.system_data = None
+
+
+class ProxyResource(Resource):
+    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
+    tags and a location.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.scvmm.models.SystemData
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+
+
+class GuestAgent(ProxyResource):  # pylint: disable=too-many-instance-attributes
+    """Defines the GuestAgent.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.scvmm.models.SystemData
+    :ivar uuid: Gets or sets a unique identifier for this resource.
+    :vartype uuid: str
+    :ivar credentials: Username / Password Credentials to provision guest agent.
+    :vartype credentials: ~azure.mgmt.scvmm.models.GuestCredential
+    :ivar http_proxy_config: HTTP Proxy configuration for the VM.
+    :vartype http_proxy_config: ~azure.mgmt.scvmm.models.HttpProxyConfiguration
+    :ivar provisioning_action: Gets or sets the guest agent provisioning action. Known values are:
+     "install", "uninstall", and "repair".
+    :vartype provisioning_action: str or ~azure.mgmt.scvmm.models.ProvisioningAction
+    :ivar status: Gets or sets the guest agent status.
+    :vartype status: str
+    :ivar custom_resource_name: Gets the name of the corresponding resource in Kubernetes.
+    :vartype custom_resource_name: str
+    :ivar provisioning_state: Gets or sets the provisioning state.
+    :vartype provisioning_state: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "uuid": {"readonly": True},
+        "status": {"readonly": True},
+        "custom_resource_name": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "uuid": {"key": "properties.uuid", "type": "str"},
+        "credentials": {"key": "properties.credentials", "type": "GuestCredential"},
+        "http_proxy_config": {"key": "properties.httpProxyConfig", "type": "HttpProxyConfiguration"},
+        "provisioning_action": {"key": "properties.provisioningAction", "type": "str"},
+        "status": {"key": "properties.status", "type": "str"},
+        "custom_resource_name": {"key": "properties.customResourceName", "type": "str"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        credentials: Optional["_models.GuestCredential"] = None,
+        http_proxy_config: Optional["_models.HttpProxyConfiguration"] = None,
+        provisioning_action: Optional[Union[str, "_models.ProvisioningAction"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword credentials: Username / Password Credentials to provision guest agent.
+        :paramtype credentials: ~azure.mgmt.scvmm.models.GuestCredential
+        :keyword http_proxy_config: HTTP Proxy configuration for the VM.
+        :paramtype http_proxy_config: ~azure.mgmt.scvmm.models.HttpProxyConfiguration
+        :keyword provisioning_action: Gets or sets the guest agent provisioning action. Known values
+         are: "install", "uninstall", and "repair".
+        :paramtype provisioning_action: str or ~azure.mgmt.scvmm.models.ProvisioningAction
+        """
+        super().__init__(**kwargs)
+        self.uuid = None
+        self.credentials = credentials
+        self.http_proxy_config = http_proxy_config
+        self.provisioning_action = provisioning_action
+        self.status = None
+        self.custom_resource_name = None
+        self.provisioning_state = None
+
+
+class GuestAgentList(_serialization.Model):
+    """List of GuestAgent.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar next_link: Url to follow for getting next page of GuestAgent.
+    :vartype next_link: str
+    :ivar value: Array of GuestAgent. Required.
+    :vartype value: list[~azure.mgmt.scvmm.models.GuestAgent]
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "next_link": {"key": "nextLink", "type": "str"},
+        "value": {"key": "value", "type": "[GuestAgent]"},
+    }
+
+    def __init__(self, *, value: List["_models.GuestAgent"], next_link: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword next_link: Url to follow for getting next page of GuestAgent.
+        :paramtype next_link: str
+        :keyword value: Array of GuestAgent. Required.
+        :paramtype value: list[~azure.mgmt.scvmm.models.GuestAgent]
+        """
+        super().__init__(**kwargs)
+        self.next_link = next_link
+        self.value = value
+
+
+class GuestAgentProfile(_serialization.Model):
+    """Defines the resource properties.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar vm_uuid: Specifies the VM's unique SMBIOS ID.
+    :vartype vm_uuid: str
+    :ivar status: The status of the hybrid machine agent. Known values are: "Connected",
+     "Disconnected", and "Error".
+    :vartype status: str or ~azure.mgmt.scvmm.models.StatusTypes
+    :ivar last_status_change: The time of the last status change.
+    :vartype last_status_change: ~datetime.datetime
+    :ivar client_public_key: Gets or sets the Public Key provided by the client for enabling guest
+     management.
+    :vartype client_public_key: str
+    :ivar agent_version: The hybrid machine agent full version.
+    :vartype agent_version: str
+    :ivar error_details: Details about the error state.
+    :vartype error_details: list[~azure.mgmt.scvmm.models.ErrorDetail]
+    """
+
+    _validation = {
+        "vm_uuid": {"readonly": True},
+        "status": {"readonly": True},
+        "last_status_change": {"readonly": True},
+        "agent_version": {"readonly": True},
+        "error_details": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "vm_uuid": {"key": "vmUuid", "type": "str"},
+        "status": {"key": "status", "type": "str"},
+        "last_status_change": {"key": "lastStatusChange", "type": "iso-8601"},
+        "client_public_key": {"key": "clientPublicKey", "type": "str"},
+        "agent_version": {"key": "agentVersion", "type": "str"},
+        "error_details": {"key": "errorDetails", "type": "[ErrorDetail]"},
+    }
+
+    def __init__(self, *, client_public_key: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword client_public_key: Gets or sets the Public Key provided by the client for enabling
+         guest management.
+        :paramtype client_public_key: str
+        """
+        super().__init__(**kwargs)
+        self.vm_uuid = None
+        self.status = None
+        self.last_status_change = None
+        self.client_public_key = client_public_key
+        self.agent_version = None
+        self.error_details = None
+
+
+class GuestCredential(_serialization.Model):
+    """Username / Password Credentials to connect to guest.
+
+    :ivar username: Gets or sets username to connect with the guest.
+    :vartype username: str
+    :ivar password: Gets or sets the password to connect with the guest.
+    :vartype password: str
+    """
+
+    _attribute_map = {
+        "username": {"key": "username", "type": "str"},
+        "password": {"key": "password", "type": "str"},
+    }
+
+    def __init__(self, *, username: Optional[str] = None, password: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword username: Gets or sets username to connect with the guest.
+        :paramtype username: str
+        :keyword password: Gets or sets the password to connect with the guest.
+        :paramtype password: str
+        """
+        super().__init__(**kwargs)
+        self.username = username
+        self.password = password
 
 
 class HardwareProfile(_serialization.Model):
@@ -603,8 +962,8 @@ class HardwareProfile(_serialization.Model):
         dynamic_memory_max_mb: Optional[int] = None,
         dynamic_memory_min_mb: Optional[int] = None,
         is_highly_available: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword memory_mb: MemoryMB is the size of a virtual machine's memory, in MB.
         :paramtype memory_mb: int
@@ -670,8 +1029,8 @@ class HardwareProfileUpdate(_serialization.Model):
         dynamic_memory_enabled: Optional[Union[str, "_models.DynamicMemoryEnabled"]] = None,
         dynamic_memory_max_mb: Optional[int] = None,
         dynamic_memory_min_mb: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword memory_mb: MemoryMB is the size of a virtual machine's memory, in MB.
         :paramtype memory_mb: int
@@ -697,8 +1056,28 @@ class HardwareProfileUpdate(_serialization.Model):
         self.dynamic_memory_min_mb = dynamic_memory_min_mb
 
 
-class Resource(_serialization.Model):
-    """Common fields that are returned in the response for all Azure Resource Manager resources.
+class HttpProxyConfiguration(_serialization.Model):
+    """HTTP Proxy configuration for the VM.
+
+    :ivar https_proxy: Gets or sets httpsProxy url.
+    :vartype https_proxy: str
+    """
+
+    _attribute_map = {
+        "https_proxy": {"key": "httpsProxy", "type": "str"},
+    }
+
+    def __init__(self, *, https_proxy: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword https_proxy: Gets or sets httpsProxy url.
+        :paramtype https_proxy: str
+        """
+        super().__init__(**kwargs)
+        self.https_proxy = https_proxy
+
+
+class HybridIdentityMetadata(ProxyResource):
+    """Defines the HybridIdentityMetadata.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -710,58 +1089,125 @@ class Resource(_serialization.Model):
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.scvmm.models.SystemData
+    :ivar resource_uid: Gets or sets the Vm Id.
+    :vartype resource_uid: str
+    :ivar public_key: Gets or sets the Public Key.
+    :vartype public_key: str
+    :ivar identity: The identity of the resource.
+    :vartype identity: ~azure.mgmt.scvmm.models.Identity
+    :ivar provisioning_state: Gets or sets the provisioning state.
+    :vartype provisioning_state: str
     """
 
     _validation = {
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "identity": {"readonly": True},
+        "provisioning_state": {"readonly": True},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "resource_uid": {"key": "properties.resourceUid", "type": "str"},
+        "public_key": {"key": "properties.publicKey", "type": "str"},
+        "identity": {"key": "properties.identity", "type": "Identity"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
-        """ """
+    def __init__(self, *, resource_uid: Optional[str] = None, public_key: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword resource_uid: Gets or sets the Vm Id.
+        :paramtype resource_uid: str
+        :keyword public_key: Gets or sets the Public Key.
+        :paramtype public_key: str
+        """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.resource_uid = resource_uid
+        self.public_key = public_key
+        self.identity = None
+        self.provisioning_state = None
 
 
-class ProxyResource(Resource):
-    """The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location.
+class HybridIdentityMetadataList(_serialization.Model):
+    """List of HybridIdentityMetadata.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar next_link: Url to follow for getting next page of HybridIdentityMetadata.
+    :vartype next_link: str
+    :ivar value: Array of HybridIdentityMetadata. Required.
+    :vartype value: list[~azure.mgmt.scvmm.models.HybridIdentityMetadata]
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "next_link": {"key": "nextLink", "type": "str"},
+        "value": {"key": "value", "type": "[HybridIdentityMetadata]"},
+    }
+
+    def __init__(
+        self, *, value: List["_models.HybridIdentityMetadata"], next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword next_link: Url to follow for getting next page of HybridIdentityMetadata.
+        :paramtype next_link: str
+        :keyword value: Array of HybridIdentityMetadata. Required.
+        :paramtype value: list[~azure.mgmt.scvmm.models.HybridIdentityMetadata]
+        """
+        super().__init__(**kwargs)
+        self.next_link = next_link
+        self.value = value
+
+
+class Identity(_serialization.Model):
+    """Managed service identity.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-    :vartype id: str
-    :ivar name: The name of the resource.
-    :vartype name: str
-    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-     "Microsoft.Storage/storageAccounts".
-    :vartype type: str
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar principal_id: The principal id of managed service identity.
+    :vartype principal_id: str
+    :ivar tenant_id: The tenant of managed service identity.
+    :vartype tenant_id: str
+    :ivar type: The type of managed service identity. Required. Known values are: "None" and
+     "SystemAssigned".
+    :vartype type: str or ~azure.mgmt.scvmm.models.IdentityType
     """
 
     _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
+        "principal_id": {"readonly": True},
+        "tenant_id": {"readonly": True},
+        "type": {"required": True},
     }
 
     _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
+        "principal_id": {"key": "principalId", "type": "str"},
+        "tenant_id": {"key": "tenantId", "type": "str"},
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
-        """ """
+    def __init__(self, *, type: Union[str, "_models.IdentityType"], **kwargs: Any) -> None:
+        """
+        :keyword type: The type of managed service identity. Required. Known values are: "None" and
+         "SystemAssigned".
+        :paramtype type: str or ~azure.mgmt.scvmm.models.IdentityType
+        """
         super().__init__(**kwargs)
+        self.principal_id = None
+        self.tenant_id = None
+        self.type = type
 
 
 class InventoryItem(ProxyResource):
@@ -779,7 +1225,8 @@ class InventoryItem(ProxyResource):
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar system_data: The system data.
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
     :vartype system_data: ~azure.mgmt.scvmm.models.SystemData
     :ivar kind: Metadata used by portal/tooling/etc to render different UX experiences for
      resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type.  If supported,
@@ -824,7 +1271,7 @@ class InventoryItem(ProxyResource):
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
     }
 
-    def __init__(self, *, kind: Optional[str] = None, **kwargs):
+    def __init__(self, *, kind: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword kind: Metadata used by portal/tooling/etc to render different UX experiences for
          resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type.  If supported,
@@ -832,7 +1279,6 @@ class InventoryItem(ProxyResource):
         :paramtype kind: str
         """
         super().__init__(**kwargs)
-        self.system_data = None
         self.kind = kind
         self.inventory_type: Optional[str] = None
         self.managed_resource_id = None
@@ -855,7 +1301,9 @@ class InventoryItemDetails(_serialization.Model):
         "inventory_item_name": {"key": "inventoryItemName", "type": "str"},
     }
 
-    def __init__(self, *, inventory_item_id: Optional[str] = None, inventory_item_name: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, inventory_item_id: Optional[str] = None, inventory_item_name: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword inventory_item_id: Gets or sets the inventory Item ID for the resource.
         :paramtype inventory_item_id: str
@@ -887,7 +1335,7 @@ class InventoryItemsList(_serialization.Model):
         "value": {"key": "value", "type": "[InventoryItem]"},
     }
 
-    def __init__(self, *, value: List["_models.InventoryItem"], next_link: Optional[str] = None, **kwargs):
+    def __init__(self, *, value: List["_models.InventoryItem"], next_link: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword next_link: Url to follow for getting next page of InventoryItems.
         :paramtype next_link: str
@@ -897,6 +1345,460 @@ class InventoryItemsList(_serialization.Model):
         super().__init__(**kwargs)
         self.next_link = next_link
         self.value = value
+
+
+class TrackedResource(Resource):
+    """The resource model definition for an Azure Resource Manager tracked top level resource which
+    has 'tags' and a 'location'.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.scvmm.models.SystemData
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "location": {"required": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+    }
+
+    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
+        """
+        super().__init__(**kwargs)
+        self.tags = tags
+        self.location = location
+
+
+class MachineExtension(TrackedResource):  # pylint: disable=too-many-instance-attributes
+    """Describes a Machine Extension.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.scvmm.models.SystemData
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar force_update_tag: How the extension handler should be forced to update even if the
+     extension configuration has not changed.
+    :vartype force_update_tag: str
+    :ivar publisher: The name of the extension handler publisher.
+    :vartype publisher: str
+    :ivar type_properties_type: Specifies the type of the extension; an example is
+     "CustomScriptExtension".
+    :vartype type_properties_type: str
+    :ivar type_handler_version: Specifies the version of the script handler.
+    :vartype type_handler_version: str
+    :ivar enable_automatic_upgrade: Indicates whether the extension should be automatically
+     upgraded by the platform if there is a newer version available.
+    :vartype enable_automatic_upgrade: bool
+    :ivar auto_upgrade_minor_version: Indicates whether the extension should use a newer minor
+     version if one is available at deployment time. Once deployed, however, the extension will not
+     upgrade minor versions unless redeployed, even with this property set to true.
+    :vartype auto_upgrade_minor_version: bool
+    :ivar settings: Json formatted public settings for the extension.
+    :vartype settings: JSON
+    :ivar protected_settings: The extension can contain either protectedSettings or
+     protectedSettingsFromKeyVault or no protected settings at all.
+    :vartype protected_settings: JSON
+    :ivar provisioning_state: The provisioning state, which only appears in the response.
+    :vartype provisioning_state: str
+    :ivar instance_view: The machine extension instance view.
+    :vartype instance_view: ~azure.mgmt.scvmm.models.MachineExtensionPropertiesInstanceView
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "location": {"required": True},
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "force_update_tag": {"key": "properties.forceUpdateTag", "type": "str"},
+        "publisher": {"key": "properties.publisher", "type": "str"},
+        "type_properties_type": {"key": "properties.type", "type": "str"},
+        "type_handler_version": {"key": "properties.typeHandlerVersion", "type": "str"},
+        "enable_automatic_upgrade": {"key": "properties.enableAutomaticUpgrade", "type": "bool"},
+        "auto_upgrade_minor_version": {"key": "properties.autoUpgradeMinorVersion", "type": "bool"},
+        "settings": {"key": "properties.settings", "type": "object"},
+        "protected_settings": {"key": "properties.protectedSettings", "type": "object"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "instance_view": {"key": "properties.instanceView", "type": "MachineExtensionPropertiesInstanceView"},
+    }
+
+    def __init__(
+        self,
+        *,
+        location: str,
+        tags: Optional[Dict[str, str]] = None,
+        force_update_tag: Optional[str] = None,
+        publisher: Optional[str] = None,
+        type_properties_type: Optional[str] = None,
+        type_handler_version: Optional[str] = None,
+        enable_automatic_upgrade: Optional[bool] = None,
+        auto_upgrade_minor_version: Optional[bool] = None,
+        settings: Optional[JSON] = None,
+        protected_settings: Optional[JSON] = None,
+        instance_view: Optional["_models.MachineExtensionPropertiesInstanceView"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
+        :keyword force_update_tag: How the extension handler should be forced to update even if the
+         extension configuration has not changed.
+        :paramtype force_update_tag: str
+        :keyword publisher: The name of the extension handler publisher.
+        :paramtype publisher: str
+        :keyword type_properties_type: Specifies the type of the extension; an example is
+         "CustomScriptExtension".
+        :paramtype type_properties_type: str
+        :keyword type_handler_version: Specifies the version of the script handler.
+        :paramtype type_handler_version: str
+        :keyword enable_automatic_upgrade: Indicates whether the extension should be automatically
+         upgraded by the platform if there is a newer version available.
+        :paramtype enable_automatic_upgrade: bool
+        :keyword auto_upgrade_minor_version: Indicates whether the extension should use a newer minor
+         version if one is available at deployment time. Once deployed, however, the extension will not
+         upgrade minor versions unless redeployed, even with this property set to true.
+        :paramtype auto_upgrade_minor_version: bool
+        :keyword settings: Json formatted public settings for the extension.
+        :paramtype settings: JSON
+        :keyword protected_settings: The extension can contain either protectedSettings or
+         protectedSettingsFromKeyVault or no protected settings at all.
+        :paramtype protected_settings: JSON
+        :keyword instance_view: The machine extension instance view.
+        :paramtype instance_view: ~azure.mgmt.scvmm.models.MachineExtensionPropertiesInstanceView
+        """
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.force_update_tag = force_update_tag
+        self.publisher = publisher
+        self.type_properties_type = type_properties_type
+        self.type_handler_version = type_handler_version
+        self.enable_automatic_upgrade = enable_automatic_upgrade
+        self.auto_upgrade_minor_version = auto_upgrade_minor_version
+        self.settings = settings
+        self.protected_settings = protected_settings
+        self.provisioning_state = None
+        self.instance_view = instance_view
+
+
+class MachineExtensionInstanceView(_serialization.Model):
+    """Describes the Machine Extension Instance View.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar name: The machine extension name.
+    :vartype name: str
+    :ivar type: Specifies the type of the extension; an example is "CustomScriptExtension".
+    :vartype type: str
+    :ivar type_handler_version: Specifies the version of the script handler.
+    :vartype type_handler_version: str
+    :ivar status: Instance view status.
+    :vartype status: ~azure.mgmt.scvmm.models.MachineExtensionInstanceViewStatus
+    """
+
+    _validation = {
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "type_handler_version": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "type_handler_version": {"key": "typeHandlerVersion", "type": "str"},
+        "status": {"key": "status", "type": "MachineExtensionInstanceViewStatus"},
+    }
+
+    def __init__(self, *, status: Optional["_models.MachineExtensionInstanceViewStatus"] = None, **kwargs: Any) -> None:
+        """
+        :keyword status: Instance view status.
+        :paramtype status: ~azure.mgmt.scvmm.models.MachineExtensionInstanceViewStatus
+        """
+        super().__init__(**kwargs)
+        self.name = None
+        self.type = None
+        self.type_handler_version = None
+        self.status = status
+
+
+class MachineExtensionInstanceViewStatus(_serialization.Model):
+    """Instance view status.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar code: The status code.
+    :vartype code: str
+    :ivar level: The level code. Known values are: "Info", "Warning", and "Error".
+    :vartype level: str or ~azure.mgmt.scvmm.models.StatusLevelTypes
+    :ivar display_status: The short localizable label for the status.
+    :vartype display_status: str
+    :ivar message: The detailed status message, including for alerts and error messages.
+    :vartype message: str
+    :ivar time: The time of the status.
+    :vartype time: ~datetime.datetime
+    """
+
+    _validation = {
+        "code": {"readonly": True},
+        "level": {"readonly": True},
+        "display_status": {"readonly": True},
+        "message": {"readonly": True},
+        "time": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "code": {"key": "code", "type": "str"},
+        "level": {"key": "level", "type": "str"},
+        "display_status": {"key": "displayStatus", "type": "str"},
+        "message": {"key": "message", "type": "str"},
+        "time": {"key": "time", "type": "iso-8601"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.code = None
+        self.level = None
+        self.display_status = None
+        self.message = None
+        self.time = None
+
+
+class MachineExtensionPropertiesInstanceView(MachineExtensionInstanceView):
+    """The machine extension instance view.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar name: The machine extension name.
+    :vartype name: str
+    :ivar type: Specifies the type of the extension; an example is "CustomScriptExtension".
+    :vartype type: str
+    :ivar type_handler_version: Specifies the version of the script handler.
+    :vartype type_handler_version: str
+    :ivar status: Instance view status.
+    :vartype status: ~azure.mgmt.scvmm.models.MachineExtensionInstanceViewStatus
+    """
+
+    _validation = {
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "type_handler_version": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "type_handler_version": {"key": "typeHandlerVersion", "type": "str"},
+        "status": {"key": "status", "type": "MachineExtensionInstanceViewStatus"},
+    }
+
+    def __init__(self, *, status: Optional["_models.MachineExtensionInstanceViewStatus"] = None, **kwargs: Any) -> None:
+        """
+        :keyword status: Instance view status.
+        :paramtype status: ~azure.mgmt.scvmm.models.MachineExtensionInstanceViewStatus
+        """
+        super().__init__(status=status, **kwargs)
+
+
+class MachineExtensionsListResult(_serialization.Model):
+    """Describes the Machine Extensions List Result.
+
+    :ivar value: The list of extensions.
+    :vartype value: list[~azure.mgmt.scvmm.models.MachineExtension]
+    :ivar next_link: The uri to fetch the next page of machine extensions. Call ListNext() with
+     this to fetch the next page of extensions.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[MachineExtension]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        value: Optional[List["_models.MachineExtension"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: The list of extensions.
+        :paramtype value: list[~azure.mgmt.scvmm.models.MachineExtension]
+        :keyword next_link: The uri to fetch the next page of machine extensions. Call ListNext() with
+         this to fetch the next page of extensions.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class ResourcePatch(_serialization.Model):
+    """Object containing tags updates for patch operations.
+
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    """
+
+    _attribute_map = {
+        "tags": {"key": "tags", "type": "{str}"},
+    }
+
+    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        """
+        super().__init__(**kwargs)
+        self.tags = tags
+
+
+class MachineExtensionUpdate(ResourcePatch):
+    """Describes a Machine Extension Update.
+
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar force_update_tag: How the extension handler should be forced to update even if the
+     extension configuration has not changed.
+    :vartype force_update_tag: str
+    :ivar publisher: The name of the extension handler publisher.
+    :vartype publisher: str
+    :ivar type: Specifies the type of the extension; an example is "CustomScriptExtension".
+    :vartype type: str
+    :ivar type_handler_version: Specifies the version of the script handler.
+    :vartype type_handler_version: str
+    :ivar enable_automatic_upgrade: Indicates whether the extension should be automatically
+     upgraded by the platform if there is a newer version available.
+    :vartype enable_automatic_upgrade: bool
+    :ivar auto_upgrade_minor_version: Indicates whether the extension should use a newer minor
+     version if one is available at deployment time. Once deployed, however, the extension will not
+     upgrade minor versions unless redeployed, even with this property set to true.
+    :vartype auto_upgrade_minor_version: bool
+    :ivar settings: Json formatted public settings for the extension.
+    :vartype settings: JSON
+    :ivar protected_settings: The extension can contain either protectedSettings or
+     protectedSettingsFromKeyVault or no protected settings at all.
+    :vartype protected_settings: JSON
+    """
+
+    _attribute_map = {
+        "tags": {"key": "tags", "type": "{str}"},
+        "force_update_tag": {"key": "properties.forceUpdateTag", "type": "str"},
+        "publisher": {"key": "properties.publisher", "type": "str"},
+        "type": {"key": "properties.type", "type": "str"},
+        "type_handler_version": {"key": "properties.typeHandlerVersion", "type": "str"},
+        "enable_automatic_upgrade": {"key": "properties.enableAutomaticUpgrade", "type": "bool"},
+        "auto_upgrade_minor_version": {"key": "properties.autoUpgradeMinorVersion", "type": "bool"},
+        "settings": {"key": "properties.settings", "type": "object"},
+        "protected_settings": {"key": "properties.protectedSettings", "type": "object"},
+    }
+
+    def __init__(
+        self,
+        *,
+        tags: Optional[Dict[str, str]] = None,
+        force_update_tag: Optional[str] = None,
+        publisher: Optional[str] = None,
+        type: Optional[str] = None,
+        type_handler_version: Optional[str] = None,
+        enable_automatic_upgrade: Optional[bool] = None,
+        auto_upgrade_minor_version: Optional[bool] = None,
+        settings: Optional[JSON] = None,
+        protected_settings: Optional[JSON] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword force_update_tag: How the extension handler should be forced to update even if the
+         extension configuration has not changed.
+        :paramtype force_update_tag: str
+        :keyword publisher: The name of the extension handler publisher.
+        :paramtype publisher: str
+        :keyword type: Specifies the type of the extension; an example is "CustomScriptExtension".
+        :paramtype type: str
+        :keyword type_handler_version: Specifies the version of the script handler.
+        :paramtype type_handler_version: str
+        :keyword enable_automatic_upgrade: Indicates whether the extension should be automatically
+         upgraded by the platform if there is a newer version available.
+        :paramtype enable_automatic_upgrade: bool
+        :keyword auto_upgrade_minor_version: Indicates whether the extension should use a newer minor
+         version if one is available at deployment time. Once deployed, however, the extension will not
+         upgrade minor versions unless redeployed, even with this property set to true.
+        :paramtype auto_upgrade_minor_version: bool
+        :keyword settings: Json formatted public settings for the extension.
+        :paramtype settings: JSON
+        :keyword protected_settings: The extension can contain either protectedSettings or
+         protectedSettingsFromKeyVault or no protected settings at all.
+        :paramtype protected_settings: JSON
+        """
+        super().__init__(tags=tags, **kwargs)
+        self.force_update_tag = force_update_tag
+        self.publisher = publisher
+        self.type = type
+        self.type_handler_version = type_handler_version
+        self.enable_automatic_upgrade = enable_automatic_upgrade
+        self.auto_upgrade_minor_version = auto_upgrade_minor_version
+        self.settings = settings
+        self.protected_settings = protected_settings
 
 
 class NetworkInterfaces(_serialization.Model):  # pylint: disable=too-many-instance-attributes
@@ -965,8 +1867,8 @@ class NetworkInterfaces(_serialization.Model):  # pylint: disable=too-many-insta
         ipv6_address_type: Optional[Union[str, "_models.AllocationMethod"]] = None,
         mac_address_type: Optional[Union[str, "_models.AllocationMethod"]] = None,
         nic_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the network interface.
         :paramtype name: str
@@ -1044,8 +1946,8 @@ class NetworkInterfacesUpdate(_serialization.Model):
         ipv6_address_type: Optional[Union[str, "_models.AllocationMethod"]] = None,
         mac_address_type: Optional[Union[str, "_models.AllocationMethod"]] = None,
         nic_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the network interface.
         :paramtype name: str
@@ -1088,7 +1990,9 @@ class NetworkProfile(_serialization.Model):
         "network_interfaces": {"key": "networkInterfaces", "type": "[NetworkInterfaces]"},
     }
 
-    def __init__(self, *, network_interfaces: Optional[List["_models.NetworkInterfaces"]] = None, **kwargs):
+    def __init__(
+        self, *, network_interfaces: Optional[List["_models.NetworkInterfaces"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword network_interfaces: Gets or sets the list of network interfaces associated with the
          virtual machine.
@@ -1110,7 +2014,9 @@ class NetworkProfileUpdate(_serialization.Model):
         "network_interfaces": {"key": "networkInterfaces", "type": "[NetworkInterfacesUpdate]"},
     }
 
-    def __init__(self, *, network_interfaces: Optional[List["_models.NetworkInterfacesUpdate"]] = None, **kwargs):
+    def __init__(
+        self, *, network_interfaces: Optional[List["_models.NetworkInterfacesUpdate"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword network_interfaces: Gets or sets the list of network interfaces associated with the
          virtual machine.
@@ -1148,7 +2054,9 @@ class OsProfile(_serialization.Model):
         "os_name": {"key": "osName", "type": "str"},
     }
 
-    def __init__(self, *, admin_password: Optional[str] = None, computer_name: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, admin_password: Optional[str] = None, computer_name: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword admin_password: Admin password of the virtual machine.
         :paramtype admin_password: str
@@ -1160,26 +2068,6 @@ class OsProfile(_serialization.Model):
         self.computer_name = computer_name
         self.os_type = None
         self.os_name = None
-
-
-class ResourcePatch(_serialization.Model):
-    """Object containing tags updates for patch operations.
-
-    :ivar tags: Resource tags.
-    :vartype tags: dict[str, str]
-    """
-
-    _attribute_map = {
-        "tags": {"key": "tags", "type": "{str}"},
-    }
-
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs):
-        """
-        :keyword tags: Resource tags.
-        :paramtype tags: dict[str, str]
-        """
-        super().__init__(**kwargs)
-        self.tags = tags
 
 
 class ResourceProviderOperation(_serialization.Model):
@@ -1205,8 +2093,8 @@ class ResourceProviderOperation(_serialization.Model):
         is_data_action: Optional[str] = None,
         name: Optional[str] = None,
         display: Optional["_models.ResourceProviderOperationDisplay"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword is_data_action: Indicates whether the operation applies to data-plane.
         :paramtype is_data_action: str
@@ -1248,8 +2136,8 @@ class ResourceProviderOperationDisplay(_serialization.Model):
         resource: Optional[str] = None,
         operation: Optional[str] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword provider: The resource provider.
         :paramtype provider: str
@@ -1286,8 +2174,8 @@ class ResourceProviderOperationList(_serialization.Model):
         *,
         value: Optional[List["_models.ResourceProviderOperation"]] = None,
         next_link: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: List of Operations.
         :paramtype value: list[~azure.mgmt.scvmm.models.ResourceProviderOperation]
@@ -1312,7 +2200,7 @@ class StopVirtualMachineOptions(_serialization.Model):
         "skip_shutdown": {"key": "skipShutdown", "type": "bool"},
     }
 
-    def __init__(self, *, skip_shutdown: bool = False, **kwargs):
+    def __init__(self, *, skip_shutdown: bool = False, **kwargs: Any) -> None:
         """
         :keyword skip_shutdown: Gets or sets a value indicating whether to request non-graceful VM
          shutdown. True value for this flag indicates non-graceful shutdown whereas false indicates
@@ -1334,7 +2222,7 @@ class StorageProfile(_serialization.Model):
         "disks": {"key": "disks", "type": "[VirtualDisk]"},
     }
 
-    def __init__(self, *, disks: Optional[List["_models.VirtualDisk"]] = None, **kwargs):
+    def __init__(self, *, disks: Optional[List["_models.VirtualDisk"]] = None, **kwargs: Any) -> None:
         """
         :keyword disks: Gets or sets the list of virtual disks associated with the virtual machine.
         :paramtype disks: list[~azure.mgmt.scvmm.models.VirtualDisk]
@@ -1354,7 +2242,7 @@ class StorageProfileUpdate(_serialization.Model):
         "disks": {"key": "disks", "type": "[VirtualDiskUpdate]"},
     }
 
-    def __init__(self, *, disks: Optional[List["_models.VirtualDiskUpdate"]] = None, **kwargs):
+    def __init__(self, *, disks: Optional[List["_models.VirtualDiskUpdate"]] = None, **kwargs: Any) -> None:
         """
         :keyword disks: Gets or sets the list of virtual disks associated with the virtual machine.
         :paramtype disks: list[~azure.mgmt.scvmm.models.VirtualDiskUpdate]
@@ -1398,8 +2286,8 @@ class StorageQoSPolicy(_serialization.Model):
         iops_minimum: Optional[int] = None,
         bandwidth_limit: Optional[int] = None,
         policy_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: The name of the policy.
         :paramtype name: str
@@ -1438,8 +2326,12 @@ class StorageQoSPolicyDetails(_serialization.Model):
     }
 
     def __init__(
-        self, *, name: Optional[str] = None, id: Optional[str] = None, **kwargs  # pylint: disable=redefined-builtin
-    ):
+        self,
+        *,
+        name: Optional[str] = None,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: The name of the policy.
         :paramtype name: str
@@ -1488,8 +2380,8 @@ class SystemData(_serialization.Model):
         last_modified_by: Optional[str] = None,
         last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
         last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword created_by: The identity that created the resource.
         :paramtype created_by: str
@@ -1589,8 +2481,8 @@ class VirtualDisk(_serialization.Model):  # pylint: disable=too-many-instance-at
         template_disk_id: Optional[str] = None,
         storage_qo_s_policy: Optional["_models.StorageQoSPolicyDetails"] = None,
         create_diff_disk: Optional[Union[str, "_models.CreateDiffDisk"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the disk.
         :paramtype name: str
@@ -1674,8 +2566,8 @@ class VirtualDiskUpdate(_serialization.Model):
         bus_type: Optional[str] = None,
         vhd_type: Optional[str] = None,
         storage_qo_s_policy: Optional["_models.StorageQoSPolicyDetails"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the disk.
         :paramtype name: str
@@ -1726,6 +2618,8 @@ class VirtualMachine(_serialization.Model):  # pylint: disable=too-many-instance
     :vartype system_data: ~azure.mgmt.scvmm.models.SystemData
     :ivar extended_location: The extended location. Required.
     :vartype extended_location: ~azure.mgmt.scvmm.models.ExtendedLocation
+    :ivar identity: The identity of the resource.
+    :vartype identity: ~azure.mgmt.scvmm.models.Identity
     :ivar inventory_item_id: Gets or sets the inventory Item ID for the resource.
     :vartype inventory_item_id: str
     :ivar vmm_server_id: ARM Id of the vmmServer resource in which this resource resides.
@@ -1736,6 +2630,8 @@ class VirtualMachine(_serialization.Model):  # pylint: disable=too-many-instance
     :vartype template_id: str
     :ivar checkpoint_type: Type of checkpoint supported for the vm.
     :vartype checkpoint_type: str
+    :ivar last_restored_vm_checkpoint: Last restored checkpoint in the vm.
+    :vartype last_restored_vm_checkpoint: ~azure.mgmt.scvmm.models.Checkpoint
     :ivar checkpoints: Checkpoints in the vm.
     :vartype checkpoints: list[~azure.mgmt.scvmm.models.Checkpoint]
     :ivar availability_sets: Availability Sets in vm.
@@ -1756,6 +2652,8 @@ class VirtualMachine(_serialization.Model):  # pylint: disable=too-many-instance
     :vartype generation: int
     :ivar power_state: Gets the power state of the virtual machine.
     :vartype power_state: str
+    :ivar guest_agent_profile: Guest agent status properties.
+    :vartype guest_agent_profile: ~azure.mgmt.scvmm.models.GuestAgentProfile
     :ivar provisioning_state: Gets or sets the provisioning state.
     :vartype provisioning_state: str
     """
@@ -1767,6 +2665,7 @@ class VirtualMachine(_serialization.Model):  # pylint: disable=too-many-instance
         "location": {"required": True},
         "system_data": {"readonly": True},
         "extended_location": {"required": True},
+        "last_restored_vm_checkpoint": {"readonly": True},
         "vm_name": {"min_length": 1},
         "power_state": {"readonly": True},
         "provisioning_state": {"readonly": True},
@@ -1780,11 +2679,13 @@ class VirtualMachine(_serialization.Model):  # pylint: disable=too-many-instance
         "tags": {"key": "tags", "type": "{str}"},
         "system_data": {"key": "systemData", "type": "SystemData"},
         "extended_location": {"key": "extendedLocation", "type": "ExtendedLocation"},
+        "identity": {"key": "identity", "type": "Identity"},
         "inventory_item_id": {"key": "properties.inventoryItemId", "type": "str"},
         "vmm_server_id": {"key": "properties.vmmServerId", "type": "str"},
         "cloud_id": {"key": "properties.cloudId", "type": "str"},
         "template_id": {"key": "properties.templateId", "type": "str"},
         "checkpoint_type": {"key": "properties.checkpointType", "type": "str"},
+        "last_restored_vm_checkpoint": {"key": "properties.lastRestoredVMCheckpoint", "type": "Checkpoint"},
         "checkpoints": {"key": "properties.checkpoints", "type": "[Checkpoint]"},
         "availability_sets": {"key": "properties.availabilitySets", "type": "[AvailabilitySetListItem]"},
         "os_profile": {"key": "properties.osProfile", "type": "OsProfile"},
@@ -1795,15 +2696,17 @@ class VirtualMachine(_serialization.Model):  # pylint: disable=too-many-instance
         "uuid": {"key": "properties.uuid", "type": "str"},
         "generation": {"key": "properties.generation", "type": "int"},
         "power_state": {"key": "properties.powerState", "type": "str"},
+        "guest_agent_profile": {"key": "properties.guestAgentProfile", "type": "GuestAgentProfile"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
     }
 
-    def __init__(
+    def __init__(  # pylint: disable=too-many-locals
         self,
         *,
         location: str,
         extended_location: "_models.ExtendedLocation",
         tags: Optional[Dict[str, str]] = None,
+        identity: Optional["_models.Identity"] = None,
         inventory_item_id: Optional[str] = None,
         vmm_server_id: Optional[str] = None,
         cloud_id: Optional[str] = None,
@@ -1818,8 +2721,9 @@ class VirtualMachine(_serialization.Model):  # pylint: disable=too-many-instance
         vm_name: Optional[str] = None,
         uuid: Optional[str] = None,
         generation: Optional[int] = None,
-        **kwargs
-    ):
+        guest_agent_profile: Optional["_models.GuestAgentProfile"] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Gets or sets the location. Required.
         :paramtype location: str
@@ -1827,6 +2731,8 @@ class VirtualMachine(_serialization.Model):  # pylint: disable=too-many-instance
         :paramtype tags: dict[str, str]
         :keyword extended_location: The extended location. Required.
         :paramtype extended_location: ~azure.mgmt.scvmm.models.ExtendedLocation
+        :keyword identity: The identity of the resource.
+        :paramtype identity: ~azure.mgmt.scvmm.models.Identity
         :keyword inventory_item_id: Gets or sets the inventory Item ID for the resource.
         :paramtype inventory_item_id: str
         :keyword vmm_server_id: ARM Id of the vmmServer resource in which this resource resides.
@@ -1855,6 +2761,8 @@ class VirtualMachine(_serialization.Model):  # pylint: disable=too-many-instance
         :paramtype uuid: str
         :keyword generation: Gets or sets the generation for the vm.
         :paramtype generation: int
+        :keyword guest_agent_profile: Guest agent status properties.
+        :paramtype guest_agent_profile: ~azure.mgmt.scvmm.models.GuestAgentProfile
         """
         super().__init__(**kwargs)
         self.id = None
@@ -1864,11 +2772,13 @@ class VirtualMachine(_serialization.Model):  # pylint: disable=too-many-instance
         self.tags = tags
         self.system_data = None
         self.extended_location = extended_location
+        self.identity = identity
         self.inventory_item_id = inventory_item_id
         self.vmm_server_id = vmm_server_id
         self.cloud_id = cloud_id
         self.template_id = template_id
         self.checkpoint_type = checkpoint_type
+        self.last_restored_vm_checkpoint = None
         self.checkpoints = checkpoints
         self.availability_sets = availability_sets
         self.os_profile = os_profile
@@ -1879,6 +2789,7 @@ class VirtualMachine(_serialization.Model):  # pylint: disable=too-many-instance
         self.uuid = uuid
         self.generation = generation
         self.power_state = None
+        self.guest_agent_profile = guest_agent_profile
         self.provisioning_state = None
 
 
@@ -1896,7 +2807,7 @@ class VirtualMachineCreateCheckpoint(_serialization.Model):
         "description": {"key": "description", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, description: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, description: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Name of the checkpoint.
         :paramtype name: str
@@ -1919,7 +2830,7 @@ class VirtualMachineDeleteCheckpoint(_serialization.Model):
         "id": {"key": "id", "type": "str"},
     }
 
-    def __init__(self, *, id: Optional[str] = None, **kwargs):  # pylint: disable=redefined-builtin
+    def __init__(self, *, id: Optional[str] = None, **kwargs: Any) -> None:  # pylint: disable=redefined-builtin
         """
         :keyword id: ID of the checkpoint to be deleted.
         :paramtype id: str
@@ -1989,8 +2900,8 @@ class VirtualMachineInventoryItem(InventoryItemProperties):
         *,
         ip_addresses: Optional[List[str]] = None,
         cloud: Optional["_models.InventoryItemDetails"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword ip_addresses: Gets or sets the nic ip addresses.
         :paramtype ip_addresses: list[str]
@@ -2021,8 +2932,8 @@ class VirtualMachineListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.VirtualMachine"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.VirtualMachine"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: List of VirtualMachines.
         :paramtype value: list[~azure.mgmt.scvmm.models.VirtualMachine]
@@ -2045,7 +2956,7 @@ class VirtualMachineRestoreCheckpoint(_serialization.Model):
         "id": {"key": "id", "type": "str"},
     }
 
-    def __init__(self, *, id: Optional[str] = None, **kwargs):  # pylint: disable=redefined-builtin
+    def __init__(self, *, id: Optional[str] = None, **kwargs: Any) -> None:  # pylint: disable=redefined-builtin
         """
         :keyword id: ID of the checkpoint to be restored to.
         :paramtype id: str
@@ -2179,8 +3090,8 @@ class VirtualMachineTemplate(_serialization.Model):  # pylint: disable=too-many-
         inventory_item_id: Optional[str] = None,
         uuid: Optional[str] = None,
         vmm_server_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Gets or sets the location. Required.
         :paramtype location: str
@@ -2277,7 +3188,7 @@ class VirtualMachineTemplateInventoryItem(InventoryItemProperties):
         "os_name": {"key": "osName", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.inventory_type: str = "VirtualMachineTemplate"
@@ -2306,8 +3217,8 @@ class VirtualMachineTemplateListResult(_serialization.Model):
         *,
         value: Optional[List["_models.VirtualMachineTemplate"]] = None,
         next_link: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: List of VirtualMachineTemplates.
         :paramtype value: list[~azure.mgmt.scvmm.models.VirtualMachineTemplate]
@@ -2326,11 +3237,14 @@ class VirtualMachineUpdate(_serialization.Model):
     :vartype properties: ~azure.mgmt.scvmm.models.VirtualMachineUpdateProperties
     :ivar tags: Gets or sets the Resource tags.
     :vartype tags: dict[str, str]
+    :ivar identity: The identity of the resource.
+    :vartype identity: ~azure.mgmt.scvmm.models.Identity
     """
 
     _attribute_map = {
         "properties": {"key": "properties", "type": "VirtualMachineUpdateProperties"},
         "tags": {"key": "tags", "type": "{str}"},
+        "identity": {"key": "identity", "type": "Identity"},
     }
 
     def __init__(
@@ -2338,17 +3252,21 @@ class VirtualMachineUpdate(_serialization.Model):
         *,
         properties: Optional["_models.VirtualMachineUpdateProperties"] = None,
         tags: Optional[Dict[str, str]] = None,
-        **kwargs
-    ):
+        identity: Optional["_models.Identity"] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword properties: Defines the resource properties.
         :paramtype properties: ~azure.mgmt.scvmm.models.VirtualMachineUpdateProperties
         :keyword tags: Gets or sets the Resource tags.
         :paramtype tags: dict[str, str]
+        :keyword identity: The identity of the resource.
+        :paramtype identity: ~azure.mgmt.scvmm.models.Identity
         """
         super().__init__(**kwargs)
         self.properties = properties
         self.tags = tags
+        self.identity = identity
 
 
 class VirtualMachineUpdateProperties(_serialization.Model):
@@ -2362,6 +3280,8 @@ class VirtualMachineUpdateProperties(_serialization.Model):
     :vartype network_profile: ~azure.mgmt.scvmm.models.NetworkProfileUpdate
     :ivar availability_sets: Availability Sets in vm.
     :vartype availability_sets: list[~azure.mgmt.scvmm.models.AvailabilitySetListItem]
+    :ivar checkpoint_type: Type of checkpoint supported for the vm.
+    :vartype checkpoint_type: str
     """
 
     _attribute_map = {
@@ -2369,6 +3289,7 @@ class VirtualMachineUpdateProperties(_serialization.Model):
         "storage_profile": {"key": "storageProfile", "type": "StorageProfileUpdate"},
         "network_profile": {"key": "networkProfile", "type": "NetworkProfileUpdate"},
         "availability_sets": {"key": "availabilitySets", "type": "[AvailabilitySetListItem]"},
+        "checkpoint_type": {"key": "checkpointType", "type": "str"},
     }
 
     def __init__(
@@ -2378,8 +3299,9 @@ class VirtualMachineUpdateProperties(_serialization.Model):
         storage_profile: Optional["_models.StorageProfileUpdate"] = None,
         network_profile: Optional["_models.NetworkProfileUpdate"] = None,
         availability_sets: Optional[List["_models.AvailabilitySetListItem"]] = None,
-        **kwargs
-    ):
+        checkpoint_type: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword hardware_profile: Defines the resource properties.
         :paramtype hardware_profile: ~azure.mgmt.scvmm.models.HardwareProfileUpdate
@@ -2389,12 +3311,15 @@ class VirtualMachineUpdateProperties(_serialization.Model):
         :paramtype network_profile: ~azure.mgmt.scvmm.models.NetworkProfileUpdate
         :keyword availability_sets: Availability Sets in vm.
         :paramtype availability_sets: list[~azure.mgmt.scvmm.models.AvailabilitySetListItem]
+        :keyword checkpoint_type: Type of checkpoint supported for the vm.
+        :paramtype checkpoint_type: str
         """
         super().__init__(**kwargs)
         self.hardware_profile = hardware_profile
         self.storage_profile = storage_profile
         self.network_profile = network_profile
         self.availability_sets = availability_sets
+        self.checkpoint_type = checkpoint_type
 
 
 class VirtualNetwork(_serialization.Model):  # pylint: disable=too-many-instance-attributes
@@ -2466,8 +3391,8 @@ class VirtualNetwork(_serialization.Model):  # pylint: disable=too-many-instance
         inventory_item_id: Optional[str] = None,
         uuid: Optional[str] = None,
         vmm_server_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Gets or sets the location. Required.
         :paramtype location: str
@@ -2534,7 +3459,7 @@ class VirtualNetworkInventoryItem(InventoryItemProperties):
         "provisioning_state": {"key": "provisioningState", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.inventory_type: str = "VirtualNetwork"
@@ -2555,8 +3480,8 @@ class VirtualNetworkListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.VirtualNetwork"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.VirtualNetwork"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: List of VirtualNetworks.
         :paramtype value: list[~azure.mgmt.scvmm.models.VirtualNetwork]
@@ -2651,8 +3576,8 @@ class VMMServer(_serialization.Model):  # pylint: disable=too-many-instance-attr
         tags: Optional[Dict[str, str]] = None,
         credentials: Optional["_models.VMMServerPropertiesCredentials"] = None,
         port: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Gets or sets the location. Required.
         :paramtype location: str
@@ -2699,7 +3624,9 @@ class VMMServerListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.VMMServer"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.VMMServer"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: List of VmmServers.
         :paramtype value: list[~azure.mgmt.scvmm.models.VMMServer]
@@ -2725,7 +3652,7 @@ class VMMServerPropertiesCredentials(_serialization.Model):
         "password": {"key": "password", "type": "str"},
     }
 
-    def __init__(self, *, username: Optional[str] = None, password: Optional[str] = None, **kwargs):
+    def __init__(self, *, username: Optional[str] = None, password: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword username: Username to use to connect to VMMServer.
         :paramtype username: str

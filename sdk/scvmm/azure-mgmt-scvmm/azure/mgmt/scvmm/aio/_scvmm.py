@@ -18,7 +18,10 @@ from ._configuration import SCVMMConfiguration
 from .operations import (
     AvailabilitySetsOperations,
     CloudsOperations,
+    GuestAgentsOperations,
+    HybridIdentityMetadatasOperations,
     InventoryItemsOperations,
+    MachineExtensionsOperations,
     Operations,
     VirtualMachineTemplatesOperations,
     VirtualMachinesOperations,
@@ -51,6 +54,13 @@ class SCVMM:  # pylint: disable=client-accepts-api-version-keyword,too-many-inst
     :vartype availability_sets: azure.mgmt.scvmm.aio.operations.AvailabilitySetsOperations
     :ivar inventory_items: InventoryItemsOperations operations
     :vartype inventory_items: azure.mgmt.scvmm.aio.operations.InventoryItemsOperations
+    :ivar hybrid_identity_metadatas: HybridIdentityMetadatasOperations operations
+    :vartype hybrid_identity_metadatas:
+     azure.mgmt.scvmm.aio.operations.HybridIdentityMetadatasOperations
+    :ivar machine_extensions: MachineExtensionsOperations operations
+    :vartype machine_extensions: azure.mgmt.scvmm.aio.operations.MachineExtensionsOperations
+    :ivar guest_agents: GuestAgentsOperations operations
+    :vartype guest_agents: azure.mgmt.scvmm.aio.operations.GuestAgentsOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
     :param subscription_id: The Azure subscription ID. This is a GUID-formatted string (e.g.
@@ -58,7 +68,7 @@ class SCVMM:  # pylint: disable=client-accepts-api-version-keyword,too-many-inst
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2020-06-05-preview". Note that overriding
+    :keyword api_version: Api Version. Default value is "2022-05-21-preview". Note that overriding
      this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -73,7 +83,7 @@ class SCVMM:  # pylint: disable=client-accepts-api-version-keyword,too-many-inst
         **kwargs: Any
     ) -> None:
         self._config = SCVMMConfiguration(credential=credential, subscription_id=subscription_id, **kwargs)
-        self._client = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
@@ -95,6 +105,13 @@ class SCVMM:  # pylint: disable=client-accepts-api-version-keyword,too-many-inst
             self._client, self._config, self._serialize, self._deserialize
         )
         self.inventory_items = InventoryItemsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.hybrid_identity_metadatas = HybridIdentityMetadatasOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.machine_extensions = MachineExtensionsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.guest_agents = GuestAgentsOperations(self._client, self._config, self._serialize, self._deserialize)
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> Awaitable[AsyncHttpResponse]:
         """Runs the network request through the client's chained policies.
@@ -125,5 +142,5 @@ class SCVMM:  # pylint: disable=client-accepts-api-version-keyword,too-many-inst
         await self._client.__aenter__()
         return self
 
-    async def __aexit__(self, *exc_details) -> None:
+    async def __aexit__(self, *exc_details: Any) -> None:
         await self._client.__aexit__(*exc_details)

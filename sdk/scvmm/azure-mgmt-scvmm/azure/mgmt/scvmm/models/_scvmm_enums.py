@@ -40,6 +40,13 @@ class DynamicMemoryEnabled(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     TRUE = "true"
 
 
+class IdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of managed service identity."""
+
+    NONE = "None"
+    SYSTEM_ASSIGNED = "SystemAssigned"
+
+
 class InventoryType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The inventory type."""
 
@@ -71,3 +78,27 @@ class OsType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     WINDOWS = "Windows"
     LINUX = "Linux"
     OTHER = "Other"
+
+
+class ProvisioningAction(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Defines the different types of operations for guest agent."""
+
+    INSTALL = "install"
+    UNINSTALL = "uninstall"
+    REPAIR = "repair"
+
+
+class StatusLevelTypes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The level code."""
+
+    INFO = "Info"
+    WARNING = "Warning"
+    ERROR = "Error"
+
+
+class StatusTypes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The status of the hybrid machine agent."""
+
+    CONNECTED = "Connected"
+    DISCONNECTED = "Disconnected"
+    ERROR = "Error"

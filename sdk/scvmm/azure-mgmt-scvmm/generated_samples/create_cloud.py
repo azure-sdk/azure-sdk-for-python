@@ -47,6 +47,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/preview/2020-06-05-preview/examples/CreateCloud.json
+# x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/preview/2022-05-21-preview/examples/CreateCloud.json
 if __name__ == "__main__":
     main()

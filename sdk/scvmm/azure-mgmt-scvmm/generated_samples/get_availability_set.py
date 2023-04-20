@@ -36,6 +36,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/preview/2020-06-05-preview/examples/GetAvailabilitySet.json
+# x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/preview/2022-05-21-preview/examples/GetAvailabilitySet.json
 if __name__ == "__main__":
     main()

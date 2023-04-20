@@ -36,6 +36,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/preview/2020-06-05-preview/examples/StopVirtualMachine.json
+# x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/preview/2022-05-21-preview/examples/StopVirtualMachine.json
 if __name__ == "__main__":
     main()
