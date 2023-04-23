@@ -36,6 +36,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2022-06-01/examples/StorageSyncServices_ListByResourceGroup.json
+# x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2022-09-01/examples/StorageSyncServices_ListByResourceGroup.json
 if __name__ == "__main__":
     main()

@@ -14,7 +14,7 @@ from azure.mgmt.storagesync import MicrosoftStorageSync
     pip install azure-identity
     pip install azure-mgmt-storagesync
 # USAGE
-    python registered_servers_list_by_storage_sync_service.py
+    python location_operation_status_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,14 +29,13 @@ def main():
         subscription_id="52b8da2f-61e0-4a1f-8dde-336911f367fb",
     )
 
-    response = client.registered_servers.list_by_storage_sync_service(
-        resource_group_name="SampleResourceGroup_1",
-        storage_sync_service_name="SampleStorageSyncService_1",
+    response = client.location_operation_status(
+        location_name="westus",
+        operation_id="eyJwYXJ0aXRpb25JZCI6ImE1ZDNiMDU4LTYwN2MtNDI0Ny05Y2FmLWJlZmU4NGQ0ZDU0NyIsIndvcmtmbG93SWQiOiJjYzg1MTY2YS0xMjI2LTQ4MGYtYWM5ZC1jMmRhNTVmY2M2ODYiLCJ3b3JrZmxvd09wZXJhdGlvbklkIjoiOTdmODU5ZTAtOGY1MC00ZTg4LWJkZDEtNWZlYzgwYTVlYzM0tui=",
     )
-    for item in response:
-        print(item)
+    print(response)
 
 
-# x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2022-09-01/examples/RegisteredServers_ListByStorageSyncService.json
+# x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2022-09-01/examples/LocationOperationStatus_Get.json
 if __name__ == "__main__":
     main()

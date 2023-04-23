@@ -32,11 +32,30 @@ def main():
     response = client.storage_sync_services.begin_create(
         resource_group_name="SampleResourceGroup_1",
         storage_sync_service_name="SampleStorageSyncService_1",
-        parameters={"location": "WestUS", "properties": {"incomingTrafficPolicy": "AllowAllTraffic"}, "tags": {}},
+        parameters={
+            "identity": {
+                "principalId": None,
+                "tenantId": None,
+                "type": "SystemAssigned,UserAssigned",
+                "userAssignedIdentities": {
+                    "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1": {
+                        "clientId": None,
+                        "principalId": None,
+                    },
+                    "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id2": {
+                        "clientId": None,
+                        "principalId": None,
+                    },
+                },
+            },
+            "location": "WestUS",
+            "properties": {"incomingTrafficPolicy": "AllowAllTraffic"},
+            "tags": {},
+        },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2022-06-01/examples/StorageSyncServices_Create.json
+# x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2022-09-01/examples/StorageSyncServices_Create.json
 if __name__ == "__main__":
     main()
