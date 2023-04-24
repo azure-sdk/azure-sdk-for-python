@@ -39,6 +39,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-12-01-preview/examples/incidents/IncidentTasks/IncidentTasks_CreateOrUpdate.json
+# x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2023-05-01-preview/examples/incidents/IncidentTasks/IncidentTasks_CreateOrUpdate.json
 if __name__ == "__main__":
     main()
