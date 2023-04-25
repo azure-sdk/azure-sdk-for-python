@@ -16,7 +16,7 @@ from azure.mgmt.cdn import CdnManagementClient
 # USAGE
     python afd_origin_groups_update.py
 
-    Before run the sample, please set the values of the client ID, tenant ID and client secret 
+    Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
     AZURE_CLIENT_SECRET. For more info about how to get the value, please see:
     https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal
@@ -35,6 +35,7 @@ def main():
         origin_group_name="origingroup1",
         origin_group_update_properties={
             "properties": {
+                "SessionAffinityType": "SourceIP",
                 "healthProbeSettings": {
                     "probeIntervalInSeconds": 10,
                     "probePath": "/path2",
@@ -53,6 +54,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/AFDOriginGroups_Update.json
+# x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/preview/2023-04-11-preview/examples/AFDOriginGroups_Update.json
 if __name__ == "__main__":
     main()

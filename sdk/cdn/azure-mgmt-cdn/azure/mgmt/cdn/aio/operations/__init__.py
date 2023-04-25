@@ -12,12 +12,12 @@ from ._afd_custom_domains_operations import AFDCustomDomainsOperations
 from ._afd_endpoints_operations import AFDEndpointsOperations
 from ._afd_origin_groups_operations import AFDOriginGroupsOperations
 from ._afd_origins_operations import AFDOriginsOperations
+from ._l4_routes_operations import L4RoutesOperations
 from ._routes_operations import RoutesOperations
 from ._rule_sets_operations import RuleSetsOperations
 from ._rules_operations import RulesOperations
 from ._security_policies_operations import SecurityPoliciesOperations
 from ._secrets_operations import SecretsOperations
-from ._validate_operations import ValidateOperations
 from ._log_analytics_operations import LogAnalyticsOperations
 from ._profiles_operations import ProfilesOperations
 from ._endpoints_operations import EndpointsOperations
@@ -31,7 +31,7 @@ from ._policies_operations import PoliciesOperations
 from ._managed_rule_sets_operations import ManagedRuleSetsOperations
 
 from ._patch import __all__ as _patch_all
-from ._patch import *  # type: ignore # pylint: disable=unused-wildcard-import
+from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
@@ -41,12 +41,12 @@ __all__ = [
     "AFDEndpointsOperations",
     "AFDOriginGroupsOperations",
     "AFDOriginsOperations",
+    "L4RoutesOperations",
     "RoutesOperations",
     "RuleSetsOperations",
     "RulesOperations",
     "SecurityPoliciesOperations",
     "SecretsOperations",
-    "ValidateOperations",
     "LogAnalyticsOperations",
     "ProfilesOperations",
     "EndpointsOperations",

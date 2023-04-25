@@ -12,7 +12,7 @@ from typing import Any, TYPE_CHECKING
 from azure.core.rest import HttpRequest, HttpResponse
 from azure.mgmt.core import ARMPipelineClient
 
-from . import models
+from . import models as _models
 from ._configuration import CdnManagementClientConfiguration
 from ._serialization import Deserializer, Serializer
 from .operations import (
@@ -25,6 +25,7 @@ from .operations import (
     CustomDomainsOperations,
     EdgeNodesOperations,
     EndpointsOperations,
+    L4RoutesOperations,
     LogAnalyticsOperations,
     ManagedRuleSetsOperations,
     Operations,
@@ -38,7 +39,6 @@ from .operations import (
     RulesOperations,
     SecretsOperations,
     SecurityPoliciesOperations,
-    ValidateOperations,
 )
 
 if TYPE_CHECKING:
@@ -61,6 +61,8 @@ class CdnManagementClient(
     :vartype afd_origin_groups: azure.mgmt.cdn.operations.AFDOriginGroupsOperations
     :ivar afd_origins: AFDOriginsOperations operations
     :vartype afd_origins: azure.mgmt.cdn.operations.AFDOriginsOperations
+    :ivar l4_routes: L4RoutesOperations operations
+    :vartype l4_routes: azure.mgmt.cdn.operations.L4RoutesOperations
     :ivar routes: RoutesOperations operations
     :vartype routes: azure.mgmt.cdn.operations.RoutesOperations
     :ivar rule_sets: RuleSetsOperations operations
@@ -71,8 +73,6 @@ class CdnManagementClient(
     :vartype security_policies: azure.mgmt.cdn.operations.SecurityPoliciesOperations
     :ivar secrets: SecretsOperations operations
     :vartype secrets: azure.mgmt.cdn.operations.SecretsOperations
-    :ivar validate: ValidateOperations operations
-    :vartype validate: azure.mgmt.cdn.operations.ValidateOperations
     :ivar log_analytics: LogAnalyticsOperations operations
     :vartype log_analytics: azure.mgmt.cdn.operations.LogAnalyticsOperations
     :ivar profiles: ProfilesOperations operations
@@ -101,8 +101,8 @@ class CdnManagementClient(
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2021-06-01". Note that overriding this
-     default value may result in unsupported behavior.
+    :keyword api_version: Api Version. Default value is "2023-04-11-preview". Note that overriding
+     this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
      Retry-After header is present.
@@ -118,9 +118,9 @@ class CdnManagementClient(
         self._config = CdnManagementClientConfiguration(
             credential=credential, subscription_id=subscription_id, **kwargs
         )
-        self._client = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        self._client: ARMPipelineClient = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
-        client_models = {k: v for k, v in models.__dict__.items() if isinstance(v, type)}
+        client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
@@ -133,6 +133,7 @@ class CdnManagementClient(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.afd_origins = AFDOriginsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.l4_routes = L4RoutesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.routes = RoutesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.rule_sets = RuleSetsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.rules = RulesOperations(self._client, self._config, self._serialize, self._deserialize)
@@ -140,7 +141,6 @@ class CdnManagementClient(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.secrets = SecretsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.validate = ValidateOperations(self._client, self._config, self._serialize, self._deserialize)
         self.log_analytics = LogAnalyticsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.profiles = ProfilesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.endpoints = EndpointsOperations(self._client, self._config, self._serialize, self._deserialize)
@@ -177,15 +177,12 @@ class CdnManagementClient(
         request_copy.url = self._client.format_url(request_copy.url)
         return self._client.send_request(request_copy, **kwargs)
 
-    def close(self):
-        # type: () -> None
+    def close(self) -> None:
         self._client.close()
 
-    def __enter__(self):
-        # type: () -> CdnManagementClient
+    def __enter__(self) -> "CdnManagementClient":
         self._client.__enter__()
         return self
 
-    def __exit__(self, *exc_details):
-        # type: (Any) -> None
+    def __exit__(self, *exc_details: Any) -> None:
         self._client.__exit__(*exc_details)
