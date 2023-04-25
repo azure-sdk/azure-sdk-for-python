@@ -37,7 +37,7 @@ def main():
             "protocol": "HTTPS",
             "protocolConfiguration": {
                 "HTTPConfiguration": {
-                    "headers": [{"name": "Authorization", "value": "******"}],
+                    "headers": [{"name": "Authorization", "value": "Bearer myPreciousToken"}],
                     "method": "GET",
                     "validStatusCodes": [200, 204],
                 }
@@ -48,6 +48,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementPerformConnectivityCheckHttpConnect.json
+# x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/preview/2022-09-01-preview/examples/ApiManagementPerformConnectivityCheckHttpConnect.json
 if __name__ == "__main__":
     main()

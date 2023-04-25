@@ -87,6 +87,7 @@ from ._models_py3 import AuthorizationServerUpdateContract
 from ._models_py3 import AuthorizationServerUpdateContractProperties
 from ._models_py3 import BackendAuthorizationHeaderCredentials
 from ._models_py3 import BackendBaseParameters
+from ._models_py3 import BackendCircuitBreaker
 from ._models_py3 import BackendCollection
 from ._models_py3 import BackendContract
 from ._models_py3 import BackendContractProperties
@@ -107,6 +108,8 @@ from ._models_py3 import CertificateConfiguration
 from ._models_py3 import CertificateContract
 from ._models_py3 import CertificateCreateOrUpdateParameters
 from ._models_py3 import CertificateInformation
+from ._models_py3 import CircuitBreakerFailureCondition
+from ._models_py3 import CircuitBreakerRule
 from ._models_py3 import ClientSecretContract
 from ._models_py3 import ConnectivityCheckRequest
 from ._models_py3 import ConnectivityCheckRequestDestination
@@ -140,6 +143,7 @@ from ._models_py3 import EndpointDetail
 from ._models_py3 import ErrorFieldContract
 from ._models_py3 import ErrorResponse
 from ._models_py3 import ErrorResponseBody
+from ._models_py3 import FailureStatusCodeRange
 from ._models_py3 import GatewayCertificateAuthorityCollection
 from ._models_py3 import GatewayCertificateAuthorityContract
 from ._models_py3 import GatewayCollection
@@ -250,10 +254,14 @@ from ._models_py3 import PrivateEndpointConnectionRequestProperties
 from ._models_py3 import PrivateLinkResource
 from ._models_py3 import PrivateLinkResourceListResult
 from ._models_py3 import PrivateLinkServiceConnectionState
+from ._models_py3 import ProductApiLinkCollection
+from ._models_py3 import ProductApiLinkContract
 from ._models_py3 import ProductCollection
 from ._models_py3 import ProductContract
 from ._models_py3 import ProductContractProperties
 from ._models_py3 import ProductEntityBaseParameters
+from ._models_py3 import ProductGroupLinkCollection
+from ._models_py3 import ProductGroupLinkContract
 from ._models_py3 import ProductTagResourceContractProperties
 from ._models_py3 import ProductUpdateParameters
 from ._models_py3 import ProductUpdateProperties
@@ -304,6 +312,8 @@ from ._models_py3 import SubscriptionKeysContract
 from ._models_py3 import SubscriptionUpdateParameters
 from ._models_py3 import SubscriptionsDelegationSettingsProperties
 from ._models_py3 import SystemData
+from ._models_py3 import TagApiLinkCollection
+from ._models_py3 import TagApiLinkContract
 from ._models_py3 import TagCollection
 from ._models_py3 import TagContract
 from ._models_py3 import TagCreateUpdateParameters
@@ -312,6 +322,10 @@ from ._models_py3 import TagDescriptionCollection
 from ._models_py3 import TagDescriptionContract
 from ._models_py3 import TagDescriptionContractProperties
 from ._models_py3 import TagDescriptionCreateParameters
+from ._models_py3 import TagOperationLinkCollection
+from ._models_py3 import TagOperationLinkContract
+from ._models_py3 import TagProductLinkCollection
+from ._models_py3 import TagProductLinkContract
 from ._models_py3 import TagResourceCollection
 from ._models_py3 import TagResourceContract
 from ._models_py3 import TagResourceContractProperties
@@ -338,6 +352,8 @@ from ._models_py3 import WikiCollection
 from ._models_py3 import WikiContract
 from ._models_py3 import WikiDocumentationContract
 from ._models_py3 import WikiUpdateContract
+from ._models_py3 import WorkspaceCollection
+from ._models_py3 import WorkspaceContract
 from ._models_py3 import X509CertificateName
 
 from ._api_management_client_enums import AccessIdName
@@ -501,6 +517,7 @@ __all__ = [
     "AuthorizationServerUpdateContractProperties",
     "BackendAuthorizationHeaderCredentials",
     "BackendBaseParameters",
+    "BackendCircuitBreaker",
     "BackendCollection",
     "BackendContract",
     "BackendContractProperties",
@@ -521,6 +538,8 @@ __all__ = [
     "CertificateContract",
     "CertificateCreateOrUpdateParameters",
     "CertificateInformation",
+    "CircuitBreakerFailureCondition",
+    "CircuitBreakerRule",
     "ClientSecretContract",
     "ConnectivityCheckRequest",
     "ConnectivityCheckRequestDestination",
@@ -554,6 +573,7 @@ __all__ = [
     "ErrorFieldContract",
     "ErrorResponse",
     "ErrorResponseBody",
+    "FailureStatusCodeRange",
     "GatewayCertificateAuthorityCollection",
     "GatewayCertificateAuthorityContract",
     "GatewayCollection",
@@ -664,10 +684,14 @@ __all__ = [
     "PrivateLinkResource",
     "PrivateLinkResourceListResult",
     "PrivateLinkServiceConnectionState",
+    "ProductApiLinkCollection",
+    "ProductApiLinkContract",
     "ProductCollection",
     "ProductContract",
     "ProductContractProperties",
     "ProductEntityBaseParameters",
+    "ProductGroupLinkCollection",
+    "ProductGroupLinkContract",
     "ProductTagResourceContractProperties",
     "ProductUpdateParameters",
     "ProductUpdateProperties",
@@ -718,6 +742,8 @@ __all__ = [
     "SubscriptionUpdateParameters",
     "SubscriptionsDelegationSettingsProperties",
     "SystemData",
+    "TagApiLinkCollection",
+    "TagApiLinkContract",
     "TagCollection",
     "TagContract",
     "TagCreateUpdateParameters",
@@ -726,6 +752,10 @@ __all__ = [
     "TagDescriptionContract",
     "TagDescriptionContractProperties",
     "TagDescriptionCreateParameters",
+    "TagOperationLinkCollection",
+    "TagOperationLinkContract",
+    "TagProductLinkCollection",
+    "TagProductLinkContract",
     "TagResourceCollection",
     "TagResourceContract",
     "TagResourceContractProperties",
@@ -752,6 +782,8 @@ __all__ = [
     "WikiContract",
     "WikiDocumentationContract",
     "WikiUpdateContract",
+    "WorkspaceCollection",
+    "WorkspaceContract",
     "X509CertificateName",
     "AccessIdName",
     "AccessType",
