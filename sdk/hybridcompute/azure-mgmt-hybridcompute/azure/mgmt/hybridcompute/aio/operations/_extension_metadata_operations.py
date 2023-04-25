@@ -28,21 +28,21 @@ from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from ... import models as _models
 from ..._vendor import _convert_request
-from ...operations._private_link_resources_operations import build_get_request, build_list_by_private_link_scope_request
+from ...operations._extension_metadata_operations import build_get_request, build_list_request
 from .._vendor import HybridComputeManagementClientMixinABC
 
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
 
-class PrivateLinkResourcesOperations:
+class ExtensionMetadataOperations:
     """
     .. warning::
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
         :class:`~azure.mgmt.hybridcompute.aio.HybridComputeManagementClient`'s
-        :attr:`private_link_resources` attribute.
+        :attr:`extension_metadata` attribute.
     """
 
     models = _models
@@ -54,28 +54,99 @@ class PrivateLinkResourcesOperations:
         self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
-    @distributed_trace
-    def list_by_private_link_scope(
-        self, resource_group_name: str, scope_name: str, **kwargs: Any
-    ) -> AsyncIterable["_models.PrivateLinkResource"]:
-        """Gets the private link resources that need to be created for a Azure Monitor PrivateLinkScope.
+    @distributed_trace_async
+    async def get(
+        self, location: str, publisher: str, extension_type: str, version: str, **kwargs: Any
+    ) -> _models.ExtensionValue:
+        """Gets an Extension Metadata based on location, publisher, extensionType and version.
 
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param scope_name: The name of the Azure Arc PrivateLinkScope resource. Required.
-        :type scope_name: str
+        :param location: The location of the Extension being received. Required.
+        :type location: str
+        :param publisher: The publisher of the Extension being received. Required.
+        :type publisher: str
+        :param extension_type: The extensionType of the Extension being received. Required.
+        :type extension_type: str
+        :param version: The version of the Extension being received. Required.
+        :type version: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: An iterator like instance of either PrivateLinkResource or the result of cls(response)
+        :return: ExtensionValue or the result of cls(response)
+        :rtype: ~azure.mgmt.hybridcompute.models.ExtensionValue
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[_models.ExtensionValue] = kwargs.pop("cls", None)
+
+        request = build_get_request(
+            location=location,
+            publisher=publisher,
+            extension_type=extension_type,
+            version=version,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            template_url=self.get.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("ExtensionValue", pipeline_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})
+
+        return deserialized
+
+    get.metadata = {
+        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.HybridCompute/locations/{location}/publishers/{publisher}/extensionTypes/{extensionType}/versions/{version}"
+    }
+
+    @distributed_trace
+    def list(
+        self, location: str, publisher: str, extension_type: str, **kwargs: Any
+    ) -> AsyncIterable["_models.ExtensionValue"]:
+        """Gets all Extension versions based on location, publisher, extensionType.
+
+        :param location: The location of the Extension being received. Required.
+        :type location: str
+        :param publisher: The publisher of the Extension being received. Required.
+        :type publisher: str
+        :param extension_type: The extensionType of the Extension being received. Required.
+        :type extension_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: An iterator like instance of either ExtensionValue or the result of cls(response)
         :rtype:
-         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.hybridcompute.models.PrivateLinkResource]
+         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.hybridcompute.models.ExtensionValue]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.PrivateLinkResourceListResult] = kwargs.pop("cls", None)
+        cls: ClsType[_models.ExtensionValueListResult] = kwargs.pop("cls", None)
 
         error_map = {
             401: ClientAuthenticationError,
@@ -88,12 +159,13 @@ class PrivateLinkResourcesOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_private_link_scope_request(
-                    resource_group_name=resource_group_name,
-                    scope_name=scope_name,
+                request = build_list_request(
+                    location=location,
+                    publisher=publisher,
+                    extension_type=extension_type,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_private_link_scope.metadata["url"],
+                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
@@ -119,11 +191,11 @@ class PrivateLinkResourcesOperations:
             return request
 
         async def extract_data(pipeline_response):
-            deserialized = self._deserialize("PrivateLinkResourceListResult", pipeline_response)
+            deserialized = self._deserialize("ExtensionValueListResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.next_link or None, AsyncList(list_of_elem)
+            return None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
             request = prepare_request(next_link)
@@ -143,74 +215,6 @@ class PrivateLinkResourcesOperations:
 
         return AsyncItemPaged(get_next, extract_data)
 
-    list_by_private_link_scope.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/privateLinkScopes/{scopeName}/privateLinkResources"
-    }
-
-    @distributed_trace_async
-    async def get(
-        self, resource_group_name: str, scope_name: str, group_name: str, **kwargs: Any
-    ) -> _models.PrivateLinkResource:
-        """Gets the private link resources that need to be created for a Azure Monitor PrivateLinkScope.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param scope_name: The name of the Azure Arc PrivateLinkScope resource. Required.
-        :type scope_name: str
-        :param group_name: The name of the private link resource. Required.
-        :type group_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: PrivateLinkResource or the result of cls(response)
-        :rtype: ~azure.mgmt.hybridcompute.models.PrivateLinkResource
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.PrivateLinkResource] = kwargs.pop("cls", None)
-
-        request = build_get_request(
-            resource_group_name=resource_group_name,
-            scope_name=scope_name,
-            group_name=group_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            template_url=self.get.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("PrivateLinkResource", pipeline_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})
-
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/privateLinkScopes/{scopeName}/privateLinkResources/{groupName}"
+    list.metadata = {
+        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.HybridCompute/locations/{location}/publishers/{publisher}/extensionTypes/{extensionType}/versions"
     }

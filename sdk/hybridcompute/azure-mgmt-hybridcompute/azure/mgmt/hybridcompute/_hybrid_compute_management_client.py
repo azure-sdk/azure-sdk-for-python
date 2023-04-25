@@ -16,9 +16,13 @@ from . import models as _models
 from ._configuration import HybridComputeManagementClientConfiguration
 from ._serialization import Deserializer, Serializer
 from .operations import (
+    AgentVersionOperations,
+    ExtensionMetadataOperations,
     HybridComputeManagementClientOperationsMixin,
+    HybridIdentityMetadataOperations,
     MachineExtensionsOperations,
     MachinesOperations,
+    NetworkProfileOperations,
     Operations,
     PrivateEndpointConnectionsOperations,
     PrivateLinkResourcesOperations,
@@ -39,8 +43,17 @@ class HybridComputeManagementClient(
     :vartype machines: azure.mgmt.hybridcompute.operations.MachinesOperations
     :ivar machine_extensions: MachineExtensionsOperations operations
     :vartype machine_extensions: azure.mgmt.hybridcompute.operations.MachineExtensionsOperations
+    :ivar extension_metadata: ExtensionMetadataOperations operations
+    :vartype extension_metadata: azure.mgmt.hybridcompute.operations.ExtensionMetadataOperations
     :ivar operations: Operations operations
     :vartype operations: azure.mgmt.hybridcompute.operations.Operations
+    :ivar network_profile: NetworkProfileOperations operations
+    :vartype network_profile: azure.mgmt.hybridcompute.operations.NetworkProfileOperations
+    :ivar hybrid_identity_metadata: HybridIdentityMetadataOperations operations
+    :vartype hybrid_identity_metadata:
+     azure.mgmt.hybridcompute.operations.HybridIdentityMetadataOperations
+    :ivar agent_version: AgentVersionOperations operations
+    :vartype agent_version: azure.mgmt.hybridcompute.operations.AgentVersionOperations
     :ivar private_link_scopes: PrivateLinkScopesOperations operations
     :vartype private_link_scopes: azure.mgmt.hybridcompute.operations.PrivateLinkScopesOperations
     :ivar private_link_resources: PrivateLinkResourcesOperations operations
@@ -55,8 +68,8 @@ class HybridComputeManagementClient(
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2022-03-10". Note that overriding this
-     default value may result in unsupported behavior.
+    :keyword api_version: Api Version. Default value is "2023-03-15-preview". Note that overriding
+     this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
      Retry-After header is present.
@@ -72,7 +85,7 @@ class HybridComputeManagementClient(
         self._config = HybridComputeManagementClientConfiguration(
             credential=credential, subscription_id=subscription_id, **kwargs
         )
-        self._client = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        self._client: ARMPipelineClient = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
@@ -82,7 +95,15 @@ class HybridComputeManagementClient(
         self.machine_extensions = MachineExtensionsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.extension_metadata = ExtensionMetadataOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
+        self.network_profile = NetworkProfileOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.hybrid_identity_metadata = HybridIdentityMetadataOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.agent_version = AgentVersionOperations(self._client, self._config, self._serialize, self._deserialize)
         self.private_link_scopes = PrivateLinkScopesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
@@ -122,5 +143,5 @@ class HybridComputeManagementClient(
         self._client.__enter__()
         return self
 
-    def __exit__(self, *exc_details) -> None:
+    def __exit__(self, *exc_details: Any) -> None:
         self._client.__exit__(*exc_details)

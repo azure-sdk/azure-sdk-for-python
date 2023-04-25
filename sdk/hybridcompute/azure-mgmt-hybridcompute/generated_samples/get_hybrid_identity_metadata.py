@@ -14,7 +14,7 @@ from azure.mgmt.hybridcompute import HybridComputeManagementClient
     pip install azure-identity
     pip install azure-mgmt-hybridcompute
 # USAGE
-    python private_link_scope_private_link_resource_get.py
+    python get_hybrid_identity_metadata.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,17 +26,17 @@ from azure.mgmt.hybridcompute import HybridComputeManagementClient
 def main():
     client = HybridComputeManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="00000000-1111-2222-3333-444444444444",
+        subscription_id="fd3c3665-1729-4b7b-9a38-238e83b0f98b",
     )
 
-    response = client.private_link_resources.get(
-        resource_group_name="myResourceGroup",
-        scope_name="myPrivateLinkScope",
-        group_name="hybridcompute",
+    response = client.hybrid_identity_metadata.get(
+        resource_group_name="testrg",
+        machine_name="ContosoVm",
+        metadata_name="default",
     )
     print(response)
 
 
-# x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-03-15-preview/examples/PrivateLinkScopePrivateLinkResourceGet.json
+# x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-03-15-preview/examples/GetHybridIdentityMetadata.json
 if __name__ == "__main__":
     main()

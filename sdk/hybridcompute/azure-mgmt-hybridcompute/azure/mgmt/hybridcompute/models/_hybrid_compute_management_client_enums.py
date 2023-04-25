@@ -10,6 +10,15 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
+class AgentConfigurationMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Name of configuration mode to use. Modes are pre-defined configurations of security controls,
+    extension allowlists and guest configuration, maintained by Microsoft.
+    """
+
+    FULL = "full"
+    MONITOR = "monitor"
+
+
 class AssessmentModeTypes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Specifies the assessment mode."""
 
@@ -32,6 +41,13 @@ class InstanceViewTypes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     INSTANCE_VIEW = "instanceView"
 
 
+class LastAttemptStatusEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Specifies the status of Agent Upgrade."""
+
+    SUCCESS = "Success"
+    FAILED = "Failed"
+
+
 class PatchModeTypes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Specifies the patch mode."""
 
@@ -39,6 +55,15 @@ class PatchModeTypes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     AUTOMATIC_BY_PLATFORM = "AutomaticByPlatform"
     AUTOMATIC_BY_OS = "AutomaticByOS"
     MANUAL = "Manual"
+
+
+class PrivateCloudKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Indicates which kind of VM fabric the instance is an instance of, such as HCI or SCVMM etc."""
+
+    AVS = "AVS"
+    HCI = "HCI"
+    SCVMM = "SCVMM"
+    V_MWARE = "VMware"
 
 
 class PublicNetworkAccessType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
