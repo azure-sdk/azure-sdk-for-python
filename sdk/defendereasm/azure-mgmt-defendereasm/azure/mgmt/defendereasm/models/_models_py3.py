@@ -8,13 +8,20 @@
 # --------------------------------------------------------------------------
 
 import datetime
+import sys
 from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
 from .. import _serialization
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+
 if TYPE_CHECKING:
     # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
+JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 
 
 class ErrorAdditionalInfo(_serialization.Model):
@@ -578,6 +585,192 @@ class SystemData(_serialization.Model):
         self.last_modified_at = last_modified_at
 
 
+class TaskResource(ProxyResource):  # pylint: disable=too-many-instance-attributes
+    """Task details.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.defendereasm.models.SystemData
+    :ivar provisioning_state: Resource provisioning state. Known values are: "NotSpecified",
+     "Accepted", "Creating", "Succeeded", "Failed", "Canceled", "ProvisioningResources",
+     "InstallingApplication", "ConfiguringApplication", "MigratingApplicationData",
+     "RunningValidations", "CreatingArtifacts", and "DeletingArtifacts".
+    :vartype provisioning_state: str or ~azure.mgmt.defendereasm.models.ResourceState
+    :ivar started_at: The time the task started.
+    :vartype started_at: str
+    :ivar completed_at: The time the task completed.
+    :vartype completed_at: str
+    :ivar last_polled_at: The last time the task was polled.
+    :vartype last_polled_at: str
+    :ivar state: the state the task is in.
+    :vartype state: str
+    :ivar phase: the phase the task is in.
+    :vartype phase: str
+    :ivar reason: The reason the task was moved into its current state, if the task wasn't
+     completed.
+    :vartype reason: str
+    :ivar metadata: The reason the task was moved into its current state, if the task wasn't
+     completed.
+    :vartype metadata: JSON
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "started_at": {"key": "properties.startedAt", "type": "str"},
+        "completed_at": {"key": "properties.completedAt", "type": "str"},
+        "last_polled_at": {"key": "properties.lastPolledAt", "type": "str"},
+        "state": {"key": "properties.state", "type": "str"},
+        "phase": {"key": "properties.phase", "type": "str"},
+        "reason": {"key": "properties.reason", "type": "str"},
+        "metadata": {"key": "properties.metadata", "type": "object"},
+    }
+
+    def __init__(
+        self,
+        *,
+        started_at: Optional[str] = None,
+        completed_at: Optional[str] = None,
+        last_polled_at: Optional[str] = None,
+        state: Optional[str] = None,
+        phase: Optional[str] = None,
+        reason: Optional[str] = None,
+        metadata: Optional[JSON] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword started_at: The time the task started.
+        :paramtype started_at: str
+        :keyword completed_at: The time the task completed.
+        :paramtype completed_at: str
+        :keyword last_polled_at: The last time the task was polled.
+        :paramtype last_polled_at: str
+        :keyword state: the state the task is in.
+        :paramtype state: str
+        :keyword phase: the phase the task is in.
+        :paramtype phase: str
+        :keyword reason: The reason the task was moved into its current state, if the task wasn't
+         completed.
+        :paramtype reason: str
+        :keyword metadata: The reason the task was moved into its current state, if the task wasn't
+         completed.
+        :paramtype metadata: JSON
+        """
+        super().__init__(**kwargs)
+        self.provisioning_state = None
+        self.started_at = started_at
+        self.completed_at = completed_at
+        self.last_polled_at = last_polled_at
+        self.state = state
+        self.phase = phase
+        self.reason = reason
+        self.metadata = metadata
+
+
+class TaskResourceProperties(ResourceBaseProperties):
+    """Task properties.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar provisioning_state: Resource provisioning state. Known values are: "NotSpecified",
+     "Accepted", "Creating", "Succeeded", "Failed", "Canceled", "ProvisioningResources",
+     "InstallingApplication", "ConfiguringApplication", "MigratingApplicationData",
+     "RunningValidations", "CreatingArtifacts", and "DeletingArtifacts".
+    :vartype provisioning_state: str or ~azure.mgmt.defendereasm.models.ResourceState
+    :ivar started_at: The time the task started.
+    :vartype started_at: str
+    :ivar completed_at: The time the task completed.
+    :vartype completed_at: str
+    :ivar last_polled_at: The last time the task was polled.
+    :vartype last_polled_at: str
+    :ivar state: the state the task is in.
+    :vartype state: str
+    :ivar phase: the phase the task is in.
+    :vartype phase: str
+    :ivar reason: The reason the task was moved into its current state, if the task wasn't
+     completed.
+    :vartype reason: str
+    :ivar metadata: The reason the task was moved into its current state, if the task wasn't
+     completed.
+    :vartype metadata: JSON
+    """
+
+    _validation = {
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+        "started_at": {"key": "startedAt", "type": "str"},
+        "completed_at": {"key": "completedAt", "type": "str"},
+        "last_polled_at": {"key": "lastPolledAt", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "phase": {"key": "phase", "type": "str"},
+        "reason": {"key": "reason", "type": "str"},
+        "metadata": {"key": "metadata", "type": "object"},
+    }
+
+    def __init__(
+        self,
+        *,
+        started_at: Optional[str] = None,
+        completed_at: Optional[str] = None,
+        last_polled_at: Optional[str] = None,
+        state: Optional[str] = None,
+        phase: Optional[str] = None,
+        reason: Optional[str] = None,
+        metadata: Optional[JSON] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword started_at: The time the task started.
+        :paramtype started_at: str
+        :keyword completed_at: The time the task completed.
+        :paramtype completed_at: str
+        :keyword last_polled_at: The last time the task was polled.
+        :paramtype last_polled_at: str
+        :keyword state: the state the task is in.
+        :paramtype state: str
+        :keyword phase: the phase the task is in.
+        :paramtype phase: str
+        :keyword reason: The reason the task was moved into its current state, if the task wasn't
+         completed.
+        :paramtype reason: str
+        :keyword metadata: The reason the task was moved into its current state, if the task wasn't
+         completed.
+        :paramtype metadata: JSON
+        """
+        super().__init__(**kwargs)
+        self.started_at = started_at
+        self.completed_at = completed_at
+        self.last_polled_at = last_polled_at
+        self.state = state
+        self.phase = phase
+        self.reason = reason
+        self.metadata = metadata
+
+
 class TrackedResource(Resource):
     """The resource model definition for an Azure Resource Manager tracked top level resource which
     has 'tags' and a 'location'.
@@ -689,6 +882,8 @@ class WorkspaceResource(TrackedResource):
      "InstallingApplication", "ConfiguringApplication", "MigratingApplicationData",
      "RunningValidations", "CreatingArtifacts", and "DeletingArtifacts".
     :vartype provisioning_state: str or ~azure.mgmt.defendereasm.models.ResourceState
+    :ivar data_plane_endpoint: Data plane endpoint.
+    :vartype data_plane_endpoint: str
     """
 
     _validation = {
@@ -698,6 +893,7 @@ class WorkspaceResource(TrackedResource):
         "system_data": {"readonly": True},
         "location": {"required": True},
         "provisioning_state": {"readonly": True},
+        "data_plane_endpoint": {"readonly": True},
     }
 
     _attribute_map = {
@@ -708,6 +904,7 @@ class WorkspaceResource(TrackedResource):
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "data_plane_endpoint": {"key": "properties.dataPlaneEndpoint", "type": "str"},
     }
 
     def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
@@ -719,6 +916,7 @@ class WorkspaceResource(TrackedResource):
         """
         super().__init__(tags=tags, location=location, **kwargs)
         self.provisioning_state = None
+        self.data_plane_endpoint = None
 
 
 class WorkspaceResourceList(_serialization.Model):
@@ -751,3 +949,33 @@ class WorkspaceResourceList(_serialization.Model):
         super().__init__(**kwargs)
         self.next_link = next_link
         self.value = value
+
+
+class WorkspaceResourceProperties(ResourceBaseProperties):
+    """Workspace properties.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar provisioning_state: Resource provisioning state. Known values are: "NotSpecified",
+     "Accepted", "Creating", "Succeeded", "Failed", "Canceled", "ProvisioningResources",
+     "InstallingApplication", "ConfiguringApplication", "MigratingApplicationData",
+     "RunningValidations", "CreatingArtifacts", and "DeletingArtifacts".
+    :vartype provisioning_state: str or ~azure.mgmt.defendereasm.models.ResourceState
+    :ivar data_plane_endpoint: Data plane endpoint.
+    :vartype data_plane_endpoint: str
+    """
+
+    _validation = {
+        "provisioning_state": {"readonly": True},
+        "data_plane_endpoint": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+        "data_plane_endpoint": {"key": "dataPlaneEndpoint", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.data_plane_endpoint = None
