@@ -45,21 +45,26 @@ def main():
                 "dataDiskType": "Premium_LRS",
                 "enableAcceleratedNetworking": True,
                 "enableEncryptionAtHost": True,
+                "enableNodePublicIP": True,
                 "enableOverProvisioning": False,
                 "evictionPolicy": "Deallocate",
                 "frontendConfigurations": [
                     {
-                        "applicationGatewayBackendAddressPoolId": " /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.Network/applicationGateways/appgw-test/backendAddressPools/appgwBepoolTest",
+                        "applicationGatewayBackendAddressPoolId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.Network/applicationGateways/appgw-test/backendAddressPools/appgwBepoolTest",
                         "loadBalancerBackendAddressPoolId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.Network/loadBalancers/test-LB/backendAddressPools/LoadBalancerBEAddressPool",
-                        "loadBalancerInboundNatPoolId": " /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.Network/loadBalancers/test-LB/inboundNatPools/LoadBalancerNATPool",
+                        "loadBalancerInboundNatPoolId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.Network/loadBalancers/test-LB/inboundNatPools/LoadBalancerNATPool",
                     }
                 ],
                 "isPrimary": False,
                 "isSpotVM": True,
                 "isStateless": True,
                 "multiplePlacementGroups": True,
+                "natGatewayId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.Network/natGateways/myNatGateway",
                 "placementProperties": {"HasSSD": "true", "NodeColor": "green", "SomeProperty": "5"},
+                "secureBootEnabled": True,
+                "securityType": "TrustedLaunch",
                 "spotRestoreTimeout": "PT30M",
+                "subnetId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1",
                 "useDefaultPublicLoadBalancer": True,
                 "useEphemeralOSDisk": True,
                 "vmExtensions": [
@@ -100,6 +105,7 @@ def main():
                         ],
                     }
                 ],
+                "vmSetupActions": ["EnableContainers", "EnableHyperV"],
                 "vmSize": "Standard_DS3",
             }
         },
@@ -107,6 +113,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2022-08-01-preview/examples/NodeTypePutOperation_example_max.json
+# x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2023-03-01-preview/examples/NodeTypePutOperation_example_max.json
 if __name__ == "__main__":
     main()

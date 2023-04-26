@@ -14,7 +14,7 @@ from azure.mgmt.servicefabricmanagedclusters import ServiceFabricManagedClusters
     pip install azure-identity
     pip install azure-mgmt-servicefabricmanagedclusters
 # USAGE
-    python managed_az_resiliency_status_post_example.py
+    python managed_az_resiliency_status_get_example.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -36,6 +36,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2022-08-01-preview/examples/managedAzResiliencyStatusPost_example.json
+# x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2023-03-01-preview/examples/managedAzResiliencyStatusGet_example.json
 if __name__ == "__main__":
     main()
