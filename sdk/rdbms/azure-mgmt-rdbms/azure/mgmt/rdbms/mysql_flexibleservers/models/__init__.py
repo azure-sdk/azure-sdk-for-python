@@ -9,11 +9,6 @@
 from ._models_py3 import AdministratorListResult
 from ._models_py3 import AzureADAdministrator
 from ._models_py3 import Backup
-from ._models_py3 import BackupAndExportRequest
-from ._models_py3 import BackupAndExportResponse
-from ._models_py3 import BackupRequestBase
-from ._models_py3 import BackupSettings
-from ._models_py3 import BackupStoreDetails
 from ._models_py3 import CapabilitiesListResult
 from ._models_py3 import CapabilityProperties
 from ._models_py3 import Configuration
@@ -28,7 +23,6 @@ from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorResponse
 from ._models_py3 import FirewallRule
 from ._models_py3 import FirewallRuleListResult
-from ._models_py3 import FullBackupStoreDetails
 from ._models_py3 import GetPrivateDnsZoneSuffixResponse
 from ._models_py3 import HighAvailability
 from ._models_py3 import Identity
@@ -48,7 +42,6 @@ from ._models_py3 import ServerBackup
 from ._models_py3 import ServerBackupListResult
 from ._models_py3 import ServerEditionCapability
 from ._models_py3 import ServerForUpdate
-from ._models_py3 import ServerGtidSetParameter
 from ._models_py3 import ServerListResult
 from ._models_py3 import ServerRestartParameter
 from ._models_py3 import ServerVersionCapability
@@ -59,13 +52,11 @@ from ._models_py3 import StorageEditionCapability
 from ._models_py3 import SystemData
 from ._models_py3 import TrackedResource
 from ._models_py3 import UserAssignedIdentity
-from ._models_py3 import ValidateBackupResponse
 from ._models_py3 import VirtualNetworkSubnetUsageParameter
 from ._models_py3 import VirtualNetworkSubnetUsageResult
 
 from ._my_sql_management_client_enums import AdministratorName
 from ._my_sql_management_client_enums import AdministratorType
-from ._my_sql_management_client_enums import BackupFormat
 from ._my_sql_management_client_enums import ConfigurationSource
 from ._my_sql_management_client_enums import CreateMode
 from ._my_sql_management_client_enums import CreatedByType
@@ -76,8 +67,6 @@ from ._my_sql_management_client_enums import HighAvailabilityState
 from ._my_sql_management_client_enums import IsConfigPendingRestart
 from ._my_sql_management_client_enums import IsDynamicConfig
 from ._my_sql_management_client_enums import IsReadOnly
-from ._my_sql_management_client_enums import ManagedServiceIdentityType
-from ._my_sql_management_client_enums import OperationStatus
 from ._my_sql_management_client_enums import ReplicationRole
 from ._my_sql_management_client_enums import ResetAllToDefault
 from ._my_sql_management_client_enums import ServerState
@@ -91,11 +80,6 @@ __all__ = [
     "AdministratorListResult",
     "AzureADAdministrator",
     "Backup",
-    "BackupAndExportRequest",
-    "BackupAndExportResponse",
-    "BackupRequestBase",
-    "BackupSettings",
-    "BackupStoreDetails",
     "CapabilitiesListResult",
     "CapabilityProperties",
     "Configuration",
@@ -110,7 +94,6 @@ __all__ = [
     "ErrorResponse",
     "FirewallRule",
     "FirewallRuleListResult",
-    "FullBackupStoreDetails",
     "GetPrivateDnsZoneSuffixResponse",
     "HighAvailability",
     "Identity",
@@ -130,7 +113,6 @@ __all__ = [
     "ServerBackupListResult",
     "ServerEditionCapability",
     "ServerForUpdate",
-    "ServerGtidSetParameter",
     "ServerListResult",
     "ServerRestartParameter",
     "ServerVersionCapability",
@@ -141,12 +123,10 @@ __all__ = [
     "SystemData",
     "TrackedResource",
     "UserAssignedIdentity",
-    "ValidateBackupResponse",
     "VirtualNetworkSubnetUsageParameter",
     "VirtualNetworkSubnetUsageResult",
     "AdministratorName",
     "AdministratorType",
-    "BackupFormat",
     "ConfigurationSource",
     "CreateMode",
     "CreatedByType",
@@ -157,8 +137,6 @@ __all__ = [
     "IsConfigPendingRestart",
     "IsDynamicConfig",
     "IsReadOnly",
-    "ManagedServiceIdentityType",
-    "OperationStatus",
     "ReplicationRole",
     "ResetAllToDefault",
     "ServerState",

@@ -38,7 +38,7 @@ def build_execute_request(location_name: str, subscription_id: str, **kwargs: An
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-12-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-01-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -49,7 +49,7 @@ def build_execute_request(location_name: str, subscription_id: str, **kwargs: An
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
-        "locationName": _SERIALIZER.url("location_name", location_name, "str"),
+        "locationName": _SERIALIZER.url("location_name", location_name, "str", pattern=r"^[ \w]+$"),
     }
 
     _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
@@ -166,7 +166,7 @@ class CheckNameAvailabilityOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-12-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.NameAvailability] = kwargs.pop("cls", None)
 

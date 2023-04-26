@@ -46,6 +46,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/preview/2022-09-30-preview/examples/ServerCreateWithPointInTimeRestore.json
+# x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2022-01-01/examples/ServerCreateWithPointInTimeRestore.json
 if __name__ == "__main__":
     main()

@@ -46,6 +46,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/AAD/preview/2021-12-01-preview/examples/AzureADAdministratorCreate.json
+# x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/AAD/stable/2022-01-01/examples/AzureADAdministratorCreate.json
 if __name__ == "__main__":
     main()

@@ -17,6 +17,10 @@ if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
     from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+if sys.version_info >= (3, 8):
+    from typing import Literal  # pylint: disable=no-name-in-module, ungrouped-imports
+else:
+    from typing_extensions import Literal  # type: ignore  # pylint: disable=ungrouped-imports
 
 if TYPE_CHECKING:
     # pylint: disable=unused-import,ungrouped-imports
@@ -247,228 +251,6 @@ class Backup(_serialization.Model):
         self.backup_retention_days = backup_retention_days
         self.geo_redundant_backup = geo_redundant_backup
         self.earliest_restore_date = None
-
-
-class BackupRequestBase(_serialization.Model):
-    """BackupRequestBase is the base for all backup request.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar backup_settings: Backup Settings. Required.
-    :vartype backup_settings: ~azure.mgmt.rdbms.mysql_flexibleservers.models.BackupSettings
-    """
-
-    _validation = {
-        "backup_settings": {"required": True},
-    }
-
-    _attribute_map = {
-        "backup_settings": {"key": "backupSettings", "type": "BackupSettings"},
-    }
-
-    def __init__(self, *, backup_settings: "_models.BackupSettings", **kwargs: Any) -> None:
-        """
-        :keyword backup_settings: Backup Settings. Required.
-        :paramtype backup_settings: ~azure.mgmt.rdbms.mysql_flexibleservers.models.BackupSettings
-        """
-        super().__init__(**kwargs)
-        self.backup_settings = backup_settings
-
-
-class BackupAndExportRequest(BackupRequestBase):
-    """BackupAndExport API Request.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar backup_settings: Backup Settings. Required.
-    :vartype backup_settings: ~azure.mgmt.rdbms.mysql_flexibleservers.models.BackupSettings
-    :ivar target_details: Backup Target Store Details. Required.
-    :vartype target_details: ~azure.mgmt.rdbms.mysql_flexibleservers.models.BackupStoreDetails
-    """
-
-    _validation = {
-        "backup_settings": {"required": True},
-        "target_details": {"required": True},
-    }
-
-    _attribute_map = {
-        "backup_settings": {"key": "backupSettings", "type": "BackupSettings"},
-        "target_details": {"key": "targetDetails", "type": "BackupStoreDetails"},
-    }
-
-    def __init__(
-        self, *, backup_settings: "_models.BackupSettings", target_details: "_models.BackupStoreDetails", **kwargs: Any
-    ) -> None:
-        """
-        :keyword backup_settings: Backup Settings. Required.
-        :paramtype backup_settings: ~azure.mgmt.rdbms.mysql_flexibleservers.models.BackupSettings
-        :keyword target_details: Backup Target Store Details. Required.
-        :paramtype target_details: ~azure.mgmt.rdbms.mysql_flexibleservers.models.BackupStoreDetails
-        """
-        super().__init__(backup_settings=backup_settings, **kwargs)
-        self.target_details = target_details
-
-
-class BackupAndExportResponse(ProxyResource):  # pylint: disable=too-many-instance-attributes
-    """Represents BackupAndExport API Response.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-    :vartype id: str
-    :ivar name: The name of the resource.
-    :vartype name: str
-    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-     "Microsoft.Storage/storageAccounts".
-    :vartype type: str
-    :ivar status: The operation status. Known values are: "Pending", "InProgress", "Succeeded",
-     "Failed", "CancelInProgress", and "Canceled".
-    :vartype status: str or ~azure.mgmt.rdbms.mysql_flexibleservers.models.OperationStatus
-    :ivar start_time: Start time.
-    :vartype start_time: ~datetime.datetime
-    :ivar end_time: End time.
-    :vartype end_time: ~datetime.datetime
-    :ivar percent_complete: Operation progress (0-100).
-    :vartype percent_complete: float
-    :ivar error: The BackupAndExport operation error response.
-    :vartype error: ~azure.mgmt.rdbms.mysql_flexibleservers.models.ErrorResponse
-    :ivar datasource_size_in_bytes: Size of datasource in bytes.
-    :vartype datasource_size_in_bytes: int
-    :ivar data_transferred_in_bytes: Data transferred in bytes.
-    :vartype data_transferred_in_bytes: int
-    :ivar backup_metadata: Metadata related to backup to be stored for restoring resource in
-     key-value pairs.
-    :vartype backup_metadata: str
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "percent_complete": {"maximum": 100, "minimum": 0},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "status": {"key": "status", "type": "str"},
-        "start_time": {"key": "startTime", "type": "iso-8601"},
-        "end_time": {"key": "endTime", "type": "iso-8601"},
-        "percent_complete": {"key": "percentComplete", "type": "float"},
-        "error": {"key": "error", "type": "ErrorResponse"},
-        "datasource_size_in_bytes": {"key": "properties.datasourceSizeInBytes", "type": "int"},
-        "data_transferred_in_bytes": {"key": "properties.dataTransferredInBytes", "type": "int"},
-        "backup_metadata": {"key": "properties.backupMetadata", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        status: Optional[Union[str, "_models.OperationStatus"]] = None,
-        start_time: Optional[datetime.datetime] = None,
-        end_time: Optional[datetime.datetime] = None,
-        percent_complete: Optional[float] = None,
-        error: Optional["_models.ErrorResponse"] = None,
-        datasource_size_in_bytes: Optional[int] = None,
-        data_transferred_in_bytes: Optional[int] = None,
-        backup_metadata: Optional[str] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword status: The operation status. Known values are: "Pending", "InProgress", "Succeeded",
-         "Failed", "CancelInProgress", and "Canceled".
-        :paramtype status: str or ~azure.mgmt.rdbms.mysql_flexibleservers.models.OperationStatus
-        :keyword start_time: Start time.
-        :paramtype start_time: ~datetime.datetime
-        :keyword end_time: End time.
-        :paramtype end_time: ~datetime.datetime
-        :keyword percent_complete: Operation progress (0-100).
-        :paramtype percent_complete: float
-        :keyword error: The BackupAndExport operation error response.
-        :paramtype error: ~azure.mgmt.rdbms.mysql_flexibleservers.models.ErrorResponse
-        :keyword datasource_size_in_bytes: Size of datasource in bytes.
-        :paramtype datasource_size_in_bytes: int
-        :keyword data_transferred_in_bytes: Data transferred in bytes.
-        :paramtype data_transferred_in_bytes: int
-        :keyword backup_metadata: Metadata related to backup to be stored for restoring resource in
-         key-value pairs.
-        :paramtype backup_metadata: str
-        """
-        super().__init__(**kwargs)
-        self.status = status
-        self.start_time = start_time
-        self.end_time = end_time
-        self.percent_complete = percent_complete
-        self.error = error
-        self.datasource_size_in_bytes = datasource_size_in_bytes
-        self.data_transferred_in_bytes = data_transferred_in_bytes
-        self.backup_metadata = backup_metadata
-
-
-class BackupSettings(_serialization.Model):
-    """Backup Settings.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar backup_name: The name of the backup. Required.
-    :vartype backup_name: str
-    :ivar backup_format: Backup Format for the current backup. (CollatedFormat is INTERNAL – DO NOT
-     USE). Known values are: "None" and "CollatedFormat".
-    :vartype backup_format: str or ~azure.mgmt.rdbms.mysql_flexibleservers.models.BackupFormat
-    """
-
-    _validation = {
-        "backup_name": {"required": True, "pattern": r"(^[a-z0-9]$)|(^[a-z0-9][a-z0-9-]*[a-z0-9]$)"},
-    }
-
-    _attribute_map = {
-        "backup_name": {"key": "backupName", "type": "str"},
-        "backup_format": {"key": "backupFormat", "type": "str"},
-    }
-
-    def __init__(
-        self, *, backup_name: str, backup_format: Optional[Union[str, "_models.BackupFormat"]] = None, **kwargs: Any
-    ) -> None:
-        """
-        :keyword backup_name: The name of the backup. Required.
-        :paramtype backup_name: str
-        :keyword backup_format: Backup Format for the current backup. (CollatedFormat is INTERNAL – DO
-         NOT USE). Known values are: "None" and "CollatedFormat".
-        :paramtype backup_format: str or ~azure.mgmt.rdbms.mysql_flexibleservers.models.BackupFormat
-        """
-        super().__init__(**kwargs)
-        self.backup_name = backup_name
-        self.backup_format = backup_format
-
-
-class BackupStoreDetails(_serialization.Model):
-    """Details about the target where the backup content will be stored.
-
-    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
-    FullBackupStoreDetails
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar object_type: Type of the specific object - used for deserializing. Required.
-    :vartype object_type: str
-    """
-
-    _validation = {
-        "object_type": {"required": True},
-    }
-
-    _attribute_map = {
-        "object_type": {"key": "objectType", "type": "str"},
-    }
-
-    _subtype_map = {"object_type": {"FullBackupStoreDetails": "FullBackupStoreDetails"}}
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-        self.object_type: Optional[str] = None
 
 
 class CapabilitiesListResult(_serialization.Model):
@@ -1079,40 +861,6 @@ class FirewallRuleListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class FullBackupStoreDetails(BackupStoreDetails):
-    """FullBackupStoreDetails is used for scenarios where backup data is streamed/copied over to a
-    storage destination.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar object_type: Type of the specific object - used for deserializing. Required.
-    :vartype object_type: str
-    :ivar sas_uri_list: SASUriList of storage containers where backup data is to be
-     streamed/copied. Required.
-    :vartype sas_uri_list: list[str]
-    """
-
-    _validation = {
-        "object_type": {"required": True},
-        "sas_uri_list": {"required": True},
-    }
-
-    _attribute_map = {
-        "object_type": {"key": "objectType", "type": "str"},
-        "sas_uri_list": {"key": "sasUriList", "type": "[str]"},
-    }
-
-    def __init__(self, *, sas_uri_list: List[str], **kwargs: Any) -> None:
-        """
-        :keyword sas_uri_list: SASUriList of storage containers where backup data is to be
-         streamed/copied. Required.
-        :paramtype sas_uri_list: list[str]
-        """
-        super().__init__(**kwargs)
-        self.object_type: str = "FullBackupStoreDetails"
-        self.sas_uri_list = sas_uri_list
-
-
 class GetPrivateDnsZoneSuffixResponse(_serialization.Model):
     """The response of get private dns zone suffix.
 
@@ -1187,8 +935,8 @@ class Identity(_serialization.Model):
     :vartype principal_id: str
     :ivar tenant_id: TenantId from the KeyVault.
     :vartype tenant_id: str
-    :ivar type: Type of managed service identity. "UserAssigned"
-    :vartype type: str or ~azure.mgmt.rdbms.mysql_flexibleservers.models.ManagedServiceIdentityType
+    :ivar type: Type of managed service identity. Default value is "UserAssigned".
+    :vartype type: str
     :ivar user_assigned_identities: Metadata of user assigned identity.
     :vartype user_assigned_identities: dict[str, JSON]
     """
@@ -1208,14 +956,13 @@ class Identity(_serialization.Model):
     def __init__(
         self,
         *,
-        type: Optional[Union[str, "_models.ManagedServiceIdentityType"]] = None,
+        type: Optional[Literal["UserAssigned"]] = None,
         user_assigned_identities: Optional[Dict[str, JSON]] = None,
         **kwargs: Any
     ) -> None:
         """
-        :keyword type: Type of managed service identity. "UserAssigned"
-        :paramtype type: str or
-         ~azure.mgmt.rdbms.mysql_flexibleservers.models.ManagedServiceIdentityType
+        :keyword type: Type of managed service identity. Default value is "UserAssigned".
+        :paramtype type: str
         :keyword user_assigned_identities: Metadata of user assigned identity.
         :paramtype user_assigned_identities: dict[str, JSON]
         """
@@ -1451,6 +1198,8 @@ class NameAvailabilityRequest(_serialization.Model):
 class Network(_serialization.Model):
     """Network related properties of a server.
 
+    Variables are only populated by the server, and will be ignored when sending a request.
+
     :ivar public_network_access: Whether or not public network access is allowed for this server.
      Value is 'Disabled' when server has VNet integration. Known values are: "Enabled" and
      "Disabled".
@@ -1463,6 +1212,10 @@ class Network(_serialization.Model):
     :vartype private_dns_zone_resource_id: str
     """
 
+    _validation = {
+        "public_network_access": {"readonly": True},
+    }
+
     _attribute_map = {
         "public_network_access": {"key": "publicNetworkAccess", "type": "str"},
         "delegated_subnet_resource_id": {"key": "delegatedSubnetResourceId", "type": "str"},
@@ -1472,17 +1225,11 @@ class Network(_serialization.Model):
     def __init__(
         self,
         *,
-        public_network_access: Optional[Union[str, "_models.EnableStatusEnum"]] = None,
         delegated_subnet_resource_id: Optional[str] = None,
         private_dns_zone_resource_id: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
-        :keyword public_network_access: Whether or not public network access is allowed for this
-         server. Value is 'Disabled' when server has VNet integration. Known values are: "Enabled" and
-         "Disabled".
-        :paramtype public_network_access: str or
-         ~azure.mgmt.rdbms.mysql_flexibleservers.models.EnableStatusEnum
         :keyword delegated_subnet_resource_id: Delegated subnet resource id used to setup vnet for a
          server.
         :paramtype delegated_subnet_resource_id: str
@@ -1490,7 +1237,7 @@ class Network(_serialization.Model):
         :paramtype private_dns_zone_resource_id: str
         """
         super().__init__(**kwargs)
-        self.public_network_access = public_network_access
+        self.public_network_access = None
         self.delegated_subnet_resource_id = delegated_subnet_resource_id
         self.private_dns_zone_resource_id = private_dns_zone_resource_id
 
@@ -2086,26 +1833,6 @@ class ServerForUpdate(_serialization.Model):  # pylint: disable=too-many-instanc
         self.data_encryption = data_encryption
 
 
-class ServerGtidSetParameter(_serialization.Model):
-    """Server gtid set parameters.
-
-    :ivar gtid_set: The gtid set of server.
-    :vartype gtid_set: str
-    """
-
-    _attribute_map = {
-        "gtid_set": {"key": "gtidSet", "type": "str"},
-    }
-
-    def __init__(self, *, gtid_set: Optional[str] = None, **kwargs: Any) -> None:
-        """
-        :keyword gtid_set: The gtid set of server.
-        :paramtype gtid_set: str
-        """
-        super().__init__(**kwargs)
-        self.gtid_set = gtid_set
-
-
 class ServerListResult(_serialization.Model):
     """A list of servers.
 
@@ -2474,28 +2201,6 @@ class UserAssignedIdentity(_serialization.Model):
         super().__init__(**kwargs)
         self.principal_id = None
         self.client_id = None
-
-
-class ValidateBackupResponse(_serialization.Model):
-    """Represents ValidateBackup API Response.
-
-    :ivar number_of_containers: Estimated no of storage containers required for resource data to be
-     backed up.
-    :vartype number_of_containers: int
-    """
-
-    _attribute_map = {
-        "number_of_containers": {"key": "properties.numberOfContainers", "type": "int"},
-    }
-
-    def __init__(self, *, number_of_containers: Optional[int] = None, **kwargs: Any) -> None:
-        """
-        :keyword number_of_containers: Estimated no of storage containers required for resource data to
-         be backed up.
-        :paramtype number_of_containers: int
-        """
-        super().__init__(**kwargs)
-        self.number_of_containers = number_of_containers
 
 
 class VirtualNetworkSubnetUsageParameter(_serialization.Model):
