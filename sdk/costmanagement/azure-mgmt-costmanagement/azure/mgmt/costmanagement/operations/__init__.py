@@ -7,12 +7,15 @@
 # --------------------------------------------------------------------------
 
 from ._operations import Operations
-from ._views_operations import ViewsOperations
-from ._alerts_operations import AlertsOperations
-from ._forecast_operations import ForecastOperations
-from ._dimensions_operations import DimensionsOperations
-from ._query_operations import QueryOperations
-from ._generate_reservation_details_report_operations import GenerateReservationDetailsReportOperations
+from ._benefit_recommendations_operations import BenefitRecommendationsOperations
+from ._benefit_utilization_summaries_operations import BenefitUtilizationSummariesOperations
+from ._billing_account_scope_operations import BillingAccountScopeOperations
+from ._billing_profile_scope_operations import BillingProfileScopeOperations
+from ._reservation_order_scope_operations import ReservationOrderScopeOperations
+from ._reservation_scope_operations import ReservationScopeOperations
+from ._savings_plan_order_scope_operations import SavingsPlanOrderScopeOperations
+from ._savings_plan_scope_operations import SavingsPlanScopeOperations
+from ._benefit_utilization_summaries_async_operations import BenefitUtilizationSummariesAsyncOperations
 from ._exports_operations import ExportsOperations
 from ._generate_cost_details_report_operations import GenerateCostDetailsReportOperations
 from ._generate_detailed_cost_report_operations import GenerateDetailedCostReportOperations
@@ -22,32 +25,43 @@ from ._generate_detailed_cost_report_operation_results_operations import (
 from ._generate_detailed_cost_report_operation_status_operations import (
     GenerateDetailedCostReportOperationStatusOperations,
 )
+from ._views_operations import ViewsOperations
+from ._alerts_operations import AlertsOperations
+from ._forecast_operations import ForecastOperations
+from ._dimensions_operations import DimensionsOperations
+from ._query_operations import QueryOperations
+from ._generate_reservation_details_report_operations import GenerateReservationDetailsReportOperations
 from ._price_sheet_operations import PriceSheetOperations
 from ._scheduled_actions_operations import ScheduledActionsOperations
-from ._benefit_recommendations_operations import BenefitRecommendationsOperations
-from ._benefit_utilization_summaries_operations import BenefitUtilizationSummariesOperations
 
 from ._patch import __all__ as _patch_all
-from ._patch import *  # type: ignore # pylint: disable=unused-wildcard-import
+from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
     "Operations",
+    "BenefitRecommendationsOperations",
+    "BenefitUtilizationSummariesOperations",
+    "BillingAccountScopeOperations",
+    "BillingProfileScopeOperations",
+    "ReservationOrderScopeOperations",
+    "ReservationScopeOperations",
+    "SavingsPlanOrderScopeOperations",
+    "SavingsPlanScopeOperations",
+    "BenefitUtilizationSummariesAsyncOperations",
+    "ExportsOperations",
+    "GenerateCostDetailsReportOperations",
+    "GenerateDetailedCostReportOperations",
+    "GenerateDetailedCostReportOperationResultsOperations",
+    "GenerateDetailedCostReportOperationStatusOperations",
     "ViewsOperations",
     "AlertsOperations",
     "ForecastOperations",
     "DimensionsOperations",
     "QueryOperations",
     "GenerateReservationDetailsReportOperations",
-    "ExportsOperations",
-    "GenerateCostDetailsReportOperations",
-    "GenerateDetailedCostReportOperations",
-    "GenerateDetailedCostReportOperationResultsOperations",
-    "GenerateDetailedCostReportOperationStatusOperations",
     "PriceSheetOperations",
     "ScheduledActionsOperations",
-    "BenefitRecommendationsOperations",
-    "BenefitUtilizationSummariesOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
