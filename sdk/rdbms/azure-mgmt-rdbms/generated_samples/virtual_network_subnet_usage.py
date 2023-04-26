@@ -7,14 +7,14 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
-from azure.mgmt.rdbms import MySQLManagementClient
+from azure.mgmt.rdbms import PostgreSQLManagementClient
 
 """
 # PREREQUISITES
     pip install azure-identity
     pip install azure-mgmt-rdbms
 # USAGE
-    python recommended_actions_get.py
+    python virtual_network_subnet_usage.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -24,20 +24,20 @@ from azure.mgmt.rdbms import MySQLManagementClient
 
 
 def main():
-    client = MySQLManagementClient(
+    client = PostgreSQLManagementClient(
         credential=DefaultAzureCredential(),
         subscription_id="ffffffff-ffff-ffff-ffff-ffffffffffff",
     )
 
-    response = client.recommended_actions.get(
-        resource_group_name="testResourceGroupName",
-        server_name="testServerName",
-        advisor_name="Index",
-        recommended_action_name="Index-1",
+    response = client.virtual_network_subnet_usage.execute(
+        location_name="westus",
+        parameters={
+            "virtualNetworkArmResourceId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworks/testvnet"
+        },
     )
     print(response)
 
 
-# x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/legacy/stable/2018-06-01/examples/RecommendedActionsGet.json
+# x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/VirtualNetworkSubnetUsage.json
 if __name__ == "__main__":
     main()

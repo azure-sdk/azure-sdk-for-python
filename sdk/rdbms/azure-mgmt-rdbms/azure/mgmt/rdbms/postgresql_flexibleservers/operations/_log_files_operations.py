@@ -48,7 +48,7 @@ def build_list_by_server_request(
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/replicas",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/logFiles",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
@@ -71,14 +71,14 @@ def build_list_by_server_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-class ReplicasOperations:
+class LogFilesOperations:
     """
     .. warning::
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
         :class:`~azure.mgmt.rdbms.postgresql_flexibleservers.PostgreSQLManagementClient`'s
-        :attr:`replicas` attribute.
+        :attr:`log_files` attribute.
     """
 
     models = _models
@@ -91,8 +91,8 @@ class ReplicasOperations:
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    def list_by_server(self, resource_group_name: str, server_name: str, **kwargs: Any) -> Iterable["_models.Server"]:
-        """List all the replicas for a given server.
+    def list_by_server(self, resource_group_name: str, server_name: str, **kwargs: Any) -> Iterable["_models.LogFile"]:
+        """List all the server log files in a given server.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -100,16 +100,16 @@ class ReplicasOperations:
         :param server_name: The name of the server. Required.
         :type server_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: An iterator like instance of either Server or the result of cls(response)
+        :return: An iterator like instance of either LogFile or the result of cls(response)
         :rtype:
-         ~azure.core.paging.ItemPaged[~azure.mgmt.rdbms.postgresql_flexibleservers.models.Server]
+         ~azure.core.paging.ItemPaged[~azure.mgmt.rdbms.postgresql_flexibleservers.models.LogFile]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.ServerListResult] = kwargs.pop("cls", None)
+        cls: ClsType[_models.LogFileListResult] = kwargs.pop("cls", None)
 
         error_map = {
             401: ClientAuthenticationError,
@@ -153,11 +153,11 @@ class ReplicasOperations:
             return request
 
         def extract_data(pipeline_response):
-            deserialized = self._deserialize("ServerListResult", pipeline_response)
+            deserialized = self._deserialize("LogFileListResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
-            return None, iter(list_of_elem)
+            return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
             request = prepare_request(next_link)
@@ -178,5 +178,5 @@ class ReplicasOperations:
         return ItemPaged(get_next, extract_data)
 
     list_by_server.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/replicas"
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/logFiles"
     }

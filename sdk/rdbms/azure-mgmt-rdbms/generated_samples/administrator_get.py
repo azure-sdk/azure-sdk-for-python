@@ -7,14 +7,14 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
-from azure.mgmt.rdbms import MySQLManagementClient
+from azure.mgmt.rdbms import PostgreSQLManagementClient
 
 """
 # PREREQUISITES
     pip install azure-identity
     pip install azure-mgmt-rdbms
 # USAGE
-    python server_upgrade.py
+    python administrator_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -24,19 +24,19 @@ from azure.mgmt.rdbms import MySQLManagementClient
 
 
 def main():
-    client = MySQLManagementClient(
+    client = PostgreSQLManagementClient(
         credential=DefaultAzureCredential(),
         subscription_id="ffffffff-ffff-ffff-ffff-ffffffffffff",
     )
 
-    response = client.servers.begin_upgrade(
-        resource_group_name="TestGroup",
-        server_name="testserver",
-        parameters={"properties": {"targetServerVersion": "5.7"}},
-    ).result()
+    response = client.administrators.get(
+        resource_group_name="testrg",
+        server_name="pgtestsvc1",
+        object_id="oooooooo-oooo-oooo-oooo-oooooooooooo",
+    )
     print(response)
 
 
-# x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/legacy/stable/2020-01-01/examples/ServerUpgrade.json
+# x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/AdministratorGet.json
 if __name__ == "__main__":
     main()

@@ -14,7 +14,7 @@ from azure.mgmt.rdbms import PostgreSQLManagementClient
     pip install azure-identity
     pip install azure-mgmt-rdbms
 # USAGE
-    python server_create.py
+    python server_create_with_aad_auth_enabled.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,25 +30,37 @@ def main():
     )
 
     response = client.servers.begin_create(
-        resource_group_name="TestGroup",
+        resource_group_name="testrg",
         server_name="pgtestsvc4",
         parameters={
             "location": "westus",
             "properties": {
                 "administratorLogin": "cloudsa",
-                "administratorLoginPassword": "<administratorLoginPassword>",
-                "createMode": "Default",
-                "minimalTlsVersion": "TLS1_2",
-                "sslEnforcement": "Enabled",
-                "storageProfile": {"backupRetentionDays": 7, "geoRedundantBackup": "Disabled", "storageMB": 128000},
+                "administratorLoginPassword": "password",
+                "authConfig": {
+                    "activeDirectoryAuth": "Enabled",
+                    "passwordAuth": "Enabled",
+                    "tenantId": "tttttt-tttt-tttt-tttt-tttttttttttt",
+                },
+                "availabilityZone": "1",
+                "backup": {"backupRetentionDays": 7, "geoRedundantBackup": "Disabled"},
+                "createMode": "Create",
+                "dataEncryption": {"type": "SystemManaged"},
+                "highAvailability": {"mode": "ZoneRedundant"},
+                "network": {
+                    "delegatedSubnetResourceId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/test-vnet-subnet",
+                    "privateDnsZoneArmResourceId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourcegroups/testrg/providers/Microsoft.Network/privateDnsZones/test-private-dns-zone.postgres.database.azure.com",
+                },
+                "storage": {"autoGrow": "Disabled", "iopsTier": "P20", "storageSizeGB": 512},
+                "version": "12",
             },
-            "sku": {"capacity": 2, "family": "Gen5", "name": "B_Gen5_2", "tier": "Basic"},
+            "sku": {"name": "Standard_D4s_v3", "tier": "GeneralPurpose"},
             "tags": {"ElasticServer": "1"},
         },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2017-12-01/examples/ServerCreate.json
+# x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/ServerCreateWithAadAuthEnabled.json
 if __name__ == "__main__":
     main()

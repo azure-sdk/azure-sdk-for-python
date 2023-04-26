@@ -25,8 +25,10 @@ from .operations import (
     FirewallRulesOperations,
     GetPrivateDnsZoneSuffixOperations,
     LocationBasedCapabilitiesOperations,
+    LogFilesOperations,
     Operations,
     ReplicasOperations,
+    ServerCapabilitiesOperations,
     ServersOperations,
     VirtualNetworkSubnetUsageOperations,
 )
@@ -49,6 +51,9 @@ class PostgreSQLManagementClient:  # pylint: disable=client-accepts-api-version-
     :ivar location_based_capabilities: LocationBasedCapabilitiesOperations operations
     :vartype location_based_capabilities:
      azure.mgmt.rdbms.postgresql_flexibleservers.aio.operations.LocationBasedCapabilitiesOperations
+    :ivar server_capabilities: ServerCapabilitiesOperations operations
+    :vartype server_capabilities:
+     azure.mgmt.rdbms.postgresql_flexibleservers.aio.operations.ServerCapabilitiesOperations
     :ivar check_name_availability: CheckNameAvailabilityOperations operations
     :vartype check_name_availability:
      azure.mgmt.rdbms.postgresql_flexibleservers.aio.operations.CheckNameAvailabilityOperations
@@ -75,6 +80,9 @@ class PostgreSQLManagementClient:  # pylint: disable=client-accepts-api-version-
     :ivar replicas: ReplicasOperations operations
     :vartype replicas:
      azure.mgmt.rdbms.postgresql_flexibleservers.aio.operations.ReplicasOperations
+    :ivar log_files: LogFilesOperations operations
+    :vartype log_files:
+     azure.mgmt.rdbms.postgresql_flexibleservers.aio.operations.LogFilesOperations
     :ivar virtual_network_subnet_usage: VirtualNetworkSubnetUsageOperations operations
     :vartype virtual_network_subnet_usage:
      azure.mgmt.rdbms.postgresql_flexibleservers.aio.operations.VirtualNetworkSubnetUsageOperations
@@ -84,8 +92,8 @@ class PostgreSQLManagementClient:  # pylint: disable=client-accepts-api-version-
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2022-12-01". Note that overriding this
-     default value may result in unsupported behavior.
+    :keyword api_version: Api Version. Default value is "2023-03-01-preview". Note that overriding
+     this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
      Retry-After header is present.
@@ -112,6 +120,9 @@ class PostgreSQLManagementClient:  # pylint: disable=client-accepts-api-version-
         self.location_based_capabilities = LocationBasedCapabilitiesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.server_capabilities = ServerCapabilitiesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.check_name_availability = CheckNameAvailabilityOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
@@ -127,6 +138,7 @@ class PostgreSQLManagementClient:  # pylint: disable=client-accepts-api-version-
             self._client, self._config, self._serialize, self._deserialize
         )
         self.replicas = ReplicasOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.log_files = LogFilesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.virtual_network_subnet_usage = VirtualNetworkSubnetUsageOperations(
             self._client, self._config, self._serialize, self._deserialize
         )

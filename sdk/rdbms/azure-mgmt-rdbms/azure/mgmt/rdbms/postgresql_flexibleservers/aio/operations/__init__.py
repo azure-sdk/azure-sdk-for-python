@@ -9,6 +9,7 @@
 from ._administrators_operations import AdministratorsOperations
 from ._backups_operations import BackupsOperations
 from ._location_based_capabilities_operations import LocationBasedCapabilitiesOperations
+from ._server_capabilities_operations import ServerCapabilitiesOperations
 from ._check_name_availability_operations import CheckNameAvailabilityOperations
 from ._check_name_availability_with_location_operations import CheckNameAvailabilityWithLocationOperations
 from ._configurations_operations import ConfigurationsOperations
@@ -18,6 +19,7 @@ from ._servers_operations import ServersOperations
 from ._operations import Operations
 from ._get_private_dns_zone_suffix_operations import GetPrivateDnsZoneSuffixOperations
 from ._replicas_operations import ReplicasOperations
+from ._log_files_operations import LogFilesOperations
 from ._virtual_network_subnet_usage_operations import VirtualNetworkSubnetUsageOperations
 
 from ._patch import __all__ as _patch_all
@@ -28,6 +30,7 @@ __all__ = [
     "AdministratorsOperations",
     "BackupsOperations",
     "LocationBasedCapabilitiesOperations",
+    "ServerCapabilitiesOperations",
     "CheckNameAvailabilityOperations",
     "CheckNameAvailabilityWithLocationOperations",
     "ConfigurationsOperations",
@@ -37,6 +40,7 @@ __all__ = [
     "Operations",
     "GetPrivateDnsZoneSuffixOperations",
     "ReplicasOperations",
+    "LogFilesOperations",
     "VirtualNetworkSubnetUsageOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])

@@ -12,7 +12,7 @@ from ._models_py3 import AdministratorListResult
 from ._models_py3 import AuthConfig
 from ._models_py3 import Backup
 from ._models_py3 import CapabilitiesListResult
-from ._models_py3 import CapabilityProperties
+from ._models_py3 import CapabilityBase
 from ._models_py3 import CheckNameAvailabilityRequest
 from ._models_py3 import CheckNameAvailabilityResponse
 from ._models_py3 import Configuration
@@ -28,13 +28,14 @@ from ._models_py3 import ErrorResponse
 from ._models_py3 import FastProvisioningEditionCapability
 from ._models_py3 import FirewallRule
 from ._models_py3 import FirewallRuleListResult
+from ._models_py3 import FlexibleServerCapability
 from ._models_py3 import FlexibleServerEditionCapability
 from ._models_py3 import HighAvailability
-from ._models_py3 import HyperscaleNodeEditionCapability
+from ._models_py3 import LogFile
+from ._models_py3 import LogFileListResult
 from ._models_py3 import MaintenanceWindow
 from ._models_py3 import NameAvailability
 from ._models_py3 import Network
-from ._models_py3 import NodeTypeCapability
 from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
 from ._models_py3 import OperationListResult
@@ -46,41 +47,52 @@ from ._models_py3 import ServerBackup
 from ._models_py3 import ServerBackupListResult
 from ._models_py3 import ServerForUpdate
 from ._models_py3 import ServerListResult
+from ._models_py3 import ServerSku
 from ._models_py3 import ServerVersionCapability
 from ._models_py3 import Sku
 from ._models_py3 import Storage
 from ._models_py3 import StorageEditionCapability
-from ._models_py3 import StorageMBCapability
+from ._models_py3 import StorageMbCapability
 from ._models_py3 import StorageTierCapability
 from ._models_py3 import SystemData
 from ._models_py3 import TrackedResource
 from ._models_py3 import UserAssignedIdentity
 from ._models_py3 import UserIdentity
-from ._models_py3 import VcoreCapability
 from ._models_py3 import VirtualNetworkSubnetUsageParameter
 from ._models_py3 import VirtualNetworkSubnetUsageResult
 
 from ._postgre_sql_management_client_enums import ActiveDirectoryAuthEnum
 from ._postgre_sql_management_client_enums import ArmServerKeyType
+from ._postgre_sql_management_client_enums import AzureManagedDiskPerformanceTiers
+from ._postgre_sql_management_client_enums import CapabilityStatus
 from ._postgre_sql_management_client_enums import CheckNameAvailabilityReason
 from ._postgre_sql_management_client_enums import ConfigurationDataType
 from ._postgre_sql_management_client_enums import CreateMode
 from ._postgre_sql_management_client_enums import CreateModeForUpdate
 from ._postgre_sql_management_client_enums import CreatedByType
 from ._postgre_sql_management_client_enums import FailoverMode
+from ._postgre_sql_management_client_enums import FastProvisioningSupportedEnum
+from ._postgre_sql_management_client_enums import GeoBackupSupportedEnum
 from ._postgre_sql_management_client_enums import GeoRedundantBackupEnum
 from ._postgre_sql_management_client_enums import HighAvailabilityMode
 from ._postgre_sql_management_client_enums import IdentityType
+from ._postgre_sql_management_client_enums import KeyStatusEnum
+from ._postgre_sql_management_client_enums import OnlineResizeSupportedEnum
 from ._postgre_sql_management_client_enums import OperationOrigin
 from ._postgre_sql_management_client_enums import Origin
 from ._postgre_sql_management_client_enums import PasswordAuthEnum
 from ._postgre_sql_management_client_enums import PrincipalType
 from ._postgre_sql_management_client_enums import ReplicationRole
+from ._postgre_sql_management_client_enums import RestrictedEnum
 from ._postgre_sql_management_client_enums import ServerHAState
 from ._postgre_sql_management_client_enums import ServerPublicNetworkAccessState
 from ._postgre_sql_management_client_enums import ServerState
 from ._postgre_sql_management_client_enums import ServerVersion
 from ._postgre_sql_management_client_enums import SkuTier
+from ._postgre_sql_management_client_enums import StorageAutoGrow
+from ._postgre_sql_management_client_enums import StorageAutoGrowthSupportedEnum
+from ._postgre_sql_management_client_enums import ZoneRedundantHaAndGeoBackupSupportedEnum
+from ._postgre_sql_management_client_enums import ZoneRedundantHaSupportedEnum
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
@@ -92,7 +104,7 @@ __all__ = [
     "AuthConfig",
     "Backup",
     "CapabilitiesListResult",
-    "CapabilityProperties",
+    "CapabilityBase",
     "CheckNameAvailabilityRequest",
     "CheckNameAvailabilityResponse",
     "Configuration",
@@ -108,13 +120,14 @@ __all__ = [
     "FastProvisioningEditionCapability",
     "FirewallRule",
     "FirewallRuleListResult",
+    "FlexibleServerCapability",
     "FlexibleServerEditionCapability",
     "HighAvailability",
-    "HyperscaleNodeEditionCapability",
+    "LogFile",
+    "LogFileListResult",
     "MaintenanceWindow",
     "NameAvailability",
     "Network",
-    "NodeTypeCapability",
     "Operation",
     "OperationDisplay",
     "OperationListResult",
@@ -126,40 +139,51 @@ __all__ = [
     "ServerBackupListResult",
     "ServerForUpdate",
     "ServerListResult",
+    "ServerSku",
     "ServerVersionCapability",
     "Sku",
     "Storage",
     "StorageEditionCapability",
-    "StorageMBCapability",
+    "StorageMbCapability",
     "StorageTierCapability",
     "SystemData",
     "TrackedResource",
     "UserAssignedIdentity",
     "UserIdentity",
-    "VcoreCapability",
     "VirtualNetworkSubnetUsageParameter",
     "VirtualNetworkSubnetUsageResult",
     "ActiveDirectoryAuthEnum",
     "ArmServerKeyType",
+    "AzureManagedDiskPerformanceTiers",
+    "CapabilityStatus",
     "CheckNameAvailabilityReason",
     "ConfigurationDataType",
     "CreateMode",
     "CreateModeForUpdate",
     "CreatedByType",
     "FailoverMode",
+    "FastProvisioningSupportedEnum",
+    "GeoBackupSupportedEnum",
     "GeoRedundantBackupEnum",
     "HighAvailabilityMode",
     "IdentityType",
+    "KeyStatusEnum",
+    "OnlineResizeSupportedEnum",
     "OperationOrigin",
     "Origin",
     "PasswordAuthEnum",
     "PrincipalType",
     "ReplicationRole",
+    "RestrictedEnum",
     "ServerHAState",
     "ServerPublicNetworkAccessState",
     "ServerState",
     "ServerVersion",
     "SkuTier",
+    "StorageAutoGrow",
+    "StorageAutoGrowthSupportedEnum",
+    "ZoneRedundantHaAndGeoBackupSupportedEnum",
+    "ZoneRedundantHaSupportedEnum",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()

@@ -341,12 +341,13 @@ class Backup(_serialization.Model):
 
 
 class CapabilitiesListResult(_serialization.Model):
-    """location capability.
+    """Capability for the PostgreSQL server.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar value: A list of supported capabilities.
-    :vartype value: list[~azure.mgmt.rdbms.postgresql_flexibleservers.models.CapabilityProperties]
+    :vartype value:
+     list[~azure.mgmt.rdbms.postgresql_flexibleservers.models.FlexibleServerCapability]
     :ivar next_link: Link to retrieve next page of results.
     :vartype next_link: str
     """
@@ -357,7 +358,7 @@ class CapabilitiesListResult(_serialization.Model):
     }
 
     _attribute_map = {
-        "value": {"key": "value", "type": "[CapabilityProperties]"},
+        "value": {"key": "value", "type": "[FlexibleServerCapability]"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
@@ -368,88 +369,33 @@ class CapabilitiesListResult(_serialization.Model):
         self.next_link = None
 
 
-class CapabilityProperties(_serialization.Model):
-    """Location capabilities.
+class CapabilityBase(_serialization.Model):
+    """Base object for representing capability.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar zone: zone name.
-    :vartype zone: str
-    :ivar supported_ha_mode: Supported high availability mode.
-    :vartype supported_ha_mode: list[str]
-    :ivar geo_backup_supported: A value indicating whether a new server in this region can have
-     geo-backups to paired region.
-    :vartype geo_backup_supported: bool
-    :ivar zone_redundant_ha_supported: A value indicating whether a new server in this region can
-     support multi zone HA.
-    :vartype zone_redundant_ha_supported: bool
-    :ivar zone_redundant_ha_and_geo_backup_supported: A value indicating whether a new server in
-     this region can have geo-backups to paired region.
-    :vartype zone_redundant_ha_and_geo_backup_supported: bool
-    :ivar supported_flexible_server_editions:
-    :vartype supported_flexible_server_editions:
-     list[~azure.mgmt.rdbms.postgresql_flexibleservers.models.FlexibleServerEditionCapability]
-    :ivar supported_hyperscale_node_editions:
-    :vartype supported_hyperscale_node_editions:
-     list[~azure.mgmt.rdbms.postgresql_flexibleservers.models.HyperscaleNodeEditionCapability]
-    :ivar fast_provisioning_supported: A value indicating whether fast provisioning is supported in
-     this region.
-    :vartype fast_provisioning_supported: bool
-    :ivar supported_fast_provisioning_editions:
-    :vartype supported_fast_provisioning_editions:
-     list[~azure.mgmt.rdbms.postgresql_flexibleservers.models.FastProvisioningEditionCapability]
-    :ivar status: The status.
-    :vartype status: str
+    :ivar status: The status of the capability. Known values are: "Visible", "Available",
+     "Default", and "Disabled".
+    :vartype status: str or ~azure.mgmt.rdbms.postgresql_flexibleservers.models.CapabilityStatus
+    :ivar reason: The reason for the capability not being available.
+    :vartype reason: str
     """
 
     _validation = {
-        "zone": {"readonly": True},
-        "supported_ha_mode": {"readonly": True},
-        "geo_backup_supported": {"readonly": True},
-        "zone_redundant_ha_supported": {"readonly": True},
-        "zone_redundant_ha_and_geo_backup_supported": {"readonly": True},
-        "supported_flexible_server_editions": {"readonly": True},
-        "supported_hyperscale_node_editions": {"readonly": True},
-        "fast_provisioning_supported": {"readonly": True},
-        "supported_fast_provisioning_editions": {"readonly": True},
         "status": {"readonly": True},
+        "reason": {"readonly": True},
     }
 
     _attribute_map = {
-        "zone": {"key": "zone", "type": "str"},
-        "supported_ha_mode": {"key": "supportedHAMode", "type": "[str]"},
-        "geo_backup_supported": {"key": "geoBackupSupported", "type": "bool"},
-        "zone_redundant_ha_supported": {"key": "zoneRedundantHaSupported", "type": "bool"},
-        "zone_redundant_ha_and_geo_backup_supported": {"key": "zoneRedundantHaAndGeoBackupSupported", "type": "bool"},
-        "supported_flexible_server_editions": {
-            "key": "supportedFlexibleServerEditions",
-            "type": "[FlexibleServerEditionCapability]",
-        },
-        "supported_hyperscale_node_editions": {
-            "key": "supportedHyperscaleNodeEditions",
-            "type": "[HyperscaleNodeEditionCapability]",
-        },
-        "fast_provisioning_supported": {"key": "fastProvisioningSupported", "type": "bool"},
-        "supported_fast_provisioning_editions": {
-            "key": "supportedFastProvisioningEditions",
-            "type": "[FastProvisioningEditionCapability]",
-        },
         "status": {"key": "status", "type": "str"},
+        "reason": {"key": "reason", "type": "str"},
     }
 
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.zone = None
-        self.supported_ha_mode = None
-        self.geo_backup_supported = None
-        self.zone_redundant_ha_supported = None
-        self.zone_redundant_ha_and_geo_backup_supported = None
-        self.supported_flexible_server_editions = None
-        self.supported_hyperscale_node_editions = None
-        self.fast_provisioning_supported = None
-        self.supported_fast_provisioning_editions = None
         self.status = None
+        self.reason = None
 
 
 class CheckNameAvailabilityRequest(_serialization.Model):
@@ -812,15 +758,32 @@ class DataEncryption(_serialization.Model):
     :ivar primary_user_assigned_identity_id: Resource Id for the User assigned identity to be used
      for data encryption for primary server.
     :vartype primary_user_assigned_identity_id: str
+    :ivar geo_backup_key_uri: URI for the key for data encryption for geo-backup of server.
+    :vartype geo_backup_key_uri: str
+    :ivar geo_backup_user_assigned_identity_id: Resource Id for the User assigned identity to be
+     used for data encryption for geo-backup of server.
+    :vartype geo_backup_user_assigned_identity_id: str
     :ivar type: Data encryption type to depict if it is System Managed vs Azure Key vault. Known
      values are: "SystemManaged" and "AzureKeyVault".
     :vartype type: str or ~azure.mgmt.rdbms.postgresql_flexibleservers.models.ArmServerKeyType
+    :ivar primary_encryption_key_status: Primary encryption key status for Data encryption enabled
+     server. Known values are: "Valid" and "Invalid".
+    :vartype primary_encryption_key_status: str or
+     ~azure.mgmt.rdbms.postgresql_flexibleservers.models.KeyStatusEnum
+    :ivar geo_backup_encryption_key_status: Geo-backup encryption key status for Data encryption
+     enabled server. Known values are: "Valid" and "Invalid".
+    :vartype geo_backup_encryption_key_status: str or
+     ~azure.mgmt.rdbms.postgresql_flexibleservers.models.KeyStatusEnum
     """
 
     _attribute_map = {
         "primary_key_uri": {"key": "primaryKeyURI", "type": "str"},
         "primary_user_assigned_identity_id": {"key": "primaryUserAssignedIdentityId", "type": "str"},
+        "geo_backup_key_uri": {"key": "geoBackupKeyURI", "type": "str"},
+        "geo_backup_user_assigned_identity_id": {"key": "geoBackupUserAssignedIdentityId", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "primary_encryption_key_status": {"key": "primaryEncryptionKeyStatus", "type": "str"},
+        "geo_backup_encryption_key_status": {"key": "geoBackupEncryptionKeyStatus", "type": "str"},
     }
 
     def __init__(
@@ -828,7 +791,11 @@ class DataEncryption(_serialization.Model):
         *,
         primary_key_uri: Optional[str] = None,
         primary_user_assigned_identity_id: Optional[str] = None,
+        geo_backup_key_uri: Optional[str] = None,
+        geo_backup_user_assigned_identity_id: Optional[str] = None,
         type: Optional[Union[str, "_models.ArmServerKeyType"]] = None,
+        primary_encryption_key_status: Optional[Union[str, "_models.KeyStatusEnum"]] = None,
+        geo_backup_encryption_key_status: Optional[Union[str, "_models.KeyStatusEnum"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -837,14 +804,31 @@ class DataEncryption(_serialization.Model):
         :keyword primary_user_assigned_identity_id: Resource Id for the User assigned identity to be
          used for data encryption for primary server.
         :paramtype primary_user_assigned_identity_id: str
+        :keyword geo_backup_key_uri: URI for the key for data encryption for geo-backup of server.
+        :paramtype geo_backup_key_uri: str
+        :keyword geo_backup_user_assigned_identity_id: Resource Id for the User assigned identity to be
+         used for data encryption for geo-backup of server.
+        :paramtype geo_backup_user_assigned_identity_id: str
         :keyword type: Data encryption type to depict if it is System Managed vs Azure Key vault. Known
          values are: "SystemManaged" and "AzureKeyVault".
         :paramtype type: str or ~azure.mgmt.rdbms.postgresql_flexibleservers.models.ArmServerKeyType
+        :keyword primary_encryption_key_status: Primary encryption key status for Data encryption
+         enabled server. Known values are: "Valid" and "Invalid".
+        :paramtype primary_encryption_key_status: str or
+         ~azure.mgmt.rdbms.postgresql_flexibleservers.models.KeyStatusEnum
+        :keyword geo_backup_encryption_key_status: Geo-backup encryption key status for Data encryption
+         enabled server. Known values are: "Valid" and "Invalid".
+        :paramtype geo_backup_encryption_key_status: str or
+         ~azure.mgmt.rdbms.postgresql_flexibleservers.models.KeyStatusEnum
         """
         super().__init__(**kwargs)
         self.primary_key_uri = primary_key_uri
         self.primary_user_assigned_identity_id = primary_user_assigned_identity_id
+        self.geo_backup_key_uri = geo_backup_key_uri
+        self.geo_backup_user_assigned_identity_id = geo_backup_user_assigned_identity_id
         self.type = type
+        self.primary_encryption_key_status = primary_encryption_key_status
+        self.geo_backup_encryption_key_status = geo_backup_encryption_key_status
 
 
 class DelegatedSubnetUsage(_serialization.Model):
@@ -968,37 +952,56 @@ class ErrorResponse(_serialization.Model):
         self.error = error
 
 
-class FastProvisioningEditionCapability(_serialization.Model):
-    """FastProvisioningEditionCapability.
+class FastProvisioningEditionCapability(CapabilityBase):
+    """Represents capability of a fast provisioning edition.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
+    :ivar status: The status of the capability. Known values are: "Visible", "Available",
+     "Default", and "Disabled".
+    :vartype status: str or ~azure.mgmt.rdbms.postgresql_flexibleservers.models.CapabilityStatus
+    :ivar reason: The reason for the capability not being available.
+    :vartype reason: str
+    :ivar supported_tier: Fast provisioning supported tier name.
+    :vartype supported_tier: str
     :ivar supported_sku: Fast provisioning supported sku name.
     :vartype supported_sku: str
     :ivar supported_storage_gb: Fast provisioning supported storage in Gb.
     :vartype supported_storage_gb: int
     :ivar supported_server_versions: Fast provisioning supported version.
     :vartype supported_server_versions: str
+    :ivar server_count: Count of servers in cache matching the spec.
+    :vartype server_count: int
     """
 
     _validation = {
+        "status": {"readonly": True},
+        "reason": {"readonly": True},
+        "supported_tier": {"readonly": True},
         "supported_sku": {"readonly": True},
         "supported_storage_gb": {"readonly": True},
         "supported_server_versions": {"readonly": True},
+        "server_count": {"readonly": True},
     }
 
     _attribute_map = {
+        "status": {"key": "status", "type": "str"},
+        "reason": {"key": "reason", "type": "str"},
+        "supported_tier": {"key": "supportedTier", "type": "str"},
         "supported_sku": {"key": "supportedSku", "type": "str"},
         "supported_storage_gb": {"key": "supportedStorageGb", "type": "int"},
         "supported_server_versions": {"key": "supportedServerVersions", "type": "str"},
+        "server_count": {"key": "serverCount", "type": "int"},
     }
 
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
+        self.supported_tier = None
         self.supported_sku = None
         self.supported_storage_gb = None
         self.supported_server_versions = None
+        self.server_count = None
 
 
 class FirewallRule(ProxyResource):
@@ -1093,44 +1096,157 @@ class FirewallRuleListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class FlexibleServerEditionCapability(_serialization.Model):
+class FlexibleServerCapability(CapabilityBase):  # pylint: disable=too-many-instance-attributes
+    """Capability for the PostgreSQL server.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar status: The status of the capability. Known values are: "Visible", "Available",
+     "Default", and "Disabled".
+    :vartype status: str or ~azure.mgmt.rdbms.postgresql_flexibleservers.models.CapabilityStatus
+    :ivar reason: The reason for the capability not being available.
+    :vartype reason: str
+    :ivar name: Name of flexible servers capability.
+    :vartype name: str
+    :ivar supported_server_editions: List of supported flexible server editions.
+    :vartype supported_server_editions:
+     list[~azure.mgmt.rdbms.postgresql_flexibleservers.models.FlexibleServerEditionCapability]
+    :ivar supported_server_versions: The list of server versions supported for this capability.
+    :vartype supported_server_versions:
+     list[~azure.mgmt.rdbms.postgresql_flexibleservers.models.ServerVersionCapability]
+    :ivar fast_provisioning_supported: Gets a value indicating whether fast provisioning is
+     supported. Known values are: "Enabled" and "Disabled".
+    :vartype fast_provisioning_supported: str or
+     ~azure.mgmt.rdbms.postgresql_flexibleservers.models.FastProvisioningSupportedEnum
+    :ivar supported_fast_provisioning_editions: List of supported server editions for fast
+     provisioning.
+    :vartype supported_fast_provisioning_editions:
+     list[~azure.mgmt.rdbms.postgresql_flexibleservers.models.FastProvisioningEditionCapability]
+    :ivar geo_backup_supported: Determines if geo-backup is supported in this region. Known values
+     are: "Enabled" and "Disabled".
+    :vartype geo_backup_supported: str or
+     ~azure.mgmt.rdbms.postgresql_flexibleservers.models.GeoBackupSupportedEnum
+    :ivar zone_redundant_ha_supported: A value indicating whether Zone Redundant HA is supported in
+     this region. Known values are: "Enabled" and "Disabled".
+    :vartype zone_redundant_ha_supported: str or
+     ~azure.mgmt.rdbms.postgresql_flexibleservers.models.ZoneRedundantHaSupportedEnum
+    :ivar zone_redundant_ha_and_geo_backup_supported: A value indicating whether Zone Redundant HA
+     and Geo-backup is supported in this region. Known values are: "Enabled" and "Disabled".
+    :vartype zone_redundant_ha_and_geo_backup_supported: str or
+     ~azure.mgmt.rdbms.postgresql_flexibleservers.models.ZoneRedundantHaAndGeoBackupSupportedEnum
+    :ivar storage_auto_growth_supported: A value indicating whether storage auto-grow is supported
+     in this region. Known values are: "Enabled" and "Disabled".
+    :vartype storage_auto_growth_supported: str or
+     ~azure.mgmt.rdbms.postgresql_flexibleservers.models.StorageAutoGrowthSupportedEnum
+    :ivar online_resize_supported: A value indicating whether online resize is supported in this
+     region for the given subscription. Known values are: "Enabled" and "Disabled".
+    :vartype online_resize_supported: str or
+     ~azure.mgmt.rdbms.postgresql_flexibleservers.models.OnlineResizeSupportedEnum
+    :ivar restricted: A value indicating whether this region is restricted. Known values are:
+     "Enabled" and "Disabled".
+    :vartype restricted: str or ~azure.mgmt.rdbms.postgresql_flexibleservers.models.RestrictedEnum
+    """
+
+    _validation = {
+        "status": {"readonly": True},
+        "reason": {"readonly": True},
+        "supported_server_editions": {"readonly": True},
+        "supported_server_versions": {"readonly": True},
+        "fast_provisioning_supported": {"readonly": True},
+        "supported_fast_provisioning_editions": {"readonly": True},
+        "geo_backup_supported": {"readonly": True},
+        "zone_redundant_ha_supported": {"readonly": True},
+        "zone_redundant_ha_and_geo_backup_supported": {"readonly": True},
+        "storage_auto_growth_supported": {"readonly": True},
+        "online_resize_supported": {"readonly": True},
+        "restricted": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "status": {"key": "status", "type": "str"},
+        "reason": {"key": "reason", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "supported_server_editions": {"key": "supportedServerEditions", "type": "[FlexibleServerEditionCapability]"},
+        "supported_server_versions": {"key": "supportedServerVersions", "type": "[ServerVersionCapability]"},
+        "fast_provisioning_supported": {"key": "fastProvisioningSupported", "type": "str"},
+        "supported_fast_provisioning_editions": {
+            "key": "supportedFastProvisioningEditions",
+            "type": "[FastProvisioningEditionCapability]",
+        },
+        "geo_backup_supported": {"key": "geoBackupSupported", "type": "str"},
+        "zone_redundant_ha_supported": {"key": "zoneRedundantHaSupported", "type": "str"},
+        "zone_redundant_ha_and_geo_backup_supported": {"key": "zoneRedundantHaAndGeoBackupSupported", "type": "str"},
+        "storage_auto_growth_supported": {"key": "storageAutoGrowthSupported", "type": "str"},
+        "online_resize_supported": {"key": "onlineResizeSupported", "type": "str"},
+        "restricted": {"key": "restricted", "type": "str"},
+    }
+
+    def __init__(self, *, name: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword name: Name of flexible servers capability.
+        :paramtype name: str
+        """
+        super().__init__(**kwargs)
+        self.name = name
+        self.supported_server_editions = None
+        self.supported_server_versions = None
+        self.fast_provisioning_supported = None
+        self.supported_fast_provisioning_editions = None
+        self.geo_backup_supported = None
+        self.zone_redundant_ha_supported = None
+        self.zone_redundant_ha_and_geo_backup_supported = None
+        self.storage_auto_growth_supported = None
+        self.online_resize_supported = None
+        self.restricted = None
+
+
+class FlexibleServerEditionCapability(CapabilityBase):
     """Flexible server edition capabilities.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
+    :ivar status: The status of the capability. Known values are: "Visible", "Available",
+     "Default", and "Disabled".
+    :vartype status: str or ~azure.mgmt.rdbms.postgresql_flexibleservers.models.CapabilityStatus
+    :ivar reason: The reason for the capability not being available.
+    :vartype reason: str
     :ivar name: Server edition name.
     :vartype name: str
+    :ivar default_sku_name: Default sku name for the server edition.
+    :vartype default_sku_name: str
     :ivar supported_storage_editions: The list of editions supported by this server edition.
     :vartype supported_storage_editions:
      list[~azure.mgmt.rdbms.postgresql_flexibleservers.models.StorageEditionCapability]
-    :ivar supported_server_versions: The list of server versions supported by this server edition.
-    :vartype supported_server_versions:
-     list[~azure.mgmt.rdbms.postgresql_flexibleservers.models.ServerVersionCapability]
-    :ivar status: The status.
-    :vartype status: str
+    :ivar supported_server_skus: List of supported server SKUs.
+    :vartype supported_server_skus:
+     list[~azure.mgmt.rdbms.postgresql_flexibleservers.models.ServerSku]
     """
 
     _validation = {
-        "name": {"readonly": True},
-        "supported_storage_editions": {"readonly": True},
-        "supported_server_versions": {"readonly": True},
         "status": {"readonly": True},
+        "reason": {"readonly": True},
+        "name": {"readonly": True},
+        "default_sku_name": {"readonly": True},
+        "supported_storage_editions": {"readonly": True},
+        "supported_server_skus": {"readonly": True},
     }
 
     _attribute_map = {
-        "name": {"key": "name", "type": "str"},
-        "supported_storage_editions": {"key": "supportedStorageEditions", "type": "[StorageEditionCapability]"},
-        "supported_server_versions": {"key": "supportedServerVersions", "type": "[ServerVersionCapability]"},
         "status": {"key": "status", "type": "str"},
+        "reason": {"key": "reason", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "default_sku_name": {"key": "defaultSkuName", "type": "str"},
+        "supported_storage_editions": {"key": "supportedStorageEditions", "type": "[StorageEditionCapability]"},
+        "supported_server_skus": {"key": "supportedServerSkus", "type": "[ServerSku]"},
     }
 
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.name = None
+        self.default_sku_name = None
         self.supported_storage_editions = None
-        self.supported_server_versions = None
-        self.status = None
+        self.supported_server_skus = None
 
 
 class HighAvailability(_serialization.Model):
@@ -1179,50 +1295,109 @@ class HighAvailability(_serialization.Model):
         self.standby_availability_zone = standby_availability_zone
 
 
-class HyperscaleNodeEditionCapability(_serialization.Model):
-    """Hyperscale node edition capabilities.
+class LogFile(ProxyResource):
+    """Represents a logFile.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar name: Server edition name.
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
     :vartype name: str
-    :ivar supported_storage_editions: The list of editions supported by this server edition.
-    :vartype supported_storage_editions:
-     list[~azure.mgmt.rdbms.postgresql_flexibleservers.models.StorageEditionCapability]
-    :ivar supported_server_versions: The list of server versions supported by this server edition.
-    :vartype supported_server_versions:
-     list[~azure.mgmt.rdbms.postgresql_flexibleservers.models.ServerVersionCapability]
-    :ivar supported_node_types: The list of Node Types supported by this server edition.
-    :vartype supported_node_types:
-     list[~azure.mgmt.rdbms.postgresql_flexibleservers.models.NodeTypeCapability]
-    :ivar status: The status.
-    :vartype status: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.rdbms.postgresql_flexibleservers.models.SystemData
+    :ivar created_time: Creation timestamp of the log file.
+    :vartype created_time: ~datetime.datetime
+    :ivar last_modified_time: Last modified timestamp of the log file.
+    :vartype last_modified_time: ~datetime.datetime
+    :ivar size_in_kb: The size in kb of the logFile.
+    :vartype size_in_kb: int
+    :ivar type_properties_type: Type of the log file.
+    :vartype type_properties_type: str
+    :ivar url: The url to download the log file from.
+    :vartype url: str
     """
 
     _validation = {
+        "id": {"readonly": True},
         "name": {"readonly": True},
-        "supported_storage_editions": {"readonly": True},
-        "supported_server_versions": {"readonly": True},
-        "supported_node_types": {"readonly": True},
-        "status": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
     }
 
     _attribute_map = {
+        "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
-        "supported_storage_editions": {"key": "supportedStorageEditions", "type": "[StorageEditionCapability]"},
-        "supported_server_versions": {"key": "supportedServerVersions", "type": "[ServerVersionCapability]"},
-        "supported_node_types": {"key": "supportedNodeTypes", "type": "[NodeTypeCapability]"},
-        "status": {"key": "status", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "created_time": {"key": "properties.createdTime", "type": "iso-8601"},
+        "last_modified_time": {"key": "properties.lastModifiedTime", "type": "iso-8601"},
+        "size_in_kb": {"key": "properties.sizeInKb", "type": "int"},
+        "type_properties_type": {"key": "properties.type", "type": "str"},
+        "url": {"key": "properties.url", "type": "str"},
     }
 
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
+    def __init__(
+        self,
+        *,
+        created_time: Optional[datetime.datetime] = None,
+        last_modified_time: Optional[datetime.datetime] = None,
+        size_in_kb: Optional[int] = None,
+        type_properties_type: Optional[str] = None,
+        url: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword created_time: Creation timestamp of the log file.
+        :paramtype created_time: ~datetime.datetime
+        :keyword last_modified_time: Last modified timestamp of the log file.
+        :paramtype last_modified_time: ~datetime.datetime
+        :keyword size_in_kb: The size in kb of the logFile.
+        :paramtype size_in_kb: int
+        :keyword type_properties_type: Type of the log file.
+        :paramtype type_properties_type: str
+        :keyword url: The url to download the log file from.
+        :paramtype url: str
+        """
         super().__init__(**kwargs)
-        self.name = None
-        self.supported_storage_editions = None
-        self.supported_server_versions = None
-        self.supported_node_types = None
-        self.status = None
+        self.created_time = created_time
+        self.last_modified_time = last_modified_time
+        self.size_in_kb = size_in_kb
+        self.type_properties_type = type_properties_type
+        self.url = url
+
+
+class LogFileListResult(_serialization.Model):
+    """A List of logFiles.
+
+    :ivar value: The list of logFiles in a server.
+    :vartype value: list[~azure.mgmt.rdbms.postgresql_flexibleservers.models.LogFile]
+    :ivar next_link: The link used to get the next page of operations.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[LogFile]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: Optional[List["_models.LogFile"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: The list of logFiles in a server.
+        :paramtype value: list[~azure.mgmt.rdbms.postgresql_flexibleservers.models.LogFile]
+        :keyword next_link: The link used to get the next page of operations.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
 
 
 class MaintenanceWindow(_serialization.Model):
@@ -1364,39 +1539,6 @@ class Network(_serialization.Model):
         self.public_network_access = None
         self.delegated_subnet_resource_id = delegated_subnet_resource_id
         self.private_dns_zone_arm_resource_id = private_dns_zone_arm_resource_id
-
-
-class NodeTypeCapability(_serialization.Model):
-    """node type capability.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar name: note type name.
-    :vartype name: str
-    :ivar node_type: note type.
-    :vartype node_type: str
-    :ivar status: The status.
-    :vartype status: str
-    """
-
-    _validation = {
-        "name": {"readonly": True},
-        "node_type": {"readonly": True},
-        "status": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "name": {"key": "name", "type": "str"},
-        "node_type": {"key": "nodeType", "type": "str"},
-        "status": {"key": "status", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-        self.name = None
-        self.node_type = None
-        self.status = None
 
 
 class Operation(_serialization.Model):
@@ -1634,7 +1776,7 @@ class Server(TrackedResource):  # pylint: disable=too-many-instance-attributes
     :ivar administrator_login_password: The administrator login password (required for server
      creation).
     :vartype administrator_login_password: str
-    :ivar version: PostgreSQL Server version. Known values are: "14", "13", "12", and "11".
+    :ivar version: PostgreSQL Server version. Known values are: "15", "14", "13", "12", and "11".
     :vartype version: str or ~azure.mgmt.rdbms.postgresql_flexibleservers.models.ServerVersion
     :ivar minor_version: The minor version of the server.
     :vartype minor_version: str
@@ -1759,7 +1901,8 @@ class Server(TrackedResource):  # pylint: disable=too-many-instance-attributes
         :keyword administrator_login_password: The administrator login password (required for server
          creation).
         :paramtype administrator_login_password: str
-        :keyword version: PostgreSQL Server version. Known values are: "14", "13", "12", and "11".
+        :keyword version: PostgreSQL Server version. Known values are: "15", "14", "13", "12", and
+         "11".
         :paramtype version: str or ~azure.mgmt.rdbms.postgresql_flexibleservers.models.ServerVersion
         :keyword storage: Storage properties of a server.
         :paramtype storage: ~azure.mgmt.rdbms.postgresql_flexibleservers.models.Storage
@@ -1921,7 +2064,7 @@ class ServerForUpdate(_serialization.Model):  # pylint: disable=too-many-instanc
     :vartype tags: dict[str, str]
     :ivar administrator_login_password: The password of the administrator login.
     :vartype administrator_login_password: str
-    :ivar version: PostgreSQL Server version. Known values are: "14", "13", "12", and "11".
+    :ivar version: PostgreSQL Server version. Known values are: "15", "14", "13", "12", and "11".
     :vartype version: str or ~azure.mgmt.rdbms.postgresql_flexibleservers.models.ServerVersion
     :ivar storage: Storage properties of a server.
     :vartype storage: ~azure.mgmt.rdbms.postgresql_flexibleservers.models.Storage
@@ -1990,7 +2133,8 @@ class ServerForUpdate(_serialization.Model):  # pylint: disable=too-many-instanc
         :paramtype tags: dict[str, str]
         :keyword administrator_login_password: The password of the administrator login.
         :paramtype administrator_login_password: str
-        :keyword version: PostgreSQL Server version. Known values are: "14", "13", "12", and "11".
+        :keyword version: PostgreSQL Server version. Known values are: "15", "14", "13", "12", and
+         "11".
         :paramtype version: str or ~azure.mgmt.rdbms.postgresql_flexibleservers.models.ServerVersion
         :keyword storage: Storage properties of a server.
         :paramtype storage: ~azure.mgmt.rdbms.postgresql_flexibleservers.models.Storage
@@ -2059,34 +2203,82 @@ class ServerListResult(_serialization.Model):
         self.next_link = next_link
 
 
+class ServerSku(CapabilityBase):
+    """Sku capability.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar status: The status of the capability. Known values are: "Visible", "Available",
+     "Default", and "Disabled".
+    :vartype status: str or ~azure.mgmt.rdbms.postgresql_flexibleservers.models.CapabilityStatus
+    :ivar reason: The reason for the capability not being available.
+    :vartype reason: str
+    :ivar name: Sku name.
+    :vartype name: str
+    :ivar v_cores: Supported vCores.
+    :vartype v_cores: int
+    :ivar supported_iops: Supported IOPS.
+    :vartype supported_iops: int
+    :ivar supported_memory_per_vcore_mb: Supported memory per vCore in MB.
+    :vartype supported_memory_per_vcore_mb: int
+    :ivar supported_zones: List of supported Availability Zones.
+    :vartype supported_zones: list[str]
+    :ivar supported_ha_mode: Supported high availability mode.
+    :vartype supported_ha_mode: list[str]
+    """
+
+    _validation = {
+        "status": {"readonly": True},
+        "reason": {"readonly": True},
+        "name": {"readonly": True},
+        "v_cores": {"readonly": True},
+        "supported_iops": {"readonly": True},
+        "supported_memory_per_vcore_mb": {"readonly": True},
+        "supported_zones": {"readonly": True},
+        "supported_ha_mode": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "status": {"key": "status", "type": "str"},
+        "reason": {"key": "reason", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "v_cores": {"key": "vCores", "type": "int"},
+        "supported_iops": {"key": "supportedIops", "type": "int"},
+        "supported_memory_per_vcore_mb": {"key": "supportedMemoryPerVcoreMb", "type": "int"},
+        "supported_zones": {"key": "supportedZones", "type": "[str]"},
+        "supported_ha_mode": {"key": "supportedHaMode", "type": "[str]"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.name = None
+        self.v_cores = None
+        self.supported_iops = None
+        self.supported_memory_per_vcore_mb = None
+        self.supported_zones = None
+        self.supported_ha_mode = None
+
+
 class ServerVersionCapability(_serialization.Model):
     """Server version capabilities.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar name: server version.
+    :ivar name: Server version.
     :vartype name: str
     :ivar supported_versions_to_upgrade: Supported servers versions to upgrade.
     :vartype supported_versions_to_upgrade: list[str]
-    :ivar supported_vcores:
-    :vartype supported_vcores:
-     list[~azure.mgmt.rdbms.postgresql_flexibleservers.models.VcoreCapability]
-    :ivar status: The status.
-    :vartype status: str
     """
 
     _validation = {
         "name": {"readonly": True},
         "supported_versions_to_upgrade": {"readonly": True},
-        "supported_vcores": {"readonly": True},
-        "status": {"readonly": True},
     }
 
     _attribute_map = {
         "name": {"key": "name", "type": "str"},
         "supported_versions_to_upgrade": {"key": "supportedVersionsToUpgrade", "type": "[str]"},
-        "supported_vcores": {"key": "supportedVcores", "type": "[VcoreCapability]"},
-        "status": {"key": "status", "type": "str"},
     }
 
     def __init__(self, **kwargs: Any) -> None:
@@ -2094,8 +2286,6 @@ class ServerVersionCapability(_serialization.Model):
         super().__init__(**kwargs)
         self.name = None
         self.supported_versions_to_upgrade = None
-        self.supported_vcores = None
-        self.status = None
 
 
 class Sku(_serialization.Model):
@@ -2138,142 +2328,167 @@ class Sku(_serialization.Model):
 class Storage(_serialization.Model):
     """Storage properties of a server.
 
+    Variables are only populated by the server, and will be ignored when sending a request.
+
     :ivar storage_size_gb: Max storage allowed for a server.
     :vartype storage_size_gb: int
+    :ivar auto_grow: Flag to enable / disable Storage Auto grow for flexible server. Known values
+     are: "Enabled" and "Disabled".
+    :vartype auto_grow: str or ~azure.mgmt.rdbms.postgresql_flexibleservers.models.StorageAutoGrow
+    :ivar iops_tier: Name of storage tier for IOPS. Known values are: "P1", "P2", "P3", "P4", "P6",
+     "P10", "P15", "P20", "P30", "P40", "P50", "P60", "P70", and "P80".
+    :vartype iops_tier: str or
+     ~azure.mgmt.rdbms.postgresql_flexibleservers.models.AzureManagedDiskPerformanceTiers
+    :ivar iops: Storage tier IOPS quantity.
+    :vartype iops: int
     """
+
+    _validation = {
+        "iops": {"readonly": True},
+    }
 
     _attribute_map = {
         "storage_size_gb": {"key": "storageSizeGB", "type": "int"},
+        "auto_grow": {"key": "autoGrow", "type": "str"},
+        "iops_tier": {"key": "iopsTier", "type": "str"},
+        "iops": {"key": "iops", "type": "int"},
     }
 
-    def __init__(self, *, storage_size_gb: Optional[int] = None, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        *,
+        storage_size_gb: Optional[int] = None,
+        auto_grow: Optional[Union[str, "_models.StorageAutoGrow"]] = None,
+        iops_tier: Optional[Union[str, "_models.AzureManagedDiskPerformanceTiers"]] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword storage_size_gb: Max storage allowed for a server.
         :paramtype storage_size_gb: int
+        :keyword auto_grow: Flag to enable / disable Storage Auto grow for flexible server. Known
+         values are: "Enabled" and "Disabled".
+        :paramtype auto_grow: str or
+         ~azure.mgmt.rdbms.postgresql_flexibleservers.models.StorageAutoGrow
+        :keyword iops_tier: Name of storage tier for IOPS. Known values are: "P1", "P2", "P3", "P4",
+         "P6", "P10", "P15", "P20", "P30", "P40", "P50", "P60", "P70", and "P80".
+        :paramtype iops_tier: str or
+         ~azure.mgmt.rdbms.postgresql_flexibleservers.models.AzureManagedDiskPerformanceTiers
         """
         super().__init__(**kwargs)
         self.storage_size_gb = storage_size_gb
+        self.auto_grow = auto_grow
+        self.iops_tier = iops_tier
+        self.iops = None
 
 
 class StorageEditionCapability(_serialization.Model):
-    """storage edition capability.
+    """Storage edition capability.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar name: storage edition name.
+    :ivar name: Storage edition name.
     :vartype name: str
-    :ivar supported_storage_mb:
+    :ivar default_storage_size_mb: Default storage size in MB for storage edition.
+    :vartype default_storage_size_mb: int
+    :ivar supported_storage_mb: Flexible server supported storage range in MB.
     :vartype supported_storage_mb:
-     list[~azure.mgmt.rdbms.postgresql_flexibleservers.models.StorageMBCapability]
-    :ivar status: The status.
-    :vartype status: str
+     list[~azure.mgmt.rdbms.postgresql_flexibleservers.models.StorageMbCapability]
     """
 
     _validation = {
         "name": {"readonly": True},
+        "default_storage_size_mb": {"readonly": True},
         "supported_storage_mb": {"readonly": True},
-        "status": {"readonly": True},
     }
 
     _attribute_map = {
         "name": {"key": "name", "type": "str"},
-        "supported_storage_mb": {"key": "supportedStorageMB", "type": "[StorageMBCapability]"},
-        "status": {"key": "status", "type": "str"},
+        "default_storage_size_mb": {"key": "defaultStorageSizeMb", "type": "int"},
+        "supported_storage_mb": {"key": "supportedStorageMb", "type": "[StorageMbCapability]"},
     }
 
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.name = None
+        self.default_storage_size_mb = None
         self.supported_storage_mb = None
-        self.status = None
 
 
-class StorageMBCapability(_serialization.Model):
+class StorageMbCapability(CapabilityBase):
     """storage size in MB capability.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar name: storage MB name.
-    :vartype name: str
-    :ivar supported_iops: supported IOPS.
+    :ivar status: The status of the capability. Known values are: "Visible", "Available",
+     "Default", and "Disabled".
+    :vartype status: str or ~azure.mgmt.rdbms.postgresql_flexibleservers.models.CapabilityStatus
+    :ivar reason: The reason for the capability not being available.
+    :vartype reason: str
+    :ivar supported_iops: Supported IOPS.
     :vartype supported_iops: int
-    :ivar storage_size_mb: storage size in MB.
+    :ivar storage_size_mb: Storage size in MB.
     :vartype storage_size_mb: int
-    :ivar supported_upgradable_tier_list:
-    :vartype supported_upgradable_tier_list:
+    :ivar default_iops_tier: Default tier for IOPS.
+    :vartype default_iops_tier: str
+    :ivar supported_iops_tiers: List of available options to upgrade the storage performance.
+    :vartype supported_iops_tiers:
      list[~azure.mgmt.rdbms.postgresql_flexibleservers.models.StorageTierCapability]
-    :ivar status: The status.
-    :vartype status: str
     """
 
     _validation = {
-        "name": {"readonly": True},
+        "status": {"readonly": True},
+        "reason": {"readonly": True},
         "supported_iops": {"readonly": True},
         "storage_size_mb": {"readonly": True},
-        "supported_upgradable_tier_list": {"readonly": True},
-        "status": {"readonly": True},
+        "default_iops_tier": {"readonly": True},
+        "supported_iops_tiers": {"readonly": True},
     }
 
     _attribute_map = {
-        "name": {"key": "name", "type": "str"},
-        "supported_iops": {"key": "supportedIops", "type": "int"},
-        "storage_size_mb": {"key": "storageSizeMB", "type": "int"},
-        "supported_upgradable_tier_list": {"key": "supportedUpgradableTierList", "type": "[StorageTierCapability]"},
         "status": {"key": "status", "type": "str"},
+        "reason": {"key": "reason", "type": "str"},
+        "supported_iops": {"key": "supportedIops", "type": "int"},
+        "storage_size_mb": {"key": "storageSizeMb", "type": "int"},
+        "default_iops_tier": {"key": "defaultIopsTier", "type": "str"},
+        "supported_iops_tiers": {"key": "supportedIopsTiers", "type": "[StorageTierCapability]"},
     }
 
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.name = None
         self.supported_iops = None
         self.storage_size_mb = None
-        self.supported_upgradable_tier_list = None
-        self.status = None
+        self.default_iops_tier = None
+        self.supported_iops_tiers = None
 
 
 class StorageTierCapability(_serialization.Model):
-    """StorageTierCapability.
+    """Represents capability of a storage tier.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar name: Name to represent Storage tier capability.
     :vartype name: str
-    :ivar tier_name: Storage tier name.
-    :vartype tier_name: str
     :ivar iops: Supported IOPS for this storage tier.
     :vartype iops: int
-    :ivar is_baseline: Indicates if this is a baseline storage tier or not.
-    :vartype is_baseline: bool
-    :ivar status: Status os this storage tier.
-    :vartype status: str
     """
 
     _validation = {
         "name": {"readonly": True},
-        "tier_name": {"readonly": True},
         "iops": {"readonly": True},
-        "is_baseline": {"readonly": True},
-        "status": {"readonly": True},
     }
 
     _attribute_map = {
         "name": {"key": "name", "type": "str"},
-        "tier_name": {"key": "tierName", "type": "str"},
         "iops": {"key": "iops", "type": "int"},
-        "is_baseline": {"key": "isBaseline", "type": "bool"},
-        "status": {"key": "status", "type": "str"},
     }
 
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.name = None
-        self.tier_name = None
         self.iops = None
-        self.is_baseline = None
-        self.status = None
 
 
 class SystemData(_serialization.Model):
@@ -2353,8 +2568,7 @@ class UserAssignedIdentity(_serialization.Model):
     :vartype user_assigned_identities: dict[str,
      ~azure.mgmt.rdbms.postgresql_flexibleservers.models.UserIdentity]
     :ivar type: the types of identities associated with this resource; currently restricted to
-     'SystemAssigned and UserAssigned'. Required. Known values are: "None", "SystemAssigned", and
-     "UserAssigned".
+     'SystemAssigned and UserAssigned'. Required. Known values are: "None" and "UserAssigned".
     :vartype type: str or ~azure.mgmt.rdbms.postgresql_flexibleservers.models.IdentityType
     """
 
@@ -2379,8 +2593,7 @@ class UserAssignedIdentity(_serialization.Model):
         :paramtype user_assigned_identities: dict[str,
          ~azure.mgmt.rdbms.postgresql_flexibleservers.models.UserIdentity]
         :keyword type: the types of identities associated with this resource; currently restricted to
-         'SystemAssigned and UserAssigned'. Required. Known values are: "None", "SystemAssigned", and
-         "UserAssigned".
+         'SystemAssigned and UserAssigned'. Required. Known values are: "None" and "UserAssigned".
         :paramtype type: str or ~azure.mgmt.rdbms.postgresql_flexibleservers.models.IdentityType
         """
         super().__init__(**kwargs)
@@ -2415,49 +2628,6 @@ class UserIdentity(_serialization.Model):
         super().__init__(**kwargs)
         self.principal_id = principal_id
         self.client_id = client_id
-
-
-class VcoreCapability(_serialization.Model):
-    """Vcores capability.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar name: vCore name.
-    :vartype name: str
-    :ivar v_cores: supported vCores.
-    :vartype v_cores: int
-    :ivar supported_iops: supported IOPS.
-    :vartype supported_iops: int
-    :ivar supported_memory_per_vcore_mb: supported memory per vCore in MB.
-    :vartype supported_memory_per_vcore_mb: int
-    :ivar status: The status.
-    :vartype status: str
-    """
-
-    _validation = {
-        "name": {"readonly": True},
-        "v_cores": {"readonly": True},
-        "supported_iops": {"readonly": True},
-        "supported_memory_per_vcore_mb": {"readonly": True},
-        "status": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "name": {"key": "name", "type": "str"},
-        "v_cores": {"key": "vCores", "type": "int"},
-        "supported_iops": {"key": "supportedIops", "type": "int"},
-        "supported_memory_per_vcore_mb": {"key": "supportedMemoryPerVcoreMB", "type": "int"},
-        "status": {"key": "status", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-        self.name = None
-        self.v_cores = None
-        self.supported_iops = None
-        self.supported_memory_per_vcore_mb = None
-        self.status = None
 
 
 class VirtualNetworkSubnetUsageParameter(_serialization.Model):

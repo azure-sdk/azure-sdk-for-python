@@ -14,7 +14,7 @@ from azure.mgmt.rdbms import PostgreSQLManagementClient
     pip install azure-identity
     pip install azure-mgmt-rdbms
 # USAGE
-    python server_create_replica.py
+    python server_create_geo_restore_with_data_encryption_enabled.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -31,20 +31,21 @@ def main():
 
     response = client.servers.begin_create(
         resource_group_name="testrg",
-        server_name="pgtestsvc5rep",
+        server_name="pgtestsvc5geo",
         parameters={
             "identity": {
                 "type": "UserAssigned",
                 "userAssignedIdentities": {
-                    "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testresourcegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-usermanagedidentity": {}
+                    "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testresourcegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-geo-usermanagedidentity": {},
+                    "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testresourcegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-usermanagedidentity": {},
                 },
             },
-            "location": "westus",
+            "location": "eastus",
             "properties": {
-                "createMode": "Replica",
+                "createMode": "GeoRestore",
                 "dataEncryption": {
-                    "geoBackupKeyURI": "",
-                    "geoBackupUserAssignedIdentityId": "",
+                    "geoBackupKeyURI": "https://test-geo-kv.vault.azure.net/keys/test-key1/66f57315bab34b0189daa113fbc78787",
+                    "geoBackupUserAssignedIdentityId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testresourcegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-geo-usermanagedidentity",
                     "primaryKeyURI": "https://test-kv.vault.azure.net/keys/test-key1/77f57315bab34b0189daa113fbc78787",
                     "primaryUserAssignedIdentityId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testresourcegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-usermanagedidentity",
                     "type": "AzureKeyVault",
@@ -57,6 +58,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/ServerCreateReplica.json
+# x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/ServerCreateGeoRestoreWithDataEncryptionEnabled.json
 if __name__ == "__main__":
     main()

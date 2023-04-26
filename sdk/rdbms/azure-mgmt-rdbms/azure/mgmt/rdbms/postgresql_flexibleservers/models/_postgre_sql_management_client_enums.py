@@ -24,6 +24,34 @@ class ArmServerKeyType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     AZURE_KEY_VAULT = "AzureKeyVault"
 
 
+class AzureManagedDiskPerformanceTiers(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Name of storage tier for IOPS."""
+
+    P1 = "P1"
+    P2 = "P2"
+    P3 = "P3"
+    P4 = "P4"
+    P6 = "P6"
+    P10 = "P10"
+    P15 = "P15"
+    P20 = "P20"
+    P30 = "P30"
+    P40 = "P40"
+    P50 = "P50"
+    P60 = "P60"
+    P70 = "P70"
+    P80 = "P80"
+
+
+class CapabilityStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The status of the capability."""
+
+    VISIBLE = "Visible"
+    AVAILABLE = "Available"
+    DEFAULT = "Default"
+    DISABLED = "Disabled"
+
+
 class CheckNameAvailabilityReason(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The reason why the given name is not available."""
 
@@ -76,6 +104,20 @@ class FailoverMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     FORCED_SWITCHOVER = "ForcedSwitchover"
 
 
+class FastProvisioningSupportedEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Gets a value indicating whether fast provisioning is supported."""
+
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+
+
+class GeoBackupSupportedEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Determines if geo-backup is supported in this region."""
+
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+
+
 class GeoRedundantBackupEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """A value indicating whether Geo-Redundant backup is enabled on the server."""
 
@@ -97,8 +139,23 @@ class IdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """
 
     NONE = "None"
-    SYSTEM_ASSIGNED = "SystemAssigned"
     USER_ASSIGNED = "UserAssigned"
+
+
+class KeyStatusEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Primary encryption key status for Data encryption enabled server."""
+
+    VALID = "Valid"
+    INVALID = "Invalid"
+
+
+class OnlineResizeSupportedEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """A value indicating whether online resize is supported in this region for the given
+    subscription.
+    """
+
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
 
 
 class OperationOrigin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -140,6 +197,13 @@ class ReplicationRole(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     GEO_ASYNC_REPLICA = "GeoAsyncReplica"
 
 
+class RestrictedEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """A value indicating whether this region is restricted."""
+
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+
+
 class ServerHAState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """A state of a HA server that is visible to user."""
 
@@ -173,6 +237,7 @@ class ServerState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 class ServerVersion(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The version of a server."""
 
+    FIFTEEN = "15"
     FOURTEEN = "14"
     THIRTEEN = "13"
     TWELVE = "12"
@@ -185,3 +250,31 @@ class SkuTier(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     BURSTABLE = "Burstable"
     GENERAL_PURPOSE = "GeneralPurpose"
     MEMORY_OPTIMIZED = "MemoryOptimized"
+
+
+class StorageAutoGrow(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Flag to enable / disable Storage Auto grow for flexible server."""
+
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+
+
+class StorageAutoGrowthSupportedEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """A value indicating whether storage auto-grow is supported in this region."""
+
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+
+
+class ZoneRedundantHaAndGeoBackupSupportedEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """A value indicating whether Zone Redundant HA and Geo-backup is supported in this region."""
+
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+
+
+class ZoneRedundantHaSupportedEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """A value indicating whether Zone Redundant HA is supported in this region."""
+
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
