@@ -392,6 +392,15 @@ class KeyType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SECONDARY = "secondary"
 
 
+class KeyVaultRefreshState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """KeyVaultRefreshState."""
+
+    TRUE = "true"
+    """Entities for which KeyVault refresh failed."""
+    FALSE = "false"
+    """Entities for which KeyVault refresh succeeded"""
+
+
 class LoggerType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Logger type."""
 
@@ -492,6 +501,8 @@ class PlatformVersion(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Platform running the service on Single Tenant V2 platform."""
     MTV1 = "mtv1"
     """Platform running the service on Multi Tenant V1 platform."""
+    STV2_1 = "stv2.1"
+    """Platform running the service on Single Tenant V2 platform on newer Hardware."""
 
 
 class PolicyContentFormat(str, Enum, metaclass=CaseInsensitiveEnumMeta):
