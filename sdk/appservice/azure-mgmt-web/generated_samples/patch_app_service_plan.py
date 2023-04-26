@@ -32,7 +32,7 @@ def main():
     response = client.app_service_plans.update(
         resource_group_name="testrg123",
         name="testsf6141",
-        app_service_plan={"kind": "app", "properties": {}},
+        app_service_plan_patch={"kind": "app", "properties": {}},
     )
     print(response)
 
