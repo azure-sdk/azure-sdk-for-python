@@ -33,7 +33,10 @@ from ._models_py3 import DimensionsListResult
 from ._models_py3 import DismissAlertPayload
 from ._models_py3 import DownloadURL
 from ._models_py3 import ErrorDetails
+from ._models_py3 import ErrorDetailsWithIntegerCode
+from ._models_py3 import ErrorDetailsWithNestedDetails
 from ._models_py3 import ErrorResponse
+from ._models_py3 import ErrorResponseWithNestedDetails
 from ._models_py3 import Export
 from ._models_py3 import ExportDataset
 from ._models_py3 import ExportDatasetConfiguration
@@ -149,7 +152,6 @@ from ._cost_management_client_enums import PivotType
 from ._cost_management_client_enums import QueryColumnType
 from ._cost_management_client_enums import QueryOperatorType
 from ._cost_management_client_enums import RecurrenceType
-from ._cost_management_client_enums import ReportConfigColumnType
 from ._cost_management_client_enums import ReportConfigSortingType
 from ._cost_management_client_enums import ReportGranularityType
 from ._cost_management_client_enums import ReportOperationStatusType
@@ -165,7 +167,7 @@ from ._cost_management_client_enums import Term
 from ._cost_management_client_enums import TimeframeType
 from ._cost_management_client_enums import WeeksOfMonth
 from ._patch import __all__ as _patch_all
-from ._patch import *  # type: ignore # pylint: disable=unused-wildcard-import
+from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
@@ -196,7 +198,10 @@ __all__ = [
     "DismissAlertPayload",
     "DownloadURL",
     "ErrorDetails",
+    "ErrorDetailsWithIntegerCode",
+    "ErrorDetailsWithNestedDetails",
     "ErrorResponse",
+    "ErrorResponseWithNestedDetails",
     "Export",
     "ExportDataset",
     "ExportDatasetConfiguration",
@@ -311,7 +316,6 @@ __all__ = [
     "QueryColumnType",
     "QueryOperatorType",
     "RecurrenceType",
-    "ReportConfigColumnType",
     "ReportConfigSortingType",
     "ReportGranularityType",
     "ReportOperationStatusType",
