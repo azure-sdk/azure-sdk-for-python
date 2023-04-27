@@ -26,6 +26,7 @@ from azure.mgmt.alertsmanagement import AlertsManagementClient
 def main():
     client = AlertsManagementClient(
         credential=DefaultAzureCredential(),
+        target_type="TARGET_TYPE",
         subscription_id="subId1",
     )
 

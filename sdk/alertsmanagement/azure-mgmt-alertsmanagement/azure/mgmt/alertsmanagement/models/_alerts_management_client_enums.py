@@ -114,6 +114,47 @@ class MetadataIdentifier(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     MONITOR_SERVICE_LIST = "MonitorServiceList"
 
 
+class MetricAlertsDisplayUnit(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The unit to display for a metric alert rule."""
+
+    NONE = "None"
+    PERCENTAGE = "Percentage"
+    BYTES = "Bytes"
+    KILOBYTES = "Kilobytes"
+    MEGABYTES = "Megabytes"
+    GIGABYTES = "Gigabytes"
+    TERABYTES = "Terabytes"
+    PETABYTES = "Petabytes"
+    BYTES_PER_DAY = "BytesPerDay"
+    BYTES_PER_HOUR = "BytesPerHour"
+    BYTES_PER_MINUTE = "BytesPerMinute"
+    BYTES_PER_SECOND = "BytesPerSecond"
+    KILOBYTES_PER_SECOND = "KilobytesPerSecond"
+    MEGABYTES_PER_SECOND = "MegabytesPerSecond"
+    GIGABYTES_PER_SECOND = "GigabytesPerSecond"
+    TERABYTES_PER_SECOND = "TerabytesPerSecond"
+    PETABYTES_PER_SECOND = "PetabytesPerSecond"
+    COUNT = "Count"
+    THOUSAND = "Thousand"
+    MILLION = "Million"
+    BILLION = "Billion"
+    TRILLION = "Trillion"
+    MICRO_SECONDS = "MicroSeconds"
+    MILLI_SECONDS = "MilliSeconds"
+    SECONDS = "Seconds"
+    MINUTES = "Minutes"
+    HOURS = "Hours"
+    DAYS = "Days"
+    COUNT_PER_DAY = "CountPerDay"
+    COUNT_PER_HOUR = "CountPerHour"
+    COUNT_PER_MINUTE = "CountPerMinute"
+    COUNT_PER_SECOND = "CountPerSecond"
+    THOUSAND_PER_SECOND = "ThousandPerSecond"
+    MILLION_PER_SECOND = "MillionPerSecond"
+    BILLION_PER_SECOND = "BillionPerSecond"
+    TRILLION_PER_SECOND = "TrillionPerSecond"
+
+
 class MonitorCondition(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """MonitorCondition."""
 
