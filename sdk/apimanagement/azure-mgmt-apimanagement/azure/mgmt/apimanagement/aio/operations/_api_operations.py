@@ -400,6 +400,9 @@ class ApiOperations:
 
             deserialized = self._deserialize("ApiContract", pipeline_response)
 
+        if response.status_code == 202:
+            response_headers["location"] = self._deserialize("str", response.headers.get("location"))
+
         if cls:
             return cls(pipeline_response, deserialized, response_headers)
 
