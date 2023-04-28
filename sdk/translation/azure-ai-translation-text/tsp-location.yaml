@@ -1,0 +1,4 @@
+cleanup: false
+commit: 8ea11c2c81add72a62fc103ce34343c3a9c2b493
+directory: specification/cognitiveservices/TextTranslation
+repo: Azure/azure-rest-api-specs
