@@ -82,10 +82,6 @@ if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
     from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
-if sys.version_info >= (3, 8):
-    from typing import Literal  # pylint: disable=no-name-in-module, ungrouped-imports
-else:
-    from typing_extensions import Literal  # type: ignore  # pylint: disable=ungrouped-imports
 JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
@@ -126,7 +122,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[_models.AppServiceEnvironmentCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -215,7 +211,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[_models.AppServiceEnvironmentCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -313,7 +309,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[_models.AppServiceEnvironmentResource] = kwargs.pop("cls", None)
 
         request = build_get_request(
@@ -369,7 +365,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.AppServiceEnvironmentResource] = kwargs.pop("cls", None)
 
@@ -545,7 +541,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.AppServiceEnvironmentResource] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -604,7 +600,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_delete_request(
@@ -670,7 +666,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
@@ -811,7 +807,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.AppServiceEnvironmentResource] = kwargs.pop("cls", None)
 
@@ -889,7 +885,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[_models.StampCapacityCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -988,7 +984,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[_models.AddressResponse] = kwargs.pop("cls", None)
 
         request = build_get_vip_info_request(
@@ -1040,7 +1036,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.WebAppCollection] = kwargs.pop("cls", None)
 
@@ -1206,7 +1202,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.WebAppCollection] = kwargs.pop("cls", None)
 
@@ -1355,7 +1351,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[_models.AseV3NetworkingConfiguration] = kwargs.pop("cls", None)
 
         request = build_get_ase_v3_networking_configuration_request(
@@ -1491,7 +1487,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.AseV3NetworkingConfiguration] = kwargs.pop("cls", None)
 
@@ -1569,7 +1565,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[List[_models.HostingEnvironmentDiagnostics]] = kwargs.pop("cls", None)
 
         request = build_list_diagnostics_request(
@@ -1637,7 +1633,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[_models.HostingEnvironmentDiagnostics] = kwargs.pop("cls", None)
 
         request = build_get_diagnostics_item_request(
@@ -1677,7 +1673,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
     }
 
     @distributed_trace
-    def get_inbound_network_dependencies_endpoints(
+    def get_inbound_network_dependencies_endpoints(  # pylint: disable=name-too-long
         self, resource_group_name: str, name: str, **kwargs: Any
     ) -> AsyncIterable["_models.InboundEnvironmentEndpoint"]:
         """Get the network endpoints of all inbound dependencies of an App Service Environment.
@@ -1698,7 +1694,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[_models.InboundEnvironmentEndpointCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -1792,7 +1788,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[_models.WorkerPoolCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -1893,7 +1889,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[_models.WorkerPoolResource] = kwargs.pop("cls", None)
 
         request = build_get_multi_role_pool_request(
@@ -1931,7 +1927,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/multiRolePools/default"
     }
 
-    async def _create_or_update_multi_role_pool_initial(
+    async def _create_or_update_multi_role_pool_initial(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -1949,7 +1945,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.WorkerPoolResource] = kwargs.pop("cls", None)
 
@@ -2118,7 +2114,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.WorkerPoolResource] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -2259,7 +2255,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.WorkerPoolResource] = kwargs.pop("cls", None)
 
@@ -2314,7 +2310,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
     }
 
     @distributed_trace
-    def list_multi_role_pool_instance_metric_definitions(
+    def list_multi_role_pool_instance_metric_definitions(  # pylint: disable=name-too-long
         self, resource_group_name: str, name: str, instance: str, **kwargs: Any
     ) -> AsyncIterable["_models.ResourceMetricDefinition"]:
         """Get metric definitions for a specific instance of a multi-role pool of an App Service
@@ -2339,7 +2335,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[_models.ResourceMetricDefinitionCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -2435,7 +2431,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[_models.ResourceMetricDefinitionCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -2528,7 +2524,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[_models.SkuInfoCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -2621,7 +2617,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[_models.UsageCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -2720,7 +2716,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[List[_models.Operation]] = kwargs.pop("cls", None)
 
         request = build_list_operations_request(
@@ -2759,7 +2755,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
     }
 
     @distributed_trace
-    def get_outbound_network_dependencies_endpoints(
+    def get_outbound_network_dependencies_endpoints(  # pylint: disable=name-too-long
         self, resource_group_name: str, name: str, **kwargs: Any
     ) -> AsyncIterable["_models.OutboundEnvironmentEndpoint"]:
         """Get the network endpoints of all outbound dependencies of an App Service Environment.
@@ -2780,7 +2776,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[_models.OutboundEnvironmentEndpointCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -2875,7 +2871,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[_models.PrivateEndpointConnectionCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -2978,7 +2974,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[_models.RemotePrivateEndpointConnectionARMResource] = kwargs.pop("cls", None)
 
         request = build_get_private_endpoint_connection_request(
@@ -3017,7 +3013,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/privateEndpointConnections/{privateEndpointConnectionName}"
     }
 
-    async def _approve_or_reject_private_endpoint_connection_initial(
+    async def _approve_or_reject_private_endpoint_connection_initial(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -3036,7 +3032,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.RemotePrivateEndpointConnectionARMResource] = kwargs.pop("cls", None)
 
@@ -3092,7 +3088,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
     }
 
     @overload
-    async def begin_approve_or_reject_private_endpoint_connection(
+    async def begin_approve_or_reject_private_endpoint_connection(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -3134,7 +3130,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         """
 
     @overload
-    async def begin_approve_or_reject_private_endpoint_connection(
+    async def begin_approve_or_reject_private_endpoint_connection(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -3175,7 +3171,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         """
 
     @distributed_trace_async
-    async def begin_approve_or_reject_private_endpoint_connection(
+    async def begin_approve_or_reject_private_endpoint_connection(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -3217,7 +3213,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.RemotePrivateEndpointConnectionARMResource] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -3263,7 +3259,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/privateEndpointConnections/{privateEndpointConnectionName}"
     }
 
-    async def _delete_private_endpoint_connection_initial(
+    async def _delete_private_endpoint_connection_initial(  # pylint: disable=name-too-long
         self, resource_group_name: str, name: str, private_endpoint_connection_name: str, **kwargs: Any
     ) -> JSON:
         error_map = {
@@ -3277,7 +3273,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[JSON] = kwargs.pop("cls", None)
 
         request = build_delete_private_endpoint_connection_request(
@@ -3352,7 +3348,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[JSON] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
@@ -3423,7 +3419,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[_models.PrivateLinkResourcesWrapper] = kwargs.pop("cls", None)
 
         request = build_get_private_link_resources_request(
@@ -3489,7 +3485,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_reboot_request(
@@ -3535,7 +3531,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[_models.WebAppCollection] = kwargs.pop("cls", None)
 
         request = build_resume_request(
@@ -3607,7 +3603,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[_models.WebAppCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -3737,7 +3733,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[_models.AppServicePlanCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -3833,7 +3829,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[_models.WebAppCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -3919,7 +3915,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[_models.WebAppCollection] = kwargs.pop("cls", None)
 
         request = build_suspend_request(
@@ -3991,7 +3987,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[_models.WebAppCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -4126,7 +4122,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[_models.CsmUsageQuotaCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -4221,7 +4217,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[_models.WorkerPoolCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -4324,7 +4320,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[_models.WorkerPoolResource] = kwargs.pop("cls", None)
 
         request = build_get_worker_pool_request(
@@ -4382,7 +4378,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.WorkerPoolResource] = kwargs.pop("cls", None)
 
@@ -4561,7 +4557,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.WorkerPoolResource] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -4712,7 +4708,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.WorkerPoolResource] = kwargs.pop("cls", None)
 
@@ -4768,7 +4764,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
     }
 
     @distributed_trace
-    def list_worker_pool_instance_metric_definitions(
+    def list_worker_pool_instance_metric_definitions(  # pylint: disable=name-too-long
         self, resource_group_name: str, name: str, worker_pool_name: str, instance: str, **kwargs: Any
     ) -> AsyncIterable["_models.ResourceMetricDefinition"]:
         """Get metric definitions for a specific instance of a worker pool of an App Service Environment.
@@ -4793,7 +4789,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[_models.ResourceMetricDefinitionCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -4892,7 +4888,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[_models.ResourceMetricDefinitionCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -4988,7 +4984,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[_models.SkuInfoCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -5084,7 +5080,7 @@ class AppServiceEnvironmentsOperations:  # pylint: disable=too-many-public-metho
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[_models.UsageCollection] = kwargs.pop("cls", None)
 
         error_map = {

@@ -391,7 +391,7 @@ class WebSiteManagementClientOperationsMixin(object):
         mixin_instance._deserialize = Deserializer(self._models_dict(api_version))
         return mixin_instance.list_premier_add_on_offers(**kwargs)
 
-    def list_site_identifiers_assigned_to_host_name(
+    def list_site_identifiers_assigned_to_host_name(  # pylint: disable=name-too-long
         self,
         name_identifier: Union[_models.NameIdentifier, IO],
         **kwargs: Any
