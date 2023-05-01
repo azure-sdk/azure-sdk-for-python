@@ -37,6 +37,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2022-03-30-preview/examples/CreateOrUpdateMigrationServiceMAX.json
+# x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2022-11-30-preview/examples/CreateOrUpdateMigrationServiceMAX.json
 if __name__ == "__main__":
     main()

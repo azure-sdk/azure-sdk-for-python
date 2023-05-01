@@ -64,15 +64,11 @@ from ._models_py3 import ConnectionInfo
 from ._models_py3 import CopyProgressDetails
 from ._models_py3 import DataIntegrityValidationResult
 from ._models_py3 import DataItemMigrationSummaryResult
-from ._models_py3 import DataMigrationError
-from ._models_py3 import DataMigrationProjectMetadata
 from ._models_py3 import DataMigrationService
 from ._models_py3 import DataMigrationServiceList
 from ._models_py3 import DataMigrationServiceStatusResponse
-from ._models_py3 import Database
 from ._models_py3 import DatabaseBackupInfo
 from ._models_py3 import DatabaseFileInfo
-from ._models_py3 import DatabaseFileInput
 from ._models_py3 import DatabaseInfo
 from ._models_py3 import DatabaseMigration
 from ._models_py3 import DatabaseMigrationListResult
@@ -83,7 +79,6 @@ from ._models_py3 import DatabaseMigrationPropertiesSqlVm
 from ._models_py3 import DatabaseMigrationSqlDb
 from ._models_py3 import DatabaseMigrationSqlMi
 from ._models_py3 import DatabaseMigrationSqlVm
-from ._models_py3 import DatabaseObjectName
 from ._models_py3 import DatabaseSummaryResult
 from ._models_py3 import DatabaseTable
 from ._models_py3 import DeleteNode
@@ -92,7 +87,6 @@ from ._models_py3 import ExecutionStatistics
 from ._models_py3 import FileList
 from ._models_py3 import FileShare
 from ._models_py3 import FileStorageInfo
-from ._models_py3 import GetProjectDetailsNonSqlTaskInput
 from ._models_py3 import GetTdeCertificatesSqlTaskInput
 from ._models_py3 import GetTdeCertificatesSqlTaskOutput
 from ._models_py3 import GetTdeCertificatesSqlTaskProperties
@@ -122,12 +116,18 @@ from ._models_py3 import MigrateMISyncCompleteCommandProperties
 from ._models_py3 import MigrateMongoDbTaskProperties
 from ._models_py3 import MigrateMySqlAzureDbForMySqlOfflineDatabaseInput
 from ._models_py3 import MigrateMySqlAzureDbForMySqlOfflineTaskInput
+from ._models_py3 import MigrateMySqlAzureDbForMySqlOfflineTaskInputOptionalAgentSettings
 from ._models_py3 import MigrateMySqlAzureDbForMySqlOfflineTaskOutput
 from ._models_py3 import MigrateMySqlAzureDbForMySqlOfflineTaskOutputDatabaseLevel
 from ._models_py3 import MigrateMySqlAzureDbForMySqlOfflineTaskOutputError
 from ._models_py3 import MigrateMySqlAzureDbForMySqlOfflineTaskOutputMigrationLevel
 from ._models_py3 import MigrateMySqlAzureDbForMySqlOfflineTaskOutputTableLevel
 from ._models_py3 import MigrateMySqlAzureDbForMySqlOfflineTaskProperties
+from ._models_py3 import MigrateMySqlAzureDbForMySqlReplicateChangesDatabaseInput
+from ._models_py3 import MigrateMySqlAzureDbForMySqlReplicateChangesTaskInput
+from ._models_py3 import MigrateMySqlAzureDbForMySqlReplicateChangesTaskOutput
+from ._models_py3 import MigrateMySqlAzureDbForMySqlReplicateChangesTaskOutputMigrationLevel
+from ._models_py3 import MigrateMySqlAzureDbForMySqlReplicateChangesTaskProperties
 from ._models_py3 import MigrateMySqlAzureDbForMySqlSyncDatabaseInput
 from ._models_py3 import MigrateMySqlAzureDbForMySqlSyncTaskInput
 from ._models_py3 import MigrateMySqlAzureDbForMySqlSyncTaskOutput
@@ -135,6 +135,7 @@ from ._models_py3 import MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseError
 from ._models_py3 import MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseLevel
 from ._models_py3 import MigrateMySqlAzureDbForMySqlSyncTaskOutputError
 from ._models_py3 import MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevel
+from ._models_py3 import MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevelV2
 from ._models_py3 import MigrateMySqlAzureDbForMySqlSyncTaskOutputTableLevel
 from ._models_py3 import MigrateMySqlAzureDbForMySqlSyncTaskProperties
 from ._models_py3 import MigrateOracleAzureDbForPostgreSqlSyncTaskProperties
@@ -164,7 +165,6 @@ from ._models_py3 import MigrateSchemaSqlServerSqlDbTaskOutputError
 from ._models_py3 import MigrateSchemaSqlServerSqlDbTaskOutputMigrationLevel
 from ._models_py3 import MigrateSchemaSqlServerSqlDbTaskProperties
 from ._models_py3 import MigrateSchemaSqlTaskOutputError
-from ._models_py3 import MigrateSqlServerDatabaseInput
 from ._models_py3 import MigrateSqlServerSqlDbDatabaseInput
 from ._models_py3 import MigrateSqlServerSqlDbSyncDatabaseInput
 from ._models_py3 import MigrateSqlServerSqlDbSyncTaskInput
@@ -211,7 +211,6 @@ from ._models_py3 import MigrationEligibilityInfo
 from ._models_py3 import MigrationOperationInput
 from ._models_py3 import MigrationReportResult
 from ._models_py3 import MigrationStatusDetails
-from ._models_py3 import MigrationTableMetadata
 from ._models_py3 import MigrationValidationDatabaseLevelResult
 from ._models_py3 import MigrationValidationDatabaseSummaryResult
 from ._models_py3 import MigrationValidationOptions
@@ -238,14 +237,13 @@ from ._models_py3 import MongoDbShardKeyField
 from ._models_py3 import MongoDbShardKeyInfo
 from ._models_py3 import MongoDbShardKeySetting
 from ._models_py3 import MongoDbThrottlingSettings
+from ._models_py3 import MySqlBinlogPositionInput
+from ._models_py3 import MySqlBinlogPositionOutput
 from ._models_py3 import MySqlConnectionInfo
+from ._models_py3 import MySqlContinuousDataMovementProgress
 from ._models_py3 import NameAvailabilityRequest
 from ._models_py3 import NameAvailabilityResponse
 from ._models_py3 import NodeMonitoringData
-from ._models_py3 import NonSqlDataMigrationTable
-from ._models_py3 import NonSqlDataMigrationTableResult
-from ._models_py3 import NonSqlMigrationTaskInput
-from ._models_py3 import NonSqlMigrationTaskOutput
 from ._models_py3 import ODataError
 from ._models_py3 import OfflineConfiguration
 from ._models_py3 import OperationListResult
@@ -281,9 +279,6 @@ from ._models_py3 import SchemaComparisonValidationResultType
 from ._models_py3 import SchemaMigrationSetting
 from ._models_py3 import SelectedCertificateInput
 from ._models_py3 import ServerProperties
-from ._models_py3 import ServiceOperation
-from ._models_py3 import ServiceOperationDisplay
-from ._models_py3 import ServiceOperationList
 from ._models_py3 import ServiceSku
 from ._models_py3 import ServiceSkuList
 from ._models_py3 import SourceLocation
@@ -331,15 +326,22 @@ from ._data_migration_management_client_enums import BackupType
 from ._data_migration_management_client_enums import CommandState
 from ._data_migration_management_client_enums import CommandType
 from ._data_migration_management_client_enums import CreatedByType
-from ._data_migration_management_client_enums import DataMigrationResultCode
 from ._data_migration_management_client_enums import DatabaseCompatLevel
 from ._data_migration_management_client_enums import DatabaseFileType
 from ._data_migration_management_client_enums import DatabaseMigrationStage
 from ._data_migration_management_client_enums import DatabaseMigrationState
 from ._data_migration_management_client_enums import DatabaseState
-from ._data_migration_management_client_enums import ErrorType
 from ._data_migration_management_client_enums import LoginMigrationStage
 from ._data_migration_management_client_enums import LoginType
+from ._data_migration_management_client_enums import (
+    MigrateMySqlAzureDbForMySqlOfflineTaskOutputMigrationLevelMigrationType,
+)
+from ._data_migration_management_client_enums import (
+    MigrateMySqlAzureDbForMySqlReplicateChangesTaskOutputMigrationLevelMigrationType,
+)
+from ._data_migration_management_client_enums import (
+    MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevelMigrationType,
+)
 from ._data_migration_management_client_enums import MigrationState
 from ._data_migration_management_client_enums import MigrationStatus
 from ._data_migration_management_client_enums import MongoDbClusterType
@@ -441,15 +443,11 @@ __all__ = [
     "CopyProgressDetails",
     "DataIntegrityValidationResult",
     "DataItemMigrationSummaryResult",
-    "DataMigrationError",
-    "DataMigrationProjectMetadata",
     "DataMigrationService",
     "DataMigrationServiceList",
     "DataMigrationServiceStatusResponse",
-    "Database",
     "DatabaseBackupInfo",
     "DatabaseFileInfo",
-    "DatabaseFileInput",
     "DatabaseInfo",
     "DatabaseMigration",
     "DatabaseMigrationListResult",
@@ -460,7 +458,6 @@ __all__ = [
     "DatabaseMigrationSqlDb",
     "DatabaseMigrationSqlMi",
     "DatabaseMigrationSqlVm",
-    "DatabaseObjectName",
     "DatabaseSummaryResult",
     "DatabaseTable",
     "DeleteNode",
@@ -469,7 +466,6 @@ __all__ = [
     "FileList",
     "FileShare",
     "FileStorageInfo",
-    "GetProjectDetailsNonSqlTaskInput",
     "GetTdeCertificatesSqlTaskInput",
     "GetTdeCertificatesSqlTaskOutput",
     "GetTdeCertificatesSqlTaskProperties",
@@ -499,12 +495,18 @@ __all__ = [
     "MigrateMongoDbTaskProperties",
     "MigrateMySqlAzureDbForMySqlOfflineDatabaseInput",
     "MigrateMySqlAzureDbForMySqlOfflineTaskInput",
+    "MigrateMySqlAzureDbForMySqlOfflineTaskInputOptionalAgentSettings",
     "MigrateMySqlAzureDbForMySqlOfflineTaskOutput",
     "MigrateMySqlAzureDbForMySqlOfflineTaskOutputDatabaseLevel",
     "MigrateMySqlAzureDbForMySqlOfflineTaskOutputError",
     "MigrateMySqlAzureDbForMySqlOfflineTaskOutputMigrationLevel",
     "MigrateMySqlAzureDbForMySqlOfflineTaskOutputTableLevel",
     "MigrateMySqlAzureDbForMySqlOfflineTaskProperties",
+    "MigrateMySqlAzureDbForMySqlReplicateChangesDatabaseInput",
+    "MigrateMySqlAzureDbForMySqlReplicateChangesTaskInput",
+    "MigrateMySqlAzureDbForMySqlReplicateChangesTaskOutput",
+    "MigrateMySqlAzureDbForMySqlReplicateChangesTaskOutputMigrationLevel",
+    "MigrateMySqlAzureDbForMySqlReplicateChangesTaskProperties",
     "MigrateMySqlAzureDbForMySqlSyncDatabaseInput",
     "MigrateMySqlAzureDbForMySqlSyncTaskInput",
     "MigrateMySqlAzureDbForMySqlSyncTaskOutput",
@@ -512,6 +514,7 @@ __all__ = [
     "MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseLevel",
     "MigrateMySqlAzureDbForMySqlSyncTaskOutputError",
     "MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevel",
+    "MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevelV2",
     "MigrateMySqlAzureDbForMySqlSyncTaskOutputTableLevel",
     "MigrateMySqlAzureDbForMySqlSyncTaskProperties",
     "MigrateOracleAzureDbForPostgreSqlSyncTaskProperties",
@@ -541,7 +544,6 @@ __all__ = [
     "MigrateSchemaSqlServerSqlDbTaskOutputMigrationLevel",
     "MigrateSchemaSqlServerSqlDbTaskProperties",
     "MigrateSchemaSqlTaskOutputError",
-    "MigrateSqlServerDatabaseInput",
     "MigrateSqlServerSqlDbDatabaseInput",
     "MigrateSqlServerSqlDbSyncDatabaseInput",
     "MigrateSqlServerSqlDbSyncTaskInput",
@@ -588,7 +590,6 @@ __all__ = [
     "MigrationOperationInput",
     "MigrationReportResult",
     "MigrationStatusDetails",
-    "MigrationTableMetadata",
     "MigrationValidationDatabaseLevelResult",
     "MigrationValidationDatabaseSummaryResult",
     "MigrationValidationOptions",
@@ -615,14 +616,13 @@ __all__ = [
     "MongoDbShardKeyInfo",
     "MongoDbShardKeySetting",
     "MongoDbThrottlingSettings",
+    "MySqlBinlogPositionInput",
+    "MySqlBinlogPositionOutput",
     "MySqlConnectionInfo",
+    "MySqlContinuousDataMovementProgress",
     "NameAvailabilityRequest",
     "NameAvailabilityResponse",
     "NodeMonitoringData",
-    "NonSqlDataMigrationTable",
-    "NonSqlDataMigrationTableResult",
-    "NonSqlMigrationTaskInput",
-    "NonSqlMigrationTaskOutput",
     "ODataError",
     "OfflineConfiguration",
     "OperationListResult",
@@ -658,9 +658,6 @@ __all__ = [
     "SchemaMigrationSetting",
     "SelectedCertificateInput",
     "ServerProperties",
-    "ServiceOperation",
-    "ServiceOperationDisplay",
-    "ServiceOperationList",
     "ServiceSku",
     "ServiceSkuList",
     "SourceLocation",
@@ -707,15 +704,16 @@ __all__ = [
     "CommandState",
     "CommandType",
     "CreatedByType",
-    "DataMigrationResultCode",
     "DatabaseCompatLevel",
     "DatabaseFileType",
     "DatabaseMigrationStage",
     "DatabaseMigrationState",
     "DatabaseState",
-    "ErrorType",
     "LoginMigrationStage",
     "LoginType",
+    "MigrateMySqlAzureDbForMySqlOfflineTaskOutputMigrationLevelMigrationType",
+    "MigrateMySqlAzureDbForMySqlReplicateChangesTaskOutputMigrationLevelMigrationType",
+    "MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevelMigrationType",
     "MigrationState",
     "MigrationStatus",
     "MongoDbClusterType",

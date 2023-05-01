@@ -44,7 +44,7 @@ class ApiError(_serialization.Model):
         "system_data": {"key": "systemData", "type": "SystemData"},
     }
 
-    def __init__(self, *, error: Optional["_models.ODataError"] = None, **kwargs):
+    def __init__(self, *, error: Optional["_models.ODataError"] = None, **kwargs: Any) -> None:
         """
         :keyword error: Error information in OData format.
         :paramtype error: ~azure.mgmt.datamigration.models.ODataError
@@ -68,7 +68,7 @@ class AuthenticationKeys(_serialization.Model):
         "auth_key2": {"key": "authKey2", "type": "str"},
     }
 
-    def __init__(self, *, auth_key1: Optional[str] = None, auth_key2: Optional[str] = None, **kwargs):
+    def __init__(self, *, auth_key1: Optional[str] = None, auth_key2: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword auth_key1: The first authentication key.
         :paramtype auth_key1: str
@@ -103,8 +103,8 @@ class AvailableServiceSku(_serialization.Model):
         resource_type: Optional[str] = None,
         sku: Optional["_models.AvailableServiceSkuSku"] = None,
         capacity: Optional["_models.AvailableServiceSkuCapacity"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword resource_type: The resource type, including the provider namespace.
         :paramtype resource_type: str
@@ -147,8 +147,8 @@ class AvailableServiceSkuCapacity(_serialization.Model):
         maximum: Optional[int] = None,
         default: Optional[int] = None,
         scale_type: Optional[Union[str, "_models.ServiceScalability"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword minimum: The minimum capacity, usually 0 or 1.
         :paramtype minimum: int
@@ -194,8 +194,8 @@ class AvailableServiceSkuSku(_serialization.Model):
         family: Optional[str] = None,
         size: Optional[str] = None,
         tier: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: The name of the SKU.
         :paramtype name: str
@@ -240,8 +240,8 @@ class AzureActiveDirectoryApp(_serialization.Model):
         app_key: Optional[str] = None,
         tenant_id: Optional[str] = None,
         ignore_azure_permissions: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword application_id: Application ID of the Azure Active Directory Application.
         :paramtype application_id: str
@@ -282,8 +282,8 @@ class AzureBlob(_serialization.Model):
         storage_account_resource_id: Optional[str] = None,
         account_key: Optional[str] = None,
         blob_container_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword storage_account_resource_id: Resource Id of the storage account where backups are
          stored.
@@ -318,8 +318,8 @@ class BackupConfiguration(_serialization.Model):
         *,
         source_location: Optional["_models.SourceLocation"] = None,
         target_location: Optional["_models.TargetLocation"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword source_location: Source location of backups.
         :paramtype source_location: ~azure.mgmt.datamigration.models.SourceLocation
@@ -355,8 +355,8 @@ class BackupFileInfo(_serialization.Model):
         file_location: Optional[str] = None,
         family_sequence_number: Optional[int] = None,
         status: Optional[Union[str, "_models.BackupFileStatus"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword file_location: Location of the backup file in shared folder.
         :paramtype file_location: str
@@ -425,8 +425,8 @@ class BackupSetInfo(_serialization.Model):
         backup_start_date: Optional[datetime.datetime] = None,
         backup_finished_date: Optional[datetime.datetime] = None,
         is_backup_restored: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword backup_set_id: Id for the set of backup files.
         :paramtype backup_set_id: str
@@ -475,7 +475,7 @@ class BlobShare(_serialization.Model):
         "sas_uri": {"key": "sasUri", "type": "str"},
     }
 
-    def __init__(self, *, sas_uri: Optional[str] = None, **kwargs):
+    def __init__(self, *, sas_uri: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword sas_uri: SAS URI of Azure Storage Account Container.
         :paramtype sas_uri: str
@@ -495,7 +495,7 @@ class CheckOCIDriverTaskInput(_serialization.Model):
         "server_version": {"key": "serverVersion", "type": "str"},
     }
 
-    def __init__(self, *, server_version: Optional[str] = None, **kwargs):
+    def __init__(self, *, server_version: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword server_version: Version of the source server to check against.  Optional.
         :paramtype server_version: str
@@ -524,7 +524,7 @@ class CheckOCIDriverTaskOutput(_serialization.Model):
         "validation_errors": {"key": "validationErrors", "type": "[ReportableException]"},
     }
 
-    def __init__(self, *, installed_driver: Optional["_models.OracleOCIDriverInfo"] = None, **kwargs):
+    def __init__(self, *, installed_driver: Optional["_models.OracleOCIDriverInfo"] = None, **kwargs: Any) -> None:
         """
         :keyword installed_driver: Information about the installed driver if found and valid.
         :paramtype installed_driver: ~azure.mgmt.datamigration.models.OracleOCIDriverInfo
@@ -535,7 +535,8 @@ class CheckOCIDriverTaskOutput(_serialization.Model):
 
 
 class ProjectTaskProperties(_serialization.Model):
-    """Base class for all types of DMS task properties. If task is not supported by current client, this object is returned.
+    """Base class for all types of DMS task properties. If task is not supported by current client,
+    this object is returned.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     ConnectToMongoDbTaskProperties, ConnectToSourceMySqlTaskProperties,
@@ -550,6 +551,7 @@ class ProjectTaskProperties(_serialization.Model):
     GetUserTablesSqlTaskProperties, GetUserTablesMySqlTaskProperties,
     GetUserTablesOracleTaskProperties, GetUserTablesPostgreSqlTaskProperties,
     MigrateMongoDbTaskProperties, MigrateMySqlAzureDbForMySqlOfflineTaskProperties,
+    MigrateMySqlAzureDbForMySqlReplicateChangesTaskProperties,
     MigrateMySqlAzureDbForMySqlSyncTaskProperties,
     MigrateOracleAzureDbForPostgreSqlSyncTaskProperties,
     MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties,
@@ -577,9 +579,10 @@ class ProjectTaskProperties(_serialization.Model):
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -634,6 +637,7 @@ class ProjectTaskProperties(_serialization.Model):
             "GetUserTablesPostgreSql": "GetUserTablesPostgreSqlTaskProperties",
             "Migrate.MongoDb": "MigrateMongoDbTaskProperties",
             "Migrate.MySql.AzureDbForMySql": "MigrateMySqlAzureDbForMySqlOfflineTaskProperties",
+            "Migrate.MySql.AzureDbForMySql.ReplicateChanges": "MigrateMySqlAzureDbForMySqlReplicateChangesTaskProperties",
             "Migrate.MySql.AzureDbForMySql.Sync": "MigrateMySqlAzureDbForMySqlSyncTaskProperties",
             "Migrate.Oracle.AzureDbForPostgreSql.Sync": "MigrateOracleAzureDbForPostgreSqlSyncTaskProperties",
             "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2": "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties",
@@ -654,7 +658,7 @@ class ProjectTaskProperties(_serialization.Model):
         }
     }
 
-    def __init__(self, *, client_data: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, client_data: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -685,9 +689,10 @@ class CheckOCIDriverTaskProperties(ProjectTaskProperties):
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -731,8 +736,8 @@ class CheckOCIDriverTaskProperties(ProjectTaskProperties):
         *,
         client_data: Optional[Dict[str, str]] = None,
         input: Optional["_models.CheckOCIDriverTaskInput"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -746,7 +751,8 @@ class CheckOCIDriverTaskProperties(ProjectTaskProperties):
 
 
 class CommandProperties(_serialization.Model):
-    """Base class for all types of DMS command properties. If command is not supported by current client, this object is returned.
+    """Base class for all types of DMS command properties. If command is not supported by current
+    client, this object is returned.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     MigrateMISyncCompleteCommandProperties, MigrateSyncCompleteCommandProperties,
@@ -788,7 +794,7 @@ class CommandProperties(_serialization.Model):
         }
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.command_type: Optional[str] = None
@@ -834,7 +840,7 @@ class ConnectionInfo(_serialization.Model):
         }
     }
 
-    def __init__(self, *, user_name: Optional[str] = None, password: Optional[str] = None, **kwargs):
+    def __init__(self, *, user_name: Optional[str] = None, password: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword user_name: User name.
         :paramtype user_name: str
@@ -848,7 +854,8 @@ class ConnectionInfo(_serialization.Model):
 
 
 class ConnectToMongoDbTaskProperties(ProjectTaskProperties):
-    """Properties for the task that validates the connection to and provides information about a MongoDB server.
+    """Properties for the task that validates the connection to and provides information about a
+    MongoDB server.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -865,9 +872,10 @@ class ConnectToMongoDbTaskProperties(ProjectTaskProperties):
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -911,8 +919,8 @@ class ConnectToMongoDbTaskProperties(ProjectTaskProperties):
         *,
         client_data: Optional[Dict[str, str]] = None,
         input: Optional["_models.MongoDbConnectionInfo"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -962,8 +970,8 @@ class ConnectToSourceMySqlTaskInput(_serialization.Model):
         target_platform: Optional[Union[str, "_models.MySqlTargetPlatformType"]] = None,
         check_permissions_group: Optional[Union[str, "_models.ServerLevelPermissionsGroup"]] = None,
         is_offline_migration: bool = False,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword source_connection_info: Information for connecting to MySQL source. Required.
         :paramtype source_connection_info: ~azure.mgmt.datamigration.models.MySqlConnectionInfo
@@ -1003,9 +1011,10 @@ class ConnectToSourceMySqlTaskProperties(ProjectTaskProperties):
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -1049,8 +1058,8 @@ class ConnectToSourceMySqlTaskProperties(ProjectTaskProperties):
         *,
         client_data: Optional[Dict[str, str]] = None,
         input: Optional["_models.ConnectToSourceMySqlTaskInput"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -1096,7 +1105,7 @@ class ConnectToSourceNonSqlTaskOutput(_serialization.Model):
         "validation_errors": {"key": "validationErrors", "type": "[ReportableException]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -1123,7 +1132,7 @@ class ConnectToSourceOracleSyncTaskInput(_serialization.Model):
         "source_connection_info": {"key": "sourceConnectionInfo", "type": "OracleConnectionInfo"},
     }
 
-    def __init__(self, *, source_connection_info: "_models.OracleConnectionInfo", **kwargs):
+    def __init__(self, *, source_connection_info: "_models.OracleConnectionInfo", **kwargs: Any) -> None:
         """
         :keyword source_connection_info: Information for connecting to Oracle source. Required.
         :paramtype source_connection_info: ~azure.mgmt.datamigration.models.OracleConnectionInfo
@@ -1161,7 +1170,7 @@ class ConnectToSourceOracleSyncTaskOutput(_serialization.Model):
         "validation_errors": {"key": "validationErrors", "type": "[ReportableException]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.source_server_version = None
@@ -1188,9 +1197,10 @@ class ConnectToSourceOracleSyncTaskProperties(ProjectTaskProperties):
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -1234,8 +1244,8 @@ class ConnectToSourceOracleSyncTaskProperties(ProjectTaskProperties):
         *,
         client_data: Optional[Dict[str, str]] = None,
         input: Optional["_models.ConnectToSourceOracleSyncTaskInput"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -1265,7 +1275,7 @@ class ConnectToSourcePostgreSqlSyncTaskInput(_serialization.Model):
         "source_connection_info": {"key": "sourceConnectionInfo", "type": "PostgreSqlConnectionInfo"},
     }
 
-    def __init__(self, *, source_connection_info: "_models.PostgreSqlConnectionInfo", **kwargs):
+    def __init__(self, *, source_connection_info: "_models.PostgreSqlConnectionInfo", **kwargs: Any) -> None:
         """
         :keyword source_connection_info: Connection information for source PostgreSQL server. Required.
         :paramtype source_connection_info: ~azure.mgmt.datamigration.models.PostgreSqlConnectionInfo
@@ -1307,7 +1317,7 @@ class ConnectToSourcePostgreSqlSyncTaskOutput(_serialization.Model):
         "validation_errors": {"key": "validationErrors", "type": "[ReportableException]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -1318,7 +1328,8 @@ class ConnectToSourcePostgreSqlSyncTaskOutput(_serialization.Model):
 
 
 class ConnectToSourcePostgreSqlSyncTaskProperties(ProjectTaskProperties):
-    """Properties for the task that validates connection to PostgreSQL server and source server requirements for online migration.
+    """Properties for the task that validates connection to PostgreSQL server and source server
+    requirements for online migration.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -1335,9 +1346,10 @@ class ConnectToSourcePostgreSqlSyncTaskProperties(ProjectTaskProperties):
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -1381,8 +1393,8 @@ class ConnectToSourcePostgreSqlSyncTaskProperties(ProjectTaskProperties):
         *,
         client_data: Optional[Dict[str, str]] = None,
         input: Optional["_models.ConnectToSourcePostgreSqlSyncTaskInput"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -1396,7 +1408,8 @@ class ConnectToSourcePostgreSqlSyncTaskProperties(ProjectTaskProperties):
 
 
 class ConnectToSourceSqlServerSyncTaskProperties(ProjectTaskProperties):
-    """Properties for the task that validates connection to SQL Server and source server requirements for online migration.
+    """Properties for the task that validates connection to SQL Server and source server requirements
+    for online migration.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -1413,9 +1426,10 @@ class ConnectToSourceSqlServerSyncTaskProperties(ProjectTaskProperties):
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -1459,8 +1473,8 @@ class ConnectToSourceSqlServerSyncTaskProperties(ProjectTaskProperties):
         *,
         client_data: Optional[Dict[str, str]] = None,
         input: Optional["_models.ConnectToSourceSqlServerTaskInput"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -1474,7 +1488,8 @@ class ConnectToSourceSqlServerSyncTaskProperties(ProjectTaskProperties):
 
 
 class ConnectToSourceSqlServerTaskInput(_serialization.Model):
-    """Input for the task that validates connection to SQL Server and also validates source server requirements.
+    """Input for the task that validates connection to SQL Server and also validates source server
+    requirements.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -1527,8 +1542,8 @@ class ConnectToSourceSqlServerTaskInput(_serialization.Model):
         collect_tde_certificate_info: bool = False,
         validate_ssis_catalog_only: bool = False,
         encrypted_key_for_secure_fields: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword source_connection_info: Connection information for Source SQL Server. Required.
         :paramtype source_connection_info: ~azure.mgmt.datamigration.models.SqlConnectionInfo
@@ -1564,7 +1579,8 @@ class ConnectToSourceSqlServerTaskInput(_serialization.Model):
 
 
 class ConnectToSourceSqlServerTaskOutput(_serialization.Model):
-    """Output for the task that validates connection to SQL Server and also validates source server requirements.
+    """Output for the task that validates connection to SQL Server and also validates source server
+    requirements.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     ConnectToSourceSqlServerTaskOutputAgentJobLevel,
@@ -1600,7 +1616,7 @@ class ConnectToSourceSqlServerTaskOutput(_serialization.Model):
         }
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -1608,7 +1624,8 @@ class ConnectToSourceSqlServerTaskOutput(_serialization.Model):
 
 
 class ConnectToSourceSqlServerTaskOutputAgentJobLevel(ConnectToSourceSqlServerTaskOutput):
-    """Agent Job level output for the task that validates connection to SQL Server and also validates source server requirements.
+    """Agent Job level output for the task that validates connection to SQL Server and also validates
+    source server requirements.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -1658,7 +1675,7 @@ class ConnectToSourceSqlServerTaskOutputAgentJobLevel(ConnectToSourceSqlServerTa
         "migration_eligibility": {"key": "migrationEligibility", "type": "MigrationEligibilityInfo"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result_type: str = "AgentJobLevelOutput"
@@ -1672,7 +1689,8 @@ class ConnectToSourceSqlServerTaskOutputAgentJobLevel(ConnectToSourceSqlServerTa
 
 
 class ConnectToSourceSqlServerTaskOutputDatabaseLevel(ConnectToSourceSqlServerTaskOutput):
-    """Database level output for the task that validates connection to SQL Server and also validates source server requirements.
+    """Database level output for the task that validates connection to SQL Server and also validates
+    source server requirements.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -1718,7 +1736,7 @@ class ConnectToSourceSqlServerTaskOutputDatabaseLevel(ConnectToSourceSqlServerTa
         "database_state": {"key": "databaseState", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result_type: str = "DatabaseLevelOutput"
@@ -1730,7 +1748,8 @@ class ConnectToSourceSqlServerTaskOutputDatabaseLevel(ConnectToSourceSqlServerTa
 
 
 class ConnectToSourceSqlServerTaskOutputLoginLevel(ConnectToSourceSqlServerTaskOutput):
-    """Login level output for the task that validates connection to SQL Server and also validates source server requirements.
+    """Login level output for the task that validates connection to SQL Server and also validates
+    source server requirements.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -1773,7 +1792,7 @@ class ConnectToSourceSqlServerTaskOutputLoginLevel(ConnectToSourceSqlServerTaskO
         "migration_eligibility": {"key": "migrationEligibility", "type": "MigrationEligibilityInfo"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result_type: str = "LoginLevelOutput"
@@ -1785,7 +1804,8 @@ class ConnectToSourceSqlServerTaskOutputLoginLevel(ConnectToSourceSqlServerTaskO
 
 
 class ConnectToSourceSqlServerTaskOutputTaskLevel(ConnectToSourceSqlServerTaskOutput):
-    """Task level output for the task that validates connection to SQL Server and also validates source server requirements.
+    """Task level output for the task that validates connection to SQL Server and also validates
+    source server requirements.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -1836,7 +1856,7 @@ class ConnectToSourceSqlServerTaskOutputTaskLevel(ConnectToSourceSqlServerTaskOu
         "validation_errors": {"key": "validationErrors", "type": "[ReportableException]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result_type: str = "TaskLevelOutput"
@@ -1850,7 +1870,8 @@ class ConnectToSourceSqlServerTaskOutputTaskLevel(ConnectToSourceSqlServerTaskOu
 
 
 class ConnectToSourceSqlServerTaskProperties(ProjectTaskProperties):
-    """Properties for the task that validates connection to SQL Server and also validates source server requirements.
+    """Properties for the task that validates connection to SQL Server and also validates source
+    server requirements.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -1867,9 +1888,10 @@ class ConnectToSourceSqlServerTaskProperties(ProjectTaskProperties):
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -1917,8 +1939,8 @@ class ConnectToSourceSqlServerTaskProperties(ProjectTaskProperties):
         client_data: Optional[Dict[str, str]] = None,
         input: Optional["_models.ConnectToSourceSqlServerTaskInput"] = None,
         task_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -1935,7 +1957,8 @@ class ConnectToSourceSqlServerTaskProperties(ProjectTaskProperties):
 
 
 class ConnectToTargetAzureDbForMySqlTaskInput(_serialization.Model):
-    """Input for the task that validates connection to Azure Database for MySQL and target server requirements.
+    """Input for the task that validates connection to Azure Database for MySQL and target server
+    requirements.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -1965,8 +1988,8 @@ class ConnectToTargetAzureDbForMySqlTaskInput(_serialization.Model):
         source_connection_info: "_models.MySqlConnectionInfo",
         target_connection_info: "_models.MySqlConnectionInfo",
         is_offline_migration: bool = False,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword source_connection_info: Connection information for source MySQL server. Required.
         :paramtype source_connection_info: ~azure.mgmt.datamigration.models.MySqlConnectionInfo
@@ -1983,7 +2006,8 @@ class ConnectToTargetAzureDbForMySqlTaskInput(_serialization.Model):
 
 
 class ConnectToTargetAzureDbForMySqlTaskOutput(_serialization.Model):
-    """Output for the task that validates connection to Azure Database for MySQL and target server requirements.
+    """Output for the task that validates connection to Azure Database for MySQL and target server
+    requirements.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -2015,7 +2039,7 @@ class ConnectToTargetAzureDbForMySqlTaskOutput(_serialization.Model):
         "validation_errors": {"key": "validationErrors", "type": "[ReportableException]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -2026,7 +2050,8 @@ class ConnectToTargetAzureDbForMySqlTaskOutput(_serialization.Model):
 
 
 class ConnectToTargetAzureDbForMySqlTaskProperties(ProjectTaskProperties):
-    """Properties for the task that validates connection to Azure Database for MySQL and target server requirements.
+    """Properties for the task that validates connection to Azure Database for MySQL and target server
+    requirements.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -2043,9 +2068,10 @@ class ConnectToTargetAzureDbForMySqlTaskProperties(ProjectTaskProperties):
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -2090,8 +2116,8 @@ class ConnectToTargetAzureDbForMySqlTaskProperties(ProjectTaskProperties):
         *,
         client_data: Optional[Dict[str, str]] = None,
         input: Optional["_models.ConnectToTargetAzureDbForMySqlTaskInput"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -2105,7 +2131,8 @@ class ConnectToTargetAzureDbForMySqlTaskProperties(ProjectTaskProperties):
 
 
 class ConnectToTargetAzureDbForPostgreSqlSyncTaskInput(_serialization.Model):
-    """Input for the task that validates connection to Azure Database for PostgreSQL and target server requirements.
+    """Input for the task that validates connection to Azure Database for PostgreSQL and target server
+    requirements.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -2131,8 +2158,8 @@ class ConnectToTargetAzureDbForPostgreSqlSyncTaskInput(_serialization.Model):
         *,
         source_connection_info: "_models.PostgreSqlConnectionInfo",
         target_connection_info: "_models.PostgreSqlConnectionInfo",
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword source_connection_info: Connection information for source PostgreSQL server. Required.
         :paramtype source_connection_info: ~azure.mgmt.datamigration.models.PostgreSqlConnectionInfo
@@ -2146,7 +2173,8 @@ class ConnectToTargetAzureDbForPostgreSqlSyncTaskInput(_serialization.Model):
 
 
 class ConnectToTargetAzureDbForPostgreSqlSyncTaskOutput(_serialization.Model):
-    """Output for the task that validates connection to Azure Database for PostgreSQL and target server requirements.
+    """Output for the task that validates connection to Azure Database for PostgreSQL and target
+    server requirements.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -2178,7 +2206,7 @@ class ConnectToTargetAzureDbForPostgreSqlSyncTaskOutput(_serialization.Model):
         "validation_errors": {"key": "validationErrors", "type": "[ReportableException]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -2189,7 +2217,8 @@ class ConnectToTargetAzureDbForPostgreSqlSyncTaskOutput(_serialization.Model):
 
 
 class ConnectToTargetAzureDbForPostgreSqlSyncTaskProperties(ProjectTaskProperties):
-    """Properties for the task that validates connection to Azure Database For PostgreSQL server and target server requirements for online migration.
+    """Properties for the task that validates connection to Azure Database For PostgreSQL server and
+    target server requirements for online migration.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -2206,9 +2235,10 @@ class ConnectToTargetAzureDbForPostgreSqlSyncTaskProperties(ProjectTaskPropertie
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -2254,8 +2284,8 @@ class ConnectToTargetAzureDbForPostgreSqlSyncTaskProperties(ProjectTaskPropertie
         *,
         client_data: Optional[Dict[str, str]] = None,
         input: Optional["_models.ConnectToTargetAzureDbForPostgreSqlSyncTaskInput"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -2270,7 +2300,8 @@ class ConnectToTargetAzureDbForPostgreSqlSyncTaskProperties(ProjectTaskPropertie
 
 
 class ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskInput(_serialization.Model):
-    """Input for the task that validates connection to Azure Database for PostgreSQL and target server requirements for Oracle source.
+    """Input for the task that validates connection to Azure Database for PostgreSQL and target server
+    requirements for Oracle source.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -2287,7 +2318,7 @@ class ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskInput(_serialization.Mode
         "target_connection_info": {"key": "targetConnectionInfo", "type": "PostgreSqlConnectionInfo"},
     }
 
-    def __init__(self, *, target_connection_info: "_models.PostgreSqlConnectionInfo", **kwargs):
+    def __init__(self, *, target_connection_info: "_models.PostgreSqlConnectionInfo", **kwargs: Any) -> None:
         """
         :keyword target_connection_info: Connection information for target Azure Database for
          PostgreSQL server. Required.
@@ -2298,7 +2329,8 @@ class ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskInput(_serialization.Mode
 
 
 class ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskOutput(_serialization.Model):
-    """Output for the task that validates connection to Azure Database for PostgreSQL and target server requirements for Oracle source.
+    """Output for the task that validates connection to Azure Database for PostgreSQL and target
+    server requirements for Oracle source.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -2339,8 +2371,8 @@ class ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskOutput(_serialization.Mod
         database_schema_map: Optional[
             List["_models.ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskOutputDatabaseSchemaMapItem"]
         ] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword database_schema_map: Mapping of schemas per database.
         :paramtype database_schema_map:
@@ -2368,7 +2400,7 @@ class ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskOutputDatabaseSchemaMapIt
         "schemas": {"key": "schemas", "type": "[str]"},
     }
 
-    def __init__(self, *, database: Optional[str] = None, schemas: Optional[List[str]] = None, **kwargs):
+    def __init__(self, *, database: Optional[str] = None, schemas: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
         :keyword database:
         :paramtype database: str
@@ -2381,7 +2413,8 @@ class ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskOutputDatabaseSchemaMapIt
 
 
 class ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskProperties(ProjectTaskProperties):
-    """Properties for the task that validates connection to Azure Database For PostgreSQL server and target server requirements for online migration for Oracle source.
+    """Properties for the task that validates connection to Azure Database For PostgreSQL server and
+    target server requirements for online migration for Oracle source.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -2398,9 +2431,10 @@ class ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskProperties(ProjectTaskPro
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -2446,8 +2480,8 @@ class ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskProperties(ProjectTaskPro
         *,
         client_data: Optional[Dict[str, str]] = None,
         input: Optional["_models.ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskInput"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -2487,8 +2521,8 @@ class ConnectToTargetSqlDbSyncTaskInput(_serialization.Model):
         *,
         source_connection_info: "_models.SqlConnectionInfo",
         target_connection_info: "_models.SqlConnectionInfo",
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword source_connection_info: Connection information for source SQL Server. Required.
         :paramtype source_connection_info: ~azure.mgmt.datamigration.models.SqlConnectionInfo
@@ -2501,7 +2535,8 @@ class ConnectToTargetSqlDbSyncTaskInput(_serialization.Model):
 
 
 class ConnectToTargetSqlDbSyncTaskProperties(ProjectTaskProperties):
-    """Properties for the task that validates connection to SQL DB and target server requirements for online migration.
+    """Properties for the task that validates connection to SQL DB and target server requirements for
+    online migration.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -2518,9 +2553,10 @@ class ConnectToTargetSqlDbSyncTaskProperties(ProjectTaskProperties):
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -2564,8 +2600,8 @@ class ConnectToTargetSqlDbSyncTaskProperties(ProjectTaskProperties):
         *,
         client_data: Optional[Dict[str, str]] = None,
         input: Optional["_models.ConnectToTargetSqlDbSyncTaskInput"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -2604,8 +2640,8 @@ class ConnectToTargetSqlDbTaskInput(_serialization.Model):
         *,
         target_connection_info: "_models.SqlConnectionInfo",
         query_object_counts: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword target_connection_info: Connection information for target SQL DB. Required.
         :paramtype target_connection_info: ~azure.mgmt.datamigration.models.SqlConnectionInfo
@@ -2647,7 +2683,7 @@ class ConnectToTargetSqlDbTaskOutput(_serialization.Model):
         "target_server_brand_version": {"key": "targetServerBrandVersion", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -2674,9 +2710,10 @@ class ConnectToTargetSqlDbTaskProperties(ProjectTaskProperties):
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -2724,8 +2761,8 @@ class ConnectToTargetSqlDbTaskProperties(ProjectTaskProperties):
         client_data: Optional[Dict[str, str]] = None,
         input: Optional["_models.ConnectToTargetSqlDbTaskInput"] = None,
         created_on: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -2742,7 +2779,8 @@ class ConnectToTargetSqlDbTaskProperties(ProjectTaskProperties):
 
 
 class ConnectToTargetSqlMISyncTaskInput(_serialization.Model):
-    """Input for the task that validates connection to Azure SQL Database Managed Instance online scenario.
+    """Input for the task that validates connection to Azure SQL Database Managed Instance online
+    scenario.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -2769,8 +2807,8 @@ class ConnectToTargetSqlMISyncTaskInput(_serialization.Model):
         *,
         target_connection_info: "_models.MiSqlConnectionInfo",
         azure_app: "_models.AzureActiveDirectoryApp",
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword target_connection_info: Connection information for Azure SQL Database Managed
          Instance. Required.
@@ -2810,7 +2848,7 @@ class ConnectToTargetSqlMISyncTaskOutput(_serialization.Model):
         "validation_errors": {"key": "validationErrors", "type": "[ReportableException]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.target_server_version = None
@@ -2836,9 +2874,10 @@ class ConnectToTargetSqlMISyncTaskProperties(ProjectTaskProperties):
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -2882,8 +2921,8 @@ class ConnectToTargetSqlMISyncTaskProperties(ProjectTaskProperties):
         *,
         client_data: Optional[Dict[str, str]] = None,
         input: Optional["_models.ConnectToTargetSqlMISyncTaskInput"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -2930,8 +2969,8 @@ class ConnectToTargetSqlMITaskInput(_serialization.Model):
         collect_logins: bool = True,
         collect_agent_jobs: bool = True,
         validate_ssis_catalog_only: bool = False,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword target_connection_info: Connection information for target SQL Server. Required.
         :paramtype target_connection_info: ~azure.mgmt.datamigration.models.SqlConnectionInfo
@@ -2987,7 +3026,7 @@ class ConnectToTargetSqlMITaskOutput(_serialization.Model):
         "validation_errors": {"key": "validationErrors", "type": "[ReportableException]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -3016,9 +3055,10 @@ class ConnectToTargetSqlMITaskProperties(ProjectTaskProperties):
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -3062,8 +3102,8 @@ class ConnectToTargetSqlMITaskProperties(ProjectTaskProperties):
         *,
         client_data: Optional[Dict[str, str]] = None,
         input: Optional["_models.ConnectToTargetSqlMITaskInput"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -3133,7 +3173,7 @@ class CopyProgressDetails(_serialization.Model):  # pylint: disable=too-many-ins
         "copy_duration": {"key": "copyDuration", "type": "int"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.table_name = None
@@ -3147,153 +3187,6 @@ class CopyProgressDetails(_serialization.Model):  # pylint: disable=too-many-ins
         self.copy_start = None
         self.copy_throughput = None
         self.copy_duration = None
-
-
-class Database(_serialization.Model):  # pylint: disable=too-many-instance-attributes
-    """Information about a single database.
-
-    :ivar id: Unique identifier for the database.
-    :vartype id: str
-    :ivar name: Name of the database.
-    :vartype name: str
-    :ivar compatibility_level: SQL Server compatibility level of database. Known values are:
-     "CompatLevel80", "CompatLevel90", "CompatLevel100", "CompatLevel110", "CompatLevel120",
-     "CompatLevel130", and "CompatLevel140".
-    :vartype compatibility_level: str or ~azure.mgmt.datamigration.models.DatabaseCompatLevel
-    :ivar collation: Collation name of the database.
-    :vartype collation: str
-    :ivar server_name: Name of the server.
-    :vartype server_name: str
-    :ivar fqdn: Fully qualified name.
-    :vartype fqdn: str
-    :ivar install_id: Install id of the database.
-    :vartype install_id: str
-    :ivar server_version: Version of the server.
-    :vartype server_version: str
-    :ivar server_edition: Edition of the server.
-    :vartype server_edition: str
-    :ivar server_level: Product level of the server (RTM, SP, CTP).
-    :vartype server_level: str
-    :ivar server_default_data_path: Default path of the data files.
-    :vartype server_default_data_path: str
-    :ivar server_default_log_path: Default path of the log files.
-    :vartype server_default_log_path: str
-    :ivar server_default_backup_path: Default path of the backup folder.
-    :vartype server_default_backup_path: str
-    :ivar server_core_count: Number of cores on the server.
-    :vartype server_core_count: int
-    :ivar server_visible_online_core_count: Number of cores on the server that have VISIBLE ONLINE
-     status.
-    :vartype server_visible_online_core_count: int
-    :ivar database_state: State of the database. Known values are: "Online", "Restoring",
-     "Recovering", "RecoveryPending", "Suspect", "Emergency", "Offline", "Copying", and
-     "OfflineSecondary".
-    :vartype database_state: str or ~azure.mgmt.datamigration.models.DatabaseState
-    :ivar server_id: The unique Server Id.
-    :vartype server_id: str
-    """
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "compatibility_level": {"key": "compatibilityLevel", "type": "str"},
-        "collation": {"key": "collation", "type": "str"},
-        "server_name": {"key": "serverName", "type": "str"},
-        "fqdn": {"key": "fqdn", "type": "str"},
-        "install_id": {"key": "installId", "type": "str"},
-        "server_version": {"key": "serverVersion", "type": "str"},
-        "server_edition": {"key": "serverEdition", "type": "str"},
-        "server_level": {"key": "serverLevel", "type": "str"},
-        "server_default_data_path": {"key": "serverDefaultDataPath", "type": "str"},
-        "server_default_log_path": {"key": "serverDefaultLogPath", "type": "str"},
-        "server_default_backup_path": {"key": "serverDefaultBackupPath", "type": "str"},
-        "server_core_count": {"key": "serverCoreCount", "type": "int"},
-        "server_visible_online_core_count": {"key": "serverVisibleOnlineCoreCount", "type": "int"},
-        "database_state": {"key": "databaseState", "type": "str"},
-        "server_id": {"key": "serverId", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        id: Optional[str] = None,  # pylint: disable=redefined-builtin
-        name: Optional[str] = None,
-        compatibility_level: Optional[Union[str, "_models.DatabaseCompatLevel"]] = None,
-        collation: Optional[str] = None,
-        server_name: Optional[str] = None,
-        fqdn: Optional[str] = None,
-        install_id: Optional[str] = None,
-        server_version: Optional[str] = None,
-        server_edition: Optional[str] = None,
-        server_level: Optional[str] = None,
-        server_default_data_path: Optional[str] = None,
-        server_default_log_path: Optional[str] = None,
-        server_default_backup_path: Optional[str] = None,
-        server_core_count: Optional[int] = None,
-        server_visible_online_core_count: Optional[int] = None,
-        database_state: Optional[Union[str, "_models.DatabaseState"]] = None,
-        server_id: Optional[str] = None,
-        **kwargs
-    ):
-        """
-        :keyword id: Unique identifier for the database.
-        :paramtype id: str
-        :keyword name: Name of the database.
-        :paramtype name: str
-        :keyword compatibility_level: SQL Server compatibility level of database. Known values are:
-         "CompatLevel80", "CompatLevel90", "CompatLevel100", "CompatLevel110", "CompatLevel120",
-         "CompatLevel130", and "CompatLevel140".
-        :paramtype compatibility_level: str or ~azure.mgmt.datamigration.models.DatabaseCompatLevel
-        :keyword collation: Collation name of the database.
-        :paramtype collation: str
-        :keyword server_name: Name of the server.
-        :paramtype server_name: str
-        :keyword fqdn: Fully qualified name.
-        :paramtype fqdn: str
-        :keyword install_id: Install id of the database.
-        :paramtype install_id: str
-        :keyword server_version: Version of the server.
-        :paramtype server_version: str
-        :keyword server_edition: Edition of the server.
-        :paramtype server_edition: str
-        :keyword server_level: Product level of the server (RTM, SP, CTP).
-        :paramtype server_level: str
-        :keyword server_default_data_path: Default path of the data files.
-        :paramtype server_default_data_path: str
-        :keyword server_default_log_path: Default path of the log files.
-        :paramtype server_default_log_path: str
-        :keyword server_default_backup_path: Default path of the backup folder.
-        :paramtype server_default_backup_path: str
-        :keyword server_core_count: Number of cores on the server.
-        :paramtype server_core_count: int
-        :keyword server_visible_online_core_count: Number of cores on the server that have VISIBLE
-         ONLINE status.
-        :paramtype server_visible_online_core_count: int
-        :keyword database_state: State of the database. Known values are: "Online", "Restoring",
-         "Recovering", "RecoveryPending", "Suspect", "Emergency", "Offline", "Copying", and
-         "OfflineSecondary".
-        :paramtype database_state: str or ~azure.mgmt.datamigration.models.DatabaseState
-        :keyword server_id: The unique Server Id.
-        :paramtype server_id: str
-        """
-        super().__init__(**kwargs)
-        self.id = id
-        self.name = name
-        self.compatibility_level = compatibility_level
-        self.collation = collation
-        self.server_name = server_name
-        self.fqdn = fqdn
-        self.install_id = install_id
-        self.server_version = server_version
-        self.server_edition = server_edition
-        self.server_level = server_level
-        self.server_default_data_path = server_default_data_path
-        self.server_default_log_path = server_default_log_path
-        self.server_default_backup_path = server_default_backup_path
-        self.server_core_count = server_core_count
-        self.server_visible_online_core_count = server_visible_online_core_count
-        self.database_state = database_state
-        self.server_id = server_id
 
 
 class DatabaseBackupInfo(_serialization.Model):
@@ -3343,7 +3236,7 @@ class DatabaseBackupInfo(_serialization.Model):
         "backup_finish_date": {"key": "backupFinishDate", "type": "iso-8601"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.database_name = None
@@ -3396,8 +3289,8 @@ class DatabaseFileInfo(_serialization.Model):
         restore_full_name: Optional[str] = None,
         file_type: Optional[Union[str, "_models.DatabaseFileType"]] = None,
         size_mb: Optional[float] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword database_name: Name of the database.
         :paramtype database_name: str
@@ -3425,61 +3318,6 @@ class DatabaseFileInfo(_serialization.Model):
         self.size_mb = size_mb
 
 
-class DatabaseFileInput(_serialization.Model):
-    """Database file specific information for input.
-
-    :ivar id: Unique identifier for database file.
-    :vartype id: str
-    :ivar logical_name: Logical name of the file.
-    :vartype logical_name: str
-    :ivar physical_full_name: Operating-system full path of the file.
-    :vartype physical_full_name: str
-    :ivar restore_full_name: Suggested full path of the file for restoring.
-    :vartype restore_full_name: str
-    :ivar file_type: Database file type. Known values are: "Rows", "Log", "Filestream",
-     "NotSupported", and "Fulltext".
-    :vartype file_type: str or ~azure.mgmt.datamigration.models.DatabaseFileType
-    """
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "logical_name": {"key": "logicalName", "type": "str"},
-        "physical_full_name": {"key": "physicalFullName", "type": "str"},
-        "restore_full_name": {"key": "restoreFullName", "type": "str"},
-        "file_type": {"key": "fileType", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        id: Optional[str] = None,  # pylint: disable=redefined-builtin
-        logical_name: Optional[str] = None,
-        physical_full_name: Optional[str] = None,
-        restore_full_name: Optional[str] = None,
-        file_type: Optional[Union[str, "_models.DatabaseFileType"]] = None,
-        **kwargs
-    ):
-        """
-        :keyword id: Unique identifier for database file.
-        :paramtype id: str
-        :keyword logical_name: Logical name of the file.
-        :paramtype logical_name: str
-        :keyword physical_full_name: Operating-system full path of the file.
-        :paramtype physical_full_name: str
-        :keyword restore_full_name: Suggested full path of the file for restoring.
-        :paramtype restore_full_name: str
-        :keyword file_type: Database file type. Known values are: "Rows", "Log", "Filestream",
-         "NotSupported", and "Fulltext".
-        :paramtype file_type: str or ~azure.mgmt.datamigration.models.DatabaseFileType
-        """
-        super().__init__(**kwargs)
-        self.id = id
-        self.logical_name = logical_name
-        self.physical_full_name = physical_full_name
-        self.restore_full_name = restore_full_name
-        self.file_type = file_type
-
-
 class DatabaseInfo(_serialization.Model):
     """Project Database Details.
 
@@ -3497,7 +3335,7 @@ class DatabaseInfo(_serialization.Model):
         "source_database_name": {"key": "sourceDatabaseName", "type": "str"},
     }
 
-    def __init__(self, *, source_database_name: str, **kwargs):
+    def __init__(self, *, source_database_name: str, **kwargs: Any) -> None:
         """
         :keyword source_database_name: Name of the database. Required.
         :paramtype source_database_name: str
@@ -3531,7 +3369,7 @@ class ProxyResource(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -3571,7 +3409,7 @@ class DatabaseMigration(ProxyResource):
         "properties": {"key": "properties", "type": "DatabaseMigrationProperties"},
     }
 
-    def __init__(self, *, properties: Optional["_models.DatabaseMigrationProperties"] = None, **kwargs):
+    def __init__(self, *, properties: Optional["_models.DatabaseMigrationProperties"] = None, **kwargs: Any) -> None:
         """
         :keyword properties: Database Migration Resource properties.
         :paramtype properties: ~azure.mgmt.datamigration.models.DatabaseMigrationProperties
@@ -3602,7 +3440,7 @@ class DatabaseMigrationListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -3696,8 +3534,8 @@ class DatabaseMigrationProperties(_serialization.Model):  # pylint: disable=too-
         migration_operation_id: Optional[str] = None,
         target_database_collation: Optional[str] = None,
         provisioning_error: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword scope: Resource Id of the target resource (SQL VM or SQL Managed Instance).
         :paramtype scope: str
@@ -3822,8 +3660,8 @@ class DatabaseMigrationPropertiesSqlDb(DatabaseMigrationProperties):  # pylint: 
         provisioning_error: Optional[str] = None,
         target_sql_connection: Optional["_models.SqlConnectionInformation"] = None,
         table_list: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword scope: Resource Id of the target resource (SQL VM or SQL Managed Instance).
         :paramtype scope: str
@@ -3948,8 +3786,8 @@ class DatabaseMigrationPropertiesSqlMi(DatabaseMigrationProperties):  # pylint: 
         provisioning_error: Optional[str] = None,
         backup_configuration: Optional["_models.BackupConfiguration"] = None,
         offline_configuration: Optional["_models.OfflineConfiguration"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword scope: Resource Id of the target resource (SQL VM or SQL Managed Instance).
         :paramtype scope: str
@@ -4073,8 +3911,8 @@ class DatabaseMigrationPropertiesSqlVm(DatabaseMigrationProperties):  # pylint: 
         provisioning_error: Optional[str] = None,
         backup_configuration: Optional["_models.BackupConfiguration"] = None,
         offline_configuration: Optional["_models.OfflineConfiguration"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword scope: Resource Id of the target resource (SQL VM or SQL Managed Instance).
         :paramtype scope: str
@@ -4143,7 +3981,9 @@ class DatabaseMigrationSqlDb(ProxyResource):
         "properties": {"key": "properties", "type": "DatabaseMigrationPropertiesSqlDb"},
     }
 
-    def __init__(self, *, properties: Optional["_models.DatabaseMigrationPropertiesSqlDb"] = None, **kwargs):
+    def __init__(
+        self, *, properties: Optional["_models.DatabaseMigrationPropertiesSqlDb"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword properties: Database Migration Resource properties for SQL database.
         :paramtype properties: ~azure.mgmt.datamigration.models.DatabaseMigrationPropertiesSqlDb
@@ -4185,7 +4025,9 @@ class DatabaseMigrationSqlMi(ProxyResource):
         "properties": {"key": "properties", "type": "DatabaseMigrationPropertiesSqlMi"},
     }
 
-    def __init__(self, *, properties: Optional["_models.DatabaseMigrationPropertiesSqlMi"] = None, **kwargs):
+    def __init__(
+        self, *, properties: Optional["_models.DatabaseMigrationPropertiesSqlMi"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword properties: Database Migration Resource properties for SQL Managed Instance.
         :paramtype properties: ~azure.mgmt.datamigration.models.DatabaseMigrationPropertiesSqlMi
@@ -4227,7 +4069,9 @@ class DatabaseMigrationSqlVm(ProxyResource):
         "properties": {"key": "properties", "type": "DatabaseMigrationPropertiesSqlVm"},
     }
 
-    def __init__(self, *, properties: Optional["_models.DatabaseMigrationPropertiesSqlVm"] = None, **kwargs):
+    def __init__(
+        self, *, properties: Optional["_models.DatabaseMigrationPropertiesSqlVm"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword properties: Database Migration Resource properties for SQL Virtual Machine.
         :paramtype properties: ~azure.mgmt.datamigration.models.DatabaseMigrationPropertiesSqlVm
@@ -4235,48 +4079,6 @@ class DatabaseMigrationSqlVm(ProxyResource):
         super().__init__(**kwargs)
         self.system_data = None
         self.properties = properties
-
-
-class DatabaseObjectName(_serialization.Model):
-    """A representation of the name of an object in a database.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar database_name: The unescaped name of the database containing the object.
-    :vartype database_name: str
-    :ivar object_name: The unescaped name of the object.
-    :vartype object_name: str
-    :ivar schema_name: The unescaped name of the schema containing the object.
-    :vartype schema_name: str
-    :ivar object_type: Type of the object in the database. Known values are: "StoredProcedures",
-     "Table", "User", "View", and "Function".
-    :vartype object_type: str or ~azure.mgmt.datamigration.models.ObjectType
-    """
-
-    _validation = {
-        "database_name": {"readonly": True},
-        "object_name": {"readonly": True},
-        "schema_name": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "database_name": {"key": "databaseName", "type": "str"},
-        "object_name": {"key": "objectName", "type": "str"},
-        "schema_name": {"key": "schemaName", "type": "str"},
-        "object_type": {"key": "objectType", "type": "str"},
-    }
-
-    def __init__(self, *, object_type: Optional[Union[str, "_models.ObjectType"]] = None, **kwargs):
-        """
-        :keyword object_type: Type of the object in the database. Known values are: "StoredProcedures",
-         "Table", "User", "View", and "Function".
-        :paramtype object_type: str or ~azure.mgmt.datamigration.models.ObjectType
-        """
-        super().__init__(**kwargs)
-        self.database_name = None
-        self.object_name = None
-        self.schema_name = None
-        self.object_type = object_type
 
 
 class DataItemMigrationSummaryResult(_serialization.Model):
@@ -4330,7 +4132,7 @@ class DataItemMigrationSummaryResult(_serialization.Model):
         "result_prefix": {"key": "resultPrefix", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.name = None
@@ -4399,7 +4201,7 @@ class DatabaseSummaryResult(DataItemMigrationSummaryResult):
         "size_mb": {"key": "sizeMB", "type": "float"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.size_mb = None
@@ -4426,7 +4228,7 @@ class DatabaseTable(_serialization.Model):
         "name": {"key": "name", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.has_rows = None
@@ -4453,8 +4255,8 @@ class DataIntegrityValidationResult(_serialization.Model):
         *,
         failed_objects: Optional[Dict[str, str]] = None,
         validation_errors: Optional["_models.ValidationError"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword failed_objects: List of failed table names of source and target pair.
         :paramtype failed_objects: dict[str, str]
@@ -4465,95 +4267,6 @@ class DataIntegrityValidationResult(_serialization.Model):
         super().__init__(**kwargs)
         self.failed_objects = failed_objects
         self.validation_errors = validation_errors
-
-
-class DataMigrationError(_serialization.Model):
-    """Migration Task errors.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar message: Error description.
-    :vartype message: str
-    :ivar type: Error type. Known values are: "Default", "Warning", and "Error".
-    :vartype type: str or ~azure.mgmt.datamigration.models.ErrorType
-    """
-
-    _validation = {
-        "message": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "message": {"key": "message", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-    }
-
-    def __init__(self, *, type: Optional[Union[str, "_models.ErrorType"]] = None, **kwargs):
-        """
-        :keyword type: Error type. Known values are: "Default", "Warning", and "Error".
-        :paramtype type: str or ~azure.mgmt.datamigration.models.ErrorType
-        """
-        super().__init__(**kwargs)
-        self.message = None
-        self.type = type
-
-
-class DataMigrationProjectMetadata(_serialization.Model):
-    """Common metadata for migration projects.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar source_server_name: Source server name.
-    :vartype source_server_name: str
-    :ivar source_server_port: Source server port number.
-    :vartype source_server_port: str
-    :ivar source_username: Source username.
-    :vartype source_username: str
-    :ivar target_server_name: Target server name.
-    :vartype target_server_name: str
-    :ivar target_username: Target username.
-    :vartype target_username: str
-    :ivar target_db_name: Target database name.
-    :vartype target_db_name: str
-    :ivar target_using_win_auth: Whether target connection is Windows authentication.
-    :vartype target_using_win_auth: bool
-    :ivar selected_migration_tables: List of tables selected for migration.
-    :vartype selected_migration_tables:
-     list[~azure.mgmt.datamigration.models.MigrationTableMetadata]
-    """
-
-    _validation = {
-        "source_server_name": {"readonly": True},
-        "source_server_port": {"readonly": True},
-        "source_username": {"readonly": True},
-        "target_server_name": {"readonly": True},
-        "target_username": {"readonly": True},
-        "target_db_name": {"readonly": True},
-        "target_using_win_auth": {"readonly": True},
-        "selected_migration_tables": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "source_server_name": {"key": "sourceServerName", "type": "str"},
-        "source_server_port": {"key": "sourceServerPort", "type": "str"},
-        "source_username": {"key": "sourceUsername", "type": "str"},
-        "target_server_name": {"key": "targetServerName", "type": "str"},
-        "target_username": {"key": "targetUsername", "type": "str"},
-        "target_db_name": {"key": "targetDbName", "type": "str"},
-        "target_using_win_auth": {"key": "targetUsingWinAuth", "type": "bool"},
-        "selected_migration_tables": {"key": "selectedMigrationTables", "type": "[MigrationTableMetadata]"},
-    }
-
-    def __init__(self, **kwargs):
-        """ """
-        super().__init__(**kwargs)
-        self.source_server_name = None
-        self.source_server_port = None
-        self.source_username = None
-        self.target_server_name = None
-        self.target_username = None
-        self.target_db_name = None
-        self.target_using_win_auth = None
-        self.selected_migration_tables = None
 
 
 class TrackedResource(_serialization.Model):
@@ -4591,7 +4304,7 @@ class TrackedResource(_serialization.Model):
         "system_data": {"key": "systemData", "type": "SystemData"},
     }
 
-    def __init__(self, *, location: Optional[str] = None, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, location: Optional[str] = None, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword location:
         :paramtype location: str
@@ -4688,8 +4401,8 @@ class DataMigrationService(TrackedResource):  # pylint: disable=too-many-instanc
         virtual_nic_id: Optional[str] = None,
         auto_stop_delay: Optional[str] = None,
         delete_resources_on_stop: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location:
         :paramtype location: str
@@ -4743,8 +4456,12 @@ class DataMigrationServiceList(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.DataMigrationService"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self,
+        *,
+        value: Optional[List["_models.DataMigrationService"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: List of services.
         :paramtype value: list[~azure.mgmt.datamigration.models.DataMigrationService]
@@ -4789,8 +4506,8 @@ class DataMigrationServiceStatusResponse(_serialization.Model):
         status: Optional[str] = None,
         vm_size: Optional[str] = None,
         supported_task_types: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword agent_version: The DMS instance agent version.
         :paramtype agent_version: str
@@ -4827,7 +4544,9 @@ class DeleteNode(_serialization.Model):
         "integration_runtime_name": {"key": "integrationRuntimeName", "type": "str"},
     }
 
-    def __init__(self, *, node_name: Optional[str] = None, integration_runtime_name: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, node_name: Optional[str] = None, integration_runtime_name: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword node_name: The name of node to delete.
         :paramtype node_name: str
@@ -4860,7 +4579,7 @@ class ErrorInfo(_serialization.Model):
         "message": {"key": "message", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.code = None
@@ -4902,8 +4621,8 @@ class ExecutionStatistics(_serialization.Model):
         wait_stats: Optional[Dict[str, "_models.WaitStatistics"]] = None,
         has_errors: Optional[bool] = None,
         sql_errors: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword execution_count: No. of query executions.
         :paramtype execution_count: int
@@ -4943,8 +4662,8 @@ class FileList(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.ProjectFile"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.ProjectFile"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: List of files.
         :paramtype value: list[~azure.mgmt.datamigration.models.ProjectFile]
@@ -4979,7 +4698,9 @@ class FileShare(_serialization.Model):
         "path": {"key": "path", "type": "str"},
     }
 
-    def __init__(self, *, path: str, user_name: Optional[str] = None, password: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, path: str, user_name: Optional[str] = None, password: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword user_name: User name credential to connect to the share location.
         :paramtype user_name: str
@@ -5008,7 +4729,7 @@ class FileStorageInfo(_serialization.Model):
         "headers": {"key": "headers", "type": "{str}"},
     }
 
-    def __init__(self, *, uri: Optional[str] = None, headers: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, uri: Optional[str] = None, headers: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword uri: A URI that can be used to access the file content.
         :paramtype uri: str
@@ -5018,41 +4739,6 @@ class FileStorageInfo(_serialization.Model):
         super().__init__(**kwargs)
         self.uri = uri
         self.headers = headers
-
-
-class GetProjectDetailsNonSqlTaskInput(_serialization.Model):
-    """Input for the task that reads configuration from project artifacts.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar project_name: Name of the migration project. Required.
-    :vartype project_name: str
-    :ivar project_location: A URL that points to the location to access project artifacts.
-     Required.
-    :vartype project_location: str
-    """
-
-    _validation = {
-        "project_name": {"required": True},
-        "project_location": {"required": True},
-    }
-
-    _attribute_map = {
-        "project_name": {"key": "projectName", "type": "str"},
-        "project_location": {"key": "projectLocation", "type": "str"},
-    }
-
-    def __init__(self, *, project_name: str, project_location: str, **kwargs):
-        """
-        :keyword project_name: Name of the migration project. Required.
-        :paramtype project_name: str
-        :keyword project_location: A URL that points to the location to access project artifacts.
-         Required.
-        :paramtype project_location: str
-        """
-        super().__init__(**kwargs)
-        self.project_name = project_name
-        self.project_location = project_location
 
 
 class GetTdeCertificatesSqlTaskInput(_serialization.Model):
@@ -5088,8 +4774,8 @@ class GetTdeCertificatesSqlTaskInput(_serialization.Model):
         connection_info: "_models.SqlConnectionInfo",
         backup_file_share: "_models.FileShare",
         selected_certificates: List["_models.SelectedCertificateInput"],
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword connection_info: Connection information for SQL Server. Required.
         :paramtype connection_info: ~azure.mgmt.datamigration.models.SqlConnectionInfo
@@ -5128,7 +4814,7 @@ class GetTdeCertificatesSqlTaskOutput(_serialization.Model):
         "validation_errors": {"key": "validationErrors", "type": "[ReportableException]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.base64_encoded_certificates = None
@@ -5153,9 +4839,10 @@ class GetTdeCertificatesSqlTaskProperties(ProjectTaskProperties):
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -5199,8 +4886,8 @@ class GetTdeCertificatesSqlTaskProperties(ProjectTaskProperties):
         *,
         client_data: Optional[Dict[str, str]] = None,
         input: Optional["_models.GetTdeCertificatesSqlTaskInput"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -5234,7 +4921,9 @@ class GetUserTablesMySqlTaskInput(_serialization.Model):
         "selected_databases": {"key": "selectedDatabases", "type": "[str]"},
     }
 
-    def __init__(self, *, connection_info: "_models.MySqlConnectionInfo", selected_databases: List[str], **kwargs):
+    def __init__(
+        self, *, connection_info: "_models.MySqlConnectionInfo", selected_databases: List[str], **kwargs: Any
+    ) -> None:
         """
         :keyword connection_info: Connection information for SQL Server. Required.
         :paramtype connection_info: ~azure.mgmt.datamigration.models.MySqlConnectionInfo
@@ -5271,7 +4960,7 @@ class GetUserTablesMySqlTaskOutput(_serialization.Model):
         "validation_errors": {"key": "validationErrors", "type": "[ReportableException]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -5297,9 +4986,10 @@ class GetUserTablesMySqlTaskProperties(ProjectTaskProperties):
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -5343,8 +5033,8 @@ class GetUserTablesMySqlTaskProperties(ProjectTaskProperties):
         *,
         client_data: Optional[Dict[str, str]] = None,
         input: Optional["_models.GetUserTablesMySqlTaskInput"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -5358,7 +5048,8 @@ class GetUserTablesMySqlTaskProperties(ProjectTaskProperties):
 
 
 class GetUserTablesOracleTaskInput(_serialization.Model):
-    """Input for the task that gets the list of tables contained within a provided list of Oracle schemas.
+    """Input for the task that gets the list of tables contained within a provided list of Oracle
+    schemas.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -5378,7 +5069,9 @@ class GetUserTablesOracleTaskInput(_serialization.Model):
         "selected_schemas": {"key": "selectedSchemas", "type": "[str]"},
     }
 
-    def __init__(self, *, connection_info: "_models.OracleConnectionInfo", selected_schemas: List[str], **kwargs):
+    def __init__(
+        self, *, connection_info: "_models.OracleConnectionInfo", selected_schemas: List[str], **kwargs: Any
+    ) -> None:
         """
         :keyword connection_info: Information for connecting to Oracle source. Required.
         :paramtype connection_info: ~azure.mgmt.datamigration.models.OracleConnectionInfo
@@ -5391,7 +5084,8 @@ class GetUserTablesOracleTaskInput(_serialization.Model):
 
 
 class GetUserTablesOracleTaskOutput(_serialization.Model):
-    """Output for the task that gets the list of tables contained within a provided list of Oracle schemas.
+    """Output for the task that gets the list of tables contained within a provided list of Oracle
+    schemas.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -5415,7 +5109,7 @@ class GetUserTablesOracleTaskOutput(_serialization.Model):
         "validation_errors": {"key": "validationErrors", "type": "[ReportableException]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.schema_name = None
@@ -5441,9 +5135,10 @@ class GetUserTablesOracleTaskProperties(ProjectTaskProperties):
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -5487,8 +5182,8 @@ class GetUserTablesOracleTaskProperties(ProjectTaskProperties):
         *,
         client_data: Optional[Dict[str, str]] = None,
         input: Optional["_models.GetUserTablesOracleTaskInput"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -5522,7 +5217,9 @@ class GetUserTablesPostgreSqlTaskInput(_serialization.Model):
         "selected_databases": {"key": "selectedDatabases", "type": "[str]"},
     }
 
-    def __init__(self, *, connection_info: "_models.PostgreSqlConnectionInfo", selected_databases: List[str], **kwargs):
+    def __init__(
+        self, *, connection_info: "_models.PostgreSqlConnectionInfo", selected_databases: List[str], **kwargs: Any
+    ) -> None:
         """
         :keyword connection_info: Information for connecting to PostgreSQL source. Required.
         :paramtype connection_info: ~azure.mgmt.datamigration.models.PostgreSqlConnectionInfo
@@ -5560,7 +5257,7 @@ class GetUserTablesPostgreSqlTaskOutput(_serialization.Model):
         "validation_errors": {"key": "validationErrors", "type": "[ReportableException]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.database_name = None
@@ -5586,9 +5283,10 @@ class GetUserTablesPostgreSqlTaskProperties(ProjectTaskProperties):
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -5632,8 +5330,8 @@ class GetUserTablesPostgreSqlTaskProperties(ProjectTaskProperties):
         *,
         client_data: Optional[Dict[str, str]] = None,
         input: Optional["_models.GetUserTablesPostgreSqlTaskInput"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -5682,8 +5380,8 @@ class GetUserTablesSqlSyncTaskInput(_serialization.Model):
         target_connection_info: "_models.SqlConnectionInfo",
         selected_source_databases: List[str],
         selected_target_databases: List[str],
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword source_connection_info: Connection information for SQL Server. Required.
         :paramtype source_connection_info: ~azure.mgmt.datamigration.models.SqlConnectionInfo
@@ -5732,7 +5430,7 @@ class GetUserTablesSqlSyncTaskOutput(_serialization.Model):
         "validation_errors": {"key": "validationErrors", "type": "[ReportableException]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.databases_to_source_tables = None
@@ -5759,9 +5457,10 @@ class GetUserTablesSqlSyncTaskProperties(ProjectTaskProperties):
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -5805,8 +5504,8 @@ class GetUserTablesSqlSyncTaskProperties(ProjectTaskProperties):
         *,
         client_data: Optional[Dict[str, str]] = None,
         input: Optional["_models.GetUserTablesSqlSyncTaskInput"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -5849,8 +5548,8 @@ class GetUserTablesSqlTaskInput(_serialization.Model):
         connection_info: "_models.SqlConnectionInfo",
         selected_databases: List[str],
         encrypted_key_for_secure_fields: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword connection_info: Connection information for SQL Server. Required.
         :paramtype connection_info: ~azure.mgmt.datamigration.models.SqlConnectionInfo
@@ -5890,7 +5589,7 @@ class GetUserTablesSqlTaskOutput(_serialization.Model):
         "validation_errors": {"key": "validationErrors", "type": "[ReportableException]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -5916,9 +5615,10 @@ class GetUserTablesSqlTaskProperties(ProjectTaskProperties):
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -5966,8 +5666,8 @@ class GetUserTablesSqlTaskProperties(ProjectTaskProperties):
         client_data: Optional[Dict[str, str]] = None,
         input: Optional["_models.GetUserTablesSqlTaskInput"] = None,
         task_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -5994,7 +5694,7 @@ class InstallOCIDriverTaskInput(_serialization.Model):
         "driver_package_name": {"key": "driverPackageName", "type": "str"},
     }
 
-    def __init__(self, *, driver_package_name: Optional[str] = None, **kwargs):
+    def __init__(self, *, driver_package_name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword driver_package_name: Name of the uploaded driver package to install.
         :paramtype driver_package_name: str
@@ -6020,7 +5720,7 @@ class InstallOCIDriverTaskOutput(_serialization.Model):
         "validation_errors": {"key": "validationErrors", "type": "[ReportableException]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.validation_errors = None
@@ -6044,9 +5744,10 @@ class InstallOCIDriverTaskProperties(ProjectTaskProperties):
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -6090,8 +5791,8 @@ class InstallOCIDriverTaskProperties(ProjectTaskProperties):
         *,
         client_data: Optional[Dict[str, str]] = None,
         input: Optional["_models.InstallOCIDriverTaskInput"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -6125,7 +5826,7 @@ class IntegrationRuntimeMonitoringData(_serialization.Model):
         "nodes": {"key": "nodes", "type": "[NodeMonitoringData]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.name = None
@@ -6149,7 +5850,7 @@ class MigrateMISyncCompleteCommandInput(_serialization.Model):
         "source_database_name": {"key": "sourceDatabaseName", "type": "str"},
     }
 
-    def __init__(self, *, source_database_name: str, **kwargs):
+    def __init__(self, *, source_database_name: str, **kwargs: Any) -> None:
         """
         :keyword source_database_name: Name of managed instance database. Required.
         :paramtype source_database_name: str
@@ -6169,7 +5870,7 @@ class MigrateMISyncCompleteCommandOutput(_serialization.Model):
         "errors": {"key": "errors", "type": "[ReportableException]"},
     }
 
-    def __init__(self, *, errors: Optional[List["_models.ReportableException"]] = None, **kwargs):
+    def __init__(self, *, errors: Optional[List["_models.ReportableException"]] = None, **kwargs: Any) -> None:
         """
         :keyword errors: List of errors that happened during the command execution.
         :paramtype errors: list[~azure.mgmt.datamigration.models.ReportableException]
@@ -6179,7 +5880,8 @@ class MigrateMISyncCompleteCommandOutput(_serialization.Model):
 
 
 class MigrateMISyncCompleteCommandProperties(CommandProperties):
-    """Properties for the command that completes online migration for an Azure SQL Database Managed Instance.
+    """Properties for the command that completes online migration for an Azure SQL Database Managed
+    Instance.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -6214,7 +5916,7 @@ class MigrateMISyncCompleteCommandProperties(CommandProperties):
         "output": {"key": "output", "type": "MigrateMISyncCompleteCommandOutput"},
     }
 
-    def __init__(self, *, input: Optional["_models.MigrateMISyncCompleteCommandInput"] = None, **kwargs):
+    def __init__(self, *, input: Optional["_models.MigrateMISyncCompleteCommandInput"] = None, **kwargs: Any) -> None:
         """
         :keyword input: Command input.
         :paramtype input: ~azure.mgmt.datamigration.models.MigrateMISyncCompleteCommandInput
@@ -6243,9 +5945,10 @@ class MigrateMongoDbTaskProperties(ProjectTaskProperties):
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -6289,8 +5992,8 @@ class MigrateMongoDbTaskProperties(ProjectTaskProperties):
         *,
         client_data: Optional[Dict[str, str]] = None,
         input: Optional["_models.MongoDbMigrationSettings"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -6304,7 +6007,8 @@ class MigrateMongoDbTaskProperties(ProjectTaskProperties):
 
 
 class MigrateMySqlAzureDbForMySqlOfflineDatabaseInput(_serialization.Model):
-    """Database specific information for offline MySQL to Azure Database for MySQL migration task inputs.
+    """Database specific information for offline MySQL to Azure Database for MySQL migration task
+    inputs.
 
     :ivar name: Name of the database.
     :vartype name: str
@@ -6313,12 +6017,27 @@ class MigrateMySqlAzureDbForMySqlOfflineDatabaseInput(_serialization.Model):
     :vartype target_database_name: str
     :ivar table_map: Mapping of source to target tables.
     :vartype table_map: dict[str, str]
+    :ivar tables_to_migrate_schema: Mapping of source to target tables for schema migration.
+    :vartype tables_to_migrate_schema: dict[str, str]
+    :ivar selected_views: List of views to migrate.
+    :vartype selected_views: list[str]
+    :ivar selected_triggers: List of triggers to migrate.
+    :vartype selected_triggers: list[str]
+    :ivar selected_routines: List of routines to migrate.
+    :vartype selected_routines: list[str]
+    :ivar selected_events: List of events to migrate.
+    :vartype selected_events: list[str]
     """
 
     _attribute_map = {
         "name": {"key": "name", "type": "str"},
         "target_database_name": {"key": "targetDatabaseName", "type": "str"},
         "table_map": {"key": "tableMap", "type": "{str}"},
+        "tables_to_migrate_schema": {"key": "tablesToMigrateSchema", "type": "{str}"},
+        "selected_views": {"key": "selectedViews", "type": "[str]"},
+        "selected_triggers": {"key": "selectedTriggers", "type": "[str]"},
+        "selected_routines": {"key": "selectedRoutines", "type": "[str]"},
+        "selected_events": {"key": "selectedEvents", "type": "[str]"},
     }
 
     def __init__(
@@ -6327,8 +6046,13 @@ class MigrateMySqlAzureDbForMySqlOfflineDatabaseInput(_serialization.Model):
         name: Optional[str] = None,
         target_database_name: Optional[str] = None,
         table_map: Optional[Dict[str, str]] = None,
-        **kwargs
-    ):
+        tables_to_migrate_schema: Optional[Dict[str, str]] = None,
+        selected_views: Optional[List[str]] = None,
+        selected_triggers: Optional[List[str]] = None,
+        selected_routines: Optional[List[str]] = None,
+        selected_events: Optional[List[str]] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Name of the database.
         :paramtype name: str
@@ -6337,15 +6061,31 @@ class MigrateMySqlAzureDbForMySqlOfflineDatabaseInput(_serialization.Model):
         :paramtype target_database_name: str
         :keyword table_map: Mapping of source to target tables.
         :paramtype table_map: dict[str, str]
+        :keyword tables_to_migrate_schema: Mapping of source to target tables for schema migration.
+        :paramtype tables_to_migrate_schema: dict[str, str]
+        :keyword selected_views: List of views to migrate.
+        :paramtype selected_views: list[str]
+        :keyword selected_triggers: List of triggers to migrate.
+        :paramtype selected_triggers: list[str]
+        :keyword selected_routines: List of routines to migrate.
+        :paramtype selected_routines: list[str]
+        :keyword selected_events: List of events to migrate.
+        :paramtype selected_events: list[str]
         """
         super().__init__(**kwargs)
         self.name = name
         self.target_database_name = target_database_name
         self.table_map = table_map
+        self.tables_to_migrate_schema = tables_to_migrate_schema
+        self.selected_views = selected_views
+        self.selected_triggers = selected_triggers
+        self.selected_routines = selected_routines
+        self.selected_events = selected_events
 
 
-class MigrateMySqlAzureDbForMySqlOfflineTaskInput(_serialization.Model):
-    """Input for the task that migrates MySQL databases to Azure Database for MySQL for offline migrations.
+class MigrateMySqlAzureDbForMySqlOfflineTaskInput(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+    """Input for the task that migrates MySQL databases to Azure Database for MySQL for offline
+    migrations.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -6361,9 +6101,30 @@ class MigrateMySqlAzureDbForMySqlOfflineTaskInput(_serialization.Model):
     :vartype make_source_server_read_only: bool
     :ivar started_on: Parameter to specify when the migration started.
     :vartype started_on: ~datetime.datetime
-    :ivar optional_agent_settings: Optional parameters for fine tuning the data transfer rate
-     during migration.
-    :vartype optional_agent_settings: dict[str, str]
+    :ivar source_server_resource_id: Optional resource Id of the source server if it is an azure
+     instance.
+    :vartype source_server_resource_id: str
+    :ivar target_server_resource_id: Optional resource Id of the target server.
+    :vartype target_server_resource_id: str
+    :ivar optional_agent_settings: Optional parameters for fine tuning the data migration.
+    :vartype optional_agent_settings:
+     ~azure.mgmt.datamigration.models.MigrateMySqlAzureDbForMySqlOfflineTaskInputOptionalAgentSettings
+    :ivar migrate_all_views: If true, all view definitions will be migrated in the selected
+     databases.
+    :vartype migrate_all_views: bool
+    :ivar migrate_all_triggers: If true, all trigger definitions will be migrated in the selected
+     databases.
+    :vartype migrate_all_triggers: bool
+    :ivar migrate_all_events: If true, all event definitions will be migrated in the selected
+     databases.
+    :vartype migrate_all_events: bool
+    :ivar migrate_all_routines: If true, all routine definitions will be migrated in the selected
+     databases.
+    :vartype migrate_all_routines: bool
+    :ivar migrate_all_tables_schema: If true, all table's schemas will be migrated.
+    :vartype migrate_all_tables_schema: bool
+    :ivar migrate_user_system_tables: If true, all users/grants will be migrated.
+    :vartype migrate_user_system_tables: bool
     :ivar encrypted_key_for_secure_fields: encrypted key for secure fields.
     :vartype encrypted_key_for_secure_fields: str
     """
@@ -6380,7 +6141,18 @@ class MigrateMySqlAzureDbForMySqlOfflineTaskInput(_serialization.Model):
         "selected_databases": {"key": "selectedDatabases", "type": "[MigrateMySqlAzureDbForMySqlOfflineDatabaseInput]"},
         "make_source_server_read_only": {"key": "makeSourceServerReadOnly", "type": "bool"},
         "started_on": {"key": "startedOn", "type": "iso-8601"},
-        "optional_agent_settings": {"key": "optionalAgentSettings", "type": "{str}"},
+        "source_server_resource_id": {"key": "sourceServerResourceId", "type": "str"},
+        "target_server_resource_id": {"key": "targetServerResourceId", "type": "str"},
+        "optional_agent_settings": {
+            "key": "optionalAgentSettings",
+            "type": "MigrateMySqlAzureDbForMySqlOfflineTaskInputOptionalAgentSettings",
+        },
+        "migrate_all_views": {"key": "migrateAllViews", "type": "bool"},
+        "migrate_all_triggers": {"key": "migrateAllTriggers", "type": "bool"},
+        "migrate_all_events": {"key": "migrateAllEvents", "type": "bool"},
+        "migrate_all_routines": {"key": "migrateAllRoutines", "type": "bool"},
+        "migrate_all_tables_schema": {"key": "migrateAllTablesSchema", "type": "bool"},
+        "migrate_user_system_tables": {"key": "migrateUserSystemTables", "type": "bool"},
         "encrypted_key_for_secure_fields": {"key": "encryptedKeyForSecureFields", "type": "str"},
     }
 
@@ -6392,10 +6164,20 @@ class MigrateMySqlAzureDbForMySqlOfflineTaskInput(_serialization.Model):
         selected_databases: List["_models.MigrateMySqlAzureDbForMySqlOfflineDatabaseInput"],
         make_source_server_read_only: bool = False,
         started_on: Optional[datetime.datetime] = None,
-        optional_agent_settings: Optional[Dict[str, str]] = None,
+        source_server_resource_id: Optional[str] = None,
+        target_server_resource_id: Optional[str] = None,
+        optional_agent_settings: Optional[
+            "_models.MigrateMySqlAzureDbForMySqlOfflineTaskInputOptionalAgentSettings"
+        ] = None,
+        migrate_all_views: bool = False,
+        migrate_all_triggers: bool = False,
+        migrate_all_events: bool = False,
+        migrate_all_routines: bool = False,
+        migrate_all_tables_schema: bool = False,
+        migrate_user_system_tables: bool = False,
         encrypted_key_for_secure_fields: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword source_connection_info: Connection information for source MySQL. Required.
         :paramtype source_connection_info: ~azure.mgmt.datamigration.models.MySqlConnectionInfo
@@ -6409,9 +6191,30 @@ class MigrateMySqlAzureDbForMySqlOfflineTaskInput(_serialization.Model):
         :paramtype make_source_server_read_only: bool
         :keyword started_on: Parameter to specify when the migration started.
         :paramtype started_on: ~datetime.datetime
-        :keyword optional_agent_settings: Optional parameters for fine tuning the data transfer rate
-         during migration.
-        :paramtype optional_agent_settings: dict[str, str]
+        :keyword source_server_resource_id: Optional resource Id of the source server if it is an azure
+         instance.
+        :paramtype source_server_resource_id: str
+        :keyword target_server_resource_id: Optional resource Id of the target server.
+        :paramtype target_server_resource_id: str
+        :keyword optional_agent_settings: Optional parameters for fine tuning the data migration.
+        :paramtype optional_agent_settings:
+         ~azure.mgmt.datamigration.models.MigrateMySqlAzureDbForMySqlOfflineTaskInputOptionalAgentSettings
+        :keyword migrate_all_views: If true, all view definitions will be migrated in the selected
+         databases.
+        :paramtype migrate_all_views: bool
+        :keyword migrate_all_triggers: If true, all trigger definitions will be migrated in the
+         selected databases.
+        :paramtype migrate_all_triggers: bool
+        :keyword migrate_all_events: If true, all event definitions will be migrated in the selected
+         databases.
+        :paramtype migrate_all_events: bool
+        :keyword migrate_all_routines: If true, all routine definitions will be migrated in the
+         selected databases.
+        :paramtype migrate_all_routines: bool
+        :keyword migrate_all_tables_schema: If true, all table's schemas will be migrated.
+        :paramtype migrate_all_tables_schema: bool
+        :keyword migrate_user_system_tables: If true, all users/grants will be migrated.
+        :paramtype migrate_user_system_tables: bool
         :keyword encrypted_key_for_secure_fields: encrypted key for secure fields.
         :paramtype encrypted_key_for_secure_fields: str
         """
@@ -6421,12 +6224,54 @@ class MigrateMySqlAzureDbForMySqlOfflineTaskInput(_serialization.Model):
         self.selected_databases = selected_databases
         self.make_source_server_read_only = make_source_server_read_only
         self.started_on = started_on
+        self.source_server_resource_id = source_server_resource_id
+        self.target_server_resource_id = target_server_resource_id
         self.optional_agent_settings = optional_agent_settings
+        self.migrate_all_views = migrate_all_views
+        self.migrate_all_triggers = migrate_all_triggers
+        self.migrate_all_events = migrate_all_events
+        self.migrate_all_routines = migrate_all_routines
+        self.migrate_all_tables_schema = migrate_all_tables_schema
+        self.migrate_user_system_tables = migrate_user_system_tables
         self.encrypted_key_for_secure_fields = encrypted_key_for_secure_fields
 
 
+class MigrateMySqlAzureDbForMySqlOfflineTaskInputOptionalAgentSettings(_serialization.Model):
+    """Optional parameters for fine tuning the data migration.
+
+    :ivar additional_properties: Unmatched properties from the message are deserialized to this
+     collection.
+    :vartype additional_properties: dict[str, str]
+    :ivar enable_consistent_backup: Setting to enable transactional consistency.
+    :vartype enable_consistent_backup: bool
+    """
+
+    _attribute_map = {
+        "additional_properties": {"key": "", "type": "{str}"},
+        "enable_consistent_backup": {"key": "enableConsistentBackup", "type": "bool"},
+    }
+
+    def __init__(
+        self,
+        *,
+        additional_properties: Optional[Dict[str, str]] = None,
+        enable_consistent_backup: bool = False,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword additional_properties: Unmatched properties from the message are deserialized to this
+         collection.
+        :paramtype additional_properties: dict[str, str]
+        :keyword enable_consistent_backup: Setting to enable transactional consistency.
+        :paramtype enable_consistent_backup: bool
+        """
+        super().__init__(**kwargs)
+        self.additional_properties = additional_properties
+        self.enable_consistent_backup = enable_consistent_backup
+
+
 class MigrateMySqlAzureDbForMySqlOfflineTaskOutput(_serialization.Model):
-    """Output for the task that migrates MySQL databases to Azure Database for MySQL for offline migrations.
+    """MySQL to Azure Database for MySQL offline migration task output.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     MigrateMySqlAzureDbForMySqlOfflineTaskOutputDatabaseLevel,
@@ -6463,7 +6308,7 @@ class MigrateMySqlAzureDbForMySqlOfflineTaskOutput(_serialization.Model):
         }
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -6485,9 +6330,9 @@ class MigrateMySqlAzureDbForMySqlOfflineTaskOutputDatabaseLevel(
     :vartype result_type: str
     :ivar database_name: Name of the database.
     :vartype database_name: str
-    :ivar started_on: Migration start time.
+    :ivar started_on: Database migration start time.
     :vartype started_on: ~datetime.datetime
-    :ivar ended_on: Migration end time.
+    :ivar ended_on: Database migration end time.
     :vartype ended_on: ~datetime.datetime
     :ivar state: Current state of migration. Known values are: "None", "InProgress", "Failed",
      "Warning", "Completed", "Skipped", and "Stopped".
@@ -6558,7 +6403,7 @@ class MigrateMySqlAzureDbForMySqlOfflineTaskOutputDatabaseLevel(
         "object_summary": {"key": "objectSummary", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result_type: str = "DatabaseLevelOutput"
@@ -6606,7 +6451,7 @@ class MigrateMySqlAzureDbForMySqlOfflineTaskOutputError(MigrateMySqlAzureDbForMy
         "error": {"key": "error", "type": "ReportableException"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result_type: str = "ErrorOutput"
@@ -6626,6 +6471,9 @@ class MigrateMySqlAzureDbForMySqlOfflineTaskOutputMigrationLevel(
     :vartype id: str
     :ivar result_type: Result type. Required.
     :vartype result_type: str
+    :ivar migration_type: "InitialLoad"
+    :vartype migration_type: str or
+     ~azure.mgmt.datamigration.models.MigrateMySqlAzureDbForMySqlOfflineTaskOutputMigrationLevelMigrationType
     :ivar started_on: Migration start time.
     :vartype started_on: ~datetime.datetime
     :ivar ended_on: Migration end time.
@@ -6659,11 +6507,15 @@ class MigrateMySqlAzureDbForMySqlOfflineTaskOutputMigrationLevel(
     :vartype exceptions_and_warnings: list[~azure.mgmt.datamigration.models.ReportableException]
     :ivar last_storage_update: Last time the storage was updated.
     :vartype last_storage_update: ~datetime.datetime
+    :ivar source_binlog_position: The binlog position when the consistent snapshot was taken. Only
+     returned when consistent backup is enabled in the migration inputs.
+    :vartype source_binlog_position: ~azure.mgmt.datamigration.models.MySqlBinlogPositionOutput
     """
 
     _validation = {
         "id": {"readonly": True},
         "result_type": {"required": True},
+        "migration_type": {"readonly": True},
         "started_on": {"readonly": True},
         "ended_on": {"readonly": True},
         "duration_in_seconds": {"readonly": True},
@@ -6677,11 +6529,13 @@ class MigrateMySqlAzureDbForMySqlOfflineTaskOutputMigrationLevel(
         "target_server_brand_version": {"readonly": True},
         "exceptions_and_warnings": {"readonly": True},
         "last_storage_update": {"readonly": True},
+        "source_binlog_position": {"readonly": True},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "result_type": {"key": "resultType", "type": "str"},
+        "migration_type": {"key": "migrationType", "type": "str"},
         "started_on": {"key": "startedOn", "type": "iso-8601"},
         "ended_on": {"key": "endedOn", "type": "iso-8601"},
         "duration_in_seconds": {"key": "durationInSeconds", "type": "int"},
@@ -6697,6 +6551,7 @@ class MigrateMySqlAzureDbForMySqlOfflineTaskOutputMigrationLevel(
         "target_server_brand_version": {"key": "targetServerBrandVersion", "type": "str"},
         "exceptions_and_warnings": {"key": "exceptionsAndWarnings", "type": "[ReportableException]"},
         "last_storage_update": {"key": "lastStorageUpdate", "type": "iso-8601"},
+        "source_binlog_position": {"key": "sourceBinlogPosition", "type": "MySqlBinlogPositionOutput"},
     }
 
     def __init__(
@@ -6704,8 +6559,8 @@ class MigrateMySqlAzureDbForMySqlOfflineTaskOutputMigrationLevel(
         *,
         databases: Optional[str] = None,
         migration_report_result: Optional["_models.MigrationReportResult"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword databases: Selected databases as a map from database name to database id.
         :paramtype databases: str
@@ -6715,6 +6570,7 @@ class MigrateMySqlAzureDbForMySqlOfflineTaskOutputMigrationLevel(
         """
         super().__init__(**kwargs)
         self.result_type: str = "MigrationLevelOutput"
+        self.migration_type = None
         self.started_on = None
         self.ended_on = None
         self.duration_in_seconds = None
@@ -6730,6 +6586,7 @@ class MigrateMySqlAzureDbForMySqlOfflineTaskOutputMigrationLevel(
         self.target_server_brand_version = None
         self.exceptions_and_warnings = None
         self.last_storage_update = None
+        self.source_binlog_position = None
 
 
 class MigrateMySqlAzureDbForMySqlOfflineTaskOutputTableLevel(
@@ -6745,11 +6602,11 @@ class MigrateMySqlAzureDbForMySqlOfflineTaskOutputTableLevel(
     :vartype id: str
     :ivar result_type: Result type. Required.
     :vartype result_type: str
-    :ivar object_name: Name of the item.
+    :ivar object_name: Table name.
     :vartype object_name: str
-    :ivar started_on: Migration start time.
+    :ivar started_on: Table migration start time.
     :vartype started_on: ~datetime.datetime
-    :ivar ended_on: Migration end time.
+    :ivar ended_on: Table migration end time.
     :vartype ended_on: ~datetime.datetime
     :ivar state: Current state of migration. Known values are: "None", "InProgress", "Failed",
      "Warning", "Completed", "Skipped", and "Stopped".
@@ -6799,7 +6656,7 @@ class MigrateMySqlAzureDbForMySqlOfflineTaskOutputTableLevel(
         "last_storage_update": {"key": "lastStorageUpdate", "type": "iso-8601"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result_type: str = "TableLevelOutput"
@@ -6816,7 +6673,8 @@ class MigrateMySqlAzureDbForMySqlOfflineTaskOutputTableLevel(
 
 
 class MigrateMySqlAzureDbForMySqlOfflineTaskProperties(ProjectTaskProperties):
-    """Properties for the task that migrates MySQL databases to Azure Database for MySQL for offline migrations.
+    """Properties for the task that migrates MySQL databases to Azure Database for MySQL for offline
+    migrations.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -6833,9 +6691,10 @@ class MigrateMySqlAzureDbForMySqlOfflineTaskProperties(ProjectTaskProperties):
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -6888,8 +6747,8 @@ class MigrateMySqlAzureDbForMySqlOfflineTaskProperties(ProjectTaskProperties):
         input: Optional["_models.MigrateMySqlAzureDbForMySqlOfflineTaskInput"] = None,
         is_cloneable: Optional[bool] = None,
         task_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -6908,7 +6767,409 @@ class MigrateMySqlAzureDbForMySqlOfflineTaskProperties(ProjectTaskProperties):
         self.task_id = task_id
 
 
-class MigrateMySqlAzureDbForMySqlSyncDatabaseInput(_serialization.Model):
+class MigrateMySqlAzureDbForMySqlReplicateChangesDatabaseInput(_serialization.Model):
+    """Database specific information for MySQL to Azure Database for MySQL migration task inputs.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar name: Name of the database. Required.
+    :vartype name: str
+    :ivar target_database_name: Name of the target database. Required.
+    :vartype target_database_name: str
+    :ivar table_map: Mapping of source to target tables.
+    :vartype table_map: dict[str, str]
+    """
+
+    _validation = {
+        "name": {"required": True},
+        "target_database_name": {"required": True},
+    }
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "target_database_name": {"key": "targetDatabaseName", "type": "str"},
+        "table_map": {"key": "tableMap", "type": "{str}"},
+    }
+
+    def __init__(
+        self, *, name: str, target_database_name: str, table_map: Optional[Dict[str, str]] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword name: Name of the database. Required.
+        :paramtype name: str
+        :keyword target_database_name: Name of the target database. Required.
+        :paramtype target_database_name: str
+        :keyword table_map: Mapping of source to target tables.
+        :paramtype table_map: dict[str, str]
+        """
+        super().__init__(**kwargs)
+        self.name = name
+        self.target_database_name = target_database_name
+        self.table_map = table_map
+
+
+class MigrateMySqlAzureDbForMySqlReplicateChangesTaskInput(_serialization.Model):
+    """Input for the task that migrates MySQL databases to Azure Database for MySQL for the replicate
+    changes migrations.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar source_connection_info: Connection information for source MySQL. Required.
+    :vartype source_connection_info: ~azure.mgmt.datamigration.models.MySqlConnectionInfo
+    :ivar target_connection_info: Connection information for target Azure Database for MySQL.
+     Required.
+    :vartype target_connection_info: ~azure.mgmt.datamigration.models.MySqlConnectionInfo
+    :ivar selected_databases: Databases to migrate. Required.
+    :vartype selected_databases:
+     list[~azure.mgmt.datamigration.models.MigrateMySqlAzureDbForMySqlReplicateChangesDatabaseInput]
+    :ivar started_on: Parameter to specify when the migration started.
+    :vartype started_on: ~datetime.datetime
+    :ivar source_server_resource_id: Optional resource Id of the source server if it is an azure
+     instance.
+    :vartype source_server_resource_id: str
+    :ivar target_server_resource_id: Optional resource Id of the target server.
+    :vartype target_server_resource_id: str
+    :ivar optional_agent_settings: Optional parameters for fine tuning the data migration.
+    :vartype optional_agent_settings: dict[str, str]
+    :ivar bin_log_info: The binlog position to start replicating the changes at. Required.
+    :vartype bin_log_info: ~azure.mgmt.datamigration.models.MySqlBinlogPositionInput
+    :ivar encrypted_key_for_secure_fields: encrypted key for secure fields.
+    :vartype encrypted_key_for_secure_fields: str
+    """
+
+    _validation = {
+        "source_connection_info": {"required": True},
+        "target_connection_info": {"required": True},
+        "selected_databases": {"required": True},
+        "bin_log_info": {"required": True},
+    }
+
+    _attribute_map = {
+        "source_connection_info": {"key": "sourceConnectionInfo", "type": "MySqlConnectionInfo"},
+        "target_connection_info": {"key": "targetConnectionInfo", "type": "MySqlConnectionInfo"},
+        "selected_databases": {
+            "key": "selectedDatabases",
+            "type": "[MigrateMySqlAzureDbForMySqlReplicateChangesDatabaseInput]",
+        },
+        "started_on": {"key": "startedOn", "type": "iso-8601"},
+        "source_server_resource_id": {"key": "sourceServerResourceId", "type": "str"},
+        "target_server_resource_id": {"key": "targetServerResourceId", "type": "str"},
+        "optional_agent_settings": {"key": "optionalAgentSettings", "type": "{str}"},
+        "bin_log_info": {"key": "binLogInfo", "type": "MySqlBinlogPositionInput"},
+        "encrypted_key_for_secure_fields": {"key": "encryptedKeyForSecureFields", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        source_connection_info: "_models.MySqlConnectionInfo",
+        target_connection_info: "_models.MySqlConnectionInfo",
+        selected_databases: List["_models.MigrateMySqlAzureDbForMySqlReplicateChangesDatabaseInput"],
+        bin_log_info: "_models.MySqlBinlogPositionInput",
+        started_on: Optional[datetime.datetime] = None,
+        source_server_resource_id: Optional[str] = None,
+        target_server_resource_id: Optional[str] = None,
+        optional_agent_settings: Optional[Dict[str, str]] = None,
+        encrypted_key_for_secure_fields: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword source_connection_info: Connection information for source MySQL. Required.
+        :paramtype source_connection_info: ~azure.mgmt.datamigration.models.MySqlConnectionInfo
+        :keyword target_connection_info: Connection information for target Azure Database for MySQL.
+         Required.
+        :paramtype target_connection_info: ~azure.mgmt.datamigration.models.MySqlConnectionInfo
+        :keyword selected_databases: Databases to migrate. Required.
+        :paramtype selected_databases:
+         list[~azure.mgmt.datamigration.models.MigrateMySqlAzureDbForMySqlReplicateChangesDatabaseInput]
+        :keyword started_on: Parameter to specify when the migration started.
+        :paramtype started_on: ~datetime.datetime
+        :keyword source_server_resource_id: Optional resource Id of the source server if it is an azure
+         instance.
+        :paramtype source_server_resource_id: str
+        :keyword target_server_resource_id: Optional resource Id of the target server.
+        :paramtype target_server_resource_id: str
+        :keyword optional_agent_settings: Optional parameters for fine tuning the data migration.
+        :paramtype optional_agent_settings: dict[str, str]
+        :keyword bin_log_info: The binlog position to start replicating the changes at. Required.
+        :paramtype bin_log_info: ~azure.mgmt.datamigration.models.MySqlBinlogPositionInput
+        :keyword encrypted_key_for_secure_fields: encrypted key for secure fields.
+        :paramtype encrypted_key_for_secure_fields: str
+        """
+        super().__init__(**kwargs)
+        self.source_connection_info = source_connection_info
+        self.target_connection_info = target_connection_info
+        self.selected_databases = selected_databases
+        self.started_on = started_on
+        self.source_server_resource_id = source_server_resource_id
+        self.target_server_resource_id = target_server_resource_id
+        self.optional_agent_settings = optional_agent_settings
+        self.bin_log_info = bin_log_info
+        self.encrypted_key_for_secure_fields = encrypted_key_for_secure_fields
+
+
+class MigrateMySqlAzureDbForMySqlReplicateChangesTaskOutput(_serialization.Model):
+    """Output for the task that migrates MySQL databases to Azure Database for MySQL for the replicate
+    changes migrations.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    MigrateMySqlAzureDbForMySqlReplicateChangesTaskOutputMigrationLevel
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Result identifier.
+    :vartype id: str
+    :ivar result_type: Result type. Required.
+    :vartype result_type: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "result_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "result_type": {"key": "resultType", "type": "str"},
+    }
+
+    _subtype_map = {
+        "result_type": {"MigrationLevelOutput": "MigrateMySqlAzureDbForMySqlReplicateChangesTaskOutputMigrationLevel"}
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.id = None
+        self.result_type: Optional[str] = None
+
+
+class MigrateMySqlAzureDbForMySqlReplicateChangesTaskOutputMigrationLevel(
+    MigrateMySqlAzureDbForMySqlReplicateChangesTaskOutput
+):  # pylint: disable=too-many-instance-attributes
+    """MigrateMySqlAzureDbForMySqlReplicateChangesTaskOutputMigrationLevel.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevelV2
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Result identifier.
+    :vartype id: str
+    :ivar result_type: Result type. Required.
+    :vartype result_type: str
+    :ivar migration_type: "Cdc"
+    :vartype migration_type: str or
+     ~azure.mgmt.datamigration.models.MigrateMySqlAzureDbForMySqlReplicateChangesTaskOutputMigrationLevelMigrationType
+    :ivar started_on: Migration start time.
+    :vartype started_on: ~datetime.datetime
+    :ivar ended_on: Migration end time.
+    :vartype ended_on: ~datetime.datetime
+    :ivar status: Current status of migration. Known values are: "Default", "Connecting",
+     "SourceAndTargetSelected", "SelectLogins", "Configured", "Running", "Error", "Stopped",
+     "Completed", and "CompletedWithWarnings".
+    :vartype status: str or ~azure.mgmt.datamigration.models.MigrationStatus
+    :ivar source_server_version: Source server version.
+    :vartype source_server_version: str
+    :ivar target_server_version: Target server version.
+    :vartype target_server_version: str
+    :ivar last_storage_update: Last time the migration status storage was updated.
+    :vartype last_storage_update: ~datetime.datetime
+    :ivar migration_id: Migration Identifier.
+    :vartype migration_id: str
+    :ivar has_server_level_error: Indicates that the migration has server level error.
+    :vartype has_server_level_error: bool
+    :ivar retrying_summary: Retrying summary.
+    :vartype retrying_summary: JSON
+    :ivar total_retrying_time: Total amount of time during the migration where operations were
+     impacted by transient errors.
+    :vartype total_retrying_time: str
+    :ivar total_source_retry_count: Total number of retries that have occurred due to transient
+     errors raised by the source server.
+    :vartype total_source_retry_count: int
+    :ivar total_target_retry_count: Total number of retries that have occurred due to transient
+     errors raised by the target server.
+    :vartype total_target_retry_count: int
+    :ivar total_other_retry_count: Total number of retries that have occurred due to transient
+     errors raised by the unknown source.
+    :vartype total_other_retry_count: int
+    :ivar continuous_data_movement_progress: Migration progress.
+    :vartype continuous_data_movement_progress:
+     ~azure.mgmt.datamigration.models.MySqlContinuousDataMovementProgress
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "result_type": {"required": True},
+        "migration_type": {"readonly": True},
+        "started_on": {"readonly": True},
+        "ended_on": {"readonly": True},
+        "status": {"readonly": True},
+        "source_server_version": {"readonly": True},
+        "target_server_version": {"readonly": True},
+        "last_storage_update": {"readonly": True},
+        "migration_id": {"readonly": True},
+        "has_server_level_error": {"readonly": True},
+        "retrying_summary": {"readonly": True},
+        "total_retrying_time": {"readonly": True, "pattern": r"^(\d+\.)?\d{2}:\d{2}:\d{2}$"},
+        "total_source_retry_count": {"readonly": True},
+        "total_target_retry_count": {"readonly": True},
+        "total_other_retry_count": {"readonly": True},
+        "continuous_data_movement_progress": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "result_type": {"key": "resultType", "type": "str"},
+        "migration_type": {"key": "migrationType", "type": "str"},
+        "started_on": {"key": "startedOn", "type": "iso-8601"},
+        "ended_on": {"key": "endedOn", "type": "iso-8601"},
+        "status": {"key": "status", "type": "str"},
+        "source_server_version": {"key": "sourceServerVersion", "type": "str"},
+        "target_server_version": {"key": "targetServerVersion", "type": "str"},
+        "last_storage_update": {"key": "lastStorageUpdate", "type": "iso-8601"},
+        "migration_id": {"key": "migrationId", "type": "str"},
+        "has_server_level_error": {"key": "hasServerLevelError", "type": "bool"},
+        "retrying_summary": {"key": "retryingSummary", "type": "object"},
+        "total_retrying_time": {"key": "totalRetryingTime", "type": "str"},
+        "total_source_retry_count": {"key": "totalSourceRetryCount", "type": "int"},
+        "total_target_retry_count": {"key": "totalTargetRetryCount", "type": "int"},
+        "total_other_retry_count": {"key": "totalOtherRetryCount", "type": "int"},
+        "continuous_data_movement_progress": {
+            "key": "continuousDataMovementProgress",
+            "type": "MySqlContinuousDataMovementProgress",
+        },
+    }
+
+    _subtype_map = {
+        "result_type": {"MigrationLevelOutput": "MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevelV2"}
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.result_type: str = "MigrationLevelOutput"
+        self.migration_type = None
+        self.started_on = None
+        self.ended_on = None
+        self.status = None
+        self.source_server_version = None
+        self.target_server_version = None
+        self.last_storage_update = None
+        self.migration_id = None
+        self.has_server_level_error = None
+        self.retrying_summary = None
+        self.total_retrying_time = None
+        self.total_source_retry_count = None
+        self.total_target_retry_count = None
+        self.total_other_retry_count = None
+        self.continuous_data_movement_progress = None
+
+
+class MigrateMySqlAzureDbForMySqlReplicateChangesTaskProperties(ProjectTaskProperties):
+    """Properties for the task that migrates MySQL databases to Azure Database for MySQL for replicate
+    changes migrations.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar task_type: Task type. Required. Known values are: "Connect.MongoDb",
+     "ConnectToSource.SqlServer", "ConnectToSource.SqlServer.Sync",
+     "ConnectToSource.PostgreSql.Sync", "ConnectToSource.MySql", "ConnectToSource.Oracle.Sync",
+     "ConnectToTarget.SqlDb", "ConnectToTarget.SqlDb.Sync",
+     "ConnectToTarget.AzureDbForPostgreSql.Sync",
+     "ConnectToTarget.Oracle.AzureDbForPostgreSql.Sync", "ConnectToTarget.AzureSqlDbMI",
+     "ConnectToTarget.AzureSqlDbMI.Sync.LRS", "ConnectToTarget.AzureDbForMySql",
+     "GetUserTables.Sql", "GetUserTables.AzureSqlDb.Sync", "GetUserTablesOracle",
+     "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
+     "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
+     "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
+     "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
+     "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
+     "MigrateSchemaSqlServerSqlDb".
+    :vartype task_type: str or ~azure.mgmt.datamigration.models.TaskType
+    :ivar errors: Array of errors. This is ignored if submitted.
+    :vartype errors: list[~azure.mgmt.datamigration.models.ODataError]
+    :ivar state: The state of the task. This is ignored if submitted. Known values are: "Unknown",
+     "Queued", "Running", "Canceled", "Succeeded", "Failed", "FailedInputValidation", and "Faulted".
+    :vartype state: str or ~azure.mgmt.datamigration.models.TaskState
+    :ivar commands: Array of command properties.
+    :vartype commands: list[~azure.mgmt.datamigration.models.CommandProperties]
+    :ivar client_data: Key value pairs of client data to attach meta data information to task.
+    :vartype client_data: dict[str, str]
+    :ivar input: Task input.
+    :vartype input:
+     ~azure.mgmt.datamigration.models.MigrateMySqlAzureDbForMySqlReplicateChangesTaskInput
+    :ivar output: Task output. This is ignored if submitted.
+    :vartype output:
+     list[~azure.mgmt.datamigration.models.MigrateMySqlAzureDbForMySqlReplicateChangesTaskOutput]
+    :ivar is_cloneable: whether the task can be cloned or not.
+    :vartype is_cloneable: bool
+    :ivar task_id: Task id.
+    :vartype task_id: str
+    """
+
+    _validation = {
+        "task_type": {"required": True},
+        "errors": {"readonly": True},
+        "state": {"readonly": True},
+        "commands": {"readonly": True},
+        "output": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "task_type": {"key": "taskType", "type": "str"},
+        "errors": {"key": "errors", "type": "[ODataError]"},
+        "state": {"key": "state", "type": "str"},
+        "commands": {"key": "commands", "type": "[CommandProperties]"},
+        "client_data": {"key": "clientData", "type": "{str}"},
+        "input": {"key": "input", "type": "MigrateMySqlAzureDbForMySqlReplicateChangesTaskInput"},
+        "output": {"key": "output", "type": "[MigrateMySqlAzureDbForMySqlReplicateChangesTaskOutput]"},
+        "is_cloneable": {"key": "isCloneable", "type": "bool"},
+        "task_id": {"key": "taskId", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        client_data: Optional[Dict[str, str]] = None,
+        input: Optional["_models.MigrateMySqlAzureDbForMySqlReplicateChangesTaskInput"] = None,
+        is_cloneable: Optional[bool] = None,
+        task_id: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword client_data: Key value pairs of client data to attach meta data information to task.
+        :paramtype client_data: dict[str, str]
+        :keyword input: Task input.
+        :paramtype input:
+         ~azure.mgmt.datamigration.models.MigrateMySqlAzureDbForMySqlReplicateChangesTaskInput
+        :keyword is_cloneable: whether the task can be cloned or not.
+        :paramtype is_cloneable: bool
+        :keyword task_id: Task id.
+        :paramtype task_id: str
+        """
+        super().__init__(client_data=client_data, **kwargs)
+        self.task_type: str = "Migrate.MySql.AzureDbForMySql.ReplicateChanges"
+        self.input = input
+        self.output = None
+        self.is_cloneable = is_cloneable
+        self.task_id = task_id
+
+
+class MigrateMySqlAzureDbForMySqlSyncDatabaseInput(
+    _serialization.Model
+):  # pylint: disable=too-many-instance-attributes
     """Database specific information for MySQL to Azure Database for MySQL migration task inputs.
 
     :ivar name: Name of the database.
@@ -6924,6 +7185,16 @@ class MigrateMySqlAzureDbForMySqlSyncDatabaseInput(_serialization.Model):
     :vartype target_setting: dict[str, str]
     :ivar table_map: Mapping of source to target tables.
     :vartype table_map: dict[str, str]
+    :ivar tables_to_migrate_schema: Mapping of source to target tables for schema migration.
+    :vartype tables_to_migrate_schema: dict[str, str]
+    :ivar selected_views: List of views to migrate.
+    :vartype selected_views: list[str]
+    :ivar selected_triggers: List of triggers to migrate.
+    :vartype selected_triggers: list[str]
+    :ivar selected_routines: List of routines to migrate.
+    :vartype selected_routines: list[str]
+    :ivar selected_events: List of events to migrate.
+    :vartype selected_events: list[str]
     """
 
     _attribute_map = {
@@ -6933,6 +7204,11 @@ class MigrateMySqlAzureDbForMySqlSyncDatabaseInput(_serialization.Model):
         "source_setting": {"key": "sourceSetting", "type": "{str}"},
         "target_setting": {"key": "targetSetting", "type": "{str}"},
         "table_map": {"key": "tableMap", "type": "{str}"},
+        "tables_to_migrate_schema": {"key": "tablesToMigrateSchema", "type": "{str}"},
+        "selected_views": {"key": "selectedViews", "type": "[str]"},
+        "selected_triggers": {"key": "selectedTriggers", "type": "[str]"},
+        "selected_routines": {"key": "selectedRoutines", "type": "[str]"},
+        "selected_events": {"key": "selectedEvents", "type": "[str]"},
     }
 
     def __init__(
@@ -6944,8 +7220,13 @@ class MigrateMySqlAzureDbForMySqlSyncDatabaseInput(_serialization.Model):
         source_setting: Optional[Dict[str, str]] = None,
         target_setting: Optional[Dict[str, str]] = None,
         table_map: Optional[Dict[str, str]] = None,
-        **kwargs
-    ):
+        tables_to_migrate_schema: Optional[Dict[str, str]] = None,
+        selected_views: Optional[List[str]] = None,
+        selected_triggers: Optional[List[str]] = None,
+        selected_routines: Optional[List[str]] = None,
+        selected_events: Optional[List[str]] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Name of the database.
         :paramtype name: str
@@ -6960,6 +7241,16 @@ class MigrateMySqlAzureDbForMySqlSyncDatabaseInput(_serialization.Model):
         :paramtype target_setting: dict[str, str]
         :keyword table_map: Mapping of source to target tables.
         :paramtype table_map: dict[str, str]
+        :keyword tables_to_migrate_schema: Mapping of source to target tables for schema migration.
+        :paramtype tables_to_migrate_schema: dict[str, str]
+        :keyword selected_views: List of views to migrate.
+        :paramtype selected_views: list[str]
+        :keyword selected_triggers: List of triggers to migrate.
+        :paramtype selected_triggers: list[str]
+        :keyword selected_routines: List of routines to migrate.
+        :paramtype selected_routines: list[str]
+        :keyword selected_events: List of events to migrate.
+        :paramtype selected_events: list[str]
         """
         super().__init__(**kwargs)
         self.name = name
@@ -6968,10 +7259,16 @@ class MigrateMySqlAzureDbForMySqlSyncDatabaseInput(_serialization.Model):
         self.source_setting = source_setting
         self.target_setting = target_setting
         self.table_map = table_map
+        self.tables_to_migrate_schema = tables_to_migrate_schema
+        self.selected_views = selected_views
+        self.selected_triggers = selected_triggers
+        self.selected_routines = selected_routines
+        self.selected_events = selected_events
 
 
-class MigrateMySqlAzureDbForMySqlSyncTaskInput(_serialization.Model):
-    """Input for the task that migrates MySQL databases to Azure Database for MySQL for online migrations.
+class MigrateMySqlAzureDbForMySqlSyncTaskInput(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+    """Input for the task that migrates MySQL databases to Azure Database for MySQL for online
+    migrations.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -6983,6 +7280,33 @@ class MigrateMySqlAzureDbForMySqlSyncTaskInput(_serialization.Model):
     :ivar selected_databases: Databases to migrate. Required.
     :vartype selected_databases:
      list[~azure.mgmt.datamigration.models.MigrateMySqlAzureDbForMySqlSyncDatabaseInput]
+    :ivar started_on: Parameter to specify when the migration started.
+    :vartype started_on: ~datetime.datetime
+    :ivar source_server_resource_id: Optional resource Id of the source server if it is an azure
+     instance.
+    :vartype source_server_resource_id: str
+    :ivar target_server_resource_id: Optional resource Id of the target server.
+    :vartype target_server_resource_id: str
+    :ivar optional_agent_settings: Optional parameters for fine tuning the data migration.
+    :vartype optional_agent_settings: dict[str, str]
+    :ivar migrate_all_views: If true, all view definitions will be migrated in the selected
+     databases.
+    :vartype migrate_all_views: bool
+    :ivar migrate_all_triggers: If true, all trigger definitions will be migrated in the selected
+     databases.
+    :vartype migrate_all_triggers: bool
+    :ivar migrate_all_events: If true, all event definitions will be migrated in the selected
+     databases.
+    :vartype migrate_all_events: bool
+    :ivar migrate_all_routines: If true, all routine definitions will be migrated in the selected
+     databases.
+    :vartype migrate_all_routines: bool
+    :ivar migrate_all_tables_schema: If true, all table's schemas will be migrated.
+    :vartype migrate_all_tables_schema: bool
+    :ivar migrate_user_system_tables: If true, all users/grants will be migrated.
+    :vartype migrate_user_system_tables: bool
+    :ivar encrypted_key_for_secure_fields: encrypted key for secure fields.
+    :vartype encrypted_key_for_secure_fields: str
     """
 
     _validation = {
@@ -6995,6 +7319,17 @@ class MigrateMySqlAzureDbForMySqlSyncTaskInput(_serialization.Model):
         "source_connection_info": {"key": "sourceConnectionInfo", "type": "MySqlConnectionInfo"},
         "target_connection_info": {"key": "targetConnectionInfo", "type": "MySqlConnectionInfo"},
         "selected_databases": {"key": "selectedDatabases", "type": "[MigrateMySqlAzureDbForMySqlSyncDatabaseInput]"},
+        "started_on": {"key": "startedOn", "type": "iso-8601"},
+        "source_server_resource_id": {"key": "sourceServerResourceId", "type": "str"},
+        "target_server_resource_id": {"key": "targetServerResourceId", "type": "str"},
+        "optional_agent_settings": {"key": "optionalAgentSettings", "type": "{str}"},
+        "migrate_all_views": {"key": "migrateAllViews", "type": "bool"},
+        "migrate_all_triggers": {"key": "migrateAllTriggers", "type": "bool"},
+        "migrate_all_events": {"key": "migrateAllEvents", "type": "bool"},
+        "migrate_all_routines": {"key": "migrateAllRoutines", "type": "bool"},
+        "migrate_all_tables_schema": {"key": "migrateAllTablesSchema", "type": "bool"},
+        "migrate_user_system_tables": {"key": "migrateUserSystemTables", "type": "bool"},
+        "encrypted_key_for_secure_fields": {"key": "encryptedKeyForSecureFields", "type": "str"},
     }
 
     def __init__(
@@ -7003,8 +7338,19 @@ class MigrateMySqlAzureDbForMySqlSyncTaskInput(_serialization.Model):
         source_connection_info: "_models.MySqlConnectionInfo",
         target_connection_info: "_models.MySqlConnectionInfo",
         selected_databases: List["_models.MigrateMySqlAzureDbForMySqlSyncDatabaseInput"],
-        **kwargs
-    ):
+        started_on: Optional[datetime.datetime] = None,
+        source_server_resource_id: Optional[str] = None,
+        target_server_resource_id: Optional[str] = None,
+        optional_agent_settings: Optional[Dict[str, str]] = None,
+        migrate_all_views: bool = False,
+        migrate_all_triggers: bool = False,
+        migrate_all_events: bool = False,
+        migrate_all_routines: bool = False,
+        migrate_all_tables_schema: bool = False,
+        migrate_user_system_tables: bool = False,
+        encrypted_key_for_secure_fields: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword source_connection_info: Connection information for source MySQL. Required.
         :paramtype source_connection_info: ~azure.mgmt.datamigration.models.MySqlConnectionInfo
@@ -7014,21 +7360,59 @@ class MigrateMySqlAzureDbForMySqlSyncTaskInput(_serialization.Model):
         :keyword selected_databases: Databases to migrate. Required.
         :paramtype selected_databases:
          list[~azure.mgmt.datamigration.models.MigrateMySqlAzureDbForMySqlSyncDatabaseInput]
+        :keyword started_on: Parameter to specify when the migration started.
+        :paramtype started_on: ~datetime.datetime
+        :keyword source_server_resource_id: Optional resource Id of the source server if it is an azure
+         instance.
+        :paramtype source_server_resource_id: str
+        :keyword target_server_resource_id: Optional resource Id of the target server.
+        :paramtype target_server_resource_id: str
+        :keyword optional_agent_settings: Optional parameters for fine tuning the data migration.
+        :paramtype optional_agent_settings: dict[str, str]
+        :keyword migrate_all_views: If true, all view definitions will be migrated in the selected
+         databases.
+        :paramtype migrate_all_views: bool
+        :keyword migrate_all_triggers: If true, all trigger definitions will be migrated in the
+         selected databases.
+        :paramtype migrate_all_triggers: bool
+        :keyword migrate_all_events: If true, all event definitions will be migrated in the selected
+         databases.
+        :paramtype migrate_all_events: bool
+        :keyword migrate_all_routines: If true, all routine definitions will be migrated in the
+         selected databases.
+        :paramtype migrate_all_routines: bool
+        :keyword migrate_all_tables_schema: If true, all table's schemas will be migrated.
+        :paramtype migrate_all_tables_schema: bool
+        :keyword migrate_user_system_tables: If true, all users/grants will be migrated.
+        :paramtype migrate_user_system_tables: bool
+        :keyword encrypted_key_for_secure_fields: encrypted key for secure fields.
+        :paramtype encrypted_key_for_secure_fields: str
         """
         super().__init__(**kwargs)
         self.source_connection_info = source_connection_info
         self.target_connection_info = target_connection_info
         self.selected_databases = selected_databases
+        self.started_on = started_on
+        self.source_server_resource_id = source_server_resource_id
+        self.target_server_resource_id = target_server_resource_id
+        self.optional_agent_settings = optional_agent_settings
+        self.migrate_all_views = migrate_all_views
+        self.migrate_all_triggers = migrate_all_triggers
+        self.migrate_all_events = migrate_all_events
+        self.migrate_all_routines = migrate_all_routines
+        self.migrate_all_tables_schema = migrate_all_tables_schema
+        self.migrate_user_system_tables = migrate_user_system_tables
+        self.encrypted_key_for_secure_fields = encrypted_key_for_secure_fields
 
 
 class MigrateMySqlAzureDbForMySqlSyncTaskOutput(_serialization.Model):
-    """Output for the task that migrates MySQL databases to Azure Database for MySQL for online migrations.
+    """MySQL to Azure Database for MySQL online migration task output.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseError,
     MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseLevel,
     MigrateMySqlAzureDbForMySqlSyncTaskOutputError,
-    MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevel,
+    MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevelV2,
     MigrateMySqlAzureDbForMySqlSyncTaskOutputTableLevel
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -7056,12 +7440,12 @@ class MigrateMySqlAzureDbForMySqlSyncTaskOutput(_serialization.Model):
             "DatabaseLevelErrorOutput": "MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseError",
             "DatabaseLevelOutput": "MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseLevel",
             "ErrorOutput": "MigrateMySqlAzureDbForMySqlSyncTaskOutputError",
-            "MigrationLevelOutput": "MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevel",
+            "MigrationLevelOutput": "MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevelV2",
             "TableLevelOutput": "MigrateMySqlAzureDbForMySqlSyncTaskOutputTableLevel",
         }
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -7102,8 +7486,8 @@ class MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseError(MigrateMySqlAzureDb
         *,
         error_message: Optional[str] = None,
         events: Optional[List["_models.SyncMigrationDatabaseErrorEvent"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword error_message: Error message.
         :paramtype error_message: str
@@ -7206,7 +7590,7 @@ class MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseLevel(
         "latency": {"key": "latency", "type": "int"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result_type: str = "DatabaseLevelOutput"
@@ -7254,7 +7638,7 @@ class MigrateMySqlAzureDbForMySqlSyncTaskOutputError(MigrateMySqlAzureDbForMySql
         "error": {"key": "error", "type": "ReportableException"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result_type: str = "ErrorOutput"
@@ -7272,6 +7656,9 @@ class MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevel(MigrateMySqlAzureD
     :vartype id: str
     :ivar result_type: Result type. Required.
     :vartype result_type: str
+    :ivar migration_type: "InitialLoad"
+    :vartype migration_type: str or
+     ~azure.mgmt.datamigration.models.MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevelMigrationType
     :ivar started_on: Migration start time.
     :vartype started_on: ~datetime.datetime
     :ivar ended_on: Migration end time.
@@ -7289,6 +7676,7 @@ class MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevel(MigrateMySqlAzureD
     _validation = {
         "id": {"readonly": True},
         "result_type": {"required": True},
+        "migration_type": {"readonly": True},
         "started_on": {"readonly": True},
         "ended_on": {"readonly": True},
         "source_server_version": {"readonly": True},
@@ -7300,6 +7688,7 @@ class MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevel(MigrateMySqlAzureD
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "result_type": {"key": "resultType", "type": "str"},
+        "migration_type": {"key": "migrationType", "type": "str"},
         "started_on": {"key": "startedOn", "type": "iso-8601"},
         "ended_on": {"key": "endedOn", "type": "iso-8601"},
         "source_server_version": {"key": "sourceServerVersion", "type": "str"},
@@ -7308,16 +7697,135 @@ class MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevel(MigrateMySqlAzureD
         "target_server": {"key": "targetServer", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result_type: str = "MigrationLevelOutput"
+        self.migration_type = None
         self.started_on = None
         self.ended_on = None
         self.source_server_version = None
         self.source_server = None
         self.target_server_version = None
         self.target_server = None
+
+
+class MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevelV2(
+    MigrateMySqlAzureDbForMySqlSyncTaskOutput, MigrateMySqlAzureDbForMySqlReplicateChangesTaskOutputMigrationLevel
+):  # pylint: disable=too-many-instance-attributes
+    """MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevelV2.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar migration_type: "Cdc"
+    :vartype migration_type: str or
+     ~azure.mgmt.datamigration.models.MigrateMySqlAzureDbForMySqlReplicateChangesTaskOutputMigrationLevelMigrationType
+    :ivar started_on: Migration start time.
+    :vartype started_on: ~datetime.datetime
+    :ivar ended_on: Migration end time.
+    :vartype ended_on: ~datetime.datetime
+    :ivar status: Current status of migration. Known values are: "Default", "Connecting",
+     "SourceAndTargetSelected", "SelectLogins", "Configured", "Running", "Error", "Stopped",
+     "Completed", and "CompletedWithWarnings".
+    :vartype status: str or ~azure.mgmt.datamigration.models.MigrationStatus
+    :ivar source_server_version: Source server version.
+    :vartype source_server_version: str
+    :ivar target_server_version: Target server version.
+    :vartype target_server_version: str
+    :ivar last_storage_update: Last time the migration status storage was updated.
+    :vartype last_storage_update: ~datetime.datetime
+    :ivar migration_id: Migration Identifier.
+    :vartype migration_id: str
+    :ivar has_server_level_error: Indicates that the migration has server level error.
+    :vartype has_server_level_error: bool
+    :ivar retrying_summary: Retrying summary.
+    :vartype retrying_summary: JSON
+    :ivar total_retrying_time: Total amount of time during the migration where operations were
+     impacted by transient errors.
+    :vartype total_retrying_time: str
+    :ivar total_source_retry_count: Total number of retries that have occurred due to transient
+     errors raised by the source server.
+    :vartype total_source_retry_count: int
+    :ivar total_target_retry_count: Total number of retries that have occurred due to transient
+     errors raised by the target server.
+    :vartype total_target_retry_count: int
+    :ivar total_other_retry_count: Total number of retries that have occurred due to transient
+     errors raised by the unknown source.
+    :vartype total_other_retry_count: int
+    :ivar continuous_data_movement_progress: Migration progress.
+    :vartype continuous_data_movement_progress:
+     ~azure.mgmt.datamigration.models.MySqlContinuousDataMovementProgress
+    :ivar id: Result identifier.
+    :vartype id: str
+    :ivar result_type: Result type. Required.
+    :vartype result_type: str
+    """
+
+    _validation = {
+        "migration_type": {"readonly": True},
+        "started_on": {"readonly": True},
+        "ended_on": {"readonly": True},
+        "status": {"readonly": True},
+        "source_server_version": {"readonly": True},
+        "target_server_version": {"readonly": True},
+        "last_storage_update": {"readonly": True},
+        "migration_id": {"readonly": True},
+        "has_server_level_error": {"readonly": True},
+        "retrying_summary": {"readonly": True},
+        "total_retrying_time": {"readonly": True, "pattern": r"^(\d+\.)?\d{2}:\d{2}:\d{2}$"},
+        "total_source_retry_count": {"readonly": True},
+        "total_target_retry_count": {"readonly": True},
+        "total_other_retry_count": {"readonly": True},
+        "continuous_data_movement_progress": {"readonly": True},
+        "id": {"readonly": True},
+        "result_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "migration_type": {"key": "migrationType", "type": "str"},
+        "started_on": {"key": "startedOn", "type": "iso-8601"},
+        "ended_on": {"key": "endedOn", "type": "iso-8601"},
+        "status": {"key": "status", "type": "str"},
+        "source_server_version": {"key": "sourceServerVersion", "type": "str"},
+        "target_server_version": {"key": "targetServerVersion", "type": "str"},
+        "last_storage_update": {"key": "lastStorageUpdate", "type": "iso-8601"},
+        "migration_id": {"key": "migrationId", "type": "str"},
+        "has_server_level_error": {"key": "hasServerLevelError", "type": "bool"},
+        "retrying_summary": {"key": "retryingSummary", "type": "object"},
+        "total_retrying_time": {"key": "totalRetryingTime", "type": "str"},
+        "total_source_retry_count": {"key": "totalSourceRetryCount", "type": "int"},
+        "total_target_retry_count": {"key": "totalTargetRetryCount", "type": "int"},
+        "total_other_retry_count": {"key": "totalOtherRetryCount", "type": "int"},
+        "continuous_data_movement_progress": {
+            "key": "continuousDataMovementProgress",
+            "type": "MySqlContinuousDataMovementProgress",
+        },
+        "id": {"key": "id", "type": "str"},
+        "result_type": {"key": "resultType", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.migration_type = None
+        self.started_on = None
+        self.ended_on = None
+        self.status = None
+        self.source_server_version = None
+        self.target_server_version = None
+        self.last_storage_update = None
+        self.migration_id = None
+        self.has_server_level_error = None
+        self.retrying_summary = None
+        self.total_retrying_time = None
+        self.total_source_retry_count = None
+        self.total_target_retry_count = None
+        self.total_other_retry_count = None
+        self.continuous_data_movement_progress = None
+        self.result_type: str = "MigrationLevelOutput"
+        self.id = None
 
 
 class MigrateMySqlAzureDbForMySqlSyncTaskOutputTableLevel(
@@ -7398,7 +7906,7 @@ class MigrateMySqlAzureDbForMySqlSyncTaskOutputTableLevel(
         "last_modified_time": {"key": "lastModifiedTime", "type": "iso-8601"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result_type: str = "TableLevelOutput"
@@ -7418,7 +7926,8 @@ class MigrateMySqlAzureDbForMySqlSyncTaskOutputTableLevel(
 
 
 class MigrateMySqlAzureDbForMySqlSyncTaskProperties(ProjectTaskProperties):
-    """Properties for the task that migrates MySQL databases to Azure Database for MySQL for online migrations.
+    """Properties for the task that migrates MySQL databases to Azure Database for MySQL for online
+    migrations.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -7435,9 +7944,10 @@ class MigrateMySqlAzureDbForMySqlSyncTaskProperties(ProjectTaskProperties):
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -7482,8 +7992,8 @@ class MigrateMySqlAzureDbForMySqlSyncTaskProperties(ProjectTaskProperties):
         *,
         client_data: Optional[Dict[str, str]] = None,
         input: Optional["_models.MigrateMySqlAzureDbForMySqlSyncTaskInput"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -7497,7 +8007,8 @@ class MigrateMySqlAzureDbForMySqlSyncTaskProperties(ProjectTaskProperties):
 
 
 class MigrateOracleAzureDbForPostgreSqlSyncTaskProperties(ProjectTaskProperties):
-    """Properties for the task that migrates Oracle to Azure Database for PostgreSQL for online migrations.
+    """Properties for the task that migrates Oracle to Azure Database for PostgreSQL for online
+    migrations.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -7514,9 +8025,10 @@ class MigrateOracleAzureDbForPostgreSqlSyncTaskProperties(ProjectTaskProperties)
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -7561,8 +8073,8 @@ class MigrateOracleAzureDbForPostgreSqlSyncTaskProperties(ProjectTaskProperties)
         *,
         client_data: Optional[Dict[str, str]] = None,
         input: Optional["_models.MigrateOracleAzureDbPostgreSqlSyncTaskInput"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -7576,7 +8088,8 @@ class MigrateOracleAzureDbForPostgreSqlSyncTaskProperties(ProjectTaskProperties)
 
 
 class MigrateOracleAzureDbPostgreSqlSyncDatabaseInput(_serialization.Model):
-    """Database specific information for Oracle to Azure Database for PostgreSQL migration task inputs.
+    """Database specific information for Oracle to Azure Database for PostgreSQL migration task
+    inputs.
 
     :ivar case_manipulation: How to handle object name casing: either Preserve or ToLower.
     :vartype case_manipulation: str
@@ -7619,8 +8132,8 @@ class MigrateOracleAzureDbPostgreSqlSyncDatabaseInput(_serialization.Model):
         migration_setting: Optional[Dict[str, str]] = None,
         source_setting: Optional[Dict[str, str]] = None,
         target_setting: Optional[Dict[str, str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword case_manipulation: How to handle object name casing: either Preserve or ToLower.
         :paramtype case_manipulation: str
@@ -7652,7 +8165,8 @@ class MigrateOracleAzureDbPostgreSqlSyncDatabaseInput(_serialization.Model):
 
 
 class MigrateOracleAzureDbPostgreSqlSyncTaskInput(_serialization.Model):
-    """Input for the task that migrates Oracle databases to Azure Database for PostgreSQL for online migrations.
+    """Input for the task that migrates Oracle databases to Azure Database for PostgreSQL for online
+    migrations.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -7684,8 +8198,8 @@ class MigrateOracleAzureDbPostgreSqlSyncTaskInput(_serialization.Model):
         selected_databases: List["_models.MigrateOracleAzureDbPostgreSqlSyncDatabaseInput"],
         target_connection_info: "_models.PostgreSqlConnectionInfo",
         source_connection_info: "_models.OracleConnectionInfo",
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword selected_databases: Databases to migrate. Required.
         :paramtype selected_databases:
@@ -7703,7 +8217,8 @@ class MigrateOracleAzureDbPostgreSqlSyncTaskInput(_serialization.Model):
 
 
 class MigrateOracleAzureDbPostgreSqlSyncTaskOutput(_serialization.Model):
-    """Output for the task that migrates Oracle databases to Azure Database for PostgreSQL for online migrations.
+    """Output for the task that migrates Oracle databases to Azure Database for PostgreSQL for online
+    migrations.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseError,
@@ -7742,7 +8257,7 @@ class MigrateOracleAzureDbPostgreSqlSyncTaskOutput(_serialization.Model):
         }
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -7783,8 +8298,8 @@ class MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseError(MigrateOracleAzu
         *,
         error_message: Optional[str] = None,
         events: Optional[List["_models.SyncMigrationDatabaseErrorEvent"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword error_message: Error message.
         :paramtype error_message: str
@@ -7887,7 +8402,7 @@ class MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseLevel(
         "latency": {"key": "latency", "type": "int"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result_type: str = "DatabaseLevelOutput"
@@ -7935,7 +8450,7 @@ class MigrateOracleAzureDbPostgreSqlSyncTaskOutputError(MigrateOracleAzureDbPost
         "error": {"key": "error", "type": "ReportableException"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result_type: str = "ErrorOutput"
@@ -7989,7 +8504,7 @@ class MigrateOracleAzureDbPostgreSqlSyncTaskOutputMigrationLevel(MigrateOracleAz
         "target_server": {"key": "targetServer", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result_type: str = "MigrationLevelOutput"
@@ -8079,7 +8594,7 @@ class MigrateOracleAzureDbPostgreSqlSyncTaskOutputTableLevel(
         "last_modified_time": {"key": "lastModifiedTime", "type": "iso-8601"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result_type: str = "TableLevelOutput"
@@ -8099,7 +8614,8 @@ class MigrateOracleAzureDbPostgreSqlSyncTaskOutputTableLevel(
 
 
 class MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseInput(_serialization.Model):
-    """Database specific information for PostgreSQL to Azure Database for PostgreSQL migration task inputs.
+    """Database specific information for PostgreSQL to Azure Database for PostgreSQL migration task
+    inputs.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -8147,8 +8663,8 @@ class MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseInput(_serialization.Mode
         source_setting: Optional[Dict[str, str]] = None,
         target_setting: Optional[Dict[str, str]] = None,
         selected_tables: Optional[List["_models.MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseTableInput"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Name of the database.
         :paramtype name: str
@@ -8186,7 +8702,7 @@ class MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseTableInput(_serialization
         "name": {"key": "name", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Name of the table to migrate.
         :paramtype name: str
@@ -8196,7 +8712,8 @@ class MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseTableInput(_serialization
 
 
 class MigratePostgreSqlAzureDbForPostgreSqlSyncTaskInput(_serialization.Model):
-    """Input for the task that migrates PostgreSQL databases to Azure Database for PostgreSQL for online migrations.
+    """Input for the task that migrates PostgreSQL databases to Azure Database for PostgreSQL for
+    online migrations.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -8241,8 +8758,8 @@ class MigratePostgreSqlAzureDbForPostgreSqlSyncTaskInput(_serialization.Model):
         target_connection_info: "_models.PostgreSqlConnectionInfo",
         source_connection_info: "_models.PostgreSqlConnectionInfo",
         encrypted_key_for_secure_fields: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword selected_databases: Databases to migrate. Required.
         :paramtype selected_databases:
@@ -8264,7 +8781,8 @@ class MigratePostgreSqlAzureDbForPostgreSqlSyncTaskInput(_serialization.Model):
 
 
 class MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput(_serialization.Model):
-    """Output for the task that migrates PostgreSQL databases to Azure Database for PostgreSQL for online migrations.
+    """Output for the task that migrates PostgreSQL databases to Azure Database for PostgreSQL for
+    online migrations.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseError,
@@ -8303,7 +8821,7 @@ class MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput(_serialization.Model):
         }
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -8346,8 +8864,8 @@ class MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseError(
         *,
         error_message: Optional[str] = None,
         events: Optional[List["_models.SyncMigrationDatabaseErrorEvent"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword error_message: Error message.
         :paramtype error_message: str
@@ -8450,7 +8968,7 @@ class MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseLevel(
         "latency": {"key": "latency", "type": "int"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result_type: str = "DatabaseLevelOutput"
@@ -8501,7 +9019,9 @@ class MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputError(MigratePostgreSql
         "events": {"key": "events", "type": "[SyncMigrationDatabaseErrorEvent]"},
     }
 
-    def __init__(self, *, events: Optional[List["_models.SyncMigrationDatabaseErrorEvent"]] = None, **kwargs):
+    def __init__(
+        self, *, events: Optional[List["_models.SyncMigrationDatabaseErrorEvent"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword events: List of error events.
         :paramtype events: list[~azure.mgmt.datamigration.models.SyncMigrationDatabaseErrorEvent]
@@ -8579,7 +9099,7 @@ class MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputMigrationLevel(
         "database_count": {"key": "databaseCount", "type": "float"},
     }
 
-    def __init__(self, *, database_count: Optional[float] = None, **kwargs):
+    def __init__(self, *, database_count: Optional[float] = None, **kwargs: Any) -> None:
         """
         :keyword database_count: Number of databases to include.
         :paramtype database_count: float
@@ -8676,7 +9196,7 @@ class MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputTableLevel(
         "last_modified_time": {"key": "lastModifiedTime", "type": "iso-8601"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result_type: str = "TableLevelOutput"
@@ -8696,7 +9216,8 @@ class MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputTableLevel(
 
 
 class MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties(ProjectTaskProperties):
-    """Properties for the task that migrates PostgreSQL databases to Azure Database for PostgreSQL for online migrations.
+    """Properties for the task that migrates PostgreSQL databases to Azure Database for PostgreSQL for
+    online migrations.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -8713,9 +9234,10 @@ class MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties(ProjectTaskPropert
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -8773,8 +9295,8 @@ class MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties(ProjectTaskPropert
         task_id: Optional[str] = None,
         created_on: Optional[str] = None,
         is_cloneable: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -8824,8 +9346,8 @@ class MigrateSchemaSqlServerSqlDbDatabaseInput(_serialization.Model):
         id: Optional[str] = None,  # pylint: disable=redefined-builtin
         target_database_name: Optional[str] = None,
         schema_setting: Optional["_models.SchemaMigrationSetting"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Name of source database.
         :paramtype name: str
@@ -8869,8 +9391,8 @@ class SqlMigrationTaskInput(_serialization.Model):
         *,
         source_connection_info: "_models.SqlConnectionInfo",
         target_connection_info: "_models.SqlConnectionInfo",
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword source_connection_info: Information for connecting to source. Required.
         :paramtype source_connection_info: ~azure.mgmt.datamigration.models.SqlConnectionInfo
@@ -8922,8 +9444,8 @@ class MigrateSchemaSqlServerSqlDbTaskInput(SqlMigrationTaskInput):
         selected_databases: List["_models.MigrateSchemaSqlServerSqlDbDatabaseInput"],
         encrypted_key_for_secure_fields: Optional[str] = None,
         started_on: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword source_connection_info: Information for connecting to source. Required.
         :paramtype source_connection_info: ~azure.mgmt.datamigration.models.SqlConnectionInfo
@@ -8981,7 +9503,7 @@ class MigrateSchemaSqlServerSqlDbTaskOutput(_serialization.Model):
         }
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -9057,7 +9579,7 @@ class MigrateSchemaSqlServerSqlDbTaskOutputDatabaseLevel(
         "file_id": {"key": "fileId", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result_type: str = "DatabaseLevelOutput"
@@ -9104,7 +9626,7 @@ class MigrateSchemaSqlServerSqlDbTaskOutputError(MigrateSchemaSqlServerSqlDbTask
         "error_text": {"key": "errorText", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result_type: str = "SchemaErrorOutput"
@@ -9164,7 +9686,7 @@ class MigrateSchemaSqlServerSqlDbTaskOutputMigrationLevel(MigrateSchemaSqlServer
         "target_server_brand_version": {"key": "targetServerBrandVersion", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result_type: str = "MigrationLevelOutput"
@@ -9195,9 +9717,10 @@ class MigrateSchemaSqlServerSqlDbTaskProperties(ProjectTaskProperties):
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -9253,8 +9776,8 @@ class MigrateSchemaSqlServerSqlDbTaskProperties(ProjectTaskProperties):
         created_on: Optional[str] = None,
         task_id: Optional[str] = None,
         is_cloneable: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -9303,57 +9826,11 @@ class MigrateSchemaSqlTaskOutputError(MigrateSchemaSqlServerSqlDbTaskOutput):
         "error": {"key": "error", "type": "ReportableException"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result_type: str = "ErrorOutput"
         self.error = None
-
-
-class MigrateSqlServerDatabaseInput(_serialization.Model):
-    """Database specific information for SQL to SQL migration task inputs.
-
-    :ivar name: Name of the database.
-    :vartype name: str
-    :ivar restore_database_name: Name of the database at destination.
-    :vartype restore_database_name: str
-    :ivar backup_and_restore_folder: The backup and restore folder.
-    :vartype backup_and_restore_folder: str
-    :ivar database_files: The list of database files.
-    :vartype database_files: list[~azure.mgmt.datamigration.models.DatabaseFileInput]
-    """
-
-    _attribute_map = {
-        "name": {"key": "name", "type": "str"},
-        "restore_database_name": {"key": "restoreDatabaseName", "type": "str"},
-        "backup_and_restore_folder": {"key": "backupAndRestoreFolder", "type": "str"},
-        "database_files": {"key": "databaseFiles", "type": "[DatabaseFileInput]"},
-    }
-
-    def __init__(
-        self,
-        *,
-        name: Optional[str] = None,
-        restore_database_name: Optional[str] = None,
-        backup_and_restore_folder: Optional[str] = None,
-        database_files: Optional[List["_models.DatabaseFileInput"]] = None,
-        **kwargs
-    ):
-        """
-        :keyword name: Name of the database.
-        :paramtype name: str
-        :keyword restore_database_name: Name of the database at destination.
-        :paramtype restore_database_name: str
-        :keyword backup_and_restore_folder: The backup and restore folder.
-        :paramtype backup_and_restore_folder: str
-        :keyword database_files: The list of database files.
-        :paramtype database_files: list[~azure.mgmt.datamigration.models.DatabaseFileInput]
-        """
-        super().__init__(**kwargs)
-        self.name = name
-        self.restore_database_name = restore_database_name
-        self.backup_and_restore_folder = backup_and_restore_folder
-        self.database_files = database_files
 
 
 class MigrateSqlServerSqlDbDatabaseInput(_serialization.Model):
@@ -9392,8 +9869,8 @@ class MigrateSqlServerSqlDbDatabaseInput(_serialization.Model):
         table_map: Optional[Dict[str, str]] = None,
         schema_setting: Optional[JSON] = None,
         id: Optional[str] = None,  # pylint: disable=redefined-builtin
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Name of the database.
         :paramtype name: str
@@ -9461,8 +9938,8 @@ class MigrateSqlServerSqlDbSyncDatabaseInput(_serialization.Model):
         migration_setting: Optional[Dict[str, str]] = None,
         source_setting: Optional[Dict[str, str]] = None,
         target_setting: Optional[Dict[str, str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: Unique identifier for database.
         :paramtype id: str
@@ -9493,7 +9970,8 @@ class MigrateSqlServerSqlDbSyncDatabaseInput(_serialization.Model):
 
 
 class MigrateSqlServerSqlDbSyncTaskInput(SqlMigrationTaskInput):
-    """Input for the task that migrates on-prem SQL Server databases to Azure SQL Database for online migrations.
+    """Input for the task that migrates on-prem SQL Server databases to Azure SQL Database for online
+    migrations.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -9528,8 +10006,8 @@ class MigrateSqlServerSqlDbSyncTaskInput(SqlMigrationTaskInput):
         target_connection_info: "_models.SqlConnectionInfo",
         selected_databases: List["_models.MigrateSqlServerSqlDbSyncDatabaseInput"],
         validation_options: Optional["_models.MigrationValidationOptions"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword source_connection_info: Information for connecting to source. Required.
         :paramtype source_connection_info: ~azure.mgmt.datamigration.models.SqlConnectionInfo
@@ -9549,7 +10027,8 @@ class MigrateSqlServerSqlDbSyncTaskInput(SqlMigrationTaskInput):
 
 
 class MigrateSqlServerSqlDbSyncTaskOutput(_serialization.Model):
-    """Output for the task that migrates on-prem SQL Server databases to Azure SQL Database for online migrations.
+    """Output for the task that migrates on-prem SQL Server databases to Azure SQL Database for online
+    migrations.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     MigrateSqlServerSqlDbSyncTaskOutputDatabaseError,
@@ -9587,7 +10066,7 @@ class MigrateSqlServerSqlDbSyncTaskOutput(_serialization.Model):
         }
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -9628,8 +10107,8 @@ class MigrateSqlServerSqlDbSyncTaskOutputDatabaseError(MigrateSqlServerSqlDbSync
         *,
         error_message: Optional[str] = None,
         events: Optional[List["_models.SyncMigrationDatabaseErrorEvent"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword error_message: Error message.
         :paramtype error_message: str
@@ -9732,7 +10211,7 @@ class MigrateSqlServerSqlDbSyncTaskOutputDatabaseLevel(
         "latency": {"key": "latency", "type": "int"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result_type: str = "DatabaseLevelOutput"
@@ -9780,7 +10259,7 @@ class MigrateSqlServerSqlDbSyncTaskOutputError(MigrateSqlServerSqlDbSyncTaskOutp
         "error": {"key": "error", "type": "ReportableException"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result_type: str = "ErrorOutput"
@@ -9838,7 +10317,7 @@ class MigrateSqlServerSqlDbSyncTaskOutputMigrationLevel(MigrateSqlServerSqlDbSyn
         "database_count": {"key": "databaseCount", "type": "int"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result_type: str = "MigrationLevelOutput"
@@ -9929,7 +10408,7 @@ class MigrateSqlServerSqlDbSyncTaskOutputTableLevel(
         "last_modified_time": {"key": "lastModifiedTime", "type": "iso-8601"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result_type: str = "TableLevelOutput"
@@ -9949,7 +10428,8 @@ class MigrateSqlServerSqlDbSyncTaskOutputTableLevel(
 
 
 class MigrateSqlServerSqlDbSyncTaskProperties(ProjectTaskProperties):
-    """Properties for the task that migrates on-prem SQL Server databases to Azure SQL Database for online migrations.
+    """Properties for the task that migrates on-prem SQL Server databases to Azure SQL Database for
+    online migrations.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -9966,9 +10446,10 @@ class MigrateSqlServerSqlDbSyncTaskProperties(ProjectTaskProperties):
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -10012,8 +10493,8 @@ class MigrateSqlServerSqlDbSyncTaskProperties(ProjectTaskProperties):
         *,
         client_data: Optional[Dict[str, str]] = None,
         input: Optional["_models.MigrateSqlServerSqlDbSyncTaskInput"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -10078,8 +10559,8 @@ class MigrateSqlServerSqlDbTaskInput(SqlMigrationTaskInput):
         validation_options: Optional["_models.MigrationValidationOptions"] = None,
         started_on: Optional[str] = None,
         encrypted_key_for_secure_fields: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword source_connection_info: Information for connecting to source. Required.
         :paramtype source_connection_info: ~azure.mgmt.datamigration.models.SqlConnectionInfo
@@ -10152,7 +10633,7 @@ class MigrateSqlServerSqlDbTaskOutput(_serialization.Model):
         }
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -10243,7 +10724,7 @@ class MigrateSqlServerSqlDbTaskOutputDatabaseLevel(
         "object_summary": {"key": "objectSummary", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result_type: str = "DatabaseLevelOutput"
@@ -10330,7 +10811,7 @@ class MigrationValidationDatabaseLevelResult(_serialization.Model):
         "status": {"key": "status", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -10420,7 +10901,7 @@ class MigrateSqlServerSqlDbTaskOutputDatabaseLevelValidationResult(
         "result_type": {"key": "resultType", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.migration_id = None
@@ -10463,7 +10944,7 @@ class MigrateSqlServerSqlDbTaskOutputError(MigrateSqlServerSqlDbTaskOutput):
         "error": {"key": "error", "type": "ReportableException"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result_type: str = "ErrorOutput"
@@ -10562,8 +11043,8 @@ class MigrateSqlServerSqlDbTaskOutputMigrationLevel(
         *,
         migration_validation_result: Optional["_models.MigrationValidationResult"] = None,
         migration_report_result: Optional["_models.MigrationReportResult"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword migration_validation_result: Migration Validation Results.
         :paramtype migration_validation_result:
@@ -10654,7 +11135,7 @@ class MigrateSqlServerSqlDbTaskOutputTableLevel(
         "result_prefix": {"key": "resultPrefix", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result_type: str = "TableLevelOutput"
@@ -10704,8 +11185,8 @@ class MigrationValidationResult(_serialization.Model):
         self,
         *,
         summary_results: Optional[Dict[str, "_models.MigrationValidationDatabaseSummaryResult"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword summary_results: Validation summary results for each database.
         :paramtype summary_results: dict[str,
@@ -10759,8 +11240,8 @@ class MigrateSqlServerSqlDbTaskOutputValidationResult(MigrateSqlServerSqlDbTaskO
         self,
         *,
         summary_results: Optional[Dict[str, "_models.MigrationValidationDatabaseSummaryResult"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword summary_results: Validation summary results for each database.
         :paramtype summary_results: dict[str,
@@ -10792,9 +11273,10 @@ class MigrateSqlServerSqlDbTaskProperties(ProjectTaskProperties):
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -10850,8 +11332,8 @@ class MigrateSqlServerSqlDbTaskProperties(ProjectTaskProperties):
         task_id: Optional[str] = None,
         is_cloneable: Optional[bool] = None,
         created_on: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -10911,8 +11393,8 @@ class MigrateSqlServerSqlMIDatabaseInput(_serialization.Model):
         backup_file_share: Optional["_models.FileShare"] = None,
         backup_file_paths: Optional[List[str]] = None,
         id: Optional[str] = None,  # pylint: disable=redefined-builtin
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Name of the database. Required.
         :paramtype name: str
@@ -10934,7 +11416,8 @@ class MigrateSqlServerSqlMIDatabaseInput(_serialization.Model):
 
 
 class SqlServerSqlMISyncTaskInput(_serialization.Model):
-    """Input for task that migrates SQL Server databases to Azure SQL Database Managed Instance online scenario.
+    """Input for task that migrates SQL Server databases to Azure SQL Database Managed Instance online
+    scenario.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -10981,8 +11464,8 @@ class SqlServerSqlMISyncTaskInput(_serialization.Model):
         target_connection_info: "_models.MiSqlConnectionInfo",
         azure_app: "_models.AzureActiveDirectoryApp",
         backup_file_share: Optional["_models.FileShare"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword selected_databases: Databases to migrate. Required.
         :paramtype selected_databases:
@@ -11011,7 +11494,8 @@ class SqlServerSqlMISyncTaskInput(_serialization.Model):
 
 
 class MigrateSqlServerSqlMISyncTaskInput(SqlServerSqlMISyncTaskInput):
-    """Input for task that migrates SQL Server databases to Azure SQL Database Managed Instance online scenario.
+    """Input for task that migrates SQL Server databases to Azure SQL Database Managed Instance online
+    scenario.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -11063,8 +11547,8 @@ class MigrateSqlServerSqlMISyncTaskInput(SqlServerSqlMISyncTaskInput):
         azure_app: "_models.AzureActiveDirectoryApp",
         backup_file_share: Optional["_models.FileShare"] = None,
         number_of_parallel_database_migrations: Optional[float] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword selected_databases: Databases to migrate. Required.
         :paramtype selected_databases:
@@ -11099,7 +11583,8 @@ class MigrateSqlServerSqlMISyncTaskInput(SqlServerSqlMISyncTaskInput):
 
 
 class MigrateSqlServerSqlMISyncTaskOutput(_serialization.Model):
-    """Output for task that migrates SQL Server databases to Azure SQL Database Managed Instance using Log Replay Service.
+    """Output for task that migrates SQL Server databases to Azure SQL Database Managed Instance using
+    Log Replay Service.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     MigrateSqlServerSqlMISyncTaskOutputDatabaseLevel, MigrateSqlServerSqlMISyncTaskOutputError,
@@ -11133,7 +11618,7 @@ class MigrateSqlServerSqlMISyncTaskOutput(_serialization.Model):
         }
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -11214,7 +11699,7 @@ class MigrateSqlServerSqlMISyncTaskOutputDatabaseLevel(
         "exceptions_and_warnings": {"key": "exceptionsAndWarnings", "type": "[ReportableException]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result_type: str = "DatabaseLevelOutput"
@@ -11258,7 +11743,7 @@ class MigrateSqlServerSqlMISyncTaskOutputError(MigrateSqlServerSqlMISyncTaskOutp
         "error": {"key": "error", "type": "ReportableException"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result_type: str = "ErrorOutput"
@@ -11335,7 +11820,7 @@ class MigrateSqlServerSqlMISyncTaskOutputMigrationLevel(
         "database_error_count": {"key": "databaseErrorCount", "type": "int"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result_type: str = "MigrationLevelOutput"
@@ -11353,7 +11838,8 @@ class MigrateSqlServerSqlMISyncTaskOutputMigrationLevel(
 
 
 class MigrateSqlServerSqlMISyncTaskProperties(ProjectTaskProperties):
-    """Properties for task that migrates SQL Server databases to Azure SQL Database Managed Instance sync scenario.
+    """Properties for task that migrates SQL Server databases to Azure SQL Database Managed Instance
+    sync scenario.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -11370,9 +11856,10 @@ class MigrateSqlServerSqlMISyncTaskProperties(ProjectTaskProperties):
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -11420,8 +11907,8 @@ class MigrateSqlServerSqlMISyncTaskProperties(ProjectTaskProperties):
         client_data: Optional[Dict[str, str]] = None,
         input: Optional["_models.MigrateSqlServerSqlMISyncTaskInput"] = None,
         created_on: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -11507,8 +11994,8 @@ class MigrateSqlServerSqlMITaskInput(SqlMigrationTaskInput):  # pylint: disable=
         backup_mode: Optional[Union[str, "_models.BackupMode"]] = None,
         aad_domain_name: Optional[str] = None,
         encrypted_key_for_secure_fields: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword source_connection_info: Information for connecting to source. Required.
         :paramtype source_connection_info: ~azure.mgmt.datamigration.models.SqlConnectionInfo
@@ -11591,7 +12078,7 @@ class MigrateSqlServerSqlMITaskOutput(_serialization.Model):
         }
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -11650,7 +12137,7 @@ class MigrateSqlServerSqlMITaskOutputAgentJobLevel(MigrateSqlServerSqlMITaskOutp
         "exceptions_and_warnings": {"key": "exceptionsAndWarnings", "type": "[ReportableException]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result_type: str = "AgentJobLevelOutput"
@@ -11720,7 +12207,7 @@ class MigrateSqlServerSqlMITaskOutputDatabaseLevel(MigrateSqlServerSqlMITaskOutp
         "exceptions_and_warnings": {"key": "exceptionsAndWarnings", "type": "[ReportableException]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result_type: str = "DatabaseLevelOutput"
@@ -11761,7 +12248,7 @@ class MigrateSqlServerSqlMITaskOutputError(MigrateSqlServerSqlMITaskOutput):
         "error": {"key": "error", "type": "ReportableException"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result_type: str = "ErrorOutput"
@@ -11822,7 +12309,7 @@ class MigrateSqlServerSqlMITaskOutputLoginLevel(MigrateSqlServerSqlMITaskOutput)
         "exceptions_and_warnings": {"key": "exceptionsAndWarnings", "type": "[ReportableException]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result_type: str = "LoginLevelOutput"
@@ -11923,7 +12410,7 @@ class MigrateSqlServerSqlMITaskOutputMigrationLevel(
         "exceptions_and_warnings": {"key": "exceptionsAndWarnings", "type": "[ReportableException]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result_type: str = "MigrationLevelOutput"
@@ -11962,9 +12449,10 @@ class MigrateSqlServerSqlMITaskProperties(ProjectTaskProperties):  # pylint: dis
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -12024,8 +12512,8 @@ class MigrateSqlServerSqlMITaskProperties(ProjectTaskProperties):  # pylint: dis
         created_on: Optional[str] = None,
         parent_task_id: Optional[str] = None,
         is_cloneable: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -12051,7 +12539,8 @@ class MigrateSqlServerSqlMITaskProperties(ProjectTaskProperties):  # pylint: dis
 
 
 class MigrateSsisTaskInput(SqlMigrationTaskInput):
-    """Input for task that migrates SSIS packages from SQL Server to Azure SQL Database Managed Instance.
+    """Input for task that migrates SSIS packages from SQL Server to Azure SQL Database Managed
+    Instance.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -12081,8 +12570,8 @@ class MigrateSsisTaskInput(SqlMigrationTaskInput):
         source_connection_info: "_models.SqlConnectionInfo",
         target_connection_info: "_models.SqlConnectionInfo",
         ssis_migration_info: "_models.SsisMigrationInfo",
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword source_connection_info: Information for connecting to source. Required.
         :paramtype source_connection_info: ~azure.mgmt.datamigration.models.SqlConnectionInfo
@@ -12098,7 +12587,8 @@ class MigrateSsisTaskInput(SqlMigrationTaskInput):
 
 
 class MigrateSsisTaskOutput(_serialization.Model):
-    """Output for task that migrates SSIS packages from SQL Server to Azure SQL Database Managed Instance.
+    """Output for task that migrates SSIS packages from SQL Server to Azure SQL Database Managed
+    Instance.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     MigrateSsisTaskOutputMigrationLevel, MigrateSsisTaskOutputProjectLevel
@@ -12130,7 +12620,7 @@ class MigrateSsisTaskOutput(_serialization.Model):
         }
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -12203,7 +12693,7 @@ class MigrateSsisTaskOutputMigrationLevel(MigrateSsisTaskOutput):  # pylint: dis
         "stage": {"key": "stage", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result_type: str = "MigrationLevelOutput"
@@ -12276,7 +12766,7 @@ class MigrateSsisTaskOutputProjectLevel(MigrateSsisTaskOutput):
         "exceptions_and_warnings": {"key": "exceptionsAndWarnings", "type": "[ReportableException]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.result_type: str = "SsisProjectLevelOutput"
@@ -12291,7 +12781,8 @@ class MigrateSsisTaskOutputProjectLevel(MigrateSsisTaskOutput):
 
 
 class MigrateSsisTaskProperties(ProjectTaskProperties):
-    """Properties for task that migrates SSIS packages from SQL Server databases to Azure SQL Database Managed Instance.
+    """Properties for task that migrates SSIS packages from SQL Server databases to Azure SQL Database
+    Managed Instance.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -12308,9 +12799,10 @@ class MigrateSsisTaskProperties(ProjectTaskProperties):
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -12354,8 +12846,8 @@ class MigrateSsisTaskProperties(ProjectTaskProperties):
         *,
         client_data: Optional[Dict[str, str]] = None,
         input: Optional["_models.MigrateSsisTaskInput"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -12388,7 +12880,9 @@ class MigrateSyncCompleteCommandInput(_serialization.Model):
         "commit_time_stamp": {"key": "commitTimeStamp", "type": "iso-8601"},
     }
 
-    def __init__(self, *, database_name: str, commit_time_stamp: Optional[datetime.datetime] = None, **kwargs):
+    def __init__(
+        self, *, database_name: str, commit_time_stamp: Optional[datetime.datetime] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword database_name: Name of database. Required.
         :paramtype database_name: str
@@ -12421,7 +12915,7 @@ class MigrateSyncCompleteCommandOutput(_serialization.Model):
         "errors": {"key": "errors", "type": "[ReportableException]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -12472,8 +12966,8 @@ class MigrateSyncCompleteCommandProperties(CommandProperties):
         *,
         input: Optional["_models.MigrateSyncCompleteCommandInput"] = None,
         command_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword input: Command input.
         :paramtype input: ~azure.mgmt.datamigration.models.MigrateSyncCompleteCommandInput
@@ -12508,7 +13002,7 @@ class MigrationEligibilityInfo(_serialization.Model):
         "validation_messages": {"key": "validationMessages", "type": "[str]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.is_eligible_for_migration = None
@@ -12526,7 +13020,7 @@ class MigrationOperationInput(_serialization.Model):
         "migration_operation_id": {"key": "migrationOperationId", "type": "str"},
     }
 
-    def __init__(self, *, migration_operation_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, migration_operation_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword migration_operation_id: ID tracking migration operation.
         :paramtype migration_operation_id: str
@@ -12554,8 +13048,8 @@ class MigrationReportResult(_serialization.Model):
         *,
         id: Optional[str] = None,  # pylint: disable=redefined-builtin
         report_url: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: Migration validation result identifier.
         :paramtype id: str
@@ -12633,7 +13127,7 @@ class MigrationStatusDetails(_serialization.Model):  # pylint: disable=too-many-
         "pending_log_backups_count": {"key": "pendingLogBackupsCount", "type": "int"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.migration_state = None
@@ -12649,34 +13143,6 @@ class MigrationStatusDetails(_serialization.Model):  # pylint: disable=too-many-
         self.current_restoring_filename = None
         self.last_restored_filename = None
         self.pending_log_backups_count = None
-
-
-class MigrationTableMetadata(_serialization.Model):
-    """Metadata for tables selected in migration project.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar source_table_name: Source table name.
-    :vartype source_table_name: str
-    :ivar target_table_name: Target table name.
-    :vartype target_table_name: str
-    """
-
-    _validation = {
-        "source_table_name": {"readonly": True},
-        "target_table_name": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "source_table_name": {"key": "sourceTableName", "type": "str"},
-        "target_table_name": {"key": "targetTableName", "type": "str"},
-    }
-
-    def __init__(self, **kwargs):
-        """ """
-        super().__init__(**kwargs)
-        self.source_table_name = None
-        self.target_table_name = None
 
 
 class MigrationValidationDatabaseSummaryResult(_serialization.Model):
@@ -12722,7 +13188,7 @@ class MigrationValidationDatabaseSummaryResult(_serialization.Model):
         "status": {"key": "status", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -12762,8 +13228,8 @@ class MigrationValidationOptions(_serialization.Model):
         enable_schema_validation: Optional[bool] = None,
         enable_data_integrity_validation: Optional[bool] = None,
         enable_query_analysis_validation: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword enable_schema_validation: Allows to compare the schema information between source and
          target.
@@ -12817,8 +13283,8 @@ class MiSqlConnectionInfo(ConnectionInfo):
         managed_instance_resource_id: str,
         user_name: Optional[str] = None,
         password: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword user_name: User name.
         :paramtype user_name: str
@@ -12865,7 +13331,7 @@ class MongoDbCancelCommand(CommandProperties):
         "input": {"key": "input", "type": "MongoDbCommandInput"},
     }
 
-    def __init__(self, *, input: Optional["_models.MongoDbCommandInput"] = None, **kwargs):
+    def __init__(self, *, input: Optional["_models.MongoDbCommandInput"] = None, **kwargs: Any) -> None:
         """
         :keyword input: Command input.
         :paramtype input: ~azure.mgmt.datamigration.models.MongoDbCommandInput
@@ -12913,8 +13379,8 @@ class MongoDbClusterInfo(_serialization.Model):
         supports_sharding: bool,
         type: Union[str, "_models.MongoDbClusterType"],
         version: str,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword databases: A list of non-system databases in the cluster. Required.
         :paramtype databases: list[~azure.mgmt.datamigration.models.MongoDbDatabaseInfo]
@@ -12979,8 +13445,8 @@ class MongoDbObjectInfo(_serialization.Model):
         document_count: int,
         name: str,
         qualified_name: str,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword average_document_size: The average document size, or -1 if the average size is
          unknown. Required.
@@ -13085,8 +13551,8 @@ class MongoDbCollectionInfo(MongoDbObjectInfo):  # pylint: disable=too-many-inst
         supports_sharding: bool,
         shard_key: Optional["_models.MongoDbShardKeyInfo"] = None,
         view_of: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword average_document_size: The average document size, or -1 if the average size is
          unknown. Required.
@@ -13241,8 +13707,8 @@ class MongoDbProgress(_serialization.Model):  # pylint: disable=too-many-instanc
         last_replay_time: Optional[datetime.datetime] = None,
         name: Optional[str] = None,
         qualified_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword bytes_copied: The number of document bytes copied during the Copying stage. Required.
         :paramtype bytes_copied: int
@@ -13394,8 +13860,8 @@ class MongoDbCollectionProgress(MongoDbProgress):  # pylint: disable=too-many-in
         last_replay_time: Optional[datetime.datetime] = None,
         name: Optional[str] = None,
         qualified_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword bytes_copied: The number of document bytes copied during the Copying stage. Required.
         :paramtype bytes_copied: int
@@ -13480,8 +13946,8 @@ class MongoDbCollectionSettings(_serialization.Model):
         can_delete: Optional[bool] = None,
         shard_key: Optional["_models.MongoDbShardKeySetting"] = None,
         target_r_us: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword can_delete: Whether the migrator is allowed to drop the target collection in the
          course of performing a migration. The default is true.
@@ -13510,7 +13976,7 @@ class MongoDbCommandInput(_serialization.Model):
         "object_name": {"key": "objectName", "type": "str"},
     }
 
-    def __init__(self, *, object_name: Optional[str] = None, **kwargs):
+    def __init__(self, *, object_name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword object_name: The qualified name of a database or collection to act upon, or null to
          act upon the entire migration.
@@ -13596,8 +14062,8 @@ class MongoDbConnectionInfo(ConnectionInfo):  # pylint: disable=too-many-instanc
         port: Optional[int] = None,
         additional_settings: Optional[str] = None,
         authentication: Optional[Union[str, "_models.AuthenticationType"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword user_name: User name.
         :paramtype user_name: str
@@ -13700,8 +14166,8 @@ class MongoDbDatabaseInfo(MongoDbObjectInfo):
         qualified_name: str,
         collections: List["_models.MongoDbCollectionInfo"],
         supports_sharding: bool,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword average_document_size: The average document size, or -1 if the average size is
          unknown. Required.
@@ -13834,8 +14300,8 @@ class MongoDbDatabaseProgress(MongoDbProgress):  # pylint: disable=too-many-inst
         name: Optional[str] = None,
         qualified_name: Optional[str] = None,
         collections: Optional[Dict[str, "_models.MongoDbCollectionProgress"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword bytes_copied: The number of document bytes copied during the Copying stage. Required.
         :paramtype bytes_copied: int
@@ -13927,8 +14393,8 @@ class MongoDbDatabaseSettings(_serialization.Model):
         *,
         collections: Dict[str, "_models.MongoDbCollectionSettings"],
         target_r_us: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword collections: The collections on the source database to migrate to the target. The keys
          are the unqualified names of the collections. Required.
@@ -13971,8 +14437,8 @@ class MongoDbError(_serialization.Model):
         count: Optional[int] = None,
         message: Optional[str] = None,
         type: Optional[Union[str, "_models.MongoDbErrorType"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword code: The non-localized, machine-readable code that describes the error or warning.
         :paramtype code: str
@@ -14023,7 +14489,7 @@ class MongoDbFinishCommand(CommandProperties):
         "input": {"key": "input", "type": "MongoDbFinishCommandInput"},
     }
 
-    def __init__(self, *, input: Optional["_models.MongoDbFinishCommandInput"] = None, **kwargs):
+    def __init__(self, *, input: Optional["_models.MongoDbFinishCommandInput"] = None, **kwargs: Any) -> None:
         """
         :keyword input: Command input.
         :paramtype input: ~azure.mgmt.datamigration.models.MongoDbFinishCommandInput
@@ -14056,7 +14522,7 @@ class MongoDbFinishCommandInput(MongoDbCommandInput):
         "immediate": {"key": "immediate", "type": "bool"},
     }
 
-    def __init__(self, *, immediate: bool, object_name: Optional[str] = None, **kwargs):
+    def __init__(self, *, immediate: bool, object_name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword object_name: The qualified name of a database or collection to act upon, or null to
          act upon the entire migration.
@@ -14169,8 +14635,8 @@ class MongoDbMigrationProgress(MongoDbProgress):  # pylint: disable=too-many-ins
         name: Optional[str] = None,
         qualified_name: Optional[str] = None,
         databases: Optional[Dict[str, "_models.MongoDbDatabaseProgress"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword bytes_copied: The number of document bytes copied during the Copying stage. Required.
         :paramtype bytes_copied: int
@@ -14282,8 +14748,8 @@ class MongoDbMigrationSettings(_serialization.Model):
         boost_r_us: Optional[int] = None,
         replication: Optional[Union[str, "_models.MongoDbReplication"]] = None,
         throttling: Optional["_models.MongoDbThrottlingSettings"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword boost_r_us: The RU limit on a CosmosDB target that collections will be temporarily
          increased to (if lower) during the initial copy of a migration, from 10,000 to 1,000,000, or 0
@@ -14344,7 +14810,7 @@ class MongoDbRestartCommand(CommandProperties):
         "input": {"key": "input", "type": "MongoDbCommandInput"},
     }
 
-    def __init__(self, *, input: Optional["_models.MongoDbCommandInput"] = None, **kwargs):
+    def __init__(self, *, input: Optional["_models.MongoDbCommandInput"] = None, **kwargs: Any) -> None:
         """
         :keyword input: Command input.
         :paramtype input: ~azure.mgmt.datamigration.models.MongoDbCommandInput
@@ -14376,7 +14842,7 @@ class MongoDbShardKeyField(_serialization.Model):
         "order": {"key": "order", "type": "str"},
     }
 
-    def __init__(self, *, name: str, order: Union[str, "_models.MongoDbShardKeyOrder"], **kwargs):
+    def __init__(self, *, name: str, order: Union[str, "_models.MongoDbShardKeyOrder"], **kwargs: Any) -> None:
         """
         :keyword name: The name of the field. Required.
         :paramtype name: str
@@ -14410,7 +14876,7 @@ class MongoDbShardKeyInfo(_serialization.Model):
         "is_unique": {"key": "isUnique", "type": "bool"},
     }
 
-    def __init__(self, *, fields: List["_models.MongoDbShardKeyField"], is_unique: bool, **kwargs):
+    def __init__(self, *, fields: List["_models.MongoDbShardKeyField"], is_unique: bool, **kwargs: Any) -> None:
         """
         :keyword fields: The fields within the shard key. Required.
         :paramtype fields: list[~azure.mgmt.datamigration.models.MongoDbShardKeyField]
@@ -14442,7 +14908,9 @@ class MongoDbShardKeySetting(_serialization.Model):
         "is_unique": {"key": "isUnique", "type": "bool"},
     }
 
-    def __init__(self, *, fields: List["_models.MongoDbShardKeyField"], is_unique: Optional[bool] = None, **kwargs):
+    def __init__(
+        self, *, fields: List["_models.MongoDbShardKeyField"], is_unique: Optional[bool] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword fields: The fields within the shard key. Required.
         :paramtype fields: list[~azure.mgmt.datamigration.models.MongoDbShardKeyField]
@@ -14480,8 +14948,8 @@ class MongoDbThrottlingSettings(_serialization.Model):
         min_free_cpu: Optional[int] = None,
         min_free_memory_mb: Optional[int] = None,
         max_parallelism: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword min_free_cpu: The percentage of CPU time that the migrator will try to avoid using,
          from 0 to 100.
@@ -14497,6 +14965,66 @@ class MongoDbThrottlingSettings(_serialization.Model):
         self.min_free_cpu = min_free_cpu
         self.min_free_memory_mb = min_free_memory_mb
         self.max_parallelism = max_parallelism
+
+
+class MySqlBinlogPositionInput(_serialization.Model):
+    """MySQL binlog reference.
+
+    :ivar filename: Specifies the MySQL binlog file name.
+    :vartype filename: str
+    :ivar position: Specifies the position in the binlog file.
+    :vartype position: int
+    """
+
+    _attribute_map = {
+        "filename": {"key": "filename", "type": "str"},
+        "position": {"key": "position", "type": "int"},
+    }
+
+    def __init__(self, *, filename: Optional[str] = None, position: Optional[int] = None, **kwargs: Any) -> None:
+        """
+        :keyword filename: Specifies the MySQL binlog file name.
+        :paramtype filename: str
+        :keyword position: Specifies the position in the binlog file.
+        :paramtype position: int
+        """
+        super().__init__(**kwargs)
+        self.filename = filename
+        self.position = position
+
+
+class MySqlBinlogPositionOutput(_serialization.Model):
+    """MySQL binlog reference.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar name: Specifies the MySQL binlog file name.
+    :vartype name: str
+    :ivar position: Specifies the position in the binlog file.
+    :vartype position: int
+    :ivar file_seq_num: Specifies the the sequential number of the binlog fie, extracted from the
+     file name.
+    :vartype file_seq_num: int
+    """
+
+    _validation = {
+        "name": {"readonly": True},
+        "position": {"readonly": True},
+        "file_seq_num": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "position": {"key": "position", "type": "int"},
+        "file_seq_num": {"key": "fileSeqNum", "type": "int"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.name = None
+        self.position = None
+        self.file_seq_num = None
 
 
 class MySqlConnectionInfo(ConnectionInfo):
@@ -14555,8 +15083,8 @@ class MySqlConnectionInfo(ConnectionInfo):
         encrypt_connection: bool = True,
         authentication: Optional[Union[str, "_models.AuthenticationType"]] = None,
         additional_settings: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword user_name: User name.
         :paramtype user_name: str
@@ -14587,6 +15115,80 @@ class MySqlConnectionInfo(ConnectionInfo):
         self.additional_settings = additional_settings
 
 
+class MySqlContinuousDataMovementProgress(_serialization.Model):
+    """MySqlContinuousDataMovementProgress.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar binlog_position: Current binlog position of the last event committed at target.
+    :vartype binlog_position: ~azure.mgmt.datamigration.models.MySqlBinlogPositionOutput
+    :ivar timestamp: The timestamp exposed by the last binlog event that has been committed at
+     target.
+    :vartype timestamp: ~datetime.datetime
+    :ivar number_of_rows_inserted: The total number of rows inserted at target.
+    :vartype number_of_rows_inserted: int
+    :ivar number_of_rows_updated: The total number of rows updated at target.
+    :vartype number_of_rows_updated: int
+    :ivar number_of_rows_deleted: The total number of rows deleted at target.
+    :vartype number_of_rows_deleted: int
+    :ivar number_of_query_events_processed: The total number of query events executed at target,
+     such as DDL, or DML when using mixed binlog mode.
+    :vartype number_of_query_events_processed: int
+    :ivar number_of_write_rows_events_processed: The the total number of the WRITE_ROWS_EVENTs
+     processed.
+    :vartype number_of_write_rows_events_processed: int
+    :ivar number_of_update_rows_events_processed: The the total number of the UPDATE_ROWS_EVENTs
+     processed.
+    :vartype number_of_update_rows_events_processed: int
+    :ivar number_of_delete_rows_events_processed: The total number of the DELETE_ROWS_EVENTs
+     processed.
+    :vartype number_of_delete_rows_events_processed: int
+    :ivar seconds_behind_source: The number of seconds the target server is behind the source
+     server.
+    :vartype seconds_behind_source: int
+    """
+
+    _validation = {
+        "binlog_position": {"readonly": True},
+        "timestamp": {"readonly": True},
+        "number_of_rows_inserted": {"readonly": True},
+        "number_of_rows_updated": {"readonly": True},
+        "number_of_rows_deleted": {"readonly": True},
+        "number_of_query_events_processed": {"readonly": True},
+        "number_of_write_rows_events_processed": {"readonly": True},
+        "number_of_update_rows_events_processed": {"readonly": True},
+        "number_of_delete_rows_events_processed": {"readonly": True},
+        "seconds_behind_source": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "binlog_position": {"key": "binlogPosition", "type": "MySqlBinlogPositionOutput"},
+        "timestamp": {"key": "timestamp", "type": "iso-8601"},
+        "number_of_rows_inserted": {"key": "numberOfRowsInserted", "type": "int"},
+        "number_of_rows_updated": {"key": "numberOfRowsUpdated", "type": "int"},
+        "number_of_rows_deleted": {"key": "numberOfRowsDeleted", "type": "int"},
+        "number_of_query_events_processed": {"key": "numberOfQueryEventsProcessed", "type": "int"},
+        "number_of_write_rows_events_processed": {"key": "numberOfWriteRowsEventsProcessed", "type": "int"},
+        "number_of_update_rows_events_processed": {"key": "numberOfUpdateRowsEventsProcessed", "type": "int"},
+        "number_of_delete_rows_events_processed": {"key": "numberOfDeleteRowsEventsProcessed", "type": "int"},
+        "seconds_behind_source": {"key": "secondsBehindSource", "type": "int"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.binlog_position = None
+        self.timestamp = None
+        self.number_of_rows_inserted = None
+        self.number_of_rows_updated = None
+        self.number_of_rows_deleted = None
+        self.number_of_query_events_processed = None
+        self.number_of_write_rows_events_processed = None
+        self.number_of_update_rows_events_processed = None
+        self.number_of_delete_rows_events_processed = None
+        self.seconds_behind_source = None
+
+
 class NameAvailabilityRequest(_serialization.Model):
     """A resource type and proposed name.
 
@@ -14601,7 +15203,7 @@ class NameAvailabilityRequest(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, type: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, type: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: The proposed resource name.
         :paramtype name: str
@@ -14638,8 +15240,8 @@ class NameAvailabilityResponse(_serialization.Model):
         name_available: Optional[bool] = None,
         reason: Optional[Union[str, "_models.NameCheckFailureReason"]] = None,
         message: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name_available: If true, the name is valid and available. If false, 'reason' describes
          why not.
@@ -14708,7 +15310,7 @@ class NodeMonitoringData(_serialization.Model):
         "received_bytes": {"key": "receivedBytes", "type": "float"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.additional_properties = None
@@ -14720,207 +15322,6 @@ class NodeMonitoringData(_serialization.Model):
         self.max_concurrent_jobs = None
         self.sent_bytes = None
         self.received_bytes = None
-
-
-class NonSqlDataMigrationTable(_serialization.Model):
-    """Defines metadata for table to be migrated.
-
-    :ivar source_name: Source table name.
-    :vartype source_name: str
-    """
-
-    _attribute_map = {
-        "source_name": {"key": "sourceName", "type": "str"},
-    }
-
-    def __init__(self, *, source_name: Optional[str] = None, **kwargs):
-        """
-        :keyword source_name: Source table name.
-        :paramtype source_name: str
-        """
-        super().__init__(**kwargs)
-        self.source_name = source_name
-
-
-class NonSqlDataMigrationTableResult(_serialization.Model):
-    """Object used to report the data migration results of a table.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar result_code: Result code of the data migration. Known values are: "Initial", "Completed",
-     "ObjectNotExistsInSource", "ObjectNotExistsInTarget", "TargetObjectIsInaccessible", and
-     "FatalError".
-    :vartype result_code: str or ~azure.mgmt.datamigration.models.DataMigrationResultCode
-    :ivar source_name: Name of the source table.
-    :vartype source_name: str
-    :ivar target_name: Name of the target table.
-    :vartype target_name: str
-    :ivar source_row_count: Number of rows in the source table.
-    :vartype source_row_count: int
-    :ivar target_row_count: Number of rows in the target table.
-    :vartype target_row_count: int
-    :ivar elapsed_time_in_miliseconds: Time taken to migrate the data.
-    :vartype elapsed_time_in_miliseconds: float
-    :ivar errors: List of errors, if any, during migration.
-    :vartype errors: list[~azure.mgmt.datamigration.models.DataMigrationError]
-    """
-
-    _validation = {
-        "result_code": {"readonly": True},
-        "source_name": {"readonly": True},
-        "target_name": {"readonly": True},
-        "source_row_count": {"readonly": True},
-        "target_row_count": {"readonly": True},
-        "elapsed_time_in_miliseconds": {"readonly": True},
-        "errors": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "result_code": {"key": "resultCode", "type": "str"},
-        "source_name": {"key": "sourceName", "type": "str"},
-        "target_name": {"key": "targetName", "type": "str"},
-        "source_row_count": {"key": "sourceRowCount", "type": "int"},
-        "target_row_count": {"key": "targetRowCount", "type": "int"},
-        "elapsed_time_in_miliseconds": {"key": "elapsedTimeInMiliseconds", "type": "float"},
-        "errors": {"key": "errors", "type": "[DataMigrationError]"},
-    }
-
-    def __init__(self, **kwargs):
-        """ """
-        super().__init__(**kwargs)
-        self.result_code = None
-        self.source_name = None
-        self.target_name = None
-        self.source_row_count = None
-        self.target_row_count = None
-        self.elapsed_time_in_miliseconds = None
-        self.errors = None
-
-
-class NonSqlMigrationTaskInput(_serialization.Model):
-    """Base class for non sql migration task input.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar target_connection_info: Information for connecting to target. Required.
-    :vartype target_connection_info: ~azure.mgmt.datamigration.models.SqlConnectionInfo
-    :ivar target_database_name: Target database name. Required.
-    :vartype target_database_name: str
-    :ivar project_name: Name of the migration project. Required.
-    :vartype project_name: str
-    :ivar project_location: A URL that points to the drop location to access project artifacts.
-     Required.
-    :vartype project_location: str
-    :ivar selected_tables: Metadata of the tables selected for migration. Required.
-    :vartype selected_tables: list[~azure.mgmt.datamigration.models.NonSqlDataMigrationTable]
-    """
-
-    _validation = {
-        "target_connection_info": {"required": True},
-        "target_database_name": {"required": True},
-        "project_name": {"required": True},
-        "project_location": {"required": True},
-        "selected_tables": {"required": True},
-    }
-
-    _attribute_map = {
-        "target_connection_info": {"key": "targetConnectionInfo", "type": "SqlConnectionInfo"},
-        "target_database_name": {"key": "targetDatabaseName", "type": "str"},
-        "project_name": {"key": "projectName", "type": "str"},
-        "project_location": {"key": "projectLocation", "type": "str"},
-        "selected_tables": {"key": "selectedTables", "type": "[NonSqlDataMigrationTable]"},
-    }
-
-    def __init__(
-        self,
-        *,
-        target_connection_info: "_models.SqlConnectionInfo",
-        target_database_name: str,
-        project_name: str,
-        project_location: str,
-        selected_tables: List["_models.NonSqlDataMigrationTable"],
-        **kwargs
-    ):
-        """
-        :keyword target_connection_info: Information for connecting to target. Required.
-        :paramtype target_connection_info: ~azure.mgmt.datamigration.models.SqlConnectionInfo
-        :keyword target_database_name: Target database name. Required.
-        :paramtype target_database_name: str
-        :keyword project_name: Name of the migration project. Required.
-        :paramtype project_name: str
-        :keyword project_location: A URL that points to the drop location to access project artifacts.
-         Required.
-        :paramtype project_location: str
-        :keyword selected_tables: Metadata of the tables selected for migration. Required.
-        :paramtype selected_tables: list[~azure.mgmt.datamigration.models.NonSqlDataMigrationTable]
-        """
-        super().__init__(**kwargs)
-        self.target_connection_info = target_connection_info
-        self.target_database_name = target_database_name
-        self.project_name = project_name
-        self.project_location = project_location
-        self.selected_tables = selected_tables
-
-
-class NonSqlMigrationTaskOutput(_serialization.Model):
-    """Base class for non sql migration task output.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar id: Result identifier.
-    :vartype id: str
-    :ivar started_on: Migration start time.
-    :vartype started_on: ~datetime.datetime
-    :ivar ended_on: Migration end time.
-    :vartype ended_on: ~datetime.datetime
-    :ivar status: Current state of migration. Known values are: "Default", "Connecting",
-     "SourceAndTargetSelected", "SelectLogins", "Configured", "Running", "Error", "Stopped",
-     "Completed", and "CompletedWithWarnings".
-    :vartype status: str or ~azure.mgmt.datamigration.models.MigrationStatus
-    :ivar data_migration_table_results: Results of the migration. The key contains the table name
-     and the value the table result object.
-    :vartype data_migration_table_results: str
-    :ivar progress_message: Message about the progress of the migration.
-    :vartype progress_message: str
-    :ivar source_server_name: Name of source server.
-    :vartype source_server_name: str
-    :ivar target_server_name: Name of target server.
-    :vartype target_server_name: str
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "started_on": {"readonly": True},
-        "ended_on": {"readonly": True},
-        "status": {"readonly": True},
-        "data_migration_table_results": {"readonly": True},
-        "progress_message": {"readonly": True},
-        "source_server_name": {"readonly": True},
-        "target_server_name": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "started_on": {"key": "startedOn", "type": "iso-8601"},
-        "ended_on": {"key": "endedOn", "type": "iso-8601"},
-        "status": {"key": "status", "type": "str"},
-        "data_migration_table_results": {"key": "dataMigrationTableResults", "type": "str"},
-        "progress_message": {"key": "progressMessage", "type": "str"},
-        "source_server_name": {"key": "sourceServerName", "type": "str"},
-        "target_server_name": {"key": "targetServerName", "type": "str"},
-    }
-
-    def __init__(self, **kwargs):
-        """ """
-        super().__init__(**kwargs)
-        self.id = None
-        self.started_on = None
-        self.ended_on = None
-        self.status = None
-        self.data_migration_table_results = None
-        self.progress_message = None
-        self.source_server_name = None
-        self.target_server_name = None
 
 
 class ODataError(_serialization.Model):
@@ -14947,8 +15348,8 @@ class ODataError(_serialization.Model):
         code: Optional[str] = None,
         message: Optional[str] = None,
         details: Optional[List["_models.ODataError"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword code: The machine-readable description of the error, such as 'InvalidRequest' or
          'InternalServerError'.
@@ -14980,7 +15381,9 @@ class OfflineConfiguration(_serialization.Model):
         "last_backup_name": {"key": "lastBackupName", "type": "str"},
     }
 
-    def __init__(self, *, offline: Optional[bool] = None, last_backup_name: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, offline: Optional[bool] = None, last_backup_name: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword offline: Offline migration.
         :paramtype offline: bool
@@ -15015,7 +15418,7 @@ class OperationListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -15054,7 +15457,7 @@ class OperationsDefinition(_serialization.Model):
         "properties": {"key": "properties", "type": "{object}"},
     }
 
-    def __init__(self, *, is_data_action: Optional[bool] = None, **kwargs):
+    def __init__(self, *, is_data_action: Optional[bool] = None, **kwargs: Any) -> None:
         """
         :keyword is_data_action: Indicates whether the operation is a data action.
         :paramtype is_data_action: bool
@@ -15096,7 +15499,7 @@ class OperationsDisplayDefinition(_serialization.Model):
         "description": {"key": "description", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.provider = None
@@ -15156,8 +15559,8 @@ class OracleConnectionInfo(ConnectionInfo):
         server_version: Optional[str] = None,
         port: Optional[int] = None,
         authentication: Optional[Union[str, "_models.AuthenticationType"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword user_name: User name.
         :paramtype user_name: str
@@ -15223,7 +15626,7 @@ class OracleOCIDriverInfo(_serialization.Model):
         "supported_oracle_versions": {"key": "supportedOracleVersions", "type": "[str]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.driver_name = None
@@ -15248,7 +15651,7 @@ class OrphanedUserInfo(_serialization.Model):
         "database_name": {"key": "databaseName", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, database_name: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, database_name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Name of the orphaned user.
         :paramtype name: str
@@ -15332,8 +15735,8 @@ class PostgreSqlConnectionInfo(ConnectionInfo):  # pylint: disable=too-many-inst
         additional_settings: Optional[str] = None,
         server_brand_version: Optional[str] = None,
         authentication: Optional[Union[str, "_models.AuthenticationType"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword user_name: User name.
         :paramtype user_name: str
@@ -15456,8 +15859,8 @@ class Project(TrackedResource):  # pylint: disable=too-many-instance-attributes
         source_connection_info: Optional["_models.ConnectionInfo"] = None,
         target_connection_info: Optional["_models.ConnectionInfo"] = None,
         databases_info: Optional[List["_models.DatabaseInfo"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location:
         :paramtype location: str
@@ -15518,7 +15921,7 @@ class Resource(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -15562,8 +15965,8 @@ class ProjectFile(Resource):
     }
 
     def __init__(
-        self, *, etag: Optional[str] = None, properties: Optional["_models.ProjectFileProperties"] = None, **kwargs
-    ):
+        self, *, etag: Optional[str] = None, properties: Optional["_models.ProjectFileProperties"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword etag: HTTP strong entity tag value. This is ignored if submitted.
         :paramtype etag: str
@@ -15615,8 +16018,8 @@ class ProjectFileProperties(_serialization.Model):
         extension: Optional[str] = None,
         file_path: Optional[str] = None,
         media_type: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword extension: Optional File extension. If submitted it should not have a leading period
          and must match the extension from filePath.
@@ -15650,7 +16053,9 @@ class ProjectList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Project"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.Project"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: List of projects.
         :paramtype value: list[~azure.mgmt.datamigration.models.Project]
@@ -15698,8 +16103,8 @@ class ProjectTask(Resource):
     }
 
     def __init__(
-        self, *, etag: Optional[str] = None, properties: Optional["_models.ProjectTaskProperties"] = None, **kwargs
-    ):
+        self, *, etag: Optional[str] = None, properties: Optional["_models.ProjectTaskProperties"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword etag: HTTP strong entity tag value. This is ignored if submitted.
         :paramtype etag: str
@@ -15731,8 +16136,8 @@ class QueryAnalysisValidationResult(_serialization.Model):
         *,
         query_results: Optional["_models.QueryExecutionResult"] = None,
         validation_errors: Optional["_models.ValidationError"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword query_results: List of queries executed and it's execution results in source and
          target.
@@ -15772,8 +16177,8 @@ class QueryExecutionResult(_serialization.Model):
         statements_in_batch: Optional[int] = None,
         source_result: Optional["_models.ExecutionStatistics"] = None,
         target_result: Optional["_models.ExecutionStatistics"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword query_text: Query text retrieved from the source server.
         :paramtype query_text: str
@@ -15824,8 +16229,8 @@ class Quota(_serialization.Model):
         limit: Optional[float] = None,
         name: Optional["_models.QuotaName"] = None,
         unit: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword current_value: The current value of the quota. If null or missing, the current value
          cannot be determined in the context of the request.
@@ -15863,7 +16268,9 @@ class QuotaList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Quota"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.Quota"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: List of quotas.
         :paramtype value: list[~azure.mgmt.datamigration.models.Quota]
@@ -15890,7 +16297,7 @@ class QuotaName(_serialization.Model):
         "value": {"key": "value", "type": "str"},
     }
 
-    def __init__(self, *, localized_value: Optional[str] = None, value: Optional[str] = None, **kwargs):
+    def __init__(self, *, localized_value: Optional[str] = None, value: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword localized_value: The localized name of the quota.
         :paramtype localized_value: str
@@ -15925,8 +16332,8 @@ class RegenAuthKeys(_serialization.Model):
         key_name: Optional[str] = None,
         auth_key1: Optional[str] = None,
         auth_key2: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword key_name: The name of authentication key to generate.
         :paramtype key_name: str
@@ -15976,8 +16383,8 @@ class ReportableException(_serialization.Model):
         line_number: Optional[str] = None,
         h_result: Optional[int] = None,
         stack_trace: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword message: Error message.
         :paramtype message: str
@@ -16063,7 +16470,7 @@ class ResourceSku(_serialization.Model):  # pylint: disable=too-many-instance-at
         "restrictions": {"key": "restrictions", "type": "[ResourceSkuRestrictions]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.resource_type = None
@@ -16101,7 +16508,7 @@ class ResourceSkuCapabilities(_serialization.Model):
         "value": {"key": "value", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.name = None
@@ -16138,7 +16545,7 @@ class ResourceSkuCapacity(_serialization.Model):
         "scale_type": {"key": "scaleType", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.minimum = None
@@ -16172,7 +16579,7 @@ class ResourceSkuCosts(_serialization.Model):
         "extended_unit": {"key": "extendedUnit", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.meter_id = None
@@ -16207,7 +16614,7 @@ class ResourceSkuRestrictions(_serialization.Model):
         "reason_code": {"key": "reasonCode", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.type = None
@@ -16236,7 +16643,7 @@ class ResourceSkusResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: List["_models.ResourceSku"], next_link: Optional[str] = None, **kwargs):
+    def __init__(self, *, value: List["_models.ResourceSku"], next_link: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword value: The list of SKUs available for the subscription. Required.
         :paramtype value: list[~azure.mgmt.datamigration.models.ResourceSku]
@@ -16278,8 +16685,8 @@ class SchemaComparisonValidationResult(_serialization.Model):
         validation_errors: Optional["_models.ValidationError"] = None,
         source_database_object_count: Optional[Dict[str, int]] = None,
         target_database_object_count: Optional[Dict[str, int]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword schema_differences: List of schema differences between the source and target
          databases.
@@ -16326,8 +16733,8 @@ class SchemaComparisonValidationResultType(_serialization.Model):
         object_name: Optional[str] = None,
         object_type: Optional[Union[str, "_models.ObjectType"]] = None,
         update_action: Optional[Union[str, "_models.UpdateActionType"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword object_name: Name of the object that has the difference.
         :paramtype object_name: str
@@ -16369,8 +16776,8 @@ class SchemaMigrationSetting(_serialization.Model):
         schema_option: Optional[Union[str, "_models.SchemaMigrationOption"]] = None,
         file_id: Optional[str] = None,
         file_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword schema_option: Option on how to migrate the schema. Known values are: "None",
          "ExtractFromSource", and "UseStorageFile".
@@ -16407,7 +16814,7 @@ class SelectedCertificateInput(_serialization.Model):
         "password": {"key": "password", "type": "str"},
     }
 
-    def __init__(self, *, certificate_name: str, password: str, **kwargs):
+    def __init__(self, *, certificate_name: str, password: str, **kwargs: Any) -> None:
         """
         :keyword certificate_name: Name of certificate to be exported. Required.
         :paramtype certificate_name: str
@@ -16456,7 +16863,7 @@ class ServerProperties(_serialization.Model):
         "server_database_count": {"key": "serverDatabaseCount", "type": "int"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.server_platform = None
@@ -16465,108 +16872,6 @@ class ServerProperties(_serialization.Model):
         self.server_edition = None
         self.server_operating_system_version = None
         self.server_database_count = None
-
-
-class ServiceOperation(_serialization.Model):
-    """Description of an action supported by the Database Migration Service.
-
-    :ivar name: The fully qualified action name, e.g. Microsoft.DataMigration/services/read.
-    :vartype name: str
-    :ivar display: Localized display text.
-    :vartype display: ~azure.mgmt.datamigration.models.ServiceOperationDisplay
-    """
-
-    _attribute_map = {
-        "name": {"key": "name", "type": "str"},
-        "display": {"key": "display", "type": "ServiceOperationDisplay"},
-    }
-
-    def __init__(
-        self, *, name: Optional[str] = None, display: Optional["_models.ServiceOperationDisplay"] = None, **kwargs
-    ):
-        """
-        :keyword name: The fully qualified action name, e.g. Microsoft.DataMigration/services/read.
-        :paramtype name: str
-        :keyword display: Localized display text.
-        :paramtype display: ~azure.mgmt.datamigration.models.ServiceOperationDisplay
-        """
-        super().__init__(**kwargs)
-        self.name = name
-        self.display = display
-
-
-class ServiceOperationDisplay(_serialization.Model):
-    """Localized display text.
-
-    :ivar provider: The localized resource provider name.
-    :vartype provider: str
-    :ivar resource: The localized resource type name.
-    :vartype resource: str
-    :ivar operation: The localized operation name.
-    :vartype operation: str
-    :ivar description: The localized operation description.
-    :vartype description: str
-    """
-
-    _attribute_map = {
-        "provider": {"key": "provider", "type": "str"},
-        "resource": {"key": "resource", "type": "str"},
-        "operation": {"key": "operation", "type": "str"},
-        "description": {"key": "description", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        provider: Optional[str] = None,
-        resource: Optional[str] = None,
-        operation: Optional[str] = None,
-        description: Optional[str] = None,
-        **kwargs
-    ):
-        """
-        :keyword provider: The localized resource provider name.
-        :paramtype provider: str
-        :keyword resource: The localized resource type name.
-        :paramtype resource: str
-        :keyword operation: The localized operation name.
-        :paramtype operation: str
-        :keyword description: The localized operation description.
-        :paramtype description: str
-        """
-        super().__init__(**kwargs)
-        self.provider = provider
-        self.resource = resource
-        self.operation = operation
-        self.description = description
-
-
-class ServiceOperationList(_serialization.Model):
-    """OData page of action (operation) objects.
-
-    :ivar value: List of actions.
-    :vartype value: list[~azure.mgmt.datamigration.models.ServiceOperation]
-    :ivar next_link: URL to load the next page of actions.
-    :vartype next_link: str
-    """
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[ServiceOperation]"},
-        "next_link": {"key": "nextLink", "type": "str"},
-    }
-
-    def __init__(
-        self, *, value: Optional[List["_models.ServiceOperation"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
-        """
-        :keyword value: List of actions.
-        :paramtype value: list[~azure.mgmt.datamigration.models.ServiceOperation]
-        :keyword next_link: URL to load the next page of actions.
-        :paramtype next_link: str
-        """
-        super().__init__(**kwargs)
-        self.value = value
-        self.next_link = next_link
 
 
 class ServiceSku(_serialization.Model):
@@ -16602,8 +16907,8 @@ class ServiceSku(_serialization.Model):
         family: Optional[str] = None,
         size: Optional[str] = None,
         capacity: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: The unique name of the SKU, such as 'P3'.
         :paramtype name: str
@@ -16641,8 +16946,12 @@ class ServiceSkuList(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.AvailableServiceSku"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self,
+        *,
+        value: Optional[List["_models.AvailableServiceSku"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: List of service SKUs.
         :paramtype value: list[~azure.mgmt.datamigration.models.AvailableServiceSku]
@@ -16682,8 +16991,8 @@ class SourceLocation(_serialization.Model):
         *,
         file_share: Optional["_models.SqlFileShare"] = None,
         azure_blob: Optional["_models.AzureBlob"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword file_share: Source File share.
         :paramtype file_share: ~azure.mgmt.datamigration.models.SqlFileShare
@@ -16742,7 +17051,7 @@ class SqlBackupFileInfo(_serialization.Model):
         "family_sequence_number": {"key": "familySequenceNumber", "type": "int"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.file_name = None
@@ -16812,7 +17121,7 @@ class SqlBackupSetInfo(_serialization.Model):  # pylint: disable=too-many-instan
         "ignore_reasons": {"key": "ignoreReasons", "type": "[str]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.backup_set_id = None
@@ -16905,8 +17214,8 @@ class SqlConnectionInfo(ConnectionInfo):  # pylint: disable=too-many-instance-at
         additional_settings: Optional[str] = None,
         trust_server_certificate: bool = False,
         platform: Optional[Union[str, "_models.SqlSourcePlatform"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword user_name: User name.
         :paramtype user_name: str
@@ -16989,8 +17298,8 @@ class SqlConnectionInformation(_serialization.Model):
         password: Optional[str] = None,
         encrypt_connection: Optional[bool] = None,
         trust_server_certificate: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword data_source: Data source.
         :paramtype data_source: str
@@ -17040,7 +17349,7 @@ class SqlDbMigrationStatusDetails(_serialization.Model):
         "list_of_copy_progress_details": {"key": "listOfCopyProgressDetails", "type": "[CopyProgressDetails]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.migration_state = None
@@ -17065,7 +17374,7 @@ class SqlDbOfflineConfiguration(_serialization.Model):
         "offline": {"key": "offline", "type": "bool"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.offline = None
@@ -17089,8 +17398,13 @@ class SqlFileShare(_serialization.Model):
     }
 
     def __init__(
-        self, *, path: Optional[str] = None, username: Optional[str] = None, password: Optional[str] = None, **kwargs
-    ):
+        self,
+        *,
+        path: Optional[str] = None,
+        username: Optional[str] = None,
+        password: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword path: Location as SMB share or local drive where backups are placed.
         :paramtype path: str
@@ -17126,7 +17440,7 @@ class SqlMigrationListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -17176,7 +17490,7 @@ class SqlMigrationService(TrackedResource):
         "integration_runtime_state": {"key": "properties.integrationRuntimeState", "type": "str"},
     }
 
-    def __init__(self, *, location: Optional[str] = None, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, location: Optional[str] = None, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword location:
         :paramtype location: str
@@ -17199,7 +17513,7 @@ class SqlMigrationServiceUpdate(_serialization.Model):
         "tags": {"key": "tags", "type": "{str}"},
     }
 
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword tags: Dictionary of :code:`<string>`.
         :paramtype tags: dict[str, str]
@@ -17236,8 +17550,8 @@ class SsisMigrationInfo(_serialization.Model):
         ssis_store_type: Optional[Union[str, "_models.SsisStoreType"]] = None,
         project_overwrite_option: Optional[Union[str, "_models.SsisMigrationOverwriteOption"]] = None,
         environment_overwrite_option: Optional[Union[str, "_models.SsisMigrationOverwriteOption"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword ssis_store_type: The SSIS store type of source, only SSIS catalog is supported now in
          DMS. "SsisCatalog"
@@ -17283,7 +17597,7 @@ class StartMigrationScenarioServerRoleResult(_serialization.Model):
         "exceptions_and_warnings": {"key": "exceptionsAndWarnings", "type": "[ReportableException]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.name = None
@@ -17316,7 +17630,7 @@ class SyncMigrationDatabaseErrorEvent(_serialization.Model):
         "event_text": {"key": "eventText", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.timestamp_string = None
@@ -17360,8 +17674,8 @@ class SystemData(_serialization.Model):
         last_modified_by: Optional[str] = None,
         last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
         last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword created_by:
         :paramtype created_by: str
@@ -17402,8 +17716,8 @@ class TargetLocation(_serialization.Model):
     }
 
     def __init__(
-        self, *, storage_account_resource_id: Optional[str] = None, account_key: Optional[str] = None, **kwargs
-    ):
+        self, *, storage_account_resource_id: Optional[str] = None, account_key: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword storage_account_resource_id: Resource Id of the storage account copying backups.
         :paramtype storage_account_resource_id: str
@@ -17430,8 +17744,8 @@ class TaskList(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.ProjectTask"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.ProjectTask"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: List of tasks.
         :paramtype value: list[~azure.mgmt.datamigration.models.ProjectTask]
@@ -17454,7 +17768,7 @@ class UploadOCIDriverTaskInput(_serialization.Model):
         "driver_share": {"key": "driverShare", "type": "FileShare"},
     }
 
-    def __init__(self, *, driver_share: Optional["_models.FileShare"] = None, **kwargs):
+    def __init__(self, *, driver_share: Optional["_models.FileShare"] = None, **kwargs: Any) -> None:
         """
         :keyword driver_share: File share information for the OCI driver archive.
         :paramtype driver_share: ~azure.mgmt.datamigration.models.FileShare
@@ -17484,7 +17798,7 @@ class UploadOCIDriverTaskOutput(_serialization.Model):
         "validation_errors": {"key": "validationErrors", "type": "[ReportableException]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.driver_package_name = None
@@ -17509,9 +17823,10 @@ class UploadOCIDriverTaskProperties(ProjectTaskProperties):
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -17555,8 +17870,8 @@ class UploadOCIDriverTaskProperties(ProjectTaskProperties):
         *,
         client_data: Optional[Dict[str, str]] = None,
         input: Optional["_models.UploadOCIDriverTaskInput"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -17587,9 +17902,10 @@ class ValidateMigrationInputSqlServerSqlDbSyncTaskProperties(ProjectTaskProperti
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -17634,8 +17950,8 @@ class ValidateMigrationInputSqlServerSqlDbSyncTaskProperties(ProjectTaskProperti
         *,
         client_data: Optional[Dict[str, str]] = None,
         input: Optional["_models.ValidateSyncMigrationInputSqlServerTaskInput"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -17649,7 +17965,8 @@ class ValidateMigrationInputSqlServerSqlDbSyncTaskProperties(ProjectTaskProperti
 
 
 class ValidateMigrationInputSqlServerSqlMISyncTaskInput(SqlServerSqlMISyncTaskInput):
-    """Input for task that migrates SQL Server databases to Azure SQL Database Managed Instance online scenario.
+    """Input for task that migrates SQL Server databases to Azure SQL Database Managed Instance online
+    scenario.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -17696,8 +18013,8 @@ class ValidateMigrationInputSqlServerSqlMISyncTaskInput(SqlServerSqlMISyncTaskIn
         target_connection_info: "_models.MiSqlConnectionInfo",
         azure_app: "_models.AzureActiveDirectoryApp",
         backup_file_share: Optional["_models.FileShare"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword selected_databases: Databases to migrate. Required.
         :paramtype selected_databases:
@@ -17728,7 +18045,8 @@ class ValidateMigrationInputSqlServerSqlMISyncTaskInput(SqlServerSqlMISyncTaskIn
 
 
 class ValidateMigrationInputSqlServerSqlMISyncTaskOutput(_serialization.Model):
-    """Output for task that validates migration input for Azure SQL Database Managed Instance online migration.
+    """Output for task that validates migration input for Azure SQL Database Managed Instance online
+    migration.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -17752,7 +18070,7 @@ class ValidateMigrationInputSqlServerSqlMISyncTaskOutput(_serialization.Model):
         "validation_errors": {"key": "validationErrors", "type": "[ReportableException]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -17761,7 +18079,8 @@ class ValidateMigrationInputSqlServerSqlMISyncTaskOutput(_serialization.Model):
 
 
 class ValidateMigrationInputSqlServerSqlMISyncTaskProperties(ProjectTaskProperties):
-    """Properties for task that validates migration input for SQL to Azure SQL Database Managed Instance sync scenario.
+    """Properties for task that validates migration input for SQL to Azure SQL Database Managed
+    Instance sync scenario.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -17778,9 +18097,10 @@ class ValidateMigrationInputSqlServerSqlMISyncTaskProperties(ProjectTaskProperti
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -17826,8 +18146,8 @@ class ValidateMigrationInputSqlServerSqlMISyncTaskProperties(ProjectTaskProperti
         *,
         client_data: Optional[Dict[str, str]] = None,
         input: Optional["_models.ValidateMigrationInputSqlServerSqlMISyncTaskInput"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -17892,8 +18212,8 @@ class ValidateMigrationInputSqlServerSqlMITaskInput(_serialization.Model):
         selected_logins: Optional[List[str]] = None,
         backup_file_share: Optional["_models.FileShare"] = None,
         backup_mode: Optional[Union[str, "_models.BackupMode"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword source_connection_info: Information for connecting to source. Required.
         :paramtype source_connection_info: ~azure.mgmt.datamigration.models.SqlConnectionInfo
@@ -17924,7 +18244,8 @@ class ValidateMigrationInputSqlServerSqlMITaskInput(_serialization.Model):
 
 
 class ValidateMigrationInputSqlServerSqlMITaskOutput(_serialization.Model):
-    """Output for task that validates migration input for SQL to Azure SQL Managed Instance migrations.
+    """Output for task that validates migration input for SQL to Azure SQL Managed Instance
+    migrations.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -17971,7 +18292,7 @@ class ValidateMigrationInputSqlServerSqlMITaskOutput(_serialization.Model):
         "database_backup_info": {"key": "databaseBackupInfo", "type": "DatabaseBackupInfo"},
     }
 
-    def __init__(self, *, database_backup_info: Optional["_models.DatabaseBackupInfo"] = None, **kwargs):
+    def __init__(self, *, database_backup_info: Optional["_models.DatabaseBackupInfo"] = None, **kwargs: Any) -> None:
         """
         :keyword database_backup_info: Information about backup files when existing backup mode is
          used.
@@ -17989,7 +18310,8 @@ class ValidateMigrationInputSqlServerSqlMITaskOutput(_serialization.Model):
 
 
 class ValidateMigrationInputSqlServerSqlMITaskProperties(ProjectTaskProperties):
-    """Properties for task that validates migration input for SQL to Azure SQL Database Managed Instance.
+    """Properties for task that validates migration input for SQL to Azure SQL Database Managed
+    Instance.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -18006,9 +18328,10 @@ class ValidateMigrationInputSqlServerSqlMITaskProperties(ProjectTaskProperties):
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -18053,8 +18376,8 @@ class ValidateMigrationInputSqlServerSqlMITaskProperties(ProjectTaskProperties):
         *,
         client_data: Optional[Dict[str, str]] = None,
         input: Optional["_models.ValidateMigrationInputSqlServerSqlMITaskInput"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -18086,9 +18409,10 @@ class ValidateMongoDbTaskProperties(ProjectTaskProperties):
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -18132,8 +18456,8 @@ class ValidateMongoDbTaskProperties(ProjectTaskProperties):
         *,
         client_data: Optional[Dict[str, str]] = None,
         input: Optional["_models.MongoDbMigrationSettings"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -18147,7 +18471,8 @@ class ValidateMongoDbTaskProperties(ProjectTaskProperties):
 
 
 class ValidateOracleAzureDbForPostgreSqlSyncTaskProperties(ProjectTaskProperties):
-    """Properties for the task that validates a migration for Oracle to Azure Database for PostgreSQL for online migrations.
+    """Properties for the task that validates a migration for Oracle to Azure Database for PostgreSQL
+    for online migrations.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -18164,9 +18489,10 @@ class ValidateOracleAzureDbForPostgreSqlSyncTaskProperties(ProjectTaskProperties
      "GetUserTablesPostgreSql", "GetUserTablesMySql", "Migrate.MongoDb",
      "Migrate.SqlServer.AzureSqlDbMI", "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
      "Migrate.SqlServer.SqlDb", "Migrate.SqlServer.AzureSqlDb.Sync",
-     "Migrate.MySql.AzureDbForMySql.Sync", "Migrate.MySql.AzureDbForMySql",
-     "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2", "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-     "ValidateMigrationInput.SqlServer.SqlDb.Sync", "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+     "Migrate.MySql.AzureDbForMySql.ReplicateChanges", "Migrate.MySql.AzureDbForMySql.Sync",
+     "Migrate.MySql.AzureDbForMySql", "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+     "Migrate.Oracle.AzureDbForPostgreSql.Sync", "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+     "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
      "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS", "Validate.MongoDb",
      "Validate.Oracle.AzureDbPostgreSql.Sync", "GetTDECertificates.Sql", "Migrate.Ssis",
      "Service.Check.OCI", "Service.Upload.OCI", "Service.Install.OCI", and
@@ -18212,8 +18538,8 @@ class ValidateOracleAzureDbForPostgreSqlSyncTaskProperties(ProjectTaskProperties
         *,
         client_data: Optional[Dict[str, str]] = None,
         input: Optional["_models.MigrateOracleAzureDbPostgreSqlSyncTaskInput"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_data: Key value pairs of client data to attach meta data information to task.
         :paramtype client_data: dict[str, str]
@@ -18228,7 +18554,8 @@ class ValidateOracleAzureDbForPostgreSqlSyncTaskProperties(ProjectTaskProperties
 
 
 class ValidateOracleAzureDbPostgreSqlSyncTaskOutput(_serialization.Model):
-    """Output for task that validates migration input for Oracle to Azure Database for PostgreSQL for online migrations.
+    """Output for task that validates migration input for Oracle to Azure Database for PostgreSQL for
+    online migrations.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -18244,7 +18571,7 @@ class ValidateOracleAzureDbPostgreSqlSyncTaskOutput(_serialization.Model):
         "validation_errors": {"key": "validationErrors", "type": "[ReportableException]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.validation_errors = None
@@ -18282,8 +18609,8 @@ class ValidateSyncMigrationInputSqlServerTaskInput(_serialization.Model):
         source_connection_info: "_models.SqlConnectionInfo",
         target_connection_info: "_models.SqlConnectionInfo",
         selected_databases: List["_models.MigrateSqlServerSqlDbSyncDatabaseInput"],
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword source_connection_info: Information for connecting to source SQL server. Required.
         :paramtype source_connection_info: ~azure.mgmt.datamigration.models.SqlConnectionInfo
@@ -18324,7 +18651,7 @@ class ValidateSyncMigrationInputSqlServerTaskOutput(_serialization.Model):
         "validation_errors": {"key": "validationErrors", "type": "[ReportableException]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -18347,8 +18674,8 @@ class ValidationError(_serialization.Model):
     }
 
     def __init__(
-        self, *, text: Optional[str] = None, severity: Optional[Union[str, "_models.Severity"]] = None, **kwargs
-    ):
+        self, *, text: Optional[str] = None, severity: Optional[Union[str, "_models.Severity"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword text: Error Text.
         :paramtype text: str
@@ -18378,8 +18705,13 @@ class WaitStatistics(_serialization.Model):
     }
 
     def __init__(
-        self, *, wait_type: Optional[str] = None, wait_time_ms: float = 0, wait_count: Optional[int] = None, **kwargs
-    ):
+        self,
+        *,
+        wait_type: Optional[str] = None,
+        wait_time_ms: float = 0,
+        wait_count: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword wait_type: Type of the Wait.
         :paramtype wait_type: str

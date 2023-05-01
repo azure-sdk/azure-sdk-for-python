@@ -142,25 +142,6 @@ class DatabaseState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     OFFLINE_SECONDARY = "OfflineSecondary"
 
 
-class DataMigrationResultCode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Result code of the data migration."""
-
-    INITIAL = "Initial"
-    COMPLETED = "Completed"
-    OBJECT_NOT_EXISTS_IN_SOURCE = "ObjectNotExistsInSource"
-    OBJECT_NOT_EXISTS_IN_TARGET = "ObjectNotExistsInTarget"
-    TARGET_OBJECT_IS_INACCESSIBLE = "TargetObjectIsInaccessible"
-    FATAL_ERROR = "FatalError"
-
-
-class ErrorType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Error type."""
-
-    DEFAULT = "Default"
-    WARNING = "Warning"
-    ERROR = "Error"
-
-
 class LoginMigrationStage(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Enum of the different stage of login migration."""
 
@@ -185,6 +166,30 @@ class LoginType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ASYMMETRIC_KEY = "AsymmetricKey"
     EXTERNAL_USER = "ExternalUser"
     EXTERNAL_GROUP = "ExternalGroup"
+
+
+class MigrateMySqlAzureDbForMySqlOfflineTaskOutputMigrationLevelMigrationType(
+    str, Enum, metaclass=CaseInsensitiveEnumMeta
+):
+    """MigrateMySqlAzureDbForMySqlOfflineTaskOutputMigrationLevelMigrationType."""
+
+    INITIAL_LOAD = "InitialLoad"
+
+
+class MigrateMySqlAzureDbForMySqlReplicateChangesTaskOutputMigrationLevelMigrationType(
+    str, Enum, metaclass=CaseInsensitiveEnumMeta
+):
+    """MigrateMySqlAzureDbForMySqlReplicateChangesTaskOutputMigrationLevelMigrationType."""
+
+    CDC = "Cdc"
+
+
+class MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevelMigrationType(
+    str, Enum, metaclass=CaseInsensitiveEnumMeta
+):
+    """MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevelMigrationType."""
+
+    INITIAL_LOAD = "InitialLoad"
 
 
 class MigrationState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -566,6 +571,7 @@ class TaskType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     MIGRATE_SQL_SERVER_AZURE_SQL_DB_MI_SYNC_LRS = "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS"
     MIGRATE_SQL_SERVER_SQL_DB = "Migrate.SqlServer.SqlDb"
     MIGRATE_SQL_SERVER_AZURE_SQL_DB_SYNC = "Migrate.SqlServer.AzureSqlDb.Sync"
+    MIGRATE_MY_SQL_AZURE_DB_FOR_MY_SQL_REPLICATE_CHANGES = "Migrate.MySql.AzureDbForMySql.ReplicateChanges"
     MIGRATE_MY_SQL_AZURE_DB_FOR_MY_SQL_SYNC = "Migrate.MySql.AzureDbForMySql.Sync"
     MIGRATE_MY_SQL_AZURE_DB_FOR_MY_SQL = "Migrate.MySql.AzureDbForMySql"
     MIGRATE_POSTGRE_SQL_AZURE_DB_FOR_POSTGRE_SQL_SYNC_V2 = "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2"

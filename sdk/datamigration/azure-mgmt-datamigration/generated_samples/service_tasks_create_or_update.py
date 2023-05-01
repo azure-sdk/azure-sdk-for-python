@@ -33,11 +33,18 @@ def main():
         group_name="DmsSdkRg",
         service_name="DmsSdkService",
         task_name="DmsSdkTask",
-        parameters={"properties": {"input": {"serverVersion": "NA"}, "taskType": "Service.Check.OCI"}},
+        parameters={
+            "properties": {
+                "input": {
+                    "sourceConnectionInfo": {"port": 3306, "serverName": "localhost", "type": "MySqlConnectionInfo"}
+                },
+                "taskType": "ConnectToSource.MySql",
+            }
+        },
     )
     print(response)
 
 
-# x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2022-03-30-preview/examples/ServiceTasks_CreateOrUpdate.json
+# x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2022-11-30-preview/examples/ServiceTasks_CreateOrUpdate.json
 if __name__ == "__main__":
     main()

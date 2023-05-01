@@ -38,6 +38,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2022-03-30-preview/examples/Tasks_List.json
+# x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2022-11-30-preview/examples/Tasks_List.json
 if __name__ == "__main__":
     main()
