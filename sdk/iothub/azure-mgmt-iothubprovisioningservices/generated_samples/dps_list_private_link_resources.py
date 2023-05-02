@@ -14,7 +14,7 @@ from azure.mgmt.iothubprovisioningservices import IotDpsClient
     pip install azure-identity
     pip install azure-mgmt-iothubprovisioningservices
 # USAGE
-    python dps_check_name.py
+    python dps_list_private_link_resources.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,12 +29,13 @@ def main():
         subscription_id="91d12660-3dec-467a-be2a-213b5544ddc0",
     )
 
-    response = client.iot_dps_resource.check_provisioning_service_name_availability(
-        arguments={"name": "test213123"},
+    response = client.iot_dps_resource.list_private_link_resources(
+        resource_group_name="myResourceGroup",
+        resource_name="myFirstProvisioningService",
     )
     print(response)
 
 
-# x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/stable/2022-02-05/examples/DPSCheckNameAvailability.json
+# x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/preview/2023-04-13-preview/examples/DPSListPrivateLinkResources.json
 if __name__ == "__main__":
     main()

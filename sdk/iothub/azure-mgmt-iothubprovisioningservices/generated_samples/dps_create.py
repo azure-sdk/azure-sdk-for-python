@@ -34,7 +34,10 @@ def main():
         provisioning_service_name="myFirstProvisioningService",
         iot_dps_description={
             "location": "East US",
-            "properties": {"enableDataResidency": False},
+            "properties": {
+                "dpsFailoverDescription": {"failoverRegion": "westus"},
+                "enableCustomerInitiatedFailover": True,
+            },
             "sku": {"capacity": 1, "name": "S1"},
             "tags": {},
         },
@@ -42,6 +45,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/stable/2022-02-05/examples/DPSCreate.json
+# x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/preview/2023-04-13-preview/examples/DPSCreate.json
 if __name__ == "__main__":
     main()

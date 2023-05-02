@@ -14,7 +14,7 @@ from azure.mgmt.iothubprovisioningservices import IotDpsClient
     pip install azure-identity
     pip install azure-mgmt-iothubprovisioningservices
 # USAGE
-    python dps_create_or_update_certificate.py
+    python dps_update.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,15 +29,28 @@ def main():
         subscription_id="91d12660-3dec-467a-be2a-213b5544ddc0",
     )
 
-    response = client.dps_certificate.create_or_update(
+    response = client.iot_dps_resource.begin_create_or_update(
         resource_group_name="myResourceGroup",
         provisioning_service_name="myFirstProvisioningService",
-        certificate_name="cert",
-        certificate_description={"properties": {"certificate": "############################################"}},
-    )
+        iot_dps_description={
+            "identity": {
+                "type": "SystemAssigned,UserAssigned",
+                "userAssignedIdentities": {
+                    "/subscriptions/91d12660-3dec-467a-be2a-213b5544ddc0/resourcegroups/testrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testidentity": {}
+                },
+            },
+            "location": "East US",
+            "properties": {
+                "dpsFailoverDescription": {"failoverRegion": "westus"},
+                "enableCustomerInitiatedFailover": True,
+            },
+            "sku": {"capacity": 1, "name": "S1"},
+            "tags": {},
+        },
+    ).result()
     print(response)
 
 
-# x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/stable/2022-02-05/examples/DPSCertificateCreateOrUpdate.json
+# x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/preview/2023-04-13-preview/examples/DPSUpdate.json
 if __name__ == "__main__":
     main()
