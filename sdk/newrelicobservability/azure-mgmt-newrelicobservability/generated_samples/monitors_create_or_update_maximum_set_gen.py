@@ -33,7 +33,6 @@ def main():
         resource_group_name="rgNewRelic",
         monitor_name="cdlymktqw",
         resource={
-            "identity": {"type": "None", "userAssignedIdentities": {"key8903": {}}},
             "location": "k",
             "properties": {
                 "accountCreationSource": "LIFTR",
@@ -73,6 +72,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/preview/2022-07-01-preview/examples/Monitors_CreateOrUpdate_MaximumSet_Gen.json
+# x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2022-07-01/examples/Monitors_CreateOrUpdate_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()
