@@ -6,19 +6,13 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-import sys
-from typing import Any, TYPE_CHECKING
+from typing import Any, Optional, TYPE_CHECKING
 
 from azure.core.configuration import Configuration
 from azure.core.pipeline import policies
 from azure.mgmt.core.policies import ARMHttpLoggingPolicy, AsyncARMChallengeAuthenticationPolicy
 
 from .._version import VERSION
-
-if sys.version_info >= (3, 8):
-    from typing import Literal  # pylint: disable=no-name-in-module, ungrouped-imports
-else:
-    from typing_extensions import Literal  # type: ignore  # pylint: disable=ungrouped-imports
 
 if TYPE_CHECKING:
     # pylint: disable=unused-import,ungrouped-imports
@@ -33,19 +27,23 @@ class CostManagementClientConfiguration(Configuration):  # pylint: disable=too-m
 
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
+    :param if_match: ETag of the Entity. Not required when creating an entity, but required when
+     updating an entity. Default value is None.
+    :type if_match: str
     :keyword api_version: Api Version. Default value is "2022-10-01". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str
     """
 
-    def __init__(self, credential: "AsyncTokenCredential", **kwargs: Any) -> None:
+    def __init__(self, credential: "AsyncTokenCredential", if_match: Optional[str] = None, **kwargs: Any) -> None:
         super(CostManagementClientConfiguration, self).__init__(**kwargs)
-        api_version = kwargs.pop("api_version", "2022-10-01")  # type: Literal["2022-10-01"]
+        api_version: str = kwargs.pop("api_version", "2022-10-01")
 
         if credential is None:
             raise ValueError("Parameter 'credential' must not be None.")
 
         self.credential = credential
+        self.if_match = if_match
         self.api_version = api_version
         self.credential_scopes = kwargs.pop("credential_scopes", ["https://management.azure.com/.default"])
         kwargs.setdefault("sdk_moniker", "mgmt-costmanagement/{}".format(VERSION))
