@@ -8,7 +8,7 @@
 # --------------------------------------------------------------------------
 
 import datetime
-from typing import Dict, List, Optional, TYPE_CHECKING, Union
+from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
 from .. import _serialization
 
@@ -28,7 +28,9 @@ class AcceptOwnershipRequest(_serialization.Model):
         "properties": {"key": "properties", "type": "AcceptOwnershipRequestProperties"},
     }
 
-    def __init__(self, *, properties: Optional["_models.AcceptOwnershipRequestProperties"] = None, **kwargs):
+    def __init__(
+        self, *, properties: Optional["_models.AcceptOwnershipRequestProperties"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword properties: Accept subscription ownership request properties.
         :paramtype properties: ~azure.mgmt.subscription.models.AcceptOwnershipRequestProperties
@@ -66,8 +68,8 @@ class AcceptOwnershipRequestProperties(_serialization.Model):
         display_name: str,
         management_group_id: Optional[str] = None,
         tags: Optional[Dict[str, str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword display_name: The friendly name of the subscription. Required.
         :paramtype display_name: str
@@ -128,8 +130,8 @@ class AcceptOwnershipStatusResponse(_serialization.Model):
         subscription_tenant_id: Optional[str] = None,
         display_name: Optional[str] = None,
         tags: Optional[Dict[str, str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword subscription_tenant_id: Tenant Id of the subscription.
         :paramtype subscription_tenant_id: str
@@ -180,7 +182,9 @@ class BillingAccountPoliciesResponse(_serialization.Model):
         "system_data": {"key": "systemData", "type": "SystemData"},
     }
 
-    def __init__(self, *, properties: Optional["_models.BillingAccountPoliciesResponseProperties"] = None, **kwargs):
+    def __init__(
+        self, *, properties: Optional["_models.BillingAccountPoliciesResponseProperties"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword properties: Billing account policies response properties.
         :paramtype properties: ~azure.mgmt.subscription.models.BillingAccountPoliciesResponseProperties
@@ -212,8 +216,8 @@ class BillingAccountPoliciesResponseProperties(_serialization.Model):
         *,
         service_tenants: Optional[List["_models.ServiceTenantResponse"]] = None,
         allow_transfers: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword service_tenants: Service tenant for the billing account.
         :paramtype service_tenants: list[~azure.mgmt.subscription.models.ServiceTenantResponse]
@@ -242,7 +246,7 @@ class CanceledSubscriptionId(_serialization.Model):
         "subscription_id": {"key": "subscriptionId", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.subscription_id = None
@@ -265,7 +269,7 @@ class EnabledSubscriptionId(_serialization.Model):
         "subscription_id": {"key": "subscriptionId", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.subscription_id = None
@@ -285,7 +289,7 @@ class ErrorResponse(_serialization.Model):
         "message": {"key": "message", "type": "str"},
     }
 
-    def __init__(self, *, code: Optional[str] = None, message: Optional[str] = None, **kwargs):
+    def __init__(self, *, code: Optional[str] = None, message: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword code: Error code.
         :paramtype code: str
@@ -298,7 +302,8 @@ class ErrorResponse(_serialization.Model):
 
 
 class ErrorResponseBody(_serialization.Model):
-    """Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+    """Error response indicates that the service is not able to process the incoming request. The
+    reason is provided in the error message.
 
     :ivar error: The details of the error.
     :vartype error: ~azure.mgmt.subscription.models.ErrorResponse
@@ -320,8 +325,8 @@ class ErrorResponseBody(_serialization.Model):
         error: Optional["_models.ErrorResponse"] = None,
         code: Optional[str] = None,
         message: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword error: The details of the error.
         :paramtype error: ~azure.mgmt.subscription.models.ErrorResponse
@@ -357,7 +362,7 @@ class GetTenantPolicyListResponse(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -396,7 +401,7 @@ class GetTenantPolicyResponse(_serialization.Model):
         "system_data": {"key": "systemData", "type": "SystemData"},
     }
 
-    def __init__(self, *, properties: Optional["_models.TenantPolicy"] = None, **kwargs):
+    def __init__(self, *, properties: Optional["_models.TenantPolicy"] = None, **kwargs: Any) -> None:
         """
         :keyword properties: Tenant policy properties.
         :paramtype properties: ~azure.mgmt.subscription.models.TenantPolicy
@@ -447,7 +452,7 @@ class Location(_serialization.Model):
         "longitude": {"key": "longitude", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -469,7 +474,7 @@ class LocationListResult(_serialization.Model):
         "value": {"key": "value", "type": "[Location]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Location"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.Location"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: An array of locations.
         :paramtype value: list[~azure.mgmt.subscription.models.Location]
@@ -501,8 +506,8 @@ class Operation(_serialization.Model):
         name: Optional[str] = None,
         is_data_action: Optional[bool] = None,
         display: Optional["_models.OperationDisplay"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Operation name: {provider}/{resource}/{operation}.
         :paramtype name: str
@@ -544,8 +549,8 @@ class OperationDisplay(_serialization.Model):
         resource: Optional[str] = None,
         operation: Optional[str] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword provider: Service provider: Microsoft.Subscription.
         :paramtype provider: str
@@ -564,7 +569,8 @@ class OperationDisplay(_serialization.Model):
 
 
 class OperationListResult(_serialization.Model):
-    """Result of the request to list operations. It contains a list of operations and a URL link to get the next set of results.
+    """Result of the request to list operations. It contains a list of operations and a URL link to
+    get the next set of results.
 
     :ivar value: List of operations.
     :vartype value: list[~azure.mgmt.subscription.models.Operation]
@@ -577,7 +583,9 @@ class OperationListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Operation"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.Operation"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: List of operations.
         :paramtype value: list[~azure.mgmt.subscription.models.Operation]
@@ -600,7 +608,7 @@ class PutAliasRequest(_serialization.Model):
         "properties": {"key": "properties", "type": "PutAliasRequestProperties"},
     }
 
-    def __init__(self, *, properties: Optional["_models.PutAliasRequestProperties"] = None, **kwargs):
+    def __init__(self, *, properties: Optional["_models.PutAliasRequestProperties"] = None, **kwargs: Any) -> None:
         """
         :keyword properties: Put alias request properties.
         :paramtype properties: ~azure.mgmt.subscription.models.PutAliasRequestProperties
@@ -636,8 +644,8 @@ class PutAliasRequestAdditionalProperties(_serialization.Model):
         subscription_tenant_id: Optional[str] = None,
         subscription_owner_id: Optional[str] = None,
         tags: Optional[Dict[str, str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword management_group_id: Management group Id for the subscription.
         :paramtype management_group_id: str
@@ -697,8 +705,8 @@ class PutAliasRequestProperties(_serialization.Model):
         subscription_id: Optional[str] = None,
         reseller_id: Optional[str] = None,
         additional_properties: Optional["_models.PutAliasRequestAdditionalProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword display_name: The friendly name of the subscription.
         :paramtype display_name: str
@@ -755,8 +763,8 @@ class PutTenantPolicyRequestProperties(_serialization.Model):
         block_subscriptions_leaving_tenant: Optional[bool] = None,
         block_subscriptions_into_tenant: Optional[bool] = None,
         exempted_principals: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword block_subscriptions_leaving_tenant: Blocks the leaving of subscriptions from user's
          tenant.
@@ -791,7 +799,7 @@ class RenamedSubscriptionId(_serialization.Model):
         "subscription_id": {"key": "subscriptionId", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.subscription_id = None
@@ -811,7 +819,7 @@ class ServiceTenantResponse(_serialization.Model):
         "tenant_name": {"key": "tenantName", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: Optional[str] = None, tenant_name: Optional[str] = None, **kwargs):
+    def __init__(self, *, tenant_id: Optional[str] = None, tenant_name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword tenant_id: Service tenant id.
         :paramtype tenant_id: str
@@ -875,8 +883,8 @@ class Subscription(_serialization.Model):
         tags: Optional[Dict[str, str]] = None,
         subscription_policies: Optional["_models.SubscriptionPolicies"] = None,
         authorization_source: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Tags for the subscription.
         :paramtype tags: dict[str, str]
@@ -919,7 +927,7 @@ class SubscriptionAliasListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -958,7 +966,9 @@ class SubscriptionAliasResponse(_serialization.Model):
         "system_data": {"key": "systemData", "type": "SystemData"},
     }
 
-    def __init__(self, *, properties: Optional["_models.SubscriptionAliasResponseProperties"] = None, **kwargs):
+    def __init__(
+        self, *, properties: Optional["_models.SubscriptionAliasResponseProperties"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword properties: Subscription Alias response properties.
         :paramtype properties: ~azure.mgmt.subscription.models.SubscriptionAliasResponseProperties
@@ -1043,8 +1053,8 @@ class SubscriptionAliasResponseProperties(_serialization.Model):  # pylint: disa
         management_group_id: Optional[str] = None,
         created_time: Optional[str] = None,
         tags: Optional[Dict[str, str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword display_name: The display name of the subscription.
         :paramtype display_name: str
@@ -1102,8 +1112,8 @@ class SubscriptionListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.Subscription"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.Subscription"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: An array of subscriptions.
         :paramtype value: list[~azure.mgmt.subscription.models.Subscription]
@@ -1126,7 +1136,7 @@ class SubscriptionName(_serialization.Model):
         "subscription_name": {"key": "subscriptionName", "type": "str"},
     }
 
-    def __init__(self, *, subscription_name: Optional[str] = None, **kwargs):
+    def __init__(self, *, subscription_name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword subscription_name: New subscription name.
         :paramtype subscription_name: str
@@ -1163,7 +1173,7 @@ class SubscriptionPolicies(_serialization.Model):
         "spending_limit": {"key": "spendingLimit", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.location_placement_id = None
@@ -1208,8 +1218,8 @@ class SystemData(_serialization.Model):
         last_modified_by: Optional[str] = None,
         last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
         last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword created_by: The identity that created the resource.
         :paramtype created_by: str
@@ -1286,7 +1296,7 @@ class TenantIdDescription(_serialization.Model):
         "tenant_type": {"key": "tenantType", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -1320,7 +1330,9 @@ class TenantListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, next_link: str, value: Optional[List["_models.TenantIdDescription"]] = None, **kwargs):
+    def __init__(
+        self, *, next_link: str, value: Optional[List["_models.TenantIdDescription"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: An array of tenants.
         :paramtype value: list[~azure.mgmt.subscription.models.TenantIdDescription]
@@ -1366,8 +1378,8 @@ class TenantPolicy(_serialization.Model):
         block_subscriptions_leaving_tenant: Optional[bool] = None,
         block_subscriptions_into_tenant: Optional[bool] = None,
         exempted_principals: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword block_subscriptions_leaving_tenant: Blocks the leaving of subscriptions from user's
          tenant.
