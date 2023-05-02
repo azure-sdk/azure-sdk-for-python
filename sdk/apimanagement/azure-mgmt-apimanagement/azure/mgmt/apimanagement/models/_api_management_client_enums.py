@@ -340,6 +340,7 @@ class HostnameType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     MANAGEMENT = "Management"
     SCM = "Scm"
     DEVELOPER_PORTAL = "DeveloperPortal"
+    CONFIGURATION_API = "ConfigurationApi"
 
 
 class HttpCorrelationProtocol(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -390,6 +391,15 @@ class KeyType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     PRIMARY = "primary"
     SECONDARY = "secondary"
+
+
+class KeyVaultRefreshState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """KeyVaultRefreshState."""
+
+    TRUE = "true"
+    """Entities for which KeyVault refresh failed."""
+    FALSE = "false"
+    """Entities for which KeyVault refresh succeeded"""
 
 
 class LoggerType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -492,6 +502,8 @@ class PlatformVersion(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Platform running the service on Single Tenant V2 platform."""
     MTV1 = "mtv1"
     """Platform running the service on Multi Tenant V1 platform."""
+    STV2_1 = "stv2.1"
+    """Platform running the service on Single Tenant V2 platform on newer Hardware."""
 
 
 class PolicyContentFormat(str, Enum, metaclass=CaseInsensitiveEnumMeta):

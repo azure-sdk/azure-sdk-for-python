@@ -357,7 +357,7 @@ class AdditionalLocation(_serialization.Model):  # pylint: disable=too-many-inst
      locations. This can be used to disable the gateway in this additional location.
     :vartype disable_gateway: bool
     :ivar platform_version: Compute Platform Version running the service. Known values are:
-     "undetermined", "stv1", "stv2", and "mtv1".
+     "undetermined", "stv1", "stv2", "mtv1", and "stv2.1".
     :vartype platform_version: str or ~azure.mgmt.apimanagement.models.PlatformVersion
     """
 
@@ -2092,7 +2092,7 @@ class ApiManagementServiceBaseProperties(_serialization.Model):  # pylint: disab
     :vartype private_endpoint_connections:
      list[~azure.mgmt.apimanagement.models.RemotePrivateEndpointConnectionWrapper]
     :ivar platform_version: Compute Platform Version running the service in this location. Known
-     values are: "undetermined", "stv1", "stv2", and "mtv1".
+     values are: "undetermined", "stv1", "stv2", "mtv1", and "stv2.1".
     :vartype platform_version: str or ~azure.mgmt.apimanagement.models.PlatformVersion
     """
 
@@ -2611,7 +2611,7 @@ class ApiManagementServiceProperties(
     :vartype private_endpoint_connections:
      list[~azure.mgmt.apimanagement.models.RemotePrivateEndpointConnectionWrapper]
     :ivar platform_version: Compute Platform Version running the service in this location. Known
-     values are: "undetermined", "stv1", "stv2", and "mtv1".
+     values are: "undetermined", "stv1", "stv2", "mtv1", and "stv2.1".
     :vartype platform_version: str or ~azure.mgmt.apimanagement.models.PlatformVersion
     :ivar publisher_email: Publisher email. Required.
     :vartype publisher_email: str
@@ -2977,7 +2977,7 @@ class ApiManagementServiceResource(ApimResource):  # pylint: disable=too-many-in
     :vartype private_endpoint_connections:
      list[~azure.mgmt.apimanagement.models.RemotePrivateEndpointConnectionWrapper]
     :ivar platform_version: Compute Platform Version running the service in this location. Known
-     values are: "undetermined", "stv1", "stv2", and "mtv1".
+     values are: "undetermined", "stv1", "stv2", "mtv1", and "stv2.1".
     :vartype platform_version: str or ~azure.mgmt.apimanagement.models.PlatformVersion
     :ivar publisher_email: Publisher email. Required.
     :vartype publisher_email: str
@@ -3386,7 +3386,7 @@ class ApiManagementServiceUpdateParameters(ApimResource):  # pylint: disable=too
     :vartype private_endpoint_connections:
      list[~azure.mgmt.apimanagement.models.RemotePrivateEndpointConnectionWrapper]
     :ivar platform_version: Compute Platform Version running the service in this location. Known
-     values are: "undetermined", "stv1", "stv2", and "mtv1".
+     values are: "undetermined", "stv1", "stv2", "mtv1", and "stv2.1".
     :vartype platform_version: str or ~azure.mgmt.apimanagement.models.PlatformVersion
     :ivar publisher_email: Publisher email.
     :vartype publisher_email: str
@@ -3734,7 +3734,7 @@ class ApiManagementServiceUpdateProperties(
     :vartype private_endpoint_connections:
      list[~azure.mgmt.apimanagement.models.RemotePrivateEndpointConnectionWrapper]
     :ivar platform_version: Compute Platform Version running the service in this location. Known
-     values are: "undetermined", "stv1", "stv2", and "mtv1".
+     values are: "undetermined", "stv1", "stv2", "mtv1", and "stv2.1".
     :vartype platform_version: str or ~azure.mgmt.apimanagement.models.PlatformVersion
     :ivar publisher_email: Publisher email.
     :vartype publisher_email: str
@@ -7004,6 +7004,8 @@ class BackendBaseParameters(_serialization.Model):
     :vartype proxy: ~azure.mgmt.apimanagement.models.BackendProxyContract
     :ivar tls: Backend TLS Properties.
     :vartype tls: ~azure.mgmt.apimanagement.models.BackendTlsProperties
+    :ivar circuit_breaker: Backend Circuit Breaker Configuration.
+    :vartype circuit_breaker: ~azure.mgmt.apimanagement.models.BackendCircuitBreaker
     """
 
     _validation = {
@@ -7020,6 +7022,7 @@ class BackendBaseParameters(_serialization.Model):
         "credentials": {"key": "credentials", "type": "BackendCredentialsContract"},
         "proxy": {"key": "proxy", "type": "BackendProxyContract"},
         "tls": {"key": "tls", "type": "BackendTlsProperties"},
+        "circuit_breaker": {"key": "circuitBreaker", "type": "BackendCircuitBreaker"},
     }
 
     def __init__(
@@ -7032,6 +7035,7 @@ class BackendBaseParameters(_serialization.Model):
         credentials: Optional["_models.BackendCredentialsContract"] = None,
         proxy: Optional["_models.BackendProxyContract"] = None,
         tls: Optional["_models.BackendTlsProperties"] = None,
+        circuit_breaker: Optional["_models.BackendCircuitBreaker"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -7050,6 +7054,8 @@ class BackendBaseParameters(_serialization.Model):
         :paramtype proxy: ~azure.mgmt.apimanagement.models.BackendProxyContract
         :keyword tls: Backend TLS Properties.
         :paramtype tls: ~azure.mgmt.apimanagement.models.BackendTlsProperties
+        :keyword circuit_breaker: Backend Circuit Breaker Configuration.
+        :paramtype circuit_breaker: ~azure.mgmt.apimanagement.models.BackendCircuitBreaker
         """
         super().__init__(**kwargs)
         self.title = title
@@ -7059,6 +7065,31 @@ class BackendBaseParameters(_serialization.Model):
         self.credentials = credentials
         self.proxy = proxy
         self.tls = tls
+        self.circuit_breaker = circuit_breaker
+
+
+class BackendCircuitBreaker(_serialization.Model):
+    """The configuration of the backend circuit breaker.
+
+    :ivar rules: The rules for tripping the backend.
+    :vartype rules: list[~azure.mgmt.apimanagement.models.CircuitBreakerRule]
+    """
+
+    _validation = {
+        "rules": {"max_items": 15, "min_items": 0},
+    }
+
+    _attribute_map = {
+        "rules": {"key": "rules", "type": "[CircuitBreakerRule]"},
+    }
+
+    def __init__(self, *, rules: Optional[List["_models.CircuitBreakerRule"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword rules: The rules for tripping the backend.
+        :paramtype rules: list[~azure.mgmt.apimanagement.models.CircuitBreakerRule]
+        """
+        super().__init__(**kwargs)
+        self.rules = rules
 
 
 class BackendCollection(_serialization.Model):
@@ -7128,6 +7159,8 @@ class BackendContract(ProxyResource):  # pylint: disable=too-many-instance-attri
     :vartype proxy: ~azure.mgmt.apimanagement.models.BackendProxyContract
     :ivar tls: Backend TLS Properties.
     :vartype tls: ~azure.mgmt.apimanagement.models.BackendTlsProperties
+    :ivar circuit_breaker: Backend Circuit Breaker Configuration.
+    :vartype circuit_breaker: ~azure.mgmt.apimanagement.models.BackendCircuitBreaker
     :ivar url: Runtime Url of the Backend.
     :vartype url: str
     :ivar protocol: Backend communication protocol. Known values are: "http" and "soap".
@@ -7155,6 +7188,7 @@ class BackendContract(ProxyResource):  # pylint: disable=too-many-instance-attri
         "credentials": {"key": "properties.credentials", "type": "BackendCredentialsContract"},
         "proxy": {"key": "properties.proxy", "type": "BackendProxyContract"},
         "tls": {"key": "properties.tls", "type": "BackendTlsProperties"},
+        "circuit_breaker": {"key": "properties.circuitBreaker", "type": "BackendCircuitBreaker"},
         "url": {"key": "properties.url", "type": "str"},
         "protocol": {"key": "properties.protocol", "type": "str"},
     }
@@ -7169,6 +7203,7 @@ class BackendContract(ProxyResource):  # pylint: disable=too-many-instance-attri
         credentials: Optional["_models.BackendCredentialsContract"] = None,
         proxy: Optional["_models.BackendProxyContract"] = None,
         tls: Optional["_models.BackendTlsProperties"] = None,
+        circuit_breaker: Optional["_models.BackendCircuitBreaker"] = None,
         url: Optional[str] = None,
         protocol: Optional[Union[str, "_models.BackendProtocol"]] = None,
         **kwargs: Any
@@ -7189,6 +7224,8 @@ class BackendContract(ProxyResource):  # pylint: disable=too-many-instance-attri
         :paramtype proxy: ~azure.mgmt.apimanagement.models.BackendProxyContract
         :keyword tls: Backend TLS Properties.
         :paramtype tls: ~azure.mgmt.apimanagement.models.BackendTlsProperties
+        :keyword circuit_breaker: Backend Circuit Breaker Configuration.
+        :paramtype circuit_breaker: ~azure.mgmt.apimanagement.models.BackendCircuitBreaker
         :keyword url: Runtime Url of the Backend.
         :paramtype url: str
         :keyword protocol: Backend communication protocol. Known values are: "http" and "soap".
@@ -7202,6 +7239,7 @@ class BackendContract(ProxyResource):  # pylint: disable=too-many-instance-attri
         self.credentials = credentials
         self.proxy = proxy
         self.tls = tls
+        self.circuit_breaker = circuit_breaker
         self.url = url
         self.protocol = protocol
 
@@ -7226,6 +7264,8 @@ class BackendContractProperties(BackendBaseParameters):
     :vartype proxy: ~azure.mgmt.apimanagement.models.BackendProxyContract
     :ivar tls: Backend TLS Properties.
     :vartype tls: ~azure.mgmt.apimanagement.models.BackendTlsProperties
+    :ivar circuit_breaker: Backend Circuit Breaker Configuration.
+    :vartype circuit_breaker: ~azure.mgmt.apimanagement.models.BackendCircuitBreaker
     :ivar url: Runtime Url of the Backend. Required.
     :vartype url: str
     :ivar protocol: Backend communication protocol. Required. Known values are: "http" and "soap".
@@ -7248,6 +7288,7 @@ class BackendContractProperties(BackendBaseParameters):
         "credentials": {"key": "credentials", "type": "BackendCredentialsContract"},
         "proxy": {"key": "proxy", "type": "BackendProxyContract"},
         "tls": {"key": "tls", "type": "BackendTlsProperties"},
+        "circuit_breaker": {"key": "circuitBreaker", "type": "BackendCircuitBreaker"},
         "url": {"key": "url", "type": "str"},
         "protocol": {"key": "protocol", "type": "str"},
     }
@@ -7264,6 +7305,7 @@ class BackendContractProperties(BackendBaseParameters):
         credentials: Optional["_models.BackendCredentialsContract"] = None,
         proxy: Optional["_models.BackendProxyContract"] = None,
         tls: Optional["_models.BackendTlsProperties"] = None,
+        circuit_breaker: Optional["_models.BackendCircuitBreaker"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -7282,6 +7324,8 @@ class BackendContractProperties(BackendBaseParameters):
         :paramtype proxy: ~azure.mgmt.apimanagement.models.BackendProxyContract
         :keyword tls: Backend TLS Properties.
         :paramtype tls: ~azure.mgmt.apimanagement.models.BackendTlsProperties
+        :keyword circuit_breaker: Backend Circuit Breaker Configuration.
+        :paramtype circuit_breaker: ~azure.mgmt.apimanagement.models.BackendCircuitBreaker
         :keyword url: Runtime Url of the Backend. Required.
         :paramtype url: str
         :keyword protocol: Backend communication protocol. Required. Known values are: "http" and
@@ -7296,6 +7340,7 @@ class BackendContractProperties(BackendBaseParameters):
             credentials=credentials,
             proxy=proxy,
             tls=tls,
+            circuit_breaker=circuit_breaker,
             **kwargs
         )
         self.url = url
@@ -7592,6 +7637,8 @@ class BackendUpdateParameterProperties(BackendBaseParameters):
     :vartype proxy: ~azure.mgmt.apimanagement.models.BackendProxyContract
     :ivar tls: Backend TLS Properties.
     :vartype tls: ~azure.mgmt.apimanagement.models.BackendTlsProperties
+    :ivar circuit_breaker: Backend Circuit Breaker Configuration.
+    :vartype circuit_breaker: ~azure.mgmt.apimanagement.models.BackendCircuitBreaker
     :ivar url: Runtime Url of the Backend.
     :vartype url: str
     :ivar protocol: Backend communication protocol. Known values are: "http" and "soap".
@@ -7613,6 +7660,7 @@ class BackendUpdateParameterProperties(BackendBaseParameters):
         "credentials": {"key": "credentials", "type": "BackendCredentialsContract"},
         "proxy": {"key": "proxy", "type": "BackendProxyContract"},
         "tls": {"key": "tls", "type": "BackendTlsProperties"},
+        "circuit_breaker": {"key": "circuitBreaker", "type": "BackendCircuitBreaker"},
         "url": {"key": "url", "type": "str"},
         "protocol": {"key": "protocol", "type": "str"},
     }
@@ -7627,6 +7675,7 @@ class BackendUpdateParameterProperties(BackendBaseParameters):
         credentials: Optional["_models.BackendCredentialsContract"] = None,
         proxy: Optional["_models.BackendProxyContract"] = None,
         tls: Optional["_models.BackendTlsProperties"] = None,
+        circuit_breaker: Optional["_models.BackendCircuitBreaker"] = None,
         url: Optional[str] = None,
         protocol: Optional[Union[str, "_models.BackendProtocol"]] = None,
         **kwargs: Any
@@ -7647,6 +7696,8 @@ class BackendUpdateParameterProperties(BackendBaseParameters):
         :paramtype proxy: ~azure.mgmt.apimanagement.models.BackendProxyContract
         :keyword tls: Backend TLS Properties.
         :paramtype tls: ~azure.mgmt.apimanagement.models.BackendTlsProperties
+        :keyword circuit_breaker: Backend Circuit Breaker Configuration.
+        :paramtype circuit_breaker: ~azure.mgmt.apimanagement.models.BackendCircuitBreaker
         :keyword url: Runtime Url of the Backend.
         :paramtype url: str
         :keyword protocol: Backend communication protocol. Known values are: "http" and "soap".
@@ -7660,6 +7711,7 @@ class BackendUpdateParameterProperties(BackendBaseParameters):
             credentials=credentials,
             proxy=proxy,
             tls=tls,
+            circuit_breaker=circuit_breaker,
             **kwargs
         )
         self.url = url
@@ -7684,6 +7736,8 @@ class BackendUpdateParameters(_serialization.Model):
     :vartype proxy: ~azure.mgmt.apimanagement.models.BackendProxyContract
     :ivar tls: Backend TLS Properties.
     :vartype tls: ~azure.mgmt.apimanagement.models.BackendTlsProperties
+    :ivar circuit_breaker: Backend Circuit Breaker Configuration.
+    :vartype circuit_breaker: ~azure.mgmt.apimanagement.models.BackendCircuitBreaker
     :ivar url: Runtime Url of the Backend.
     :vartype url: str
     :ivar protocol: Backend communication protocol. Known values are: "http" and "soap".
@@ -7705,6 +7759,7 @@ class BackendUpdateParameters(_serialization.Model):
         "credentials": {"key": "properties.credentials", "type": "BackendCredentialsContract"},
         "proxy": {"key": "properties.proxy", "type": "BackendProxyContract"},
         "tls": {"key": "properties.tls", "type": "BackendTlsProperties"},
+        "circuit_breaker": {"key": "properties.circuitBreaker", "type": "BackendCircuitBreaker"},
         "url": {"key": "properties.url", "type": "str"},
         "protocol": {"key": "properties.protocol", "type": "str"},
     }
@@ -7719,6 +7774,7 @@ class BackendUpdateParameters(_serialization.Model):
         credentials: Optional["_models.BackendCredentialsContract"] = None,
         proxy: Optional["_models.BackendProxyContract"] = None,
         tls: Optional["_models.BackendTlsProperties"] = None,
+        circuit_breaker: Optional["_models.BackendCircuitBreaker"] = None,
         url: Optional[str] = None,
         protocol: Optional[Union[str, "_models.BackendProtocol"]] = None,
         **kwargs: Any
@@ -7739,6 +7795,8 @@ class BackendUpdateParameters(_serialization.Model):
         :paramtype proxy: ~azure.mgmt.apimanagement.models.BackendProxyContract
         :keyword tls: Backend TLS Properties.
         :paramtype tls: ~azure.mgmt.apimanagement.models.BackendTlsProperties
+        :keyword circuit_breaker: Backend Circuit Breaker Configuration.
+        :paramtype circuit_breaker: ~azure.mgmt.apimanagement.models.BackendCircuitBreaker
         :keyword url: Runtime Url of the Backend.
         :paramtype url: str
         :keyword protocol: Backend communication protocol. Known values are: "http" and "soap".
@@ -7752,6 +7810,7 @@ class BackendUpdateParameters(_serialization.Model):
         self.credentials = credentials
         self.proxy = proxy
         self.tls = tls
+        self.circuit_breaker = circuit_breaker
         self.url = url
         self.protocol = protocol
 
@@ -8187,6 +8246,103 @@ class CertificateInformation(_serialization.Model):
         self.expiry = expiry
         self.thumbprint = thumbprint
         self.subject = subject
+
+
+class CircuitBreakerFailureCondition(_serialization.Model):
+    """The trip conditions of the circuit breaker.
+
+    :ivar count: The threshold for opening the circuit.
+    :vartype count: int
+    :ivar percentage: The threshold for opening the circuit.
+    :vartype percentage: int
+    :ivar interval: The interval during which the failures are counted.
+    :vartype interval: ~datetime.timedelta
+    :ivar status_code_ranges: The status code ranges which are considered as failure.
+    :vartype status_code_ranges: list[~azure.mgmt.apimanagement.models.FailureStatusCodeRange]
+    :ivar error_reasons: The error reasons which are considered as failure.
+    :vartype error_reasons: list[str]
+    """
+
+    _validation = {
+        "status_code_ranges": {"max_items": 10, "min_items": 0},
+        "error_reasons": {"max_items": 10, "min_items": 0},
+    }
+
+    _attribute_map = {
+        "count": {"key": "count", "type": "int"},
+        "percentage": {"key": "percentage", "type": "int"},
+        "interval": {"key": "interval", "type": "duration"},
+        "status_code_ranges": {"key": "statusCodeRanges", "type": "[FailureStatusCodeRange]"},
+        "error_reasons": {"key": "errorReasons", "type": "[str]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        count: Optional[int] = None,
+        percentage: Optional[int] = None,
+        interval: Optional[datetime.timedelta] = None,
+        status_code_ranges: Optional[List["_models.FailureStatusCodeRange"]] = None,
+        error_reasons: Optional[List[str]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword count: The threshold for opening the circuit.
+        :paramtype count: int
+        :keyword percentage: The threshold for opening the circuit.
+        :paramtype percentage: int
+        :keyword interval: The interval during which the failures are counted.
+        :paramtype interval: ~datetime.timedelta
+        :keyword status_code_ranges: The status code ranges which are considered as failure.
+        :paramtype status_code_ranges: list[~azure.mgmt.apimanagement.models.FailureStatusCodeRange]
+        :keyword error_reasons: The error reasons which are considered as failure.
+        :paramtype error_reasons: list[str]
+        """
+        super().__init__(**kwargs)
+        self.count = count
+        self.percentage = percentage
+        self.interval = interval
+        self.status_code_ranges = status_code_ranges
+        self.error_reasons = error_reasons
+
+
+class CircuitBreakerRule(_serialization.Model):
+    """Rule configuration to trip the backend.
+
+    :ivar name: The rule name.
+    :vartype name: str
+    :ivar failure_condition: The conditions for tripping the circuit breaker.
+    :vartype failure_condition: ~azure.mgmt.apimanagement.models.CircuitBreakerFailureCondition
+    :ivar trip_duration: The duration for which the circuit will be tripped.
+    :vartype trip_duration: ~datetime.timedelta
+    """
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "failure_condition": {"key": "failureCondition", "type": "CircuitBreakerFailureCondition"},
+        "trip_duration": {"key": "tripDuration", "type": "duration"},
+    }
+
+    def __init__(
+        self,
+        *,
+        name: Optional[str] = None,
+        failure_condition: Optional["_models.CircuitBreakerFailureCondition"] = None,
+        trip_duration: Optional[datetime.timedelta] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword name: The rule name.
+        :paramtype name: str
+        :keyword failure_condition: The conditions for tripping the circuit breaker.
+        :paramtype failure_condition: ~azure.mgmt.apimanagement.models.CircuitBreakerFailureCondition
+        :keyword trip_duration: The duration for which the circuit will be tripped.
+        :paramtype trip_duration: ~datetime.timedelta
+        """
+        super().__init__(**kwargs)
+        self.name = name
+        self.failure_condition = failure_condition
+        self.trip_duration = trip_duration
 
 
 class ClientSecretContract(_serialization.Model):
@@ -9667,6 +9823,43 @@ class ErrorResponseBody(_serialization.Model):
         self.details = details
 
 
+class FailureStatusCodeRange(_serialization.Model):
+    """The failure http status code range.
+
+    :ivar min: The minimum http status code.
+    :vartype min: int
+    :ivar max: The maximum http status code.
+    :vartype max: int
+    """
+
+    _validation = {
+        "min": {"maximum": 599, "minimum": 200},
+        "max": {"maximum": 599, "minimum": 200},
+    }
+
+    _attribute_map = {
+        "min": {"key": "min", "type": "int"},
+        "max": {"key": "max", "type": "int"},
+    }
+
+    def __init__(
+        self,
+        *,
+        min: Optional[int] = None,  # pylint: disable=redefined-builtin
+        max: Optional[int] = None,  # pylint: disable=redefined-builtin
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword min: The minimum http status code.
+        :paramtype min: int
+        :keyword max: The maximum http status code.
+        :paramtype max: int
+        """
+        super().__init__(**kwargs)
+        self.min = min
+        self.max = max
+
+
 class GatewayCertificateAuthorityCollection(_serialization.Model):
     """Paged Gateway certificate authority list representation.
 
@@ -10460,7 +10653,7 @@ class HostnameConfiguration(_serialization.Model):  # pylint: disable=too-many-i
     All required parameters must be populated in order to send to Azure.
 
     :ivar type: Hostname type. Required. Known values are: "Proxy", "Portal", "Management", "Scm",
-     and "DeveloperPortal".
+     "DeveloperPortal", and "ConfigurationApi".
     :vartype type: str or ~azure.mgmt.apimanagement.models.HostnameType
     :ivar host_name: Hostname to configure on the Api Management service. Required.
     :vartype host_name: str
@@ -10532,7 +10725,7 @@ class HostnameConfiguration(_serialization.Model):  # pylint: disable=too-many-i
     ) -> None:
         """
         :keyword type: Hostname type. Required. Known values are: "Proxy", "Portal", "Management",
-         "Scm", and "DeveloperPortal".
+         "Scm", "DeveloperPortal", and "ConfigurationApi".
         :paramtype type: str or ~azure.mgmt.apimanagement.models.HostnameType
         :keyword host_name: Hostname to configure on the Api Management service. Required.
         :paramtype host_name: str
@@ -15595,6 +15788,84 @@ class PrivateLinkServiceConnectionState(_serialization.Model):
         self.actions_required = actions_required
 
 
+class ProductApiLinkCollection(_serialization.Model):
+    """Paged Product-API link list representation.
+
+    :ivar value: Page values.
+    :vartype value: list[~azure.mgmt.apimanagement.models.ProductApiLinkContract]
+    :ivar count: Total record count number across all pages.
+    :vartype count: int
+    :ivar next_link: Next page link if any.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[ProductApiLinkContract]"},
+        "count": {"key": "count", "type": "int"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        value: Optional[List["_models.ProductApiLinkContract"]] = None,
+        count: Optional[int] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: Page values.
+        :paramtype value: list[~azure.mgmt.apimanagement.models.ProductApiLinkContract]
+        :keyword count: Total record count number across all pages.
+        :paramtype count: int
+        :keyword next_link: Next page link if any.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.count = count
+        self.next_link = next_link
+
+
+class ProductApiLinkContract(ProxyResource):
+    """Product-API link details.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar api_id: Full resource Id of an API.
+    :vartype api_id: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "api_id": {"key": "properties.apiId", "type": "str"},
+    }
+
+    def __init__(self, *, api_id: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword api_id: Full resource Id of an API.
+        :paramtype api_id: str
+        """
+        super().__init__(**kwargs)
+        self.api_id = api_id
+
+
 class ProductCollection(_serialization.Model):
     """Paged Products list representation.
 
@@ -15944,6 +16215,84 @@ class ProductContractProperties(ProductEntityBaseParameters):
             **kwargs
         )
         self.display_name = display_name
+
+
+class ProductGroupLinkCollection(_serialization.Model):
+    """Paged Product-group link list representation.
+
+    :ivar value: Page values.
+    :vartype value: list[~azure.mgmt.apimanagement.models.ProductGroupLinkContract]
+    :ivar count: Total record count number across all pages.
+    :vartype count: int
+    :ivar next_link: Next page link if any.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[ProductGroupLinkContract]"},
+        "count": {"key": "count", "type": "int"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        value: Optional[List["_models.ProductGroupLinkContract"]] = None,
+        count: Optional[int] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: Page values.
+        :paramtype value: list[~azure.mgmt.apimanagement.models.ProductGroupLinkContract]
+        :keyword count: Total record count number across all pages.
+        :paramtype count: int
+        :keyword next_link: Next page link if any.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.count = count
+        self.next_link = next_link
+
+
+class ProductGroupLinkContract(ProxyResource):
+    """Product-group link details.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar group_id: Full resource Id of a group.
+    :vartype group_id: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "group_id": {"key": "properties.groupId", "type": "str"},
+    }
+
+    def __init__(self, *, group_id: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword group_id: Full resource Id of a group.
+        :paramtype group_id: str
+        """
+        super().__init__(**kwargs)
+        self.group_id = group_id
 
 
 class ProductTagResourceContractProperties(ProductEntityBaseParameters):
@@ -18674,6 +19023,84 @@ class SystemData(_serialization.Model):
         self.last_modified_at = last_modified_at
 
 
+class TagApiLinkCollection(_serialization.Model):
+    """Paged Tag-API link list representation.
+
+    :ivar value: Page values.
+    :vartype value: list[~azure.mgmt.apimanagement.models.TagApiLinkContract]
+    :ivar count: Total record count number across all pages.
+    :vartype count: int
+    :ivar next_link: Next page link if any.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[TagApiLinkContract]"},
+        "count": {"key": "count", "type": "int"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        value: Optional[List["_models.TagApiLinkContract"]] = None,
+        count: Optional[int] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: Page values.
+        :paramtype value: list[~azure.mgmt.apimanagement.models.TagApiLinkContract]
+        :keyword count: Total record count number across all pages.
+        :paramtype count: int
+        :keyword next_link: Next page link if any.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.count = count
+        self.next_link = next_link
+
+
+class TagApiLinkContract(ProxyResource):
+    """Tag-API link details.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar api_id: Full resource Id of an API.
+    :vartype api_id: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "api_id": {"key": "properties.apiId", "type": "str"},
+    }
+
+    def __init__(self, *, api_id: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword api_id: Full resource Id of an API.
+        :paramtype api_id: str
+        """
+        super().__init__(**kwargs)
+        self.api_id = api_id
+
+
 class TagCollection(_serialization.Model):
     """Paged Tag list representation.
 
@@ -19034,6 +19461,162 @@ class TagDescriptionCreateParameters(_serialization.Model):
         self.description = description
         self.external_docs_url = external_docs_url
         self.external_docs_description = external_docs_description
+
+
+class TagOperationLinkCollection(_serialization.Model):
+    """Paged Tag-operation link list representation.
+
+    :ivar value: Page values.
+    :vartype value: list[~azure.mgmt.apimanagement.models.TagOperationLinkContract]
+    :ivar count: Total record count number across all pages.
+    :vartype count: int
+    :ivar next_link: Next page link if any.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[TagOperationLinkContract]"},
+        "count": {"key": "count", "type": "int"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        value: Optional[List["_models.TagOperationLinkContract"]] = None,
+        count: Optional[int] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: Page values.
+        :paramtype value: list[~azure.mgmt.apimanagement.models.TagOperationLinkContract]
+        :keyword count: Total record count number across all pages.
+        :paramtype count: int
+        :keyword next_link: Next page link if any.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.count = count
+        self.next_link = next_link
+
+
+class TagOperationLinkContract(ProxyResource):
+    """Tag-operation link details.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar operation_id: Full resource Id of an API operation.
+    :vartype operation_id: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "operation_id": {"key": "properties.operationId", "type": "str"},
+    }
+
+    def __init__(self, *, operation_id: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword operation_id: Full resource Id of an API operation.
+        :paramtype operation_id: str
+        """
+        super().__init__(**kwargs)
+        self.operation_id = operation_id
+
+
+class TagProductLinkCollection(_serialization.Model):
+    """Paged Tag-product link list representation.
+
+    :ivar value: Page values.
+    :vartype value: list[~azure.mgmt.apimanagement.models.TagProductLinkContract]
+    :ivar count: Total record count number across all pages.
+    :vartype count: int
+    :ivar next_link: Next page link if any.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[TagProductLinkContract]"},
+        "count": {"key": "count", "type": "int"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        value: Optional[List["_models.TagProductLinkContract"]] = None,
+        count: Optional[int] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: Page values.
+        :paramtype value: list[~azure.mgmt.apimanagement.models.TagProductLinkContract]
+        :keyword count: Total record count number across all pages.
+        :paramtype count: int
+        :keyword next_link: Next page link if any.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.count = count
+        self.next_link = next_link
+
+
+class TagProductLinkContract(ProxyResource):
+    """Tag-product link details.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar product_id: Full resource Id of a product.
+    :vartype product_id: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "product_id": {"key": "properties.productId", "type": "str"},
+    }
+
+    def __init__(self, *, product_id: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword product_id: Full resource Id of a product.
+        :paramtype product_id: str
+        """
+        super().__init__(**kwargs)
+        self.product_id = product_id
 
 
 class TagResourceCollection(_serialization.Model):
@@ -20306,6 +20889,90 @@ class WikiUpdateContract(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.documents = documents
+
+
+class WorkspaceCollection(_serialization.Model):
+    """Paged workspace list representation.
+
+    :ivar value: Page values.
+    :vartype value: list[~azure.mgmt.apimanagement.models.WorkspaceContract]
+    :ivar count: Total record count number across all pages.
+    :vartype count: int
+    :ivar next_link: Next page link if any.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[WorkspaceContract]"},
+        "count": {"key": "count", "type": "int"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        value: Optional[List["_models.WorkspaceContract"]] = None,
+        count: Optional[int] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: Page values.
+        :paramtype value: list[~azure.mgmt.apimanagement.models.WorkspaceContract]
+        :keyword count: Total record count number across all pages.
+        :paramtype count: int
+        :keyword next_link: Next page link if any.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.count = count
+        self.next_link = next_link
+
+
+class WorkspaceContract(ProxyResource):
+    """Workspace details.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar display_name: Name of the workspace.
+    :vartype display_name: str
+    :ivar description: Description of the workspace.
+    :vartype description: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "display_name": {"key": "properties.displayName", "type": "str"},
+        "description": {"key": "properties.description", "type": "str"},
+    }
+
+    def __init__(self, *, display_name: Optional[str] = None, description: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword display_name: Name of the workspace.
+        :paramtype display_name: str
+        :keyword description: Description of the workspace.
+        :paramtype description: str
+        """
+        super().__init__(**kwargs)
+        self.display_name = display_name
+        self.description = description
 
 
 class X509CertificateName(_serialization.Model):
