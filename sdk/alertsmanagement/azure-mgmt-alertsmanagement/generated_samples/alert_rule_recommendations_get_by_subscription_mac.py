@@ -14,7 +14,7 @@ from azure.mgmt.alertsmanagement import AlertsManagementClient
     pip install azure-identity
     pip install azure-mgmt-alertsmanagement
 # USAGE
-    python operations_list.py
+    python alert_rule_recommendations_get_by_subscription_mac.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,15 +26,15 @@ from azure.mgmt.alertsmanagement import AlertsManagementClient
 def main():
     client = AlertsManagementClient(
         credential=DefaultAzureCredential(),
-        target_type="TARGET_TYPE",
-        subscription_id="SUBSCRIPTION_ID",
+        target_type="microsoft.monitor/accounts",
+        subscription_id="2f00cc51-6809-498f-9ffc-48c42aff570d",
     )
 
-    response = client.operations.list()
+    response = client.alert_rule_recommendations.list_by_target_type()
     for item in response:
         print(item)
 
 
-# x-ms-original-file: specification/alertsmanagement/resource-manager/Microsoft.AlertsManagement/preview/2019-05-05-preview/examples/Operations_List.json
+# x-ms-original-file: specification/alertsmanagement/resource-manager/Microsoft.AlertsManagement/preview/2023-01-01-preview/examples/AlertRuleRecommendations_GetBySubscription_MAC.json
 if __name__ == "__main__":
     main()
