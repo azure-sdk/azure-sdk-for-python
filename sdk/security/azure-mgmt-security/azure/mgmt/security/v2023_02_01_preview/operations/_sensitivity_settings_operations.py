@@ -25,7 +25,7 @@ from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from .. import models as _models
 from ..._serialization import Serializer
-from .._vendor import SecurityCenterMixinABC, _convert_request, _format_url_section
+from .._vendor import SecurityCenterMixinABC, _convert_request
 
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
@@ -34,26 +34,15 @@ _SERIALIZER = Serializer()
 _SERIALIZER.client_side_validation = False
 
 
-def build_get_request(resource_id: str, health_report_name: str, **kwargs: Any) -> HttpRequest:
+def build_list_request(**kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-15-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
-    _url = kwargs.pop("template_url", "/{resourceId}/providers/Microsoft.Security/healthReports/{healthReportName}")
-    path_format_arguments = {
-        "resourceId": _SERIALIZER.url("resource_id", resource_id, "str", skip_quote=True),
-        "healthReportName": _SERIALIZER.url(
-            "health_report_name",
-            health_report_name,
-            "str",
-            pattern=r"[{]?[0-9a-fA-F]{8}-(?:[0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?$",
-        ),
-    }
-
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url = kwargs.pop("template_url", "/providers/Microsoft.Security/sensitivitySettings")
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -64,14 +53,14 @@ def build_get_request(resource_id: str, health_report_name: str, **kwargs: Any) 
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-class HealthReportOperations:
+class SensitivitySettingsOperations:
     """
     .. warning::
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
         :class:`~azure.mgmt.security.v2023_02_01_preview.SecurityCenter`'s
-        :attr:`health_report` attribute.
+        :attr:`sensitivity_settings` attribute.
     """
 
     models = _models
@@ -84,17 +73,12 @@ class HealthReportOperations:
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    def get(self, resource_id: str, health_report_name: str, **kwargs: Any) -> _models.HealthReport:
-        """Get health report of resource.
+    def list(self, **kwargs: Any) -> _models.GetSensitivitySettingsListResponse:
+        """Gets a list with a single sensitivity settings resource.
 
-        :param resource_id: The identifier of the resource. Required.
-        :type resource_id: str
-        :param health_report_name: The health report Key - Unique key for the health report type.
-         Required.
-        :type health_report_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: HealthReport or the result of cls(response)
-        :rtype: ~azure.mgmt.security.v2023_02_01_preview.models.HealthReport
+        :return: GetSensitivitySettingsListResponse or the result of cls(response)
+        :rtype: ~azure.mgmt.security.v2023_02_01_preview.models.GetSensitivitySettingsListResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map = {
@@ -108,14 +92,12 @@ class HealthReportOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01-preview"))
-        cls: ClsType[_models.HealthReport] = kwargs.pop("cls", None)
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-15-preview"))
+        cls: ClsType[_models.GetSensitivitySettingsListResponse] = kwargs.pop("cls", None)
 
-        request = build_get_request(
-            resource_id=resource_id,
-            health_report_name=health_report_name,
+        request = build_list_request(
             api_version=api_version,
-            template_url=self.get.metadata["url"],
+            template_url=self.list.metadata["url"],
             headers=_headers,
             params=_params,
         )
@@ -131,14 +113,13 @@ class HealthReportOperations:
 
         if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("HealthReport", pipeline_response)
+        deserialized = self._deserialize("GetSensitivitySettingsListResponse", pipeline_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})
 
         return deserialized
 
-    get.metadata = {"url": "/{resourceId}/providers/Microsoft.Security/healthReports/{healthReportName}"}
+    list.metadata = {"url": "/providers/Microsoft.Security/sensitivitySettings"}
