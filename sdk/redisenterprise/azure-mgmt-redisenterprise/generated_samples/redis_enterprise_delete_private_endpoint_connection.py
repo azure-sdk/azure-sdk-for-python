@@ -29,14 +29,14 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.private_endpoint_connections.delete(
+    response = client.private_endpoint_connections.begin_delete(
         resource_group_name="rg1",
         cluster_name="cache1",
         private_endpoint_connection_name="pectest01",
-    )
+    ).result()
     print(response)
 
 
-# x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2023-03-01-preview/examples/RedisEnterpriseDeletePrivateEndpointConnection.json
+# x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2023-05-01-preview/examples/RedisEnterpriseDeletePrivateEndpointConnection.json
 if __name__ == "__main__":
     main()

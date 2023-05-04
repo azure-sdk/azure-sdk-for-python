@@ -14,7 +14,7 @@ from azure.mgmt.redisenterprise import RedisEnterpriseManagementClient
     pip install azure-identity
     pip install azure-mgmt-redisenterprise
 # USAGE
-    python redis_enterprise_list_private_endpoint_connections.py
+    python redis_enterprise_check_name_availability.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,14 +29,12 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.private_endpoint_connections.list(
-        resource_group_name="rg1",
-        cluster_name="cache1",
+    response = client.redis_enterprise.check_name_availability(
+        parameters={"name": "cacheName", "type": "Microsoft.Cache/redisenterprise"},
     )
-    for item in response:
-        print(item)
+    print(response)
 
 
-# x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2023-05-01-preview/examples/RedisEnterpriseListPrivateEndpointConnections.json
+# x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2023-05-01-preview/examples/RedisEnterpriseCheckNameAvailability.json
 if __name__ == "__main__":
     main()
