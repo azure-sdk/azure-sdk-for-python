@@ -37,6 +37,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2022-10-01/examples/AuthConfigs_ListByContainer.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-04-01-preview/examples/AuthConfigs_ListByContainer.json
 if __name__ == "__main__":
     main()
