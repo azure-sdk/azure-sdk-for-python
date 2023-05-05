@@ -30,27 +30,25 @@ from azure.mgmt.core.polling.async_arm_polling import AsyncARMPolling
 
 from ... import models as _models
 from ..._vendor import _convert_request
-from ...operations._postgres_instances_operations import (
+from ...operations._failover_groups_operations import (
     build_create_request,
     build_delete_request,
     build_get_request,
-    build_list_by_resource_group_request,
     build_list_request,
-    build_update_request,
 )
 
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
 
-class PostgresInstancesOperations:
+class FailoverGroupsOperations:
     """
     .. warning::
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
         :class:`~azure.mgmt.azurearcdata.aio.AzureArcDataManagementClient`'s
-        :attr:`postgres_instances` attribute.
+        :attr:`failover_groups` attribute.
     """
 
     models = _models
@@ -63,22 +61,29 @@ class PostgresInstancesOperations:
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    def list(self, **kwargs: Any) -> AsyncIterable["_models.PostgresInstance"]:
-        """List postgres Instance resources in the subscription.
+    def list(
+        self, resource_group_name: str, sql_managed_instance_name: str, **kwargs: Any
+    ) -> AsyncIterable["_models.FailoverGroupResource"]:
+        """List the failover groups associated with the given sql managed instance.
 
-        List postgres Instance resources in the subscription.
+        List the failover groups associated with the given sql managed instance.
 
+        :param resource_group_name: The name of the Azure resource group. Required.
+        :type resource_group_name: str
+        :param sql_managed_instance_name: Name of SQL Managed Instance. Required.
+        :type sql_managed_instance_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: An iterator like instance of either PostgresInstance or the result of cls(response)
+        :return: An iterator like instance of either FailoverGroupResource or the result of
+         cls(response)
         :rtype:
-         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.azurearcdata.models.PostgresInstance]
+         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.azurearcdata.models.FailoverGroupResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.PostgresInstanceListResult] = kwargs.pop("cls", None)
+        cls: ClsType[_models.FailoverGroupListResult] = kwargs.pop("cls", None)
 
         error_map = {
             401: ClientAuthenticationError,
@@ -92,6 +97,8 @@ class PostgresInstancesOperations:
             if not next_link:
 
                 request = build_list_request(
+                    resource_group_name=resource_group_name,
+                    sql_managed_instance_name=sql_managed_instance_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
                     template_url=self.list.metadata["url"],
@@ -120,7 +127,7 @@ class PostgresInstancesOperations:
             return request
 
         async def extract_data(pipeline_response):
-            deserialized = self._deserialize("PostgresInstanceListResult", pipeline_response)
+            deserialized = self._deserialize("FailoverGroupListResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
@@ -144,170 +151,18 @@ class PostgresInstancesOperations:
 
         return AsyncItemPaged(get_next, extract_data)
 
-    list.metadata = {"url": "/subscriptions/{subscriptionId}/providers/Microsoft.AzureArcData/postgresInstances"}
-
-    @distributed_trace
-    def list_by_resource_group(
-        self, resource_group_name: str, **kwargs: Any
-    ) -> AsyncIterable["_models.PostgresInstance"]:
-        """List postgres Instance resources in the resource group.
-
-        Get a postgres Instances list by Resource group name.
-
-        :param resource_group_name: The name of the Azure resource group. Required.
-        :type resource_group_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: An iterator like instance of either PostgresInstance or the result of cls(response)
-        :rtype:
-         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.azurearcdata.models.PostgresInstance]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.PostgresInstanceListResult] = kwargs.pop("cls", None)
-
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(next_link=None):
-            if not next_link:
-
-                request = build_list_by_resource_group_request(
-                    resource_group_name=resource_group_name,
-                    subscription_id=self._config.subscription_id,
-                    api_version=api_version,
-                    template_url=self.list_by_resource_group.metadata["url"],
-                    headers=_headers,
-                    params=_params,
-                )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-
-            else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
-
-        async def extract_data(pipeline_response):
-            deserialized = self._deserialize("PostgresInstanceListResult", pipeline_response)
-            list_of_elem = deserialized.value
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.next_link or None, AsyncList(list_of_elem)
-
-        async def get_next(next_link=None):
-            request = prepare_request(next_link)
-
-            _stream = False
-            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-                raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-            return pipeline_response
-
-        return AsyncItemPaged(get_next, extract_data)
-
-    list_by_resource_group.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureArcData/postgresInstances"
-    }
-
-    @distributed_trace_async
-    async def get(
-        self, resource_group_name: str, postgres_instance_name: str, **kwargs: Any
-    ) -> _models.PostgresInstance:
-        """Retrieves a postgres Instance resource.
-
-        :param resource_group_name: The name of the Azure resource group. Required.
-        :type resource_group_name: str
-        :param postgres_instance_name: Name of Postgres Instance. Required.
-        :type postgres_instance_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: PostgresInstance or the result of cls(response)
-        :rtype: ~azure.mgmt.azurearcdata.models.PostgresInstance
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.PostgresInstance] = kwargs.pop("cls", None)
-
-        request = build_get_request(
-            resource_group_name=resource_group_name,
-            postgres_instance_name=postgres_instance_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            template_url=self.get.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("PostgresInstance", pipeline_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})
-
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureArcData/postgresInstances/{postgresInstanceName}"
+    list.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureArcData/sqlManagedInstances/{sqlManagedInstanceName}/failoverGroups"
     }
 
     async def _create_initial(
         self,
         resource_group_name: str,
-        postgres_instance_name: str,
-        resource: Union[_models.PostgresInstance, IO],
+        sql_managed_instance_name: str,
+        failover_group_name: str,
+        failover_group_resource: Union[_models.FailoverGroupResource, IO],
         **kwargs: Any
-    ) -> _models.PostgresInstance:
+    ) -> _models.FailoverGroupResource:
         error_map = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -321,19 +176,20 @@ class PostgresInstancesOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.PostgresInstance] = kwargs.pop("cls", None)
+        cls: ClsType[_models.FailoverGroupResource] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
         _content = None
-        if isinstance(resource, (IO, bytes)):
-            _content = resource
+        if isinstance(failover_group_resource, (IO, bytes)):
+            _content = failover_group_resource
         else:
-            _json = self._serialize.body(resource, "PostgresInstance")
+            _json = self._serialize.body(failover_group_resource, "FailoverGroupResource")
 
         request = build_create_request(
             resource_group_name=resource_group_name,
-            postgres_instance_name=postgres_instance_name,
+            sql_managed_instance_name=sql_managed_instance_name,
+            failover_group_name=failover_group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             content_type=content_type,
@@ -359,10 +215,10 @@ class PostgresInstancesOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if response.status_code == 200:
-            deserialized = self._deserialize("PostgresInstance", pipeline_response)
+            deserialized = self._deserialize("FailoverGroupResource", pipeline_response)
 
         if response.status_code == 201:
-            deserialized = self._deserialize("PostgresInstance", pipeline_response)
+            deserialized = self._deserialize("FailoverGroupResource", pipeline_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -370,27 +226,30 @@ class PostgresInstancesOperations:
         return deserialized  # type: ignore
 
     _create_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureArcData/postgresInstances/{postgresInstanceName}"
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureArcData/sqlManagedInstances/{sqlManagedInstanceName}/failoverGroups/{failoverGroupName}"
     }
 
     @overload
     async def begin_create(
         self,
         resource_group_name: str,
-        postgres_instance_name: str,
-        resource: _models.PostgresInstance,
+        sql_managed_instance_name: str,
+        failover_group_name: str,
+        failover_group_resource: _models.FailoverGroupResource,
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> AsyncLROPoller[_models.PostgresInstance]:
-        """Creates or replaces a postgres Instance resource.
+    ) -> AsyncLROPoller[_models.FailoverGroupResource]:
+        """Creates or replaces a failover group resource.
 
         :param resource_group_name: The name of the Azure resource group. Required.
         :type resource_group_name: str
-        :param postgres_instance_name: Name of Postgres Instance. Required.
-        :type postgres_instance_name: str
-        :param resource: The postgres instance. Required.
-        :type resource: ~azure.mgmt.azurearcdata.models.PostgresInstance
+        :param sql_managed_instance_name: Name of SQL Managed Instance. Required.
+        :type sql_managed_instance_name: str
+        :param failover_group_name: The name of the Failover Group. Required.
+        :type failover_group_name: str
+        :param failover_group_resource: desc. Required.
+        :type failover_group_resource: ~azure.mgmt.azurearcdata.models.FailoverGroupResource
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -402,9 +261,10 @@ class PostgresInstancesOperations:
         :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
         :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
          Retry-After header is present.
-        :return: An instance of AsyncLROPoller that returns either PostgresInstance or the result of
-         cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.azurearcdata.models.PostgresInstance]
+        :return: An instance of AsyncLROPoller that returns either FailoverGroupResource or the result
+         of cls(response)
+        :rtype:
+         ~azure.core.polling.AsyncLROPoller[~azure.mgmt.azurearcdata.models.FailoverGroupResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -412,20 +272,23 @@ class PostgresInstancesOperations:
     async def begin_create(
         self,
         resource_group_name: str,
-        postgres_instance_name: str,
-        resource: IO,
+        sql_managed_instance_name: str,
+        failover_group_name: str,
+        failover_group_resource: IO,
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> AsyncLROPoller[_models.PostgresInstance]:
-        """Creates or replaces a postgres Instance resource.
+    ) -> AsyncLROPoller[_models.FailoverGroupResource]:
+        """Creates or replaces a failover group resource.
 
         :param resource_group_name: The name of the Azure resource group. Required.
         :type resource_group_name: str
-        :param postgres_instance_name: Name of Postgres Instance. Required.
-        :type postgres_instance_name: str
-        :param resource: The postgres instance. Required.
-        :type resource: IO
+        :param sql_managed_instance_name: Name of SQL Managed Instance. Required.
+        :type sql_managed_instance_name: str
+        :param failover_group_name: The name of the Failover Group. Required.
+        :type failover_group_name: str
+        :param failover_group_resource: desc. Required.
+        :type failover_group_resource: IO
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -437,9 +300,10 @@ class PostgresInstancesOperations:
         :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
         :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
          Retry-After header is present.
-        :return: An instance of AsyncLROPoller that returns either PostgresInstance or the result of
-         cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.azurearcdata.models.PostgresInstance]
+        :return: An instance of AsyncLROPoller that returns either FailoverGroupResource or the result
+         of cls(response)
+        :rtype:
+         ~azure.core.polling.AsyncLROPoller[~azure.mgmt.azurearcdata.models.FailoverGroupResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -447,19 +311,22 @@ class PostgresInstancesOperations:
     async def begin_create(
         self,
         resource_group_name: str,
-        postgres_instance_name: str,
-        resource: Union[_models.PostgresInstance, IO],
+        sql_managed_instance_name: str,
+        failover_group_name: str,
+        failover_group_resource: Union[_models.FailoverGroupResource, IO],
         **kwargs: Any
-    ) -> AsyncLROPoller[_models.PostgresInstance]:
-        """Creates or replaces a postgres Instance resource.
+    ) -> AsyncLROPoller[_models.FailoverGroupResource]:
+        """Creates or replaces a failover group resource.
 
         :param resource_group_name: The name of the Azure resource group. Required.
         :type resource_group_name: str
-        :param postgres_instance_name: Name of Postgres Instance. Required.
-        :type postgres_instance_name: str
-        :param resource: The postgres instance. Is either a PostgresInstance type or a IO type.
+        :param sql_managed_instance_name: Name of SQL Managed Instance. Required.
+        :type sql_managed_instance_name: str
+        :param failover_group_name: The name of the Failover Group. Required.
+        :type failover_group_name: str
+        :param failover_group_resource: desc. Is either a FailoverGroupResource type or a IO type.
          Required.
-        :type resource: ~azure.mgmt.azurearcdata.models.PostgresInstance or IO
+        :type failover_group_resource: ~azure.mgmt.azurearcdata.models.FailoverGroupResource or IO
         :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
          Default value is None.
         :paramtype content_type: str
@@ -471,9 +338,10 @@ class PostgresInstancesOperations:
         :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
         :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
          Retry-After header is present.
-        :return: An instance of AsyncLROPoller that returns either PostgresInstance or the result of
-         cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.azurearcdata.models.PostgresInstance]
+        :return: An instance of AsyncLROPoller that returns either FailoverGroupResource or the result
+         of cls(response)
+        :rtype:
+         ~azure.core.polling.AsyncLROPoller[~azure.mgmt.azurearcdata.models.FailoverGroupResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -481,15 +349,16 @@ class PostgresInstancesOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.PostgresInstance] = kwargs.pop("cls", None)
+        cls: ClsType[_models.FailoverGroupResource] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
             raw_result = await self._create_initial(
                 resource_group_name=resource_group_name,
-                postgres_instance_name=postgres_instance_name,
-                resource=resource,
+                sql_managed_instance_name=sql_managed_instance_name,
+                failover_group_name=failover_group_name,
+                failover_group_resource=failover_group_resource,
                 api_version=api_version,
                 content_type=content_type,
                 cls=lambda x, y, z: x,
@@ -500,7 +369,7 @@ class PostgresInstancesOperations:
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("PostgresInstance", pipeline_response)
+            deserialized = self._deserialize("FailoverGroupResource", pipeline_response)
             if cls:
                 return cls(pipeline_response, deserialized, {})
             return deserialized
@@ -524,11 +393,11 @@ class PostgresInstancesOperations:
         return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     begin_create.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureArcData/postgresInstances/{postgresInstanceName}"
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureArcData/sqlManagedInstances/{sqlManagedInstanceName}/failoverGroups/{failoverGroupName}"
     }
 
     async def _delete_initial(  # pylint: disable=inconsistent-return-statements
-        self, resource_group_name: str, postgres_instance_name: str, **kwargs: Any
+        self, resource_group_name: str, sql_managed_instance_name: str, failover_group_name: str, **kwargs: Any
     ) -> None:
         error_map = {
             401: ClientAuthenticationError,
@@ -546,7 +415,8 @@ class PostgresInstancesOperations:
 
         request = build_delete_request(
             resource_group_name=resource_group_name,
-            postgres_instance_name=postgres_instance_name,
+            sql_managed_instance_name=sql_managed_instance_name,
+            failover_group_name=failover_group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             template_url=self._delete_initial.metadata["url"],
@@ -572,19 +442,21 @@ class PostgresInstancesOperations:
             return cls(pipeline_response, None, {})
 
     _delete_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureArcData/postgresInstances/{postgresInstanceName}"
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureArcData/sqlManagedInstances/{sqlManagedInstanceName}/failoverGroups/{failoverGroupName}"
     }
 
     @distributed_trace_async
     async def begin_delete(
-        self, resource_group_name: str, postgres_instance_name: str, **kwargs: Any
+        self, resource_group_name: str, sql_managed_instance_name: str, failover_group_name: str, **kwargs: Any
     ) -> AsyncLROPoller[None]:
-        """Deletes a postgres Instance resource.
+        """Deletes a failover group resource.
 
         :param resource_group_name: The name of the Azure resource group. Required.
         :type resource_group_name: str
-        :param postgres_instance_name: Name of Postgres Instance. Required.
-        :type postgres_instance_name: str
+        :param sql_managed_instance_name: Name of SQL Managed Instance. Required.
+        :type sql_managed_instance_name: str
+        :param failover_group_name: The name of the Failover Group. Required.
+        :type failover_group_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :keyword str continuation_token: A continuation token to restart a poller from a saved state.
         :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
@@ -608,7 +480,8 @@ class PostgresInstancesOperations:
         if cont_token is None:
             raw_result = await self._delete_initial(  # type: ignore
                 resource_group_name=resource_group_name,
-                postgres_instance_name=postgres_instance_name,
+                sql_managed_instance_name=sql_managed_instance_name,
+                failover_group_name=failover_group_name,
                 api_version=api_version,
                 cls=lambda x, y, z: x,
                 headers=_headers,
@@ -637,86 +510,24 @@ class PostgresInstancesOperations:
         return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     begin_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureArcData/postgresInstances/{postgresInstanceName}"
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureArcData/sqlManagedInstances/{sqlManagedInstanceName}/failoverGroups/{failoverGroupName}"
     }
 
-    @overload
-    async def update(
-        self,
-        resource_group_name: str,
-        postgres_instance_name: str,
-        parameters: _models.PostgresInstanceUpdate,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> _models.PostgresInstance:
-        """Updates a postgres Instance resource.
-
-        :param resource_group_name: The name of the Azure resource group. Required.
-        :type resource_group_name: str
-        :param postgres_instance_name: Name of Postgres Instance. Required.
-        :type postgres_instance_name: str
-        :param parameters: The Postgres Instance. Required.
-        :type parameters: ~azure.mgmt.azurearcdata.models.PostgresInstanceUpdate
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: PostgresInstance or the result of cls(response)
-        :rtype: ~azure.mgmt.azurearcdata.models.PostgresInstance
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    async def update(
-        self,
-        resource_group_name: str,
-        postgres_instance_name: str,
-        parameters: IO,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> _models.PostgresInstance:
-        """Updates a postgres Instance resource.
-
-        :param resource_group_name: The name of the Azure resource group. Required.
-        :type resource_group_name: str
-        :param postgres_instance_name: Name of Postgres Instance. Required.
-        :type postgres_instance_name: str
-        :param parameters: The Postgres Instance. Required.
-        :type parameters: IO
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: PostgresInstance or the result of cls(response)
-        :rtype: ~azure.mgmt.azurearcdata.models.PostgresInstance
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
     @distributed_trace_async
-    async def update(
-        self,
-        resource_group_name: str,
-        postgres_instance_name: str,
-        parameters: Union[_models.PostgresInstanceUpdate, IO],
-        **kwargs: Any
-    ) -> _models.PostgresInstance:
-        """Updates a postgres Instance resource.
+    async def get(
+        self, resource_group_name: str, sql_managed_instance_name: str, failover_group_name: str, **kwargs: Any
+    ) -> _models.FailoverGroupResource:
+        """Retrieves a failover group resource.
 
         :param resource_group_name: The name of the Azure resource group. Required.
         :type resource_group_name: str
-        :param postgres_instance_name: Name of Postgres Instance. Required.
-        :type postgres_instance_name: str
-        :param parameters: The Postgres Instance. Is either a PostgresInstanceUpdate type or a IO type.
-         Required.
-        :type parameters: ~azure.mgmt.azurearcdata.models.PostgresInstanceUpdate or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
+        :param sql_managed_instance_name: Name of SQL Managed Instance. Required.
+        :type sql_managed_instance_name: str
+        :param failover_group_name: The name of the Failover Group. Required.
+        :type failover_group_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: PostgresInstance or the result of cls(response)
-        :rtype: ~azure.mgmt.azurearcdata.models.PostgresInstance
+        :return: FailoverGroupResource or the result of cls(response)
+        :rtype: ~azure.mgmt.azurearcdata.models.FailoverGroupResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map = {
@@ -727,30 +538,19 @@ class PostgresInstancesOperations:
         }
         error_map.update(kwargs.pop("error_map", {}) or {})
 
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.PostgresInstance] = kwargs.pop("cls", None)
+        cls: ClsType[_models.FailoverGroupResource] = kwargs.pop("cls", None)
 
-        content_type = content_type or "application/json"
-        _json = None
-        _content = None
-        if isinstance(parameters, (IO, bytes)):
-            _content = parameters
-        else:
-            _json = self._serialize.body(parameters, "PostgresInstanceUpdate")
-
-        request = build_update_request(
+        request = build_get_request(
             resource_group_name=resource_group_name,
-            postgres_instance_name=postgres_instance_name,
+            sql_managed_instance_name=sql_managed_instance_name,
+            failover_group_name=failover_group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            content_type=content_type,
-            json=_json,
-            content=_content,
-            template_url=self.update.metadata["url"],
+            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
@@ -769,13 +569,13 @@ class PostgresInstancesOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("PostgresInstance", pipeline_response)
+        deserialized = self._deserialize("FailoverGroupResource", pipeline_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})
 
         return deserialized
 
-    update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureArcData/postgresInstances/{postgresInstanceName}"
+    get.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureArcData/sqlManagedInstances/{sqlManagedInstanceName}/failoverGroups/{failoverGroupName}"
     }
