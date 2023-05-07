@@ -779,6 +779,7 @@ class BigDataPoolResourceInfo(TrackedResource):  # pylint: disable=too-many-inst
         "type": {"readonly": True},
         "location": {"required": True},
         "creation_date": {"readonly": True},
+        "cache_size": {"readonly": True},
         "last_succeeded_timestamp": {"readonly": True},
     }
 
@@ -823,7 +824,6 @@ class BigDataPoolResourceInfo(TrackedResource):  # pylint: disable=too-many-inst
         is_compute_isolation_enabled: Optional[bool] = None,
         is_autotune_enabled: Optional[bool] = None,
         session_level_packages_enabled: Optional[bool] = None,
-        cache_size: Optional[int] = None,
         dynamic_executor_allocation: Optional["_models.DynamicExecutorAllocation"] = None,
         spark_events_folder: Optional[str] = None,
         node_count: Optional[int] = None,
@@ -853,8 +853,6 @@ class BigDataPoolResourceInfo(TrackedResource):  # pylint: disable=too-many-inst
         :paramtype is_autotune_enabled: bool
         :keyword session_level_packages_enabled: Whether session level packages enabled.
         :paramtype session_level_packages_enabled: bool
-        :keyword cache_size: The cache size.
-        :paramtype cache_size: int
         :keyword dynamic_executor_allocation: Dynamic Executor Allocation.
         :paramtype dynamic_executor_allocation: ~azure.mgmt.synapse.models.DynamicExecutorAllocation
         :keyword spark_events_folder: The Spark events folder.
@@ -886,7 +884,7 @@ class BigDataPoolResourceInfo(TrackedResource):  # pylint: disable=too-many-inst
         self.is_compute_isolation_enabled = is_compute_isolation_enabled
         self.is_autotune_enabled = is_autotune_enabled
         self.session_level_packages_enabled = session_level_packages_enabled
-        self.cache_size = cache_size
+        self.cache_size = None
         self.dynamic_executor_allocation = dynamic_executor_allocation
         self.spark_events_folder = spark_events_folder
         self.node_count = node_count
@@ -1506,6 +1504,67 @@ class DatabaseCheckNameRequest(_serialization.Model):
         super().__init__(**kwargs)
         self.name = name
         self.type = type
+
+
+class DatabaseInviteFollowerRequest(_serialization.Model):
+    """The request to invite a follower to a database.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar invitee_email: The email of the invited user for which the follower invitation is
+     generated. Required.
+    :vartype invitee_email: str
+    :ivar table_level_sharing_properties: Table level sharing specifications.
+    :vartype table_level_sharing_properties: ~azure.mgmt.synapse.models.TableLevelSharingProperties
+    """
+
+    _validation = {
+        "invitee_email": {"required": True},
+    }
+
+    _attribute_map = {
+        "invitee_email": {"key": "inviteeEmail", "type": "str"},
+        "table_level_sharing_properties": {"key": "tableLevelSharingProperties", "type": "TableLevelSharingProperties"},
+    }
+
+    def __init__(
+        self,
+        *,
+        invitee_email: str,
+        table_level_sharing_properties: Optional["_models.TableLevelSharingProperties"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword invitee_email: The email of the invited user for which the follower invitation is
+         generated. Required.
+        :paramtype invitee_email: str
+        :keyword table_level_sharing_properties: Table level sharing specifications.
+        :paramtype table_level_sharing_properties:
+         ~azure.mgmt.synapse.models.TableLevelSharingProperties
+        """
+        super().__init__(**kwargs)
+        self.invitee_email = invitee_email
+        self.table_level_sharing_properties = table_level_sharing_properties
+
+
+class DatabaseInviteFollowerResult(_serialization.Model):
+    """The result returned from a follower invitation generation request.
+
+    :ivar generated_invitation: The generated invitation token.
+    :vartype generated_invitation: str
+    """
+
+    _attribute_map = {
+        "generated_invitation": {"key": "generatedInvitation", "type": "str"},
+    }
+
+    def __init__(self, *, generated_invitation: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword generated_invitation: The generated invitation token.
+        :paramtype generated_invitation: str
+        """
+        super().__init__(**kwargs)
+        self.generated_invitation = generated_invitation
 
 
 class DatabaseListResult(_serialization.Model):
@@ -5425,7 +5484,7 @@ class KustoPool(TrackedResource):  # pylint: disable=too-many-instance-attribute
      information.
     :vartype system_data: ~azure.mgmt.synapse.models.SystemData
     :ivar state: The state of the resource. Known values are: "Creating", "Unavailable", "Running",
-     "Deleting", "Deleted", "Stopping", "Stopped", "Starting", and "Updating".
+     "Deleting", "Deleted", "Stopping", "Stopped", "Starting", "Updating", and "Migrated".
     :vartype state: str or ~azure.mgmt.synapse.models.State
     :ivar provisioning_state: The provisioned state of the resource. Known values are: "Running",
      "Creating", "Deleting", "Succeeded", "Failed", "Moving", and "Canceled".
@@ -5447,6 +5506,9 @@ class KustoPool(TrackedResource):  # pylint: disable=too-many-instance-attribute
     :vartype language_extensions: ~azure.mgmt.synapse.models.LanguageExtensionsList
     :ivar workspace_uid: The workspace unique identifier.
     :vartype workspace_uid: str
+    :ivar migration_cluster: Properties of the peer cluster involved in a migration to/from this
+     cluster.
+    :vartype migration_cluster: ~azure.mgmt.synapse.models.MigrationClusterProperties
     """
 
     _validation = {
@@ -5463,6 +5525,7 @@ class KustoPool(TrackedResource):  # pylint: disable=too-many-instance-attribute
         "data_ingestion_uri": {"readonly": True},
         "state_reason": {"readonly": True},
         "language_extensions": {"readonly": True},
+        "migration_cluster": {"readonly": True},
     }
 
     _attribute_map = {
@@ -5484,6 +5547,7 @@ class KustoPool(TrackedResource):  # pylint: disable=too-many-instance-attribute
         "enable_purge": {"key": "properties.enablePurge", "type": "bool"},
         "language_extensions": {"key": "properties.languageExtensions", "type": "LanguageExtensionsList"},
         "workspace_uid": {"key": "properties.workspaceUID", "type": "str"},
+        "migration_cluster": {"key": "properties.migrationCluster", "type": "MigrationClusterProperties"},
     }
 
     def __init__(
@@ -5529,6 +5593,7 @@ class KustoPool(TrackedResource):  # pylint: disable=too-many-instance-attribute
         self.enable_purge = enable_purge
         self.language_extensions = None
         self.workspace_uid = workspace_uid
+        self.migration_cluster = None
 
 
 class KustoPoolCheckNameRequest(_serialization.Model):
@@ -5584,6 +5649,32 @@ class KustoPoolListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
+
+
+class KustoPoolMigrateRequest(_serialization.Model):
+    """A kusto pool migrate request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar cluster_resource_id: Resource ID of the destination cluster or kusto pool. Required.
+    :vartype cluster_resource_id: str
+    """
+
+    _validation = {
+        "cluster_resource_id": {"required": True},
+    }
+
+    _attribute_map = {
+        "cluster_resource_id": {"key": "clusterResourceId", "type": "str"},
+    }
+
+    def __init__(self, *, cluster_resource_id: str, **kwargs: Any) -> None:
+        """
+        :keyword cluster_resource_id: Resource ID of the destination cluster or kusto pool. Required.
+        :paramtype cluster_resource_id: str
+        """
+        super().__init__(**kwargs)
+        self.cluster_resource_id = cluster_resource_id
 
 
 class KustoPoolPrivateLinkResources(ProxyResource):
@@ -5663,7 +5754,7 @@ class KustoPoolUpdate(Resource):  # pylint: disable=too-many-instance-attributes
     :ivar sku: The SKU of the kusto pool.
     :vartype sku: ~azure.mgmt.synapse.models.AzureSku
     :ivar state: The state of the resource. Known values are: "Creating", "Unavailable", "Running",
-     "Deleting", "Deleted", "Stopping", "Stopped", "Starting", and "Updating".
+     "Deleting", "Deleted", "Stopping", "Stopped", "Starting", "Updating", and "Migrated".
     :vartype state: str or ~azure.mgmt.synapse.models.State
     :ivar provisioning_state: The provisioned state of the resource. Known values are: "Running",
      "Creating", "Deleting", "Succeeded", "Failed", "Moving", and "Canceled".
@@ -5685,6 +5776,9 @@ class KustoPoolUpdate(Resource):  # pylint: disable=too-many-instance-attributes
     :vartype language_extensions: ~azure.mgmt.synapse.models.LanguageExtensionsList
     :ivar workspace_uid: The workspace unique identifier.
     :vartype workspace_uid: str
+    :ivar migration_cluster: Properties of the peer cluster involved in a migration to/from this
+     cluster.
+    :vartype migration_cluster: ~azure.mgmt.synapse.models.MigrationClusterProperties
     """
 
     _validation = {
@@ -5697,6 +5791,7 @@ class KustoPoolUpdate(Resource):  # pylint: disable=too-many-instance-attributes
         "data_ingestion_uri": {"readonly": True},
         "state_reason": {"readonly": True},
         "language_extensions": {"readonly": True},
+        "migration_cluster": {"readonly": True},
     }
 
     _attribute_map = {
@@ -5715,6 +5810,7 @@ class KustoPoolUpdate(Resource):  # pylint: disable=too-many-instance-attributes
         "enable_purge": {"key": "properties.enablePurge", "type": "bool"},
         "language_extensions": {"key": "properties.languageExtensions", "type": "LanguageExtensionsList"},
         "workspace_uid": {"key": "properties.workspaceUID", "type": "str"},
+        "migration_cluster": {"key": "properties.migrationCluster", "type": "MigrationClusterProperties"},
     }
 
     def __init__(
@@ -5756,6 +5852,7 @@ class KustoPoolUpdate(Resource):  # pylint: disable=too-many-instance-attributes
         self.enable_purge = enable_purge
         self.language_extensions = None
         self.workspace_uid = workspace_uid
+        self.migration_cluster = None
 
 
 class LanguageExtension(_serialization.Model):
@@ -5823,6 +5920,7 @@ class LibraryInfo(_serialization.Model):
     """
 
     _validation = {
+        "uploaded_timestamp": {"readonly": True},
         "provisioning_status": {"readonly": True},
         "creator_id": {"readonly": True},
     }
@@ -5843,7 +5941,6 @@ class LibraryInfo(_serialization.Model):
         name: Optional[str] = None,
         path: Optional[str] = None,
         container_name: Optional[str] = None,
-        uploaded_timestamp: Optional[datetime.datetime] = None,
         type: Optional[str] = None,
         **kwargs: Any
     ) -> None:
@@ -5854,8 +5951,6 @@ class LibraryInfo(_serialization.Model):
         :paramtype path: str
         :keyword container_name: Storage blob container name.
         :paramtype container_name: str
-        :keyword uploaded_timestamp: The last update time of the library.
-        :paramtype uploaded_timestamp: ~datetime.datetime
         :keyword type: Type of the library.
         :paramtype type: str
         """
@@ -5863,7 +5958,7 @@ class LibraryInfo(_serialization.Model):
         self.name = name
         self.path = path
         self.container_name = container_name
-        self.uploaded_timestamp = uploaded_timestamp
+        self.uploaded_timestamp = None
         self.type = type
         self.provisioning_status = None
         self.creator_id = None
@@ -5975,6 +6070,7 @@ class LibraryResource(SubResource):  # pylint: disable=too-many-instance-attribu
         "name": {"readonly": True},
         "type": {"readonly": True},
         "etag": {"readonly": True},
+        "uploaded_timestamp": {"readonly": True},
         "provisioning_status": {"readonly": True},
         "creator_id": {"readonly": True},
     }
@@ -5999,7 +6095,6 @@ class LibraryResource(SubResource):  # pylint: disable=too-many-instance-attribu
         name_properties_name: Optional[str] = None,
         path: Optional[str] = None,
         container_name: Optional[str] = None,
-        uploaded_timestamp: Optional[datetime.datetime] = None,
         type_properties_type: Optional[str] = None,
         **kwargs: Any
     ) -> None:
@@ -6010,8 +6105,6 @@ class LibraryResource(SubResource):  # pylint: disable=too-many-instance-attribu
         :paramtype path: str
         :keyword container_name: Storage blob container name.
         :paramtype container_name: str
-        :keyword uploaded_timestamp: The last update time of the library.
-        :paramtype uploaded_timestamp: ~datetime.datetime
         :keyword type_properties_type: Type of the library.
         :paramtype type_properties_type: str
         """
@@ -6019,7 +6112,7 @@ class LibraryResource(SubResource):  # pylint: disable=too-many-instance-attribu
         self.name_properties_name = name_properties_name
         self.path = path
         self.container_name = container_name
-        self.uploaded_timestamp = uploaded_timestamp
+        self.uploaded_timestamp = None
         self.type_properties_type = type_properties_type
         self.provisioning_status = None
         self.creator_id = None
@@ -6919,6 +7012,45 @@ class MetadataSyncConfig(ProxyResource):
         super().__init__(**kwargs)
         self.enabled = enabled
         self.sync_interval_in_minutes = sync_interval_in_minutes
+
+
+class MigrationClusterProperties(_serialization.Model):
+    """Represents a properties of a cluster that is part of a migration.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: The resource ID of the cluster.
+    :vartype id: str
+    :ivar uri: The public URL of the cluster.
+    :vartype uri: str
+    :ivar data_ingestion_uri: The public data ingestion URL of the cluster.
+    :vartype data_ingestion_uri: str
+    :ivar role: The role of the cluster in the migration process. Known values are: "Source" and
+     "Destination".
+    :vartype role: str or ~azure.mgmt.synapse.models.MigrationClusterRole
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "uri": {"readonly": True},
+        "data_ingestion_uri": {"readonly": True},
+        "role": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "uri": {"key": "uri", "type": "str"},
+        "data_ingestion_uri": {"key": "dataIngestionUri", "type": "str"},
+        "role": {"key": "role", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.id = None
+        self.uri = None
+        self.data_ingestion_uri = None
+        self.role = None
 
 
 class Operation(_serialization.Model):
@@ -9121,6 +9253,10 @@ class SelfHostedIntegrationRuntimeStatus(IntegrationRuntimeStatus):  # pylint: d
     :vartype service_region: str
     :ivar newer_versions: The newer versions on download center.
     :vartype newer_versions: list[str]
+    :ivar os_type:
+    :vartype os_type: int
+    :ivar target_framework:
+    :vartype target_framework: int
     """
 
     _validation = {
@@ -9142,6 +9278,8 @@ class SelfHostedIntegrationRuntimeStatus(IntegrationRuntimeStatus):  # pylint: d
         "pushed_version": {"readonly": True},
         "latest_version": {"readonly": True},
         "auto_update_eta": {"readonly": True},
+        "os_type": {"readonly": True},
+        "target_framework": {"readonly": True},
     }
 
     _attribute_map = {
@@ -9171,9 +9309,11 @@ class SelfHostedIntegrationRuntimeStatus(IntegrationRuntimeStatus):  # pylint: d
         "auto_update_eta": {"key": "typeProperties.autoUpdateETA", "type": "iso-8601"},
         "service_region": {"key": "typeProperties.serviceRegion", "type": "str"},
         "newer_versions": {"key": "typeProperties.newerVersions", "type": "[str]"},
+        "os_type": {"key": "typeProperties.osType", "type": "int"},
+        "target_framework": {"key": "typeProperties.targetFramework", "type": "int"},
     }
 
-    def __init__(
+    def __init__(  # pylint: disable=too-many-locals
         self,
         *,
         additional_properties: Optional[Dict[str, JSON]] = None,
@@ -9218,6 +9358,8 @@ class SelfHostedIntegrationRuntimeStatus(IntegrationRuntimeStatus):  # pylint: d
         self.auto_update_eta = None
         self.service_region = service_region
         self.newer_versions = newer_versions
+        self.os_type = None
+        self.target_framework = None
 
 
 class SensitivityLabel(ProxyResource):  # pylint: disable=too-many-instance-attributes
@@ -10047,7 +10189,7 @@ class ServerVulnerabilityAssessment(ProxyResource):
     :vartype storage_account_access_key: str
     :ivar recurring_scans: The recurring scans settings.
     :vartype recurring_scans:
-     ~azure.mgmt.synapse.models.VulnerabilityAssessmentRecurringScansProperties
+     ~azure.mgmt.synapse.models.VulnerabilityAssessmentRecurringScansPropertiesAutoGenerated
     """
 
     _validation = {
@@ -10065,7 +10207,7 @@ class ServerVulnerabilityAssessment(ProxyResource):
         "storage_account_access_key": {"key": "properties.storageAccountAccessKey", "type": "str"},
         "recurring_scans": {
             "key": "properties.recurringScans",
-            "type": "VulnerabilityAssessmentRecurringScansProperties",
+            "type": "VulnerabilityAssessmentRecurringScansPropertiesAutoGenerated",
         },
     }
 
@@ -10075,7 +10217,7 @@ class ServerVulnerabilityAssessment(ProxyResource):
         storage_container_path: Optional[str] = None,
         storage_container_sas_key: Optional[str] = None,
         storage_account_access_key: Optional[str] = None,
-        recurring_scans: Optional["_models.VulnerabilityAssessmentRecurringScansProperties"] = None,
+        recurring_scans: Optional["_models.VulnerabilityAssessmentRecurringScansPropertiesAutoGenerated"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -10092,7 +10234,7 @@ class ServerVulnerabilityAssessment(ProxyResource):
         :paramtype storage_account_access_key: str
         :keyword recurring_scans: The recurring scans settings.
         :paramtype recurring_scans:
-         ~azure.mgmt.synapse.models.VulnerabilityAssessmentRecurringScansProperties
+         ~azure.mgmt.synapse.models.VulnerabilityAssessmentRecurringScansPropertiesAutoGenerated
         """
         super().__init__(**kwargs)
         self.storage_container_path = storage_container_path
@@ -12983,6 +13125,47 @@ class VulnerabilityAssessmentRecurringScansProperties(_serialization.Model):
         self.emails = emails
 
 
+class VulnerabilityAssessmentRecurringScansPropertiesAutoGenerated(_serialization.Model):
+    """Properties of a Vulnerability Assessment recurring scans.
+
+    :ivar is_enabled: Recurring scans state.
+    :vartype is_enabled: bool
+    :ivar email_subscription_admins: Specifies that the schedule scan notification will be is sent
+     to the subscription administrators.
+    :vartype email_subscription_admins: bool
+    :ivar emails: Specifies an array of e-mail addresses to which the scan notification is sent.
+    :vartype emails: list[str]
+    """
+
+    _attribute_map = {
+        "is_enabled": {"key": "isEnabled", "type": "bool"},
+        "email_subscription_admins": {"key": "emailSubscriptionAdmins", "type": "bool"},
+        "emails": {"key": "emails", "type": "[str]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        is_enabled: Optional[bool] = None,
+        email_subscription_admins: bool = True,
+        emails: Optional[List[str]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword is_enabled: Recurring scans state.
+        :paramtype is_enabled: bool
+        :keyword email_subscription_admins: Specifies that the schedule scan notification will be is
+         sent to the subscription administrators.
+        :paramtype email_subscription_admins: bool
+        :keyword emails: Specifies an array of e-mail addresses to which the scan notification is sent.
+        :paramtype emails: list[str]
+        """
+        super().__init__(**kwargs)
+        self.is_enabled = is_enabled
+        self.email_subscription_admins = email_subscription_admins
+        self.emails = emails
+
+
 class VulnerabilityAssessmentScanError(_serialization.Model):
     """Properties of a vulnerability assessment scan error.
 
@@ -13375,7 +13558,7 @@ class Workspace(TrackedResource):  # pylint: disable=too-many-instance-attribute
     :ivar workspace_uid: The workspace unique identifier.
     :vartype workspace_uid: str
     :ivar extra_properties: Workspace level configs and feature flags.
-    :vartype extra_properties: dict[str, JSON]
+    :vartype extra_properties: JSON
     :ivar managed_virtual_network_settings: Managed Virtual Network Settings.
     :vartype managed_virtual_network_settings:
      ~azure.mgmt.synapse.models.ManagedVirtualNetworkSettings
@@ -13407,6 +13590,7 @@ class Workspace(TrackedResource):  # pylint: disable=too-many-instance-attribute
         "type": {"readonly": True},
         "location": {"required": True},
         "provisioning_state": {"readonly": True},
+        "connectivity_endpoints": {"readonly": True},
         "workspace_uid": {"readonly": True},
         "extra_properties": {"readonly": True},
         "adla_resource_id": {"readonly": True},
@@ -13437,7 +13621,7 @@ class Workspace(TrackedResource):  # pylint: disable=too-many-instance-attribute
         },
         "encryption": {"key": "properties.encryption", "type": "EncryptionDetails"},
         "workspace_uid": {"key": "properties.workspaceUID", "type": "str"},
-        "extra_properties": {"key": "properties.extraProperties", "type": "{object}"},
+        "extra_properties": {"key": "properties.extraProperties", "type": "object"},
         "managed_virtual_network_settings": {
             "key": "properties.managedVirtualNetworkSettings",
             "type": "ManagedVirtualNetworkSettings",
@@ -13469,7 +13653,6 @@ class Workspace(TrackedResource):  # pylint: disable=too-many-instance-attribute
         managed_resource_group_name: Optional[str] = None,
         sql_administrator_login: Optional[str] = None,
         virtual_network_profile: Optional["_models.VirtualNetworkProfile"] = None,
-        connectivity_endpoints: Optional[Dict[str, str]] = None,
         managed_virtual_network: Optional[str] = None,
         private_endpoint_connections: Optional[List["_models.PrivateEndpointConnection"]] = None,
         encryption: Optional["_models.EncryptionDetails"] = None,
@@ -13502,8 +13685,6 @@ class Workspace(TrackedResource):  # pylint: disable=too-many-instance-attribute
         :paramtype sql_administrator_login: str
         :keyword virtual_network_profile: Virtual Network profile.
         :paramtype virtual_network_profile: ~azure.mgmt.synapse.models.VirtualNetworkProfile
-        :keyword connectivity_endpoints: Connectivity endpoints.
-        :paramtype connectivity_endpoints: dict[str, str]
         :keyword managed_virtual_network: Setting this to 'default' will ensure that all compute for
          this workspace is in a virtual network managed on behalf of the user.
         :paramtype managed_virtual_network: str
@@ -13542,7 +13723,7 @@ class Workspace(TrackedResource):  # pylint: disable=too-many-instance-attribute
         self.provisioning_state = None
         self.sql_administrator_login = sql_administrator_login
         self.virtual_network_profile = virtual_network_profile
-        self.connectivity_endpoints = connectivity_endpoints
+        self.connectivity_endpoints = None
         self.managed_virtual_network = managed_virtual_network
         self.private_endpoint_connections = private_endpoint_connections
         self.encryption = encryption

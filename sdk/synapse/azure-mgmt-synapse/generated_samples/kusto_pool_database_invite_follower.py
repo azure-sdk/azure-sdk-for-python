@@ -14,7 +14,7 @@ from azure.mgmt.synapse import SynapseManagementClient
     pip install azure-identity
     pip install azure-mgmt-synapse
 # USAGE
-    python create_or_update_big_data_pool.py
+    python kusto_pool_database_invite_follower.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,33 +26,31 @@ from azure.mgmt.synapse import SynapseManagementClient
 def main():
     client = SynapseManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="01234567-89ab-4def-0123-456789abcdef",
+        subscription_id="12345678-1234-1234-1234-123456789098",
     )
 
-    response = client.big_data_pools.begin_create_or_update(
-        resource_group_name="ExampleResourceGroup",
-        workspace_name="ExampleWorkspace",
-        big_data_pool_name="ExamplePool",
-        big_data_pool_info={
-            "location": "West US 2",
-            "properties": {
-                "autoPause": {"delayInMinutes": 15, "enabled": True},
-                "autoScale": {"enabled": True, "maxNodeCount": 50, "minNodeCount": 3},
-                "defaultSparkLogFolder": "/logs",
-                "isAutotuneEnabled": False,
-                "libraryRequirements": {"content": "", "filename": "requirements.txt"},
-                "nodeCount": 4,
-                "nodeSize": "Medium",
-                "nodeSizeFamily": "MemoryOptimized",
-                "sparkEventsFolder": "/events",
-                "sparkVersion": "3.3",
+    response = client.kusto_pool_database.invite_follower(
+        resource_group_name="kustorptest",
+        workspace_name="synapseWorkspaceName",
+        kusto_pool_name="kustopool",
+        database_name="database",
+        parameters={
+            "inviteeEmail": "invitee@contoso.com",
+            "tableLevelSharingProperties": {
+                "externalTablesToExclude": [],
+                "externalTablesToInclude": ["ExternalTable*"],
+                "functionsToExclude": ["functionsToExclude2"],
+                "functionsToInclude": ["functionsToInclude1"],
+                "materializedViewsToExclude": ["MaterializedViewTable2"],
+                "materializedViewsToInclude": ["MaterializedViewTable1"],
+                "tablesToExclude": ["Table2"],
+                "tablesToInclude": ["Table1"],
             },
-            "tags": {"key": "value"},
         },
-    ).result()
+    )
     print(response)
 
 
-# x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/CreateOrUpdateBigDataPool.json
+# x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/KustoPoolDatabaseInviteFollower.json
 if __name__ == "__main__":
     main()
