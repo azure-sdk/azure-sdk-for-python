@@ -31,7 +31,7 @@ def main():
 
     response = client.kusto_pool_databases.begin_create_or_update(
         resource_group_name="kustorptest",
-        workspace_name="synapseWorkspaceName",
+        workspace_name="synapse-workspace-name",
         kusto_pool_name="kustoclusterrptest4",
         database_name="KustoDatabase8",
         parameters={"kind": "ReadWrite", "location": "westus", "properties": {"softDeletePeriod": "P1D"}},

@@ -30,7 +30,7 @@ def main():
     )
 
     response = client.kusto_pool_principal_assignments.check_name_availability(
-        workspace_name="synapseWorkspaceName",
+        workspace_name="synapse-workspace-name",
         kusto_pool_name="kustoclusterrptest4",
         resource_group_name="kustorptest",
         principal_assignment_name={

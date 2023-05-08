@@ -14,7 +14,7 @@ from azure.mgmt.synapse import SynapseManagementClient
     pip install azure-identity
     pip install azure-mgmt-synapse
 # USAGE
-    python kusto_pool_data_connections_get.py
+    python kusto_pool_migrate.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,16 +29,17 @@ def main():
         subscription_id="12345678-1234-1234-1234-123456789098",
     )
 
-    response = client.kusto_pool_data_connections.get(
-        resource_group_name="kustorptest",
-        workspace_name="synapse-workspace-name",
+    response = client.kusto_pools.begin_migrate(
+        workspace_name="kustorptest",
         kusto_pool_name="kustoclusterrptest4",
-        database_name="KustoDatabase8",
-        data_connection_name="DataConnections8",
-    )
+        resource_group_name="kustorptest",
+        kusto_pool_migrate_request={
+            "clusterResourceId": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoCluster2"
+        },
+    ).result()
     print(response)
 
 
-# x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/KustoPoolDataConnectionsGet.json
+# x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/KustoPoolMigrate.json
 if __name__ == "__main__":
     main()

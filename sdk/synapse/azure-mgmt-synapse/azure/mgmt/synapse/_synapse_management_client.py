@@ -37,6 +37,7 @@ from .operations import (
     KustoPoolAttachedDatabaseConfigurationsOperations,
     KustoPoolChildResourceOperations,
     KustoPoolDataConnectionsOperations,
+    KustoPoolDatabaseOperations,
     KustoPoolDatabasePrincipalAssignmentsOperations,
     KustoPoolDatabasesOperations,
     KustoPoolPrincipalAssignmentsOperations,
@@ -312,6 +313,8 @@ class SynapseManagementClient:  # pylint: disable=client-accepts-api-version-key
     :ivar kusto_pool_principal_assignments: KustoPoolPrincipalAssignmentsOperations operations
     :vartype kusto_pool_principal_assignments:
      azure.mgmt.synapse.operations.KustoPoolPrincipalAssignmentsOperations
+    :ivar kusto_pool_database: KustoPoolDatabaseOperations operations
+    :vartype kusto_pool_database: azure.mgmt.synapse.operations.KustoPoolDatabaseOperations
     :ivar kusto_pool_database_principal_assignments:
      KustoPoolDatabasePrincipalAssignmentsOperations operations
     :vartype kusto_pool_database_principal_assignments:
@@ -339,7 +342,7 @@ class SynapseManagementClient:  # pylint: disable=client-accepts-api-version-key
         self._config = SynapseManagementClientConfiguration(
             credential=credential, subscription_id=subscription_id, **kwargs
         )
-        self._client = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        self._client: ARMPipelineClient = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
@@ -550,6 +553,9 @@ class SynapseManagementClient:  # pylint: disable=client-accepts-api-version-key
         self.kusto_pool_principal_assignments = KustoPoolPrincipalAssignmentsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.kusto_pool_database = KustoPoolDatabaseOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.kusto_pool_database_principal_assignments = KustoPoolDatabasePrincipalAssignmentsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
@@ -586,5 +592,5 @@ class SynapseManagementClient:  # pylint: disable=client-accepts-api-version-key
         self._client.__enter__()
         return self
 
-    def __exit__(self, *exc_details) -> None:
+    def __exit__(self, *exc_details: Any) -> None:
         self._client.__exit__(*exc_details)

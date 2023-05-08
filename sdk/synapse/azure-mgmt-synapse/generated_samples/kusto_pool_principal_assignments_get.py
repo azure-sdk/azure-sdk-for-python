@@ -30,7 +30,7 @@ def main():
     )
 
     response = client.kusto_pool_principal_assignments.get(
-        workspace_name="synapseWorkspaceName",
+        workspace_name="synapse-workspace-name",
         kusto_pool_name="kustoclusterrptest4",
         principal_assignment_name="kustoprincipal1",
         resource_group_name="kustorptest",

@@ -14,7 +14,7 @@ from azure.mgmt.synapse import SynapseManagementClient
     pip install azure-identity
     pip install azure-mgmt-synapse
 # USAGE
-    python kusto_pool_data_connections_get.py
+    python kusto_pool_database_invite_follower.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,16 +29,28 @@ def main():
         subscription_id="12345678-1234-1234-1234-123456789098",
     )
 
-    response = client.kusto_pool_data_connections.get(
+    response = client.kusto_pool_database.invite_follower(
         resource_group_name="kustorptest",
         workspace_name="synapse-workspace-name",
-        kusto_pool_name="kustoclusterrptest4",
-        database_name="KustoDatabase8",
-        data_connection_name="DataConnections8",
+        kusto_pool_name="kustopool",
+        database_name="database",
+        parameters={
+            "inviteeEmail": "invitee@contoso.com",
+            "tableLevelSharingProperties": {
+                "externalTablesToExclude": [],
+                "externalTablesToInclude": ["ExternalTable*"],
+                "functionsToExclude": ["functionsToExclude2"],
+                "functionsToInclude": ["functionsToInclude1"],
+                "materializedViewsToExclude": ["MaterializedViewTable2"],
+                "materializedViewsToInclude": ["MaterializedViewTable1"],
+                "tablesToExclude": ["Table2"],
+                "tablesToInclude": ["Table1"],
+            },
+        },
     )
     print(response)
 
 
-# x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/KustoPoolDataConnectionsGet.json
+# x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/KustoPoolDatabaseInviteFollower.json
 if __name__ == "__main__":
     main()

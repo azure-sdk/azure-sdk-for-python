@@ -99,6 +99,7 @@ from ._kusto_pool_attached_database_configurations_operations import KustoPoolAt
 from ._kusto_pool_databases_operations import KustoPoolDatabasesOperations
 from ._kusto_pool_data_connections_operations import KustoPoolDataConnectionsOperations
 from ._kusto_pool_principal_assignments_operations import KustoPoolPrincipalAssignmentsOperations
+from ._kusto_pool_database_operations import KustoPoolDatabaseOperations
 from ._kusto_pool_database_principal_assignments_operations import KustoPoolDatabasePrincipalAssignmentsOperations
 from ._kusto_pool_private_link_resources_operations import KustoPoolPrivateLinkResourcesOperations
 
@@ -180,6 +181,7 @@ __all__ = [
     "KustoPoolDatabasesOperations",
     "KustoPoolDataConnectionsOperations",
     "KustoPoolPrincipalAssignmentsOperations",
+    "KustoPoolDatabaseOperations",
     "KustoPoolDatabasePrincipalAssignmentsOperations",
     "KustoPoolPrivateLinkResourcesOperations",
 ]

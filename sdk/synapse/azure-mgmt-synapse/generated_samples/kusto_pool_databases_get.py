@@ -31,7 +31,7 @@ def main():
 
     response = client.kusto_pool_databases.get(
         resource_group_name="kustorptest",
-        workspace_name="synapseWorkspaceName",
+        workspace_name="synapse-workspace-name",
         kusto_pool_name="kustoclusterrptest4",
         database_name="KustoDatabase8",
     )

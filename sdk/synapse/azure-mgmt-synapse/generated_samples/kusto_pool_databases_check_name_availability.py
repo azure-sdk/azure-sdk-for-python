@@ -30,7 +30,7 @@ def main():
     )
 
     response = client.kusto_pool_child_resource.check_name_availability(
-        workspace_name="synapseWorkspaceName",
+        workspace_name="synapse-workspace-name",
         kusto_pool_name="kustoclusterrptest4",
         resource_group_name="kustorptest",
         resource_name={"name": "database1", "type": "Microsoft.Synapse/workspaces/kustoPools/databases"},

@@ -451,6 +451,13 @@ class ManagementOperationState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     CANCELLED = "Cancelled"
 
 
+class MigrationClusterRole(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The role of the cluster in the migration process."""
+
+    SOURCE = "Source"
+    DESTINATION = "Destination"
+
+
 class NodeSize(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The level of compute power that each node in the Big Data pool has."""
 
@@ -706,6 +713,7 @@ class State(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     STOPPED = "Stopped"
     STARTING = "Starting"
     UPDATING = "Updating"
+    MIGRATED = "Migrated"
 
 
 class StateValue(str, Enum, metaclass=CaseInsensitiveEnumMeta):
