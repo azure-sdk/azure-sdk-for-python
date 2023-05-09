@@ -23,6 +23,7 @@ from .operations import (
     MSIXPackagesOperations,
     MsixImagesOperations,
     Operations,
+    ScalingPlanPersonalSchedulesOperations,
     ScalingPlanPooledSchedulesOperations,
     ScalingPlansOperations,
     SessionHostsOperations,
@@ -48,6 +49,9 @@ class DesktopVirtualizationMgmtClient:  # pylint: disable=client-accepts-api-ver
     :ivar scaling_plan_pooled_schedules: ScalingPlanPooledSchedulesOperations operations
     :vartype scaling_plan_pooled_schedules:
      azure.mgmt.desktopvirtualization.aio.operations.ScalingPlanPooledSchedulesOperations
+    :ivar scaling_plan_personal_schedules: ScalingPlanPersonalSchedulesOperations operations
+    :vartype scaling_plan_personal_schedules:
+     azure.mgmt.desktopvirtualization.aio.operations.ScalingPlanPersonalSchedulesOperations
     :ivar application_groups: ApplicationGroupsOperations operations
     :vartype application_groups:
      azure.mgmt.desktopvirtualization.aio.operations.ApplicationGroupsOperations
@@ -74,8 +78,8 @@ class DesktopVirtualizationMgmtClient:  # pylint: disable=client-accepts-api-ver
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2022-09-09". Note that overriding this
-     default value may result in unsupported behavior.
+    :keyword api_version: Api Version. Default value is "2023-01-30-preview". Note that overriding
+     this default value may result in unsupported behavior.
     :paramtype api_version: str
     """
 
@@ -89,7 +93,7 @@ class DesktopVirtualizationMgmtClient:  # pylint: disable=client-accepts-api-ver
         self._config = DesktopVirtualizationMgmtClientConfiguration(
             credential=credential, subscription_id=subscription_id, **kwargs
         )
-        self._client = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
@@ -99,6 +103,9 @@ class DesktopVirtualizationMgmtClient:  # pylint: disable=client-accepts-api-ver
         self.workspaces = WorkspacesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.scaling_plans = ScalingPlansOperations(self._client, self._config, self._serialize, self._deserialize)
         self.scaling_plan_pooled_schedules = ScalingPlanPooledSchedulesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.scaling_plan_personal_schedules = ScalingPlanPersonalSchedulesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.application_groups = ApplicationGroupsOperations(

@@ -10,6 +10,7 @@ from ._operations import Operations
 from ._workspaces_operations import WorkspacesOperations
 from ._scaling_plans_operations import ScalingPlansOperations
 from ._scaling_plan_pooled_schedules_operations import ScalingPlanPooledSchedulesOperations
+from ._scaling_plan_personal_schedules_operations import ScalingPlanPersonalSchedulesOperations
 from ._application_groups_operations import ApplicationGroupsOperations
 from ._start_menu_items_operations import StartMenuItemsOperations
 from ._applications_operations import ApplicationsOperations
@@ -29,6 +30,7 @@ __all__ = [
     "WorkspacesOperations",
     "ScalingPlansOperations",
     "ScalingPlanPooledSchedulesOperations",
+    "ScalingPlanPersonalSchedulesOperations",
     "ApplicationGroupsOperations",
     "StartMenuItemsOperations",
     "ApplicationsOperations",

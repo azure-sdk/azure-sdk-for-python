@@ -35,6 +35,7 @@ from ._models_py3 import MsixPackageApplications
 from ._models_py3 import MsixPackageDependencies
 from ._models_py3 import OperationProperties
 from ._models_py3 import Plan
+from ._models_py3 import ProxyResource
 from ._models_py3 import RegistrationInfo
 from ._models_py3 import RegistrationInfoPatch
 from ._models_py3 import Resource
@@ -49,6 +50,9 @@ from ._models_py3 import ScalingHostPoolReference
 from ._models_py3 import ScalingPlan
 from ._models_py3 import ScalingPlanList
 from ._models_py3 import ScalingPlanPatch
+from ._models_py3 import ScalingPlanPersonalSchedule
+from ._models_py3 import ScalingPlanPersonalScheduleList
+from ._models_py3 import ScalingPlanPersonalSchedulePatch
 from ._models_py3 import ScalingPlanPooledSchedule
 from ._models_py3 import ScalingPlanPooledScheduleList
 from ._models_py3 import ScalingPlanPooledSchedulePatch
@@ -87,10 +91,13 @@ from ._desktop_virtualization_mgmt_client_enums import RemoteApplicationType
 from ._desktop_virtualization_mgmt_client_enums import SSOSecretType
 from ._desktop_virtualization_mgmt_client_enums import ScalingHostPoolType
 from ._desktop_virtualization_mgmt_client_enums import ScalingScheduleDaysOfWeekItem
+from ._desktop_virtualization_mgmt_client_enums import SessionHandlingOperation
 from ._desktop_virtualization_mgmt_client_enums import SessionHostComponentUpdateType
 from ._desktop_virtualization_mgmt_client_enums import SessionHostLoadBalancingAlgorithm
 from ._desktop_virtualization_mgmt_client_enums import SessionState
+from ._desktop_virtualization_mgmt_client_enums import SetStartVMOnConnect
 from ._desktop_virtualization_mgmt_client_enums import SkuTier
+from ._desktop_virtualization_mgmt_client_enums import StartupBehavior
 from ._desktop_virtualization_mgmt_client_enums import Status
 from ._desktop_virtualization_mgmt_client_enums import StopHostsWhen
 from ._desktop_virtualization_mgmt_client_enums import UpdateState
@@ -128,6 +135,7 @@ __all__ = [
     "MsixPackageDependencies",
     "OperationProperties",
     "Plan",
+    "ProxyResource",
     "RegistrationInfo",
     "RegistrationInfoPatch",
     "Resource",
@@ -142,6 +150,9 @@ __all__ = [
     "ScalingPlan",
     "ScalingPlanList",
     "ScalingPlanPatch",
+    "ScalingPlanPersonalSchedule",
+    "ScalingPlanPersonalScheduleList",
+    "ScalingPlanPersonalSchedulePatch",
     "ScalingPlanPooledSchedule",
     "ScalingPlanPooledScheduleList",
     "ScalingPlanPooledSchedulePatch",
@@ -179,10 +190,13 @@ __all__ = [
     "SSOSecretType",
     "ScalingHostPoolType",
     "ScalingScheduleDaysOfWeekItem",
+    "SessionHandlingOperation",
     "SessionHostComponentUpdateType",
     "SessionHostLoadBalancingAlgorithm",
     "SessionState",
+    "SetStartVMOnConnect",
     "SkuTier",
+    "StartupBehavior",
     "Status",
     "StopHostsWhen",
     "UpdateState",

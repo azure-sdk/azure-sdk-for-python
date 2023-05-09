@@ -182,6 +182,10 @@ class ScalingHostPoolType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     POOLED = "Pooled"
     """Users get a new (random) SessionHost every time it connects to the HostPool."""
+    PERSONAL = "Personal"
+    """Users will be assigned a SessionHost either by administrators (PersonalDesktopAssignmentType =
+    #: Direct) or upon connecting to the pool (PersonalDesktopAssignmentType = Automatic). They will
+    #: always be redirected to their assigned SessionHost."""
 
 
 class ScalingScheduleDaysOfWeekItem(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -194,6 +198,14 @@ class ScalingScheduleDaysOfWeekItem(str, Enum, metaclass=CaseInsensitiveEnumMeta
     THURSDAY = "Thursday"
     FRIDAY = "Friday"
     SATURDAY = "Saturday"
+
+
+class SessionHandlingOperation(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Action to be taken after a user disconnect during the ramp up period."""
+
+    NONE = "None"
+    DEALLOCATE = "Deallocate"
+    HIBERNATE = "Hibernate"
 
 
 class SessionHostComponentUpdateType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -223,6 +235,16 @@ class SessionState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     USER_PROFILE_DISK_MOUNTED = "UserProfileDiskMounted"
 
 
+class SetStartVMOnConnect(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The desired configuration of Start VM On Connect for the hostpool during the ramp up phase. If
+    this is disabled, session hosts must be turned on using rampUpAutoStartHosts or by turning them
+    on manually.
+    """
+
+    ENABLE = "Enable"
+    DISABLE = "Disable"
+
+
 class SkuTier(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """This field is required to be implemented by the Resource Provider if the service has more than
     one tier, but is not required on a PUT.
@@ -241,6 +263,18 @@ class SSOSecretType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     CERTIFICATE = "Certificate"
     SHARED_KEY_IN_KEY_VAULT = "SharedKeyInKeyVault"
     CERTIFICATE_IN_KEY_VAULT = "CertificateInKeyVault"
+
+
+class StartupBehavior(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The desired startup behavior during the ramp up period for personal vms in the hostpool."""
+
+    NONE = "None"
+    """Session hosts will not be started by the service. This setting depends on Start VM on Connect
+    #: to be enabled to start the session hosts."""
+    WITH_ASSIGNED_USER = "WithAssignedUser"
+    """Session hosts with an assigned user will be started during Ramp Up"""
+    ALL = "All"
+    """All personal session hosts in the hostpool will be started during ramp up."""
 
 
 class Status(str, Enum, metaclass=CaseInsensitiveEnumMeta):

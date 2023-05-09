@@ -35,16 +35,12 @@ class AgentUpdatePatchProperties(_serialization.Model):
      https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.findsystemtimezonebyid?view=net-5.0.
      Must be set if useLocalTime is true.
     :vartype maintenance_window_time_zone: str
-    :ivar maintenance_windows: List of maintenance windows. Maintenance windows are 2 hours long.
-    :vartype maintenance_windows:
-     list[~azure.mgmt.desktopvirtualization.models.MaintenanceWindowPatchProperties]
     """
 
     _attribute_map = {
         "type": {"key": "type", "type": "str"},
         "use_session_host_local_time": {"key": "useSessionHostLocalTime", "type": "bool"},
         "maintenance_window_time_zone": {"key": "maintenanceWindowTimeZone", "type": "str"},
-        "maintenance_windows": {"key": "maintenanceWindows", "type": "[MaintenanceWindowPatchProperties]"},
     }
 
     def __init__(
@@ -53,7 +49,6 @@ class AgentUpdatePatchProperties(_serialization.Model):
         type: Optional[Union[str, "_models.SessionHostComponentUpdateType"]] = None,
         use_session_host_local_time: Optional[bool] = None,
         maintenance_window_time_zone: Optional[str] = None,
-        maintenance_windows: Optional[List["_models.MaintenanceWindowPatchProperties"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -66,16 +61,11 @@ class AgentUpdatePatchProperties(_serialization.Model):
          https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.findsystemtimezonebyid?view=net-5.0.
          Must be set if useLocalTime is true.
         :paramtype maintenance_window_time_zone: str
-        :keyword maintenance_windows: List of maintenance windows. Maintenance windows are 2 hours
-         long.
-        :paramtype maintenance_windows:
-         list[~azure.mgmt.desktopvirtualization.models.MaintenanceWindowPatchProperties]
         """
         super().__init__(**kwargs)
         self.type = type
         self.use_session_host_local_time = use_session_host_local_time
         self.maintenance_window_time_zone = maintenance_window_time_zone
-        self.maintenance_windows = maintenance_windows
 
 
 class AgentUpdateProperties(_serialization.Model):
@@ -90,16 +80,12 @@ class AgentUpdateProperties(_serialization.Model):
      https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.findsystemtimezonebyid?view=net-5.0.
      Must be set if useLocalTime is true.
     :vartype maintenance_window_time_zone: str
-    :ivar maintenance_windows: List of maintenance windows. Maintenance windows are 2 hours long.
-    :vartype maintenance_windows:
-     list[~azure.mgmt.desktopvirtualization.models.MaintenanceWindowProperties]
     """
 
     _attribute_map = {
         "type": {"key": "type", "type": "str"},
         "use_session_host_local_time": {"key": "useSessionHostLocalTime", "type": "bool"},
         "maintenance_window_time_zone": {"key": "maintenanceWindowTimeZone", "type": "str"},
-        "maintenance_windows": {"key": "maintenanceWindows", "type": "[MaintenanceWindowProperties]"},
     }
 
     def __init__(
@@ -108,7 +94,6 @@ class AgentUpdateProperties(_serialization.Model):
         type: Optional[Union[str, "_models.SessionHostComponentUpdateType"]] = None,
         use_session_host_local_time: Optional[bool] = None,
         maintenance_window_time_zone: Optional[str] = None,
-        maintenance_windows: Optional[List["_models.MaintenanceWindowProperties"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -121,16 +106,11 @@ class AgentUpdateProperties(_serialization.Model):
          https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.findsystemtimezonebyid?view=net-5.0.
          Must be set if useLocalTime is true.
         :paramtype maintenance_window_time_zone: str
-        :keyword maintenance_windows: List of maintenance windows. Maintenance windows are 2 hours
-         long.
-        :paramtype maintenance_windows:
-         list[~azure.mgmt.desktopvirtualization.models.MaintenanceWindowProperties]
         """
         super().__init__(**kwargs)
         self.type = type
         self.use_session_host_local_time = use_session_host_local_time
         self.maintenance_window_time_zone = maintenance_window_time_zone
-        self.maintenance_windows = maintenance_windows
 
 
 class Resource(_serialization.Model):
@@ -2226,6 +2206,39 @@ class Plan(_serialization.Model):
         self.version = version
 
 
+class ProxyResource(Resource):
+    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
+    tags and a location.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+
+
 class RegistrationInfo(_serialization.Model):
     """Represents a RegistrationInfo definition.
 
@@ -2735,7 +2748,7 @@ class ScalingPlan(ResourceModelWithAllowedPropertySet):  # pylint: disable=too-m
     :vartype friendly_name: str
     :ivar time_zone: Timezone of the scaling plan. Required.
     :vartype time_zone: str
-    :ivar host_pool_type: HostPool type for desktop. "Pooled"
+    :ivar host_pool_type: HostPool type for desktop. Known values are: "Pooled" and "Personal".
     :vartype host_pool_type: str or ~azure.mgmt.desktopvirtualization.models.ScalingHostPoolType
     :ivar exclusion_tag: Exclusion tag for scaling plan.
     :vartype exclusion_tag: str
@@ -2827,7 +2840,7 @@ class ScalingPlan(ResourceModelWithAllowedPropertySet):  # pylint: disable=too-m
         :paramtype friendly_name: str
         :keyword time_zone: Timezone of the scaling plan. Required.
         :paramtype time_zone: str
-        :keyword host_pool_type: HostPool type for desktop. "Pooled"
+        :keyword host_pool_type: HostPool type for desktop. Known values are: "Pooled" and "Personal".
         :paramtype host_pool_type: str or ~azure.mgmt.desktopvirtualization.models.ScalingHostPoolType
         :keyword exclusion_tag: Exclusion tag for scaling plan.
         :paramtype exclusion_tag: str
@@ -2957,6 +2970,625 @@ class ScalingPlanPatch(_serialization.Model):
         self.host_pool_references = host_pool_references
 
 
+class ScalingPlanPersonalSchedule(ProxyResource):  # pylint: disable=too-many-instance-attributes
+    """Represents a ScalingPlanPersonalSchedule definition.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Metadata pertaining to creation and last modification of the resource.
+    :vartype system_data: ~azure.mgmt.desktopvirtualization.models.SystemData
+    :ivar days_of_week: Set of days of the week on which this schedule is active.
+    :vartype days_of_week: list[str or ~azure.mgmt.desktopvirtualization.models.DayOfWeek]
+    :ivar ramp_up_start_time: Starting time for ramp up period.
+    :vartype ramp_up_start_time: ~azure.mgmt.desktopvirtualization.models.Time
+    :ivar ramp_up_auto_start_hosts: The desired startup behavior during the ramp up period for
+     personal vms in the hostpool. Known values are: "None", "WithAssignedUser", and "All".
+    :vartype ramp_up_auto_start_hosts: str or
+     ~azure.mgmt.desktopvirtualization.models.StartupBehavior
+    :ivar ramp_up_start_vm_on_connect: The desired configuration of Start VM On Connect for the
+     hostpool during the ramp up phase. If this is disabled, session hosts must be turned on using
+     rampUpAutoStartHosts or by turning them on manually. Known values are: "Enable" and "Disable".
+    :vartype ramp_up_start_vm_on_connect: str or
+     ~azure.mgmt.desktopvirtualization.models.SetStartVMOnConnect
+    :ivar ramp_up_action_on_disconnect: Action to be taken after a user disconnect during the ramp
+     up period. Known values are: "None", "Deallocate", and "Hibernate".
+    :vartype ramp_up_action_on_disconnect: str or
+     ~azure.mgmt.desktopvirtualization.models.SessionHandlingOperation
+    :ivar ramp_up_minutes_to_wait_on_disconnect: The time in minutes to wait before performing the
+     desired session handling action when a user disconnects during the ramp up period.
+    :vartype ramp_up_minutes_to_wait_on_disconnect: int
+    :ivar ramp_up_action_on_logoff: Action to be taken after a logoff during the ramp up period.
+     Known values are: "None", "Deallocate", and "Hibernate".
+    :vartype ramp_up_action_on_logoff: str or
+     ~azure.mgmt.desktopvirtualization.models.SessionHandlingOperation
+    :ivar ramp_up_minutes_to_wait_on_logoff: The time in minutes to wait before performing the
+     desired session handling action when a user logs off during the ramp up period.
+    :vartype ramp_up_minutes_to_wait_on_logoff: int
+    :ivar peak_start_time: Starting time for peak period.
+    :vartype peak_start_time: ~azure.mgmt.desktopvirtualization.models.Time
+    :ivar peak_start_vm_on_connect: The desired configuration of Start VM On Connect for the
+     hostpool during the peak phase. Known values are: "Enable" and "Disable".
+    :vartype peak_start_vm_on_connect: str or
+     ~azure.mgmt.desktopvirtualization.models.SetStartVMOnConnect
+    :ivar peak_action_on_disconnect: Action to be taken after a user disconnect during the peak
+     period. Known values are: "None", "Deallocate", and "Hibernate".
+    :vartype peak_action_on_disconnect: str or
+     ~azure.mgmt.desktopvirtualization.models.SessionHandlingOperation
+    :ivar peak_minutes_to_wait_on_disconnect: The time in minutes to wait before performing the
+     desired session handling action when a user disconnects during the peak period.
+    :vartype peak_minutes_to_wait_on_disconnect: int
+    :ivar peak_action_on_logoff: Action to be taken after a logoff during the peak period. Known
+     values are: "None", "Deallocate", and "Hibernate".
+    :vartype peak_action_on_logoff: str or
+     ~azure.mgmt.desktopvirtualization.models.SessionHandlingOperation
+    :ivar peak_minutes_to_wait_on_logoff: The time in minutes to wait before performing the desired
+     session handling action when a user logs off during the peak period.
+    :vartype peak_minutes_to_wait_on_logoff: int
+    :ivar ramp_down_start_time: Starting time for ramp down period.
+    :vartype ramp_down_start_time: ~azure.mgmt.desktopvirtualization.models.Time
+    :ivar ramp_down_start_vm_on_connect: The desired configuration of Start VM On Connect for the
+     hostpool during the ramp down phase. Known values are: "Enable" and "Disable".
+    :vartype ramp_down_start_vm_on_connect: str or
+     ~azure.mgmt.desktopvirtualization.models.SetStartVMOnConnect
+    :ivar ramp_down_action_on_disconnect: Action to be taken after a user disconnect during the
+     ramp down period. Known values are: "None", "Deallocate", and "Hibernate".
+    :vartype ramp_down_action_on_disconnect: str or
+     ~azure.mgmt.desktopvirtualization.models.SessionHandlingOperation
+    :ivar ramp_down_minutes_to_wait_on_disconnect: The time in minutes to wait before performing
+     the desired session handling action when a user disconnects during the ramp down period.
+    :vartype ramp_down_minutes_to_wait_on_disconnect: int
+    :ivar ramp_down_action_on_logoff: Action to be taken after a logoff during the ramp down
+     period. Known values are: "None", "Deallocate", and "Hibernate".
+    :vartype ramp_down_action_on_logoff: str or
+     ~azure.mgmt.desktopvirtualization.models.SessionHandlingOperation
+    :ivar ramp_down_minutes_to_wait_on_logoff: The time in minutes to wait before performing the
+     desired session handling action when a user logs off during the ramp down period.
+    :vartype ramp_down_minutes_to_wait_on_logoff: int
+    :ivar off_peak_start_time: Starting time for off-peak period.
+    :vartype off_peak_start_time: ~azure.mgmt.desktopvirtualization.models.Time
+    :ivar off_peak_start_vm_on_connect: The desired configuration of Start VM On Connect for the
+     hostpool during the off-peak phase. Known values are: "Enable" and "Disable".
+    :vartype off_peak_start_vm_on_connect: str or
+     ~azure.mgmt.desktopvirtualization.models.SetStartVMOnConnect
+    :ivar off_peak_action_on_disconnect: Action to be taken after a user disconnect during the
+     off-peak period. Known values are: "None", "Deallocate", and "Hibernate".
+    :vartype off_peak_action_on_disconnect: str or
+     ~azure.mgmt.desktopvirtualization.models.SessionHandlingOperation
+    :ivar off_peak_minutes_to_wait_on_disconnect: The time in minutes to wait before performing the
+     desired session handling action when a user disconnects during the off-peak period.
+    :vartype off_peak_minutes_to_wait_on_disconnect: int
+    :ivar off_peak_action_on_logoff: Action to be taken after a logoff during the off-peak period.
+     Known values are: "None", "Deallocate", and "Hibernate".
+    :vartype off_peak_action_on_logoff: str or
+     ~azure.mgmt.desktopvirtualization.models.SessionHandlingOperation
+    :ivar off_peak_minutes_to_wait_on_logoff: The time in minutes to wait before performing the
+     desired session handling action when a user logs off during the off-peak period.
+    :vartype off_peak_minutes_to_wait_on_logoff: int
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "ramp_up_minutes_to_wait_on_disconnect": {"minimum": 0},
+        "ramp_up_minutes_to_wait_on_logoff": {"minimum": 0},
+        "peak_minutes_to_wait_on_disconnect": {"minimum": 0},
+        "peak_minutes_to_wait_on_logoff": {"minimum": 0},
+        "ramp_down_minutes_to_wait_on_disconnect": {"minimum": 0},
+        "ramp_down_minutes_to_wait_on_logoff": {"minimum": 0},
+        "off_peak_minutes_to_wait_on_disconnect": {"minimum": 0},
+        "off_peak_minutes_to_wait_on_logoff": {"minimum": 0},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "days_of_week": {"key": "properties.daysOfWeek", "type": "[str]"},
+        "ramp_up_start_time": {"key": "properties.rampUpStartTime", "type": "Time"},
+        "ramp_up_auto_start_hosts": {"key": "properties.rampUpAutoStartHosts", "type": "str"},
+        "ramp_up_start_vm_on_connect": {"key": "properties.rampUpStartVMOnConnect", "type": "str"},
+        "ramp_up_action_on_disconnect": {"key": "properties.rampUpActionOnDisconnect", "type": "str"},
+        "ramp_up_minutes_to_wait_on_disconnect": {"key": "properties.rampUpMinutesToWaitOnDisconnect", "type": "int"},
+        "ramp_up_action_on_logoff": {"key": "properties.rampUpActionOnLogoff", "type": "str"},
+        "ramp_up_minutes_to_wait_on_logoff": {"key": "properties.rampUpMinutesToWaitOnLogoff", "type": "int"},
+        "peak_start_time": {"key": "properties.peakStartTime", "type": "Time"},
+        "peak_start_vm_on_connect": {"key": "properties.peakStartVMOnConnect", "type": "str"},
+        "peak_action_on_disconnect": {"key": "properties.peakActionOnDisconnect", "type": "str"},
+        "peak_minutes_to_wait_on_disconnect": {"key": "properties.peakMinutesToWaitOnDisconnect", "type": "int"},
+        "peak_action_on_logoff": {"key": "properties.peakActionOnLogoff", "type": "str"},
+        "peak_minutes_to_wait_on_logoff": {"key": "properties.peakMinutesToWaitOnLogoff", "type": "int"},
+        "ramp_down_start_time": {"key": "properties.rampDownStartTime", "type": "Time"},
+        "ramp_down_start_vm_on_connect": {"key": "properties.rampDownStartVMOnConnect", "type": "str"},
+        "ramp_down_action_on_disconnect": {"key": "properties.rampDownActionOnDisconnect", "type": "str"},
+        "ramp_down_minutes_to_wait_on_disconnect": {
+            "key": "properties.rampDownMinutesToWaitOnDisconnect",
+            "type": "int",
+        },
+        "ramp_down_action_on_logoff": {"key": "properties.rampDownActionOnLogoff", "type": "str"},
+        "ramp_down_minutes_to_wait_on_logoff": {"key": "properties.rampDownMinutesToWaitOnLogoff", "type": "int"},
+        "off_peak_start_time": {"key": "properties.offPeakStartTime", "type": "Time"},
+        "off_peak_start_vm_on_connect": {"key": "properties.offPeakStartVMOnConnect", "type": "str"},
+        "off_peak_action_on_disconnect": {"key": "properties.offPeakActionOnDisconnect", "type": "str"},
+        "off_peak_minutes_to_wait_on_disconnect": {"key": "properties.offPeakMinutesToWaitOnDisconnect", "type": "int"},
+        "off_peak_action_on_logoff": {"key": "properties.offPeakActionOnLogoff", "type": "str"},
+        "off_peak_minutes_to_wait_on_logoff": {"key": "properties.offPeakMinutesToWaitOnLogoff", "type": "int"},
+    }
+
+    def __init__(  # pylint: disable=too-many-locals
+        self,
+        *,
+        days_of_week: Optional[List[Union[str, "_models.DayOfWeek"]]] = None,
+        ramp_up_start_time: Optional["_models.Time"] = None,
+        ramp_up_auto_start_hosts: Optional[Union[str, "_models.StartupBehavior"]] = None,
+        ramp_up_start_vm_on_connect: Optional[Union[str, "_models.SetStartVMOnConnect"]] = None,
+        ramp_up_action_on_disconnect: Optional[Union[str, "_models.SessionHandlingOperation"]] = None,
+        ramp_up_minutes_to_wait_on_disconnect: Optional[int] = None,
+        ramp_up_action_on_logoff: Optional[Union[str, "_models.SessionHandlingOperation"]] = None,
+        ramp_up_minutes_to_wait_on_logoff: Optional[int] = None,
+        peak_start_time: Optional["_models.Time"] = None,
+        peak_start_vm_on_connect: Optional[Union[str, "_models.SetStartVMOnConnect"]] = None,
+        peak_action_on_disconnect: Optional[Union[str, "_models.SessionHandlingOperation"]] = None,
+        peak_minutes_to_wait_on_disconnect: Optional[int] = None,
+        peak_action_on_logoff: Optional[Union[str, "_models.SessionHandlingOperation"]] = None,
+        peak_minutes_to_wait_on_logoff: Optional[int] = None,
+        ramp_down_start_time: Optional["_models.Time"] = None,
+        ramp_down_start_vm_on_connect: Optional[Union[str, "_models.SetStartVMOnConnect"]] = None,
+        ramp_down_action_on_disconnect: Optional[Union[str, "_models.SessionHandlingOperation"]] = None,
+        ramp_down_minutes_to_wait_on_disconnect: Optional[int] = None,
+        ramp_down_action_on_logoff: Optional[Union[str, "_models.SessionHandlingOperation"]] = None,
+        ramp_down_minutes_to_wait_on_logoff: Optional[int] = None,
+        off_peak_start_time: Optional["_models.Time"] = None,
+        off_peak_start_vm_on_connect: Optional[Union[str, "_models.SetStartVMOnConnect"]] = None,
+        off_peak_action_on_disconnect: Optional[Union[str, "_models.SessionHandlingOperation"]] = None,
+        off_peak_minutes_to_wait_on_disconnect: Optional[int] = None,
+        off_peak_action_on_logoff: Optional[Union[str, "_models.SessionHandlingOperation"]] = None,
+        off_peak_minutes_to_wait_on_logoff: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword days_of_week: Set of days of the week on which this schedule is active.
+        :paramtype days_of_week: list[str or ~azure.mgmt.desktopvirtualization.models.DayOfWeek]
+        :keyword ramp_up_start_time: Starting time for ramp up period.
+        :paramtype ramp_up_start_time: ~azure.mgmt.desktopvirtualization.models.Time
+        :keyword ramp_up_auto_start_hosts: The desired startup behavior during the ramp up period for
+         personal vms in the hostpool. Known values are: "None", "WithAssignedUser", and "All".
+        :paramtype ramp_up_auto_start_hosts: str or
+         ~azure.mgmt.desktopvirtualization.models.StartupBehavior
+        :keyword ramp_up_start_vm_on_connect: The desired configuration of Start VM On Connect for the
+         hostpool during the ramp up phase. If this is disabled, session hosts must be turned on using
+         rampUpAutoStartHosts or by turning them on manually. Known values are: "Enable" and "Disable".
+        :paramtype ramp_up_start_vm_on_connect: str or
+         ~azure.mgmt.desktopvirtualization.models.SetStartVMOnConnect
+        :keyword ramp_up_action_on_disconnect: Action to be taken after a user disconnect during the
+         ramp up period. Known values are: "None", "Deallocate", and "Hibernate".
+        :paramtype ramp_up_action_on_disconnect: str or
+         ~azure.mgmt.desktopvirtualization.models.SessionHandlingOperation
+        :keyword ramp_up_minutes_to_wait_on_disconnect: The time in minutes to wait before performing
+         the desired session handling action when a user disconnects during the ramp up period.
+        :paramtype ramp_up_minutes_to_wait_on_disconnect: int
+        :keyword ramp_up_action_on_logoff: Action to be taken after a logoff during the ramp up period.
+         Known values are: "None", "Deallocate", and "Hibernate".
+        :paramtype ramp_up_action_on_logoff: str or
+         ~azure.mgmt.desktopvirtualization.models.SessionHandlingOperation
+        :keyword ramp_up_minutes_to_wait_on_logoff: The time in minutes to wait before performing the
+         desired session handling action when a user logs off during the ramp up period.
+        :paramtype ramp_up_minutes_to_wait_on_logoff: int
+        :keyword peak_start_time: Starting time for peak period.
+        :paramtype peak_start_time: ~azure.mgmt.desktopvirtualization.models.Time
+        :keyword peak_start_vm_on_connect: The desired configuration of Start VM On Connect for the
+         hostpool during the peak phase. Known values are: "Enable" and "Disable".
+        :paramtype peak_start_vm_on_connect: str or
+         ~azure.mgmt.desktopvirtualization.models.SetStartVMOnConnect
+        :keyword peak_action_on_disconnect: Action to be taken after a user disconnect during the peak
+         period. Known values are: "None", "Deallocate", and "Hibernate".
+        :paramtype peak_action_on_disconnect: str or
+         ~azure.mgmt.desktopvirtualization.models.SessionHandlingOperation
+        :keyword peak_minutes_to_wait_on_disconnect: The time in minutes to wait before performing the
+         desired session handling action when a user disconnects during the peak period.
+        :paramtype peak_minutes_to_wait_on_disconnect: int
+        :keyword peak_action_on_logoff: Action to be taken after a logoff during the peak period. Known
+         values are: "None", "Deallocate", and "Hibernate".
+        :paramtype peak_action_on_logoff: str or
+         ~azure.mgmt.desktopvirtualization.models.SessionHandlingOperation
+        :keyword peak_minutes_to_wait_on_logoff: The time in minutes to wait before performing the
+         desired session handling action when a user logs off during the peak period.
+        :paramtype peak_minutes_to_wait_on_logoff: int
+        :keyword ramp_down_start_time: Starting time for ramp down period.
+        :paramtype ramp_down_start_time: ~azure.mgmt.desktopvirtualization.models.Time
+        :keyword ramp_down_start_vm_on_connect: The desired configuration of Start VM On Connect for
+         the hostpool during the ramp down phase. Known values are: "Enable" and "Disable".
+        :paramtype ramp_down_start_vm_on_connect: str or
+         ~azure.mgmt.desktopvirtualization.models.SetStartVMOnConnect
+        :keyword ramp_down_action_on_disconnect: Action to be taken after a user disconnect during the
+         ramp down period. Known values are: "None", "Deallocate", and "Hibernate".
+        :paramtype ramp_down_action_on_disconnect: str or
+         ~azure.mgmt.desktopvirtualization.models.SessionHandlingOperation
+        :keyword ramp_down_minutes_to_wait_on_disconnect: The time in minutes to wait before performing
+         the desired session handling action when a user disconnects during the ramp down period.
+        :paramtype ramp_down_minutes_to_wait_on_disconnect: int
+        :keyword ramp_down_action_on_logoff: Action to be taken after a logoff during the ramp down
+         period. Known values are: "None", "Deallocate", and "Hibernate".
+        :paramtype ramp_down_action_on_logoff: str or
+         ~azure.mgmt.desktopvirtualization.models.SessionHandlingOperation
+        :keyword ramp_down_minutes_to_wait_on_logoff: The time in minutes to wait before performing the
+         desired session handling action when a user logs off during the ramp down period.
+        :paramtype ramp_down_minutes_to_wait_on_logoff: int
+        :keyword off_peak_start_time: Starting time for off-peak period.
+        :paramtype off_peak_start_time: ~azure.mgmt.desktopvirtualization.models.Time
+        :keyword off_peak_start_vm_on_connect: The desired configuration of Start VM On Connect for the
+         hostpool during the off-peak phase. Known values are: "Enable" and "Disable".
+        :paramtype off_peak_start_vm_on_connect: str or
+         ~azure.mgmt.desktopvirtualization.models.SetStartVMOnConnect
+        :keyword off_peak_action_on_disconnect: Action to be taken after a user disconnect during the
+         off-peak period. Known values are: "None", "Deallocate", and "Hibernate".
+        :paramtype off_peak_action_on_disconnect: str or
+         ~azure.mgmt.desktopvirtualization.models.SessionHandlingOperation
+        :keyword off_peak_minutes_to_wait_on_disconnect: The time in minutes to wait before performing
+         the desired session handling action when a user disconnects during the off-peak period.
+        :paramtype off_peak_minutes_to_wait_on_disconnect: int
+        :keyword off_peak_action_on_logoff: Action to be taken after a logoff during the off-peak
+         period. Known values are: "None", "Deallocate", and "Hibernate".
+        :paramtype off_peak_action_on_logoff: str or
+         ~azure.mgmt.desktopvirtualization.models.SessionHandlingOperation
+        :keyword off_peak_minutes_to_wait_on_logoff: The time in minutes to wait before performing the
+         desired session handling action when a user logs off during the off-peak period.
+        :paramtype off_peak_minutes_to_wait_on_logoff: int
+        """
+        super().__init__(**kwargs)
+        self.system_data = None
+        self.days_of_week = days_of_week
+        self.ramp_up_start_time = ramp_up_start_time
+        self.ramp_up_auto_start_hosts = ramp_up_auto_start_hosts
+        self.ramp_up_start_vm_on_connect = ramp_up_start_vm_on_connect
+        self.ramp_up_action_on_disconnect = ramp_up_action_on_disconnect
+        self.ramp_up_minutes_to_wait_on_disconnect = ramp_up_minutes_to_wait_on_disconnect
+        self.ramp_up_action_on_logoff = ramp_up_action_on_logoff
+        self.ramp_up_minutes_to_wait_on_logoff = ramp_up_minutes_to_wait_on_logoff
+        self.peak_start_time = peak_start_time
+        self.peak_start_vm_on_connect = peak_start_vm_on_connect
+        self.peak_action_on_disconnect = peak_action_on_disconnect
+        self.peak_minutes_to_wait_on_disconnect = peak_minutes_to_wait_on_disconnect
+        self.peak_action_on_logoff = peak_action_on_logoff
+        self.peak_minutes_to_wait_on_logoff = peak_minutes_to_wait_on_logoff
+        self.ramp_down_start_time = ramp_down_start_time
+        self.ramp_down_start_vm_on_connect = ramp_down_start_vm_on_connect
+        self.ramp_down_action_on_disconnect = ramp_down_action_on_disconnect
+        self.ramp_down_minutes_to_wait_on_disconnect = ramp_down_minutes_to_wait_on_disconnect
+        self.ramp_down_action_on_logoff = ramp_down_action_on_logoff
+        self.ramp_down_minutes_to_wait_on_logoff = ramp_down_minutes_to_wait_on_logoff
+        self.off_peak_start_time = off_peak_start_time
+        self.off_peak_start_vm_on_connect = off_peak_start_vm_on_connect
+        self.off_peak_action_on_disconnect = off_peak_action_on_disconnect
+        self.off_peak_minutes_to_wait_on_disconnect = off_peak_minutes_to_wait_on_disconnect
+        self.off_peak_action_on_logoff = off_peak_action_on_logoff
+        self.off_peak_minutes_to_wait_on_logoff = off_peak_minutes_to_wait_on_logoff
+
+
+class ScalingPlanPersonalScheduleList(_serialization.Model):
+    """List of ScalingPlanPersonalSchedule definitions.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar value: List of ScalingPlanPersonalSchedule definitions.
+    :vartype value: list[~azure.mgmt.desktopvirtualization.models.ScalingPlanPersonalSchedule]
+    :ivar next_link: Link to the next page of results.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[ScalingPlanPersonalSchedule]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, *, value: Optional[List["_models.ScalingPlanPersonalSchedule"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword value: List of ScalingPlanPersonalSchedule definitions.
+        :paramtype value: list[~azure.mgmt.desktopvirtualization.models.ScalingPlanPersonalSchedule]
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = None
+
+
+class ScalingPlanPersonalSchedulePatch(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+    """ScalingPlanPersonalSchedule properties that can be patched.
+
+    :ivar days_of_week: Set of days of the week on which this schedule is active.
+    :vartype days_of_week: list[str or ~azure.mgmt.desktopvirtualization.models.DayOfWeek]
+    :ivar ramp_up_start_time: Starting time for ramp up period.
+    :vartype ramp_up_start_time: ~azure.mgmt.desktopvirtualization.models.Time
+    :ivar ramp_up_auto_start_hosts: The desired startup behavior during the ramp up period for
+     personal vms in the hostpool. Known values are: "None", "WithAssignedUser", and "All".
+    :vartype ramp_up_auto_start_hosts: str or
+     ~azure.mgmt.desktopvirtualization.models.StartupBehavior
+    :ivar ramp_up_start_vm_on_connect: The desired configuration of Start VM On Connect for the
+     hostpool during the ramp up phase. If this is disabled, session hosts must be turned on using
+     rampUpAutoStartHosts or by turning them on manually. Known values are: "Enable" and "Disable".
+    :vartype ramp_up_start_vm_on_connect: str or
+     ~azure.mgmt.desktopvirtualization.models.SetStartVMOnConnect
+    :ivar ramp_up_action_on_disconnect: Action to be taken after a user disconnect during the ramp
+     up period. Known values are: "None", "Deallocate", and "Hibernate".
+    :vartype ramp_up_action_on_disconnect: str or
+     ~azure.mgmt.desktopvirtualization.models.SessionHandlingOperation
+    :ivar ramp_up_minutes_to_wait_on_disconnect: The time in minutes to wait before performing the
+     desired session handling action when a user disconnects during the ramp up period.
+    :vartype ramp_up_minutes_to_wait_on_disconnect: int
+    :ivar ramp_up_action_on_logoff: Action to be taken after a logoff during the ramp up period.
+     Known values are: "None", "Deallocate", and "Hibernate".
+    :vartype ramp_up_action_on_logoff: str or
+     ~azure.mgmt.desktopvirtualization.models.SessionHandlingOperation
+    :ivar ramp_up_minutes_to_wait_on_logoff: The time in minutes to wait before performing the
+     desired session handling action when a user logs off during the ramp up period.
+    :vartype ramp_up_minutes_to_wait_on_logoff: int
+    :ivar peak_start_time: Starting time for peak period.
+    :vartype peak_start_time: ~azure.mgmt.desktopvirtualization.models.Time
+    :ivar peak_start_vm_on_connect: The desired configuration of Start VM On Connect for the
+     hostpool during the peak phase. Known values are: "Enable" and "Disable".
+    :vartype peak_start_vm_on_connect: str or
+     ~azure.mgmt.desktopvirtualization.models.SetStartVMOnConnect
+    :ivar peak_action_on_disconnect: Action to be taken after a user disconnect during the peak
+     period. Known values are: "None", "Deallocate", and "Hibernate".
+    :vartype peak_action_on_disconnect: str or
+     ~azure.mgmt.desktopvirtualization.models.SessionHandlingOperation
+    :ivar peak_minutes_to_wait_on_disconnect: The time in minutes to wait before performing the
+     desired session handling action when a user disconnects during the peak period.
+    :vartype peak_minutes_to_wait_on_disconnect: int
+    :ivar peak_action_on_logoff: Action to be taken after a logoff during the peak period. Known
+     values are: "None", "Deallocate", and "Hibernate".
+    :vartype peak_action_on_logoff: str or
+     ~azure.mgmt.desktopvirtualization.models.SessionHandlingOperation
+    :ivar peak_minutes_to_wait_on_logoff: The time in minutes to wait before performing the desired
+     session handling action when a user logs off during the peak period.
+    :vartype peak_minutes_to_wait_on_logoff: int
+    :ivar ramp_down_start_time: Starting time for ramp down period.
+    :vartype ramp_down_start_time: ~azure.mgmt.desktopvirtualization.models.Time
+    :ivar ramp_down_start_vm_on_connect: The desired configuration of Start VM On Connect for the
+     hostpool during the ramp down phase. Known values are: "Enable" and "Disable".
+    :vartype ramp_down_start_vm_on_connect: str or
+     ~azure.mgmt.desktopvirtualization.models.SetStartVMOnConnect
+    :ivar ramp_down_action_on_disconnect: Action to be taken after a user disconnect during the
+     ramp down period. Known values are: "None", "Deallocate", and "Hibernate".
+    :vartype ramp_down_action_on_disconnect: str or
+     ~azure.mgmt.desktopvirtualization.models.SessionHandlingOperation
+    :ivar ramp_down_minutes_to_wait_on_disconnect: The time in minutes to wait before performing
+     the desired session handling action when a user disconnects during the ramp down period.
+    :vartype ramp_down_minutes_to_wait_on_disconnect: int
+    :ivar ramp_down_action_on_logoff: Action to be taken after a logoff during the ramp down
+     period. Known values are: "None", "Deallocate", and "Hibernate".
+    :vartype ramp_down_action_on_logoff: str or
+     ~azure.mgmt.desktopvirtualization.models.SessionHandlingOperation
+    :ivar ramp_down_minutes_to_wait_on_logoff: The time in minutes to wait before performing the
+     desired session handling action when a user logs off during the ramp down period.
+    :vartype ramp_down_minutes_to_wait_on_logoff: int
+    :ivar off_peak_start_time: Starting time for off-peak period.
+    :vartype off_peak_start_time: ~azure.mgmt.desktopvirtualization.models.Time
+    :ivar off_peak_start_vm_on_connect: The desired configuration of Start VM On Connect for the
+     hostpool during the off-peak phase. Known values are: "Enable" and "Disable".
+    :vartype off_peak_start_vm_on_connect: str or
+     ~azure.mgmt.desktopvirtualization.models.SetStartVMOnConnect
+    :ivar off_peak_action_on_disconnect: Action to be taken after a user disconnect during the
+     off-peak period. Known values are: "None", "Deallocate", and "Hibernate".
+    :vartype off_peak_action_on_disconnect: str or
+     ~azure.mgmt.desktopvirtualization.models.SessionHandlingOperation
+    :ivar off_peak_minutes_to_wait_on_disconnect: The time in minutes to wait before performing the
+     desired session handling action when a user disconnects during the off-peak period.
+    :vartype off_peak_minutes_to_wait_on_disconnect: int
+    :ivar off_peak_action_on_logoff: Action to be taken after a logoff during the off-peak period.
+     Known values are: "None", "Deallocate", and "Hibernate".
+    :vartype off_peak_action_on_logoff: str or
+     ~azure.mgmt.desktopvirtualization.models.SessionHandlingOperation
+    :ivar off_peak_minutes_to_wait_on_logoff: The time in minutes to wait before performing the
+     desired session handling action when a user logs off during the off-peak period.
+    :vartype off_peak_minutes_to_wait_on_logoff: int
+    """
+
+    _validation = {
+        "ramp_up_minutes_to_wait_on_disconnect": {"minimum": 0},
+        "ramp_up_minutes_to_wait_on_logoff": {"minimum": 0},
+        "peak_minutes_to_wait_on_disconnect": {"minimum": 0},
+        "peak_minutes_to_wait_on_logoff": {"minimum": 0},
+        "ramp_down_minutes_to_wait_on_disconnect": {"minimum": 0},
+        "ramp_down_minutes_to_wait_on_logoff": {"minimum": 0},
+        "off_peak_minutes_to_wait_on_disconnect": {"minimum": 0},
+        "off_peak_minutes_to_wait_on_logoff": {"minimum": 0},
+    }
+
+    _attribute_map = {
+        "days_of_week": {"key": "properties.daysOfWeek", "type": "[str]"},
+        "ramp_up_start_time": {"key": "properties.rampUpStartTime", "type": "Time"},
+        "ramp_up_auto_start_hosts": {"key": "properties.rampUpAutoStartHosts", "type": "str"},
+        "ramp_up_start_vm_on_connect": {"key": "properties.rampUpStartVMOnConnect", "type": "str"},
+        "ramp_up_action_on_disconnect": {"key": "properties.rampUpActionOnDisconnect", "type": "str"},
+        "ramp_up_minutes_to_wait_on_disconnect": {"key": "properties.rampUpMinutesToWaitOnDisconnect", "type": "int"},
+        "ramp_up_action_on_logoff": {"key": "properties.rampUpActionOnLogoff", "type": "str"},
+        "ramp_up_minutes_to_wait_on_logoff": {"key": "properties.rampUpMinutesToWaitOnLogoff", "type": "int"},
+        "peak_start_time": {"key": "properties.peakStartTime", "type": "Time"},
+        "peak_start_vm_on_connect": {"key": "properties.peakStartVMOnConnect", "type": "str"},
+        "peak_action_on_disconnect": {"key": "properties.peakActionOnDisconnect", "type": "str"},
+        "peak_minutes_to_wait_on_disconnect": {"key": "properties.peakMinutesToWaitOnDisconnect", "type": "int"},
+        "peak_action_on_logoff": {"key": "properties.peakActionOnLogoff", "type": "str"},
+        "peak_minutes_to_wait_on_logoff": {"key": "properties.peakMinutesToWaitOnLogoff", "type": "int"},
+        "ramp_down_start_time": {"key": "properties.rampDownStartTime", "type": "Time"},
+        "ramp_down_start_vm_on_connect": {"key": "properties.rampDownStartVMOnConnect", "type": "str"},
+        "ramp_down_action_on_disconnect": {"key": "properties.rampDownActionOnDisconnect", "type": "str"},
+        "ramp_down_minutes_to_wait_on_disconnect": {
+            "key": "properties.rampDownMinutesToWaitOnDisconnect",
+            "type": "int",
+        },
+        "ramp_down_action_on_logoff": {"key": "properties.rampDownActionOnLogoff", "type": "str"},
+        "ramp_down_minutes_to_wait_on_logoff": {"key": "properties.rampDownMinutesToWaitOnLogoff", "type": "int"},
+        "off_peak_start_time": {"key": "properties.offPeakStartTime", "type": "Time"},
+        "off_peak_start_vm_on_connect": {"key": "properties.offPeakStartVMOnConnect", "type": "str"},
+        "off_peak_action_on_disconnect": {"key": "properties.offPeakActionOnDisconnect", "type": "str"},
+        "off_peak_minutes_to_wait_on_disconnect": {"key": "properties.offPeakMinutesToWaitOnDisconnect", "type": "int"},
+        "off_peak_action_on_logoff": {"key": "properties.offPeakActionOnLogoff", "type": "str"},
+        "off_peak_minutes_to_wait_on_logoff": {"key": "properties.offPeakMinutesToWaitOnLogoff", "type": "int"},
+    }
+
+    def __init__(  # pylint: disable=too-many-locals
+        self,
+        *,
+        days_of_week: Optional[List[Union[str, "_models.DayOfWeek"]]] = None,
+        ramp_up_start_time: Optional["_models.Time"] = None,
+        ramp_up_auto_start_hosts: Optional[Union[str, "_models.StartupBehavior"]] = None,
+        ramp_up_start_vm_on_connect: Optional[Union[str, "_models.SetStartVMOnConnect"]] = None,
+        ramp_up_action_on_disconnect: Optional[Union[str, "_models.SessionHandlingOperation"]] = None,
+        ramp_up_minutes_to_wait_on_disconnect: Optional[int] = None,
+        ramp_up_action_on_logoff: Optional[Union[str, "_models.SessionHandlingOperation"]] = None,
+        ramp_up_minutes_to_wait_on_logoff: Optional[int] = None,
+        peak_start_time: Optional["_models.Time"] = None,
+        peak_start_vm_on_connect: Optional[Union[str, "_models.SetStartVMOnConnect"]] = None,
+        peak_action_on_disconnect: Optional[Union[str, "_models.SessionHandlingOperation"]] = None,
+        peak_minutes_to_wait_on_disconnect: Optional[int] = None,
+        peak_action_on_logoff: Optional[Union[str, "_models.SessionHandlingOperation"]] = None,
+        peak_minutes_to_wait_on_logoff: Optional[int] = None,
+        ramp_down_start_time: Optional["_models.Time"] = None,
+        ramp_down_start_vm_on_connect: Optional[Union[str, "_models.SetStartVMOnConnect"]] = None,
+        ramp_down_action_on_disconnect: Optional[Union[str, "_models.SessionHandlingOperation"]] = None,
+        ramp_down_minutes_to_wait_on_disconnect: Optional[int] = None,
+        ramp_down_action_on_logoff: Optional[Union[str, "_models.SessionHandlingOperation"]] = None,
+        ramp_down_minutes_to_wait_on_logoff: Optional[int] = None,
+        off_peak_start_time: Optional["_models.Time"] = None,
+        off_peak_start_vm_on_connect: Optional[Union[str, "_models.SetStartVMOnConnect"]] = None,
+        off_peak_action_on_disconnect: Optional[Union[str, "_models.SessionHandlingOperation"]] = None,
+        off_peak_minutes_to_wait_on_disconnect: Optional[int] = None,
+        off_peak_action_on_logoff: Optional[Union[str, "_models.SessionHandlingOperation"]] = None,
+        off_peak_minutes_to_wait_on_logoff: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword days_of_week: Set of days of the week on which this schedule is active.
+        :paramtype days_of_week: list[str or ~azure.mgmt.desktopvirtualization.models.DayOfWeek]
+        :keyword ramp_up_start_time: Starting time for ramp up period.
+        :paramtype ramp_up_start_time: ~azure.mgmt.desktopvirtualization.models.Time
+        :keyword ramp_up_auto_start_hosts: The desired startup behavior during the ramp up period for
+         personal vms in the hostpool. Known values are: "None", "WithAssignedUser", and "All".
+        :paramtype ramp_up_auto_start_hosts: str or
+         ~azure.mgmt.desktopvirtualization.models.StartupBehavior
+        :keyword ramp_up_start_vm_on_connect: The desired configuration of Start VM On Connect for the
+         hostpool during the ramp up phase. If this is disabled, session hosts must be turned on using
+         rampUpAutoStartHosts or by turning them on manually. Known values are: "Enable" and "Disable".
+        :paramtype ramp_up_start_vm_on_connect: str or
+         ~azure.mgmt.desktopvirtualization.models.SetStartVMOnConnect
+        :keyword ramp_up_action_on_disconnect: Action to be taken after a user disconnect during the
+         ramp up period. Known values are: "None", "Deallocate", and "Hibernate".
+        :paramtype ramp_up_action_on_disconnect: str or
+         ~azure.mgmt.desktopvirtualization.models.SessionHandlingOperation
+        :keyword ramp_up_minutes_to_wait_on_disconnect: The time in minutes to wait before performing
+         the desired session handling action when a user disconnects during the ramp up period.
+        :paramtype ramp_up_minutes_to_wait_on_disconnect: int
+        :keyword ramp_up_action_on_logoff: Action to be taken after a logoff during the ramp up period.
+         Known values are: "None", "Deallocate", and "Hibernate".
+        :paramtype ramp_up_action_on_logoff: str or
+         ~azure.mgmt.desktopvirtualization.models.SessionHandlingOperation
+        :keyword ramp_up_minutes_to_wait_on_logoff: The time in minutes to wait before performing the
+         desired session handling action when a user logs off during the ramp up period.
+        :paramtype ramp_up_minutes_to_wait_on_logoff: int
+        :keyword peak_start_time: Starting time for peak period.
+        :paramtype peak_start_time: ~azure.mgmt.desktopvirtualization.models.Time
+        :keyword peak_start_vm_on_connect: The desired configuration of Start VM On Connect for the
+         hostpool during the peak phase. Known values are: "Enable" and "Disable".
+        :paramtype peak_start_vm_on_connect: str or
+         ~azure.mgmt.desktopvirtualization.models.SetStartVMOnConnect
+        :keyword peak_action_on_disconnect: Action to be taken after a user disconnect during the peak
+         period. Known values are: "None", "Deallocate", and "Hibernate".
+        :paramtype peak_action_on_disconnect: str or
+         ~azure.mgmt.desktopvirtualization.models.SessionHandlingOperation
+        :keyword peak_minutes_to_wait_on_disconnect: The time in minutes to wait before performing the
+         desired session handling action when a user disconnects during the peak period.
+        :paramtype peak_minutes_to_wait_on_disconnect: int
+        :keyword peak_action_on_logoff: Action to be taken after a logoff during the peak period. Known
+         values are: "None", "Deallocate", and "Hibernate".
+        :paramtype peak_action_on_logoff: str or
+         ~azure.mgmt.desktopvirtualization.models.SessionHandlingOperation
+        :keyword peak_minutes_to_wait_on_logoff: The time in minutes to wait before performing the
+         desired session handling action when a user logs off during the peak period.
+        :paramtype peak_minutes_to_wait_on_logoff: int
+        :keyword ramp_down_start_time: Starting time for ramp down period.
+        :paramtype ramp_down_start_time: ~azure.mgmt.desktopvirtualization.models.Time
+        :keyword ramp_down_start_vm_on_connect: The desired configuration of Start VM On Connect for
+         the hostpool during the ramp down phase. Known values are: "Enable" and "Disable".
+        :paramtype ramp_down_start_vm_on_connect: str or
+         ~azure.mgmt.desktopvirtualization.models.SetStartVMOnConnect
+        :keyword ramp_down_action_on_disconnect: Action to be taken after a user disconnect during the
+         ramp down period. Known values are: "None", "Deallocate", and "Hibernate".
+        :paramtype ramp_down_action_on_disconnect: str or
+         ~azure.mgmt.desktopvirtualization.models.SessionHandlingOperation
+        :keyword ramp_down_minutes_to_wait_on_disconnect: The time in minutes to wait before performing
+         the desired session handling action when a user disconnects during the ramp down period.
+        :paramtype ramp_down_minutes_to_wait_on_disconnect: int
+        :keyword ramp_down_action_on_logoff: Action to be taken after a logoff during the ramp down
+         period. Known values are: "None", "Deallocate", and "Hibernate".
+        :paramtype ramp_down_action_on_logoff: str or
+         ~azure.mgmt.desktopvirtualization.models.SessionHandlingOperation
+        :keyword ramp_down_minutes_to_wait_on_logoff: The time in minutes to wait before performing the
+         desired session handling action when a user logs off during the ramp down period.
+        :paramtype ramp_down_minutes_to_wait_on_logoff: int
+        :keyword off_peak_start_time: Starting time for off-peak period.
+        :paramtype off_peak_start_time: ~azure.mgmt.desktopvirtualization.models.Time
+        :keyword off_peak_start_vm_on_connect: The desired configuration of Start VM On Connect for the
+         hostpool during the off-peak phase. Known values are: "Enable" and "Disable".
+        :paramtype off_peak_start_vm_on_connect: str or
+         ~azure.mgmt.desktopvirtualization.models.SetStartVMOnConnect
+        :keyword off_peak_action_on_disconnect: Action to be taken after a user disconnect during the
+         off-peak period. Known values are: "None", "Deallocate", and "Hibernate".
+        :paramtype off_peak_action_on_disconnect: str or
+         ~azure.mgmt.desktopvirtualization.models.SessionHandlingOperation
+        :keyword off_peak_minutes_to_wait_on_disconnect: The time in minutes to wait before performing
+         the desired session handling action when a user disconnects during the off-peak period.
+        :paramtype off_peak_minutes_to_wait_on_disconnect: int
+        :keyword off_peak_action_on_logoff: Action to be taken after a logoff during the off-peak
+         period. Known values are: "None", "Deallocate", and "Hibernate".
+        :paramtype off_peak_action_on_logoff: str or
+         ~azure.mgmt.desktopvirtualization.models.SessionHandlingOperation
+        :keyword off_peak_minutes_to_wait_on_logoff: The time in minutes to wait before performing the
+         desired session handling action when a user logs off during the off-peak period.
+        :paramtype off_peak_minutes_to_wait_on_logoff: int
+        """
+        super().__init__(**kwargs)
+        self.days_of_week = days_of_week
+        self.ramp_up_start_time = ramp_up_start_time
+        self.ramp_up_auto_start_hosts = ramp_up_auto_start_hosts
+        self.ramp_up_start_vm_on_connect = ramp_up_start_vm_on_connect
+        self.ramp_up_action_on_disconnect = ramp_up_action_on_disconnect
+        self.ramp_up_minutes_to_wait_on_disconnect = ramp_up_minutes_to_wait_on_disconnect
+        self.ramp_up_action_on_logoff = ramp_up_action_on_logoff
+        self.ramp_up_minutes_to_wait_on_logoff = ramp_up_minutes_to_wait_on_logoff
+        self.peak_start_time = peak_start_time
+        self.peak_start_vm_on_connect = peak_start_vm_on_connect
+        self.peak_action_on_disconnect = peak_action_on_disconnect
+        self.peak_minutes_to_wait_on_disconnect = peak_minutes_to_wait_on_disconnect
+        self.peak_action_on_logoff = peak_action_on_logoff
+        self.peak_minutes_to_wait_on_logoff = peak_minutes_to_wait_on_logoff
+        self.ramp_down_start_time = ramp_down_start_time
+        self.ramp_down_start_vm_on_connect = ramp_down_start_vm_on_connect
+        self.ramp_down_action_on_disconnect = ramp_down_action_on_disconnect
+        self.ramp_down_minutes_to_wait_on_disconnect = ramp_down_minutes_to_wait_on_disconnect
+        self.ramp_down_action_on_logoff = ramp_down_action_on_logoff
+        self.ramp_down_minutes_to_wait_on_logoff = ramp_down_minutes_to_wait_on_logoff
+        self.off_peak_start_time = off_peak_start_time
+        self.off_peak_start_vm_on_connect = off_peak_start_vm_on_connect
+        self.off_peak_action_on_disconnect = off_peak_action_on_disconnect
+        self.off_peak_minutes_to_wait_on_disconnect = off_peak_minutes_to_wait_on_disconnect
+        self.off_peak_action_on_logoff = off_peak_action_on_logoff
+        self.off_peak_minutes_to_wait_on_logoff = off_peak_minutes_to_wait_on_logoff
+
+
 class ScalingPlanPooledSchedule(Resource):  # pylint: disable=too-many-instance-attributes
     """Represents a ScalingPlanPooledSchedule definition.
 
@@ -3027,7 +3659,7 @@ class ScalingPlanPooledSchedule(Resource):  # pylint: disable=too-many-instance-
         "ramp_up_minimum_hosts_pct": {"maximum": 100, "minimum": 0},
         "ramp_up_capacity_threshold_pct": {"maximum": 100, "minimum": 1},
         "ramp_down_minimum_hosts_pct": {"maximum": 100, "minimum": 0},
-        "ramp_down_capacity_threshold_pct": {"maximum": 100, "minimum": 0},
+        "ramp_down_capacity_threshold_pct": {"maximum": 100, "minimum": 1},
     }
 
     _attribute_map = {
@@ -3242,7 +3874,7 @@ class ScalingPlanPooledSchedulePatch(Resource):  # pylint: disable=too-many-inst
         "ramp_up_minimum_hosts_pct": {"maximum": 100, "minimum": 0},
         "ramp_up_capacity_threshold_pct": {"maximum": 100, "minimum": 1},
         "ramp_down_minimum_hosts_pct": {"maximum": 100, "minimum": 0},
-        "ramp_down_capacity_threshold_pct": {"maximum": 100, "minimum": 0},
+        "ramp_down_capacity_threshold_pct": {"maximum": 100, "minimum": 1},
     }
 
     _attribute_map = {
@@ -3415,7 +4047,7 @@ class ScalingSchedule(_serialization.Model):  # pylint: disable=too-many-instanc
         "ramp_up_minimum_hosts_pct": {"maximum": 100, "minimum": 0},
         "ramp_up_capacity_threshold_pct": {"maximum": 100, "minimum": 1},
         "ramp_down_minimum_hosts_pct": {"maximum": 100, "minimum": 0},
-        "ramp_down_capacity_threshold_pct": {"maximum": 100, "minimum": 0},
+        "ramp_down_capacity_threshold_pct": {"maximum": 100, "minimum": 1},
     }
 
     _attribute_map = {

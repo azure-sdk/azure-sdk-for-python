@@ -14,7 +14,7 @@ from azure.mgmt.desktopvirtualization import DesktopVirtualizationMgmtClient
     pip install azure-identity
     pip install azure-mgmt-desktopvirtualization
 # USAGE
-    python scaling_plan_pooled_schedule_create.py
+    python scaling_plan_personal_schedule_create.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,34 +29,44 @@ def main():
         subscription_id="daefabc0-95b4-48b3-b645-8a753a63c4fa",
     )
 
-    response = client.scaling_plan_pooled_schedules.create(
+    response = client.scaling_plan_personal_schedules.create(
         resource_group_name="resourceGroup1",
         scaling_plan_name="scalingPlan1",
         scaling_plan_schedule_name="scalingPlanScheduleWeekdays1",
         scaling_plan_schedule={
             "properties": {
                 "daysOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-                "offPeakLoadBalancingAlgorithm": "DepthFirst",
+                "offPeakActionOnDisconnect": "None",
+                "offPeakActionOnLogoff": "Deallocate",
+                "offPeakMinutesToWaitOnDisconnect": 10,
+                "offPeakMinutesToWaitOnLogoff": 10,
                 "offPeakStartTime": {"hour": 20, "minute": 0},
-                "peakLoadBalancingAlgorithm": "BreadthFirst",
+                "offPeakStartVMOnConnect": "Enable",
+                "peakActionOnDisconnect": "None",
+                "peakActionOnLogoff": "Deallocate",
+                "peakMinutesToWaitOnDisconnect": 10,
+                "peakMinutesToWaitOnLogoff": 10,
                 "peakStartTime": {"hour": 8, "minute": 0},
-                "rampDownCapacityThresholdPct": 50,
-                "rampDownForceLogoffUsers": True,
-                "rampDownLoadBalancingAlgorithm": "DepthFirst",
-                "rampDownMinimumHostsPct": 20,
-                "rampDownNotificationMessage": "message",
+                "peakStartVMOnConnect": "Enable",
+                "rampDownActionOnDisconnect": "None",
+                "rampDownActionOnLogoff": "Deallocate",
+                "rampDownMinutesToWaitOnDisconnect": 10,
+                "rampDownMinutesToWaitOnLogoff": 10,
                 "rampDownStartTime": {"hour": 18, "minute": 0},
-                "rampDownWaitTimeMinutes": 30,
-                "rampUpCapacityThresholdPct": 80,
-                "rampUpLoadBalancingAlgorithm": "DepthFirst",
-                "rampUpMinimumHostsPct": 20,
+                "rampDownStartVMOnConnect": "Enable",
+                "rampUpActionOnDisconnect": "None",
+                "rampUpActionOnLogoff": "None",
+                "rampUpAutoStartHosts": "All",
+                "rampUpMinutesToWaitOnDisconnect": 10,
+                "rampUpMinutesToWaitOnLogoff": 10,
                 "rampUpStartTime": {"hour": 6, "minute": 0},
+                "rampUpStartVMOnConnect": "Enable",
             }
         },
     )
     print(response)
 
 
-# x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/preview/2023-01-30-preview/examples/ScalingPlanPooledSchedule_Create.json
+# x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/preview/2023-01-30-preview/examples/ScalingPlanPersonalSchedule_Create.json
 if __name__ == "__main__":
     main()
