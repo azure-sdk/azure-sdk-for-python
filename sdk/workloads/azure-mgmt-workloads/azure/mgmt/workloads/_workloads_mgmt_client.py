@@ -35,10 +35,7 @@ if TYPE_CHECKING:
 class WorkloadsMgmtClient(
     WorkloadsMgmtClientOperationsMixin
 ):  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
-    """Workloads client provides access to various workload operations.:code:`<br>`Azure Center for
-    SAP solutions is currently in PREVIEW. See the `Azure Center for SAP solutions - Legal Terms
-    <https://learn.microsoft.com/en-us/legal/azure-center-for-sap-solutions/azure-center-for-sap-solutions-legal-terms>`_
-    for legal notices applicable to Azure Center for SAP solutions.
+    """Workloads client provides access to various workload operations.
 
     :ivar sap_virtual_instances: SAPVirtualInstancesOperations operations
     :vartype sap_virtual_instances: azure.mgmt.workloads.operations.SAPVirtualInstancesOperations
@@ -80,7 +77,7 @@ class WorkloadsMgmtClient(
         self._config = WorkloadsMgmtClientConfiguration(
             credential=credential, subscription_id=subscription_id, **kwargs
         )
-        self._client = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        self._client: ARMPipelineClient = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
