@@ -54,10 +54,6 @@ if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
     from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
-if sys.version_info >= (3, 8):
-    from typing import Literal  # pylint: disable=no-name-in-module, ungrouped-imports
-else:
-    from typing_extensions import Literal  # type: ignore  # pylint: disable=ungrouped-imports
 JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
@@ -86,7 +82,7 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         cls: ClsType[_models.User] = kwargs.pop("cls", None)
 
         request = build_get_publishing_user_request(
@@ -184,7 +180,7 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.User] = kwargs.pop("cls", None)
 
@@ -244,7 +240,7 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         cls: ClsType[_models.SourceControlCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -336,7 +332,7 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         cls: ClsType[_models.SourceControl] = kwargs.pop("cls", None)
 
         request = build_get_source_control_request(
@@ -449,7 +445,7 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.SourceControl] = kwargs.pop("cls", None)
 
@@ -516,7 +512,7 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         cls: ClsType[_models.BillingMeterCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -619,7 +615,7 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         content_type: str = kwargs.pop("content_type", _headers.pop("Content-Type", "application/json"))
         cls: ClsType[_models.ResourceNameAvailability] = kwargs.pop("cls", None)
 
@@ -683,7 +679,7 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         cls: ClsType[_models.DeploymentLocations] = kwargs.pop("cls", None)
 
         request = build_get_subscription_deployment_locations_request(
@@ -753,7 +749,7 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         cls: ClsType[_models.GeoRegionCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -827,7 +823,7 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
     list_geo_regions.metadata = {"url": "/subscriptions/{subscriptionId}/providers/Microsoft.Web/geoRegions"}
 
     @overload
-    def list_site_identifiers_assigned_to_host_name(
+    def list_site_identifiers_assigned_to_host_name(  # pylint: disable=name-too-long
         self, name_identifier: _models.NameIdentifier, *, content_type: str = "application/json", **kwargs: Any
     ) -> AsyncIterable["_models.Identifier"]:
         """List all apps that are assigned to a hostname.
@@ -846,7 +842,7 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         """
 
     @overload
-    def list_site_identifiers_assigned_to_host_name(
+    def list_site_identifiers_assigned_to_host_name(  # pylint: disable=name-too-long
         self, name_identifier: IO, *, content_type: str = "application/json", **kwargs: Any
     ) -> AsyncIterable["_models.Identifier"]:
         """List all apps that are assigned to a hostname.
@@ -865,7 +861,7 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         """
 
     @distributed_trace
-    def list_site_identifiers_assigned_to_host_name(
+    def list_site_identifiers_assigned_to_host_name(  # pylint: disable=name-too-long
         self, name_identifier: Union[_models.NameIdentifier, IO], **kwargs: Any
     ) -> AsyncIterable["_models.Identifier"]:
         """List all apps that are assigned to a hostname.
@@ -886,7 +882,7 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.IdentifierCollection] = kwargs.pop("cls", None)
 
@@ -983,7 +979,7 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         cls: ClsType[_models.PremierAddOnOfferCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -1076,7 +1072,7 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         cls: ClsType[_models.SkuInfos] = kwargs.pop("cls", None)
 
         request = build_list_skus_request(
@@ -1183,7 +1179,7 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.VnetValidationFailureDetails] = kwargs.pop("cls", None)
 
@@ -1318,7 +1314,7 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
@@ -1439,7 +1435,7 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.ValidateResponse] = kwargs.pop("cls", None)
 
@@ -1577,7 +1573,7 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[JSON] = kwargs.pop("cls", None)
 
@@ -1713,7 +1709,7 @@ class WebSiteManagementClientOperationsMixin(WebSiteManagementClientMixinABC):
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[None] = kwargs.pop("cls", None)
 

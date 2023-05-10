@@ -7,7 +7,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import datetime
-import sys
 from typing import Any, Callable, Dict, Iterable, Optional, TypeVar
 import urllib.parse
 
@@ -31,10 +30,6 @@ from .. import models as _models
 from ..._serialization import Serializer
 from .._vendor import WebSiteManagementClientMixinABC, _convert_request, _format_url_section
 
-if sys.version_info >= (3, 8):
-    from typing import Literal  # pylint: disable=no-name-in-module, ungrouped-imports
-else:
-    from typing_extensions import Literal  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -42,13 +37,13 @@ _SERIALIZER = Serializer()
 _SERIALIZER.client_side_validation = False
 
 
-def build_list_app_service_certificate_order_detector_response_request(
+def build_list_app_service_certificate_order_detector_response_request(  # pylint: disable=name-too-long
     resource_group_name: str, certificate_order_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -80,7 +75,7 @@ def build_list_app_service_certificate_order_detector_response_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_get_app_service_certificate_order_detector_response_request(
+def build_get_app_service_certificate_order_detector_response_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     certificate_order_name: str,
     detector_name: str,
@@ -94,7 +89,7 @@ def build_get_app_service_certificate_order_detector_response_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -153,7 +148,7 @@ class CertificateOrdersDiagnosticsOperations:
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    def list_app_service_certificate_order_detector_response(
+    def list_app_service_certificate_order_detector_response(  # pylint: disable=name-too-long
         self, resource_group_name: str, certificate_order_name: str, **kwargs: Any
     ) -> Iterable["_models.DetectorResponse"]:
         """Microsoft.CertificateRegistration to get the list of detectors for this RP.
@@ -173,7 +168,7 @@ class CertificateOrdersDiagnosticsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[_models.DetectorResponseCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -247,7 +242,7 @@ class CertificateOrdersDiagnosticsOperations:
     }
 
     @distributed_trace
-    def get_app_service_certificate_order_detector_response(
+    def get_app_service_certificate_order_detector_response(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         certificate_order_name: str,
@@ -290,7 +285,7 @@ class CertificateOrdersDiagnosticsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[_models.DetectorResponse] = kwargs.pop("cls", None)
 
         request = build_get_app_service_certificate_order_detector_response_request(
