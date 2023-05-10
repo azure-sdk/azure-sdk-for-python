@@ -397,6 +397,9 @@ class NamedValueOperations:
 
             deserialized = self._deserialize("NamedValueContract", pipeline_response)
 
+        if response.status_code == 202:
+            response_headers["location"] = self._deserialize("str", response.headers.get("location"))
+
         if cls:
             return cls(pipeline_response, deserialized, response_headers)
 
@@ -656,6 +659,9 @@ class NamedValueOperations:
             response_headers["ETag"] = self._deserialize("str", response.headers.get("ETag"))
 
             deserialized = self._deserialize("NamedValueContract", pipeline_response)
+
+        if response.status_code == 202:
+            response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)
@@ -1036,6 +1042,9 @@ class NamedValueOperations:
             response_headers["ETag"] = self._deserialize("str", response.headers.get("ETag"))
 
             deserialized = self._deserialize("NamedValueContract", pipeline_response)
+
+        if response.status_code == 202:
+            response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)
