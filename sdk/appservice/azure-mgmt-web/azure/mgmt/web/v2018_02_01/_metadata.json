@@ -245,13 +245,13 @@
             },
             "list_site_identifiers_assigned_to_host_name" : {
                 "sync": {
-                    "signature": "def list_site_identifiers_assigned_to_host_name(\n    self,\n    name_identifier: Union[_models.NameIdentifier, IO],\n    **kwargs: Any\n) -\u003e Iterable[\"_models.Identifier\"]:\n",
+                    "signature": "def list_site_identifiers_assigned_to_host_name(  # pylint: disable=name-too-long\n    self,\n    name_identifier: Union[_models.NameIdentifier, IO],\n    **kwargs: Any\n) -\u003e Iterable[\"_models.Identifier\"]:\n",
                     "doc": "\"\"\"List all apps that are assigned to a hostname.\n\nList all apps that are assigned to a hostname.\n\n:param name_identifier: Hostname information. Is either a NameIdentifier type or a IO type.\n Required.\n:type name_identifier: ~azure.mgmt.web.v2018_02_01.models.NameIdentifier or IO\n:keyword content_type: Body Parameter content-type. Known values are: \u0027application/json\u0027.\n Default value is None.\n:paramtype content_type: str\n:keyword callable cls: A custom type or function that will be passed the direct response\n:return: An iterator like instance of either Identifier or the result of cls(response)\n:rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.web.v2018_02_01.models.Identifier]\n:raises ~azure.core.exceptions.HttpResponseError:\n\"\"\"",
                     "call": "name_identifier, **kwargs"
                 },
                 "async": {
                     "coroutine": false,
-                    "signature": "def list_site_identifiers_assigned_to_host_name(\n    self,\n    name_identifier: Union[_models.NameIdentifier, IO],\n    **kwargs: Any\n) -\u003e AsyncIterable[\"_models.Identifier\"]:\n",
+                    "signature": "def list_site_identifiers_assigned_to_host_name(  # pylint: disable=name-too-long\n    self,\n    name_identifier: Union[_models.NameIdentifier, IO],\n    **kwargs: Any\n) -\u003e AsyncIterable[\"_models.Identifier\"]:\n",
                     "doc": "\"\"\"List all apps that are assigned to a hostname.\n\nList all apps that are assigned to a hostname.\n\n:param name_identifier: Hostname information. Is either a NameIdentifier type or a IO type.\n Required.\n:type name_identifier: ~azure.mgmt.web.v2018_02_01.models.NameIdentifier or IO\n:keyword content_type: Body Parameter content-type. Known values are: \u0027application/json\u0027.\n Default value is None.\n:paramtype content_type: str\n:keyword callable cls: A custom type or function that will be passed the direct response\n:return: An iterator like instance of either Identifier or the result of cls(response)\n:rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.web.v2018_02_01.models.Identifier]\n:raises ~azure.core.exceptions.HttpResponseError:\n\"\"\"",
                     "call": "name_identifier, **kwargs"
                 }

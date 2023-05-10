@@ -7,7 +7,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import datetime
-import sys
 from typing import Any, AsyncIterable, Callable, Dict, Optional, TypeVar
 import urllib.parse
 
@@ -36,10 +35,6 @@ from ...operations._certificate_orders_diagnostics_operations import (
 )
 from .._vendor import WebSiteManagementClientMixinABC
 
-if sys.version_info >= (3, 8):
-    from typing import Literal  # pylint: disable=no-name-in-module, ungrouped-imports
-else:
-    from typing_extensions import Literal  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -64,7 +59,7 @@ class CertificateOrdersDiagnosticsOperations:
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    def list_app_service_certificate_order_detector_response(
+    def list_app_service_certificate_order_detector_response(  # pylint: disable=name-too-long
         self, resource_group_name: str, certificate_order_name: str, **kwargs: Any
     ) -> AsyncIterable["_models.DetectorResponse"]:
         """Microsoft.CertificateRegistration to get the list of detectors for this RP.
@@ -85,7 +80,7 @@ class CertificateOrdersDiagnosticsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[_models.DetectorResponseCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -159,7 +154,7 @@ class CertificateOrdersDiagnosticsOperations:
     }
 
     @distributed_trace_async
-    async def get_app_service_certificate_order_detector_response(
+    async def get_app_service_certificate_order_detector_response(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         certificate_order_name: str,
@@ -202,7 +197,7 @@ class CertificateOrdersDiagnosticsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-01-01"] = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-01-01"))
         cls: ClsType[_models.DetectorResponse] = kwargs.pop("cls", None)
 
         request = build_get_app_service_certificate_order_detector_response_request(

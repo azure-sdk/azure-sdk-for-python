@@ -114,10 +114,6 @@ if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
     from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
-if sys.version_info >= (3, 8):
-    from typing import Literal  # pylint: disable=no-name-in-module, ungrouped-imports
-else:
-    from typing_extensions import Literal  # type: ignore  # pylint: disable=ungrouped-imports
 JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
@@ -234,7 +230,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.StaticSitesWorkflowPreview] = kwargs.pop("cls", None)
 
@@ -299,7 +295,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[_models.StaticSiteCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -388,7 +384,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[_models.StaticSiteCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -488,7 +484,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[_models.StaticSiteARMResource] = kwargs.pop("cls", None)
 
         request = build_get_static_site_request(
@@ -544,7 +540,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.StaticSiteARMResource] = kwargs.pop("cls", None)
 
@@ -718,7 +714,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.StaticSiteARMResource] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -777,7 +773,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_delete_static_site_request(
@@ -838,7 +834,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
@@ -979,7 +975,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.StaticSiteARMResource] = kwargs.pop("cls", None)
 
@@ -1057,7 +1053,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[_models.StaticSiteUserCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -1163,7 +1159,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_delete_static_site_user_request(
@@ -1316,7 +1312,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.StaticSiteUserARMResource] = kwargs.pop("cls", None)
 
@@ -1390,7 +1386,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[_models.StaticSiteBuildCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -1493,7 +1489,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[_models.StaticSiteBuildARMResource] = kwargs.pop("cls", None)
 
         request = build_get_static_site_build_request(
@@ -1546,7 +1542,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_delete_static_site_build_request(
@@ -1610,7 +1606,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
@@ -1652,7 +1648,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
     }
 
     @overload
-    async def create_or_update_static_site_build_app_settings(
+    async def create_or_update_static_site_build_app_settings(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -1685,7 +1681,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         """
 
     @overload
-    async def create_or_update_static_site_build_app_settings(
+    async def create_or_update_static_site_build_app_settings(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -1718,7 +1714,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         """
 
     @distributed_trace_async
-    async def create_or_update_static_site_build_app_settings(
+    async def create_or_update_static_site_build_app_settings(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -1758,7 +1754,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.StringDictionary] = kwargs.pop("cls", None)
 
@@ -1810,7 +1806,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
     }
 
     @overload
-    async def create_or_update_static_site_build_function_app_settings(
+    async def create_or_update_static_site_build_function_app_settings(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -1843,7 +1839,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         """
 
     @overload
-    async def create_or_update_static_site_build_function_app_settings(
+    async def create_or_update_static_site_build_function_app_settings(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -1876,7 +1872,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         """
 
     @distributed_trace_async
-    async def create_or_update_static_site_build_function_app_settings(
+    async def create_or_update_static_site_build_function_app_settings(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -1916,7 +1912,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.StringDictionary] = kwargs.pop("cls", None)
 
@@ -1990,7 +1986,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[_models.DatabaseConnectionCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -2096,7 +2092,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[_models.DatabaseConnection] = kwargs.pop("cls", None)
 
         request = build_get_build_database_connection_request(
@@ -2137,7 +2133,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
     }
 
     @overload
-    async def create_or_update_build_database_connection(
+    async def create_or_update_build_database_connection(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -2174,7 +2170,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         """
 
     @overload
-    async def create_or_update_build_database_connection(
+    async def create_or_update_build_database_connection(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -2210,7 +2206,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         """
 
     @distributed_trace_async
-    async def create_or_update_build_database_connection(
+    async def create_or_update_build_database_connection(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -2254,7 +2250,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.DatabaseConnection] = kwargs.pop("cls", None)
 
@@ -2338,7 +2334,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_delete_build_database_connection_request(
@@ -2492,7 +2488,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.DatabaseConnection] = kwargs.pop("cls", None)
 
@@ -2545,7 +2541,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
     }
 
     @distributed_trace_async
-    async def get_build_database_connection_with_details(
+    async def get_build_database_connection_with_details(  # pylint: disable=name-too-long
         self, resource_group_name: str, name: str, environment_name: str, database_connection_name: str, **kwargs: Any
     ) -> _models.DatabaseConnection:
         """Returns details of a database connection for a static site build by name.
@@ -2576,7 +2572,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[_models.DatabaseConnection] = kwargs.pop("cls", None)
 
         request = build_get_build_database_connection_with_details_request(
@@ -2640,7 +2636,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[_models.StaticSiteFunctionOverviewCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -2744,7 +2740,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[_models.StringDictionary] = kwargs.pop("cls", None)
 
         request = build_list_static_site_build_app_settings_request(
@@ -2784,7 +2780,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
     }
 
     @distributed_trace_async
-    async def list_static_site_build_function_app_settings(
+    async def list_static_site_build_function_app_settings(  # pylint: disable=name-too-long
         self, resource_group_name: str, name: str, environment_name: str, **kwargs: Any
     ) -> _models.StringDictionary:
         """Gets the application settings of a static site build.
@@ -2813,7 +2809,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[_models.StringDictionary] = kwargs.pop("cls", None)
 
         request = build_list_static_site_build_function_app_settings_request(
@@ -2853,7 +2849,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
     }
 
     @distributed_trace
-    def get_build_database_connections_with_details(
+    def get_build_database_connections_with_details(  # pylint: disable=name-too-long
         self, resource_group_name: str, name: str, environment_name: str, **kwargs: Any
     ) -> AsyncIterable["_models.DatabaseConnection"]:
         """Returns details of database connections for a static site build.
@@ -2875,7 +2871,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[_models.DatabaseConnectionCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -2950,7 +2946,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
     }
 
     @distributed_trace
-    def get_user_provided_function_apps_for_static_site_build(
+    def get_user_provided_function_apps_for_static_site_build(  # pylint: disable=name-too-long
         self, resource_group_name: str, name: str, environment_name: str, **kwargs: Any
     ) -> AsyncIterable["_models.StaticSiteUserProvidedFunctionAppARMResource"]:
         """Gets the details of the user provided function apps registered with a static site build.
@@ -2974,7 +2970,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[_models.StaticSiteUserProvidedFunctionAppsCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -3049,7 +3045,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
     }
 
     @distributed_trace_async
-    async def get_user_provided_function_app_for_static_site_build(
+    async def get_user_provided_function_app_for_static_site_build(  # pylint: disable=name-too-long
         self, resource_group_name: str, name: str, environment_name: str, function_app_name: str, **kwargs: Any
     ) -> _models.StaticSiteUserProvidedFunctionAppARMResource:
         """Gets the details of the user provided function app registered with a static site build.
@@ -3082,7 +3078,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[_models.StaticSiteUserProvidedFunctionAppARMResource] = kwargs.pop("cls", None)
 
         request = build_get_user_provided_function_app_for_static_site_build_request(
@@ -3122,7 +3118,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/userProvidedFunctionApps/{functionAppName}"
     }
 
-    async def _register_user_provided_function_app_with_static_site_build_initial(
+    async def _register_user_provided_function_app_with_static_site_build_initial(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -3143,7 +3139,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.StaticSiteUserProvidedFunctionAppARMResource] = kwargs.pop("cls", None)
 
@@ -3203,7 +3199,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
     }
 
     @overload
-    async def begin_register_user_provided_function_app_with_static_site_build(
+    async def begin_register_user_provided_function_app_with_static_site_build(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -3255,7 +3251,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         """
 
     @overload
-    async def begin_register_user_provided_function_app_with_static_site_build(
+    async def begin_register_user_provided_function_app_with_static_site_build(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -3306,7 +3302,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         """
 
     @distributed_trace_async
-    async def begin_register_user_provided_function_app_with_static_site_build(
+    async def begin_register_user_provided_function_app_with_static_site_build(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -3358,7 +3354,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.StaticSiteUserProvidedFunctionAppARMResource] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -3407,7 +3403,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
     }
 
     @distributed_trace_async
-    async def detach_user_provided_function_app_from_static_site_build(  # pylint: disable=inconsistent-return-statements
+    async def detach_user_provided_function_app_from_static_site_build(  # pylint: disable=inconsistent-return-statements,name-too-long
         self, resource_group_name: str, name: str, environment_name: str, function_app_name: str, **kwargs: Any
     ) -> None:
         """Detach the user provided function app from the static site build.
@@ -3439,7 +3435,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_detach_user_provided_function_app_from_static_site_build_request(
@@ -3475,7 +3471,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/userProvidedFunctionApps/{functionAppName}"
     }
 
-    async def _create_zip_deployment_for_static_site_build_initial(  # pylint: disable=inconsistent-return-statements
+    async def _create_zip_deployment_for_static_site_build_initial(  # pylint: disable=inconsistent-return-statements,name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -3494,7 +3490,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
@@ -3542,7 +3538,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
     }
 
     @overload
-    async def begin_create_zip_deployment_for_static_site_build(
+    async def begin_create_zip_deployment_for_static_site_build(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -3583,7 +3579,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         """
 
     @overload
-    async def begin_create_zip_deployment_for_static_site_build(
+    async def begin_create_zip_deployment_for_static_site_build(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -3623,7 +3619,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         """
 
     @distributed_trace_async
-    async def begin_create_zip_deployment_for_static_site_build(
+    async def begin_create_zip_deployment_for_static_site_build(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -3664,7 +3660,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -3709,7 +3705,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
     }
 
     @overload
-    async def create_or_update_static_site_app_settings(
+    async def create_or_update_static_site_app_settings(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -3739,7 +3735,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         """
 
     @overload
-    async def create_or_update_static_site_app_settings(
+    async def create_or_update_static_site_app_settings(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -3769,7 +3765,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         """
 
     @distributed_trace_async
-    async def create_or_update_static_site_app_settings(
+    async def create_or_update_static_site_app_settings(  # pylint: disable=name-too-long
         self, resource_group_name: str, name: str, app_settings: Union[_models.StringDictionary, IO], **kwargs: Any
     ) -> _models.StringDictionary:
         """Creates or updates the app settings of a static site.
@@ -3802,7 +3798,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.StringDictionary] = kwargs.pop("cls", None)
 
@@ -3874,7 +3870,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[_models.StaticSiteBasicAuthPropertiesCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -3977,7 +3973,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[_models.StaticSiteBasicAuthPropertiesARMResource] = kwargs.pop("cls", None)
 
         request = build_get_basic_auth_request(
@@ -4123,7 +4119,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.StaticSiteBasicAuthPropertiesARMResource] = kwargs.pop("cls", None)
 
@@ -4175,7 +4171,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
     }
 
     @overload
-    async def create_or_update_static_site_function_app_settings(
+    async def create_or_update_static_site_function_app_settings(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -4205,7 +4201,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         """
 
     @overload
-    async def create_or_update_static_site_function_app_settings(
+    async def create_or_update_static_site_function_app_settings(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -4235,7 +4231,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         """
 
     @distributed_trace_async
-    async def create_or_update_static_site_function_app_settings(
+    async def create_or_update_static_site_function_app_settings(  # pylint: disable=name-too-long
         self, resource_group_name: str, name: str, app_settings: Union[_models.StringDictionary, IO], **kwargs: Any
     ) -> _models.StringDictionary:
         """Creates or updates the function app settings of a static site.
@@ -4268,7 +4264,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.StringDictionary] = kwargs.pop("cls", None)
 
@@ -4416,7 +4412,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.StaticSiteUserInvitationResponseResource] = kwargs.pop("cls", None)
 
@@ -4490,7 +4486,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[_models.StaticSiteCustomDomainOverviewCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -4593,7 +4589,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[_models.StaticSiteCustomDomainOverviewARMResource] = kwargs.pop("cls", None)
 
         request = build_get_static_site_custom_domain_request(
@@ -4632,7 +4628,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/customDomains/{domainName}"
     }
 
-    async def _create_or_update_static_site_custom_domain_initial(
+    async def _create_or_update_static_site_custom_domain_initial(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -4653,7 +4649,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.StaticSiteCustomDomainOverviewARMResource] = kwargs.pop("cls", None)
 
@@ -4712,7 +4708,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
     }
 
     @overload
-    async def begin_create_or_update_static_site_custom_domain(
+    async def begin_create_or_update_static_site_custom_domain(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -4756,7 +4752,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         """
 
     @overload
-    async def begin_create_or_update_static_site_custom_domain(
+    async def begin_create_or_update_static_site_custom_domain(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -4799,7 +4795,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         """
 
     @distributed_trace_async
-    async def begin_create_or_update_static_site_custom_domain(
+    async def begin_create_or_update_static_site_custom_domain(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -4845,7 +4841,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.StaticSiteCustomDomainOverviewARMResource] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -4891,7 +4887,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/customDomains/{domainName}"
     }
 
-    async def _delete_static_site_custom_domain_initial(  # pylint: disable=inconsistent-return-statements
+    async def _delete_static_site_custom_domain_initial(  # pylint: disable=inconsistent-return-statements,name-too-long
         self, resource_group_name: str, name: str, domain_name: str, **kwargs: Any
     ) -> None:
         error_map = {
@@ -4905,7 +4901,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_delete_static_site_custom_domain_request(
@@ -4969,7 +4965,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
@@ -5010,7 +5006,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/customDomains/{domainName}"
     }
 
-    async def _validate_custom_domain_can_be_added_to_static_site_initial(  # pylint: disable=inconsistent-return-statements
+    async def _validate_custom_domain_can_be_added_to_static_site_initial(  # pylint: disable=inconsistent-return-statements,name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -5031,7 +5027,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
@@ -5082,7 +5078,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
     }
 
     @overload
-    async def begin_validate_custom_domain_can_be_added_to_static_site(
+    async def begin_validate_custom_domain_can_be_added_to_static_site(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -5123,7 +5119,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         """
 
     @overload
-    async def begin_validate_custom_domain_can_be_added_to_static_site(
+    async def begin_validate_custom_domain_can_be_added_to_static_site(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -5163,7 +5159,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         """
 
     @distributed_trace_async
-    async def begin_validate_custom_domain_can_be_added_to_static_site(
+    async def begin_validate_custom_domain_can_be_added_to_static_site(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -5206,7 +5202,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -5271,7 +5267,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[_models.DatabaseConnectionCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -5374,7 +5370,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[_models.DatabaseConnection] = kwargs.pop("cls", None)
 
         request = build_get_database_connection_request(
@@ -5522,7 +5518,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.DatabaseConnection] = kwargs.pop("cls", None)
 
@@ -5603,7 +5599,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_delete_database_connection_request(
@@ -5747,7 +5743,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.DatabaseConnection] = kwargs.pop("cls", None)
 
@@ -5828,7 +5824,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[_models.DatabaseConnection] = kwargs.pop("cls", None)
 
         request = build_get_database_connection_with_details_request(
@@ -5881,7 +5877,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_detach_static_site_request(
@@ -5942,7 +5938,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
@@ -6004,7 +6000,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[_models.StaticSiteFunctionOverviewCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -6105,7 +6101,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[_models.StringDictionary] = kwargs.pop("cls", None)
 
         request = build_list_static_site_app_settings_request(
@@ -6171,7 +6167,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[_models.StringList] = kwargs.pop("cls", None)
 
         request = build_list_static_site_configured_roles_request(
@@ -6237,7 +6233,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[_models.StringDictionary] = kwargs.pop("cls", None)
 
         request = build_list_static_site_function_app_settings_request(
@@ -6303,7 +6299,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[_models.StringDictionary] = kwargs.pop("cls", None)
 
         request = build_list_static_site_secrets_request(
@@ -6363,7 +6359,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[_models.PrivateEndpointConnectionCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -6466,7 +6462,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[_models.RemotePrivateEndpointConnectionARMResource] = kwargs.pop("cls", None)
 
         request = build_get_private_endpoint_connection_request(
@@ -6505,7 +6501,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/privateEndpointConnections/{privateEndpointConnectionName}"
     }
 
-    async def _approve_or_reject_private_endpoint_connection_initial(
+    async def _approve_or_reject_private_endpoint_connection_initial(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -6524,7 +6520,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.RemotePrivateEndpointConnectionARMResource] = kwargs.pop("cls", None)
 
@@ -6580,7 +6576,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
     }
 
     @overload
-    async def begin_approve_or_reject_private_endpoint_connection(
+    async def begin_approve_or_reject_private_endpoint_connection(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -6622,7 +6618,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         """
 
     @overload
-    async def begin_approve_or_reject_private_endpoint_connection(
+    async def begin_approve_or_reject_private_endpoint_connection(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -6663,7 +6659,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         """
 
     @distributed_trace_async
-    async def begin_approve_or_reject_private_endpoint_connection(
+    async def begin_approve_or_reject_private_endpoint_connection(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -6705,7 +6701,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.RemotePrivateEndpointConnectionARMResource] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -6751,7 +6747,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/privateEndpointConnections/{privateEndpointConnectionName}"
     }
 
-    async def _delete_private_endpoint_connection_initial(
+    async def _delete_private_endpoint_connection_initial(  # pylint: disable=name-too-long
         self, resource_group_name: str, name: str, private_endpoint_connection_name: str, **kwargs: Any
     ) -> JSON:
         error_map = {
@@ -6765,7 +6761,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[JSON] = kwargs.pop("cls", None)
 
         request = build_delete_private_endpoint_connection_request(
@@ -6840,7 +6836,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[JSON] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
@@ -6911,7 +6907,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[_models.PrivateLinkResourcesWrapper] = kwargs.pop("cls", None)
 
         request = build_get_private_link_resources_request(
@@ -7047,7 +7043,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
@@ -7114,7 +7110,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[_models.DatabaseConnectionCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -7188,7 +7184,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
     }
 
     @distributed_trace
-    def get_user_provided_function_apps_for_static_site(
+    def get_user_provided_function_apps_for_static_site(  # pylint: disable=name-too-long
         self, resource_group_name: str, name: str, **kwargs: Any
     ) -> AsyncIterable["_models.StaticSiteUserProvidedFunctionAppARMResource"]:
         """Gets the details of the user provided function apps registered with a static site.
@@ -7210,7 +7206,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[_models.StaticSiteUserProvidedFunctionAppsCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -7284,7 +7280,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
     }
 
     @distributed_trace_async
-    async def get_user_provided_function_app_for_static_site(
+    async def get_user_provided_function_app_for_static_site(  # pylint: disable=name-too-long
         self, resource_group_name: str, name: str, function_app_name: str, **kwargs: Any
     ) -> _models.StaticSiteUserProvidedFunctionAppARMResource:
         """Gets the details of the user provided function app registered with a static site.
@@ -7314,7 +7310,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[_models.StaticSiteUserProvidedFunctionAppARMResource] = kwargs.pop("cls", None)
 
         request = build_get_user_provided_function_app_for_static_site_request(
@@ -7353,7 +7349,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/userProvidedFunctionApps/{functionAppName}"
     }
 
-    async def _register_user_provided_function_app_with_static_site_initial(
+    async def _register_user_provided_function_app_with_static_site_initial(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -7373,7 +7369,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.StaticSiteUserProvidedFunctionAppARMResource] = kwargs.pop("cls", None)
 
@@ -7432,7 +7428,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
     }
 
     @overload
-    async def begin_register_user_provided_function_app_with_static_site(
+    async def begin_register_user_provided_function_app_with_static_site(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -7480,7 +7476,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         """
 
     @overload
-    async def begin_register_user_provided_function_app_with_static_site(
+    async def begin_register_user_provided_function_app_with_static_site(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -7527,7 +7523,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         """
 
     @distributed_trace_async
-    async def begin_register_user_provided_function_app_with_static_site(
+    async def begin_register_user_provided_function_app_with_static_site(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -7575,7 +7571,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.StaticSiteUserProvidedFunctionAppARMResource] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -7623,7 +7619,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
     }
 
     @distributed_trace_async
-    async def detach_user_provided_function_app_from_static_site(  # pylint: disable=inconsistent-return-statements
+    async def detach_user_provided_function_app_from_static_site(  # pylint: disable=inconsistent-return-statements,name-too-long
         self, resource_group_name: str, name: str, function_app_name: str, **kwargs: Any
     ) -> None:
         """Detach the user provided function app from the static site.
@@ -7652,7 +7648,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_detach_user_provided_function_app_from_static_site_request(
@@ -7687,7 +7683,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/userProvidedFunctionApps/{functionAppName}"
     }
 
-    async def _create_zip_deployment_for_static_site_initial(  # pylint: disable=inconsistent-return-statements
+    async def _create_zip_deployment_for_static_site_initial(  # pylint: disable=inconsistent-return-statements,name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -7705,7 +7701,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
@@ -7752,7 +7748,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
     }
 
     @overload
-    async def begin_create_zip_deployment_for_static_site(
+    async def begin_create_zip_deployment_for_static_site(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -7790,7 +7786,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         """
 
     @overload
-    async def begin_create_zip_deployment_for_static_site(
+    async def begin_create_zip_deployment_for_static_site(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -7827,7 +7823,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         """
 
     @distributed_trace_async
-    async def begin_create_zip_deployment_for_static_site(
+    async def begin_create_zip_deployment_for_static_site(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -7865,7 +7861,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -7927,7 +7923,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
@@ -8096,7 +8092,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -8160,7 +8156,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
@@ -8339,7 +8335,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -8406,7 +8402,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[_models.StaticSiteLinkedBackendsCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -8503,7 +8499,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[_models.StaticSiteLinkedBackendsCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -8607,7 +8603,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[_models.StaticSiteLinkedBackendARMResource] = kwargs.pop("cls", None)
 
         request = build_get_linked_backend_request(
@@ -8665,7 +8661,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.StaticSiteLinkedBackendARMResource] = kwargs.pop("cls", None)
 
@@ -8844,7 +8840,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.StaticSiteLinkedBackendARMResource] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -8928,7 +8924,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_unlink_backend_request(
@@ -8996,7 +8992,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[_models.StaticSiteLinkedBackendARMResource] = kwargs.pop("cls", None)
 
         request = build_get_linked_backend_for_build_request(
@@ -9056,7 +9052,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.StaticSiteLinkedBackendARMResource] = kwargs.pop("cls", None)
 
@@ -9245,7 +9241,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.StaticSiteLinkedBackendARMResource] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -9333,7 +9329,7 @@ class StaticSitesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_unlink_backend_from_build_request(

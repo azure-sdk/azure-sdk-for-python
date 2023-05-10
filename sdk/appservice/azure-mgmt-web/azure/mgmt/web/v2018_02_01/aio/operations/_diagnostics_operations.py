@@ -7,7 +7,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import datetime
-import sys
 from typing import Any, AsyncIterable, Callable, Dict, Optional, TypeVar
 import urllib.parse
 
@@ -56,10 +55,6 @@ from ...operations._diagnostics_operations import (
 )
 from .._vendor import WebSiteManagementClientMixinABC
 
-if sys.version_info >= (3, 8):
-    from typing import Literal  # pylint: disable=no-name-in-module, ungrouped-imports
-else:
-    from typing_extensions import Literal  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -84,7 +79,7 @@ class DiagnosticsOperations:  # pylint: disable=too-many-public-methods
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    def list_hosting_environment_detector_responses(
+    def list_hosting_environment_detector_responses(  # pylint: disable=name-too-long
         self, resource_group_name: str, name: str, **kwargs: Any
     ) -> AsyncIterable["_models.DetectorResponse"]:
         """List Hosting Environment Detector Responses.
@@ -104,7 +99,7 @@ class DiagnosticsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         cls: ClsType[_models.DetectorResponseCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -178,7 +173,7 @@ class DiagnosticsOperations:  # pylint: disable=too-many-public-methods
     }
 
     @distributed_trace_async
-    async def get_hosting_environment_detector_response(
+    async def get_hosting_environment_detector_response(  # pylint: disable=name-too-long
         self,
         resource_group_name: str,
         name: str,
@@ -220,7 +215,7 @@ class DiagnosticsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         cls: ClsType[_models.DetectorResponse] = kwargs.pop("cls", None)
 
         request = build_get_hosting_environment_detector_response_request(
@@ -283,7 +278,7 @@ class DiagnosticsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         cls: ClsType[_models.DetectorResponseCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -399,7 +394,7 @@ class DiagnosticsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         cls: ClsType[_models.DetectorResponse] = kwargs.pop("cls", None)
 
         request = build_get_site_detector_response_request(
@@ -462,7 +457,7 @@ class DiagnosticsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         cls: ClsType[_models.DiagnosticCategoryCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -565,7 +560,7 @@ class DiagnosticsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         cls: ClsType[_models.DiagnosticCategory] = kwargs.pop("cls", None)
 
         request = build_get_site_diagnostic_category_request(
@@ -627,7 +622,7 @@ class DiagnosticsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         cls: ClsType[_models.DiagnosticAnalysisCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -733,7 +728,7 @@ class DiagnosticsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         cls: ClsType[_models.DiagnosticAnalysis] = kwargs.pop("cls", None)
 
         request = build_get_site_analysis_request(
@@ -819,7 +814,7 @@ class DiagnosticsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         cls: ClsType[_models.DiagnosticAnalysis] = kwargs.pop("cls", None)
 
         request = build_execute_site_analysis_request(
@@ -885,7 +880,7 @@ class DiagnosticsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         cls: ClsType[_models.DiagnosticDetectorCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -984,7 +979,7 @@ class DiagnosticsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         cls: ClsType[_models.DiagnosticDetectorCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -1105,7 +1100,7 @@ class DiagnosticsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         cls: ClsType[_models.DiagnosticDetectorResponse] = kwargs.pop("cls", None)
 
         request = build_execute_site_detector_request(
@@ -1171,7 +1166,7 @@ class DiagnosticsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         cls: ClsType[_models.DetectorResponseCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -1291,7 +1286,7 @@ class DiagnosticsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         cls: ClsType[_models.DetectorResponse] = kwargs.pop("cls", None)
 
         request = build_get_site_detector_response_slot_request(
@@ -1357,7 +1352,7 @@ class DiagnosticsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         cls: ClsType[_models.DiagnosticCategoryCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -1463,7 +1458,7 @@ class DiagnosticsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         cls: ClsType[_models.DiagnosticCategory] = kwargs.pop("cls", None)
 
         request = build_get_site_diagnostic_category_slot_request(
@@ -1528,7 +1523,7 @@ class DiagnosticsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         cls: ClsType[_models.DiagnosticAnalysisCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -1643,7 +1638,7 @@ class DiagnosticsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         cls: ClsType[_models.DiagnosticAnalysis] = kwargs.pop("cls", None)
 
         request = build_get_site_analysis_slot_request(
@@ -1733,7 +1728,7 @@ class DiagnosticsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         cls: ClsType[_models.DiagnosticAnalysis] = kwargs.pop("cls", None)
 
         request = build_execute_site_analysis_slot_request(
@@ -1802,7 +1797,7 @@ class DiagnosticsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         cls: ClsType[_models.DiagnosticDetectorCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -1910,7 +1905,7 @@ class DiagnosticsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         cls: ClsType[_models.DiagnosticDetectorCollection] = kwargs.pop("cls", None)
 
         error_map = {
@@ -2035,7 +2030,7 @@ class DiagnosticsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2018-02-01"] = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-02-01"))
         cls: ClsType[_models.DiagnosticDetectorResponse] = kwargs.pop("cls", None)
 
         request = build_execute_site_detector_slot_request(
