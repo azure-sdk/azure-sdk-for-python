@@ -4000,7 +4000,7 @@ class DistributedAvailabilityGroup(ProxyResource):  # pylint: disable=too-many-i
     :ivar secondary_availability_group_name: The secondary availability group name.
     :vartype secondary_availability_group_name: str
     :ivar replication_mode: The replication mode of a distributed availability group. Parameter
-     will be ignored during link creation. Known values are: "Async" and "Sync".
+     will be ignored during link creation. Known values are: "Async", "Sync", and "Async".
     :vartype replication_mode: str or ~azure.mgmt.sql.models.ReplicationMode
     :ivar distributed_availability_group_id: The distributed availability group id.
     :vartype distributed_availability_group_id: str
@@ -4061,7 +4061,7 @@ class DistributedAvailabilityGroup(ProxyResource):  # pylint: disable=too-many-i
         :keyword secondary_availability_group_name: The secondary availability group name.
         :paramtype secondary_availability_group_name: str
         :keyword replication_mode: The replication mode of a distributed availability group. Parameter
-         will be ignored during link creation. Known values are: "Async" and "Sync".
+         will be ignored during link creation. Known values are: "Async", "Sync", and "Async".
         :paramtype replication_mode: str or ~azure.mgmt.sql.models.ReplicationMode
         """
         super().__init__(**kwargs)

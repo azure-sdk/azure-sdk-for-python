@@ -169,7 +169,7 @@ class DataMaskingPoliciesOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2014-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2014-04-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2014-04-01"))
         data_masking_policy_name: Literal["Default"] = kwargs.pop("data_masking_policy_name", "Default")
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.DataMaskingPolicy] = kwargs.pop("cls", None)
@@ -254,7 +254,7 @@ class DataMaskingPoliciesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2014-04-01"] = kwargs.pop("api_version", _params.pop("api-version", "2014-04-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2014-04-01"))
         data_masking_policy_name: Literal["Default"] = kwargs.pop("data_masking_policy_name", "Default")
         cls: ClsType[_models.DataMaskingPolicy] = kwargs.pop("cls", None)
 

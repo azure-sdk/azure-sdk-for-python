@@ -972,6 +972,7 @@ class ReplicationMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     ASYNC = "Async"
     SYNC = "Sync"
+    ASYNC_ENUM = "Async"
 
 
 class ReplicationRole(str, Enum, metaclass=CaseInsensitiveEnumMeta):

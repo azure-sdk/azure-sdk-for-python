@@ -112,9 +112,7 @@ class ManagedDatabaseSensitivityLabelsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2020-11-01-preview"] = kwargs.pop(
-            "api_version", _params.pop("api-version", "2020-11-01-preview")
-        )
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2020-11-01-preview"))
         cls: ClsType[_models.SensitivityLabel] = kwargs.pop("cls", None)
 
         request = build_get_request(
@@ -295,9 +293,7 @@ class ManagedDatabaseSensitivityLabelsOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         sensitivity_label_source: Literal["current"] = kwargs.pop("sensitivity_label_source", "current")
-        api_version: Literal["2020-11-01-preview"] = kwargs.pop(
-            "api_version", _params.pop("api-version", "2020-11-01-preview")
-        )
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2020-11-01-preview"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.SensitivityLabel] = kwargs.pop("cls", None)
 
@@ -401,9 +397,7 @@ class ManagedDatabaseSensitivityLabelsOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         sensitivity_label_source: Literal["current"] = kwargs.pop("sensitivity_label_source", "current")
-        api_version: Literal["2020-11-01-preview"] = kwargs.pop(
-            "api_version", _params.pop("api-version", "2020-11-01-preview")
-        )
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2020-11-01-preview"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_delete_request(
@@ -487,9 +481,7 @@ class ManagedDatabaseSensitivityLabelsOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         sensitivity_label_source: Literal["recommended"] = kwargs.pop("sensitivity_label_source", "recommended")
-        api_version: Literal["2020-11-01-preview"] = kwargs.pop(
-            "api_version", _params.pop("api-version", "2020-11-01-preview")
-        )
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2020-11-01-preview"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_disable_recommendation_request(
@@ -574,9 +566,7 @@ class ManagedDatabaseSensitivityLabelsOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         sensitivity_label_source: Literal["recommended"] = kwargs.pop("sensitivity_label_source", "recommended")
-        api_version: Literal["2020-11-01-preview"] = kwargs.pop(
-            "api_version", _params.pop("api-version", "2020-11-01-preview")
-        )
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2020-11-01-preview"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_enable_recommendation_request(
@@ -649,9 +639,7 @@ class ManagedDatabaseSensitivityLabelsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2020-11-01-preview"] = kwargs.pop(
-            "api_version", _params.pop("api-version", "2020-11-01-preview")
-        )
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2020-11-01-preview"))
         cls: ClsType[_models.SensitivityLabelListResult] = kwargs.pop("cls", None)
 
         error_map = {
@@ -817,9 +805,7 @@ class ManagedDatabaseSensitivityLabelsOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2020-11-01-preview"] = kwargs.pop(
-            "api_version", _params.pop("api-version", "2020-11-01-preview")
-        )
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2020-11-01-preview"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
@@ -901,9 +887,7 @@ class ManagedDatabaseSensitivityLabelsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2020-11-01-preview"] = kwargs.pop(
-            "api_version", _params.pop("api-version", "2020-11-01-preview")
-        )
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2020-11-01-preview"))
         cls: ClsType[_models.SensitivityLabelListResult] = kwargs.pop("cls", None)
 
         error_map = {
