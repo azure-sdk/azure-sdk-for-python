@@ -62,6 +62,12 @@ def main():
                         "keyVaultId": "https://rpbvtkeyvaultintegration.vault.azure.net/secrets/msitestingCert",
                         "type": "Portal",
                     },
+                    {
+                        "certificatePassword": "Password",
+                        "encodedCertificate": "****** Base 64 Encoded Certificate ************",
+                        "hostName": "configuration-api.msitesting.net",
+                        "type": "ConfigurationApi",
+                    },
                 ],
                 "publisherEmail": "apim@autorestsdk.com",
                 "publisherName": "autorestsdk",
@@ -74,6 +80,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateServiceWithCustomHostnameKeyVault.json
+# x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-03-01-preview/examples/ApiManagementCreateServiceWithCustomHostnameKeyVault.json
 if __name__ == "__main__":
     main()
