@@ -31,15 +31,11 @@ def main():
 
     response = client.reservation_recommendation_details.get(
         resource_scope="providers/Microsoft.Billing/billingAccounts/00000000-0000-0000-0000-00000000:00000000-0000-0000-0000-00000000/billingProfiles/00000000-0000-0000-0000-00000000",
-        scope="Shared",
-        region="australiaeast",
-        term="P1Y",
-        look_back_period="Last7Days",
-        product="Standard_B2s",
+        filter="properties/savings/lookBackPeriod eq 7 and properties/scope eq 'Shared' and properties/resource/region eq 'australiaeast' and properties/savings/reservationOrderTerm eq 'P1Y' and properties/resource/product eq 'Standard_B2s' and properties/subscriptionId eq 00000000-0000-0000-0000-00000000",
     )
     print(response)
 
 
-# x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationRecommendationDetailsByBillingProfile.json
+# x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2023-05-01/examples/ReservationRecommendationDetailsByBillingProfile.json
 if __name__ == "__main__":
     main()

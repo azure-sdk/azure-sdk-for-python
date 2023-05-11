@@ -30,16 +30,12 @@ def main():
     )
 
     response = client.reservation_recommendation_details.get(
-        resource_scope="providers/Microsoft.Billing/billingAccounts/000000",
-        scope="Shared",
-        region="eastus",
-        term="P1Y",
-        look_back_period="Last60Days",
-        product="Standard_DS14_v2",
+        resource_scope="providers/Microsoft.Billing/billingAccounts/00000000",
+        filter="properties/savings/lookBackPeriod eq 60 and properties/scope eq 'Shared' and properties/resource/region eq 'eastus' and properties/savings/reservationOrderTerm eq 'P1Y' and properties/resource/product eq 'Standard_DS14_v2' and properties/subscriptionId eq 00000000-0000-0000-0000-00000000",
     )
     print(response)
 
 
-# x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationRecommendationDetailsByBillingAccount.json
+# x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2023-05-01/examples/ReservationRecommendationDetailsByBillingAccount.json
 if __name__ == "__main__":
     main()

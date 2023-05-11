@@ -31,15 +31,11 @@ def main():
 
     response = client.reservation_recommendation_details.get(
         resource_scope="subscriptions/00000000-0000-0000-0000-00000000/resourceGroups/testGroup",
-        scope="Single",
-        region="westus",
-        term="P3Y",
-        look_back_period="Last30Days",
-        product="Standard_DS13_v2",
+        filter="properties/savings/lookBackPeriod eq 30 and properties/scope eq 'Single' and properties/resource/region eq 'westus' and properties/savings/reservationOrderTerm eq 'P3Y' and properties/resource/product eq 'Standard_DS13_v2'",
     )
     print(response)
 
 
-# x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationRecommendationDetailsByResourceGroup.json
+# x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2023-05-01/examples/ReservationRecommendationDetailsByResourceGroup.json
 if __name__ == "__main__":
     main()

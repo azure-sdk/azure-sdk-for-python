@@ -89,15 +89,12 @@ from ._consumption_management_client_enums import ChargeSummaryKind
 from ._consumption_management_client_enums import CultureCode
 from ._consumption_management_client_enums import Datagrain
 from ._consumption_management_client_enums import EventType
-from ._consumption_management_client_enums import LookBackPeriod
 from ._consumption_management_client_enums import LotSource
 from ._consumption_management_client_enums import Metrictype
 from ._consumption_management_client_enums import OperatorType
 from ._consumption_management_client_enums import PricingModelType
 from ._consumption_management_client_enums import ReservationRecommendationKind
-from ._consumption_management_client_enums import Scope
 from ._consumption_management_client_enums import Status
-from ._consumption_management_client_enums import Term
 from ._consumption_management_client_enums import ThresholdType
 from ._consumption_management_client_enums import TimeGrainType
 from ._consumption_management_client_enums import UsageDetailsKind
@@ -188,15 +185,12 @@ __all__ = [
     "CultureCode",
     "Datagrain",
     "EventType",
-    "LookBackPeriod",
     "LotSource",
     "Metrictype",
     "OperatorType",
     "PricingModelType",
     "ReservationRecommendationKind",
-    "Scope",
     "Status",
-    "Term",
     "ThresholdType",
     "TimeGrainType",
     "UsageDetailsKind",
