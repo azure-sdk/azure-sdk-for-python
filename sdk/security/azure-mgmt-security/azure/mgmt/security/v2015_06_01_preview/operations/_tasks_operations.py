@@ -97,7 +97,7 @@ def build_list_by_home_region_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_get_subscription_level_task_request(
+def build_get_subscription_level_task_request(  # pylint: disable=name-too-long
     asc_location: str, task_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -130,7 +130,7 @@ def build_get_subscription_level_task_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_update_subscription_level_task_state_request(
+def build_update_subscription_level_task_state_request(  # pylint: disable=name-too-long
     asc_location: str,
     task_name: str,
     task_update_action_type: Union[str, _models.TaskUpdateActionType],
@@ -205,7 +205,7 @@ def build_list_by_resource_group_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_get_resource_group_level_task_request(
+def build_get_resource_group_level_task_request(  # pylint: disable=name-too-long
     resource_group_name: str, asc_location: str, task_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -241,7 +241,7 @@ def build_get_resource_group_level_task_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_update_resource_group_level_task_state_request(
+def build_update_resource_group_level_task_state_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     asc_location: str,
     task_name: str,

@@ -546,7 +546,7 @@ class AlertsOperations:
     }
 
     @distributed_trace_async
-    async def update_subscription_level_state_to_dismiss(  # pylint: disable=inconsistent-return-statements
+    async def update_subscription_level_state_to_dismiss(  # pylint: disable=inconsistent-return-statements,name-too-long
         self, asc_location: str, alert_name: str, **kwargs: Any
     ) -> None:
         """Update the alert's state.
@@ -606,7 +606,7 @@ class AlertsOperations:
     }
 
     @distributed_trace_async
-    async def update_subscription_level_state_to_resolve(  # pylint: disable=inconsistent-return-statements
+    async def update_subscription_level_state_to_resolve(  # pylint: disable=inconsistent-return-statements,name-too-long
         self, asc_location: str, alert_name: str, **kwargs: Any
     ) -> None:
         """Update the alert's state.
@@ -666,7 +666,7 @@ class AlertsOperations:
     }
 
     @distributed_trace_async
-    async def update_subscription_level_state_to_activate(  # pylint: disable=inconsistent-return-statements
+    async def update_subscription_level_state_to_activate(  # pylint: disable=inconsistent-return-statements,name-too-long
         self, asc_location: str, alert_name: str, **kwargs: Any
     ) -> None:
         """Update the alert's state.
@@ -726,7 +726,7 @@ class AlertsOperations:
     }
 
     @distributed_trace_async
-    async def update_resource_group_level_state_to_resolve(  # pylint: disable=inconsistent-return-statements
+    async def update_resource_group_level_state_to_resolve(  # pylint: disable=inconsistent-return-statements,name-too-long
         self, asc_location: str, alert_name: str, resource_group_name: str, **kwargs: Any
     ) -> None:
         """Update the alert's state.
@@ -790,7 +790,7 @@ class AlertsOperations:
     }
 
     @distributed_trace_async
-    async def update_resource_group_level_state_to_dismiss(  # pylint: disable=inconsistent-return-statements
+    async def update_resource_group_level_state_to_dismiss(  # pylint: disable=inconsistent-return-statements,name-too-long
         self, asc_location: str, alert_name: str, resource_group_name: str, **kwargs: Any
     ) -> None:
         """Update the alert's state.
@@ -854,7 +854,7 @@ class AlertsOperations:
     }
 
     @distributed_trace_async
-    async def update_resource_group_level_state_to_activate(  # pylint: disable=inconsistent-return-statements
+    async def update_resource_group_level_state_to_activate(  # pylint: disable=inconsistent-return-statements,name-too-long
         self, asc_location: str, alert_name: str, resource_group_name: str, **kwargs: Any
     ) -> None:
         """Update the alert's state.

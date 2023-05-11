@@ -10,6 +10,15 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
+class MipIntegrationStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Microsoft information protection integration status."""
+
+    OK = "Ok"
+    NO_CONSENT = "noConsent"
+    NO_AUTO_LABELING_RULES = "noAutoLabelingRules"
+    NO_MIP_LABELS = "noMipLabels"
+
+
 class RuleSeverity(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The rule severity."""
 

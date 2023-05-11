@@ -9,15 +9,22 @@
 from ._models_py3 import Baseline
 from ._models_py3 import BaselineAdjustedResult
 from ._models_py3 import BenchmarkReference
+from ._models_py3 import BuiltInInfoType
 from ._models_py3 import CloudErrorBody
 from ._models_py3 import EnvironmentDetails
 from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorDetail
 from ._models_py3 import ErrorResponse
+from ._models_py3 import GetSensitivitySettingsListResponse
+from ._models_py3 import GetSensitivitySettingsResponse
+from ._models_py3 import GetSensitivitySettingsResponseProperties
+from ._models_py3 import GetSensitivitySettingsResponsePropertiesMipInformation
 from ._models_py3 import HealthDataClassification
 from ._models_py3 import HealthReport
 from ._models_py3 import HealthReportsList
+from ._models_py3 import InfoType
 from ._models_py3 import Issue
+from ._models_py3 import Label
 from ._models_py3 import QueryCheck
 from ._models_py3 import Remediation
 from ._models_py3 import Resource
@@ -34,8 +41,10 @@ from ._models_py3 import ScanResultProperties
 from ._models_py3 import ScanResults
 from ._models_py3 import Scans
 from ._models_py3 import Status
+from ._models_py3 import UpdateSensitivitySettingsRequest
 from ._models_py3 import VaRule
 
+from ._security_center_enums import MipIntegrationStatus
 from ._security_center_enums import RuleSeverity
 from ._security_center_enums import RuleStatus
 from ._security_center_enums import RuleType
@@ -52,15 +61,22 @@ __all__ = [
     "Baseline",
     "BaselineAdjustedResult",
     "BenchmarkReference",
+    "BuiltInInfoType",
     "CloudErrorBody",
     "EnvironmentDetails",
     "ErrorAdditionalInfo",
     "ErrorDetail",
     "ErrorResponse",
+    "GetSensitivitySettingsListResponse",
+    "GetSensitivitySettingsResponse",
+    "GetSensitivitySettingsResponseProperties",
+    "GetSensitivitySettingsResponsePropertiesMipInformation",
     "HealthDataClassification",
     "HealthReport",
     "HealthReportsList",
+    "InfoType",
     "Issue",
+    "Label",
     "QueryCheck",
     "Remediation",
     "Resource",
@@ -77,7 +93,9 @@ __all__ = [
     "ScanResults",
     "Scans",
     "Status",
+    "UpdateSensitivitySettingsRequest",
     "VaRule",
+    "MipIntegrationStatus",
     "RuleSeverity",
     "RuleStatus",
     "RuleType",

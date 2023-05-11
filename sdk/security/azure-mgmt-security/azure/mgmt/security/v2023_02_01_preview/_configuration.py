@@ -27,20 +27,14 @@ class SecurityCenterConfiguration(Configuration):  # pylint: disable=too-many-in
 
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
-    :keyword api_version: Api Version. Default value is "2023-02-01-preview". Note that overriding
-     this default value may result in unsupported behavior.
-    :paramtype api_version: str
     """
 
     def __init__(self, credential: "TokenCredential", **kwargs: Any) -> None:
         super(SecurityCenterConfiguration, self).__init__(**kwargs)
-        api_version: str = kwargs.pop("api_version", "2023-02-01-preview")
-
         if credential is None:
             raise ValueError("Parameter 'credential' must not be None.")
 
         self.credential = credential
-        self.api_version = api_version
         self.credential_scopes = kwargs.pop("credential_scopes", ["https://management.azure.com/.default"])
         kwargs.setdefault("sdk_moniker", "mgmt-security/{}".format(VERSION))
         self._configure(**kwargs)

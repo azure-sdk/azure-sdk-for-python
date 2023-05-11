@@ -29,7 +29,7 @@ class _SDKClient(object):
         """
         pass
 
-class SecurityCenter(MultiApiClientMixin, _SDKClient):
+class SecurityCenter(SecurityCenterOperationsMixin, MultiApiClientMixin, _SDKClient):
     """API spec for Microsoft.Security (Azure Security Center) resource provider.
 
     This ready contains multiple API versions, to help you deal with all of the Azure clouds
@@ -993,6 +993,20 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
             from .v2020_01_01.operations import SecuritySolutionsReferenceDataOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'security_solutions_reference_data'".format(api_version))
+        self._config.api_version = api_version
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+
+    @property
+    def sensitivity_settings(self):
+        """Instance depends on the API version:
+
+           * 2023-02-01-preview: :class:`SensitivitySettingsOperations<azure.mgmt.security.v2023_02_01_preview.operations.SensitivitySettingsOperations>`
+        """
+        api_version = self._get_api_version('sensitivity_settings')
+        if api_version == '2023-02-01-preview':
+            from .v2023_02_01_preview.operations import SensitivitySettingsOperations as OperationClass
+        else:
+            raise ValueError("API version {} does not have operation group 'sensitivity_settings'".format(api_version))
         self._config.api_version = api_version
         return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
 
