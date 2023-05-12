@@ -4000,7 +4000,7 @@ class DistributedAvailabilityGroup(ProxyResource):  # pylint: disable=too-many-i
     :ivar secondary_availability_group_name: The secondary availability group name.
     :vartype secondary_availability_group_name: str
     :ivar replication_mode: The replication mode of a distributed availability group. Parameter
-     will be ignored during link creation. Known values are: "Async" and "Sync".
+     will be ignored during link creation. Known values are: "Async", "Sync", and "Async".
     :vartype replication_mode: str or ~azure.mgmt.sql.models.ReplicationMode
     :ivar distributed_availability_group_id: The distributed availability group id.
     :vartype distributed_availability_group_id: str
@@ -4061,7 +4061,7 @@ class DistributedAvailabilityGroup(ProxyResource):  # pylint: disable=too-many-i
         :keyword secondary_availability_group_name: The secondary availability group name.
         :paramtype secondary_availability_group_name: str
         :keyword replication_mode: The replication mode of a distributed availability group. Parameter
-         will be ignored during link creation. Known values are: "Async" and "Sync".
+         will be ignored during link creation. Known values are: "Async", "Sync", and "Async".
         :paramtype replication_mode: str or ~azure.mgmt.sql.models.ReplicationMode
         """
         super().__init__(**kwargs)
@@ -16707,6 +16707,10 @@ class Server(TrackedResource):  # pylint: disable=too-many-instance-attributes
     :vartype federated_client_id: str
     :ivar key_id: A CMK URI of the key to use for encryption.
     :vartype key_id: str
+    :ivar is_i_pv6_enabled: Whether or not IPv6 firewall rule is enabled for this server. Value is
+     optional but if passed in, must be 'Enabled' or 'Disabled'. Known values are: "Enabled" and
+     "Disabled".
+    :vartype is_i_pv6_enabled: str or ~azure.mgmt.sql.models.ServerIPv6EnabledFlag
     :ivar administrators: The Azure Active Directory administrator of the server. This can only be
      used at server create time. If used for server update, it will be ignored or it will result in
      an error. For updates individual APIs will need to be used.
@@ -16757,6 +16761,7 @@ class Server(TrackedResource):  # pylint: disable=too-many-instance-attributes
         "primary_user_assigned_identity_id": {"key": "properties.primaryUserAssignedIdentityId", "type": "str"},
         "federated_client_id": {"key": "properties.federatedClientId", "type": "str"},
         "key_id": {"key": "properties.keyId", "type": "str"},
+        "is_i_pv6_enabled": {"key": "properties.isIPv6Enabled", "type": "str"},
         "administrators": {"key": "properties.administrators", "type": "ServerExternalAdministrator"},
         "restrict_outbound_network_access": {"key": "properties.restrictOutboundNetworkAccess", "type": "str"},
         "external_governance_status": {"key": "properties.externalGovernanceStatus", "type": "str"},
@@ -16776,6 +16781,7 @@ class Server(TrackedResource):  # pylint: disable=too-many-instance-attributes
         primary_user_assigned_identity_id: Optional[str] = None,
         federated_client_id: Optional[str] = None,
         key_id: Optional[str] = None,
+        is_i_pv6_enabled: Optional[Union[str, "_models.ServerIPv6EnabledFlag"]] = None,
         administrators: Optional["_models.ServerExternalAdministrator"] = None,
         restrict_outbound_network_access: Optional[Union[str, "_models.ServerNetworkAccessFlag"]] = None,
         **kwargs: Any
@@ -16808,6 +16814,10 @@ class Server(TrackedResource):  # pylint: disable=too-many-instance-attributes
         :paramtype federated_client_id: str
         :keyword key_id: A CMK URI of the key to use for encryption.
         :paramtype key_id: str
+        :keyword is_i_pv6_enabled: Whether or not IPv6 firewall rule is enabled for this server. Value
+         is optional but if passed in, must be 'Enabled' or 'Disabled'. Known values are: "Enabled" and
+         "Disabled".
+        :paramtype is_i_pv6_enabled: str or ~azure.mgmt.sql.models.ServerIPv6EnabledFlag
         :keyword administrators: The Azure Active Directory administrator of the server. This can only
          be used at server create time. If used for server update, it will be ignored or it will result
          in an error. For updates individual APIs will need to be used.
@@ -16833,6 +16843,7 @@ class Server(TrackedResource):  # pylint: disable=too-many-instance-attributes
         self.primary_user_assigned_identity_id = primary_user_assigned_identity_id
         self.federated_client_id = federated_client_id
         self.key_id = key_id
+        self.is_i_pv6_enabled = is_i_pv6_enabled
         self.administrators = administrators
         self.restrict_outbound_network_access = restrict_outbound_network_access
         self.external_governance_status = None
@@ -18597,6 +18608,10 @@ class ServerUpdate(_serialization.Model):  # pylint: disable=too-many-instance-a
     :vartype federated_client_id: str
     :ivar key_id: A CMK URI of the key to use for encryption.
     :vartype key_id: str
+    :ivar is_i_pv6_enabled: Whether or not IPv6 firewall rule is enabled for this server. Value is
+     optional but if passed in, must be 'Enabled' or 'Disabled'. Known values are: "Enabled" and
+     "Disabled".
+    :vartype is_i_pv6_enabled: str or ~azure.mgmt.sql.models.ServerIPv6EnabledFlag
     :ivar administrators: The Azure Active Directory administrator of the server. This can only be
      used at server create time. If used for server update, it will be ignored or it will result in
      an error. For updates individual APIs will need to be used.
@@ -18637,6 +18652,7 @@ class ServerUpdate(_serialization.Model):  # pylint: disable=too-many-instance-a
         "primary_user_assigned_identity_id": {"key": "properties.primaryUserAssignedIdentityId", "type": "str"},
         "federated_client_id": {"key": "properties.federatedClientId", "type": "str"},
         "key_id": {"key": "properties.keyId", "type": "str"},
+        "is_i_pv6_enabled": {"key": "properties.isIPv6Enabled", "type": "str"},
         "administrators": {"key": "properties.administrators", "type": "ServerExternalAdministrator"},
         "restrict_outbound_network_access": {"key": "properties.restrictOutboundNetworkAccess", "type": "str"},
         "external_governance_status": {"key": "properties.externalGovernanceStatus", "type": "str"},
@@ -18655,6 +18671,7 @@ class ServerUpdate(_serialization.Model):  # pylint: disable=too-many-instance-a
         primary_user_assigned_identity_id: Optional[str] = None,
         federated_client_id: Optional[str] = None,
         key_id: Optional[str] = None,
+        is_i_pv6_enabled: Optional[Union[str, "_models.ServerIPv6EnabledFlag"]] = None,
         administrators: Optional["_models.ServerExternalAdministrator"] = None,
         restrict_outbound_network_access: Optional[Union[str, "_models.ServerNetworkAccessFlag"]] = None,
         **kwargs: Any
@@ -18685,6 +18702,10 @@ class ServerUpdate(_serialization.Model):  # pylint: disable=too-many-instance-a
         :paramtype federated_client_id: str
         :keyword key_id: A CMK URI of the key to use for encryption.
         :paramtype key_id: str
+        :keyword is_i_pv6_enabled: Whether or not IPv6 firewall rule is enabled for this server. Value
+         is optional but if passed in, must be 'Enabled' or 'Disabled'. Known values are: "Enabled" and
+         "Disabled".
+        :paramtype is_i_pv6_enabled: str or ~azure.mgmt.sql.models.ServerIPv6EnabledFlag
         :keyword administrators: The Azure Active Directory administrator of the server. This can only
          be used at server create time. If used for server update, it will be ignored or it will result
          in an error. For updates individual APIs will need to be used.
@@ -18710,6 +18731,7 @@ class ServerUpdate(_serialization.Model):  # pylint: disable=too-many-instance-a
         self.primary_user_assigned_identity_id = primary_user_assigned_identity_id
         self.federated_client_id = federated_client_id
         self.key_id = key_id
+        self.is_i_pv6_enabled = is_i_pv6_enabled
         self.administrators = administrators
         self.restrict_outbound_network_access = restrict_outbound_network_access
         self.external_governance_status = None

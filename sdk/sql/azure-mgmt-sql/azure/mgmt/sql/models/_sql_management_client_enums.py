@@ -972,6 +972,7 @@ class ReplicationMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     ASYNC = "Async"
     SYNC = "Sync"
+    ASYNC_ENUM = "Async"
 
 
 class ReplicationRole(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -1134,6 +1135,15 @@ class ServerConnectionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DEFAULT = "Default"
     REDIRECT = "Redirect"
     PROXY = "Proxy"
+
+
+class ServerIPv6EnabledFlag(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Whether or not IPv6 firewall rule is enabled for this server. Value is optional but if passed
+    in, must be 'Enabled' or 'Disabled'.
+    """
+
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
 
 
 class ServerKeyType(str, Enum, metaclass=CaseInsensitiveEnumMeta):

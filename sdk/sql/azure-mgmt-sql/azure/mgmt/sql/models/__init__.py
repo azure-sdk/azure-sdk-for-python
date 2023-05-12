@@ -534,6 +534,7 @@ from ._sql_management_client_enums import SensitivityLabelSource
 from ._sql_management_client_enums import SensitivityLabelUpdateKind
 from ._sql_management_client_enums import ServerConfigurationOptionName
 from ._sql_management_client_enums import ServerConnectionType
+from ._sql_management_client_enums import ServerIPv6EnabledFlag
 from ._sql_management_client_enums import ServerKeyType
 from ._sql_management_client_enums import ServerNetworkAccessFlag
 from ._sql_management_client_enums import ServerPublicNetworkAccessFlag
@@ -1099,6 +1100,7 @@ __all__ = [
     "SensitivityLabelUpdateKind",
     "ServerConfigurationOptionName",
     "ServerConnectionType",
+    "ServerIPv6EnabledFlag",
     "ServerKeyType",
     "ServerNetworkAccessFlag",
     "ServerPublicNetworkAccessFlag",
