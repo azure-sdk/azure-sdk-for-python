@@ -13,7 +13,6 @@ from ._models_py3 import Backup
 from ._models_py3 import BackupPatch
 from ._models_py3 import BackupPoliciesList
 from ._models_py3 import BackupPolicy
-from ._models_py3 import BackupPolicyDetails
 from ._models_py3 import BackupPolicyPatch
 from ._models_py3 import BackupRestoreFiles
 from ._models_py3 import BackupStatus
@@ -144,7 +143,6 @@ __all__ = [
     "BackupPatch",
     "BackupPoliciesList",
     "BackupPolicy",
-    "BackupPolicyDetails",
     "BackupPolicyPatch",
     "BackupRestoreFiles",
     "BackupStatus",
