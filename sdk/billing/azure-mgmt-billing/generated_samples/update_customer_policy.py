@@ -14,7 +14,7 @@ from azure.mgmt.billing import BillingManagementClient
     pip install azure-identity
     pip install azure-mgmt-billing
 # USAGE
-    python policy_by_customer.py
+    python update_customer_policy.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,13 +29,14 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.policies.get_by_customer(
+    response = client.policies.update_customer(
         billing_account_name="{billingAccountName}",
         customer_name="{customerName}",
+        parameters={"properties": {"viewCharges": "NotAllowed"}},
     )
     print(response)
 
 
-# x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2020-05-01/examples/CustomerPolicy.json
+# x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2020-05-01/examples/UpdateCustomerPolicy.json
 if __name__ == "__main__":
     main()
