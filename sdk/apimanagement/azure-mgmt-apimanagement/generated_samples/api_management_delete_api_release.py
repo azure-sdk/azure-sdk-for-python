@@ -29,16 +29,15 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.api_release.delete(
+    client.api_release.delete(
         resource_group_name="rg1",
         service_name="apimService1",
         api_id="5a5fcc09124a7fa9b89f2f1d",
         release_id="testrev",
         if_match="*",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteApiRelease.json
+# x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-03-01-preview/examples/ApiManagementDeleteApiRelease.json
 if __name__ == "__main__":
     main()
