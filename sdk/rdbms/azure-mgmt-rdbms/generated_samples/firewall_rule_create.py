@@ -7,7 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
-from azure.mgmt.rdbms import MySQLManagementClient
+from azure.mgmt.rdbms import CosmosDBForPostgreSQL
 
 """
 # PREREQUISITES
@@ -24,20 +24,20 @@ from azure.mgmt.rdbms import MySQLManagementClient
 
 
 def main():
-    client = MySQLManagementClient(
+    client = CosmosDBForPostgreSQL(
         credential=DefaultAzureCredential(),
         subscription_id="ffffffff-ffff-ffff-ffff-ffffffffffff",
     )
 
     response = client.firewall_rules.begin_create_or_update(
         resource_group_name="TestGroup",
-        server_name="testserver",
+        cluster_name="pgtestsvc4",
         firewall_rule_name="rule1",
         parameters={"properties": {"endIpAddress": "255.255.255.255", "startIpAddress": "0.0.0.0"}},
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/legacy/stable/2017-12-01/examples/FirewallRuleCreate.json
+# x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/FirewallRuleCreate.json
 if __name__ == "__main__":
     main()

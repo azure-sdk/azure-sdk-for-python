@@ -14,7 +14,7 @@ from azure.mgmt.rdbms import CosmosDBForPostgreSQL
     pip install azure-identity
     pip install azure-mgmt-rdbms
 # USAGE
-    python check_name_availability.py
+    python cluster_update_maintenance_window.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,12 +29,18 @@ def main():
         subscription_id="ffffffff-ffff-ffff-ffff-ffffffffffff",
     )
 
-    response = client.clusters.check_name_availability(
-        name_availability_request={"name": "name1", "type": "Microsoft.DBforPostgreSQL/serverGroupsv2"},
-    )
+    response = client.clusters.begin_update(
+        resource_group_name="TestGroup",
+        cluster_name="testcluster",
+        parameters={
+            "properties": {
+                "maintenanceWindow": {"customWindow": "Enabled", "dayOfWeek": 0, "startHour": 8, "startMinute": 0}
+            }
+        },
+    ).result()
     print(response)
 
 
-# x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/CheckNameAvailability.json
+# x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/ClusterUpdateMaintenanceWindow.json
 if __name__ == "__main__":
     main()
