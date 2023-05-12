@@ -22,7 +22,6 @@ from ._models import MultivariateBatchDetectionResultSummary
 from ._models import MultivariateDetectionResult
 from ._models import MultivariateLastDetectionOptions
 from ._models import MultivariateLastDetectionResult
-from ._models import ResponseError
 from ._models import TimeSeriesPoint
 from ._models import UnivariateChangePointDetectionOptions
 from ._models import UnivariateChangePointDetectionResult
@@ -62,7 +61,6 @@ __all__ = [
     "MultivariateDetectionResult",
     "MultivariateLastDetectionOptions",
     "MultivariateLastDetectionResult",
-    "ResponseError",
     "TimeSeriesPoint",
     "UnivariateChangePointDetectionOptions",
     "UnivariateChangePointDetectionResult",
