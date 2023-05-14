@@ -340,6 +340,7 @@ class HostnameType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     MANAGEMENT = "Management"
     SCM = "Scm"
     DEVELOPER_PORTAL = "DeveloperPortal"
+    CONFIGURATION_API = "ConfigurationApi"
 
 
 class HttpCorrelationProtocol(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -392,6 +393,30 @@ class KeyType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SECONDARY = "secondary"
 
 
+class KeyVaultRefreshState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """KeyVaultRefreshState."""
+
+    TRUE = "true"
+    """Entities for which KeyVault refresh failed."""
+    FALSE = "false"
+    """Entities for which KeyVault refresh succeeded"""
+
+
+class LegacyApiState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Indication whether or not the legacy Configuration API (v1) should be exposed on the API
+    Management service. Value is optional but must be 'Enabled' or 'Disabled'. If 'Disabled',
+    legacy Configuration API (v1) will not be available for self-hosted gateways. Default value is
+    'Enabled'.
+    """
+
+    ENABLED = "Enabled"
+    """Legacy Configuration API (v1) is enabled for the service and self-hosted gateways can connect
+    #: to it."""
+    DISABLED = "Disabled"
+    """Legacy Configuration API (v1) is disabled for the service and self-hosted gateways can not
+    #: connect to it."""
+
+
 class LoggerType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Logger type."""
 
@@ -408,6 +433,18 @@ class Method(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     GET = "GET"
     POST = "POST"
+
+
+class MigrateToStv2Mode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Mode of Migration to stv2. Default is PreserveIp."""
+
+    PRESERVE_IP = "PreserveIp"
+    """Migrate API Management service to stv2 from stv1, by reserving the IP Address of the service.
+    #: This will have a downtime of upto 15 minutes, while the IP address is getting migrate to new
+    #: infrastructure."""
+    NEW_IP = "NewIP"
+    """Migrate API Management service to stv2 from stv1. This will have no downtime as the service
+    #: configuration will be migrated to new infrastructure, but the IP address will changed."""
 
 
 class NameAvailabilityReason(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -492,6 +529,8 @@ class PlatformVersion(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Platform running the service on Single Tenant V2 platform."""
     MTV1 = "mtv1"
     """Platform running the service on Multi Tenant V1 platform."""
+    STV2_1 = "stv2.1"
+    """Platform running the service on Single Tenant V2 platform on newer Hardware."""
 
 
 class PolicyContentFormat(str, Enum, metaclass=CaseInsensitiveEnumMeta):

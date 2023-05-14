@@ -29,14 +29,13 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.user_confirmation_password.send(
+    client.user_confirmation_password.send(
         resource_group_name="rg1",
         service_name="apimService1",
         user_id="57127d485157a511ace86ae7",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementUserConfirmationPasswordSend.json
+# x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-03-01-preview/examples/ApiManagementUserConfirmationPasswordSend.json
 if __name__ == "__main__":
     main()
