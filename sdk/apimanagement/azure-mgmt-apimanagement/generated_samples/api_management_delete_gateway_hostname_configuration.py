@@ -29,16 +29,15 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.gateway_hostname_configuration.delete(
+    client.gateway_hostname_configuration.delete(
         resource_group_name="rg1",
         service_name="apimService1",
         gateway_id="gw1",
         hc_id="default",
         if_match="*",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteGatewayHostnameConfiguration.json
+# x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-03-01-preview/examples/ApiManagementDeleteGatewayHostnameConfiguration.json
 if __name__ == "__main__":
     main()

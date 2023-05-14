@@ -29,15 +29,14 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.group.delete(
+    client.group.delete(
         resource_group_name="rg1",
         service_name="apimService1",
         group_id="aadGroup",
         if_match="*",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteGroup.json
+# x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-03-01-preview/examples/ApiManagementDeleteGroup.json
 if __name__ == "__main__":
     main()
