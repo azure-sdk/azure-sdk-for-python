@@ -30,7 +30,7 @@ def main():
     )
 
     response = client.assets.update(
-        resource_group_name="contoso",
+        resource_group_name="contosorg",
         account_name="contosomedia",
         asset_name="ClimbingMountBaker",
         parameters={"properties": {"description": "A documentary showing the ascent of Mount Baker in HD"}},
@@ -38,6 +38,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/assets-update.json
+# x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2023-01-01/examples/assets-update.json
 if __name__ == "__main__":
     main()

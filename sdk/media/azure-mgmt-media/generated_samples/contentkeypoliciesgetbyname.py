@@ -30,13 +30,13 @@ def main():
     )
 
     response = client.content_key_policies.get(
-        resource_group_name="contoso",
+        resource_group_name="contosorg",
         account_name="contosomedia",
         content_key_policy_name="PolicyWithMultipleOptions",
     )
     print(response)
 
 
-# x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/content-key-policies-get-by-name.json
+# x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2023-01-01/examples/content-key-policies-get-by-name.json
 if __name__ == "__main__":
     main()

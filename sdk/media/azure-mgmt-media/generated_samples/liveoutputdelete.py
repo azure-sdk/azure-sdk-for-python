@@ -29,15 +29,14 @@ def main():
         subscription_id="0a6ec948-5a62-437d-b9df-934dc7c1b722",
     )
 
-    response = client.live_outputs.begin_delete(
+    client.live_outputs.begin_delete(
         resource_group_name="mediaresources",
         account_name="slitestmedia10",
         live_event_name="myLiveEvent1",
         live_output_name="myLiveOutput1",
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-08-01/examples/liveoutput-delete.json
+# x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-11-01/examples/liveoutput-delete.json
 if __name__ == "__main__":
     main()

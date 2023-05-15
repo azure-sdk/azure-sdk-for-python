@@ -14,7 +14,7 @@ from azure.mgmt.media import AzureMediaServices
     pip install azure-identity
     pip install azure-mgmt-media
 # USAGE
-    python asyncaccountscreate.py
+    python liveeventgettrackevents.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,28 +26,18 @@ from azure.mgmt.media import AzureMediaServices
 def main():
     client = AzureMediaServices(
         credential=DefaultAzureCredential(),
-        subscription_id="00000000-0000-0000-0000-000000000000",
+        subscription_id="0a6ec948-5a62-437d-b9df-934dc7c1b722",
     )
 
-    response = client.mediaservices.begin_create_or_update(
-        resource_group_name="contosorg",
-        account_name="contososports",
-        parameters={
-            "location": "South Central US",
-            "properties": {
-                "storageAccounts": [
-                    {
-                        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosorg/providers/Microsoft.Storage/storageAccounts/teststorageaccount",
-                        "type": "Primary",
-                    }
-                ]
-            },
-            "tags": {"key1": "value1", "key2": "value2"},
-        },
+    response = client.live_events.begin_list_get_track_ingest_heartbeats(
+        resource_group_name="mediaresources",
+        account_name="slitestmedia10",
+        live_event_name="myLiveEvent1",
     ).result()
-    print(response)
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Accounts/stable/2023-01-01/examples/async-accounts-create.json
+# x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-11-01/examples/liveevent-get-track-events.json
 if __name__ == "__main__":
     main()

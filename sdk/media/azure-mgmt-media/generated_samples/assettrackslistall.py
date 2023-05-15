@@ -30,7 +30,7 @@ def main():
     )
 
     response = client.tracks.list(
-        resource_group_name="contoso",
+        resource_group_name="contosorg",
         account_name="contosomedia",
         asset_name="ClimbingMountRainer",
     )
@@ -38,6 +38,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/asset-tracks-list-all.json
+# x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2023-01-01/examples/asset-tracks-list-all.json
 if __name__ == "__main__":
     main()

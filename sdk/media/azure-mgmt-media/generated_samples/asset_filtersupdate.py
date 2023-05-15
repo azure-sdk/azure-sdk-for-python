@@ -30,7 +30,7 @@ def main():
     )
 
     response = client.asset_filters.update(
-        resource_group_name="contoso",
+        resource_group_name="contosorg",
         account_name="contosomedia",
         asset_name="ClimbingMountRainer",
         filter_name="assetFilterWithTimeWindowAndTrack",
@@ -51,6 +51,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/assetFilters-update.json
+# x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2023-01-01/examples/assetFilters-update.json
 if __name__ == "__main__":
     main()

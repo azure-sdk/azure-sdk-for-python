@@ -30,13 +30,13 @@ def main():
     )
 
     response = client.assets.list_streaming_locators(
-        resource_group_name="contoso",
+        resource_group_name="contosorg",
         account_name="contosomedia",
         asset_name="ClimbingMountSaintHelens",
     )
     print(response)
 
 
-# x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/assets-list-streaming-locators.json
+# x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2023-01-01/examples/assets-list-streaming-locators.json
 if __name__ == "__main__":
     main()

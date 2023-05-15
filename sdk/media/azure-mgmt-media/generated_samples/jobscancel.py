@@ -29,13 +29,12 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.jobs.cancel_job(
+    client.jobs.cancel_job(
         resource_group_name="contosoresources",
         account_name="contosomedia",
         transform_name="exampleTransform",
         job_name="job1",
     )
-    print(response)
 
 
 # x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Encoding/stable/2022-07-01/examples/jobs-cancel.json

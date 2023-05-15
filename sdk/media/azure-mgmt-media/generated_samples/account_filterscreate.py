@@ -30,7 +30,7 @@ def main():
     )
 
     response = client.account_filters.create_or_update(
-        resource_group_name="contoso",
+        resource_group_name="contosorg",
         account_name="contosomedia",
         filter_name="newAccountFilter",
         parameters={
@@ -65,6 +65,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/accountFilters-create.json
+# x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2023-01-01/examples/accountFilters-create.json
 if __name__ == "__main__":
     main()

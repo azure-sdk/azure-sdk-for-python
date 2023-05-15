@@ -29,14 +29,13 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.content_key_policies.delete(
-        resource_group_name="contoso",
+    client.content_key_policies.delete(
+        resource_group_name="contosorg",
         account_name="contosomedia",
         content_key_policy_name="PolicyWithPlayReadyOptionAndOpenRestriction",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/content-key-policies-delete.json
+# x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2023-01-01/examples/content-key-policies-delete.json
 if __name__ == "__main__":
     main()

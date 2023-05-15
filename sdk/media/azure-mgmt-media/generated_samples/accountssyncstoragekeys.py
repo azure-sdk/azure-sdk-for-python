@@ -29,14 +29,13 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.mediaservices.sync_storage_keys(
-        resource_group_name="contoso",
+    client.mediaservices.sync_storage_keys(
+        resource_group_name="contosorg",
         account_name="contososports",
         parameters={"id": "contososportsstore"},
     )
-    print(response)
 
 
-# x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Accounts/stable/2021-11-01/examples/accounts-sync-storage-keys.json
+# x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Accounts/stable/2023-01-01/examples/accounts-sync-storage-keys.json
 if __name__ == "__main__":
     main()

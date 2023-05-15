@@ -30,7 +30,7 @@ def main():
     )
 
     response = client.streaming_locators.create(
-        resource_group_name="contoso",
+        resource_group_name="contosorg",
         account_name="contosomedia",
         streaming_locator_name="UserCreatedClearStreamingLocator",
         parameters={"properties": {"assetName": "ClimbingMountRainier", "streamingPolicyName": "clearStreamingPolicy"}},
@@ -38,6 +38,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/streaming-locators-create-clear.json
+# x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2023-01-01/examples/streaming-locators-create-clear.json
 if __name__ == "__main__":
     main()

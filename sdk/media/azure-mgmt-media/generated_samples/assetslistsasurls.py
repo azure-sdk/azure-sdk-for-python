@@ -30,7 +30,7 @@ def main():
     )
 
     response = client.assets.list_container_sas(
-        resource_group_name="contoso",
+        resource_group_name="contosorg",
         account_name="contosomedia",
         asset_name="ClimbingMountBaker",
         parameters={"expiryTime": "2018-01-01T10:00:00.007Z", "permissions": "ReadWrite"},
@@ -38,6 +38,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/assets-list-sas-urls.json
+# x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2023-01-01/examples/assets-list-sas-urls.json
 if __name__ == "__main__":
     main()

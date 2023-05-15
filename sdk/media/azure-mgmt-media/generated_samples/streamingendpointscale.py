@@ -29,15 +29,14 @@ def main():
         subscription_id="0a6ec948-5a62-437d-b9df-934dc7c1b722",
     )
 
-    response = client.streaming_endpoints.begin_scale(
+    client.streaming_endpoints.begin_scale(
         resource_group_name="mediaresources",
         account_name="slitestmedia10",
         streaming_endpoint_name="myStreamingEndpoint1",
         parameters={"scaleUnit": 5},
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-08-01/examples/streamingendpoint-scale.json
+# x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-11-01/examples/streamingendpoint-scale.json
 if __name__ == "__main__":
     main()
