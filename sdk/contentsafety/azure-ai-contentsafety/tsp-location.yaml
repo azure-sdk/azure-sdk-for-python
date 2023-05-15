@@ -1,0 +1,4 @@
+cleanup: false
+commit: 724d25ed1b226d8f85f13e43a2e457d8e32f2daa
+directory: specification/cognitiveservices/ContentSafety
+repo: Azure/azure-rest-api-specs
