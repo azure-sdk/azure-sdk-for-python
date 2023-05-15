@@ -29,12 +29,11 @@ def main():
         subscription_id="ffffffff-ffff-ffff-ffff-ffffffffffff",
     )
 
-    response = client.servers.begin_upgrade(
+    client.servers.begin_upgrade(
         resource_group_name="TestGroup",
         server_name="testserver",
         parameters={"properties": {"targetServerVersion": "5.7"}},
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/legacy/stable/2020-01-01/examples/ServerUpgrade.json

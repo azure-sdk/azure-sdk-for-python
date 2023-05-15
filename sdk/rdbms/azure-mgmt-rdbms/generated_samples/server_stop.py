@@ -29,11 +29,10 @@ def main():
         subscription_id="ffffffff-ffff-ffff-ffff-ffffffffffff",
     )
 
-    response = client.servers.begin_stop(
+    client.servers.begin_stop(
         resource_group_name="TestGroup",
         server_name="testserver",
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/legacy/stable/2020-01-01/examples/ServerStop.json

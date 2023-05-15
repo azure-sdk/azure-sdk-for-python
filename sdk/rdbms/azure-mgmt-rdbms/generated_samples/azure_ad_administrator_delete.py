@@ -29,12 +29,11 @@ def main():
         subscription_id="ffffffff-ffff-ffff-ffff-ffffffffffff",
     )
 
-    response = client.azure_ad_administrators.begin_delete(
+    client.azure_ad_administrators.begin_delete(
         resource_group_name="testrg",
         server_name="mysqltestsvc4",
         administrator_name="ActiveDirectory",
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/AAD/preview/2021-12-01-preview/examples/AzureADAdministratorDelete.json

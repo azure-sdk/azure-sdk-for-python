@@ -29,12 +29,11 @@ def main():
         subscription_id="ffffffff-ffff-ffff-ffff-ffffffffffff",
     )
 
-    response = client.firewall_rules.begin_delete(
+    client.firewall_rules.begin_delete(
         resource_group_name="TestGroup",
         server_name="testserver",
         firewall_rule_name="rule1",
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/legacy/stable/2017-12-01/examples/FirewallRuleDelete.json

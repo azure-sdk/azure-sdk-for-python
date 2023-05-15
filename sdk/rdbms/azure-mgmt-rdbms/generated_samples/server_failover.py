@@ -29,11 +29,10 @@ def main():
         subscription_id="ffffffff-ffff-ffff-ffff-ffffffffffff",
     )
 
-    response = client.servers.begin_failover(
+    client.servers.begin_failover(
         resource_group_name="TestGroup",
         server_name="testserver",
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/preview/2022-09-30-preview/examples/ServerFailover.json

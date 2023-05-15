@@ -29,11 +29,10 @@ def main():
         subscription_id="ffffffff-ffff-ffff-ffff-ffffffffffff",
     )
 
-    response = client.servers.begin_delete(
+    client.servers.begin_delete(
         resource_group_name="TestGroup",
         server_name="testserver",
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/legacy/stable/2017-12-01/examples/ServerDelete.json
