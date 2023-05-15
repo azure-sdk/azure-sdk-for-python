@@ -351,6 +351,7 @@ from ._models_py3 import IntegrationRuntimeConnectionInfo
 from ._models_py3 import IntegrationRuntimeCustomSetupScriptProperties
 from ._models_py3 import IntegrationRuntimeCustomerVirtualNetwork
 from ._models_py3 import IntegrationRuntimeDataFlowProperties
+from ._models_py3 import IntegrationRuntimeDataFlowPropertiesCustomPropertiesItem
 from ._models_py3 import IntegrationRuntimeDataProxyProperties
 from ._models_py3 import IntegrationRuntimeDebugResource
 from ._models_py3 import IntegrationRuntimeListResponse
@@ -730,6 +731,8 @@ from ._models_py3 import ZohoLinkedService
 from ._models_py3 import ZohoObjectDataset
 from ._models_py3 import ZohoSource
 
+from ._data_factory_management_client_enums import ActivityOnInactiveMarkAs
+from ._data_factory_management_client_enums import ActivityState
 from ._data_factory_management_client_enums import AmazonRdsForOraclePartitionOption
 from ._data_factory_management_client_enums import AvroCompressionCodec
 from ._data_factory_management_client_enums import AzureFunctionActivityMethod
@@ -742,7 +745,6 @@ from ._data_factory_management_client_enums import CompressionCodec
 from ._data_factory_management_client_enums import ConfigurationType
 from ._data_factory_management_client_enums import CopyBehaviorType
 from ._data_factory_management_client_enums import CosmosDbConnectionMode
-from ._data_factory_management_client_enums import CosmosDbServicePrincipalCredentialType
 from ._data_factory_management_client_enums import CredentialReferenceType
 from ._data_factory_management_client_enums import DataFlowComputeType
 from ._data_factory_management_client_enums import DataFlowDebugCommandType
@@ -1197,6 +1199,7 @@ __all__ = [
     "IntegrationRuntimeCustomSetupScriptProperties",
     "IntegrationRuntimeCustomerVirtualNetwork",
     "IntegrationRuntimeDataFlowProperties",
+    "IntegrationRuntimeDataFlowPropertiesCustomPropertiesItem",
     "IntegrationRuntimeDataProxyProperties",
     "IntegrationRuntimeDebugResource",
     "IntegrationRuntimeListResponse",
@@ -1575,6 +1578,8 @@ __all__ = [
     "ZohoLinkedService",
     "ZohoObjectDataset",
     "ZohoSource",
+    "ActivityOnInactiveMarkAs",
+    "ActivityState",
     "AmazonRdsForOraclePartitionOption",
     "AvroCompressionCodec",
     "AzureFunctionActivityMethod",
@@ -1587,7 +1592,6 @@ __all__ = [
     "ConfigurationType",
     "CopyBehaviorType",
     "CosmosDbConnectionMode",
-    "CosmosDbServicePrincipalCredentialType",
     "CredentialReferenceType",
     "DataFlowComputeType",
     "DataFlowDebugCommandType",

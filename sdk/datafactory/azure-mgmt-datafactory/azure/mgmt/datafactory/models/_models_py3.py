@@ -80,6 +80,13 @@ class Activity(_serialization.Model):
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -96,6 +103,8 @@ class Activity(_serialization.Model):
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
     }
@@ -114,6 +123,8 @@ class Activity(_serialization.Model):
         name: str,
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         **kwargs: Any
@@ -126,6 +137,13 @@ class Activity(_serialization.Model):
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -136,6 +154,8 @@ class Activity(_serialization.Model):
         self.name = name
         self.type: Optional[str] = None
         self.description = description
+        self.state = state
+        self.on_inactive_mark_as = on_inactive_mark_as
         self.depends_on = depends_on
         self.user_properties = user_properties
 
@@ -705,9 +725,8 @@ class AmazonMWSLinkedService(LinkedService):  # pylint: disable=too-many-instanc
      connecting over SSL. The default value is true.
     :vartype use_peer_verification: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -734,7 +753,7 @@ class AmazonMWSLinkedService(LinkedService):  # pylint: disable=too-many-instanc
         "use_encrypted_endpoints": {"key": "typeProperties.useEncryptedEndpoints", "type": "object"},
         "use_host_verification": {"key": "typeProperties.useHostVerification", "type": "object"},
         "use_peer_verification": {"key": "typeProperties.usePeerVerification", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -754,7 +773,7 @@ class AmazonMWSLinkedService(LinkedService):  # pylint: disable=too-many-instanc
         use_encrypted_endpoints: Optional[JSON] = None,
         use_host_verification: Optional[JSON] = None,
         use_peer_verification: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -795,9 +814,8 @@ class AmazonMWSLinkedService(LinkedService):  # pylint: disable=too-many-instanc
          connecting over SSL. The default value is true.
         :paramtype use_peer_verification: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -1566,9 +1584,8 @@ class AmazonRdsForOracleLinkedService(LinkedService):
     :ivar password: The Azure key vault secret reference of password in connection string.
     :vartype password: ~azure.mgmt.datafactory.models.SecretBase
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -1585,7 +1602,7 @@ class AmazonRdsForOracleLinkedService(LinkedService):
         "annotations": {"key": "annotations", "type": "[object]"},
         "connection_string": {"key": "typeProperties.connectionString", "type": "object"},
         "password": {"key": "typeProperties.password", "type": "SecretBase"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -1598,7 +1615,7 @@ class AmazonRdsForOracleLinkedService(LinkedService):
         parameters: Optional[Dict[str, "_models.ParameterSpecification"]] = None,
         annotations: Optional[List[JSON]] = None,
         password: Optional["_models.SecretBase"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -1619,9 +1636,8 @@ class AmazonRdsForOracleLinkedService(LinkedService):
         :keyword password: The Azure key vault secret reference of password in connection string.
         :paramtype password: ~azure.mgmt.datafactory.models.SecretBase
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -1954,9 +1970,8 @@ class AmazonRdsForSqlServerLinkedService(LinkedService):  # pylint: disable=too-
     :ivar password: The on-premises Windows authentication password.
     :vartype password: ~azure.mgmt.datafactory.models.SecretBase
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     :ivar always_encrypted_settings: Sql always encrypted properties.
     :vartype always_encrypted_settings: ~azure.mgmt.datafactory.models.SqlAlwaysEncryptedProperties
     """
@@ -1976,7 +1991,7 @@ class AmazonRdsForSqlServerLinkedService(LinkedService):  # pylint: disable=too-
         "connection_string": {"key": "typeProperties.connectionString", "type": "object"},
         "user_name": {"key": "typeProperties.userName", "type": "object"},
         "password": {"key": "typeProperties.password", "type": "SecretBase"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
         "always_encrypted_settings": {
             "key": "typeProperties.alwaysEncryptedSettings",
             "type": "SqlAlwaysEncryptedProperties",
@@ -1994,7 +2009,7 @@ class AmazonRdsForSqlServerLinkedService(LinkedService):  # pylint: disable=too-
         annotations: Optional[List[JSON]] = None,
         user_name: Optional[JSON] = None,
         password: Optional["_models.SecretBase"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         always_encrypted_settings: Optional["_models.SqlAlwaysEncryptedProperties"] = None,
         **kwargs: Any
     ) -> None:
@@ -2019,9 +2034,8 @@ class AmazonRdsForSqlServerLinkedService(LinkedService):  # pylint: disable=too-
         :keyword password: The on-premises Windows authentication password.
         :paramtype password: ~azure.mgmt.datafactory.models.SecretBase
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         :keyword always_encrypted_settings: Sql always encrypted properties.
         :paramtype always_encrypted_settings:
          ~azure.mgmt.datafactory.models.SqlAlwaysEncryptedProperties
@@ -2332,9 +2346,8 @@ class AmazonRedshiftLinkedService(LinkedService):  # pylint: disable=too-many-in
      connections. The default value is 5439. Type: integer (or Expression with resultType integer).
     :vartype port: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -2355,7 +2368,7 @@ class AmazonRedshiftLinkedService(LinkedService):  # pylint: disable=too-many-in
         "password": {"key": "typeProperties.password", "type": "SecretBase"},
         "database": {"key": "typeProperties.database", "type": "object"},
         "port": {"key": "typeProperties.port", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -2371,7 +2384,7 @@ class AmazonRedshiftLinkedService(LinkedService):  # pylint: disable=too-many-in
         username: Optional[JSON] = None,
         password: Optional["_models.SecretBase"] = None,
         port: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -2401,9 +2414,8 @@ class AmazonRedshiftLinkedService(LinkedService):  # pylint: disable=too-many-in
          connections. The default value is 5439. Type: integer (or Expression with resultType integer).
         :paramtype port: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -2688,9 +2700,8 @@ class AmazonS3CompatibleLinkedService(LinkedService):  # pylint: disable=too-man
      access. Default value is false. Type: boolean (or Expression with resultType boolean).
     :vartype force_path_style: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -2708,7 +2719,7 @@ class AmazonS3CompatibleLinkedService(LinkedService):  # pylint: disable=too-man
         "secret_access_key": {"key": "typeProperties.secretAccessKey", "type": "SecretBase"},
         "service_url": {"key": "typeProperties.serviceUrl", "type": "object"},
         "force_path_style": {"key": "typeProperties.forcePathStyle", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -2723,7 +2734,7 @@ class AmazonS3CompatibleLinkedService(LinkedService):  # pylint: disable=too-man
         secret_access_key: Optional["_models.SecretBase"] = None,
         service_url: Optional[JSON] = None,
         force_path_style: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -2753,9 +2764,8 @@ class AmazonS3CompatibleLinkedService(LinkedService):  # pylint: disable=too-man
          access. Default value is false. Type: boolean (or Expression with resultType boolean).
         :paramtype force_path_style: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -3035,8 +3045,9 @@ class AmazonS3CompatibleReadSettings(StoreReadSettings):  # pylint: disable=too-
      configured in the dataset) that you want to copy. Type: string (or Expression with resultType
      string).
     :vartype file_list_path: JSON
-    :ivar enable_partition_discovery: Indicates whether to enable partition discovery.
-    :vartype enable_partition_discovery: bool
+    :ivar enable_partition_discovery: Indicates whether to enable partition discovery. Type:
+     boolean (or Expression with resultType boolean).
+    :vartype enable_partition_discovery: JSON
     :ivar partition_root_path: Specify the root path where partition discovery starts from. Type:
      string (or Expression with resultType string).
     :vartype partition_root_path: JSON
@@ -3065,7 +3076,7 @@ class AmazonS3CompatibleReadSettings(StoreReadSettings):  # pylint: disable=too-
         "wildcard_file_name": {"key": "wildcardFileName", "type": "object"},
         "prefix": {"key": "prefix", "type": "object"},
         "file_list_path": {"key": "fileListPath", "type": "object"},
-        "enable_partition_discovery": {"key": "enablePartitionDiscovery", "type": "bool"},
+        "enable_partition_discovery": {"key": "enablePartitionDiscovery", "type": "object"},
         "partition_root_path": {"key": "partitionRootPath", "type": "object"},
         "delete_files_after_completion": {"key": "deleteFilesAfterCompletion", "type": "object"},
         "modified_datetime_start": {"key": "modifiedDatetimeStart", "type": "object"},
@@ -3083,7 +3094,7 @@ class AmazonS3CompatibleReadSettings(StoreReadSettings):  # pylint: disable=too-
         wildcard_file_name: Optional[JSON] = None,
         prefix: Optional[JSON] = None,
         file_list_path: Optional[JSON] = None,
-        enable_partition_discovery: Optional[bool] = None,
+        enable_partition_discovery: Optional[JSON] = None,
         partition_root_path: Optional[JSON] = None,
         delete_files_after_completion: Optional[JSON] = None,
         modified_datetime_start: Optional[JSON] = None,
@@ -3116,8 +3127,9 @@ class AmazonS3CompatibleReadSettings(StoreReadSettings):  # pylint: disable=too-
          configured in the dataset) that you want to copy. Type: string (or Expression with resultType
          string).
         :paramtype file_list_path: JSON
-        :keyword enable_partition_discovery: Indicates whether to enable partition discovery.
-        :paramtype enable_partition_discovery: bool
+        :keyword enable_partition_discovery: Indicates whether to enable partition discovery. Type:
+         boolean (or Expression with resultType boolean).
+        :paramtype enable_partition_discovery: JSON
         :keyword partition_root_path: Specify the root path where partition discovery starts from.
          Type: string (or Expression with resultType string).
         :paramtype partition_root_path: JSON
@@ -3348,9 +3360,8 @@ class AmazonS3LinkedService(LinkedService):  # pylint: disable=too-many-instance
     :ivar session_token: The session token for the S3 temporary security credential.
     :vartype session_token: ~azure.mgmt.datafactory.models.SecretBase
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -3369,7 +3380,7 @@ class AmazonS3LinkedService(LinkedService):  # pylint: disable=too-many-instance
         "secret_access_key": {"key": "typeProperties.secretAccessKey", "type": "SecretBase"},
         "service_url": {"key": "typeProperties.serviceUrl", "type": "object"},
         "session_token": {"key": "typeProperties.sessionToken", "type": "SecretBase"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -3385,7 +3396,7 @@ class AmazonS3LinkedService(LinkedService):  # pylint: disable=too-many-instance
         secret_access_key: Optional["_models.SecretBase"] = None,
         service_url: Optional[JSON] = None,
         session_token: Optional["_models.SecretBase"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -3416,9 +3427,8 @@ class AmazonS3LinkedService(LinkedService):  # pylint: disable=too-many-instance
         :keyword session_token: The session token for the S3 temporary security credential.
         :paramtype session_token: ~azure.mgmt.datafactory.models.SecretBase
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -3541,8 +3551,9 @@ class AmazonS3ReadSettings(StoreReadSettings):  # pylint: disable=too-many-insta
      configured in the dataset) that you want to copy. Type: string (or Expression with resultType
      string).
     :vartype file_list_path: JSON
-    :ivar enable_partition_discovery: Indicates whether to enable partition discovery.
-    :vartype enable_partition_discovery: bool
+    :ivar enable_partition_discovery: Indicates whether to enable partition discovery. Type:
+     boolean (or Expression with resultType boolean).
+    :vartype enable_partition_discovery: JSON
     :ivar partition_root_path: Specify the root path where partition discovery starts from. Type:
      string (or Expression with resultType string).
     :vartype partition_root_path: JSON
@@ -3571,7 +3582,7 @@ class AmazonS3ReadSettings(StoreReadSettings):  # pylint: disable=too-many-insta
         "wildcard_file_name": {"key": "wildcardFileName", "type": "object"},
         "prefix": {"key": "prefix", "type": "object"},
         "file_list_path": {"key": "fileListPath", "type": "object"},
-        "enable_partition_discovery": {"key": "enablePartitionDiscovery", "type": "bool"},
+        "enable_partition_discovery": {"key": "enablePartitionDiscovery", "type": "object"},
         "partition_root_path": {"key": "partitionRootPath", "type": "object"},
         "delete_files_after_completion": {"key": "deleteFilesAfterCompletion", "type": "object"},
         "modified_datetime_start": {"key": "modifiedDatetimeStart", "type": "object"},
@@ -3589,7 +3600,7 @@ class AmazonS3ReadSettings(StoreReadSettings):  # pylint: disable=too-many-insta
         wildcard_file_name: Optional[JSON] = None,
         prefix: Optional[JSON] = None,
         file_list_path: Optional[JSON] = None,
-        enable_partition_discovery: Optional[bool] = None,
+        enable_partition_discovery: Optional[JSON] = None,
         partition_root_path: Optional[JSON] = None,
         delete_files_after_completion: Optional[JSON] = None,
         modified_datetime_start: Optional[JSON] = None,
@@ -3622,8 +3633,9 @@ class AmazonS3ReadSettings(StoreReadSettings):  # pylint: disable=too-many-insta
          configured in the dataset) that you want to copy. Type: string (or Expression with resultType
          string).
         :paramtype file_list_path: JSON
-        :keyword enable_partition_discovery: Indicates whether to enable partition discovery.
-        :paramtype enable_partition_discovery: bool
+        :keyword enable_partition_discovery: Indicates whether to enable partition discovery. Type:
+         boolean (or Expression with resultType boolean).
+        :paramtype enable_partition_discovery: JSON
         :keyword partition_root_path: Specify the root path where partition discovery starts from.
          Type: string (or Expression with resultType string).
         :paramtype partition_root_path: JSON
@@ -3675,6 +3687,13 @@ class ControlActivity(Activity):
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -3691,6 +3710,8 @@ class ControlActivity(Activity):
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
     }
@@ -3718,6 +3739,8 @@ class ControlActivity(Activity):
         name: str,
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         **kwargs: Any
@@ -3730,6 +3753,13 @@ class ControlActivity(Activity):
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -3739,6 +3769,8 @@ class ControlActivity(Activity):
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             **kwargs
@@ -3760,13 +3792,21 @@ class AppendVariableActivity(ControlActivity):
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
     :vartype user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
     :ivar variable_name: Name of the variable whose value needs to be appended to.
     :vartype variable_name: str
-    :ivar value: Value to be appended. Could be a static value or Expression.
+    :ivar value: Value to be appended. Type: could be a static value matching type of the variable
+     item or Expression with resultType matching type of the variable item.
     :vartype value: JSON
     """
 
@@ -3780,6 +3820,8 @@ class AppendVariableActivity(ControlActivity):
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "variable_name": {"key": "typeProperties.variableName", "type": "str"},
@@ -3792,6 +3834,8 @@ class AppendVariableActivity(ControlActivity):
         name: str,
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         variable_name: Optional[str] = None,
@@ -3806,19 +3850,29 @@ class AppendVariableActivity(ControlActivity):
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
         :paramtype user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
         :keyword variable_name: Name of the variable whose value needs to be appended to.
         :paramtype variable_name: str
-        :keyword value: Value to be appended. Could be a static value or Expression.
+        :keyword value: Value to be appended. Type: could be a static value matching type of the
+         variable item or Expression with resultType matching type of the variable item.
         :paramtype value: JSON
         """
         super().__init__(
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             **kwargs
@@ -3846,7 +3900,8 @@ class AppFiguresLinkedService(LinkedService):
     :vartype parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
     :ivar annotations: List of tags that can be used for describing the linked service.
     :vartype annotations: list[JSON]
-    :ivar user_name: The username of the Appfigures source. Required.
+    :ivar user_name: The username of the Appfigures source. Type: string (or Expression with
+     resultType string). Required.
     :vartype user_name: JSON
     :ivar password: The password of the AppFigures source. Required.
     :vartype password: ~azure.mgmt.datafactory.models.SecretBase
@@ -3898,7 +3953,8 @@ class AppFiguresLinkedService(LinkedService):
         :paramtype parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
         :keyword annotations: List of tags that can be used for describing the linked service.
         :paramtype annotations: list[JSON]
-        :keyword user_name: The username of the Appfigures source. Required.
+        :keyword user_name: The username of the Appfigures source. Type: string (or Expression with
+         resultType string). Required.
         :paramtype user_name: JSON
         :keyword password: The password of the AppFigures source. Required.
         :paramtype password: ~azure.mgmt.datafactory.models.SecretBase
@@ -3963,9 +4019,8 @@ class AsanaLinkedService(LinkedService):
     :ivar api_token: The api token for the Asana source. Required.
     :vartype api_token: ~azure.mgmt.datafactory.models.SecretBase
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -3981,7 +4036,7 @@ class AsanaLinkedService(LinkedService):
         "parameters": {"key": "parameters", "type": "{ParameterSpecification}"},
         "annotations": {"key": "annotations", "type": "[object]"},
         "api_token": {"key": "typeProperties.apiToken", "type": "SecretBase"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -3993,7 +4048,7 @@ class AsanaLinkedService(LinkedService):
         description: Optional[str] = None,
         parameters: Optional[Dict[str, "_models.ParameterSpecification"]] = None,
         annotations: Optional[List[JSON]] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -4011,9 +4066,8 @@ class AsanaLinkedService(LinkedService):
         :keyword api_token: The api token for the Asana source. Required.
         :paramtype api_token: ~azure.mgmt.datafactory.models.SecretBase
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -4818,9 +4872,8 @@ class AzureBatchLinkedService(LinkedService):  # pylint: disable=too-many-instan
     :ivar linked_service_name: The Azure Storage linked service reference. Required.
     :vartype linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     :ivar credential: The credential reference containing authentication information.
     :vartype credential: ~azure.mgmt.datafactory.models.CredentialReference
     """
@@ -4845,7 +4898,7 @@ class AzureBatchLinkedService(LinkedService):  # pylint: disable=too-many-instan
         "batch_uri": {"key": "typeProperties.batchUri", "type": "object"},
         "pool_name": {"key": "typeProperties.poolName", "type": "object"},
         "linked_service_name": {"key": "typeProperties.linkedServiceName", "type": "LinkedServiceReference"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
         "credential": {"key": "typeProperties.credential", "type": "CredentialReference"},
     }
 
@@ -4862,7 +4915,7 @@ class AzureBatchLinkedService(LinkedService):  # pylint: disable=too-many-instan
         parameters: Optional[Dict[str, "_models.ParameterSpecification"]] = None,
         annotations: Optional[List[JSON]] = None,
         access_key: Optional["_models.SecretBase"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         credential: Optional["_models.CredentialReference"] = None,
         **kwargs: Any
     ) -> None:
@@ -4892,9 +4945,8 @@ class AzureBatchLinkedService(LinkedService):  # pylint: disable=too-many-instan
         :keyword linked_service_name: The Azure Storage linked service reference. Required.
         :paramtype linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         :keyword credential: The credential reference containing authentication information.
         :paramtype credential: ~azure.mgmt.datafactory.models.CredentialReference
         """
@@ -5235,9 +5287,8 @@ class AzureBlobFSLinkedService(LinkedService):  # pylint: disable=too-many-insta
      factory regions’ cloud type. Type: string (or Expression with resultType string).
     :vartype azure_cloud_type: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     :ivar credential: The credential reference containing authentication information.
     :vartype credential: ~azure.mgmt.datafactory.models.CredentialReference
     :ivar service_principal_credential_type: The service principal credential type to use in
@@ -5274,7 +5325,7 @@ class AzureBlobFSLinkedService(LinkedService):  # pylint: disable=too-many-insta
         "service_principal_key": {"key": "typeProperties.servicePrincipalKey", "type": "SecretBase"},
         "tenant": {"key": "typeProperties.tenant", "type": "object"},
         "azure_cloud_type": {"key": "typeProperties.azureCloudType", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
         "credential": {"key": "typeProperties.credential", "type": "CredentialReference"},
         "service_principal_credential_type": {"key": "typeProperties.servicePrincipalCredentialType", "type": "object"},
         "service_principal_credential": {"key": "typeProperties.servicePrincipalCredential", "type": "SecretBase"},
@@ -5296,7 +5347,7 @@ class AzureBlobFSLinkedService(LinkedService):  # pylint: disable=too-many-insta
         service_principal_key: Optional["_models.SecretBase"] = None,
         tenant: Optional[JSON] = None,
         azure_cloud_type: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         credential: Optional["_models.CredentialReference"] = None,
         service_principal_credential_type: Optional[JSON] = None,
         service_principal_credential: Optional["_models.SecretBase"] = None,
@@ -5336,9 +5387,8 @@ class AzureBlobFSLinkedService(LinkedService):  # pylint: disable=too-many-insta
          the data factory regions’ cloud type. Type: string (or Expression with resultType string).
         :paramtype azure_cloud_type: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         :keyword credential: The credential reference containing authentication information.
         :paramtype credential: ~azure.mgmt.datafactory.models.CredentialReference
         :keyword service_principal_credential_type: The service principal credential type to use in
@@ -5472,8 +5522,9 @@ class AzureBlobFSReadSettings(StoreReadSettings):  # pylint: disable=too-many-in
      configured in the dataset) that you want to copy. Type: string (or Expression with resultType
      string).
     :vartype file_list_path: JSON
-    :ivar enable_partition_discovery: Indicates whether to enable partition discovery.
-    :vartype enable_partition_discovery: bool
+    :ivar enable_partition_discovery: Indicates whether to enable partition discovery. Type:
+     boolean (or Expression with resultType boolean).
+    :vartype enable_partition_discovery: JSON
     :ivar partition_root_path: Specify the root path where partition discovery starts from. Type:
      string (or Expression with resultType string).
     :vartype partition_root_path: JSON
@@ -5501,7 +5552,7 @@ class AzureBlobFSReadSettings(StoreReadSettings):  # pylint: disable=too-many-in
         "wildcard_folder_path": {"key": "wildcardFolderPath", "type": "object"},
         "wildcard_file_name": {"key": "wildcardFileName", "type": "object"},
         "file_list_path": {"key": "fileListPath", "type": "object"},
-        "enable_partition_discovery": {"key": "enablePartitionDiscovery", "type": "bool"},
+        "enable_partition_discovery": {"key": "enablePartitionDiscovery", "type": "object"},
         "partition_root_path": {"key": "partitionRootPath", "type": "object"},
         "delete_files_after_completion": {"key": "deleteFilesAfterCompletion", "type": "object"},
         "modified_datetime_start": {"key": "modifiedDatetimeStart", "type": "object"},
@@ -5518,7 +5569,7 @@ class AzureBlobFSReadSettings(StoreReadSettings):  # pylint: disable=too-many-in
         wildcard_folder_path: Optional[JSON] = None,
         wildcard_file_name: Optional[JSON] = None,
         file_list_path: Optional[JSON] = None,
-        enable_partition_discovery: Optional[bool] = None,
+        enable_partition_discovery: Optional[JSON] = None,
         partition_root_path: Optional[JSON] = None,
         delete_files_after_completion: Optional[JSON] = None,
         modified_datetime_start: Optional[JSON] = None,
@@ -5548,8 +5599,9 @@ class AzureBlobFSReadSettings(StoreReadSettings):  # pylint: disable=too-many-in
          configured in the dataset) that you want to copy. Type: string (or Expression with resultType
          string).
         :paramtype file_list_path: JSON
-        :keyword enable_partition_discovery: Indicates whether to enable partition discovery.
-        :paramtype enable_partition_discovery: bool
+        :keyword enable_partition_discovery: Indicates whether to enable partition discovery. Type:
+         boolean (or Expression with resultType boolean).
+        :paramtype enable_partition_discovery: JSON
         :keyword partition_root_path: Specify the root path where partition discovery starts from.
          Type: string (or Expression with resultType string).
         :paramtype partition_root_path: JSON
@@ -5609,7 +5661,8 @@ class AzureBlobFSSink(CopySink):
     :ivar disable_metrics_collection: If true, disable data store metrics collection. Default is
      false. Type: boolean (or Expression with resultType boolean).
     :vartype disable_metrics_collection: JSON
-    :ivar copy_behavior: The type of copy behavior for copy sink.
+    :ivar copy_behavior: The type of copy behavior for copy sink. Type: string (or Expression with
+     resultType string).
     :vartype copy_behavior: JSON
     :ivar metadata: Specify the custom metadata to be added to sink data. Type: array of objects
      (or Expression with resultType array of objects).
@@ -5669,7 +5722,8 @@ class AzureBlobFSSink(CopySink):
         :keyword disable_metrics_collection: If true, disable data store metrics collection. Default is
          false. Type: boolean (or Expression with resultType boolean).
         :paramtype disable_metrics_collection: JSON
-        :keyword copy_behavior: The type of copy behavior for copy sink.
+        :keyword copy_behavior: The type of copy behavior for copy sink. Type: string (or Expression
+         with resultType string).
         :paramtype copy_behavior: JSON
         :keyword metadata: Specify the custom metadata to be added to sink data. Type: array of objects
          (or Expression with resultType array of objects).
@@ -5973,7 +6027,7 @@ class AzureBlobStorageLinkedService(LinkedService):  # pylint: disable=too-many-
     :vartype sas_token: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
     :ivar service_endpoint: Blob service endpoint of the Azure Blob Storage resource. It is
      mutually exclusive with connectionString, sasUri property.
-    :vartype service_endpoint: str
+    :vartype service_endpoint: JSON
     :ivar service_principal_id: The ID of the service principal used to authenticate against Azure
      SQL Data Warehouse. Type: string (or Expression with resultType string).
     :vartype service_principal_id: JSON
@@ -5990,10 +6044,9 @@ class AzureBlobStorageLinkedService(LinkedService):  # pylint: disable=too-many-
     :ivar account_kind: Specify the kind of your storage account. Allowed values are: Storage
      (general purpose v1), StorageV2 (general purpose v2), BlobStorage, or BlockBlobStorage. Type:
      string (or Expression with resultType string).
-    :vartype account_kind: str
+    :vartype account_kind: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
+     encrypted using the integration runtime credential manager. Type: string.
     :vartype encrypted_credential: str
     :ivar credential: The credential reference containing authentication information.
     :vartype credential: ~azure.mgmt.datafactory.models.CredentialReference
@@ -6021,12 +6074,12 @@ class AzureBlobStorageLinkedService(LinkedService):  # pylint: disable=too-many-
         "account_key": {"key": "typeProperties.accountKey", "type": "AzureKeyVaultSecretReference"},
         "sas_uri": {"key": "typeProperties.sasUri", "type": "object"},
         "sas_token": {"key": "typeProperties.sasToken", "type": "AzureKeyVaultSecretReference"},
-        "service_endpoint": {"key": "typeProperties.serviceEndpoint", "type": "str"},
+        "service_endpoint": {"key": "typeProperties.serviceEndpoint", "type": "object"},
         "service_principal_id": {"key": "typeProperties.servicePrincipalId", "type": "object"},
         "service_principal_key": {"key": "typeProperties.servicePrincipalKey", "type": "SecretBase"},
         "tenant": {"key": "typeProperties.tenant", "type": "object"},
         "azure_cloud_type": {"key": "typeProperties.azureCloudType", "type": "object"},
-        "account_kind": {"key": "typeProperties.accountKind", "type": "str"},
+        "account_kind": {"key": "typeProperties.accountKind", "type": "object"},
         "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
         "credential": {"key": "typeProperties.credential", "type": "CredentialReference"},
         "authentication_type": {"key": "typeProperties.authenticationType", "type": "str"},
@@ -6045,12 +6098,12 @@ class AzureBlobStorageLinkedService(LinkedService):  # pylint: disable=too-many-
         account_key: Optional["_models.AzureKeyVaultSecretReference"] = None,
         sas_uri: Optional[JSON] = None,
         sas_token: Optional["_models.AzureKeyVaultSecretReference"] = None,
-        service_endpoint: Optional[str] = None,
+        service_endpoint: Optional[JSON] = None,
         service_principal_id: Optional[JSON] = None,
         service_principal_key: Optional["_models.SecretBase"] = None,
         tenant: Optional[JSON] = None,
         azure_cloud_type: Optional[JSON] = None,
-        account_kind: Optional[str] = None,
+        account_kind: Optional[JSON] = None,
         encrypted_credential: Optional[str] = None,
         credential: Optional["_models.CredentialReference"] = None,
         authentication_type: Optional[Union[str, "_models.AzureStorageAuthenticationType"]] = None,
@@ -6082,7 +6135,7 @@ class AzureBlobStorageLinkedService(LinkedService):  # pylint: disable=too-many-
         :paramtype sas_token: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
         :keyword service_endpoint: Blob service endpoint of the Azure Blob Storage resource. It is
          mutually exclusive with connectionString, sasUri property.
-        :paramtype service_endpoint: str
+        :paramtype service_endpoint: JSON
         :keyword service_principal_id: The ID of the service principal used to authenticate against
          Azure SQL Data Warehouse. Type: string (or Expression with resultType string).
         :paramtype service_principal_id: JSON
@@ -6099,10 +6152,9 @@ class AzureBlobStorageLinkedService(LinkedService):  # pylint: disable=too-many-
         :keyword account_kind: Specify the kind of your storage account. Allowed values are: Storage
          (general purpose v1), StorageV2 (general purpose v2), BlobStorage, or BlockBlobStorage. Type:
          string (or Expression with resultType string).
-        :paramtype account_kind: str
+        :paramtype account_kind: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
+         are encrypted using the integration runtime credential manager. Type: string.
         :paramtype encrypted_credential: str
         :keyword credential: The credential reference containing authentication information.
         :paramtype credential: ~azure.mgmt.datafactory.models.CredentialReference
@@ -6234,8 +6286,9 @@ class AzureBlobStorageReadSettings(StoreReadSettings):  # pylint: disable=too-ma
      configured in the dataset) that you want to copy. Type: string (or Expression with resultType
      string).
     :vartype file_list_path: JSON
-    :ivar enable_partition_discovery: Indicates whether to enable partition discovery.
-    :vartype enable_partition_discovery: bool
+    :ivar enable_partition_discovery: Indicates whether to enable partition discovery. Type:
+     boolean (or Expression with resultType boolean).
+    :vartype enable_partition_discovery: JSON
     :ivar partition_root_path: Specify the root path where partition discovery starts from. Type:
      string (or Expression with resultType string).
     :vartype partition_root_path: JSON
@@ -6264,7 +6317,7 @@ class AzureBlobStorageReadSettings(StoreReadSettings):  # pylint: disable=too-ma
         "wildcard_file_name": {"key": "wildcardFileName", "type": "object"},
         "prefix": {"key": "prefix", "type": "object"},
         "file_list_path": {"key": "fileListPath", "type": "object"},
-        "enable_partition_discovery": {"key": "enablePartitionDiscovery", "type": "bool"},
+        "enable_partition_discovery": {"key": "enablePartitionDiscovery", "type": "object"},
         "partition_root_path": {"key": "partitionRootPath", "type": "object"},
         "delete_files_after_completion": {"key": "deleteFilesAfterCompletion", "type": "object"},
         "modified_datetime_start": {"key": "modifiedDatetimeStart", "type": "object"},
@@ -6282,7 +6335,7 @@ class AzureBlobStorageReadSettings(StoreReadSettings):  # pylint: disable=too-ma
         wildcard_file_name: Optional[JSON] = None,
         prefix: Optional[JSON] = None,
         file_list_path: Optional[JSON] = None,
-        enable_partition_discovery: Optional[bool] = None,
+        enable_partition_discovery: Optional[JSON] = None,
         partition_root_path: Optional[JSON] = None,
         delete_files_after_completion: Optional[JSON] = None,
         modified_datetime_start: Optional[JSON] = None,
@@ -6315,8 +6368,9 @@ class AzureBlobStorageReadSettings(StoreReadSettings):  # pylint: disable=too-ma
          configured in the dataset) that you want to copy. Type: string (or Expression with resultType
          string).
         :paramtype file_list_path: JSON
-        :keyword enable_partition_discovery: Indicates whether to enable partition discovery.
-        :paramtype enable_partition_discovery: bool
+        :keyword enable_partition_discovery: Indicates whether to enable partition discovery. Type:
+         boolean (or Expression with resultType boolean).
+        :paramtype enable_partition_discovery: JSON
         :keyword partition_root_path: Specify the root path where partition discovery starts from.
          Type: string (or Expression with resultType string).
         :paramtype partition_root_path: JSON
@@ -6754,9 +6808,8 @@ class AzureDatabricksDeltaLakeLinkedService(LinkedService):  # pylint: disable=t
      this job. Type: string (or Expression with resultType string).
     :vartype cluster_id: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     :ivar credential: The credential reference containing authentication information.
     :vartype credential: ~azure.mgmt.datafactory.models.CredentialReference
     :ivar workspace_resource_id: Workspace resource id for databricks REST API. Type: string (or
@@ -6779,7 +6832,7 @@ class AzureDatabricksDeltaLakeLinkedService(LinkedService):  # pylint: disable=t
         "domain": {"key": "typeProperties.domain", "type": "object"},
         "access_token": {"key": "typeProperties.accessToken", "type": "SecretBase"},
         "cluster_id": {"key": "typeProperties.clusterId", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
         "credential": {"key": "typeProperties.credential", "type": "CredentialReference"},
         "workspace_resource_id": {"key": "typeProperties.workspaceResourceId", "type": "object"},
     }
@@ -6795,7 +6848,7 @@ class AzureDatabricksDeltaLakeLinkedService(LinkedService):  # pylint: disable=t
         annotations: Optional[List[JSON]] = None,
         access_token: Optional["_models.SecretBase"] = None,
         cluster_id: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         credential: Optional["_models.CredentialReference"] = None,
         workspace_resource_id: Optional[JSON] = None,
         **kwargs: Any
@@ -6823,9 +6876,8 @@ class AzureDatabricksDeltaLakeLinkedService(LinkedService):  # pylint: disable=t
          of this job. Type: string (or Expression with resultType string).
         :paramtype cluster_id: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         :keyword credential: The credential reference containing authentication information.
         :paramtype credential: ~azure.mgmt.datafactory.models.CredentialReference
         :keyword workspace_resource_id: Workspace resource id for databricks REST API. Type: string (or
@@ -7128,9 +7180,8 @@ class AzureDatabricksLinkedService(LinkedService):  # pylint: disable=too-many-i
      disks are always enabled). Type: boolean (or Expression with resultType boolean).
     :vartype new_cluster_enable_elastic_disk: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     :ivar policy_id: The policy id for limiting the ability to configure clusters based on a user
      defined set of rules. Type: string (or Expression with resultType string).
     :vartype policy_id: JSON
@@ -7166,7 +7217,7 @@ class AzureDatabricksLinkedService(LinkedService):  # pylint: disable=too-many-i
         "new_cluster_driver_node_type": {"key": "typeProperties.newClusterDriverNodeType", "type": "object"},
         "new_cluster_init_scripts": {"key": "typeProperties.newClusterInitScripts", "type": "object"},
         "new_cluster_enable_elastic_disk": {"key": "typeProperties.newClusterEnableElasticDisk", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
         "policy_id": {"key": "typeProperties.policyId", "type": "object"},
         "credential": {"key": "typeProperties.credential", "type": "CredentialReference"},
     }
@@ -7195,7 +7246,7 @@ class AzureDatabricksLinkedService(LinkedService):  # pylint: disable=too-many-i
         new_cluster_driver_node_type: Optional[JSON] = None,
         new_cluster_init_scripts: Optional[JSON] = None,
         new_cluster_enable_elastic_disk: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         policy_id: Optional[JSON] = None,
         credential: Optional["_models.CredentialReference"] = None,
         **kwargs: Any
@@ -7271,9 +7322,8 @@ class AzureDatabricksLinkedService(LinkedService):  # pylint: disable=too-many-i
          disks are always enabled). Type: boolean (or Expression with resultType boolean).
         :paramtype new_cluster_enable_elastic_disk: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         :keyword policy_id: The policy id for limiting the ability to configure clusters based on a
          user defined set of rules. Type: string (or Expression with resultType string).
         :paramtype policy_id: JSON
@@ -7334,6 +7384,13 @@ class ExecutionActivity(Activity):
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -7354,6 +7411,8 @@ class ExecutionActivity(Activity):
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "linked_service_name": {"key": "linkedServiceName", "type": "LinkedServiceReference"},
@@ -7397,6 +7456,8 @@ class ExecutionActivity(Activity):
         name: str,
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         linked_service_name: Optional["_models.LinkedServiceReference"] = None,
@@ -7411,6 +7472,13 @@ class ExecutionActivity(Activity):
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -7424,6 +7492,8 @@ class ExecutionActivity(Activity):
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             **kwargs
@@ -7433,7 +7503,7 @@ class ExecutionActivity(Activity):
         self.policy = policy
 
 
-class AzureDataExplorerCommandActivity(ExecutionActivity):
+class AzureDataExplorerCommandActivity(ExecutionActivity):  # pylint: disable=too-many-instance-attributes
     """Azure Data Explorer command activity.
 
     All required parameters must be populated in order to send to Azure.
@@ -7447,6 +7517,13 @@ class AzureDataExplorerCommandActivity(ExecutionActivity):
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -7474,6 +7551,8 @@ class AzureDataExplorerCommandActivity(ExecutionActivity):
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "linked_service_name": {"key": "linkedServiceName", "type": "LinkedServiceReference"},
@@ -7489,6 +7568,8 @@ class AzureDataExplorerCommandActivity(ExecutionActivity):
         command: JSON,
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         linked_service_name: Optional["_models.LinkedServiceReference"] = None,
@@ -7504,6 +7585,13 @@ class AzureDataExplorerCommandActivity(ExecutionActivity):
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -7523,6 +7611,8 @@ class AzureDataExplorerCommandActivity(ExecutionActivity):
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             linked_service_name=linked_service_name,
@@ -8033,9 +8123,8 @@ class AzureDataLakeAnalyticsLinkedService(LinkedService):  # pylint: disable=too
      resultType string).
     :vartype data_lake_analytics_uri: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -8058,7 +8147,7 @@ class AzureDataLakeAnalyticsLinkedService(LinkedService):  # pylint: disable=too
         "subscription_id": {"key": "typeProperties.subscriptionId", "type": "object"},
         "resource_group_name": {"key": "typeProperties.resourceGroupName", "type": "object"},
         "data_lake_analytics_uri": {"key": "typeProperties.dataLakeAnalyticsUri", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -8076,7 +8165,7 @@ class AzureDataLakeAnalyticsLinkedService(LinkedService):  # pylint: disable=too
         subscription_id: Optional[JSON] = None,
         resource_group_name: Optional[JSON] = None,
         data_lake_analytics_uri: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -8113,9 +8202,8 @@ class AzureDataLakeAnalyticsLinkedService(LinkedService):  # pylint: disable=too
          with resultType string).
         :paramtype data_lake_analytics_uri: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -8309,9 +8397,8 @@ class AzureDataLakeStoreLinkedService(LinkedService):  # pylint: disable=too-man
      Factory account). Type: string (or Expression with resultType string).
     :vartype resource_group_name: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     :ivar credential: The credential reference containing authentication information.
     :vartype credential: ~azure.mgmt.datafactory.models.CredentialReference
     """
@@ -8336,7 +8423,7 @@ class AzureDataLakeStoreLinkedService(LinkedService):  # pylint: disable=too-man
         "account_name": {"key": "typeProperties.accountName", "type": "object"},
         "subscription_id": {"key": "typeProperties.subscriptionId", "type": "object"},
         "resource_group_name": {"key": "typeProperties.resourceGroupName", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
         "credential": {"key": "typeProperties.credential", "type": "CredentialReference"},
     }
 
@@ -8356,7 +8443,7 @@ class AzureDataLakeStoreLinkedService(LinkedService):  # pylint: disable=too-man
         account_name: Optional[JSON] = None,
         subscription_id: Optional[JSON] = None,
         resource_group_name: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         credential: Optional["_models.CredentialReference"] = None,
         **kwargs: Any
     ) -> None:
@@ -8398,9 +8485,8 @@ class AzureDataLakeStoreLinkedService(LinkedService):  # pylint: disable=too-man
          Data Factory account). Type: string (or Expression with resultType string).
         :paramtype resource_group_name: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         :keyword credential: The credential reference containing authentication information.
         :paramtype credential: ~azure.mgmt.datafactory.models.CredentialReference
         """
@@ -8516,8 +8602,9 @@ class AzureDataLakeStoreReadSettings(StoreReadSettings):  # pylint: disable=too-
      lexicographical order. Applies under the folderPath in data set, and filter files/sub-folders
      under the folderPath. Type: string (or Expression with resultType string).
     :vartype list_before: JSON
-    :ivar enable_partition_discovery: Indicates whether to enable partition discovery.
-    :vartype enable_partition_discovery: bool
+    :ivar enable_partition_discovery: Indicates whether to enable partition discovery. Type:
+     boolean (or Expression with resultType boolean).
+    :vartype enable_partition_discovery: JSON
     :ivar partition_root_path: Specify the root path where partition discovery starts from. Type:
      string (or Expression with resultType string).
     :vartype partition_root_path: JSON
@@ -8547,7 +8634,7 @@ class AzureDataLakeStoreReadSettings(StoreReadSettings):  # pylint: disable=too-
         "file_list_path": {"key": "fileListPath", "type": "object"},
         "list_after": {"key": "listAfter", "type": "object"},
         "list_before": {"key": "listBefore", "type": "object"},
-        "enable_partition_discovery": {"key": "enablePartitionDiscovery", "type": "bool"},
+        "enable_partition_discovery": {"key": "enablePartitionDiscovery", "type": "object"},
         "partition_root_path": {"key": "partitionRootPath", "type": "object"},
         "delete_files_after_completion": {"key": "deleteFilesAfterCompletion", "type": "object"},
         "modified_datetime_start": {"key": "modifiedDatetimeStart", "type": "object"},
@@ -8566,7 +8653,7 @@ class AzureDataLakeStoreReadSettings(StoreReadSettings):  # pylint: disable=too-
         file_list_path: Optional[JSON] = None,
         list_after: Optional[JSON] = None,
         list_before: Optional[JSON] = None,
-        enable_partition_discovery: Optional[bool] = None,
+        enable_partition_discovery: Optional[JSON] = None,
         partition_root_path: Optional[JSON] = None,
         delete_files_after_completion: Optional[JSON] = None,
         modified_datetime_start: Optional[JSON] = None,
@@ -8604,8 +8691,9 @@ class AzureDataLakeStoreReadSettings(StoreReadSettings):  # pylint: disable=too-
          lexicographical order. Applies under the folderPath in data set, and filter files/sub-folders
          under the folderPath. Type: string (or Expression with resultType string).
         :paramtype list_before: JSON
-        :keyword enable_partition_discovery: Indicates whether to enable partition discovery.
-        :paramtype enable_partition_discovery: bool
+        :keyword enable_partition_discovery: Indicates whether to enable partition discovery. Type:
+         boolean (or Expression with resultType boolean).
+        :paramtype enable_partition_discovery: JSON
         :keyword partition_root_path: Specify the root path where partition discovery starts from.
          Type: string (or Expression with resultType string).
         :paramtype partition_root_path: JSON
@@ -8667,7 +8755,8 @@ class AzureDataLakeStoreSink(CopySink):
     :ivar disable_metrics_collection: If true, disable data store metrics collection. Default is
      false. Type: boolean (or Expression with resultType boolean).
     :vartype disable_metrics_collection: JSON
-    :ivar copy_behavior: The type of copy behavior for copy sink.
+    :ivar copy_behavior: The type of copy behavior for copy sink. Type: string (or Expression with
+     resultType string).
     :vartype copy_behavior: JSON
     :ivar enable_adls_single_file_parallel: Single File Parallel.
     :vartype enable_adls_single_file_parallel: JSON
@@ -8726,7 +8815,8 @@ class AzureDataLakeStoreSink(CopySink):
         :keyword disable_metrics_collection: If true, disable data store metrics collection. Default is
          false. Type: boolean (or Expression with resultType boolean).
         :paramtype disable_metrics_collection: JSON
-        :keyword copy_behavior: The type of copy behavior for copy sink.
+        :keyword copy_behavior: The type of copy behavior for copy sink. Type: string (or Expression
+         with resultType string).
         :paramtype copy_behavior: JSON
         :keyword enable_adls_single_file_parallel: Single File Parallel.
         :paramtype enable_adls_single_file_parallel: JSON
@@ -8849,8 +8939,8 @@ class AzureDataLakeStoreWriteSettings(StoreWriteSettings):
     :ivar copy_behavior: The type of copy behavior for copy sink.
     :vartype copy_behavior: JSON
     :ivar expiry_date_time: Specifies the expiry time of the written files. The time is applied to
-     the UTC time zone in the format of "2018-12-01T05:00:00Z". Default value is NULL. Type: integer
-     (or Expression with resultType integer).
+     the UTC time zone in the format of "2018-12-01T05:00:00Z". Default value is NULL. Type: string
+     (or Expression with resultType string).
     :vartype expiry_date_time: JSON
     """
 
@@ -8891,7 +8981,7 @@ class AzureDataLakeStoreWriteSettings(StoreWriteSettings):
         :paramtype copy_behavior: JSON
         :keyword expiry_date_time: Specifies the expiry time of the written files. The time is applied
          to the UTC time zone in the format of "2018-12-01T05:00:00Z". Default value is NULL. Type:
-         integer (or Expression with resultType integer).
+         string (or Expression with resultType string).
         :paramtype expiry_date_time: JSON
         """
         super().__init__(
@@ -8947,9 +9037,8 @@ class AzureFileStorageLinkedService(LinkedService):  # pylint: disable=too-many-
      resultType string).
     :vartype snapshot: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -8972,7 +9061,7 @@ class AzureFileStorageLinkedService(LinkedService):  # pylint: disable=too-many-
         "sas_token": {"key": "typeProperties.sasToken", "type": "AzureKeyVaultSecretReference"},
         "file_share": {"key": "typeProperties.fileShare", "type": "object"},
         "snapshot": {"key": "typeProperties.snapshot", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -8992,7 +9081,7 @@ class AzureFileStorageLinkedService(LinkedService):  # pylint: disable=too-many-
         sas_token: Optional["_models.AzureKeyVaultSecretReference"] = None,
         file_share: Optional[JSON] = None,
         snapshot: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -9031,9 +9120,8 @@ class AzureFileStorageLinkedService(LinkedService):  # pylint: disable=too-many-
          resultType string).
         :paramtype snapshot: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -9142,8 +9230,9 @@ class AzureFileStorageReadSettings(StoreReadSettings):  # pylint: disable=too-ma
      configured in the dataset) that you want to copy. Type: string (or Expression with resultType
      string).
     :vartype file_list_path: JSON
-    :ivar enable_partition_discovery: Indicates whether to enable partition discovery.
-    :vartype enable_partition_discovery: bool
+    :ivar enable_partition_discovery: Indicates whether to enable partition discovery. Type:
+     boolean (or Expression with resultType boolean).
+    :vartype enable_partition_discovery: JSON
     :ivar partition_root_path: Specify the root path where partition discovery starts from. Type:
      string (or Expression with resultType string).
     :vartype partition_root_path: JSON
@@ -9172,7 +9261,7 @@ class AzureFileStorageReadSettings(StoreReadSettings):  # pylint: disable=too-ma
         "wildcard_file_name": {"key": "wildcardFileName", "type": "object"},
         "prefix": {"key": "prefix", "type": "object"},
         "file_list_path": {"key": "fileListPath", "type": "object"},
-        "enable_partition_discovery": {"key": "enablePartitionDiscovery", "type": "bool"},
+        "enable_partition_discovery": {"key": "enablePartitionDiscovery", "type": "object"},
         "partition_root_path": {"key": "partitionRootPath", "type": "object"},
         "delete_files_after_completion": {"key": "deleteFilesAfterCompletion", "type": "object"},
         "modified_datetime_start": {"key": "modifiedDatetimeStart", "type": "object"},
@@ -9190,7 +9279,7 @@ class AzureFileStorageReadSettings(StoreReadSettings):  # pylint: disable=too-ma
         wildcard_file_name: Optional[JSON] = None,
         prefix: Optional[JSON] = None,
         file_list_path: Optional[JSON] = None,
-        enable_partition_discovery: Optional[bool] = None,
+        enable_partition_discovery: Optional[JSON] = None,
         partition_root_path: Optional[JSON] = None,
         delete_files_after_completion: Optional[JSON] = None,
         modified_datetime_start: Optional[JSON] = None,
@@ -9223,8 +9312,9 @@ class AzureFileStorageReadSettings(StoreReadSettings):  # pylint: disable=too-ma
          configured in the dataset) that you want to copy. Type: string (or Expression with resultType
          string).
         :paramtype file_list_path: JSON
-        :keyword enable_partition_discovery: Indicates whether to enable partition discovery.
-        :paramtype enable_partition_discovery: bool
+        :keyword enable_partition_discovery: Indicates whether to enable partition discovery. Type:
+         boolean (or Expression with resultType boolean).
+        :paramtype enable_partition_discovery: JSON
         :keyword partition_root_path: Specify the root path where partition discovery starts from.
          Type: string (or Expression with resultType string).
         :paramtype partition_root_path: JSON
@@ -9335,6 +9425,13 @@ class AzureFunctionActivity(ExecutionActivity):  # pylint: disable=too-many-inst
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -9370,6 +9467,8 @@ class AzureFunctionActivity(ExecutionActivity):  # pylint: disable=too-many-inst
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "linked_service_name": {"key": "linkedServiceName", "type": "LinkedServiceReference"},
@@ -9388,6 +9487,8 @@ class AzureFunctionActivity(ExecutionActivity):  # pylint: disable=too-many-inst
         function_name: JSON,
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         linked_service_name: Optional["_models.LinkedServiceReference"] = None,
@@ -9404,6 +9505,13 @@ class AzureFunctionActivity(ExecutionActivity):  # pylint: disable=too-many-inst
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -9430,6 +9538,8 @@ class AzureFunctionActivity(ExecutionActivity):  # pylint: disable=too-many-inst
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             linked_service_name=linked_service_name,
@@ -9467,9 +9577,8 @@ class AzureFunctionLinkedService(LinkedService):  # pylint: disable=too-many-ins
     :ivar function_key: Function or Host key for Azure Function App.
     :vartype function_key: ~azure.mgmt.datafactory.models.SecretBase
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     :ivar credential: The credential reference containing authentication information.
     :vartype credential: ~azure.mgmt.datafactory.models.CredentialReference
     :ivar resource_id: Allowed token audiences for azure function.
@@ -9493,7 +9602,7 @@ class AzureFunctionLinkedService(LinkedService):  # pylint: disable=too-many-ins
         "annotations": {"key": "annotations", "type": "[object]"},
         "function_app_url": {"key": "typeProperties.functionAppUrl", "type": "object"},
         "function_key": {"key": "typeProperties.functionKey", "type": "SecretBase"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
         "credential": {"key": "typeProperties.credential", "type": "CredentialReference"},
         "resource_id": {"key": "typeProperties.resourceId", "type": "object"},
         "authentication": {"key": "typeProperties.authentication", "type": "object"},
@@ -9509,7 +9618,7 @@ class AzureFunctionLinkedService(LinkedService):  # pylint: disable=too-many-ins
         parameters: Optional[Dict[str, "_models.ParameterSpecification"]] = None,
         annotations: Optional[List[JSON]] = None,
         function_key: Optional["_models.SecretBase"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         credential: Optional["_models.CredentialReference"] = None,
         resource_id: Optional[JSON] = None,
         authentication: Optional[JSON] = None,
@@ -9533,9 +9642,8 @@ class AzureFunctionLinkedService(LinkedService):  # pylint: disable=too-many-ins
         :keyword function_key: Function or Host key for Azure Function App.
         :paramtype function_key: ~azure.mgmt.datafactory.models.SecretBase
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         :keyword credential: The credential reference containing authentication information.
         :paramtype credential: ~azure.mgmt.datafactory.models.CredentialReference
         :keyword resource_id: Allowed token audiences for azure function.
@@ -9752,9 +9860,8 @@ class AzureMariaDBLinkedService(LinkedService):
     :ivar pwd: The Azure key vault secret reference of password in connection string.
     :vartype pwd: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -9770,7 +9877,7 @@ class AzureMariaDBLinkedService(LinkedService):
         "annotations": {"key": "annotations", "type": "[object]"},
         "connection_string": {"key": "typeProperties.connectionString", "type": "object"},
         "pwd": {"key": "typeProperties.pwd", "type": "AzureKeyVaultSecretReference"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -9783,7 +9890,7 @@ class AzureMariaDBLinkedService(LinkedService):
         annotations: Optional[List[JSON]] = None,
         connection_string: Optional[JSON] = None,
         pwd: Optional["_models.AzureKeyVaultSecretReference"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -9804,9 +9911,8 @@ class AzureMariaDBLinkedService(LinkedService):
         :keyword pwd: The Azure key vault secret reference of password in connection string.
         :paramtype pwd: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -10040,6 +10146,13 @@ class AzureMLBatchExecutionActivity(ExecutionActivity):  # pylint: disable=too-m
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -10074,6 +10187,8 @@ class AzureMLBatchExecutionActivity(ExecutionActivity):  # pylint: disable=too-m
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "linked_service_name": {"key": "linkedServiceName", "type": "LinkedServiceReference"},
@@ -10089,6 +10204,8 @@ class AzureMLBatchExecutionActivity(ExecutionActivity):  # pylint: disable=too-m
         name: str,
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         linked_service_name: Optional["_models.LinkedServiceReference"] = None,
@@ -10106,6 +10223,13 @@ class AzureMLBatchExecutionActivity(ExecutionActivity):  # pylint: disable=too-m
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -10134,6 +10258,8 @@ class AzureMLBatchExecutionActivity(ExecutionActivity):  # pylint: disable=too-m
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             linked_service_name=linked_service_name,
@@ -10160,6 +10286,13 @@ class AzureMLExecutePipelineActivity(ExecutionActivity):  # pylint: disable=too-
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -10210,6 +10343,8 @@ class AzureMLExecutePipelineActivity(ExecutionActivity):  # pylint: disable=too-
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "linked_service_name": {"key": "linkedServiceName", "type": "LinkedServiceReference"},
@@ -10230,6 +10365,8 @@ class AzureMLExecutePipelineActivity(ExecutionActivity):  # pylint: disable=too-
         name: str,
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         linked_service_name: Optional["_models.LinkedServiceReference"] = None,
@@ -10252,6 +10389,13 @@ class AzureMLExecutePipelineActivity(ExecutionActivity):  # pylint: disable=too-
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -10296,6 +10440,8 @@ class AzureMLExecutePipelineActivity(ExecutionActivity):  # pylint: disable=too-
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             linked_service_name=linked_service_name,
@@ -10350,9 +10496,8 @@ class AzureMLLinkedService(LinkedService):  # pylint: disable=too-many-instance-
      (or Expression with resultType string).
     :vartype tenant: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     :ivar authentication: Type of authentication (Required to specify MSI) used to connect to
      AzureML. Type: string (or Expression with resultType string).
     :vartype authentication: JSON
@@ -10377,7 +10522,7 @@ class AzureMLLinkedService(LinkedService):  # pylint: disable=too-many-instance-
         "service_principal_id": {"key": "typeProperties.servicePrincipalId", "type": "object"},
         "service_principal_key": {"key": "typeProperties.servicePrincipalKey", "type": "SecretBase"},
         "tenant": {"key": "typeProperties.tenant", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
         "authentication": {"key": "typeProperties.authentication", "type": "object"},
     }
 
@@ -10395,7 +10540,7 @@ class AzureMLLinkedService(LinkedService):  # pylint: disable=too-many-instance-
         service_principal_id: Optional[JSON] = None,
         service_principal_key: Optional["_models.SecretBase"] = None,
         tenant: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         authentication: Optional[JSON] = None,
         **kwargs: Any
     ) -> None:
@@ -10430,9 +10575,8 @@ class AzureMLLinkedService(LinkedService):  # pylint: disable=too-many-instance-
          string (or Expression with resultType string).
         :paramtype tenant: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         :keyword authentication: Type of authentication (Required to specify MSI) used to connect to
          AzureML. Type: string (or Expression with resultType string).
         :paramtype authentication: JSON
@@ -10494,9 +10638,8 @@ class AzureMLServiceLinkedService(LinkedService):  # pylint: disable=too-many-in
      (or Expression with resultType string).
     :vartype tenant: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -10519,7 +10662,7 @@ class AzureMLServiceLinkedService(LinkedService):  # pylint: disable=too-many-in
         "service_principal_id": {"key": "typeProperties.servicePrincipalId", "type": "object"},
         "service_principal_key": {"key": "typeProperties.servicePrincipalKey", "type": "SecretBase"},
         "tenant": {"key": "typeProperties.tenant", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -10536,7 +10679,7 @@ class AzureMLServiceLinkedService(LinkedService):  # pylint: disable=too-many-in
         service_principal_id: Optional[JSON] = None,
         service_principal_key: Optional["_models.SecretBase"] = None,
         tenant: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -10571,9 +10714,8 @@ class AzureMLServiceLinkedService(LinkedService):  # pylint: disable=too-many-in
          string (or Expression with resultType string).
         :paramtype tenant: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -10607,6 +10749,13 @@ class AzureMLUpdateResourceActivity(ExecutionActivity):  # pylint: disable=too-m
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -10641,6 +10790,8 @@ class AzureMLUpdateResourceActivity(ExecutionActivity):  # pylint: disable=too-m
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "linked_service_name": {"key": "linkedServiceName", "type": "LinkedServiceReference"},
@@ -10662,6 +10813,8 @@ class AzureMLUpdateResourceActivity(ExecutionActivity):  # pylint: disable=too-m
         trained_model_file_path: JSON,
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         linked_service_name: Optional["_models.LinkedServiceReference"] = None,
@@ -10676,6 +10829,13 @@ class AzureMLUpdateResourceActivity(ExecutionActivity):  # pylint: disable=too-m
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -10700,6 +10860,8 @@ class AzureMLUpdateResourceActivity(ExecutionActivity):  # pylint: disable=too-m
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             linked_service_name=linked_service_name,
@@ -10775,9 +10937,8 @@ class AzureMySqlLinkedService(LinkedService):
     :ivar password: The Azure key vault secret reference of password in connection string.
     :vartype password: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -10794,7 +10955,7 @@ class AzureMySqlLinkedService(LinkedService):
         "annotations": {"key": "annotations", "type": "[object]"},
         "connection_string": {"key": "typeProperties.connectionString", "type": "object"},
         "password": {"key": "typeProperties.password", "type": "AzureKeyVaultSecretReference"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -10807,7 +10968,7 @@ class AzureMySqlLinkedService(LinkedService):
         parameters: Optional[Dict[str, "_models.ParameterSpecification"]] = None,
         annotations: Optional[List[JSON]] = None,
         password: Optional["_models.AzureKeyVaultSecretReference"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -10828,9 +10989,8 @@ class AzureMySqlLinkedService(LinkedService):
         :keyword password: The Azure key vault secret reference of password in connection string.
         :paramtype password: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -11185,9 +11345,8 @@ class AzurePostgreSqlLinkedService(LinkedService):
     :ivar password: The Azure key vault secret reference of password in connection string.
     :vartype password: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -11203,7 +11362,7 @@ class AzurePostgreSqlLinkedService(LinkedService):
         "annotations": {"key": "annotations", "type": "[object]"},
         "connection_string": {"key": "typeProperties.connectionString", "type": "object"},
         "password": {"key": "typeProperties.password", "type": "AzureKeyVaultSecretReference"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -11216,7 +11375,7 @@ class AzurePostgreSqlLinkedService(LinkedService):
         annotations: Optional[List[JSON]] = None,
         connection_string: Optional[JSON] = None,
         password: Optional["_models.AzureKeyVaultSecretReference"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -11237,9 +11396,8 @@ class AzurePostgreSqlLinkedService(LinkedService):
         :keyword password: The Azure key vault secret reference of password in connection string.
         :paramtype password: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -11907,9 +12065,8 @@ class AzureSearchLinkedService(LinkedService):
     :ivar key: Admin Key for Azure Search service.
     :vartype key: ~azure.mgmt.datafactory.models.SecretBase
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -11926,7 +12083,7 @@ class AzureSearchLinkedService(LinkedService):
         "annotations": {"key": "annotations", "type": "[object]"},
         "url": {"key": "typeProperties.url", "type": "object"},
         "key": {"key": "typeProperties.key", "type": "SecretBase"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -11939,7 +12096,7 @@ class AzureSearchLinkedService(LinkedService):
         parameters: Optional[Dict[str, "_models.ParameterSpecification"]] = None,
         annotations: Optional[List[JSON]] = None,
         key: Optional["_models.SecretBase"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -11960,9 +12117,8 @@ class AzureSearchLinkedService(LinkedService):
         :keyword key: Admin Key for Azure Search service.
         :paramtype key: ~azure.mgmt.datafactory.models.SecretBase
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -12015,9 +12171,8 @@ class AzureSqlDatabaseLinkedService(LinkedService):  # pylint: disable=too-many-
      factory regions’ cloud type. Type: string (or Expression with resultType string).
     :vartype azure_cloud_type: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     :ivar always_encrypted_settings: Sql always encrypted properties.
     :vartype always_encrypted_settings: ~azure.mgmt.datafactory.models.SqlAlwaysEncryptedProperties
     :ivar credential: The credential reference containing authentication information.
@@ -12042,7 +12197,7 @@ class AzureSqlDatabaseLinkedService(LinkedService):  # pylint: disable=too-many-
         "service_principal_key": {"key": "typeProperties.servicePrincipalKey", "type": "SecretBase"},
         "tenant": {"key": "typeProperties.tenant", "type": "object"},
         "azure_cloud_type": {"key": "typeProperties.azureCloudType", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
         "always_encrypted_settings": {
             "key": "typeProperties.alwaysEncryptedSettings",
             "type": "SqlAlwaysEncryptedProperties",
@@ -12064,7 +12219,7 @@ class AzureSqlDatabaseLinkedService(LinkedService):  # pylint: disable=too-many-
         service_principal_key: Optional["_models.SecretBase"] = None,
         tenant: Optional[JSON] = None,
         azure_cloud_type: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         always_encrypted_settings: Optional["_models.SqlAlwaysEncryptedProperties"] = None,
         credential: Optional["_models.CredentialReference"] = None,
         **kwargs: Any
@@ -12100,9 +12255,8 @@ class AzureSqlDatabaseLinkedService(LinkedService):  # pylint: disable=too-many-
          the data factory regions’ cloud type. Type: string (or Expression with resultType string).
         :paramtype azure_cloud_type: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         :keyword always_encrypted_settings: Sql always encrypted properties.
         :paramtype always_encrypted_settings:
          ~azure.mgmt.datafactory.models.SqlAlwaysEncryptedProperties
@@ -12167,9 +12321,8 @@ class AzureSqlDWLinkedService(LinkedService):  # pylint: disable=too-many-instan
      factory regions’ cloud type. Type: string (or Expression with resultType string).
     :vartype azure_cloud_type: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     :ivar credential: The credential reference containing authentication information.
     :vartype credential: ~azure.mgmt.datafactory.models.CredentialReference
     """
@@ -12192,7 +12345,7 @@ class AzureSqlDWLinkedService(LinkedService):  # pylint: disable=too-many-instan
         "service_principal_key": {"key": "typeProperties.servicePrincipalKey", "type": "SecretBase"},
         "tenant": {"key": "typeProperties.tenant", "type": "object"},
         "azure_cloud_type": {"key": "typeProperties.azureCloudType", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
         "credential": {"key": "typeProperties.credential", "type": "CredentialReference"},
     }
 
@@ -12210,7 +12363,7 @@ class AzureSqlDWLinkedService(LinkedService):  # pylint: disable=too-many-instan
         service_principal_key: Optional["_models.SecretBase"] = None,
         tenant: Optional[JSON] = None,
         azure_cloud_type: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         credential: Optional["_models.CredentialReference"] = None,
         **kwargs: Any
     ) -> None:
@@ -12246,9 +12399,8 @@ class AzureSqlDWLinkedService(LinkedService):  # pylint: disable=too-many-instan
          the data factory regions’ cloud type. Type: string (or Expression with resultType string).
         :paramtype azure_cloud_type: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         :keyword credential: The credential reference containing authentication information.
         :paramtype credential: ~azure.mgmt.datafactory.models.CredentialReference
         """
@@ -12430,9 +12582,8 @@ class AzureSqlMILinkedService(LinkedService):  # pylint: disable=too-many-instan
      factory regions’ cloud type. Type: string (or Expression with resultType string).
     :vartype azure_cloud_type: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     :ivar always_encrypted_settings: Sql always encrypted properties.
     :vartype always_encrypted_settings: ~azure.mgmt.datafactory.models.SqlAlwaysEncryptedProperties
     :ivar credential: The credential reference containing authentication information.
@@ -12457,7 +12608,7 @@ class AzureSqlMILinkedService(LinkedService):  # pylint: disable=too-many-instan
         "service_principal_key": {"key": "typeProperties.servicePrincipalKey", "type": "SecretBase"},
         "tenant": {"key": "typeProperties.tenant", "type": "object"},
         "azure_cloud_type": {"key": "typeProperties.azureCloudType", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
         "always_encrypted_settings": {
             "key": "typeProperties.alwaysEncryptedSettings",
             "type": "SqlAlwaysEncryptedProperties",
@@ -12479,7 +12630,7 @@ class AzureSqlMILinkedService(LinkedService):  # pylint: disable=too-many-instan
         service_principal_key: Optional["_models.SecretBase"] = None,
         tenant: Optional[JSON] = None,
         azure_cloud_type: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         always_encrypted_settings: Optional["_models.SqlAlwaysEncryptedProperties"] = None,
         credential: Optional["_models.CredentialReference"] = None,
         **kwargs: Any
@@ -12515,9 +12666,8 @@ class AzureSqlMILinkedService(LinkedService):  # pylint: disable=too-many-instan
          the data factory regions’ cloud type. Type: string (or Expression with resultType string).
         :paramtype azure_cloud_type: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         :keyword always_encrypted_settings: Sql always encrypted properties.
         :paramtype always_encrypted_settings:
          ~azure.mgmt.datafactory.models.SqlAlwaysEncryptedProperties
@@ -13134,8 +13284,7 @@ class AzureStorageLinkedService(LinkedService):  # pylint: disable=too-many-inst
     :ivar sas_token: The Azure key vault secret reference of sasToken in sas uri.
     :vartype sas_token: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
+     encrypted using the integration runtime credential manager. Type: string.
     :vartype encrypted_credential: str
     """
 
@@ -13195,8 +13344,7 @@ class AzureStorageLinkedService(LinkedService):  # pylint: disable=too-many-inst
         :keyword sas_token: The Azure key vault secret reference of sasToken in sas uri.
         :paramtype sas_token: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
+         are encrypted using the integration runtime credential manager. Type: string.
         :paramtype encrypted_credential: str
         """
         super().__init__(
@@ -13686,8 +13834,7 @@ class AzureTableStorageLinkedService(LinkedService):  # pylint: disable=too-many
     :ivar sas_token: The Azure key vault secret reference of sasToken in sas uri.
     :vartype sas_token: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
+     encrypted using the integration runtime credential manager. Type: string.
     :vartype encrypted_credential: str
     """
 
@@ -13747,8 +13894,7 @@ class AzureTableStorageLinkedService(LinkedService):  # pylint: disable=too-many
         :keyword sas_token: The Azure key vault secret reference of sasToken in sas uri.
         :paramtype sas_token: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
+         are encrypted using the integration runtime credential manager. Type: string.
         :paramtype encrypted_credential: str
         """
         super().__init__(
@@ -14814,9 +14960,8 @@ class CassandraLinkedService(LinkedService):  # pylint: disable=too-many-instanc
     :ivar password: Password for authentication.
     :vartype password: ~azure.mgmt.datafactory.models.SecretBase
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -14836,7 +14981,7 @@ class CassandraLinkedService(LinkedService):  # pylint: disable=too-many-instanc
         "port": {"key": "typeProperties.port", "type": "object"},
         "username": {"key": "typeProperties.username", "type": "object"},
         "password": {"key": "typeProperties.password", "type": "SecretBase"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -14852,7 +14997,7 @@ class CassandraLinkedService(LinkedService):  # pylint: disable=too-many-instanc
         port: Optional[JSON] = None,
         username: Optional[JSON] = None,
         password: Optional["_models.SecretBase"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -14882,9 +15027,8 @@ class CassandraLinkedService(LinkedService):  # pylint: disable=too-many-instanc
         :keyword password: Password for authentication.
         :paramtype password: ~azure.mgmt.datafactory.models.SecretBase
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -15513,9 +15657,8 @@ class CommonDataServiceForAppsLinkedService(LinkedService):  # pylint: disable=t
      be AzureKeyVaultSecretReference.
     :vartype service_principal_credential: ~azure.mgmt.datafactory.models.SecretBase
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -15542,7 +15685,7 @@ class CommonDataServiceForAppsLinkedService(LinkedService):  # pylint: disable=t
         "service_principal_id": {"key": "typeProperties.servicePrincipalId", "type": "object"},
         "service_principal_credential_type": {"key": "typeProperties.servicePrincipalCredentialType", "type": "object"},
         "service_principal_credential": {"key": "typeProperties.servicePrincipalCredential", "type": "SecretBase"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -15564,7 +15707,7 @@ class CommonDataServiceForAppsLinkedService(LinkedService):  # pylint: disable=t
         service_principal_id: Optional[JSON] = None,
         service_principal_credential_type: Optional[JSON] = None,
         service_principal_credential: Optional["_models.SecretBase"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -15625,9 +15768,8 @@ class CommonDataServiceForAppsLinkedService(LinkedService):  # pylint: disable=t
          be AzureKeyVaultSecretReference.
         :paramtype service_principal_credential: ~azure.mgmt.datafactory.models.SecretBase
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -15987,9 +16129,8 @@ class ConcurLinkedService(LinkedService):  # pylint: disable=too-many-instance-a
      connecting over SSL. The default value is true.
     :vartype use_peer_verification: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -16012,7 +16153,7 @@ class ConcurLinkedService(LinkedService):  # pylint: disable=too-many-instance-a
         "use_encrypted_endpoints": {"key": "typeProperties.useEncryptedEndpoints", "type": "object"},
         "use_host_verification": {"key": "typeProperties.useHostVerification", "type": "object"},
         "use_peer_verification": {"key": "typeProperties.usePeerVerification", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -16030,7 +16171,7 @@ class ConcurLinkedService(LinkedService):  # pylint: disable=too-many-instance-a
         use_encrypted_endpoints: Optional[JSON] = None,
         use_host_verification: Optional[JSON] = None,
         use_peer_verification: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -16066,9 +16207,8 @@ class ConcurLinkedService(LinkedService):  # pylint: disable=too-many-instance-a
          connecting over SSL. The default value is true.
         :paramtype use_peer_verification: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -16340,6 +16480,13 @@ class CopyActivity(ExecutionActivity):  # pylint: disable=too-many-instance-attr
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -16405,6 +16552,8 @@ class CopyActivity(ExecutionActivity):  # pylint: disable=too-many-instance-attr
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "linked_service_name": {"key": "linkedServiceName", "type": "LinkedServiceReference"},
@@ -16439,6 +16588,8 @@ class CopyActivity(ExecutionActivity):  # pylint: disable=too-many-instance-attr
         sink: "_models.CopySink",
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         linked_service_name: Optional["_models.LinkedServiceReference"] = None,
@@ -16468,6 +16619,13 @@ class CopyActivity(ExecutionActivity):  # pylint: disable=too-many-instance-attr
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -16524,6 +16682,8 @@ class CopyActivity(ExecutionActivity):  # pylint: disable=too-many-instance-attr
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             linked_service_name=linked_service_name,
@@ -16703,10 +16863,8 @@ class CosmosDbLinkedService(LinkedService):  # pylint: disable=too-many-instance
     :vartype service_principal_id: JSON
     :ivar service_principal_credential_type: The service principal credential type to use in
      Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert'
-     for certificate. Type: string (or Expression with resultType string). Known values are:
-     "ServicePrincipalKey" and "ServicePrincipalCert".
-    :vartype service_principal_credential_type: str or
-     ~azure.mgmt.datafactory.models.CosmosDbServicePrincipalCredentialType
+     for certificate. Type: string.
+    :vartype service_principal_credential_type: JSON
     :ivar service_principal_credential: The credential of the service principal object in Azure
      Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey',
      servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If
@@ -16720,13 +16878,12 @@ class CosmosDbLinkedService(LinkedService):  # pylint: disable=too-many-instance
      values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data
      factory regions’ cloud type. Type: string (or Expression with resultType string).
     :vartype azure_cloud_type: JSON
-    :ivar connection_mode: The connection mode used to access CosmosDB account. Type: string (or
-     Expression with resultType string). Known values are: "Gateway" and "Direct".
+    :ivar connection_mode: The connection mode used to access CosmosDB account. Type: string. Known
+     values are: "Gateway" and "Direct".
     :vartype connection_mode: str or ~azure.mgmt.datafactory.models.CosmosDbConnectionMode
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     :ivar credential: The credential reference containing authentication information.
     :vartype credential: ~azure.mgmt.datafactory.models.CredentialReference
     """
@@ -16747,12 +16904,12 @@ class CosmosDbLinkedService(LinkedService):  # pylint: disable=too-many-instance
         "database": {"key": "typeProperties.database", "type": "object"},
         "account_key": {"key": "typeProperties.accountKey", "type": "SecretBase"},
         "service_principal_id": {"key": "typeProperties.servicePrincipalId", "type": "object"},
-        "service_principal_credential_type": {"key": "typeProperties.servicePrincipalCredentialType", "type": "str"},
+        "service_principal_credential_type": {"key": "typeProperties.servicePrincipalCredentialType", "type": "object"},
         "service_principal_credential": {"key": "typeProperties.servicePrincipalCredential", "type": "SecretBase"},
         "tenant": {"key": "typeProperties.tenant", "type": "object"},
         "azure_cloud_type": {"key": "typeProperties.azureCloudType", "type": "object"},
         "connection_mode": {"key": "typeProperties.connectionMode", "type": "str"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
         "credential": {"key": "typeProperties.credential", "type": "CredentialReference"},
     }
 
@@ -16769,14 +16926,12 @@ class CosmosDbLinkedService(LinkedService):  # pylint: disable=too-many-instance
         database: Optional[JSON] = None,
         account_key: Optional["_models.SecretBase"] = None,
         service_principal_id: Optional[JSON] = None,
-        service_principal_credential_type: Optional[
-            Union[str, "_models.CosmosDbServicePrincipalCredentialType"]
-        ] = None,
+        service_principal_credential_type: Optional[JSON] = None,
         service_principal_credential: Optional["_models.SecretBase"] = None,
         tenant: Optional[JSON] = None,
         azure_cloud_type: Optional[JSON] = None,
         connection_mode: Optional[Union[str, "_models.CosmosDbConnectionMode"]] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         credential: Optional["_models.CredentialReference"] = None,
         **kwargs: Any
     ) -> None:
@@ -16809,10 +16964,8 @@ class CosmosDbLinkedService(LinkedService):  # pylint: disable=too-many-instance
         :paramtype service_principal_id: JSON
         :keyword service_principal_credential_type: The service principal credential type to use in
          Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert'
-         for certificate. Type: string (or Expression with resultType string). Known values are:
-         "ServicePrincipalKey" and "ServicePrincipalCert".
-        :paramtype service_principal_credential_type: str or
-         ~azure.mgmt.datafactory.models.CosmosDbServicePrincipalCredentialType
+         for certificate. Type: string.
+        :paramtype service_principal_credential_type: JSON
         :keyword service_principal_credential: The credential of the service principal object in Azure
          Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey',
          servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If
@@ -16826,13 +16979,12 @@ class CosmosDbLinkedService(LinkedService):  # pylint: disable=too-many-instance
          Allowed values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is
          the data factory regions’ cloud type. Type: string (or Expression with resultType string).
         :paramtype azure_cloud_type: JSON
-        :keyword connection_mode: The connection mode used to access CosmosDB account. Type: string (or
-         Expression with resultType string). Known values are: "Gateway" and "Direct".
+        :keyword connection_mode: The connection mode used to access CosmosDB account. Type: string.
+         Known values are: "Gateway" and "Direct".
         :paramtype connection_mode: str or ~azure.mgmt.datafactory.models.CosmosDbConnectionMode
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         :keyword credential: The credential reference containing authentication information.
         :paramtype credential: ~azure.mgmt.datafactory.models.CredentialReference
         """
@@ -17639,9 +17791,8 @@ class CouchbaseLinkedService(LinkedService):
     :ivar cred_string: The Azure key vault secret reference of credString in connection string.
     :vartype cred_string: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -17657,7 +17808,7 @@ class CouchbaseLinkedService(LinkedService):
         "annotations": {"key": "annotations", "type": "[object]"},
         "connection_string": {"key": "typeProperties.connectionString", "type": "object"},
         "cred_string": {"key": "typeProperties.credString", "type": "AzureKeyVaultSecretReference"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -17670,7 +17821,7 @@ class CouchbaseLinkedService(LinkedService):
         annotations: Optional[List[JSON]] = None,
         connection_string: Optional[JSON] = None,
         cred_string: Optional["_models.AzureKeyVaultSecretReference"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -17691,9 +17842,8 @@ class CouchbaseLinkedService(LinkedService):
         :keyword cred_string: The Azure key vault secret reference of credString in connection string.
         :paramtype cred_string: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -18309,6 +18459,13 @@ class CustomActivity(ExecutionActivity):  # pylint: disable=too-many-instance-at
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -18350,6 +18507,8 @@ class CustomActivity(ExecutionActivity):  # pylint: disable=too-many-instance-at
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "linked_service_name": {"key": "linkedServiceName", "type": "LinkedServiceReference"},
@@ -18370,6 +18529,8 @@ class CustomActivity(ExecutionActivity):  # pylint: disable=too-many-instance-at
         command: JSON,
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         linked_service_name: Optional["_models.LinkedServiceReference"] = None,
@@ -18390,6 +18551,13 @@ class CustomActivity(ExecutionActivity):  # pylint: disable=too-many-instance-at
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -18423,6 +18591,8 @@ class CustomActivity(ExecutionActivity):  # pylint: disable=too-many-instance-at
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             linked_service_name=linked_service_name,
@@ -18763,6 +18933,13 @@ class DatabricksNotebookActivity(ExecutionActivity):  # pylint: disable=too-many
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -18793,6 +18970,8 @@ class DatabricksNotebookActivity(ExecutionActivity):  # pylint: disable=too-many
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "linked_service_name": {"key": "linkedServiceName", "type": "LinkedServiceReference"},
@@ -18809,6 +18988,8 @@ class DatabricksNotebookActivity(ExecutionActivity):  # pylint: disable=too-many
         notebook_path: JSON,
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         linked_service_name: Optional["_models.LinkedServiceReference"] = None,
@@ -18825,6 +19006,13 @@ class DatabricksNotebookActivity(ExecutionActivity):  # pylint: disable=too-many
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -18848,6 +19036,8 @@ class DatabricksNotebookActivity(ExecutionActivity):  # pylint: disable=too-many
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             linked_service_name=linked_service_name,
@@ -18874,6 +19064,13 @@ class DatabricksSparkJarActivity(ExecutionActivity):  # pylint: disable=too-many
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -18903,6 +19100,8 @@ class DatabricksSparkJarActivity(ExecutionActivity):  # pylint: disable=too-many
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "linked_service_name": {"key": "linkedServiceName", "type": "LinkedServiceReference"},
@@ -18919,6 +19118,8 @@ class DatabricksSparkJarActivity(ExecutionActivity):  # pylint: disable=too-many
         main_class_name: JSON,
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         linked_service_name: Optional["_models.LinkedServiceReference"] = None,
@@ -18935,6 +19136,13 @@ class DatabricksSparkJarActivity(ExecutionActivity):  # pylint: disable=too-many
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -18957,6 +19165,8 @@ class DatabricksSparkJarActivity(ExecutionActivity):  # pylint: disable=too-many
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             linked_service_name=linked_service_name,
@@ -18983,6 +19193,13 @@ class DatabricksSparkPythonActivity(ExecutionActivity):  # pylint: disable=too-m
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -19011,6 +19228,8 @@ class DatabricksSparkPythonActivity(ExecutionActivity):  # pylint: disable=too-m
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "linked_service_name": {"key": "linkedServiceName", "type": "LinkedServiceReference"},
@@ -19027,6 +19246,8 @@ class DatabricksSparkPythonActivity(ExecutionActivity):  # pylint: disable=too-m
         python_file: JSON,
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         linked_service_name: Optional["_models.LinkedServiceReference"] = None,
@@ -19043,6 +19264,13 @@ class DatabricksSparkPythonActivity(ExecutionActivity):  # pylint: disable=too-m
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -19064,6 +19292,8 @@ class DatabricksSparkPythonActivity(ExecutionActivity):  # pylint: disable=too-m
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             linked_service_name=linked_service_name,
@@ -19962,6 +20192,13 @@ class DataLakeAnalyticsUSQLActivity(ExecutionActivity):  # pylint: disable=too-m
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -20004,6 +20241,8 @@ class DataLakeAnalyticsUSQLActivity(ExecutionActivity):  # pylint: disable=too-m
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "linked_service_name": {"key": "linkedServiceName", "type": "LinkedServiceReference"},
@@ -20025,6 +20264,8 @@ class DataLakeAnalyticsUSQLActivity(ExecutionActivity):  # pylint: disable=too-m
         script_linked_service: "_models.LinkedServiceReference",
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         linked_service_name: Optional["_models.LinkedServiceReference"] = None,
@@ -20044,6 +20285,13 @@ class DataLakeAnalyticsUSQLActivity(ExecutionActivity):  # pylint: disable=too-m
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -20077,6 +20325,8 @@ class DataLakeAnalyticsUSQLActivity(ExecutionActivity):  # pylint: disable=too-m
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             linked_service_name=linked_service_name,
@@ -20407,9 +20657,8 @@ class DataworldLinkedService(LinkedService):
     :ivar api_token: The api token for the Dataworld source. Required.
     :vartype api_token: ~azure.mgmt.datafactory.models.SecretBase
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -20425,7 +20674,7 @@ class DataworldLinkedService(LinkedService):
         "parameters": {"key": "parameters", "type": "{ParameterSpecification}"},
         "annotations": {"key": "annotations", "type": "[object]"},
         "api_token": {"key": "typeProperties.apiToken", "type": "SecretBase"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -20437,7 +20686,7 @@ class DataworldLinkedService(LinkedService):
         description: Optional[str] = None,
         parameters: Optional[Dict[str, "_models.ParameterSpecification"]] = None,
         annotations: Optional[List[JSON]] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -20455,9 +20704,8 @@ class DataworldLinkedService(LinkedService):
         :keyword api_token: The api token for the Dataworld source. Required.
         :paramtype api_token: ~azure.mgmt.datafactory.models.SecretBase
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -20517,8 +20765,8 @@ class Db2LinkedService(LinkedService):  # pylint: disable=too-many-instance-attr
     :vartype certificate_common_name: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. It is mutually exclusive with
-     connectionString property. Type: string (or Expression with resultType string).
-    :vartype encrypted_credential: JSON
+     connectionString property. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -20540,7 +20788,7 @@ class Db2LinkedService(LinkedService):  # pylint: disable=too-many-instance-attr
         "password": {"key": "typeProperties.password", "type": "SecretBase"},
         "package_collection": {"key": "typeProperties.packageCollection", "type": "object"},
         "certificate_common_name": {"key": "typeProperties.certificateCommonName", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -20559,7 +20807,7 @@ class Db2LinkedService(LinkedService):  # pylint: disable=too-many-instance-attr
         password: Optional["_models.SecretBase"] = None,
         package_collection: Optional[JSON] = None,
         certificate_common_name: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -20601,8 +20849,8 @@ class Db2LinkedService(LinkedService):  # pylint: disable=too-many-instance-attr
         :paramtype certificate_common_name: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
          are encrypted using the integration runtime credential manager. It is mutually exclusive with
-         connectionString property. Type: string (or Expression with resultType string).
-        :paramtype encrypted_credential: JSON
+         connectionString property. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -20858,6 +21106,13 @@ class DeleteActivity(ExecutionActivity):  # pylint: disable=too-many-instance-at
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -20896,6 +21151,8 @@ class DeleteActivity(ExecutionActivity):  # pylint: disable=too-many-instance-at
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "linked_service_name": {"key": "linkedServiceName", "type": "LinkedServiceReference"},
@@ -20915,6 +21172,8 @@ class DeleteActivity(ExecutionActivity):  # pylint: disable=too-many-instance-at
         dataset: "_models.DatasetReference",
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         linked_service_name: Optional["_models.LinkedServiceReference"] = None,
@@ -20934,6 +21193,13 @@ class DeleteActivity(ExecutionActivity):  # pylint: disable=too-many-instance-at
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -20963,6 +21229,8 @@ class DeleteActivity(ExecutionActivity):  # pylint: disable=too-many-instance-at
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             linked_service_name=linked_service_name,
@@ -21949,9 +22217,8 @@ class DrillLinkedService(LinkedService):
     :ivar pwd: The Azure key vault secret reference of password in connection string.
     :vartype pwd: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -21967,7 +22234,7 @@ class DrillLinkedService(LinkedService):
         "annotations": {"key": "annotations", "type": "[object]"},
         "connection_string": {"key": "typeProperties.connectionString", "type": "object"},
         "pwd": {"key": "typeProperties.pwd", "type": "AzureKeyVaultSecretReference"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -21980,7 +22247,7 @@ class DrillLinkedService(LinkedService):
         annotations: Optional[List[JSON]] = None,
         connection_string: Optional[JSON] = None,
         pwd: Optional["_models.AzureKeyVaultSecretReference"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -22001,9 +22268,8 @@ class DrillLinkedService(LinkedService):
         :keyword pwd: The Azure key vault secret reference of password in connection string.
         :paramtype pwd: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -22350,9 +22616,8 @@ class DynamicsAXLinkedService(LinkedService):  # pylint: disable=too-many-instan
      Expression with resultType string). Required.
     :vartype aad_resource_id: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -22376,7 +22641,7 @@ class DynamicsAXLinkedService(LinkedService):  # pylint: disable=too-many-instan
         "service_principal_key": {"key": "typeProperties.servicePrincipalKey", "type": "SecretBase"},
         "tenant": {"key": "typeProperties.tenant", "type": "object"},
         "aad_resource_id": {"key": "typeProperties.aadResourceId", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -22392,7 +22657,7 @@ class DynamicsAXLinkedService(LinkedService):  # pylint: disable=too-many-instan
         description: Optional[str] = None,
         parameters: Optional[Dict[str, "_models.ParameterSpecification"]] = None,
         annotations: Optional[List[JSON]] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -22425,9 +22690,8 @@ class DynamicsAXLinkedService(LinkedService):  # pylint: disable=too-many-instan
          (or Expression with resultType string). Required.
         :paramtype aad_resource_id: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -22830,9 +23094,8 @@ class DynamicsCrmLinkedService(LinkedService):  # pylint: disable=too-many-insta
      be AzureKeyVaultSecretReference.
     :vartype service_principal_credential: ~azure.mgmt.datafactory.models.SecretBase
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -22859,7 +23122,7 @@ class DynamicsCrmLinkedService(LinkedService):  # pylint: disable=too-many-insta
         "service_principal_id": {"key": "typeProperties.servicePrincipalId", "type": "object"},
         "service_principal_credential_type": {"key": "typeProperties.servicePrincipalCredentialType", "type": "object"},
         "service_principal_credential": {"key": "typeProperties.servicePrincipalCredential", "type": "SecretBase"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -22881,7 +23144,7 @@ class DynamicsCrmLinkedService(LinkedService):  # pylint: disable=too-many-insta
         service_principal_id: Optional[JSON] = None,
         service_principal_credential_type: Optional[JSON] = None,
         service_principal_credential: Optional["_models.SecretBase"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -22939,9 +23202,8 @@ class DynamicsCrmLinkedService(LinkedService):  # pylint: disable=too-many-insta
          be AzureKeyVaultSecretReference.
         :paramtype service_principal_credential: ~azure.mgmt.datafactory.models.SecretBase
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -23344,9 +23606,8 @@ class DynamicsLinkedService(LinkedService):  # pylint: disable=too-many-instance
      be AzureKeyVaultSecretReference.
     :vartype service_principal_credential: ~azure.mgmt.datafactory.models.SecretBase
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     :ivar credential: The credential reference containing authentication information.
     :vartype credential: ~azure.mgmt.datafactory.models.CredentialReference
     """
@@ -23375,7 +23636,7 @@ class DynamicsLinkedService(LinkedService):  # pylint: disable=too-many-instance
         "service_principal_id": {"key": "typeProperties.servicePrincipalId", "type": "object"},
         "service_principal_credential_type": {"key": "typeProperties.servicePrincipalCredentialType", "type": "object"},
         "service_principal_credential": {"key": "typeProperties.servicePrincipalCredential", "type": "SecretBase"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
         "credential": {"key": "typeProperties.credential", "type": "CredentialReference"},
     }
 
@@ -23398,7 +23659,7 @@ class DynamicsLinkedService(LinkedService):  # pylint: disable=too-many-instance
         service_principal_id: Optional[JSON] = None,
         service_principal_credential_type: Optional[JSON] = None,
         service_principal_credential: Optional["_models.SecretBase"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         credential: Optional["_models.CredentialReference"] = None,
         **kwargs: Any
     ) -> None:
@@ -23456,9 +23717,8 @@ class DynamicsLinkedService(LinkedService):  # pylint: disable=too-many-instance
          be AzureKeyVaultSecretReference.
         :paramtype service_principal_credential: ~azure.mgmt.datafactory.models.SecretBase
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         :keyword credential: The credential reference containing authentication information.
         :paramtype credential: ~azure.mgmt.datafactory.models.CredentialReference
         """
@@ -23736,9 +23996,8 @@ class EloquaLinkedService(LinkedService):  # pylint: disable=too-many-instance-a
      connecting over SSL. The default value is true.
     :vartype use_peer_verification: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -23760,7 +24019,7 @@ class EloquaLinkedService(LinkedService):  # pylint: disable=too-many-instance-a
         "use_encrypted_endpoints": {"key": "typeProperties.useEncryptedEndpoints", "type": "object"},
         "use_host_verification": {"key": "typeProperties.useHostVerification", "type": "object"},
         "use_peer_verification": {"key": "typeProperties.usePeerVerification", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -23777,7 +24036,7 @@ class EloquaLinkedService(LinkedService):  # pylint: disable=too-many-instance-a
         use_encrypted_endpoints: Optional[JSON] = None,
         use_host_verification: Optional[JSON] = None,
         use_peer_verification: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -23810,9 +24069,8 @@ class EloquaLinkedService(LinkedService):  # pylint: disable=too-many-instance-a
          connecting over SSL. The default value is true.
         :paramtype use_peer_verification: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -24427,6 +24685,13 @@ class ExecuteDataFlowActivity(ExecutionActivity):  # pylint: disable=too-many-in
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -24469,6 +24734,8 @@ class ExecuteDataFlowActivity(ExecutionActivity):  # pylint: disable=too-many-in
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "linked_service_name": {"key": "linkedServiceName", "type": "LinkedServiceReference"},
@@ -24490,6 +24757,8 @@ class ExecuteDataFlowActivity(ExecutionActivity):  # pylint: disable=too-many-in
         data_flow: "_models.DataFlowReference",
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         linked_service_name: Optional["_models.LinkedServiceReference"] = None,
@@ -24511,6 +24780,13 @@ class ExecuteDataFlowActivity(ExecutionActivity):  # pylint: disable=too-many-in
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -24545,6 +24821,8 @@ class ExecuteDataFlowActivity(ExecutionActivity):  # pylint: disable=too-many-in
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             linked_service_name=linked_service_name,
@@ -24687,7 +24965,7 @@ class ExecuteDataFlowActivityTypePropertiesCompute(_serialization.Model):
         self.core_count = core_count
 
 
-class ExecutePipelineActivity(ControlActivity):
+class ExecutePipelineActivity(ControlActivity):  # pylint: disable=too-many-instance-attributes
     """Execute pipeline activity.
 
     All required parameters must be populated in order to send to Azure.
@@ -24701,6 +24979,13 @@ class ExecutePipelineActivity(ControlActivity):
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -24727,6 +25012,8 @@ class ExecutePipelineActivity(ControlActivity):
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "policy": {"key": "policy", "type": "ExecutePipelineActivityPolicy"},
@@ -24742,6 +25029,8 @@ class ExecutePipelineActivity(ControlActivity):
         pipeline: "_models.PipelineReference",
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         policy: Optional["_models.ExecutePipelineActivityPolicy"] = None,
@@ -24757,6 +25046,13 @@ class ExecutePipelineActivity(ControlActivity):
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -24775,6 +25071,8 @@ class ExecutePipelineActivity(ControlActivity):
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             **kwargs
@@ -24944,6 +25242,13 @@ class ExecuteSSISPackageActivity(ExecutionActivity):  # pylint: disable=too-many
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -24997,6 +25302,8 @@ class ExecuteSSISPackageActivity(ExecutionActivity):  # pylint: disable=too-many
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "linked_service_name": {"key": "linkedServiceName", "type": "LinkedServiceReference"},
@@ -25029,6 +25336,8 @@ class ExecuteSSISPackageActivity(ExecutionActivity):  # pylint: disable=too-many
         connect_via: "_models.IntegrationRuntimeReference",
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         linked_service_name: Optional["_models.LinkedServiceReference"] = None,
@@ -25053,6 +25362,13 @@ class ExecuteSSISPackageActivity(ExecutionActivity):  # pylint: disable=too-many
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -25097,6 +25413,8 @@ class ExecuteSSISPackageActivity(ExecutionActivity):  # pylint: disable=too-many
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             linked_service_name=linked_service_name,
@@ -25132,6 +25450,13 @@ class ExecuteWranglingDataflowActivity(Activity):  # pylint: disable=too-many-in
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -25177,6 +25502,8 @@ class ExecuteWranglingDataflowActivity(Activity):  # pylint: disable=too-many-in
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "policy": {"key": "policy", "type": "ActivityPolicy"},
@@ -25199,6 +25526,8 @@ class ExecuteWranglingDataflowActivity(Activity):  # pylint: disable=too-many-in
         data_flow: "_models.DataFlowReference",
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         policy: Optional["_models.ActivityPolicy"] = None,
@@ -25221,6 +25550,13 @@ class ExecuteWranglingDataflowActivity(Activity):  # pylint: disable=too-many-in
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -25258,6 +25594,8 @@ class ExecuteWranglingDataflowActivity(Activity):  # pylint: disable=too-many-in
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             **kwargs
@@ -26044,6 +26382,13 @@ class FailActivity(ControlActivity):
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -26070,6 +26415,8 @@ class FailActivity(ControlActivity):
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "message": {"key": "typeProperties.message", "type": "object"},
@@ -26084,6 +26431,8 @@ class FailActivity(ControlActivity):
         error_code: JSON,
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         **kwargs: Any
@@ -26096,6 +26445,13 @@ class FailActivity(ControlActivity):
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -26113,6 +26469,8 @@ class FailActivity(ControlActivity):
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             **kwargs
@@ -26149,9 +26507,8 @@ class FileServerLinkedService(LinkedService):
     :ivar password: Password to logon the server.
     :vartype password: ~azure.mgmt.datafactory.models.SecretBase
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -26169,7 +26526,7 @@ class FileServerLinkedService(LinkedService):
         "host": {"key": "typeProperties.host", "type": "object"},
         "user_id": {"key": "typeProperties.userId", "type": "object"},
         "password": {"key": "typeProperties.password", "type": "SecretBase"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -26183,7 +26540,7 @@ class FileServerLinkedService(LinkedService):
         annotations: Optional[List[JSON]] = None,
         user_id: Optional[JSON] = None,
         password: Optional["_models.SecretBase"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -26207,9 +26564,8 @@ class FileServerLinkedService(LinkedService):
         :keyword password: Password to logon the server.
         :paramtype password: ~azure.mgmt.datafactory.models.SecretBase
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -26309,8 +26665,9 @@ class FileServerReadSettings(StoreReadSettings):  # pylint: disable=too-many-ins
      configured in the dataset) that you want to copy. Type: string (or Expression with resultType
      string).
     :vartype file_list_path: JSON
-    :ivar enable_partition_discovery: Indicates whether to enable partition discovery.
-    :vartype enable_partition_discovery: bool
+    :ivar enable_partition_discovery: Indicates whether to enable partition discovery. Type:
+     boolean (or Expression with resultType boolean).
+    :vartype enable_partition_discovery: JSON
     :ivar partition_root_path: Specify the root path where partition discovery starts from. Type:
      string (or Expression with resultType string).
     :vartype partition_root_path: JSON
@@ -26341,7 +26698,7 @@ class FileServerReadSettings(StoreReadSettings):  # pylint: disable=too-many-ins
         "wildcard_folder_path": {"key": "wildcardFolderPath", "type": "object"},
         "wildcard_file_name": {"key": "wildcardFileName", "type": "object"},
         "file_list_path": {"key": "fileListPath", "type": "object"},
-        "enable_partition_discovery": {"key": "enablePartitionDiscovery", "type": "bool"},
+        "enable_partition_discovery": {"key": "enablePartitionDiscovery", "type": "object"},
         "partition_root_path": {"key": "partitionRootPath", "type": "object"},
         "delete_files_after_completion": {"key": "deleteFilesAfterCompletion", "type": "object"},
         "modified_datetime_start": {"key": "modifiedDatetimeStart", "type": "object"},
@@ -26359,7 +26716,7 @@ class FileServerReadSettings(StoreReadSettings):  # pylint: disable=too-many-ins
         wildcard_folder_path: Optional[JSON] = None,
         wildcard_file_name: Optional[JSON] = None,
         file_list_path: Optional[JSON] = None,
-        enable_partition_discovery: Optional[bool] = None,
+        enable_partition_discovery: Optional[JSON] = None,
         partition_root_path: Optional[JSON] = None,
         delete_files_after_completion: Optional[JSON] = None,
         modified_datetime_start: Optional[JSON] = None,
@@ -26390,8 +26747,9 @@ class FileServerReadSettings(StoreReadSettings):  # pylint: disable=too-many-ins
          configured in the dataset) that you want to copy. Type: string (or Expression with resultType
          string).
         :paramtype file_list_path: JSON
-        :keyword enable_partition_discovery: Indicates whether to enable partition discovery.
-        :paramtype enable_partition_discovery: bool
+        :keyword enable_partition_discovery: Indicates whether to enable partition discovery. Type:
+         boolean (or Expression with resultType boolean).
+        :paramtype enable_partition_discovery: JSON
         :keyword partition_root_path: Specify the root path where partition discovery starts from.
          Type: string (or Expression with resultType string).
         :paramtype partition_root_path: JSON
@@ -26852,6 +27210,13 @@ class FilterActivity(ControlActivity):
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -26874,6 +27239,8 @@ class FilterActivity(ControlActivity):
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "items": {"key": "typeProperties.items", "type": "Expression"},
@@ -26888,6 +27255,8 @@ class FilterActivity(ControlActivity):
         condition: "_models.Expression",
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         **kwargs: Any
@@ -26900,6 +27269,13 @@ class FilterActivity(ControlActivity):
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -26913,6 +27289,8 @@ class FilterActivity(ControlActivity):
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             **kwargs
@@ -27005,7 +27383,7 @@ class Flowlet(DataFlow):
         self.script_lines = script_lines
 
 
-class ForEachActivity(ControlActivity):
+class ForEachActivity(ControlActivity):  # pylint: disable=too-many-instance-attributes
     """This activity is used for iterating over a collection and execute given activities.
 
     All required parameters must be populated in order to send to Azure.
@@ -27019,6 +27397,13 @@ class ForEachActivity(ControlActivity):
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -27047,6 +27432,8 @@ class ForEachActivity(ControlActivity):
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "is_sequential": {"key": "typeProperties.isSequential", "type": "bool"},
@@ -27063,6 +27450,8 @@ class ForEachActivity(ControlActivity):
         activities: List["_models.Activity"],
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         is_sequential: Optional[bool] = None,
@@ -27077,6 +27466,13 @@ class ForEachActivity(ControlActivity):
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -27095,6 +27491,8 @@ class ForEachActivity(ControlActivity):
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             **kwargs
@@ -27131,8 +27529,9 @@ class FtpReadSettings(StoreReadSettings):  # pylint: disable=too-many-instance-a
     :ivar wildcard_file_name: Ftp wildcardFileName. Type: string (or Expression with resultType
      string).
     :vartype wildcard_file_name: JSON
-    :ivar enable_partition_discovery: Indicates whether to enable partition discovery.
-    :vartype enable_partition_discovery: bool
+    :ivar enable_partition_discovery: Indicates whether to enable partition discovery. Type:
+     boolean (or Expression with resultType boolean).
+    :vartype enable_partition_discovery: JSON
     :ivar partition_root_path: Specify the root path where partition discovery starts from. Type:
      string (or Expression with resultType string).
     :vartype partition_root_path: JSON
@@ -27143,8 +27542,9 @@ class FtpReadSettings(StoreReadSettings):  # pylint: disable=too-many-instance-a
      configured in the dataset) that you want to copy. Type: string (or Expression with resultType
      string).
     :vartype file_list_path: JSON
-    :ivar use_binary_transfer: Specify whether to use binary transfer mode for FTP stores.
-    :vartype use_binary_transfer: bool
+    :ivar use_binary_transfer: Specify whether to use binary transfer mode for FTP stores. Type:
+     boolean (or Expression with resultType boolean).
+    :vartype use_binary_transfer: JSON
     :ivar disable_chunking: If true, disable parallel reading within each file. Default is false.
      Type: boolean (or Expression with resultType boolean).
     :vartype disable_chunking: JSON
@@ -27162,11 +27562,11 @@ class FtpReadSettings(StoreReadSettings):  # pylint: disable=too-many-instance-a
         "recursive": {"key": "recursive", "type": "object"},
         "wildcard_folder_path": {"key": "wildcardFolderPath", "type": "object"},
         "wildcard_file_name": {"key": "wildcardFileName", "type": "object"},
-        "enable_partition_discovery": {"key": "enablePartitionDiscovery", "type": "bool"},
+        "enable_partition_discovery": {"key": "enablePartitionDiscovery", "type": "object"},
         "partition_root_path": {"key": "partitionRootPath", "type": "object"},
         "delete_files_after_completion": {"key": "deleteFilesAfterCompletion", "type": "object"},
         "file_list_path": {"key": "fileListPath", "type": "object"},
-        "use_binary_transfer": {"key": "useBinaryTransfer", "type": "bool"},
+        "use_binary_transfer": {"key": "useBinaryTransfer", "type": "object"},
         "disable_chunking": {"key": "disableChunking", "type": "object"},
     }
 
@@ -27179,11 +27579,11 @@ class FtpReadSettings(StoreReadSettings):  # pylint: disable=too-many-instance-a
         recursive: Optional[JSON] = None,
         wildcard_folder_path: Optional[JSON] = None,
         wildcard_file_name: Optional[JSON] = None,
-        enable_partition_discovery: Optional[bool] = None,
+        enable_partition_discovery: Optional[JSON] = None,
         partition_root_path: Optional[JSON] = None,
         delete_files_after_completion: Optional[JSON] = None,
         file_list_path: Optional[JSON] = None,
-        use_binary_transfer: Optional[bool] = None,
+        use_binary_transfer: Optional[JSON] = None,
         disable_chunking: Optional[JSON] = None,
         **kwargs: Any
     ) -> None:
@@ -27206,8 +27606,9 @@ class FtpReadSettings(StoreReadSettings):  # pylint: disable=too-many-instance-a
         :keyword wildcard_file_name: Ftp wildcardFileName. Type: string (or Expression with resultType
          string).
         :paramtype wildcard_file_name: JSON
-        :keyword enable_partition_discovery: Indicates whether to enable partition discovery.
-        :paramtype enable_partition_discovery: bool
+        :keyword enable_partition_discovery: Indicates whether to enable partition discovery. Type:
+         boolean (or Expression with resultType boolean).
+        :paramtype enable_partition_discovery: JSON
         :keyword partition_root_path: Specify the root path where partition discovery starts from.
          Type: string (or Expression with resultType string).
         :paramtype partition_root_path: JSON
@@ -27218,8 +27619,9 @@ class FtpReadSettings(StoreReadSettings):  # pylint: disable=too-many-instance-a
          configured in the dataset) that you want to copy. Type: string (or Expression with resultType
          string).
         :paramtype file_list_path: JSON
-        :keyword use_binary_transfer: Specify whether to use binary transfer mode for FTP stores.
-        :paramtype use_binary_transfer: bool
+        :keyword use_binary_transfer: Specify whether to use binary transfer mode for FTP stores. Type:
+         boolean (or Expression with resultType boolean).
+        :paramtype use_binary_transfer: JSON
         :keyword disable_chunking: If true, disable parallel reading within each file. Default is
          false. Type: boolean (or Expression with resultType boolean).
         :paramtype disable_chunking: JSON
@@ -27275,9 +27677,8 @@ class FtpServerLinkedService(LinkedService):  # pylint: disable=too-many-instanc
     :ivar password: Password to logon the FTP server.
     :vartype password: ~azure.mgmt.datafactory.models.SecretBase
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     :ivar enable_ssl: If true, connect to the FTP server over SSL/TLS channel. Default value is
      true. Type: boolean (or Expression with resultType boolean).
     :vartype enable_ssl: JSON
@@ -27304,7 +27705,7 @@ class FtpServerLinkedService(LinkedService):  # pylint: disable=too-many-instanc
         "authentication_type": {"key": "typeProperties.authenticationType", "type": "str"},
         "user_name": {"key": "typeProperties.userName", "type": "object"},
         "password": {"key": "typeProperties.password", "type": "SecretBase"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
         "enable_ssl": {"key": "typeProperties.enableSsl", "type": "object"},
         "enable_server_certificate_validation": {
             "key": "typeProperties.enableServerCertificateValidation",
@@ -27325,7 +27726,7 @@ class FtpServerLinkedService(LinkedService):  # pylint: disable=too-many-instanc
         authentication_type: Optional[Union[str, "_models.FtpAuthenticationType"]] = None,
         user_name: Optional[JSON] = None,
         password: Optional["_models.SecretBase"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         enable_ssl: Optional[JSON] = None,
         enable_server_certificate_validation: Optional[JSON] = None,
         **kwargs: Any
@@ -27357,9 +27758,8 @@ class FtpServerLinkedService(LinkedService):  # pylint: disable=too-many-instanc
         :keyword password: Password to logon the FTP server.
         :paramtype password: ~azure.mgmt.datafactory.models.SecretBase
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         :keyword enable_ssl: If true, connect to the FTP server over SSL/TLS channel. Default value is
          true. Type: boolean (or Expression with resultType boolean).
         :paramtype enable_ssl: JSON
@@ -27485,6 +27885,13 @@ class GetMetadataActivity(ExecutionActivity):  # pylint: disable=too-many-instan
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -27514,6 +27921,8 @@ class GetMetadataActivity(ExecutionActivity):  # pylint: disable=too-many-instan
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "linked_service_name": {"key": "linkedServiceName", "type": "LinkedServiceReference"},
@@ -27531,6 +27940,8 @@ class GetMetadataActivity(ExecutionActivity):  # pylint: disable=too-many-instan
         dataset: "_models.DatasetReference",
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         linked_service_name: Optional["_models.LinkedServiceReference"] = None,
@@ -27548,6 +27959,13 @@ class GetMetadataActivity(ExecutionActivity):  # pylint: disable=too-many-instan
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -27569,6 +27987,8 @@ class GetMetadataActivity(ExecutionActivity):  # pylint: disable=too-many-instan
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             linked_service_name=linked_service_name,
@@ -27838,7 +28258,7 @@ class GoogleAdWordsLinkedService(LinkedService):  # pylint: disable=too-many-ins
      with any other properties in the linked service. Type: object.
     :vartype connection_properties: JSON
     :ivar client_customer_id: The Client customer ID of the AdWords account that you want to fetch
-     report data for.
+     report data for. Type: string (or Expression with resultType string).
     :vartype client_customer_id: JSON
     :ivar developer_token: The developer token associated with the manager account that you use to
      grant access to the AdWords API.
@@ -27858,22 +28278,24 @@ class GoogleAdWordsLinkedService(LinkedService):  # pylint: disable=too-many-ins
      token.
     :vartype client_secret: ~azure.mgmt.datafactory.models.SecretBase
     :ivar email: The service account email ID that is used for ServiceAuthentication and can only
-     be used on self-hosted IR.
+     be used on self-hosted IR. Type: string (or Expression with resultType string).
     :vartype email: JSON
     :ivar key_file_path: The full path to the .p12 key file that is used to authenticate the
-     service account email address and can only be used on self-hosted IR.
+     service account email address and can only be used on self-hosted IR. Type: string (or
+     Expression with resultType string).
     :vartype key_file_path: JSON
     :ivar trusted_cert_path: The full path of the .pem file containing trusted CA certificates for
      verifying the server when connecting over SSL. This property can only be set when using SSL on
-     self-hosted IR. The default value is the cacerts.pem file installed with the IR.
+     self-hosted IR. The default value is the cacerts.pem file installed with the IR. Type: string
+     (or Expression with resultType string).
     :vartype trusted_cert_path: JSON
     :ivar use_system_trust_store: Specifies whether to use a CA certificate from the system trust
-     store or from a specified PEM file. The default value is false.
+     store or from a specified PEM file. The default value is false. Type: boolean (or Expression
+     with resultType boolean).
     :vartype use_system_trust_store: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -27898,7 +28320,7 @@ class GoogleAdWordsLinkedService(LinkedService):  # pylint: disable=too-many-ins
         "key_file_path": {"key": "typeProperties.keyFilePath", "type": "object"},
         "trusted_cert_path": {"key": "typeProperties.trustedCertPath", "type": "object"},
         "use_system_trust_store": {"key": "typeProperties.useSystemTrustStore", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -27920,7 +28342,7 @@ class GoogleAdWordsLinkedService(LinkedService):  # pylint: disable=too-many-ins
         key_file_path: Optional[JSON] = None,
         trusted_cert_path: Optional[JSON] = None,
         use_system_trust_store: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -27939,7 +28361,7 @@ class GoogleAdWordsLinkedService(LinkedService):  # pylint: disable=too-many-ins
          exclusive with any other properties in the linked service. Type: object.
         :paramtype connection_properties: JSON
         :keyword client_customer_id: The Client customer ID of the AdWords account that you want to
-         fetch report data for.
+         fetch report data for. Type: string (or Expression with resultType string).
         :paramtype client_customer_id: JSON
         :keyword developer_token: The developer token associated with the manager account that you use
          to grant access to the AdWords API.
@@ -27959,22 +28381,24 @@ class GoogleAdWordsLinkedService(LinkedService):  # pylint: disable=too-many-ins
          token.
         :paramtype client_secret: ~azure.mgmt.datafactory.models.SecretBase
         :keyword email: The service account email ID that is used for ServiceAuthentication and can
-         only be used on self-hosted IR.
+         only be used on self-hosted IR. Type: string (or Expression with resultType string).
         :paramtype email: JSON
         :keyword key_file_path: The full path to the .p12 key file that is used to authenticate the
-         service account email address and can only be used on self-hosted IR.
+         service account email address and can only be used on self-hosted IR. Type: string (or
+         Expression with resultType string).
         :paramtype key_file_path: JSON
         :keyword trusted_cert_path: The full path of the .pem file containing trusted CA certificates
          for verifying the server when connecting over SSL. This property can only be set when using SSL
-         on self-hosted IR. The default value is the cacerts.pem file installed with the IR.
+         on self-hosted IR. The default value is the cacerts.pem file installed with the IR. Type:
+         string (or Expression with resultType string).
         :paramtype trusted_cert_path: JSON
         :keyword use_system_trust_store: Specifies whether to use a CA certificate from the system
-         trust store or from a specified PEM file. The default value is false.
+         trust store or from a specified PEM file. The default value is false. Type: boolean (or
+         Expression with resultType boolean).
         :paramtype use_system_trust_store: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -28221,13 +28645,15 @@ class GoogleBigQueryLinkedService(LinkedService):  # pylint: disable=too-many-in
     :vartype parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
     :ivar annotations: List of tags that can be used for describing the linked service.
     :vartype annotations: list[JSON]
-    :ivar project: The default BigQuery project to query against. Required.
+    :ivar project: The default BigQuery project to query against. Type: string (or Expression with
+     resultType string). Required.
     :vartype project: JSON
-    :ivar additional_projects: A comma-separated list of public BigQuery projects to access.
+    :ivar additional_projects: A comma-separated list of public BigQuery projects to access. Type:
+     string (or Expression with resultType string).
     :vartype additional_projects: JSON
     :ivar request_google_drive_scope: Whether to request access to Google Drive. Allowing Google
      Drive access enables support for federated tables that combine BigQuery data with data from
-     Google Drive. The default value is false.
+     Google Drive. The default value is false. Type: string (or Expression with resultType string).
     :vartype request_google_drive_scope: JSON
     :ivar authentication_type: The OAuth 2.0 authentication mechanism used for authentication.
      ServiceAuthentication can only be used on self-hosted IR. Required. Known values are:
@@ -28244,22 +28670,24 @@ class GoogleBigQueryLinkedService(LinkedService):  # pylint: disable=too-many-in
      token.
     :vartype client_secret: ~azure.mgmt.datafactory.models.SecretBase
     :ivar email: The service account email ID that is used for ServiceAuthentication and can only
-     be used on self-hosted IR.
+     be used on self-hosted IR. Type: string (or Expression with resultType string).
     :vartype email: JSON
     :ivar key_file_path: The full path to the .p12 key file that is used to authenticate the
-     service account email address and can only be used on self-hosted IR.
+     service account email address and can only be used on self-hosted IR. Type: string (or
+     Expression with resultType string).
     :vartype key_file_path: JSON
     :ivar trusted_cert_path: The full path of the .pem file containing trusted CA certificates for
      verifying the server when connecting over SSL. This property can only be set when using SSL on
-     self-hosted IR. The default value is the cacerts.pem file installed with the IR.
+     self-hosted IR. The default value is the cacerts.pem file installed with the IR. Type: string
+     (or Expression with resultType string).
     :vartype trusted_cert_path: JSON
     :ivar use_system_trust_store: Specifies whether to use a CA certificate from the system trust
-     store or from a specified PEM file. The default value is false.
+     store or from a specified PEM file. The default value is false.Type: boolean (or Expression
+     with resultType boolean).
     :vartype use_system_trust_store: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -28286,7 +28714,7 @@ class GoogleBigQueryLinkedService(LinkedService):  # pylint: disable=too-many-in
         "key_file_path": {"key": "typeProperties.keyFilePath", "type": "object"},
         "trusted_cert_path": {"key": "typeProperties.trustedCertPath", "type": "object"},
         "use_system_trust_store": {"key": "typeProperties.useSystemTrustStore", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -28308,7 +28736,7 @@ class GoogleBigQueryLinkedService(LinkedService):  # pylint: disable=too-many-in
         key_file_path: Optional[JSON] = None,
         trusted_cert_path: Optional[JSON] = None,
         use_system_trust_store: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -28323,13 +28751,15 @@ class GoogleBigQueryLinkedService(LinkedService):  # pylint: disable=too-many-in
         :paramtype parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
         :keyword annotations: List of tags that can be used for describing the linked service.
         :paramtype annotations: list[JSON]
-        :keyword project: The default BigQuery project to query against. Required.
+        :keyword project: The default BigQuery project to query against. Type: string (or Expression
+         with resultType string). Required.
         :paramtype project: JSON
         :keyword additional_projects: A comma-separated list of public BigQuery projects to access.
+         Type: string (or Expression with resultType string).
         :paramtype additional_projects: JSON
         :keyword request_google_drive_scope: Whether to request access to Google Drive. Allowing Google
          Drive access enables support for federated tables that combine BigQuery data with data from
-         Google Drive. The default value is false.
+         Google Drive. The default value is false. Type: string (or Expression with resultType string).
         :paramtype request_google_drive_scope: JSON
         :keyword authentication_type: The OAuth 2.0 authentication mechanism used for authentication.
          ServiceAuthentication can only be used on self-hosted IR. Required. Known values are:
@@ -28346,22 +28776,24 @@ class GoogleBigQueryLinkedService(LinkedService):  # pylint: disable=too-many-in
          token.
         :paramtype client_secret: ~azure.mgmt.datafactory.models.SecretBase
         :keyword email: The service account email ID that is used for ServiceAuthentication and can
-         only be used on self-hosted IR.
+         only be used on self-hosted IR. Type: string (or Expression with resultType string).
         :paramtype email: JSON
         :keyword key_file_path: The full path to the .p12 key file that is used to authenticate the
-         service account email address and can only be used on self-hosted IR.
+         service account email address and can only be used on self-hosted IR. Type: string (or
+         Expression with resultType string).
         :paramtype key_file_path: JSON
         :keyword trusted_cert_path: The full path of the .pem file containing trusted CA certificates
          for verifying the server when connecting over SSL. This property can only be set when using SSL
-         on self-hosted IR. The default value is the cacerts.pem file installed with the IR.
+         on self-hosted IR. The default value is the cacerts.pem file installed with the IR. Type:
+         string (or Expression with resultType string).
         :paramtype trusted_cert_path: JSON
         :keyword use_system_trust_store: Specifies whether to use a CA certificate from the system
-         trust store or from a specified PEM file. The default value is false.
+         trust store or from a specified PEM file. The default value is false.Type: boolean (or
+         Expression with resultType boolean).
         :paramtype use_system_trust_store: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -28640,9 +29072,8 @@ class GoogleCloudStorageLinkedService(LinkedService):
      string).
     :vartype service_url: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -28659,7 +29090,7 @@ class GoogleCloudStorageLinkedService(LinkedService):
         "access_key_id": {"key": "typeProperties.accessKeyId", "type": "object"},
         "secret_access_key": {"key": "typeProperties.secretAccessKey", "type": "SecretBase"},
         "service_url": {"key": "typeProperties.serviceUrl", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -28673,7 +29104,7 @@ class GoogleCloudStorageLinkedService(LinkedService):
         access_key_id: Optional[JSON] = None,
         secret_access_key: Optional["_models.SecretBase"] = None,
         service_url: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -28700,9 +29131,8 @@ class GoogleCloudStorageLinkedService(LinkedService):
          string).
         :paramtype service_url: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -28823,8 +29253,9 @@ class GoogleCloudStorageReadSettings(StoreReadSettings):  # pylint: disable=too-
      configured in the dataset) that you want to copy. Type: string (or Expression with resultType
      string).
     :vartype file_list_path: JSON
-    :ivar enable_partition_discovery: Indicates whether to enable partition discovery.
-    :vartype enable_partition_discovery: bool
+    :ivar enable_partition_discovery: Indicates whether to enable partition discovery. Type:
+     boolean (or Expression with resultType boolean).
+    :vartype enable_partition_discovery: JSON
     :ivar partition_root_path: Specify the root path where partition discovery starts from. Type:
      string (or Expression with resultType string).
     :vartype partition_root_path: JSON
@@ -28853,7 +29284,7 @@ class GoogleCloudStorageReadSettings(StoreReadSettings):  # pylint: disable=too-
         "wildcard_file_name": {"key": "wildcardFileName", "type": "object"},
         "prefix": {"key": "prefix", "type": "object"},
         "file_list_path": {"key": "fileListPath", "type": "object"},
-        "enable_partition_discovery": {"key": "enablePartitionDiscovery", "type": "bool"},
+        "enable_partition_discovery": {"key": "enablePartitionDiscovery", "type": "object"},
         "partition_root_path": {"key": "partitionRootPath", "type": "object"},
         "delete_files_after_completion": {"key": "deleteFilesAfterCompletion", "type": "object"},
         "modified_datetime_start": {"key": "modifiedDatetimeStart", "type": "object"},
@@ -28871,7 +29302,7 @@ class GoogleCloudStorageReadSettings(StoreReadSettings):  # pylint: disable=too-
         wildcard_file_name: Optional[JSON] = None,
         prefix: Optional[JSON] = None,
         file_list_path: Optional[JSON] = None,
-        enable_partition_discovery: Optional[bool] = None,
+        enable_partition_discovery: Optional[JSON] = None,
         partition_root_path: Optional[JSON] = None,
         delete_files_after_completion: Optional[JSON] = None,
         modified_datetime_start: Optional[JSON] = None,
@@ -28904,8 +29335,9 @@ class GoogleCloudStorageReadSettings(StoreReadSettings):  # pylint: disable=too-
          configured in the dataset) that you want to copy. Type: string (or Expression with resultType
          string).
         :paramtype file_list_path: JSON
-        :keyword enable_partition_discovery: Indicates whether to enable partition discovery.
-        :paramtype enable_partition_discovery: bool
+        :keyword enable_partition_discovery: Indicates whether to enable partition discovery. Type:
+         boolean (or Expression with resultType boolean).
+        :paramtype enable_partition_discovery: JSON
         :keyword partition_root_path: Specify the root path where partition discovery starts from.
          Type: string (or Expression with resultType string).
         :paramtype partition_root_path: JSON
@@ -28959,9 +29391,8 @@ class GoogleSheetsLinkedService(LinkedService):
     :ivar api_token: The api token for the GoogleSheets source. Required.
     :vartype api_token: ~azure.mgmt.datafactory.models.SecretBase
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -28977,7 +29408,7 @@ class GoogleSheetsLinkedService(LinkedService):
         "parameters": {"key": "parameters", "type": "{ParameterSpecification}"},
         "annotations": {"key": "annotations", "type": "[object]"},
         "api_token": {"key": "typeProperties.apiToken", "type": "SecretBase"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -28989,7 +29420,7 @@ class GoogleSheetsLinkedService(LinkedService):
         description: Optional[str] = None,
         parameters: Optional[Dict[str, "_models.ParameterSpecification"]] = None,
         annotations: Optional[List[JSON]] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -29007,9 +29438,8 @@ class GoogleSheetsLinkedService(LinkedService):
         :keyword api_token: The api token for the GoogleSheets source. Required.
         :paramtype api_token: ~azure.mgmt.datafactory.models.SecretBase
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -29048,9 +29478,8 @@ class GreenplumLinkedService(LinkedService):
     :ivar pwd: The Azure key vault secret reference of password in connection string.
     :vartype pwd: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -29066,7 +29495,7 @@ class GreenplumLinkedService(LinkedService):
         "annotations": {"key": "annotations", "type": "[object]"},
         "connection_string": {"key": "typeProperties.connectionString", "type": "object"},
         "pwd": {"key": "typeProperties.pwd", "type": "AzureKeyVaultSecretReference"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -29079,7 +29508,7 @@ class GreenplumLinkedService(LinkedService):
         annotations: Optional[List[JSON]] = None,
         connection_string: Optional[JSON] = None,
         pwd: Optional["_models.AzureKeyVaultSecretReference"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -29100,9 +29529,8 @@ class GreenplumLinkedService(LinkedService):
         :keyword pwd: The Azure key vault secret reference of password in connection string.
         :paramtype pwd: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -29388,9 +29816,8 @@ class HBaseLinkedService(LinkedService):  # pylint: disable=too-many-instance-at
      the server. The default value is false.
     :vartype allow_self_signed_server_cert: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -29416,7 +29843,7 @@ class HBaseLinkedService(LinkedService):  # pylint: disable=too-many-instance-at
         "trusted_cert_path": {"key": "typeProperties.trustedCertPath", "type": "object"},
         "allow_host_name_cn_mismatch": {"key": "typeProperties.allowHostNameCNMismatch", "type": "object"},
         "allow_self_signed_server_cert": {"key": "typeProperties.allowSelfSignedServerCert", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -29437,7 +29864,7 @@ class HBaseLinkedService(LinkedService):  # pylint: disable=too-many-instance-at
         trusted_cert_path: Optional[JSON] = None,
         allow_host_name_cn_mismatch: Optional[JSON] = None,
         allow_self_signed_server_cert: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -29482,9 +29909,8 @@ class HBaseLinkedService(LinkedService):  # pylint: disable=too-many-instance-at
          from the server. The default value is false.
         :paramtype allow_self_signed_server_cert: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -29737,9 +30163,8 @@ class HdfsLinkedService(LinkedService):  # pylint: disable=too-many-instance-att
      are: Anonymous and Windows. Type: string (or Expression with resultType string).
     :vartype authentication_type: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     :ivar user_name: User name for Windows authentication. Type: string (or Expression with
      resultType string).
     :vartype user_name: JSON
@@ -29761,7 +30186,7 @@ class HdfsLinkedService(LinkedService):  # pylint: disable=too-many-instance-att
         "annotations": {"key": "annotations", "type": "[object]"},
         "url": {"key": "typeProperties.url", "type": "object"},
         "authentication_type": {"key": "typeProperties.authenticationType", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
         "user_name": {"key": "typeProperties.userName", "type": "object"},
         "password": {"key": "typeProperties.password", "type": "SecretBase"},
     }
@@ -29776,7 +30201,7 @@ class HdfsLinkedService(LinkedService):  # pylint: disable=too-many-instance-att
         parameters: Optional[Dict[str, "_models.ParameterSpecification"]] = None,
         annotations: Optional[List[JSON]] = None,
         authentication_type: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         user_name: Optional[JSON] = None,
         password: Optional["_models.SecretBase"] = None,
         **kwargs: Any
@@ -29800,9 +30225,8 @@ class HdfsLinkedService(LinkedService):  # pylint: disable=too-many-instance-att
          values are: Anonymous and Windows. Type: string (or Expression with resultType string).
         :paramtype authentication_type: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         :keyword user_name: User name for Windows authentication. Type: string (or Expression with
          resultType string).
         :paramtype user_name: JSON
@@ -29908,8 +30332,9 @@ class HdfsReadSettings(StoreReadSettings):  # pylint: disable=too-many-instance-
      configured in the dataset) that you want to copy. Type: string (or Expression with resultType
      string).
     :vartype file_list_path: JSON
-    :ivar enable_partition_discovery: Indicates whether to enable partition discovery.
-    :vartype enable_partition_discovery: bool
+    :ivar enable_partition_discovery: Indicates whether to enable partition discovery. Type:
+     boolean (or Expression with resultType boolean).
+    :vartype enable_partition_discovery: JSON
     :ivar partition_root_path: Specify the root path where partition discovery starts from. Type:
      string (or Expression with resultType string).
     :vartype partition_root_path: JSON
@@ -29939,7 +30364,7 @@ class HdfsReadSettings(StoreReadSettings):  # pylint: disable=too-many-instance-
         "wildcard_folder_path": {"key": "wildcardFolderPath", "type": "object"},
         "wildcard_file_name": {"key": "wildcardFileName", "type": "object"},
         "file_list_path": {"key": "fileListPath", "type": "object"},
-        "enable_partition_discovery": {"key": "enablePartitionDiscovery", "type": "bool"},
+        "enable_partition_discovery": {"key": "enablePartitionDiscovery", "type": "object"},
         "partition_root_path": {"key": "partitionRootPath", "type": "object"},
         "modified_datetime_start": {"key": "modifiedDatetimeStart", "type": "object"},
         "modified_datetime_end": {"key": "modifiedDatetimeEnd", "type": "object"},
@@ -29957,7 +30382,7 @@ class HdfsReadSettings(StoreReadSettings):  # pylint: disable=too-many-instance-
         wildcard_folder_path: Optional[JSON] = None,
         wildcard_file_name: Optional[JSON] = None,
         file_list_path: Optional[JSON] = None,
-        enable_partition_discovery: Optional[bool] = None,
+        enable_partition_discovery: Optional[JSON] = None,
         partition_root_path: Optional[JSON] = None,
         modified_datetime_start: Optional[JSON] = None,
         modified_datetime_end: Optional[JSON] = None,
@@ -29988,8 +30413,9 @@ class HdfsReadSettings(StoreReadSettings):  # pylint: disable=too-many-instance-
          configured in the dataset) that you want to copy. Type: string (or Expression with resultType
          string).
         :paramtype file_list_path: JSON
-        :keyword enable_partition_discovery: Indicates whether to enable partition discovery.
-        :paramtype enable_partition_discovery: bool
+        :keyword enable_partition_discovery: Indicates whether to enable partition discovery. Type:
+         boolean (or Expression with resultType boolean).
+        :paramtype enable_partition_discovery: JSON
         :keyword partition_root_path: Specify the root path where partition discovery starts from.
          Type: string (or Expression with resultType string).
         :paramtype partition_root_path: JSON
@@ -30129,6 +30555,13 @@ class HDInsightHiveActivity(ExecutionActivity):  # pylint: disable=too-many-inst
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -30150,7 +30583,7 @@ class HDInsightHiveActivity(ExecutionActivity):  # pylint: disable=too-many-inst
     :ivar defines: Allows user to specify defines for Hive job request.
     :vartype defines: dict[str, JSON]
     :ivar variables: User specified arguments under hivevar namespace.
-    :vartype variables: list[JSON]
+    :vartype variables: dict[str, JSON]
     :ivar query_timeout: Query timeout value (in minutes).  Effective when the HDInsight cluster is
      with ESP (Enterprise Security Package).
     :vartype query_timeout: int
@@ -30166,6 +30599,8 @@ class HDInsightHiveActivity(ExecutionActivity):  # pylint: disable=too-many-inst
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "linked_service_name": {"key": "linkedServiceName", "type": "LinkedServiceReference"},
@@ -30176,7 +30611,7 @@ class HDInsightHiveActivity(ExecutionActivity):  # pylint: disable=too-many-inst
         "script_path": {"key": "typeProperties.scriptPath", "type": "object"},
         "script_linked_service": {"key": "typeProperties.scriptLinkedService", "type": "LinkedServiceReference"},
         "defines": {"key": "typeProperties.defines", "type": "{object}"},
-        "variables": {"key": "typeProperties.variables", "type": "[object]"},
+        "variables": {"key": "typeProperties.variables", "type": "{object}"},
         "query_timeout": {"key": "typeProperties.queryTimeout", "type": "int"},
     }
 
@@ -30186,6 +30621,8 @@ class HDInsightHiveActivity(ExecutionActivity):  # pylint: disable=too-many-inst
         name: str,
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         linked_service_name: Optional["_models.LinkedServiceReference"] = None,
@@ -30196,7 +30633,7 @@ class HDInsightHiveActivity(ExecutionActivity):  # pylint: disable=too-many-inst
         script_path: Optional[JSON] = None,
         script_linked_service: Optional["_models.LinkedServiceReference"] = None,
         defines: Optional[Dict[str, JSON]] = None,
-        variables: Optional[List[JSON]] = None,
+        variables: Optional[Dict[str, JSON]] = None,
         query_timeout: Optional[int] = None,
         **kwargs: Any
     ) -> None:
@@ -30208,6 +30645,13 @@ class HDInsightHiveActivity(ExecutionActivity):  # pylint: disable=too-many-inst
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -30230,7 +30674,7 @@ class HDInsightHiveActivity(ExecutionActivity):  # pylint: disable=too-many-inst
         :keyword defines: Allows user to specify defines for Hive job request.
         :paramtype defines: dict[str, JSON]
         :keyword variables: User specified arguments under hivevar namespace.
-        :paramtype variables: list[JSON]
+        :paramtype variables: dict[str, JSON]
         :keyword query_timeout: Query timeout value (in minutes).  Effective when the HDInsight cluster
          is with ESP (Enterprise Security Package).
         :paramtype query_timeout: int
@@ -30239,6 +30683,8 @@ class HDInsightHiveActivity(ExecutionActivity):  # pylint: disable=too-many-inst
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             linked_service_name=linked_service_name,
@@ -30288,9 +30734,8 @@ class HDInsightLinkedService(LinkedService):  # pylint: disable=too-many-instanc
      the HCatalog database.
     :vartype hcatalog_linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     :ivar is_esp_enabled: Specify if the HDInsight is created with ESP (Enterprise Security
      Package). Type: Boolean.
     :vartype is_esp_enabled: JSON
@@ -30319,7 +30764,7 @@ class HDInsightLinkedService(LinkedService):  # pylint: disable=too-many-instanc
             "key": "typeProperties.hcatalogLinkedServiceName",
             "type": "LinkedServiceReference",
         },
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
         "is_esp_enabled": {"key": "typeProperties.isEspEnabled", "type": "object"},
         "file_system": {"key": "typeProperties.fileSystem", "type": "object"},
     }
@@ -30337,7 +30782,7 @@ class HDInsightLinkedService(LinkedService):  # pylint: disable=too-many-instanc
         password: Optional["_models.SecretBase"] = None,
         linked_service_name: Optional["_models.LinkedServiceReference"] = None,
         hcatalog_linked_service_name: Optional["_models.LinkedServiceReference"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         is_esp_enabled: Optional[JSON] = None,
         file_system: Optional[JSON] = None,
         **kwargs: Any
@@ -30368,9 +30813,8 @@ class HDInsightLinkedService(LinkedService):  # pylint: disable=too-many-instanc
          to the HCatalog database.
         :paramtype hcatalog_linked_service_name: ~azure.mgmt.datafactory.models.LinkedServiceReference
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         :keyword is_esp_enabled: Specify if the HDInsight is created with ESP (Enterprise Security
          Package). Type: Boolean.
         :paramtype is_esp_enabled: JSON
@@ -30411,6 +30855,13 @@ class HDInsightMapReduceActivity(ExecutionActivity):  # pylint: disable=too-many
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -30449,6 +30900,8 @@ class HDInsightMapReduceActivity(ExecutionActivity):  # pylint: disable=too-many
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "linked_service_name": {"key": "linkedServiceName", "type": "LinkedServiceReference"},
@@ -30471,6 +30924,8 @@ class HDInsightMapReduceActivity(ExecutionActivity):  # pylint: disable=too-many
         jar_file_path: JSON,
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         linked_service_name: Optional["_models.LinkedServiceReference"] = None,
@@ -30491,6 +30946,13 @@ class HDInsightMapReduceActivity(ExecutionActivity):  # pylint: disable=too-many
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -30522,6 +30984,8 @@ class HDInsightMapReduceActivity(ExecutionActivity):  # pylint: disable=too-many
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             linked_service_name=linked_service_name,
@@ -30636,9 +31100,8 @@ class HDInsightOnDemandLinkedService(LinkedService):  # pylint: disable=too-many
      HDInsight cluster.
     :vartype yarn_configuration: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     :ivar head_node_size: Specifies the size of the head node for the HDInsight cluster.
     :vartype head_node_size: JSON
     :ivar data_node_size: Specifies the size of the data node for the HDInsight cluster.
@@ -30709,7 +31172,7 @@ class HDInsightOnDemandLinkedService(LinkedService):  # pylint: disable=too-many
         "oozie_configuration": {"key": "typeProperties.oozieConfiguration", "type": "object"},
         "storm_configuration": {"key": "typeProperties.stormConfiguration", "type": "object"},
         "yarn_configuration": {"key": "typeProperties.yarnConfiguration", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
         "head_node_size": {"key": "typeProperties.headNodeSize", "type": "object"},
         "data_node_size": {"key": "typeProperties.dataNodeSize", "type": "object"},
         "zookeeper_node_size": {"key": "typeProperties.zookeeperNodeSize", "type": "object"},
@@ -30753,7 +31216,7 @@ class HDInsightOnDemandLinkedService(LinkedService):  # pylint: disable=too-many
         oozie_configuration: Optional[JSON] = None,
         storm_configuration: Optional[JSON] = None,
         yarn_configuration: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         head_node_size: Optional[JSON] = None,
         data_node_size: Optional[JSON] = None,
         zookeeper_node_size: Optional[JSON] = None,
@@ -30854,9 +31317,8 @@ class HDInsightOnDemandLinkedService(LinkedService):  # pylint: disable=too-many
          the HDInsight cluster.
         :paramtype yarn_configuration: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         :keyword head_node_size: Specifies the size of the head node for the HDInsight cluster.
         :paramtype head_node_size: JSON
         :keyword data_node_size: Specifies the size of the data node for the HDInsight cluster.
@@ -30936,6 +31398,13 @@ class HDInsightPigActivity(ExecutionActivity):  # pylint: disable=too-many-insta
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -30969,6 +31438,8 @@ class HDInsightPigActivity(ExecutionActivity):  # pylint: disable=too-many-insta
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "linked_service_name": {"key": "linkedServiceName", "type": "LinkedServiceReference"},
@@ -30987,6 +31458,8 @@ class HDInsightPigActivity(ExecutionActivity):  # pylint: disable=too-many-insta
         name: str,
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         linked_service_name: Optional["_models.LinkedServiceReference"] = None,
@@ -31007,6 +31480,13 @@ class HDInsightPigActivity(ExecutionActivity):  # pylint: disable=too-many-insta
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -31034,6 +31514,8 @@ class HDInsightPigActivity(ExecutionActivity):  # pylint: disable=too-many-insta
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             linked_service_name=linked_service_name,
@@ -31063,6 +31545,13 @@ class HDInsightSparkActivity(ExecutionActivity):  # pylint: disable=too-many-ins
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -31105,6 +31594,8 @@ class HDInsightSparkActivity(ExecutionActivity):  # pylint: disable=too-many-ins
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "linked_service_name": {"key": "linkedServiceName", "type": "LinkedServiceReference"},
@@ -31127,6 +31618,8 @@ class HDInsightSparkActivity(ExecutionActivity):  # pylint: disable=too-many-ins
         entry_file_path: JSON,
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         linked_service_name: Optional["_models.LinkedServiceReference"] = None,
@@ -31147,6 +31640,13 @@ class HDInsightSparkActivity(ExecutionActivity):  # pylint: disable=too-many-ins
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -31181,6 +31681,8 @@ class HDInsightSparkActivity(ExecutionActivity):  # pylint: disable=too-many-ins
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             linked_service_name=linked_service_name,
@@ -31212,6 +31714,13 @@ class HDInsightStreamingActivity(ExecutionActivity):  # pylint: disable=too-many
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -31263,6 +31772,8 @@ class HDInsightStreamingActivity(ExecutionActivity):  # pylint: disable=too-many
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "linked_service_name": {"key": "linkedServiceName", "type": "LinkedServiceReference"},
@@ -31292,6 +31803,8 @@ class HDInsightStreamingActivity(ExecutionActivity):  # pylint: disable=too-many
         file_paths: List[JSON],
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         linked_service_name: Optional["_models.LinkedServiceReference"] = None,
@@ -31313,6 +31826,13 @@ class HDInsightStreamingActivity(ExecutionActivity):  # pylint: disable=too-many
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -31355,6 +31875,8 @@ class HDInsightStreamingActivity(ExecutionActivity):  # pylint: disable=too-many
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             linked_service_name=linked_service_name,
@@ -31442,9 +31964,8 @@ class HiveLinkedService(LinkedService):  # pylint: disable=too-many-instance-att
      the server. The default value is false.
     :vartype allow_self_signed_server_cert: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -31476,7 +31997,7 @@ class HiveLinkedService(LinkedService):  # pylint: disable=too-many-instance-att
         "use_system_trust_store": {"key": "typeProperties.useSystemTrustStore", "type": "object"},
         "allow_host_name_cn_mismatch": {"key": "typeProperties.allowHostNameCNMismatch", "type": "object"},
         "allow_self_signed_server_cert": {"key": "typeProperties.allowSelfSignedServerCert", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -31503,7 +32024,7 @@ class HiveLinkedService(LinkedService):  # pylint: disable=too-many-instance-att
         use_system_trust_store: Optional[JSON] = None,
         allow_host_name_cn_mismatch: Optional[JSON] = None,
         allow_self_signed_server_cert: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -31566,9 +32087,8 @@ class HiveLinkedService(LinkedService):  # pylint: disable=too-many-instance-att
          from the server. The default value is false.
         :paramtype allow_self_signed_server_cert: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -32016,9 +32536,8 @@ class HttpLinkedService(LinkedService):  # pylint: disable=too-many-instance-att
      with resultType string).
     :vartype cert_thumbprint: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     :ivar enable_server_certificate_validation: If true, validate the HTTPS server SSL certificate.
      Default value is true. Type: boolean (or Expression with resultType boolean).
     :vartype enable_server_certificate_validation: JSON
@@ -32043,7 +32562,7 @@ class HttpLinkedService(LinkedService):  # pylint: disable=too-many-instance-att
         "auth_headers": {"key": "typeProperties.authHeaders", "type": "object"},
         "embedded_cert_data": {"key": "typeProperties.embeddedCertData", "type": "object"},
         "cert_thumbprint": {"key": "typeProperties.certThumbprint", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
         "enable_server_certificate_validation": {
             "key": "typeProperties.enableServerCertificateValidation",
             "type": "object",
@@ -32065,7 +32584,7 @@ class HttpLinkedService(LinkedService):  # pylint: disable=too-many-instance-att
         auth_headers: Optional[JSON] = None,
         embedded_cert_data: Optional[JSON] = None,
         cert_thumbprint: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         enable_server_certificate_validation: Optional[JSON] = None,
         **kwargs: Any
     ) -> None:
@@ -32107,9 +32626,8 @@ class HttpLinkedService(LinkedService):  # pylint: disable=too-many-instance-att
          with resultType string).
         :paramtype cert_thumbprint: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         :keyword enable_server_certificate_validation: If true, validate the HTTPS server SSL
          certificate. Default value is true. Type: boolean (or Expression with resultType boolean).
         :paramtype enable_server_certificate_validation: JSON
@@ -32135,7 +32653,7 @@ class HttpLinkedService(LinkedService):  # pylint: disable=too-many-instance-att
 
 
 class HttpReadSettings(StoreReadSettings):
-    """Sftp read settings.
+    """Http read settings.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -32160,13 +32678,11 @@ class HttpReadSettings(StoreReadSettings):
      string (or Expression with resultType string).
     :vartype additional_headers: JSON
     :ivar request_timeout: Specifies the timeout for a HTTP client to get HTTP response from HTTP
-     server.
+     server. Type: string (or Expression with resultType string).
     :vartype request_timeout: JSON
-    :ivar enable_partition_discovery: Indicates whether to enable partition discovery.
-    :vartype enable_partition_discovery: bool
-    :ivar partition_root_path: Specify the root path where partition discovery starts from. Type:
-     string (or Expression with resultType string).
-    :vartype partition_root_path: JSON
+    :ivar additional_columns: Specifies the additional columns to be added to source data. Type:
+     array of objects(AdditionalColumns) (or Expression with resultType array of objects).
+    :vartype additional_columns: JSON
     """
 
     _validation = {
@@ -32182,8 +32698,7 @@ class HttpReadSettings(StoreReadSettings):
         "request_body": {"key": "requestBody", "type": "object"},
         "additional_headers": {"key": "additionalHeaders", "type": "object"},
         "request_timeout": {"key": "requestTimeout", "type": "object"},
-        "enable_partition_discovery": {"key": "enablePartitionDiscovery", "type": "bool"},
-        "partition_root_path": {"key": "partitionRootPath", "type": "object"},
+        "additional_columns": {"key": "additionalColumns", "type": "object"},
     }
 
     def __init__(
@@ -32196,8 +32711,7 @@ class HttpReadSettings(StoreReadSettings):
         request_body: Optional[JSON] = None,
         additional_headers: Optional[JSON] = None,
         request_timeout: Optional[JSON] = None,
-        enable_partition_discovery: Optional[bool] = None,
-        partition_root_path: Optional[JSON] = None,
+        additional_columns: Optional[JSON] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -32220,13 +32734,11 @@ class HttpReadSettings(StoreReadSettings):
          Type: string (or Expression with resultType string).
         :paramtype additional_headers: JSON
         :keyword request_timeout: Specifies the timeout for a HTTP client to get HTTP response from
-         HTTP server.
+         HTTP server. Type: string (or Expression with resultType string).
         :paramtype request_timeout: JSON
-        :keyword enable_partition_discovery: Indicates whether to enable partition discovery.
-        :paramtype enable_partition_discovery: bool
-        :keyword partition_root_path: Specify the root path where partition discovery starts from.
-         Type: string (or Expression with resultType string).
-        :paramtype partition_root_path: JSON
+        :keyword additional_columns: Specifies the additional columns to be added to source data. Type:
+         array of objects(AdditionalColumns) (or Expression with resultType array of objects).
+        :paramtype additional_columns: JSON
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -32239,8 +32751,7 @@ class HttpReadSettings(StoreReadSettings):
         self.request_body = request_body
         self.additional_headers = additional_headers
         self.request_timeout = request_timeout
-        self.enable_partition_discovery = enable_partition_discovery
-        self.partition_root_path = partition_root_path
+        self.additional_columns = additional_columns
 
 
 class HttpServerLocation(DatasetLocation):
@@ -32433,9 +32944,8 @@ class HubspotLinkedService(LinkedService):  # pylint: disable=too-many-instance-
      connecting over SSL. The default value is true.
     :vartype use_peer_verification: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -32457,7 +32967,7 @@ class HubspotLinkedService(LinkedService):  # pylint: disable=too-many-instance-
         "use_encrypted_endpoints": {"key": "typeProperties.useEncryptedEndpoints", "type": "object"},
         "use_host_verification": {"key": "typeProperties.useHostVerification", "type": "object"},
         "use_peer_verification": {"key": "typeProperties.usePeerVerification", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -32475,7 +32985,7 @@ class HubspotLinkedService(LinkedService):  # pylint: disable=too-many-instance-
         use_encrypted_endpoints: Optional[JSON] = None,
         use_host_verification: Optional[JSON] = None,
         use_peer_verification: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -32511,9 +33021,8 @@ class HubspotLinkedService(LinkedService):  # pylint: disable=too-many-instance-
          connecting over SSL. The default value is true.
         :paramtype use_peer_verification: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -32738,7 +33247,7 @@ class HubspotSource(TabularSource):
         self.query = query
 
 
-class IfConditionActivity(ControlActivity):
+class IfConditionActivity(ControlActivity):  # pylint: disable=too-many-instance-attributes
     """This activity evaluates a boolean expression and executes either the activities under the
     ifTrueActivities property or the ifFalseActivities property depending on the result of the
     expression.
@@ -32754,6 +33263,13 @@ class IfConditionActivity(ControlActivity):
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -32780,6 +33296,8 @@ class IfConditionActivity(ControlActivity):
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "expression": {"key": "typeProperties.expression", "type": "Expression"},
@@ -32794,6 +33312,8 @@ class IfConditionActivity(ControlActivity):
         expression: "_models.Expression",
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         if_true_activities: Optional[List["_models.Activity"]] = None,
@@ -32808,6 +33328,13 @@ class IfConditionActivity(ControlActivity):
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -32828,6 +33355,8 @@ class IfConditionActivity(ControlActivity):
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             **kwargs
@@ -32886,9 +33415,8 @@ class ImpalaLinkedService(LinkedService):  # pylint: disable=too-many-instance-a
      the server. The default value is false.
     :vartype allow_self_signed_server_cert: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -32914,7 +33442,7 @@ class ImpalaLinkedService(LinkedService):  # pylint: disable=too-many-instance-a
         "use_system_trust_store": {"key": "typeProperties.useSystemTrustStore", "type": "object"},
         "allow_host_name_cn_mismatch": {"key": "typeProperties.allowHostNameCNMismatch", "type": "object"},
         "allow_self_signed_server_cert": {"key": "typeProperties.allowSelfSignedServerCert", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -32935,7 +33463,7 @@ class ImpalaLinkedService(LinkedService):  # pylint: disable=too-many-instance-a
         use_system_trust_store: Optional[JSON] = None,
         allow_host_name_cn_mismatch: Optional[JSON] = None,
         allow_self_signed_server_cert: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -32981,9 +33509,8 @@ class ImpalaLinkedService(LinkedService):  # pylint: disable=too-many-instance-a
          from the server. The default value is false.
         :paramtype allow_self_signed_server_cert: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -33249,8 +33776,8 @@ class InformixLinkedService(LinkedService):  # pylint: disable=too-many-instance
     :ivar annotations: List of tags that can be used for describing the linked service.
     :vartype annotations: list[JSON]
     :ivar connection_string: The non-access credential portion of the connection string as well as
-     an optional encrypted credential. Type: string, SecureString or AzureKeyVaultSecretReference.
-     Required.
+     an optional encrypted credential. Type: string, or SecureString, or
+     AzureKeyVaultSecretReference, or Expression with resultType string. Required.
     :vartype connection_string: JSON
     :ivar authentication_type: Type of authentication used to connect to the Informix as ODBC data
      store. Possible values are: Anonymous and Basic. Type: string (or Expression with resultType
@@ -33265,9 +33792,8 @@ class InformixLinkedService(LinkedService):  # pylint: disable=too-many-instance
     :ivar password: Password for Basic authentication.
     :vartype password: ~azure.mgmt.datafactory.models.SecretBase
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -33287,7 +33813,7 @@ class InformixLinkedService(LinkedService):  # pylint: disable=too-many-instance
         "credential": {"key": "typeProperties.credential", "type": "SecretBase"},
         "user_name": {"key": "typeProperties.userName", "type": "object"},
         "password": {"key": "typeProperties.password", "type": "SecretBase"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -33303,7 +33829,7 @@ class InformixLinkedService(LinkedService):  # pylint: disable=too-many-instance
         credential: Optional["_models.SecretBase"] = None,
         user_name: Optional[JSON] = None,
         password: Optional["_models.SecretBase"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -33319,8 +33845,8 @@ class InformixLinkedService(LinkedService):  # pylint: disable=too-many-instance
         :keyword annotations: List of tags that can be used for describing the linked service.
         :paramtype annotations: list[JSON]
         :keyword connection_string: The non-access credential portion of the connection string as well
-         as an optional encrypted credential. Type: string, SecureString or
-         AzureKeyVaultSecretReference. Required.
+         as an optional encrypted credential. Type: string, or SecureString, or
+         AzureKeyVaultSecretReference, or Expression with resultType string. Required.
         :paramtype connection_string: JSON
         :keyword authentication_type: Type of authentication used to connect to the Informix as ODBC
          data store. Possible values are: Anonymous and Basic. Type: string (or Expression with
@@ -33335,9 +33861,8 @@ class InformixLinkedService(LinkedService):  # pylint: disable=too-many-instance
         :keyword password: Password for Basic authentication.
         :paramtype password: ~azure.mgmt.datafactory.models.SecretBase
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -33977,6 +34502,9 @@ class IntegrationRuntimeDataFlowProperties(_serialization.Model):
     :ivar cleanup: Cluster will not be recycled and it will be used in next data flow activity run
      until TTL (time to live) is reached if this is set as false. Default is true.
     :vartype cleanup: bool
+    :ivar custom_properties: Custom properties are used to tune the data flow runtime performance.
+    :vartype custom_properties:
+     list[~azure.mgmt.datafactory.models.IntegrationRuntimeDataFlowPropertiesCustomPropertiesItem]
     """
 
     _validation = {
@@ -33989,6 +34517,10 @@ class IntegrationRuntimeDataFlowProperties(_serialization.Model):
         "core_count": {"key": "coreCount", "type": "int"},
         "time_to_live": {"key": "timeToLive", "type": "int"},
         "cleanup": {"key": "cleanup", "type": "bool"},
+        "custom_properties": {
+            "key": "customProperties",
+            "type": "[IntegrationRuntimeDataFlowPropertiesCustomPropertiesItem]",
+        },
     }
 
     def __init__(
@@ -33999,6 +34531,7 @@ class IntegrationRuntimeDataFlowProperties(_serialization.Model):
         core_count: Optional[int] = None,
         time_to_live: Optional[int] = None,
         cleanup: Optional[bool] = None,
+        custom_properties: Optional[List["_models.IntegrationRuntimeDataFlowPropertiesCustomPropertiesItem"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -34017,6 +34550,10 @@ class IntegrationRuntimeDataFlowProperties(_serialization.Model):
         :keyword cleanup: Cluster will not be recycled and it will be used in next data flow activity
          run until TTL (time to live) is reached if this is set as false. Default is true.
         :paramtype cleanup: bool
+        :keyword custom_properties: Custom properties are used to tune the data flow runtime
+         performance.
+        :paramtype custom_properties:
+         list[~azure.mgmt.datafactory.models.IntegrationRuntimeDataFlowPropertiesCustomPropertiesItem]
         """
         super().__init__(**kwargs)
         self.additional_properties = additional_properties
@@ -34024,6 +34561,33 @@ class IntegrationRuntimeDataFlowProperties(_serialization.Model):
         self.core_count = core_count
         self.time_to_live = time_to_live
         self.cleanup = cleanup
+        self.custom_properties = custom_properties
+
+
+class IntegrationRuntimeDataFlowPropertiesCustomPropertiesItem(_serialization.Model):
+    """IntegrationRuntimeDataFlowPropertiesCustomPropertiesItem.
+
+    :ivar name: Name of custom property.
+    :vartype name: str
+    :ivar value: Value of custom property.
+    :vartype value: str
+    """
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "value": {"key": "value", "type": "str"},
+    }
+
+    def __init__(self, *, name: Optional[str] = None, value: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword name: Name of custom property.
+        :paramtype name: str
+        :keyword value: Value of custom property.
+        :paramtype value: str
+        """
+        super().__init__(**kwargs)
+        self.name = name
+        self.value = value
 
 
 class IntegrationRuntimeDataProxyProperties(_serialization.Model):
@@ -34879,9 +35443,8 @@ class JiraLinkedService(LinkedService):  # pylint: disable=too-many-instance-att
      connecting over SSL. The default value is true.
     :vartype use_peer_verification: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -34904,7 +35467,7 @@ class JiraLinkedService(LinkedService):  # pylint: disable=too-many-instance-att
         "use_encrypted_endpoints": {"key": "typeProperties.useEncryptedEndpoints", "type": "object"},
         "use_host_verification": {"key": "typeProperties.useHostVerification", "type": "object"},
         "use_peer_verification": {"key": "typeProperties.usePeerVerification", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -34922,7 +35485,7 @@ class JiraLinkedService(LinkedService):  # pylint: disable=too-many-instance-att
         use_encrypted_endpoints: Optional[JSON] = None,
         use_host_verification: Optional[JSON] = None,
         use_peer_verification: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -34959,9 +35522,8 @@ class JiraLinkedService(LinkedService):  # pylint: disable=too-many-instance-att
          connecting over SSL. The default value is true.
         :paramtype use_peer_verification: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -36206,6 +36768,13 @@ class LookupActivity(ExecutionActivity):  # pylint: disable=too-many-instance-at
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -36235,6 +36804,8 @@ class LookupActivity(ExecutionActivity):  # pylint: disable=too-many-instance-at
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "linked_service_name": {"key": "linkedServiceName", "type": "LinkedServiceReference"},
@@ -36252,6 +36823,8 @@ class LookupActivity(ExecutionActivity):  # pylint: disable=too-many-instance-at
         dataset: "_models.DatasetReference",
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         linked_service_name: Optional["_models.LinkedServiceReference"] = None,
@@ -36267,6 +36840,13 @@ class LookupActivity(ExecutionActivity):  # pylint: disable=too-many-instance-at
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -36287,6 +36867,8 @@ class LookupActivity(ExecutionActivity):  # pylint: disable=too-many-instance-at
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             linked_service_name=linked_service_name,
@@ -36332,9 +36914,8 @@ class MagentoLinkedService(LinkedService):  # pylint: disable=too-many-instance-
      connecting over SSL. The default value is true.
     :vartype use_peer_verification: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -36354,7 +36935,7 @@ class MagentoLinkedService(LinkedService):  # pylint: disable=too-many-instance-
         "use_encrypted_endpoints": {"key": "typeProperties.useEncryptedEndpoints", "type": "object"},
         "use_host_verification": {"key": "typeProperties.useHostVerification", "type": "object"},
         "use_peer_verification": {"key": "typeProperties.usePeerVerification", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -36370,7 +36951,7 @@ class MagentoLinkedService(LinkedService):  # pylint: disable=too-many-instance-
         use_encrypted_endpoints: Optional[JSON] = None,
         use_host_verification: Optional[JSON] = None,
         use_peer_verification: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -36400,9 +36981,8 @@ class MagentoLinkedService(LinkedService):  # pylint: disable=too-many-instance-
          connecting over SSL. The default value is true.
         :paramtype use_peer_verification: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -37446,9 +38026,8 @@ class MariaDBLinkedService(LinkedService):
     :ivar pwd: The Azure key vault secret reference of password in connection string.
     :vartype pwd: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -37464,7 +38043,7 @@ class MariaDBLinkedService(LinkedService):
         "annotations": {"key": "annotations", "type": "[object]"},
         "connection_string": {"key": "typeProperties.connectionString", "type": "object"},
         "pwd": {"key": "typeProperties.pwd", "type": "AzureKeyVaultSecretReference"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -37477,7 +38056,7 @@ class MariaDBLinkedService(LinkedService):
         annotations: Optional[List[JSON]] = None,
         connection_string: Optional[JSON] = None,
         pwd: Optional["_models.AzureKeyVaultSecretReference"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -37498,9 +38077,8 @@ class MariaDBLinkedService(LinkedService):
         :keyword pwd: The Azure key vault secret reference of password in connection string.
         :paramtype pwd: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -37755,9 +38333,8 @@ class MarketoLinkedService(LinkedService):  # pylint: disable=too-many-instance-
      connecting over SSL. The default value is true.
     :vartype use_peer_verification: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -37779,7 +38356,7 @@ class MarketoLinkedService(LinkedService):  # pylint: disable=too-many-instance-
         "use_encrypted_endpoints": {"key": "typeProperties.useEncryptedEndpoints", "type": "object"},
         "use_host_verification": {"key": "typeProperties.useHostVerification", "type": "object"},
         "use_peer_verification": {"key": "typeProperties.usePeerVerification", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -37796,7 +38373,7 @@ class MarketoLinkedService(LinkedService):  # pylint: disable=too-many-instance-
         use_encrypted_endpoints: Optional[JSON] = None,
         use_host_verification: Optional[JSON] = None,
         use_peer_verification: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -37829,9 +38406,8 @@ class MarketoLinkedService(LinkedService):  # pylint: disable=too-many-instance-
          connecting over SSL. The default value is true.
         :paramtype use_peer_verification: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -38100,8 +38676,8 @@ class MicrosoftAccessLinkedService(LinkedService):  # pylint: disable=too-many-i
     :ivar annotations: List of tags that can be used for describing the linked service.
     :vartype annotations: list[JSON]
     :ivar connection_string: The non-access credential portion of the connection string as well as
-     an optional encrypted credential. Type: string, SecureString or AzureKeyVaultSecretReference.
-     Required.
+     an optional encrypted credential. Type: string, or SecureString, or
+     AzureKeyVaultSecretReference, or Expression with resultType string. Required.
     :vartype connection_string: JSON
     :ivar authentication_type: Type of authentication used to connect to the Microsoft Access as
      ODBC data store. Possible values are: Anonymous and Basic. Type: string (or Expression with
@@ -38116,9 +38692,8 @@ class MicrosoftAccessLinkedService(LinkedService):  # pylint: disable=too-many-i
     :ivar password: Password for Basic authentication.
     :vartype password: ~azure.mgmt.datafactory.models.SecretBase
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -38138,7 +38713,7 @@ class MicrosoftAccessLinkedService(LinkedService):  # pylint: disable=too-many-i
         "credential": {"key": "typeProperties.credential", "type": "SecretBase"},
         "user_name": {"key": "typeProperties.userName", "type": "object"},
         "password": {"key": "typeProperties.password", "type": "SecretBase"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -38154,7 +38729,7 @@ class MicrosoftAccessLinkedService(LinkedService):  # pylint: disable=too-many-i
         credential: Optional["_models.SecretBase"] = None,
         user_name: Optional[JSON] = None,
         password: Optional["_models.SecretBase"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -38170,8 +38745,8 @@ class MicrosoftAccessLinkedService(LinkedService):  # pylint: disable=too-many-i
         :keyword annotations: List of tags that can be used for describing the linked service.
         :paramtype annotations: list[JSON]
         :keyword connection_string: The non-access credential portion of the connection string as well
-         as an optional encrypted credential. Type: string, SecureString or
-         AzureKeyVaultSecretReference. Required.
+         as an optional encrypted credential. Type: string, or SecureString, or
+         AzureKeyVaultSecretReference, or Expression with resultType string. Required.
         :paramtype connection_string: JSON
         :keyword authentication_type: Type of authentication used to connect to the Microsoft Access as
          ODBC data store. Possible values are: Anonymous and Basic. Type: string (or Expression with
@@ -38186,9 +38761,8 @@ class MicrosoftAccessLinkedService(LinkedService):  # pylint: disable=too-many-i
         :keyword password: Password for Basic authentication.
         :paramtype password: ~azure.mgmt.datafactory.models.SecretBase
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -38634,6 +39208,9 @@ class MongoDbAtlasLinkedService(LinkedService):
     :ivar database: The name of the MongoDB Atlas database that you want to access. Type: string
      (or Expression with resultType string). Required.
     :vartype database: JSON
+    :ivar mongo_db_atlas_driver_version: The MongoDB Atlas Driver version that you want to choose.
+     Allowed value are 2.10.4 and 2.19.0. Type: string (or Expression with resultType string).
+    :vartype mongo_db_atlas_driver_version: JSON
     """
 
     _validation = {
@@ -38651,6 +39228,7 @@ class MongoDbAtlasLinkedService(LinkedService):
         "annotations": {"key": "annotations", "type": "[object]"},
         "connection_string": {"key": "typeProperties.connectionString", "type": "object"},
         "database": {"key": "typeProperties.database", "type": "object"},
+        "mongo_db_atlas_driver_version": {"key": "typeProperties.mongoDbAtlasDriverVersion", "type": "object"},
     }
 
     def __init__(
@@ -38663,6 +39241,7 @@ class MongoDbAtlasLinkedService(LinkedService):
         description: Optional[str] = None,
         parameters: Optional[Dict[str, "_models.ParameterSpecification"]] = None,
         annotations: Optional[List[JSON]] = None,
+        mongo_db_atlas_driver_version: Optional[JSON] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -38684,6 +39263,10 @@ class MongoDbAtlasLinkedService(LinkedService):
         :keyword database: The name of the MongoDB Atlas database that you want to access. Type: string
          (or Expression with resultType string). Required.
         :paramtype database: JSON
+        :keyword mongo_db_atlas_driver_version: The MongoDB Atlas Driver version that you want to
+         choose. Allowed value are 2.10.4 and 2.19.0. Type: string (or Expression with resultType
+         string).
+        :paramtype mongo_db_atlas_driver_version: JSON
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -38696,6 +39279,7 @@ class MongoDbAtlasLinkedService(LinkedService):
         self.type: str = "MongoDbAtlas"
         self.connection_string = connection_string
         self.database = database
+        self.mongo_db_atlas_driver_version = mongo_db_atlas_driver_version
 
 
 class MongoDbAtlasSink(CopySink):
@@ -39145,9 +39729,8 @@ class MongoDbLinkedService(LinkedService):  # pylint: disable=too-many-instance-
      the server. The default value is false. Type: boolean (or Expression with resultType boolean).
     :vartype allow_self_signed_server_cert: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -39172,7 +39755,7 @@ class MongoDbLinkedService(LinkedService):  # pylint: disable=too-many-instance-
         "port": {"key": "typeProperties.port", "type": "object"},
         "enable_ssl": {"key": "typeProperties.enableSsl", "type": "object"},
         "allow_self_signed_server_cert": {"key": "typeProperties.allowSelfSignedServerCert", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -39192,7 +39775,7 @@ class MongoDbLinkedService(LinkedService):  # pylint: disable=too-many-instance-
         port: Optional[JSON] = None,
         enable_ssl: Optional[JSON] = None,
         allow_self_signed_server_cert: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -39236,9 +39819,8 @@ class MongoDbLinkedService(LinkedService):  # pylint: disable=too-many-instance-
          boolean).
         :paramtype allow_self_signed_server_cert: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -39794,14 +40376,14 @@ class MySqlLinkedService(LinkedService):
     :vartype parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
     :ivar annotations: List of tags that can be used for describing the linked service.
     :vartype annotations: list[JSON]
-    :ivar connection_string: The connection string. Required.
+    :ivar connection_string: The connection string. Type: string, SecureString or
+     AzureKeyVaultSecretReference. Required.
     :vartype connection_string: JSON
     :ivar password: The Azure key vault secret reference of password in connection string.
     :vartype password: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -39818,7 +40400,7 @@ class MySqlLinkedService(LinkedService):
         "annotations": {"key": "annotations", "type": "[object]"},
         "connection_string": {"key": "typeProperties.connectionString", "type": "object"},
         "password": {"key": "typeProperties.password", "type": "AzureKeyVaultSecretReference"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -39831,7 +40413,7 @@ class MySqlLinkedService(LinkedService):
         parameters: Optional[Dict[str, "_models.ParameterSpecification"]] = None,
         annotations: Optional[List[JSON]] = None,
         password: Optional["_models.AzureKeyVaultSecretReference"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -39846,14 +40428,14 @@ class MySqlLinkedService(LinkedService):
         :paramtype parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
         :keyword annotations: List of tags that can be used for describing the linked service.
         :paramtype annotations: list[JSON]
-        :keyword connection_string: The connection string. Required.
+        :keyword connection_string: The connection string. Type: string, SecureString or
+         AzureKeyVaultSecretReference. Required.
         :paramtype connection_string: JSON
         :keyword password: The Azure key vault secret reference of password in connection string.
         :paramtype password: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -40095,9 +40677,8 @@ class NetezzaLinkedService(LinkedService):
     :ivar pwd: The Azure key vault secret reference of password in connection string.
     :vartype pwd: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -40113,7 +40694,7 @@ class NetezzaLinkedService(LinkedService):
         "annotations": {"key": "annotations", "type": "[object]"},
         "connection_string": {"key": "typeProperties.connectionString", "type": "object"},
         "pwd": {"key": "typeProperties.pwd", "type": "AzureKeyVaultSecretReference"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -40126,7 +40707,7 @@ class NetezzaLinkedService(LinkedService):
         annotations: Optional[List[JSON]] = None,
         connection_string: Optional[JSON] = None,
         pwd: Optional["_models.AzureKeyVaultSecretReference"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -40147,9 +40728,8 @@ class NetezzaLinkedService(LinkedService):
         :keyword pwd: The Azure key vault secret reference of password in connection string.
         :paramtype pwd: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -40549,9 +41129,8 @@ class ODataLinkedService(LinkedService):  # pylint: disable=too-many-instance-at
      string (or Expression with resultType string).
     :vartype service_principal_embedded_cert_password: ~azure.mgmt.datafactory.models.SecretBase
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -40585,7 +41164,7 @@ class ODataLinkedService(LinkedService):  # pylint: disable=too-many-instance-at
             "key": "typeProperties.servicePrincipalEmbeddedCertPassword",
             "type": "SecretBase",
         },
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -40611,7 +41190,7 @@ class ODataLinkedService(LinkedService):  # pylint: disable=too-many-instance-at
         service_principal_key: Optional["_models.SecretBase"] = None,
         service_principal_embedded_cert: Optional["_models.SecretBase"] = None,
         service_principal_embedded_cert_password: Optional["_models.SecretBase"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -40670,9 +41249,8 @@ class ODataLinkedService(LinkedService):  # pylint: disable=too-many-instance-at
          string (or Expression with resultType string).
         :paramtype service_principal_embedded_cert_password: ~azure.mgmt.datafactory.models.SecretBase
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -40926,8 +41504,8 @@ class OdbcLinkedService(LinkedService):  # pylint: disable=too-many-instance-att
     :ivar annotations: List of tags that can be used for describing the linked service.
     :vartype annotations: list[JSON]
     :ivar connection_string: The non-access credential portion of the connection string as well as
-     an optional encrypted credential. Type: string, SecureString or AzureKeyVaultSecretReference.
-     Required.
+     an optional encrypted credential. Type: string, or SecureString, or
+     AzureKeyVaultSecretReference, or Expression with resultType string. Required.
     :vartype connection_string: JSON
     :ivar authentication_type: Type of authentication used to connect to the ODBC data store.
      Possible values are: Anonymous and Basic. Type: string (or Expression with resultType string).
@@ -40941,9 +41519,8 @@ class OdbcLinkedService(LinkedService):  # pylint: disable=too-many-instance-att
     :ivar password: Password for Basic authentication.
     :vartype password: ~azure.mgmt.datafactory.models.SecretBase
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -40963,7 +41540,7 @@ class OdbcLinkedService(LinkedService):  # pylint: disable=too-many-instance-att
         "credential": {"key": "typeProperties.credential", "type": "SecretBase"},
         "user_name": {"key": "typeProperties.userName", "type": "object"},
         "password": {"key": "typeProperties.password", "type": "SecretBase"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -40979,7 +41556,7 @@ class OdbcLinkedService(LinkedService):  # pylint: disable=too-many-instance-att
         credential: Optional["_models.SecretBase"] = None,
         user_name: Optional[JSON] = None,
         password: Optional["_models.SecretBase"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -40995,8 +41572,8 @@ class OdbcLinkedService(LinkedService):  # pylint: disable=too-many-instance-att
         :keyword annotations: List of tags that can be used for describing the linked service.
         :paramtype annotations: list[JSON]
         :keyword connection_string: The non-access credential portion of the connection string as well
-         as an optional encrypted credential. Type: string, SecureString or
-         AzureKeyVaultSecretReference. Required.
+         as an optional encrypted credential. Type: string, or SecureString, or
+         AzureKeyVaultSecretReference, or Expression with resultType string. Required.
         :paramtype connection_string: JSON
         :keyword authentication_type: Type of authentication used to connect to the ODBC data store.
          Possible values are: Anonymous and Basic. Type: string (or Expression with resultType string).
@@ -41010,9 +41587,8 @@ class OdbcLinkedService(LinkedService):  # pylint: disable=too-many-instance-att
         :keyword password: Password for Basic authentication.
         :paramtype password: ~azure.mgmt.datafactory.models.SecretBase
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -41479,9 +42055,8 @@ class Office365LinkedService(LinkedService):  # pylint: disable=too-many-instanc
     :ivar service_principal_key: Specify the application's key. Required.
     :vartype service_principal_key: ~azure.mgmt.datafactory.models.SecretBase
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -41503,7 +42078,7 @@ class Office365LinkedService(LinkedService):  # pylint: disable=too-many-instanc
         "service_principal_tenant_id": {"key": "typeProperties.servicePrincipalTenantId", "type": "object"},
         "service_principal_id": {"key": "typeProperties.servicePrincipalId", "type": "object"},
         "service_principal_key": {"key": "typeProperties.servicePrincipalKey", "type": "SecretBase"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -41518,7 +42093,7 @@ class Office365LinkedService(LinkedService):  # pylint: disable=too-many-instanc
         description: Optional[str] = None,
         parameters: Optional[Dict[str, "_models.ParameterSpecification"]] = None,
         annotations: Optional[List[JSON]] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -41545,9 +42120,8 @@ class Office365LinkedService(LinkedService):  # pylint: disable=too-many-instanc
         :keyword service_principal_key: Specify the application's key. Required.
         :paramtype service_principal_key: ~azure.mgmt.datafactory.models.SecretBase
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -42074,9 +42648,8 @@ class OracleCloudStorageLinkedService(LinkedService):
      string).
     :vartype service_url: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -42093,7 +42666,7 @@ class OracleCloudStorageLinkedService(LinkedService):
         "access_key_id": {"key": "typeProperties.accessKeyId", "type": "object"},
         "secret_access_key": {"key": "typeProperties.secretAccessKey", "type": "SecretBase"},
         "service_url": {"key": "typeProperties.serviceUrl", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -42107,7 +42680,7 @@ class OracleCloudStorageLinkedService(LinkedService):
         access_key_id: Optional[JSON] = None,
         secret_access_key: Optional["_models.SecretBase"] = None,
         service_url: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -42134,9 +42707,8 @@ class OracleCloudStorageLinkedService(LinkedService):
          string).
         :paramtype service_url: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -42257,8 +42829,9 @@ class OracleCloudStorageReadSettings(StoreReadSettings):  # pylint: disable=too-
      configured in the dataset) that you want to copy. Type: string (or Expression with resultType
      string).
     :vartype file_list_path: JSON
-    :ivar enable_partition_discovery: Indicates whether to enable partition discovery.
-    :vartype enable_partition_discovery: bool
+    :ivar enable_partition_discovery: Indicates whether to enable partition discovery. Type:
+     boolean (or Expression with resultType boolean).
+    :vartype enable_partition_discovery: JSON
     :ivar partition_root_path: Specify the root path where partition discovery starts from. Type:
      string (or Expression with resultType string).
     :vartype partition_root_path: JSON
@@ -42287,7 +42860,7 @@ class OracleCloudStorageReadSettings(StoreReadSettings):  # pylint: disable=too-
         "wildcard_file_name": {"key": "wildcardFileName", "type": "object"},
         "prefix": {"key": "prefix", "type": "object"},
         "file_list_path": {"key": "fileListPath", "type": "object"},
-        "enable_partition_discovery": {"key": "enablePartitionDiscovery", "type": "bool"},
+        "enable_partition_discovery": {"key": "enablePartitionDiscovery", "type": "object"},
         "partition_root_path": {"key": "partitionRootPath", "type": "object"},
         "delete_files_after_completion": {"key": "deleteFilesAfterCompletion", "type": "object"},
         "modified_datetime_start": {"key": "modifiedDatetimeStart", "type": "object"},
@@ -42305,7 +42878,7 @@ class OracleCloudStorageReadSettings(StoreReadSettings):  # pylint: disable=too-
         wildcard_file_name: Optional[JSON] = None,
         prefix: Optional[JSON] = None,
         file_list_path: Optional[JSON] = None,
-        enable_partition_discovery: Optional[bool] = None,
+        enable_partition_discovery: Optional[JSON] = None,
         partition_root_path: Optional[JSON] = None,
         delete_files_after_completion: Optional[JSON] = None,
         modified_datetime_start: Optional[JSON] = None,
@@ -42338,8 +42911,9 @@ class OracleCloudStorageReadSettings(StoreReadSettings):  # pylint: disable=too-
          configured in the dataset) that you want to copy. Type: string (or Expression with resultType
          string).
         :paramtype file_list_path: JSON
-        :keyword enable_partition_discovery: Indicates whether to enable partition discovery.
-        :paramtype enable_partition_discovery: bool
+        :keyword enable_partition_discovery: Indicates whether to enable partition discovery. Type:
+         boolean (or Expression with resultType boolean).
+        :paramtype enable_partition_discovery: JSON
         :keyword partition_root_path: Specify the root path where partition discovery starts from.
          Type: string (or Expression with resultType string).
         :paramtype partition_root_path: JSON
@@ -42396,9 +42970,8 @@ class OracleLinkedService(LinkedService):
     :ivar password: The Azure key vault secret reference of password in connection string.
     :vartype password: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -42415,7 +42988,7 @@ class OracleLinkedService(LinkedService):
         "annotations": {"key": "annotations", "type": "[object]"},
         "connection_string": {"key": "typeProperties.connectionString", "type": "object"},
         "password": {"key": "typeProperties.password", "type": "AzureKeyVaultSecretReference"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -42428,7 +43001,7 @@ class OracleLinkedService(LinkedService):
         parameters: Optional[Dict[str, "_models.ParameterSpecification"]] = None,
         annotations: Optional[List[JSON]] = None,
         password: Optional["_models.AzureKeyVaultSecretReference"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -42449,9 +43022,8 @@ class OracleLinkedService(LinkedService):
         :keyword password: The Azure key vault secret reference of password in connection string.
         :paramtype password: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -42560,9 +43132,8 @@ class OracleServiceCloudLinkedService(LinkedService):  # pylint: disable=too-man
      boolean).
     :vartype use_peer_verification: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -42585,7 +43156,7 @@ class OracleServiceCloudLinkedService(LinkedService):  # pylint: disable=too-man
         "use_encrypted_endpoints": {"key": "typeProperties.useEncryptedEndpoints", "type": "object"},
         "use_host_verification": {"key": "typeProperties.useHostVerification", "type": "object"},
         "use_peer_verification": {"key": "typeProperties.usePeerVerification", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -42602,7 +43173,7 @@ class OracleServiceCloudLinkedService(LinkedService):  # pylint: disable=too-man
         use_encrypted_endpoints: Optional[JSON] = None,
         use_host_verification: Optional[JSON] = None,
         use_peer_verification: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -42636,9 +43207,8 @@ class OracleServiceCloudLinkedService(LinkedService):  # pylint: disable=too-man
          boolean).
         :paramtype use_peer_verification: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -44122,7 +44692,7 @@ class PaypalLinkedService(LinkedService):  # pylint: disable=too-many-instance-a
     :vartype parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
     :ivar annotations: List of tags that can be used for describing the linked service.
     :vartype annotations: list[JSON]
-    :ivar host: The URL of the PayPal instance. (i.e. api.sandbox.paypal.com). Required.
+    :ivar host: The URL of the PayPal instance. (i.e. api.sandbox.paypal.com). Required.
     :vartype host: JSON
     :ivar client_id: The client ID associated with your PayPal application. Required.
     :vartype client_id: JSON
@@ -44139,9 +44709,8 @@ class PaypalLinkedService(LinkedService):  # pylint: disable=too-many-instance-a
      connecting over SSL. The default value is true.
     :vartype use_peer_verification: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -44163,7 +44732,7 @@ class PaypalLinkedService(LinkedService):  # pylint: disable=too-many-instance-a
         "use_encrypted_endpoints": {"key": "typeProperties.useEncryptedEndpoints", "type": "object"},
         "use_host_verification": {"key": "typeProperties.useHostVerification", "type": "object"},
         "use_peer_verification": {"key": "typeProperties.usePeerVerification", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -44180,7 +44749,7 @@ class PaypalLinkedService(LinkedService):  # pylint: disable=too-many-instance-a
         use_encrypted_endpoints: Optional[JSON] = None,
         use_host_verification: Optional[JSON] = None,
         use_peer_verification: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -44195,7 +44764,7 @@ class PaypalLinkedService(LinkedService):  # pylint: disable=too-many-instance-a
         :paramtype parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
         :keyword annotations: List of tags that can be used for describing the linked service.
         :paramtype annotations: list[JSON]
-        :keyword host: The URL of the PayPal instance. (i.e. api.sandbox.paypal.com). Required.
+        :keyword host: The URL of the PayPal instance. (i.e. api.sandbox.paypal.com). Required.
         :paramtype host: JSON
         :keyword client_id: The client ID associated with your PayPal application. Required.
         :paramtype client_id: JSON
@@ -44212,9 +44781,8 @@ class PaypalLinkedService(LinkedService):  # pylint: disable=too-many-instance-a
          connecting over SSL. The default value is true.
         :paramtype use_peer_verification: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -44491,9 +45059,8 @@ class PhoenixLinkedService(LinkedService):  # pylint: disable=too-many-instance-
      the server. The default value is false.
     :vartype allow_self_signed_server_cert: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -44520,7 +45087,7 @@ class PhoenixLinkedService(LinkedService):  # pylint: disable=too-many-instance-
         "use_system_trust_store": {"key": "typeProperties.useSystemTrustStore", "type": "object"},
         "allow_host_name_cn_mismatch": {"key": "typeProperties.allowHostNameCNMismatch", "type": "object"},
         "allow_self_signed_server_cert": {"key": "typeProperties.allowSelfSignedServerCert", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -44542,7 +45109,7 @@ class PhoenixLinkedService(LinkedService):  # pylint: disable=too-many-instance-
         use_system_trust_store: Optional[JSON] = None,
         allow_host_name_cn_mismatch: Optional[JSON] = None,
         allow_self_signed_server_cert: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -44592,9 +45159,8 @@ class PhoenixLinkedService(LinkedService):  # pylint: disable=too-many-instance-
          from the server. The default value is false.
         :paramtype allow_self_signed_server_cert: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -45395,14 +45961,14 @@ class PostgreSqlLinkedService(LinkedService):
     :vartype parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
     :ivar annotations: List of tags that can be used for describing the linked service.
     :vartype annotations: list[JSON]
-    :ivar connection_string: The connection string. Required.
+    :ivar connection_string: The connection string. Type: string, SecureString or
+     AzureKeyVaultSecretReference. Required.
     :vartype connection_string: JSON
     :ivar password: The Azure key vault secret reference of password in connection string.
     :vartype password: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -45419,7 +45985,7 @@ class PostgreSqlLinkedService(LinkedService):
         "annotations": {"key": "annotations", "type": "[object]"},
         "connection_string": {"key": "typeProperties.connectionString", "type": "object"},
         "password": {"key": "typeProperties.password", "type": "AzureKeyVaultSecretReference"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -45432,7 +45998,7 @@ class PostgreSqlLinkedService(LinkedService):
         parameters: Optional[Dict[str, "_models.ParameterSpecification"]] = None,
         annotations: Optional[List[JSON]] = None,
         password: Optional["_models.AzureKeyVaultSecretReference"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -45447,14 +46013,14 @@ class PostgreSqlLinkedService(LinkedService):
         :paramtype parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
         :keyword annotations: List of tags that can be used for describing the linked service.
         :paramtype annotations: list[JSON]
-        :keyword connection_string: The connection string. Required.
+        :keyword connection_string: The connection string. Type: string, SecureString or
+         AzureKeyVaultSecretReference. Required.
         :paramtype connection_string: JSON
         :keyword password: The Azure key vault secret reference of password in connection string.
         :paramtype password: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -45933,9 +46499,8 @@ class PrestoLinkedService(LinkedService):  # pylint: disable=too-many-instance-a
      are specified in the IANA Time Zone Database. The default value is the system time zone.
     :vartype time_zone_id: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -45966,7 +46531,7 @@ class PrestoLinkedService(LinkedService):  # pylint: disable=too-many-instance-a
         "allow_host_name_cn_mismatch": {"key": "typeProperties.allowHostNameCNMismatch", "type": "object"},
         "allow_self_signed_server_cert": {"key": "typeProperties.allowSelfSignedServerCert", "type": "object"},
         "time_zone_id": {"key": "typeProperties.timeZoneID", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -45990,7 +46555,7 @@ class PrestoLinkedService(LinkedService):  # pylint: disable=too-many-instance-a
         allow_host_name_cn_mismatch: Optional[JSON] = None,
         allow_self_signed_server_cert: Optional[JSON] = None,
         time_zone_id: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -46042,9 +46607,8 @@ class PrestoLinkedService(LinkedService):  # pylint: disable=too-many-instance-a
          are specified in the IANA Time Zone Database. The default value is the system time zone.
         :paramtype time_zone_id: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -46690,9 +47254,8 @@ class QuickbaseLinkedService(LinkedService):
     :ivar user_token: The user token for the Quickbase source. Required.
     :vartype user_token: ~azure.mgmt.datafactory.models.SecretBase
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -46710,7 +47273,7 @@ class QuickbaseLinkedService(LinkedService):
         "annotations": {"key": "annotations", "type": "[object]"},
         "url": {"key": "typeProperties.url", "type": "object"},
         "user_token": {"key": "typeProperties.userToken", "type": "SecretBase"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -46723,7 +47286,7 @@ class QuickbaseLinkedService(LinkedService):
         description: Optional[str] = None,
         parameters: Optional[Dict[str, "_models.ParameterSpecification"]] = None,
         annotations: Optional[List[JSON]] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -46744,9 +47307,8 @@ class QuickbaseLinkedService(LinkedService):
         :keyword user_token: The user token for the Quickbase source. Required.
         :paramtype user_token: ~azure.mgmt.datafactory.models.SecretBase
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -46799,9 +47361,8 @@ class QuickBooksLinkedService(LinkedService):  # pylint: disable=too-many-instan
      HTTPS. The default value is true.
     :vartype use_encrypted_endpoints: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -46823,7 +47384,7 @@ class QuickBooksLinkedService(LinkedService):  # pylint: disable=too-many-instan
         "access_token": {"key": "typeProperties.accessToken", "type": "SecretBase"},
         "access_token_secret": {"key": "typeProperties.accessTokenSecret", "type": "SecretBase"},
         "use_encrypted_endpoints": {"key": "typeProperties.useEncryptedEndpoints", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -46842,7 +47403,7 @@ class QuickBooksLinkedService(LinkedService):  # pylint: disable=too-many-instan
         access_token: Optional["_models.SecretBase"] = None,
         access_token_secret: Optional["_models.SecretBase"] = None,
         use_encrypted_endpoints: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -46876,9 +47437,8 @@ class QuickBooksLinkedService(LinkedService):  # pylint: disable=too-many-instan
          using HTTPS. The default value is true.
         :paramtype use_encrypted_endpoints: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -47684,9 +48244,8 @@ class ResponsysLinkedService(LinkedService):  # pylint: disable=too-many-instanc
      boolean).
     :vartype use_peer_verification: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -47708,7 +48267,7 @@ class ResponsysLinkedService(LinkedService):  # pylint: disable=too-many-instanc
         "use_encrypted_endpoints": {"key": "typeProperties.useEncryptedEndpoints", "type": "object"},
         "use_host_verification": {"key": "typeProperties.useHostVerification", "type": "object"},
         "use_peer_verification": {"key": "typeProperties.usePeerVerification", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -47725,7 +48284,7 @@ class ResponsysLinkedService(LinkedService):  # pylint: disable=too-many-instanc
         use_encrypted_endpoints: Optional[JSON] = None,
         use_host_verification: Optional[JSON] = None,
         use_peer_verification: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -47760,9 +48319,8 @@ class ResponsysLinkedService(LinkedService):  # pylint: disable=too-many-instanc
          boolean).
         :paramtype use_peer_verification: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -48022,12 +48580,10 @@ class RestResourceDataset(Dataset):  # pylint: disable=too-many-instance-attribu
     :ivar request_body: The HTTP request body to the RESTful API if requestMethod is POST. Type:
      string (or Expression with resultType string).
     :vartype request_body: JSON
-    :ivar additional_headers: The additional HTTP headers in the request to the RESTful API. Type:
-     string (or Expression with resultType string).
-    :vartype additional_headers: JSON
-    :ivar pagination_rules: The pagination rules to compose next page requests. Type: string (or
-     Expression with resultType string).
-    :vartype pagination_rules: JSON
+    :ivar additional_headers: The additional HTTP headers in the request to the RESTful API.
+    :vartype additional_headers: dict[str, JSON]
+    :ivar pagination_rules: The pagination rules to compose next page requests.
+    :vartype pagination_rules: dict[str, JSON]
     """
 
     _validation = {
@@ -48048,8 +48604,8 @@ class RestResourceDataset(Dataset):  # pylint: disable=too-many-instance-attribu
         "relative_url": {"key": "typeProperties.relativeUrl", "type": "object"},
         "request_method": {"key": "typeProperties.requestMethod", "type": "object"},
         "request_body": {"key": "typeProperties.requestBody", "type": "object"},
-        "additional_headers": {"key": "typeProperties.additionalHeaders", "type": "object"},
-        "pagination_rules": {"key": "typeProperties.paginationRules", "type": "object"},
+        "additional_headers": {"key": "typeProperties.additionalHeaders", "type": "{object}"},
+        "pagination_rules": {"key": "typeProperties.paginationRules", "type": "{object}"},
     }
 
     def __init__(
@@ -48066,8 +48622,8 @@ class RestResourceDataset(Dataset):  # pylint: disable=too-many-instance-attribu
         relative_url: Optional[JSON] = None,
         request_method: Optional[JSON] = None,
         request_body: Optional[JSON] = None,
-        additional_headers: Optional[JSON] = None,
-        pagination_rules: Optional[JSON] = None,
+        additional_headers: Optional[Dict[str, JSON]] = None,
+        pagination_rules: Optional[Dict[str, JSON]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -48101,11 +48657,9 @@ class RestResourceDataset(Dataset):  # pylint: disable=too-many-instance-attribu
          string (or Expression with resultType string).
         :paramtype request_body: JSON
         :keyword additional_headers: The additional HTTP headers in the request to the RESTful API.
-         Type: string (or Expression with resultType string).
-        :paramtype additional_headers: JSON
-        :keyword pagination_rules: The pagination rules to compose next page requests. Type: string (or
-         Expression with resultType string).
-        :paramtype pagination_rules: JSON
+        :paramtype additional_headers: dict[str, JSON]
+        :keyword pagination_rules: The pagination rules to compose next page requests.
+        :paramtype pagination_rules: dict[str, JSON]
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -48144,7 +48698,8 @@ class RestServiceLinkedService(LinkedService):  # pylint: disable=too-many-insta
     :vartype parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
     :ivar annotations: List of tags that can be used for describing the linked service.
     :vartype annotations: list[JSON]
-    :ivar url: The base URL of the REST service. Required.
+    :ivar url: The base URL of the REST service. Type: string (or Expression with resultType
+     string). Required.
     :vartype url: JSON
     :ivar enable_server_certificate_validation: Whether to validate server side SSL certificate
      when connecting to the endpoint.The default value is true. Type: boolean (or Expression with
@@ -48155,7 +48710,8 @@ class RestServiceLinkedService(LinkedService):  # pylint: disable=too-many-insta
      "ManagedServiceIdentity", and "OAuth2ClientCredential".
     :vartype authentication_type: str or
      ~azure.mgmt.datafactory.models.RestServiceAuthenticationType
-    :ivar user_name: The user name used in Basic authentication type.
+    :ivar user_name: The user name used in Basic authentication type. Type: string (or Expression
+     with resultType string).
     :vartype user_name: JSON
     :ivar password: The password used in Basic authentication type.
     :vartype password: ~azure.mgmt.datafactory.models.SecretBase
@@ -48163,24 +48719,25 @@ class RestServiceLinkedService(LinkedService):  # pylint: disable=too-many-insta
      authorization. Type: object (or Expression with resultType object).
     :vartype auth_headers: JSON
     :ivar service_principal_id: The application's client ID used in AadServicePrincipal
-     authentication type.
+     authentication type. Type: string (or Expression with resultType string).
     :vartype service_principal_id: JSON
     :ivar service_principal_key: The application's key used in AadServicePrincipal authentication
      type.
     :vartype service_principal_key: ~azure.mgmt.datafactory.models.SecretBase
     :ivar tenant: The tenant information (domain name or tenant ID) used in AadServicePrincipal
-     authentication type under which your application resides.
+     authentication type under which your application resides. Type: string (or Expression with
+     resultType string).
     :vartype tenant: JSON
     :ivar azure_cloud_type: Indicates the azure cloud type of the service principle auth. Allowed
      values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data
      factory regions’ cloud type. Type: string (or Expression with resultType string).
     :vartype azure_cloud_type: JSON
-    :ivar aad_resource_id: The resource you are requesting authorization to use.
+    :ivar aad_resource_id: The resource you are requesting authorization to use. Type: string (or
+     Expression with resultType string).
     :vartype aad_resource_id: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     :ivar credential: The credential reference containing authentication information.
     :vartype credential: ~azure.mgmt.datafactory.models.CredentialReference
     :ivar client_id: The client ID associated with your application. Type: string (or Expression
@@ -48226,7 +48783,7 @@ class RestServiceLinkedService(LinkedService):  # pylint: disable=too-many-insta
         "tenant": {"key": "typeProperties.tenant", "type": "object"},
         "azure_cloud_type": {"key": "typeProperties.azureCloudType", "type": "object"},
         "aad_resource_id": {"key": "typeProperties.aadResourceId", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
         "credential": {"key": "typeProperties.credential", "type": "CredentialReference"},
         "client_id": {"key": "typeProperties.clientId", "type": "object"},
         "client_secret": {"key": "typeProperties.clientSecret", "type": "SecretBase"},
@@ -48254,7 +48811,7 @@ class RestServiceLinkedService(LinkedService):  # pylint: disable=too-many-insta
         tenant: Optional[JSON] = None,
         azure_cloud_type: Optional[JSON] = None,
         aad_resource_id: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         credential: Optional["_models.CredentialReference"] = None,
         client_id: Optional[JSON] = None,
         client_secret: Optional["_models.SecretBase"] = None,
@@ -48275,7 +48832,8 @@ class RestServiceLinkedService(LinkedService):  # pylint: disable=too-many-insta
         :paramtype parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
         :keyword annotations: List of tags that can be used for describing the linked service.
         :paramtype annotations: list[JSON]
-        :keyword url: The base URL of the REST service. Required.
+        :keyword url: The base URL of the REST service. Type: string (or Expression with resultType
+         string). Required.
         :paramtype url: JSON
         :keyword enable_server_certificate_validation: Whether to validate server side SSL certificate
          when connecting to the endpoint.The default value is true. Type: boolean (or Expression with
@@ -48286,7 +48844,8 @@ class RestServiceLinkedService(LinkedService):  # pylint: disable=too-many-insta
          "ManagedServiceIdentity", and "OAuth2ClientCredential".
         :paramtype authentication_type: str or
          ~azure.mgmt.datafactory.models.RestServiceAuthenticationType
-        :keyword user_name: The user name used in Basic authentication type.
+        :keyword user_name: The user name used in Basic authentication type. Type: string (or
+         Expression with resultType string).
         :paramtype user_name: JSON
         :keyword password: The password used in Basic authentication type.
         :paramtype password: ~azure.mgmt.datafactory.models.SecretBase
@@ -48294,24 +48853,25 @@ class RestServiceLinkedService(LinkedService):  # pylint: disable=too-many-insta
          authorization. Type: object (or Expression with resultType object).
         :paramtype auth_headers: JSON
         :keyword service_principal_id: The application's client ID used in AadServicePrincipal
-         authentication type.
+         authentication type. Type: string (or Expression with resultType string).
         :paramtype service_principal_id: JSON
         :keyword service_principal_key: The application's key used in AadServicePrincipal
          authentication type.
         :paramtype service_principal_key: ~azure.mgmt.datafactory.models.SecretBase
         :keyword tenant: The tenant information (domain name or tenant ID) used in AadServicePrincipal
-         authentication type under which your application resides.
+         authentication type under which your application resides. Type: string (or Expression with
+         resultType string).
         :paramtype tenant: JSON
         :keyword azure_cloud_type: Indicates the azure cloud type of the service principle auth.
          Allowed values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is
          the data factory regions’ cloud type. Type: string (or Expression with resultType string).
         :paramtype azure_cloud_type: JSON
-        :keyword aad_resource_id: The resource you are requesting authorization to use.
+        :keyword aad_resource_id: The resource you are requesting authorization to use. Type: string
+         (or Expression with resultType string).
         :paramtype aad_resource_id: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         :keyword credential: The credential reference containing authentication information.
         :paramtype credential: ~azure.mgmt.datafactory.models.CredentialReference
         :keyword client_id: The client ID associated with your application. Type: string (or Expression
@@ -48751,7 +49311,7 @@ class RunQueryFilter(_serialization.Model):
      "ActivityType", "TriggerName", "TriggerRunTimestamp", "RunGroupId", and "LatestOnly".
     :vartype operand: str or ~azure.mgmt.datafactory.models.RunQueryFilterOperand
     :ivar operator: Operator to be used for filter. Required. Known values are: "Equals",
-     "NotEquals", "In", and "NotIn".
+     "NotEquals", "In", "NotIn", and "In".
     :vartype operator: str or ~azure.mgmt.datafactory.models.RunQueryFilterOperator
     :ivar values: List of filter values. Required.
     :vartype values: list[str]
@@ -48786,7 +49346,7 @@ class RunQueryFilter(_serialization.Model):
          "ActivityType", "TriggerName", "TriggerRunTimestamp", "RunGroupId", and "LatestOnly".
         :paramtype operand: str or ~azure.mgmt.datafactory.models.RunQueryFilterOperand
         :keyword operator: Operator to be used for filter. Required. Known values are: "Equals",
-         "NotEquals", "In", and "NotIn".
+         "NotEquals", "In", "NotIn", and "In".
         :paramtype operator: str or ~azure.mgmt.datafactory.models.RunQueryFilterOperator
         :keyword values: List of filter values. Required.
         :paramtype values: list[str]
@@ -48880,9 +49440,8 @@ class SalesforceLinkedService(LinkedService):  # pylint: disable=too-many-instan
      resultType string).
     :vartype api_version: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -48901,7 +49460,7 @@ class SalesforceLinkedService(LinkedService):  # pylint: disable=too-many-instan
         "password": {"key": "typeProperties.password", "type": "SecretBase"},
         "security_token": {"key": "typeProperties.securityToken", "type": "SecretBase"},
         "api_version": {"key": "typeProperties.apiVersion", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -48917,7 +49476,7 @@ class SalesforceLinkedService(LinkedService):  # pylint: disable=too-many-instan
         password: Optional["_models.SecretBase"] = None,
         security_token: Optional["_models.SecretBase"] = None,
         api_version: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -48948,9 +49507,8 @@ class SalesforceLinkedService(LinkedService):  # pylint: disable=too-many-instan
          resultType string).
         :paramtype api_version: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -49008,9 +49566,8 @@ class SalesforceMarketingCloudLinkedService(LinkedService):  # pylint: disable=t
      boolean).
     :vartype use_peer_verification: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -49030,7 +49587,7 @@ class SalesforceMarketingCloudLinkedService(LinkedService):  # pylint: disable=t
         "use_encrypted_endpoints": {"key": "typeProperties.useEncryptedEndpoints", "type": "object"},
         "use_host_verification": {"key": "typeProperties.useHostVerification", "type": "object"},
         "use_peer_verification": {"key": "typeProperties.usePeerVerification", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -49047,7 +49604,7 @@ class SalesforceMarketingCloudLinkedService(LinkedService):  # pylint: disable=t
         use_encrypted_endpoints: Optional[JSON] = None,
         use_host_verification: Optional[JSON] = None,
         use_peer_verification: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -49083,9 +49640,8 @@ class SalesforceMarketingCloudLinkedService(LinkedService):  # pylint: disable=t
          boolean).
         :paramtype use_peer_verification: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -49450,9 +50006,8 @@ class SalesforceServiceCloudLinkedService(LinkedService):  # pylint: disable=too
      (or Expression with resultType string).
     :vartype extended_properties: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -49472,7 +50027,7 @@ class SalesforceServiceCloudLinkedService(LinkedService):  # pylint: disable=too
         "security_token": {"key": "typeProperties.securityToken", "type": "SecretBase"},
         "api_version": {"key": "typeProperties.apiVersion", "type": "object"},
         "extended_properties": {"key": "typeProperties.extendedProperties", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -49489,7 +50044,7 @@ class SalesforceServiceCloudLinkedService(LinkedService):  # pylint: disable=too
         security_token: Optional["_models.SecretBase"] = None,
         api_version: Optional[JSON] = None,
         extended_properties: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -49523,9 +50078,8 @@ class SalesforceServiceCloudLinkedService(LinkedService):  # pylint: disable=too
          string (or Expression with resultType string).
         :paramtype extended_properties: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -50244,9 +50798,8 @@ class SapBWLinkedService(LinkedService):  # pylint: disable=too-many-instance-at
     :ivar password: Password to access the SAP BW server.
     :vartype password: ~azure.mgmt.datafactory.models.SecretBase
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -50268,7 +50821,7 @@ class SapBWLinkedService(LinkedService):  # pylint: disable=too-many-instance-at
         "client_id": {"key": "typeProperties.clientId", "type": "object"},
         "user_name": {"key": "typeProperties.userName", "type": "object"},
         "password": {"key": "typeProperties.password", "type": "SecretBase"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -50284,7 +50837,7 @@ class SapBWLinkedService(LinkedService):  # pylint: disable=too-many-instance-at
         annotations: Optional[List[JSON]] = None,
         user_name: Optional[JSON] = None,
         password: Optional["_models.SecretBase"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -50314,9 +50867,8 @@ class SapBWLinkedService(LinkedService):  # pylint: disable=too-many-instance-at
         :keyword password: Password to access the SAP BW server.
         :paramtype password: ~azure.mgmt.datafactory.models.SecretBase
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -50464,8 +51016,8 @@ class SapCloudForCustomerLinkedService(LinkedService):
     :vartype password: ~azure.mgmt.datafactory.models.SecretBase
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Either encryptedCredential or
-     username/password must be provided. Type: string (or Expression with resultType string).
-    :vartype encrypted_credential: JSON
+     username/password must be provided. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -50483,7 +51035,7 @@ class SapCloudForCustomerLinkedService(LinkedService):
         "url": {"key": "typeProperties.url", "type": "object"},
         "username": {"key": "typeProperties.username", "type": "object"},
         "password": {"key": "typeProperties.password", "type": "SecretBase"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -50497,7 +51049,7 @@ class SapCloudForCustomerLinkedService(LinkedService):
         annotations: Optional[List[JSON]] = None,
         username: Optional[JSON] = None,
         password: Optional["_models.SecretBase"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -50523,8 +51075,8 @@ class SapCloudForCustomerLinkedService(LinkedService):
         :paramtype password: ~azure.mgmt.datafactory.models.SecretBase
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
          are encrypted using the integration runtime credential manager. Either encryptedCredential or
-         username/password must be provided. Type: string (or Expression with resultType string).
-        :paramtype encrypted_credential: JSON
+         username/password must be provided. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -50899,15 +51451,15 @@ class SapEccLinkedService(LinkedService):
     :ivar url: The URL of SAP ECC OData API. For example,
      '[https://hostname:port/sap/opu/odata/sap/servicename/]'. Type: string (or Expression with
      resultType string). Required.
-    :vartype url: str
+    :vartype url: JSON
     :ivar username: The username for Basic authentication. Type: string (or Expression with
      resultType string).
-    :vartype username: str
+    :vartype username: JSON
     :ivar password: The password for Basic authentication.
     :vartype password: ~azure.mgmt.datafactory.models.SecretBase
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Either encryptedCredential or
-     username/password must be provided. Type: string (or Expression with resultType string).
+     username/password must be provided. Type: string.
     :vartype encrypted_credential: str
     """
 
@@ -50923,8 +51475,8 @@ class SapEccLinkedService(LinkedService):
         "description": {"key": "description", "type": "str"},
         "parameters": {"key": "parameters", "type": "{ParameterSpecification}"},
         "annotations": {"key": "annotations", "type": "[object]"},
-        "url": {"key": "typeProperties.url", "type": "str"},
-        "username": {"key": "typeProperties.username", "type": "str"},
+        "url": {"key": "typeProperties.url", "type": "object"},
+        "username": {"key": "typeProperties.username", "type": "object"},
         "password": {"key": "typeProperties.password", "type": "SecretBase"},
         "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
@@ -50932,13 +51484,13 @@ class SapEccLinkedService(LinkedService):
     def __init__(
         self,
         *,
-        url: str,
+        url: JSON,
         additional_properties: Optional[Dict[str, JSON]] = None,
         connect_via: Optional["_models.IntegrationRuntimeReference"] = None,
         description: Optional[str] = None,
         parameters: Optional[Dict[str, "_models.ParameterSpecification"]] = None,
         annotations: Optional[List[JSON]] = None,
-        username: Optional[str] = None,
+        username: Optional[JSON] = None,
         password: Optional["_models.SecretBase"] = None,
         encrypted_credential: Optional[str] = None,
         **kwargs: Any
@@ -50958,15 +51510,15 @@ class SapEccLinkedService(LinkedService):
         :keyword url: The URL of SAP ECC OData API. For example,
          '[https://hostname:port/sap/opu/odata/sap/servicename/]'. Type: string (or Expression with
          resultType string). Required.
-        :paramtype url: str
+        :paramtype url: JSON
         :keyword username: The username for Basic authentication. Type: string (or Expression with
          resultType string).
-        :paramtype username: str
+        :paramtype username: JSON
         :keyword password: The password for Basic authentication.
         :paramtype password: ~azure.mgmt.datafactory.models.SecretBase
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
          are encrypted using the integration runtime credential manager. Either encryptedCredential or
-         username/password must be provided. Type: string (or Expression with resultType string).
+         username/password must be provided. Type: string.
         :paramtype encrypted_credential: str
         """
         super().__init__(
@@ -51237,9 +51789,8 @@ class SapHanaLinkedService(LinkedService):  # pylint: disable=too-many-instance-
     :ivar password: Password to access the SAP HANA server.
     :vartype password: ~azure.mgmt.datafactory.models.SecretBase
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -51258,7 +51809,7 @@ class SapHanaLinkedService(LinkedService):  # pylint: disable=too-many-instance-
         "authentication_type": {"key": "typeProperties.authenticationType", "type": "str"},
         "user_name": {"key": "typeProperties.userName", "type": "object"},
         "password": {"key": "typeProperties.password", "type": "SecretBase"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -51274,7 +51825,7 @@ class SapHanaLinkedService(LinkedService):  # pylint: disable=too-many-instance-
         authentication_type: Optional[Union[str, "_models.SapHanaAuthenticationType"]] = None,
         user_name: Optional[JSON] = None,
         password: Optional["_models.SecretBase"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -51304,9 +51855,8 @@ class SapHanaLinkedService(LinkedService):  # pylint: disable=too-many-instance-
         :keyword password: Password to access the SAP HANA server.
         :paramtype password: ~azure.mgmt.datafactory.models.SecretBase
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -51656,9 +52206,8 @@ class SapOdpLinkedService(LinkedService):  # pylint: disable=too-many-instance-a
      string).
     :vartype subscriber_name: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -51689,7 +52238,7 @@ class SapOdpLinkedService(LinkedService):  # pylint: disable=too-many-instance-a
         "x509_certificate_path": {"key": "typeProperties.x509CertificatePath", "type": "object"},
         "logon_group": {"key": "typeProperties.logonGroup", "type": "object"},
         "subscriber_name": {"key": "typeProperties.subscriberName", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(  # pylint: disable=too-many-locals
@@ -51717,7 +52266,7 @@ class SapOdpLinkedService(LinkedService):  # pylint: disable=too-many-instance-a
         x509_certificate_path: Optional[JSON] = None,
         logon_group: Optional[JSON] = None,
         subscriber_name: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -51785,9 +52334,8 @@ class SapOdpLinkedService(LinkedService):  # pylint: disable=too-many-instance-a
          string).
         :paramtype subscriber_name: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -52112,9 +52660,8 @@ class SapOpenHubLinkedService(LinkedService):  # pylint: disable=too-many-instan
      resultType string).
     :vartype logon_group: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -52138,7 +52685,7 @@ class SapOpenHubLinkedService(LinkedService):  # pylint: disable=too-many-instan
         "message_server": {"key": "typeProperties.messageServer", "type": "object"},
         "message_server_service": {"key": "typeProperties.messageServerService", "type": "object"},
         "logon_group": {"key": "typeProperties.logonGroup", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -52159,7 +52706,7 @@ class SapOpenHubLinkedService(LinkedService):  # pylint: disable=too-many-instan
         message_server: Optional[JSON] = None,
         message_server_service: Optional[JSON] = None,
         logon_group: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -52207,9 +52754,8 @@ class SapOpenHubLinkedService(LinkedService):  # pylint: disable=too-many-instan
          resultType string).
         :paramtype logon_group: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -52556,9 +53102,8 @@ class SapTableLinkedService(LinkedService):  # pylint: disable=too-many-instance
      resultType string).
     :vartype logon_group: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -52587,7 +53132,7 @@ class SapTableLinkedService(LinkedService):  # pylint: disable=too-many-instance
         "snc_library_path": {"key": "typeProperties.sncLibraryPath", "type": "object"},
         "snc_qop": {"key": "typeProperties.sncQop", "type": "object"},
         "logon_group": {"key": "typeProperties.logonGroup", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -52613,7 +53158,7 @@ class SapTableLinkedService(LinkedService):  # pylint: disable=too-many-instance
         snc_library_path: Optional[JSON] = None,
         snc_qop: Optional[JSON] = None,
         logon_group: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -52675,9 +53220,8 @@ class SapTableLinkedService(LinkedService):  # pylint: disable=too-many-instance
          resultType string).
         :paramtype logon_group: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -53253,6 +53797,13 @@ class ScriptActivity(ExecutionActivity):  # pylint: disable=too-many-instance-at
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -53281,6 +53832,8 @@ class ScriptActivity(ExecutionActivity):  # pylint: disable=too-many-instance-at
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "linked_service_name": {"key": "linkedServiceName", "type": "LinkedServiceReference"},
@@ -53296,6 +53849,8 @@ class ScriptActivity(ExecutionActivity):  # pylint: disable=too-many-instance-at
         name: str,
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         linked_service_name: Optional["_models.LinkedServiceReference"] = None,
@@ -53313,6 +53868,13 @@ class ScriptActivity(ExecutionActivity):  # pylint: disable=too-many-instance-at
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -53334,6 +53896,8 @@ class ScriptActivity(ExecutionActivity):  # pylint: disable=too-many-instance-at
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             linked_service_name=linked_service_name,
@@ -53355,7 +53919,7 @@ class ScriptActivityParameter(_serialization.Model):
      "DateTimeOffset", "Decimal", "Double", "Guid", "Int16", "Int32", "Int64", "Single", "String",
      and "Timespan".
     :vartype type: str or ~azure.mgmt.datafactory.models.ScriptActivityParameterType
-    :ivar value: The value of the parameter.
+    :ivar value: The value of the parameter. Type: string (or Expression with resultType string).
     :vartype value: JSON
     :ivar direction: The direction of the parameter. Known values are: "Input", "Output", and
      "InputOutput".
@@ -53389,7 +53953,8 @@ class ScriptActivityParameter(_serialization.Model):
          "DateTimeOffset", "Decimal", "Double", "Guid", "Int16", "Int32", "Int64", "Single", "String",
          and "Timespan".
         :paramtype type: str or ~azure.mgmt.datafactory.models.ScriptActivityParameterType
-        :keyword value: The value of the parameter.
+        :keyword value: The value of the parameter. Type: string (or Expression with resultType
+         string).
         :paramtype value: JSON
         :keyword direction: The direction of the parameter. Known values are: "Input", "Output", and
          "InputOutput".
@@ -53934,9 +54499,8 @@ class ServiceNowLinkedService(LinkedService):  # pylint: disable=too-many-instan
      connecting over SSL. The default value is true.
     :vartype use_peer_verification: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -53961,7 +54525,7 @@ class ServiceNowLinkedService(LinkedService):  # pylint: disable=too-many-instan
         "use_encrypted_endpoints": {"key": "typeProperties.useEncryptedEndpoints", "type": "object"},
         "use_host_verification": {"key": "typeProperties.useHostVerification", "type": "object"},
         "use_peer_verification": {"key": "typeProperties.usePeerVerification", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -53981,7 +54545,7 @@ class ServiceNowLinkedService(LinkedService):  # pylint: disable=too-many-instan
         use_encrypted_endpoints: Optional[JSON] = None,
         use_host_verification: Optional[JSON] = None,
         use_peer_verification: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -54024,9 +54588,8 @@ class ServiceNowLinkedService(LinkedService):  # pylint: disable=too-many-instan
          connecting over SSL. The default value is true.
         :paramtype use_peer_verification: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -54324,7 +54887,7 @@ class ServicePrincipalCredential(Credential):
         self.tenant = tenant
 
 
-class SetVariableActivity(ControlActivity):
+class SetVariableActivity(ControlActivity):  # pylint: disable=too-many-instance-attributes
     """Set value for a Variable.
 
     All required parameters must be populated in order to send to Azure.
@@ -54338,6 +54901,13 @@ class SetVariableActivity(ControlActivity):
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -54346,6 +54916,8 @@ class SetVariableActivity(ControlActivity):
     :vartype variable_name: str
     :ivar value: Value to be set. Could be a static value or Expression.
     :vartype value: JSON
+    :ivar set_system_variable: If set to true, it sets the pipeline run return value.
+    :vartype set_system_variable: bool
     """
 
     _validation = {
@@ -54358,10 +54930,13 @@ class SetVariableActivity(ControlActivity):
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "variable_name": {"key": "typeProperties.variableName", "type": "str"},
         "value": {"key": "typeProperties.value", "type": "object"},
+        "set_system_variable": {"key": "typeProperties.setSystemVariable", "type": "bool"},
     }
 
     def __init__(
@@ -54370,10 +54945,13 @@ class SetVariableActivity(ControlActivity):
         name: str,
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         variable_name: Optional[str] = None,
         value: Optional[JSON] = None,
+        set_system_variable: Optional[bool] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -54384,6 +54962,13 @@ class SetVariableActivity(ControlActivity):
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -54392,11 +54977,15 @@ class SetVariableActivity(ControlActivity):
         :paramtype variable_name: str
         :keyword value: Value to be set. Could be a static value or Expression.
         :paramtype value: JSON
+        :keyword set_system_variable: If set to true, it sets the pipeline run return value.
+        :paramtype set_system_variable: bool
         """
         super().__init__(
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             **kwargs
@@ -54404,6 +54993,7 @@ class SetVariableActivity(ControlActivity):
         self.type: str = "SetVariable"
         self.variable_name = variable_name
         self.value = value
+        self.set_system_variable = set_system_variable
 
 
 class SftpLocation(DatasetLocation):
@@ -54485,8 +55075,9 @@ class SftpReadSettings(StoreReadSettings):  # pylint: disable=too-many-instance-
     :ivar wildcard_file_name: Sftp wildcardFileName. Type: string (or Expression with resultType
      string).
     :vartype wildcard_file_name: JSON
-    :ivar enable_partition_discovery: Indicates whether to enable partition discovery.
-    :vartype enable_partition_discovery: bool
+    :ivar enable_partition_discovery: Indicates whether to enable partition discovery. Type:
+     boolean (or Expression with resultType boolean).
+    :vartype enable_partition_discovery: JSON
     :ivar partition_root_path: Specify the root path where partition discovery starts from. Type:
      string (or Expression with resultType string).
     :vartype partition_root_path: JSON
@@ -54520,7 +55111,7 @@ class SftpReadSettings(StoreReadSettings):  # pylint: disable=too-many-instance-
         "recursive": {"key": "recursive", "type": "object"},
         "wildcard_folder_path": {"key": "wildcardFolderPath", "type": "object"},
         "wildcard_file_name": {"key": "wildcardFileName", "type": "object"},
-        "enable_partition_discovery": {"key": "enablePartitionDiscovery", "type": "bool"},
+        "enable_partition_discovery": {"key": "enablePartitionDiscovery", "type": "object"},
         "partition_root_path": {"key": "partitionRootPath", "type": "object"},
         "file_list_path": {"key": "fileListPath", "type": "object"},
         "delete_files_after_completion": {"key": "deleteFilesAfterCompletion", "type": "object"},
@@ -54538,7 +55129,7 @@ class SftpReadSettings(StoreReadSettings):  # pylint: disable=too-many-instance-
         recursive: Optional[JSON] = None,
         wildcard_folder_path: Optional[JSON] = None,
         wildcard_file_name: Optional[JSON] = None,
-        enable_partition_discovery: Optional[bool] = None,
+        enable_partition_discovery: Optional[JSON] = None,
         partition_root_path: Optional[JSON] = None,
         file_list_path: Optional[JSON] = None,
         delete_files_after_completion: Optional[JSON] = None,
@@ -54566,8 +55157,9 @@ class SftpReadSettings(StoreReadSettings):  # pylint: disable=too-many-instance-
         :keyword wildcard_file_name: Sftp wildcardFileName. Type: string (or Expression with resultType
          string).
         :paramtype wildcard_file_name: JSON
-        :keyword enable_partition_discovery: Indicates whether to enable partition discovery.
-        :paramtype enable_partition_discovery: bool
+        :keyword enable_partition_discovery: Indicates whether to enable partition discovery. Type:
+         boolean (or Expression with resultType boolean).
+        :paramtype enable_partition_discovery: JSON
         :keyword partition_root_path: Specify the root path where partition discovery starts from.
          Type: string (or Expression with resultType string).
         :paramtype partition_root_path: JSON
@@ -54640,9 +55232,8 @@ class SftpServerLinkedService(LinkedService):  # pylint: disable=too-many-instan
     :ivar password: Password to logon the SFTP server for Basic authentication.
     :vartype password: ~azure.mgmt.datafactory.models.SecretBase
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     :ivar private_key_path: The SSH private key file path for SshPublicKey authentication. Only
      valid for on-premises copy. For on-premises copy with SshPublicKey authentication, either
      PrivateKeyPath or PrivateKeyContent should be specified. SSH private key should be OpenSSH
@@ -54681,7 +55272,7 @@ class SftpServerLinkedService(LinkedService):  # pylint: disable=too-many-instan
         "authentication_type": {"key": "typeProperties.authenticationType", "type": "str"},
         "user_name": {"key": "typeProperties.userName", "type": "object"},
         "password": {"key": "typeProperties.password", "type": "SecretBase"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
         "private_key_path": {"key": "typeProperties.privateKeyPath", "type": "object"},
         "private_key_content": {"key": "typeProperties.privateKeyContent", "type": "SecretBase"},
         "pass_phrase": {"key": "typeProperties.passPhrase", "type": "SecretBase"},
@@ -54702,7 +55293,7 @@ class SftpServerLinkedService(LinkedService):  # pylint: disable=too-many-instan
         authentication_type: Optional[Union[str, "_models.SftpAuthenticationType"]] = None,
         user_name: Optional[JSON] = None,
         password: Optional["_models.SecretBase"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         private_key_path: Optional[JSON] = None,
         private_key_content: Optional["_models.SecretBase"] = None,
         pass_phrase: Optional["_models.SecretBase"] = None,
@@ -54737,9 +55328,8 @@ class SftpServerLinkedService(LinkedService):  # pylint: disable=too-many-instan
         :keyword password: Password to logon the SFTP server for Basic authentication.
         :paramtype password: ~azure.mgmt.datafactory.models.SecretBase
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         :keyword private_key_path: The SSH private key file path for SshPublicKey authentication. Only
          valid for on-premises copy. For on-premises copy with SshPublicKey authentication, either
          PrivateKeyPath or PrivateKeyContent should be specified. SSH private key should be OpenSSH
@@ -54900,9 +55490,8 @@ class SharePointOnlineListLinkedService(LinkedService):  # pylint: disable=too-m
      Directory. Type: string (or Expression with resultType string). Required.
     :vartype service_principal_key: ~azure.mgmt.datafactory.models.SecretBase
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -54924,7 +55513,7 @@ class SharePointOnlineListLinkedService(LinkedService):  # pylint: disable=too-m
         "tenant_id": {"key": "typeProperties.tenantId", "type": "object"},
         "service_principal_id": {"key": "typeProperties.servicePrincipalId", "type": "object"},
         "service_principal_key": {"key": "typeProperties.servicePrincipalKey", "type": "SecretBase"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -54939,7 +55528,7 @@ class SharePointOnlineListLinkedService(LinkedService):  # pylint: disable=too-m
         description: Optional[str] = None,
         parameters: Optional[Dict[str, "_models.ParameterSpecification"]] = None,
         annotations: Optional[List[JSON]] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -54970,9 +55559,8 @@ class SharePointOnlineListLinkedService(LinkedService):  # pylint: disable=too-m
          Active Directory. Type: string (or Expression with resultType string). Required.
         :paramtype service_principal_key: ~azure.mgmt.datafactory.models.SecretBase
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -55223,9 +55811,8 @@ class ShopifyLinkedService(LinkedService):  # pylint: disable=too-many-instance-
      connecting over SSL. The default value is true.
     :vartype use_peer_verification: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -55245,7 +55832,7 @@ class ShopifyLinkedService(LinkedService):  # pylint: disable=too-many-instance-
         "use_encrypted_endpoints": {"key": "typeProperties.useEncryptedEndpoints", "type": "object"},
         "use_host_verification": {"key": "typeProperties.useHostVerification", "type": "object"},
         "use_peer_verification": {"key": "typeProperties.usePeerVerification", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -55261,7 +55848,7 @@ class ShopifyLinkedService(LinkedService):  # pylint: disable=too-many-instance-
         use_encrypted_endpoints: Optional[JSON] = None,
         use_host_verification: Optional[JSON] = None,
         use_peer_verification: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -55292,9 +55879,8 @@ class ShopifyLinkedService(LinkedService):  # pylint: disable=too-many-instance-
          connecting over SSL. The default value is true.
         :paramtype use_peer_verification: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -55570,9 +56156,8 @@ class SmartsheetLinkedService(LinkedService):
     :ivar api_token: The api token for the Smartsheet source. Required.
     :vartype api_token: ~azure.mgmt.datafactory.models.SecretBase
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -55588,7 +56173,7 @@ class SmartsheetLinkedService(LinkedService):
         "parameters": {"key": "parameters", "type": "{ParameterSpecification}"},
         "annotations": {"key": "annotations", "type": "[object]"},
         "api_token": {"key": "typeProperties.apiToken", "type": "SecretBase"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -55600,7 +56185,7 @@ class SmartsheetLinkedService(LinkedService):
         description: Optional[str] = None,
         parameters: Optional[Dict[str, "_models.ParameterSpecification"]] = None,
         annotations: Optional[List[JSON]] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -55618,9 +56203,8 @@ class SmartsheetLinkedService(LinkedService):
         :keyword api_token: The api token for the Smartsheet source. Required.
         :paramtype api_token: ~azure.mgmt.datafactory.models.SecretBase
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -55896,9 +56480,8 @@ class SnowflakeLinkedService(LinkedService):
     :ivar password: The Azure key vault secret reference of password in connection string.
     :vartype password: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -55915,7 +56498,7 @@ class SnowflakeLinkedService(LinkedService):
         "annotations": {"key": "annotations", "type": "[object]"},
         "connection_string": {"key": "typeProperties.connectionString", "type": "object"},
         "password": {"key": "typeProperties.password", "type": "AzureKeyVaultSecretReference"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -55928,7 +56511,7 @@ class SnowflakeLinkedService(LinkedService):
         parameters: Optional[Dict[str, "_models.ParameterSpecification"]] = None,
         annotations: Optional[List[JSON]] = None,
         password: Optional["_models.AzureKeyVaultSecretReference"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -55949,9 +56532,8 @@ class SnowflakeLinkedService(LinkedService):
         :keyword password: The Azure key vault secret reference of password in connection string.
         :paramtype password: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -56260,9 +56842,8 @@ class SparkLinkedService(LinkedService):  # pylint: disable=too-many-instance-at
      the server. The default value is false.
     :vartype allow_self_signed_server_cert: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -56292,7 +56873,7 @@ class SparkLinkedService(LinkedService):  # pylint: disable=too-many-instance-at
         "use_system_trust_store": {"key": "typeProperties.useSystemTrustStore", "type": "object"},
         "allow_host_name_cn_mismatch": {"key": "typeProperties.allowHostNameCNMismatch", "type": "object"},
         "allow_self_signed_server_cert": {"key": "typeProperties.allowSelfSignedServerCert", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -56316,7 +56897,7 @@ class SparkLinkedService(LinkedService):  # pylint: disable=too-many-instance-at
         use_system_trust_store: Optional[JSON] = None,
         allow_host_name_cn_mismatch: Optional[JSON] = None,
         allow_self_signed_server_cert: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -56371,9 +56952,8 @@ class SparkLinkedService(LinkedService):  # pylint: disable=too-many-instance-at
          from the server. The default value is false.
         :paramtype allow_self_signed_server_cert: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -56629,8 +57209,8 @@ class SqlAlwaysEncryptedProperties(_serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :ivar always_encrypted_akv_auth_type: Sql always encrypted AKV authentication type. Type:
-     string (or Expression with resultType string). Required. Known values are: "ServicePrincipal",
-     "ManagedIdentity", and "UserAssignedManagedIdentity".
+     string. Required. Known values are: "ServicePrincipal", "ManagedIdentity", and
+     "UserAssignedManagedIdentity".
     :vartype always_encrypted_akv_auth_type: str or
      ~azure.mgmt.datafactory.models.SqlAlwaysEncryptedAkvAuthType
     :ivar service_principal_id: The client ID of the application in Azure Active Directory used for
@@ -56665,8 +57245,8 @@ class SqlAlwaysEncryptedProperties(_serialization.Model):
     ) -> None:
         """
         :keyword always_encrypted_akv_auth_type: Sql always encrypted AKV authentication type. Type:
-         string (or Expression with resultType string). Required. Known values are: "ServicePrincipal",
-         "ManagedIdentity", and "UserAssignedManagedIdentity".
+         string. Required. Known values are: "ServicePrincipal", "ManagedIdentity", and
+         "UserAssignedManagedIdentity".
         :paramtype always_encrypted_akv_auth_type: str or
          ~azure.mgmt.datafactory.models.SqlAlwaysEncryptedAkvAuthType
         :keyword service_principal_id: The client ID of the application in Azure Active Directory used
@@ -57428,9 +58008,8 @@ class SqlServerLinkedService(LinkedService):  # pylint: disable=too-many-instanc
     :ivar password: The on-premises Windows authentication password.
     :vartype password: ~azure.mgmt.datafactory.models.SecretBase
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     :ivar always_encrypted_settings: Sql always encrypted properties.
     :vartype always_encrypted_settings: ~azure.mgmt.datafactory.models.SqlAlwaysEncryptedProperties
     """
@@ -57450,7 +58029,7 @@ class SqlServerLinkedService(LinkedService):  # pylint: disable=too-many-instanc
         "connection_string": {"key": "typeProperties.connectionString", "type": "object"},
         "user_name": {"key": "typeProperties.userName", "type": "object"},
         "password": {"key": "typeProperties.password", "type": "SecretBase"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
         "always_encrypted_settings": {
             "key": "typeProperties.alwaysEncryptedSettings",
             "type": "SqlAlwaysEncryptedProperties",
@@ -57468,7 +58047,7 @@ class SqlServerLinkedService(LinkedService):  # pylint: disable=too-many-instanc
         annotations: Optional[List[JSON]] = None,
         user_name: Optional[JSON] = None,
         password: Optional["_models.SecretBase"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         always_encrypted_settings: Optional["_models.SqlAlwaysEncryptedProperties"] = None,
         **kwargs: Any
     ) -> None:
@@ -57493,9 +58072,8 @@ class SqlServerLinkedService(LinkedService):  # pylint: disable=too-many-instanc
         :keyword password: The on-premises Windows authentication password.
         :paramtype password: ~azure.mgmt.datafactory.models.SecretBase
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         :keyword always_encrypted_settings: Sql always encrypted properties.
         :paramtype always_encrypted_settings:
          ~azure.mgmt.datafactory.models.SqlAlwaysEncryptedProperties
@@ -57833,7 +58411,7 @@ class SqlServerSource(TabularSource):  # pylint: disable=too-many-instance-attri
         self.partition_settings = partition_settings
 
 
-class SqlServerStoredProcedureActivity(ExecutionActivity):
+class SqlServerStoredProcedureActivity(ExecutionActivity):  # pylint: disable=too-many-instance-attributes
     """SQL stored procedure activity type.
 
     All required parameters must be populated in order to send to Azure.
@@ -57847,6 +58425,13 @@ class SqlServerStoredProcedureActivity(ExecutionActivity):
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -57874,6 +58459,8 @@ class SqlServerStoredProcedureActivity(ExecutionActivity):
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "linked_service_name": {"key": "linkedServiceName", "type": "LinkedServiceReference"},
@@ -57889,6 +58476,8 @@ class SqlServerStoredProcedureActivity(ExecutionActivity):
         stored_procedure_name: JSON,
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         linked_service_name: Optional["_models.LinkedServiceReference"] = None,
@@ -57904,6 +58493,13 @@ class SqlServerStoredProcedureActivity(ExecutionActivity):
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -57923,6 +58519,8 @@ class SqlServerStoredProcedureActivity(ExecutionActivity):
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             linked_service_name=linked_service_name,
@@ -58443,7 +59041,7 @@ class SquareLinkedService(LinkedService):  # pylint: disable=too-many-instance-a
     :ivar connection_properties: Properties used to connect to Square. It is mutually exclusive
      with any other properties in the linked service. Type: object.
     :vartype connection_properties: JSON
-    :ivar host: The URL of the Square instance. (i.e. mystore.mysquare.com).
+    :ivar host: The URL of the Square instance. (i.e. mystore.mysquare.com).
     :vartype host: JSON
     :ivar client_id: The client ID associated with your Square application.
     :vartype client_id: JSON
@@ -58463,9 +59061,8 @@ class SquareLinkedService(LinkedService):  # pylint: disable=too-many-instance-a
      connecting over SSL. The default value is true.
     :vartype use_peer_verification: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -58487,7 +59084,7 @@ class SquareLinkedService(LinkedService):  # pylint: disable=too-many-instance-a
         "use_encrypted_endpoints": {"key": "typeProperties.useEncryptedEndpoints", "type": "object"},
         "use_host_verification": {"key": "typeProperties.useHostVerification", "type": "object"},
         "use_peer_verification": {"key": "typeProperties.usePeerVerification", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -58506,7 +59103,7 @@ class SquareLinkedService(LinkedService):  # pylint: disable=too-many-instance-a
         use_encrypted_endpoints: Optional[JSON] = None,
         use_host_verification: Optional[JSON] = None,
         use_peer_verification: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -58524,7 +59121,7 @@ class SquareLinkedService(LinkedService):  # pylint: disable=too-many-instance-a
         :keyword connection_properties: Properties used to connect to Square. It is mutually exclusive
          with any other properties in the linked service. Type: object.
         :paramtype connection_properties: JSON
-        :keyword host: The URL of the Square instance. (i.e. mystore.mysquare.com).
+        :keyword host: The URL of the Square instance. (i.e. mystore.mysquare.com).
         :paramtype host: JSON
         :keyword client_id: The client ID associated with your Square application.
         :paramtype client_id: JSON
@@ -58544,9 +59141,8 @@ class SquareLinkedService(LinkedService):  # pylint: disable=too-many-instance-a
          connecting over SSL. The default value is true.
         :paramtype use_peer_verification: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -58777,9 +59373,11 @@ class SSISAccessCredential(_serialization.Model):
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar domain: Domain for windows authentication. Required.
+    :ivar domain: Domain for windows authentication. Type: string (or Expression with resultType
+     string). Required.
     :vartype domain: JSON
-    :ivar user_name: UseName for windows authentication. Required.
+    :ivar user_name: UseName for windows authentication. Type: string (or Expression with
+     resultType string). Required.
     :vartype user_name: JSON
     :ivar password: Password for windows authentication. Required.
     :vartype password: ~azure.mgmt.datafactory.models.SecretBase
@@ -58799,9 +59397,11 @@ class SSISAccessCredential(_serialization.Model):
 
     def __init__(self, *, domain: JSON, user_name: JSON, password: "_models.SecretBase", **kwargs: Any) -> None:
         """
-        :keyword domain: Domain for windows authentication. Required.
+        :keyword domain: Domain for windows authentication. Type: string (or Expression with resultType
+         string). Required.
         :paramtype domain: JSON
-        :keyword user_name: UseName for windows authentication. Required.
+        :keyword user_name: UseName for windows authentication. Type: string (or Expression with
+         resultType string). Required.
         :paramtype user_name: JSON
         :keyword password: Password for windows authentication. Required.
         :paramtype password: ~azure.mgmt.datafactory.models.SecretBase
@@ -59043,9 +59643,11 @@ class SSISExecutionCredential(_serialization.Model):
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar domain: Domain for windows authentication. Required.
+    :ivar domain: Domain for windows authentication. Type: string (or Expression with resultType
+     string). Required.
     :vartype domain: JSON
-    :ivar user_name: UseName for windows authentication. Required.
+    :ivar user_name: UseName for windows authentication. Type: string (or Expression with
+     resultType string). Required.
     :vartype user_name: JSON
     :ivar password: Password for windows authentication. Required.
     :vartype password: ~azure.mgmt.datafactory.models.SecureString
@@ -59065,9 +59667,11 @@ class SSISExecutionCredential(_serialization.Model):
 
     def __init__(self, *, domain: JSON, user_name: JSON, password: "_models.SecureString", **kwargs: Any) -> None:
         """
-        :keyword domain: Domain for windows authentication. Required.
+        :keyword domain: Domain for windows authentication. Type: string (or Expression with resultType
+         string). Required.
         :paramtype domain: JSON
-        :keyword user_name: UseName for windows authentication. Required.
+        :keyword user_name: UseName for windows authentication. Type: string (or Expression with
+         resultType string). Required.
         :paramtype user_name: JSON
         :keyword password: Password for windows authentication. Required.
         :paramtype password: ~azure.mgmt.datafactory.models.SecureString
@@ -59837,7 +60441,7 @@ class StoredProcedureParameter(_serialization.Model):
         self.type = type
 
 
-class SwitchActivity(ControlActivity):
+class SwitchActivity(ControlActivity):  # pylint: disable=too-many-instance-attributes
     """This activity evaluates an expression and executes activities under the cases property that
     correspond to the expression evaluation expected in the equals property.
 
@@ -59852,6 +60456,13 @@ class SwitchActivity(ControlActivity):
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -59879,6 +60490,8 @@ class SwitchActivity(ControlActivity):
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "on": {"key": "typeProperties.on", "type": "Expression"},
@@ -59893,6 +60506,8 @@ class SwitchActivity(ControlActivity):
         on: "_models.Expression",
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         cases: Optional[List["_models.SwitchCase"]] = None,
@@ -59907,6 +60522,13 @@ class SwitchActivity(ControlActivity):
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -59926,6 +60548,8 @@ class SwitchActivity(ControlActivity):
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             **kwargs
@@ -59999,9 +60623,8 @@ class SybaseLinkedService(LinkedService):  # pylint: disable=too-many-instance-a
     :ivar password: Password for authentication.
     :vartype password: ~azure.mgmt.datafactory.models.SecretBase
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -60023,7 +60646,7 @@ class SybaseLinkedService(LinkedService):  # pylint: disable=too-many-instance-a
         "authentication_type": {"key": "typeProperties.authenticationType", "type": "str"},
         "username": {"key": "typeProperties.username", "type": "object"},
         "password": {"key": "typeProperties.password", "type": "SecretBase"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -60040,7 +60663,7 @@ class SybaseLinkedService(LinkedService):  # pylint: disable=too-many-instance-a
         authentication_type: Optional[Union[str, "_models.SybaseAuthenticationType"]] = None,
         username: Optional[JSON] = None,
         password: Optional["_models.SecretBase"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -60073,9 +60696,8 @@ class SybaseLinkedService(LinkedService):  # pylint: disable=too-many-instance-a
         :keyword password: Password for authentication.
         :paramtype password: ~azure.mgmt.datafactory.models.SecretBase
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -60312,6 +60934,13 @@ class SynapseNotebookActivity(ExecutionActivity):  # pylint: disable=too-many-in
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -60339,8 +60968,9 @@ class SynapseNotebookActivity(ExecutionActivity):  # pylint: disable=too-many-in
      of the notebook you provide. Type: string (or Expression with resultType string).
     :vartype driver_size: JSON
     :ivar num_executors: Number of executors to launch for this session, which will override the
-     'numExecutors' of the notebook you provide.
-    :vartype num_executors: int
+     'numExecutors' of the notebook you provide. Type: integer (or Expression with resultType
+     integer).
+    :vartype num_executors: JSON
     """
 
     _validation = {
@@ -60354,6 +60984,8 @@ class SynapseNotebookActivity(ExecutionActivity):  # pylint: disable=too-many-in
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "linked_service_name": {"key": "linkedServiceName", "type": "LinkedServiceReference"},
@@ -60364,7 +60996,7 @@ class SynapseNotebookActivity(ExecutionActivity):  # pylint: disable=too-many-in
         "executor_size": {"key": "typeProperties.executorSize", "type": "object"},
         "conf": {"key": "typeProperties.conf", "type": "object"},
         "driver_size": {"key": "typeProperties.driverSize", "type": "object"},
-        "num_executors": {"key": "typeProperties.numExecutors", "type": "int"},
+        "num_executors": {"key": "typeProperties.numExecutors", "type": "object"},
     }
 
     def __init__(
@@ -60374,6 +61006,8 @@ class SynapseNotebookActivity(ExecutionActivity):  # pylint: disable=too-many-in
         notebook: "_models.SynapseNotebookReference",
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         linked_service_name: Optional["_models.LinkedServiceReference"] = None,
@@ -60383,7 +61017,7 @@ class SynapseNotebookActivity(ExecutionActivity):  # pylint: disable=too-many-in
         executor_size: Optional[JSON] = None,
         conf: Optional[JSON] = None,
         driver_size: Optional[JSON] = None,
-        num_executors: Optional[int] = None,
+        num_executors: Optional[JSON] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -60394,6 +61028,13 @@ class SynapseNotebookActivity(ExecutionActivity):  # pylint: disable=too-many-in
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -60422,13 +61063,16 @@ class SynapseNotebookActivity(ExecutionActivity):  # pylint: disable=too-many-in
          string).
         :paramtype driver_size: JSON
         :keyword num_executors: Number of executors to launch for this session, which will override the
-         'numExecutors' of the notebook you provide.
-        :paramtype num_executors: int
+         'numExecutors' of the notebook you provide. Type: integer (or Expression with resultType
+         integer).
+        :paramtype num_executors: JSON
         """
         super().__init__(
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             linked_service_name=linked_service_name,
@@ -60496,6 +61140,13 @@ class SynapseSparkJobDefinitionActivity(ExecutionActivity):  # pylint: disable=t
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -60572,6 +61223,8 @@ class SynapseSparkJobDefinitionActivity(ExecutionActivity):  # pylint: disable=t
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "linked_service_name": {"key": "linkedServiceName", "type": "LinkedServiceReference"},
@@ -60607,6 +61260,8 @@ class SynapseSparkJobDefinitionActivity(ExecutionActivity):  # pylint: disable=t
         spark_job: "_models.SynapseSparkJobReference",
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         linked_service_name: Optional["_models.LinkedServiceReference"] = None,
@@ -60636,6 +61291,13 @@ class SynapseSparkJobDefinitionActivity(ExecutionActivity):  # pylint: disable=t
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -60705,6 +61367,8 @@ class SynapseSparkJobDefinitionActivity(ExecutionActivity):  # pylint: disable=t
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             linked_service_name=linked_service_name,
@@ -60996,9 +61660,8 @@ class TeamDeskLinkedService(LinkedService):  # pylint: disable=too-many-instance
     :ivar api_token: The api token for the TeamDesk source.
     :vartype api_token: ~azure.mgmt.datafactory.models.SecretBase
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -61019,7 +61682,7 @@ class TeamDeskLinkedService(LinkedService):  # pylint: disable=too-many-instance
         "user_name": {"key": "typeProperties.userName", "type": "object"},
         "password": {"key": "typeProperties.password", "type": "SecretBase"},
         "api_token": {"key": "typeProperties.apiToken", "type": "SecretBase"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -61035,7 +61698,7 @@ class TeamDeskLinkedService(LinkedService):  # pylint: disable=too-many-instance
         user_name: Optional[JSON] = None,
         password: Optional["_models.SecretBase"] = None,
         api_token: Optional["_models.SecretBase"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -61065,9 +61728,8 @@ class TeamDeskLinkedService(LinkedService):  # pylint: disable=too-many-instance
         :keyword api_token: The api token for the TeamDesk source.
         :paramtype api_token: ~azure.mgmt.datafactory.models.SecretBase
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -61118,9 +61780,8 @@ class TeradataLinkedService(LinkedService):  # pylint: disable=too-many-instance
     :ivar password: Password for authentication.
     :vartype password: ~azure.mgmt.datafactory.models.SecretBase
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -61139,7 +61800,7 @@ class TeradataLinkedService(LinkedService):  # pylint: disable=too-many-instance
         "authentication_type": {"key": "typeProperties.authenticationType", "type": "str"},
         "username": {"key": "typeProperties.username", "type": "object"},
         "password": {"key": "typeProperties.password", "type": "SecretBase"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -61155,7 +61816,7 @@ class TeradataLinkedService(LinkedService):  # pylint: disable=too-many-instance
         authentication_type: Optional[Union[str, "_models.TeradataAuthenticationType"]] = None,
         username: Optional[JSON] = None,
         password: Optional["_models.SecretBase"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -61186,9 +61847,8 @@ class TeradataLinkedService(LinkedService):  # pylint: disable=too-many-instance
         :keyword password: Password for authentication.
         :paramtype password: ~azure.mgmt.datafactory.models.SecretBase
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -62229,7 +62889,8 @@ class TwilioLinkedService(LinkedService):
     :vartype parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
     :ivar annotations: List of tags that can be used for describing the linked service.
     :vartype annotations: list[JSON]
-    :ivar user_name: The Account SID of Twilio service. Required.
+    :ivar user_name: The Account SID of Twilio service. Type: string (or Expression with resultType
+     string). Required.
     :vartype user_name: JSON
     :ivar password: The auth token of Twilio service. Required.
     :vartype password: ~azure.mgmt.datafactory.models.SecretBase
@@ -62276,7 +62937,8 @@ class TwilioLinkedService(LinkedService):
         :paramtype parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
         :keyword annotations: List of tags that can be used for describing the linked service.
         :paramtype annotations: list[JSON]
-        :keyword user_name: The Account SID of Twilio service. Required.
+        :keyword user_name: The Account SID of Twilio service. Type: string (or Expression with
+         resultType string). Required.
         :paramtype user_name: JSON
         :keyword password: The auth token of Twilio service. Required.
         :paramtype password: ~azure.mgmt.datafactory.models.SecretBase
@@ -62366,7 +63028,7 @@ class TypeConversionSettings(_serialization.Model):
         self.culture = culture
 
 
-class UntilActivity(ControlActivity):
+class UntilActivity(ControlActivity):  # pylint: disable=too-many-instance-attributes
     """This activity executes inner activities until the specified boolean expression results to true
     or timeout is reached, whichever is earlier.
 
@@ -62381,6 +63043,13 @@ class UntilActivity(ControlActivity):
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -62391,8 +63060,7 @@ class UntilActivity(ControlActivity):
     :ivar timeout: Specifies the timeout for the activity to run. If there is no value specified,
      it takes the value of TimeSpan.FromDays(7) which is 1 week as default. Type: string (or
      Expression with resultType string), pattern:
-     ((\d+).)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). Type: string (or Expression with
-     resultType string), pattern: ((\d+).)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+     ((\d+).)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
     :vartype timeout: JSON
     :ivar activities: List of activities to execute. Required.
     :vartype activities: list[~azure.mgmt.datafactory.models.Activity]
@@ -62410,6 +63078,8 @@ class UntilActivity(ControlActivity):
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "expression": {"key": "typeProperties.expression", "type": "Expression"},
@@ -62425,6 +63095,8 @@ class UntilActivity(ControlActivity):
         activities: List["_models.Activity"],
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         timeout: Optional[JSON] = None,
@@ -62438,6 +63110,13 @@ class UntilActivity(ControlActivity):
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -62448,8 +63127,7 @@ class UntilActivity(ControlActivity):
         :keyword timeout: Specifies the timeout for the activity to run. If there is no value
          specified, it takes the value of TimeSpan.FromDays(7) which is 1 week as default. Type: string
          (or Expression with resultType string), pattern:
-         ((\d+).)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). Type: string (or Expression with
-         resultType string), pattern: ((\d+).)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+         ((\d+).)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
         :paramtype timeout: JSON
         :keyword activities: List of activities to execute. Required.
         :paramtype activities: list[~azure.mgmt.datafactory.models.Activity]
@@ -62458,6 +63136,8 @@ class UntilActivity(ControlActivity):
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             **kwargs
@@ -62641,6 +63321,13 @@ class ValidationActivity(ControlActivity):  # pylint: disable=too-many-instance-
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -62675,6 +63362,8 @@ class ValidationActivity(ControlActivity):  # pylint: disable=too-many-instance-
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "timeout": {"key": "typeProperties.timeout", "type": "object"},
@@ -62691,6 +63380,8 @@ class ValidationActivity(ControlActivity):  # pylint: disable=too-many-instance-
         dataset: "_models.DatasetReference",
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         timeout: Optional[JSON] = None,
@@ -62707,6 +63398,13 @@ class ValidationActivity(ControlActivity):  # pylint: disable=too-many-instance-
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -62733,6 +63431,8 @@ class ValidationActivity(ControlActivity):  # pylint: disable=too-many-instance-
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             **kwargs
@@ -62803,9 +63503,8 @@ class VerticaLinkedService(LinkedService):
     :ivar pwd: The Azure key vault secret reference of password in connection string.
     :vartype pwd: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -62821,7 +63520,7 @@ class VerticaLinkedService(LinkedService):
         "annotations": {"key": "annotations", "type": "[object]"},
         "connection_string": {"key": "typeProperties.connectionString", "type": "object"},
         "pwd": {"key": "typeProperties.pwd", "type": "AzureKeyVaultSecretReference"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -62834,7 +63533,7 @@ class VerticaLinkedService(LinkedService):
         annotations: Optional[List[JSON]] = None,
         connection_string: Optional[JSON] = None,
         pwd: Optional["_models.AzureKeyVaultSecretReference"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -62855,9 +63554,8 @@ class VerticaLinkedService(LinkedService):
         :keyword pwd: The Azure key vault secret reference of password in connection string.
         :paramtype pwd: ~azure.mgmt.datafactory.models.AzureKeyVaultSecretReference
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -63111,11 +63809,19 @@ class WaitActivity(ControlActivity):
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
     :vartype user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
-    :ivar wait_time_in_seconds: Duration in seconds. Required.
+    :ivar wait_time_in_seconds: Duration in seconds. Type: integer (or Expression with resultType
+     integer). Required.
     :vartype wait_time_in_seconds: JSON
     """
 
@@ -63130,6 +63836,8 @@ class WaitActivity(ControlActivity):
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "wait_time_in_seconds": {"key": "typeProperties.waitTimeInSeconds", "type": "object"},
@@ -63142,6 +63850,8 @@ class WaitActivity(ControlActivity):
         wait_time_in_seconds: JSON,
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         **kwargs: Any
@@ -63154,17 +63864,27 @@ class WaitActivity(ControlActivity):
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
         :paramtype user_properties: list[~azure.mgmt.datafactory.models.UserProperty]
-        :keyword wait_time_in_seconds: Duration in seconds. Required.
+        :keyword wait_time_in_seconds: Duration in seconds. Type: integer (or Expression with
+         resultType integer). Required.
         :paramtype wait_time_in_seconds: JSON
         """
         super().__init__(
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             **kwargs
@@ -63187,6 +63907,13 @@ class WebActivity(ExecutionActivity):  # pylint: disable=too-many-instance-attri
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -63232,6 +63959,8 @@ class WebActivity(ExecutionActivity):  # pylint: disable=too-many-instance-attri
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "linked_service_name": {"key": "linkedServiceName", "type": "LinkedServiceReference"},
@@ -63255,6 +63984,8 @@ class WebActivity(ExecutionActivity):  # pylint: disable=too-many-instance-attri
         url: JSON,
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         linked_service_name: Optional["_models.LinkedServiceReference"] = None,
@@ -63276,6 +64007,13 @@ class WebActivity(ExecutionActivity):  # pylint: disable=too-many-instance-attri
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -63312,6 +64050,8 @@ class WebActivity(ExecutionActivity):  # pylint: disable=too-many-instance-attri
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             linked_service_name=linked_service_name,
@@ -63597,6 +64337,13 @@ class WebHookActivity(ControlActivity):  # pylint: disable=too-many-instance-att
     :vartype type: str
     :ivar description: Activity description.
     :vartype description: str
+    :ivar state: Activity state. This is an optional property and if not provided, the state will
+     be Active by default. Known values are: "Active" and "Inactive".
+    :vartype state: str or ~azure.mgmt.datafactory.models.ActivityState
+    :ivar on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+     This is an optional property and if not provided when the activity is inactive, the status will
+     be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+    :vartype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
     :ivar depends_on: Activity depends on condition.
     :vartype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
     :ivar user_properties: Activity user properties.
@@ -63638,6 +64385,8 @@ class WebHookActivity(ControlActivity):  # pylint: disable=too-many-instance-att
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "on_inactive_mark_as": {"key": "onInactiveMarkAs", "type": "str"},
         "depends_on": {"key": "dependsOn", "type": "[ActivityDependency]"},
         "user_properties": {"key": "userProperties", "type": "[UserProperty]"},
         "method": {"key": "typeProperties.method", "type": "str"},
@@ -63657,6 +64406,8 @@ class WebHookActivity(ControlActivity):  # pylint: disable=too-many-instance-att
         url: JSON,
         additional_properties: Optional[Dict[str, JSON]] = None,
         description: Optional[str] = None,
+        state: Optional[Union[str, "_models.ActivityState"]] = None,
+        on_inactive_mark_as: Optional[Union[str, "_models.ActivityOnInactiveMarkAs"]] = None,
         depends_on: Optional[List["_models.ActivityDependency"]] = None,
         user_properties: Optional[List["_models.UserProperty"]] = None,
         timeout: Optional[str] = None,
@@ -63674,6 +64425,13 @@ class WebHookActivity(ControlActivity):  # pylint: disable=too-many-instance-att
         :paramtype name: str
         :keyword description: Activity description.
         :paramtype description: str
+        :keyword state: Activity state. This is an optional property and if not provided, the state
+         will be Active by default. Known values are: "Active" and "Inactive".
+        :paramtype state: str or ~azure.mgmt.datafactory.models.ActivityState
+        :keyword on_inactive_mark_as: Status result of the activity when the state is set to Inactive.
+         This is an optional property and if not provided when the activity is inactive, the status will
+         be Succeeded by default. Known values are: "Succeeded", "Failed", and "Skipped".
+        :paramtype on_inactive_mark_as: str or ~azure.mgmt.datafactory.models.ActivityOnInactiveMarkAs
         :keyword depends_on: Activity depends on condition.
         :paramtype depends_on: list[~azure.mgmt.datafactory.models.ActivityDependency]
         :keyword user_properties: Activity user properties.
@@ -63706,6 +64464,8 @@ class WebHookActivity(ControlActivity):  # pylint: disable=too-many-instance-att
             additional_properties=additional_properties,
             name=name,
             description=description,
+            state=state,
+            on_inactive_mark_as=on_inactive_mark_as,
             depends_on=depends_on,
             user_properties=user_properties,
             **kwargs
@@ -64102,9 +64862,8 @@ class XeroLinkedService(LinkedService):  # pylint: disable=too-many-instance-att
      connecting over SSL. The default value is true.
     :vartype use_peer_verification: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -64125,7 +64884,7 @@ class XeroLinkedService(LinkedService):  # pylint: disable=too-many-instance-att
         "use_encrypted_endpoints": {"key": "typeProperties.useEncryptedEndpoints", "type": "object"},
         "use_host_verification": {"key": "typeProperties.useHostVerification", "type": "object"},
         "use_peer_verification": {"key": "typeProperties.usePeerVerification", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -64143,7 +64902,7 @@ class XeroLinkedService(LinkedService):  # pylint: disable=too-many-instance-att
         use_encrypted_endpoints: Optional[JSON] = None,
         use_host_verification: Optional[JSON] = None,
         use_peer_verification: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -64181,9 +64940,8 @@ class XeroLinkedService(LinkedService):  # pylint: disable=too-many-instance-att
          connecting over SSL. The default value is true.
         :paramtype use_peer_verification: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -64753,9 +65511,8 @@ class ZendeskLinkedService(LinkedService):  # pylint: disable=too-many-instance-
     :ivar api_token: The api token for the Zendesk source.
     :vartype api_token: ~azure.mgmt.datafactory.models.SecretBase
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -64776,7 +65533,7 @@ class ZendeskLinkedService(LinkedService):  # pylint: disable=too-many-instance-
         "user_name": {"key": "typeProperties.userName", "type": "object"},
         "password": {"key": "typeProperties.password", "type": "SecretBase"},
         "api_token": {"key": "typeProperties.apiToken", "type": "SecretBase"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -64792,7 +65549,7 @@ class ZendeskLinkedService(LinkedService):  # pylint: disable=too-many-instance-
         user_name: Optional[JSON] = None,
         password: Optional["_models.SecretBase"] = None,
         api_token: Optional["_models.SecretBase"] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -64821,9 +65578,8 @@ class ZendeskLinkedService(LinkedService):  # pylint: disable=too-many-instance-
         :keyword api_token: The api token for the Zendesk source.
         :paramtype api_token: ~azure.mgmt.datafactory.models.SecretBase
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -64923,9 +65679,8 @@ class ZohoLinkedService(LinkedService):  # pylint: disable=too-many-instance-att
      connecting over SSL. The default value is true.
     :vartype use_peer_verification: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
-     encrypted using the integration runtime credential manager. Type: string (or Expression with
-     resultType string).
-    :vartype encrypted_credential: JSON
+     encrypted using the integration runtime credential manager. Type: string.
+    :vartype encrypted_credential: str
     """
 
     _validation = {
@@ -64945,7 +65700,7 @@ class ZohoLinkedService(LinkedService):  # pylint: disable=too-many-instance-att
         "use_encrypted_endpoints": {"key": "typeProperties.useEncryptedEndpoints", "type": "object"},
         "use_host_verification": {"key": "typeProperties.useHostVerification", "type": "object"},
         "use_peer_verification": {"key": "typeProperties.usePeerVerification", "type": "object"},
-        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "object"},
+        "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
     def __init__(
@@ -64962,7 +65717,7 @@ class ZohoLinkedService(LinkedService):  # pylint: disable=too-many-instance-att
         use_encrypted_endpoints: Optional[JSON] = None,
         use_host_verification: Optional[JSON] = None,
         use_peer_verification: Optional[JSON] = None,
-        encrypted_credential: Optional[JSON] = None,
+        encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -64995,9 +65750,8 @@ class ZohoLinkedService(LinkedService):  # pylint: disable=too-many-instance-att
          connecting over SSL. The default value is true.
         :paramtype use_peer_verification: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
-         are encrypted using the integration runtime credential manager. Type: string (or Expression
-         with resultType string).
-        :paramtype encrypted_credential: JSON
+         are encrypted using the integration runtime credential manager. Type: string.
+        :paramtype encrypted_credential: str
         """
         super().__init__(
             additional_properties=additional_properties,
