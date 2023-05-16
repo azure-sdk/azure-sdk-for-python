@@ -47,8 +47,8 @@ class AdmCredential(_serialization.Model):
         client_id: Optional[str] = None,
         client_secret: Optional[str] = None,
         auth_token_url: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_id: The client identifier.
         :paramtype client_id: str
@@ -115,8 +115,8 @@ class ApnsCredential(_serialization.Model):
         app_name: Optional[str] = None,
         app_id: Optional[str] = None,
         token: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword apns_certificate: The APNS certificate. Specify if using Certificate Authentication
          Mode.
@@ -179,8 +179,8 @@ class BaiduCredential(_serialization.Model):
         baidu_api_key: Optional[str] = None,
         baidu_end_point: Optional[str] = None,
         baidu_secret_key: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword baidu_api_key: Baidu Api Key.
         :paramtype baidu_api_key: str
@@ -243,8 +243,8 @@ class CheckAvailabilityParameters(_serialization.Model):
         tags: Optional[Dict[str, str]] = None,
         sku: Optional["_models.Sku"] = None,
         is_availiable: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Resource name. Required.
         :paramtype name: str
@@ -308,8 +308,8 @@ class Resource(_serialization.Model):
         location: Optional[str] = None,
         tags: Optional[Dict[str, str]] = None,
         sku: Optional["_models.Sku"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Resource location.
         :paramtype location: str
@@ -372,8 +372,8 @@ class CheckAvailabilityResult(Resource):
         tags: Optional[Dict[str, str]] = None,
         sku: Optional["_models.Sku"] = None,
         is_availiable: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Resource location.
         :paramtype location: str
@@ -441,8 +441,8 @@ class DebugSendResponse(Resource):
         success: Optional[float] = None,
         failure: Optional[float] = None,
         results: Optional[JSON] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Resource location.
         :paramtype location: str
@@ -464,7 +464,8 @@ class DebugSendResponse(Resource):
 
 
 class ErrorResponse(_serialization.Model):
-    """Error response indicates NotificationHubs service is not able to process the incoming request. The reason is provided in the error message.
+    """Error response indicates NotificationHubs service is not able to process the incoming request.
+    The reason is provided in the error message.
 
     :ivar code: Error code.
     :vartype code: str
@@ -477,7 +478,7 @@ class ErrorResponse(_serialization.Model):
         "message": {"key": "message", "type": "str"},
     }
 
-    def __init__(self, *, code: Optional[str] = None, message: Optional[str] = None, **kwargs):
+    def __init__(self, *, code: Optional[str] = None, message: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword code: Error code.
         :paramtype code: str
@@ -504,7 +505,9 @@ class GcmCredential(_serialization.Model):
         "google_api_key": {"key": "properties.googleApiKey", "type": "str"},
     }
 
-    def __init__(self, *, gcm_endpoint: Optional[str] = None, google_api_key: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, gcm_endpoint: Optional[str] = None, google_api_key: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword gcm_endpoint: The FCM legacy endpoint. Default value is
          'https://fcm.googleapis.com/fcm/send'.
@@ -540,8 +543,8 @@ class MpnsCredential(_serialization.Model):
         mpns_certificate: Optional[str] = None,
         certificate_key: Optional[str] = None,
         thumbprint: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword mpns_certificate: The MPNS certificate.
         :paramtype mpns_certificate: str
@@ -656,8 +659,8 @@ class NamespaceCreateOrUpdateParameters(Resource):  # pylint: disable=too-many-i
         critical: Optional[bool] = None,
         data_center: Optional[str] = None,
         namespace_type: Optional[Union[str, "_models.NamespaceType"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Resource location.
         :paramtype location: str
@@ -730,8 +733,12 @@ class NamespaceListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.NamespaceResource"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self,
+        *,
+        value: Optional[List["_models.NamespaceResource"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: Result of the List Namespace operation.
         :paramtype value: list[~azure.mgmt.notificationhubs.models.NamespaceResource]
@@ -758,7 +765,9 @@ class NamespacePatchParameters(_serialization.Model):
         "sku": {"key": "sku", "type": "Sku"},
     }
 
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, sku: Optional["_models.Sku"] = None, **kwargs):
+    def __init__(
+        self, *, tags: Optional[Dict[str, str]] = None, sku: Optional["_models.Sku"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -870,8 +879,8 @@ class NamespaceResource(Resource):  # pylint: disable=too-many-instance-attribut
         critical: Optional[bool] = None,
         data_center: Optional[str] = None,
         namespace_type: Optional[Union[str, "_models.NamespaceType"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Resource location.
         :paramtype location: str
@@ -1008,8 +1017,8 @@ class NotificationHubCreateOrUpdateParameters(Resource):  # pylint: disable=too-
         mpns_credential: Optional["_models.MpnsCredential"] = None,
         adm_credential: Optional["_models.AdmCredential"] = None,
         baidu_credential: Optional["_models.BaiduCredential"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Resource location.
         :paramtype location: str
@@ -1069,8 +1078,8 @@ class NotificationHubListResult(_serialization.Model):
         *,
         value: Optional[List["_models.NotificationHubResource"]] = None,
         next_link: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: Result of the List NotificationHub operation.
         :paramtype value: list[~azure.mgmt.notificationhubs.models.NotificationHubResource]
@@ -1163,8 +1172,8 @@ class NotificationHubPatchParameters(Resource):  # pylint: disable=too-many-inst
         mpns_credential: Optional["_models.MpnsCredential"] = None,
         adm_credential: Optional["_models.AdmCredential"] = None,
         baidu_credential: Optional["_models.BaiduCredential"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Resource location.
         :paramtype location: str
@@ -1284,8 +1293,8 @@ class NotificationHubResource(Resource):  # pylint: disable=too-many-instance-at
         mpns_credential: Optional["_models.MpnsCredential"] = None,
         adm_credential: Optional["_models.AdmCredential"] = None,
         baidu_credential: Optional["_models.BaiduCredential"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Resource location.
         :paramtype location: str
@@ -1345,7 +1354,7 @@ class Operation(_serialization.Model):
         "display": {"key": "display", "type": "OperationDisplay"},
     }
 
-    def __init__(self, *, display: Optional["_models.OperationDisplay"] = None, **kwargs):
+    def __init__(self, *, display: Optional["_models.OperationDisplay"] = None, **kwargs: Any) -> None:
         """
         :keyword display: The object that represents the operation.
         :paramtype display: ~azure.mgmt.notificationhubs.models.OperationDisplay
@@ -1380,7 +1389,7 @@ class OperationDisplay(_serialization.Model):
         "operation": {"key": "operation", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.provider = None
@@ -1389,7 +1398,8 @@ class OperationDisplay(_serialization.Model):
 
 
 class OperationListResult(_serialization.Model):
-    """Result of the request to list NotificationHubs operations. It contains a list of operations and a URL link to get the next set of results.
+    """Result of the request to list NotificationHubs operations. It contains a list of operations and
+    a URL link to get the next set of results.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -1410,7 +1420,7 @@ class OperationListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -1481,8 +1491,8 @@ class PnsCredentialsResource(Resource):  # pylint: disable=too-many-instance-att
         mpns_credential: Optional["_models.MpnsCredential"] = None,
         adm_credential: Optional["_models.AdmCredential"] = None,
         baidu_credential: Optional["_models.BaiduCredential"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Resource location.
         :paramtype location: str
@@ -1524,7 +1534,7 @@ class PolicykeyResource(_serialization.Model):
         "policy_key": {"key": "policyKey", "type": "str"},
     }
 
-    def __init__(self, *, policy_key: Optional[str] = None, **kwargs):
+    def __init__(self, *, policy_key: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword policy_key: Name of the key that has to be regenerated for the Namespace/Notification
          Hub Authorization Rule. The value can be Primary Key/Secondary Key.
@@ -1565,8 +1575,8 @@ class ResourceListKeys(_serialization.Model):
         primary_key: Optional[str] = None,
         secondary_key: Optional[str] = None,
         key_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword primary_connection_string: PrimaryConnectionString of the AuthorizationRule.
         :paramtype primary_connection_string: str
@@ -1606,7 +1616,7 @@ class SharedAccessAuthorizationRuleCreateOrUpdateParameters(_serialization.Model
         "properties": {"key": "properties", "type": "SharedAccessAuthorizationRuleProperties"},
     }
 
-    def __init__(self, *, properties: "_models.SharedAccessAuthorizationRuleProperties", **kwargs):
+    def __init__(self, *, properties: "_models.SharedAccessAuthorizationRuleProperties", **kwargs: Any) -> None:
         """
         :keyword properties: Properties of the Namespace AuthorizationRules. Required.
         :paramtype properties:
@@ -1636,8 +1646,8 @@ class SharedAccessAuthorizationRuleListResult(_serialization.Model):
         *,
         value: Optional[List["_models.SharedAccessAuthorizationRuleResource"]] = None,
         next_link: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: Result of the List AuthorizationRules operation.
         :paramtype value:
@@ -1701,7 +1711,7 @@ class SharedAccessAuthorizationRuleProperties(_serialization.Model):
         "revision": {"key": "revision", "type": "int"},
     }
 
-    def __init__(self, *, rights: Optional[List[Union[str, "_models.AccessRights"]]] = None, **kwargs):
+    def __init__(self, *, rights: Optional[List[Union[str, "_models.AccessRights"]]] = None, **kwargs: Any) -> None:
         """
         :keyword rights: The rights associated with the rule.
         :paramtype rights: list[str or ~azure.mgmt.notificationhubs.models.AccessRights]
@@ -1796,8 +1806,8 @@ class SharedAccessAuthorizationRuleResource(Resource):  # pylint: disable=too-ma
         tags: Optional[Dict[str, str]] = None,
         sku: Optional["_models.Sku"] = None,
         rights: Optional[List[Union[str, "_models.AccessRights"]]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Resource location.
         :paramtype location: str
@@ -1858,8 +1868,8 @@ class Sku(_serialization.Model):
         size: Optional[str] = None,
         family: Optional[str] = None,
         capacity: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Name of the notification hub sku. Required. Known values are: "Free", "Basic",
          and "Standard".
@@ -1892,7 +1902,7 @@ class SubResource(_serialization.Model):
         "id": {"key": "id", "type": "str"},
     }
 
-    def __init__(self, *, id: Optional[str] = None, **kwargs):  # pylint: disable=redefined-builtin
+    def __init__(self, *, id: Optional[str] = None, **kwargs: Any) -> None:  # pylint: disable=redefined-builtin
         """
         :keyword id: Resource Id.
         :paramtype id: str
@@ -1924,8 +1934,8 @@ class WnsCredential(_serialization.Model):
         package_sid: Optional[str] = None,
         secret_key: Optional[str] = None,
         windows_live_endpoint: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword package_sid: The package ID for this credential.
         :paramtype package_sid: str

@@ -14,7 +14,7 @@ from azure.mgmt.notificationhubs import NotificationHubsManagementClient
     pip install azure-identity
     pip install azure-mgmt-notificationhubs
 # USAGE
-    python name_space_authorization_rule_list_all.py
+    python nh_operations_list.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,17 +26,14 @@ from azure.mgmt.notificationhubs import NotificationHubsManagementClient
 def main():
     client = NotificationHubsManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="29cfa613-cbbc-4512-b1d6-1b3a92c7fa40",
+        subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.namespaces.list_authorization_rules(
-        resource_group_name="5ktrial",
-        namespace_name="nh-sdk-ns",
-    )
+    response = client.operations.list()
     for item in response:
         print(item)
 
 
-# x-ms-original-file: specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/stable/2017-04-01/examples/Namespaces/NHNameSpaceAuthorizationRuleListAll.json
+# x-ms-original-file: specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/stable/2017-04-01/examples/NHOperationsList.json
 if __name__ == "__main__":
     main()

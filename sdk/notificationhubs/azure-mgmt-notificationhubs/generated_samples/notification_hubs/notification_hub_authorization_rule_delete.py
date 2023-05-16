@@ -29,13 +29,12 @@ def main():
         subscription_id="29cfa613-cbbc-4512-b1d6-1b3a92c7fa40",
     )
 
-    response = client.notification_hubs.delete_authorization_rule(
+    client.notification_hubs.delete_authorization_rule(
         resource_group_name="5ktrial",
         namespace_name="nh-sdk-ns",
         notification_hub_name="nh-sdk-hub",
         authorization_rule_name="DefaultListenSharedAccessSignature",
     )
-    print(response)
 
 
 # x-ms-original-file: specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/stable/2017-04-01/examples/NotificationHubs/NotificationHubAuthorizationRuleDelete.json

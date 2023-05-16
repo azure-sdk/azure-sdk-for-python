@@ -14,7 +14,7 @@ from azure.mgmt.notificationhubs import NotificationHubsManagementClient
     pip install azure-identity
     pip install azure-mgmt-notificationhubs
 # USAGE
-    python name_space_authorization_rule_list_key.py
+    python notification_hub_delete.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,14 +29,13 @@ def main():
         subscription_id="29cfa613-cbbc-4512-b1d6-1b3a92c7fa40",
     )
 
-    response = client.namespaces.list_keys(
+    client.notification_hubs.delete(
         resource_group_name="5ktrial",
         namespace_name="nh-sdk-ns",
-        authorization_rule_name="RootManageSharedAccessKey",
+        notification_hub_name="nh-sdk-hub",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/stable/2017-04-01/examples/Namespaces/NHNameSpaceAuthorizationRuleListKey.json
+# x-ms-original-file: specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/stable/2017-04-01/examples/NotificationHubs/NotificationHubDelete.json
 if __name__ == "__main__":
     main()
