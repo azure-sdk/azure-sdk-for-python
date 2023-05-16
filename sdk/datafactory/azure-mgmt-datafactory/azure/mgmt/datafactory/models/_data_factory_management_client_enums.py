@@ -121,22 +121,10 @@ class CopyBehaviorType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class CosmosDbConnectionMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The connection mode used to access CosmosDB account. Type: string (or Expression with
-    resultType string).
-    """
+    """The connection mode used to access CosmosDB account. Type: string."""
 
     GATEWAY = "Gateway"
     DIRECT = "Direct"
-
-
-class CosmosDbServicePrincipalCredentialType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The service principal credential type to use in Server-To-Server authentication.
-    'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string (or
-    Expression with resultType string).
-    """
-
-    SERVICE_PRINCIPAL_KEY = "ServicePrincipalKey"
-    SERVICE_PRINCIPAL_CERT = "ServicePrincipalCert"
 
 
 class CredentialReferenceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -650,6 +638,7 @@ class RunQueryFilterOperator(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     NOT_EQUALS = "NotEquals"
     IN = "In"
     NOT_IN = "NotIn"
+    IN_ENUM = "In"
 
 
 class RunQueryOrder(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -835,9 +824,7 @@ class SparkThriftTransportProtocol(str, Enum, metaclass=CaseInsensitiveEnumMeta)
 
 
 class SqlAlwaysEncryptedAkvAuthType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Sql always encrypted AKV authentication type. Type: string (or Expression with resultType
-    string).
-    """
+    """Sql always encrypted AKV authentication type. Type: string."""
 
     SERVICE_PRINCIPAL = "ServicePrincipal"
     MANAGED_IDENTITY = "ManagedIdentity"
