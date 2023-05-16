@@ -7,7 +7,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from typing import Any, Callable, Dict, Iterable, Optional, TypeVar
-import urllib.parse
 
 from azure.core.exceptions import (
     ClientAuthenticationError,
@@ -27,7 +26,7 @@ from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from .. import models as _models
 from ..._serialization import Serializer
-from .._vendor import _convert_request, _format_url_section
+from .._vendor import SecurityCenterMixinABC, _convert_request, _format_url_section
 
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
@@ -121,18 +120,7 @@ class HealthReportsOperations:
                 request.url = self._client.format_url(request.url)
 
             else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
+                request = HttpRequest("GET", next_link)
                 request = _convert_request(request)
                 request.url = self._client.format_url(request.url)
                 request.method = "GET"

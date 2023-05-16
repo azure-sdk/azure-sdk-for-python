@@ -18,6 +18,8 @@ from ._configuration import SecurityCenterConfiguration
 from .operations import (
     HealthReportOperations,
     HealthReportsOperations,
+    SecurityCenterOperationsMixin,
+    SensitivitySettingsOperations,
     SqlVulnerabilityAssessmentBaselineRulesOperations,
     SqlVulnerabilityAssessmentScanResultsOperations,
     SqlVulnerabilityAssessmentScansOperations,
@@ -28,7 +30,9 @@ if TYPE_CHECKING:
     from azure.core.credentials import TokenCredential
 
 
-class SecurityCenter:  # pylint: disable=client-accepts-api-version-keyword
+class SecurityCenter(
+    SecurityCenterOperationsMixin
+):  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
     """API spec for Microsoft.Security (Azure Security Center) resource provider.
 
     :ivar sql_vulnerability_assessment_baseline_rules:
@@ -48,13 +52,13 @@ class SecurityCenter:  # pylint: disable=client-accepts-api-version-keyword
     :ivar health_report: HealthReportOperations operations
     :vartype health_report:
      azure.mgmt.security.v2023_02_01_preview.operations.HealthReportOperations
+    :ivar sensitivity_settings: SensitivitySettingsOperations operations
+    :vartype sensitivity_settings:
+     azure.mgmt.security.v2023_02_01_preview.operations.SensitivitySettingsOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2023-02-01-preview". Note that overriding
-     this default value may result in unsupported behavior.
-    :paramtype api_version: str
     """
 
     def __init__(
@@ -78,6 +82,9 @@ class SecurityCenter:  # pylint: disable=client-accepts-api-version-keyword
         )
         self.health_reports = HealthReportsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.health_report = HealthReportOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.sensitivity_settings = SensitivitySettingsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> HttpResponse:
         """Runs the network request through the client's chained policies.
