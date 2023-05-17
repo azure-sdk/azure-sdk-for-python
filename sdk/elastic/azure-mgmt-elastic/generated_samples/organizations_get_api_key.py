@@ -29,12 +29,10 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.organizations.get_api_key(
-        resource_group_name="myResourceGroup",
-    )
+    response = client.organizations.get_api_key()
     print(response)
 
 
-# x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/Organizations_GetApiKey.json
+# x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-05-01-preview/examples/Organizations_GetApiKey.json
 if __name__ == "__main__":
     main()

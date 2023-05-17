@@ -23,6 +23,7 @@ from .operations import (
     DeploymentInfoOperations,
     DetachAndDeleteTrafficFilterOperations,
     DetachTrafficFilterOperations,
+    ElasticVersionsOperations,
     ExternalUserOperations,
     ListAssociatedTrafficFiltersOperations,
     MonitorOperations,
@@ -50,6 +51,8 @@ class MicrosoftElastic:  # pylint: disable=client-accepts-api-version-keyword,to
     :vartype operations: azure.mgmt.elastic.operations.Operations
     :ivar monitors: MonitorsOperations operations
     :vartype monitors: azure.mgmt.elastic.operations.MonitorsOperations
+    :ivar elastic_versions: ElasticVersionsOperations operations
+    :vartype elastic_versions: azure.mgmt.elastic.operations.ElasticVersionsOperations
     :ivar monitored_resources: MonitoredResourcesOperations operations
     :vartype monitored_resources: azure.mgmt.elastic.operations.MonitoredResourcesOperations
     :ivar deployment_info: DeploymentInfoOperations operations
@@ -98,7 +101,7 @@ class MicrosoftElastic:  # pylint: disable=client-accepts-api-version-keyword,to
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2023-02-01-preview". Note that overriding
+    :keyword api_version: Api Version. Default value is "2023-05-01-preview". Note that overriding
      this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -121,6 +124,9 @@ class MicrosoftElastic:  # pylint: disable=client-accepts-api-version-keyword,to
         self._serialize.client_side_validation = False
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
         self.monitors = MonitorsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.elastic_versions = ElasticVersionsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.monitored_resources = MonitoredResourcesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
