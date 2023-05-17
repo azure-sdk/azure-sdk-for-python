@@ -1,0 +1,15 @@
+{
+  "commit": "22d355ffe76d78585fca75c243dd3b0c3671276b",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/cognitiveservices/ContentSafety",
+  "@azure-tools/typespec-python": {
+    "version": "0.8.6",
+    "resolved": "https://registry.npmjs.org/@azure-tools/typespec-python/-/typespec-python-0.8.6.tgz",
+    "dependencies": {
+      "@autorest/python": {
+        "version": "6.4.14",
+        "resolved": "https://registry.npmjs.org/@autorest/python/-/python-6.4.14.tgz"
+      }
+    }
+  }
+}
