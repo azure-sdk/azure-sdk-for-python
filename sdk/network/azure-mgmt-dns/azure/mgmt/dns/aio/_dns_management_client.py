@@ -89,6 +89,7 @@ class DnsManagementClient(MultiApiClientMixin, _SDKClient):
            * 2016-04-01: :mod:`v2016_04_01.models<azure.mgmt.dns.v2016_04_01.models>`
            * 2018-03-01-preview: :mod:`v2018_03_01_preview.models<azure.mgmt.dns.v2018_03_01_preview.models>`
            * 2018-05-01: :mod:`v2018_05_01.models<azure.mgmt.dns.v2018_05_01.models>`
+           * 2023-07-01-preview: :mod:`v2023_07_01_preview.models<azure.mgmt.dns.v2023_07_01_preview.models>`
         """
         if api_version == '2016-04-01':
             from ..v2016_04_01 import models
@@ -99,6 +100,9 @@ class DnsManagementClient(MultiApiClientMixin, _SDKClient):
         elif api_version == '2018-05-01':
             from ..v2018_05_01 import models
             return models
+        elif api_version == '2023-07-01-preview':
+            from ..v2023_07_01_preview import models
+            return models
         raise ValueError("API version {} is not available".format(api_version))
 
     @property
@@ -106,12 +110,29 @@ class DnsManagementClient(MultiApiClientMixin, _SDKClient):
         """Instance depends on the API version:
 
            * 2018-05-01: :class:`DnsResourceReferenceOperations<azure.mgmt.dns.v2018_05_01.aio.operations.DnsResourceReferenceOperations>`
+           * 2023-07-01-preview: :class:`DnsResourceReferenceOperations<azure.mgmt.dns.v2023_07_01_preview.aio.operations.DnsResourceReferenceOperations>`
         """
         api_version = self._get_api_version('dns_resource_reference')
         if api_version == '2018-05-01':
             from ..v2018_05_01.aio.operations import DnsResourceReferenceOperations as OperationClass
+        elif api_version == '2023-07-01-preview':
+            from ..v2023_07_01_preview.aio.operations import DnsResourceReferenceOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'dns_resource_reference'".format(api_version))
+        self._config.api_version = api_version
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+
+    @property
+    def dnssec_configs(self):
+        """Instance depends on the API version:
+
+           * 2023-07-01-preview: :class:`DnssecConfigsOperations<azure.mgmt.dns.v2023_07_01_preview.aio.operations.DnssecConfigsOperations>`
+        """
+        api_version = self._get_api_version('dnssec_configs')
+        if api_version == '2023-07-01-preview':
+            from ..v2023_07_01_preview.aio.operations import DnssecConfigsOperations as OperationClass
+        else:
+            raise ValueError("API version {} does not have operation group 'dnssec_configs'".format(api_version))
         self._config.api_version = api_version
         return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
 
@@ -122,6 +143,7 @@ class DnsManagementClient(MultiApiClientMixin, _SDKClient):
            * 2016-04-01: :class:`RecordSetsOperations<azure.mgmt.dns.v2016_04_01.aio.operations.RecordSetsOperations>`
            * 2018-03-01-preview: :class:`RecordSetsOperations<azure.mgmt.dns.v2018_03_01_preview.aio.operations.RecordSetsOperations>`
            * 2018-05-01: :class:`RecordSetsOperations<azure.mgmt.dns.v2018_05_01.aio.operations.RecordSetsOperations>`
+           * 2023-07-01-preview: :class:`RecordSetsOperations<azure.mgmt.dns.v2023_07_01_preview.aio.operations.RecordSetsOperations>`
         """
         api_version = self._get_api_version('record_sets')
         if api_version == '2016-04-01':
@@ -130,6 +152,8 @@ class DnsManagementClient(MultiApiClientMixin, _SDKClient):
             from ..v2018_03_01_preview.aio.operations import RecordSetsOperations as OperationClass
         elif api_version == '2018-05-01':
             from ..v2018_05_01.aio.operations import RecordSetsOperations as OperationClass
+        elif api_version == '2023-07-01-preview':
+            from ..v2023_07_01_preview.aio.operations import RecordSetsOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'record_sets'".format(api_version))
         self._config.api_version = api_version
@@ -142,6 +166,7 @@ class DnsManagementClient(MultiApiClientMixin, _SDKClient):
            * 2016-04-01: :class:`ZonesOperations<azure.mgmt.dns.v2016_04_01.aio.operations.ZonesOperations>`
            * 2018-03-01-preview: :class:`ZonesOperations<azure.mgmt.dns.v2018_03_01_preview.aio.operations.ZonesOperations>`
            * 2018-05-01: :class:`ZonesOperations<azure.mgmt.dns.v2018_05_01.aio.operations.ZonesOperations>`
+           * 2023-07-01-preview: :class:`ZonesOperations<azure.mgmt.dns.v2023_07_01_preview.aio.operations.ZonesOperations>`
         """
         api_version = self._get_api_version('zones')
         if api_version == '2016-04-01':
@@ -150,6 +175,8 @@ class DnsManagementClient(MultiApiClientMixin, _SDKClient):
             from ..v2018_03_01_preview.aio.operations import ZonesOperations as OperationClass
         elif api_version == '2018-05-01':
             from ..v2018_05_01.aio.operations import ZonesOperations as OperationClass
+        elif api_version == '2023-07-01-preview':
+            from ..v2023_07_01_preview.aio.operations import ZonesOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'zones'".format(api_version))
         self._config.api_version = api_version
