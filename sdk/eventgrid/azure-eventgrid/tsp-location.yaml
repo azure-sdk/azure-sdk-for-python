@@ -1,0 +1,4 @@
+cleanup: false
+commit: dd8b9d6fdb27e78a58300c00daf006e04e2e3f31
+directory: specification/eventgrid/Microsoft.EventGrid
+repo: Azure/azure-rest-api-specs

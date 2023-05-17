@@ -1,0 +1,15 @@
+{
+  "commit": "dd8b9d6fdb27e78a58300c00daf006e04e2e3f31",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/eventgrid/Microsoft.EventGrid",
+  "@azure-tools/typespec-python": {
+    "version": "0.8.6",
+    "resolved": "https://registry.npmjs.org/@azure-tools/typespec-python/-/typespec-python-0.8.6.tgz",
+    "dependencies": {
+      "@autorest/python": {
+        "version": "6.4.14",
+        "resolved": "https://registry.npmjs.org/@autorest/python/-/python-6.4.14.tgz"
+      }
+    }
+  }
+}
