@@ -1335,9 +1335,13 @@ class Network(_serialization.Model):
      "Enabled" and "Disabled".
     :vartype public_network_access: str or
      ~azure.mgmt.rdbms.postgresql_flexibleservers.models.ServerPublicNetworkAccessState
-    :ivar delegated_subnet_resource_id: delegated subnet arm resource id.
+    :ivar delegated_subnet_resource_id: Delegated subnet arm resource id. This is required to be
+     passed during create, in case we want the server to be VNET injected, i.e. Private access
+     server. During update, pass this only if we want to update the value for Private DNS zone.
     :vartype delegated_subnet_resource_id: str
-    :ivar private_dns_zone_arm_resource_id: private dns zone arm resource id.
+    :ivar private_dns_zone_arm_resource_id: Private dns zone arm resource id. This is required to
+     be passed during create, in case we want the server to be VNET injected, i.e. Private access
+     server. During update, pass this only if we want to update the value for Private DNS zone.
     :vartype private_dns_zone_arm_resource_id: str
     """
 
@@ -1352,12 +1356,20 @@ class Network(_serialization.Model):
     }
 
     def __init__(
-        self, *, delegated_subnet_resource_id: str = "", private_dns_zone_arm_resource_id: str = "", **kwargs: Any
+        self,
+        *,
+        delegated_subnet_resource_id: Optional[str] = None,
+        private_dns_zone_arm_resource_id: Optional[str] = None,
+        **kwargs: Any
     ) -> None:
         """
-        :keyword delegated_subnet_resource_id: delegated subnet arm resource id.
+        :keyword delegated_subnet_resource_id: Delegated subnet arm resource id. This is required to be
+         passed during create, in case we want the server to be VNET injected, i.e. Private access
+         server. During update, pass this only if we want to update the value for Private DNS zone.
         :paramtype delegated_subnet_resource_id: str
-        :keyword private_dns_zone_arm_resource_id: private dns zone arm resource id.
+        :keyword private_dns_zone_arm_resource_id: Private dns zone arm resource id. This is required
+         to be passed during create, in case we want the server to be VNET injected, i.e. Private access
+         server. During update, pass this only if we want to update the value for Private DNS zone.
         :paramtype private_dns_zone_arm_resource_id: str
         """
         super().__init__(**kwargs)
@@ -1651,7 +1663,8 @@ class Server(TrackedResource):  # pylint: disable=too-many-instance-attributes
     :vartype data_encryption: ~azure.mgmt.rdbms.postgresql_flexibleservers.models.DataEncryption
     :ivar backup: Backup properties of a server.
     :vartype backup: ~azure.mgmt.rdbms.postgresql_flexibleservers.models.Backup
-    :ivar network: Network properties of a server.
+    :ivar network: Network properties of a server. This Network property is required to be passed
+     only in case you want the server to be Private access server.
     :vartype network: ~azure.mgmt.rdbms.postgresql_flexibleservers.models.Network
     :ivar high_availability: High availability properties of a server.
     :vartype high_availability:
@@ -1769,7 +1782,8 @@ class Server(TrackedResource):  # pylint: disable=too-many-instance-attributes
         :paramtype data_encryption: ~azure.mgmt.rdbms.postgresql_flexibleservers.models.DataEncryption
         :keyword backup: Backup properties of a server.
         :paramtype backup: ~azure.mgmt.rdbms.postgresql_flexibleservers.models.Backup
-        :keyword network: Network properties of a server.
+        :keyword network: Network properties of a server. This Network property is required to be
+         passed only in case you want the server to be Private access server.
         :paramtype network: ~azure.mgmt.rdbms.postgresql_flexibleservers.models.Network
         :keyword high_availability: High availability properties of a server.
         :paramtype high_availability:
@@ -1945,6 +1959,9 @@ class ServerForUpdate(_serialization.Model):  # pylint: disable=too-many-instanc
      "AsyncReplica", and "GeoAsyncReplica".
     :vartype replication_role: str or
      ~azure.mgmt.rdbms.postgresql_flexibleservers.models.ReplicationRole
+    :ivar network: Network properties of a server. These are required to be passed only in case if
+     server is a private access server.
+    :vartype network: ~azure.mgmt.rdbms.postgresql_flexibleservers.models.Network
     """
 
     _attribute_map = {
@@ -1961,6 +1978,7 @@ class ServerForUpdate(_serialization.Model):  # pylint: disable=too-many-instanc
         "data_encryption": {"key": "properties.dataEncryption", "type": "DataEncryption"},
         "create_mode": {"key": "properties.createMode", "type": "str"},
         "replication_role": {"key": "properties.replicationRole", "type": "str"},
+        "network": {"key": "properties.network", "type": "Network"},
     }
 
     def __init__(
@@ -1979,6 +1997,7 @@ class ServerForUpdate(_serialization.Model):  # pylint: disable=too-many-instanc
         data_encryption: Optional["_models.DataEncryption"] = None,
         create_mode: Optional[Union[str, "_models.CreateModeForUpdate"]] = None,
         replication_role: Optional[Union[str, "_models.ReplicationRole"]] = None,
+        network: Optional["_models.Network"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -2014,6 +2033,9 @@ class ServerForUpdate(_serialization.Model):  # pylint: disable=too-many-instanc
          "AsyncReplica", and "GeoAsyncReplica".
         :paramtype replication_role: str or
          ~azure.mgmt.rdbms.postgresql_flexibleservers.models.ReplicationRole
+        :keyword network: Network properties of a server. These are required to be passed only in case
+         if server is a private access server.
+        :paramtype network: ~azure.mgmt.rdbms.postgresql_flexibleservers.models.Network
         """
         super().__init__(**kwargs)
         self.sku = sku
@@ -2029,6 +2051,7 @@ class ServerForUpdate(_serialization.Model):  # pylint: disable=too-many-instanc
         self.data_encryption = data_encryption
         self.create_mode = create_mode
         self.replication_role = replication_role
+        self.network = network
 
 
 class ServerListResult(_serialization.Model):
@@ -2353,8 +2376,7 @@ class UserAssignedIdentity(_serialization.Model):
     :vartype user_assigned_identities: dict[str,
      ~azure.mgmt.rdbms.postgresql_flexibleservers.models.UserIdentity]
     :ivar type: the types of identities associated with this resource; currently restricted to
-     'SystemAssigned and UserAssigned'. Required. Known values are: "None", "SystemAssigned", and
-     "UserAssigned".
+     'SystemAssigned and UserAssigned'. Required. Known values are: "None" and "UserAssigned".
     :vartype type: str or ~azure.mgmt.rdbms.postgresql_flexibleservers.models.IdentityType
     """
 
@@ -2379,8 +2401,7 @@ class UserAssignedIdentity(_serialization.Model):
         :paramtype user_assigned_identities: dict[str,
          ~azure.mgmt.rdbms.postgresql_flexibleservers.models.UserIdentity]
         :keyword type: the types of identities associated with this resource; currently restricted to
-         'SystemAssigned and UserAssigned'. Required. Known values are: "None", "SystemAssigned", and
-         "UserAssigned".
+         'SystemAssigned and UserAssigned'. Required. Known values are: "None" and "UserAssigned".
         :paramtype type: str or ~azure.mgmt.rdbms.postgresql_flexibleservers.models.IdentityType
         """
         super().__init__(**kwargs)
