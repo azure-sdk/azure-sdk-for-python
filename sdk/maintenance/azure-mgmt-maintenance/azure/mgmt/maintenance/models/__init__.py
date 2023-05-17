@@ -9,6 +9,9 @@
 from ._models_py3 import ApplyUpdate
 from ._models_py3 import ConfigurationAssignment
 from ._models_py3 import ErrorDetails
+from ._models_py3 import EventFilter
+from ._models_py3 import EventGridFilter
+from ._models_py3 import EventGridFilterListResult
 from ._models_py3 import InputLinuxParameters
 from ._models_py3 import InputPatchConfiguration
 from ._models_py3 import InputWindowsParameters
@@ -18,10 +21,12 @@ from ._models_py3 import ListMaintenanceConfigurationsResult
 from ._models_py3 import ListUpdatesResult
 from ._models_py3 import MaintenanceConfiguration
 from ._models_py3 import MaintenanceError
+from ._models_py3 import MaintenanceOverrideProperties
 from ._models_py3 import Operation
 from ._models_py3 import OperationInfo
 from ._models_py3 import OperationsListResult
 from ._models_py3 import Resource
+from ._models_py3 import SubscriberIdentityInfo
 from ._models_py3 import SystemData
 from ._models_py3 import TaskProperties
 from ._models_py3 import Update
@@ -29,18 +34,22 @@ from ._models_py3 import Update
 from ._maintenance_management_client_enums import CreatedByType
 from ._maintenance_management_client_enums import ImpactType
 from ._maintenance_management_client_enums import MaintenanceScope
+from ._maintenance_management_client_enums import ProvisioningState
 from ._maintenance_management_client_enums import RebootOptions
 from ._maintenance_management_client_enums import TaskScope
 from ._maintenance_management_client_enums import UpdateStatus
 from ._maintenance_management_client_enums import Visibility
 from ._patch import __all__ as _patch_all
-from ._patch import *  # type: ignore # pylint: disable=unused-wildcard-import
+from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
     "ApplyUpdate",
     "ConfigurationAssignment",
     "ErrorDetails",
+    "EventFilter",
+    "EventGridFilter",
+    "EventGridFilterListResult",
     "InputLinuxParameters",
     "InputPatchConfiguration",
     "InputWindowsParameters",
@@ -50,16 +59,19 @@ __all__ = [
     "ListUpdatesResult",
     "MaintenanceConfiguration",
     "MaintenanceError",
+    "MaintenanceOverrideProperties",
     "Operation",
     "OperationInfo",
     "OperationsListResult",
     "Resource",
+    "SubscriberIdentityInfo",
     "SystemData",
     "TaskProperties",
     "Update",
     "CreatedByType",
     "ImpactType",
     "MaintenanceScope",
+    "ProvisioningState",
     "RebootOptions",
     "TaskScope",
     "UpdateStatus",

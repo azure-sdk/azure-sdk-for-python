@@ -14,7 +14,7 @@ from azure.mgmt.maintenance import MaintenanceManagementClient
     pip install azure-identity
     pip install azure-mgmt-maintenance
 # USAGE
-    python maintenance_configurations_create_or_update_for_resource.py
+    python event_grid_filter_get_maintenance_configuration.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,31 +26,17 @@ from azure.mgmt.maintenance import MaintenanceManagementClient
 def main():
     client = MaintenanceManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="5b4b650e-28b9-4790-b3ab-ddbd88d727c4",
+        subscription_id="eee2cef4-bc47-4278-b4f8-cfc65f25dfd9",
     )
 
-    response = client.maintenance_configurations.create_or_update(
-        resource_group_name="examplerg",
-        resource_name="configuration1",
-        configuration={
-            "location": "westus2",
-            "properties": {
-                "maintenanceScope": "OSImage",
-                "maintenanceWindow": {
-                    "duration": "05:00",
-                    "expirationDateTime": "9999-12-31 00:00",
-                    "recurEvery": "Day",
-                    "startDateTime": "2020-04-30 08:00",
-                    "timeZone": "Pacific Standard Time",
-                },
-                "namespace": "Microsoft.Maintenance",
-                "visibility": "Custom",
-            },
-        },
+    response = client.event_grid_filters.get(
+        resource_group_name="myResourceGroup",
+        resource_name="contosoMaintenanceConfiguration",
+        event_grid_filter_name="_default",
     )
     print(response)
 
 
-# x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2022-11-01-preview/examples/MaintenanceConfigurations_CreateOrUpdateForResource.json
+# x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2022-11-01-preview/examples/EventGridFilterGetMaintenanceConfiguration.json
 if __name__ == "__main__":
     main()
