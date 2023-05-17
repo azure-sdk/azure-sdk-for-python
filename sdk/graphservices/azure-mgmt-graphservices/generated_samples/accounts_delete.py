@@ -29,11 +29,10 @@ def main():
         subscription_id="11111111-aaaa-1111-bbbb-111111111111",
     )
 
-    response = client.account.delete(
+    client.account.delete(
         resource_group_name="testResourceGroupGRAM",
         resource_name="11111111-aaaa-1111-bbbb-111111111111",
     )
-    print(response)
 
 
 # x-ms-original-file: specification/graphservicesprod/resource-manager/Microsoft.GraphServices/preview/2022-09-22-preview/examples/Accounts_Delete.json

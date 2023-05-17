@@ -33,6 +33,7 @@ def main():
         resource_group_name="testResourceGroupGRAM",
         resource_name="11111111-aaaa-1111-bbbb-1111111111111",
         account_resource={
+            "location": "global",
             "properties": {"appId": "11111111-aaaa-1111-bbbb-111111111111"},
             "tags": {"tag1": "value1", "tag2": "value2"},
         },
