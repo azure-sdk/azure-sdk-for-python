@@ -26,6 +26,8 @@ from azure.mgmt.appcontainers import ContainerAppsAPIClient
 def main():
     client = ContainerAppsAPIClient(
         credential=DefaultAzureCredential(),
+        job_name="JOB_NAME",
+        job_execution_name="JOB_EXECUTION_NAME",
         subscription_id="34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
     )
 
@@ -73,6 +75,7 @@ def main():
                                 "name": "Allow work IP B subnet",
                             },
                         ],
+                        "stickySessions": {"affinity": "sticky"},
                         "targetPort": 3000,
                         "traffic": [{"label": "production", "revisionName": "testcontainerApp0-ab1234", "weight": 100}],
                     },
@@ -122,6 +125,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2022-10-01/examples/ContainerApps_Patch.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-04-01-preview/examples/ContainerApps_Patch.json
 if __name__ == "__main__":
     main()
