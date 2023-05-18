@@ -31,6 +31,12 @@ from ._models_py3 import BaseContainer
 from ._models_py3 import BillingMeter
 from ._models_py3 import BillingMeterCollection
 from ._models_py3 import BillingMeterProperties
+from ._models_py3 import BuildCollection
+from ._models_py3 import BuildConfiguration
+from ._models_py3 import BuildResource
+from ._models_py3 import BuilderCollection
+from ._models_py3 import BuilderResource
+from ._models_py3 import BuilderResourceUpdate
 from ._models_py3 import Certificate
 from ._models_py3 import CertificateCollection
 from ._models_py3 import CertificatePatch
@@ -48,11 +54,13 @@ from ._models_py3 import Container
 from ._models_py3 import ContainerApp
 from ._models_py3 import ContainerAppAuthToken
 from ._models_py3 import ContainerAppCollection
+from ._models_py3 import ContainerAppJobExecutions
 from ._models_py3 import ContainerAppProbe
 from ._models_py3 import ContainerAppProbeHttpGet
 from ._models_py3 import ContainerAppProbeHttpGetHttpHeadersItem
 from ._models_py3 import ContainerAppProbeTcpSocket
 from ._models_py3 import ContainerAppSecret
+from ._models_py3 import ContainerRegistryWithCustomImage
 from ._models_py3 import ContainerResources
 from ._models_py3 import CookieExpiration
 from ._models_py3 import CorsPolicy
@@ -66,6 +74,7 @@ from ._models_py3 import CustomScaleRule
 from ._models_py3 import Dapr
 from ._models_py3 import DaprComponent
 from ._models_py3 import DaprComponentsCollection
+from ._models_py3 import DaprConfiguration
 from ._models_py3 import DaprMetadata
 from ._models_py3 import DaprSecret
 from ._models_py3 import DaprSecretsCollection
@@ -86,8 +95,8 @@ from ._models_py3 import DiagnosticsDefinition
 from ._models_py3 import DiagnosticsProperties
 from ._models_py3 import DiagnosticsStatus
 from ._models_py3 import EnvironmentAuthToken
-from ._models_py3 import EnvironmentSkuProperties
 from ._models_py3 import EnvironmentVar
+from ._models_py3 import EnvironmentVariable
 from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorDetail
 from ._models_py3 import ErrorResponse
@@ -98,20 +107,40 @@ from ._models_py3 import GitHub
 from ._models_py3 import GithubActionConfiguration
 from ._models_py3 import GlobalValidation
 from ._models_py3 import Google
+from ._models_py3 import HttpGet
 from ._models_py3 import HttpScaleRule
 from ._models_py3 import HttpSettings
 from ._models_py3 import HttpSettingsRoutes
 from ._models_py3 import IdentityProviders
 from ._models_py3 import Ingress
+from ._models_py3 import IngressStickySessions
 from ._models_py3 import InitContainer
 from ._models_py3 import IpSecurityRestrictionRule
+from ._models_py3 import Job
+from ._models_py3 import JobConfiguration
+from ._models_py3 import JobConfigurationManualTriggerConfig
+from ._models_py3 import JobConfigurationScheduleTriggerConfig
+from ._models_py3 import JobExecution
+from ._models_py3 import JobExecutionBase
+from ._models_py3 import JobExecutionContainer
+from ._models_py3 import JobExecutionNamesCollection
+from ._models_py3 import JobExecutionTemplate
+from ._models_py3 import JobPatchProperties
+from ._models_py3 import JobPatchPropertiesProperties
+from ._models_py3 import JobSecretsCollection
+from ._models_py3 import JobTemplate
+from ._models_py3 import JobsCollection
 from ._models_py3 import JwtClaimChecks
+from ._models_py3 import KedaConfiguration
 from ._models_py3 import LogAnalyticsConfiguration
 from ._models_py3 import Login
 from ._models_py3 import LoginRoutes
 from ._models_py3 import LoginScopes
+from ._models_py3 import ManagedCertificate
+from ._models_py3 import ManagedCertificateCollection
+from ._models_py3 import ManagedCertificatePatch
+from ._models_py3 import ManagedCertificateProperties
 from ._models_py3 import ManagedEnvironment
-from ._models_py3 import ManagedEnvironmentOutboundSettings
 from ._models_py3 import ManagedEnvironmentStorage
 from ._models_py3 import ManagedEnvironmentStorageProperties
 from ._models_py3 import ManagedEnvironmentStoragesCollection
@@ -124,6 +153,7 @@ from ._models_py3 import OpenIdConnectLogin
 from ._models_py3 import OpenIdConnectRegistration
 from ._models_py3 import OperationDetail
 from ._models_py3 import OperationDisplay
+from ._models_py3 import PreBuildStep
 from ._models_py3 import ProxyResource
 from ._models_py3 import QueueScaleRule
 from ._models_py3 import RegistryCredentials
@@ -138,6 +168,7 @@ from ._models_py3 import Scale
 from ._models_py3 import ScaleRule
 from ._models_py3 import ScaleRuleAuth
 from ._models_py3 import Secret
+from ._models_py3 import SecretVolumeItem
 from ._models_py3 import SecretsCollection
 from ._models_py3 import SourceControl
 from ._models_py3 import SourceControlCollection
@@ -160,14 +191,17 @@ from ._models_py3 import WorkloadProfileStatesProperties
 from ._container_apps_api_client_enums import AccessMode
 from ._container_apps_api_client_enums import Action
 from ._container_apps_api_client_enums import ActiveRevisionsMode
+from ._container_apps_api_client_enums import Affinity
 from ._container_apps_api_client_enums import AppProtocol
 from ._container_apps_api_client_enums import Applicability
 from ._container_apps_api_client_enums import BindingType
-from ._container_apps_api_client_enums import Category
+from ._container_apps_api_client_enums import BuildStatus
 from ._container_apps_api_client_enums import CertificateProvisioningState
 from ._container_apps_api_client_enums import CheckNameAvailabilityReason
 from ._container_apps_api_client_enums import ConnectedEnvironmentProvisioningState
+from ._container_apps_api_client_enums import ContainerAppContainerRunningState
 from ._container_apps_api_client_enums import ContainerAppProvisioningState
+from ._container_apps_api_client_enums import ContainerAppReplicaRunningState
 from ._container_apps_api_client_enums import CookieExpirationConvention
 from ._container_apps_api_client_enums import CreatedByType
 from ._container_apps_api_client_enums import DnsVerificationTestResult
@@ -176,15 +210,18 @@ from ._container_apps_api_client_enums import ExtendedLocationTypes
 from ._container_apps_api_client_enums import ForwardProxyConvention
 from ._container_apps_api_client_enums import IngressClientCertificateMode
 from ._container_apps_api_client_enums import IngressTransportMethod
+from ._container_apps_api_client_enums import JobExecutionRunningState
+from ._container_apps_api_client_enums import JobProvisioningState
 from ._container_apps_api_client_enums import LogLevel
-from ._container_apps_api_client_enums import ManagedEnvironmentOutBoundType
+from ._container_apps_api_client_enums import ManagedCertificateDomainControlValidation
 from ._container_apps_api_client_enums import ManagedServiceIdentityType
+from ._container_apps_api_client_enums import ProvisioningState
 from ._container_apps_api_client_enums import RevisionHealthState
 from ._container_apps_api_client_enums import RevisionProvisioningState
 from ._container_apps_api_client_enums import Scheme
-from ._container_apps_api_client_enums import SkuName
 from ._container_apps_api_client_enums import SourceControlOperationState
 from ._container_apps_api_client_enums import StorageType
+from ._container_apps_api_client_enums import TriggerType
 from ._container_apps_api_client_enums import Type
 from ._container_apps_api_client_enums import UnauthenticatedClientActionV2
 from ._patch import __all__ as _patch_all
@@ -217,6 +254,12 @@ __all__ = [
     "BillingMeter",
     "BillingMeterCollection",
     "BillingMeterProperties",
+    "BuildCollection",
+    "BuildConfiguration",
+    "BuildResource",
+    "BuilderCollection",
+    "BuilderResource",
+    "BuilderResourceUpdate",
     "Certificate",
     "CertificateCollection",
     "CertificatePatch",
@@ -234,11 +277,13 @@ __all__ = [
     "ContainerApp",
     "ContainerAppAuthToken",
     "ContainerAppCollection",
+    "ContainerAppJobExecutions",
     "ContainerAppProbe",
     "ContainerAppProbeHttpGet",
     "ContainerAppProbeHttpGetHttpHeadersItem",
     "ContainerAppProbeTcpSocket",
     "ContainerAppSecret",
+    "ContainerRegistryWithCustomImage",
     "ContainerResources",
     "CookieExpiration",
     "CorsPolicy",
@@ -252,6 +297,7 @@ __all__ = [
     "Dapr",
     "DaprComponent",
     "DaprComponentsCollection",
+    "DaprConfiguration",
     "DaprMetadata",
     "DaprSecret",
     "DaprSecretsCollection",
@@ -272,8 +318,8 @@ __all__ = [
     "DiagnosticsProperties",
     "DiagnosticsStatus",
     "EnvironmentAuthToken",
-    "EnvironmentSkuProperties",
     "EnvironmentVar",
+    "EnvironmentVariable",
     "ErrorAdditionalInfo",
     "ErrorDetail",
     "ErrorResponse",
@@ -284,20 +330,40 @@ __all__ = [
     "GithubActionConfiguration",
     "GlobalValidation",
     "Google",
+    "HttpGet",
     "HttpScaleRule",
     "HttpSettings",
     "HttpSettingsRoutes",
     "IdentityProviders",
     "Ingress",
+    "IngressStickySessions",
     "InitContainer",
     "IpSecurityRestrictionRule",
+    "Job",
+    "JobConfiguration",
+    "JobConfigurationManualTriggerConfig",
+    "JobConfigurationScheduleTriggerConfig",
+    "JobExecution",
+    "JobExecutionBase",
+    "JobExecutionContainer",
+    "JobExecutionNamesCollection",
+    "JobExecutionTemplate",
+    "JobPatchProperties",
+    "JobPatchPropertiesProperties",
+    "JobSecretsCollection",
+    "JobTemplate",
+    "JobsCollection",
     "JwtClaimChecks",
+    "KedaConfiguration",
     "LogAnalyticsConfiguration",
     "Login",
     "LoginRoutes",
     "LoginScopes",
+    "ManagedCertificate",
+    "ManagedCertificateCollection",
+    "ManagedCertificatePatch",
+    "ManagedCertificateProperties",
     "ManagedEnvironment",
-    "ManagedEnvironmentOutboundSettings",
     "ManagedEnvironmentStorage",
     "ManagedEnvironmentStorageProperties",
     "ManagedEnvironmentStoragesCollection",
@@ -310,6 +376,7 @@ __all__ = [
     "OpenIdConnectRegistration",
     "OperationDetail",
     "OperationDisplay",
+    "PreBuildStep",
     "ProxyResource",
     "QueueScaleRule",
     "RegistryCredentials",
@@ -324,6 +391,7 @@ __all__ = [
     "ScaleRule",
     "ScaleRuleAuth",
     "Secret",
+    "SecretVolumeItem",
     "SecretsCollection",
     "SourceControl",
     "SourceControlCollection",
@@ -345,14 +413,17 @@ __all__ = [
     "AccessMode",
     "Action",
     "ActiveRevisionsMode",
+    "Affinity",
     "AppProtocol",
     "Applicability",
     "BindingType",
-    "Category",
+    "BuildStatus",
     "CertificateProvisioningState",
     "CheckNameAvailabilityReason",
     "ConnectedEnvironmentProvisioningState",
+    "ContainerAppContainerRunningState",
     "ContainerAppProvisioningState",
+    "ContainerAppReplicaRunningState",
     "CookieExpirationConvention",
     "CreatedByType",
     "DnsVerificationTestResult",
@@ -361,15 +432,18 @@ __all__ = [
     "ForwardProxyConvention",
     "IngressClientCertificateMode",
     "IngressTransportMethod",
+    "JobExecutionRunningState",
+    "JobProvisioningState",
     "LogLevel",
-    "ManagedEnvironmentOutBoundType",
+    "ManagedCertificateDomainControlValidation",
     "ManagedServiceIdentityType",
+    "ProvisioningState",
     "RevisionHealthState",
     "RevisionProvisioningState",
     "Scheme",
-    "SkuName",
     "SourceControlOperationState",
     "StorageType",
+    "TriggerType",
     "Type",
     "UnauthenticatedClientActionV2",
 ]

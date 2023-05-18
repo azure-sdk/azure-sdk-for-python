@@ -41,6 +41,13 @@ class ActiveRevisionsMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SINGLE = "Single"
 
 
+class Affinity(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Sticky Session Affinity."""
+
+    STICKY = "sticky"
+    NONE = "none"
+
+
 class Applicability(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """indicates whether the profile is default for the location."""
 
@@ -64,12 +71,14 @@ class BindingType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SNI_ENABLED = "SniEnabled"
 
 
-class Category(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Used to map workload profile types to billing meter."""
+class BuildStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Status of the build once it has been provisioned."""
 
-    PREMIUM_SKU_GENERAL_PURPOSE = "PremiumSkuGeneralPurpose"
-    PREMIUM_SKU_MEMORY_OPTIMIZED = "PremiumSkuMemoryOptimized"
-    PREMIUM_SKU_COMPUTE_OPTIMIZED = "PremiumSkuComputeOptimized"
+    NOT_STARTED = "NotStarted"
+    IN_PROGRESS = "InProgress"
+    SUCCEEDED = "Succeeded"
+    CANCELED = "Canceled"
+    FAILED = "Failed"
 
 
 class CertificateProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -102,6 +111,14 @@ class ConnectedEnvironmentProvisioningState(str, Enum, metaclass=CaseInsensitive
     SCHEDULED_FOR_DELETE = "ScheduledForDelete"
 
 
+class ContainerAppContainerRunningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Current running state of the container."""
+
+    RUNNING = "Running"
+    TERMINATED = "Terminated"
+    WAITING = "Waiting"
+
+
 class ContainerAppProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Provisioning state of the Container App."""
 
@@ -110,6 +127,14 @@ class ContainerAppProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta
     FAILED = "Failed"
     CANCELED = "Canceled"
     DELETING = "Deleting"
+
+
+class ContainerAppReplicaRunningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Current running state of the replica."""
+
+    RUNNING = "Running"
+    NOT_RUNNING = "NotRunning"
+    UNKNOWN = "Unknown"
 
 
 class CookieExpirationConvention(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -185,6 +210,28 @@ class IngressTransportMethod(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     TCP = "tcp"
 
 
+class JobExecutionRunningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Current running State of the job."""
+
+    RUNNING = "Running"
+    PROCESSING = "Processing"
+    STOPPED = "Stopped"
+    DEGRADED = "Degraded"
+    FAILED = "Failed"
+    UNKNOWN = "Unknown"
+    SUCCEEDED = "Succeeded"
+
+
+class JobProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Provisioning state of the Container Apps Job."""
+
+    IN_PROGRESS = "InProgress"
+    SUCCEEDED = "Succeeded"
+    FAILED = "Failed"
+    CANCELED = "Canceled"
+    DELETING = "Deleting"
+
+
 class LogLevel(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Sets the log level for the Dapr sidecar. Allowed values are debug, info, warn, error. Default
     is info.
@@ -196,11 +243,12 @@ class LogLevel(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ERROR = "error"
 
 
-class ManagedEnvironmentOutBoundType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Outbound type for the cluster."""
+class ManagedCertificateDomainControlValidation(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Selected type of domain control validation for managed certificates."""
 
-    LOAD_BALANCER = "LoadBalancer"
-    USER_DEFINED_ROUTING = "UserDefinedRouting"
+    CNAME = "CNAME"
+    HTTP = "HTTP"
+    TXT = "TXT"
 
 
 class ManagedServiceIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -212,6 +260,16 @@ class ManagedServiceIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SYSTEM_ASSIGNED = "SystemAssigned"
     USER_ASSIGNED = "UserAssigned"
     SYSTEM_ASSIGNED_USER_ASSIGNED = "SystemAssigned,UserAssigned"
+
+
+class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Resource instance provisioning state."""
+
+    SUCCEEDED = "Succeeded"
+    FAILED = "Failed"
+    CANCELED = "Canceled"
+    IN_PROGRESS = "InProgress"
+    DELETING = "Deleting"
 
 
 class RevisionHealthState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -239,15 +297,6 @@ class Scheme(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     HTTPS = "HTTPS"
 
 
-class SkuName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Name of the Sku."""
-
-    CONSUMPTION = "Consumption"
-    """Consumption SKU of Managed Environment."""
-    PREMIUM = "Premium"
-    """Premium SKU of Managed Environment."""
-
-
 class SourceControlOperationState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Current provisioning State of the operation."""
 
@@ -262,6 +311,15 @@ class StorageType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     AZURE_FILE = "AzureFile"
     EMPTY_DIR = "EmptyDir"
+    SECRET = "Secret"
+
+
+class TriggerType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Trigger type of the job."""
+
+    SCHEDULED = "Scheduled"
+    EVENT = "Event"
+    MANUAL = "Manual"
 
 
 class Type(str, Enum, metaclass=CaseInsensitiveEnumMeta):
