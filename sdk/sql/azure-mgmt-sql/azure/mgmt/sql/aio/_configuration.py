@@ -29,10 +29,15 @@ class SqlManagementClientConfiguration(Configuration):  # pylint: disable=too-ma
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
     :param subscription_id: The subscription ID that identifies an Azure subscription. Required.
     :type subscription_id: str
+    :keyword api_version: Api Version. Default value is "2022-11-01-preview". Note that overriding
+     this default value may result in unsupported behavior.
+    :paramtype api_version: str
     """
 
     def __init__(self, credential: "AsyncTokenCredential", subscription_id: str, **kwargs: Any) -> None:
         super(SqlManagementClientConfiguration, self).__init__(**kwargs)
+        api_version: str = kwargs.pop("api_version", "2022-11-01-preview")
+
         if credential is None:
             raise ValueError("Parameter 'credential' must not be None.")
         if subscription_id is None:
@@ -40,6 +45,7 @@ class SqlManagementClientConfiguration(Configuration):  # pylint: disable=too-ma
 
         self.credential = credential
         self.subscription_id = subscription_id
+        self.api_version = api_version
         self.credential_scopes = kwargs.pop("credential_scopes", ["https://management.azure.com/.default"])
         kwargs.setdefault("sdk_moniker", "mgmt-sql/{}".format(VERSION))
         self._configure(**kwargs)
