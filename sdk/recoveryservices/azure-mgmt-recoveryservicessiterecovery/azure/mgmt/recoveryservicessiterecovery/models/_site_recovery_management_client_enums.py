@@ -388,6 +388,14 @@ class RpInMageRecoveryPointType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     CUSTOM = "Custom"
 
 
+class SecurityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The target VM security type."""
+
+    NONE = "None"
+    TRUSTED_LAUNCH = "TrustedLaunch"
+    CONFIDENTIAL_VM = "ConfidentialVM"
+
+
 class SetMultiVmSyncStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """A value indicating whether multi-VM sync has to be enabled. Value should be 'Enabled' or
     'Disabled'.
