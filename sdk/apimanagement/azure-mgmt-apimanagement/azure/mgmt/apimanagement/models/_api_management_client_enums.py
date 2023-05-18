@@ -76,6 +76,7 @@ class ApiType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SOAP = "soap"
     WEBSOCKET = "websocket"
     GRAPHQL = "graphql"
+    ODATA = "odata"
 
 
 class AppType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -123,6 +124,13 @@ class AuthorizationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     O_AUTH2 = "OAuth2"
     """OAuth2 authorization type"""
+
+
+class BackendBaseParametersType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of the backend. A backend can be either Single or Pool."""
+
+    SINGLE = "single"
+    POOL = "pool"
 
 
 class BackendProtocol(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -228,7 +236,9 @@ class ConnectivityStatusType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class ContentFormat(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Format of the Content in which the API is getting imported."""
+    """Format of the Content in which the API is getting imported. New formats can be added in the
+    future.
+    """
 
     WADL_XML = "wadl-xml"
     """The contents are inline and Content type is a WADL document."""
@@ -252,6 +262,10 @@ class ContentFormat(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The OpenAPI 3.0 JSON document is hosted on a publicly accessible internet address."""
     GRAPHQL_LINK = "graphql-link"
     """The GraphQL API endpoint hosted on a publicly accessible internet address."""
+    ODATA = "odata"
+    """The contents are inline and Content Type is a OData XML Document."""
+    ODATA_LINK = "odata-link"
+    """The OData metadata document hosted on a publicly accessible internet address."""
 
 
 class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -310,6 +324,13 @@ class ExportResultFormat(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Export the API Definition in OpenAPI Specification 3.0 to Storage Blob."""
 
 
+class GatewayListDebugCredentialsContractPurpose(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Purpose of debug credential."""
+
+    TRACING = "tracing"
+    """The tracing purpose."""
+
+
 class GrantType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """GrantType."""
 
@@ -340,6 +361,7 @@ class HostnameType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     MANAGEMENT = "Management"
     SCM = "Scm"
     DEVELOPER_PORTAL = "DeveloperPortal"
+    CONFIGURATION_API = "ConfigurationApi"
 
 
 class HttpCorrelationProtocol(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -390,6 +412,30 @@ class KeyType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     PRIMARY = "primary"
     SECONDARY = "secondary"
+
+
+class KeyVaultRefreshState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """KeyVaultRefreshState."""
+
+    TRUE = "true"
+    """Entities for which KeyVault refresh failed."""
+    FALSE = "false"
+    """Entities for which KeyVault refresh succeeded"""
+
+
+class LegacyApiState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Indication whether or not the legacy Configuration API (v1) should be exposed on the API
+    Management service. Value is optional but must be 'Enabled' or 'Disabled'. If 'Disabled',
+    legacy Configuration API (v1) will not be available for self-hosted gateways. Default value is
+    'Enabled'.
+    """
+
+    ENABLED = "Enabled"
+    """Legacy Configuration API (v1) is enabled for the service and self-hosted gateways can connect
+    #: to it."""
+    DISABLED = "Disabled"
+    """Legacy Configuration API (v1) is disabled for the service and self-hosted gateways can not
+    #: connect to it."""
 
 
 class LoggerType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -492,6 +538,8 @@ class PlatformVersion(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Platform running the service on Single Tenant V2 platform."""
     MTV1 = "mtv1"
     """Platform running the service on Multi Tenant V1 platform."""
+    STV2_1 = "stv2.1"
+    """Platform running the service on Single Tenant V2 platform on newer Hardware."""
 
 
 class PolicyContentFormat(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -684,6 +732,7 @@ class SoapApiType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     * ``soap`` creates a SOAP pass-through API
     * ``websocket`` creates websocket API
     * ``graphql`` creates GraphQL API.
+      New types can be added in the future.
     """
 
     SOAP_TO_REST = "http"
@@ -694,6 +743,8 @@ class SoapApiType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Imports the API having a Websocket front end."""
     GRAPH_QL = "graphql"
     """Imports the API having a GraphQL front end."""
+    O_DATA = "odata"
+    """Imports the API having a OData front end."""
 
 
 class State(str, Enum, metaclass=CaseInsensitiveEnumMeta):

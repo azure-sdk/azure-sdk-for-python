@@ -29,15 +29,14 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.diagnostic.delete(
+    client.diagnostic.delete(
         resource_group_name="rg1",
         service_name="apimService1",
         diagnostic_id="applicationinsights",
         if_match="*",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteDiagnostic.json
+# x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-03-01-preview/examples/ApiManagementDeleteDiagnostic.json
 if __name__ == "__main__":
     main()

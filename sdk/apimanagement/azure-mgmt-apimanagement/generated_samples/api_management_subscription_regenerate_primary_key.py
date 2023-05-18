@@ -29,14 +29,13 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.subscription.regenerate_primary_key(
+    client.subscription.regenerate_primary_key(
         resource_group_name="rg1",
         service_name="apimService1",
         sid="testsub",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementSubscriptionRegeneratePrimaryKey.json
+# x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-03-01-preview/examples/ApiManagementSubscriptionRegeneratePrimaryKey.json
 if __name__ == "__main__":
     main()

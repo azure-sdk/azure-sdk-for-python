@@ -29,15 +29,14 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.product_wiki.delete(
+    client.product_wiki.delete(
         resource_group_name="rg1",
         service_name="apimService1",
         product_id="57d1f7558aa04f15146d9d8a",
         if_match="*",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteProductWiki.json
+# x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/preview/2023-03-01-preview/examples/ApiManagementDeleteProductWiki.json
 if __name__ == "__main__":
     main()
