@@ -26,17 +26,18 @@ from azure.mgmt.appcontainers import ContainerAppsAPIClient
 def main():
     client = ContainerAppsAPIClient(
         credential=DefaultAzureCredential(),
+        job_name="JOB_NAME",
+        job_execution_name="JOB_EXECUTION_NAME",
         subscription_id="8efdecc5-919e-44eb-b179-915dca89ebf9",
     )
 
-    response = client.dapr_components.delete(
+    client.dapr_components.delete(
         resource_group_name="examplerg",
         environment_name="myenvironment",
         component_name="reddog",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2022-10-01/examples/DaprComponents_Delete.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-04-01-preview/examples/DaprComponents_Delete.json
 if __name__ == "__main__":
     main()

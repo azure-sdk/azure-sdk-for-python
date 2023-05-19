@@ -26,6 +26,8 @@ from azure.mgmt.appcontainers import ContainerAppsAPIClient
 def main():
     client = ContainerAppsAPIClient(
         credential=DefaultAzureCredential(),
+        job_name="JOB_NAME",
+        job_execution_name="JOB_EXECUTION_NAME",
         subscription_id="8efdecc5-919e-44eb-b179-915dca89ebf9",
     )
 
@@ -53,6 +55,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2022-10-01/examples/DaprComponents_CreateOrUpdate_SecretStoreComponent.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-04-01-preview/examples/DaprComponents_CreateOrUpdate_SecretStoreComponent.json
 if __name__ == "__main__":
     main()
