@@ -14,7 +14,7 @@ from azure.mgmt.sql import SqlManagementClient
     pip install azure-identity
     pip install azure-mgmt-sql
 # USAGE
-    python server_communication_link_create_or_update.py
+    python distributed_availability_groups_set_role.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,15 +29,15 @@ def main():
         subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.server_communication_links.begin_create_or_update(
-        resource_group_name="sqlcrudtest-7398",
-        server_name="sqlcrudtest-4645",
-        communication_link_name="link1",
-        parameters={"properties": {"partnerServer": "sqldcrudtest-test"}},
+    response = client.distributed_availability_groups.begin_set_role(
+        resource_group_name="testrg",
+        managed_instance_name="testcl",
+        distributed_availability_group_name="dag",
+        parameters={"instanceRole": "Primary", "roleChangeType": "Forced"},
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/stable/2014-04-01/examples/ServerCommunicationLinkCreateOrUpdate.json
+# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-11-01-preview/examples/DistributedAvailabilityGroupsSetRole.json
 if __name__ == "__main__":
     main()
