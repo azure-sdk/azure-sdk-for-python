@@ -261,10 +261,10 @@ class NetworkManagementClient(NetworkManagementClientOperationsMixin, MultiApiCl
             api_version=api_version,
             profile=profile
         )
+
         self._serialize = Serializer(self._models_dict())
         self._deserialize = Deserializer(self._models_dict())
         self._serialize.client_side_validation = False
-
 
 
     @classmethod
