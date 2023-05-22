@@ -28,10 +28,9 @@ def main():
         credential=DefaultAzureCredential(),
     )
 
-    response = client.alias.delete(
+    client.alias.delete(
         alias_name="aliasForNewSub",
     )
-    print(response)
 
 
 # x-ms-original-file: specification/subscription/resource-manager/Microsoft.Subscription/stable/2021-10-01/examples/deleteAlias.json
