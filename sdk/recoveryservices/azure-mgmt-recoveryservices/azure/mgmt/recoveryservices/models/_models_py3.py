@@ -677,6 +677,70 @@ class ErrorAdditionalInfo(_serialization.Model):
         self.type = None
 
 
+class ErrorDetail(_serialization.Model):
+    """The error detail.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar code: The error code.
+    :vartype code: str
+    :ivar message: The error message.
+    :vartype message: str
+    :ivar target: The error target.
+    :vartype target: str
+    :ivar details: The error details.
+    :vartype details: list[~azure.mgmt.recoveryservices.models.ErrorDetail]
+    :ivar additional_info: The error additional info.
+    :vartype additional_info: list[~azure.mgmt.recoveryservices.models.ErrorAdditionalInfo]
+    """
+
+    _validation = {
+        "code": {"readonly": True},
+        "message": {"readonly": True},
+        "target": {"readonly": True},
+        "details": {"readonly": True},
+        "additional_info": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "code": {"key": "code", "type": "str"},
+        "message": {"key": "message", "type": "str"},
+        "target": {"key": "target", "type": "str"},
+        "details": {"key": "details", "type": "[ErrorDetail]"},
+        "additional_info": {"key": "additionalInfo", "type": "[ErrorAdditionalInfo]"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.code = None
+        self.message = None
+        self.target = None
+        self.details = None
+        self.additional_info = None
+
+
+class ErrorResponse(_serialization.Model):
+    """Common error response for all Azure Resource Manager APIs to return error details for failed
+    operations. (This also follows the OData error response format.).
+
+    :ivar error: The error object.
+    :vartype error: ~azure.mgmt.recoveryservices.models.ErrorDetail
+    """
+
+    _attribute_map = {
+        "error": {"key": "error", "type": "ErrorDetail"},
+    }
+
+    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs: Any) -> None:
+        """
+        :keyword error: The error object.
+        :paramtype error: ~azure.mgmt.recoveryservices.models.ErrorDetail
+        """
+        super().__init__(**kwargs)
+        self.error = error
+
+
 class IdentityData(_serialization.Model):
     """Identity for the resource.
 
@@ -2478,6 +2542,9 @@ class VaultProperties(_serialization.Model):  # pylint: disable=too-many-instanc
      ~azure.mgmt.recoveryservices.models.VaultPropertiesRedundancySettings
     :ivar security_settings: Security Settings of the vault.
     :vartype security_settings: ~azure.mgmt.recoveryservices.models.SecuritySettings
+    :ivar secure_score: Secure Score of Recovery Services Vault. Known values are: "None",
+     "Minimum", "Adequate", and "Maximum".
+    :vartype secure_score: str or ~azure.mgmt.recoveryservices.models.SecureScoreLevel
     """
 
     _validation = {
@@ -2487,6 +2554,7 @@ class VaultProperties(_serialization.Model):  # pylint: disable=too-many-instanc
         "private_endpoint_state_for_site_recovery": {"readonly": True},
         "move_state": {"readonly": True},
         "backup_storage_version": {"readonly": True},
+        "secure_score": {"readonly": True},
     }
 
     _attribute_map = {
@@ -2507,6 +2575,7 @@ class VaultProperties(_serialization.Model):  # pylint: disable=too-many-instanc
         "restore_settings": {"key": "restoreSettings", "type": "RestoreSettings"},
         "redundancy_settings": {"key": "redundancySettings", "type": "VaultPropertiesRedundancySettings"},
         "security_settings": {"key": "securitySettings", "type": "SecuritySettings"},
+        "secure_score": {"key": "secureScore", "type": "str"},
     }
 
     def __init__(
@@ -2559,6 +2628,7 @@ class VaultProperties(_serialization.Model):  # pylint: disable=too-many-instanc
         self.restore_settings = restore_settings
         self.redundancy_settings = redundancy_settings
         self.security_settings = security_settings
+        self.secure_score = None
 
 
 class VaultPropertiesEncryption(_serialization.Model):

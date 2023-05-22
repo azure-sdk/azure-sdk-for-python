@@ -27,6 +27,8 @@ from ._models_py3 import DNSZone
 from ._models_py3 import DNSZoneResponse
 from ._models_py3 import Error
 from ._models_py3 import ErrorAdditionalInfo
+from ._models_py3 import ErrorDetail
+from ._models_py3 import ErrorResponse
 from ._models_py3 import IdentityData
 from ._models_py3 import ImmutabilitySettings
 from ._models_py3 import JobsSummary
@@ -82,6 +84,7 @@ from ._recovery_services_client_enums import ProvisioningState
 from ._recovery_services_client_enums import PublicNetworkAccess
 from ._recovery_services_client_enums import ResourceIdentityType
 from ._recovery_services_client_enums import ResourceMoveState
+from ._recovery_services_client_enums import SecureScoreLevel
 from ._recovery_services_client_enums import SkuName
 from ._recovery_services_client_enums import StandardTierStorageRedundancy
 from ._recovery_services_client_enums import TriggerType
@@ -115,6 +118,8 @@ __all__ = [
     "DNSZoneResponse",
     "Error",
     "ErrorAdditionalInfo",
+    "ErrorDetail",
+    "ErrorResponse",
     "IdentityData",
     "ImmutabilitySettings",
     "JobsSummary",
@@ -169,6 +174,7 @@ __all__ = [
     "PublicNetworkAccess",
     "ResourceIdentityType",
     "ResourceMoveState",
+    "SecureScoreLevel",
     "SkuName",
     "StandardTierStorageRedundancy",
     "TriggerType",
