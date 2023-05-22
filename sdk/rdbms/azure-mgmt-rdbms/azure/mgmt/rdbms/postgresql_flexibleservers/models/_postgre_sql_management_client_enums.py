@@ -92,12 +92,11 @@ class HighAvailabilityMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class IdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """the types of identities associated with this resource; currently restricted to 'SystemAssigned
-    and UserAssigned'.
+    """the types of identities associated with this resource; currently restricted to 'None and
+    UserAssigned'.
     """
 
     NONE = "None"
-    SYSTEM_ASSIGNED = "SystemAssigned"
     USER_ASSIGNED = "UserAssigned"
 
 
