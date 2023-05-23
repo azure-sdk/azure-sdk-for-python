@@ -82,6 +82,7 @@ from ._recovery_services_client_enums import ProvisioningState
 from ._recovery_services_client_enums import PublicNetworkAccess
 from ._recovery_services_client_enums import ResourceIdentityType
 from ._recovery_services_client_enums import ResourceMoveState
+from ._recovery_services_client_enums import SecureScoreLevel
 from ._recovery_services_client_enums import SkuName
 from ._recovery_services_client_enums import StandardTierStorageRedundancy
 from ._recovery_services_client_enums import TriggerType
@@ -169,6 +170,7 @@ __all__ = [
     "PublicNetworkAccess",
     "ResourceIdentityType",
     "ResourceMoveState",
+    "SecureScoreLevel",
     "SkuName",
     "StandardTierStorageRedundancy",
     "TriggerType",

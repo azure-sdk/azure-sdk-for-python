@@ -2478,6 +2478,9 @@ class VaultProperties(_serialization.Model):  # pylint: disable=too-many-instanc
      ~azure.mgmt.recoveryservices.models.VaultPropertiesRedundancySettings
     :ivar security_settings: Security Settings of the vault.
     :vartype security_settings: ~azure.mgmt.recoveryservices.models.SecuritySettings
+    :ivar secure_score: Secure Score of Recovery Services Vault. Known values are: "None",
+     "Minimum", "Adequate", and "Maximum".
+    :vartype secure_score: str or ~azure.mgmt.recoveryservices.models.SecureScoreLevel
     """
 
     _validation = {
@@ -2487,6 +2490,7 @@ class VaultProperties(_serialization.Model):  # pylint: disable=too-many-instanc
         "private_endpoint_state_for_site_recovery": {"readonly": True},
         "move_state": {"readonly": True},
         "backup_storage_version": {"readonly": True},
+        "secure_score": {"readonly": True},
     }
 
     _attribute_map = {
@@ -2507,6 +2511,7 @@ class VaultProperties(_serialization.Model):  # pylint: disable=too-many-instanc
         "restore_settings": {"key": "restoreSettings", "type": "RestoreSettings"},
         "redundancy_settings": {"key": "redundancySettings", "type": "VaultPropertiesRedundancySettings"},
         "security_settings": {"key": "securitySettings", "type": "SecuritySettings"},
+        "secure_score": {"key": "secureScore", "type": "str"},
     }
 
     def __init__(
@@ -2559,6 +2564,7 @@ class VaultProperties(_serialization.Model):  # pylint: disable=too-many-instanc
         self.restore_settings = restore_settings
         self.redundancy_settings = redundancy_settings
         self.security_settings = security_settings
+        self.secure_score = None
 
 
 class VaultPropertiesEncryption(_serialization.Model):
