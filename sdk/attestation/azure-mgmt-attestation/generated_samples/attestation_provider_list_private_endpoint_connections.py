@@ -37,6 +37,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/attestation/resource-manager/Microsoft.Attestation/stable/2020-10-01/examples/AttestationProviderListPrivateEndpointConnections.json
+# x-ms-original-file: specification/attestation/resource-manager/Microsoft.Attestation/stable/2021-06-01/examples/AttestationProviderListPrivateEndpointConnections.json
 if __name__ == "__main__":
     main()
