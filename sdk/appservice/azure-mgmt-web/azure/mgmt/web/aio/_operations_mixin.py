@@ -9,6 +9,7 @@
 # regenerated.
 # --------------------------------------------------------------------------
 from .._serialization import Serializer, Deserializer
+from io import IOBase
 import sys
 from typing import Any, AsyncIterable, IO, Optional, Union
 
@@ -30,6 +31,7 @@ class WebSiteManagementClientOperationsMixin(object):
         name: str,
         type: Union[str, _models.CheckNameResourceTypes],
         is_fqdn: Optional[bool] = None,
+        environment_id: Optional[str] = None,
         **kwargs: Any
     ) -> _models.ResourceNameAvailability:
         """Check if a resource name is available.
@@ -44,6 +46,11 @@ class WebSiteManagementClientOperationsMixin(object):
         :type type: str or ~azure.mgmt.web.v2022_09_01.models.CheckNameResourceTypes
         :param is_fqdn: Is fully qualified domain name. Default value is None.
         :type is_fqdn: bool
+        :param environment_id: Azure Resource Manager ID of the customer's selected Container Apps
+         Environment on which to host the Function app. This must be of the form
+         /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.App/managedEnvironments/{managedEnvironmentName}.
+         Default value is None.
+        :type environment_id: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ResourceNameAvailability or the result of cls(response)
         :rtype: ~azure.mgmt.web.v2022_09_01.models.ResourceNameAvailability
@@ -77,7 +84,7 @@ class WebSiteManagementClientOperationsMixin(object):
         mixin_instance._serialize = Serializer(self._models_dict(api_version))
         mixin_instance._serialize.client_side_validation = False
         mixin_instance._deserialize = Deserializer(self._models_dict(api_version))
-        return await mixin_instance.check_name_availability(name, type, is_fqdn, **kwargs)
+        return await mixin_instance.check_name_availability(name, type, is_fqdn, environment_id, **kwargs)
 
     async def get_publishing_user(
         self,

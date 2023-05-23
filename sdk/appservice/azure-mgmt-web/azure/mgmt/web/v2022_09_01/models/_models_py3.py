@@ -18406,6 +18406,10 @@ class ResourceNameAvailabilityRequest(_serialization.Model):
     :vartype type: str or ~azure.mgmt.web.v2022_09_01.models.CheckNameResourceTypes
     :ivar is_fqdn: Is fully qualified domain name.
     :vartype is_fqdn: bool
+    :ivar environment_id: Azure Resource Manager ID of the customer's selected Container Apps
+     Environment on which to host the Function app. This must be of the form
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.App/managedEnvironments/{managedEnvironmentName}.
+    :vartype environment_id: str
     """
 
     _validation = {
@@ -18417,6 +18421,7 @@ class ResourceNameAvailabilityRequest(_serialization.Model):
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "is_fqdn": {"key": "isFqdn", "type": "bool"},
+        "environment_id": {"key": "environmentId", "type": "str"},
     }
 
     def __init__(
@@ -18425,6 +18430,7 @@ class ResourceNameAvailabilityRequest(_serialization.Model):
         name: str,
         type: Union[str, "_models.CheckNameResourceTypes"],
         is_fqdn: Optional[bool] = None,
+        environment_id: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -18436,11 +18442,16 @@ class ResourceNameAvailabilityRequest(_serialization.Model):
         :paramtype type: str or ~azure.mgmt.web.v2022_09_01.models.CheckNameResourceTypes
         :keyword is_fqdn: Is fully qualified domain name.
         :paramtype is_fqdn: bool
+        :keyword environment_id: Azure Resource Manager ID of the customer's selected Container Apps
+         Environment on which to host the Function app. This must be of the form
+         /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.App/managedEnvironments/{managedEnvironmentName}.
+        :paramtype environment_id: str
         """
         super().__init__(**kwargs)
         self.name = name
         self.type = type
         self.is_fqdn = is_fqdn
+        self.environment_id = environment_id
 
 
 class ResourceReference(_serialization.Model):

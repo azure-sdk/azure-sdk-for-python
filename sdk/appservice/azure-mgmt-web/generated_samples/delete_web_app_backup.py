@@ -29,12 +29,11 @@ def main():
         subscription_id="34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
     )
 
-    response = client.web_apps.delete_backup(
+    client.web_apps.delete_backup(
         resource_group_name="testrg123",
         name="sitef6141",
         backup_id="12345",
     )
-    print(response)
 
 
 # x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/DeleteWebAppBackup.json

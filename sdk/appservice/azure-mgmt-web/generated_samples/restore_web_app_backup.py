@@ -29,7 +29,7 @@ def main():
         subscription_id="34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
     )
 
-    response = client.web_apps.begin_restore(
+    client.web_apps.begin_restore(
         resource_group_name="testrg123",
         name="sitef6141",
         backup_id="123244",
@@ -55,7 +55,6 @@ def main():
             }
         },
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/RestoreWebAppBackup.json
