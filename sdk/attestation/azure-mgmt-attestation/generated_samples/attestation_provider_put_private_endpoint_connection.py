@@ -40,6 +40,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/attestation/resource-manager/Microsoft.Attestation/stable/2020-10-01/examples/AttestationProviderPutPrivateEndpointConnection.json
+# x-ms-original-file: specification/attestation/resource-manager/Microsoft.Attestation/stable/2021-06-01/examples/AttestationProviderPutPrivateEndpointConnection.json
 if __name__ == "__main__":
     main()

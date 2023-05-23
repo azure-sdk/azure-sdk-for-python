@@ -17,68 +17,53 @@ from azure.core.exceptions import (
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import HttpResponse
+from azure.core.pipeline.transport import AsyncHttpResponse
 from azure.core.rest import HttpRequest
-from azure.core.tracing.decorator import distributed_trace
+from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
-from .. import models as _models
-from .._serialization import Serializer
-from .._vendor import _convert_request
+from ... import models as _models
+from ..._vendor import _convert_request
+from ...operations._private_link_resources_operations import build_list_by_provider_request
 
 T = TypeVar("T")
-ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
-
-_SERIALIZER = Serializer()
-_SERIALIZER.client_side_validation = False
+ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
 
-def build_list_request(**kwargs: Any) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-06-01"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop("template_url", "/providers/Microsoft.Attestation/operations")
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-class Operations:
+class PrivateLinkResourcesOperations:
     """
     .. warning::
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.attestation.AttestationManagementClient`'s
-        :attr:`operations` attribute.
+        :class:`~azure.mgmt.attestation.aio.AttestationManagementClient`'s
+        :attr:`private_link_resources` attribute.
     """
 
     models = _models
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
-    @distributed_trace
-    def list(self, **kwargs: Any) -> _models.OperationList:
-        """Lists all of the available Azure attestation operations.
+    @distributed_trace_async
+    async def list_by_provider(
+        self, resource_group_name: str, provider_name: str, **kwargs: Any
+    ) -> _models.PrivateLinkResourceListResult:
+        """Gets the private link resources supported for the attestation provider.
 
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param provider_name: The name of the attestation provider. Required.
+        :type provider_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: OperationList or the result of cls(response)
-        :rtype: ~azure.mgmt.attestation.models.OperationList
+        :return: PrivateLinkResourceListResult or the result of cls(response)
+        :rtype: ~azure.mgmt.attestation.models.PrivateLinkResourceListResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map = {
@@ -93,11 +78,14 @@ class Operations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.OperationList] = kwargs.pop("cls", None)
+        cls: ClsType[_models.PrivateLinkResourceListResult] = kwargs.pop("cls", None)
 
-        request = build_list_request(
+        request = build_list_by_provider_request(
+            resource_group_name=resource_group_name,
+            provider_name=provider_name,
+            subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.list.metadata["url"],
+            template_url=self.list_by_provider.metadata["url"],
             headers=_headers,
             params=_params,
         )
@@ -105,7 +93,7 @@ class Operations:
         request.url = self._client.format_url(request.url)
 
         _stream = False
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             request, stream=_stream, **kwargs
         )
 
@@ -115,11 +103,13 @@ class Operations:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("OperationList", pipeline_response)
+        deserialized = self._deserialize("PrivateLinkResourceListResult", pipeline_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})
 
         return deserialized
 
-    list.metadata = {"url": "/providers/Microsoft.Attestation/operations"}
+    list_by_provider.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Attestation/attestationProviders/{providerName}/privateLinkResources"
+    }
