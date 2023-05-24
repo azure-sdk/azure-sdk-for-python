@@ -14,7 +14,7 @@ from azure.mgmt.appcontainers import ContainerAppsAPIClient
     pip install azure-identity
     pip install azure-mgmt-appcontainers
 # USAGE
-    python managed_environments_storages_list.py
+    python container_apps_stop.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -28,16 +28,16 @@ def main():
         credential=DefaultAzureCredential(),
         job_name="JOB_NAME",
         job_execution_name="JOB_EXECUTION_NAME",
-        subscription_id="8efdecc5-919e-44eb-b179-915dca89ebf9",
+        subscription_id="34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
     )
 
-    response = client.managed_environments_storages.list(
-        resource_group_name="examplerg",
-        environment_name="managedEnv",
-    )
+    response = client.container_apps.begin_stop(
+        resource_group_name="rg",
+        container_app_name="testWorkerApp0",
+    ).result()
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-04-01-preview/examples/ManagedEnvironmentsStorages_List.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-04-01-preview/examples/ContainerApps_Stop.json
 if __name__ == "__main__":
     main()

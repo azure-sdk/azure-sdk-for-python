@@ -27,23 +27,35 @@ class ContainerAppsAPIClientConfiguration(Configuration):  # pylint: disable=too
 
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
+    :param job_name: Job Name. Required.
+    :type job_name: str
+    :param job_execution_name: Job execution name. Required.
+    :type job_execution_name: str
     :param subscription_id: The ID of the target subscription. Required.
     :type subscription_id: str
-    :keyword api_version: Api Version. Default value is "2022-11-01-preview". Note that overriding
+    :keyword api_version: Api Version. Default value is "2023-04-01-preview". Note that overriding
      this default value may result in unsupported behavior.
     :paramtype api_version: str
     """
 
-    def __init__(self, credential: "TokenCredential", subscription_id: str, **kwargs: Any) -> None:
+    def __init__(
+        self, credential: "TokenCredential", job_name: str, job_execution_name: str, subscription_id: str, **kwargs: Any
+    ) -> None:
         super(ContainerAppsAPIClientConfiguration, self).__init__(**kwargs)
-        api_version: str = kwargs.pop("api_version", "2022-11-01-preview")
+        api_version: str = kwargs.pop("api_version", "2023-04-01-preview")
 
         if credential is None:
             raise ValueError("Parameter 'credential' must not be None.")
+        if job_name is None:
+            raise ValueError("Parameter 'job_name' must not be None.")
+        if job_execution_name is None:
+            raise ValueError("Parameter 'job_execution_name' must not be None.")
         if subscription_id is None:
             raise ValueError("Parameter 'subscription_id' must not be None.")
 
         self.credential = credential
+        self.job_name = job_name
+        self.job_execution_name = job_execution_name
         self.subscription_id = subscription_id
         self.api_version = api_version
         self.credential_scopes = kwargs.pop("credential_scopes", ["https://management.azure.com/.default"])

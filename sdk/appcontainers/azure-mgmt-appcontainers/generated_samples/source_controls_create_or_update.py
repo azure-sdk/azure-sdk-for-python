@@ -26,6 +26,8 @@ from azure.mgmt.appcontainers import ContainerAppsAPIClient
 def main():
     client = ContainerAppsAPIClient(
         credential=DefaultAzureCredential(),
+        job_name="JOB_NAME",
+        job_execution_name="JOB_EXECUTION_NAME",
         subscription_id="651f8027-33e8-4ec4-97b4-f6e9f3dc8744",
     )
 
@@ -40,14 +42,16 @@ def main():
                     "azureCredentials": {
                         "clientId": "<clientid>",
                         "clientSecret": "<clientsecret>",
+                        "kind": "feaderated",
                         "tenantId": "<tenantid>",
                     },
                     "contextPath": "./",
+                    "githubPersonalAccessToken": "test",
                     "image": "image/tag",
                     "registryInfo": {
                         "registryPassword": "<registrypassword>",
-                        "registryUrl": "xwang971reg.azurecr.io",
-                        "registryUserName": "xwang971reg",
+                        "registryUrl": "test-registry.azurecr.io",
+                        "registryUserName": "test-registry",
                     },
                 },
                 "repoUrl": "https://github.com/xwang971/ghatest",
@@ -57,6 +61,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-11-01-preview/examples/SourceControls_CreateOrUpdate.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-04-01-preview/examples/SourceControls_CreateOrUpdate.json
 if __name__ == "__main__":
     main()

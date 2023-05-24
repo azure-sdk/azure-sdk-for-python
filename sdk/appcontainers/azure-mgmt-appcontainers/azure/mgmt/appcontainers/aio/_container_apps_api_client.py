@@ -23,6 +23,7 @@ from .operations import (
     ConnectedEnvironmentsDaprComponentsOperations,
     ConnectedEnvironmentsOperations,
     ConnectedEnvironmentsStoragesOperations,
+    ContainerAppsAPIClientOperationsMixin,
     ContainerAppsAuthConfigsOperations,
     ContainerAppsDiagnosticsOperations,
     ContainerAppsOperations,
@@ -46,7 +47,9 @@ if TYPE_CHECKING:
     from azure.core.credentials_async import AsyncTokenCredential
 
 
-class ContainerAppsAPIClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
+class ContainerAppsAPIClient(
+    ContainerAppsAPIClientOperationsMixin
+):  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
     """ContainerAppsAPIClient.
 
     :ivar container_apps_auth_configs: ContainerAppsAuthConfigsOperations operations
@@ -73,10 +76,6 @@ class ContainerAppsAPIClient:  # pylint: disable=client-accepts-api-version-keyw
      azure.mgmt.appcontainers.aio.operations.ConnectedEnvironmentsStoragesOperations
     :ivar container_apps: ContainerAppsOperations operations
     :vartype container_apps: azure.mgmt.appcontainers.aio.operations.ContainerAppsOperations
-    :ivar jobs: JobsOperations operations
-    :vartype jobs: azure.mgmt.appcontainers.aio.operations.JobsOperations
-    :ivar jobs_executions: JobsExecutionsOperations operations
-    :vartype jobs_executions: azure.mgmt.appcontainers.aio.operations.JobsExecutionsOperations
     :ivar container_apps_revisions: ContainerAppsRevisionsOperations operations
     :vartype container_apps_revisions:
      azure.mgmt.appcontainers.aio.operations.ContainerAppsRevisionsOperations
@@ -94,6 +93,10 @@ class ContainerAppsAPIClient:  # pylint: disable=client-accepts-api-version-keyw
      azure.mgmt.appcontainers.aio.operations.ManagedEnvironmentsDiagnosticsOperations
     :ivar operations: Operations operations
     :vartype operations: azure.mgmt.appcontainers.aio.operations.Operations
+    :ivar jobs: JobsOperations operations
+    :vartype jobs: azure.mgmt.appcontainers.aio.operations.JobsOperations
+    :ivar jobs_executions: JobsExecutionsOperations operations
+    :vartype jobs_executions: azure.mgmt.appcontainers.aio.operations.JobsExecutionsOperations
     :ivar managed_environments: ManagedEnvironmentsOperations operations
     :vartype managed_environments:
      azure.mgmt.appcontainers.aio.operations.ManagedEnvironmentsOperations
@@ -114,11 +117,15 @@ class ContainerAppsAPIClient:  # pylint: disable=client-accepts-api-version-keyw
      azure.mgmt.appcontainers.aio.operations.ContainerAppsSourceControlsOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
+    :param job_name: Job Name. Required.
+    :type job_name: str
+    :param job_execution_name: Job execution name. Required.
+    :type job_execution_name: str
     :param subscription_id: The ID of the target subscription. Required.
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2022-11-01-preview". Note that overriding
+    :keyword api_version: Api Version. Default value is "2023-04-01-preview". Note that overriding
      this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -128,12 +135,18 @@ class ContainerAppsAPIClient:  # pylint: disable=client-accepts-api-version-keyw
     def __init__(
         self,
         credential: "AsyncTokenCredential",
+        job_name: str,
+        job_execution_name: str,
         subscription_id: str,
         base_url: str = "https://management.azure.com",
         **kwargs: Any
     ) -> None:
         self._config = ContainerAppsAPIClientConfiguration(
-            credential=credential, subscription_id=subscription_id, **kwargs
+            credential=credential,
+            job_name=job_name,
+            job_execution_name=job_execution_name,
+            subscription_id=subscription_id,
+            **kwargs
         )
         self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
@@ -161,8 +174,6 @@ class ContainerAppsAPIClient:  # pylint: disable=client-accepts-api-version-keyw
             self._client, self._config, self._serialize, self._deserialize
         )
         self.container_apps = ContainerAppsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.jobs = JobsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.jobs_executions = JobsExecutionsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.container_apps_revisions = ContainerAppsRevisionsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
@@ -179,6 +190,8 @@ class ContainerAppsAPIClient:  # pylint: disable=client-accepts-api-version-keyw
             self._client, self._config, self._serialize, self._deserialize
         )
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
+        self.jobs = JobsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.jobs_executions = JobsExecutionsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.managed_environments = ManagedEnvironmentsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )

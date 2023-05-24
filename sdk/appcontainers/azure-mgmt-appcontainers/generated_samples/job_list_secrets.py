@@ -26,16 +26,17 @@ from azure.mgmt.appcontainers import ContainerAppsAPIClient
 def main():
     client = ContainerAppsAPIClient(
         credential=DefaultAzureCredential(),
+        job_name="testcontainerAppsJob0",
+        job_execution_name="JOB_EXECUTION_NAME",
         subscription_id="34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
     )
 
     response = client.jobs.list_secrets(
         resource_group_name="rg",
-        job_name="testcontainerAppsJob0",
     )
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-11-01-preview/examples/Job_ListSecrets.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-04-01-preview/examples/Job_ListSecrets.json
 if __name__ == "__main__":
     main()

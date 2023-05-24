@@ -26,6 +26,8 @@ from azure.mgmt.appcontainers import ContainerAppsAPIClient
 def main():
     client = ContainerAppsAPIClient(
         credential=DefaultAzureCredential(),
+        job_name="JOB_NAME",
+        job_execution_name="JOB_EXECUTION_NAME",
         subscription_id="34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
     )
 
@@ -87,6 +89,7 @@ def main():
                         "traffic": [{"label": "production", "revisionName": "testcontainerApp0-ab1234", "weight": 100}],
                     },
                     "maxInactiveRevisions": 10,
+                    "service": {"type": "redis"},
                 },
                 "environmentId": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.App/managedEnvironments/demokube",
                 "template": {
@@ -127,6 +130,12 @@ def main():
                             }
                         ],
                     },
+                    "serviceBinds": [
+                        {
+                            "name": "redisService",
+                            "serviceId": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.App/containerApps/redisService",
+                        }
+                    ],
                 },
                 "workloadProfileName": "My-GP-01",
             },
@@ -135,6 +144,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-11-01-preview/examples/ContainerApps_CreateOrUpdate.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-04-01-preview/examples/ContainerApps_CreateOrUpdate.json
 if __name__ == "__main__":
     main()

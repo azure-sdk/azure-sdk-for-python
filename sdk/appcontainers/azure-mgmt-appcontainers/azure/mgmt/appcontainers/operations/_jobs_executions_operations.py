@@ -27,7 +27,7 @@ from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import _convert_request, _format_url_section
+from .._vendor import ContainerAppsAPIClientMixinABC, _convert_request, _format_url_section
 
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
@@ -37,12 +37,12 @@ _SERIALIZER.client_side_validation = False
 
 
 def build_list_request(
-    resource_group_name: str, job_name: str, subscription_id: str, *, filter: Optional[str] = None, **kwargs: Any
+    resource_group_name: str, subscription_id: str, job_name: str, *, filter: Optional[str] = None, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-11-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -92,7 +92,7 @@ class JobsExecutionsOperations:
 
     @distributed_trace
     def list(
-        self, resource_group_name: str, job_name: str, filter: Optional[str] = None, **kwargs: Any
+        self, resource_group_name: str, filter: Optional[str] = None, **kwargs: Any
     ) -> Iterable["_models.JobExecution"]:
         """Get a Container Apps Job's executions.
 
@@ -101,8 +101,6 @@ class JobsExecutionsOperations:
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param job_name: Name of the Container Apps Job. Required.
-        :type job_name: str
         :param filter: The filter to apply on the operation. Default value is None.
         :type filter: str
         :keyword callable cls: A custom type or function that will be passed the direct response
@@ -129,8 +127,8 @@ class JobsExecutionsOperations:
 
                 request = build_list_request(
                     resource_group_name=resource_group_name,
-                    job_name=job_name,
                     subscription_id=self._config.subscription_id,
+                    job_name=self._config.job_name,
                     filter=filter,
                     api_version=api_version,
                     template_url=self.list.metadata["url"],

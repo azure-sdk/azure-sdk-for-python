@@ -34,7 +34,9 @@ _SERIALIZER = Serializer()
 _SERIALIZER.client_side_validation = False
 
 
-def build_get_request(location: str, subscription_id: str, **kwargs: Any) -> HttpRequest:
+def build_job_execution_request(
+    resource_group_name: str, subscription_id: str, job_name: str, job_execution_name: str, **kwargs: Any
+) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
@@ -43,11 +45,18 @@ def build_get_request(location: str, subscription_id: str, **kwargs: Any) -> Htt
 
     # Construct URL
     _url = kwargs.pop(
-        "template_url", "/subscriptions/{subscriptionId}/providers/Microsoft.App/locations/{location}/billingMeters"
+        "template_url",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/jobs/{jobName}/executions/{jobExecutionName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
-        "location": _SERIALIZER.url("location", location, "str", min_length=1),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
+        "jobName": _SERIALIZER.url("job_name", job_name, "str", pattern=r"^[-\w\._\(\)]+$"),
+        "jobExecutionName": _SERIALIZER.url(
+            "job_execution_name", job_execution_name, "str", pattern=r"^[-\w\._\(\)]+$"
+        ),
     }
 
     _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
@@ -61,36 +70,19 @@ def build_get_request(location: str, subscription_id: str, **kwargs: Any) -> Htt
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-class BillingMetersOperations:
-    """
-    .. warning::
-        **DO NOT** instantiate this class directly.
-
-        Instead, you should access the following operations through
-        :class:`~azure.mgmt.appcontainers.ContainerAppsAPIClient`'s
-        :attr:`billing_meters` attribute.
-    """
-
-    models = _models
-
-    def __init__(self, *args, **kwargs):
-        input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
-
+class ContainerAppsAPIClientOperationsMixin(ContainerAppsAPIClientMixinABC):
     @distributed_trace
-    def get(self, location: str, **kwargs: Any) -> _models.BillingMeterCollection:
-        """Get billing meters by location.
+    def job_execution(self, resource_group_name: str, **kwargs: Any) -> _models.JobExecution:
+        """Get details of a single job execution.
 
-        Get all billingMeters for a location.
+        Get details of a single job execution.
 
-        :param location: The name of Azure region. Required.
-        :type location: str
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: BillingMeterCollection or the result of cls(response)
-        :rtype: ~azure.mgmt.appcontainers.models.BillingMeterCollection
+        :return: JobExecution or the result of cls(response)
+        :rtype: ~azure.mgmt.appcontainers.models.JobExecution
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map = {
@@ -105,13 +97,15 @@ class BillingMetersOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.BillingMeterCollection] = kwargs.pop("cls", None)
+        cls: ClsType[_models.JobExecution] = kwargs.pop("cls", None)
 
-        request = build_get_request(
-            location=location,
+        request = build_job_execution_request(
+            resource_group_name=resource_group_name,
             subscription_id=self._config.subscription_id,
+            job_name=self._config.job_name,
+            job_execution_name=self._config.job_execution_name,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
+            template_url=self.job_execution.metadata["url"],
             headers=_headers,
             params=_params,
         )
@@ -130,11 +124,13 @@ class BillingMetersOperations:
             error = self._deserialize.failsafe_deserialize(_models.DefaultErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("BillingMeterCollection", pipeline_response)
+        deserialized = self._deserialize("JobExecution", pipeline_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})
 
         return deserialized
 
-    get.metadata = {"url": "/subscriptions/{subscriptionId}/providers/Microsoft.App/locations/{location}/billingMeters"}
+    job_execution.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/jobs/{jobName}/executions/{jobExecutionName}"
+    }

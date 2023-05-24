@@ -26,23 +26,17 @@ from azure.mgmt.appcontainers import ContainerAppsAPIClient
 def main():
     client = ContainerAppsAPIClient(
         credential=DefaultAzureCredential(),
+        job_name="testcontainerAppsJob0",
+        job_execution_name="{'value': [{'name': 'jobExecution-27944453'}, {'name': 'jobExecution-27944452'}, {'name': 'jobExecution-27944451'}]}",
         subscription_id="34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
     )
 
     response = client.jobs.begin_stop_multiple_executions(
         resource_group_name="rg",
-        job_name="testcontainerAppsJob0",
-        job_execution_name={
-            "value": [
-                {"name": "jobExecution-27944453"},
-                {"name": "jobExecution-27944452"},
-                {"name": "jobExecution-27944451"},
-            ]
-        },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-11-01-preview/examples/Job_Stop_Multiple.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-04-01-preview/examples/Job_Stop_Multiple.json
 if __name__ == "__main__":
     main()
