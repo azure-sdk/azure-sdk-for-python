@@ -29,14 +29,13 @@ def main():
         subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.managed_instance_operations.cancel(
+    client.managed_instance_operations.cancel(
         resource_group_name="sqlcrudtest-7398",
         managed_instance_name="sqlcrudtest-4645",
         operation_id="11111111-1111-1111-1111-111111111111",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/CancelManagedInstanceOperation.json
+# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/CancelManagedInstanceOperation.json
 if __name__ == "__main__":
     main()
