@@ -29,13 +29,12 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.virtual_hubs.begin_get_effective_virtual_hub_routes(
+    client.virtual_hubs.begin_get_effective_virtual_hub_routes(
         resource_group_name="rg1",
         virtual_hub_name="virtualHub1",
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/EffectiveRoutesListForRouteTable.json
+# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/EffectiveRoutesListForRouteTable.json
 if __name__ == "__main__":
     main()
