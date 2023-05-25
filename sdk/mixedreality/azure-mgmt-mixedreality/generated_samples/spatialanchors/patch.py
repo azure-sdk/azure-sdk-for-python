@@ -14,7 +14,7 @@ from azure.mgmt.mixedreality import MixedRealityClient
     pip install azure-identity
     pip install azure-mgmt-mixedreality
 # USAGE
-    python get_remote_rendering_account.py
+    python patch.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,13 +29,14 @@ def main():
         subscription_id="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
     )
 
-    response = client.remote_rendering_accounts.get(
+    response = client.spatial_anchors_accounts.update(
         resource_group_name="MyResourceGroup",
         account_name="MyAccount",
+        spatial_anchors_account={"location": "eastus2euap", "tags": {"hero": "romeo", "heroine": "juliet"}},
     )
     print(response)
 
 
-# x-ms-original-file: specification/mixedreality/resource-manager/Microsoft.MixedReality/preview/2021-03-01-preview/examples/remote-rendering/Get.json
+# x-ms-original-file: specification/mixedreality/resource-manager/Microsoft.MixedReality/preview/2021-03-01-preview/examples/spatial-anchors/Patch.json
 if __name__ == "__main__":
     main()

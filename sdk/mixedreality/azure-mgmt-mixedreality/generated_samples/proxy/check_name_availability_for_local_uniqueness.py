@@ -14,7 +14,7 @@ from azure.mgmt.mixedreality import MixedRealityClient
     pip install azure-identity
     pip install azure-mgmt-mixedreality
 # USAGE
-    python list_spatial_anchors_accounts_by_subscription.py
+    python check_name_availability_for_local_uniqueness.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,11 +29,13 @@ def main():
         subscription_id="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
     )
 
-    response = client.spatial_anchors_accounts.list_by_subscription()
-    for item in response:
-        print(item)
+    response = client.check_name_availability_local(
+        location="eastus2euap",
+        check_name_availability={"name": "MyAccount", "type": "Microsoft.MixedReality/spatialAnchorsAccounts"},
+    )
+    print(response)
 
 
-# x-ms-original-file: specification/mixedreality/resource-manager/Microsoft.MixedReality/preview/2021-03-01-preview/examples/spatial-anchors/GetBySubscription.json
+# x-ms-original-file: specification/mixedreality/resource-manager/Microsoft.MixedReality/preview/2021-03-01-preview/examples/proxy/CheckNameAvailabilityForLocalUniqueness.json
 if __name__ == "__main__":
     main()

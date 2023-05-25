@@ -13,7 +13,7 @@ from ._remote_rendering_accounts_operations import RemoteRenderingAccountsOperat
 from ._object_anchors_accounts_operations import ObjectAnchorsAccountsOperations
 
 from ._patch import __all__ as _patch_all
-from ._patch import *  # type: ignore # pylint: disable=unused-wildcard-import
+from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [

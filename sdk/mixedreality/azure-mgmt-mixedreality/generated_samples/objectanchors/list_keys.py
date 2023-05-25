@@ -14,7 +14,7 @@ from azure.mgmt.mixedreality import MixedRealityClient
     pip install azure-identity
     pip install azure-mgmt-mixedreality
 # USAGE
-    python delete_object_anchors_account.py
+    python list_keys.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,13 +29,13 @@ def main():
         subscription_id="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
     )
 
-    response = client.object_anchors_accounts.delete(
+    response = client.object_anchors_accounts.list_keys(
         resource_group_name="MyResourceGroup",
         account_name="MyAccount",
     )
     print(response)
 
 
-# x-ms-original-file: specification/mixedreality/resource-manager/Microsoft.MixedReality/preview/2021-03-01-preview/examples/object-anchors/Delete.json
+# x-ms-original-file: specification/mixedreality/resource-manager/Microsoft.MixedReality/preview/2021-03-01-preview/examples/object-anchors/ListKeys.json
 if __name__ == "__main__":
     main()

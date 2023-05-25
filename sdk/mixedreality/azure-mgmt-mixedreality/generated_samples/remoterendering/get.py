@@ -14,7 +14,7 @@ from azure.mgmt.mixedreality import MixedRealityClient
     pip install azure-identity
     pip install azure-mgmt-mixedreality
 # USAGE
-    python list_available_operations.py
+    python get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,14 +26,16 @@ from azure.mgmt.mixedreality import MixedRealityClient
 def main():
     client = MixedRealityClient(
         credential=DefaultAzureCredential(),
-        subscription_id="SUBSCRIPTION_ID",
+        subscription_id="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
     )
 
-    response = client.operations.list()
-    for item in response:
-        print(item)
+    response = client.remote_rendering_accounts.get(
+        resource_group_name="MyResourceGroup",
+        account_name="MyAccount",
+    )
+    print(response)
 
 
-# x-ms-original-file: specification/mixedreality/resource-manager/Microsoft.MixedReality/preview/2021-03-01-preview/examples/proxy/ExposingAvailableOperations.json
+# x-ms-original-file: specification/mixedreality/resource-manager/Microsoft.MixedReality/preview/2021-03-01-preview/examples/remote-rendering/Get.json
 if __name__ == "__main__":
     main()

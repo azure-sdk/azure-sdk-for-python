@@ -14,7 +14,7 @@ from azure.mgmt.mixedreality import MixedRealityClient
     pip install azure-identity
     pip install azure-mgmt-mixedreality
 # USAGE
-    python list_object_anchors_accounts_by_subscription.py
+    python get_by_subscription.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,

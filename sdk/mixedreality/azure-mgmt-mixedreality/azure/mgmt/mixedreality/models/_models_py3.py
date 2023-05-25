@@ -9,7 +9,7 @@
 
 import datetime
 import sys
-from typing import Dict, List, Optional, TYPE_CHECKING, Union
+from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
 from .. import _serialization
 
@@ -34,7 +34,7 @@ class AccountKeyRegenerateRequest(_serialization.Model):
         "serial": {"key": "serial", "type": "int"},
     }
 
-    def __init__(self, *, serial: Union[int, "_models.Serial"] = 1, **kwargs):
+    def __init__(self, *, serial: Union[int, "_models.Serial"] = 1, **kwargs: Any) -> None:
         """
         :keyword serial: Serial of key to be regenerated. Known values are: 1 and 2.
         :paramtype serial: int or ~azure.mgmt.mixedreality.models.Serial
@@ -64,7 +64,7 @@ class AccountKeys(_serialization.Model):
         "secondary_key": {"key": "secondaryKey", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.primary_key = None
@@ -92,7 +92,7 @@ class CheckNameAvailabilityRequest(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, *, name: str, type: str, **kwargs):
+    def __init__(self, *, name: str, type: str, **kwargs: Any) -> None:
         """
         :keyword name: Resource Name To Verify. Required.
         :paramtype name: str
@@ -133,8 +133,8 @@ class CheckNameAvailabilityResponse(_serialization.Model):
         name_available: bool,
         reason: Optional[Union[str, "_models.NameUnavailableReason"]] = None,
         message: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name_available: if name Available. Required.
         :paramtype name_available: bool
@@ -179,8 +179,8 @@ class CloudErrorBody(_serialization.Model):
         message: Optional[str] = None,
         target: Optional[str] = None,
         details: Optional[List["_models.CloudErrorBody"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword code: An identifier for the error. Codes are invariant and are intended to be consumed
          programmatically.
@@ -225,7 +225,7 @@ class Identity(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, *, type: Optional[Literal["SystemAssigned"]] = None, **kwargs):
+    def __init__(self, *, type: Optional[Literal["SystemAssigned"]] = None, **kwargs: Any) -> None:
         """
         :keyword type: The identity type. Default value is "SystemAssigned".
         :paramtype type: str
@@ -259,8 +259,8 @@ class LogSpecification(_serialization.Model):
         name: Optional[str] = None,
         display_name: Optional[str] = None,
         blob_duration: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Name of the log.
         :paramtype name: str
@@ -302,8 +302,8 @@ class MetricDimension(_serialization.Model):
         display_name: Optional[str] = None,
         internal_name: Optional[str] = None,
         to_be_exported_for_shoebox: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Name of the dimension.
         :paramtype name: str
@@ -400,8 +400,8 @@ class MetricSpecification(_serialization.Model):  # pylint: disable=too-many-ins
         internal_metric_name: Optional[str] = None,
         dimensions: Optional[List["_models.MetricDimension"]] = None,
         locked_aggregation_type: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Name of the metric.
         :paramtype name: str
@@ -486,7 +486,7 @@ class Resource(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -495,7 +495,8 @@ class Resource(_serialization.Model):
 
 
 class TrackedResource(Resource):
-    """The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'.
+    """The resource model definition for an Azure Resource Manager tracked top level resource which
+    has 'tags' and a 'location'.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -530,7 +531,7 @@ class TrackedResource(Resource):
         "location": {"key": "location", "type": "str"},
     }
 
-    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -615,8 +616,8 @@ class ObjectAnchorsAccount(TrackedResource):  # pylint: disable=too-many-instanc
         sku: Optional["_models.Sku"] = None,
         kind: Optional["_models.Sku"] = None,
         storage_account_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -668,7 +669,7 @@ class ObjectAnchorsAccountIdentity(Identity):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, *, type: Optional[Literal["SystemAssigned"]] = None, **kwargs):
+    def __init__(self, *, type: Optional[Literal["SystemAssigned"]] = None, **kwargs: Any) -> None:
         """
         :keyword type: The identity type. Default value is "SystemAssigned".
         :paramtype type: str
@@ -677,7 +678,8 @@ class ObjectAnchorsAccountIdentity(Identity):
 
 
 class ObjectAnchorsAccountPage(_serialization.Model):
-    """Result of the request to get resource collection. It contains a list of resources and a URL link to get the next set of results.
+    """Result of the request to get resource collection. It contains a list of resources and a URL
+    link to get the next set of results.
 
     :ivar value: List of resources supported by the Resource Provider.
     :vartype value: list[~azure.mgmt.mixedreality.models.ObjectAnchorsAccount]
@@ -691,8 +693,12 @@ class ObjectAnchorsAccountPage(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.ObjectAnchorsAccount"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self,
+        *,
+        value: Optional[List["_models.ObjectAnchorsAccount"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: List of resources supported by the Resource Provider.
         :paramtype value: list[~azure.mgmt.mixedreality.models.ObjectAnchorsAccount]
@@ -735,8 +741,8 @@ class Operation(_serialization.Model):
         is_data_action: Optional[bool] = None,
         origin: Optional[str] = None,
         properties: Optional["_models.OperationProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Operation name: {provider}/{resource}/{operation}.
         :paramtype name: str
@@ -786,7 +792,7 @@ class OperationDisplay(_serialization.Model):
         "description": {"key": "description", "type": "str"},
     }
 
-    def __init__(self, *, provider: str, resource: str, operation: str, description: str, **kwargs):
+    def __init__(self, *, provider: str, resource: str, operation: str, description: str, **kwargs: Any) -> None:
         """
         :keyword provider: Service provider: Microsoft.ResourceProvider. Required.
         :paramtype provider: str
@@ -806,7 +812,8 @@ class OperationDisplay(_serialization.Model):
 
 
 class OperationPage(_serialization.Model):
-    """Result of the request to list Resource Provider operations. It contains a list of operations and a URL link to get the next set of results.
+    """Result of the request to list Resource Provider operations. It contains a list of operations
+    and a URL link to get the next set of results.
 
     :ivar value: List of operations supported by the Resource Provider.
     :vartype value: list[~azure.mgmt.mixedreality.models.Operation]
@@ -819,7 +826,9 @@ class OperationPage(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Operation"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.Operation"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: List of operations supported by the Resource Provider.
         :paramtype value: list[~azure.mgmt.mixedreality.models.Operation]
@@ -842,7 +851,9 @@ class OperationProperties(_serialization.Model):
         "service_specification": {"key": "serviceSpecification", "type": "ServiceSpecification"},
     }
 
-    def __init__(self, *, service_specification: Optional["_models.ServiceSpecification"] = None, **kwargs):
+    def __init__(
+        self, *, service_specification: Optional["_models.ServiceSpecification"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword service_specification: Service specification.
         :paramtype service_specification: ~azure.mgmt.mixedreality.models.ServiceSpecification
@@ -924,8 +935,8 @@ class RemoteRenderingAccount(TrackedResource):  # pylint: disable=too-many-insta
         sku: Optional["_models.Sku"] = None,
         kind: Optional["_models.Sku"] = None,
         storage_account_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -954,7 +965,8 @@ class RemoteRenderingAccount(TrackedResource):  # pylint: disable=too-many-insta
 
 
 class RemoteRenderingAccountPage(_serialization.Model):
-    """Result of the request to get resource collection. It contains a list of resources and a URL link to get the next set of results.
+    """Result of the request to get resource collection. It contains a list of resources and a URL
+    link to get the next set of results.
 
     :ivar value: List of resources supported by the Resource Provider.
     :vartype value: list[~azure.mgmt.mixedreality.models.RemoteRenderingAccount]
@@ -972,8 +984,8 @@ class RemoteRenderingAccountPage(_serialization.Model):
         *,
         value: Optional[List["_models.RemoteRenderingAccount"]] = None,
         next_link: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: List of resources supported by the Resource Provider.
         :paramtype value: list[~azure.mgmt.mixedreality.models.RemoteRenderingAccount]
@@ -1004,8 +1016,8 @@ class ServiceSpecification(_serialization.Model):
         *,
         log_specifications: Optional[List["_models.LogSpecification"]] = None,
         metric_specifications: Optional[List["_models.MetricSpecification"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword log_specifications: Specifications of the Log for Azure Monitoring.
         :paramtype log_specifications: list[~azure.mgmt.mixedreality.models.LogSpecification]
@@ -1059,8 +1071,8 @@ class Sku(_serialization.Model):
         size: Optional[str] = None,
         family: Optional[str] = None,
         capacity: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: The name of the SKU. Ex - P3. It is typically a letter+number code. Required.
         :paramtype name: str
@@ -1159,8 +1171,8 @@ class SpatialAnchorsAccount(TrackedResource):  # pylint: disable=too-many-instan
         sku: Optional["_models.Sku"] = None,
         kind: Optional["_models.Sku"] = None,
         storage_account_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -1189,7 +1201,8 @@ class SpatialAnchorsAccount(TrackedResource):  # pylint: disable=too-many-instan
 
 
 class SpatialAnchorsAccountPage(_serialization.Model):
-    """Result of the request to get resource collection. It contains a list of resources and a URL link to get the next set of results.
+    """Result of the request to get resource collection. It contains a list of resources and a URL
+    link to get the next set of results.
 
     :ivar value: List of resources supported by the Resource Provider.
     :vartype value: list[~azure.mgmt.mixedreality.models.SpatialAnchorsAccount]
@@ -1207,8 +1220,8 @@ class SpatialAnchorsAccountPage(_serialization.Model):
         *,
         value: Optional[List["_models.SpatialAnchorsAccount"]] = None,
         next_link: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: List of resources supported by the Resource Provider.
         :paramtype value: list[~azure.mgmt.mixedreality.models.SpatialAnchorsAccount]
@@ -1257,8 +1270,8 @@ class SystemData(_serialization.Model):
         last_modified_by: Optional[str] = None,
         last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
         last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword created_by: The identity that created the resource.
         :paramtype created_by: str

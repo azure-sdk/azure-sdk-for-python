@@ -14,7 +14,7 @@ from azure.mgmt.mixedreality import MixedRealityClient
     pip install azure-identity
     pip install azure-mgmt-mixedreality
 # USAGE
-    python list_object_anchors_accounts_by_resource_group.py
+    python regenerate_key.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,13 +29,14 @@ def main():
         subscription_id="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
     )
 
-    response = client.object_anchors_accounts.list_by_resource_group(
+    response = client.object_anchors_accounts.regenerate_keys(
         resource_group_name="MyResourceGroup",
+        account_name="MyAccount",
+        regenerate={"serial": 1},
     )
-    for item in response:
-        print(item)
+    print(response)
 
 
-# x-ms-original-file: specification/mixedreality/resource-manager/Microsoft.MixedReality/preview/2021-03-01-preview/examples/object-anchors/GetByResourceGroup.json
+# x-ms-original-file: specification/mixedreality/resource-manager/Microsoft.MixedReality/preview/2021-03-01-preview/examples/object-anchors/RegenerateKey.json
 if __name__ == "__main__":
     main()
