@@ -25,43 +25,32 @@ from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from ... import models as _models
 from ..._vendor import _convert_request
-from ...operations._billing_meters_operations import build_get_request
+from ...operations._container_apps_api_client_operations import build_job_execution_request
 from .._vendor import ContainerAppsAPIClientMixinABC
 
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
 
-class BillingMetersOperations:
-    """
-    .. warning::
-        **DO NOT** instantiate this class directly.
-
-        Instead, you should access the following operations through
-        :class:`~azure.mgmt.appcontainers.aio.ContainerAppsAPIClient`'s
-        :attr:`billing_meters` attribute.
-    """
-
-    models = _models
-
-    def __init__(self, *args, **kwargs) -> None:
-        input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
-
+class ContainerAppsAPIClientOperationsMixin(ContainerAppsAPIClientMixinABC):
     @distributed_trace_async
-    async def get(self, location: str, **kwargs: Any) -> _models.BillingMeterCollection:
-        """Get billing meters by location.
+    async def job_execution(
+        self, resource_group_name: str, job_name: str, job_execution_name: str, **kwargs: Any
+    ) -> _models.JobExecution:
+        """Get details of a single job execution.
 
-        Get all billingMeters for a location.
+        Get details of a single job execution.
 
-        :param location: The name of Azure region. Required.
-        :type location: str
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param job_name: Job Name. Required.
+        :type job_name: str
+        :param job_execution_name: Job execution name. Required.
+        :type job_execution_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: BillingMeterCollection or the result of cls(response)
-        :rtype: ~azure.mgmt.appcontainers.models.BillingMeterCollection
+        :return: JobExecution or the result of cls(response)
+        :rtype: ~azure.mgmt.appcontainers.models.JobExecution
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map = {
@@ -76,13 +65,15 @@ class BillingMetersOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.BillingMeterCollection] = kwargs.pop("cls", None)
+        cls: ClsType[_models.JobExecution] = kwargs.pop("cls", None)
 
-        request = build_get_request(
-            location=location,
+        request = build_job_execution_request(
+            resource_group_name=resource_group_name,
+            job_name=job_name,
+            job_execution_name=job_execution_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
+            template_url=self.job_execution.metadata["url"],
             headers=_headers,
             params=_params,
         )
@@ -90,7 +81,7 @@ class BillingMetersOperations:
         request.url = self._client.format_url(request.url)
 
         _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
             request, stream=_stream, **kwargs
         )
 
@@ -101,11 +92,13 @@ class BillingMetersOperations:
             error = self._deserialize.failsafe_deserialize(_models.DefaultErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("BillingMeterCollection", pipeline_response)
+        deserialized = self._deserialize("JobExecution", pipeline_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})
 
         return deserialized
 
-    get.metadata = {"url": "/subscriptions/{subscriptionId}/providers/Microsoft.App/locations/{location}/billingMeters"}
+    job_execution.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/jobs/{jobName}/executions/{jobExecutionName}"
+    }
