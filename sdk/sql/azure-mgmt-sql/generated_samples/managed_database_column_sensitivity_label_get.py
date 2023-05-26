@@ -36,11 +36,10 @@ def main():
         schema_name="dbo",
         table_name="myTable",
         column_name="myColumn",
-        sensitivity_label_source="current",
     )
     print(response)
 
 
-# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedDatabaseColumnSensitivityLabelGet.json
+# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-11-01-preview/examples/ManagedDatabaseColumnSensitivityLabelGet.json
 if __name__ == "__main__":
     main()
