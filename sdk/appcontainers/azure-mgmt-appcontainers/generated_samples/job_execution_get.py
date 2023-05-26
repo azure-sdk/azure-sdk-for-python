@@ -14,7 +14,7 @@ from azure.mgmt.appcontainers import ContainerAppsAPIClient
     pip install azure-identity
     pip install azure-mgmt-appcontainers
 # USAGE
-    python connected_environments_patch.py
+    python job_execution_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,13 +29,14 @@ def main():
         subscription_id="34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
     )
 
-    response = client.connected_environments.update(
-        resource_group_name="examplerg",
-        connected_environment_name="testenv",
+    response = client.job_execution(
+        resource_group_name="rg",
+        job_name="testcontainerAppsJob0",
+        job_execution_name="jobExecution1",
     )
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-04-01-preview/examples/ConnectedEnvironments_Patch.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-04-01-preview/examples/Job_Execution_Get.json
 if __name__ == "__main__":
     main()
