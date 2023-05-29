@@ -29,11 +29,10 @@ def main():
         subscription_id="ulseeqylxb",
     )
 
-    response = client.file_systems.begin_delete(
+    client.file_systems.begin_delete(
         resource_group_name="rgQumulo",
         file_system_name="nauwwbfoqehgbhdsmkewoboyxeqg",
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/liftrqumulo/resource-manager/Qumulo.Storage/stable/2022-10-12/examples/FileSystems_Delete_MinimumSet_Gen.json
