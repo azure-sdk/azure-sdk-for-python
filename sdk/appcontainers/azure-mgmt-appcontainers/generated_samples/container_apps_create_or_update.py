@@ -135,6 +135,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-11-01-preview/examples/ContainerApps_CreateOrUpdate.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-05-02-preview/examples/ContainerApps_CreateOrUpdate.json
 if __name__ == "__main__":
     main()
