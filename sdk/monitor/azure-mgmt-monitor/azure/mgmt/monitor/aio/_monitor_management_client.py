@@ -121,6 +121,7 @@ class MonitorManagementClient(MultiApiClientMixin, _SDKClient):
     def models(cls, api_version=DEFAULT_API_VERSION):
         """Module depends on the API version:
 
+           * 2014-04-01: :mod:`v2014_04_01.models<azure.mgmt.monitor.v2014_04_01.models>`
            * 2015-04-01: :mod:`v2015_04_01.models<azure.mgmt.monitor.v2015_04_01.models>`
            * 2015-07-01: :mod:`v2015_07_01.models<azure.mgmt.monitor.v2015_07_01.models>`
            * 2016-03-01: :mod:`v2016_03_01.models<azure.mgmt.monitor.v2016_03_01.models>`
@@ -156,7 +157,10 @@ class MonitorManagementClient(MultiApiClientMixin, _SDKClient):
            * 2023-01-01: :mod:`v2023_01_01.models<azure.mgmt.monitor.v2023_01_01.models>`
            * 2023-03-01-preview: :mod:`v2023_03_01_preview.models<azure.mgmt.monitor.v2023_03_01_preview.models>`
         """
-        if api_version == '2015-04-01':
+        if api_version == '2014-04-01':
+            from ..v2014_04_01 import models
+            return models
+        elif api_version == '2015-04-01':
             from ..v2015_04_01 import models
             return models
         elif api_version == '2015-07-01':
@@ -350,15 +354,12 @@ class MonitorManagementClient(MultiApiClientMixin, _SDKClient):
     def alert_rules(self):
         """Instance depends on the API version:
 
-           * 2015-04-01: :class:`AlertRulesOperations<azure.mgmt.monitor.v2015_04_01.aio.operations.AlertRulesOperations>`
-           * 2015-07-01: :class:`AlertRulesOperations<azure.mgmt.monitor.v2015_07_01.aio.operations.AlertRulesOperations>`
+           * 2014-04-01: :class:`AlertRulesOperations<azure.mgmt.monitor.v2014_04_01.aio.operations.AlertRulesOperations>`
            * 2016-03-01: :class:`AlertRulesOperations<azure.mgmt.monitor.v2016_03_01.aio.operations.AlertRulesOperations>`
         """
         api_version = self._get_api_version('alert_rules')
-        if api_version == '2015-04-01':
-            from ..v2015_04_01.aio.operations import AlertRulesOperations as OperationClass
-        elif api_version == '2015-07-01':
-            from ..v2015_07_01.aio.operations import AlertRulesOperations as OperationClass
+        if api_version == '2014-04-01':
+            from ..v2014_04_01.aio.operations import AlertRulesOperations as OperationClass
         elif api_version == '2016-03-01':
             from ..v2016_03_01.aio.operations import AlertRulesOperations as OperationClass
         else:
@@ -370,12 +371,15 @@ class MonitorManagementClient(MultiApiClientMixin, _SDKClient):
     def autoscale_settings(self):
         """Instance depends on the API version:
 
+           * 2014-04-01: :class:`AutoscaleSettingsOperations<azure.mgmt.monitor.v2014_04_01.aio.operations.AutoscaleSettingsOperations>`
            * 2015-04-01: :class:`AutoscaleSettingsOperations<azure.mgmt.monitor.v2015_04_01.aio.operations.AutoscaleSettingsOperations>`
            * 2021-05-01-preview: :class:`AutoscaleSettingsOperations<azure.mgmt.monitor.v2021_05_01_preview.aio.operations.AutoscaleSettingsOperations>`
            * 2022-10-01: :class:`AutoscaleSettingsOperations<azure.mgmt.monitor.v2022_10_01.aio.operations.AutoscaleSettingsOperations>`
         """
         api_version = self._get_api_version('autoscale_settings')
-        if api_version == '2015-04-01':
+        if api_version == '2014-04-01':
+            from ..v2014_04_01.aio.operations import AutoscaleSettingsOperations as OperationClass
+        elif api_version == '2015-04-01':
             from ..v2015_04_01.aio.operations import AutoscaleSettingsOperations as OperationClass
         elif api_version == '2021-05-01-preview':
             from ..v2021_05_01_preview.aio.operations import AutoscaleSettingsOperations as OperationClass
