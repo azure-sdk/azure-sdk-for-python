@@ -29,13 +29,14 @@ def main():
         subscription_id="11112222-3333-4444-5555-666677778888",
     )
 
-    response = client.communication_services.begin_delete(
+    client.sender_usernames.delete(
         resource_group_name="MyResourceGroup",
-        communication_service_name="MyCommunicationResource",
-    ).result()
-    print(response)
+        email_service_name="MyEmailServiceResource",
+        domain_name="mydomain.com",
+        sender_username="contosoNewsAlerts",
+    )
 
 
-# x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-03-31/examples/communicationServices/delete.json
+# x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-03-31/examples/senderUsernames/delete.json
 if __name__ == "__main__":
     main()
