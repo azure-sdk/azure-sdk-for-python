@@ -71,11 +71,6 @@ class AuthorizationManagementClient(MultiApiClientMixin, _SDKClient):
             'access_review_instances_assigned_for_my_approval': '2021-12-01-preview',
             'access_review_schedule_definitions': '2021-12-01-preview',
             'access_review_schedule_definitions_assigned_for_my_approval': '2021-12-01-preview',
-            'alert_configurations': '2021-12-01-preview',
-            'alert_definitions': '2021-12-01-preview',
-            'alert_incidents': '2021-12-01-preview',
-            'alert_operation': '2021-12-01-preview',
-            'alerts': '2021-12-01-preview',
             'classic_administrators': '2015-07-01',
             'eligible_child_resources': '2020-10-01',
             'global_administrator': '2015-07-01',
@@ -149,6 +144,7 @@ class AuthorizationManagementClient(MultiApiClientMixin, _SDKClient):
            * 2021-07-01-preview: :mod:`v2021_07_01_preview.models<azure.mgmt.authorization.v2021_07_01_preview.models>`
            * 2021-12-01-preview: :mod:`v2021_12_01_preview.models<azure.mgmt.authorization.v2021_12_01_preview.models>`
            * 2022-04-01: :mod:`v2022_04_01.models<azure.mgmt.authorization.v2022_04_01.models>`
+           * 2022-08-01-preview: :mod:`v2022_08_01_preview.models<azure.mgmt.authorization.v2022_08_01_preview.models>`
         """
         if api_version == '2015-06-01':
             from ..v2015_06_01 import models
@@ -194,6 +190,9 @@ class AuthorizationManagementClient(MultiApiClientMixin, _SDKClient):
             return models
         elif api_version == '2022-04-01':
             from ..v2022_04_01 import models
+            return models
+        elif api_version == '2022-08-01-preview':
+            from ..v2022_08_01_preview import models
             return models
         raise ValueError("API version {} is not available".format(api_version))
 
@@ -458,11 +457,11 @@ class AuthorizationManagementClient(MultiApiClientMixin, _SDKClient):
     def alert_configurations(self):
         """Instance depends on the API version:
 
-           * 2021-12-01-preview: :class:`AlertConfigurationsOperations<azure.mgmt.authorization.v2021_12_01_preview.aio.operations.AlertConfigurationsOperations>`
+           * 2022-08-01-preview: :class:`AlertConfigurationsOperations<azure.mgmt.authorization.v2022_08_01_preview.aio.operations.AlertConfigurationsOperations>`
         """
         api_version = self._get_api_version('alert_configurations')
-        if api_version == '2021-12-01-preview':
-            from ..v2021_12_01_preview.aio.operations import AlertConfigurationsOperations as OperationClass
+        if api_version == '2022-08-01-preview':
+            from ..v2022_08_01_preview.aio.operations import AlertConfigurationsOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'alert_configurations'".format(api_version))
         self._config.api_version = api_version
@@ -472,11 +471,11 @@ class AuthorizationManagementClient(MultiApiClientMixin, _SDKClient):
     def alert_definitions(self):
         """Instance depends on the API version:
 
-           * 2021-12-01-preview: :class:`AlertDefinitionsOperations<azure.mgmt.authorization.v2021_12_01_preview.aio.operations.AlertDefinitionsOperations>`
+           * 2022-08-01-preview: :class:`AlertDefinitionsOperations<azure.mgmt.authorization.v2022_08_01_preview.aio.operations.AlertDefinitionsOperations>`
         """
         api_version = self._get_api_version('alert_definitions')
-        if api_version == '2021-12-01-preview':
-            from ..v2021_12_01_preview.aio.operations import AlertDefinitionsOperations as OperationClass
+        if api_version == '2022-08-01-preview':
+            from ..v2022_08_01_preview.aio.operations import AlertDefinitionsOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'alert_definitions'".format(api_version))
         self._config.api_version = api_version
@@ -486,11 +485,11 @@ class AuthorizationManagementClient(MultiApiClientMixin, _SDKClient):
     def alert_incidents(self):
         """Instance depends on the API version:
 
-           * 2021-12-01-preview: :class:`AlertIncidentsOperations<azure.mgmt.authorization.v2021_12_01_preview.aio.operations.AlertIncidentsOperations>`
+           * 2022-08-01-preview: :class:`AlertIncidentsOperations<azure.mgmt.authorization.v2022_08_01_preview.aio.operations.AlertIncidentsOperations>`
         """
         api_version = self._get_api_version('alert_incidents')
-        if api_version == '2021-12-01-preview':
-            from ..v2021_12_01_preview.aio.operations import AlertIncidentsOperations as OperationClass
+        if api_version == '2022-08-01-preview':
+            from ..v2022_08_01_preview.aio.operations import AlertIncidentsOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'alert_incidents'".format(api_version))
         self._config.api_version = api_version
@@ -500,11 +499,11 @@ class AuthorizationManagementClient(MultiApiClientMixin, _SDKClient):
     def alert_operation(self):
         """Instance depends on the API version:
 
-           * 2021-12-01-preview: :class:`AlertOperationOperations<azure.mgmt.authorization.v2021_12_01_preview.aio.operations.AlertOperationOperations>`
+           * 2022-08-01-preview: :class:`AlertOperationOperations<azure.mgmt.authorization.v2022_08_01_preview.aio.operations.AlertOperationOperations>`
         """
         api_version = self._get_api_version('alert_operation')
-        if api_version == '2021-12-01-preview':
-            from ..v2021_12_01_preview.aio.operations import AlertOperationOperations as OperationClass
+        if api_version == '2022-08-01-preview':
+            from ..v2022_08_01_preview.aio.operations import AlertOperationOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'alert_operation'".format(api_version))
         self._config.api_version = api_version
@@ -514,11 +513,11 @@ class AuthorizationManagementClient(MultiApiClientMixin, _SDKClient):
     def alerts(self):
         """Instance depends on the API version:
 
-           * 2021-12-01-preview: :class:`AlertsOperations<azure.mgmt.authorization.v2021_12_01_preview.aio.operations.AlertsOperations>`
+           * 2022-08-01-preview: :class:`AlertsOperations<azure.mgmt.authorization.v2022_08_01_preview.aio.operations.AlertsOperations>`
         """
         api_version = self._get_api_version('alerts')
-        if api_version == '2021-12-01-preview':
-            from ..v2021_12_01_preview.aio.operations import AlertsOperations as OperationClass
+        if api_version == '2022-08-01-preview':
+            from ..v2022_08_01_preview.aio.operations import AlertsOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'alerts'".format(api_version))
         self._config.api_version = api_version
