@@ -59,6 +59,11 @@ from ._models_py3 import ClientDiscoveryResponse
 from ._models_py3 import ClientDiscoveryValueForSingleApi
 from ._models_py3 import CopyOnExpiryOption
 from ._models_py3 import CopyOption
+from ._models_py3 import CrossRegionRestoreDetails
+from ._models_py3 import CrossRegionRestoreJobRequest
+from ._models_py3 import CrossRegionRestoreJobsRequest
+from ._models_py3 import CrossRegionRestoreRequestObject
+from ._models_py3 import CrossRegionRestoreSettings
 from ._models_py3 import CrossSubscriptionRestoreSettings
 from ._models_py3 import CustomCopyOption
 from ._models_py3 import DataStoreInfoBase
@@ -89,6 +94,8 @@ from ._models_py3 import FeatureValidationRequest
 from ._models_py3 import FeatureValidationRequestBase
 from ._models_py3 import FeatureValidationResponse
 from ._models_py3 import FeatureValidationResponseBase
+from ._models_py3 import FetchSecondaryRPsRequestParameters
+from ._models_py3 import IdentityDetails
 from ._models_py3 import ImmediateCopyOption
 from ._models_py3 import ImmutabilitySettings
 from ._models_py3 import InnerError
@@ -116,6 +123,10 @@ from ._models_py3 import RecoveryPointDataStoreDetails
 from ._models_py3 import RecoveryPointsFilters
 from ._models_py3 import ResourceGuard
 from ._models_py3 import ResourceGuardOperation
+from ._models_py3 import ResourceGuardOperationDetail
+from ._models_py3 import ResourceGuardProxyBase
+from ._models_py3 import ResourceGuardProxyBaseResource
+from ._models_py3 import ResourceGuardProxyBaseResourceList
 from ._models_py3 import ResourceGuardResource
 from ._models_py3 import ResourceGuardResourceList
 from ._models_py3 import ResourceMoveDetails
@@ -141,13 +152,18 @@ from ._models_py3 import TargetCopySetting
 from ._models_py3 import TargetDetails
 from ._models_py3 import TriggerBackupRequest
 from ._models_py3 import TriggerContext
+from ._models_py3 import UnlockDeleteRequest
+from ._models_py3 import UnlockDeleteResponse
+from ._models_py3 import UserAssignedIdentityDetails
 from ._models_py3 import UserFacingError
+from ._models_py3 import ValidateCrossRegionRestoreRequestObject
 from ._models_py3 import ValidateForBackupRequest
 from ._models_py3 import ValidateRestoreRequestObject
 
 from ._data_protection_mgmt_client_enums import AbsoluteMarker
 from ._data_protection_mgmt_client_enums import AlertsState
 from ._data_protection_mgmt_client_enums import CreatedByType
+from ._data_protection_mgmt_client_enums import CrossRegionRestoreState
 from ._data_protection_mgmt_client_enums import CrossSubscriptionRestoreState
 from ._data_protection_mgmt_client_enums import CurrentProtectionState
 from ._data_protection_mgmt_client_enums import DataStoreTypes
@@ -166,6 +182,7 @@ from ._data_protection_mgmt_client_enums import ResourceMoveState
 from ._data_protection_mgmt_client_enums import RestoreSourceDataStoreType
 from ._data_protection_mgmt_client_enums import RestoreTargetLocationType
 from ._data_protection_mgmt_client_enums import SecretStoreType
+from ._data_protection_mgmt_client_enums import SecureScoreLevel
 from ._data_protection_mgmt_client_enums import SoftDeleteState
 from ._data_protection_mgmt_client_enums import SourceDataStoreType
 from ._data_protection_mgmt_client_enums import Status
@@ -232,6 +249,11 @@ __all__ = [
     "ClientDiscoveryValueForSingleApi",
     "CopyOnExpiryOption",
     "CopyOption",
+    "CrossRegionRestoreDetails",
+    "CrossRegionRestoreJobRequest",
+    "CrossRegionRestoreJobsRequest",
+    "CrossRegionRestoreRequestObject",
+    "CrossRegionRestoreSettings",
     "CrossSubscriptionRestoreSettings",
     "CustomCopyOption",
     "DataStoreInfoBase",
@@ -262,6 +284,8 @@ __all__ = [
     "FeatureValidationRequestBase",
     "FeatureValidationResponse",
     "FeatureValidationResponseBase",
+    "FetchSecondaryRPsRequestParameters",
+    "IdentityDetails",
     "ImmediateCopyOption",
     "ImmutabilitySettings",
     "InnerError",
@@ -289,6 +313,10 @@ __all__ = [
     "RecoveryPointsFilters",
     "ResourceGuard",
     "ResourceGuardOperation",
+    "ResourceGuardOperationDetail",
+    "ResourceGuardProxyBase",
+    "ResourceGuardProxyBaseResource",
+    "ResourceGuardProxyBaseResourceList",
     "ResourceGuardResource",
     "ResourceGuardResourceList",
     "ResourceMoveDetails",
@@ -314,12 +342,17 @@ __all__ = [
     "TargetDetails",
     "TriggerBackupRequest",
     "TriggerContext",
+    "UnlockDeleteRequest",
+    "UnlockDeleteResponse",
+    "UserAssignedIdentityDetails",
     "UserFacingError",
+    "ValidateCrossRegionRestoreRequestObject",
     "ValidateForBackupRequest",
     "ValidateRestoreRequestObject",
     "AbsoluteMarker",
     "AlertsState",
     "CreatedByType",
+    "CrossRegionRestoreState",
     "CrossSubscriptionRestoreState",
     "CurrentProtectionState",
     "DataStoreTypes",
@@ -338,6 +371,7 @@ __all__ = [
     "RestoreSourceDataStoreType",
     "RestoreTargetLocationType",
     "SecretStoreType",
+    "SecureScoreLevel",
     "SoftDeleteState",
     "SourceDataStoreType",
     "Status",
