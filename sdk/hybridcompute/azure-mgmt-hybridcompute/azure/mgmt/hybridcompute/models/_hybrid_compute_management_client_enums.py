@@ -10,6 +10,15 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
+class AgentConfigurationMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Name of configuration mode to use. Modes are pre-defined configurations of security controls,
+    extension allowlists and guest configuration, maintained by Microsoft.
+    """
+
+    FULL = "full"
+    MONITOR = "monitor"
+
+
 class AssessmentModeTypes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Specifies the assessment mode."""
 
@@ -32,6 +41,20 @@ class InstanceViewTypes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     INSTANCE_VIEW = "instanceView"
 
 
+class LastAttemptStatusEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Specifies the status of Agent Upgrade."""
+
+    SUCCESS = "Success"
+    FAILED = "Failed"
+
+
+class OsType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The operating system type of the machine."""
+
+    WINDOWS = "Windows"
+    LINUX = "Linux"
+
+
 class PatchModeTypes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Specifies the patch mode."""
 
@@ -39,6 +62,46 @@ class PatchModeTypes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     AUTOMATIC_BY_PLATFORM = "AutomaticByPlatform"
     AUTOMATIC_BY_OS = "AutomaticByOS"
     MANUAL = "Manual"
+
+
+class PatchOperationStartedBy(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Indicates if operation was triggered by user or by platform."""
+
+    USER = "User"
+    PLATFORM = "Platform"
+
+
+class PatchOperationStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The overall success or failure status of the operation. It remains "InProgress" until the
+    operation completes. At that point it will become "Unknown", "Failed", "Succeeded", or
+    "CompletedWithWarnings.".
+    """
+
+    UNKNOWN = "Unknown"
+    IN_PROGRESS = "InProgress"
+    FAILED = "Failed"
+    SUCCEEDED = "Succeeded"
+    COMPLETED_WITH_WARNINGS = "CompletedWithWarnings"
+
+
+class PatchServiceUsed(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Specifies the patch service used for the operation."""
+
+    UNKNOWN = "Unknown"
+    WU = "WU"
+    WU_WSUS = "WU_WSUS"
+    YUM = "YUM"
+    APT = "APT"
+    ZYPPER = "Zypper"
+
+
+class PrivateCloudKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Indicates which kind of VM fabric the instance is an instance of, such as HCI or SCVMM etc."""
+
+    AVS = "AVS"
+    HCI = "HCI"
+    SCVMM = "SCVMM"
+    V_MWARE = "VMware"
 
 
 class PublicNetworkAccessType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -68,3 +131,43 @@ class StatusTypes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     CONNECTED = "Connected"
     DISCONNECTED = "Disconnected"
     ERROR = "Error"
+
+
+class VMGuestPatchClassificationLinux(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """VMGuestPatchClassificationLinux."""
+
+    CRITICAL = "Critical"
+    SECURITY = "Security"
+    OTHER = "Other"
+
+
+class VMGuestPatchClassificationWindows(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """VMGuestPatchClassificationWindows."""
+
+    CRITICAL = "Critical"
+    SECURITY = "Security"
+    UPDATE_ROLL_UP = "UpdateRollUp"
+    FEATURE_PACK = "FeaturePack"
+    SERVICE_PACK = "ServicePack"
+    DEFINITION = "Definition"
+    TOOLS = "Tools"
+    UPDATES = "Updates"
+
+
+class VMGuestPatchRebootSetting(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Defines when it is acceptable to reboot a VM during a software update operation."""
+
+    IF_REQUIRED = "IfRequired"
+    NEVER = "Never"
+    ALWAYS = "Always"
+
+
+class VMGuestPatchRebootStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The reboot state of the VM following completion of the operation."""
+
+    UNKNOWN = "Unknown"
+    NOT_NEEDED = "NotNeeded"
+    REQUIRED = "Required"
+    STARTED = "Started"
+    FAILED = "Failed"
+    COMPLETED = "Completed"

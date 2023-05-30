@@ -9,7 +9,12 @@
 from ._machines_operations import MachinesOperations
 from ._machine_extensions_operations import MachineExtensionsOperations
 from ._hybrid_compute_management_client_operations import HybridComputeManagementClientOperationsMixin
+from ._extension_metadata_operations import ExtensionMetadataOperations
 from ._operations import Operations
+from ._network_profile_operations import NetworkProfileOperations
+from ._hybrid_identity_metadata_operations import HybridIdentityMetadataOperations
+from ._agent_version_operations import AgentVersionOperations
+from ._machine_run_commands_operations import MachineRunCommandsOperations
 from ._private_link_scopes_operations import PrivateLinkScopesOperations
 from ._private_link_resources_operations import PrivateLinkResourcesOperations
 from ._private_endpoint_connections_operations import PrivateEndpointConnectionsOperations
@@ -22,7 +27,12 @@ __all__ = [
     "MachinesOperations",
     "MachineExtensionsOperations",
     "HybridComputeManagementClientOperationsMixin",
+    "ExtensionMetadataOperations",
     "Operations",
+    "NetworkProfileOperations",
+    "HybridIdentityMetadataOperations",
+    "AgentVersionOperations",
+    "MachineRunCommandsOperations",
     "PrivateLinkScopesOperations",
     "PrivateLinkResourcesOperations",
     "PrivateEndpointConnectionsOperations",

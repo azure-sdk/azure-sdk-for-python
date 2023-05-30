@@ -29,14 +29,13 @@ def main():
         subscription_id="{subscriptionId}",
     )
 
-    response = client.machine_extensions.begin_delete(
+    client.machine_extensions.begin_delete(
         resource_group_name="myResourceGroup",
         machine_name="myMachine",
         extension_name="MMA",
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/stable/2022-03-10/examples/DELETEExtension.json
+# x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-04-25-preview/examples/DELETEExtension.json
 if __name__ == "__main__":
     main()
