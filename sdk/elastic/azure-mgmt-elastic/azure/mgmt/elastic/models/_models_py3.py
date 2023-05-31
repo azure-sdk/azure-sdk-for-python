@@ -873,6 +873,8 @@ class MarketplaceSaaSInfo(_serialization.Model):
     :vartype marketplace_name: str
     :ivar marketplace_resource_id: Marketplace Subscription Details: Resource URI.
     :vartype marketplace_resource_id: str
+    :ivar marketplace_status: Marketplace Subscription Details: SaaS Subscription Status.
+    :vartype marketplace_status: str
     """
 
     _attribute_map = {
@@ -882,6 +884,7 @@ class MarketplaceSaaSInfo(_serialization.Model):
         },
         "marketplace_name": {"key": "marketplaceName", "type": "str"},
         "marketplace_resource_id": {"key": "marketplaceResourceId", "type": "str"},
+        "marketplace_status": {"key": "marketplaceStatus", "type": "str"},
     }
 
     def __init__(
@@ -890,6 +893,7 @@ class MarketplaceSaaSInfo(_serialization.Model):
         marketplace_subscription: Optional["_models.MarketplaceSaaSInfoMarketplaceSubscription"] = None,
         marketplace_name: Optional[str] = None,
         marketplace_resource_id: Optional[str] = None,
+        marketplace_status: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -900,11 +904,14 @@ class MarketplaceSaaSInfo(_serialization.Model):
         :paramtype marketplace_name: str
         :keyword marketplace_resource_id: Marketplace Subscription Details: Resource URI.
         :paramtype marketplace_resource_id: str
+        :keyword marketplace_status: Marketplace Subscription Details: SaaS Subscription Status.
+        :paramtype marketplace_status: str
         """
         super().__init__(**kwargs)
         self.marketplace_subscription = marketplace_subscription
         self.marketplace_name = marketplace_name
         self.marketplace_resource_id = marketplace_resource_id
+        self.marketplace_status = marketplace_status
 
 
 class MarketplaceSaaSInfoMarketplaceSubscription(_serialization.Model):
