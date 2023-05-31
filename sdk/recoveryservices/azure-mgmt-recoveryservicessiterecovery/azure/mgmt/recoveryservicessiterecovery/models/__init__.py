@@ -19,6 +19,7 @@ from ._models_py3 import A2ACrossClusterMigrationReplicationDetails
 from ._models_py3 import A2AEnableProtectionInput
 from ._models_py3 import A2AEventDetails
 from ._models_py3 import A2AExtendedLocationDetails
+from ._models_py3 import A2AFabricSpecificLocationDetails
 from ._models_py3 import A2APolicyCreationInput
 from ._models_py3 import A2APolicyDetails
 from ._models_py3 import A2AProtectedDiskDetails
@@ -494,6 +495,7 @@ from ._models_py3 import VMwareCbtProtectedDiskDetails
 from ._models_py3 import VMwareCbtProtectionContainerMappingDetails
 from ._models_py3 import VMwareCbtResumeReplicationInput
 from ._models_py3 import VMwareCbtResyncInput
+from ._models_py3 import VMwareCbtSecurityProfileProperties
 from ._models_py3 import VMwareCbtTestMigrateInput
 from ._models_py3 import VMwareCbtUpdateDiskInput
 from ._models_py3 import VMwareCbtUpdateMigrationItemInput
@@ -562,6 +564,7 @@ from ._site_recovery_management_client_enums import RecoveryPointType
 from ._site_recovery_management_client_enums import ReplicationProtectedItemOperation
 from ._site_recovery_management_client_enums import ResyncState
 from ._site_recovery_management_client_enums import RpInMageRecoveryPointType
+from ._site_recovery_management_client_enums import SecurityType
 from ._site_recovery_management_client_enums import SetMultiVmSyncStatus
 from ._site_recovery_management_client_enums import Severity
 from ._site_recovery_management_client_enums import SourceSiteOperations
@@ -587,6 +590,7 @@ __all__ = [
     "A2AEnableProtectionInput",
     "A2AEventDetails",
     "A2AExtendedLocationDetails",
+    "A2AFabricSpecificLocationDetails",
     "A2APolicyCreationInput",
     "A2APolicyDetails",
     "A2AProtectedDiskDetails",
@@ -1062,6 +1066,7 @@ __all__ = [
     "VMwareCbtProtectionContainerMappingDetails",
     "VMwareCbtResumeReplicationInput",
     "VMwareCbtResyncInput",
+    "VMwareCbtSecurityProfileProperties",
     "VMwareCbtTestMigrateInput",
     "VMwareCbtUpdateDiskInput",
     "VMwareCbtUpdateMigrationItemInput",
@@ -1129,6 +1134,7 @@ __all__ = [
     "ReplicationProtectedItemOperation",
     "ResyncState",
     "RpInMageRecoveryPointType",
+    "SecurityType",
     "SetMultiVmSyncStatus",
     "Severity",
     "SourceSiteOperations",
