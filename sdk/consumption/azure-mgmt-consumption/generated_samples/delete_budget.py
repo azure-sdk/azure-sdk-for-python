@@ -29,13 +29,12 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.budgets.delete(
+    client.budgets.delete(
         scope="subscriptions/00000000-0000-0000-0000-000000000000",
         budget_name="TestBudget",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/DeleteBudget.json
+# x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2023-03-01/examples/DeleteBudget.json
 if __name__ == "__main__":
     main()

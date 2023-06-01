@@ -14,7 +14,7 @@ from azure.mgmt.consumption import ConsumptionManagementClient
     pip install azure-identity
     pip install azure-mgmt-consumption
 # USAGE
-    python usage_details_list_by_enrollment_account.py
+    python ea_price_sheet_for_billing_period.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,13 +29,13 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.usage_details.list(
-        scope="providers/Microsoft.Billing/EnrollmentAccounts/1234",
-    )
-    for item in response:
-        print(item)
+    response = client.price_sheet.begin_download_by_billing_account_period(
+        billing_account_id="0000000",
+        billing_period_name="202305",
+    ).result()
+    print(response)
 
 
-# x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2023-03-01/examples/UsageDetailsListByEnrollmentAccount.json
+# x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2023-03-01/examples/EAPriceSheetForBillingPeriod.json
 if __name__ == "__main__":
     main()

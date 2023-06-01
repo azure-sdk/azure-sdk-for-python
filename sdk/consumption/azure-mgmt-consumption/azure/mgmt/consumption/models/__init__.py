@@ -23,7 +23,8 @@ from ._models_py3 import CreditBalanceSummary
 from ._models_py3 import CreditSummary
 from ._models_py3 import CurrentSpend
 from ._models_py3 import DownloadProperties
-from ._models_py3 import ErrorDetails
+from ._models_py3 import ErrorAdditionalInfo
+from ._models_py3 import ErrorDetail
 from ._models_py3 import ErrorResponse
 from ._models_py3 import EventSummary
 from ._models_py3 import Events
@@ -56,6 +57,7 @@ from ._models_py3 import Notification
 from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
 from ._models_py3 import OperationListResult
+from ._models_py3 import OperationStatus
 from ._models_py3 import PriceSheetProperties
 from ._models_py3 import PriceSheetResult
 from ._models_py3 import ProxyResource
@@ -92,6 +94,7 @@ from ._consumption_management_client_enums import EventType
 from ._consumption_management_client_enums import LookBackPeriod
 from ._consumption_management_client_enums import LotSource
 from ._consumption_management_client_enums import Metrictype
+from ._consumption_management_client_enums import OperationStatusType
 from ._consumption_management_client_enums import OperatorType
 from ._consumption_management_client_enums import PricingModelType
 from ._consumption_management_client_enums import ReservationRecommendationKind
@@ -123,7 +126,8 @@ __all__ = [
     "CreditSummary",
     "CurrentSpend",
     "DownloadProperties",
-    "ErrorDetails",
+    "ErrorAdditionalInfo",
+    "ErrorDetail",
     "ErrorResponse",
     "EventSummary",
     "Events",
@@ -156,6 +160,7 @@ __all__ = [
     "Operation",
     "OperationDisplay",
     "OperationListResult",
+    "OperationStatus",
     "PriceSheetProperties",
     "PriceSheetResult",
     "ProxyResource",
@@ -191,6 +196,7 @@ __all__ = [
     "LookBackPeriod",
     "LotSource",
     "Metrictype",
+    "OperationStatusType",
     "OperatorType",
     "PricingModelType",
     "ReservationRecommendationKind",
