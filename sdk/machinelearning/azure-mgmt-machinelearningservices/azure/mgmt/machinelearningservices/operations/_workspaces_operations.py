@@ -45,7 +45,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -80,7 +80,7 @@ def build_create_or_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -113,12 +113,17 @@ def build_create_or_update_request(
 
 
 def build_delete_request(
-    resource_group_name: str, workspace_name: str, subscription_id: str, **kwargs: Any
+    resource_group_name: str,
+    workspace_name: str,
+    subscription_id: str,
+    *,
+    force_to_purge: Optional[bool] = None,
+    **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -140,6 +145,8 @@ def build_delete_request(
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    if force_to_purge is not None:
+        _params["forceToPurge"] = _SERIALIZER.query("force_to_purge", force_to_purge, "bool")
 
     # Construct headers
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
@@ -153,7 +160,7 @@ def build_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -186,12 +193,17 @@ def build_update_request(
 
 
 def build_list_by_resource_group_request(
-    resource_group_name: str, subscription_id: str, *, skip: Optional[str] = None, **kwargs: Any
+    resource_group_name: str,
+    subscription_id: str,
+    *,
+    skip: Optional[str] = None,
+    kind: Optional[str] = None,
+    **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -212,6 +224,8 @@ def build_list_by_resource_group_request(
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
     if skip is not None:
         _params["$skip"] = _SERIALIZER.query("skip", skip, "str")
+    if kind is not None:
+        _params["kind"] = _SERIALIZER.query("kind", kind, "str")
 
     # Construct headers
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
@@ -225,7 +239,7 @@ def build_diagnose_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -263,7 +277,7 @@ def build_list_keys_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -298,7 +312,7 @@ def build_resync_keys_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -328,12 +342,12 @@ def build_resync_keys_request(
 
 
 def build_list_by_subscription_request(
-    subscription_id: str, *, skip: Optional[str] = None, **kwargs: Any
+    subscription_id: str, *, skip: Optional[str] = None, kind: Optional[str] = None, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -350,6 +364,8 @@ def build_list_by_subscription_request(
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
     if skip is not None:
         _params["$skip"] = _SERIALIZER.query("skip", skip, "str")
+    if kind is not None:
+        _params["kind"] = _SERIALIZER.query("kind", kind, "str")
 
     # Construct headers
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
@@ -363,7 +379,7 @@ def build_list_notebook_access_token_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -398,7 +414,7 @@ def build_prepare_notebook_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -433,7 +449,7 @@ def build_list_storage_account_keys_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -468,7 +484,7 @@ def build_list_notebook_keys_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -503,7 +519,7 @@ def build_list_outbound_network_dependencies_endpoints_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -830,7 +846,7 @@ class WorkspacesOperations:
     }
 
     def _delete_initial(  # pylint: disable=inconsistent-return-statements
-        self, resource_group_name: str, workspace_name: str, **kwargs: Any
+        self, resource_group_name: str, workspace_name: str, force_to_purge: Optional[bool] = None, **kwargs: Any
     ) -> None:
         error_map = {
             401: ClientAuthenticationError,
@@ -850,6 +866,7 @@ class WorkspacesOperations:
             resource_group_name=resource_group_name,
             workspace_name=workspace_name,
             subscription_id=self._config.subscription_id,
+            force_to_purge=force_to_purge,
             api_version=api_version,
             template_url=self._delete_initial.metadata["url"],
             headers=_headers,
@@ -878,7 +895,9 @@ class WorkspacesOperations:
     }
 
     @distributed_trace
-    def begin_delete(self, resource_group_name: str, workspace_name: str, **kwargs: Any) -> LROPoller[None]:
+    def begin_delete(
+        self, resource_group_name: str, workspace_name: str, force_to_purge: Optional[bool] = None, **kwargs: Any
+    ) -> LROPoller[None]:
         """Deletes a machine learning workspace.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -886,6 +905,8 @@ class WorkspacesOperations:
         :type resource_group_name: str
         :param workspace_name: Name of Azure Machine Learning workspace. Required.
         :type workspace_name: str
+        :param force_to_purge: Flag to indicate delete is a purge request. Default value is None.
+        :type force_to_purge: bool
         :keyword callable cls: A custom type or function that will be passed the direct response
         :keyword str continuation_token: A continuation token to restart a poller from a saved state.
         :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
@@ -910,6 +931,7 @@ class WorkspacesOperations:
             raw_result = self._delete_initial(  # type: ignore
                 resource_group_name=resource_group_name,
                 workspace_name=workspace_name,
+                force_to_purge=force_to_purge,
                 api_version=api_version,
                 cls=lambda x, y, z: x,
                 headers=_headers,
@@ -1164,7 +1186,7 @@ class WorkspacesOperations:
 
     @distributed_trace
     def list_by_resource_group(
-        self, resource_group_name: str, skip: Optional[str] = None, **kwargs: Any
+        self, resource_group_name: str, skip: Optional[str] = None, kind: Optional[str] = None, **kwargs: Any
     ) -> Iterable["_models.Workspace"]:
         """Lists all the available machine learning workspaces under the specified resource group.
 
@@ -1173,6 +1195,8 @@ class WorkspacesOperations:
         :type resource_group_name: str
         :param skip: Continuation token for pagination. Default value is None.
         :type skip: str
+        :param kind: Kind of workspace. Default value is None.
+        :type kind: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either Workspace or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.machinelearningservices.models.Workspace]
@@ -1199,6 +1223,7 @@ class WorkspacesOperations:
                     resource_group_name=resource_group_name,
                     subscription_id=self._config.subscription_id,
                     skip=skip,
+                    kind=kind,
                     api_version=api_version,
                     template_url=self.list_by_resource_group.metadata["url"],
                     headers=_headers,
@@ -1677,11 +1702,15 @@ class WorkspacesOperations:
     }
 
     @distributed_trace
-    def list_by_subscription(self, skip: Optional[str] = None, **kwargs: Any) -> Iterable["_models.Workspace"]:
+    def list_by_subscription(
+        self, skip: Optional[str] = None, kind: Optional[str] = None, **kwargs: Any
+    ) -> Iterable["_models.Workspace"]:
         """Lists all the available machine learning workspaces under the specified subscription.
 
         :param skip: Continuation token for pagination. Default value is None.
         :type skip: str
+        :param kind: Kind of workspace. Default value is None.
+        :type kind: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either Workspace or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.machinelearningservices.models.Workspace]
@@ -1707,6 +1736,7 @@ class WorkspacesOperations:
                 request = build_list_by_subscription_request(
                     subscription_id=self._config.subscription_id,
                     skip=skip,
+                    kind=kind,
                     api_version=api_version,
                     template_url=self.list_by_subscription.metadata["url"],
                     headers=_headers,
