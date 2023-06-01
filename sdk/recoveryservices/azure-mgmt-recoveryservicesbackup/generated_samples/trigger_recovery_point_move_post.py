@@ -29,7 +29,7 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.begin_move_recovery_point(
+    client.begin_move_recovery_point(
         vault_name="testVault",
         resource_group_name="netsdktestrg",
         fabric_name="Azure",
@@ -42,7 +42,6 @@ def main():
             "targetTierType": "ArchivedRP",
         },
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-02-01/examples/TriggerRecoveryPointMove_Post.json
