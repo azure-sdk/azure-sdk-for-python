@@ -29,7 +29,7 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.backup_resource_encryption_configs.update(
+    client.backup_resource_encryption_configs.update(
         vault_name="source-rsv",
         resource_group_name="test-rg",
         parameters={
@@ -41,7 +41,6 @@ def main():
             }
         },
     )
-    print(response)
 
 
 # x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-02-01/examples/BackupResourceEncryptionConfig_Put.json

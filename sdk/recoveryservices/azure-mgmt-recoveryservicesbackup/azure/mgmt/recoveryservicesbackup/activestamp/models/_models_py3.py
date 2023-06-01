@@ -12396,6 +12396,8 @@ class BackupResourceVaultConfig(_serialization.Model):
      "Enabled", and "Disabled".
     :vartype soft_delete_feature_state: str or
      ~azure.mgmt.recoveryservicesbackup.activestamp.models.SoftDeleteFeatureState
+    :ivar soft_delete_retention_period: Soft delete retention period in days.
+    :vartype soft_delete_retention_period: int
     :ivar resource_guard_operation_requests: ResourceGuard Operation Requests.
     :vartype resource_guard_operation_requests: list[str]
     :ivar is_soft_delete_feature_state_editable: Is soft delete feature state editable.
@@ -12408,6 +12410,7 @@ class BackupResourceVaultConfig(_serialization.Model):
         "storage_type_state": {"key": "storageTypeState", "type": "str"},
         "enhanced_security_state": {"key": "enhancedSecurityState", "type": "str"},
         "soft_delete_feature_state": {"key": "softDeleteFeatureState", "type": "str"},
+        "soft_delete_retention_period": {"key": "softDeleteRetentionPeriod", "type": "int"},
         "resource_guard_operation_requests": {"key": "resourceGuardOperationRequests", "type": "[str]"},
         "is_soft_delete_feature_state_editable": {"key": "isSoftDeleteFeatureStateEditable", "type": "bool"},
     }
@@ -12420,6 +12423,7 @@ class BackupResourceVaultConfig(_serialization.Model):
         storage_type_state: Optional[Union[str, "_models.StorageTypeState"]] = None,
         enhanced_security_state: Optional[Union[str, "_models.EnhancedSecurityState"]] = None,
         soft_delete_feature_state: Optional[Union[str, "_models.SoftDeleteFeatureState"]] = None,
+        soft_delete_retention_period: Optional[int] = None,
         resource_guard_operation_requests: Optional[List[str]] = None,
         is_soft_delete_feature_state_editable: Optional[bool] = None,
         **kwargs: Any
@@ -12446,6 +12450,8 @@ class BackupResourceVaultConfig(_serialization.Model):
          "Enabled", and "Disabled".
         :paramtype soft_delete_feature_state: str or
          ~azure.mgmt.recoveryservicesbackup.activestamp.models.SoftDeleteFeatureState
+        :keyword soft_delete_retention_period: Soft delete retention period in days.
+        :paramtype soft_delete_retention_period: int
         :keyword resource_guard_operation_requests: ResourceGuard Operation Requests.
         :paramtype resource_guard_operation_requests: list[str]
         :keyword is_soft_delete_feature_state_editable: Is soft delete feature state editable.
@@ -12457,6 +12463,7 @@ class BackupResourceVaultConfig(_serialization.Model):
         self.storage_type_state = storage_type_state
         self.enhanced_security_state = enhanced_security_state
         self.soft_delete_feature_state = soft_delete_feature_state
+        self.soft_delete_retention_period = soft_delete_retention_period
         self.resource_guard_operation_requests = resource_guard_operation_requests
         self.is_soft_delete_feature_state_editable = is_soft_delete_feature_state_editable
 
