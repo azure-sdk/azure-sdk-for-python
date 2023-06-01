@@ -14,7 +14,7 @@ from azure.mgmt.eventhub import EventHubManagementClient
     pip install azure-identity
     pip install azure-mgmt-eventhub
 # USAGE
-    python eh_alias_fail_over.py
+    python eh_alias_delete.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,14 +29,13 @@ def main():
         subscription_id="exampleSubscriptionId",
     )
 
-    response = client.disaster_recovery_configs.fail_over(
+    client.disaster_recovery_configs.delete(
         resource_group_name="exampleResourceGroup",
-        namespace_name="sdk-Namespace-8859",
+        namespace_name="sdk-Namespace-5849",
         alias="sdk-DisasterRecovery-3814",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2021-11-01/examples/disasterRecoveryConfigs/EHAliasFailOver.json
+# x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2021-11-01/examples/disasterRecoveryConfigs/EHAliasDelete.json
 if __name__ == "__main__":
     main()

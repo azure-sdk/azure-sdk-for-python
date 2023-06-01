@@ -14,7 +14,7 @@ from azure.mgmt.eventhub import EventHubManagementClient
     pip install azure-identity
     pip install azure-mgmt-eventhub
 # USAGE
-    python eh_alias_break_pairing.py
+    python eh_event_hub_delete.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,17 +26,16 @@ from azure.mgmt.eventhub import EventHubManagementClient
 def main():
     client = EventHubManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="exampleSubscriptionId",
+        subscription_id="5f750a97-50d9-4e36-8081-c9ee4c0210d4",
     )
 
-    response = client.disaster_recovery_configs.break_pairing(
-        resource_group_name="exampleResourceGroup",
-        namespace_name="sdk-Namespace-8859",
-        alias="sdk-DisasterRecovery-3814",
+    client.event_hubs.delete(
+        resource_group_name="ArunMonocle",
+        namespace_name="sdk-Namespace-5357",
+        event_hub_name="sdk-EventHub-6547",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2021-11-01/examples/disasterRecoveryConfigs/EHAliasBreakPairing.json
+# x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2021-11-01/examples/EventHubs/EHEventHubDelete.json
 if __name__ == "__main__":
     main()

@@ -14,7 +14,7 @@ from azure.mgmt.eventhub import EventHubManagementClient
     pip install azure-identity
     pip install azure-mgmt-eventhub
 # USAGE
-    python eh_name_space_authorization_rule_delete.py
+    python schema_registry_delete.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,17 +26,16 @@ from azure.mgmt.eventhub import EventHubManagementClient
 def main():
     client = EventHubManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="5f750a97-50d9-4e36-8081-c9ee4c0210d4",
+        subscription_id="e8baea74-64ce-459b-bee3-5aa4c47b3ae3",
     )
 
-    response = client.namespaces.delete_authorization_rule(
-        resource_group_name="ArunMonocle",
-        namespace_name="sdk-Namespace-8980",
-        authorization_rule_name="sdk-Authrules-8929",
+    client.schema_registry.delete(
+        resource_group_name="alitest",
+        namespace_name="ali-ua-test-eh-system-1",
+        schema_group_name="testSchemaGroup1",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2021-11-01/examples/NameSpaces/EHNameSpaceAuthorizationRuleDelete.json
+# x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2021-11-01/examples/SchemaRegistry/SchemaRegistryDelete.json
 if __name__ == "__main__":
     main()

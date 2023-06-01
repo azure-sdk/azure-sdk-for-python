@@ -14,7 +14,7 @@ from azure.mgmt.eventhub import EventHubManagementClient
     pip install azure-identity
     pip install azure-mgmt-eventhub
 # USAGE
-    python cluster_delete.py
+    python private_end_point_connection_delete.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,13 +29,13 @@ def main():
         subscription_id="5f750a97-50d9-4e36-8081-c9ee4c0210d4",
     )
 
-    response = client.clusters.begin_delete(
-        resource_group_name="myResourceGroup",
-        cluster_name="testCluster",
+    client.private_endpoint_connections.begin_delete(
+        resource_group_name="ArunMonocle",
+        namespace_name="sdk-Namespace-3285",
+        private_endpoint_connection_name="928c44d5-b7c6-423b-b6fa-811e0c27b3e0",
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2021-11-01/examples/Clusters/ClusterDelete.json
+# x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2021-11-01/examples/NameSpaces/PrivateEndPointConnectionDelete.json
 if __name__ == "__main__":
     main()

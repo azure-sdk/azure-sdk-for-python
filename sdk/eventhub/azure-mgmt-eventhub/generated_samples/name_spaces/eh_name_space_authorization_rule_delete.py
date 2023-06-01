@@ -14,7 +14,7 @@ from azure.mgmt.eventhub import EventHubManagementClient
     pip install azure-identity
     pip install azure-mgmt-eventhub
 # USAGE
-    python eh_consumer_group_delete.py
+    python eh_name_space_authorization_rule_delete.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,15 +29,13 @@ def main():
         subscription_id="5f750a97-50d9-4e36-8081-c9ee4c0210d4",
     )
 
-    response = client.consumer_groups.delete(
+    client.namespaces.delete_authorization_rule(
         resource_group_name="ArunMonocle",
-        namespace_name="sdk-Namespace-2661",
-        event_hub_name="sdk-EventHub-6681",
-        consumer_group_name="sdk-ConsumerGroup-5563",
+        namespace_name="sdk-Namespace-8980",
+        authorization_rule_name="sdk-Authrules-8929",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2021-11-01/examples/ConsumerGroup/EHConsumerGroupDelete.json
+# x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2021-11-01/examples/NameSpaces/EHNameSpaceAuthorizationRuleDelete.json
 if __name__ == "__main__":
     main()

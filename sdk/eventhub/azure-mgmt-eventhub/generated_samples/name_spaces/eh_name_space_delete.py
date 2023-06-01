@@ -29,11 +29,10 @@ def main():
         subscription_id="SampleSubscription",
     )
 
-    response = client.namespaces.begin_delete(
+    client.namespaces.begin_delete(
         resource_group_name="ResurceGroupSample",
         namespace_name="NamespaceSample",
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2021-11-01/examples/NameSpaces/EHNameSpaceDelete.json
