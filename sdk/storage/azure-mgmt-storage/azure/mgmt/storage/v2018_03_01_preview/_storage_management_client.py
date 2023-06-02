@@ -17,6 +17,7 @@ from .._serialization import Deserializer, Serializer
 from ._configuration import StorageManagementClientConfiguration
 from .operations import (
     BlobContainersOperations,
+    ManagementPoliciesOperations,
     Operations,
     SkusOperations,
     StorageAccountsOperations,
@@ -43,6 +44,9 @@ class StorageManagementClient:  # pylint: disable=client-accepts-api-version-key
     :ivar blob_containers: BlobContainersOperations operations
     :vartype blob_containers:
      azure.mgmt.storage.v2018_03_01_preview.operations.BlobContainersOperations
+    :ivar management_policies: ManagementPoliciesOperations operations
+    :vartype management_policies:
+     azure.mgmt.storage.v2018_03_01_preview.operations.ManagementPoliciesOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
     :param subscription_id: The ID of the target subscription. Required.
@@ -66,7 +70,7 @@ class StorageManagementClient:  # pylint: disable=client-accepts-api-version-key
         self._config = StorageManagementClientConfiguration(
             credential=credential, subscription_id=subscription_id, **kwargs
         )
-        self._client = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        self._client: ARMPipelineClient = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
@@ -79,6 +83,9 @@ class StorageManagementClient:  # pylint: disable=client-accepts-api-version-key
         )
         self.usages = UsagesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.blob_containers = BlobContainersOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.management_policies = ManagementPoliciesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> HttpResponse:
         """Runs the network request through the client's chained policies.

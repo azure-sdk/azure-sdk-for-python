@@ -29,12 +29,11 @@ def main():
         subscription_id="{subscription-id}",
     )
 
-    response = client.blob_containers.delete(
+    client.blob_containers.delete(
         resource_group_name="res4079",
         account_name="sto4506",
         container_name="container9689",
     )
-    print(response)
 
 
 # x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/BlobContainersDelete.json

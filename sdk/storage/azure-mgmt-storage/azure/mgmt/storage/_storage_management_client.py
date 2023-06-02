@@ -511,7 +511,7 @@ class StorageManagementClient(MultiApiClientMixin, _SDKClient):
     def management_policies(self):
         """Instance depends on the API version:
 
-           * 2018-07-01: :class:`ManagementPoliciesOperations<azure.mgmt.storage.v2018_07_01.operations.ManagementPoliciesOperations>`
+           * 2018-03-01-preview: :class:`ManagementPoliciesOperations<azure.mgmt.storage.v2018_03_01_preview.operations.ManagementPoliciesOperations>`
            * 2018-11-01: :class:`ManagementPoliciesOperations<azure.mgmt.storage.v2018_11_01.operations.ManagementPoliciesOperations>`
            * 2019-04-01: :class:`ManagementPoliciesOperations<azure.mgmt.storage.v2019_04_01.operations.ManagementPoliciesOperations>`
            * 2019-06-01: :class:`ManagementPoliciesOperations<azure.mgmt.storage.v2019_06_01.operations.ManagementPoliciesOperations>`
@@ -526,8 +526,8 @@ class StorageManagementClient(MultiApiClientMixin, _SDKClient):
            * 2022-09-01: :class:`ManagementPoliciesOperations<azure.mgmt.storage.v2022_09_01.operations.ManagementPoliciesOperations>`
         """
         api_version = self._get_api_version('management_policies')
-        if api_version == '2018-07-01':
-            from .v2018_07_01.operations import ManagementPoliciesOperations as OperationClass
+        if api_version == '2018-03-01-preview':
+            from .v2018_03_01_preview.operations import ManagementPoliciesOperations as OperationClass
         elif api_version == '2018-11-01':
             from .v2018_11_01.operations import ManagementPoliciesOperations as OperationClass
         elif api_version == '2019-04-01':

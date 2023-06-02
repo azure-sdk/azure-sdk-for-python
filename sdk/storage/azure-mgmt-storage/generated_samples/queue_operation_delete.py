@@ -29,12 +29,11 @@ def main():
         subscription_id="{subscription-id}",
     )
 
-    response = client.queue.delete(
+    client.queue.delete(
         resource_group_name="res3376",
         account_name="sto328",
         queue_name="queue6185",
     )
-    print(response)
 
 
 # x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/QueueOperationDelete.json

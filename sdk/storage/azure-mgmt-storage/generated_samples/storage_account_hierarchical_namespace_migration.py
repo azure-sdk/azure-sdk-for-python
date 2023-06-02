@@ -29,12 +29,11 @@ def main():
         subscription_id="{subscription-id}",
     )
 
-    response = client.storage_accounts.begin_hierarchical_namespace_migration(
+    client.storage_accounts.begin_hierarchical_namespace_migration(
         resource_group_name="res4228",
         account_name="sto2434",
         request_type="HnsOnValidationRequest",
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/StorageAccountHierarchicalNamespaceMigration.json

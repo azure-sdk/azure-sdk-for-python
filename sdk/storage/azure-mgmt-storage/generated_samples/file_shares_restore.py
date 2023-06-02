@@ -29,13 +29,12 @@ def main():
         subscription_id="{subscription-id}",
     )
 
-    response = client.file_shares.restore(
+    client.file_shares.restore(
         resource_group_name="res3376",
         account_name="sto328",
         share_name="share1249",
         deleted_share={"deletedShareName": "share1249", "deletedShareVersion": "1234567890"},
     )
-    print(response)
 
 
 # x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/FileSharesRestore.json
