@@ -8,7 +8,7 @@
 # --------------------------------------------------------------------------
 
 import datetime
-from typing import List, Optional, TYPE_CHECKING, Union
+from typing import Any, List, Optional, TYPE_CHECKING, Union
 
 from .. import _serialization
 
@@ -49,8 +49,8 @@ class AppliedScopeProperties(_serialization.Model):
         subscription_id: Optional[str] = None,
         resource_group_id: Optional[str] = None,
         display_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tenant_id: Tenant ID where the benefit is applied.
         :paramtype tenant_id: str
@@ -98,8 +98,8 @@ class BillingInformation(_serialization.Model):
         billing_currency_total_paid_amount: Optional["_models.Price"] = None,
         billing_currency_prorated_amount: Optional["_models.Price"] = None,
         billing_currency_remaining_commitment_amount: Optional["_models.Price"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword billing_currency_total_paid_amount:
         :paramtype billing_currency_total_paid_amount: ~azure.mgmt.billingbenefits.models.Price
@@ -143,8 +143,8 @@ class BillingPlanInformation(_serialization.Model):
         start_date: Optional[datetime.date] = None,
         next_payment_due_date: Optional[datetime.date] = None,
         transactions: Optional[List["_models.PaymentDetail"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword pricing_currency_total: Amount of money to be paid for the Order. Tax is not included.
         :paramtype pricing_currency_total: ~azure.mgmt.billingbenefits.models.Price
@@ -178,7 +178,7 @@ class Price(_serialization.Model):
         "amount": {"key": "amount", "type": "float"},
     }
 
-    def __init__(self, *, currency_code: Optional[str] = None, amount: Optional[float] = None, **kwargs):
+    def __init__(self, *, currency_code: Optional[str] = None, amount: Optional[float] = None, **kwargs: Any) -> None:
         """
         :keyword currency_code: The ISO 4217 3-letter currency code for the currency used by this
          purchase record.
@@ -215,8 +215,8 @@ class Commitment(Price):
         currency_code: Optional[str] = None,
         amount: Optional[float] = None,
         grain: Optional[Union[str, "_models.CommitmentGrain"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword currency_code: The ISO 4217 3-letter currency code for the currency used by this
          purchase record.
@@ -251,7 +251,7 @@ class ErrorAdditionalInfo(_serialization.Model):
         "info": {"key": "info", "type": "object"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.type = None
@@ -291,7 +291,7 @@ class ErrorDetail(_serialization.Model):
         "additional_info": {"key": "additionalInfo", "type": "[ErrorAdditionalInfo]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.code = None
@@ -302,7 +302,8 @@ class ErrorDetail(_serialization.Model):
 
 
 class ErrorResponse(_serialization.Model):
-    """Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.).
+    """Common error response for all Azure Resource Manager APIs to return error details for failed
+    operations. (This also follows the OData error response format.).
 
     :ivar error: The error object.
     :vartype error: ~azure.mgmt.billingbenefits.models.ErrorDetail
@@ -312,7 +313,7 @@ class ErrorResponse(_serialization.Model):
         "error": {"key": "error", "type": "ErrorDetail"},
     }
 
-    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs):
+    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs: Any) -> None:
         """
         :keyword error: The error object.
         :paramtype error: ~azure.mgmt.billingbenefits.models.ErrorDetail
@@ -335,7 +336,7 @@ class ExtendedStatusInfo(_serialization.Model):
         "message": {"key": "message", "type": "str"},
     }
 
-    def __init__(self, *, status_code: Optional[str] = None, message: Optional[str] = None, **kwargs):
+    def __init__(self, *, status_code: Optional[str] = None, message: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword status_code: Status code providing additional information.
         :paramtype status_code: str
@@ -384,7 +385,7 @@ class Operation(_serialization.Model):
         "action_type": {"key": "actionType", "type": "str"},
     }
 
-    def __init__(self, *, display: Optional["_models.OperationDisplay"] = None, **kwargs):
+    def __init__(self, *, display: Optional["_models.OperationDisplay"] = None, **kwargs: Any) -> None:
         """
         :keyword display: Localized display information for this particular operation.
         :paramtype display: ~azure.mgmt.billingbenefits.models.OperationDisplay
@@ -430,7 +431,7 @@ class OperationDisplay(_serialization.Model):
         "description": {"key": "description", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.provider = None
@@ -440,7 +441,8 @@ class OperationDisplay(_serialization.Model):
 
 
 class OperationListResult(_serialization.Model):
-    """A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results.
+    """A list of REST API operations supported by an Azure Resource Provider. It contains an URL link
+    to get the next set of results.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -460,7 +462,7 @@ class OperationListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -484,7 +486,7 @@ class OperationResultError(_serialization.Model):
         "message": {"key": "message", "type": "str"},
     }
 
-    def __init__(self, *, code: Optional[str] = None, message: Optional[str] = None, **kwargs):
+    def __init__(self, *, code: Optional[str] = None, message: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword code: Required if status == failed or status == cancelled. If status == failed,
          provide an invariant error code used for error troubleshooting, aggregation, and analysis.
@@ -545,8 +547,8 @@ class PaymentDetail(_serialization.Model):
         billing_currency_total: Optional["_models.Price"] = None,
         status: Optional[Union[str, "_models.PaymentStatus"]] = None,
         billing_account: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword due_date: Date when the payment needs to be done.
         :paramtype due_date: ~datetime.date
@@ -598,8 +600,8 @@ class PricingCurrencyTotal(Price):
         currency_code: Optional[str] = None,
         amount: Optional[float] = None,
         duration: Optional[Union[str, "_models.PricingCurrencyDuration"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword currency_code: The ISO 4217 3-letter currency code for the currency used by this
          purchase record.
@@ -675,8 +677,8 @@ class PurchaseRequest(_serialization.Model):
         commitment: Optional["_models.Commitment"] = None,
         renew: bool = False,
         applied_scope_properties: Optional["_models.AppliedScopeProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword sku: The SKU to be applied for this resource.
         :paramtype sku: ~azure.mgmt.billingbenefits.models.Sku
@@ -726,7 +728,7 @@ class RenewProperties(_serialization.Model):
         "purchase_properties": {"key": "purchaseProperties", "type": "PurchaseRequest"},
     }
 
-    def __init__(self, *, purchase_properties: Optional["_models.PurchaseRequest"] = None, **kwargs):
+    def __init__(self, *, purchase_properties: Optional["_models.PurchaseRequest"] = None, **kwargs: Any) -> None:
         """
         :keyword purchase_properties:
         :paramtype purchase_properties: ~azure.mgmt.billingbenefits.models.PurchaseRequest
@@ -767,7 +769,7 @@ class Resource(_serialization.Model):
         "system_data": {"key": "systemData", "type": "SystemData"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -885,8 +887,8 @@ class ReservationOrderAliasRequest(Resource):  # pylint: disable=too-many-instan
         reserved_resource_properties: Optional[
             "_models.ReservationOrderAliasRequestPropertiesReservedResourceProperties"
         ] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword sku: Reservation order SKU. Required.
         :paramtype sku: ~azure.mgmt.billingbenefits.models.Sku
@@ -957,7 +959,9 @@ class ReservationOrderAliasRequestPropertiesReservedResourceProperties(_serializ
         "instance_flexibility": {"key": "instanceFlexibility", "type": "str"},
     }
 
-    def __init__(self, *, instance_flexibility: Optional[Union[str, "_models.InstanceFlexibility"]] = None, **kwargs):
+    def __init__(
+        self, *, instance_flexibility: Optional[Union[str, "_models.InstanceFlexibility"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword instance_flexibility: Turning this on will apply the reservation discount to other VMs
          in the same VM size group. Known values are: "On" and "Off".
@@ -1083,8 +1087,8 @@ class ReservationOrderAliasResponse(Resource):  # pylint: disable=too-many-insta
         reserved_resource_properties: Optional[
             "_models.ReservationOrderAliasResponsePropertiesReservedResourceProperties"
         ] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword sku: Reservation order SKU. Required.
         :paramtype sku: ~azure.mgmt.billingbenefits.models.Sku
@@ -1156,7 +1160,9 @@ class ReservationOrderAliasResponsePropertiesReservedResourceProperties(_seriali
         "instance_flexibility": {"key": "instanceFlexibility", "type": "str"},
     }
 
-    def __init__(self, *, instance_flexibility: Optional[Union[str, "_models.InstanceFlexibility"]] = None, **kwargs):
+    def __init__(
+        self, *, instance_flexibility: Optional[Union[str, "_models.InstanceFlexibility"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword instance_flexibility: Turning this on will apply the reservation discount to other VMs
          in the same VM size group. Known values are: "On" and "Off".
@@ -1197,8 +1203,8 @@ class RoleAssignmentEntity(_serialization.Model):
         principal_id: Optional[str] = None,
         role_definition_id: Optional[str] = None,
         scope: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: Role assignment entity id.
         :paramtype id: str
@@ -1364,8 +1370,8 @@ class SavingsPlanModel(Resource):  # pylint: disable=too-many-instance-attribute
         renew_source: Optional[str] = None,
         renew_destination: Optional[str] = None,
         renew_properties: Optional["_models.RenewProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword sku: Savings plan SKU. Required.
         :paramtype sku: ~azure.mgmt.billingbenefits.models.Sku
@@ -1443,8 +1449,12 @@ class SavingsPlanModelList(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.SavingsPlanModel"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self,
+        *,
+        value: Optional[List["_models.SavingsPlanModel"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value:
         :paramtype value: list[~azure.mgmt.billingbenefits.models.SavingsPlanModel]
@@ -1481,7 +1491,7 @@ class SavingsPlanModelListResult(_serialization.Model):
         "additional_properties": {"key": "additionalProperties", "type": "[SavingsPlanSummary]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -1534,6 +1544,9 @@ class SavingsPlanOrderAliasModel(Resource):  # pylint: disable=too-many-instance
     :vartype applied_scope_properties: ~azure.mgmt.billingbenefits.models.AppliedScopeProperties
     :ivar commitment: Commitment towards the benefit.
     :vartype commitment: ~azure.mgmt.billingbenefits.models.Commitment
+    :ivar renew: Setting this to true will automatically purchase a new benefit on the expiration
+     date time.
+    :vartype renew: bool
     """
 
     _validation = {
@@ -1562,6 +1575,7 @@ class SavingsPlanOrderAliasModel(Resource):  # pylint: disable=too-many-instance
         "applied_scope_type": {"key": "properties.appliedScopeType", "type": "str"},
         "applied_scope_properties": {"key": "properties.appliedScopeProperties", "type": "AppliedScopeProperties"},
         "commitment": {"key": "properties.commitment", "type": "Commitment"},
+        "renew": {"key": "properties.renew", "type": "bool"},
     }
 
     def __init__(
@@ -1576,8 +1590,9 @@ class SavingsPlanOrderAliasModel(Resource):  # pylint: disable=too-many-instance
         applied_scope_type: Optional[Union[str, "_models.AppliedScopeType"]] = None,
         applied_scope_properties: Optional["_models.AppliedScopeProperties"] = None,
         commitment: Optional["_models.Commitment"] = None,
-        **kwargs
-    ):
+        renew: bool = False,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword sku: Savings plan SKU. Required.
         :paramtype sku: ~azure.mgmt.billingbenefits.models.Sku
@@ -1601,6 +1616,9 @@ class SavingsPlanOrderAliasModel(Resource):  # pylint: disable=too-many-instance
         :paramtype applied_scope_properties: ~azure.mgmt.billingbenefits.models.AppliedScopeProperties
         :keyword commitment: Commitment towards the benefit.
         :paramtype commitment: ~azure.mgmt.billingbenefits.models.Commitment
+        :keyword renew: Setting this to true will automatically purchase a new benefit on the
+         expiration date time.
+        :paramtype renew: bool
         """
         super().__init__(**kwargs)
         self.sku = sku
@@ -1614,6 +1632,7 @@ class SavingsPlanOrderAliasModel(Resource):  # pylint: disable=too-many-instance
         self.applied_scope_type = applied_scope_type
         self.applied_scope_properties = applied_scope_properties
         self.commitment = commitment
+        self.renew = renew
 
 
 class SavingsPlanOrderModel(Resource):  # pylint: disable=too-many-instance-attributes
@@ -1716,8 +1735,8 @@ class SavingsPlanOrderModel(Resource):  # pylint: disable=too-many-instance-attr
         benefit_start_time: Optional[datetime.datetime] = None,
         plan_information: Optional["_models.BillingPlanInformation"] = None,
         savings_plans: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword sku: Savings plan SKU. Required.
         :paramtype sku: ~azure.mgmt.billingbenefits.models.Sku
@@ -1775,8 +1794,8 @@ class SavingsPlanOrderModelList(_serialization.Model):
         *,
         value: Optional[List["_models.SavingsPlanOrderModel"]] = None,
         next_link: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value:
         :paramtype value: list[~azure.mgmt.billingbenefits.models.SavingsPlanOrderModel]
@@ -1799,7 +1818,7 @@ class SavingsPlanPurchaseValidateRequest(_serialization.Model):
         "benefits": {"key": "benefits", "type": "[SavingsPlanOrderAliasModel]"},
     }
 
-    def __init__(self, *, benefits: Optional[List["_models.SavingsPlanOrderAliasModel"]] = None, **kwargs):
+    def __init__(self, *, benefits: Optional[List["_models.SavingsPlanOrderAliasModel"]] = None, **kwargs: Any) -> None:
         """
         :keyword benefits:
         :paramtype benefits: list[~azure.mgmt.billingbenefits.models.SavingsPlanOrderAliasModel]
@@ -1828,7 +1847,7 @@ class SavingsPlanSummary(_serialization.Model):
         "value": {"key": "value", "type": "SavingsPlanSummaryCount"},
     }
 
-    def __init__(self, *, value: Optional["_models.SavingsPlanSummaryCount"] = None, **kwargs):
+    def __init__(self, *, value: Optional["_models.SavingsPlanSummaryCount"] = None, **kwargs: Any) -> None:
         """
         :keyword value: The roll up count summary of savings plans in each state.
         :paramtype value: ~azure.mgmt.billingbenefits.models.SavingsPlanSummaryCount
@@ -1887,7 +1906,7 @@ class SavingsPlanSummaryCount(_serialization.Model):
         "warning_count": {"key": "warningCount", "type": "float"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.succeeded_count = None
@@ -1912,7 +1931,9 @@ class SavingsPlanUpdateRequest(_serialization.Model):
         "properties": {"key": "properties", "type": "SavingsPlanUpdateRequestProperties"},
     }
 
-    def __init__(self, *, properties: Optional["_models.SavingsPlanUpdateRequestProperties"] = None, **kwargs):
+    def __init__(
+        self, *, properties: Optional["_models.SavingsPlanUpdateRequestProperties"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword properties: Savings plan patch request.
         :paramtype properties: ~azure.mgmt.billingbenefits.models.SavingsPlanUpdateRequestProperties
@@ -1955,8 +1976,8 @@ class SavingsPlanUpdateRequestProperties(_serialization.Model):
         applied_scope_properties: Optional["_models.AppliedScopeProperties"] = None,
         renew: bool = False,
         renew_properties: Optional["_models.RenewProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword display_name: Display name.
         :paramtype display_name: str
@@ -1991,7 +2012,9 @@ class SavingsPlanUpdateValidateRequest(_serialization.Model):
         "benefits": {"key": "benefits", "type": "[SavingsPlanUpdateRequestProperties]"},
     }
 
-    def __init__(self, *, benefits: Optional[List["_models.SavingsPlanUpdateRequestProperties"]] = None, **kwargs):
+    def __init__(
+        self, *, benefits: Optional[List["_models.SavingsPlanUpdateRequestProperties"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword benefits:
         :paramtype benefits:
@@ -2020,8 +2043,8 @@ class SavingsPlanValidateResponse(_serialization.Model):
         *,
         benefits: Optional[List["_models.SavingsPlanValidResponseProperty"]] = None,
         next_link: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword benefits:
         :paramtype benefits: list[~azure.mgmt.billingbenefits.models.SavingsPlanValidResponseProperty]
@@ -2051,8 +2074,13 @@ class SavingsPlanValidResponseProperty(_serialization.Model):
     }
 
     def __init__(
-        self, *, valid: Optional[bool] = None, reason_code: Optional[str] = None, reason: Optional[str] = None, **kwargs
-    ):
+        self,
+        *,
+        valid: Optional[bool] = None,
+        reason_code: Optional[str] = None,
+        reason: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword valid: Indicates if the provided input was valid.
         :paramtype valid: bool
@@ -2078,7 +2106,7 @@ class Sku(_serialization.Model):
         "name": {"key": "name", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Name of the SKU to be applied.
         :paramtype name: str
@@ -2124,8 +2152,8 @@ class SystemData(_serialization.Model):
         last_modified_by: Optional[str] = None,
         last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
         last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword created_by: The identity that created the resource.
         :paramtype created_by: str
@@ -2171,7 +2199,7 @@ class Utilization(_serialization.Model):
         "aggregates": {"key": "aggregates", "type": "[UtilizationAggregates]"},
     }
 
-    def __init__(self, *, aggregates: Optional[List["_models.UtilizationAggregates"]] = None, **kwargs):
+    def __init__(self, *, aggregates: Optional[List["_models.UtilizationAggregates"]] = None, **kwargs: Any) -> None:
         """
         :keyword aggregates: The array of aggregates of a savings plan's utilization.
         :paramtype aggregates: list[~azure.mgmt.billingbenefits.models.UtilizationAggregates]
@@ -2210,7 +2238,7 @@ class UtilizationAggregates(_serialization.Model):
         "value_unit": {"key": "valueUnit", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.grain = None
