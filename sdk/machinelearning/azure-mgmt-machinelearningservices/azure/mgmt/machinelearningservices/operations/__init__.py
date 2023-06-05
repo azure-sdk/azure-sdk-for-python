@@ -15,6 +15,8 @@ from ._compute_operations import ComputeOperations
 from ._private_endpoint_connections_operations import PrivateEndpointConnectionsOperations
 from ._private_link_resources_operations import PrivateLinkResourcesOperations
 from ._workspace_connections_operations import WorkspaceConnectionsOperations
+from ._managed_network_settings_rule_operations import ManagedNetworkSettingsRuleOperations
+from ._managed_network_provisions_operations import ManagedNetworkProvisionsOperations
 from ._registry_code_containers_operations import RegistryCodeContainersOperations
 from ._registry_code_versions_operations import RegistryCodeVersionsOperations
 from ._registry_component_containers_operations import RegistryComponentContainersOperations
@@ -36,7 +38,13 @@ from ._data_versions_operations import DataVersionsOperations
 from ._datastores_operations import DatastoresOperations
 from ._environment_containers_operations import EnvironmentContainersOperations
 from ._environment_versions_operations import EnvironmentVersionsOperations
+from ._featureset_containers_operations import FeaturesetContainersOperations
+from ._features_operations import FeaturesOperations
+from ._featureset_versions_operations import FeaturesetVersionsOperations
+from ._featurestore_entity_containers_operations import FeaturestoreEntityContainersOperations
+from ._featurestore_entity_versions_operations import FeaturestoreEntityVersionsOperations
 from ._jobs_operations import JobsOperations
+from ._labeling_jobs_operations import LabelingJobsOperations
 from ._model_containers_operations import ModelContainersOperations
 from ._model_versions_operations import ModelVersionsOperations
 from ._online_endpoints_operations import OnlineEndpointsOperations
@@ -59,6 +67,8 @@ __all__ = [
     "PrivateEndpointConnectionsOperations",
     "PrivateLinkResourcesOperations",
     "WorkspaceConnectionsOperations",
+    "ManagedNetworkSettingsRuleOperations",
+    "ManagedNetworkProvisionsOperations",
     "RegistryCodeContainersOperations",
     "RegistryCodeVersionsOperations",
     "RegistryComponentContainersOperations",
@@ -80,7 +90,13 @@ __all__ = [
     "DatastoresOperations",
     "EnvironmentContainersOperations",
     "EnvironmentVersionsOperations",
+    "FeaturesetContainersOperations",
+    "FeaturesOperations",
+    "FeaturesetVersionsOperations",
+    "FeaturestoreEntityContainersOperations",
+    "FeaturestoreEntityVersionsOperations",
     "JobsOperations",
+    "LabelingJobsOperations",
     "ModelContainersOperations",
     "ModelVersionsOperations",
     "OnlineEndpointsOperations",
