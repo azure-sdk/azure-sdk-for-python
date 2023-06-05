@@ -14,7 +14,7 @@ from azure.mgmt.communication import CommunicationServiceManagementClient
     pip install azure-identity
     pip install azure-mgmt-communication
 # USAGE
-    python cancel_verification.py
+    python list_by_subscription.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,18 +26,14 @@ from azure.mgmt.communication import CommunicationServiceManagementClient
 def main():
     client = CommunicationServiceManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="11112222-3333-4444-5555-666677778888",
+        subscription_id="12345",
     )
 
-    response = client.domains.begin_cancel_verification(
-        resource_group_name="MyResourceGroup",
-        email_service_name="MyEmailServiceResource",
-        domain_name="mydomain.com",
-        parameters={"verificationType": "SPF"},
-    ).result()
-    print(response)
+    response = client.email_services.list_by_subscription()
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-03-31/examples/domains/cancelVerification.json
+# x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-06-01-preview/examples/emailServices/listBySubscription.json
 if __name__ == "__main__":
     main()

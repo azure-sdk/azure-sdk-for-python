@@ -14,7 +14,7 @@ from azure.mgmt.communication import CommunicationServiceManagementClient
     pip install azure-identity
     pip install azure-mgmt-communication
 # USAGE
-    python list_by_domain.py
+    python delete.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,18 +26,16 @@ from azure.mgmt.communication import CommunicationServiceManagementClient
 def main():
     client = CommunicationServiceManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="11112222-3333-4444-5555-666677778888",
+        subscription_id="12345",
     )
 
-    response = client.sender_usernames.list_by_domains(
-        resource_group_name="contosoResourceGroup",
-        email_service_name="contosoEmailService",
-        domain_name="contoso.com",
-    )
-    for item in response:
-        print(item)
+    client.domains.begin_delete(
+        resource_group_name="MyResourceGroup",
+        email_service_name="MyEmailServiceResource",
+        domain_name="mydomain.com",
+    ).result()
 
 
-# x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-03-31/examples/senderUsernames/listByDomain.json
+# x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-06-01-preview/examples/domains/delete.json
 if __name__ == "__main__":
     main()

@@ -14,7 +14,7 @@ from azure.mgmt.communication import CommunicationServiceManagementClient
     pip install azure-identity
     pip install azure-mgmt-communication
 # USAGE
-    python list_by_email_service.py
+    python initiate_verification.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,17 +26,17 @@ from azure.mgmt.communication import CommunicationServiceManagementClient
 def main():
     client = CommunicationServiceManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="11112222-3333-4444-5555-666677778888",
+        subscription_id="12345",
     )
 
-    response = client.domains.list_by_email_service_resource(
+    client.domains.begin_initiate_verification(
         resource_group_name="MyResourceGroup",
         email_service_name="MyEmailServiceResource",
-    )
-    for item in response:
-        print(item)
+        domain_name="mydomain.com",
+        parameters={"verificationType": "SPF"},
+    ).result()
 
 
-# x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-03-31/examples/domains/listByEmailService.json
+# x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-06-01-preview/examples/domains/initiateVerification.json
 if __name__ == "__main__":
     main()

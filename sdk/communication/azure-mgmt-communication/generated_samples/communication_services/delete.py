@@ -14,7 +14,7 @@ from azure.mgmt.communication import CommunicationServiceManagementClient
     pip install azure-identity
     pip install azure-mgmt-communication
 # USAGE
-    python get_verified_exchange_online_domains.py
+    python delete.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,13 +26,15 @@ from azure.mgmt.communication import CommunicationServiceManagementClient
 def main():
     client = CommunicationServiceManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="11112222-3333-4444-5555-666677778888",
+        subscription_id="12345",
     )
 
-    response = client.email_services.list_verified_exchange_online_domains()
-    print(response)
+    client.communication_services.begin_delete(
+        resource_group_name="MyResourceGroup",
+        communication_service_name="MyCommunicationResource",
+    ).result()
 
 
-# x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-03-31/examples/emailServices/getVerifiedExchangeOnlineDomains.json
+# x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-06-01-preview/examples/communicationServices/delete.json
 if __name__ == "__main__":
     main()

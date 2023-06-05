@@ -29,11 +29,8 @@ from ._models_py3 import NameAvailabilityParameters
 from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
 from ._models_py3 import OperationListResult
-from ._models_py3 import ProxyResource
 from ._models_py3 import RegenerateKeyParameters
 from ._models_py3 import Resource
-from ._models_py3 import SenderUsernameResource
-from ._models_py3 import SenderUsernameResourceCollection
 from ._models_py3 import SystemData
 from ._models_py3 import TaggedResource
 from ._models_py3 import TrackedResource
@@ -50,7 +47,6 @@ from ._communication_service_management_client_enums import DomainsProvisioningS
 from ._communication_service_management_client_enums import EmailServicesProvisioningState
 from ._communication_service_management_client_enums import KeyType
 from ._communication_service_management_client_enums import Origin
-from ._communication_service_management_client_enums import ProvisioningState
 from ._communication_service_management_client_enums import UserEngagementTracking
 from ._communication_service_management_client_enums import VerificationStatus
 from ._communication_service_management_client_enums import VerificationType
@@ -82,11 +78,8 @@ __all__ = [
     "Operation",
     "OperationDisplay",
     "OperationListResult",
-    "ProxyResource",
     "RegenerateKeyParameters",
     "Resource",
-    "SenderUsernameResource",
-    "SenderUsernameResourceCollection",
     "SystemData",
     "TaggedResource",
     "TrackedResource",
@@ -102,7 +95,6 @@ __all__ = [
     "EmailServicesProvisioningState",
     "KeyType",
     "Origin",
-    "ProvisioningState",
     "UserEngagementTracking",
     "VerificationStatus",
     "VerificationType",

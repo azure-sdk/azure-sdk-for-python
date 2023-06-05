@@ -14,7 +14,7 @@ from azure.mgmt.communication import CommunicationServiceManagementClient
     pip install azure-identity
     pip install azure-mgmt-communication
 # USAGE
-    python update.py
+    python check_name_availability_available.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,17 +26,18 @@ from azure.mgmt.communication import CommunicationServiceManagementClient
 def main():
     client = CommunicationServiceManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="11112222-3333-4444-5555-666677778888",
+        subscription_id="12345",
     )
 
-    response = client.communication_services.update(
-        resource_group_name="MyResourceGroup",
-        communication_service_name="MyCommunicationResource",
-        parameters={"tags": {"newTag": "newVal"}},
+    response = client.communication_services.check_name_availability(
+        name_availability_parameters={
+            "name": "MyCommunicationService",
+            "type": "Microsoft.Communication/CommunicationServices",
+        },
     )
     print(response)
 
 
-# x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-03-31/examples/communicationServices/update.json
+# x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-06-01-preview/examples/communicationServices/checkNameAvailabilityAvailable.json
 if __name__ == "__main__":
     main()
