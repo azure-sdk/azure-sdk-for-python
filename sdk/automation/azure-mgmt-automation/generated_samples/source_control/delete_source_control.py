@@ -14,7 +14,7 @@ from azure.mgmt.automation import AutomationClient
     pip install azure-identity
     pip install azure-mgmt-automation
 # USAGE
-    python stop_job.py
+    python delete_source_control.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,17 +26,16 @@ from azure.mgmt.automation import AutomationClient
 def main():
     client = AutomationClient(
         credential=DefaultAzureCredential(),
-        subscription_id="51766542-3ed7-4a72-a187-0c8ab644ddab",
+        subscription_id="subid",
     )
 
-    response = client.job.stop(
-        resource_group_name="mygroup",
-        automation_account_name="ContoseAutomationAccount",
-        job_name="foo",
+    client.source_control.delete(
+        resource_group_name="rg",
+        automation_account_name="sampleAccount9",
+        source_control_name="sampleSourceControl",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2022-08-08/examples/job/stopJob.json
+# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2022-08-08/examples/sourceControl/deleteSourceControl.json
 if __name__ == "__main__":
     main()
