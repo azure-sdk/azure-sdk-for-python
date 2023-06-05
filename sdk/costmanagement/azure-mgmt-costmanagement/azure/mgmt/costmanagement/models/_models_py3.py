@@ -540,6 +540,63 @@ class AllSavingsList(_serialization.Model):
         self.next_link = None
 
 
+class AsyncOperationStatusProperties(_serialization.Model):
+    """Object representing the report url and valid until date of the async report generated.
+
+    :ivar report_url: Sas url to the async benefit utilization summaries report. Will be empty if
+     the report is in Running or Failed state. Known values are: "Kind", "AvgUtilizationPercentage",
+     "BenefitOrderId", "BenefitId", "BenefitType", "MaxUtilizationPercentage",
+     "MinUtilizationPercentage", "UsageDate", and "UtilizedPercentage".
+    :vartype report_url: str or
+     ~azure.mgmt.costmanagement.models.BenefitUtilizationSummaryReportSchema
+    :ivar secondary_report_url: Sas url to async benefit utilization summaries report in secondary
+     storage in case of primary outage. Will be empty if the report is in Running or Failed state.
+     Known values are: "Kind", "AvgUtilizationPercentage", "BenefitOrderId", "BenefitId",
+     "BenefitType", "MaxUtilizationPercentage", "MinUtilizationPercentage", "UsageDate", and
+     "UtilizedPercentage".
+    :vartype secondary_report_url: str or
+     ~azure.mgmt.costmanagement.models.BenefitUtilizationSummaryReportSchema
+    :ivar valid_until: The date that the sas url provided in reportUrl expires.
+    :vartype valid_until: ~datetime.datetime
+    """
+
+    _attribute_map = {
+        "report_url": {"key": "reportUrl", "type": "str"},
+        "secondary_report_url": {"key": "secondaryReportUrl", "type": "str"},
+        "valid_until": {"key": "validUntil", "type": "iso-8601"},
+    }
+
+    def __init__(
+        self,
+        *,
+        report_url: Optional[Union[str, "_models.BenefitUtilizationSummaryReportSchema"]] = None,
+        secondary_report_url: Optional[Union[str, "_models.BenefitUtilizationSummaryReportSchema"]] = None,
+        valid_until: Optional[datetime.datetime] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword report_url: Sas url to the async benefit utilization summaries report. Will be empty
+         if the report is in Running or Failed state. Known values are: "Kind",
+         "AvgUtilizationPercentage", "BenefitOrderId", "BenefitId", "BenefitType",
+         "MaxUtilizationPercentage", "MinUtilizationPercentage", "UsageDate", and "UtilizedPercentage".
+        :paramtype report_url: str or
+         ~azure.mgmt.costmanagement.models.BenefitUtilizationSummaryReportSchema
+        :keyword secondary_report_url: Sas url to async benefit utilization summaries report in
+         secondary storage in case of primary outage. Will be empty if the report is in Running or
+         Failed state. Known values are: "Kind", "AvgUtilizationPercentage", "BenefitOrderId",
+         "BenefitId", "BenefitType", "MaxUtilizationPercentage", "MinUtilizationPercentage",
+         "UsageDate", and "UtilizedPercentage".
+        :paramtype secondary_report_url: str or
+         ~azure.mgmt.costmanagement.models.BenefitUtilizationSummaryReportSchema
+        :keyword valid_until: The date that the sas url provided in reportUrl expires.
+        :paramtype valid_until: ~datetime.datetime
+        """
+        super().__init__(**kwargs)
+        self.report_url = report_url
+        self.secondary_report_url = secondary_report_url
+        self.valid_until = valid_until
+
+
 class Resource(_serialization.Model):
     """Common fields that are returned in the response for all Azure Resource Manager resources.
 
@@ -846,6 +903,154 @@ class BenefitUtilizationSummariesListResult(_serialization.Model):
         super().__init__(**kwargs)
         self.value = None
         self.next_link = None
+
+
+class BenefitUtilizationSummariesOperationStatus(_serialization.Model):
+    """Status of a benefit utilization summaries report. Provides Async Benefit Utilization Summaries
+    Request input, status, and report sas url.
+
+    :ivar input: Input given to create the benefit utilization summaries report.
+    :vartype input: ~azure.mgmt.costmanagement.models.BenefitUtilizationSummariesRequest
+    :ivar status: The status of the creation of the benefit utilization summaries report. Known
+     values are: "Running", "Complete", "Failed", and "Completed".
+    :vartype status: str or ~azure.mgmt.costmanagement.models.OperationStatusType
+    :ivar properties: Contains sas url to the async benefit utilization summaries report and a date
+     that the url is valid until. These values will be empty if the report is in a Running or Failed
+     state.
+    :vartype properties: ~azure.mgmt.costmanagement.models.AsyncOperationStatusProperties
+    """
+
+    _attribute_map = {
+        "input": {"key": "input", "type": "BenefitUtilizationSummariesRequest"},
+        "status": {"key": "status", "type": "str"},
+        "properties": {"key": "properties", "type": "AsyncOperationStatusProperties"},
+    }
+
+    def __init__(
+        self,
+        *,
+        input: Optional["_models.BenefitUtilizationSummariesRequest"] = None,
+        status: Optional[Union[str, "_models.OperationStatusType"]] = None,
+        properties: Optional["_models.AsyncOperationStatusProperties"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword input: Input given to create the benefit utilization summaries report.
+        :paramtype input: ~azure.mgmt.costmanagement.models.BenefitUtilizationSummariesRequest
+        :keyword status: The status of the creation of the benefit utilization summaries report. Known
+         values are: "Running", "Complete", "Failed", and "Completed".
+        :paramtype status: str or ~azure.mgmt.costmanagement.models.OperationStatusType
+        :keyword properties: Contains sas url to the async benefit utilization summaries report and a
+         date that the url is valid until. These values will be empty if the report is in a Running or
+         Failed state.
+        :paramtype properties: ~azure.mgmt.costmanagement.models.AsyncOperationStatusProperties
+        """
+        super().__init__(**kwargs)
+        self.input = input
+        self.status = status
+        self.properties = properties
+
+
+class BenefitUtilizationSummariesRequest(_serialization.Model):
+    """Properties of an async benefit utilization summaries request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar billing_account_id: Billing account the benefit utilization summaries report is for.
+     Required for billing account and billing profile scopes. Not supported for any benefit scopes.
+    :vartype billing_account_id: str
+    :ivar billing_profile_id: Billing profile id the benefit utilization summaries report is for.
+     Required for billing profile scope. Not supported for billing account or any benefit scopes.
+    :vartype billing_profile_id: str
+    :ivar benefit_order_id: Benefit order id the benefit utilization summaries report is for.
+     Required for benefit order and benefit id scopes. Not supported for any billing scopes.
+    :vartype benefit_order_id: str
+    :ivar benefit_id: Benefit id the benefit utilization summaries report is for. Required for
+     benefit id scope. Not supported for benefit order or any billing scopes.
+    :vartype benefit_id: str
+    :ivar grain: The grain the summaries data is served at in the report. Accepted values are
+     'Daily' or 'Monthly'. Required. Known values are: "Hourly", "Daily", and "Monthly".
+    :vartype grain: str or ~azure.mgmt.costmanagement.models.Grain
+    :ivar start_date: The start date of the summaries data that will be served in the report.
+     Required.
+    :vartype start_date: ~datetime.datetime
+    :ivar end_date: The end date of the summaries data that will be served in the report. Required.
+    :vartype end_date: ~datetime.datetime
+    :ivar kind: The type of benefit data requested. Required for billing account and billing
+     profile scopes. Implied and not to be passed at benefit scopes. Supported values are
+     Reservation and SavingsPlan. Known values are: "IncludedQuantity", "Reservation", and
+     "SavingsPlan".
+    :vartype kind: str or ~azure.mgmt.costmanagement.models.BenefitKind
+    """
+
+    _validation = {
+        "grain": {"required": True},
+        "start_date": {"required": True},
+        "end_date": {"required": True},
+    }
+
+    _attribute_map = {
+        "billing_account_id": {"key": "billingAccountId", "type": "str"},
+        "billing_profile_id": {"key": "billingProfileId", "type": "str"},
+        "benefit_order_id": {"key": "benefitOrderId", "type": "str"},
+        "benefit_id": {"key": "benefitId", "type": "str"},
+        "grain": {"key": "grain", "type": "str"},
+        "start_date": {"key": "startDate", "type": "iso-8601"},
+        "end_date": {"key": "endDate", "type": "iso-8601"},
+        "kind": {"key": "kind", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        grain: Union[str, "_models.Grain"],
+        start_date: datetime.datetime,
+        end_date: datetime.datetime,
+        billing_account_id: Optional[str] = None,
+        billing_profile_id: Optional[str] = None,
+        benefit_order_id: Optional[str] = None,
+        benefit_id: Optional[str] = None,
+        kind: Optional[Union[str, "_models.BenefitKind"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword billing_account_id: Billing account the benefit utilization summaries report is for.
+         Required for billing account and billing profile scopes. Not supported for any benefit scopes.
+        :paramtype billing_account_id: str
+        :keyword billing_profile_id: Billing profile id the benefit utilization summaries report is
+         for. Required for billing profile scope. Not supported for billing account or any benefit
+         scopes.
+        :paramtype billing_profile_id: str
+        :keyword benefit_order_id: Benefit order id the benefit utilization summaries report is for.
+         Required for benefit order and benefit id scopes. Not supported for any billing scopes.
+        :paramtype benefit_order_id: str
+        :keyword benefit_id: Benefit id the benefit utilization summaries report is for. Required for
+         benefit id scope. Not supported for benefit order or any billing scopes.
+        :paramtype benefit_id: str
+        :keyword grain: The grain the summaries data is served at in the report. Accepted values are
+         'Daily' or 'Monthly'. Required. Known values are: "Hourly", "Daily", and "Monthly".
+        :paramtype grain: str or ~azure.mgmt.costmanagement.models.Grain
+        :keyword start_date: The start date of the summaries data that will be served in the report.
+         Required.
+        :paramtype start_date: ~datetime.datetime
+        :keyword end_date: The end date of the summaries data that will be served in the report.
+         Required.
+        :paramtype end_date: ~datetime.datetime
+        :keyword kind: The type of benefit data requested. Required for billing account and billing
+         profile scopes. Implied and not to be passed at benefit scopes. Supported values are
+         Reservation and SavingsPlan. Known values are: "IncludedQuantity", "Reservation", and
+         "SavingsPlan".
+        :paramtype kind: str or ~azure.mgmt.costmanagement.models.BenefitKind
+        """
+        super().__init__(**kwargs)
+        self.billing_account_id = billing_account_id
+        self.billing_profile_id = billing_profile_id
+        self.benefit_order_id = benefit_order_id
+        self.benefit_id = benefit_id
+        self.grain = grain
+        self.start_date = start_date
+        self.end_date = end_date
+        self.kind = kind
 
 
 class BenefitUtilizationSummary(Resource):
@@ -1679,13 +1884,84 @@ class DownloadURL(_serialization.Model):
         self.download_url = download_url
 
 
+class ErrorAdditionalInfo(_serialization.Model):
+    """The resource management error additional info.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar type: The additional info type.
+    :vartype type: str
+    :ivar info: The additional info.
+    :vartype info: JSON
+    """
+
+    _validation = {
+        "type": {"readonly": True},
+        "info": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "type": {"key": "type", "type": "str"},
+        "info": {"key": "info", "type": "object"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.type = None
+        self.info = None
+
+
+class ErrorDetail(_serialization.Model):
+    """The error detail.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar code: The error code.
+    :vartype code: str
+    :ivar message: The error message.
+    :vartype message: str
+    :ivar target: The error target.
+    :vartype target: str
+    :ivar details: The error details.
+    :vartype details: list[~azure.mgmt.costmanagement.models.ErrorDetail]
+    :ivar additional_info: The error additional info.
+    :vartype additional_info: list[~azure.mgmt.costmanagement.models.ErrorAdditionalInfo]
+    """
+
+    _validation = {
+        "code": {"readonly": True},
+        "message": {"readonly": True},
+        "target": {"readonly": True},
+        "details": {"readonly": True},
+        "additional_info": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "code": {"key": "code", "type": "str"},
+        "message": {"key": "message", "type": "str"},
+        "target": {"key": "target", "type": "str"},
+        "details": {"key": "details", "type": "[ErrorDetail]"},
+        "additional_info": {"key": "additionalInfo", "type": "[ErrorAdditionalInfo]"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.code = None
+        self.message = None
+        self.target = None
+        self.details = None
+        self.additional_info = None
+
+
 class ErrorDetails(_serialization.Model):
     """The details of the error.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar code: Error code.
-    :vartype code: int
+    :vartype code: str
     :ivar message: Error message indicating why the operation failed.
     :vartype message: str
     """
@@ -1696,7 +1972,7 @@ class ErrorDetails(_serialization.Model):
     }
 
     _attribute_map = {
-        "code": {"key": "code", "type": "int"},
+        "code": {"key": "code", "type": "str"},
         "message": {"key": "message", "type": "str"},
     }
 
@@ -1713,7 +1989,7 @@ class ErrorDetailsWithNestedDetails(ErrorDetails):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar code: Error code.
-    :vartype code: int
+    :vartype code: str
     :ivar message: Error message indicating why the operation failed.
     :vartype message: str
     :ivar details: The additional details of the error.
@@ -1727,7 +2003,7 @@ class ErrorDetailsWithNestedDetails(ErrorDetails):
     }
 
     _attribute_map = {
-        "code": {"key": "code", "type": "int"},
+        "code": {"key": "code", "type": "str"},
         "message": {"key": "message", "type": "str"},
         "details": {"key": "details", "type": "[ErrorDetailsWithNestedDetails]"},
     }
@@ -1765,6 +2041,27 @@ class ErrorResponse(_serialization.Model):
         """
         :keyword error: The details of the error.
         :paramtype error: ~azure.mgmt.costmanagement.models.ErrorDetails
+        """
+        super().__init__(**kwargs)
+        self.error = error
+
+
+class ErrorResponseAutoGenerated(_serialization.Model):
+    """Common error response for all Azure Resource Manager APIs to return error details for failed
+    operations. (This also follows the OData error response format.).
+
+    :ivar error: The error object.
+    :vartype error: ~azure.mgmt.costmanagement.models.ErrorDetail
+    """
+
+    _attribute_map = {
+        "error": {"key": "error", "type": "ErrorDetail"},
+    }
+
+    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs: Any) -> None:
+        """
+        :keyword error: The error object.
+        :paramtype error: ~azure.mgmt.costmanagement.models.ErrorDetail
         """
         super().__init__(**kwargs)
         self.error = error
@@ -3642,7 +3939,7 @@ class OperationStatus(_serialization.Model):
     """The status of the long running operation.
 
     :ivar status: The status of the long running operation. Known values are: "Running",
-     "Completed", and "Failed".
+     "Complete", "Failed", and "Completed".
     :vartype status: str or ~azure.mgmt.costmanagement.models.OperationStatusType
     :ivar report_url: The CSV file from the reportUrl blob link consists of reservation usage data
      with the following schema at daily granularity. Known values are: "InstanceFlexibilityGroup",
@@ -3669,7 +3966,7 @@ class OperationStatus(_serialization.Model):
     ) -> None:
         """
         :keyword status: The status of the long running operation. Known values are: "Running",
-         "Completed", and "Failed".
+         "Complete", "Failed", and "Completed".
         :paramtype status: str or ~azure.mgmt.costmanagement.models.OperationStatusType
         :keyword report_url: The CSV file from the reportUrl blob link consists of reservation usage
          data with the following schema at daily granularity. Known values are:
@@ -4583,14 +4880,14 @@ class SavingsPlanUtilizationSummary(BenefitUtilizationSummary):  # pylint: disab
     :vartype usage_date: ~datetime.datetime
     :ivar avg_utilization_percentage: This is the average hourly utilization for each date range
      that corresponds to given grain (Daily, Monthly). Suppose the API call is for usageDate >
-     2022-10-01 and usageDate < 2022-10-31 at a daily granularity. There will be one record per
+     2023-03-01 and usageDate < 2022-10-31 at a daily granularity. There will be one record per
      benefit id for each day. For a single day, the avgUtilizationPercentage value will be equal to
      the average of the set of values where the set contains 24 utilization percentage entries one
      for each hour in a specific day.
     :vartype avg_utilization_percentage: float
     :ivar min_utilization_percentage: This is the minimum hourly utilization for each date range
      that corresponds to given grain (Daily, Monthly). Suppose the API call is for usageDate >
-     2022-10-01 and usageDate < 2022-10-31 at a daily granularity. There will be one record per
+     2023-03-01 and usageDate < 2022-10-31 at a daily granularity. There will be one record per
      benefit id for each day. For a single day, the minUtilizationPercentage value will be equal to
      the smallest in the set of values where the set contains 24 utilization percentage entries one
      for each hour in a specific day. If on the day 2022-10-18, the lowest utilization percentage
@@ -4598,7 +4895,7 @@ class SavingsPlanUtilizationSummary(BenefitUtilizationSummary):  # pylint: disab
     :vartype min_utilization_percentage: float
     :ivar max_utilization_percentage: This is the maximum hourly utilization for each date range
      that corresponds to given grain (Daily, Monthly). Suppose the API call is for usageDate >
-     2022-10-01 and usageDate < 2022-10-31 at a daily granularity. There will be one record per
+     2023-03-01 and usageDate < 2022-10-31 at a daily granularity. There will be one record per
      benefit id for each day. For a single day, the maxUtilizationPercentage value will be equal to
      the largest in the set of values where the set contains 24 utilization percentage entries one
      for each hour in a specific day. If on the day 2022-10-18, the largest utilization percentage
@@ -4672,14 +4969,14 @@ class SavingsPlanUtilizationSummaryProperties(BenefitUtilizationSummaryPropertie
     :vartype usage_date: ~datetime.datetime
     :ivar avg_utilization_percentage: This is the average hourly utilization for each date range
      that corresponds to given grain (Daily, Monthly). Suppose the API call is for usageDate >
-     2022-10-01 and usageDate < 2022-10-31 at a daily granularity. There will be one record per
+     2023-03-01 and usageDate < 2022-10-31 at a daily granularity. There will be one record per
      benefit id for each day. For a single day, the avgUtilizationPercentage value will be equal to
      the average of the set of values where the set contains 24 utilization percentage entries one
      for each hour in a specific day.
     :vartype avg_utilization_percentage: float
     :ivar min_utilization_percentage: This is the minimum hourly utilization for each date range
      that corresponds to given grain (Daily, Monthly). Suppose the API call is for usageDate >
-     2022-10-01 and usageDate < 2022-10-31 at a daily granularity. There will be one record per
+     2023-03-01 and usageDate < 2022-10-31 at a daily granularity. There will be one record per
      benefit id for each day. For a single day, the minUtilizationPercentage value will be equal to
      the smallest in the set of values where the set contains 24 utilization percentage entries one
      for each hour in a specific day. If on the day 2022-10-18, the lowest utilization percentage
@@ -4687,7 +4984,7 @@ class SavingsPlanUtilizationSummaryProperties(BenefitUtilizationSummaryPropertie
     :vartype min_utilization_percentage: float
     :ivar max_utilization_percentage: This is the maximum hourly utilization for each date range
      that corresponds to given grain (Daily, Monthly). Suppose the API call is for usageDate >
-     2022-10-01 and usageDate < 2022-10-31 at a daily granularity. There will be one record per
+     2023-03-01 and usageDate < 2022-10-31 at a daily granularity. There will be one record per
      benefit id for each day. For a single day, the maxUtilizationPercentage value will be equal to
      the largest in the set of values where the set contains 24 utilization percentage entries one
      for each hour in a specific day. If on the day 2022-10-18, the largest utilization percentage
@@ -5436,8 +5733,6 @@ class View(CostManagementProxyResource):  # pylint: disable=too-many-instance-at
         "name": {"readonly": True},
         "type": {"readonly": True},
         "created_on": {"readonly": True},
-        "modified_on": {"readonly": True},
-        "date_range": {"readonly": True},
         "currency": {"readonly": True},
     }
 
@@ -5470,6 +5765,8 @@ class View(CostManagementProxyResource):  # pylint: disable=too-many-instance-at
         e_tag: Optional[str] = None,
         display_name: Optional[str] = None,
         scope: Optional[str] = None,
+        modified_on: Optional[datetime.datetime] = None,
+        date_range: Optional[str] = None,
         chart: Optional[Union[str, "_models.ChartType"]] = None,
         accumulated: Optional[Union[str, "_models.AccumulatedType"]] = None,
         metric: Optional[Union[str, "_models.MetricType"]] = None,
@@ -5506,6 +5803,10 @@ class View(CostManagementProxyResource):  # pylint: disable=too-many-instance-at
          '/providers/Microsoft.CostManagement/externalSubscriptions/{externalSubscriptionName}' for
          ExternalSubscription scope.
         :paramtype scope: str
+        :keyword modified_on: Date when the user last modified this view.
+        :paramtype modified_on: ~datetime.datetime
+        :keyword date_range: Date range of the current view.
+        :paramtype date_range: str
         :keyword chart: Chart type of the main view in Cost Analysis. Required. Known values are:
          "Area", "Line", "StackedColumn", "GroupedColumn", and "Table".
         :paramtype chart: str or ~azure.mgmt.costmanagement.models.ChartType
@@ -5537,8 +5838,8 @@ class View(CostManagementProxyResource):  # pylint: disable=too-many-instance-at
         self.display_name = display_name
         self.scope = scope
         self.created_on = None
-        self.modified_on = None
-        self.date_range = None
+        self.modified_on = modified_on
+        self.date_range = date_range
         self.currency = None
         self.chart = chart
         self.accumulated = accumulated

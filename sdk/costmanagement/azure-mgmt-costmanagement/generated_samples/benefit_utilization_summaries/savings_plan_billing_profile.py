@@ -14,7 +14,7 @@ from azure.mgmt.costmanagement import CostManagementClient
     pip install azure-identity
     pip install azure-mgmt-costmanagement
 # USAGE
-    python scheduled_actionslist_with_filtershared.py
+    python savings_plan_billing_profile.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -28,13 +28,14 @@ def main():
         credential=DefaultAzureCredential(),
     )
 
-    response = client.scheduled_actions.list_by_scope(
-        scope="subscriptions/00000000-0000-0000-0000-000000000000",
+    response = client.benefit_utilization_summaries.list_by_billing_profile_id(
+        billing_account_id="c0a00000-0e04-5ee3-000e-f0c6e00000ec:c0a00000-0e04-5ee3-000e-f0c6e00000ec",
+        billing_profile_id="200e5e90-000e-4960-8dcd-8d00a02db000",
     )
     for item in response:
         print(item)
 
 
-# x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/scheduledActions/scheduledActions-listWithFilter-shared.json
+# x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2023-03-01/examples/BenefitUtilizationSummaries/SavingsPlan-BillingProfile.json
 if __name__ == "__main__":
     main()

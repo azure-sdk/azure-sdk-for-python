@@ -14,7 +14,7 @@ from azure.mgmt.costmanagement import CostManagementClient
     pip install azure-identity
     pip install azure-mgmt-costmanagement
 # USAGE
-    python check_name_availabilityprivatescheduled_action.py
+    python generate_benefit_utilization_summaries_report_by_billing_account.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -28,12 +28,18 @@ def main():
         credential=DefaultAzureCredential(),
     )
 
-    response = client.scheduled_actions.check_name_availability(
-        check_name_availability_request={"name": "testName", "type": "Microsoft.CostManagement/ScheduledActions"},
-    )
+    response = client.generate_benefit_utilization_summaries_report.begin_generate_by_billing_account(
+        billing_account_id="8099099",
+        benefit_utilization_summaries_request={
+            "endDate": "2022-08-31T00:00:00Z",
+            "grain": "Daily",
+            "kind": "Reservation",
+            "startDate": "2022-06-01T00:00:00Z",
+        },
+    ).result()
     print(response)
 
 
-# x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/scheduledActions/checkNameAvailability-private-scheduledAction.json
+# x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2023-03-01/examples/BenefitUtilizationSummaries/Async/GenerateBenefitUtilizationSummariesReportByBillingAccount.json
 if __name__ == "__main__":
     main()
