@@ -54,7 +54,7 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no Retry-After header is present.
     """
 
-    DEFAULT_API_VERSION = '2022-09-01'
+    DEFAULT_API_VERSION = '2022-03-01'
     _PROFILE_TAG = "azure.mgmt.web.WebSiteManagementClient"
     LATEST_PROFILE = ProfileDefinition({
         _PROFILE_TAG: {
@@ -102,7 +102,7 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
            * 2020-12-01: :mod:`v2020_12_01.models<azure.mgmt.web.v2020_12_01.models>`
            * 2021-01-01: :mod:`v2021_01_01.models<azure.mgmt.web.v2021_01_01.models>`
            * 2021-01-15: :mod:`v2021_01_15.models<azure.mgmt.web.v2021_01_15.models>`
-           * 2022-09-01: :mod:`v2022_09_01.models<azure.mgmt.web.v2022_09_01.models>`
+           * 2022-03-01: :mod:`v2022_03_01.models<azure.mgmt.web.v2022_03_01.models>`
         """
         if api_version == '2015-04-01':
             from ..v2015_04_01 import models
@@ -143,8 +143,8 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
         elif api_version == '2021-01-15':
             from ..v2021_01_15 import models
             return models
-        elif api_version == '2022-09-01':
-            from ..v2022_09_01 import models
+        elif api_version == '2022-03-01':
+            from ..v2022_03_01 import models
             return models
         raise ValueError("API version {} is not available".format(api_version))
 
@@ -160,7 +160,7 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
            * 2020-12-01: :class:`AppServiceCertificateOrdersOperations<azure.mgmt.web.v2020_12_01.aio.operations.AppServiceCertificateOrdersOperations>`
            * 2021-01-01: :class:`AppServiceCertificateOrdersOperations<azure.mgmt.web.v2021_01_01.aio.operations.AppServiceCertificateOrdersOperations>`
            * 2021-01-15: :class:`AppServiceCertificateOrdersOperations<azure.mgmt.web.v2021_01_15.aio.operations.AppServiceCertificateOrdersOperations>`
-           * 2022-09-01: :class:`AppServiceCertificateOrdersOperations<azure.mgmt.web.v2022_09_01.aio.operations.AppServiceCertificateOrdersOperations>`
+           * 2022-03-01: :class:`AppServiceCertificateOrdersOperations<azure.mgmt.web.v2022_03_01.aio.operations.AppServiceCertificateOrdersOperations>`
         """
         api_version = self._get_api_version('app_service_certificate_orders')
         if api_version == '2015-08-01':
@@ -179,8 +179,8 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
             from ..v2021_01_01.aio.operations import AppServiceCertificateOrdersOperations as OperationClass
         elif api_version == '2021-01-15':
             from ..v2021_01_15.aio.operations import AppServiceCertificateOrdersOperations as OperationClass
-        elif api_version == '2022-09-01':
-            from ..v2022_09_01.aio.operations import AppServiceCertificateOrdersOperations as OperationClass
+        elif api_version == '2022-03-01':
+            from ..v2022_03_01.aio.operations import AppServiceCertificateOrdersOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'app_service_certificate_orders'".format(api_version))
         self._config.api_version = api_version
@@ -198,7 +198,7 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
            * 2020-12-01: :class:`AppServiceEnvironmentsOperations<azure.mgmt.web.v2020_12_01.aio.operations.AppServiceEnvironmentsOperations>`
            * 2021-01-01: :class:`AppServiceEnvironmentsOperations<azure.mgmt.web.v2021_01_01.aio.operations.AppServiceEnvironmentsOperations>`
            * 2021-01-15: :class:`AppServiceEnvironmentsOperations<azure.mgmt.web.v2021_01_15.aio.operations.AppServiceEnvironmentsOperations>`
-           * 2022-09-01: :class:`AppServiceEnvironmentsOperations<azure.mgmt.web.v2022_09_01.aio.operations.AppServiceEnvironmentsOperations>`
+           * 2022-03-01: :class:`AppServiceEnvironmentsOperations<azure.mgmt.web.v2022_03_01.aio.operations.AppServiceEnvironmentsOperations>`
         """
         api_version = self._get_api_version('app_service_environments')
         if api_version == '2016-09-01':
@@ -217,8 +217,8 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
             from ..v2021_01_01.aio.operations import AppServiceEnvironmentsOperations as OperationClass
         elif api_version == '2021-01-15':
             from ..v2021_01_15.aio.operations import AppServiceEnvironmentsOperations as OperationClass
-        elif api_version == '2022-09-01':
-            from ..v2022_09_01.aio.operations import AppServiceEnvironmentsOperations as OperationClass
+        elif api_version == '2022-03-01':
+            from ..v2022_03_01.aio.operations import AppServiceEnvironmentsOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'app_service_environments'".format(api_version))
         self._config.api_version = api_version
@@ -236,7 +236,7 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
            * 2020-12-01: :class:`AppServicePlansOperations<azure.mgmt.web.v2020_12_01.aio.operations.AppServicePlansOperations>`
            * 2021-01-01: :class:`AppServicePlansOperations<azure.mgmt.web.v2021_01_01.aio.operations.AppServicePlansOperations>`
            * 2021-01-15: :class:`AppServicePlansOperations<azure.mgmt.web.v2021_01_15.aio.operations.AppServicePlansOperations>`
-           * 2022-09-01: :class:`AppServicePlansOperations<azure.mgmt.web.v2022_09_01.aio.operations.AppServicePlansOperations>`
+           * 2022-03-01: :class:`AppServicePlansOperations<azure.mgmt.web.v2022_03_01.aio.operations.AppServicePlansOperations>`
         """
         api_version = self._get_api_version('app_service_plans')
         if api_version == '2016-09-01':
@@ -255,8 +255,8 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
             from ..v2021_01_01.aio.operations import AppServicePlansOperations as OperationClass
         elif api_version == '2021-01-15':
             from ..v2021_01_15.aio.operations import AppServicePlansOperations as OperationClass
-        elif api_version == '2022-09-01':
-            from ..v2022_09_01.aio.operations import AppServicePlansOperations as OperationClass
+        elif api_version == '2022-03-01':
+            from ..v2022_03_01.aio.operations import AppServicePlansOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'app_service_plans'".format(api_version))
         self._config.api_version = api_version
@@ -283,7 +283,7 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
            * 2020-12-01: :class:`CertificateOrdersDiagnosticsOperations<azure.mgmt.web.v2020_12_01.aio.operations.CertificateOrdersDiagnosticsOperations>`
            * 2021-01-01: :class:`CertificateOrdersDiagnosticsOperations<azure.mgmt.web.v2021_01_01.aio.operations.CertificateOrdersDiagnosticsOperations>`
            * 2021-01-15: :class:`CertificateOrdersDiagnosticsOperations<azure.mgmt.web.v2021_01_15.aio.operations.CertificateOrdersDiagnosticsOperations>`
-           * 2022-09-01: :class:`CertificateOrdersDiagnosticsOperations<azure.mgmt.web.v2022_09_01.aio.operations.CertificateOrdersDiagnosticsOperations>`
+           * 2022-03-01: :class:`CertificateOrdersDiagnosticsOperations<azure.mgmt.web.v2022_03_01.aio.operations.CertificateOrdersDiagnosticsOperations>`
         """
         api_version = self._get_api_version('certificate_orders_diagnostics')
         if api_version == '2020-12-01':
@@ -292,8 +292,8 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
             from ..v2021_01_01.aio.operations import CertificateOrdersDiagnosticsOperations as OperationClass
         elif api_version == '2021-01-15':
             from ..v2021_01_15.aio.operations import CertificateOrdersDiagnosticsOperations as OperationClass
-        elif api_version == '2022-09-01':
-            from ..v2022_09_01.aio.operations import CertificateOrdersDiagnosticsOperations as OperationClass
+        elif api_version == '2022-03-01':
+            from ..v2022_03_01.aio.operations import CertificateOrdersDiagnosticsOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'certificate_orders_diagnostics'".format(api_version))
         self._config.api_version = api_version
@@ -311,7 +311,7 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
            * 2020-12-01: :class:`CertificateRegistrationProviderOperations<azure.mgmt.web.v2020_12_01.aio.operations.CertificateRegistrationProviderOperations>`
            * 2021-01-01: :class:`CertificateRegistrationProviderOperations<azure.mgmt.web.v2021_01_01.aio.operations.CertificateRegistrationProviderOperations>`
            * 2021-01-15: :class:`CertificateRegistrationProviderOperations<azure.mgmt.web.v2021_01_15.aio.operations.CertificateRegistrationProviderOperations>`
-           * 2022-09-01: :class:`CertificateRegistrationProviderOperations<azure.mgmt.web.v2022_09_01.aio.operations.CertificateRegistrationProviderOperations>`
+           * 2022-03-01: :class:`CertificateRegistrationProviderOperations<azure.mgmt.web.v2022_03_01.aio.operations.CertificateRegistrationProviderOperations>`
         """
         api_version = self._get_api_version('certificate_registration_provider')
         if api_version == '2015-08-01':
@@ -330,8 +330,8 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
             from ..v2021_01_01.aio.operations import CertificateRegistrationProviderOperations as OperationClass
         elif api_version == '2021-01-15':
             from ..v2021_01_15.aio.operations import CertificateRegistrationProviderOperations as OperationClass
-        elif api_version == '2022-09-01':
-            from ..v2022_09_01.aio.operations import CertificateRegistrationProviderOperations as OperationClass
+        elif api_version == '2022-03-01':
+            from ..v2022_03_01.aio.operations import CertificateRegistrationProviderOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'certificate_registration_provider'".format(api_version))
         self._config.api_version = api_version
@@ -350,7 +350,7 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
            * 2020-12-01: :class:`CertificatesOperations<azure.mgmt.web.v2020_12_01.aio.operations.CertificatesOperations>`
            * 2021-01-01: :class:`CertificatesOperations<azure.mgmt.web.v2021_01_01.aio.operations.CertificatesOperations>`
            * 2021-01-15: :class:`CertificatesOperations<azure.mgmt.web.v2021_01_15.aio.operations.CertificatesOperations>`
-           * 2022-09-01: :class:`CertificatesOperations<azure.mgmt.web.v2022_09_01.aio.operations.CertificatesOperations>`
+           * 2022-03-01: :class:`CertificatesOperations<azure.mgmt.web.v2022_03_01.aio.operations.CertificatesOperations>`
         """
         api_version = self._get_api_version('certificates')
         if api_version == '2016-03-01':
@@ -371,8 +371,8 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
             from ..v2021_01_01.aio.operations import CertificatesOperations as OperationClass
         elif api_version == '2021-01-15':
             from ..v2021_01_15.aio.operations import CertificatesOperations as OperationClass
-        elif api_version == '2022-09-01':
-            from ..v2022_09_01.aio.operations import CertificatesOperations as OperationClass
+        elif api_version == '2022-03-01':
+            from ..v2022_03_01.aio.operations import CertificatesOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'certificates'".format(api_version))
         self._config.api_version = api_version
@@ -382,11 +382,11 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
     def container_apps(self):
         """Instance depends on the API version:
 
-           * 2022-09-01: :class:`ContainerAppsOperations<azure.mgmt.web.v2022_09_01.aio.operations.ContainerAppsOperations>`
+           * 2022-03-01: :class:`ContainerAppsOperations<azure.mgmt.web.v2022_03_01.aio.operations.ContainerAppsOperations>`
         """
         api_version = self._get_api_version('container_apps')
-        if api_version == '2022-09-01':
-            from ..v2022_09_01.aio.operations import ContainerAppsOperations as OperationClass
+        if api_version == '2022-03-01':
+            from ..v2022_03_01.aio.operations import ContainerAppsOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'container_apps'".format(api_version))
         self._config.api_version = api_version
@@ -396,11 +396,11 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
     def container_apps_revisions(self):
         """Instance depends on the API version:
 
-           * 2022-09-01: :class:`ContainerAppsRevisionsOperations<azure.mgmt.web.v2022_09_01.aio.operations.ContainerAppsRevisionsOperations>`
+           * 2022-03-01: :class:`ContainerAppsRevisionsOperations<azure.mgmt.web.v2022_03_01.aio.operations.ContainerAppsRevisionsOperations>`
         """
         api_version = self._get_api_version('container_apps_revisions')
-        if api_version == '2022-09-01':
-            from ..v2022_09_01.aio.operations import ContainerAppsRevisionsOperations as OperationClass
+        if api_version == '2022-03-01':
+            from ..v2022_03_01.aio.operations import ContainerAppsRevisionsOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'container_apps_revisions'".format(api_version))
         self._config.api_version = api_version
@@ -418,7 +418,7 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
            * 2020-12-01: :class:`DeletedWebAppsOperations<azure.mgmt.web.v2020_12_01.aio.operations.DeletedWebAppsOperations>`
            * 2021-01-01: :class:`DeletedWebAppsOperations<azure.mgmt.web.v2021_01_01.aio.operations.DeletedWebAppsOperations>`
            * 2021-01-15: :class:`DeletedWebAppsOperations<azure.mgmt.web.v2021_01_15.aio.operations.DeletedWebAppsOperations>`
-           * 2022-09-01: :class:`DeletedWebAppsOperations<azure.mgmt.web.v2022_09_01.aio.operations.DeletedWebAppsOperations>`
+           * 2022-03-01: :class:`DeletedWebAppsOperations<azure.mgmt.web.v2022_03_01.aio.operations.DeletedWebAppsOperations>`
         """
         api_version = self._get_api_version('deleted_web_apps')
         if api_version == '2016-03-01':
@@ -437,8 +437,8 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
             from ..v2021_01_01.aio.operations import DeletedWebAppsOperations as OperationClass
         elif api_version == '2021-01-15':
             from ..v2021_01_15.aio.operations import DeletedWebAppsOperations as OperationClass
-        elif api_version == '2022-09-01':
-            from ..v2022_09_01.aio.operations import DeletedWebAppsOperations as OperationClass
+        elif api_version == '2022-03-01':
+            from ..v2022_03_01.aio.operations import DeletedWebAppsOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'deleted_web_apps'".format(api_version))
         self._config.api_version = api_version
@@ -456,7 +456,7 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
            * 2020-12-01: :class:`DiagnosticsOperations<azure.mgmt.web.v2020_12_01.aio.operations.DiagnosticsOperations>`
            * 2021-01-01: :class:`DiagnosticsOperations<azure.mgmt.web.v2021_01_01.aio.operations.DiagnosticsOperations>`
            * 2021-01-15: :class:`DiagnosticsOperations<azure.mgmt.web.v2021_01_15.aio.operations.DiagnosticsOperations>`
-           * 2022-09-01: :class:`DiagnosticsOperations<azure.mgmt.web.v2022_09_01.aio.operations.DiagnosticsOperations>`
+           * 2022-03-01: :class:`DiagnosticsOperations<azure.mgmt.web.v2022_03_01.aio.operations.DiagnosticsOperations>`
         """
         api_version = self._get_api_version('diagnostics')
         if api_version == '2016-03-01':
@@ -475,8 +475,8 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
             from ..v2021_01_01.aio.operations import DiagnosticsOperations as OperationClass
         elif api_version == '2021-01-15':
             from ..v2021_01_15.aio.operations import DiagnosticsOperations as OperationClass
-        elif api_version == '2022-09-01':
-            from ..v2022_09_01.aio.operations import DiagnosticsOperations as OperationClass
+        elif api_version == '2022-03-01':
+            from ..v2022_03_01.aio.operations import DiagnosticsOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'diagnostics'".format(api_version))
         self._config.api_version = api_version
@@ -494,7 +494,7 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
            * 2020-12-01: :class:`DomainRegistrationProviderOperations<azure.mgmt.web.v2020_12_01.aio.operations.DomainRegistrationProviderOperations>`
            * 2021-01-01: :class:`DomainRegistrationProviderOperations<azure.mgmt.web.v2021_01_01.aio.operations.DomainRegistrationProviderOperations>`
            * 2021-01-15: :class:`DomainRegistrationProviderOperations<azure.mgmt.web.v2021_01_15.aio.operations.DomainRegistrationProviderOperations>`
-           * 2022-09-01: :class:`DomainRegistrationProviderOperations<azure.mgmt.web.v2022_09_01.aio.operations.DomainRegistrationProviderOperations>`
+           * 2022-03-01: :class:`DomainRegistrationProviderOperations<azure.mgmt.web.v2022_03_01.aio.operations.DomainRegistrationProviderOperations>`
         """
         api_version = self._get_api_version('domain_registration_provider')
         if api_version == '2015-04-01':
@@ -513,8 +513,8 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
             from ..v2021_01_01.aio.operations import DomainRegistrationProviderOperations as OperationClass
         elif api_version == '2021-01-15':
             from ..v2021_01_15.aio.operations import DomainRegistrationProviderOperations as OperationClass
-        elif api_version == '2022-09-01':
-            from ..v2022_09_01.aio.operations import DomainRegistrationProviderOperations as OperationClass
+        elif api_version == '2022-03-01':
+            from ..v2022_03_01.aio.operations import DomainRegistrationProviderOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'domain_registration_provider'".format(api_version))
         self._config.api_version = api_version
@@ -532,7 +532,7 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
            * 2020-12-01: :class:`DomainsOperations<azure.mgmt.web.v2020_12_01.aio.operations.DomainsOperations>`
            * 2021-01-01: :class:`DomainsOperations<azure.mgmt.web.v2021_01_01.aio.operations.DomainsOperations>`
            * 2021-01-15: :class:`DomainsOperations<azure.mgmt.web.v2021_01_15.aio.operations.DomainsOperations>`
-           * 2022-09-01: :class:`DomainsOperations<azure.mgmt.web.v2022_09_01.aio.operations.DomainsOperations>`
+           * 2022-03-01: :class:`DomainsOperations<azure.mgmt.web.v2022_03_01.aio.operations.DomainsOperations>`
         """
         api_version = self._get_api_version('domains')
         if api_version == '2015-04-01':
@@ -551,8 +551,8 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
             from ..v2021_01_01.aio.operations import DomainsOperations as OperationClass
         elif api_version == '2021-01-15':
             from ..v2021_01_15.aio.operations import DomainsOperations as OperationClass
-        elif api_version == '2022-09-01':
-            from ..v2022_09_01.aio.operations import DomainsOperations as OperationClass
+        elif api_version == '2022-03-01':
+            from ..v2022_03_01.aio.operations import DomainsOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'domains'".format(api_version))
         self._config.api_version = api_version
@@ -565,7 +565,7 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
            * 2020-12-01: :class:`GlobalOperations<azure.mgmt.web.v2020_12_01.aio.operations.GlobalOperations>`
            * 2021-01-01: :class:`GlobalOperations<azure.mgmt.web.v2021_01_01.aio.operations.GlobalOperations>`
            * 2021-01-15: :class:`GlobalOperations<azure.mgmt.web.v2021_01_15.aio.operations.GlobalOperations>`
-           * 2022-09-01: :class:`GlobalOperations<azure.mgmt.web.v2022_09_01.aio.operations.GlobalOperations>`
+           * 2022-03-01: :class:`GlobalOperations<azure.mgmt.web.v2022_03_01.aio.operations.GlobalOperations>`
         """
         api_version = self._get_api_version('global_operations')
         if api_version == '2020-12-01':
@@ -574,8 +574,8 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
             from ..v2021_01_01.aio.operations import GlobalOperations as OperationClass
         elif api_version == '2021-01-15':
             from ..v2021_01_15.aio.operations import GlobalOperations as OperationClass
-        elif api_version == '2022-09-01':
-            from ..v2022_09_01.aio.operations import GlobalOperations as OperationClass
+        elif api_version == '2022-03-01':
+            from ..v2022_03_01.aio.operations import GlobalOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'global_operations'".format(api_version))
         self._config.api_version = api_version
@@ -587,15 +587,15 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
 
            * 2021-01-01: :class:`KubeEnvironmentsOperations<azure.mgmt.web.v2021_01_01.aio.operations.KubeEnvironmentsOperations>`
            * 2021-01-15: :class:`KubeEnvironmentsOperations<azure.mgmt.web.v2021_01_15.aio.operations.KubeEnvironmentsOperations>`
-           * 2022-09-01: :class:`KubeEnvironmentsOperations<azure.mgmt.web.v2022_09_01.aio.operations.KubeEnvironmentsOperations>`
+           * 2022-03-01: :class:`KubeEnvironmentsOperations<azure.mgmt.web.v2022_03_01.aio.operations.KubeEnvironmentsOperations>`
         """
         api_version = self._get_api_version('kube_environments')
         if api_version == '2021-01-01':
             from ..v2021_01_01.aio.operations import KubeEnvironmentsOperations as OperationClass
         elif api_version == '2021-01-15':
             from ..v2021_01_15.aio.operations import KubeEnvironmentsOperations as OperationClass
-        elif api_version == '2022-09-01':
-            from ..v2022_09_01.aio.operations import KubeEnvironmentsOperations as OperationClass
+        elif api_version == '2022-03-01':
+            from ..v2022_03_01.aio.operations import KubeEnvironmentsOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'kube_environments'".format(api_version))
         self._config.api_version = api_version
@@ -613,7 +613,7 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
            * 2020-12-01: :class:`ProviderOperations<azure.mgmt.web.v2020_12_01.aio.operations.ProviderOperations>`
            * 2021-01-01: :class:`ProviderOperations<azure.mgmt.web.v2021_01_01.aio.operations.ProviderOperations>`
            * 2021-01-15: :class:`ProviderOperations<azure.mgmt.web.v2021_01_15.aio.operations.ProviderOperations>`
-           * 2022-09-01: :class:`ProviderOperations<azure.mgmt.web.v2022_09_01.aio.operations.ProviderOperations>`
+           * 2022-03-01: :class:`ProviderOperations<azure.mgmt.web.v2022_03_01.aio.operations.ProviderOperations>`
         """
         api_version = self._get_api_version('provider')
         if api_version == '2016-03-01':
@@ -632,8 +632,8 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
             from ..v2021_01_01.aio.operations import ProviderOperations as OperationClass
         elif api_version == '2021-01-15':
             from ..v2021_01_15.aio.operations import ProviderOperations as OperationClass
-        elif api_version == '2022-09-01':
-            from ..v2022_09_01.aio.operations import ProviderOperations as OperationClass
+        elif api_version == '2022-03-01':
+            from ..v2022_03_01.aio.operations import ProviderOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'provider'".format(api_version))
         self._config.api_version = api_version
@@ -651,7 +651,7 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
            * 2020-12-01: :class:`RecommendationsOperations<azure.mgmt.web.v2020_12_01.aio.operations.RecommendationsOperations>`
            * 2021-01-01: :class:`RecommendationsOperations<azure.mgmt.web.v2021_01_01.aio.operations.RecommendationsOperations>`
            * 2021-01-15: :class:`RecommendationsOperations<azure.mgmt.web.v2021_01_15.aio.operations.RecommendationsOperations>`
-           * 2022-09-01: :class:`RecommendationsOperations<azure.mgmt.web.v2022_09_01.aio.operations.RecommendationsOperations>`
+           * 2022-03-01: :class:`RecommendationsOperations<azure.mgmt.web.v2022_03_01.aio.operations.RecommendationsOperations>`
         """
         api_version = self._get_api_version('recommendations')
         if api_version == '2016-03-01':
@@ -670,8 +670,8 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
             from ..v2021_01_01.aio.operations import RecommendationsOperations as OperationClass
         elif api_version == '2021-01-15':
             from ..v2021_01_15.aio.operations import RecommendationsOperations as OperationClass
-        elif api_version == '2022-09-01':
-            from ..v2022_09_01.aio.operations import RecommendationsOperations as OperationClass
+        elif api_version == '2022-03-01':
+            from ..v2022_03_01.aio.operations import RecommendationsOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'recommendations'".format(api_version))
         self._config.api_version = api_version
@@ -689,7 +689,7 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
            * 2020-12-01: :class:`ResourceHealthMetadataOperations<azure.mgmt.web.v2020_12_01.aio.operations.ResourceHealthMetadataOperations>`
            * 2021-01-01: :class:`ResourceHealthMetadataOperations<azure.mgmt.web.v2021_01_01.aio.operations.ResourceHealthMetadataOperations>`
            * 2021-01-15: :class:`ResourceHealthMetadataOperations<azure.mgmt.web.v2021_01_15.aio.operations.ResourceHealthMetadataOperations>`
-           * 2022-09-01: :class:`ResourceHealthMetadataOperations<azure.mgmt.web.v2022_09_01.aio.operations.ResourceHealthMetadataOperations>`
+           * 2022-03-01: :class:`ResourceHealthMetadataOperations<azure.mgmt.web.v2022_03_01.aio.operations.ResourceHealthMetadataOperations>`
         """
         api_version = self._get_api_version('resource_health_metadata')
         if api_version == '2016-03-01':
@@ -708,8 +708,8 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
             from ..v2021_01_01.aio.operations import ResourceHealthMetadataOperations as OperationClass
         elif api_version == '2021-01-15':
             from ..v2021_01_15.aio.operations import ResourceHealthMetadataOperations as OperationClass
-        elif api_version == '2022-09-01':
-            from ..v2022_09_01.aio.operations import ResourceHealthMetadataOperations as OperationClass
+        elif api_version == '2022-03-01':
+            from ..v2022_03_01.aio.operations import ResourceHealthMetadataOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'resource_health_metadata'".format(api_version))
         self._config.api_version = api_version
@@ -725,7 +725,7 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
            * 2020-12-01: :class:`StaticSitesOperations<azure.mgmt.web.v2020_12_01.aio.operations.StaticSitesOperations>`
            * 2021-01-01: :class:`StaticSitesOperations<azure.mgmt.web.v2021_01_01.aio.operations.StaticSitesOperations>`
            * 2021-01-15: :class:`StaticSitesOperations<azure.mgmt.web.v2021_01_15.aio.operations.StaticSitesOperations>`
-           * 2022-09-01: :class:`StaticSitesOperations<azure.mgmt.web.v2022_09_01.aio.operations.StaticSitesOperations>`
+           * 2022-03-01: :class:`StaticSitesOperations<azure.mgmt.web.v2022_03_01.aio.operations.StaticSitesOperations>`
         """
         api_version = self._get_api_version('static_sites')
         if api_version == '2019-08-01':
@@ -740,8 +740,8 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
             from ..v2021_01_01.aio.operations import StaticSitesOperations as OperationClass
         elif api_version == '2021-01-15':
             from ..v2021_01_15.aio.operations import StaticSitesOperations as OperationClass
-        elif api_version == '2022-09-01':
-            from ..v2022_09_01.aio.operations import StaticSitesOperations as OperationClass
+        elif api_version == '2022-03-01':
+            from ..v2022_03_01.aio.operations import StaticSitesOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'static_sites'".format(api_version))
         self._config.api_version = api_version
@@ -759,7 +759,7 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
            * 2020-12-01: :class:`TopLevelDomainsOperations<azure.mgmt.web.v2020_12_01.aio.operations.TopLevelDomainsOperations>`
            * 2021-01-01: :class:`TopLevelDomainsOperations<azure.mgmt.web.v2021_01_01.aio.operations.TopLevelDomainsOperations>`
            * 2021-01-15: :class:`TopLevelDomainsOperations<azure.mgmt.web.v2021_01_15.aio.operations.TopLevelDomainsOperations>`
-           * 2022-09-01: :class:`TopLevelDomainsOperations<azure.mgmt.web.v2022_09_01.aio.operations.TopLevelDomainsOperations>`
+           * 2022-03-01: :class:`TopLevelDomainsOperations<azure.mgmt.web.v2022_03_01.aio.operations.TopLevelDomainsOperations>`
         """
         api_version = self._get_api_version('top_level_domains')
         if api_version == '2015-04-01':
@@ -778,8 +778,8 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
             from ..v2021_01_01.aio.operations import TopLevelDomainsOperations as OperationClass
         elif api_version == '2021-01-15':
             from ..v2021_01_15.aio.operations import TopLevelDomainsOperations as OperationClass
-        elif api_version == '2022-09-01':
-            from ..v2022_09_01.aio.operations import TopLevelDomainsOperations as OperationClass
+        elif api_version == '2022-03-01':
+            from ..v2022_03_01.aio.operations import TopLevelDomainsOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'top_level_domains'".format(api_version))
         self._config.api_version = api_version
@@ -797,7 +797,7 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
            * 2020-12-01: :class:`WebAppsOperations<azure.mgmt.web.v2020_12_01.aio.operations.WebAppsOperations>`
            * 2021-01-01: :class:`WebAppsOperations<azure.mgmt.web.v2021_01_01.aio.operations.WebAppsOperations>`
            * 2021-01-15: :class:`WebAppsOperations<azure.mgmt.web.v2021_01_15.aio.operations.WebAppsOperations>`
-           * 2022-09-01: :class:`WebAppsOperations<azure.mgmt.web.v2022_09_01.aio.operations.WebAppsOperations>`
+           * 2022-03-01: :class:`WebAppsOperations<azure.mgmt.web.v2022_03_01.aio.operations.WebAppsOperations>`
         """
         api_version = self._get_api_version('web_apps')
         if api_version == '2016-08-01':
@@ -816,8 +816,8 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
             from ..v2021_01_01.aio.operations import WebAppsOperations as OperationClass
         elif api_version == '2021-01-15':
             from ..v2021_01_15.aio.operations import WebAppsOperations as OperationClass
-        elif api_version == '2022-09-01':
-            from ..v2022_09_01.aio.operations import WebAppsOperations as OperationClass
+        elif api_version == '2022-03-01':
+            from ..v2022_03_01.aio.operations import WebAppsOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'web_apps'".format(api_version))
         self._config.api_version = api_version
@@ -827,11 +827,11 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
     def workflow_run_action_repetitions(self):
         """Instance depends on the API version:
 
-           * 2022-09-01: :class:`WorkflowRunActionRepetitionsOperations<azure.mgmt.web.v2022_09_01.aio.operations.WorkflowRunActionRepetitionsOperations>`
+           * 2022-03-01: :class:`WorkflowRunActionRepetitionsOperations<azure.mgmt.web.v2022_03_01.aio.operations.WorkflowRunActionRepetitionsOperations>`
         """
         api_version = self._get_api_version('workflow_run_action_repetitions')
-        if api_version == '2022-09-01':
-            from ..v2022_09_01.aio.operations import WorkflowRunActionRepetitionsOperations as OperationClass
+        if api_version == '2022-03-01':
+            from ..v2022_03_01.aio.operations import WorkflowRunActionRepetitionsOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'workflow_run_action_repetitions'".format(api_version))
         self._config.api_version = api_version
@@ -841,11 +841,11 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
     def workflow_run_action_repetitions_request_histories(self):
         """Instance depends on the API version:
 
-           * 2022-09-01: :class:`WorkflowRunActionRepetitionsRequestHistoriesOperations<azure.mgmt.web.v2022_09_01.aio.operations.WorkflowRunActionRepetitionsRequestHistoriesOperations>`
+           * 2022-03-01: :class:`WorkflowRunActionRepetitionsRequestHistoriesOperations<azure.mgmt.web.v2022_03_01.aio.operations.WorkflowRunActionRepetitionsRequestHistoriesOperations>`
         """
         api_version = self._get_api_version('workflow_run_action_repetitions_request_histories')
-        if api_version == '2022-09-01':
-            from ..v2022_09_01.aio.operations import WorkflowRunActionRepetitionsRequestHistoriesOperations as OperationClass
+        if api_version == '2022-03-01':
+            from ..v2022_03_01.aio.operations import WorkflowRunActionRepetitionsRequestHistoriesOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'workflow_run_action_repetitions_request_histories'".format(api_version))
         self._config.api_version = api_version
@@ -855,11 +855,11 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
     def workflow_run_action_scope_repetitions(self):
         """Instance depends on the API version:
 
-           * 2022-09-01: :class:`WorkflowRunActionScopeRepetitionsOperations<azure.mgmt.web.v2022_09_01.aio.operations.WorkflowRunActionScopeRepetitionsOperations>`
+           * 2022-03-01: :class:`WorkflowRunActionScopeRepetitionsOperations<azure.mgmt.web.v2022_03_01.aio.operations.WorkflowRunActionScopeRepetitionsOperations>`
         """
         api_version = self._get_api_version('workflow_run_action_scope_repetitions')
-        if api_version == '2022-09-01':
-            from ..v2022_09_01.aio.operations import WorkflowRunActionScopeRepetitionsOperations as OperationClass
+        if api_version == '2022-03-01':
+            from ..v2022_03_01.aio.operations import WorkflowRunActionScopeRepetitionsOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'workflow_run_action_scope_repetitions'".format(api_version))
         self._config.api_version = api_version
@@ -869,11 +869,11 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
     def workflow_run_actions(self):
         """Instance depends on the API version:
 
-           * 2022-09-01: :class:`WorkflowRunActionsOperations<azure.mgmt.web.v2022_09_01.aio.operations.WorkflowRunActionsOperations>`
+           * 2022-03-01: :class:`WorkflowRunActionsOperations<azure.mgmt.web.v2022_03_01.aio.operations.WorkflowRunActionsOperations>`
         """
         api_version = self._get_api_version('workflow_run_actions')
-        if api_version == '2022-09-01':
-            from ..v2022_09_01.aio.operations import WorkflowRunActionsOperations as OperationClass
+        if api_version == '2022-03-01':
+            from ..v2022_03_01.aio.operations import WorkflowRunActionsOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'workflow_run_actions'".format(api_version))
         self._config.api_version = api_version
@@ -883,11 +883,11 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
     def workflow_runs(self):
         """Instance depends on the API version:
 
-           * 2022-09-01: :class:`WorkflowRunsOperations<azure.mgmt.web.v2022_09_01.aio.operations.WorkflowRunsOperations>`
+           * 2022-03-01: :class:`WorkflowRunsOperations<azure.mgmt.web.v2022_03_01.aio.operations.WorkflowRunsOperations>`
         """
         api_version = self._get_api_version('workflow_runs')
-        if api_version == '2022-09-01':
-            from ..v2022_09_01.aio.operations import WorkflowRunsOperations as OperationClass
+        if api_version == '2022-03-01':
+            from ..v2022_03_01.aio.operations import WorkflowRunsOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'workflow_runs'".format(api_version))
         self._config.api_version = api_version
@@ -897,11 +897,11 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
     def workflow_trigger_histories(self):
         """Instance depends on the API version:
 
-           * 2022-09-01: :class:`WorkflowTriggerHistoriesOperations<azure.mgmt.web.v2022_09_01.aio.operations.WorkflowTriggerHistoriesOperations>`
+           * 2022-03-01: :class:`WorkflowTriggerHistoriesOperations<azure.mgmt.web.v2022_03_01.aio.operations.WorkflowTriggerHistoriesOperations>`
         """
         api_version = self._get_api_version('workflow_trigger_histories')
-        if api_version == '2022-09-01':
-            from ..v2022_09_01.aio.operations import WorkflowTriggerHistoriesOperations as OperationClass
+        if api_version == '2022-03-01':
+            from ..v2022_03_01.aio.operations import WorkflowTriggerHistoriesOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'workflow_trigger_histories'".format(api_version))
         self._config.api_version = api_version
@@ -911,11 +911,11 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
     def workflow_triggers(self):
         """Instance depends on the API version:
 
-           * 2022-09-01: :class:`WorkflowTriggersOperations<azure.mgmt.web.v2022_09_01.aio.operations.WorkflowTriggersOperations>`
+           * 2022-03-01: :class:`WorkflowTriggersOperations<azure.mgmt.web.v2022_03_01.aio.operations.WorkflowTriggersOperations>`
         """
         api_version = self._get_api_version('workflow_triggers')
-        if api_version == '2022-09-01':
-            from ..v2022_09_01.aio.operations import WorkflowTriggersOperations as OperationClass
+        if api_version == '2022-03-01':
+            from ..v2022_03_01.aio.operations import WorkflowTriggersOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'workflow_triggers'".format(api_version))
         self._config.api_version = api_version
@@ -925,11 +925,11 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
     def workflow_versions(self):
         """Instance depends on the API version:
 
-           * 2022-09-01: :class:`WorkflowVersionsOperations<azure.mgmt.web.v2022_09_01.aio.operations.WorkflowVersionsOperations>`
+           * 2022-03-01: :class:`WorkflowVersionsOperations<azure.mgmt.web.v2022_03_01.aio.operations.WorkflowVersionsOperations>`
         """
         api_version = self._get_api_version('workflow_versions')
-        if api_version == '2022-09-01':
-            from ..v2022_09_01.aio.operations import WorkflowVersionsOperations as OperationClass
+        if api_version == '2022-03-01':
+            from ..v2022_03_01.aio.operations import WorkflowVersionsOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'workflow_versions'".format(api_version))
         self._config.api_version = api_version
@@ -939,11 +939,11 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin, MultiApiCl
     def workflows(self):
         """Instance depends on the API version:
 
-           * 2022-09-01: :class:`WorkflowsOperations<azure.mgmt.web.v2022_09_01.aio.operations.WorkflowsOperations>`
+           * 2022-03-01: :class:`WorkflowsOperations<azure.mgmt.web.v2022_03_01.aio.operations.WorkflowsOperations>`
         """
         api_version = self._get_api_version('workflows')
-        if api_version == '2022-09-01':
-            from ..v2022_09_01.aio.operations import WorkflowsOperations as OperationClass
+        if api_version == '2022-03-01':
+            from ..v2022_03_01.aio.operations import WorkflowsOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'workflows'".format(api_version))
         self._config.api_version = api_version
