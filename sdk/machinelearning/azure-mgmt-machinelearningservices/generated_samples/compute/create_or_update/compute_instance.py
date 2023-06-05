@@ -39,19 +39,30 @@ def main():
                 "computeType": "ComputeInstance",
                 "properties": {
                     "applicationSharingPolicy": "Personal",
+                    "autologgerSettings": {"mlflowAutologger": "Enabled"},
                     "computeInstanceAuthorizationType": "personal",
                     "customServices": [
                         {
                             "docker": {"privileged": True},
-                            "endpoints": [{"name": "connect", "protocol": "http", "published": 8787, "target": 8787}],
-                            "environmentVariables": {"test_variable": {"type": "local", "value": "test_value"}},
-                            "image": {"reference": "ghcr.io/azure/rocker-rstudio-ml-verse:latest", "type": "docker"},
-                            "name": "rstudio",
+                            "endpoints": [
+                                {
+                                    "hostIp": None,
+                                    "name": "connect",
+                                    "protocol": "http",
+                                    "published": 4444,
+                                    "target": 8787,
+                                }
+                            ],
+                            "environmentVariables": {
+                                "RSP_LICENSE": {"type": "local", "value": "XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX"}
+                            },
+                            "image": {"reference": "ghcr.io/azure/rstudio-workbench:latest", "type": "docker"},
+                            "name": "rstudio-workbench",
                             "volumes": [
                                 {
-                                    "readOnly": False,
-                                    "source": "/home/azureuser/cloudfiles",
-                                    "target": "/home/azureuser/cloudfiles",
+                                    "readOnly": True,
+                                    "source": "/mnt/azureuser/",
+                                    "target": "/home/testuser/",
                                     "type": "bind",
                                 }
                             ],
@@ -73,6 +84,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2023-04-01/examples/Compute/createOrUpdate/ComputeInstance.json
+# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2023-06-01-preview/examples/Compute/createOrUpdate/ComputeInstance.json
 if __name__ == "__main__":
     main()
