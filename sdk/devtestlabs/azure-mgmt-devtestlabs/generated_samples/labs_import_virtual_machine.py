@@ -29,11 +29,10 @@ def main():
         subscription_id="{subscriptionId}",
     )
 
-    response = client.labs.begin_import_virtual_machine(
+    client.labs.begin_import_virtual_machine(
         resource_group_name="resourceGroupName",
         name="{labName}",
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2018-09-15/examples/Labs_ImportVirtualMachine.json

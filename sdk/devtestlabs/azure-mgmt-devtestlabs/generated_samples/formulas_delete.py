@@ -29,12 +29,11 @@ def main():
         subscription_id="{subscriptionId}",
     )
 
-    response = client.formulas.delete(
+    client.formulas.delete(
         resource_group_name="resourceGroupName",
         lab_name="{labName}",
         name="{formulaName}",
     )
-    print(response)
 
 
 # x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2018-09-15/examples/Formulas_Delete.json

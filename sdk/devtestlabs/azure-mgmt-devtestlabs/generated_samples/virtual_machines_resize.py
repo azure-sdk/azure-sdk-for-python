@@ -29,12 +29,11 @@ def main():
         subscription_id="{subscriptionId}",
     )
 
-    response = client.virtual_machines.begin_resize(
+    client.virtual_machines.begin_resize(
         resource_group_name="resourceGroupName",
         lab_name="{labName}",
         name="{vmName}",
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2018-09-15/examples/VirtualMachines_Resize.json

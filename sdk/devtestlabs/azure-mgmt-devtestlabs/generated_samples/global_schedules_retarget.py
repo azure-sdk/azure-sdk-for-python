@@ -29,11 +29,10 @@ def main():
         subscription_id="{subscriptionId}",
     )
 
-    response = client.global_schedules.begin_retarget(
+    client.global_schedules.begin_retarget(
         resource_group_name="resourceGroupName",
         name="{scheduleName}",
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2018-09-15/examples/GlobalSchedules_Retarget.json
