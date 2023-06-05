@@ -29,11 +29,10 @@ def main():
         subscription_id="1e3ff1c0-771a-4119-a03b-be82a51e232d",
     )
 
-    response = client.alert_processing_rules.delete(
+    client.alert_processing_rules.delete(
         resource_group_name="alertscorrelationrg",
         alert_processing_rule_name="DailySuppression",
     )
-    print(response)
 
 
 # x-ms-original-file: specification/alertsmanagement/resource-manager/Microsoft.AlertsManagement/stable/2021-08-08/examples/AlertProcessingRules_Delete.json
