@@ -14,7 +14,7 @@ from azure.mgmt.deviceupdate import DeviceUpdateMgmtClient
     pip install azure-identity
     pip install azure-mgmt-deviceupdate
 # USAGE
-    python instances_head.py
+    python private_endpoint_connection_create_or_update.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,14 +29,17 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.instances.head(
+    response = client.private_endpoint_connections.begin_create_or_update(
         resource_group_name="test-rg",
         account_name="contoso",
-        instance_name="blue",
-    )
+        private_endpoint_connection_name="peexample01",
+        private_endpoint_connection={
+            "properties": {"privateLinkServiceConnectionState": {"description": "Auto-Approved", "status": "Approved"}}
+        },
+    ).result()
     print(response)
 
 
-# x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/Instances/Instances_Head.json
+# x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2023-07-01/examples/PrivateEndpointConnections/PrivateEndpointConnection_CreateOrUpdate.json
 if __name__ == "__main__":
     main()
