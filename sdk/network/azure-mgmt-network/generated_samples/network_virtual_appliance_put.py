@@ -41,7 +41,6 @@ def main():
             },
             "location": "West US",
             "properties": {
-                "additionalNics": [{"hasPublicIp": True, "name": "exrsdwan"}],
                 "bootStrapConfigurationBlobs": [
                     "https://csrncvhdstorage1.blob.core.windows.net/csrncvhdstoragecont/csrbootstrapconfig"
                 ],
@@ -60,6 +59,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/NetworkVirtualAppliancePut.json
+# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/NetworkVirtualAppliancePut.json
 if __name__ == "__main__":
     main()

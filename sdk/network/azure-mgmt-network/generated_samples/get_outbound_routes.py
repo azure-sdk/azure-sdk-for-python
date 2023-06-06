@@ -29,7 +29,7 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.virtual_hubs.begin_get_outbound_routes(
+    client.virtual_hubs.begin_get_outbound_routes(
         resource_group_name="rg1",
         virtual_hub_name="virtualHub1",
         get_outbound_routes_parameters={
@@ -37,9 +37,8 @@ def main():
             "resourceUri": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRouteGateways/exrGw1/expressRouteConnections/exrConn1",
         },
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-11-01/examples/GetOutboundRoutes.json
+# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-09-01/examples/GetOutboundRoutes.json
 if __name__ == "__main__":
     main()
