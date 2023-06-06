@@ -14,7 +14,7 @@ from azure.mgmt.alertsmanagement import AlertsManagementClient
     pip install azure-identity
     pip install azure-mgmt-alertsmanagement
 # USAGE
-    python alert_processing_rules_list_subscription.py
+    python alert_processing_rules_create_or_update_add_correlation.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -27,14 +27,34 @@ def main():
     client = AlertsManagementClient(
         credential=DefaultAzureCredential(),
         target_type="TARGET_TYPE",
-        subscription_id="1e3ff1c0-771a-4119-a03b-be82a51e232d",
+        subscription_id="subId1",
     )
 
-    response = client.alert_processing_rules.list_by_subscription()
-    for item in response:
-        print(item)
+    response = client.alert_processing_rules.create_or_update(
+        resource_group_name="alertscorrelationrg",
+        alert_processing_rule_name="CorrelateAlerts",
+        alert_processing_rule={
+            "location": "Global",
+            "properties": {
+                "actions": [
+                    {
+                        "actionType": "CorrelateAlerts",
+                        "correlateBy": [{"field": "essentials.alertRule"}],
+                        "correlationInterval": "00:30:00",
+                        "notificationsForCorrelatedAlerts": "SuppressAlways",
+                        "priority": 50,
+                    }
+                ],
+                "description": "Correlate Alerts Example.",
+                "enabled": True,
+                "scopes": ["/subscriptions/subId1"],
+            },
+            "tags": {},
+        },
+    )
+    print(response)
 
 
-# x-ms-original-file: specification/alertsmanagement/resource-manager/Microsoft.AlertsManagement/preview/2023-05-01-preview/examples/AlertProcessingRules_List_Subscription.json
+# x-ms-original-file: specification/alertsmanagement/resource-manager/Microsoft.AlertsManagement/preview/2023-05-01-preview/examples/AlertProcessingRules_Create_or_update_add_correlation.json
 if __name__ == "__main__":
     main()
