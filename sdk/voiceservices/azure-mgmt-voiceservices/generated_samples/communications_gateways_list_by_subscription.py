@@ -34,6 +34,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/voiceservices/resource-manager/Microsoft.VoiceServices/stable/2023-01-31/examples/CommunicationsGateways_ListBySubscription.json
+# x-ms-original-file: specification/voiceservices/resource-manager/Microsoft.VoiceServices/stable/2023-04-03/examples/CommunicationsGateways_ListBySubscription.json
 if __name__ == "__main__":
     main()

@@ -36,6 +36,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/voiceservices/resource-manager/Microsoft.VoiceServices/stable/2023-01-31/examples/NameAvailability_CheckLocal.json
+# x-ms-original-file: specification/voiceservices/resource-manager/Microsoft.VoiceServices/stable/2023-04-03/examples/NameAvailability_CheckLocal.json
 if __name__ == "__main__":
     main()

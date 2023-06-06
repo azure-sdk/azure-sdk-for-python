@@ -29,14 +29,14 @@ class VoiceServicesMgmtClientConfiguration(Configuration):  # pylint: disable=to
     :type credential: ~azure.core.credentials.TokenCredential
     :param subscription_id: The ID of the target subscription. Required.
     :type subscription_id: str
-    :keyword api_version: Api Version. Default value is "2023-01-31". Note that overriding this
+    :keyword api_version: Api Version. Default value is "2023-04-03". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str
     """
 
     def __init__(self, credential: "TokenCredential", subscription_id: str, **kwargs: Any) -> None:
         super(VoiceServicesMgmtClientConfiguration, self).__init__(**kwargs)
-        api_version: str = kwargs.pop("api_version", "2023-01-31")
+        api_version: str = kwargs.pop("api_version", "2023-04-03")
 
         if credential is None:
             raise ValueError("Parameter 'credential' must not be None.")
