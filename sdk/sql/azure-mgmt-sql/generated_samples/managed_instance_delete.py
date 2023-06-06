@@ -26,16 +26,15 @@ from azure.mgmt.sql import SqlManagementClient
 def main():
     client = SqlManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="20D7082A-0FC7-4468-82BD-542694D5042B",
+        subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.managed_instances.begin_delete(
+    client.managed_instances.begin_delete(
         resource_group_name="testrg",
         managed_instance_name="testinstance",
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedInstanceDelete.json
+# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/ManagedInstanceDelete.json
 if __name__ == "__main__":
     main()
