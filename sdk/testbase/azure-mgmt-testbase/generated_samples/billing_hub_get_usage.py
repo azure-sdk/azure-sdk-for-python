@@ -36,6 +36,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/testbase/resource-manager/Microsoft.TestBase/preview/2022-04-01-preview/examples/BillingHubGetUsage.json
+# x-ms-original-file: specification/testbase/resource-manager/Microsoft.TestBase/preview/2023-07-01-preview/examples/BillingHubGetUsage.json
 if __name__ == "__main__":
     main()

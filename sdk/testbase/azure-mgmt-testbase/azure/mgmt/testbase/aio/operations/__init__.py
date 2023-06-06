@@ -6,11 +6,15 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._action_requests_operations import ActionRequestsOperations
+from ._draft_packages_operations import DraftPackagesOperations
 from ._skus_operations import SkusOperations
 from ._test_base_accounts_operations import TestBaseAccountsOperations
 from ._usage_operations import UsageOperations
 from ._available_os_operations import AvailableOSOperations
+from ._feature_update_supported_oses_operations import FeatureUpdateSupportedOsesOperations
 from ._flighting_rings_operations import FlightingRingsOperations
+from ._first_party_apps_operations import FirstPartyAppsOperations
 from ._test_types_operations import TestTypesOperations
 from ._packages_operations import PackagesOperations
 from ._test_summaries_operations import TestSummariesOperations
@@ -22,17 +26,22 @@ from ._email_events_operations import EmailEventsOperations
 from ._customer_events_operations import CustomerEventsOperations
 from ._operations import Operations
 from ._billing_hub_service_operations import BillingHubServiceOperations
+from ._available_inplace_upgrade_os_operations import AvailableInplaceUpgradeOSOperations
 
 from ._patch import __all__ as _patch_all
-from ._patch import *  # type: ignore # pylint: disable=unused-wildcard-import
+from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "ActionRequestsOperations",
+    "DraftPackagesOperations",
     "SkusOperations",
     "TestBaseAccountsOperations",
     "UsageOperations",
     "AvailableOSOperations",
+    "FeatureUpdateSupportedOsesOperations",
     "FlightingRingsOperations",
+    "FirstPartyAppsOperations",
     "TestTypesOperations",
     "PackagesOperations",
     "TestSummariesOperations",
@@ -44,6 +53,7 @@ __all__ = [
     "CustomerEventsOperations",
     "Operations",
     "BillingHubServiceOperations",
+    "AvailableInplaceUpgradeOSOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()

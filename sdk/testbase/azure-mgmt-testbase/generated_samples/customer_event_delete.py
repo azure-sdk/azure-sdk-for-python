@@ -26,17 +26,16 @@ from azure.mgmt.testbase import TestBase
 def main():
     client = TestBase(
         credential=DefaultAzureCredential(),
-        subscription_id="subscription-id",
+        subscription_id="476f61a4-952c-422a-b4db-568a828f35df",
     )
 
-    response = client.customer_events.begin_delete(
+    client.customer_events.begin_delete(
         resource_group_name="contoso-rg1",
         test_base_account_name="contoso-testBaseAccount1",
         customer_event_name="WeeklySummary",
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/testbase/resource-manager/Microsoft.TestBase/preview/2022-04-01-preview/examples/CustomerEventDelete.json
+# x-ms-original-file: specification/testbase/resource-manager/Microsoft.TestBase/preview/2023-07-01-preview/examples/CustomerEventDelete.json
 if __name__ == "__main__":
     main()

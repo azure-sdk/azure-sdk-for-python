@@ -12,16 +12,21 @@ from typing import Any, Awaitable, TYPE_CHECKING
 from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.mgmt.core import AsyncARMPipelineClient
 
-from .. import models
+from .. import models as _models
 from .._serialization import Deserializer, Serializer
 from ._configuration import TestBaseConfiguration
 from .operations import (
+    ActionRequestsOperations,
     AnalysisResultsOperations,
+    AvailableInplaceUpgradeOSOperations,
     AvailableOSOperations,
     BillingHubServiceOperations,
     CustomerEventsOperations,
+    DraftPackagesOperations,
     EmailEventsOperations,
     FavoriteProcessesOperations,
+    FeatureUpdateSupportedOsesOperations,
+    FirstPartyAppsOperations,
     FlightingRingsOperations,
     OSUpdatesOperations,
     Operations,
@@ -40,8 +45,12 @@ if TYPE_CHECKING:
 
 
 class TestBase:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
-    """Test Base.
+    """Restful APIs for Test Base Action Requests.
 
+    :ivar action_requests: ActionRequestsOperations operations
+    :vartype action_requests: azure.mgmt.testbase.aio.operations.ActionRequestsOperations
+    :ivar draft_packages: DraftPackagesOperations operations
+    :vartype draft_packages: azure.mgmt.testbase.aio.operations.DraftPackagesOperations
     :ivar skus: SkusOperations operations
     :vartype skus: azure.mgmt.testbase.aio.operations.SkusOperations
     :ivar test_base_accounts: TestBaseAccountsOperations operations
@@ -50,8 +59,13 @@ class TestBase:  # pylint: disable=client-accepts-api-version-keyword,too-many-i
     :vartype usage: azure.mgmt.testbase.aio.operations.UsageOperations
     :ivar available_os: AvailableOSOperations operations
     :vartype available_os: azure.mgmt.testbase.aio.operations.AvailableOSOperations
+    :ivar feature_update_supported_oses: FeatureUpdateSupportedOsesOperations operations
+    :vartype feature_update_supported_oses:
+     azure.mgmt.testbase.aio.operations.FeatureUpdateSupportedOsesOperations
     :ivar flighting_rings: FlightingRingsOperations operations
     :vartype flighting_rings: azure.mgmt.testbase.aio.operations.FlightingRingsOperations
+    :ivar first_party_apps: FirstPartyAppsOperations operations
+    :vartype first_party_apps: azure.mgmt.testbase.aio.operations.FirstPartyAppsOperations
     :ivar test_types: TestTypesOperations operations
     :vartype test_types: azure.mgmt.testbase.aio.operations.TestTypesOperations
     :ivar packages: PackagesOperations operations
@@ -74,13 +88,16 @@ class TestBase:  # pylint: disable=client-accepts-api-version-keyword,too-many-i
     :vartype operations: azure.mgmt.testbase.aio.operations.Operations
     :ivar billing_hub_service: BillingHubServiceOperations operations
     :vartype billing_hub_service: azure.mgmt.testbase.aio.operations.BillingHubServiceOperations
+    :ivar available_inplace_upgrade_os: AvailableInplaceUpgradeOSOperations operations
+    :vartype available_inplace_upgrade_os:
+     azure.mgmt.testbase.aio.operations.AvailableInplaceUpgradeOSOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
-    :param subscription_id: The Azure subscription ID. This is a GUID-formatted string. Required.
+    :param subscription_id: The ID of the target subscription. Required.
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2022-04-01-preview". Note that overriding
+    :keyword api_version: Api Version. Default value is "2023-07-01-preview". Note that overriding
      this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -95,19 +112,25 @@ class TestBase:  # pylint: disable=client-accepts-api-version-keyword,too-many-i
         **kwargs: Any
     ) -> None:
         self._config = TestBaseConfiguration(credential=credential, subscription_id=subscription_id, **kwargs)
-        self._client = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
-        client_models = {k: v for k, v in models.__dict__.items() if isinstance(v, type)}
+        client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
+        self.action_requests = ActionRequestsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.draft_packages = DraftPackagesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.skus = SkusOperations(self._client, self._config, self._serialize, self._deserialize)
         self.test_base_accounts = TestBaseAccountsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.usage = UsageOperations(self._client, self._config, self._serialize, self._deserialize)
         self.available_os = AvailableOSOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.feature_update_supported_oses = FeatureUpdateSupportedOsesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.flighting_rings = FlightingRingsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.first_party_apps = FirstPartyAppsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.test_types = TestTypesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.packages = PackagesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.test_summaries = TestSummariesOperations(self._client, self._config, self._serialize, self._deserialize)
@@ -123,6 +146,9 @@ class TestBase:  # pylint: disable=client-accepts-api-version-keyword,too-many-i
         self.customer_events = CustomerEventsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
         self.billing_hub_service = BillingHubServiceOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.available_inplace_upgrade_os = AvailableInplaceUpgradeOSOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
 
@@ -155,5 +181,5 @@ class TestBase:  # pylint: disable=client-accepts-api-version-keyword,too-many-i
         await self._client.__aenter__()
         return self
 
-    async def __aexit__(self, *exc_details) -> None:
+    async def __aexit__(self, *exc_details: Any) -> None:
         await self._client.__aexit__(*exc_details)

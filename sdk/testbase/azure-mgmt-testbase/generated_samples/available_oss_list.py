@@ -26,7 +26,7 @@ from azure.mgmt.testbase import TestBase
 def main():
     client = TestBase(
         credential=DefaultAzureCredential(),
-        subscription_id="subscription-id",
+        subscription_id="476f61a4-952c-422a-b4db-568a828f35df",
     )
 
     response = client.available_os.list(
@@ -38,6 +38,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/testbase/resource-manager/Microsoft.TestBase/preview/2022-04-01-preview/examples/AvailableOSsList.json
+# x-ms-original-file: specification/testbase/resource-manager/Microsoft.TestBase/preview/2023-07-01-preview/examples/AvailableOSsList.json
 if __name__ == "__main__":
     main()

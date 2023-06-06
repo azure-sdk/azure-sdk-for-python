@@ -6,9 +6,13 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._models_py3 import ActionRequest
+from ._models_py3 import ActionRequests
 from ._models_py3 import AnalysisResultListResult
 from ._models_py3 import AnalysisResultSingletonResource
 from ._models_py3 import AnalysisResultSingletonResourceProperties
+from ._models_py3 import AvailableInplaceUpgradeOSListResult
+from ._models_py3 import AvailableInplaceUpgradeOSResource
 from ._models_py3 import AvailableOSListResult
 from ._models_py3 import AvailableOSResource
 from ._models_py3 import BillingHubExecutionUsageDetail
@@ -24,21 +28,39 @@ from ._models_py3 import CPURegressionResultSingletonResourceProperties
 from ._models_py3 import CPUUtilizationResultSingletonResourceProperties
 from ._models_py3 import CheckNameAvailabilityResult
 from ._models_py3 import Command
+from ._models_py3 import CopyFromPackageOperationParameters
 from ._models_py3 import CustomerEventListResult
 from ._models_py3 import CustomerEventResource
 from ._models_py3 import DistributionGroupListReceiverValue
 from ._models_py3 import DownloadURLResponse
+from ._models_py3 import DraftPackageGetPathResponse
+from ._models_py3 import DraftPackageIntuneAppMetadata
+from ._models_py3 import DraftPackageIntuneAppMetadataItem
+from ._models_py3 import DraftPackageListResult
+from ._models_py3 import DraftPackageResource
+from ._models_py3 import DraftPackageUpdateParameters
 from ._models_py3 import EmailEventListResult
 from ._models_py3 import EmailEventResource
-from ._models_py3 import ErrorDefinition
+from ._models_py3 import ErrorAdditionalInfo
+from ._models_py3 import ErrorDetail
 from ._models_py3 import ErrorResponse
+from ._models_py3 import ExtractFileOperationParameters
 from ._models_py3 import FavoriteProcessListResult
 from ._models_py3 import FavoriteProcessResource
+from ._models_py3 import FeatureUpdateSupportedOsesResource
+from ._models_py3 import FeatureUpdateSupportedOsesResult
 from ._models_py3 import FileUploadURLResponse
+from ._models_py3 import FirstPartyAppDefinition
+from ._models_py3 import FirstPartyAppListResult
+from ._models_py3 import FirstPartyAppResource
 from ._models_py3 import FlightingRingListResult
 from ._models_py3 import FlightingRingResource
+from ._models_py3 import GenerateOperationParameters
 from ._models_py3 import GetFileUploadURLParameters
+from ._models_py3 import HighlightedFile
 from ._models_py3 import IdentifiedFailure
+from ._models_py3 import InplaceUpgradeOSInfo
+from ._models_py3 import InplaceUpgradeProperties
 from ._models_py3 import MemoryRegressionResultSingletonResourceProperties
 from ._models_py3 import MemoryUtilizationResultSingletonResourceProperties
 from ._models_py3 import NotificationEventReceiver
@@ -50,15 +72,18 @@ from ._models_py3 import OSUpdatesTestSummary
 from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
 from ._models_py3 import OperationListResult
+from ._models_py3 import OsProperties
 from ._models_py3 import PackageCheckNameAvailabilityParameters
 from ._models_py3 import PackageListResult
 from ._models_py3 import PackageResource
 from ._models_py3 import PackageRunTestParameters
 from ._models_py3 import PackageUpdateParameters
 from ._models_py3 import PackageValidationResult
+from ._models_py3 import PreReleaseAccessRequestSpec
 from ._models_py3 import ProxyResource
 from ._models_py3 import RegressionResult
 from ._models_py3 import RegressionTestDetails
+from ._models_py3 import ReleaseProperties
 from ._models_py3 import ReliabilityResult
 from ._models_py3 import ReliabilityResultSingletonResourceProperties
 from ._models_py3 import Resource
@@ -66,6 +91,7 @@ from ._models_py3 import ScriptExecutionResult
 from ._models_py3 import ScriptExecutionResultSingletonResourceProperties
 from ._models_py3 import SubscriptionReceiverValue
 from ._models_py3 import SystemData
+from ._models_py3 import TabState
 from ._models_py3 import TargetOSInfo
 from ._models_py3 import Test
 from ._models_py3 import TestAnalysisResult
@@ -97,15 +123,25 @@ from ._test_base_enums import Action
 from ._test_base_enums import AnalysisResultName
 from ._test_base_enums import AnalysisResultType
 from ._test_base_enums import AnalysisStatus
+from ._test_base_enums import Architecture
 from ._test_base_enums import Category
 from ._test_base_enums import ContentType
 from ._test_base_enums import CreatedByType
+from ._test_base_enums import DraftPackageSourceType
+from ._test_base_enums import Engagements
 from ._test_base_enums import ExecutionStatus
+from ._test_base_enums import ExtractFileType
 from ._test_base_enums import Grade
+from ._test_base_enums import InteropExecutionMode
+from ._test_base_enums import IntuneExtractStatus
+from ._test_base_enums import OsProductState
 from ._test_base_enums import OsUpdateType
 from ._test_base_enums import PackageStatus
+from ._test_base_enums import PackageStudioTabs
 from ._test_base_enums import ProvisioningState
 from ._test_base_enums import Reason
+from ._test_base_enums import RequestStatus
+from ._test_base_enums import RequestTypes
 from ._test_base_enums import TestAnalysisStatus
 from ._test_base_enums import TestStatus
 from ._test_base_enums import TestType
@@ -113,13 +149,17 @@ from ._test_base_enums import Tier
 from ._test_base_enums import Type
 from ._test_base_enums import ValidationRunStatus
 from ._patch import __all__ as _patch_all
-from ._patch import *  # type: ignore # pylint: disable=unused-wildcard-import
+from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "ActionRequest",
+    "ActionRequests",
     "AnalysisResultListResult",
     "AnalysisResultSingletonResource",
     "AnalysisResultSingletonResourceProperties",
+    "AvailableInplaceUpgradeOSListResult",
+    "AvailableInplaceUpgradeOSResource",
     "AvailableOSListResult",
     "AvailableOSResource",
     "BillingHubExecutionUsageDetail",
@@ -135,21 +175,39 @@ __all__ = [
     "CPUUtilizationResultSingletonResourceProperties",
     "CheckNameAvailabilityResult",
     "Command",
+    "CopyFromPackageOperationParameters",
     "CustomerEventListResult",
     "CustomerEventResource",
     "DistributionGroupListReceiverValue",
     "DownloadURLResponse",
+    "DraftPackageGetPathResponse",
+    "DraftPackageIntuneAppMetadata",
+    "DraftPackageIntuneAppMetadataItem",
+    "DraftPackageListResult",
+    "DraftPackageResource",
+    "DraftPackageUpdateParameters",
     "EmailEventListResult",
     "EmailEventResource",
-    "ErrorDefinition",
+    "ErrorAdditionalInfo",
+    "ErrorDetail",
     "ErrorResponse",
+    "ExtractFileOperationParameters",
     "FavoriteProcessListResult",
     "FavoriteProcessResource",
+    "FeatureUpdateSupportedOsesResource",
+    "FeatureUpdateSupportedOsesResult",
     "FileUploadURLResponse",
+    "FirstPartyAppDefinition",
+    "FirstPartyAppListResult",
+    "FirstPartyAppResource",
     "FlightingRingListResult",
     "FlightingRingResource",
+    "GenerateOperationParameters",
     "GetFileUploadURLParameters",
+    "HighlightedFile",
     "IdentifiedFailure",
+    "InplaceUpgradeOSInfo",
+    "InplaceUpgradeProperties",
     "MemoryRegressionResultSingletonResourceProperties",
     "MemoryUtilizationResultSingletonResourceProperties",
     "NotificationEventReceiver",
@@ -161,15 +219,18 @@ __all__ = [
     "Operation",
     "OperationDisplay",
     "OperationListResult",
+    "OsProperties",
     "PackageCheckNameAvailabilityParameters",
     "PackageListResult",
     "PackageResource",
     "PackageRunTestParameters",
     "PackageUpdateParameters",
     "PackageValidationResult",
+    "PreReleaseAccessRequestSpec",
     "ProxyResource",
     "RegressionResult",
     "RegressionTestDetails",
+    "ReleaseProperties",
     "ReliabilityResult",
     "ReliabilityResultSingletonResourceProperties",
     "Resource",
@@ -177,6 +238,7 @@ __all__ = [
     "ScriptExecutionResultSingletonResourceProperties",
     "SubscriptionReceiverValue",
     "SystemData",
+    "TabState",
     "TargetOSInfo",
     "Test",
     "TestAnalysisResult",
@@ -207,15 +269,25 @@ __all__ = [
     "AnalysisResultName",
     "AnalysisResultType",
     "AnalysisStatus",
+    "Architecture",
     "Category",
     "ContentType",
     "CreatedByType",
+    "DraftPackageSourceType",
+    "Engagements",
     "ExecutionStatus",
+    "ExtractFileType",
     "Grade",
+    "InteropExecutionMode",
+    "IntuneExtractStatus",
+    "OsProductState",
     "OsUpdateType",
     "PackageStatus",
+    "PackageStudioTabs",
     "ProvisioningState",
     "Reason",
+    "RequestStatus",
+    "RequestTypes",
     "TestAnalysisStatus",
     "TestStatus",
     "TestType",

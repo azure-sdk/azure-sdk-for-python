@@ -18,6 +18,7 @@ class Action(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     CLOSE = "Close"
     UNINSTALL = "Uninstall"
     CUSTOM = "Custom"
+    FLOW_DRIVEN_CUSTOM = "FlowDrivenCustom"
 
 
 class AnalysisResultName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -56,6 +57,16 @@ class AnalysisStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     NOT_AVAILABLE = "NotAvailable"
 
 
+class Architecture(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The architecture of an OS or a first party application."""
+
+    X86 = "x86"
+    X64 = "x64"
+    ARM64 = "arm64"
+    ARM = "arm"
+    IA64 = "ia64"
+
+
 class Category(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The category of the failure."""
 
@@ -83,6 +94,24 @@ class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     KEY = "Key"
 
 
+class DraftPackageSourceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The source type."""
+
+    NATIVE = "Native"
+    INTUNE_WIN = "IntuneWin"
+    TEST_BASE_PACKAGE = "TestBasePackage"
+
+
+class Engagements(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Engagements."""
+
+    MVI = "MVI"
+    MVP = "MVP"
+    SUVP = "SUVP"
+    MAPP = "MAPP"
+    OTHER = "Other"
+
+
 class ExecutionStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The execution status of a test."""
 
@@ -96,6 +125,13 @@ class ExecutionStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SUCCEEDED = "Succeeded"
 
 
+class ExtractFileType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of file to extract."""
+
+    TEST_BASE_PACKAGE = "TestBasePackage"
+    INTUNE_WIN_PACKAGE = "IntuneWinPackage"
+
+
 class Grade(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The grade of a test."""
 
@@ -103,6 +139,34 @@ class Grade(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     NOT_AVAILABLE = "NotAvailable"
     PASS = "Pass"
     FAIL = "Fail"
+    PASS_ENUM = "Pass"
+
+
+class InteropExecutionMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Specifies how the first party applications should be interoperated with user's application."""
+
+    FIRST_PARTY_APP_WITH_TESTS = "firstPartyAppWithTests"
+    """User application will test with the first party applications. For out-of-box tests, additional
+    #: test cases for first party applications will also be run."""
+    FIRST_PARTY_APP = "firstPartyApp"
+    """User application will test with the first party applications."""
+
+
+class IntuneExtractStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Extract status."""
+
+    READY = "Ready"
+    UPLOADING = "Uploading"
+    UPLOAD_FAILED = "UploadFailed"
+    EXTRACT_FAILED = "ExtractFailed"
+    NO_DEPENDENCY_APP = "NoDependencyApp"
+
+
+class OsProductState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """State of the OS product."""
+
+    DISABLED = "Disabled"
+    ACTIVE = "Active"
 
 
 class OsUpdateType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -110,6 +174,7 @@ class OsUpdateType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     SECURITY_UPDATE = "SecurityUpdate"
     FEATURE_UPDATE = "FeatureUpdate"
+    INPLACE_UPGRADE = "InplaceUpgrade"
 
 
 class PackageStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -124,6 +189,18 @@ class PackageStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DELETED = "Deleted"
     VALIDATION_LONGER_THAN_USUAL = "ValidationLongerThanUsual"
     VERIFYING_PACKAGE = "VerifyingPackage"
+
+
+class PackageStudioTabs(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Specifies the tabs when creating / cloning / editing a package."""
+
+    UNSPECIFIED = "Unspecified"
+    BASICS_TAB = "BasicsTab"
+    CONFIGURE_TEST_TAB = "ConfigureTestTab"
+    EDIT_PACKAGE_TAB = "EditPackageTab"
+    TEST_MATRIX_TAB = "TestMatrixTab"
+    TAGS_TAB = "TagsTab"
+    REVIEW_AND_CREATE_TAB = "ReviewAndCreateTab"
 
 
 class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -144,6 +221,20 @@ class Reason(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     INVALID = "Invalid"
     ALREADY_EXISTS = "AlreadyExists"
+
+
+class RequestStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """RequestStatus."""
+
+    IN_REVIEW = "InReview"
+    APPROVED = "Approved"
+    DECLINED = "Declined"
+
+
+class RequestTypes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """RequestTypes."""
+
+    PRE_RELEASE_ACCESS = "PreReleaseAccess"
 
 
 class TestAnalysisStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -173,6 +264,7 @@ class TestType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     OUT_OF_BOX_TEST = "OutOfBoxTest"
     FUNCTIONAL_TEST = "FunctionalTest"
+    FLOW_DRIVEN_TEST = "FlowDrivenTest"
 
 
 class Tier(str, Enum, metaclass=CaseInsensitiveEnumMeta):
