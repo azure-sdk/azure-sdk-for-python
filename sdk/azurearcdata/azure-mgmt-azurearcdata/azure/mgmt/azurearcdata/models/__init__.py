@@ -16,6 +16,7 @@ from ._models_py3 import ActiveDirectoryConnectorStatus
 from ._models_py3 import ActiveDirectoryDomainController
 from ._models_py3 import ActiveDirectoryDomainControllers
 from ._models_py3 import ActiveDirectoryInformation
+from ._models_py3 import ArcSqlServerDatabaseListResult
 from ._models_py3 import BasicLoginInformation
 from ._models_py3 import CommonSku
 from ._models_py3 import DataControllerProperties
@@ -24,9 +25,19 @@ from ._models_py3 import DataControllerUpdate
 from ._models_py3 import ErrorResponse
 from ._models_py3 import ErrorResponseBody
 from ._models_py3 import ExtendedLocation
+from ._models_py3 import FailoverGroupListResult
+from ._models_py3 import FailoverGroupProperties
+from ._models_py3 import FailoverGroupResource
+from ._models_py3 import FailoverGroupSpec
+from ._models_py3 import K8SActiveDirectory
+from ._models_py3 import K8SActiveDirectoryConnector
+from ._models_py3 import K8SNetworkSettings
 from ._models_py3 import K8SResourceRequirements
 from ._models_py3 import K8SScheduling
 from ._models_py3 import K8SSchedulingOptions
+from ._models_py3 import K8SSecurity
+from ._models_py3 import K8SSettings
+from ._models_py3 import K8StransparentDataEncryption
 from ._models_py3 import KeytabInformation
 from ._models_py3 import LogAnalyticsWorkspaceConfig
 from ._models_py3 import OnPremiseProperty
@@ -48,6 +59,11 @@ from ._models_py3 import SqlManagedInstanceListResult
 from ._models_py3 import SqlManagedInstanceProperties
 from ._models_py3 import SqlManagedInstanceSku
 from ._models_py3 import SqlManagedInstanceUpdate
+from ._models_py3 import SqlServerDatabaseResource
+from ._models_py3 import SqlServerDatabaseResourceProperties
+from ._models_py3 import SqlServerDatabaseResourcePropertiesBackupInformation
+from ._models_py3 import SqlServerDatabaseResourcePropertiesDatabaseOptions
+from ._models_py3 import SqlServerDatabaseUpdate
 from ._models_py3 import SqlServerInstance
 from ._models_py3 import SqlServerInstanceListResult
 from ._models_py3 import SqlServerInstanceProperties
@@ -62,12 +78,17 @@ from ._azure_arc_data_management_client_enums import ArcSqlManagedInstanceLicens
 from ._azure_arc_data_management_client_enums import ArcSqlServerLicenseType
 from ._azure_arc_data_management_client_enums import ConnectionStatus
 from ._azure_arc_data_management_client_enums import CreatedByType
+from ._azure_arc_data_management_client_enums import DatabaseState
 from ._azure_arc_data_management_client_enums import DefenderStatus
 from ._azure_arc_data_management_client_enums import EditionType
 from ._azure_arc_data_management_client_enums import ExtendedLocationTypes
+from ._azure_arc_data_management_client_enums import FailoverGroupPartnerSyncMode
 from ._azure_arc_data_management_client_enums import HostType
 from ._azure_arc_data_management_client_enums import Infrastructure
+from ._azure_arc_data_management_client_enums import InstanceFailoverGroupRole
 from ._azure_arc_data_management_client_enums import OperationOrigin
+from ._azure_arc_data_management_client_enums import ProvisioningState
+from ._azure_arc_data_management_client_enums import RecoveryMode
 from ._azure_arc_data_management_client_enums import SqlManagedInstanceSkuTier
 from ._azure_arc_data_management_client_enums import SqlVersion
 from ._patch import __all__ as _patch_all
@@ -85,6 +106,7 @@ __all__ = [
     "ActiveDirectoryDomainController",
     "ActiveDirectoryDomainControllers",
     "ActiveDirectoryInformation",
+    "ArcSqlServerDatabaseListResult",
     "BasicLoginInformation",
     "CommonSku",
     "DataControllerProperties",
@@ -93,9 +115,19 @@ __all__ = [
     "ErrorResponse",
     "ErrorResponseBody",
     "ExtendedLocation",
+    "FailoverGroupListResult",
+    "FailoverGroupProperties",
+    "FailoverGroupResource",
+    "FailoverGroupSpec",
+    "K8SActiveDirectory",
+    "K8SActiveDirectoryConnector",
+    "K8SNetworkSettings",
     "K8SResourceRequirements",
     "K8SScheduling",
     "K8SSchedulingOptions",
+    "K8SSecurity",
+    "K8SSettings",
+    "K8StransparentDataEncryption",
     "KeytabInformation",
     "LogAnalyticsWorkspaceConfig",
     "OnPremiseProperty",
@@ -117,6 +149,11 @@ __all__ = [
     "SqlManagedInstanceProperties",
     "SqlManagedInstanceSku",
     "SqlManagedInstanceUpdate",
+    "SqlServerDatabaseResource",
+    "SqlServerDatabaseResourceProperties",
+    "SqlServerDatabaseResourcePropertiesBackupInformation",
+    "SqlServerDatabaseResourcePropertiesDatabaseOptions",
+    "SqlServerDatabaseUpdate",
     "SqlServerInstance",
     "SqlServerInstanceListResult",
     "SqlServerInstanceProperties",
@@ -130,12 +167,17 @@ __all__ = [
     "ArcSqlServerLicenseType",
     "ConnectionStatus",
     "CreatedByType",
+    "DatabaseState",
     "DefenderStatus",
     "EditionType",
     "ExtendedLocationTypes",
+    "FailoverGroupPartnerSyncMode",
     "HostType",
     "Infrastructure",
+    "InstanceFailoverGroupRole",
     "OperationOrigin",
+    "ProvisioningState",
+    "RecoveryMode",
     "SqlManagedInstanceSkuTier",
     "SqlVersion",
 ]
