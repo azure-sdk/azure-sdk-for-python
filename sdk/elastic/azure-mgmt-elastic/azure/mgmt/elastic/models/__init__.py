@@ -14,6 +14,8 @@ from ._models_py3 import ElasticMonitorResource
 from ._models_py3 import ElasticMonitorResourceListResponse
 from ._models_py3 import ElasticMonitorResourceUpdateParameters
 from ._models_py3 import ElasticMonitorUpgrade
+from ._models_py3 import ElasticOrganizationToAzureSubscriptionMappingResponse
+from ._models_py3 import ElasticOrganizationToAzureSubscriptionMappingResponseProperties
 from ._models_py3 import ElasticProperties
 from ._models_py3 import ElasticTrafficFilter
 from ._models_py3 import ElasticTrafficFilterResponse
@@ -74,6 +76,8 @@ __all__ = [
     "ElasticMonitorResourceListResponse",
     "ElasticMonitorResourceUpdateParameters",
     "ElasticMonitorUpgrade",
+    "ElasticOrganizationToAzureSubscriptionMappingResponse",
+    "ElasticOrganizationToAzureSubscriptionMappingResponseProperties",
     "ElasticProperties",
     "ElasticTrafficFilter",
     "ElasticTrafficFilterResponse",

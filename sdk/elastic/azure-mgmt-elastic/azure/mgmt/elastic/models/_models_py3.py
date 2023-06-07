@@ -366,6 +366,89 @@ class ElasticMonitorUpgrade(_serialization.Model):
         self.version = version
 
 
+class ElasticOrganizationToAzureSubscriptionMappingResponse(_serialization.Model):
+    """The Azure Subscription ID to which the Organization of the logged in user belongs and gets
+    billed into.
+
+    :ivar properties: The properties of Azure Subscription ID to which the Organization of the
+     logged in user belongs and gets billed into.
+    :vartype properties:
+     ~azure.mgmt.elastic.models.ElasticOrganizationToAzureSubscriptionMappingResponseProperties
+    """
+
+    _attribute_map = {
+        "properties": {"key": "properties", "type": "ElasticOrganizationToAzureSubscriptionMappingResponseProperties"},
+    }
+
+    def __init__(
+        self,
+        *,
+        properties: Optional["_models.ElasticOrganizationToAzureSubscriptionMappingResponseProperties"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword properties: The properties of Azure Subscription ID to which the Organization of the
+         logged in user belongs and gets billed into.
+        :paramtype properties:
+         ~azure.mgmt.elastic.models.ElasticOrganizationToAzureSubscriptionMappingResponseProperties
+        """
+        super().__init__(**kwargs)
+        self.properties = properties
+
+
+class ElasticOrganizationToAzureSubscriptionMappingResponseProperties(_serialization.Model):
+    """The properties of Azure Subscription ID to which the Organization of the logged in user belongs
+    and gets billed into.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar billed_azure_subscription_id: The Azure Subscription ID to which the Organization belongs
+     and gets billed into. This is empty for a new user OR a user without an Elastic Organization.
+    :vartype billed_azure_subscription_id: str
+    :ivar marketplace_saas_info: Marketplace SaaS Info of the resource.
+    :vartype marketplace_saas_info: ~azure.mgmt.elastic.models.MarketplaceSaaSInfo
+    :ivar elastic_organization_id: The Elastic Organization Id.
+    :vartype elastic_organization_id: str
+    :ivar elastic_organization_name: The Elastic Organization Name.
+    :vartype elastic_organization_name: str
+    """
+
+    _validation = {
+        "marketplace_saas_info": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "billed_azure_subscription_id": {"key": "billedAzureSubscriptionId", "type": "str"},
+        "marketplace_saas_info": {"key": "marketplaceSaasInfo", "type": "MarketplaceSaaSInfo"},
+        "elastic_organization_id": {"key": "elasticOrganizationId", "type": "str"},
+        "elastic_organization_name": {"key": "elasticOrganizationName", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        billed_azure_subscription_id: Optional[str] = None,
+        elastic_organization_id: Optional[str] = None,
+        elastic_organization_name: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword billed_azure_subscription_id: The Azure Subscription ID to which the Organization
+         belongs and gets billed into. This is empty for a new user OR a user without an Elastic
+         Organization.
+        :paramtype billed_azure_subscription_id: str
+        :keyword elastic_organization_id: The Elastic Organization Id.
+        :paramtype elastic_organization_id: str
+        :keyword elastic_organization_name: The Elastic Organization Name.
+        :paramtype elastic_organization_name: str
+        """
+        super().__init__(**kwargs)
+        self.billed_azure_subscription_id = billed_azure_subscription_id
+        self.marketplace_saas_info = None
+        self.elastic_organization_id = elastic_organization_id
+        self.elastic_organization_name = elastic_organization_name
+
+
 class ElasticProperties(_serialization.Model):
     """Elastic Resource Properties.
 
@@ -873,6 +956,8 @@ class MarketplaceSaaSInfo(_serialization.Model):
     :vartype marketplace_name: str
     :ivar marketplace_resource_id: Marketplace Subscription Details: Resource URI.
     :vartype marketplace_resource_id: str
+    :ivar marketplace_status: Marketplace Subscription Details: SaaS Subscription Status.
+    :vartype marketplace_status: str
     """
 
     _attribute_map = {
@@ -882,6 +967,7 @@ class MarketplaceSaaSInfo(_serialization.Model):
         },
         "marketplace_name": {"key": "marketplaceName", "type": "str"},
         "marketplace_resource_id": {"key": "marketplaceResourceId", "type": "str"},
+        "marketplace_status": {"key": "marketplaceStatus", "type": "str"},
     }
 
     def __init__(
@@ -890,6 +976,7 @@ class MarketplaceSaaSInfo(_serialization.Model):
         marketplace_subscription: Optional["_models.MarketplaceSaaSInfoMarketplaceSubscription"] = None,
         marketplace_name: Optional[str] = None,
         marketplace_resource_id: Optional[str] = None,
+        marketplace_status: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -900,11 +987,14 @@ class MarketplaceSaaSInfo(_serialization.Model):
         :paramtype marketplace_name: str
         :keyword marketplace_resource_id: Marketplace Subscription Details: Resource URI.
         :paramtype marketplace_resource_id: str
+        :keyword marketplace_status: Marketplace Subscription Details: SaaS Subscription Status.
+        :paramtype marketplace_status: str
         """
         super().__init__(**kwargs)
         self.marketplace_subscription = marketplace_subscription
         self.marketplace_name = marketplace_name
         self.marketplace_resource_id = marketplace_resource_id
+        self.marketplace_status = marketplace_status
 
 
 class MarketplaceSaaSInfoMarketplaceSubscription(_serialization.Model):
