@@ -29,15 +29,14 @@ def main():
         subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.restore_points.delete(
+    client.restore_points.delete(
         resource_group_name="Default-SQL-SouthEastAsia",
         server_name="testserver",
         database_name="testDatabase",
         restore_point_name="131546477590000000",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/DatabaseRestorePointsDelete.json
+# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/DatabaseRestorePointsDelete.json
 if __name__ == "__main__":
     main()
