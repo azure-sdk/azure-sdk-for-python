@@ -29,13 +29,12 @@ def main():
         subscription_id="subscription-id",
     )
 
-    response = client.favorite_processes.delete(
+    client.favorite_processes.delete(
         resource_group_name="contoso-rg1",
         test_base_account_name="contoso-testBaseAccount1",
         package_name="contoso-package2",
         favorite_process_resource_name="testAppProcess",
     )
-    print(response)
 
 
 # x-ms-original-file: specification/testbase/resource-manager/Microsoft.TestBase/preview/2022-04-01-preview/examples/FavoriteProcessDelete.json

@@ -29,12 +29,11 @@ def main():
         subscription_id="subscription-id",
     )
 
-    response = client.packages.run_test(
+    client.packages.run_test(
         resource_group_name="contoso-rg1",
         test_base_account_name="contoso-testBaseAccount1",
         package_name="contoso-package2",
     )
-    print(response)
 
 
 # x-ms-original-file: specification/testbase/resource-manager/Microsoft.TestBase/preview/2022-04-01-preview/examples/PackageRunTest.json

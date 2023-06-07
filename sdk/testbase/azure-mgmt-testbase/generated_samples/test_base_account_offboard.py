@@ -29,11 +29,10 @@ def main():
         subscription_id="subscription-id",
     )
 
-    response = client.test_base_accounts.begin_offboard(
+    client.test_base_accounts.begin_offboard(
         resource_group_name="contoso-rg1",
         test_base_account_name="contoso-testBaseAccount1",
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/testbase/resource-manager/Microsoft.TestBase/preview/2022-04-01-preview/examples/TestBaseAccountOffboard.json
