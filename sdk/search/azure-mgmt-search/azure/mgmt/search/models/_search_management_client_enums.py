@@ -46,10 +46,20 @@ class HostingMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class IdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The identity type."""
+    """The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes
+    both an identity created by the system and a set of user assigned identities. The type 'None'
+    will remove all identities from the service.
+    """
 
     NONE = "None"
+    """Indicates that any identity associated with the search service needs to be removed."""
     SYSTEM_ASSIGNED = "SystemAssigned"
+    """Indicates that system-assigned identity for the search service will be enabled."""
+    USER_ASSIGNED = "UserAssigned"
+    """Indicates that one or more user assigned identities will be assigned to the search service."""
+    SYSTEM_ASSIGNED_USER_ASSIGNED = "SystemAssigned, UserAssigned"
+    """Indicates that system-assigned identity for the search service will be enabled along with the
+    #: assignment of one or more user assigned identities."""
 
 
 class PrivateLinkServiceConnectionProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -170,8 +180,6 @@ class SearchServiceStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ERROR = "error"
     """The search service is in error state, indicating either a failure to provision or to be
     #: deleted."""
-    STOPPED = "stopped"
-    """The search service is in a subscription that's disabled."""
 
 
 class SharedPrivateLinkResourceAsyncOperationResult(str, Enum, metaclass=CaseInsensitiveEnumMeta):

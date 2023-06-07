@@ -42,6 +42,7 @@ from ._models_py3 import SharedPrivateLinkResourceListResult
 from ._models_py3 import SharedPrivateLinkResourceProperties
 from ._models_py3 import Sku
 from ._models_py3 import TrackedResource
+from ._models_py3 import UserAssignedManagedIdentity
 
 from ._search_management_client_enums import AadAuthFailureMode
 from ._search_management_client_enums import AdminKeyKind
@@ -100,6 +101,7 @@ __all__ = [
     "SharedPrivateLinkResourceProperties",
     "Sku",
     "TrackedResource",
+    "UserAssignedManagedIdentity",
     "AadAuthFailureMode",
     "AdminKeyKind",
     "HostingMode",

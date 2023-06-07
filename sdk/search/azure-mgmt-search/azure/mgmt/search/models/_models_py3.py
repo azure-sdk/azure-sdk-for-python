@@ -309,7 +309,8 @@ class EncryptionWithCmk(_serialization.Model):
 
 
 class Identity(_serialization.Model):
-    """Identity for the resource.
+    """Details about the search service identity. A null value indicates that the search service has
+    no identity assigned.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -319,8 +320,16 @@ class Identity(_serialization.Model):
     :vartype principal_id: str
     :ivar tenant_id: The tenant ID of the system-assigned identity of the search service.
     :vartype tenant_id: str
-    :ivar type: The identity type. Required. Known values are: "None" and "SystemAssigned".
+    :ivar type: The type of identity used for the resource. The type 'SystemAssigned, UserAssigned'
+     includes both an identity created by the system and a set of user assigned identities. The type
+     'None' will remove all identities from the service. Required. Known values are: "None",
+     "SystemAssigned", "UserAssigned", and "SystemAssigned, UserAssigned".
     :vartype type: str or ~azure.mgmt.search.models.IdentityType
+    :ivar user_assigned_identities: The list of user identities associated with the resource. The
+     user identity dictionary key references will be ARM resource ids in the form:
+     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+    :vartype user_assigned_identities: dict[str,
+     ~azure.mgmt.search.models.UserAssignedManagedIdentity]
     """
 
     _validation = {
@@ -333,17 +342,33 @@ class Identity(_serialization.Model):
         "principal_id": {"key": "principalId", "type": "str"},
         "tenant_id": {"key": "tenantId", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "user_assigned_identities": {"key": "userAssignedIdentities", "type": "{UserAssignedManagedIdentity}"},
     }
 
-    def __init__(self, *, type: Union[str, "_models.IdentityType"], **kwargs: Any) -> None:
+    def __init__(
+        self,
+        *,
+        type: Union[str, "_models.IdentityType"],
+        user_assigned_identities: Optional[Dict[str, "_models.UserAssignedManagedIdentity"]] = None,
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword type: The identity type. Required. Known values are: "None" and "SystemAssigned".
+        :keyword type: The type of identity used for the resource. The type 'SystemAssigned,
+         UserAssigned' includes both an identity created by the system and a set of user assigned
+         identities. The type 'None' will remove all identities from the service. Required. Known values
+         are: "None", "SystemAssigned", "UserAssigned", and "SystemAssigned, UserAssigned".
         :paramtype type: str or ~azure.mgmt.search.models.IdentityType
+        :keyword user_assigned_identities: The list of user identities associated with the resource.
+         The user identity dictionary key references will be ARM resource ids in the form:
+         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+        :paramtype user_assigned_identities: dict[str,
+         ~azure.mgmt.search.models.UserAssignedManagedIdentity]
         """
         super().__init__(**kwargs)
         self.principal_id = None
         self.tenant_id = None
         self.type = type
+        self.user_assigned_identities = user_assigned_identities
 
 
 class IpRule(_serialization.Model):
@@ -1019,7 +1044,7 @@ class SearchService(TrackedResource):  # pylint: disable=too-many-instance-attri
      state. If your service is in the degraded, disabled, or error states, it means the Azure
      Cognitive Search team is actively investigating the underlying issue. Dedicated services in
      these states are still chargeable based on the number of search units provisioned. Known values
-     are: "running", "provisioning", "deleting", "degraded", "disabled", "error", and "stopped".
+     are: "running", "provisioning", "deleting", "degraded", "disabled", and "error".
     :vartype status: str or ~azure.mgmt.search.models.SearchServiceStatus
     :ivar status_details: The details of the search service status.
     :vartype status_details: str
@@ -1259,7 +1284,7 @@ class SearchServiceUpdate(Resource):  # pylint: disable=too-many-instance-attrib
      state. If your service is in the degraded, disabled, or error states, it means the Azure
      Cognitive Search team is actively investigating the underlying issue. Dedicated services in
      these states are still chargeable based on the number of search units provisioned. Known values
-     are: "running", "provisioning", "deleting", "degraded", "disabled", "error", and "stopped".
+     are: "running", "provisioning", "deleting", "degraded", "disabled", and "error".
     :vartype status: str or ~azure.mgmt.search.models.SearchServiceStatus
     :ivar status_details: The details of the search service status.
     :vartype status_details: str
@@ -1678,3 +1703,31 @@ class Sku(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.name = name
+
+
+class UserAssignedManagedIdentity(_serialization.Model):
+    """The details of the user assigned managed identity assigned to the search service.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar principal_id: The principal ID of user assigned identity.
+    :vartype principal_id: str
+    :ivar client_id: The client ID of user assigned identity.
+    :vartype client_id: str
+    """
+
+    _validation = {
+        "principal_id": {"readonly": True},
+        "client_id": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "principal_id": {"key": "principalId", "type": "str"},
+        "client_id": {"key": "clientId", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.principal_id = None
+        self.client_id = None
