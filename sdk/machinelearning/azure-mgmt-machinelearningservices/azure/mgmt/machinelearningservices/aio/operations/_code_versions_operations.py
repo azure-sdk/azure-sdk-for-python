@@ -36,6 +36,7 @@ from ...operations._code_versions_operations import (
     build_get_request,
     build_list_request,
 )
+from .._vendor import MachineLearningServicesMgmtClientMixinABC
 
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]

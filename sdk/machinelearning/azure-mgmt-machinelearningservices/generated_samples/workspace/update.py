@@ -32,17 +32,10 @@ def main():
     response = client.workspaces.begin_update(
         resource_group_name="workspace-1234",
         workspace_name="testworkspace",
-        parameters={
-            "properties": {
-                "description": "new description",
-                "friendlyName": "New friendly name",
-                "publicNetworkAccess": "Disabled",
-            }
-        },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2023-04-01/examples/Workspace/update.json
+# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2023-06-01-preview/examples/Workspace/update.json
 if __name__ == "__main__":
     main()

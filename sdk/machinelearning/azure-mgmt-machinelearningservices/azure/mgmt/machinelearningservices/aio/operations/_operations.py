@@ -28,6 +28,7 @@ from azure.mgmt.core.exceptions import ARMErrorFormat
 from ... import models as _models
 from ..._vendor import _convert_request
 from ...operations._operations import build_list_request
+from .._vendor import MachineLearningServicesMgmtClientMixinABC
 
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
@@ -55,6 +56,8 @@ class Operations:
     @distributed_trace
     def list(self, **kwargs: Any) -> AsyncIterable["_models.AmlOperation"]:
         """Lists all of the available Azure Machine Learning Workspaces REST API operations.
+
+        Lists all of the available Azure Machine Learning Workspaces REST API operations.
 
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either AmlOperation or the result of cls(response)

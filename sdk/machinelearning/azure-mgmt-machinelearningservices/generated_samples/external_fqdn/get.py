@@ -29,13 +29,13 @@ def main():
         subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.workspaces.list_outbound_network_dependencies_endpoints(
+    response = client.outbound_network_dependencies_endpoints(
         resource_group_name="workspace-1234",
         workspace_name="testworkspace",
     )
     print(response)
 
 
-# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2023-04-01/examples/ExternalFQDN/get.json
+# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2023-06-01-preview/examples/ExternalFQDN/get.json
 if __name__ == "__main__":
     main()

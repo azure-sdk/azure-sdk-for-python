@@ -37,6 +37,7 @@ from ...operations._registry_component_versions_operations import (
     build_get_request,
     build_list_request,
 )
+from .._vendor import MachineLearningServicesMgmtClientMixinABC
 
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
@@ -70,6 +71,7 @@ class RegistryComponentVersionsOperations:
         order_by: Optional[str] = None,
         top: Optional[int] = None,
         skip: Optional[str] = None,
+        stage: Optional[str] = None,
         **kwargs: Any
     ) -> AsyncIterable["_models.ComponentVersion"]:
         """List versions.
@@ -90,6 +92,8 @@ class RegistryComponentVersionsOperations:
         :type top: int
         :param skip: Continuation token for pagination. Default value is None.
         :type skip: str
+        :param stage: Component stage. Default value is None.
+        :type stage: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ComponentVersion or the result of cls(response)
         :rtype:
@@ -121,6 +125,7 @@ class RegistryComponentVersionsOperations:
                     order_by=order_by,
                     top=top,
                     skip=skip,
+                    stage=stage,
                     api_version=api_version,
                     template_url=self.list.metadata["url"],
                     headers=_headers,
