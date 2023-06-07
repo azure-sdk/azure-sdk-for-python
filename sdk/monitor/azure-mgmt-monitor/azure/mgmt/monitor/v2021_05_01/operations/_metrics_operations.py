@@ -7,6 +7,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import datetime
+from io import IOBase
 from typing import Any, Callable, Dict, IO, Optional, TypeVar, Union, overload
 
 from azure.core.exceptions import (
@@ -98,7 +99,7 @@ def build_list_at_subscription_scope_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_list_at_subscription_scope_post_request(  # pylint: disable=name-too-long
+def build_list_at_subscription_scope_post_request(
     subscription_id: str,
     *,
     region: str,
@@ -635,7 +636,7 @@ class MetricsOperations:
         content_type = content_type or "application/json"
         _json = None
         _content = None
-        if isinstance(body, (IO, bytes)):
+        if isinstance(body, (IOBase, bytes)):
             _content = body
         else:
             if body is not None:

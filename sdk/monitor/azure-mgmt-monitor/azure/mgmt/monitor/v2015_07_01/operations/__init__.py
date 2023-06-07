@@ -8,7 +8,6 @@
 
 from ._service_diagnostic_settings_operations import ServiceDiagnosticSettingsOperations
 from ._metric_definitions_operations import MetricDefinitionsOperations
-from ._alert_rules_operations import AlertRulesOperations
 from ._operations import Operations
 
 from ._patch import __all__ as _patch_all
@@ -18,7 +17,6 @@ from ._patch import patch_sdk as _patch_sdk
 __all__ = [
     "ServiceDiagnosticSettingsOperations",
     "MetricDefinitionsOperations",
-    "AlertRulesOperations",
     "Operations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])

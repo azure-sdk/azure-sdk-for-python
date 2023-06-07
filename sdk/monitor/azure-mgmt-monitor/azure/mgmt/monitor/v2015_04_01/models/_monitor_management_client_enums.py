@@ -21,15 +21,6 @@ class ComparisonOperationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     LESS_THAN_OR_EQUAL = "LessThanOrEqual"
 
 
-class ConditionOperator(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Operators allowed in the rule condition."""
-
-    GREATER_THAN = "GreaterThan"
-    GREATER_THAN_OR_EQUAL = "GreaterThanOrEqual"
-    LESS_THAN = "LessThan"
-    LESS_THAN_OR_EQUAL = "LessThanOrEqual"
-
-
 class EventLevel(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """the event level."""
 
@@ -91,16 +82,6 @@ class ScaleType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     PERCENT_CHANGE_COUNT = "PercentChangeCount"
     EXACT_COUNT = "ExactCount"
     SERVICE_ALLOWED_NEXT_VALUE = "ServiceAllowedNextValue"
-
-
-class TimeAggregationOperator(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Aggregation operators allowed in a rule."""
-
-    AVERAGE = "Average"
-    MINIMUM = "Minimum"
-    MAXIMUM = "Maximum"
-    TOTAL = "Total"
-    LAST = "Last"
 
 
 class TimeAggregationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
