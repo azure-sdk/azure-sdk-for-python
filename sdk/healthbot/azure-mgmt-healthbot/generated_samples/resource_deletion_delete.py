@@ -14,7 +14,7 @@ from azure.mgmt.healthbot import HealthBotMgmtClient
     pip install azure-identity
     pip install azure-mgmt-healthbot
 # USAGE
-    python bot_delete.py
+    python resource_deletion_delete.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,13 +29,12 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.bots.begin_delete(
+    client.bots.begin_delete(
         resource_group_name="healthbotClient",
         bot_name="samplebotname",
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/healthbot/resource-manager/Microsoft.HealthBot/stable/2022-08-08/examples/ResourceDeletionDelete.json
+# x-ms-original-file: specification/healthbot/resource-manager/Microsoft.HealthBot/stable/2023-05-01/examples/ResourceDeletionDelete.json
 if __name__ == "__main__":
     main()
