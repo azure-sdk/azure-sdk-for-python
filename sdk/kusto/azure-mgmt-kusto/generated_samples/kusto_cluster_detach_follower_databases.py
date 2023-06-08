@@ -29,7 +29,7 @@ def main():
         subscription_id="12345678-1234-1234-1234-123456789098",
     )
 
-    response = client.clusters.begin_detach_follower_databases(
+    client.clusters.begin_detach_follower_databases(
         resource_group_name="kustorptest",
         cluster_name="kustoCluster",
         follower_database_to_remove={
@@ -37,7 +37,6 @@ def main():
             "clusterResourceId": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoCluster2",
         },
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoClusterDetachFollowerDatabases.json

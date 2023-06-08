@@ -29,12 +29,11 @@ def main():
         subscription_id="12345678-1234-1234-1234-123456789098",
     )
 
-    response = client.managed_private_endpoints.begin_delete(
+    client.managed_private_endpoints.begin_delete(
         resource_group_name="kustorptest",
         cluster_name="kustoCluster",
         managed_private_endpoint_name="managedPrivateEndpointTest",
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoManagedPrivateEndpointsDelete.json

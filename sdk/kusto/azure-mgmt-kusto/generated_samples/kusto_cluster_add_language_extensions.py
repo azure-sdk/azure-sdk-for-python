@@ -29,12 +29,11 @@ def main():
         subscription_id="12345678-1234-1234-1234-123456789098",
     )
 
-    response = client.clusters.begin_add_language_extensions(
+    client.clusters.begin_add_language_extensions(
         resource_group_name="kustorptest",
         cluster_name="kustoCluster",
         language_extensions_to_add={"value": [{"languageExtensionName": "PYTHON"}, {"languageExtensionName": "R"}]},
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoClusterAddLanguageExtensions.json

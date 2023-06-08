@@ -2789,7 +2789,7 @@ class LanguageExtension(_serialization.Model):
     :ivar language_extension_name: The language extension name. Known values are: "PYTHON" and "R".
     :vartype language_extension_name: str or ~azure.mgmt.kusto.models.LanguageExtensionName
     :ivar language_extension_image_name: The language extension image name. Known values are: "R",
-     "Python3_6_5", "Python3_9_12", "Python3_9_12IncludeDeepLearning", and "Python3_10_8".
+     "Python3_6_5", and "Python3_10_8".
     :vartype language_extension_image_name: str or
      ~azure.mgmt.kusto.models.LanguageExtensionImageName
     """
@@ -2811,7 +2811,7 @@ class LanguageExtension(_serialization.Model):
          "R".
         :paramtype language_extension_name: str or ~azure.mgmt.kusto.models.LanguageExtensionName
         :keyword language_extension_image_name: The language extension image name. Known values are:
-         "R", "Python3_6_5", "Python3_9_12", "Python3_9_12IncludeDeepLearning", and "Python3_10_8".
+         "R", "Python3_6_5", and "Python3_10_8".
         :paramtype language_extension_image_name: str or
          ~azure.mgmt.kusto.models.LanguageExtensionImageName
         """

@@ -41,6 +41,12 @@ def main():
                 "enableDoubleEncryption": False,
                 "enablePurge": True,
                 "enableStreamingIngest": True,
+                "languageExtensions": {
+                    "value": [
+                        {"languageExtensionImageName": "Python3_10_8", "languageExtensionName": "PYTHON"},
+                        {"languageExtensionImageName": "R", "languageExtensionName": "R"},
+                    ]
+                },
                 "publicIPType": "DualStack",
                 "publicNetworkAccess": "Enabled",
             },
