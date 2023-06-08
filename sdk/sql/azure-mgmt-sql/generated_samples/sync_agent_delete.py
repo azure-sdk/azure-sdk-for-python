@@ -29,14 +29,13 @@ def main():
         subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.sync_agents.begin_delete(
+    client.sync_agents.begin_delete(
         resource_group_name="syncagentcrud-65440",
         server_name="syncagentcrud-8475",
         sync_agent_name="syncagentcrud-3187",
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/SyncAgentDelete.json
+# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/SyncAgentDelete.json
 if __name__ == "__main__":
     main()
