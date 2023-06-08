@@ -101,6 +101,14 @@ class ConnectedEnvironmentProvisioningState(str, Enum, metaclass=CaseInsensitive
     SCHEDULED_FOR_DELETE = "ScheduledForDelete"
 
 
+class ContainerAppContainerRunningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Current running state of the container."""
+
+    RUNNING = "Running"
+    TERMINATED = "Terminated"
+    WAITING = "Waiting"
+
+
 class ContainerAppProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Provisioning state of the Container App."""
 
@@ -109,6 +117,14 @@ class ContainerAppProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta
     FAILED = "Failed"
     CANCELED = "Canceled"
     DELETING = "Deleting"
+
+
+class ContainerAppReplicaRunningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Current running state of the replica."""
+
+    RUNNING = "Running"
+    NOT_RUNNING = "NotRunning"
+    UNKNOWN = "Unknown"
 
 
 class CookieExpirationConvention(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -252,6 +268,17 @@ class RevisionProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     FAILED = "Failed"
     DEPROVISIONING = "Deprovisioning"
     DEPROVISIONED = "Deprovisioned"
+
+
+class RevisionRunningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Current running state of the revision."""
+
+    RUNNING = "Running"
+    PROCESSING = "Processing"
+    STOPPED = "Stopped"
+    DEGRADED = "Degraded"
+    FAILED = "Failed"
+    UNKNOWN = "Unknown"
 
 
 class Scheme(str, Enum, metaclass=CaseInsensitiveEnumMeta):
