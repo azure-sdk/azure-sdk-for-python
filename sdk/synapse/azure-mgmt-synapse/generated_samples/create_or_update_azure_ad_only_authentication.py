@@ -14,7 +14,7 @@ from azure.mgmt.synapse import SynapseManagementClient
     pip install azure-identity
     pip install azure-mgmt-synapse
 # USAGE
-    python delete_sql_pool_workload_group.py
+    python create_or_update_azure_ad_only_authentication.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,14 +29,15 @@ def main():
         subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    client.sql_pool_workload_group.begin_delete(
-        resource_group_name="sqlcrudtest-6852",
-        workspace_name="sqlcrudtest-2080",
-        sql_pool_name="sqlcrudtest-9187",
-        workload_group_name="wlm_workloadgroup",
+    response = client.azure_ad_only_authentications.begin_create(
+        resource_group_name="workspace-6852",
+        workspace_name="workspace-2080",
+        azure_ad_only_authentication_name="default",
+        azure_ad_only_authentication_info={"properties": {"azureADOnlyAuthentication": True}},
     ).result()
+    print(response)
 
 
-# x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/DeleteSqlPoolWorkloadGroup.json
+# x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/CreateOrUpdateAzureADOnlyAuthentication.json
 if __name__ == "__main__":
     main()
