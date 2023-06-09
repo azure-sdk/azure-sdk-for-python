@@ -14,7 +14,7 @@ from azure.mgmt.storagecache import StorageCacheManagementClient
     pip install azure-identity
     pip install azure-mgmt-storagecache
 # USAGE
-    python storage_targets_flush.py
+    python aml_filesystems_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,13 +29,13 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    client.storage_target.begin_flush(
+    response = client.aml_filesystems.get(
         resource_group_name="scgroup",
-        cache_name="sc",
-        storage_target_name="st1",
-    ).result()
+        aml_filesystem_name="fs1",
+    )
+    print(response)
 
 
-# x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2023-05-01/examples/StorageTargets_Flush.json
+# x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2023-05-01/examples/amlFilesystems_Get.json
 if __name__ == "__main__":
     main()
