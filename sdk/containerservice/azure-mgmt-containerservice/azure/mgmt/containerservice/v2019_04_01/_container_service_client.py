@@ -15,7 +15,7 @@ from azure.mgmt.core import ARMPipelineClient
 from . import models as _models
 from .._serialization import Deserializer, Serializer
 from ._configuration import ContainerServiceClientConfiguration
-from .operations import AgentPoolsOperations, ManagedClustersOperations, Operations
+from .operations import AgentPoolsOperations, ContainerServicesOperations, ManagedClustersOperations, Operations
 
 if TYPE_CHECKING:
     # pylint: disable=unused-import,ungrouped-imports
@@ -32,6 +32,9 @@ class ContainerServiceClient:  # pylint: disable=client-accepts-api-version-keyw
      azure.mgmt.containerservice.v2019_04_01.operations.ManagedClustersOperations
     :ivar agent_pools: AgentPoolsOperations operations
     :vartype agent_pools: azure.mgmt.containerservice.v2019_04_01.operations.AgentPoolsOperations
+    :ivar container_services: ContainerServicesOperations operations
+    :vartype container_services:
+     azure.mgmt.containerservice.v2019_04_01.operations.ContainerServicesOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
     :param subscription_id: Subscription credentials which uniquely identify Microsoft Azure
@@ -67,6 +70,9 @@ class ContainerServiceClient:  # pylint: disable=client-accepts-api-version-keyw
             self._client, self._config, self._serialize, self._deserialize
         )
         self.agent_pools = AgentPoolsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.container_services = ContainerServicesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> HttpResponse:
         """Runs the network request through the client's chained policies.
