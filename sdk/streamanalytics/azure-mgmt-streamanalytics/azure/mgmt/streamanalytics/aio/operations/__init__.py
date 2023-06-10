@@ -6,30 +6,28 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from ._functions_operations import FunctionsOperations
-from ._inputs_operations import InputsOperations
-from ._outputs_operations import OutputsOperations
 from ._operations import Operations
 from ._streaming_jobs_operations import StreamingJobsOperations
-from ._sku_operations import SkuOperations
-from ._subscriptions_operations import SubscriptionsOperations
+from ._inputs_operations import InputsOperations
+from ._outputs_operations import OutputsOperations
 from ._transformations_operations import TransformationsOperations
+from ._functions_operations import FunctionsOperations
+from ._subscriptions_operations import SubscriptionsOperations
 from ._clusters_operations import ClustersOperations
 from ._private_endpoints_operations import PrivateEndpointsOperations
 
 from ._patch import __all__ as _patch_all
-from ._patch import *  # type: ignore # pylint: disable=unused-wildcard-import
+from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
-    "FunctionsOperations",
-    "InputsOperations",
-    "OutputsOperations",
     "Operations",
     "StreamingJobsOperations",
-    "SkuOperations",
-    "SubscriptionsOperations",
+    "InputsOperations",
+    "OutputsOperations",
     "TransformationsOperations",
+    "FunctionsOperations",
+    "SubscriptionsOperations",
     "ClustersOperations",
     "PrivateEndpointsOperations",
 ]
