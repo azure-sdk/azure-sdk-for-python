@@ -29,7 +29,7 @@ def main():
         subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.maintenance_windows.create_or_update(
+    client.maintenance_windows.create_or_update(
         resource_group_name="Default-SQL-SouthEastAsia",
         server_name="testsvr",
         database_name="testdwdb",
@@ -38,9 +38,8 @@ def main():
             "properties": {"timeRanges": [{"dayOfWeek": "Saturday", "duration": "PT60M", "startTime": "00:00:00"}]}
         },
     )
-    print(response)
 
 
-# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/CreateOrUpdateMaintenanceWindows.json
+# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-11-01-preview/examples/CreateOrUpdateMaintenanceWindows.json
 if __name__ == "__main__":
     main()
