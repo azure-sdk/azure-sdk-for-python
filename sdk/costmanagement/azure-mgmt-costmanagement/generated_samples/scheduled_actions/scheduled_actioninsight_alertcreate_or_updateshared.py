@@ -14,7 +14,7 @@ from azure.mgmt.costmanagement import CostManagementClient
     pip install azure-identity
     pip install azure-mgmt-costmanagement
 # USAGE
-    python scheduled_actioncreate_or_updateshared.py
+    python scheduled_actioninsight_alertcreate_or_updateshared.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,20 +30,19 @@ def main():
 
     response = client.scheduled_actions.create_or_update_by_scope(
         scope="subscriptions/00000000-0000-0000-0000-000000000000",
-        name="monthlyCostByResource",
+        name="dailyAnomalyByResource",
         scheduled_action={
-            "kind": "Email",
+            "kind": "InsightAlert",
             "properties": {
-                "displayName": "Monthly Cost By Resource",
-                "fileDestination": {"fileFormats": ["Csv"]},
-                "notification": {"subject": "Cost by resource this month", "to": ["user@gmail.com", "team@gmail.com"]},
+                "displayName": "Daily anomaly by resource",
+                "notification": {
+                    "subject": "Cost anomaly detected in the resource",
+                    "to": ["user@gmail.com", "team@gmail.com"],
+                },
                 "schedule": {
-                    "daysOfWeek": ["Monday"],
                     "endDate": "2021-06-19T22:21:51.1287144Z",
-                    "frequency": "Monthly",
-                    "hourOfDay": 10,
+                    "frequency": "Daily",
                     "startDate": "2020-06-19T22:21:51.1287144Z",
-                    "weeksOfMonth": ["First", "Third"],
                 },
                 "status": "Enabled",
                 "viewId": "/providers/Microsoft.CostManagement/views/swaggerExample",
@@ -53,6 +52,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/scheduledActions/scheduledAction-createOrUpdate-shared.json
+# x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2023-03-01/examples/scheduledActions/scheduledAction-insightAlert-createOrUpdate-shared.json
 if __name__ == "__main__":
     main()

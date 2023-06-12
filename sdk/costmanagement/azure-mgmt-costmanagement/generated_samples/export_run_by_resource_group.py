@@ -28,13 +28,12 @@ def main():
         credential=DefaultAzureCredential(),
     )
 
-    response = client.exports.execute(
+    client.exports.execute(
         scope="subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG",
         export_name="TestExport",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportRunByResourceGroup.json
+# x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2023-03-01/examples/ExportRunByResourceGroup.json
 if __name__ == "__main__":
     main()
