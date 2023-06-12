@@ -63,8 +63,8 @@ class ActiveDirectoryConnectorDNSDetails(_serialization.Model):
         domain_name: Optional[str] = None,
         replicas: int = 1,
         prefer_k8_s_dns_for_ptr_lookups: bool = True,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword domain_name: DNS domain name for which DNS lookups should be forwarded to the Active
          Directory DNS servers.
@@ -101,13 +101,12 @@ class ActiveDirectoryConnectorDomainDetails(_serialization.Model):
     :ivar ou_distinguished_name: The distinguished name of the Active Directory Organizational
      Unit.
     :vartype ou_distinguished_name: str
-    :ivar domain_controllers: null. Required.
+    :ivar domain_controllers: null.
     :vartype domain_controllers: ~azure.mgmt.azurearcdata.models.ActiveDirectoryDomainControllers
     """
 
     _validation = {
         "realm": {"required": True},
-        "domain_controllers": {"required": True},
     }
 
     _attribute_map = {
@@ -122,12 +121,12 @@ class ActiveDirectoryConnectorDomainDetails(_serialization.Model):
         self,
         *,
         realm: str,
-        domain_controllers: "_models.ActiveDirectoryDomainControllers",
         netbios_domain_name: Optional[str] = None,
         service_account_provisioning: Union[str, "_models.AccountProvisioningMode"] = "manual",
         ou_distinguished_name: Optional[str] = None,
-        **kwargs
-    ):
+        domain_controllers: Optional["_models.ActiveDirectoryDomainControllers"] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword realm: Name (uppercase) of the Active Directory domain that this AD connector will be
          associated with. Required.
@@ -141,7 +140,7 @@ class ActiveDirectoryConnectorDomainDetails(_serialization.Model):
         :keyword ou_distinguished_name: The distinguished name of the Active Directory Organizational
          Unit.
         :paramtype ou_distinguished_name: str
-        :keyword domain_controllers: null. Required.
+        :keyword domain_controllers: null.
         :paramtype domain_controllers: ~azure.mgmt.azurearcdata.models.ActiveDirectoryDomainControllers
         """
         super().__init__(**kwargs)
@@ -173,7 +172,7 @@ class ActiveDirectoryConnectorListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -220,8 +219,8 @@ class ActiveDirectoryConnectorProperties(_serialization.Model):
         spec: "_models.ActiveDirectoryConnectorSpec",
         domain_service_account_login_information: Optional["_models.BasicLoginInformation"] = None,
         status: Optional["_models.ActiveDirectoryConnectorStatus"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword domain_service_account_login_information: Username and password for domain service
          account authentication.
@@ -271,7 +270,7 @@ class Resource(_serialization.Model):
         "system_data": {"key": "systemData", "type": "SystemData"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -281,7 +280,8 @@ class Resource(_serialization.Model):
 
 
 class ProxyResource(Resource):
-    """The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location.
+    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
+    tags and a location.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -312,7 +312,7 @@ class ProxyResource(Resource):
         "system_data": {"key": "systemData", "type": "SystemData"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
 
@@ -355,7 +355,7 @@ class ActiveDirectoryConnectorResource(ProxyResource):
         "properties": {"key": "properties", "type": "ActiveDirectoryConnectorProperties"},
     }
 
-    def __init__(self, *, properties: "_models.ActiveDirectoryConnectorProperties", **kwargs):
+    def __init__(self, *, properties: "_models.ActiveDirectoryConnectorProperties", **kwargs: Any) -> None:
         """
         :keyword properties: null. Required.
         :paramtype properties: ~azure.mgmt.azurearcdata.models.ActiveDirectoryConnectorProperties
@@ -391,8 +391,8 @@ class ActiveDirectoryConnectorSpec(_serialization.Model):
         *,
         active_directory: "_models.ActiveDirectoryConnectorDomainDetails",
         dns: "_models.ActiveDirectoryConnectorDNSDetails",
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword active_directory: null. Required.
         :paramtype active_directory:
@@ -410,7 +410,7 @@ class ActiveDirectoryConnectorStatus(_serialization.Model):
 
     :ivar additional_properties: Unmatched properties from the message are deserialized to this
      collection.
-    :vartype additional_properties: dict[str, JSON]
+    :vartype additional_properties: dict[str, any]
     :ivar last_update_time: The time that the custom resource was last updated.
     :vartype last_update_time: str
     :ivar observed_generation: The version of the replicaSet associated with the AD connector
@@ -430,16 +430,16 @@ class ActiveDirectoryConnectorStatus(_serialization.Model):
     def __init__(
         self,
         *,
-        additional_properties: Optional[Dict[str, JSON]] = None,
+        additional_properties: Optional[Dict[str, Any]] = None,
         last_update_time: Optional[str] = None,
         observed_generation: Optional[int] = None,
         state: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword additional_properties: Unmatched properties from the message are deserialized to this
          collection.
-        :paramtype additional_properties: dict[str, JSON]
+        :paramtype additional_properties: dict[str, any]
         :keyword last_update_time: The time that the custom resource was last updated.
         :paramtype last_update_time: str
         :keyword observed_generation: The version of the replicaSet associated with the AD connector
@@ -472,7 +472,7 @@ class ActiveDirectoryDomainController(_serialization.Model):
         "hostname": {"key": "hostname", "type": "str"},
     }
 
-    def __init__(self, *, hostname: str, **kwargs):
+    def __init__(self, *, hostname: str, **kwargs: Any) -> None:
         """
         :keyword hostname: Fully-qualified domain name of a domain controller in the AD domain.
          Required.
@@ -483,7 +483,8 @@ class ActiveDirectoryDomainController(_serialization.Model):
 
 
 class ActiveDirectoryDomainControllers(_serialization.Model):
-    """Details about the Active Directory domain controllers associated with this AD connector instance.
+    """Details about the Active Directory domain controllers associated with this AD connector
+    instance.
 
     :ivar primary_domain_controller: Information about the Primary Domain Controller (PDC) in the
      AD domain.
@@ -507,8 +508,8 @@ class ActiveDirectoryDomainControllers(_serialization.Model):
         *,
         primary_domain_controller: Optional["_models.ActiveDirectoryDomainController"] = None,
         secondary_domain_controllers: Optional[List["_models.ActiveDirectoryDomainController"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword primary_domain_controller: Information about the Primary Domain Controller (PDC) in
          the AD domain.
@@ -535,7 +536,7 @@ class ActiveDirectoryInformation(_serialization.Model):
         "keytab_information": {"key": "keytabInformation", "type": "KeytabInformation"},
     }
 
-    def __init__(self, *, keytab_information: Optional["_models.KeytabInformation"] = None, **kwargs):
+    def __init__(self, *, keytab_information: Optional["_models.KeytabInformation"] = None, **kwargs: Any) -> None:
         """
         :keyword keytab_information: Keytab information that is used for the Sql Managed Instance when
          Active Directory authentication is used.
@@ -543,6 +544,34 @@ class ActiveDirectoryInformation(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.keytab_information = keytab_information
+
+
+class ArcSqlServerDatabaseListResult(_serialization.Model):
+    """A list of Arc Sql Server database.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar value: Array of  Arc Sql Server database.
+    :vartype value: list[~azure.mgmt.azurearcdata.models.SqlServerDatabaseResource]
+    :ivar next_link: Link to retrieve next page of results.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"readonly": True},
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[SqlServerDatabaseResource]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.value = None
+        self.next_link = None
 
 
 class BasicLoginInformation(_serialization.Model):
@@ -559,7 +588,7 @@ class BasicLoginInformation(_serialization.Model):
         "password": {"key": "password", "type": "str"},
     }
 
-    def __init__(self, *, username: Optional[str] = None, password: Optional[str] = None, **kwargs):
+    def __init__(self, *, username: Optional[str] = None, password: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword username: Login username.
         :paramtype username: str
@@ -612,8 +641,8 @@ class CommonSku(_serialization.Model):
         size: Optional[str] = None,
         family: Optional[str] = None,
         capacity: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: The name of the SKU.  It is typically a letter+number code. Required.
         :paramtype name: str
@@ -715,8 +744,8 @@ class DataControllerProperties(_serialization.Model):  # pylint: disable=too-man
         upload_service_principal: Optional["_models.UploadServicePrincipal"] = None,
         cluster_id: Optional[str] = None,
         extension_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword infrastructure: The infrastructure the data controller is running on. Known values
          are: "azure", "gcp", "aws", "alibaba", "onpremises", and "other".
@@ -770,7 +799,8 @@ class DataControllerProperties(_serialization.Model):  # pylint: disable=too-man
 
 
 class TrackedResource(Resource):
-    """The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'.
+    """The resource model definition for an Azure Resource Manager tracked top level resource which
+    has 'tags' and a 'location'.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -810,7 +840,7 @@ class TrackedResource(Resource):
         "location": {"key": "location", "type": "str"},
     }
 
-    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -877,8 +907,8 @@ class DataControllerResource(TrackedResource):
         properties: "_models.DataControllerProperties",
         tags: Optional[Dict[str, str]] = None,
         extended_location: Optional["_models.ExtendedLocation"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -913,8 +943,8 @@ class DataControllerUpdate(_serialization.Model):
         *,
         tags: Optional[Dict[str, str]] = None,
         properties: Optional["_models.DataControllerProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -937,7 +967,7 @@ class ErrorResponse(_serialization.Model):
         "error": {"key": "error", "type": "ErrorResponseBody"},
     }
 
-    def __init__(self, *, error: Optional["_models.ErrorResponseBody"] = None, **kwargs):
+    def __init__(self, *, error: Optional["_models.ErrorResponseBody"] = None, **kwargs: Any) -> None:
         """
         :keyword error: null.
         :paramtype error: ~azure.mgmt.azurearcdata.models.ErrorResponseBody
@@ -976,8 +1006,8 @@ class ErrorResponseBody(_serialization.Model):
         message: Optional[str] = None,
         target: Optional[str] = None,
         details: Optional[List["_models.ErrorResponseBody"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword code: An identifier for the error. Codes are invariant and are intended to be consumed
          programmatically.
@@ -1017,8 +1047,8 @@ class ExtendedLocation(_serialization.Model):
         *,
         name: Optional[str] = None,
         type: Optional[Union[str, "_models.ExtendedLocationTypes"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: The name of the extended location.
         :paramtype name: str
@@ -1030,12 +1060,356 @@ class ExtendedLocation(_serialization.Model):
         self.type = type
 
 
+class FailoverGroupListResult(_serialization.Model):
+    """A list of failover groups.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar value: Array of failover group results.
+    :vartype value: list[~azure.mgmt.azurearcdata.models.FailoverGroupResource]
+    :ivar next_link: Link to retrieve next page of results.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"readonly": True},
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[FailoverGroupResource]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.value = None
+        self.next_link = None
+
+
+class FailoverGroupProperties(_serialization.Model):
+    """The properties of a failover group resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar additional_properties: Unmatched properties from the message are deserialized to this
+     collection.
+    :vartype additional_properties: dict[str, any]
+    :ivar provisioning_state: The provisioning state of the failover group resource. Known values
+     are: "Succeeded", "Failed", "Canceled", and "Accepted".
+    :vartype provisioning_state: str or ~azure.mgmt.azurearcdata.models.ProvisioningState
+    :ivar partner_managed_instance_id: The resource ID of the partner SQL managed instance.
+     Required.
+    :vartype partner_managed_instance_id: str
+    :ivar spec: The specifications of the failover group resource. Required.
+    :vartype spec: ~azure.mgmt.azurearcdata.models.FailoverGroupSpec
+    :ivar status: The status of the failover group custom resource.
+    :vartype status: JSON
+    """
+
+    _validation = {
+        "provisioning_state": {"readonly": True},
+        "partner_managed_instance_id": {"required": True},
+        "spec": {"required": True},
+    }
+
+    _attribute_map = {
+        "additional_properties": {"key": "", "type": "{object}"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+        "partner_managed_instance_id": {"key": "partnerManagedInstanceId", "type": "str"},
+        "spec": {"key": "spec", "type": "FailoverGroupSpec"},
+        "status": {"key": "status", "type": "object"},
+    }
+
+    def __init__(
+        self,
+        *,
+        partner_managed_instance_id: str,
+        spec: "_models.FailoverGroupSpec",
+        additional_properties: Optional[Dict[str, Any]] = None,
+        status: Optional[JSON] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword additional_properties: Unmatched properties from the message are deserialized to this
+         collection.
+        :paramtype additional_properties: dict[str, any]
+        :keyword partner_managed_instance_id: The resource ID of the partner SQL managed instance.
+         Required.
+        :paramtype partner_managed_instance_id: str
+        :keyword spec: The specifications of the failover group resource. Required.
+        :paramtype spec: ~azure.mgmt.azurearcdata.models.FailoverGroupSpec
+        :keyword status: The status of the failover group custom resource.
+        :paramtype status: JSON
+        """
+        super().__init__(**kwargs)
+        self.additional_properties = additional_properties
+        self.provisioning_state = None
+        self.partner_managed_instance_id = partner_managed_instance_id
+        self.spec = spec
+        self.status = status
+
+
+class FailoverGroupResource(ProxyResource):
+    """A failover group resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.azurearcdata.models.SystemData
+    :ivar properties: null. Required.
+    :vartype properties: ~azure.mgmt.azurearcdata.models.FailoverGroupProperties
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "properties": {"required": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "properties": {"key": "properties", "type": "FailoverGroupProperties"},
+    }
+
+    def __init__(self, *, properties: "_models.FailoverGroupProperties", **kwargs: Any) -> None:
+        """
+        :keyword properties: null. Required.
+        :paramtype properties: ~azure.mgmt.azurearcdata.models.FailoverGroupProperties
+        """
+        super().__init__(**kwargs)
+        self.properties = properties
+
+
+class FailoverGroupSpec(_serialization.Model):
+    """The specifications of the failover group resource.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar additional_properties: Unmatched properties from the message are deserialized to this
+     collection.
+    :vartype additional_properties: dict[str, any]
+    :ivar shared_name: The shared name of the failover group for this SQL managed instance. Both
+     SQL managed instance and its partner have to use the same shared name.
+    :vartype shared_name: str
+    :ivar source_mi: The name of the SQL managed instance with this failover group role.
+    :vartype source_mi: str
+    :ivar partner_mi: The name of the partner SQL managed instance.
+    :vartype partner_mi: str
+    :ivar partner_mirroring_url: The mirroring endpoint URL of the partner SQL managed instance.
+    :vartype partner_mirroring_url: str
+    :ivar partner_mirroring_cert: The mirroring endpoint public certificate for the partner SQL
+     managed instance. Only PEM format is supported.
+    :vartype partner_mirroring_cert: str
+    :ivar partner_sync_mode: The partner sync mode of the SQL managed instance. Known values are:
+     "async", "sync", and "async".
+    :vartype partner_sync_mode: str or ~azure.mgmt.azurearcdata.models.FailoverGroupPartnerSyncMode
+    :ivar role: The role of the SQL managed instance in this failover group. Known values are:
+     "primary", "secondary", "force-primary-allow-data-loss", and "force-secondary".
+    :vartype role: str or ~azure.mgmt.azurearcdata.models.InstanceFailoverGroupRole
+    """
+
+    _validation = {
+        "role": {"required": True},
+    }
+
+    _attribute_map = {
+        "additional_properties": {"key": "", "type": "{object}"},
+        "shared_name": {"key": "sharedName", "type": "str"},
+        "source_mi": {"key": "sourceMI", "type": "str"},
+        "partner_mi": {"key": "partnerMI", "type": "str"},
+        "partner_mirroring_url": {"key": "partnerMirroringURL", "type": "str"},
+        "partner_mirroring_cert": {"key": "partnerMirroringCert", "type": "str"},
+        "partner_sync_mode": {"key": "partnerSyncMode", "type": "str"},
+        "role": {"key": "role", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        role: Union[str, "_models.InstanceFailoverGroupRole"] = "primary",
+        additional_properties: Optional[Dict[str, Any]] = None,
+        shared_name: Optional[str] = None,
+        source_mi: Optional[str] = None,
+        partner_mi: Optional[str] = None,
+        partner_mirroring_url: Optional[str] = None,
+        partner_mirroring_cert: Optional[str] = None,
+        partner_sync_mode: Union[str, "_models.FailoverGroupPartnerSyncMode"] = "async",
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword additional_properties: Unmatched properties from the message are deserialized to this
+         collection.
+        :paramtype additional_properties: dict[str, any]
+        :keyword shared_name: The shared name of the failover group for this SQL managed instance. Both
+         SQL managed instance and its partner have to use the same shared name.
+        :paramtype shared_name: str
+        :keyword source_mi: The name of the SQL managed instance with this failover group role.
+        :paramtype source_mi: str
+        :keyword partner_mi: The name of the partner SQL managed instance.
+        :paramtype partner_mi: str
+        :keyword partner_mirroring_url: The mirroring endpoint URL of the partner SQL managed instance.
+        :paramtype partner_mirroring_url: str
+        :keyword partner_mirroring_cert: The mirroring endpoint public certificate for the partner SQL
+         managed instance. Only PEM format is supported.
+        :paramtype partner_mirroring_cert: str
+        :keyword partner_sync_mode: The partner sync mode of the SQL managed instance. Known values
+         are: "async", "sync", and "async".
+        :paramtype partner_sync_mode: str or
+         ~azure.mgmt.azurearcdata.models.FailoverGroupPartnerSyncMode
+        :keyword role: The role of the SQL managed instance in this failover group. Known values are:
+         "primary", "secondary", "force-primary-allow-data-loss", and "force-secondary".
+        :paramtype role: str or ~azure.mgmt.azurearcdata.models.InstanceFailoverGroupRole
+        """
+        super().__init__(**kwargs)
+        self.additional_properties = additional_properties
+        self.shared_name = shared_name
+        self.source_mi = source_mi
+        self.partner_mi = partner_mi
+        self.partner_mirroring_url = partner_mirroring_url
+        self.partner_mirroring_cert = partner_mirroring_cert
+        self.partner_sync_mode = partner_sync_mode
+        self.role = role
+
+
+class K8SActiveDirectory(_serialization.Model):
+    """The kubernetes active directory information.
+
+    :ivar connector:
+    :vartype connector: ~azure.mgmt.azurearcdata.models.K8SActiveDirectoryConnector
+    :ivar account_name: Account name for AAD.
+    :vartype account_name: str
+    :ivar keytab_secret: Keytab secret used to authenticate with Active Directory.
+    :vartype keytab_secret: str
+    :ivar encryption_types: An array of encryption types.
+    :vartype encryption_types: list[str]
+    """
+
+    _attribute_map = {
+        "connector": {"key": "connector", "type": "K8SActiveDirectoryConnector"},
+        "account_name": {"key": "accountName", "type": "str"},
+        "keytab_secret": {"key": "keytabSecret", "type": "str"},
+        "encryption_types": {"key": "encryptionTypes", "type": "[str]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        connector: Optional["_models.K8SActiveDirectoryConnector"] = None,
+        account_name: Optional[str] = None,
+        keytab_secret: Optional[str] = None,
+        encryption_types: Optional[List[str]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword connector:
+        :paramtype connector: ~azure.mgmt.azurearcdata.models.K8SActiveDirectoryConnector
+        :keyword account_name: Account name for AAD.
+        :paramtype account_name: str
+        :keyword keytab_secret: Keytab secret used to authenticate with Active Directory.
+        :paramtype keytab_secret: str
+        :keyword encryption_types: An array of encryption types.
+        :paramtype encryption_types: list[str]
+        """
+        super().__init__(**kwargs)
+        self.connector = connector
+        self.account_name = account_name
+        self.keytab_secret = keytab_secret
+        self.encryption_types = encryption_types
+
+
+class K8SActiveDirectoryConnector(_serialization.Model):
+    """K8SActiveDirectoryConnector.
+
+    :ivar name: Name of the connector.
+    :vartype name: str
+    :ivar namespace: Name space of the connector.
+    :vartype namespace: str
+    """
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "namespace": {"key": "namespace", "type": "str"},
+    }
+
+    def __init__(self, *, name: Optional[str] = None, namespace: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword name: Name of the connector.
+        :paramtype name: str
+        :keyword namespace: Name space of the connector.
+        :paramtype namespace: str
+        """
+        super().__init__(**kwargs)
+        self.name = name
+        self.namespace = namespace
+
+
+class K8SNetworkSettings(_serialization.Model):
+    """The kubernetes network settings information.
+
+    :ivar forceencryption: If 1, then SQL Server forces all connections to be encrypted. By
+     default, this option is 0.
+    :vartype forceencryption: int
+    :ivar tlsciphers: Specifies which ciphers are allowed by SQL Server for TLS.
+    :vartype tlsciphers: str
+    :ivar tlsprotocols: A comma-separated list of which TLS protocols are allowed by SQL Server.
+    :vartype tlsprotocols: str
+    """
+
+    _attribute_map = {
+        "forceencryption": {"key": "forceencryption", "type": "int"},
+        "tlsciphers": {"key": "tlsciphers", "type": "str"},
+        "tlsprotocols": {"key": "tlsprotocols", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        forceencryption: Optional[int] = None,
+        tlsciphers: Optional[str] = None,
+        tlsprotocols: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword forceencryption: If 1, then SQL Server forces all connections to be encrypted. By
+         default, this option is 0.
+        :paramtype forceencryption: int
+        :keyword tlsciphers: Specifies which ciphers are allowed by SQL Server for TLS.
+        :paramtype tlsciphers: str
+        :keyword tlsprotocols: A comma-separated list of which TLS protocols are allowed by SQL Server.
+        :paramtype tlsprotocols: str
+        """
+        super().__init__(**kwargs)
+        self.forceencryption = forceencryption
+        self.tlsciphers = tlsciphers
+        self.tlsprotocols = tlsprotocols
+
+
 class K8SResourceRequirements(_serialization.Model):
     """The kubernetes resource limits and requests used to restrict or reserve resource usage.
 
     :ivar additional_properties: Unmatched properties from the message are deserialized to this
      collection.
-    :vartype additional_properties: dict[str, JSON]
+    :vartype additional_properties: dict[str, any]
     :ivar requests: Requests for a kubernetes resource type (e.g 'cpu', 'memory'). The 'cpu'
      request must be less than or equal to 'cpu' limit. Default 'cpu' is 2, minimum is 1. Default
      'memory' is '4Gi', minimum is '2Gi. If sku.tier is GeneralPurpose, maximum 'cpu' is 24 and
@@ -1057,15 +1431,15 @@ class K8SResourceRequirements(_serialization.Model):
     def __init__(
         self,
         *,
-        additional_properties: Optional[Dict[str, JSON]] = None,
+        additional_properties: Optional[Dict[str, Any]] = None,
         requests: Optional[Dict[str, str]] = None,
         limits: Optional[Dict[str, str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword additional_properties: Unmatched properties from the message are deserialized to this
          collection.
-        :paramtype additional_properties: dict[str, JSON]
+        :paramtype additional_properties: dict[str, any]
         :keyword requests: Requests for a kubernetes resource type (e.g 'cpu', 'memory'). The 'cpu'
          request must be less than or equal to 'cpu' limit. Default 'cpu' is 2, minimum is 1. Default
          'memory' is '4Gi', minimum is '2Gi. If sku.tier is GeneralPurpose, maximum 'cpu' is 24 and
@@ -1088,7 +1462,7 @@ class K8SScheduling(_serialization.Model):
 
     :ivar additional_properties: Unmatched properties from the message are deserialized to this
      collection.
-    :vartype additional_properties: dict[str, JSON]
+    :vartype additional_properties: dict[str, any]
     :ivar default: The kubernetes scheduling options. It describes restrictions used to help
      Kubernetes select appropriate nodes to host the database service.
     :vartype default: ~azure.mgmt.azurearcdata.models.K8SSchedulingOptions
@@ -1102,14 +1476,14 @@ class K8SScheduling(_serialization.Model):
     def __init__(
         self,
         *,
-        additional_properties: Optional[Dict[str, JSON]] = None,
+        additional_properties: Optional[Dict[str, Any]] = None,
         default: Optional["_models.K8SSchedulingOptions"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword additional_properties: Unmatched properties from the message are deserialized to this
          collection.
-        :paramtype additional_properties: dict[str, JSON]
+        :paramtype additional_properties: dict[str, any]
         :keyword default: The kubernetes scheduling options. It describes restrictions used to help
          Kubernetes select appropriate nodes to host the database service.
         :paramtype default: ~azure.mgmt.azurearcdata.models.K8SSchedulingOptions
@@ -1120,11 +1494,12 @@ class K8SScheduling(_serialization.Model):
 
 
 class K8SSchedulingOptions(_serialization.Model):
-    """The kubernetes scheduling options. It describes restrictions used to help Kubernetes select appropriate nodes to host the database service.
+    """The kubernetes scheduling options. It describes restrictions used to help Kubernetes select
+    appropriate nodes to host the database service.
 
     :ivar additional_properties: Unmatched properties from the message are deserialized to this
      collection.
-    :vartype additional_properties: dict[str, JSON]
+    :vartype additional_properties: dict[str, any]
     :ivar resources: The kubernetes resource limits and requests used to restrict or reserve
      resource usage.
     :vartype resources: ~azure.mgmt.azurearcdata.models.K8SResourceRequirements
@@ -1138,14 +1513,14 @@ class K8SSchedulingOptions(_serialization.Model):
     def __init__(
         self,
         *,
-        additional_properties: Optional[Dict[str, JSON]] = None,
+        additional_properties: Optional[Dict[str, Any]] = None,
         resources: Optional["_models.K8SResourceRequirements"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword additional_properties: Unmatched properties from the message are deserialized to this
          collection.
-        :paramtype additional_properties: dict[str, JSON]
+        :paramtype additional_properties: dict[str, any]
         :keyword resources: The kubernetes resource limits and requests used to restrict or reserve
          resource usage.
         :paramtype resources: ~azure.mgmt.azurearcdata.models.K8SResourceRequirements
@@ -1153,6 +1528,126 @@ class K8SSchedulingOptions(_serialization.Model):
         super().__init__(**kwargs)
         self.additional_properties = additional_properties
         self.resources = resources
+
+
+class K8SSecurity(_serialization.Model):
+    """The kubernetes security information.
+
+    :ivar additional_properties: Unmatched properties from the message are deserialized to this
+     collection.
+    :vartype additional_properties: dict[str, any]
+    :ivar admin_login_secret: Admin login secret key.
+    :vartype admin_login_secret: str
+    :ivar service_certificate_secret: Service certificate secret used.
+    :vartype service_certificate_secret: str
+    :ivar active_directory: The kubernetes active directory information.
+    :vartype active_directory: ~azure.mgmt.azurearcdata.models.K8SActiveDirectory
+    :ivar transparent_data_encryption: Transparent data encryption information.
+    :vartype transparent_data_encryption:
+     ~azure.mgmt.azurearcdata.models.K8StransparentDataEncryption
+    """
+
+    _attribute_map = {
+        "additional_properties": {"key": "", "type": "{object}"},
+        "admin_login_secret": {"key": "adminLoginSecret", "type": "str"},
+        "service_certificate_secret": {"key": "serviceCertificateSecret", "type": "str"},
+        "active_directory": {"key": "activeDirectory", "type": "K8SActiveDirectory"},
+        "transparent_data_encryption": {"key": "transparentDataEncryption", "type": "K8StransparentDataEncryption"},
+    }
+
+    def __init__(
+        self,
+        *,
+        additional_properties: Optional[Dict[str, Any]] = None,
+        admin_login_secret: Optional[str] = None,
+        service_certificate_secret: Optional[str] = None,
+        active_directory: Optional["_models.K8SActiveDirectory"] = None,
+        transparent_data_encryption: Optional["_models.K8StransparentDataEncryption"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword additional_properties: Unmatched properties from the message are deserialized to this
+         collection.
+        :paramtype additional_properties: dict[str, any]
+        :keyword admin_login_secret: Admin login secret key.
+        :paramtype admin_login_secret: str
+        :keyword service_certificate_secret: Service certificate secret used.
+        :paramtype service_certificate_secret: str
+        :keyword active_directory: The kubernetes active directory information.
+        :paramtype active_directory: ~azure.mgmt.azurearcdata.models.K8SActiveDirectory
+        :keyword transparent_data_encryption: Transparent data encryption information.
+        :paramtype transparent_data_encryption:
+         ~azure.mgmt.azurearcdata.models.K8StransparentDataEncryption
+        """
+        super().__init__(**kwargs)
+        self.additional_properties = additional_properties
+        self.admin_login_secret = admin_login_secret
+        self.service_certificate_secret = service_certificate_secret
+        self.active_directory = active_directory
+        self.transparent_data_encryption = transparent_data_encryption
+
+
+class K8SSettings(_serialization.Model):
+    """The kubernetes settings information.
+
+    :ivar additional_properties: Unmatched properties from the message are deserialized to this
+     collection.
+    :vartype additional_properties: dict[str, any]
+    :ivar network: The kubernetes network settings information.
+    :vartype network: ~azure.mgmt.azurearcdata.models.K8SNetworkSettings
+    """
+
+    _attribute_map = {
+        "additional_properties": {"key": "", "type": "{object}"},
+        "network": {"key": "network", "type": "K8SNetworkSettings"},
+    }
+
+    def __init__(
+        self,
+        *,
+        additional_properties: Optional[Dict[str, Any]] = None,
+        network: Optional["_models.K8SNetworkSettings"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword additional_properties: Unmatched properties from the message are deserialized to this
+         collection.
+        :paramtype additional_properties: dict[str, any]
+        :keyword network: The kubernetes network settings information.
+        :paramtype network: ~azure.mgmt.azurearcdata.models.K8SNetworkSettings
+        """
+        super().__init__(**kwargs)
+        self.additional_properties = additional_properties
+        self.network = network
+
+
+class K8StransparentDataEncryption(_serialization.Model):
+    """Transparent data encryption information.
+
+    :ivar mode: Transparent data encryption mode. Can be Service Managed, Customer managed or
+     disabled.
+    :vartype mode: str
+    :ivar protector_secret: Protector secret for customer managed Transparent data encryption mode.
+    :vartype protector_secret: str
+    """
+
+    _attribute_map = {
+        "mode": {"key": "mode", "type": "str"},
+        "protector_secret": {"key": "protectorSecret", "type": "str"},
+    }
+
+    def __init__(self, *, mode: Optional[str] = None, protector_secret: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword mode: Transparent data encryption mode. Can be Service Managed, Customer managed or
+         disabled.
+        :paramtype mode: str
+        :keyword protector_secret: Protector secret for customer managed Transparent data encryption
+         mode.
+        :paramtype protector_secret: str
+        """
+        super().__init__(**kwargs)
+        self.mode = mode
+        self.protector_secret = protector_secret
 
 
 class KeytabInformation(_serialization.Model):
@@ -1166,7 +1661,7 @@ class KeytabInformation(_serialization.Model):
         "keytab": {"key": "keytab", "type": "str"},
     }
 
-    def __init__(self, *, keytab: Optional[str] = None, **kwargs):
+    def __init__(self, *, keytab: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword keytab: A base64-encoded keytab.
         :paramtype keytab: str
@@ -1189,7 +1684,7 @@ class LogAnalyticsWorkspaceConfig(_serialization.Model):
         "primary_key": {"key": "primaryKey", "type": "str"},
     }
 
-    def __init__(self, *, workspace_id: Optional[str] = None, primary_key: Optional[str] = None, **kwargs):
+    def __init__(self, *, workspace_id: Optional[str] = None, primary_key: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword workspace_id: Azure Log Analytics workspace ID.
         :paramtype workspace_id: str
@@ -1233,8 +1728,8 @@ class OnPremiseProperty(_serialization.Model):
         id: str,  # pylint: disable=redefined-builtin
         public_signing_key: str,
         signing_certificate_thumbprint: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: A globally unique ID identifying the associated Kubernetes cluster. Required.
         :paramtype id: str
@@ -1268,7 +1763,7 @@ class Operation(_serialization.Model):
     :ivar is_data_action: Indicates whether the operation is a data action. Required.
     :vartype is_data_action: bool
     :ivar properties: Additional descriptions for the operation.
-    :vartype properties: dict[str, JSON]
+    :vartype properties: dict[str, any]
     """
 
     _validation = {
@@ -1287,7 +1782,7 @@ class Operation(_serialization.Model):
         "properties": {"key": "properties", "type": "{object}"},
     }
 
-    def __init__(self, *, name: str, display: "_models.OperationDisplay", is_data_action: bool, **kwargs):
+    def __init__(self, *, name: str, display: "_models.OperationDisplay", is_data_action: bool, **kwargs: Any) -> None:
         """
         :keyword name: The name of the operation being performed on this particular object. Required.
         :paramtype name: str
@@ -1335,7 +1830,7 @@ class OperationDisplay(_serialization.Model):
         "description": {"key": "description", "type": "str"},
     }
 
-    def __init__(self, *, provider: str, resource: str, operation: str, description: str, **kwargs):
+    def __init__(self, *, provider: str, resource: str, operation: str, description: str, **kwargs: Any) -> None:
         """
         :keyword provider: The localized friendly form of the resource provider name. Required.
         :paramtype provider: str
@@ -1375,7 +1870,7 @@ class OperationListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -1401,8 +1896,8 @@ class PageOfDataControllerResource(_serialization.Model):
         *,
         value: Optional[List["_models.DataControllerResource"]] = None,
         next_link: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: Array of results.
         :paramtype value: list[~azure.mgmt.azurearcdata.models.DataControllerResource]
@@ -1473,8 +1968,8 @@ class PostgresInstance(TrackedResource):
         tags: Optional[Dict[str, str]] = None,
         extended_location: Optional["_models.ExtendedLocation"] = None,
         sku: Optional["_models.PostgresInstanceSku"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -1514,7 +2009,7 @@ class PostgresInstanceListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -1562,8 +2057,8 @@ class PostgresInstanceProperties(_serialization.Model):
         basic_login_information: Optional["_models.BasicLoginInformation"] = None,
         k8_s_raw: Optional[JSON] = None,
         last_uploaded_date: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword data_controller_id: The data controller id.
         :paramtype data_controller_id: str
@@ -1632,8 +2127,8 @@ class PostgresInstanceSku(CommonSku):
         family: Optional[str] = None,
         capacity: Optional[int] = None,
         tier: Literal["Hyperscale"] = "Hyperscale",
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: The name of the SKU.  It is typically a letter+number code. Required.
         :paramtype name: str
@@ -1676,8 +2171,8 @@ class PostgresInstanceUpdate(_serialization.Model):
         *,
         tags: Optional[Dict[str, str]] = None,
         properties: Optional["_models.PostgresInstanceProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -1748,8 +2243,8 @@ class SqlManagedInstance(TrackedResource):
         tags: Optional[Dict[str, str]] = None,
         extended_location: Optional["_models.ExtendedLocation"] = None,
         sku: Optional["_models.SqlManagedInstanceSku"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -1773,7 +2268,7 @@ class SqlManagedInstanceK8SRaw(_serialization.Model):
 
     :ivar additional_properties: Unmatched properties from the message are deserialized to this
      collection.
-    :vartype additional_properties: dict[str, JSON]
+    :vartype additional_properties: dict[str, any]
     :ivar spec: The kubernetes spec information.
     :vartype spec: ~azure.mgmt.azurearcdata.models.SqlManagedInstanceK8SSpec
     """
@@ -1786,14 +2281,14 @@ class SqlManagedInstanceK8SRaw(_serialization.Model):
     def __init__(
         self,
         *,
-        additional_properties: Optional[Dict[str, JSON]] = None,
+        additional_properties: Optional[Dict[str, Any]] = None,
         spec: Optional["_models.SqlManagedInstanceK8SSpec"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword additional_properties: Unmatched properties from the message are deserialized to this
          collection.
-        :paramtype additional_properties: dict[str, JSON]
+        :paramtype additional_properties: dict[str, any]
         :keyword spec: The kubernetes spec information.
         :paramtype spec: ~azure.mgmt.azurearcdata.models.SqlManagedInstanceK8SSpec
         """
@@ -1807,7 +2302,7 @@ class SqlManagedInstanceK8SSpec(_serialization.Model):
 
     :ivar additional_properties: Unmatched properties from the message are deserialized to this
      collection.
-    :vartype additional_properties: dict[str, JSON]
+    :vartype additional_properties: dict[str, any]
     :ivar scheduling: The kubernetes scheduling information.
     :vartype scheduling: ~azure.mgmt.azurearcdata.models.K8SScheduling
     :ivar replicas: This option specifies the number of SQL Managed Instance replicas that will be
@@ -1815,26 +2310,34 @@ class SqlManagedInstanceK8SSpec(_serialization.Model):
      BusinessCritical, allowed values are '2' or '3' with default of '3'. If sku.tier is
      GeneralPurpose, replicas must be '1'.
     :vartype replicas: int
+    :ivar security: The kubernetes security information.
+    :vartype security: ~azure.mgmt.azurearcdata.models.K8SSecurity
+    :ivar settings: The kubernetes settings information.
+    :vartype settings: ~azure.mgmt.azurearcdata.models.K8SSettings
     """
 
     _attribute_map = {
         "additional_properties": {"key": "", "type": "{object}"},
         "scheduling": {"key": "scheduling", "type": "K8SScheduling"},
         "replicas": {"key": "replicas", "type": "int"},
+        "security": {"key": "security", "type": "K8SSecurity"},
+        "settings": {"key": "settings", "type": "K8SSettings"},
     }
 
     def __init__(
         self,
         *,
-        additional_properties: Optional[Dict[str, JSON]] = None,
+        additional_properties: Optional[Dict[str, Any]] = None,
         scheduling: Optional["_models.K8SScheduling"] = None,
         replicas: Optional[int] = None,
-        **kwargs
-    ):
+        security: Optional["_models.K8SSecurity"] = None,
+        settings: Optional["_models.K8SSettings"] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword additional_properties: Unmatched properties from the message are deserialized to this
          collection.
-        :paramtype additional_properties: dict[str, JSON]
+        :paramtype additional_properties: dict[str, any]
         :keyword scheduling: The kubernetes scheduling information.
         :paramtype scheduling: ~azure.mgmt.azurearcdata.models.K8SScheduling
         :keyword replicas: This option specifies the number of SQL Managed Instance replicas that will
@@ -1842,11 +2345,17 @@ class SqlManagedInstanceK8SSpec(_serialization.Model):
          BusinessCritical, allowed values are '2' or '3' with default of '3'. If sku.tier is
          GeneralPurpose, replicas must be '1'.
         :paramtype replicas: int
+        :keyword security: The kubernetes security information.
+        :paramtype security: ~azure.mgmt.azurearcdata.models.K8SSecurity
+        :keyword settings: The kubernetes settings information.
+        :paramtype settings: ~azure.mgmt.azurearcdata.models.K8SSettings
         """
         super().__init__(**kwargs)
         self.additional_properties = additional_properties
         self.scheduling = scheduling
         self.replicas = replicas
+        self.security = security
+        self.settings = settings
 
 
 class SqlManagedInstanceListResult(_serialization.Model):
@@ -1870,7 +2379,7 @@ class SqlManagedInstanceListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -1948,8 +2457,8 @@ class SqlManagedInstanceProperties(_serialization.Model):  # pylint: disable=too
         license_type: Union[str, "_models.ArcSqlManagedInstanceLicenseType"] = "BasePrice",
         cluster_id: Optional[str] = None,
         extension_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword data_controller_id: null.
         :paramtype data_controller_id: str
@@ -2043,8 +2552,8 @@ class SqlManagedInstanceSku(_serialization.Model):
         size: Optional[str] = None,
         family: Optional[str] = None,
         capacity: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tier: The pricing tier for the instance. Known values are: "GeneralPurpose" and
          "BusinessCritical".
@@ -2079,13 +2588,327 @@ class SqlManagedInstanceUpdate(_serialization.Model):
         "tags": {"key": "tags", "type": "{str}"},
     }
 
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
         """
         super().__init__(**kwargs)
         self.tags = tags
+
+
+class SqlServerDatabaseResource(TrackedResource):
+    """Arc Sql Server database.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.azurearcdata.models.SystemData
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar properties: Properties of Arc Sql Server database. Required.
+    :vartype properties: ~azure.mgmt.azurearcdata.models.SqlServerDatabaseResourceProperties
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "location": {"required": True},
+        "properties": {"required": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "properties": {"key": "properties", "type": "SqlServerDatabaseResourceProperties"},
+    }
+
+    def __init__(
+        self,
+        *,
+        location: str,
+        properties: "_models.SqlServerDatabaseResourceProperties",
+        tags: Optional[Dict[str, str]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
+        :keyword properties: Properties of Arc Sql Server database. Required.
+        :paramtype properties: ~azure.mgmt.azurearcdata.models.SqlServerDatabaseResourceProperties
+        """
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.properties = properties
+
+
+class SqlServerDatabaseResourceProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+    """The properties of Arc Sql Server database resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar collation_name: Collation of the database.
+    :vartype collation_name: str
+    :ivar database_creation_date: Creation date of the database.
+    :vartype database_creation_date: ~datetime.datetime
+    :ivar compatibility_level: Compatibility level of the database.
+    :vartype compatibility_level: int
+    :ivar size_mb: Size of the database.
+    :vartype size_mb: float
+    :ivar space_available_mb: Space left of the database.
+    :vartype space_available_mb: float
+    :ivar state: State of the database. Known values are: "Online", "Restoring", "Recovering",
+     "RecoveryPending", "Suspect", "Emergency", "Offline", "Copying", and "OfflineSecondary".
+    :vartype state: str or ~azure.mgmt.azurearcdata.models.DatabaseState
+    :ivar is_read_only: Whether the database is read only or not.
+    :vartype is_read_only: bool
+    :ivar recovery_mode: Status of the database. Known values are: "Full", "Bulk-logged", and
+     "Simple".
+    :vartype recovery_mode: str or ~azure.mgmt.azurearcdata.models.RecoveryMode
+    :ivar database_options: List of features that are enabled for the database.
+    :vartype database_options:
+     ~azure.mgmt.azurearcdata.models.SqlServerDatabaseResourcePropertiesDatabaseOptions
+    :ivar backup_information:
+    :vartype backup_information:
+     ~azure.mgmt.azurearcdata.models.SqlServerDatabaseResourcePropertiesBackupInformation
+    :ivar provisioning_state: The provisioning state of the Arc-enabled SQL Server database
+     resource.
+    :vartype provisioning_state: str
+    """
+
+    _validation = {
+        "compatibility_level": {"maximum": 200, "minimum": 80},
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "collation_name": {"key": "collationName", "type": "str"},
+        "database_creation_date": {"key": "databaseCreationDate", "type": "iso-8601"},
+        "compatibility_level": {"key": "compatibilityLevel", "type": "int"},
+        "size_mb": {"key": "sizeMB", "type": "float"},
+        "space_available_mb": {"key": "spaceAvailableMB", "type": "float"},
+        "state": {"key": "state", "type": "str"},
+        "is_read_only": {"key": "isReadOnly", "type": "bool"},
+        "recovery_mode": {"key": "recoveryMode", "type": "str"},
+        "database_options": {"key": "databaseOptions", "type": "SqlServerDatabaseResourcePropertiesDatabaseOptions"},
+        "backup_information": {
+            "key": "backupInformation",
+            "type": "SqlServerDatabaseResourcePropertiesBackupInformation",
+        },
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        collation_name: Optional[str] = None,
+        database_creation_date: Optional[datetime.datetime] = None,
+        compatibility_level: Optional[int] = None,
+        size_mb: Optional[float] = None,
+        space_available_mb: Optional[float] = None,
+        state: Optional[Union[str, "_models.DatabaseState"]] = None,
+        is_read_only: Optional[bool] = None,
+        recovery_mode: Optional[Union[str, "_models.RecoveryMode"]] = None,
+        database_options: Optional["_models.SqlServerDatabaseResourcePropertiesDatabaseOptions"] = None,
+        backup_information: Optional["_models.SqlServerDatabaseResourcePropertiesBackupInformation"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword collation_name: Collation of the database.
+        :paramtype collation_name: str
+        :keyword database_creation_date: Creation date of the database.
+        :paramtype database_creation_date: ~datetime.datetime
+        :keyword compatibility_level: Compatibility level of the database.
+        :paramtype compatibility_level: int
+        :keyword size_mb: Size of the database.
+        :paramtype size_mb: float
+        :keyword space_available_mb: Space left of the database.
+        :paramtype space_available_mb: float
+        :keyword state: State of the database. Known values are: "Online", "Restoring", "Recovering",
+         "RecoveryPending", "Suspect", "Emergency", "Offline", "Copying", and "OfflineSecondary".
+        :paramtype state: str or ~azure.mgmt.azurearcdata.models.DatabaseState
+        :keyword is_read_only: Whether the database is read only or not.
+        :paramtype is_read_only: bool
+        :keyword recovery_mode: Status of the database. Known values are: "Full", "Bulk-logged", and
+         "Simple".
+        :paramtype recovery_mode: str or ~azure.mgmt.azurearcdata.models.RecoveryMode
+        :keyword database_options: List of features that are enabled for the database.
+        :paramtype database_options:
+         ~azure.mgmt.azurearcdata.models.SqlServerDatabaseResourcePropertiesDatabaseOptions
+        :keyword backup_information:
+        :paramtype backup_information:
+         ~azure.mgmt.azurearcdata.models.SqlServerDatabaseResourcePropertiesBackupInformation
+        """
+        super().__init__(**kwargs)
+        self.collation_name = collation_name
+        self.database_creation_date = database_creation_date
+        self.compatibility_level = compatibility_level
+        self.size_mb = size_mb
+        self.space_available_mb = space_available_mb
+        self.state = state
+        self.is_read_only = is_read_only
+        self.recovery_mode = recovery_mode
+        self.database_options = database_options
+        self.backup_information = backup_information
+        self.provisioning_state = None
+
+
+class SqlServerDatabaseResourcePropertiesBackupInformation(_serialization.Model):
+    """SqlServerDatabaseResourcePropertiesBackupInformation.
+
+    :ivar last_full_backup: Date time of last full backup.
+    :vartype last_full_backup: ~datetime.datetime
+    :ivar last_log_backup: Date time of last log backup.
+    :vartype last_log_backup: ~datetime.datetime
+    """
+
+    _attribute_map = {
+        "last_full_backup": {"key": "lastFullBackup", "type": "iso-8601"},
+        "last_log_backup": {"key": "lastLogBackup", "type": "iso-8601"},
+    }
+
+    def __init__(
+        self,
+        *,
+        last_full_backup: Optional[datetime.datetime] = None,
+        last_log_backup: Optional[datetime.datetime] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword last_full_backup: Date time of last full backup.
+        :paramtype last_full_backup: ~datetime.datetime
+        :keyword last_log_backup: Date time of last log backup.
+        :paramtype last_log_backup: ~datetime.datetime
+        """
+        super().__init__(**kwargs)
+        self.last_full_backup = last_full_backup
+        self.last_log_backup = last_log_backup
+
+
+class SqlServerDatabaseResourcePropertiesDatabaseOptions(_serialization.Model):
+    """List of features that are enabled for the database.
+
+    :ivar is_auto_close_on:
+    :vartype is_auto_close_on: bool
+    :ivar is_auto_shrink_on:
+    :vartype is_auto_shrink_on: bool
+    :ivar is_auto_create_stats_on:
+    :vartype is_auto_create_stats_on: bool
+    :ivar is_auto_update_stats_on:
+    :vartype is_auto_update_stats_on: bool
+    :ivar is_remote_data_archive_enabled:
+    :vartype is_remote_data_archive_enabled: bool
+    :ivar is_memory_optimization_enabled:
+    :vartype is_memory_optimization_enabled: bool
+    :ivar is_encrypted:
+    :vartype is_encrypted: bool
+    :ivar is_trustworthy_on:
+    :vartype is_trustworthy_on: bool
+    """
+
+    _attribute_map = {
+        "is_auto_close_on": {"key": "isAutoCloseOn", "type": "bool"},
+        "is_auto_shrink_on": {"key": "isAutoShrinkOn", "type": "bool"},
+        "is_auto_create_stats_on": {"key": "isAutoCreateStatsOn", "type": "bool"},
+        "is_auto_update_stats_on": {"key": "isAutoUpdateStatsOn", "type": "bool"},
+        "is_remote_data_archive_enabled": {"key": "isRemoteDataArchiveEnabled", "type": "bool"},
+        "is_memory_optimization_enabled": {"key": "isMemoryOptimizationEnabled", "type": "bool"},
+        "is_encrypted": {"key": "isEncrypted", "type": "bool"},
+        "is_trustworthy_on": {"key": "isTrustworthyOn", "type": "bool"},
+    }
+
+    def __init__(
+        self,
+        *,
+        is_auto_close_on: Optional[bool] = None,
+        is_auto_shrink_on: Optional[bool] = None,
+        is_auto_create_stats_on: Optional[bool] = None,
+        is_auto_update_stats_on: Optional[bool] = None,
+        is_remote_data_archive_enabled: Optional[bool] = None,
+        is_memory_optimization_enabled: Optional[bool] = None,
+        is_encrypted: Optional[bool] = None,
+        is_trustworthy_on: Optional[bool] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword is_auto_close_on:
+        :paramtype is_auto_close_on: bool
+        :keyword is_auto_shrink_on:
+        :paramtype is_auto_shrink_on: bool
+        :keyword is_auto_create_stats_on:
+        :paramtype is_auto_create_stats_on: bool
+        :keyword is_auto_update_stats_on:
+        :paramtype is_auto_update_stats_on: bool
+        :keyword is_remote_data_archive_enabled:
+        :paramtype is_remote_data_archive_enabled: bool
+        :keyword is_memory_optimization_enabled:
+        :paramtype is_memory_optimization_enabled: bool
+        :keyword is_encrypted:
+        :paramtype is_encrypted: bool
+        :keyword is_trustworthy_on:
+        :paramtype is_trustworthy_on: bool
+        """
+        super().__init__(**kwargs)
+        self.is_auto_close_on = is_auto_close_on
+        self.is_auto_shrink_on = is_auto_shrink_on
+        self.is_auto_create_stats_on = is_auto_create_stats_on
+        self.is_auto_update_stats_on = is_auto_update_stats_on
+        self.is_remote_data_archive_enabled = is_remote_data_archive_enabled
+        self.is_memory_optimization_enabled = is_memory_optimization_enabled
+        self.is_encrypted = is_encrypted
+        self.is_trustworthy_on = is_trustworthy_on
+
+
+class SqlServerDatabaseUpdate(_serialization.Model):
+    """An update to database resource.
+
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar properties: The data controller's properties.
+    :vartype properties: ~azure.mgmt.azurearcdata.models.SqlServerDatabaseResourceProperties
+    """
+
+    _attribute_map = {
+        "tags": {"key": "tags", "type": "{str}"},
+        "properties": {"key": "properties", "type": "SqlServerDatabaseResourceProperties"},
+    }
+
+    def __init__(
+        self,
+        *,
+        tags: Optional[Dict[str, str]] = None,
+        properties: Optional["_models.SqlServerDatabaseResourceProperties"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword properties: The data controller's properties.
+        :paramtype properties: ~azure.mgmt.azurearcdata.models.SqlServerDatabaseResourceProperties
+        """
+        super().__init__(**kwargs)
+        self.tags = tags
+        self.properties = properties
 
 
 class SqlServerInstance(TrackedResource):
@@ -2138,8 +2961,8 @@ class SqlServerInstance(TrackedResource):
         location: str,
         tags: Optional[Dict[str, str]] = None,
         properties: Optional["_models.SqlServerInstanceProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -2173,7 +2996,7 @@ class SqlServerInstanceListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -2191,7 +3014,7 @@ class SqlServerInstanceProperties(_serialization.Model):  # pylint: disable=too-
      Server 2016", "SQL Server 2017", "SQL Server 2019", "SQL Server 2022", and "Unknown".
     :vartype version: str or ~azure.mgmt.azurearcdata.models.SqlVersion
     :ivar edition: SQL Server edition. Known values are: "Evaluation", "Enterprise", "Standard",
-     "Web", "Developer", and "Express".
+     "Web", "Developer", "Express", and "Business Intelligence".
     :vartype edition: str or ~azure.mgmt.azurearcdata.models.EditionType
     :ivar container_resource_id: ARM Resource id of the container resource (Azure Arc for Servers).
      Required.
@@ -2200,6 +3023,9 @@ class SqlServerInstanceProperties(_serialization.Model):  # pylint: disable=too-
     :vartype create_time: str
     :ivar v_core: The number of logical processors used by the SQL Server instance.
     :vartype v_core: str
+    :ivar cores: The number of total cores of the Operating System Environment (OSE) hosting the
+     SQL Server instance.
+    :vartype cores: str
     :ivar status: The cloud connectivity status. Required. Known values are: "Connected",
      "Disconnected", "Registered", and "Unknown".
     :vartype status: str or ~azure.mgmt.azurearcdata.models.ConnectionStatus
@@ -2248,6 +3074,7 @@ class SqlServerInstanceProperties(_serialization.Model):  # pylint: disable=too-
         "container_resource_id": {"key": "containerResourceId", "type": "str"},
         "create_time": {"key": "createTime", "type": "str"},
         "v_core": {"key": "vCore", "type": "str"},
+        "cores": {"key": "cores", "type": "str"},
         "status": {"key": "status", "type": "str"},
         "patch_level": {"key": "patchLevel", "type": "str"},
         "collation": {"key": "collation", "type": "str"},
@@ -2271,6 +3098,7 @@ class SqlServerInstanceProperties(_serialization.Model):  # pylint: disable=too-
         version: Optional[Union[str, "_models.SqlVersion"]] = None,
         edition: Optional[Union[str, "_models.EditionType"]] = None,
         v_core: Optional[str] = None,
+        cores: Optional[str] = None,
         patch_level: Optional[str] = None,
         collation: Optional[str] = None,
         current_version: Optional[str] = None,
@@ -2282,20 +3110,23 @@ class SqlServerInstanceProperties(_serialization.Model):  # pylint: disable=too-
         azure_defender_status_last_updated: Optional[datetime.datetime] = None,
         azure_defender_status: Optional[Union[str, "_models.DefenderStatus"]] = None,
         host_type: Optional[Union[str, "_models.HostType"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword version: SQL Server version. Known values are: "SQL Server 2012", "SQL Server 2014",
          "SQL Server 2016", "SQL Server 2017", "SQL Server 2019", "SQL Server 2022", and "Unknown".
         :paramtype version: str or ~azure.mgmt.azurearcdata.models.SqlVersion
         :keyword edition: SQL Server edition. Known values are: "Evaluation", "Enterprise", "Standard",
-         "Web", "Developer", and "Express".
+         "Web", "Developer", "Express", and "Business Intelligence".
         :paramtype edition: str or ~azure.mgmt.azurearcdata.models.EditionType
         :keyword container_resource_id: ARM Resource id of the container resource (Azure Arc for
          Servers). Required.
         :paramtype container_resource_id: str
         :keyword v_core: The number of logical processors used by the SQL Server instance.
         :paramtype v_core: str
+        :keyword cores: The number of total cores of the Operating System Environment (OSE) hosting the
+         SQL Server instance.
+        :paramtype cores: str
         :keyword status: The cloud connectivity status. Required. Known values are: "Connected",
          "Disconnected", "Registered", and "Unknown".
         :paramtype status: str or ~azure.mgmt.azurearcdata.models.ConnectionStatus
@@ -2334,6 +3165,7 @@ class SqlServerInstanceProperties(_serialization.Model):  # pylint: disable=too-
         self.container_resource_id = container_resource_id
         self.create_time = None
         self.v_core = v_core
+        self.cores = cores
         self.status = status
         self.patch_level = patch_level
         self.collation = collation
@@ -2360,7 +3192,7 @@ class SqlServerInstanceUpdate(_serialization.Model):
         "tags": {"key": "tags", "type": "{str}"},
     }
 
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -2406,8 +3238,8 @@ class SystemData(_serialization.Model):
         last_modified_by: Optional[str] = None,
         last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
         last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword created_by: The identity that created the resource.
         :paramtype created_by: str
@@ -2461,8 +3293,8 @@ class UploadServicePrincipal(_serialization.Model):
         tenant_id: Optional[str] = None,
         authority: Optional[str] = None,
         client_secret: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_id: Client ID of the service principal for uploading data.
         :paramtype client_id: str
@@ -2506,8 +3338,8 @@ class UploadWatermark(_serialization.Model):
         metrics: Optional[datetime.datetime] = None,
         logs: Optional[datetime.datetime] = None,
         usages: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword metrics: Last uploaded date for metrics from kubernetes cluster. Defaults to current
          date time.
