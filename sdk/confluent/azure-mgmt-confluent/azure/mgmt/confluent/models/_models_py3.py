@@ -8,7 +8,7 @@
 # --------------------------------------------------------------------------
 
 import datetime
-from typing import Dict, List, Optional, TYPE_CHECKING, Union
+from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
 from .. import _serialization
 
@@ -82,8 +82,8 @@ class ConfluentAgreementResource(_serialization.Model):  # pylint: disable=too-m
         retrieve_datetime: Optional[datetime.datetime] = None,
         signature: Optional[str] = None,
         accepted: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword publisher: Publisher identifier string.
         :paramtype publisher: str
@@ -137,8 +137,8 @@ class ConfluentAgreementResourceListResponse(_serialization.Model):
         *,
         value: Optional[List["_models.ConfluentAgreementResource"]] = None,
         next_link: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: Results of a list operation.
         :paramtype value: list[~azure.mgmt.confluent.models.ConfluentAgreementResource]
@@ -179,7 +179,7 @@ class ErrorResponseBody(_serialization.Model):
         "details": {"key": "details", "type": "[ErrorResponseBody]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.code = None
@@ -237,8 +237,8 @@ class OfferDetail(_serialization.Model):
         plan_id: str,
         plan_name: str,
         term_unit: str,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword publisher_id: Publisher Id. Required.
         :paramtype publisher_id: str
@@ -287,8 +287,8 @@ class OperationDisplay(_serialization.Model):
         resource: Optional[str] = None,
         operation: Optional[str] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword provider: Service provider: Microsoft.Confluent.
         :paramtype provider: str
@@ -321,8 +321,8 @@ class OperationListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.OperationResult"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.OperationResult"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: List of Confluent operations supported by the Microsoft.Confluent provider.
         :paramtype value: list[~azure.mgmt.confluent.models.OperationResult]
@@ -357,8 +357,8 @@ class OperationResult(_serialization.Model):
         name: Optional[str] = None,
         display: Optional["_models.OperationDisplay"] = None,
         is_data_action: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Operation name: {provider}/{resource}/{operation}.
         :paramtype name: str
@@ -443,8 +443,8 @@ class OrganizationResource(_serialization.Model):  # pylint: disable=too-many-in
         user_detail: "_models.UserDetail",
         tags: Optional[Dict[str, str]] = None,
         location: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Organization resource tags.
         :paramtype tags: dict[str, str]
@@ -485,8 +485,12 @@ class OrganizationResourceListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.OrganizationResource"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self,
+        *,
+        value: Optional[List["_models.OrganizationResource"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: Result of a list operation.
         :paramtype value: list[~azure.mgmt.confluent.models.OrganizationResource]
@@ -509,7 +513,7 @@ class OrganizationResourceUpdate(_serialization.Model):
         "tags": {"key": "tags", "type": "{str}"},
     }
 
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword tags: ARM resource tags.
         :paramtype tags: dict[str, str]
@@ -535,7 +539,7 @@ class ResourceProviderDefaultErrorResponse(_serialization.Model):
         "error": {"key": "error", "type": "ErrorResponseBody"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.error = None
@@ -578,8 +582,8 @@ class SystemData(_serialization.Model):
         last_modified_by: Optional[str] = None,
         last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
         last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword created_by: The identity that created the resource.
         :paramtype created_by: str
@@ -631,8 +635,8 @@ class UserDetail(_serialization.Model):
     }
 
     def __init__(
-        self, *, email_address: str, first_name: Optional[str] = None, last_name: Optional[str] = None, **kwargs
-    ):
+        self, *, email_address: str, first_name: Optional[str] = None, last_name: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword first_name: First name.
         :paramtype first_name: str
