@@ -9,6 +9,13 @@
 from ._models_py3 import ActivationProperties
 from ._models_py3 import ActiveDirectoryObject
 from ._models_py3 import Actor
+from ._models_py3 import Archive
+from ._models_py3 import ArchiveListResult
+from ._models_py3 import ArchivePackageSourceProperties
+from ._models_py3 import ArchiveProperties
+from ._models_py3 import ArchiveUpdateParameters
+from ._models_py3 import ArchiveVersion
+from ._models_py3 import ArchiveVersionListResult
 from ._models_py3 import AuthCredential
 from ._models_py3 import AzureADAuthenticationAsArmPolicy
 from ._models_py3 import CacheRule
@@ -22,6 +29,8 @@ from ._models_py3 import CredentialHealth
 from ._models_py3 import CredentialSet
 from ._models_py3 import CredentialSetListResult
 from ._models_py3 import CredentialSetUpdateParameters
+from ._models_py3 import DebianArchivePackageSourceProperties
+from ._models_py3 import DebianArchiveProperties
 from ._models_py3 import EncryptionProperty
 from ._models_py3 import ErrorResponse
 from ._models_py3 import ErrorResponseBody
@@ -141,6 +150,7 @@ from ._container_registry_management_client_enums import ImportMode
 from ._container_registry_management_client_enums import LastModifiedByType
 from ._container_registry_management_client_enums import LogLevel
 from ._container_registry_management_client_enums import NetworkRuleBypassOptions
+from ._container_registry_management_client_enums import PackageSourceType
 from ._container_registry_management_client_enums import PasswordName
 from ._container_registry_management_client_enums import PipelineOptions
 from ._container_registry_management_client_enums import PipelineRunSourceType
@@ -170,6 +180,13 @@ __all__ = [
     "ActivationProperties",
     "ActiveDirectoryObject",
     "Actor",
+    "Archive",
+    "ArchiveListResult",
+    "ArchivePackageSourceProperties",
+    "ArchiveProperties",
+    "ArchiveUpdateParameters",
+    "ArchiveVersion",
+    "ArchiveVersionListResult",
     "AuthCredential",
     "AzureADAuthenticationAsArmPolicy",
     "CacheRule",
@@ -183,6 +200,8 @@ __all__ = [
     "CredentialSet",
     "CredentialSetListResult",
     "CredentialSetUpdateParameters",
+    "DebianArchivePackageSourceProperties",
+    "DebianArchiveProperties",
     "EncryptionProperty",
     "ErrorResponse",
     "ErrorResponseBody",
@@ -301,6 +320,7 @@ __all__ = [
     "LastModifiedByType",
     "LogLevel",
     "NetworkRuleBypassOptions",
+    "PackageSourceType",
     "PasswordName",
     "PipelineOptions",
     "PipelineRunSourceType",

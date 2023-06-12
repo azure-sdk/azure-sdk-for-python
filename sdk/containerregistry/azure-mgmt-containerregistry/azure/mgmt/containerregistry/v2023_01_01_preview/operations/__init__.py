@@ -6,6 +6,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._archives_operations import ArchivesOperations
+from ._archive_versions_operations import ArchiveVersionsOperations
 from ._cache_rules_operations import CacheRulesOperations
 from ._connected_registries_operations import ConnectedRegistriesOperations
 from ._credential_sets_operations import CredentialSetsOperations
@@ -25,6 +27,8 @@ from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "ArchivesOperations",
+    "ArchiveVersionsOperations",
     "CacheRulesOperations",
     "ConnectedRegistriesOperations",
     "CredentialSetsOperations",

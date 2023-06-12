@@ -29,12 +29,11 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.webhooks.begin_delete(
+    client.webhooks.begin_delete(
         resource_group_name="myResourceGroup",
         registry_name="myRegistry",
         webhook_name="myWebhook",
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2022-12-01/examples/WebhookDelete.json

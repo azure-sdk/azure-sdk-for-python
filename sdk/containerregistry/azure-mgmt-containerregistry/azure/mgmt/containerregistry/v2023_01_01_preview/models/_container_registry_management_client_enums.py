@@ -155,6 +155,12 @@ class NetworkRuleBypassOptions(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     NONE = "None"
 
 
+class PackageSourceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of package source for a archive."""
+
+    REMOTE = "remote"
+
+
 class PasswordName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The password name."""
 
@@ -197,7 +203,7 @@ class PolicyStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Provisioning state of the resource."""
+    """The provisioning state of the archive at the time the operation was called."""
 
     CREATING = "Creating"
     UPDATING = "Updating"

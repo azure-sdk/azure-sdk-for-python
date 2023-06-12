@@ -16,6 +16,8 @@ from .. import models as _models
 from ..._serialization import Deserializer, Serializer
 from ._configuration import ContainerRegistryManagementClientConfiguration
 from .operations import (
+    ArchiveVersionsOperations,
+    ArchivesOperations,
     CacheRulesOperations,
     ConnectedRegistriesOperations,
     CredentialSetsOperations,
@@ -39,6 +41,12 @@ if TYPE_CHECKING:
 class ContainerRegistryManagementClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
     """ContainerRegistryManagementClient.
 
+    :ivar archives: ArchivesOperations operations
+    :vartype archives:
+     azure.mgmt.containerregistry.v2023_01_01_preview.aio.operations.ArchivesOperations
+    :ivar archive_versions: ArchiveVersionsOperations operations
+    :vartype archive_versions:
+     azure.mgmt.containerregistry.v2023_01_01_preview.aio.operations.ArchiveVersionsOperations
     :ivar cache_rules: CacheRulesOperations operations
     :vartype cache_rules:
      azure.mgmt.containerregistry.v2023_01_01_preview.aio.operations.CacheRulesOperations
@@ -100,12 +108,16 @@ class ContainerRegistryManagementClient:  # pylint: disable=client-accepts-api-v
         self._config = ContainerRegistryManagementClientConfiguration(
             credential=credential, subscription_id=subscription_id, **kwargs
         )
-        self._client = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
+        self.archives = ArchivesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.archive_versions = ArchiveVersionsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.cache_rules = CacheRulesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.connected_registries = ConnectedRegistriesOperations(
             self._client, self._config, self._serialize, self._deserialize
@@ -157,5 +169,5 @@ class ContainerRegistryManagementClient:  # pylint: disable=client-accepts-api-v
         await self._client.__aenter__()
         return self
 
-    async def __aexit__(self, *exc_details) -> None:
+    async def __aexit__(self, *exc_details: Any) -> None:
         await self._client.__aexit__(*exc_details)

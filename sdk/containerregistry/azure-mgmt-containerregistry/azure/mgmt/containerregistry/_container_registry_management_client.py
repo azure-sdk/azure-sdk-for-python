@@ -179,6 +179,34 @@ class ContainerRegistryManagementClient(MultiApiClientMixin, _SDKClient):
         return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
 
     @property
+    def archive_versions(self):
+        """Instance depends on the API version:
+
+           * 2023-01-01-preview: :class:`ArchiveVersionsOperations<azure.mgmt.containerregistry.v2023_01_01_preview.operations.ArchiveVersionsOperations>`
+        """
+        api_version = self._get_api_version('archive_versions')
+        if api_version == '2023-01-01-preview':
+            from .v2023_01_01_preview.operations import ArchiveVersionsOperations as OperationClass
+        else:
+            raise ValueError("API version {} does not have operation group 'archive_versions'".format(api_version))
+        self._config.api_version = api_version
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+
+    @property
+    def archives(self):
+        """Instance depends on the API version:
+
+           * 2023-01-01-preview: :class:`ArchivesOperations<azure.mgmt.containerregistry.v2023_01_01_preview.operations.ArchivesOperations>`
+        """
+        api_version = self._get_api_version('archives')
+        if api_version == '2023-01-01-preview':
+            from .v2023_01_01_preview.operations import ArchivesOperations as OperationClass
+        else:
+            raise ValueError("API version {} does not have operation group 'archives'".format(api_version))
+        self._config.api_version = api_version
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+
+    @property
     def build_steps(self):
         """Instance depends on the API version:
 

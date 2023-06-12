@@ -96,6 +96,344 @@ class Actor(_serialization.Model):
         self.name = name
 
 
+class ProxyResource(_serialization.Model):
+    """The resource model definition for a ARM proxy resource. It will have everything other than
+    required location and tags.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: The resource ID.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource.
+    :vartype type: str
+    :ivar system_data: Metadata pertaining to creation and last modification of the resource.
+    :vartype system_data: ~azure.mgmt.containerregistry.v2023_01_01_preview.models.SystemData
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.id = None
+        self.name = None
+        self.type = None
+        self.system_data = None
+
+
+class Archive(ProxyResource):
+    """An object that represents a archive for a container registry.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: The resource ID.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource.
+    :vartype type: str
+    :ivar system_data: Metadata pertaining to creation and last modification of the resource.
+    :vartype system_data: ~azure.mgmt.containerregistry.v2023_01_01_preview.models.SystemData
+    :ivar package_source: The package source of the archive.
+    :vartype package_source:
+     ~azure.mgmt.containerregistry.v2023_01_01_preview.models.ArchivePackageSourceProperties
+    :ivar published_version: The published version of the archive.
+    :vartype published_version: str
+    :ivar repository_endpoint_prefix:
+    :vartype repository_endpoint_prefix: str
+    :ivar repository_endpoint:
+    :vartype repository_endpoint: str
+    :ivar provisioning_state: The provisioning state of the archive at the time the operation was
+     called. Known values are: "Creating", "Updating", "Deleting", "Succeeded", "Failed", and
+     "Canceled".
+    :vartype provisioning_state: str or
+     ~azure.mgmt.containerregistry.v2023_01_01_preview.models.ProvisioningState
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "repository_endpoint": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "package_source": {"key": "properties.packageSource", "type": "ArchivePackageSourceProperties"},
+        "published_version": {"key": "properties.publishedVersion", "type": "str"},
+        "repository_endpoint_prefix": {"key": "properties.repositoryEndpointPrefix", "type": "str"},
+        "repository_endpoint": {"key": "properties.repositoryEndpoint", "type": "str"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        package_source: Optional["_models.ArchivePackageSourceProperties"] = None,
+        published_version: Optional[str] = None,
+        repository_endpoint_prefix: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword package_source: The package source of the archive.
+        :paramtype package_source:
+         ~azure.mgmt.containerregistry.v2023_01_01_preview.models.ArchivePackageSourceProperties
+        :keyword published_version: The published version of the archive.
+        :paramtype published_version: str
+        :keyword repository_endpoint_prefix:
+        :paramtype repository_endpoint_prefix: str
+        """
+        super().__init__(**kwargs)
+        self.package_source = package_source
+        self.published_version = published_version
+        self.repository_endpoint_prefix = repository_endpoint_prefix
+        self.repository_endpoint = None
+        self.provisioning_state = None
+
+
+class ArchiveListResult(_serialization.Model):
+    """The result of a request to list archives for a container registry.
+
+    :ivar value: The list of archives. Since this list may be incomplete, the nextLink field should
+     be used to request the next list of distributions.
+    :vartype value: list[~azure.mgmt.containerregistry.v2023_01_01_preview.models.Archive]
+    :ivar next_link: The URI that can be used to request the next list of archives.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[Archive]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: Optional[List["_models.Archive"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: The list of archives. Since this list may be incomplete, the nextLink field
+         should be used to request the next list of distributions.
+        :paramtype value: list[~azure.mgmt.containerregistry.v2023_01_01_preview.models.Archive]
+        :keyword next_link: The URI that can be used to request the next list of archives.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class ArchivePackageSourceProperties(_serialization.Model):
+    """The properties of the archive package source.
+
+    :ivar type: The type of package source for a archive. "remote"
+    :vartype type: str or
+     ~azure.mgmt.containerregistry.v2023_01_01_preview.models.PackageSourceType
+    :ivar url: The external repository url.
+    :vartype url: str
+    """
+
+    _attribute_map = {
+        "type": {"key": "type", "type": "str"},
+        "url": {"key": "url", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        type: Optional[Union[str, "_models.PackageSourceType"]] = None,
+        url: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword type: The type of package source for a archive. "remote"
+        :paramtype type: str or
+         ~azure.mgmt.containerregistry.v2023_01_01_preview.models.PackageSourceType
+        :keyword url: The external repository url.
+        :paramtype url: str
+        """
+        super().__init__(**kwargs)
+        self.type = type
+        self.url = url
+
+
+class ArchiveProperties(_serialization.Model):
+    """The properties of a archive.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar package_source: The package source of the archive.
+    :vartype package_source:
+     ~azure.mgmt.containerregistry.v2023_01_01_preview.models.ArchivePackageSourceProperties
+    :ivar published_version: The published version of the archive.
+    :vartype published_version: str
+    :ivar repository_endpoint_prefix:
+    :vartype repository_endpoint_prefix: str
+    :ivar repository_endpoint:
+    :vartype repository_endpoint: str
+    :ivar provisioning_state: The provisioning state of the archive at the time the operation was
+     called. Known values are: "Creating", "Updating", "Deleting", "Succeeded", "Failed", and
+     "Canceled".
+    :vartype provisioning_state: str or
+     ~azure.mgmt.containerregistry.v2023_01_01_preview.models.ProvisioningState
+    """
+
+    _validation = {
+        "repository_endpoint": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "package_source": {"key": "packageSource", "type": "ArchivePackageSourceProperties"},
+        "published_version": {"key": "publishedVersion", "type": "str"},
+        "repository_endpoint_prefix": {"key": "repositoryEndpointPrefix", "type": "str"},
+        "repository_endpoint": {"key": "repositoryEndpoint", "type": "str"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        package_source: Optional["_models.ArchivePackageSourceProperties"] = None,
+        published_version: Optional[str] = None,
+        repository_endpoint_prefix: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword package_source: The package source of the archive.
+        :paramtype package_source:
+         ~azure.mgmt.containerregistry.v2023_01_01_preview.models.ArchivePackageSourceProperties
+        :keyword published_version: The published version of the archive.
+        :paramtype published_version: str
+        :keyword repository_endpoint_prefix:
+        :paramtype repository_endpoint_prefix: str
+        """
+        super().__init__(**kwargs)
+        self.package_source = package_source
+        self.published_version = published_version
+        self.repository_endpoint_prefix = repository_endpoint_prefix
+        self.repository_endpoint = None
+        self.provisioning_state = None
+
+
+class ArchiveUpdateParameters(_serialization.Model):
+    """The parameters for updating a archive.
+
+    :ivar published_version: The published version of the archive.
+    :vartype published_version: str
+    """
+
+    _attribute_map = {
+        "published_version": {"key": "properties.publishedVersion", "type": "str"},
+    }
+
+    def __init__(self, *, published_version: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword published_version: The published version of the archive.
+        :paramtype published_version: str
+        """
+        super().__init__(**kwargs)
+        self.published_version = published_version
+
+
+class ArchiveVersion(ProxyResource):
+    """An object that represents an export pipeline for a container registry.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: The resource ID.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource.
+    :vartype type: str
+    :ivar system_data: Metadata pertaining to creation and last modification of the resource.
+    :vartype system_data: ~azure.mgmt.containerregistry.v2023_01_01_preview.models.SystemData
+    :ivar provisioning_state: The provisioning state of the archive at the time the operation was
+     called. Known values are: "Creating", "Updating", "Deleting", "Succeeded", "Failed", and
+     "Canceled".
+    :vartype provisioning_state: str or
+     ~azure.mgmt.containerregistry.v2023_01_01_preview.models.ProvisioningState
+    :ivar archive_version_error_message: The detailed error message for the archive version in the
+     case of failure.
+    :vartype archive_version_error_message: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "archive_version_error_message": {"key": "properties.archiveVersionErrorMessage", "type": "str"},
+    }
+
+    def __init__(self, *, archive_version_error_message: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword archive_version_error_message: The detailed error message for the archive version in
+         the case of failure.
+        :paramtype archive_version_error_message: str
+        """
+        super().__init__(**kwargs)
+        self.provisioning_state = None
+        self.archive_version_error_message = archive_version_error_message
+
+
+class ArchiveVersionListResult(_serialization.Model):
+    """The result of a request to list export pipelines for a container registry.
+
+    :ivar value: The list of export pipelines. Since this list may be incomplete, the nextLink
+     field should be used to request the next list of export pipelines.
+    :vartype value: list[~azure.mgmt.containerregistry.v2023_01_01_preview.models.ArchiveVersion]
+    :ivar next_link: The URI that can be used to request the next list of pipeline runs.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[ArchiveVersion]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: Optional[List["_models.ArchiveVersion"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: The list of export pipelines. Since this list may be incomplete, the nextLink
+         field should be used to request the next list of export pipelines.
+        :paramtype value: list[~azure.mgmt.containerregistry.v2023_01_01_preview.models.ArchiveVersion]
+        :keyword next_link: The URI that can be used to request the next list of pipeline runs.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
 class AuthCredential(_serialization.Model):
     """Authentication credential stored for an upstream.
 
@@ -170,45 +508,6 @@ class AzureADAuthenticationAsArmPolicy(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.status = status
-
-
-class ProxyResource(_serialization.Model):
-    """The resource model definition for a ARM proxy resource. It will have everything other than
-    required location and tags.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar id: The resource ID.
-    :vartype id: str
-    :ivar name: The name of the resource.
-    :vartype name: str
-    :ivar type: The type of the resource.
-    :vartype type: str
-    :ivar system_data: Metadata pertaining to creation and last modification of the resource.
-    :vartype system_data: ~azure.mgmt.containerregistry.v2023_01_01_preview.models.SystemData
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.system_data = None
 
 
 class CacheRule(ProxyResource):
@@ -772,6 +1071,111 @@ class CredentialSetUpdateParameters(_serialization.Model):
         super().__init__(**kwargs)
         self.identity = identity
         self.auth_credentials = auth_credentials
+
+
+class DebianArchivePackageSourceProperties(ArchivePackageSourceProperties):
+    """The properties of the archive package source.
+
+    :ivar type: The type of package source for a archive. "remote"
+    :vartype type: str or
+     ~azure.mgmt.containerregistry.v2023_01_01_preview.models.PackageSourceType
+    :ivar url: The external repository url.
+    :vartype url: str
+    :ivar distribution_name: Upstream Debian distribution Name.
+    :vartype distribution_name: str
+    """
+
+    _attribute_map = {
+        "type": {"key": "type", "type": "str"},
+        "url": {"key": "url", "type": "str"},
+        "distribution_name": {"key": "distributionName", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        type: Optional[Union[str, "_models.PackageSourceType"]] = None,
+        url: Optional[str] = None,
+        distribution_name: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword type: The type of package source for a archive. "remote"
+        :paramtype type: str or
+         ~azure.mgmt.containerregistry.v2023_01_01_preview.models.PackageSourceType
+        :keyword url: The external repository url.
+        :paramtype url: str
+        :keyword distribution_name: Upstream Debian distribution Name.
+        :paramtype distribution_name: str
+        """
+        super().__init__(type=type, url=url, **kwargs)
+        self.distribution_name = distribution_name
+
+
+class DebianArchiveProperties(ArchiveProperties):
+    """The properties of the Debian package Archive.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar package_source: The package source of the archive.
+    :vartype package_source:
+     ~azure.mgmt.containerregistry.v2023_01_01_preview.models.ArchivePackageSourceProperties
+    :ivar published_version: The published version of the archive.
+    :vartype published_version: str
+    :ivar repository_endpoint_prefix:
+    :vartype repository_endpoint_prefix: str
+    :ivar repository_endpoint:
+    :vartype repository_endpoint: str
+    :ivar provisioning_state: The provisioning state of the archive at the time the operation was
+     called. Known values are: "Creating", "Updating", "Deleting", "Succeeded", "Failed", and
+     "Canceled".
+    :vartype provisioning_state: str or
+     ~azure.mgmt.containerregistry.v2023_01_01_preview.models.ProvisioningState
+    :ivar distribution_name: Debian distribution Name.
+    :vartype distribution_name: str
+    """
+
+    _validation = {
+        "repository_endpoint": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "package_source": {"key": "packageSource", "type": "ArchivePackageSourceProperties"},
+        "published_version": {"key": "publishedVersion", "type": "str"},
+        "repository_endpoint_prefix": {"key": "repositoryEndpointPrefix", "type": "str"},
+        "repository_endpoint": {"key": "repositoryEndpoint", "type": "str"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+        "distribution_name": {"key": "distributionName", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        package_source: Optional["_models.ArchivePackageSourceProperties"] = None,
+        published_version: Optional[str] = None,
+        repository_endpoint_prefix: Optional[str] = None,
+        distribution_name: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword package_source: The package source of the archive.
+        :paramtype package_source:
+         ~azure.mgmt.containerregistry.v2023_01_01_preview.models.ArchivePackageSourceProperties
+        :keyword published_version: The published version of the archive.
+        :paramtype published_version: str
+        :keyword repository_endpoint_prefix:
+        :paramtype repository_endpoint_prefix: str
+        :keyword distribution_name: Debian distribution Name.
+        :paramtype distribution_name: str
+        """
+        super().__init__(
+            package_source=package_source,
+            published_version=published_version,
+            repository_endpoint_prefix=repository_endpoint_prefix,
+            **kwargs
+        )
+        self.distribution_name = distribution_name
 
 
 class EncryptionProperty(_serialization.Model):
