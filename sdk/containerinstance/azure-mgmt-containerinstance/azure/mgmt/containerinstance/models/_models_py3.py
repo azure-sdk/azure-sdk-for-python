@@ -1552,7 +1552,7 @@ class EncryptionProperties(_serialization.Model):
     :vartype vault_base_url: str
     :ivar key_name: The encryption key name. Required.
     :vartype key_name: str
-    :ivar key_version: The encryption key version. Required.
+    :ivar key_version: The encryption key version.
     :vartype key_version: str
     :ivar identity: The keyvault managed identity.
     :vartype identity: str
@@ -1561,7 +1561,6 @@ class EncryptionProperties(_serialization.Model):
     _validation = {
         "vault_base_url": {"required": True},
         "key_name": {"required": True},
-        "key_version": {"required": True},
     }
 
     _attribute_map = {
@@ -1572,14 +1571,20 @@ class EncryptionProperties(_serialization.Model):
     }
 
     def __init__(
-        self, *, vault_base_url: str, key_name: str, key_version: str, identity: Optional[str] = None, **kwargs: Any
+        self,
+        *,
+        vault_base_url: str,
+        key_name: str,
+        key_version: Optional[str] = None,
+        identity: Optional[str] = None,
+        **kwargs: Any
     ) -> None:
         """
         :keyword vault_base_url: The keyvault base url. Required.
         :paramtype vault_base_url: str
         :keyword key_name: The encryption key name. Required.
         :paramtype key_name: str
-        :keyword key_version: The encryption key version. Required.
+        :keyword key_version: The encryption key version.
         :paramtype key_version: str
         :keyword identity: The keyvault managed identity.
         :paramtype identity: str

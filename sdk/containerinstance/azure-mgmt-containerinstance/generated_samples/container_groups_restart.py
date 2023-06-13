@@ -29,11 +29,10 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.container_groups.begin_restart(
+    client.container_groups.begin_restart(
         resource_group_name="demo",
         container_group_name="demo1",
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2023-05-01/examples/ContainerGroupsRestart.json

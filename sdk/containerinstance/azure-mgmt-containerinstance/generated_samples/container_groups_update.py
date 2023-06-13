@@ -14,7 +14,7 @@ from azure.mgmt.containerinstance import ContainerInstanceManagementClient
     pip install azure-identity
     pip install azure-mgmt-containerinstance
 # USAGE
-    python container_groups_stop.py
+    python container_groups_update.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,12 +29,14 @@ def main():
         subscription_id="subid",
     )
 
-    client.container_groups.stop(
-        resource_group_name="demo",
+    response = client.container_groups.update(
+        resource_group_name="demoResource",
         container_group_name="demo1",
+        resource={"tags": {"tag1key": "tag1Value", "tag2key": "tag2Value"}},
     )
+    print(response)
 
 
-# x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2023-05-01/examples/ContainerGroupsStop.json
+# x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2023-05-01/examples/ContainerGroupsUpdate.json
 if __name__ == "__main__":
     main()

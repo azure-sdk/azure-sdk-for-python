@@ -29,12 +29,11 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.subnet_service_association_link.begin_delete(
+    client.subnet_service_association_link.begin_delete(
         resource_group_name="demo",
         virtual_network_name="demo2",
         subnet_name="demo3",
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2023-05-01/examples/SubnetServiceAssociationLinkDelete.json
