@@ -71,6 +71,16 @@ class BindingType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SNI_ENABLED = "SniEnabled"
 
 
+class BuildStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Status of the build once it has been provisioned."""
+
+    NOT_STARTED = "NotStarted"
+    IN_PROGRESS = "InProgress"
+    SUCCEEDED = "Succeeded"
+    CANCELED = "Canceled"
+    FAILED = "Failed"
+
+
 class CertificateProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Provisioning state of the certificate."""
 
@@ -101,6 +111,14 @@ class ConnectedEnvironmentProvisioningState(str, Enum, metaclass=CaseInsensitive
     SCHEDULED_FOR_DELETE = "ScheduledForDelete"
 
 
+class ContainerAppContainerRunningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Current running state of the container."""
+
+    RUNNING = "Running"
+    TERMINATED = "Terminated"
+    WAITING = "Waiting"
+
+
 class ContainerAppProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Provisioning state of the Container App."""
 
@@ -109,6 +127,14 @@ class ContainerAppProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta
     FAILED = "Failed"
     CANCELED = "Canceled"
     DELETING = "Deleting"
+
+
+class ContainerAppReplicaRunningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Current running state of the replica."""
+
+    RUNNING = "Running"
+    NOT_RUNNING = "NotRunning"
+    UNKNOWN = "Unknown"
 
 
 class CookieExpirationConvention(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -236,6 +262,17 @@ class ManagedServiceIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SYSTEM_ASSIGNED_USER_ASSIGNED = "SystemAssigned,UserAssigned"
 
 
+class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Resource instance provisioning state."""
+
+    SUCCEEDED = "Succeeded"
+    FAILED = "Failed"
+    CANCELED = "Canceled"
+    CREATING = "Creating"
+    UPDATING = "Updating"
+    DELETING = "Deleting"
+
+
 class RevisionHealthState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Current health State of the revision."""
 
@@ -252,6 +289,17 @@ class RevisionProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     FAILED = "Failed"
     DEPROVISIONING = "Deprovisioning"
     DEPROVISIONED = "Deprovisioned"
+
+
+class RevisionRunningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Current running state of the revision."""
+
+    RUNNING = "Running"
+    PROCESSING = "Processing"
+    STOPPED = "Stopped"
+    DEGRADED = "Degraded"
+    FAILED = "Failed"
+    UNKNOWN = "Unknown"
 
 
 class Scheme(str, Enum, metaclass=CaseInsensitiveEnumMeta):
