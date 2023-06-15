@@ -1,0 +1,6 @@
+{
+  "commit": "11fd324c4d1e188d7e11488b8340a5cce1c7833f",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/cognitiveservices/AnomalyDetector",
+  "@azure-tools/typespec-python": "0.11.0"
+}

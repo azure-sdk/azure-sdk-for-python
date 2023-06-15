@@ -10,13 +10,6 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
-class AlignMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """AlignMode."""
-
-    INNER = "Inner"
-    OUTER = "Outer"
-
-
 class AnomalyDetectorErrorCodes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """AnomalyDetectorErrorCodes."""
 
@@ -33,32 +26,10 @@ class AnomalyDetectorErrorCodes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     INVALID_IMPUTE_FIXED_VALUE = "InvalidImputeFixedValue"
 
 
-class APIVersion(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """APIVersion."""
+class APIVersions(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """APIVersions."""
 
     V1_1 = "v1.1"
-
-
-class DataSchema(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """DataSchema."""
-
-    #: OneTable means that your input data are all in one CSV file, which contains one 'timestamp'
-    #: column and several variable columns. The default DataSchema is OneTable.
-    ONE_TABLE = "OneTable"
-    #: MultiTable means that your input data are separated in multiple CSV files, in each file
-    #: containing one 'timestamp' column and one 'variable' column, and the CSV file name should
-    #: indicate the name of the variable. The default DataSchema is OneTable.
-    MULTI_TABLE = "MultiTable"
-
-
-class FillNAMethod(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """FillNAMethod."""
-
-    PREVIOUS = "Previous"
-    SUBSEQUENT = "Subsequent"
-    LINEAR = "Linear"
-    ZERO = "Zero"
-    FIXED = "Fixed"
 
 
 class ImputeMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -72,13 +43,11 @@ class ImputeMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     NOT_FILL = "notFill"
 
 
-class ModelStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """ModelStatus."""
+class MultivariateAlignMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """MultivariateAlignMode."""
 
-    CREATED = "CREATED"
-    RUNNING = "RUNNING"
-    READY = "READY"
-    FAILED = "FAILED"
+    INNER = "Inner"
+    OUTER = "Outer"
 
 
 class MultivariateBatchDetectionStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -90,8 +59,43 @@ class MultivariateBatchDetectionStatus(str, Enum, metaclass=CaseInsensitiveEnumM
     FAILED = "FAILED"
 
 
-class TimeGranularity(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """TimeGranularity."""
+class MultivariateDataSchema(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Data schema of the input data source. The default is OneTable."""
+
+    ONE_TABLE = "OneTable"
+    """OneTable means that your input data is in one CSV file, which contains one time stamp column
+    #: and several variable columns. The default MultivariateDataSchema value is OneTable."""
+    MULTI_TABLE = "MultiTable"
+    """MultiTable means that your input data is separated in multiple CSV files. Each file contains
+    #: one time stamp column and one variable column, and the CSV file name should indicate the name
+    #: of the variable. The default MultivariateDataSchema value is OneTable."""
+
+
+class MultivariateFillNaMethod(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Field that indicates how missing values will be filled."""
+
+    PREVIOUS = "Previous"
+    SUBSEQUENT = "Subsequent"
+    LINEAR = "Linear"
+    ZERO = "Zero"
+    FIXED = "Fixed"
+
+
+class MultivariateModelStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """MultivariateModelStatus."""
+
+    CREATED = "CREATED"
+    """The model has been created. Training has been scheduled but not yet started."""
+    RUNNING = "RUNNING"
+    """The model is being trained."""
+    READY = "READY"
+    """The model has been trained and is ready to be used for anomaly detection."""
+    FAILED = "FAILED"
+    """The model training failed."""
+
+
+class UnivariateTimeGranularity(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """UnivariateTimeGranularity."""
 
     YEARLY = "yearly"
     MONTHLY = "monthly"
@@ -100,5 +104,5 @@ class TimeGranularity(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     HOURLY = "hourly"
     PER_MINUTE = "minutely"
     PER_SECOND = "secondly"
-    MICROSECOND = "microsecond"
+    PER_MICROSECOND = "microsecond"
     NONE = "none"

@@ -7,79 +7,81 @@
 # --------------------------------------------------------------------------
 
 from ._models import AlignPolicy
-from ._models import AnomalyDetectionModel
 from ._models import AnomalyDetectorError
 from ._models import AnomalyInterpretation
 from ._models import AnomalyState
-from ._models import AnomalyValue
 from ._models import CorrelationChanges
-from ._models import DiagnosticsInfo
+from ._models import DataPointDetails
+from ._models import Error
 from ._models import ErrorResponse
-from ._models import ModelInfo
-from ._models import ModelState
-from ._models import MultivariateBatchDetectionOptions
+from ._models import InnerError
 from ._models import MultivariateBatchDetectionResultSummary
+from ._models import MultivariateBatchDetectionSettings
 from ._models import MultivariateDetectionResult
-from ._models import MultivariateLastDetectionOptions
+from ._models import MultivariateDiagnosticDetails
 from ._models import MultivariateLastDetectionResult
-from ._models import ResponseError
-from ._models import TimeSeriesPoint
+from ._models import MultivariateLastDetectionSettings
+from ._models import MultivariateModel
+from ._models import MultivariateModelDetails
+from ._models import MultivariateModelState
+from ._models import MultivariateVariableState
+from ._models import MultivariateVariableValue
 from ._models import UnivariateChangePointDetectionOptions
 from ._models import UnivariateChangePointDetectionResult
 from ._models import UnivariateDetectionOptions
 from ._models import UnivariateEntireDetectionResult
 from ._models import UnivariateLastDetectionResult
-from ._models import VariableState
-from ._models import VariableValues
+from ._models import UnivariateTimeSeriesPoint
 
-from ._enums import APIVersion
-from ._enums import AlignMode
+from ._enums import APIVersions
 from ._enums import AnomalyDetectorErrorCodes
-from ._enums import DataSchema
-from ._enums import FillNAMethod
 from ._enums import ImputeMode
-from ._enums import ModelStatus
+from ._enums import MultivariateAlignMode
 from ._enums import MultivariateBatchDetectionStatus
-from ._enums import TimeGranularity
+from ._enums import MultivariateDataSchema
+from ._enums import MultivariateFillNaMethod
+from ._enums import MultivariateModelStatus
+from ._enums import UnivariateTimeGranularity
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
     "AlignPolicy",
-    "AnomalyDetectionModel",
     "AnomalyDetectorError",
     "AnomalyInterpretation",
     "AnomalyState",
-    "AnomalyValue",
     "CorrelationChanges",
-    "DiagnosticsInfo",
+    "DataPointDetails",
+    "Error",
     "ErrorResponse",
-    "ModelInfo",
-    "ModelState",
-    "MultivariateBatchDetectionOptions",
+    "InnerError",
     "MultivariateBatchDetectionResultSummary",
+    "MultivariateBatchDetectionSettings",
     "MultivariateDetectionResult",
-    "MultivariateLastDetectionOptions",
+    "MultivariateDiagnosticDetails",
     "MultivariateLastDetectionResult",
-    "ResponseError",
-    "TimeSeriesPoint",
+    "MultivariateLastDetectionSettings",
+    "MultivariateModel",
+    "MultivariateModelDetails",
+    "MultivariateModelState",
+    "MultivariateVariableState",
+    "MultivariateVariableValue",
     "UnivariateChangePointDetectionOptions",
     "UnivariateChangePointDetectionResult",
     "UnivariateDetectionOptions",
     "UnivariateEntireDetectionResult",
     "UnivariateLastDetectionResult",
-    "VariableState",
-    "VariableValues",
-    "APIVersion",
-    "AlignMode",
+    "UnivariateTimeSeriesPoint",
+    "APIVersions",
     "AnomalyDetectorErrorCodes",
-    "DataSchema",
-    "FillNAMethod",
     "ImputeMode",
-    "ModelStatus",
+    "MultivariateAlignMode",
     "MultivariateBatchDetectionStatus",
-    "TimeGranularity",
+    "MultivariateDataSchema",
+    "MultivariateFillNaMethod",
+    "MultivariateModelStatus",
+    "UnivariateTimeGranularity",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
