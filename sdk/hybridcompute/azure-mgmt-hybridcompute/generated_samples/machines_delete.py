@@ -29,13 +29,12 @@ def main():
         subscription_id="{subscriptionId}",
     )
 
-    response = client.machines.delete(
+    client.machines.delete(
         resource_group_name="myResourceGroup",
         machine_name="myMachine",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/stable/2022-03-10/examples/Machines_Delete.json
+# x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-04-25-preview/examples/Machines_Delete.json
 if __name__ == "__main__":
     main()
