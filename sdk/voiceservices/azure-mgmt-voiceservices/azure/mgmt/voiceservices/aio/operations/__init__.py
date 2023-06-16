@@ -8,7 +8,6 @@
 
 from ._operations import Operations
 from ._communications_gateways_operations import CommunicationsGatewaysOperations
-from ._name_availability_operations import NameAvailabilityOperations
 from ._test_lines_operations import TestLinesOperations
 
 from ._patch import __all__ as _patch_all
@@ -18,7 +17,6 @@ from ._patch import patch_sdk as _patch_sdk
 __all__ = [
     "Operations",
     "CommunicationsGatewaysOperations",
-    "NameAvailabilityOperations",
     "TestLinesOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])

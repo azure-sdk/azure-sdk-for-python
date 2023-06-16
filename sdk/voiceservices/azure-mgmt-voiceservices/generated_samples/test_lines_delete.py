@@ -29,14 +29,13 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.test_lines.begin_delete(
+    client.test_lines.begin_delete(
         resource_group_name="testrg",
         communications_gateway_name="myname",
         test_line_name="myline",
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/voiceservices/resource-manager/Microsoft.VoiceServices/stable/2023-01-31/examples/TestLines_Delete.json
+# x-ms-original-file: specification/voiceservices/resource-manager/Microsoft.VoiceServices/stable/2023-04-03/examples/TestLines_Delete.json
 if __name__ == "__main__":
     main()

@@ -15,7 +15,7 @@ from azure.mgmt.core import AsyncARMPipelineClient
 from .. import models as _models
 from .._serialization import Deserializer, Serializer
 from ._configuration import VoiceServicesMgmtClientConfiguration
-from .operations import CommunicationsGatewaysOperations, NameAvailabilityOperations, Operations, TestLinesOperations
+from .operations import CommunicationsGatewaysOperations, Operations, TestLinesOperations
 
 if TYPE_CHECKING:
     # pylint: disable=unused-import,ungrouped-imports
@@ -30,8 +30,6 @@ class VoiceServicesMgmtClient:  # pylint: disable=client-accepts-api-version-key
     :ivar communications_gateways: CommunicationsGatewaysOperations operations
     :vartype communications_gateways:
      azure.mgmt.voiceservices.aio.operations.CommunicationsGatewaysOperations
-    :ivar name_availability: NameAvailabilityOperations operations
-    :vartype name_availability: azure.mgmt.voiceservices.aio.operations.NameAvailabilityOperations
     :ivar test_lines: TestLinesOperations operations
     :vartype test_lines: azure.mgmt.voiceservices.aio.operations.TestLinesOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
@@ -40,7 +38,7 @@ class VoiceServicesMgmtClient:  # pylint: disable=client-accepts-api-version-key
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2023-01-31". Note that overriding this
+    :keyword api_version: Api Version. Default value is "2023-04-03". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -65,9 +63,6 @@ class VoiceServicesMgmtClient:  # pylint: disable=client-accepts-api-version-key
         self._serialize.client_side_validation = False
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
         self.communications_gateways = CommunicationsGatewaysOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.name_availability = NameAvailabilityOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.test_lines = TestLinesOperations(self._client, self._config, self._serialize, self._deserialize)
