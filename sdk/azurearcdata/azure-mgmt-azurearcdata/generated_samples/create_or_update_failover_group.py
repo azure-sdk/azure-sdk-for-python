@@ -14,7 +14,7 @@ from azure.mgmt.azurearcdata import AzureArcDataManagementClient
     pip install azure-identity
     pip install azure-mgmt-azurearcdata
 # USAGE
-    python update_sql_server_instance.py
+    python create_or_update_failover_group.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,14 +29,20 @@ def main():
         subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.sql_server_instances.update(
+    response = client.failover_groups.begin_create(
         resource_group_name="testrg",
-        sql_server_instance_name="testsqlServerInstance",
-        parameters={"tags": {"mytag": "myval"}},
-    )
+        sql_managed_instance_name="testSqlManagedInstance",
+        failover_group_name="testFailoverGroupName",
+        failover_group_resource={
+            "properties": {
+                "partnerManagedInstanceId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.AzureArcData/sqlManagedInstances/partnerMI",
+                "spec": {"partnerSyncMode": "async", "role": "primary"},
+            }
+        },
+    ).result()
     print(response)
 
 
-# x-ms-original-file: specification/azurearcdata/resource-manager/Microsoft.AzureArcData/preview/2023-01-15-preview/examples/UpdateSqlServerInstance.json
+# x-ms-original-file: specification/azurearcdata/resource-manager/Microsoft.AzureArcData/preview/2023-01-15-preview/examples/CreateOrUpdateFailoverGroup.json
 if __name__ == "__main__":
     main()
