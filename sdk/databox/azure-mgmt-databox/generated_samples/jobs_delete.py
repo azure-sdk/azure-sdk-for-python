@@ -29,11 +29,10 @@ def main():
         subscription_id="YourSubscriptionId",
     )
 
-    response = client.jobs.begin_delete(
+    client.jobs.begin_delete(
         resource_group_name="YourResourceGroupName",
         job_name="TestJobName1",
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsDelete.json

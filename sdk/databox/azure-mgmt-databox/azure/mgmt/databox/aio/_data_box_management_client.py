@@ -72,6 +72,8 @@ class DataBoxManagementClient(DataBoxManagementClientOperationsMixin, MultiApiCl
         profile: KnownProfiles = KnownProfiles.default,
         **kwargs: Any
     ) -> None:
+        if api_version:
+            kwargs.setdefault('api_version', api_version)
         self._config = DataBoxManagementClientConfiguration(credential, subscription_id, **kwargs)
         self._client = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
         super(DataBoxManagementClient, self).__init__(
@@ -183,7 +185,7 @@ class DataBoxManagementClient(DataBoxManagementClientOperationsMixin, MultiApiCl
         else:
             raise ValueError("API version {} does not have operation group 'jobs'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def operations(self):
@@ -230,7 +232,7 @@ class DataBoxManagementClient(DataBoxManagementClientOperationsMixin, MultiApiCl
         else:
             raise ValueError("API version {} does not have operation group 'operations'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def service(self):
@@ -277,7 +279,7 @@ class DataBoxManagementClient(DataBoxManagementClientOperationsMixin, MultiApiCl
         else:
             raise ValueError("API version {} does not have operation group 'service'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     async def close(self):
         await self._client.close()
