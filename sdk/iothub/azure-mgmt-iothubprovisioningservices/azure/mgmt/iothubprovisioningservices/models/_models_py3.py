@@ -1151,6 +1151,7 @@ class Resource(_serialization.Model):
         "name": {"readonly": True, "pattern": r"^(?![0-9]+$)(?!-)[a-zA-Z0-9-]{2,49}[a-zA-Z0-9]$"},
         "type": {"readonly": True},
         "location": {"required": True},
+        "resourcegroup": {"readonly": True},
     }
 
     _attribute_map = {
@@ -1167,7 +1168,6 @@ class Resource(_serialization.Model):
         self,
         *,
         location: str,
-        resourcegroup: Optional[str] = None,
         subscriptionid: Optional[str] = None,
         tags: Optional[Dict[str, str]] = None,
         **kwargs: Any
@@ -1175,8 +1175,6 @@ class Resource(_serialization.Model):
         """
         :keyword location: The resource location. Required.
         :paramtype location: str
-        :keyword resourcegroup: The resource group of the resource.
-        :paramtype resourcegroup: str
         :keyword subscriptionid: The subscription id of the resource.
         :paramtype subscriptionid: str
         :keyword tags: The resource tags.
@@ -1187,7 +1185,7 @@ class Resource(_serialization.Model):
         self.name = None
         self.type = None
         self.location = location
-        self.resourcegroup = resourcegroup
+        self.resourcegroup = None
         self.subscriptionid = subscriptionid
         self.tags = tags
 
@@ -1231,6 +1229,7 @@ class ProvisioningServiceDescription(Resource):  # pylint: disable=too-many-inst
         "name": {"readonly": True, "pattern": r"^(?![0-9]+$)(?!-)[a-zA-Z0-9-]{2,49}[a-zA-Z0-9]$"},
         "type": {"readonly": True},
         "location": {"required": True},
+        "resourcegroup": {"readonly": True},
         "properties": {"required": True},
         "sku": {"required": True},
         "system_data": {"readonly": True},
@@ -1257,7 +1256,6 @@ class ProvisioningServiceDescription(Resource):  # pylint: disable=too-many-inst
         location: str,
         properties: "_models.IotDpsPropertiesDescription",
         sku: "_models.IotDpsSkuInfo",
-        resourcegroup: Optional[str] = None,
         subscriptionid: Optional[str] = None,
         tags: Optional[Dict[str, str]] = None,
         etag: Optional[str] = None,
@@ -1267,8 +1265,6 @@ class ProvisioningServiceDescription(Resource):  # pylint: disable=too-many-inst
         """
         :keyword location: The resource location. Required.
         :paramtype location: str
-        :keyword resourcegroup: The resource group of the resource.
-        :paramtype resourcegroup: str
         :keyword subscriptionid: The subscription id of the resource.
         :paramtype subscriptionid: str
         :keyword tags: The resource tags.
@@ -1284,9 +1280,7 @@ class ProvisioningServiceDescription(Resource):  # pylint: disable=too-many-inst
         :keyword identity: The managed identities for a provisioning service.
         :paramtype identity: ~azure.mgmt.iothubprovisioningservices.models.ManagedServiceIdentity
         """
-        super().__init__(
-            location=location, resourcegroup=resourcegroup, subscriptionid=subscriptionid, tags=tags, **kwargs
-        )
+        super().__init__(location=location, subscriptionid=subscriptionid, tags=tags, **kwargs)
         self.etag = etag
         self.properties = properties
         self.sku = sku
