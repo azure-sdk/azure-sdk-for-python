@@ -18,6 +18,7 @@ from ._models_py3 import ListMaintenanceConfigurationsResult
 from ._models_py3 import ListUpdatesResult
 from ._models_py3 import MaintenanceConfiguration
 from ._models_py3 import MaintenanceError
+from ._models_py3 import MaintenanceOverrideProperties
 from ._models_py3 import Operation
 from ._models_py3 import OperationInfo
 from ._models_py3 import OperationsListResult
@@ -34,7 +35,7 @@ from ._maintenance_management_client_enums import TaskScope
 from ._maintenance_management_client_enums import UpdateStatus
 from ._maintenance_management_client_enums import Visibility
 from ._patch import __all__ as _patch_all
-from ._patch import *  # type: ignore # pylint: disable=unused-wildcard-import
+from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
@@ -50,6 +51,7 @@ __all__ = [
     "ListUpdatesResult",
     "MaintenanceConfiguration",
     "MaintenanceError",
+    "MaintenanceOverrideProperties",
     "Operation",
     "OperationInfo",
     "OperationsListResult",

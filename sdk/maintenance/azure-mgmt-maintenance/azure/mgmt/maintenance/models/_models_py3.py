@@ -54,7 +54,7 @@ class Resource(_serialization.Model):
         "system_data": {"key": "systemData", "type": "SystemData"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -109,8 +109,8 @@ class ApplyUpdate(Resource):
         status: Optional[Union[str, "_models.UpdateStatus"]] = None,
         resource_id: Optional[str] = None,
         last_update_time: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword status: The status. Known values are: "Pending", "InProgress", "Completed",
          "RetryNow", and "RetryLater".
@@ -171,8 +171,8 @@ class ConfigurationAssignment(Resource):
         location: Optional[str] = None,
         maintenance_configuration_id: Optional[str] = None,
         resource_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Location of the resource.
         :paramtype location: str
@@ -202,7 +202,7 @@ class ErrorDetails(_serialization.Model):
         "message": {"key": "message", "type": "str"},
     }
 
-    def __init__(self, *, code: Optional[str] = None, message: Optional[str] = None, **kwargs):
+    def __init__(self, *, code: Optional[str] = None, message: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword code: Service-defined error code. This code serves as a sub-status for the HTTP error
          code specified in the response.
@@ -238,8 +238,8 @@ class InputLinuxParameters(_serialization.Model):
         package_name_masks_to_exclude: Optional[List[str]] = None,
         package_name_masks_to_include: Optional[List[str]] = None,
         classifications_to_include: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword package_name_masks_to_exclude: Package names to be excluded for patching.
         :paramtype package_name_masks_to_exclude: list[str]
@@ -291,8 +291,8 @@ class InputPatchConfiguration(_serialization.Model):
         linux_parameters: Optional["_models.InputLinuxParameters"] = None,
         pre_tasks: Optional[List["_models.TaskProperties"]] = None,
         post_tasks: Optional[List["_models.TaskProperties"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword reboot_setting: Possible reboot preference as defined by the user based on which it
          would be decided to reboot the machine or not after the patch operation is completed. Known
@@ -346,8 +346,8 @@ class InputWindowsParameters(_serialization.Model):
         kb_numbers_to_include: Optional[List[str]] = None,
         classifications_to_include: Optional[List[str]] = None,
         exclude_kbs_requiring_reboot: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword kb_numbers_to_exclude: Windows KBID to be excluded for patching.
         :paramtype kb_numbers_to_exclude: list[str]
@@ -376,7 +376,7 @@ class ListApplyUpdate(_serialization.Model):
         "value": {"key": "value", "type": "[ApplyUpdate]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.ApplyUpdate"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.ApplyUpdate"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The list of apply updates.
         :paramtype value: list[~azure.mgmt.maintenance.models.ApplyUpdate]
@@ -396,7 +396,7 @@ class ListConfigurationAssignmentsResult(_serialization.Model):
         "value": {"key": "value", "type": "[ConfigurationAssignment]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.ConfigurationAssignment"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.ConfigurationAssignment"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The list of configuration Assignments.
         :paramtype value: list[~azure.mgmt.maintenance.models.ConfigurationAssignment]
@@ -416,7 +416,7 @@ class ListMaintenanceConfigurationsResult(_serialization.Model):
         "value": {"key": "value", "type": "[MaintenanceConfiguration]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.MaintenanceConfiguration"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.MaintenanceConfiguration"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The list of maintenance Configurations.
         :paramtype value: list[~azure.mgmt.maintenance.models.MaintenanceConfiguration]
@@ -436,7 +436,7 @@ class ListUpdatesResult(_serialization.Model):
         "value": {"key": "value", "type": "[Update]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Update"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.Update"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The pending updates.
         :paramtype value: list[~azure.mgmt.maintenance.models.Update]
@@ -475,6 +475,8 @@ class MaintenanceConfiguration(Resource):  # pylint: disable=too-many-instance-a
     :vartype visibility: str or ~azure.mgmt.maintenance.models.Visibility
     :ivar install_patches: The input parameters to be passed to the patch run operation.
     :vartype install_patches: ~azure.mgmt.maintenance.models.InputPatchConfiguration
+    :ivar overrides: Override Properties for the maintenance Configuration.
+    :vartype overrides: list[~azure.mgmt.maintenance.models.MaintenanceOverrideProperties]
     :ivar start_date_time: Effective start date of the maintenance window in YYYY-MM-DD hh:mm
      format. The start date can be set to either the current date or future date. The window will be
      created in the time zone provided and adjusted to daylight savings according to that time zone.
@@ -526,6 +528,7 @@ class MaintenanceConfiguration(Resource):  # pylint: disable=too-many-instance-a
         "maintenance_scope": {"key": "properties.maintenanceScope", "type": "str"},
         "visibility": {"key": "properties.visibility", "type": "str"},
         "install_patches": {"key": "properties.installPatches", "type": "InputPatchConfiguration"},
+        "overrides": {"key": "properties.overrides.overrides", "type": "[MaintenanceOverrideProperties]"},
         "start_date_time": {"key": "properties.maintenanceWindow.startDateTime", "type": "str"},
         "expiration_date_time": {"key": "properties.maintenanceWindow.expirationDateTime", "type": "str"},
         "duration": {"key": "properties.maintenanceWindow.duration", "type": "str"},
@@ -543,13 +546,14 @@ class MaintenanceConfiguration(Resource):  # pylint: disable=too-many-instance-a
         maintenance_scope: Optional[Union[str, "_models.MaintenanceScope"]] = None,
         visibility: Optional[Union[str, "_models.Visibility"]] = None,
         install_patches: Optional["_models.InputPatchConfiguration"] = None,
+        overrides: Optional[List["_models.MaintenanceOverrideProperties"]] = None,
         start_date_time: Optional[str] = None,
         expiration_date_time: Optional[str] = None,
         duration: Optional[str] = None,
         time_zone: Optional[str] = None,
         recur_every: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Gets or sets location of the resource.
         :paramtype location: str
@@ -569,6 +573,8 @@ class MaintenanceConfiguration(Resource):  # pylint: disable=too-many-instance-a
         :paramtype visibility: str or ~azure.mgmt.maintenance.models.Visibility
         :keyword install_patches: The input parameters to be passed to the patch run operation.
         :paramtype install_patches: ~azure.mgmt.maintenance.models.InputPatchConfiguration
+        :keyword overrides: Override Properties for the maintenance Configuration.
+        :paramtype overrides: list[~azure.mgmt.maintenance.models.MaintenanceOverrideProperties]
         :keyword start_date_time: Effective start date of the maintenance window in YYYY-MM-DD hh:mm
          format. The start date can be set to either the current date or future date. The window will be
          created in the time zone provided and adjusted to daylight savings according to that time zone.
@@ -608,6 +614,7 @@ class MaintenanceConfiguration(Resource):  # pylint: disable=too-many-instance-a
         self.maintenance_scope = maintenance_scope
         self.visibility = visibility
         self.install_patches = install_patches
+        self.overrides = overrides
         self.start_date_time = start_date_time
         self.expiration_date_time = expiration_date_time
         self.duration = duration
@@ -626,13 +633,75 @@ class MaintenanceError(_serialization.Model):
         "error": {"key": "error", "type": "ErrorDetails"},
     }
 
-    def __init__(self, *, error: Optional["_models.ErrorDetails"] = None, **kwargs):
+    def __init__(self, *, error: Optional["_models.ErrorDetails"] = None, **kwargs: Any) -> None:
         """
         :keyword error: Details of the error.
         :paramtype error: ~azure.mgmt.maintenance.models.ErrorDetails
         """
         super().__init__(**kwargs)
         self.error = error
+
+
+class MaintenanceOverrideProperties(_serialization.Model):
+    """Definition of a MaintenanceOverrideProperties.
+
+    :ivar start_date_time: Effective start date of the maintenance override window in YYYY-MM-DD
+     hh:mm format. The start date can be set to either the current date or future date. The window
+     will be created in the time zone provided and adjusted to daylight savings according to that
+     time zone.
+    :vartype start_date_time: ~datetime.datetime
+    :ivar end_date_time: Effective end date of the maintenance override window in YYYY-MM-DD hh:mm
+     format. The window will be created in the time zone provided and adjusted to daylight savings
+     according to that time zone. Expiration date must be set to a future date. If not provided, it
+     will be set to the maximum datetime 9999-12-31 23:59:59.
+    :vartype end_date_time: ~datetime.datetime
+    :ivar time_zone: Name of the timezone. List of timezones can be obtained by executing
+     [System.TimeZoneInfo]::GetSystemTimeZones() in PowerShell. Example: Pacific Standard Time, UTC,
+     W. Europe Standard Time, Korea Standard Time, Cen. Australia Standard Time.
+    :vartype time_zone: str
+    :ivar override_properties: Gets or sets overrideProperties of the maintenanceConfiguration.
+    :vartype override_properties: dict[str, str]
+    """
+
+    _attribute_map = {
+        "start_date_time": {"key": "startDateTime", "type": "iso-8601"},
+        "end_date_time": {"key": "endDateTime", "type": "iso-8601"},
+        "time_zone": {"key": "timeZone", "type": "str"},
+        "override_properties": {"key": "overrideProperties", "type": "{str}"},
+    }
+
+    def __init__(
+        self,
+        *,
+        start_date_time: Optional[datetime.datetime] = None,
+        end_date_time: Optional[datetime.datetime] = None,
+        time_zone: Optional[str] = None,
+        override_properties: Optional[Dict[str, str]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword start_date_time: Effective start date of the maintenance override window in YYYY-MM-DD
+         hh:mm format. The start date can be set to either the current date or future date. The window
+         will be created in the time zone provided and adjusted to daylight savings according to that
+         time zone.
+        :paramtype start_date_time: ~datetime.datetime
+        :keyword end_date_time: Effective end date of the maintenance override window in YYYY-MM-DD
+         hh:mm format. The window will be created in the time zone provided and adjusted to daylight
+         savings according to that time zone. Expiration date must be set to a future date. If not
+         provided, it will be set to the maximum datetime 9999-12-31 23:59:59.
+        :paramtype end_date_time: ~datetime.datetime
+        :keyword time_zone: Name of the timezone. List of timezones can be obtained by executing
+         [System.TimeZoneInfo]::GetSystemTimeZones() in PowerShell. Example: Pacific Standard Time, UTC,
+         W. Europe Standard Time, Korea Standard Time, Cen. Australia Standard Time.
+        :paramtype time_zone: str
+        :keyword override_properties: Gets or sets overrideProperties of the maintenanceConfiguration.
+        :paramtype override_properties: dict[str, str]
+        """
+        super().__init__(**kwargs)
+        self.start_date_time = start_date_time
+        self.end_date_time = end_date_time
+        self.time_zone = time_zone
+        self.override_properties = override_properties
 
 
 class Operation(_serialization.Model):
@@ -666,8 +735,8 @@ class Operation(_serialization.Model):
         origin: Optional[str] = None,
         properties: Optional[JSON] = None,
         is_data_action: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Name of the operation.
         :paramtype name: str
@@ -715,8 +784,8 @@ class OperationInfo(_serialization.Model):
         resource: Optional[str] = None,
         operation: Optional[str] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword provider: Name of the provider.
         :paramtype provider: str
@@ -745,7 +814,7 @@ class OperationsListResult(_serialization.Model):
         "value": {"key": "value", "type": "[Operation]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Operation"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.Operation"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: A collection of operations.
         :paramtype value: list[~azure.mgmt.maintenance.models.Operation]
@@ -791,8 +860,8 @@ class SystemData(_serialization.Model):
         last_modified_by: Optional[str] = None,
         last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
         last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword created_by: The identity that created the resource.
         :paramtype created_by: str
@@ -826,7 +895,7 @@ class TaskProperties(_serialization.Model):
     :ivar source: Gets or sets the name of the runbook.
     :vartype source: str
     :ivar task_scope: Global Task execute once when schedule trigger. Resource task execute for
-     each VM. Known values are: "Global" and "Resource".
+     each VM. Known values are: "Global", "Resource", and "Global".
     :vartype task_scope: str or ~azure.mgmt.maintenance.models.TaskScope
     """
 
@@ -842,15 +911,15 @@ class TaskProperties(_serialization.Model):
         parameters: Optional[Dict[str, str]] = None,
         source: Optional[str] = None,
         task_scope: Union[str, "_models.TaskScope"] = "Global",
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword parameters: Gets or sets the parameters of the task.
         :paramtype parameters: dict[str, str]
         :keyword source: Gets or sets the name of the runbook.
         :paramtype source: str
         :keyword task_scope: Global Task execute once when schedule trigger. Resource task execute for
-         each VM. Known values are: "Global" and "Resource".
+         each VM. Known values are: "Global", "Resource", and "Global".
         :paramtype task_scope: str or ~azure.mgmt.maintenance.models.TaskScope
         """
         super().__init__(**kwargs)
@@ -898,8 +967,8 @@ class Update(_serialization.Model):
         impact_duration_in_sec: Optional[int] = None,
         not_before: Optional[datetime.datetime] = None,
         resource_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword maintenance_scope: The impact area. Known values are: "Host", "Resource", "OSImage",
          "Extension", "InGuestPatch", "SQLDB", and "SQLManagedInstance".
