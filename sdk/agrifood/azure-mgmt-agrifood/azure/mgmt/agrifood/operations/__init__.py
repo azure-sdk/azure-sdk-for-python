@@ -9,6 +9,7 @@
 from ._extensions_operations import ExtensionsOperations
 from ._farm_beats_extensions_operations import FarmBeatsExtensionsOperations
 from ._farm_beats_models_operations import FarmBeatsModelsOperations
+from ._operation_results_operations import OperationResultsOperations
 from ._locations_operations import LocationsOperations
 from ._operations import Operations
 from ._private_endpoint_connections_operations import PrivateEndpointConnectionsOperations
@@ -24,6 +25,7 @@ __all__ = [
     "ExtensionsOperations",
     "FarmBeatsExtensionsOperations",
     "FarmBeatsModelsOperations",
+    "OperationResultsOperations",
     "LocationsOperations",
     "Operations",
     "PrivateEndpointConnectionsOperations",
