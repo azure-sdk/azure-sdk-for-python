@@ -36,6 +36,13 @@ class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     KEY = "Key"
 
 
+class CrossRegionRestoreState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """CrossRegionRestore state."""
+
+    DISABLED = "Disabled"
+    ENABLED = "Enabled"
+
+
 class CrossSubscriptionRestoreState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """CrossSubscriptionRestore state."""
 
@@ -81,6 +88,19 @@ class DayOfWeek(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     WEDNESDAY = "Wednesday"
 
 
+class EncryptionState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Encryption state of the Backup Vault."""
+
+    ENABLED = "Enabled"
+    """CMK encryption is enabled on the Backup Vault"""
+    DISABLED = "Disabled"
+    """CMK encryption is disabled on the Backup Vault. User can not set this state once Encryption
+    #: State is 'Enabled'."""
+    INCONSISTENT = "Inconsistent"
+    """CMK encryption is in inconsistent state on the Backup Vault. This state indicates that user
+    #: needs to retry the encryption settings operation immediately to correct the state."""
+
+
 class ExistingResourcePolicy(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Gets or sets the Conflict Policy property. This property sets policy during conflict of
     resources during restore.
@@ -108,12 +128,28 @@ class FeatureType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DATA_SOURCE_TYPE = "DataSourceType"
 
 
+class IdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The identity type. 'SystemAssigned' and 'UserAssigned' are mutually exclusive. 'SystemAssigned'
+    will use implicitly created managed identity.
+    """
+
+    SYSTEM_ASSIGNED = "SystemAssigned"
+    USER_ASSIGNED = "UserAssigned"
+
+
 class ImmutabilityState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Immutability state."""
 
     DISABLED = "Disabled"
     UNLOCKED = "Unlocked"
     LOCKED = "Locked"
+
+
+class InfrastructureEncryptionState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Enabling/Disabling the Double Encryption state."""
+
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
 
 
 class Month(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -215,6 +251,16 @@ class SecretStoreType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     INVALID = "Invalid"
     AZURE_KEY_VAULT = "AzureKeyVault"
+
+
+class SecureScoreLevel(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Secure Score of Backup Vault."""
+
+    NONE = "None"
+    MINIMUM = "Minimum"
+    ADEQUATE = "Adequate"
+    MAXIMUM = "Maximum"
+    NOT_SUPPORTED = "NotSupported"
 
 
 class SoftDeleteState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
