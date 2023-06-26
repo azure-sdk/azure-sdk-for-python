@@ -14,7 +14,7 @@ from azure.mgmt.costmanagement import CostManagementClient
     pip install azure-identity
     pip install azure-mgmt-costmanagement
 # USAGE
-    python savings_plan_savings_plan_id_monthly.py
+    python savings_plan_billing_profile.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -28,14 +28,14 @@ def main():
         credential=DefaultAzureCredential(),
     )
 
-    response = client.benefit_utilization_summaries.list_by_savings_plan_id(
-        savings_plan_order_id="66cccc66-6ccc-6c66-666c-66cc6c6c66c6",
-        savings_plan_id="222d22dd-d2d2-2dd2-222d-2dd2222ddddd",
+    response = client.benefit_utilization_summaries.list_by_billing_profile_id(
+        billing_account_id="c0a00000-0e04-5ee3-000e-f0c6e00000ec:c0a00000-0e04-5ee3-000e-f0c6e00000ec",
+        billing_profile_id="200e5e90-000e-4960-8dcd-8d00a02db000",
     )
     for item in response:
         print(item)
 
 
-# x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/BenefitUtilizationSummaries/SavingsPlan-SavingsPlanId-Monthly.json
+# x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2023-03-01/examples/BenefitUtilizationSummaries/SavingsPlan-BillingProfile.json
 if __name__ == "__main__":
     main()
