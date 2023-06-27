@@ -29,14 +29,13 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.associations_interface.begin_delete(
+    client.associations_interface.begin_delete(
         resource_group_name="rg1",
         traffic_controller_name="tc1",
         association_name="as1",
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/cadl/examples/AssociationDelete.json
+# x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/preview/2023-05-01-preview/examples/AssociationDelete.json
 if __name__ == "__main__":
     main()
