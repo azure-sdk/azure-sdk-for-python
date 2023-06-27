@@ -71,6 +71,8 @@ class ContainerServiceFleetMgmtClient(MultiApiClientMixin, _SDKClient):
         profile: KnownProfiles=KnownProfiles.default,
         **kwargs: Any
     ):
+        if api_version:
+            kwargs.setdefault('api_version', api_version)
         self._config = ContainerServiceFleetMgmtClientConfiguration(credential, subscription_id, **kwargs)
         self._client = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
         super(ContainerServiceFleetMgmtClient, self).__init__(
@@ -126,7 +128,7 @@ class ContainerServiceFleetMgmtClient(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'fleet_members'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def fleets(self):
@@ -149,7 +151,7 @@ class ContainerServiceFleetMgmtClient(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'fleets'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def operations(self):
@@ -166,7 +168,7 @@ class ContainerServiceFleetMgmtClient(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'operations'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def update_runs(self):
@@ -180,7 +182,7 @@ class ContainerServiceFleetMgmtClient(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'update_runs'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     def close(self):
         self._client.close()
