@@ -14,7 +14,7 @@ from azure.mgmt.oep import OpenEnergyPlatformManagementServiceAPIs
     pip install azure-identity
     pip install azure-mgmt-oep
 # USAGE
-    python oep_resource_delete.py
+    python energy_services_delete_maximum_set_gen.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,16 +26,15 @@ from azure.mgmt.oep import OpenEnergyPlatformManagementServiceAPIs
 def main():
     client = OpenEnergyPlatformManagementServiceAPIs(
         credential=DefaultAzureCredential(),
-        subscription_id="0000000-0000-0000-0000-000000000001",
+        subscription_id="00000000-0000-0000-0000-000000000008",
     )
 
-    response = client.energy_services.begin_delete(
-        resource_group_name="DummyResourceGroupName",
-        resource_name="DummyResourceName",
+    client.energy_services.begin_delete(
+        resource_group_name="SampleResourceGroupName",
+        resource_name="mvvwqx",
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/oep/resource-manager/Microsoft.OpenEnergyPlatform/preview/2022-04-04-preview/examples/OepResource_Delete.json
+# x-ms-original-file: specification/oep/resource-manager/Microsoft.OpenEnergyPlatform/stable/2023-06-12/examples/EnergyServices_Delete_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()

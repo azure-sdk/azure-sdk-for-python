@@ -14,7 +14,7 @@ from azure.mgmt.oep import OpenEnergyPlatformManagementServiceAPIs
     pip install azure-identity
     pip install azure-mgmt-oep
 # USAGE
-    python energy_services_remove_partition_maximum_set_gen.py
+    python private_endpoint_connections_delete_maximum_set_gen.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,13 +29,13 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000008",
     )
 
-    response = client.energy_services.begin_remove_partition(
+    client.private_endpoint_connections.begin_delete(
         resource_group_name="SampleResourceGroupName",
-        resource_name="esvlmuepbyizqjvswarqgocedjvdi",
+        resource_name="wyqf",
+        private_endpoint_connection_name="rytifznqx",
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/oep/resource-manager/Microsoft.OpenEnergyPlatform/stable/2023-06-12/examples/EnergyServices_RemovePartition_MaximumSet_Gen.json
+# x-ms-original-file: specification/oep/resource-manager/Microsoft.OpenEnergyPlatform/stable/2023-06-12/examples/PrivateEndpointConnections_Delete_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()

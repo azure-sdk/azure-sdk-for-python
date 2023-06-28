@@ -8,11 +8,14 @@
 
 from ._models_py3 import CheckNameAvailabilityRequest
 from ._models_py3 import CheckNameAvailabilityResponse
+from ._models_py3 import ConnectionDetails
+from ._models_py3 import CorsRulesList
 from ._models_py3 import DataPartitionAddOrRemoveRequest
 from ._models_py3 import DataPartitionNames
 from ._models_py3 import DataPartitionProperties
 from ._models_py3 import DataPartitionsList
 from ._models_py3 import DataPartitionsListResult
+from ._models_py3 import Encryption
 from ._models_py3 import EnergyResourceUpdate
 from ._models_py3 import EnergyService
 from ._models_py3 import EnergyServiceList
@@ -20,29 +23,63 @@ from ._models_py3 import EnergyServiceProperties
 from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorDetail
 from ._models_py3 import ErrorResponse
+from ._models_py3 import GroupConnectivityInformation
+from ._models_py3 import GroupInformation
+from ._models_py3 import GroupInformationProperties
+from ._models_py3 import KeyVaultProperties
+from ._models_py3 import ManagedServiceIdentity
 from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
 from ._models_py3 import OperationListResult
+from ._models_py3 import PrivateEndpoint
+from ._models_py3 import PrivateEndpointConnection
+from ._models_py3 import PrivateEndpointConnectionListResult
+from ._models_py3 import PrivateEndpointConnectionProxy
+from ._models_py3 import PrivateEndpointConnectionProxyListResult
+from ._models_py3 import PrivateEndpointConnectionProxyProperties
+from ._models_py3 import PrivateLinkResourceListResult
+from ._models_py3 import PrivateLinkResourceProperties
+from ._models_py3 import PrivateLinkServiceConnection
+from ._models_py3 import PrivateLinkServiceConnectionState
+from ._models_py3 import PrivateLinkServiceProxy
+from ._models_py3 import PrivateLinkServiceProxyRemotePrivateEndpointConnection
+from ._models_py3 import ProxyResource
+from ._models_py3 import RemotePrivateEndpoint
+from ._models_py3 import RemotePrivateEndpointConnection
 from ._models_py3 import Resource
+from ._models_py3 import Sku
 from ._models_py3 import SystemData
+from ._models_py3 import UserAssignedIdentity
 
 from ._open_energy_platform_management_service_apis_enums import ActionType
+from ._open_energy_platform_management_service_apis_enums import AllowedMethods
 from ._open_energy_platform_management_service_apis_enums import CheckNameAvailabilityReason
 from ._open_energy_platform_management_service_apis_enums import CreatedByType
+from ._open_energy_platform_management_service_apis_enums import GroupIdProvisioningState
+from ._open_energy_platform_management_service_apis_enums import KeySource
+from ._open_energy_platform_management_service_apis_enums import ManagedServiceIdentityType
 from ._open_energy_platform_management_service_apis_enums import Origin
+from ._open_energy_platform_management_service_apis_enums import PrivateEndpointConnectionProvisioningState
+from ._open_energy_platform_management_service_apis_enums import PrivateEndpointConnectionProxyProvisioningState
+from ._open_energy_platform_management_service_apis_enums import PrivateEndpointServiceConnectionStatus
 from ._open_energy_platform_management_service_apis_enums import ProvisioningState
+from ._open_energy_platform_management_service_apis_enums import PublicNetworkAccess
+from ._open_energy_platform_management_service_apis_enums import SkuTier
 from ._patch import __all__ as _patch_all
-from ._patch import *  # type: ignore # pylint: disable=unused-wildcard-import
+from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
     "CheckNameAvailabilityRequest",
     "CheckNameAvailabilityResponse",
+    "ConnectionDetails",
+    "CorsRulesList",
     "DataPartitionAddOrRemoveRequest",
     "DataPartitionNames",
     "DataPartitionProperties",
     "DataPartitionsList",
     "DataPartitionsListResult",
+    "Encryption",
     "EnergyResourceUpdate",
     "EnergyService",
     "EnergyServiceList",
@@ -50,16 +87,47 @@ __all__ = [
     "ErrorAdditionalInfo",
     "ErrorDetail",
     "ErrorResponse",
+    "GroupConnectivityInformation",
+    "GroupInformation",
+    "GroupInformationProperties",
+    "KeyVaultProperties",
+    "ManagedServiceIdentity",
     "Operation",
     "OperationDisplay",
     "OperationListResult",
+    "PrivateEndpoint",
+    "PrivateEndpointConnection",
+    "PrivateEndpointConnectionListResult",
+    "PrivateEndpointConnectionProxy",
+    "PrivateEndpointConnectionProxyListResult",
+    "PrivateEndpointConnectionProxyProperties",
+    "PrivateLinkResourceListResult",
+    "PrivateLinkResourceProperties",
+    "PrivateLinkServiceConnection",
+    "PrivateLinkServiceConnectionState",
+    "PrivateLinkServiceProxy",
+    "PrivateLinkServiceProxyRemotePrivateEndpointConnection",
+    "ProxyResource",
+    "RemotePrivateEndpoint",
+    "RemotePrivateEndpointConnection",
     "Resource",
+    "Sku",
     "SystemData",
+    "UserAssignedIdentity",
     "ActionType",
+    "AllowedMethods",
     "CheckNameAvailabilityReason",
     "CreatedByType",
+    "GroupIdProvisioningState",
+    "KeySource",
+    "ManagedServiceIdentityType",
     "Origin",
+    "PrivateEndpointConnectionProvisioningState",
+    "PrivateEndpointConnectionProxyProvisioningState",
+    "PrivateEndpointServiceConnectionStatus",
     "ProvisioningState",
+    "PublicNetworkAccess",
+    "SkuTier",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()

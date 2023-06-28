@@ -14,7 +14,7 @@ from azure.mgmt.oep import OpenEnergyPlatformManagementServiceAPIs
     pip install azure-identity
     pip install azure-mgmt-oep
 # USAGE
-    python operations_list.py
+    python locations_check_name_availability_maximum_set_gen.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,13 +26,15 @@ from azure.mgmt.oep import OpenEnergyPlatformManagementServiceAPIs
 def main():
     client = OpenEnergyPlatformManagementServiceAPIs(
         credential=DefaultAzureCredential(),
-        subscription_id="SUBSCRIPTION_ID",
+        subscription_id="00000000-0000-0000-0000-000000000008",
     )
 
-    response = client.operations.list()
+    response = client.locations.check_name_availability(
+        body={"name": "qytbxhilipmtgntssjdfjfmzvhvve", "type": "kfnfnrintouvwgzlhhr"},
+    )
     print(response)
 
 
-# x-ms-original-file: specification/oep/resource-manager/Microsoft.OpenEnergyPlatform/preview/2022-04-04-preview/examples/Operations_List.json
+# x-ms-original-file: specification/oep/resource-manager/Microsoft.OpenEnergyPlatform/stable/2023-06-12/examples/Locations_CheckNameAvailability_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()

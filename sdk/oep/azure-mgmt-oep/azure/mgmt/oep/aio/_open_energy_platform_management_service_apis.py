@@ -12,10 +12,17 @@ from typing import Any, Awaitable, TYPE_CHECKING
 from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.mgmt.core import AsyncARMPipelineClient
 
-from .. import models
+from .. import models as _models
 from .._serialization import Deserializer, Serializer
 from ._configuration import OpenEnergyPlatformManagementServiceAPIsConfiguration
-from .operations import EnergyServicesOperations, LocationsOperations, Operations
+from .operations import (
+    EnergyServicesOperations,
+    LocationsOperations,
+    Operations,
+    PrivateEndpointConnectionProxiesOperations,
+    PrivateEndpointConnectionsOperations,
+    PrivateLinkResourcesOperations,
+)
 
 if TYPE_CHECKING:
     # pylint: disable=unused-import,ungrouped-imports
@@ -29,6 +36,15 @@ class OpenEnergyPlatformManagementServiceAPIs:  # pylint: disable=client-accepts
     :vartype locations: azure.mgmt.oep.aio.operations.LocationsOperations
     :ivar energy_services: EnergyServicesOperations operations
     :vartype energy_services: azure.mgmt.oep.aio.operations.EnergyServicesOperations
+    :ivar private_endpoint_connections: PrivateEndpointConnectionsOperations operations
+    :vartype private_endpoint_connections:
+     azure.mgmt.oep.aio.operations.PrivateEndpointConnectionsOperations
+    :ivar private_link_resources: PrivateLinkResourcesOperations operations
+    :vartype private_link_resources: azure.mgmt.oep.aio.operations.PrivateLinkResourcesOperations
+    :ivar private_endpoint_connection_proxies: PrivateEndpointConnectionProxiesOperations
+     operations
+    :vartype private_endpoint_connection_proxies:
+     azure.mgmt.oep.aio.operations.PrivateEndpointConnectionProxiesOperations
     :ivar operations: Operations operations
     :vartype operations: azure.mgmt.oep.aio.operations.Operations
     :param credential: Credential needed for the client to connect to Azure. Required.
@@ -37,8 +53,8 @@ class OpenEnergyPlatformManagementServiceAPIs:  # pylint: disable=client-accepts
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2022-04-04-preview". Note that overriding
-     this default value may result in unsupported behavior.
+    :keyword api_version: Api Version. Default value is "2023-06-12". Note that overriding this
+     default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
      Retry-After header is present.
@@ -54,14 +70,23 @@ class OpenEnergyPlatformManagementServiceAPIs:  # pylint: disable=client-accepts
         self._config = OpenEnergyPlatformManagementServiceAPIsConfiguration(
             credential=credential, subscription_id=subscription_id, **kwargs
         )
-        self._client = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
-        client_models = {k: v for k, v in models.__dict__.items() if isinstance(v, type)}
+        client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
         self.locations = LocationsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.energy_services = EnergyServicesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.private_endpoint_connections = PrivateEndpointConnectionsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.private_link_resources = PrivateLinkResourcesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.private_endpoint_connection_proxies = PrivateEndpointConnectionProxiesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> Awaitable[AsyncHttpResponse]:
@@ -93,5 +118,5 @@ class OpenEnergyPlatformManagementServiceAPIs:  # pylint: disable=client-accepts
         await self._client.__aenter__()
         return self
 
-    async def __aexit__(self, *exc_details) -> None:
+    async def __aexit__(self, *exc_details: Any) -> None:
         await self._client.__aexit__(*exc_details)

@@ -26,16 +26,16 @@ from azure.mgmt.oep import OpenEnergyPlatformManagementServiceAPIs
 def main():
     client = OpenEnergyPlatformManagementServiceAPIs(
         credential=DefaultAzureCredential(),
-        subscription_id="00000000-0000-0000-0000-000000000000",
+        subscription_id="00000000-0000-0000-0000-000000000008",
     )
 
     response = client.energy_services.list_partitions(
-        resource_group_name="rgoep",
-        resource_name="aaaaaaaaaaaaaaaaaaa",
+        resource_group_name="SampleResourceGroupName",
+        resource_name="vxoaoyejrlp",
     )
     print(response)
 
 
-# x-ms-original-file: specification/oep/resource-manager/Microsoft.OpenEnergyPlatform/preview/2022-04-04-preview/examples/EnergyServices_ListPartitions_MaximumSet_Gen.json
+# x-ms-original-file: specification/oep/resource-manager/Microsoft.OpenEnergyPlatform/stable/2023-06-12/examples/EnergyServices_ListPartitions_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()

@@ -8,7 +8,7 @@
 # --------------------------------------------------------------------------
 
 import datetime
-from typing import Dict, List, Optional, TYPE_CHECKING, Union
+from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
 from .. import _serialization
 
@@ -31,7 +31,7 @@ class CheckNameAvailabilityRequest(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, type: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, type: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: The name of the resource for which availability needs to be checked.
         :paramtype name: str
@@ -67,8 +67,8 @@ class CheckNameAvailabilityResponse(_serialization.Model):
         name_available: Optional[bool] = None,
         reason: Optional[Union[str, "_models.CheckNameAvailabilityReason"]] = None,
         message: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name_available: Indicates if the resource name is available.
         :paramtype name_available: bool
@@ -84,6 +84,118 @@ class CheckNameAvailabilityResponse(_serialization.Model):
         self.message = message
 
 
+class ConnectionDetails(_serialization.Model):
+    """Private endpoint connection proxy object properties.
+
+    :ivar id: Connection details ID.
+    :vartype id: str
+    :ivar private_ip_address: Private IP address.
+    :vartype private_ip_address: str
+    :ivar link_identifier: Link ID.
+    :vartype link_identifier: str
+    :ivar group_id: Group ID.
+    :vartype group_id: str
+    :ivar member_name: Member name.
+    :vartype member_name: str
+    """
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "private_ip_address": {"key": "privateIpAddress", "type": "str"},
+        "link_identifier": {"key": "linkIdentifier", "type": "str"},
+        "group_id": {"key": "groupId", "type": "str"},
+        "member_name": {"key": "memberName", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        private_ip_address: Optional[str] = None,
+        link_identifier: Optional[str] = None,
+        group_id: Optional[str] = None,
+        member_name: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword id: Connection details ID.
+        :paramtype id: str
+        :keyword private_ip_address: Private IP address.
+        :paramtype private_ip_address: str
+        :keyword link_identifier: Link ID.
+        :paramtype link_identifier: str
+        :keyword group_id: Group ID.
+        :paramtype group_id: str
+        :keyword member_name: Member name.
+        :paramtype member_name: str
+        """
+        super().__init__(**kwargs)
+        self.id = id
+        self.private_ip_address = private_ip_address
+        self.link_identifier = link_identifier
+        self.group_id = group_id
+        self.member_name = member_name
+
+
+class CorsRulesList(_serialization.Model):
+    """List of cors rules.
+
+    :ivar allowed_headers: List of allowed headers.
+    :vartype allowed_headers: list[str]
+    :ivar allowed_methods: List of allowed HTTP methods.
+    :vartype allowed_methods: list[str or ~azure.mgmt.oep.models.AllowedMethods]
+    :ivar allowed_origins: List of allowed origin endpoints.
+    :vartype allowed_origins: list[str]
+    :ivar exposed_headers: List of exposed headers.
+    :vartype exposed_headers: list[str]
+    :ivar max_age_in_seconds: Max amount of time that a browser than cache the preflight OPTIONS
+     request.
+    :vartype max_age_in_seconds: int
+    """
+
+    _validation = {
+        "max_age_in_seconds": {"minimum": 0},
+    }
+
+    _attribute_map = {
+        "allowed_headers": {"key": "allowedHeaders", "type": "[str]"},
+        "allowed_methods": {"key": "allowedMethods", "type": "[str]"},
+        "allowed_origins": {"key": "allowedOrigins", "type": "[str]"},
+        "exposed_headers": {"key": "exposedHeaders", "type": "[str]"},
+        "max_age_in_seconds": {"key": "maxAgeInSeconds", "type": "int"},
+    }
+
+    def __init__(
+        self,
+        *,
+        allowed_headers: Optional[List[str]] = None,
+        allowed_methods: Optional[List[Union[str, "_models.AllowedMethods"]]] = None,
+        allowed_origins: Optional[List[str]] = None,
+        exposed_headers: Optional[List[str]] = None,
+        max_age_in_seconds: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword allowed_headers: List of allowed headers.
+        :paramtype allowed_headers: list[str]
+        :keyword allowed_methods: List of allowed HTTP methods.
+        :paramtype allowed_methods: list[str or ~azure.mgmt.oep.models.AllowedMethods]
+        :keyword allowed_origins: List of allowed origin endpoints.
+        :paramtype allowed_origins: list[str]
+        :keyword exposed_headers: List of exposed headers.
+        :paramtype exposed_headers: list[str]
+        :keyword max_age_in_seconds: Max amount of time that a browser than cache the preflight OPTIONS
+         request.
+        :paramtype max_age_in_seconds: int
+        """
+        super().__init__(**kwargs)
+        self.allowed_headers = allowed_headers
+        self.allowed_methods = allowed_methods
+        self.allowed_origins = allowed_origins
+        self.exposed_headers = exposed_headers
+        self.max_age_in_seconds = max_age_in_seconds
+
+
 class DataPartitionAddOrRemoveRequest(_serialization.Model):
     """Defines the partition add/ delete action properties.
 
@@ -95,7 +207,7 @@ class DataPartitionAddOrRemoveRequest(_serialization.Model):
         "name": {"key": "name", "type": "DataPartitionNames"},
     }
 
-    def __init__(self, *, name: Optional["_models.DataPartitionNames"] = None, **kwargs):
+    def __init__(self, *, name: Optional["_models.DataPartitionNames"] = None, **kwargs: Any) -> None:
         """
         :keyword name: The list of Energy services resource's Data Partition Names.
         :paramtype name: ~azure.mgmt.oep.models.DataPartitionNames
@@ -115,7 +227,7 @@ class DataPartitionNames(_serialization.Model):
         "name": {"key": "name", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name:
         :paramtype name: str
@@ -138,7 +250,7 @@ class DataPartitionProperties(_serialization.Model):
         "provisioning_state": {"key": "provisioningState", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, provisioning_state: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, provisioning_state: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Name of the data partition.
         :paramtype name: str
@@ -161,7 +273,9 @@ class DataPartitionsList(_serialization.Model):
         "data_partition_names": {"key": "dataPartitionNames", "type": "[DataPartitionNames]"},
     }
 
-    def __init__(self, *, data_partition_names: Optional[List["_models.DataPartitionNames"]] = None, **kwargs):
+    def __init__(
+        self, *, data_partition_names: Optional[List["_models.DataPartitionNames"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword data_partition_names:
         :paramtype data_partition_names: list[~azure.mgmt.oep.models.DataPartitionNames]
@@ -182,7 +296,9 @@ class DataPartitionsListResult(_serialization.Model):
         "data_partition_info": {"key": "dataPartitionInfo", "type": "[DataPartitionProperties]"},
     }
 
-    def __init__(self, *, data_partition_info: Optional[List["_models.DataPartitionProperties"]] = None, **kwargs):
+    def __init__(
+        self, *, data_partition_info: Optional[List["_models.DataPartitionProperties"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword data_partition_info: List of data partitions along with their properties in a given
          OEP resource.
@@ -190,6 +306,40 @@ class DataPartitionsListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.data_partition_info = data_partition_info
+
+
+class Encryption(_serialization.Model):
+    """Properties to configure Encryption.
+
+    :ivar key_vault_properties: Properties of KeyVault.
+    :vartype key_vault_properties: ~azure.mgmt.oep.models.KeyVaultProperties
+    :ivar key_source: The encryption keySource (provider). Possible values (case-insensitive):
+     Microsoft.Keyvault. "Microsoft.Keyvault"
+    :vartype key_source: str or ~azure.mgmt.oep.models.KeySource
+    """
+
+    _attribute_map = {
+        "key_vault_properties": {"key": "keyVaultProperties", "type": "KeyVaultProperties"},
+        "key_source": {"key": "keySource", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        key_vault_properties: Optional["_models.KeyVaultProperties"] = None,
+        key_source: Union[str, "_models.KeySource"] = "Microsoft.Keyvault",
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword key_vault_properties: Properties of KeyVault.
+        :paramtype key_vault_properties: ~azure.mgmt.oep.models.KeyVaultProperties
+        :keyword key_source: The encryption keySource (provider). Possible values (case-insensitive):
+         Microsoft.Keyvault. "Microsoft.Keyvault"
+        :paramtype key_source: str or ~azure.mgmt.oep.models.KeySource
+        """
+        super().__init__(**kwargs)
+        self.key_vault_properties = key_vault_properties
+        self.key_source = key_source
 
 
 class EnergyResourceUpdate(_serialization.Model):
@@ -203,7 +353,7 @@ class EnergyResourceUpdate(_serialization.Model):
         "tags": {"key": "tags", "type": "{str}"},
     }
 
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -244,7 +394,7 @@ class Resource(_serialization.Model):
         "system_data": {"key": "systemData", "type": "SystemData"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -254,7 +404,7 @@ class Resource(_serialization.Model):
 
 
 class EnergyService(Resource):
-    """EnergyService.
+    """An Energy service resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -271,12 +421,14 @@ class EnergyService(Resource):
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
     :vartype system_data: ~azure.mgmt.oep.models.SystemData
-    :ivar properties:
+    :ivar properties: The properties of an Energy service resource.
     :vartype properties: ~azure.mgmt.oep.models.EnergyServiceProperties
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: Geo-location where the resource lives. Required.
     :vartype location: str
+    :ivar identity: The type of identity used for the resource.
+    :vartype identity: ~azure.mgmt.oep.models.ManagedServiceIdentity
     """
 
     _validation = {
@@ -295,6 +447,7 @@ class EnergyService(Resource):
         "properties": {"key": "properties", "type": "EnergyServiceProperties"},
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
+        "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
     }
 
     def __init__(
@@ -303,20 +456,24 @@ class EnergyService(Resource):
         location: str,
         properties: Optional["_models.EnergyServiceProperties"] = None,
         tags: Optional[Dict[str, str]] = None,
-        **kwargs
-    ):
+        identity: Optional["_models.ManagedServiceIdentity"] = None,
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword properties:
+        :keyword properties: The properties of an Energy service resource.
         :paramtype properties: ~azure.mgmt.oep.models.EnergyServiceProperties
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
         :keyword location: Geo-location where the resource lives. Required.
         :paramtype location: str
+        :keyword identity: The type of identity used for the resource.
+        :paramtype identity: ~azure.mgmt.oep.models.ManagedServiceIdentity
         """
         super().__init__(**kwargs)
         self.properties = properties
         self.tags = tags
         self.location = location
+        self.identity = identity
 
 
 class EnergyServiceList(_serialization.Model):
@@ -334,8 +491,8 @@ class EnergyServiceList(_serialization.Model):
     }
 
     def __init__(
-        self, *, next_link: Optional[str] = None, value: Optional[List["_models.EnergyService"]] = None, **kwargs
-    ):
+        self, *, next_link: Optional[str] = None, value: Optional[List["_models.EnergyService"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword next_link: The link used to get the next page of oep resources list.
         :paramtype next_link: str
@@ -348,7 +505,7 @@ class EnergyServiceList(_serialization.Model):
 
 
 class EnergyServiceProperties(_serialization.Model):
-    """EnergyServiceProperties.
+    """The properties of an Energy service resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -361,6 +518,18 @@ class EnergyServiceProperties(_serialization.Model):
     :vartype auth_app_id: str
     :ivar data_partition_names:
     :vartype data_partition_names: list[~azure.mgmt.oep.models.DataPartitionNames]
+    :ivar encryption: Properties to configure Encryption.
+    :vartype encryption: ~azure.mgmt.oep.models.Encryption
+    :ivar public_network_access: Whether or not public network access is allowed for the OAK
+     resource. Known values are: "Enabled" and "Disabled".
+    :vartype public_network_access: str or ~azure.mgmt.oep.models.PublicNetworkAccess
+    :ivar private_endpoint_connections: List of private endpoint connections associated with the
+     OAK resource.
+    :vartype private_endpoint_connections: list[~azure.mgmt.oep.models.PrivateEndpointConnection]
+    :ivar cors_rules: List of cors rules.
+    :vartype cors_rules: list[~azure.mgmt.oep.models.CorsRulesList]
+    :ivar sku: The resource model definition representing SKU.
+    :vartype sku: ~azure.mgmt.oep.models.Sku
     """
 
     _validation = {
@@ -373,6 +542,11 @@ class EnergyServiceProperties(_serialization.Model):
         "provisioning_state": {"key": "provisioningState", "type": "str"},
         "auth_app_id": {"key": "authAppId", "type": "str"},
         "data_partition_names": {"key": "dataPartitionNames", "type": "[DataPartitionNames]"},
+        "encryption": {"key": "encryption", "type": "Encryption"},
+        "public_network_access": {"key": "publicNetworkAccess", "type": "str"},
+        "private_endpoint_connections": {"key": "privateEndpointConnections", "type": "[PrivateEndpointConnection]"},
+        "cors_rules": {"key": "corsRules", "type": "[CorsRulesList]"},
+        "sku": {"key": "sku", "type": "Sku"},
     }
 
     def __init__(
@@ -380,19 +554,41 @@ class EnergyServiceProperties(_serialization.Model):
         *,
         auth_app_id: Optional[str] = None,
         data_partition_names: Optional[List["_models.DataPartitionNames"]] = None,
-        **kwargs
-    ):
+        encryption: Optional["_models.Encryption"] = None,
+        public_network_access: Union[str, "_models.PublicNetworkAccess"] = "Enabled",
+        private_endpoint_connections: Optional[List["_models.PrivateEndpointConnection"]] = None,
+        cors_rules: Optional[List["_models.CorsRulesList"]] = None,
+        sku: Optional["_models.Sku"] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword auth_app_id:
         :paramtype auth_app_id: str
         :keyword data_partition_names:
         :paramtype data_partition_names: list[~azure.mgmt.oep.models.DataPartitionNames]
+        :keyword encryption: Properties to configure Encryption.
+        :paramtype encryption: ~azure.mgmt.oep.models.Encryption
+        :keyword public_network_access: Whether or not public network access is allowed for the OAK
+         resource. Known values are: "Enabled" and "Disabled".
+        :paramtype public_network_access: str or ~azure.mgmt.oep.models.PublicNetworkAccess
+        :keyword private_endpoint_connections: List of private endpoint connections associated with the
+         OAK resource.
+        :paramtype private_endpoint_connections: list[~azure.mgmt.oep.models.PrivateEndpointConnection]
+        :keyword cors_rules: List of cors rules.
+        :paramtype cors_rules: list[~azure.mgmt.oep.models.CorsRulesList]
+        :keyword sku: The resource model definition representing SKU.
+        :paramtype sku: ~azure.mgmt.oep.models.Sku
         """
         super().__init__(**kwargs)
         self.dns_name = None
         self.provisioning_state = None
         self.auth_app_id = auth_app_id
         self.data_partition_names = data_partition_names
+        self.encryption = encryption
+        self.public_network_access = public_network_access
+        self.private_endpoint_connections = private_endpoint_connections
+        self.cors_rules = cors_rules
+        self.sku = sku
 
 
 class ErrorAdditionalInfo(_serialization.Model):
@@ -416,7 +612,7 @@ class ErrorAdditionalInfo(_serialization.Model):
         "info": {"key": "info", "type": "object"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.type = None
@@ -456,7 +652,7 @@ class ErrorDetail(_serialization.Model):
         "additional_info": {"key": "additionalInfo", "type": "[ErrorAdditionalInfo]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.code = None
@@ -467,7 +663,8 @@ class ErrorDetail(_serialization.Model):
 
 
 class ErrorResponse(_serialization.Model):
-    """Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.).
+    """Common error response for all Azure Resource Manager APIs to return error details for failed
+    operations. (This also follows the OData error response format.).
 
     :ivar error: The error object.
     :vartype error: ~azure.mgmt.oep.models.ErrorDetail
@@ -477,13 +674,360 @@ class ErrorResponse(_serialization.Model):
         "error": {"key": "error", "type": "ErrorDetail"},
     }
 
-    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs):
+    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs: Any) -> None:
         """
         :keyword error: The error object.
         :paramtype error: ~azure.mgmt.oep.models.ErrorDetail
         """
         super().__init__(**kwargs)
         self.error = error
+
+
+class GroupConnectivityInformation(_serialization.Model):
+    """Group connectivity details.
+
+    :ivar group_id: Group ID.
+    :vartype group_id: str
+    :ivar member_name: Member name.
+    :vartype member_name: str
+    :ivar customer_visible_fqdns: List of customer visible FQDNs.
+    :vartype customer_visible_fqdns: list[str]
+    :ivar internal_fqdn: Internal FQDN.
+    :vartype internal_fqdn: str
+    :ivar redirect_map_id: Redirect map ID.
+    :vartype redirect_map_id: str
+    :ivar private_link_service_arm_region: PrivateLinkService ARM region.
+    :vartype private_link_service_arm_region: str
+    """
+
+    _attribute_map = {
+        "group_id": {"key": "groupId", "type": "str"},
+        "member_name": {"key": "memberName", "type": "str"},
+        "customer_visible_fqdns": {"key": "customerVisibleFqdns", "type": "[str]"},
+        "internal_fqdn": {"key": "internalFqdn", "type": "str"},
+        "redirect_map_id": {"key": "redirectMapId", "type": "str"},
+        "private_link_service_arm_region": {"key": "privateLinkServiceArmRegion", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        group_id: Optional[str] = None,
+        member_name: Optional[str] = None,
+        customer_visible_fqdns: Optional[List[str]] = None,
+        internal_fqdn: Optional[str] = None,
+        redirect_map_id: Optional[str] = None,
+        private_link_service_arm_region: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword group_id: Group ID.
+        :paramtype group_id: str
+        :keyword member_name: Member name.
+        :paramtype member_name: str
+        :keyword customer_visible_fqdns: List of customer visible FQDNs.
+        :paramtype customer_visible_fqdns: list[str]
+        :keyword internal_fqdn: Internal FQDN.
+        :paramtype internal_fqdn: str
+        :keyword redirect_map_id: Redirect map ID.
+        :paramtype redirect_map_id: str
+        :keyword private_link_service_arm_region: PrivateLinkService ARM region.
+        :paramtype private_link_service_arm_region: str
+        """
+        super().__init__(**kwargs)
+        self.group_id = group_id
+        self.member_name = member_name
+        self.customer_visible_fqdns = customer_visible_fqdns
+        self.internal_fqdn = internal_fqdn
+        self.redirect_map_id = redirect_map_id
+        self.private_link_service_arm_region = private_link_service_arm_region
+
+
+class ProxyResource(Resource):
+    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
+    tags and a location.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.oep.models.SystemData
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+
+
+class GroupInformation(ProxyResource):
+    """The group information for creating a private endpoint on an Account.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.oep.models.SystemData
+    :ivar group_id: The private link resource group id.
+    :vartype group_id: str
+    :ivar required_members: The private link resource required member names.
+    :vartype required_members: list[str]
+    :ivar required_zone_names: The private link resource Private link DNS zone name.
+    :vartype required_zone_names: list[str]
+    :ivar provisioning_state: The provisioning state of private link group ID. Known values are:
+     "Succeeded", "Failed", and "Canceled".
+    :vartype provisioning_state: str or ~azure.mgmt.oep.models.GroupIdProvisioningState
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "group_id": {"readonly": True},
+        "required_members": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "group_id": {"key": "properties.groupId", "type": "str"},
+        "required_members": {"key": "properties.requiredMembers", "type": "[str]"},
+        "required_zone_names": {"key": "properties.requiredZoneNames", "type": "[str]"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+    }
+
+    def __init__(self, *, required_zone_names: Optional[List[str]] = None, **kwargs: Any) -> None:
+        """
+        :keyword required_zone_names: The private link resource Private link DNS zone name.
+        :paramtype required_zone_names: list[str]
+        """
+        super().__init__(**kwargs)
+        self.group_id = None
+        self.required_members = None
+        self.required_zone_names = required_zone_names
+        self.provisioning_state = None
+
+
+class PrivateLinkResourceProperties(_serialization.Model):
+    """Properties of a private link resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar group_id: The private link resource group id.
+    :vartype group_id: str
+    :ivar required_members: The private link resource required member names.
+    :vartype required_members: list[str]
+    :ivar required_zone_names: The private link resource Private link DNS zone name.
+    :vartype required_zone_names: list[str]
+    """
+
+    _validation = {
+        "group_id": {"readonly": True},
+        "required_members": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "group_id": {"key": "groupId", "type": "str"},
+        "required_members": {"key": "requiredMembers", "type": "[str]"},
+        "required_zone_names": {"key": "requiredZoneNames", "type": "[str]"},
+    }
+
+    def __init__(self, *, required_zone_names: Optional[List[str]] = None, **kwargs: Any) -> None:
+        """
+        :keyword required_zone_names: The private link resource Private link DNS zone name.
+        :paramtype required_zone_names: list[str]
+        """
+        super().__init__(**kwargs)
+        self.group_id = None
+        self.required_members = None
+        self.required_zone_names = required_zone_names
+
+
+class GroupInformationProperties(PrivateLinkResourceProperties):
+    """The properties for a group information object.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar group_id: The private link resource group id.
+    :vartype group_id: str
+    :ivar required_members: The private link resource required member names.
+    :vartype required_members: list[str]
+    :ivar required_zone_names: The private link resource Private link DNS zone name.
+    :vartype required_zone_names: list[str]
+    :ivar provisioning_state: The provisioning state of private link group ID. Known values are:
+     "Succeeded", "Failed", and "Canceled".
+    :vartype provisioning_state: str or ~azure.mgmt.oep.models.GroupIdProvisioningState
+    """
+
+    _validation = {
+        "group_id": {"readonly": True},
+        "required_members": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "group_id": {"key": "groupId", "type": "str"},
+        "required_members": {"key": "requiredMembers", "type": "[str]"},
+        "required_zone_names": {"key": "requiredZoneNames", "type": "[str]"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+    }
+
+    def __init__(self, *, required_zone_names: Optional[List[str]] = None, **kwargs: Any) -> None:
+        """
+        :keyword required_zone_names: The private link resource Private link DNS zone name.
+        :paramtype required_zone_names: list[str]
+        """
+        super().__init__(required_zone_names=required_zone_names, **kwargs)
+        self.provisioning_state = None
+
+
+class KeyVaultProperties(_serialization.Model):
+    """Properties of KeyVault.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar key_name: The name of the key vault key. Required.
+    :vartype key_name: str
+    :ivar key_version: The version of the key vault key.
+    :vartype key_version: str
+    :ivar key_vault_uri: The Uri of the key vault. Required.
+    :vartype key_vault_uri: str
+    :ivar user_identity: The user assigned identity (ARM resource id) that has access to the key.
+    :vartype user_identity: str
+    """
+
+    _validation = {
+        "key_name": {"required": True},
+        "key_vault_uri": {"required": True},
+    }
+
+    _attribute_map = {
+        "key_name": {"key": "keyName", "type": "str"},
+        "key_version": {"key": "keyVersion", "type": "str"},
+        "key_vault_uri": {"key": "keyVaultUri", "type": "str"},
+        "user_identity": {"key": "userIdentity", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        key_name: str,
+        key_vault_uri: str,
+        key_version: Optional[str] = None,
+        user_identity: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword key_name: The name of the key vault key. Required.
+        :paramtype key_name: str
+        :keyword key_version: The version of the key vault key.
+        :paramtype key_version: str
+        :keyword key_vault_uri: The Uri of the key vault. Required.
+        :paramtype key_vault_uri: str
+        :keyword user_identity: The user assigned identity (ARM resource id) that has access to the
+         key.
+        :paramtype user_identity: str
+        """
+        super().__init__(**kwargs)
+        self.key_name = key_name
+        self.key_version = key_version
+        self.key_vault_uri = key_vault_uri
+        self.user_identity = user_identity
+
+
+class ManagedServiceIdentity(_serialization.Model):
+    """Managed service identity (system assigned and/or user assigned identities).
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar principal_id: The service principal ID of the system assigned identity. This property
+     will only be provided for a system assigned identity.
+    :vartype principal_id: str
+    :ivar tenant_id: The tenant ID of the system assigned identity. This property will only be
+     provided for a system assigned identity.
+    :vartype tenant_id: str
+    :ivar type: Type of managed service identity (where both SystemAssigned and UserAssigned types
+     are allowed). Required. Known values are: "None", "SystemAssigned", "UserAssigned", and
+     "SystemAssigned,UserAssigned".
+    :vartype type: str or ~azure.mgmt.oep.models.ManagedServiceIdentityType
+    :ivar user_assigned_identities: The set of user assigned identities associated with the
+     resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
+     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+     The dictionary values can be empty objects ({}) in requests.
+    :vartype user_assigned_identities: dict[str, ~azure.mgmt.oep.models.UserAssignedIdentity]
+    """
+
+    _validation = {
+        "principal_id": {"readonly": True},
+        "tenant_id": {"readonly": True},
+        "type": {"required": True},
+    }
+
+    _attribute_map = {
+        "principal_id": {"key": "principalId", "type": "str"},
+        "tenant_id": {"key": "tenantId", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "user_assigned_identities": {"key": "userAssignedIdentities", "type": "{UserAssignedIdentity}"},
+    }
+
+    def __init__(
+        self,
+        *,
+        type: Union[str, "_models.ManagedServiceIdentityType"],
+        user_assigned_identities: Optional[Dict[str, "_models.UserAssignedIdentity"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword type: Type of managed service identity (where both SystemAssigned and UserAssigned
+         types are allowed). Required. Known values are: "None", "SystemAssigned", "UserAssigned", and
+         "SystemAssigned,UserAssigned".
+        :paramtype type: str or ~azure.mgmt.oep.models.ManagedServiceIdentityType
+        :keyword user_assigned_identities: The set of user assigned identities associated with the
+         resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
+         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+         The dictionary values can be empty objects ({}) in requests.
+        :paramtype user_assigned_identities: dict[str, ~azure.mgmt.oep.models.UserAssignedIdentity]
+        """
+        super().__init__(**kwargs)
+        self.principal_id = None
+        self.tenant_id = None
+        self.type = type
+        self.user_assigned_identities = user_assigned_identities
 
 
 class Operation(_serialization.Model):
@@ -523,7 +1067,7 @@ class Operation(_serialization.Model):
         "action_type": {"key": "actionType", "type": "str"},
     }
 
-    def __init__(self, *, display: Optional["_models.OperationDisplay"] = None, **kwargs):
+    def __init__(self, *, display: Optional["_models.OperationDisplay"] = None, **kwargs: Any) -> None:
         """
         :keyword display: Localized display information for this particular operation.
         :paramtype display: ~azure.mgmt.oep.models.OperationDisplay
@@ -569,7 +1113,7 @@ class OperationDisplay(_serialization.Model):
         "description": {"key": "description", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.provider = None
@@ -579,7 +1123,8 @@ class OperationDisplay(_serialization.Model):
 
 
 class OperationListResult(_serialization.Model):
-    """A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results.
+    """A list of REST API operations supported by an Azure Resource Provider. It contains an URL link
+    to get the next set of results.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -599,11 +1144,660 @@ class OperationListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
         self.next_link = None
+
+
+class PrivateEndpoint(_serialization.Model):
+    """The Private Endpoint resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: The ARM identifier for Private Endpoint.
+    :vartype id: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.id = None
+
+
+class PrivateEndpointConnection(Resource):
+    """The Private Endpoint Connection resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.oep.models.SystemData
+    :ivar private_endpoint: The resource of private end point.
+    :vartype private_endpoint: ~azure.mgmt.oep.models.PrivateEndpoint
+    :ivar private_link_service_connection_state: A collection of information about the state of the
+     connection between service consumer and provider.
+    :vartype private_link_service_connection_state:
+     ~azure.mgmt.oep.models.PrivateLinkServiceConnectionState
+    :ivar provisioning_state: The provisioning state of the private endpoint connection resource.
+     Known values are: "Succeeded", "Creating", "Deleting", and "Failed".
+    :vartype provisioning_state: str or
+     ~azure.mgmt.oep.models.PrivateEndpointConnectionProvisioningState
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "private_endpoint": {"key": "properties.privateEndpoint", "type": "PrivateEndpoint"},
+        "private_link_service_connection_state": {
+            "key": "properties.privateLinkServiceConnectionState",
+            "type": "PrivateLinkServiceConnectionState",
+        },
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        private_endpoint: Optional["_models.PrivateEndpoint"] = None,
+        private_link_service_connection_state: Optional["_models.PrivateLinkServiceConnectionState"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword private_endpoint: The resource of private end point.
+        :paramtype private_endpoint: ~azure.mgmt.oep.models.PrivateEndpoint
+        :keyword private_link_service_connection_state: A collection of information about the state of
+         the connection between service consumer and provider.
+        :paramtype private_link_service_connection_state:
+         ~azure.mgmt.oep.models.PrivateLinkServiceConnectionState
+        """
+        super().__init__(**kwargs)
+        self.private_endpoint = private_endpoint
+        self.private_link_service_connection_state = private_link_service_connection_state
+        self.provisioning_state = None
+
+
+class PrivateEndpointConnectionListResult(_serialization.Model):
+    """List of private endpoint connection associated with the specified storage account.
+
+    :ivar value: Array of private endpoint connections.
+    :vartype value: list[~azure.mgmt.oep.models.PrivateEndpointConnection]
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[PrivateEndpointConnection]"},
+    }
+
+    def __init__(self, *, value: Optional[List["_models.PrivateEndpointConnection"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword value: Array of private endpoint connections.
+        :paramtype value: list[~azure.mgmt.oep.models.PrivateEndpointConnection]
+        """
+        super().__init__(**kwargs)
+        self.value = value
+
+
+class PrivateEndpointConnectionProxyProperties(_serialization.Model):
+    """Private endpoint connection proxy object properties.
+
+    :ivar e_tag: ETag from NRP.
+    :vartype e_tag: str
+    :ivar remote_private_endpoint: Remote private endpoint details.
+    :vartype remote_private_endpoint: ~azure.mgmt.oep.models.RemotePrivateEndpoint
+    :ivar status: Operation status.
+    :vartype status: str
+    """
+
+    _attribute_map = {
+        "e_tag": {"key": "eTag", "type": "str"},
+        "remote_private_endpoint": {"key": "remotePrivateEndpoint", "type": "RemotePrivateEndpoint"},
+        "status": {"key": "status", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        e_tag: Optional[str] = None,
+        remote_private_endpoint: Optional["_models.RemotePrivateEndpoint"] = None,
+        status: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword e_tag: ETag from NRP.
+        :paramtype e_tag: str
+        :keyword remote_private_endpoint: Remote private endpoint details.
+        :paramtype remote_private_endpoint: ~azure.mgmt.oep.models.RemotePrivateEndpoint
+        :keyword status: Operation status.
+        :paramtype status: str
+        """
+        super().__init__(**kwargs)
+        self.e_tag = e_tag
+        self.remote_private_endpoint = remote_private_endpoint
+        self.status = status
+
+
+class PrivateEndpointConnectionProxy(ProxyResource, PrivateEndpointConnectionProxyProperties):
+    """Private endpoint connection proxy details.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar e_tag: ETag from NRP.
+    :vartype e_tag: str
+    :ivar remote_private_endpoint: Remote private endpoint details.
+    :vartype remote_private_endpoint: ~azure.mgmt.oep.models.RemotePrivateEndpoint
+    :ivar status: Operation status.
+    :vartype status: str
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.oep.models.SystemData
+    :ivar provisioning_state: The provisioning state of the private endpoint connection proxy
+     resource. Known values are: "Succeeded", "Creating", "Deleting", and "Failed".
+    :vartype provisioning_state: str or
+     ~azure.mgmt.oep.models.PrivateEndpointConnectionProxyProvisioningState
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "e_tag": {"key": "eTag", "type": "str"},
+        "remote_private_endpoint": {"key": "remotePrivateEndpoint", "type": "RemotePrivateEndpoint"},
+        "status": {"key": "status", "type": "str"},
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        e_tag: Optional[str] = None,
+        remote_private_endpoint: Optional["_models.RemotePrivateEndpoint"] = None,
+        status: Optional[str] = None,
+        provisioning_state: Optional[Union[str, "_models.PrivateEndpointConnectionProxyProvisioningState"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword e_tag: ETag from NRP.
+        :paramtype e_tag: str
+        :keyword remote_private_endpoint: Remote private endpoint details.
+        :paramtype remote_private_endpoint: ~azure.mgmt.oep.models.RemotePrivateEndpoint
+        :keyword status: Operation status.
+        :paramtype status: str
+        :keyword provisioning_state: The provisioning state of the private endpoint connection proxy
+         resource. Known values are: "Succeeded", "Creating", "Deleting", and "Failed".
+        :paramtype provisioning_state: str or
+         ~azure.mgmt.oep.models.PrivateEndpointConnectionProxyProvisioningState
+        """
+        super().__init__(e_tag=e_tag, remote_private_endpoint=remote_private_endpoint, status=status, **kwargs)
+        self.e_tag = e_tag
+        self.remote_private_endpoint = remote_private_endpoint
+        self.status = status
+        self.provisioning_state = provisioning_state
+        self.id = None
+        self.name = None
+        self.type = None
+        self.system_data = None
+
+
+class PrivateEndpointConnectionProxyListResult(_serialization.Model):
+    """The available private endpoint connection proxies for an Account (not to be used by anyone,
+    here because of ARM requirements).
+
+    :ivar value: The list of available private endpoint connection proxies for an Account.
+    :vartype value: list[~azure.mgmt.oep.models.PrivateEndpointConnectionProxy]
+    :ivar next_link: The URI that can be used to request the next list of private endpoint
+     connection proxies.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[PrivateEndpointConnectionProxy]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        value: Optional[List["_models.PrivateEndpointConnectionProxy"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: The list of available private endpoint connection proxies for an Account.
+        :paramtype value: list[~azure.mgmt.oep.models.PrivateEndpointConnectionProxy]
+        :keyword next_link: The URI that can be used to request the next list of private endpoint
+         connection proxies.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class PrivateLinkResourceListResult(_serialization.Model):
+    """The available private link resources for an Account.
+
+    :ivar value: The list of available private link resources for an Account.
+    :vartype value: list[~azure.mgmt.oep.models.GroupInformation]
+    :ivar next_link: The URI that can be used to request the next list of private link resources.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[GroupInformation]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        value: Optional[List["_models.GroupInformation"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: The list of available private link resources for an Account.
+        :paramtype value: list[~azure.mgmt.oep.models.GroupInformation]
+        :keyword next_link: The URI that can be used to request the next list of private link
+         resources.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class PrivateLinkServiceConnection(_serialization.Model):
+    """Private link service connection details.
+
+    :ivar name: Private link service connection name.
+    :vartype name: str
+    :ivar group_ids: List of group IDs.
+    :vartype group_ids: list[str]
+    :ivar request_message: Request message.
+    :vartype request_message: str
+    """
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "group_ids": {"key": "groupIds", "type": "[str]"},
+        "request_message": {"key": "requestMessage", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        name: Optional[str] = None,
+        group_ids: Optional[List[str]] = None,
+        request_message: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword name: Private link service connection name.
+        :paramtype name: str
+        :keyword group_ids: List of group IDs.
+        :paramtype group_ids: list[str]
+        :keyword request_message: Request message.
+        :paramtype request_message: str
+        """
+        super().__init__(**kwargs)
+        self.name = name
+        self.group_ids = group_ids
+        self.request_message = request_message
+
+
+class PrivateLinkServiceConnectionState(_serialization.Model):
+    """A collection of information about the state of the connection between service consumer and
+    provider.
+
+    :ivar status: Indicates whether the connection has been Approved/Rejected/Removed by the owner
+     of the service. Known values are: "Pending", "Approved", and "Rejected".
+    :vartype status: str or ~azure.mgmt.oep.models.PrivateEndpointServiceConnectionStatus
+    :ivar description: The reason for approval/rejection of the connection.
+    :vartype description: str
+    :ivar actions_required: A message indicating if changes on the service provider require any
+     updates on the consumer.
+    :vartype actions_required: str
+    """
+
+    _attribute_map = {
+        "status": {"key": "status", "type": "str"},
+        "description": {"key": "description", "type": "str"},
+        "actions_required": {"key": "actionsRequired", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        status: Optional[Union[str, "_models.PrivateEndpointServiceConnectionStatus"]] = None,
+        description: Optional[str] = None,
+        actions_required: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword status: Indicates whether the connection has been Approved/Rejected/Removed by the
+         owner of the service. Known values are: "Pending", "Approved", and "Rejected".
+        :paramtype status: str or ~azure.mgmt.oep.models.PrivateEndpointServiceConnectionStatus
+        :keyword description: The reason for approval/rejection of the connection.
+        :paramtype description: str
+        :keyword actions_required: A message indicating if changes on the service provider require any
+         updates on the consumer.
+        :paramtype actions_required: str
+        """
+        super().__init__(**kwargs)
+        self.status = status
+        self.description = description
+        self.actions_required = actions_required
+
+
+class PrivateLinkServiceProxy(_serialization.Model):
+    """Private link service proxy details.
+
+    :ivar id: NRP resource ID.
+    :vartype id: str
+    :ivar remote_private_link_service_connection_state: Remote private link service connection
+     state.
+    :vartype remote_private_link_service_connection_state:
+     ~azure.mgmt.oep.models.PrivateLinkServiceConnectionState
+    :ivar remote_private_endpoint_connection: Remote private endpoint connection details.
+    :vartype remote_private_endpoint_connection:
+     ~azure.mgmt.oep.models.PrivateLinkServiceProxyRemotePrivateEndpointConnection
+    :ivar group_connectivity_information: Group connectivity information.
+    :vartype group_connectivity_information:
+     list[~azure.mgmt.oep.models.GroupConnectivityInformation]
+    """
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "remote_private_link_service_connection_state": {
+            "key": "remotePrivateLinkServiceConnectionState",
+            "type": "PrivateLinkServiceConnectionState",
+        },
+        "remote_private_endpoint_connection": {
+            "key": "remotePrivateEndpointConnection",
+            "type": "PrivateLinkServiceProxyRemotePrivateEndpointConnection",
+        },
+        "group_connectivity_information": {
+            "key": "groupConnectivityInformation",
+            "type": "[GroupConnectivityInformation]",
+        },
+    }
+
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        remote_private_link_service_connection_state: Optional["_models.PrivateLinkServiceConnectionState"] = None,
+        remote_private_endpoint_connection: Optional[
+            "_models.PrivateLinkServiceProxyRemotePrivateEndpointConnection"
+        ] = None,
+        group_connectivity_information: Optional[List["_models.GroupConnectivityInformation"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword id: NRP resource ID.
+        :paramtype id: str
+        :keyword remote_private_link_service_connection_state: Remote private link service connection
+         state.
+        :paramtype remote_private_link_service_connection_state:
+         ~azure.mgmt.oep.models.PrivateLinkServiceConnectionState
+        :keyword remote_private_endpoint_connection: Remote private endpoint connection details.
+        :paramtype remote_private_endpoint_connection:
+         ~azure.mgmt.oep.models.PrivateLinkServiceProxyRemotePrivateEndpointConnection
+        :keyword group_connectivity_information: Group connectivity information.
+        :paramtype group_connectivity_information:
+         list[~azure.mgmt.oep.models.GroupConnectivityInformation]
+        """
+        super().__init__(**kwargs)
+        self.id = id
+        self.remote_private_link_service_connection_state = remote_private_link_service_connection_state
+        self.remote_private_endpoint_connection = remote_private_endpoint_connection
+        self.group_connectivity_information = group_connectivity_information
+
+
+class RemotePrivateEndpointConnection(_serialization.Model):
+    """Remote private endpoint connection details.
+
+    :ivar id: Remote private endpoint connection ID.
+    :vartype id: str
+    """
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+    }
+
+    def __init__(self, *, id: Optional[str] = None, **kwargs: Any) -> None:  # pylint: disable=redefined-builtin
+        """
+        :keyword id: Remote private endpoint connection ID.
+        :paramtype id: str
+        """
+        super().__init__(**kwargs)
+        self.id = id
+
+
+class PrivateLinkServiceProxyRemotePrivateEndpointConnection(RemotePrivateEndpointConnection):
+    """Remote private endpoint connection details.
+
+    :ivar id: Remote private endpoint connection ID.
+    :vartype id: str
+    """
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+    }
+
+    def __init__(self, *, id: Optional[str] = None, **kwargs: Any) -> None:  # pylint: disable=redefined-builtin
+        """
+        :keyword id: Remote private endpoint connection ID.
+        :paramtype id: str
+        """
+        super().__init__(id=id, **kwargs)
+
+
+class RemotePrivateEndpoint(_serialization.Model):
+    """Remote private endpoint details.
+
+    :ivar id: Remote endpoint resource ID.
+    :vartype id: str
+    :ivar location: ARM location of the remote private endpoint.
+    :vartype location: str
+    :ivar immutable_subscription_id: Original subscription ID needed by Microsoft.Network.
+    :vartype immutable_subscription_id: str
+    :ivar immutable_resource_id: Original resource ID needed by Microsoft.Network.
+    :vartype immutable_resource_id: str
+    :ivar vnet_traffic_tag: Virtual network traffic tag.
+    :vartype vnet_traffic_tag: str
+    :ivar manual_private_link_service_connections: List of private link service connections that
+     need manual approval.
+    :vartype manual_private_link_service_connections:
+     list[~azure.mgmt.oep.models.PrivateLinkServiceConnection]
+    :ivar private_link_service_connections: List of automatically approved private link service
+     connections.
+    :vartype private_link_service_connections:
+     list[~azure.mgmt.oep.models.PrivateLinkServiceConnection]
+    :ivar private_link_service_proxies: List of private link service proxies.
+    :vartype private_link_service_proxies: list[~azure.mgmt.oep.models.PrivateLinkServiceProxy]
+    :ivar connection_details: List of connection details.
+    :vartype connection_details: list[~azure.mgmt.oep.models.ConnectionDetails]
+    """
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "location": {"key": "location", "type": "str"},
+        "immutable_subscription_id": {"key": "immutableSubscriptionId", "type": "str"},
+        "immutable_resource_id": {"key": "immutableResourceId", "type": "str"},
+        "vnet_traffic_tag": {"key": "vnetTrafficTag", "type": "str"},
+        "manual_private_link_service_connections": {
+            "key": "manualPrivateLinkServiceConnections",
+            "type": "[PrivateLinkServiceConnection]",
+        },
+        "private_link_service_connections": {
+            "key": "privateLinkServiceConnections",
+            "type": "[PrivateLinkServiceConnection]",
+        },
+        "private_link_service_proxies": {"key": "privateLinkServiceProxies", "type": "[PrivateLinkServiceProxy]"},
+        "connection_details": {"key": "connectionDetails", "type": "[ConnectionDetails]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        location: Optional[str] = None,
+        immutable_subscription_id: Optional[str] = None,
+        immutable_resource_id: Optional[str] = None,
+        vnet_traffic_tag: Optional[str] = None,
+        manual_private_link_service_connections: Optional[List["_models.PrivateLinkServiceConnection"]] = None,
+        private_link_service_connections: Optional[List["_models.PrivateLinkServiceConnection"]] = None,
+        private_link_service_proxies: Optional[List["_models.PrivateLinkServiceProxy"]] = None,
+        connection_details: Optional[List["_models.ConnectionDetails"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword id: Remote endpoint resource ID.
+        :paramtype id: str
+        :keyword location: ARM location of the remote private endpoint.
+        :paramtype location: str
+        :keyword immutable_subscription_id: Original subscription ID needed by Microsoft.Network.
+        :paramtype immutable_subscription_id: str
+        :keyword immutable_resource_id: Original resource ID needed by Microsoft.Network.
+        :paramtype immutable_resource_id: str
+        :keyword vnet_traffic_tag: Virtual network traffic tag.
+        :paramtype vnet_traffic_tag: str
+        :keyword manual_private_link_service_connections: List of private link service connections that
+         need manual approval.
+        :paramtype manual_private_link_service_connections:
+         list[~azure.mgmt.oep.models.PrivateLinkServiceConnection]
+        :keyword private_link_service_connections: List of automatically approved private link service
+         connections.
+        :paramtype private_link_service_connections:
+         list[~azure.mgmt.oep.models.PrivateLinkServiceConnection]
+        :keyword private_link_service_proxies: List of private link service proxies.
+        :paramtype private_link_service_proxies: list[~azure.mgmt.oep.models.PrivateLinkServiceProxy]
+        :keyword connection_details: List of connection details.
+        :paramtype connection_details: list[~azure.mgmt.oep.models.ConnectionDetails]
+        """
+        super().__init__(**kwargs)
+        self.id = id
+        self.location = location
+        self.immutable_subscription_id = immutable_subscription_id
+        self.immutable_resource_id = immutable_resource_id
+        self.vnet_traffic_tag = vnet_traffic_tag
+        self.manual_private_link_service_connections = manual_private_link_service_connections
+        self.private_link_service_connections = private_link_service_connections
+        self.private_link_service_proxies = private_link_service_proxies
+        self.connection_details = connection_details
+
+
+class Sku(_serialization.Model):
+    """The resource model definition representing SKU.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar name: The name of the SKU. Ex - P3. It is typically a letter+number code. Required.
+    :vartype name: str
+    :ivar tier: This field is required to be implemented by the Resource Provider if the service
+     has more than one tier, but is not required on a PUT. Known values are: "Free", "Basic",
+     "Standard", and "Premium".
+    :vartype tier: str or ~azure.mgmt.oep.models.SkuTier
+    :ivar size: The SKU size. When the name field is the combination of tier and some other value,
+     this would be the standalone code.
+    :vartype size: str
+    :ivar family: If the service has different generations of hardware, for the same SKU, then that
+     can be captured here.
+    :vartype family: str
+    :ivar capacity: If the SKU supports scale out/in then the capacity integer should be included.
+     If scale out/in is not possible for the resource this may be omitted.
+    :vartype capacity: int
+    """
+
+    _validation = {
+        "name": {"required": True},
+    }
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "tier": {"key": "tier", "type": "str"},
+        "size": {"key": "size", "type": "str"},
+        "family": {"key": "family", "type": "str"},
+        "capacity": {"key": "capacity", "type": "int"},
+    }
+
+    def __init__(
+        self,
+        *,
+        name: str,
+        tier: Optional[Union[str, "_models.SkuTier"]] = None,
+        size: Optional[str] = None,
+        family: Optional[str] = None,
+        capacity: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword name: The name of the SKU. Ex - P3. It is typically a letter+number code. Required.
+        :paramtype name: str
+        :keyword tier: This field is required to be implemented by the Resource Provider if the service
+         has more than one tier, but is not required on a PUT. Known values are: "Free", "Basic",
+         "Standard", and "Premium".
+        :paramtype tier: str or ~azure.mgmt.oep.models.SkuTier
+        :keyword size: The SKU size. When the name field is the combination of tier and some other
+         value, this would be the standalone code.
+        :paramtype size: str
+        :keyword family: If the service has different generations of hardware, for the same SKU, then
+         that can be captured here.
+        :paramtype family: str
+        :keyword capacity: If the SKU supports scale out/in then the capacity integer should be
+         included. If scale out/in is not possible for the resource this may be omitted.
+        :paramtype capacity: int
+        """
+        super().__init__(**kwargs)
+        self.name = name
+        self.tier = tier
+        self.size = size
+        self.family = family
+        self.capacity = capacity
 
 
 class SystemData(_serialization.Model):
@@ -643,8 +1837,8 @@ class SystemData(_serialization.Model):
         last_modified_by: Optional[str] = None,
         last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
         last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword created_by: The identity that created the resource.
         :paramtype created_by: str
@@ -668,3 +1862,31 @@ class SystemData(_serialization.Model):
         self.last_modified_by = last_modified_by
         self.last_modified_by_type = last_modified_by_type
         self.last_modified_at = last_modified_at
+
+
+class UserAssignedIdentity(_serialization.Model):
+    """User assigned identity properties.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar principal_id: The principal ID of the assigned identity.
+    :vartype principal_id: str
+    :ivar client_id: The client ID of the assigned identity.
+    :vartype client_id: str
+    """
+
+    _validation = {
+        "principal_id": {"readonly": True},
+        "client_id": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "principal_id": {"key": "principalId", "type": "str"},
+        "client_id": {"key": "clientId", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.principal_id = None
+        self.client_id = None
