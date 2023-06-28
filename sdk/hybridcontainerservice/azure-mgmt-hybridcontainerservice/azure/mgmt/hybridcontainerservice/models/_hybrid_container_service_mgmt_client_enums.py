@@ -45,6 +45,8 @@ class DeploymentState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     PENDING = "pending"
     PROVISIONING = "provisioning"
+    PROVISIONING_HELM_CHART_INSTALLED_ = "provisioning {HelmChartInstalled}"
+    PROVISIONING_MSI_CERTIFICATE_DOWNLOADED_ = "provisioning {MSICertificateDownloaded}"
     PROVISIONED = "provisioned"
     DELETING = "deleting"
     FAILED = "failed"

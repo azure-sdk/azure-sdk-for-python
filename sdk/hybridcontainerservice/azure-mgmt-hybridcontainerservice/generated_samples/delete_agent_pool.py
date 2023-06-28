@@ -29,12 +29,11 @@ def main():
         subscription_id="a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b",
     )
 
-    response = client.agent_pool.delete(
+    client.agent_pool.delete(
         resource_group_name="test-arcappliance-resgrp",
         resource_name="test-hybridakscluster",
         agent_pool_name="test-hybridaksnodepool",
     )
-    print(response)
 
 
 # x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2022-09-01-preview/examples/DeleteAgentPool.json

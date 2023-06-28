@@ -980,8 +980,9 @@ class ArcAgentStatus(_serialization.Model):
 
     :ivar deployment_state: Observed deployment state of the Arc Agents on the target cluster.
      Possible values include: 'pending', 'provisioning', 'provisioned', 'deleting', 'failed',
-     'upgrading'. Known values are: "pending", "provisioning", "provisioned", "deleting", "failed",
-     and "upgrading".
+     'upgrading'. Known values are: "pending", "provisioning", "provisioning {HelmChartInstalled}",
+     "provisioning {MSICertificateDownloaded}", "provisioned", "deleting", "failed", and
+     "upgrading".
     :vartype deployment_state: str or ~azure.mgmt.hybridcontainerservice.models.DeploymentState
     :ivar error_message: Error messages while onboarding/upgrading/uninstalling the Arc agents.
     :vartype error_message: str
@@ -1029,8 +1030,9 @@ class ArcAgentStatus(_serialization.Model):
         """
         :keyword deployment_state: Observed deployment state of the Arc Agents on the target cluster.
          Possible values include: 'pending', 'provisioning', 'provisioned', 'deleting', 'failed',
-         'upgrading'. Known values are: "pending", "provisioning", "provisioned", "deleting", "failed",
-         and "upgrading".
+         'upgrading'. Known values are: "pending", "provisioning", "provisioning {HelmChartInstalled}",
+         "provisioning {MSICertificateDownloaded}", "provisioned", "deleting", "failed", and
+         "upgrading".
         :paramtype deployment_state: str or ~azure.mgmt.hybridcontainerservice.models.DeploymentState
         :keyword error_message: Error messages while onboarding/upgrading/uninstalling the Arc agents.
         :paramtype error_message: str

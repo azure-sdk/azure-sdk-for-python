@@ -29,12 +29,11 @@ def main():
         subscription_id="fd3c3665-1729-4b7b-9a38-238e83b0f98b",
     )
 
-    response = client.hybrid_identity_metadata.delete(
+    client.hybrid_identity_metadata.delete(
         resource_group_name="testrg",
         resource_name="ContosoTargetCluster",
         hybrid_identity_metadata_resource_name="default",
     )
-    print(response)
 
 
 # x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2022-09-01-preview/examples/DeleteHybridIdentityMetadata.json

@@ -29,11 +29,10 @@ def main():
         subscription_id="a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b",
     )
 
-    response = client.provisioned_clusters.begin_upgrade_node_image_version_for_entire_cluster(
+    client.provisioned_clusters.begin_upgrade_node_image_version_for_entire_cluster(
         resource_group_name="test-arcappliance-resgrp",
         resource_name="test-hybridakscluster",
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2022-09-01-preview/examples/ProvisionedClustersUpgradeNodeImageVersionForEntireCluster.json

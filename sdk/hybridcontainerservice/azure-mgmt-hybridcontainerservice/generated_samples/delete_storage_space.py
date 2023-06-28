@@ -29,11 +29,10 @@ def main():
         subscription_id="a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b",
     )
 
-    response = client.storage_spaces.delete(
+    client.storage_spaces.delete(
         resource_group_name="test-arcappliance-resgrp",
         storage_spaces_name="test-storage",
     )
-    print(response)
 
 
 # x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2022-09-01-preview/examples/DeleteStorageSpace.json
