@@ -14,7 +14,7 @@ from azure.mgmt.synapse import SynapseManagementClient
     pip install azure-identity
     pip install azure-mgmt-synapse
 # USAGE
-    python kusto_pool_data_connections_list_by_database.py
+    python subscription_usage_quota_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,19 +26,15 @@ from azure.mgmt.synapse import SynapseManagementClient
 def main():
     client = SynapseManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="12345678-1234-1234-1234-123456789098",
+        subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.kusto_pool_data_connections.list_by_database(
-        resource_group_name="kustorptest",
-        workspace_name="synapseWorkspaceName",
-        kusto_pool_name="kustoclusterrptest4",
-        database_name="KustoDatabase8",
+    response = client.operations.get_subscription_quota_and_usage(
+        location="WestUS",
     )
-    for item in response:
-        print(item)
+    print(response)
 
 
-# x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/KustoPoolDataConnectionsListByDatabase.json
+# x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2023-05-01/examples/SubscriptionUsageQuotaGet.json
 if __name__ == "__main__":
     main()

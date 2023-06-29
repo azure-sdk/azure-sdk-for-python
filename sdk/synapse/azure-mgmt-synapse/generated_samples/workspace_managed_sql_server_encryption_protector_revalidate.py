@@ -29,14 +29,13 @@ def main():
         subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.workspace_managed_sql_server_encryption_protector.begin_revalidate(
+    client.workspace_managed_sql_server_encryption_protector.begin_revalidate(
         resource_group_name="wsg-7398",
         workspace_name="testWorkspace",
         encryption_protector_name="current",
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/WorkspaceManagedSqlServerEncryptionProtectorRevalidate.json
+# x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2023-05-01/examples/WorkspaceManagedSqlServerEncryptionProtectorRevalidate.json
 if __name__ == "__main__":
     main()

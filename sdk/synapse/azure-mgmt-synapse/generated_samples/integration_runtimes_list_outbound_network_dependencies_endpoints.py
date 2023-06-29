@@ -26,7 +26,7 @@ from azure.mgmt.synapse import SynapseManagementClient
 def main():
     client = SynapseManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="ade9c2b6-c160-4305-9bb9-80342f6c1ae2",
+        subscription_id="5f4ab77d-a0c2-4fa5-8abf-fe350680e074",
     )
 
     response = client.integration_runtimes.list_outbound_network_dependencies_endpoints(
@@ -37,6 +37,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/IntegrationRuntimes_ListOutboundNetworkDependenciesEndpoints.json
+# x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2023-05-01/examples/IntegrationRuntimes_ListOutboundNetworkDependenciesEndpoints.json
 if __name__ == "__main__":
     main()

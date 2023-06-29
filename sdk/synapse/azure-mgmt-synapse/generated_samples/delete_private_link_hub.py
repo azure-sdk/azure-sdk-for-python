@@ -29,13 +29,12 @@ def main():
         subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.private_link_hubs.begin_delete(
+    client.private_link_hubs.begin_delete(
         resource_group_name="resourceGroup1",
         private_link_hub_name="privateLinkHub1",
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/DeletePrivateLinkHub.json
+# x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2023-05-01/examples/DeletePrivateLinkHub.json
 if __name__ == "__main__":
     main()

@@ -26,14 +26,6 @@ class AzureADOnlyAuthenticationName(str, Enum, metaclass=CaseInsensitiveEnumMeta
     DEFAULT = "default"
 
 
-class AzureScaleType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Scale type."""
-
-    AUTOMATIC = "automatic"
-    MANUAL = "manual"
-    NONE = "none"
-
-
 class BlobAuditingPolicyName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """BlobAuditingPolicyName."""
 
@@ -47,20 +39,6 @@ class BlobAuditingPolicyState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     ENABLED = "Enabled"
     DISABLED = "Disabled"
-
-
-class BlobStorageEventType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The name of blob storage event type to process."""
-
-    MICROSOFT_STORAGE_BLOB_CREATED = "Microsoft.Storage.BlobCreated"
-    MICROSOFT_STORAGE_BLOB_RENAMED = "Microsoft.Storage.BlobRenamed"
-
-
-class ClusterPrincipalRole(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Cluster principal role."""
-
-    ALL_DATABASES_ADMIN = "AllDatabasesAdmin"
-    ALL_DATABASES_VIEWER = "AllDatabasesViewer"
 
 
 class ColumnDataType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -102,13 +80,6 @@ class ColumnDataType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SYSNAME = "sysname"
 
 
-class Compression(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The compression type."""
-
-    NONE = "None"
-    G_ZIP = "GZip"
-
-
 class ConfigurationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of the spark config properties file."""
 
@@ -120,15 +91,6 @@ class ConnectionPolicyName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """ConnectionPolicyName."""
 
     DEFAULT = "default"
-
-
-class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The type of identity that created the resource."""
-
-    USER = "User"
-    APPLICATION = "Application"
-    MANAGED_IDENTITY = "ManagedIdentity"
-    KEY = "Key"
 
 
 class CreateMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -152,25 +114,6 @@ class CreateMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     POINT_IN_TIME_RESTORE = "PointInTimeRestore"
     RECOVERY = "Recovery"
     RESTORE = "Restore"
-
-
-class DatabasePrincipalRole(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Database principal role."""
-
-    ADMIN = "Admin"
-    INGESTOR = "Ingestor"
-    MONITOR = "Monitor"
-    USER = "User"
-    UNRESTRICTED_VIEWER = "UnrestrictedViewer"
-    VIEWER = "Viewer"
-
-
-class DataConnectionKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Kind of the endpoint for the data connection."""
-
-    EVENT_HUB = "EventHub"
-    EVENT_GRID = "EventGrid"
-    IOT_HUB = "IotHub"
 
 
 class DataFlowComputeType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -234,14 +177,6 @@ class DedicatedSQLMinimalTlsSettingsName(str, Enum, metaclass=CaseInsensitiveEnu
     DEFAULT = "default"
 
 
-class DefaultPrincipalsModificationKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The default principals modification kind."""
-
-    UNION = "Union"
-    REPLACE = "Replace"
-    NONE = "None"
-
-
 class DesiredState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Desired state."""
 
@@ -253,48 +188,6 @@ class EncryptionProtectorName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """EncryptionProtectorName."""
 
     CURRENT = "current"
-
-
-class EventGridDataFormat(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The data format of the message. Optionally the data format can be added to each message."""
-
-    MULTIJSON = "MULTIJSON"
-    JSON = "JSON"
-    CSV = "CSV"
-    TSV = "TSV"
-    SCSV = "SCSV"
-    SOHSV = "SOHSV"
-    PSV = "PSV"
-    TXT = "TXT"
-    RAW = "RAW"
-    SINGLEJSON = "SINGLEJSON"
-    AVRO = "AVRO"
-    TSVE = "TSVE"
-    PARQUET = "PARQUET"
-    ORC = "ORC"
-    APACHEAVRO = "APACHEAVRO"
-    W3_CLOGFILE = "W3CLOGFILE"
-
-
-class EventHubDataFormat(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The data format of the message. Optionally the data format can be added to each message."""
-
-    MULTIJSON = "MULTIJSON"
-    JSON = "JSON"
-    CSV = "CSV"
-    TSV = "TSV"
-    SCSV = "SCSV"
-    SOHSV = "SOHSV"
-    PSV = "PSV"
-    TXT = "TXT"
-    RAW = "RAW"
-    SINGLEJSON = "SINGLEJSON"
-    AVRO = "AVRO"
-    TSVE = "TSVE"
-    PARQUET = "PARQUET"
-    ORC = "ORC"
-    APACHEAVRO = "APACHEAVRO"
-    W3_CLOGFILE = "W3CLOGFILE"
 
 
 class GeoBackupPolicyName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -396,41 +289,6 @@ class IntegrationRuntimeUpdateResult(str, Enum, metaclass=CaseInsensitiveEnumMet
     FAIL = "Fail"
 
 
-class IotHubDataFormat(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The data format of the message. Optionally the data format can be added to each message."""
-
-    MULTIJSON = "MULTIJSON"
-    JSON = "JSON"
-    CSV = "CSV"
-    TSV = "TSV"
-    SCSV = "SCSV"
-    SOHSV = "SOHSV"
-    PSV = "PSV"
-    TXT = "TXT"
-    RAW = "RAW"
-    SINGLEJSON = "SINGLEJSON"
-    AVRO = "AVRO"
-    TSVE = "TSVE"
-    PARQUET = "PARQUET"
-    ORC = "ORC"
-    APACHEAVRO = "APACHEAVRO"
-    W3_CLOGFILE = "W3CLOGFILE"
-
-
-class Kind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Kind of the database."""
-
-    READ_WRITE = "ReadWrite"
-    READ_ONLY_FOLLOWING = "ReadOnlyFollowing"
-
-
-class LanguageExtensionName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Language extension that can run within KQL query."""
-
-    PYTHON = "PYTHON"
-    R = "R"
-
-
 class ManagedIntegrationRuntimeNodeStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The managed integration runtime node status."""
 
@@ -481,22 +339,6 @@ class OperationStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     CANCELED = "Canceled"
 
 
-class PrincipalsModificationKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The principals modification kind of the database."""
-
-    UNION = "Union"
-    REPLACE = "Replace"
-    NONE = "None"
-
-
-class PrincipalType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Principal type."""
-
-    APP = "App"
-    GROUP = "Group"
-    USER = "User"
-
-
 class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Resource provisioning state."""
 
@@ -544,13 +386,6 @@ class QueryObservedMetricType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     EXECUTION_COUNT = "executionCount"
 
 
-class Reason(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Message providing the reason why the given name is invalid."""
-
-    INVALID = "Invalid"
-    ALREADY_EXISTS = "AlreadyExists"
-
-
 class RecommendedSensitivityLabelUpdateKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """RecommendedSensitivityLabelUpdateKind."""
 
@@ -583,18 +418,6 @@ class ResourceIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     NONE = "None"
     SYSTEM_ASSIGNED = "SystemAssigned"
     SYSTEM_ASSIGNED_USER_ASSIGNED = "SystemAssigned,UserAssigned"
-
-
-class ResourceProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The provisioned state of the resource."""
-
-    RUNNING = "Running"
-    CREATING = "Creating"
-    DELETING = "Deleting"
-    SUCCEEDED = "Succeeded"
-    FAILED = "Failed"
-    MOVING = "Moving"
-    CANCELED = "Canceled"
 
 
 class RestorePointType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -669,22 +492,6 @@ class ServerKeyType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     AZURE_KEY_VAULT = "AzureKeyVault"
 
 
-class SkuName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """SKU name."""
-
-    COMPUTE_OPTIMIZED = "Compute optimized"
-    STORAGE_OPTIMIZED = "Storage optimized"
-
-
-class SkuSize(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """SKU size."""
-
-    EXTRA_SMALL = "Extra small"
-    SMALL = "Small"
-    MEDIUM = "Medium"
-    LARGE = "Large"
-
-
 class SsisObjectMetadataType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of SSIS object metadata."""
 
@@ -692,20 +499,6 @@ class SsisObjectMetadataType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     PROJECT = "Project"
     PACKAGE = "Package"
     ENVIRONMENT = "Environment"
-
-
-class State(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The state of the resource."""
-
-    CREATING = "Creating"
-    UNAVAILABLE = "Unavailable"
-    RUNNING = "Running"
-    DELETING = "Deleting"
-    DELETED = "Deleted"
-    STOPPING = "Stopping"
-    STOPPED = "Stopped"
-    STARTING = "Starting"
-    UPDATING = "Updating"
 
 
 class StateValue(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -734,15 +527,6 @@ class TransparentDataEncryptionStatus(str, Enum, metaclass=CaseInsensitiveEnumMe
 
     ENABLED = "Enabled"
     DISABLED = "Disabled"
-
-
-class Type(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The type of resource, for instance Microsoft.Synapse/workspaces/kustoPools/databases."""
-
-    MICROSOFT_SYNAPSE_WORKSPACES_KUSTO_POOLS_DATABASES = "Microsoft.Synapse/workspaces/kustoPools/databases"
-    MICROSOFT_SYNAPSE_WORKSPACES_KUSTO_POOLS_ATTACHED_DATABASE_CONFIGURATIONS = (
-        "Microsoft.Synapse/workspaces/kustoPools/attachedDatabaseConfigurations"
-    )
 
 
 class VulnerabilityAssessmentName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -779,11 +563,3 @@ class WorkspacePublicNetworkAccess(str, Enum, metaclass=CaseInsensitiveEnumMeta)
 
     ENABLED = "Enabled"
     DISABLED = "Disabled"
-
-
-class WorkspaceStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """status of Start Integrationruntimes."""
-
-    IN_PROGRESS = "InProgress"
-    SUCCEEDED = "Succeeded"
-    FAILED = "Failed"

@@ -29,15 +29,14 @@ def main():
         subscription_id="12345678-1234-1234-1234-12345678abc",
     )
 
-    response = client.integration_runtime_nodes.delete(
+    client.integration_runtime_nodes.delete(
         resource_group_name="exampleResourceGroup",
         workspace_name="exampleWorkspace",
         integration_runtime_name="exampleIntegrationRuntime",
         node_name="Node_1",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/IntegrationRuntimeNodes_Delete.json
+# x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2023-05-01/examples/IntegrationRuntimeNodes_Delete.json
 if __name__ == "__main__":
     main()

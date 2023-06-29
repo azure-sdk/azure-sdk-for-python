@@ -45,7 +45,7 @@ def main():
                 "nodeSize": "Medium",
                 "nodeSizeFamily": "MemoryOptimized",
                 "sparkEventsFolder": "/events",
-                "sparkVersion": "2.4",
+                "sparkVersion": "3.3",
             },
             "tags": {"key": "value"},
         },
@@ -53,6 +53,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/CreateOrUpdateBigDataPool.json
+# x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2023-05-01/examples/CreateOrUpdateBigDataPool.json
 if __name__ == "__main__":
     main()
