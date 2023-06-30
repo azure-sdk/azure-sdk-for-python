@@ -34,7 +34,7 @@ _SERIALIZER = Serializer()
 _SERIALIZER.client_side_validation = False
 
 
-def build_get_policy_request(billing_account_id: str, **kwargs: Any) -> HttpRequest:
+def build_get_request(operation_id: str, **kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
@@ -42,12 +42,9 @@ def build_get_policy_request(billing_account_id: str, **kwargs: Any) -> HttpRequ
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
-    _url = kwargs.pop(
-        "template_url",
-        "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.Subscription/policies/default",
-    )  # pylint: disable=line-too-long
+    _url = kwargs.pop("template_url", "/providers/Microsoft.Subscription/subscriptionOperations/{operationId}")
     path_format_arguments = {
-        "billingAccountId": _SERIALIZER.url("billing_account_id", billing_account_id, "str"),
+        "operationId": _SERIALIZER.url("operation_id", operation_id, "str"),
     }
 
     _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
@@ -61,14 +58,14 @@ def build_get_policy_request(billing_account_id: str, **kwargs: Any) -> HttpRequ
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-class BillingAccountOperations:
+class SubscriptionOperationOperations:
     """
     .. warning::
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
         :class:`~azure.mgmt.subscription.SubscriptionClient`'s
-        :attr:`billing_account` attribute.
+        :attr:`subscription_operation` attribute.
     """
 
     models = _models
@@ -81,14 +78,15 @@ class BillingAccountOperations:
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    def get_policy(self, billing_account_id: str, **kwargs: Any) -> _models.BillingAccountPoliciesResponse:
-        """Get Billing Account Policy.
+    def get(self, operation_id: str, **kwargs: Any) -> Optional[_models.SubscriptionCreationResult]:
+        """Get the status of the pending Microsoft.Subscription API operations.
 
-        :param billing_account_id: Billing Account Id. Required.
-        :type billing_account_id: str
+        :param operation_id: The operation ID, which can be found from the Location field in the
+         generate recommendation response header. Required.
+        :type operation_id: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: BillingAccountPoliciesResponse or the result of cls(response)
-        :rtype: ~azure.mgmt.subscription.models.BillingAccountPoliciesResponse
+        :return: SubscriptionCreationResult or None or the result of cls(response)
+        :rtype: ~azure.mgmt.subscription.models.SubscriptionCreationResult or None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map = {
@@ -103,12 +101,12 @@ class BillingAccountOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-10-01"))
-        cls: ClsType[_models.BillingAccountPoliciesResponse] = kwargs.pop("cls", None)
+        cls: ClsType[Optional[_models.SubscriptionCreationResult]] = kwargs.pop("cls", None)
 
-        request = build_get_policy_request(
-            billing_account_id=billing_account_id,
+        request = build_get_request(
+            operation_id=operation_id,
             api_version=api_version,
-            template_url=self.get_policy.metadata["url"],
+            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
@@ -122,18 +120,23 @@ class BillingAccountOperations:
 
         response = pipeline_response.http_response
 
-        if response.status_code not in [200]:
+        if response.status_code not in [200, 202]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponseBody, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("BillingAccountPoliciesResponse", pipeline_response)
+        deserialized = None
+        response_headers = {}
+        if response.status_code == 200:
+            deserialized = self._deserialize("SubscriptionCreationResult", pipeline_response)
+
+        if response.status_code == 202:
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, response_headers)
 
         return deserialized
 
-    get_policy.metadata = {
-        "url": "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.Subscription/policies/default"
-    }
+    get.metadata = {"url": "/providers/Microsoft.Subscription/subscriptionOperations/{operationId}"}

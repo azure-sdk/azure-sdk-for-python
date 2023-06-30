@@ -19,6 +19,7 @@ from .operations import (
     AliasOperations,
     BillingAccountOperations,
     Operations,
+    SubscriptionOperationOperations,
     SubscriptionOperations,
     SubscriptionPolicyOperations,
     SubscriptionsOperations,
@@ -39,6 +40,9 @@ class SubscriptionClient:  # pylint: disable=client-accepts-api-version-keyword,
     :vartype tenants: azure.mgmt.subscription.aio.operations.TenantsOperations
     :ivar subscription: SubscriptionOperations operations
     :vartype subscription: azure.mgmt.subscription.aio.operations.SubscriptionOperations
+    :ivar subscription_operation: SubscriptionOperationOperations operations
+    :vartype subscription_operation:
+     azure.mgmt.subscription.aio.operations.SubscriptionOperationOperations
     :ivar operations: Operations operations
     :vartype operations: azure.mgmt.subscription.aio.operations.Operations
     :ivar alias: AliasOperations operations
@@ -60,7 +64,7 @@ class SubscriptionClient:  # pylint: disable=client-accepts-api-version-keyword,
         self, credential: "AsyncTokenCredential", base_url: str = "https://management.azure.com", **kwargs: Any
     ) -> None:
         self._config = SubscriptionClientConfiguration(credential=credential, **kwargs)
-        self._client = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
@@ -69,6 +73,9 @@ class SubscriptionClient:  # pylint: disable=client-accepts-api-version-keyword,
         self.subscriptions = SubscriptionsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.tenants = TenantsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.subscription = SubscriptionOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.subscription_operation = SubscriptionOperationOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
         self.alias = AliasOperations(self._client, self._config, self._serialize, self._deserialize)
         self.subscription_policy = SubscriptionPolicyOperations(
@@ -105,5 +112,5 @@ class SubscriptionClient:  # pylint: disable=client-accepts-api-version-keyword,
         await self._client.__aenter__()
         return self
 
-    async def __aexit__(self, *exc_details) -> None:
+    async def __aexit__(self, *exc_details: Any) -> None:
         await self._client.__aexit__(*exc_details)

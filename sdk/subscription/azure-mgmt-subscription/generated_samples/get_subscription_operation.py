@@ -14,7 +14,7 @@ from azure.mgmt.subscription import SubscriptionClient
     pip install azure-identity
     pip install azure-mgmt-subscription
 # USAGE
-    python delete_alias.py
+    python get_subscription_operation.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -28,11 +28,12 @@ def main():
         credential=DefaultAzureCredential(),
     )
 
-    client.alias.delete(
-        alias_name="aliasForNewSub",
+    response = client.subscription_operation.get(
+        operation_id="e4b8d068-f574-462a-a76f-6fa0afc613c9",
     )
+    print(response)
 
 
-# x-ms-original-file: specification/subscription/resource-manager/Microsoft.Subscription/stable/2021-10-01/examples/deleteAlias.json
+# x-ms-original-file: specification/subscription/resource-manager/Microsoft.Subscription/stable/2021-10-01/examples/getSubscriptionOperation.json
 if __name__ == "__main__":
     main()
