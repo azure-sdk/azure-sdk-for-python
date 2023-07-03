@@ -33,6 +33,7 @@ def main():
         resource_group_name="rg1",
         policy_name="Policy1",
         parameters={
+            "location": "WestUs",
             "properties": {
                 "customRules": {
                     "rules": [
