@@ -29,12 +29,11 @@ def main():
         subscription_id="4385cf00-2d3a-425a-832f-f4285b1c9dce",
     )
 
-    response = client.monitoring_config.begin_delete(
+    client.monitoring_config.begin_delete(
         device_name="testedgedevice",
         role_name="testrole",
         resource_group_name="GroupForEdgeAutomation",
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/databoxedge/resource-manager/Microsoft.DataBoxEdge/stable/2022-03-01/examples/DeleteMonitoringConfig.json
