@@ -7,7 +7,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-import sys
 from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, overload
 import urllib.parse
 
@@ -31,11 +30,6 @@ from .. import models as _models
 from .._serialization import Serializer
 from .._vendor import _convert_request, _format_url_section
 
-if sys.version_info >= (3, 9):
-    from collections.abc import MutableMapping
-else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
-JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -55,7 +49,7 @@ def build_list_by_factory_request(
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelines",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/adfcdcs",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
@@ -86,7 +80,7 @@ def build_list_by_factory_request(
 def build_create_or_update_request(
     resource_group_name: str,
     factory_name: str,
-    pipeline_name: str,
+    change_data_capture_name: str,
     subscription_id: str,
     *,
     if_match: Optional[str] = None,
@@ -102,7 +96,7 @@ def build_create_or_update_request(
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelines/{pipelineName}",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/adfcdcs/{changeDataCaptureName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
@@ -117,9 +111,9 @@ def build_create_or_update_request(
             min_length=3,
             pattern=r"^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$",
         ),
-        "pipelineName": _SERIALIZER.url(
-            "pipeline_name",
-            pipeline_name,
+        "changeDataCaptureName": _SERIALIZER.url(
+            "change_data_capture_name",
+            change_data_capture_name,
             "str",
             max_length=260,
             min_length=1,
@@ -145,7 +139,7 @@ def build_create_or_update_request(
 def build_get_request(
     resource_group_name: str,
     factory_name: str,
-    pipeline_name: str,
+    change_data_capture_name: str,
     subscription_id: str,
     *,
     if_none_match: Optional[str] = None,
@@ -160,7 +154,7 @@ def build_get_request(
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelines/{pipelineName}",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/adfcdcs/{changeDataCaptureName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
@@ -175,9 +169,9 @@ def build_get_request(
             min_length=3,
             pattern=r"^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$",
         ),
-        "pipelineName": _SERIALIZER.url(
-            "pipeline_name",
-            pipeline_name,
+        "changeDataCaptureName": _SERIALIZER.url(
+            "change_data_capture_name",
+            change_data_capture_name,
             "str",
             max_length=260,
             min_length=1,
@@ -199,7 +193,7 @@ def build_get_request(
 
 
 def build_delete_request(
-    resource_group_name: str, factory_name: str, pipeline_name: str, subscription_id: str, **kwargs: Any
+    resource_group_name: str, factory_name: str, change_data_capture_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -210,7 +204,7 @@ def build_delete_request(
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelines/{pipelineName}",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/adfcdcs/{changeDataCaptureName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
@@ -225,9 +219,9 @@ def build_delete_request(
             min_length=3,
             pattern=r"^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$",
         ),
-        "pipelineName": _SERIALIZER.url(
-            "pipeline_name",
-            pipeline_name,
+        "changeDataCaptureName": _SERIALIZER.url(
+            "change_data_capture_name",
+            change_data_capture_name,
             "str",
             max_length=260,
             min_length=1,
@@ -246,29 +240,19 @@ def build_delete_request(
     return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_create_run_request(
-    resource_group_name: str,
-    factory_name: str,
-    pipeline_name: str,
-    subscription_id: str,
-    *,
-    reference_pipeline_run_id: Optional[str] = None,
-    is_recovery: Optional[bool] = None,
-    start_activity_name: Optional[str] = None,
-    start_from_failure: Optional[bool] = None,
-    **kwargs: Any
+def build_start_request(
+    resource_group_name: str, factory_name: str, change_data_capture_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-06-01"))
-    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelines/{pipelineName}/createRun",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/adfcdcs/{changeDataCaptureName}/start",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
@@ -283,9 +267,9 @@ def build_create_run_request(
             min_length=3,
             pattern=r"^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$",
         ),
-        "pipelineName": _SERIALIZER.url(
-            "pipeline_name",
-            pipeline_name,
+        "changeDataCaptureName": _SERIALIZER.url(
+            "change_data_capture_name",
+            change_data_capture_name,
             "str",
             max_length=260,
             min_length=1,
@@ -297,33 +281,117 @@ def build_create_run_request(
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-    if reference_pipeline_run_id is not None:
-        _params["referencePipelineRunId"] = _SERIALIZER.query(
-            "reference_pipeline_run_id", reference_pipeline_run_id, "str"
-        )
-    if is_recovery is not None:
-        _params["isRecovery"] = _SERIALIZER.query("is_recovery", is_recovery, "bool")
-    if start_activity_name is not None:
-        _params["startActivityName"] = _SERIALIZER.query("start_activity_name", start_activity_name, "str")
-    if start_from_failure is not None:
-        _params["startFromFailure"] = _SERIALIZER.query("start_from_failure", start_from_failure, "bool")
 
     # Construct headers
-    if content_type is not None:
-        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-class PipelinesOperations:
+def build_stop_request(
+    resource_group_name: str, factory_name: str, change_data_capture_name: str, subscription_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-06-01"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/adfcdcs/{changeDataCaptureName}/stop",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1, pattern=r"^[-\w\._\(\)]+$"
+        ),
+        "factoryName": _SERIALIZER.url(
+            "factory_name",
+            factory_name,
+            "str",
+            max_length=63,
+            min_length=3,
+            pattern=r"^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$",
+        ),
+        "changeDataCaptureName": _SERIALIZER.url(
+            "change_data_capture_name",
+            change_data_capture_name,
+            "str",
+            max_length=260,
+            min_length=1,
+            pattern=r"^[A-Za-z0-9_][^<>*#.%&:\\+?/]*$",
+        ),
+    }
+
+    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_status_request(
+    resource_group_name: str, factory_name: str, change_data_capture_name: str, subscription_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-06-01"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/adfcdcs/{changeDataCaptureName}/status",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1, pattern=r"^[-\w\._\(\)]+$"
+        ),
+        "factoryName": _SERIALIZER.url(
+            "factory_name",
+            factory_name,
+            "str",
+            max_length=63,
+            min_length=3,
+            pattern=r"^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$",
+        ),
+        "changeDataCaptureName": _SERIALIZER.url(
+            "change_data_capture_name",
+            change_data_capture_name,
+            "str",
+            max_length=260,
+            min_length=1,
+            pattern=r"^[A-Za-z0-9_][^<>*#.%&:\\+?/]*$",
+        ),
+    }
+
+    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+class ChangeDataCaptureOperations:
     """
     .. warning::
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
         :class:`~azure.mgmt.datafactory.DataFactoryManagementClient`'s
-        :attr:`pipelines` attribute.
+        :attr:`change_data_capture` attribute.
     """
 
     models = _models
@@ -338,23 +406,24 @@ class PipelinesOperations:
     @distributed_trace
     def list_by_factory(
         self, resource_group_name: str, factory_name: str, **kwargs: Any
-    ) -> Iterable["_models.PipelineResource"]:
-        """Lists pipelines.
+    ) -> Iterable["_models.ChangeDataCaptureResource"]:
+        """Lists all resources of type change data capture.
 
         :param resource_group_name: The resource group name. Required.
         :type resource_group_name: str
         :param factory_name: The factory name. Required.
         :type factory_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: An iterator like instance of either PipelineResource or the result of cls(response)
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.datafactory.models.PipelineResource]
+        :return: An iterator like instance of either ChangeDataCaptureResource or the result of
+         cls(response)
+        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.datafactory.models.ChangeDataCaptureResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.PipelineListResponse] = kwargs.pop("cls", None)
+        cls: ClsType[_models.ChangeDataCaptureListResponse] = kwargs.pop("cls", None)
 
         error_map = {
             401: ClientAuthenticationError,
@@ -398,7 +467,7 @@ class PipelinesOperations:
             return request
 
         def extract_data(pipeline_response):
-            deserialized = self._deserialize("PipelineListResponse", pipeline_response)
+            deserialized = self._deserialize("ChangeDataCaptureListResponse", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
@@ -422,7 +491,7 @@ class PipelinesOperations:
         return ItemPaged(get_next, extract_data)
 
     list_by_factory.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelines"
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/adfcdcs"
     }
 
     @overload
@@ -430,32 +499,33 @@ class PipelinesOperations:
         self,
         resource_group_name: str,
         factory_name: str,
-        pipeline_name: str,
-        pipeline: _models.PipelineResource,
+        change_data_capture_name: str,
+        change_data_capture: _models.ChangeDataCaptureResource,
         if_match: Optional[str] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> _models.PipelineResource:
-        """Creates or updates a pipeline.
+    ) -> _models.ChangeDataCaptureResource:
+        """Creates or updates a change data capture resource.
 
         :param resource_group_name: The resource group name. Required.
         :type resource_group_name: str
         :param factory_name: The factory name. Required.
         :type factory_name: str
-        :param pipeline_name: The pipeline name. Required.
-        :type pipeline_name: str
-        :param pipeline: Pipeline resource definition. Required.
-        :type pipeline: ~azure.mgmt.datafactory.models.PipelineResource
-        :param if_match: ETag of the pipeline entity.  Should only be specified for update, for which
-         it should match existing entity or can be * for unconditional update. Default value is None.
+        :param change_data_capture_name: The change data capture name. Required.
+        :type change_data_capture_name: str
+        :param change_data_capture: Change data capture resource definition. Required.
+        :type change_data_capture: ~azure.mgmt.datafactory.models.ChangeDataCaptureResource
+        :param if_match: ETag of the change data capture entity. Should only be specified for update,
+         for which it should match existing entity or can be * for unconditional update. Default value
+         is None.
         :type if_match: str
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: PipelineResource or the result of cls(response)
-        :rtype: ~azure.mgmt.datafactory.models.PipelineResource
+        :return: ChangeDataCaptureResource or the result of cls(response)
+        :rtype: ~azure.mgmt.datafactory.models.ChangeDataCaptureResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -464,32 +534,33 @@ class PipelinesOperations:
         self,
         resource_group_name: str,
         factory_name: str,
-        pipeline_name: str,
-        pipeline: IO,
+        change_data_capture_name: str,
+        change_data_capture: IO,
         if_match: Optional[str] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> _models.PipelineResource:
-        """Creates or updates a pipeline.
+    ) -> _models.ChangeDataCaptureResource:
+        """Creates or updates a change data capture resource.
 
         :param resource_group_name: The resource group name. Required.
         :type resource_group_name: str
         :param factory_name: The factory name. Required.
         :type factory_name: str
-        :param pipeline_name: The pipeline name. Required.
-        :type pipeline_name: str
-        :param pipeline: Pipeline resource definition. Required.
-        :type pipeline: IO
-        :param if_match: ETag of the pipeline entity.  Should only be specified for update, for which
-         it should match existing entity or can be * for unconditional update. Default value is None.
+        :param change_data_capture_name: The change data capture name. Required.
+        :type change_data_capture_name: str
+        :param change_data_capture: Change data capture resource definition. Required.
+        :type change_data_capture: IO
+        :param if_match: ETag of the change data capture entity. Should only be specified for update,
+         for which it should match existing entity or can be * for unconditional update. Default value
+         is None.
         :type if_match: str
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: PipelineResource or the result of cls(response)
-        :rtype: ~azure.mgmt.datafactory.models.PipelineResource
+        :return: ChangeDataCaptureResource or the result of cls(response)
+        :rtype: ~azure.mgmt.datafactory.models.ChangeDataCaptureResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -498,31 +569,32 @@ class PipelinesOperations:
         self,
         resource_group_name: str,
         factory_name: str,
-        pipeline_name: str,
-        pipeline: Union[_models.PipelineResource, IO],
+        change_data_capture_name: str,
+        change_data_capture: Union[_models.ChangeDataCaptureResource, IO],
         if_match: Optional[str] = None,
         **kwargs: Any
-    ) -> _models.PipelineResource:
-        """Creates or updates a pipeline.
+    ) -> _models.ChangeDataCaptureResource:
+        """Creates or updates a change data capture resource.
 
         :param resource_group_name: The resource group name. Required.
         :type resource_group_name: str
         :param factory_name: The factory name. Required.
         :type factory_name: str
-        :param pipeline_name: The pipeline name. Required.
-        :type pipeline_name: str
-        :param pipeline: Pipeline resource definition. Is either a PipelineResource type or a IO type.
-         Required.
-        :type pipeline: ~azure.mgmt.datafactory.models.PipelineResource or IO
-        :param if_match: ETag of the pipeline entity.  Should only be specified for update, for which
-         it should match existing entity or can be * for unconditional update. Default value is None.
+        :param change_data_capture_name: The change data capture name. Required.
+        :type change_data_capture_name: str
+        :param change_data_capture: Change data capture resource definition. Is either a
+         ChangeDataCaptureResource type or a IO type. Required.
+        :type change_data_capture: ~azure.mgmt.datafactory.models.ChangeDataCaptureResource or IO
+        :param if_match: ETag of the change data capture entity. Should only be specified for update,
+         for which it should match existing entity or can be * for unconditional update. Default value
+         is None.
         :type if_match: str
         :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
          Default value is None.
         :paramtype content_type: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: PipelineResource or the result of cls(response)
-        :rtype: ~azure.mgmt.datafactory.models.PipelineResource
+        :return: ChangeDataCaptureResource or the result of cls(response)
+        :rtype: ~azure.mgmt.datafactory.models.ChangeDataCaptureResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map = {
@@ -538,20 +610,20 @@ class PipelinesOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.PipelineResource] = kwargs.pop("cls", None)
+        cls: ClsType[_models.ChangeDataCaptureResource] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
         _content = None
-        if isinstance(pipeline, (IOBase, bytes)):
-            _content = pipeline
+        if isinstance(change_data_capture, (IOBase, bytes)):
+            _content = change_data_capture
         else:
-            _json = self._serialize.body(pipeline, "PipelineResource")
+            _json = self._serialize.body(change_data_capture, "ChangeDataCaptureResource")
 
         request = build_create_or_update_request(
             resource_group_name=resource_group_name,
             factory_name=factory_name,
-            pipeline_name=pipeline_name,
+            change_data_capture_name=change_data_capture_name,
             subscription_id=self._config.subscription_id,
             if_match=if_match,
             api_version=api_version,
@@ -576,7 +648,7 @@ class PipelinesOperations:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("PipelineResource", pipeline_response)
+        deserialized = self._deserialize("ChangeDataCaptureResource", pipeline_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})
@@ -584,7 +656,7 @@ class PipelinesOperations:
         return deserialized
 
     create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelines/{pipelineName}"
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/adfcdcs/{changeDataCaptureName}"
     }
 
     @distributed_trace
@@ -592,25 +664,25 @@ class PipelinesOperations:
         self,
         resource_group_name: str,
         factory_name: str,
-        pipeline_name: str,
+        change_data_capture_name: str,
         if_none_match: Optional[str] = None,
         **kwargs: Any
-    ) -> Optional[_models.PipelineResource]:
-        """Gets a pipeline.
+    ) -> _models.ChangeDataCaptureResource:
+        """Gets a change data capture.
 
         :param resource_group_name: The resource group name. Required.
         :type resource_group_name: str
         :param factory_name: The factory name. Required.
         :type factory_name: str
-        :param pipeline_name: The pipeline name. Required.
-        :type pipeline_name: str
-        :param if_none_match: ETag of the pipeline entity. Should only be specified for get. If the
-         ETag matches the existing entity tag, or if * was provided, then no content will be returned.
-         Default value is None.
+        :param change_data_capture_name: The change data capture name. Required.
+        :type change_data_capture_name: str
+        :param if_none_match: ETag of the change data capture entity. Should only be specified for get.
+         If the ETag matches the existing entity tag, or if * was provided, then no content will be
+         returned. Default value is None.
         :type if_none_match: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: PipelineResource or None or the result of cls(response)
-        :rtype: ~azure.mgmt.datafactory.models.PipelineResource or None
+        :return: ChangeDataCaptureResource or the result of cls(response)
+        :rtype: ~azure.mgmt.datafactory.models.ChangeDataCaptureResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map = {
@@ -625,12 +697,12 @@ class PipelinesOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[Optional[_models.PipelineResource]] = kwargs.pop("cls", None)
+        cls: ClsType[_models.ChangeDataCaptureResource] = kwargs.pop("cls", None)
 
         request = build_get_request(
             resource_group_name=resource_group_name,
             factory_name=factory_name,
-            pipeline_name=pipeline_name,
+            change_data_capture_name=change_data_capture_name,
             subscription_id=self._config.subscription_id,
             if_none_match=if_none_match,
             api_version=api_version,
@@ -648,13 +720,11 @@ class PipelinesOperations:
 
         response = pipeline_response.http_response
 
-        if response.status_code not in [200, 304]:
+        if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = None
-        if response.status_code == 200:
-            deserialized = self._deserialize("PipelineResource", pipeline_response)
+        deserialized = self._deserialize("ChangeDataCaptureResource", pipeline_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})
@@ -662,21 +732,21 @@ class PipelinesOperations:
         return deserialized
 
     get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelines/{pipelineName}"
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/adfcdcs/{changeDataCaptureName}"
     }
 
     @distributed_trace
     def delete(  # pylint: disable=inconsistent-return-statements
-        self, resource_group_name: str, factory_name: str, pipeline_name: str, **kwargs: Any
+        self, resource_group_name: str, factory_name: str, change_data_capture_name: str, **kwargs: Any
     ) -> None:
-        """Deletes a pipeline.
+        """Deletes a change data capture.
 
         :param resource_group_name: The resource group name. Required.
         :type resource_group_name: str
         :param factory_name: The factory name. Required.
         :type factory_name: str
-        :param pipeline_name: The pipeline name. Required.
-        :type pipeline_name: str
+        :param change_data_capture_name: The change data capture name. Required.
+        :type change_data_capture_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
@@ -699,7 +769,7 @@ class PipelinesOperations:
         request = build_delete_request(
             resource_group_name=resource_group_name,
             factory_name=factory_name,
-            pipeline_name=pipeline_name,
+            change_data_capture_name=change_data_capture_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             template_url=self.delete.metadata["url"],
@@ -724,151 +794,24 @@ class PipelinesOperations:
             return cls(pipeline_response, None, {})
 
     delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelines/{pipelineName}"
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/adfcdcs/{changeDataCaptureName}"
     }
 
-    @overload
-    def create_run(
-        self,
-        resource_group_name: str,
-        factory_name: str,
-        pipeline_name: str,
-        reference_pipeline_run_id: Optional[str] = None,
-        is_recovery: Optional[bool] = None,
-        start_activity_name: Optional[str] = None,
-        start_from_failure: Optional[bool] = None,
-        parameters: Optional[Dict[str, JSON]] = None,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> _models.CreateRunResponse:
-        """Creates a run of a pipeline.
-
-        :param resource_group_name: The resource group name. Required.
-        :type resource_group_name: str
-        :param factory_name: The factory name. Required.
-        :type factory_name: str
-        :param pipeline_name: The pipeline name. Required.
-        :type pipeline_name: str
-        :param reference_pipeline_run_id: The pipeline run identifier. If run ID is specified the
-         parameters of the specified run will be used to create a new run. Default value is None.
-        :type reference_pipeline_run_id: str
-        :param is_recovery: Recovery mode flag. If recovery mode is set to true, the specified
-         referenced pipeline run and the new run will be grouped under the same groupId. Default value
-         is None.
-        :type is_recovery: bool
-        :param start_activity_name: In recovery mode, the rerun will start from this activity. If not
-         specified, all activities will run. Default value is None.
-        :type start_activity_name: str
-        :param start_from_failure: In recovery mode, if set to true, the rerun will start from failed
-         activities. The property will be used only if startActivityName is not specified. Default value
-         is None.
-        :type start_from_failure: bool
-        :param parameters: Parameters of the pipeline run. These parameters will be used only if the
-         runId is not specified. Default value is None.
-        :type parameters: dict[str, JSON]
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: CreateRunResponse or the result of cls(response)
-        :rtype: ~azure.mgmt.datafactory.models.CreateRunResponse
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    def create_run(
-        self,
-        resource_group_name: str,
-        factory_name: str,
-        pipeline_name: str,
-        reference_pipeline_run_id: Optional[str] = None,
-        is_recovery: Optional[bool] = None,
-        start_activity_name: Optional[str] = None,
-        start_from_failure: Optional[bool] = None,
-        parameters: Optional[IO] = None,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> _models.CreateRunResponse:
-        """Creates a run of a pipeline.
-
-        :param resource_group_name: The resource group name. Required.
-        :type resource_group_name: str
-        :param factory_name: The factory name. Required.
-        :type factory_name: str
-        :param pipeline_name: The pipeline name. Required.
-        :type pipeline_name: str
-        :param reference_pipeline_run_id: The pipeline run identifier. If run ID is specified the
-         parameters of the specified run will be used to create a new run. Default value is None.
-        :type reference_pipeline_run_id: str
-        :param is_recovery: Recovery mode flag. If recovery mode is set to true, the specified
-         referenced pipeline run and the new run will be grouped under the same groupId. Default value
-         is None.
-        :type is_recovery: bool
-        :param start_activity_name: In recovery mode, the rerun will start from this activity. If not
-         specified, all activities will run. Default value is None.
-        :type start_activity_name: str
-        :param start_from_failure: In recovery mode, if set to true, the rerun will start from failed
-         activities. The property will be used only if startActivityName is not specified. Default value
-         is None.
-        :type start_from_failure: bool
-        :param parameters: Parameters of the pipeline run. These parameters will be used only if the
-         runId is not specified. Default value is None.
-        :type parameters: IO
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: CreateRunResponse or the result of cls(response)
-        :rtype: ~azure.mgmt.datafactory.models.CreateRunResponse
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
     @distributed_trace
-    def create_run(
-        self,
-        resource_group_name: str,
-        factory_name: str,
-        pipeline_name: str,
-        reference_pipeline_run_id: Optional[str] = None,
-        is_recovery: Optional[bool] = None,
-        start_activity_name: Optional[str] = None,
-        start_from_failure: Optional[bool] = None,
-        parameters: Optional[Union[Dict[str, JSON], IO]] = None,
-        **kwargs: Any
-    ) -> _models.CreateRunResponse:
-        """Creates a run of a pipeline.
+    def start(  # pylint: disable=inconsistent-return-statements
+        self, resource_group_name: str, factory_name: str, change_data_capture_name: str, **kwargs: Any
+    ) -> None:
+        """Starts a change data capture.
 
         :param resource_group_name: The resource group name. Required.
         :type resource_group_name: str
         :param factory_name: The factory name. Required.
         :type factory_name: str
-        :param pipeline_name: The pipeline name. Required.
-        :type pipeline_name: str
-        :param reference_pipeline_run_id: The pipeline run identifier. If run ID is specified the
-         parameters of the specified run will be used to create a new run. Default value is None.
-        :type reference_pipeline_run_id: str
-        :param is_recovery: Recovery mode flag. If recovery mode is set to true, the specified
-         referenced pipeline run and the new run will be grouped under the same groupId. Default value
-         is None.
-        :type is_recovery: bool
-        :param start_activity_name: In recovery mode, the rerun will start from this activity. If not
-         specified, all activities will run. Default value is None.
-        :type start_activity_name: str
-        :param start_from_failure: In recovery mode, if set to true, the rerun will start from failed
-         activities. The property will be used only if startActivityName is not specified. Default value
-         is None.
-        :type start_from_failure: bool
-        :param parameters: Parameters of the pipeline run. These parameters will be used only if the
-         runId is not specified. Is either a {str: JSON} type or a IO type. Default value is None.
-        :type parameters: dict[str, JSON] or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
+        :param change_data_capture_name: The change data capture name. Required.
+        :type change_data_capture_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: CreateRunResponse or the result of cls(response)
-        :rtype: ~azure.mgmt.datafactory.models.CreateRunResponse
+        :return: None or the result of cls(response)
+        :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map = {
@@ -879,38 +822,19 @@ class PipelinesOperations:
         }
         error_map.update(kwargs.pop("error_map", {}) or {})
 
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.CreateRunResponse] = kwargs.pop("cls", None)
+        cls: ClsType[None] = kwargs.pop("cls", None)
 
-        content_type = content_type or "application/json"
-        _json = None
-        _content = None
-        if isinstance(parameters, (IOBase, bytes)):
-            _content = parameters
-        else:
-            if parameters is not None:
-                _json = self._serialize.body(parameters, "{object}")
-            else:
-                _json = None
-
-        request = build_create_run_request(
+        request = build_start_request(
             resource_group_name=resource_group_name,
             factory_name=factory_name,
-            pipeline_name=pipeline_name,
+            change_data_capture_name=change_data_capture_name,
             subscription_id=self._config.subscription_id,
-            reference_pipeline_run_id=reference_pipeline_run_id,
-            is_recovery=is_recovery,
-            start_activity_name=start_activity_name,
-            start_from_failure=start_from_failure,
             api_version=api_version,
-            content_type=content_type,
-            json=_json,
-            content=_content,
-            template_url=self.create_run.metadata["url"],
+            template_url=self.start.metadata["url"],
             headers=_headers,
             params=_params,
         )
@@ -928,13 +852,135 @@ class PipelinesOperations:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("CreateRunResponse", pipeline_response)
+        if cls:
+            return cls(pipeline_response, None, {})
+
+    start.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/adfcdcs/{changeDataCaptureName}/start"
+    }
+
+    @distributed_trace
+    def stop(  # pylint: disable=inconsistent-return-statements
+        self, resource_group_name: str, factory_name: str, change_data_capture_name: str, **kwargs: Any
+    ) -> None:
+        """Stops a change data capture.
+
+        :param resource_group_name: The resource group name. Required.
+        :type resource_group_name: str
+        :param factory_name: The factory name. Required.
+        :type factory_name: str
+        :param change_data_capture_name: The change data capture name. Required.
+        :type change_data_capture_name: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: None or the result of cls(response)
+        :rtype: None
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[None] = kwargs.pop("cls", None)
+
+        request = build_stop_request(
+            resource_group_name=resource_group_name,
+            factory_name=factory_name,
+            change_data_capture_name=change_data_capture_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            template_url=self.stop.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+
+        if cls:
+            return cls(pipeline_response, None, {})
+
+    stop.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/adfcdcs/{changeDataCaptureName}/stop"
+    }
+
+    @distributed_trace
+    def status(self, resource_group_name: str, factory_name: str, change_data_capture_name: str, **kwargs: Any) -> str:
+        """Gets the current status for the change data capture resource.
+
+        :param resource_group_name: The resource group name. Required.
+        :type resource_group_name: str
+        :param factory_name: The factory name. Required.
+        :type factory_name: str
+        :param change_data_capture_name: The change data capture name. Required.
+        :type change_data_capture_name: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: str or the result of cls(response)
+        :rtype: str
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[str] = kwargs.pop("cls", None)
+
+        request = build_status_request(
+            resource_group_name=resource_group_name,
+            factory_name=factory_name,
+            change_data_capture_name=change_data_capture_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            template_url=self.status.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("str", pipeline_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})
 
         return deserialized
 
-    create_run.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelines/{pipelineName}/createRun"
+    status.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/adfcdcs/{changeDataCaptureName}/status"
     }
