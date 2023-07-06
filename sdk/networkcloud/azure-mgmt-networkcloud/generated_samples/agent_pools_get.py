@@ -14,7 +14,7 @@ from azure.mgmt.networkcloud import NetworkCloudMgmtClient
     pip install azure-identity
     pip install azure-mgmt-networkcloud
 # USAGE
-    python cluster_metrics_configurations_list_by_resource_group.py
+    python agent_pools_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,17 +26,17 @@ from azure.mgmt.networkcloud import NetworkCloudMgmtClient
 def main():
     client = NetworkCloudMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subscriptionId",
+        subscription_id="123e4567-e89b-12d3-a456-426655440000",
     )
 
-    response = client.metrics_configurations.list_by_resource_group(
+    response = client.agent_pools.get(
         resource_group_name="resourceGroupName",
-        cluster_name="clusterName",
+        kubernetes_cluster_name="kubernetesClusterName",
+        agent_pool_name="agentPoolName",
     )
-    for item in response:
-        print(item)
+    print(response)
 
 
-# x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2022-12-12-preview/examples/ClusterMetricsConfigurations_ListByResourceGroup.json
+# x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/AgentPools_Get.json
 if __name__ == "__main__":
     main()

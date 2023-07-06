@@ -14,7 +14,7 @@ from azure.mgmt.networkcloud import NetworkCloudMgmtClient
     pip install azure-identity
     pip install azure-mgmt-networkcloud
 # USAGE
-    python virtual_machines_attach_volume.py
+    python cluster_metrics_configurations_create.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,19 +26,26 @@ from azure.mgmt.networkcloud import NetworkCloudMgmtClient
 def main():
     client = NetworkCloudMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subscriptionId",
+        subscription_id="123e4567-e89b-12d3-a456-426655440000",
     )
 
-    response = client.virtual_machines.begin_attach_volume(
+    response = client.metrics_configurations.begin_create_or_update(
         resource_group_name="resourceGroupName",
-        virtual_machine_name="virtualMachineName",
-        virtual_machine_attach_volume_parameters={
-            "volumeId": "/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/Microsoft.NetworkCloud/volumes/volumeName"
+        cluster_name="clusterName",
+        metrics_configuration_name="default",
+        metrics_configuration_parameters={
+            "extendedLocation": {
+                "name": "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ExtendedLocation/customLocations/clusterExtendedLocationName",
+                "type": "CustomLocation",
+            },
+            "location": "location",
+            "properties": {"collectionInterval": 15, "enabledMetrics": ["metric1", "metric2"]},
+            "tags": {"key1": "myvalue1", "key2": "myvalue2"},
         },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2022-12-12-preview/examples/VirtualMachines_AttachVolume.json
+# x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/ClusterMetricsConfigurations_Create.json
 if __name__ == "__main__":
     main()

@@ -14,7 +14,7 @@ from azure.mgmt.networkcloud import NetworkCloudMgmtClient
     pip install azure-identity
     pip install azure-mgmt-networkcloud
 # USAGE
-    python virtual_machines_detach_volume.py
+    python kubernetes_clusters_restart_node.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,19 +26,16 @@ from azure.mgmt.networkcloud import NetworkCloudMgmtClient
 def main():
     client = NetworkCloudMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subscriptionId",
+        subscription_id="123e4567-e89b-12d3-a456-426655440000",
     )
 
-    response = client.virtual_machines.begin_detach_volume(
+    client.kubernetes_clusters.begin_restart_node(
         resource_group_name="resourceGroupName",
-        virtual_machine_name="virtualMachineName",
-        virtual_machine_detach_volume_parameters={
-            "volumeId": "/subscriptions/subscriptionId/resourceGroups/resourceGroupName/providers/Microsoft.NetworkCloud/volumes/volumeName"
-        },
+        kubernetes_cluster_name="kubernetesClusterName",
+        kubernetes_cluster_restart_node_parameters={"nodeName": "nodeName"},
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2022-12-12-preview/examples/VirtualMachines_DetachVolume.json
+# x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/KubernetesClusters_RestartNode.json
 if __name__ == "__main__":
     main()
