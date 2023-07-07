@@ -8,6 +8,7 @@
 
 from ._models_py3 import ApiProperties
 from ._models_py3 import ArmAsyncOperation
+from ._models_py3 import ArmAsyncOperationError
 from ._models_py3 import CheckNameAvailabilityRequest
 from ._models_py3 import CheckNameAvailabilityResponse
 from ._models_py3 import DetailedInformation
@@ -68,6 +69,7 @@ from ._patch import patch_sdk as _patch_sdk
 __all__ = [
     "ApiProperties",
     "ArmAsyncOperation",
+    "ArmAsyncOperationError",
     "CheckNameAvailabilityRequest",
     "CheckNameAvailabilityResponse",
     "DetailedInformation",
