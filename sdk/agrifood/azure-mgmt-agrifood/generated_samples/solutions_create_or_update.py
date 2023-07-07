@@ -26,13 +26,13 @@ from azure.mgmt.agrifood import AgriFoodMgmtClient
 def main():
     client = AgriFoodMgmtClient(
         credential=DefaultAzureCredential(),
-        solution_id="abc.partner",
         subscription_id="11111111-2222-3333-4444-555555555555",
     )
 
     response = client.solutions.create_or_update(
         resource_group_name="examples-rg",
         farm_beats_resource_name="examples-farmbeatsResourceName",
+        solution_id="abc.partner",
     )
     print(response)
 
