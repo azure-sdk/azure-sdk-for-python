@@ -26,15 +26,13 @@ from azure.mgmt.agrifood import AgriFoodMgmtClient
 def main():
     client = AgriFoodMgmtClient(
         credential=DefaultAzureCredential(),
-        solution_id="SOLUTION_ID",
         subscription_id="11111111-2222-3333-4444-555555555555",
     )
 
-    response = client.farm_beats_models.delete(
+    client.farm_beats_models.delete(
         resource_group_name="examples-rg",
         farm_beats_resource_name="examples-farmBeatsResourceName",
     )
-    print(response)
 
 
 # x-ms-original-file: specification/agrifood/resource-manager/Microsoft.AgFoodPlatform/preview/2021-09-01-preview/examples/FarmBeatsModels_Delete.json
