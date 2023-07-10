@@ -1313,7 +1313,10 @@ class ContainerServiceNetworkProfile(_serialization.Model):  # pylint: disable=t
     :ivar ebpf_dataplane: The eBPF dataplane used for building the Kubernetes network. "cilium"
     :vartype ebpf_dataplane: str or
      ~azure.mgmt.containerservice.v2023_01_02_preview.models.EbpfDataplane
-    :ivar pod_cidr: A CIDR notation IP range from which to assign pod IPs when kubenet is used.
+    :ivar pod_cidr: A CIDR notation IP range from which to assign pod IPs. When using the kubenet
+     network plugin, the pod IPs can be assigned from a specified IP range using CIDR notation. The
+     same can be applied for the azure network plugin, but only when the network plugin mode is set
+     to overlay.
     :vartype pod_cidr: str
     :ivar service_cidr: A CIDR notation IP range from which to assign service cluster IPs. It must
      not overlap with any Subnet IP ranges.
@@ -1433,7 +1436,10 @@ class ContainerServiceNetworkProfile(_serialization.Model):  # pylint: disable=t
         :keyword ebpf_dataplane: The eBPF dataplane used for building the Kubernetes network. "cilium"
         :paramtype ebpf_dataplane: str or
          ~azure.mgmt.containerservice.v2023_01_02_preview.models.EbpfDataplane
-        :keyword pod_cidr: A CIDR notation IP range from which to assign pod IPs when kubenet is used.
+        :keyword pod_cidr: A CIDR notation IP range from which to assign pod IPs. When using the
+         kubenet network plugin, the pod IPs can be assigned from a specified IP range using CIDR
+         notation. The same can be applied for the azure network plugin, but only when the network
+         plugin mode is set to overlay.
         :paramtype pod_cidr: str
         :keyword service_cidr: A CIDR notation IP range from which to assign service cluster IPs. It
          must not overlap with any Subnet IP ranges.
