@@ -81,6 +81,7 @@ from ._models_py3 import IntegrationRuntimeComputeProperties
 from ._models_py3 import IntegrationRuntimeConnectionInfo
 from ._models_py3 import IntegrationRuntimeCustomSetupScriptProperties
 from ._models_py3 import IntegrationRuntimeDataFlowProperties
+from ._models_py3 import IntegrationRuntimeDataFlowPropertiesCustomPropertiesItem
 from ._models_py3 import IntegrationRuntimeDataProxyProperties
 from ._models_py3 import IntegrationRuntimeEnableinteractivequery
 from ._models_py3 import IntegrationRuntimeListResponse
@@ -430,6 +431,7 @@ __all__ = [
     "IntegrationRuntimeConnectionInfo",
     "IntegrationRuntimeCustomSetupScriptProperties",
     "IntegrationRuntimeDataFlowProperties",
+    "IntegrationRuntimeDataFlowPropertiesCustomPropertiesItem",
     "IntegrationRuntimeDataProxyProperties",
     "IntegrationRuntimeEnableinteractivequery",
     "IntegrationRuntimeListResponse",

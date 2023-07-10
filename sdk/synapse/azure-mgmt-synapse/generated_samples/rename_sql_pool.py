@@ -29,7 +29,7 @@ def main():
         subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.sql_pools.rename(
+    client.sql_pools.rename(
         resource_group_name="Default-SQL-SouthEastAsia",
         workspace_name="testsvr",
         sql_pool_name="testdb",
@@ -37,7 +37,6 @@ def main():
             "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Synapse/workspaces/testsvr/sqlPools/newtestdb"
         },
     )
-    print(response)
 
 
 # x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/RenameSqlPool.json
