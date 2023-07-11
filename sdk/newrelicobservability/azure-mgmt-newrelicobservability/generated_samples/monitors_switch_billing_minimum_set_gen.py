@@ -26,7 +26,7 @@ from azure.mgmt.newrelicobservability import NewRelicObservabilityMgmtClient
 def main():
     client = NewRelicObservabilityMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="nqmcgifgaqlf",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
     response = client.monitors.switch_billing(

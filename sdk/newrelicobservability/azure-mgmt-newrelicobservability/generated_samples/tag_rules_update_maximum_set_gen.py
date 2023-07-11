@@ -26,7 +26,7 @@ from azure.mgmt.newrelicobservability import NewRelicObservabilityMgmtClient
 def main():
     client = NewRelicObservabilityMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="ddqonpqwjr",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
     response = client.tag_rules.update(

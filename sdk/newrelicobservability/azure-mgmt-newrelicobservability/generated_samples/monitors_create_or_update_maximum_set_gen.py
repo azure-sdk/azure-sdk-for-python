@@ -26,14 +26,13 @@ from azure.mgmt.newrelicobservability import NewRelicObservabilityMgmtClient
 def main():
     client = NewRelicObservabilityMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="hfmjmpyqgezxkp",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
     response = client.monitors.begin_create_or_update(
         resource_group_name="rgNewRelic",
         monitor_name="cdlymktqw",
         resource={
-            "identity": {"type": "None", "userAssignedIdentities": {"key8903": {}}},
             "location": "k",
             "properties": {
                 "accountCreationSource": "LIFTR",

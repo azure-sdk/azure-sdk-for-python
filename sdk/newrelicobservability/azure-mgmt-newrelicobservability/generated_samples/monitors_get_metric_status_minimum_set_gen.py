@@ -26,13 +26,18 @@ from azure.mgmt.newrelicobservability import NewRelicObservabilityMgmtClient
 def main():
     client = NewRelicObservabilityMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="nqmcgifgaqlf",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
     response = client.monitors.get_metric_status(
         resource_group_name="rgNewRelic",
         monitor_name="fhcjxnxumkdlgpwanewtkdnyuz",
-        request={"userEmail": "ruxvg@xqkmdhrnoo.hlmbpm"},
+        request={
+            "azureResourceIds": [
+                "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgNewRelic/providers/NewRelic.Observability/monitors/fhcjxnxumkdlgpwanewtkdnyuz"
+            ],
+            "userEmail": "ruxvg@xqkmdhrnoo.hlmbpm",
+        },
     )
     print(response)
 
