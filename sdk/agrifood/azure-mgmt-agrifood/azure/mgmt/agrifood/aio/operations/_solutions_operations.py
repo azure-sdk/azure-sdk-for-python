@@ -7,7 +7,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import datetime
-import sys
+from io import IOBase
 from typing import Any, AsyncIterable, Callable, Dict, IO, List, Optional, TypeVar, Union, overload
 import urllib.parse
 
@@ -37,10 +37,6 @@ from ...operations._solutions_operations import (
     build_list_request,
 )
 
-if sys.version_info >= (3, 8):
-    from typing import Literal  # pylint: disable=no-name-in-module, ungrouped-imports
-else:
-    from typing_extensions import Literal  # type: ignore  # pylint: disable=ungrouped-imports
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -69,6 +65,7 @@ class SolutionsOperations:
         self,
         resource_group_name: str,
         farm_beats_resource_name: str,
+        solution_id: str,
         body: Optional[_models.SolutionInstallationRequest] = None,
         *,
         content_type: str = "application/json",
@@ -81,6 +78,8 @@ class SolutionsOperations:
         :type resource_group_name: str
         :param farm_beats_resource_name: FarmBeats resource name. Required.
         :type farm_beats_resource_name: str
+        :param solution_id: Solution Id of the solution. Required.
+        :type solution_id: str
         :param body: Solution resource request body. Default value is None.
         :type body: ~azure.mgmt.agrifood.models.SolutionInstallationRequest
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
@@ -97,6 +96,7 @@ class SolutionsOperations:
         self,
         resource_group_name: str,
         farm_beats_resource_name: str,
+        solution_id: str,
         body: Optional[IO] = None,
         *,
         content_type: str = "application/json",
@@ -109,6 +109,8 @@ class SolutionsOperations:
         :type resource_group_name: str
         :param farm_beats_resource_name: FarmBeats resource name. Required.
         :type farm_beats_resource_name: str
+        :param solution_id: Solution Id of the solution. Required.
+        :type solution_id: str
         :param body: Solution resource request body. Default value is None.
         :type body: IO
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
@@ -125,6 +127,7 @@ class SolutionsOperations:
         self,
         resource_group_name: str,
         farm_beats_resource_name: str,
+        solution_id: str,
         body: Optional[Union[_models.SolutionInstallationRequest, IO]] = None,
         **kwargs: Any
     ) -> _models.Solution:
@@ -135,8 +138,10 @@ class SolutionsOperations:
         :type resource_group_name: str
         :param farm_beats_resource_name: FarmBeats resource name. Required.
         :type farm_beats_resource_name: str
-        :param body: Solution resource request body. Is either a model type or a IO type. Default value
-         is None.
+        :param solution_id: Solution Id of the solution. Required.
+        :type solution_id: str
+        :param body: Solution resource request body. Is either a SolutionInstallationRequest type or a
+         IO type. Default value is None.
         :type body: ~azure.mgmt.agrifood.models.SolutionInstallationRequest or IO
         :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
          Default value is None.
@@ -157,16 +162,14 @@ class SolutionsOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-09-01-preview"] = kwargs.pop(
-            "api_version", _params.pop("api-version", self._config.api_version)
-        )
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.Solution] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
         _content = None
-        if isinstance(body, (IO, bytes)):
+        if isinstance(body, (IOBase, bytes)):
             _content = body
         else:
             if body is not None:
@@ -177,8 +180,8 @@ class SolutionsOperations:
         request = build_create_or_update_request(
             resource_group_name=resource_group_name,
             farm_beats_resource_name=farm_beats_resource_name,
+            solution_id=solution_id,
             subscription_id=self._config.subscription_id,
-            solution_id=self._config.solution_id,
             api_version=api_version,
             content_type=content_type,
             json=_json,
@@ -190,8 +193,9 @@ class SolutionsOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -217,7 +221,9 @@ class SolutionsOperations:
     }
 
     @distributed_trace_async
-    async def get(self, resource_group_name: str, farm_beats_resource_name: str, **kwargs: Any) -> _models.Solution:
+    async def get(
+        self, resource_group_name: str, farm_beats_resource_name: str, solution_id: str, **kwargs: Any
+    ) -> _models.Solution:
         """Get installed Solution details by Solution id.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -225,6 +231,8 @@ class SolutionsOperations:
         :type resource_group_name: str
         :param farm_beats_resource_name: FarmBeats resource name. Required.
         :type farm_beats_resource_name: str
+        :param solution_id: Solution Id of the solution. Required.
+        :type solution_id: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Solution or the result of cls(response)
         :rtype: ~azure.mgmt.agrifood.models.Solution
@@ -241,16 +249,14 @@ class SolutionsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-09-01-preview"] = kwargs.pop(
-            "api_version", _params.pop("api-version", self._config.api_version)
-        )
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.Solution] = kwargs.pop("cls", None)
 
         request = build_get_request(
             resource_group_name=resource_group_name,
             farm_beats_resource_name=farm_beats_resource_name,
+            solution_id=solution_id,
             subscription_id=self._config.subscription_id,
-            solution_id=self._config.solution_id,
             api_version=api_version,
             template_url=self.get.metadata["url"],
             headers=_headers,
@@ -259,8 +265,9 @@ class SolutionsOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -283,7 +290,7 @@ class SolutionsOperations:
 
     @distributed_trace_async
     async def delete(  # pylint: disable=inconsistent-return-statements
-        self, resource_group_name: str, farm_beats_resource_name: str, **kwargs: Any
+        self, resource_group_name: str, farm_beats_resource_name: str, solution_id: str, **kwargs: Any
     ) -> None:
         """Uninstall Solution.
 
@@ -292,6 +299,8 @@ class SolutionsOperations:
         :type resource_group_name: str
         :param farm_beats_resource_name: FarmBeats resource name. Required.
         :type farm_beats_resource_name: str
+        :param solution_id: Solution Id of the solution. Required.
+        :type solution_id: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
@@ -308,16 +317,14 @@ class SolutionsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-09-01-preview"] = kwargs.pop(
-            "api_version", _params.pop("api-version", self._config.api_version)
-        )
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_delete_request(
             resource_group_name=resource_group_name,
             farm_beats_resource_name=farm_beats_resource_name,
+            solution_id=solution_id,
             subscription_id=self._config.subscription_id,
-            solution_id=self._config.solution_id,
             api_version=api_version,
             template_url=self.delete.metadata["url"],
             headers=_headers,
@@ -326,8 +333,9 @@ class SolutionsOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -405,9 +413,7 @@ class SolutionsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-09-01-preview"] = kwargs.pop(
-            "api_version", _params.pop("api-version", self._config.api_version)
-        )
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.SolutionListResponse] = kwargs.pop("cls", None)
 
         error_map = {
@@ -472,8 +478,9 @@ class SolutionsOperations:
         async def get_next(next_link=None):
             request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 

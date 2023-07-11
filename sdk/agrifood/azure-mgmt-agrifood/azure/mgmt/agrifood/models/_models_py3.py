@@ -26,48 +26,88 @@ if TYPE_CHECKING:
 class ApiProperties(_serialization.Model):
     """Api properties.
 
-    :ivar api_freshness_window_in_minutes: Interval in minutes for which the weather data for the
-     api needs to be refreshed.
-    :vartype api_freshness_window_in_minutes: int
+    :ivar api_freshness_time_in_minutes: Interval in minutes for which the weather data for the api
+     needs to be refreshed.
+    :vartype api_freshness_time_in_minutes: int
     """
 
     _validation = {
-        "api_freshness_window_in_minutes": {"maximum": 10080, "minimum": 0},
+        "api_freshness_time_in_minutes": {"maximum": 10080, "minimum": 0},
     }
 
     _attribute_map = {
-        "api_freshness_window_in_minutes": {"key": "apiFreshnessWindowInMinutes", "type": "int"},
+        "api_freshness_time_in_minutes": {"key": "apiFreshnessTimeInMinutes", "type": "int"},
     }
 
-    def __init__(self, *, api_freshness_window_in_minutes: Optional[int] = None, **kwargs):
+    def __init__(self, *, api_freshness_time_in_minutes: Optional[int] = None, **kwargs: Any) -> None:
         """
-        :keyword api_freshness_window_in_minutes: Interval in minutes for which the weather data for
-         the api needs to be refreshed.
-        :paramtype api_freshness_window_in_minutes: int
+        :keyword api_freshness_time_in_minutes: Interval in minutes for which the weather data for the
+         api needs to be refreshed.
+        :paramtype api_freshness_time_in_minutes: int
         """
         super().__init__(**kwargs)
-        self.api_freshness_window_in_minutes = api_freshness_window_in_minutes
+        self.api_freshness_time_in_minutes = api_freshness_time_in_minutes
 
 
 class ArmAsyncOperation(_serialization.Model):
     """Arm async operation class.
     Ref: https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/async-operations.
 
-        :ivar status: Status of the async operation.
-        :vartype status: str
+    :ivar status: Status of the async operation.
+    :vartype status: str
+    :ivar error: Arm async operation error class.
+     Ref:
+     https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/async-api-reference.md#azure-asyncoperation-resource-format.
+    :vartype error: ~azure.mgmt.agrifood.models.ArmAsyncOperationError
     """
 
     _attribute_map = {
         "status": {"key": "status", "type": "str"},
+        "error": {"key": "error", "type": "ArmAsyncOperationError"},
     }
 
-    def __init__(self, *, status: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, status: Optional[str] = None, error: Optional["_models.ArmAsyncOperationError"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword status: Status of the async operation.
         :paramtype status: str
+        :keyword error: Arm async operation error class.
+         Ref:
+         https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/async-api-reference.md#azure-asyncoperation-resource-format.
+        :paramtype error: ~azure.mgmt.agrifood.models.ArmAsyncOperationError
         """
         super().__init__(**kwargs)
         self.status = status
+        self.error = error
+
+
+class ArmAsyncOperationError(_serialization.Model):
+    """Arm async operation error class.
+    Ref:
+    https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/async-api-reference.md#azure-asyncoperation-resource-format.
+
+    :ivar code: Status of the async operation.
+    :vartype code: str
+    :ivar message: Status of the async operation.
+    :vartype message: str
+    """
+
+    _attribute_map = {
+        "code": {"key": "code", "type": "str"},
+        "message": {"key": "message", "type": "str"},
+    }
+
+    def __init__(self, *, code: Optional[str] = None, message: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword code: Status of the async operation.
+        :paramtype code: str
+        :keyword message: Status of the async operation.
+        :paramtype message: str
+        """
+        super().__init__(**kwargs)
+        self.code = code
+        self.message = message
 
 
 class CheckNameAvailabilityRequest(_serialization.Model):
@@ -84,7 +124,7 @@ class CheckNameAvailabilityRequest(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, type: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, type: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: The name of the resource for which availability needs to be checked.
         :paramtype name: str
@@ -120,8 +160,8 @@ class CheckNameAvailabilityResponse(_serialization.Model):
         name_available: Optional[bool] = None,
         reason: Optional[Union[str, "_models.CheckNameAvailabilityReason"]] = None,
         message: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name_available: Indicates if the resource name is available.
         :paramtype name_available: bool
@@ -168,8 +208,8 @@ class DetailedInformation(_serialization.Model):
         platform_parameters: Optional[List[str]] = None,
         units_supported: Optional["_models.UnitSystemsInfo"] = None,
         api_input_parameters: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword api_name: ApiName available for the farmBeatsExtension.
         :paramtype api_name: str
@@ -211,7 +251,7 @@ class ErrorAdditionalInfo(_serialization.Model):
         "info": {"key": "info", "type": "object"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.type = None
@@ -251,7 +291,7 @@ class ErrorDetail(_serialization.Model):
         "additional_info": {"key": "additionalInfo", "type": "[ErrorAdditionalInfo]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.code = None
@@ -262,7 +302,8 @@ class ErrorDetail(_serialization.Model):
 
 
 class ErrorResponse(_serialization.Model):
-    """Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.).
+    """Common error response for all Azure Resource Manager APIs to return error details for failed
+    operations. (This also follows the OData error response format.).
 
     :ivar error: The error object.
     :vartype error: ~azure.mgmt.agrifood.models.ErrorDetail
@@ -272,7 +313,7 @@ class ErrorResponse(_serialization.Model):
         "error": {"key": "error", "type": "ErrorDetail"},
     }
 
-    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs):
+    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs: Any) -> None:
         """
         :keyword error: The error object.
         :paramtype error: ~azure.mgmt.agrifood.models.ErrorDetail
@@ -313,7 +354,7 @@ class Resource(_serialization.Model):
         "system_data": {"key": "systemData", "type": "SystemData"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -323,7 +364,8 @@ class Resource(_serialization.Model):
 
 
 class ProxyResource(Resource):
-    """The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location.
+    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
+    tags and a location.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -354,7 +396,7 @@ class ProxyResource(Resource):
         "system_data": {"key": "systemData", "type": "SystemData"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
 
@@ -419,7 +461,7 @@ class Extension(ProxyResource):  # pylint: disable=too-many-instance-attributes
         "additional_api_properties": {"key": "properties.additionalApiProperties", "type": "{ApiProperties}"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.e_tag = None
@@ -454,8 +496,8 @@ class ExtensionInstallationRequest(_serialization.Model):
         *,
         extension_version: Optional[str] = None,
         additional_api_properties: Optional[Dict[str, "_models.ApiProperties"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword extension_version: Extension Version.
         :paramtype extension_version: str
@@ -468,7 +510,8 @@ class ExtensionInstallationRequest(_serialization.Model):
 
 
 class ExtensionListResponse(_serialization.Model):
-    """Paged response contains list of requested objects and a URL link to get the next set of results.
+    """Paged response contains list of requested objects and a URL link to get the next set of
+    results.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -487,7 +530,7 @@ class ExtensionListResponse(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Extension"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.Extension"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: List of requested objects.
         :paramtype value: list[~azure.mgmt.agrifood.models.Extension]
@@ -498,7 +541,8 @@ class ExtensionListResponse(_serialization.Model):
 
 
 class TrackedResource(Resource):
-    """The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'.
+    """The resource model definition for an Azure Resource Manager tracked top level resource which
+    has 'tags' and a 'location'.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -538,7 +582,7 @@ class TrackedResource(Resource):
         "location": {"key": "location", "type": "str"},
     }
 
-    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -625,8 +669,8 @@ class FarmBeats(TrackedResource):  # pylint: disable=too-many-instance-attribute
         identity: Optional["_models.Identity"] = None,
         sensor_integration: Optional["_models.SensorIntegration"] = None,
         public_network_access: Optional[Union[str, "_models.PublicNetworkAccess"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -734,7 +778,7 @@ class FarmBeatsExtension(ProxyResource):  # pylint: disable=too-many-instance-at
         "detailed_information": {"key": "properties.detailedInformation", "type": "[DetailedInformation]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.target_resource_type = None
@@ -750,7 +794,8 @@ class FarmBeatsExtension(ProxyResource):  # pylint: disable=too-many-instance-at
 
 
 class FarmBeatsExtensionListResponse(_serialization.Model):
-    """Paged response contains list of requested objects and a URL link to get the next set of results.
+    """Paged response contains list of requested objects and a URL link to get the next set of
+    results.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -769,7 +814,7 @@ class FarmBeatsExtensionListResponse(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.FarmBeatsExtension"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.FarmBeatsExtension"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: List of requested objects.
         :paramtype value: list[~azure.mgmt.agrifood.models.FarmBeatsExtension]
@@ -780,7 +825,8 @@ class FarmBeatsExtensionListResponse(_serialization.Model):
 
 
 class FarmBeatsListResponse(_serialization.Model):
-    """Paged response contains list of requested objects and a URL link to get the next set of results.
+    """Paged response contains list of requested objects and a URL link to get the next set of
+    results.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -799,7 +845,7 @@ class FarmBeatsListResponse(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.FarmBeats"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.FarmBeats"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: List of requested objects.
         :paramtype value: list[~azure.mgmt.agrifood.models.FarmBeats]
@@ -844,7 +890,7 @@ class FarmBeatsSolution(ProxyResource):
         "properties": {"key": "properties", "type": "FarmBeatsSolutionProperties"},
     }
 
-    def __init__(self, *, properties: Optional["_models.FarmBeatsSolutionProperties"] = None, **kwargs):
+    def __init__(self, *, properties: Optional["_models.FarmBeatsSolutionProperties"] = None, **kwargs: Any) -> None:
         """
         :keyword properties: FarmBeatsSolution properties.
         :paramtype properties: ~azure.mgmt.agrifood.models.FarmBeatsSolutionProperties
@@ -854,7 +900,8 @@ class FarmBeatsSolution(ProxyResource):
 
 
 class FarmBeatsSolutionListResponse(_serialization.Model):
-    """Paged response contains list of requested objects and a URL link to get the next set of results.
+    """Paged response contains list of requested objects and a URL link to get the next set of
+    results.
 
     :ivar value: List of requested objects.
     :vartype value: list[~azure.mgmt.agrifood.models.FarmBeatsSolution]
@@ -877,8 +924,8 @@ class FarmBeatsSolutionListResponse(_serialization.Model):
         value: Optional[List["_models.FarmBeatsSolution"]] = None,
         skip_token: Optional[str] = None,
         next_link: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: List of requested objects.
         :paramtype value: list[~azure.mgmt.agrifood.models.FarmBeatsSolution]
@@ -926,6 +973,11 @@ class FarmBeatsSolutionProperties(_serialization.Model):  # pylint: disable=too-
     :ivar access_fb_application_id: Application id of the multi tenant application to be used by
      partner to access FarmBeats data.
     :vartype access_fb_application_id: str
+    :ivar saa_s_application_id: Application id of the SaaS multi tenant application.
+    :vartype saa_s_application_id: str
+    :ivar action_ids: List of ActionIds needed to make the SaaS multi tenant application access
+     relevant fb data.
+    :vartype action_ids: list[str]
     :ivar role_id: Role Id of the SaaS multi tenant application to access relevant fb data.
     :vartype role_id: str
     :ivar role_name: Role Name of the SaaS multi tenant application to access relevant fb data.
@@ -943,6 +995,8 @@ class FarmBeatsSolutionProperties(_serialization.Model):  # pylint: disable=too-
         "open_api_specs_dictionary": {"readonly": True},
         "evaluated_outputs_dictionary": {"readonly": True},
         "access_fb_application_id": {"readonly": True},
+        "saa_s_application_id": {"readonly": True},
+        "action_ids": {"readonly": True},
         "role_id": {"readonly": True},
         "role_name": {"readonly": True},
         "access_fb_application_name": {"readonly": True},
@@ -957,12 +1011,16 @@ class FarmBeatsSolutionProperties(_serialization.Model):  # pylint: disable=too-
         "open_api_specs_dictionary": {"key": "openApiSpecsDictionary", "type": "{object}"},
         "evaluated_outputs_dictionary": {"key": "evaluatedOutputsDictionary", "type": "{SolutionEvaluatedOutput}"},
         "access_fb_application_id": {"key": "accessFBApplicationId", "type": "str"},
+        "saa_s_application_id": {"key": "saaSApplicationId", "type": "str"},
+        "action_ids": {"key": "actionIds", "type": "[str]"},
         "role_id": {"key": "roleId", "type": "str"},
         "role_name": {"key": "roleName", "type": "str"},
         "access_fb_application_name": {"key": "accessFBApplicationName", "type": "str"},
     }
 
-    def __init__(self, *, marketplace_offer_details: Optional["_models.MarketplaceOfferDetails"] = None, **kwargs):
+    def __init__(
+        self, *, marketplace_offer_details: Optional["_models.MarketplaceOfferDetails"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword marketplace_offer_details:
         :paramtype marketplace_offer_details: ~azure.mgmt.agrifood.models.MarketplaceOfferDetails
@@ -976,6 +1034,8 @@ class FarmBeatsSolutionProperties(_serialization.Model):  # pylint: disable=too-
         self.open_api_specs_dictionary = None
         self.evaluated_outputs_dictionary = None
         self.access_fb_application_id = None
+        self.saa_s_application_id = None
+        self.action_ids = None
         self.role_id = None
         self.role_name = None
         self.access_fb_application_name = None
@@ -1001,8 +1061,8 @@ class FarmBeatsUpdateProperties(_serialization.Model):
         *,
         sensor_integration: Optional["_models.SensorIntegration"] = None,
         public_network_access: Optional[Union[str, "_models.PublicNetworkAccess"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword sensor_integration: Sensor integration request model.
         :paramtype sensor_integration: ~azure.mgmt.agrifood.models.SensorIntegration
@@ -1042,8 +1102,8 @@ class FarmBeatsUpdateRequestModel(_serialization.Model):
         identity: Optional["_models.Identity"] = None,
         properties: Optional["_models.FarmBeatsUpdateProperties"] = None,
         tags: Optional[Dict[str, str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Geo-location where the resource lives.
         :paramtype location: str
@@ -1085,7 +1145,7 @@ class Identity(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, *, type: Optional[Literal["SystemAssigned"]] = None, **kwargs):
+    def __init__(self, *, type: Optional[Literal["SystemAssigned"]] = None, **kwargs: Any) -> None:
         """
         :keyword type: The identity type. Default value is "SystemAssigned".
         :paramtype type: str
@@ -1171,8 +1231,8 @@ class Insight(_serialization.Model):  # pylint: disable=too-many-instance-attrib
         name: Optional[str] = None,
         description: Optional[str] = None,
         properties: Optional[Dict[str, Any]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword farmer_id:
         :paramtype farmer_id: str
@@ -1293,8 +1353,8 @@ class InsightAttachment(_serialization.Model):  # pylint: disable=too-many-insta
         name: Optional[str] = None,
         description: Optional[str] = None,
         e_tag: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword insight_id:
         :paramtype insight_id: str
@@ -1356,7 +1416,9 @@ class MarketplaceOfferDetails(_serialization.Model):
         "publisher_id": {"key": "publisherId", "type": "str"},
     }
 
-    def __init__(self, *, saas_offer_id: Optional[str] = None, publisher_id: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, saas_offer_id: Optional[str] = None, publisher_id: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword saas_offer_id:
         :paramtype saas_offer_id: str
@@ -1382,7 +1444,7 @@ class Measure(_serialization.Model):
         "value": {"key": "value", "type": "float"},
     }
 
-    def __init__(self, *, unit: Optional[str] = None, value: Optional[float] = None, **kwargs):
+    def __init__(self, *, unit: Optional[str] = None, value: Optional[float] = None, **kwargs: Any) -> None:
         """
         :keyword unit:
         :paramtype unit: str
@@ -1431,7 +1493,7 @@ class Operation(_serialization.Model):
         "action_type": {"key": "actionType", "type": "str"},
     }
 
-    def __init__(self, *, display: Optional["_models.OperationDisplay"] = None, **kwargs):
+    def __init__(self, *, display: Optional["_models.OperationDisplay"] = None, **kwargs: Any) -> None:
         """
         :keyword display: Localized display information for this particular operation.
         :paramtype display: ~azure.mgmt.agrifood.models.OperationDisplay
@@ -1477,7 +1539,7 @@ class OperationDisplay(_serialization.Model):
         "description": {"key": "description", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.provider = None
@@ -1487,7 +1549,8 @@ class OperationDisplay(_serialization.Model):
 
 
 class OperationListResult(_serialization.Model):
-    """A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results.
+    """A list of REST API operations supported by an Azure Resource Provider. It contains an URL link
+    to get the next set of results.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -1507,7 +1570,7 @@ class OperationListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -1531,7 +1594,7 @@ class PrivateEndpoint(_serialization.Model):
         "id": {"key": "id", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -1595,8 +1658,8 @@ class PrivateEndpointConnection(Resource):
         *,
         private_endpoint: Optional["_models.PrivateEndpoint"] = None,
         private_link_service_connection_state: Optional["_models.PrivateLinkServiceConnectionState"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword private_endpoint: The private endpoint resource.
         :paramtype private_endpoint: ~azure.mgmt.agrifood.models.PrivateEndpoint
@@ -1623,7 +1686,7 @@ class PrivateEndpointConnectionListResult(_serialization.Model):
         "value": {"key": "value", "type": "[PrivateEndpointConnection]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.PrivateEndpointConnection"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.PrivateEndpointConnection"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Array of private endpoint connections.
         :paramtype value: list[~azure.mgmt.agrifood.models.PrivateEndpointConnection]
@@ -1675,7 +1738,7 @@ class PrivateLinkResource(Resource):
         "required_zone_names": {"key": "properties.requiredZoneNames", "type": "[str]"},
     }
 
-    def __init__(self, *, required_zone_names: Optional[List[str]] = None, **kwargs):
+    def __init__(self, *, required_zone_names: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
         :keyword required_zone_names: The private link resource private link DNS zone name.
         :paramtype required_zone_names: list[str]
@@ -1697,7 +1760,7 @@ class PrivateLinkResourceListResult(_serialization.Model):
         "value": {"key": "value", "type": "[PrivateLinkResource]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.PrivateLinkResource"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.PrivateLinkResource"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Array of private link resources.
         :paramtype value: list[~azure.mgmt.agrifood.models.PrivateLinkResource]
@@ -1707,7 +1770,8 @@ class PrivateLinkResourceListResult(_serialization.Model):
 
 
 class PrivateLinkServiceConnectionState(_serialization.Model):
-    """A collection of information about the state of the connection between service consumer and provider.
+    """A collection of information about the state of the connection between service consumer and
+    provider.
 
     :ivar status: Indicates whether the connection has been Approved/Rejected/Removed by the owner
      of the service. Known values are: "Pending", "Approved", and "Rejected".
@@ -1731,8 +1795,8 @@ class PrivateLinkServiceConnectionState(_serialization.Model):
         status: Optional[Union[str, "_models.PrivateEndpointServiceConnectionStatus"]] = None,
         description: Optional[str] = None,
         actions_required: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword status: Indicates whether the connection has been Approved/Rejected/Removed by the
          owner of the service. Known values are: "Pending", "Approved", and "Rejected".
@@ -1763,7 +1827,9 @@ class ResourceParameter(_serialization.Model):
         "resource_type": {"key": "resourceType", "type": "str"},
     }
 
-    def __init__(self, *, resource_id_name: Optional[str] = None, resource_type: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, resource_id_name: Optional[str] = None, resource_type: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword resource_id_name:
         :paramtype resource_id_name: str
@@ -1801,8 +1867,12 @@ class SensorIntegration(_serialization.Model):
     }
 
     def __init__(
-        self, *, enabled: Optional[str] = None, provisioning_info: Optional["_models.ErrorResponse"] = None, **kwargs
-    ):
+        self,
+        *,
+        enabled: Optional[str] = None,
+        provisioning_info: Optional["_models.ErrorResponse"] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword enabled: Sensor integration enable state. Allowed values are True, None.
         :paramtype enabled: str
@@ -1855,7 +1925,7 @@ class Solution(ProxyResource):
         "e_tag": {"key": "eTag", "type": "str"},
     }
 
-    def __init__(self, *, properties: Optional["_models.SolutionProperties"] = None, **kwargs):
+    def __init__(self, *, properties: Optional["_models.SolutionProperties"] = None, **kwargs: Any) -> None:
         """
         :keyword properties: Solution resource properties.
         :paramtype properties: ~azure.mgmt.agrifood.models.SolutionProperties
@@ -1884,8 +1954,8 @@ class SolutionEvaluatedOutput(_serialization.Model):
         *,
         insight_response: Optional["_models.Insight"] = None,
         insight_attachment_response: Optional["_models.InsightAttachment"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword insight_response:
         :paramtype insight_response: ~azure.mgmt.agrifood.models.Insight
@@ -1908,7 +1978,7 @@ class SolutionInstallationRequest(_serialization.Model):
         "properties": {"key": "properties", "type": "SolutionProperties"},
     }
 
-    def __init__(self, *, properties: Optional["_models.SolutionProperties"] = None, **kwargs):
+    def __init__(self, *, properties: Optional["_models.SolutionProperties"] = None, **kwargs: Any) -> None:
         """
         :keyword properties: Solution resource properties.
         :paramtype properties: ~azure.mgmt.agrifood.models.SolutionProperties
@@ -1918,7 +1988,8 @@ class SolutionInstallationRequest(_serialization.Model):
 
 
 class SolutionListResponse(_serialization.Model):
-    """Paged response contains list of requested objects and a URL link to get the next set of results.
+    """Paged response contains list of requested objects and a URL link to get the next set of
+    results.
 
     :ivar value: List of requested objects.
     :vartype value: list[~azure.mgmt.agrifood.models.Solution]
@@ -1941,8 +2012,8 @@ class SolutionListResponse(_serialization.Model):
         value: Optional[List["_models.Solution"]] = None,
         skip_token: Optional[str] = None,
         next_link: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: List of requested objects.
         :paramtype value: list[~azure.mgmt.agrifood.models.Solution]
@@ -2020,8 +2091,8 @@ class SolutionProperties(_serialization.Model):
         offer_id: str,
         term_id: str,
         additional_properties: Optional[Dict[str, Any]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword additional_properties: Unmatched properties from the message are deserialized to this
          collection.
@@ -2089,8 +2160,8 @@ class SystemData(_serialization.Model):
         last_modified_by: Optional[str] = None,
         last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
         last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword created_by: The identity that created the resource.
         :paramtype created_by: str
@@ -2137,7 +2208,7 @@ class UnitSystemsInfo(_serialization.Model):
         "values": {"key": "values", "type": "[str]"},
     }
 
-    def __init__(self, *, key: str, values: List[str], **kwargs):
+    def __init__(self, *, key: str, values: List[str], **kwargs: Any) -> None:
         """
         :keyword key: UnitSystem key sent as part of ProviderInput. Required.
         :paramtype key: str
