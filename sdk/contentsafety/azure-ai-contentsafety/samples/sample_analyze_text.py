@@ -6,6 +6,7 @@
 # license information.
 # --------------------------------------------------------------------------
 
+
 def analyze_text():
     # [START analyze_text]
 
@@ -45,6 +46,7 @@ def analyze_text():
         print(f"SelfHarm severity: {response.self_harm_result.severity}")
 
     # [END analyze_text]
+
 
 if __name__ == "__main__":
     analyze_text()
