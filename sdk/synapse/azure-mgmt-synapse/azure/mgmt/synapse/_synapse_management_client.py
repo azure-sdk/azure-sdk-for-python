@@ -104,12 +104,18 @@ class SynapseManagementClient:  # pylint: disable=client-accepts-api-version-key
     :ivar azure_ad_only_authentications: AzureADOnlyAuthenticationsOperations operations
     :vartype azure_ad_only_authentications:
      azure.mgmt.synapse.operations.AzureADOnlyAuthenticationsOperations
+    :ivar big_data_pools: BigDataPoolsOperations operations
+    :vartype big_data_pools: azure.mgmt.synapse.operations.BigDataPoolsOperations
     :ivar operations: Operations operations
     :vartype operations: azure.mgmt.synapse.operations.Operations
     :ivar ip_firewall_rules: IpFirewallRulesOperations operations
     :vartype ip_firewall_rules: azure.mgmt.synapse.operations.IpFirewallRulesOperations
     :ivar keys: KeysOperations operations
     :vartype keys: azure.mgmt.synapse.operations.KeysOperations
+    :ivar library: LibraryOperations operations
+    :vartype library: azure.mgmt.synapse.operations.LibraryOperations
+    :ivar libraries: LibrariesOperations operations
+    :vartype libraries: azure.mgmt.synapse.operations.LibrariesOperations
     :ivar private_endpoint_connections: PrivateEndpointConnectionsOperations operations
     :vartype private_endpoint_connections:
      azure.mgmt.synapse.operations.PrivateEndpointConnectionsOperations
@@ -252,12 +258,6 @@ class SynapseManagementClient:  # pylint: disable=client-accepts-api-version-key
     :ivar restorable_dropped_sql_pools: RestorableDroppedSqlPoolsOperations operations
     :vartype restorable_dropped_sql_pools:
      azure.mgmt.synapse.operations.RestorableDroppedSqlPoolsOperations
-    :ivar big_data_pools: BigDataPoolsOperations operations
-    :vartype big_data_pools: azure.mgmt.synapse.operations.BigDataPoolsOperations
-    :ivar library: LibraryOperations operations
-    :vartype library: azure.mgmt.synapse.operations.LibraryOperations
-    :ivar libraries: LibrariesOperations operations
-    :vartype libraries: azure.mgmt.synapse.operations.LibrariesOperations
     :ivar integration_runtimes: IntegrationRuntimesOperations operations
     :vartype integration_runtimes: azure.mgmt.synapse.operations.IntegrationRuntimesOperations
     :ivar integration_runtime_node_ip_address: IntegrationRuntimeNodeIpAddressOperations operations
@@ -339,7 +339,7 @@ class SynapseManagementClient:  # pylint: disable=client-accepts-api-version-key
         self._config = SynapseManagementClientConfiguration(
             credential=credential, subscription_id=subscription_id, **kwargs
         )
-        self._client = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        self._client: ARMPipelineClient = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
@@ -348,11 +348,14 @@ class SynapseManagementClient:  # pylint: disable=client-accepts-api-version-key
         self.azure_ad_only_authentications = AzureADOnlyAuthenticationsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.big_data_pools = BigDataPoolsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
         self.ip_firewall_rules = IpFirewallRulesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.keys = KeysOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.library = LibraryOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.libraries = LibrariesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.private_endpoint_connections = PrivateEndpointConnectionsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
@@ -494,9 +497,6 @@ class SynapseManagementClient:  # pylint: disable=client-accepts-api-version-key
         self.restorable_dropped_sql_pools = RestorableDroppedSqlPoolsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
-        self.big_data_pools = BigDataPoolsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.library = LibraryOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.libraries = LibrariesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.integration_runtimes = IntegrationRuntimesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
@@ -586,5 +586,5 @@ class SynapseManagementClient:  # pylint: disable=client-accepts-api-version-key
         self._client.__enter__()
         return self
 
-    def __exit__(self, *exc_details) -> None:
+    def __exit__(self, *exc_details: Any) -> None:
         self._client.__exit__(*exc_details)

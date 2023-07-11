@@ -7,9 +7,12 @@
 # --------------------------------------------------------------------------
 
 from ._azure_ad_only_authentications_operations import AzureADOnlyAuthenticationsOperations
+from ._big_data_pools_operations import BigDataPoolsOperations
 from ._operations import Operations
 from ._ip_firewall_rules_operations import IpFirewallRulesOperations
 from ._keys_operations import KeysOperations
+from ._library_operations import LibraryOperations
+from ._libraries_operations import LibrariesOperations
 from ._private_endpoint_connections_operations import PrivateEndpointConnectionsOperations
 from ._private_link_resources_operations import PrivateLinkResourcesOperations
 from ._private_link_hub_private_link_resources_operations import PrivateLinkHubPrivateLinkResourcesOperations
@@ -77,9 +80,6 @@ from ._workspace_managed_identity_sql_control_settings_operations import (
     WorkspaceManagedIdentitySqlControlSettingsOperations,
 )
 from ._restorable_dropped_sql_pools_operations import RestorableDroppedSqlPoolsOperations
-from ._big_data_pools_operations import BigDataPoolsOperations
-from ._library_operations import LibraryOperations
-from ._libraries_operations import LibrariesOperations
 from ._integration_runtimes_operations import IntegrationRuntimesOperations
 from ._integration_runtime_node_ip_address_operations import IntegrationRuntimeNodeIpAddressOperations
 from ._integration_runtime_object_metadata_operations import IntegrationRuntimeObjectMetadataOperations
@@ -108,9 +108,12 @@ from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
     "AzureADOnlyAuthenticationsOperations",
+    "BigDataPoolsOperations",
     "Operations",
     "IpFirewallRulesOperations",
     "KeysOperations",
+    "LibraryOperations",
+    "LibrariesOperations",
     "PrivateEndpointConnectionsOperations",
     "PrivateLinkResourcesOperations",
     "PrivateLinkHubPrivateLinkResourcesOperations",
@@ -158,9 +161,6 @@ __all__ = [
     "WorkspaceSqlAadAdminsOperations",
     "WorkspaceManagedIdentitySqlControlSettingsOperations",
     "RestorableDroppedSqlPoolsOperations",
-    "BigDataPoolsOperations",
-    "LibraryOperations",
-    "LibrariesOperations",
     "IntegrationRuntimesOperations",
     "IntegrationRuntimeNodeIpAddressOperations",
     "IntegrationRuntimeObjectMetadataOperations",
