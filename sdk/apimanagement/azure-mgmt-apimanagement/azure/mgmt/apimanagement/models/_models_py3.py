@@ -35,8 +35,6 @@ class AccessInformationCollection(_serialization.Model):
 
     :ivar value: Page values.
     :vartype value: list[~azure.mgmt.apimanagement.models.AccessInformationContract]
-    :ivar count: Total record count number across all pages.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
@@ -48,18 +46,13 @@ class AccessInformationCollection(_serialization.Model):
 
     _attribute_map = {
         "value": {"key": "value", "type": "[AccessInformationContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, count: Optional[int] = None, **kwargs: Any) -> None:
-        """
-        :keyword count: Total record count number across all pages.
-        :paramtype count: int
-        """
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
         super().__init__(**kwargs)
         self.value = None
-        self.count = count
         self.next_link = None
 
 
@@ -357,7 +350,7 @@ class AdditionalLocation(_serialization.Model):  # pylint: disable=too-many-inst
      locations. This can be used to disable the gateway in this additional location.
     :vartype disable_gateway: bool
     :ivar platform_version: Compute Platform Version running the service. Known values are:
-     "undetermined", "stv1", "stv2", and "mtv1".
+     "undetermined", "stv1", "stv2", "mtv1", and "stv2.1".
     :vartype platform_version: str or ~azure.mgmt.apimanagement.models.PlatformVersion
     """
 
@@ -442,8 +435,6 @@ class ApiCollection(_serialization.Model):
 
     :ivar value: Page values.
     :vartype value: list[~azure.mgmt.apimanagement.models.ApiContract]
-    :ivar count: Total record count number across all pages.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
@@ -455,18 +446,13 @@ class ApiCollection(_serialization.Model):
 
     _attribute_map = {
         "value": {"key": "value", "type": "[ApiContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, count: Optional[int] = None, **kwargs: Any) -> None:
-        """
-        :keyword count: Total record count number across all pages.
-        :paramtype count: int
-        """
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
         super().__init__(**kwargs)
         self.value = None
-        self.count = count
         self.next_link = None
 
 
@@ -527,7 +513,8 @@ class ApiContract(ProxyResource):  # pylint: disable=too-many-instance-attribute
     :ivar subscription_key_parameter_names: Protocols over which API is made available.
     :vartype subscription_key_parameter_names:
      ~azure.mgmt.apimanagement.models.SubscriptionKeyParameterNamesContract
-    :ivar api_type: Type of API. Known values are: "http", "soap", "websocket", and "graphql".
+    :ivar api_type: Type of API. Known values are: "http", "soap", "websocket", "graphql", and
+     "odata".
     :vartype api_type: str or ~azure.mgmt.apimanagement.models.ApiType
     :ivar api_revision: Describes the revision of the API. If no value is provided, default
      revision 1 is created.
@@ -652,7 +639,8 @@ class ApiContract(ProxyResource):  # pylint: disable=too-many-instance-attribute
         :keyword subscription_key_parameter_names: Protocols over which API is made available.
         :paramtype subscription_key_parameter_names:
          ~azure.mgmt.apimanagement.models.SubscriptionKeyParameterNamesContract
-        :keyword api_type: Type of API. Known values are: "http", "soap", "websocket", and "graphql".
+        :keyword api_type: Type of API. Known values are: "http", "soap", "websocket", "graphql", and
+         "odata".
         :paramtype api_type: str or ~azure.mgmt.apimanagement.models.ApiType
         :keyword api_revision: Describes the revision of the API. If no value is provided, default
          revision 1 is created.
@@ -730,7 +718,8 @@ class ApiEntityBaseContract(_serialization.Model):  # pylint: disable=too-many-i
     :ivar subscription_key_parameter_names: Protocols over which API is made available.
     :vartype subscription_key_parameter_names:
      ~azure.mgmt.apimanagement.models.SubscriptionKeyParameterNamesContract
-    :ivar api_type: Type of API. Known values are: "http", "soap", "websocket", and "graphql".
+    :ivar api_type: Type of API. Known values are: "http", "soap", "websocket", "graphql", and
+     "odata".
     :vartype api_type: str or ~azure.mgmt.apimanagement.models.ApiType
     :ivar api_revision: Describes the revision of the API. If no value is provided, default
      revision 1 is created.
@@ -816,7 +805,8 @@ class ApiEntityBaseContract(_serialization.Model):  # pylint: disable=too-many-i
         :keyword subscription_key_parameter_names: Protocols over which API is made available.
         :paramtype subscription_key_parameter_names:
          ~azure.mgmt.apimanagement.models.SubscriptionKeyParameterNamesContract
-        :keyword api_type: Type of API. Known values are: "http", "soap", "websocket", and "graphql".
+        :keyword api_type: Type of API. Known values are: "http", "soap", "websocket", "graphql", and
+         "odata".
         :paramtype api_type: str or ~azure.mgmt.apimanagement.models.ApiType
         :keyword api_revision: Describes the revision of the API. If no value is provided, default
          revision 1 is created.
@@ -875,7 +865,8 @@ class ApiContractProperties(ApiEntityBaseContract):  # pylint: disable=too-many-
     :ivar subscription_key_parameter_names: Protocols over which API is made available.
     :vartype subscription_key_parameter_names:
      ~azure.mgmt.apimanagement.models.SubscriptionKeyParameterNamesContract
-    :ivar api_type: Type of API. Known values are: "http", "soap", "websocket", and "graphql".
+    :ivar api_type: Type of API. Known values are: "http", "soap", "websocket", "graphql", and
+     "odata".
     :vartype api_type: str or ~azure.mgmt.apimanagement.models.ApiType
     :ivar api_revision: Describes the revision of the API. If no value is provided, default
      revision 1 is created.
@@ -991,7 +982,8 @@ class ApiContractProperties(ApiEntityBaseContract):  # pylint: disable=too-many-
         :keyword subscription_key_parameter_names: Protocols over which API is made available.
         :paramtype subscription_key_parameter_names:
          ~azure.mgmt.apimanagement.models.SubscriptionKeyParameterNamesContract
-        :keyword api_type: Type of API. Known values are: "http", "soap", "websocket", and "graphql".
+        :keyword api_type: Type of API. Known values are: "http", "soap", "websocket", "graphql", and
+         "odata".
         :paramtype api_type: str or ~azure.mgmt.apimanagement.models.ApiType
         :keyword api_revision: Describes the revision of the API. If no value is provided, default
          revision 1 is created.
@@ -1070,7 +1062,8 @@ class ApiContractUpdateProperties(ApiEntityBaseContract):  # pylint: disable=too
     :ivar subscription_key_parameter_names: Protocols over which API is made available.
     :vartype subscription_key_parameter_names:
      ~azure.mgmt.apimanagement.models.SubscriptionKeyParameterNamesContract
-    :ivar api_type: Type of API. Known values are: "http", "soap", "websocket", and "graphql".
+    :ivar api_type: Type of API. Known values are: "http", "soap", "websocket", "graphql", and
+     "odata".
     :vartype api_type: str or ~azure.mgmt.apimanagement.models.ApiType
     :ivar api_revision: Describes the revision of the API. If no value is provided, default
      revision 1 is created.
@@ -1177,7 +1170,8 @@ class ApiContractUpdateProperties(ApiEntityBaseContract):  # pylint: disable=too
         :keyword subscription_key_parameter_names: Protocols over which API is made available.
         :paramtype subscription_key_parameter_names:
          ~azure.mgmt.apimanagement.models.SubscriptionKeyParameterNamesContract
-        :keyword api_type: Type of API. Known values are: "http", "soap", "websocket", and "graphql".
+        :keyword api_type: Type of API. Known values are: "http", "soap", "websocket", "graphql", and
+         "odata".
         :paramtype api_type: str or ~azure.mgmt.apimanagement.models.ApiType
         :keyword api_revision: Describes the revision of the API. If no value is provided, default
          revision 1 is created.
@@ -1249,7 +1243,8 @@ class ApiCreateOrUpdateParameter(_serialization.Model):  # pylint: disable=too-m
     :ivar subscription_key_parameter_names: Protocols over which API is made available.
     :vartype subscription_key_parameter_names:
      ~azure.mgmt.apimanagement.models.SubscriptionKeyParameterNamesContract
-    :ivar api_type: Type of API. Known values are: "http", "soap", "websocket", and "graphql".
+    :ivar api_type: Type of API. Known values are: "http", "soap", "websocket", "graphql", and
+     "odata".
     :vartype api_type: str or ~azure.mgmt.apimanagement.models.ApiType
     :ivar api_revision: Describes the revision of the API. If no value is provided, default
      revision 1 is created.
@@ -1293,9 +1288,10 @@ class ApiCreateOrUpdateParameter(_serialization.Model):  # pylint: disable=too-m
     :vartype api_version_set: ~azure.mgmt.apimanagement.models.ApiVersionSetContractDetails
     :ivar value: Content value when Importing an API.
     :vartype value: str
-    :ivar format: Format of the Content in which the API is getting imported. Known values are:
-     "wadl-xml", "wadl-link-json", "swagger-json", "swagger-link-json", "wsdl", "wsdl-link",
-     "openapi", "openapi+json", "openapi-link", "openapi+json-link", and "graphql-link".
+    :ivar format: Format of the Content in which the API is getting imported. New formats can be
+     added in the future. Known values are: "wadl-xml", "wadl-link-json", "swagger-json",
+     "swagger-link-json", "wsdl", "wsdl-link", "openapi", "openapi+json", "openapi-link",
+     "openapi+json-link", "graphql-link", "odata", and "odata-link".
     :vartype format: str or ~azure.mgmt.apimanagement.models.ContentFormat
     :ivar wsdl_selector: Criteria to limit import of WSDL to a subset of the document.
     :vartype wsdl_selector:
@@ -1306,8 +1302,9 @@ class ApiCreateOrUpdateParameter(_serialization.Model):  # pylint: disable=too-m
      * ``http`` creates a REST API
      * ``soap`` creates a SOAP pass-through API
      * ``websocket`` creates websocket API
-     * ``graphql`` creates GraphQL API. Known values are: "http", "soap", "websocket", and
-     "graphql".
+     * ``graphql`` creates GraphQL API.
+       New types can be added in the future. Known values are: "http", "soap", "websocket",
+     "graphql", and "odata".
     :vartype soap_api_type: str or ~azure.mgmt.apimanagement.models.SoapApiType
     :ivar translate_required_query_parameters_conduct: Strategy of translating required query
      parameters to template ones. By default has value 'template'. Possible values: 'template',
@@ -1406,7 +1403,8 @@ class ApiCreateOrUpdateParameter(_serialization.Model):  # pylint: disable=too-m
         :keyword subscription_key_parameter_names: Protocols over which API is made available.
         :paramtype subscription_key_parameter_names:
          ~azure.mgmt.apimanagement.models.SubscriptionKeyParameterNamesContract
-        :keyword api_type: Type of API. Known values are: "http", "soap", "websocket", and "graphql".
+        :keyword api_type: Type of API. Known values are: "http", "soap", "websocket", "graphql", and
+         "odata".
         :paramtype api_type: str or ~azure.mgmt.apimanagement.models.ApiType
         :keyword api_revision: Describes the revision of the API. If no value is provided, default
          revision 1 is created.
@@ -1448,9 +1446,10 @@ class ApiCreateOrUpdateParameter(_serialization.Model):  # pylint: disable=too-m
         :paramtype api_version_set: ~azure.mgmt.apimanagement.models.ApiVersionSetContractDetails
         :keyword value: Content value when Importing an API.
         :paramtype value: str
-        :keyword format: Format of the Content in which the API is getting imported. Known values are:
-         "wadl-xml", "wadl-link-json", "swagger-json", "swagger-link-json", "wsdl", "wsdl-link",
-         "openapi", "openapi+json", "openapi-link", "openapi+json-link", and "graphql-link".
+        :keyword format: Format of the Content in which the API is getting imported. New formats can be
+         added in the future. Known values are: "wadl-xml", "wadl-link-json", "swagger-json",
+         "swagger-link-json", "wsdl", "wsdl-link", "openapi", "openapi+json", "openapi-link",
+         "openapi+json-link", "graphql-link", "odata", and "odata-link".
         :paramtype format: str or ~azure.mgmt.apimanagement.models.ContentFormat
         :keyword wsdl_selector: Criteria to limit import of WSDL to a subset of the document.
         :paramtype wsdl_selector:
@@ -1461,8 +1460,9 @@ class ApiCreateOrUpdateParameter(_serialization.Model):  # pylint: disable=too-m
          * ``http`` creates a REST API
          * ``soap`` creates a SOAP pass-through API
          * ``websocket`` creates websocket API
-         * ``graphql`` creates GraphQL API. Known values are: "http", "soap", "websocket", and
-         "graphql".
+         * ``graphql`` creates GraphQL API.
+           New types can be added in the future. Known values are: "http", "soap", "websocket",
+         "graphql", and "odata".
         :paramtype soap_api_type: str or ~azure.mgmt.apimanagement.models.SoapApiType
         :keyword translate_required_query_parameters_conduct: Strategy of translating required query
          parameters to template ones. By default has value 'template'. Possible values: 'template',
@@ -1514,7 +1514,8 @@ class ApiCreateOrUpdateProperties(ApiContractProperties):  # pylint: disable=too
     :ivar subscription_key_parameter_names: Protocols over which API is made available.
     :vartype subscription_key_parameter_names:
      ~azure.mgmt.apimanagement.models.SubscriptionKeyParameterNamesContract
-    :ivar api_type: Type of API. Known values are: "http", "soap", "websocket", and "graphql".
+    :ivar api_type: Type of API. Known values are: "http", "soap", "websocket", "graphql", and
+     "odata".
     :vartype api_type: str or ~azure.mgmt.apimanagement.models.ApiType
     :ivar api_revision: Describes the revision of the API. If no value is provided, default
      revision 1 is created.
@@ -1558,9 +1559,10 @@ class ApiCreateOrUpdateProperties(ApiContractProperties):  # pylint: disable=too
     :vartype api_version_set: ~azure.mgmt.apimanagement.models.ApiVersionSetContractDetails
     :ivar value: Content value when Importing an API.
     :vartype value: str
-    :ivar format: Format of the Content in which the API is getting imported. Known values are:
-     "wadl-xml", "wadl-link-json", "swagger-json", "swagger-link-json", "wsdl", "wsdl-link",
-     "openapi", "openapi+json", "openapi-link", "openapi+json-link", and "graphql-link".
+    :ivar format: Format of the Content in which the API is getting imported. New formats can be
+     added in the future. Known values are: "wadl-xml", "wadl-link-json", "swagger-json",
+     "swagger-link-json", "wsdl", "wsdl-link", "openapi", "openapi+json", "openapi-link",
+     "openapi+json-link", "graphql-link", "odata", and "odata-link".
     :vartype format: str or ~azure.mgmt.apimanagement.models.ContentFormat
     :ivar wsdl_selector: Criteria to limit import of WSDL to a subset of the document.
     :vartype wsdl_selector:
@@ -1571,8 +1573,9 @@ class ApiCreateOrUpdateProperties(ApiContractProperties):  # pylint: disable=too
      * ``http`` creates a REST API
      * ``soap`` creates a SOAP pass-through API
      * ``websocket`` creates websocket API
-     * ``graphql`` creates GraphQL API. Known values are: "http", "soap", "websocket", and
-     "graphql".
+     * ``graphql`` creates GraphQL API.
+       New types can be added in the future. Known values are: "http", "soap", "websocket",
+     "graphql", and "odata".
     :vartype soap_api_type: str or ~azure.mgmt.apimanagement.models.SoapApiType
     :ivar translate_required_query_parameters_conduct: Strategy of translating required query
      parameters to template ones. By default has value 'template'. Possible values: 'template',
@@ -1665,7 +1668,8 @@ class ApiCreateOrUpdateProperties(ApiContractProperties):  # pylint: disable=too
         :keyword subscription_key_parameter_names: Protocols over which API is made available.
         :paramtype subscription_key_parameter_names:
          ~azure.mgmt.apimanagement.models.SubscriptionKeyParameterNamesContract
-        :keyword api_type: Type of API. Known values are: "http", "soap", "websocket", and "graphql".
+        :keyword api_type: Type of API. Known values are: "http", "soap", "websocket", "graphql", and
+         "odata".
         :paramtype api_type: str or ~azure.mgmt.apimanagement.models.ApiType
         :keyword api_revision: Describes the revision of the API. If no value is provided, default
          revision 1 is created.
@@ -1707,9 +1711,10 @@ class ApiCreateOrUpdateProperties(ApiContractProperties):  # pylint: disable=too
         :paramtype api_version_set: ~azure.mgmt.apimanagement.models.ApiVersionSetContractDetails
         :keyword value: Content value when Importing an API.
         :paramtype value: str
-        :keyword format: Format of the Content in which the API is getting imported. Known values are:
-         "wadl-xml", "wadl-link-json", "swagger-json", "swagger-link-json", "wsdl", "wsdl-link",
-         "openapi", "openapi+json", "openapi-link", "openapi+json-link", and "graphql-link".
+        :keyword format: Format of the Content in which the API is getting imported. New formats can be
+         added in the future. Known values are: "wadl-xml", "wadl-link-json", "swagger-json",
+         "swagger-link-json", "wsdl", "wsdl-link", "openapi", "openapi+json", "openapi-link",
+         "openapi+json-link", "graphql-link", "odata", and "odata-link".
         :paramtype format: str or ~azure.mgmt.apimanagement.models.ContentFormat
         :keyword wsdl_selector: Criteria to limit import of WSDL to a subset of the document.
         :paramtype wsdl_selector:
@@ -1720,8 +1725,9 @@ class ApiCreateOrUpdateProperties(ApiContractProperties):  # pylint: disable=too
          * ``http`` creates a REST API
          * ``soap`` creates a SOAP pass-through API
          * ``websocket`` creates websocket API
-         * ``graphql`` creates GraphQL API. Known values are: "http", "soap", "websocket", and
-         "graphql".
+         * ``graphql`` creates GraphQL API.
+           New types can be added in the future. Known values are: "http", "soap", "websocket",
+         "graphql", and "odata".
         :paramtype soap_api_type: str or ~azure.mgmt.apimanagement.models.SoapApiType
         :keyword translate_required_query_parameters_conduct: Strategy of translating required query
          parameters to template ones. By default has value 'template'. Possible values: 'template',
@@ -2025,6 +2031,8 @@ class ApiManagementServiceBaseProperties(_serialization.Model):  # pylint: disab
      'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled'.
      Known values are: "Enabled" and "Disabled".
     :vartype public_network_access: str or ~azure.mgmt.apimanagement.models.PublicNetworkAccess
+    :ivar configuration_api: Configuration API configuration of the API Management service.
+    :vartype configuration_api: ~azure.mgmt.apimanagement.models.ConfigurationApi
     :ivar virtual_network_configuration: Virtual network configuration of the API Management
      service.
     :vartype virtual_network_configuration:
@@ -2092,8 +2100,14 @@ class ApiManagementServiceBaseProperties(_serialization.Model):  # pylint: disab
     :vartype private_endpoint_connections:
      list[~azure.mgmt.apimanagement.models.RemotePrivateEndpointConnectionWrapper]
     :ivar platform_version: Compute Platform Version running the service in this location. Known
-     values are: "undetermined", "stv1", "stv2", and "mtv1".
+     values are: "undetermined", "stv1", "stv2", "mtv1", and "stv2.1".
     :vartype platform_version: str or ~azure.mgmt.apimanagement.models.PlatformVersion
+    :ivar legacy_portal_status: Status of legacy portal in the API Management service. Known values
+     are: "Enabled" and "Disabled".
+    :vartype legacy_portal_status: str or ~azure.mgmt.apimanagement.models.LegacyPortalStatus
+    :ivar developer_portal_status: Status of developer portal in this API Management service. Known
+     values are: "Enabled" and "Disabled".
+    :vartype developer_portal_status: str or ~azure.mgmt.apimanagement.models.DeveloperPortalStatus
     """
 
     _validation = {
@@ -2129,6 +2143,7 @@ class ApiManagementServiceBaseProperties(_serialization.Model):  # pylint: disab
         "private_ip_addresses": {"key": "privateIPAddresses", "type": "[str]"},
         "public_ip_address_id": {"key": "publicIpAddressId", "type": "str"},
         "public_network_access": {"key": "publicNetworkAccess", "type": "str"},
+        "configuration_api": {"key": "configurationApi", "type": "ConfigurationApi"},
         "virtual_network_configuration": {"key": "virtualNetworkConfiguration", "type": "VirtualNetworkConfiguration"},
         "additional_locations": {"key": "additionalLocations", "type": "[AdditionalLocation]"},
         "custom_properties": {"key": "customProperties", "type": "{str}"},
@@ -2145,6 +2160,8 @@ class ApiManagementServiceBaseProperties(_serialization.Model):  # pylint: disab
             "type": "[RemotePrivateEndpointConnectionWrapper]",
         },
         "platform_version": {"key": "platformVersion", "type": "str"},
+        "legacy_portal_status": {"key": "legacyPortalStatus", "type": "str"},
+        "developer_portal_status": {"key": "developerPortalStatus", "type": "str"},
     }
 
     def __init__(  # pylint: disable=too-many-locals
@@ -2154,6 +2171,7 @@ class ApiManagementServiceBaseProperties(_serialization.Model):  # pylint: disab
         hostname_configurations: Optional[List["_models.HostnameConfiguration"]] = None,
         public_ip_address_id: Optional[str] = None,
         public_network_access: Optional[Union[str, "_models.PublicNetworkAccess"]] = None,
+        configuration_api: Optional["_models.ConfigurationApi"] = None,
         virtual_network_configuration: Optional["_models.VirtualNetworkConfiguration"] = None,
         additional_locations: Optional[List["_models.AdditionalLocation"]] = None,
         custom_properties: Optional[Dict[str, str]] = None,
@@ -2165,6 +2183,8 @@ class ApiManagementServiceBaseProperties(_serialization.Model):  # pylint: disab
         api_version_constraint: Optional["_models.ApiVersionConstraint"] = None,
         restore: bool = False,
         private_endpoint_connections: Optional[List["_models.RemotePrivateEndpointConnectionWrapper"]] = None,
+        legacy_portal_status: Union[str, "_models.LegacyPortalStatus"] = "Enabled",
+        developer_portal_status: Union[str, "_models.DeveloperPortalStatus"] = "Enabled",
         **kwargs: Any
     ) -> None:
         """
@@ -2182,6 +2202,8 @@ class ApiManagementServiceBaseProperties(_serialization.Model):  # pylint: disab
          'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled'.
          Known values are: "Enabled" and "Disabled".
         :paramtype public_network_access: str or ~azure.mgmt.apimanagement.models.PublicNetworkAccess
+        :keyword configuration_api: Configuration API configuration of the API Management service.
+        :paramtype configuration_api: ~azure.mgmt.apimanagement.models.ConfigurationApi
         :keyword virtual_network_configuration: Virtual network configuration of the API Management
          service.
         :paramtype virtual_network_configuration:
@@ -2245,6 +2267,13 @@ class ApiManagementServiceBaseProperties(_serialization.Model):  # pylint: disab
         :keyword private_endpoint_connections: List of Private Endpoint Connections of this service.
         :paramtype private_endpoint_connections:
          list[~azure.mgmt.apimanagement.models.RemotePrivateEndpointConnectionWrapper]
+        :keyword legacy_portal_status: Status of legacy portal in the API Management service. Known
+         values are: "Enabled" and "Disabled".
+        :paramtype legacy_portal_status: str or ~azure.mgmt.apimanagement.models.LegacyPortalStatus
+        :keyword developer_portal_status: Status of developer portal in this API Management service.
+         Known values are: "Enabled" and "Disabled".
+        :paramtype developer_portal_status: str or
+         ~azure.mgmt.apimanagement.models.DeveloperPortalStatus
         """
         super().__init__(**kwargs)
         self.notification_sender_email = notification_sender_email
@@ -2262,6 +2291,7 @@ class ApiManagementServiceBaseProperties(_serialization.Model):  # pylint: disab
         self.private_ip_addresses = None
         self.public_ip_address_id = public_ip_address_id
         self.public_network_access = public_network_access
+        self.configuration_api = configuration_api
         self.virtual_network_configuration = virtual_network_configuration
         self.additional_locations = additional_locations
         self.custom_properties = custom_properties
@@ -2275,6 +2305,8 @@ class ApiManagementServiceBaseProperties(_serialization.Model):  # pylint: disab
         self.restore = restore
         self.private_endpoint_connections = private_endpoint_connections
         self.platform_version = None
+        self.legacy_portal_status = legacy_portal_status
+        self.developer_portal_status = developer_portal_status
 
 
 class ApiManagementServiceCheckNameAvailabilityParameters(_serialization.Model):
@@ -2544,6 +2576,8 @@ class ApiManagementServiceProperties(
      'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled'.
      Known values are: "Enabled" and "Disabled".
     :vartype public_network_access: str or ~azure.mgmt.apimanagement.models.PublicNetworkAccess
+    :ivar configuration_api: Configuration API configuration of the API Management service.
+    :vartype configuration_api: ~azure.mgmt.apimanagement.models.ConfigurationApi
     :ivar virtual_network_configuration: Virtual network configuration of the API Management
      service.
     :vartype virtual_network_configuration:
@@ -2611,8 +2645,14 @@ class ApiManagementServiceProperties(
     :vartype private_endpoint_connections:
      list[~azure.mgmt.apimanagement.models.RemotePrivateEndpointConnectionWrapper]
     :ivar platform_version: Compute Platform Version running the service in this location. Known
-     values are: "undetermined", "stv1", "stv2", and "mtv1".
+     values are: "undetermined", "stv1", "stv2", "mtv1", and "stv2.1".
     :vartype platform_version: str or ~azure.mgmt.apimanagement.models.PlatformVersion
+    :ivar legacy_portal_status: Status of legacy portal in the API Management service. Known values
+     are: "Enabled" and "Disabled".
+    :vartype legacy_portal_status: str or ~azure.mgmt.apimanagement.models.LegacyPortalStatus
+    :ivar developer_portal_status: Status of developer portal in this API Management service. Known
+     values are: "Enabled" and "Disabled".
+    :vartype developer_portal_status: str or ~azure.mgmt.apimanagement.models.DeveloperPortalStatus
     :ivar publisher_email: Publisher email. Required.
     :vartype publisher_email: str
     :ivar publisher_name: Publisher name. Required.
@@ -2654,6 +2694,7 @@ class ApiManagementServiceProperties(
         "private_ip_addresses": {"key": "privateIPAddresses", "type": "[str]"},
         "public_ip_address_id": {"key": "publicIpAddressId", "type": "str"},
         "public_network_access": {"key": "publicNetworkAccess", "type": "str"},
+        "configuration_api": {"key": "configurationApi", "type": "ConfigurationApi"},
         "virtual_network_configuration": {"key": "virtualNetworkConfiguration", "type": "VirtualNetworkConfiguration"},
         "additional_locations": {"key": "additionalLocations", "type": "[AdditionalLocation]"},
         "custom_properties": {"key": "customProperties", "type": "{str}"},
@@ -2670,6 +2711,8 @@ class ApiManagementServiceProperties(
             "type": "[RemotePrivateEndpointConnectionWrapper]",
         },
         "platform_version": {"key": "platformVersion", "type": "str"},
+        "legacy_portal_status": {"key": "legacyPortalStatus", "type": "str"},
+        "developer_portal_status": {"key": "developerPortalStatus", "type": "str"},
         "publisher_email": {"key": "publisherEmail", "type": "str"},
         "publisher_name": {"key": "publisherName", "type": "str"},
     }
@@ -2683,6 +2726,7 @@ class ApiManagementServiceProperties(
         hostname_configurations: Optional[List["_models.HostnameConfiguration"]] = None,
         public_ip_address_id: Optional[str] = None,
         public_network_access: Optional[Union[str, "_models.PublicNetworkAccess"]] = None,
+        configuration_api: Optional["_models.ConfigurationApi"] = None,
         virtual_network_configuration: Optional["_models.VirtualNetworkConfiguration"] = None,
         additional_locations: Optional[List["_models.AdditionalLocation"]] = None,
         custom_properties: Optional[Dict[str, str]] = None,
@@ -2694,6 +2738,8 @@ class ApiManagementServiceProperties(
         api_version_constraint: Optional["_models.ApiVersionConstraint"] = None,
         restore: bool = False,
         private_endpoint_connections: Optional[List["_models.RemotePrivateEndpointConnectionWrapper"]] = None,
+        legacy_portal_status: Union[str, "_models.LegacyPortalStatus"] = "Enabled",
+        developer_portal_status: Union[str, "_models.DeveloperPortalStatus"] = "Enabled",
         **kwargs: Any
     ) -> None:
         """
@@ -2711,6 +2757,8 @@ class ApiManagementServiceProperties(
          'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled'.
          Known values are: "Enabled" and "Disabled".
         :paramtype public_network_access: str or ~azure.mgmt.apimanagement.models.PublicNetworkAccess
+        :keyword configuration_api: Configuration API configuration of the API Management service.
+        :paramtype configuration_api: ~azure.mgmt.apimanagement.models.ConfigurationApi
         :keyword virtual_network_configuration: Virtual network configuration of the API Management
          service.
         :paramtype virtual_network_configuration:
@@ -2774,6 +2822,13 @@ class ApiManagementServiceProperties(
         :keyword private_endpoint_connections: List of Private Endpoint Connections of this service.
         :paramtype private_endpoint_connections:
          list[~azure.mgmt.apimanagement.models.RemotePrivateEndpointConnectionWrapper]
+        :keyword legacy_portal_status: Status of legacy portal in the API Management service. Known
+         values are: "Enabled" and "Disabled".
+        :paramtype legacy_portal_status: str or ~azure.mgmt.apimanagement.models.LegacyPortalStatus
+        :keyword developer_portal_status: Status of developer portal in this API Management service.
+         Known values are: "Enabled" and "Disabled".
+        :paramtype developer_portal_status: str or
+         ~azure.mgmt.apimanagement.models.DeveloperPortalStatus
         :keyword publisher_email: Publisher email. Required.
         :paramtype publisher_email: str
         :keyword publisher_name: Publisher name. Required.
@@ -2784,6 +2839,7 @@ class ApiManagementServiceProperties(
             hostname_configurations=hostname_configurations,
             public_ip_address_id=public_ip_address_id,
             public_network_access=public_network_access,
+            configuration_api=configuration_api,
             virtual_network_configuration=virtual_network_configuration,
             additional_locations=additional_locations,
             custom_properties=custom_properties,
@@ -2795,6 +2851,8 @@ class ApiManagementServiceProperties(
             api_version_constraint=api_version_constraint,
             restore=restore,
             private_endpoint_connections=private_endpoint_connections,
+            legacy_portal_status=legacy_portal_status,
+            developer_portal_status=developer_portal_status,
             **kwargs
         )
         self.publisher_email = publisher_email
@@ -2910,6 +2968,8 @@ class ApiManagementServiceResource(ApimResource):  # pylint: disable=too-many-in
      'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled'.
      Known values are: "Enabled" and "Disabled".
     :vartype public_network_access: str or ~azure.mgmt.apimanagement.models.PublicNetworkAccess
+    :ivar configuration_api: Configuration API configuration of the API Management service.
+    :vartype configuration_api: ~azure.mgmt.apimanagement.models.ConfigurationApi
     :ivar virtual_network_configuration: Virtual network configuration of the API Management
      service.
     :vartype virtual_network_configuration:
@@ -2977,8 +3037,14 @@ class ApiManagementServiceResource(ApimResource):  # pylint: disable=too-many-in
     :vartype private_endpoint_connections:
      list[~azure.mgmt.apimanagement.models.RemotePrivateEndpointConnectionWrapper]
     :ivar platform_version: Compute Platform Version running the service in this location. Known
-     values are: "undetermined", "stv1", "stv2", and "mtv1".
+     values are: "undetermined", "stv1", "stv2", "mtv1", and "stv2.1".
     :vartype platform_version: str or ~azure.mgmt.apimanagement.models.PlatformVersion
+    :ivar legacy_portal_status: Status of legacy portal in the API Management service. Known values
+     are: "Enabled" and "Disabled".
+    :vartype legacy_portal_status: str or ~azure.mgmt.apimanagement.models.LegacyPortalStatus
+    :ivar developer_portal_status: Status of developer portal in this API Management service. Known
+     values are: "Enabled" and "Disabled".
+    :vartype developer_portal_status: str or ~azure.mgmt.apimanagement.models.DeveloperPortalStatus
     :ivar publisher_email: Publisher email. Required.
     :vartype publisher_email: str
     :ivar publisher_name: Publisher name. Required.
@@ -3037,6 +3103,7 @@ class ApiManagementServiceResource(ApimResource):  # pylint: disable=too-many-in
         "private_ip_addresses": {"key": "properties.privateIPAddresses", "type": "[str]"},
         "public_ip_address_id": {"key": "properties.publicIpAddressId", "type": "str"},
         "public_network_access": {"key": "properties.publicNetworkAccess", "type": "str"},
+        "configuration_api": {"key": "properties.configurationApi", "type": "ConfigurationApi"},
         "virtual_network_configuration": {
             "key": "properties.virtualNetworkConfiguration",
             "type": "VirtualNetworkConfiguration",
@@ -3056,6 +3123,8 @@ class ApiManagementServiceResource(ApimResource):  # pylint: disable=too-many-in
             "type": "[RemotePrivateEndpointConnectionWrapper]",
         },
         "platform_version": {"key": "properties.platformVersion", "type": "str"},
+        "legacy_portal_status": {"key": "properties.legacyPortalStatus", "type": "str"},
+        "developer_portal_status": {"key": "properties.developerPortalStatus", "type": "str"},
         "publisher_email": {"key": "properties.publisherEmail", "type": "str"},
         "publisher_name": {"key": "properties.publisherName", "type": "str"},
     }
@@ -3074,6 +3143,7 @@ class ApiManagementServiceResource(ApimResource):  # pylint: disable=too-many-in
         hostname_configurations: Optional[List["_models.HostnameConfiguration"]] = None,
         public_ip_address_id: Optional[str] = None,
         public_network_access: Optional[Union[str, "_models.PublicNetworkAccess"]] = None,
+        configuration_api: Optional["_models.ConfigurationApi"] = None,
         virtual_network_configuration: Optional["_models.VirtualNetworkConfiguration"] = None,
         additional_locations: Optional[List["_models.AdditionalLocation"]] = None,
         custom_properties: Optional[Dict[str, str]] = None,
@@ -3085,6 +3155,8 @@ class ApiManagementServiceResource(ApimResource):  # pylint: disable=too-many-in
         api_version_constraint: Optional["_models.ApiVersionConstraint"] = None,
         restore: bool = False,
         private_endpoint_connections: Optional[List["_models.RemotePrivateEndpointConnectionWrapper"]] = None,
+        legacy_portal_status: Union[str, "_models.LegacyPortalStatus"] = "Enabled",
+        developer_portal_status: Union[str, "_models.DeveloperPortalStatus"] = "Enabled",
         **kwargs: Any
     ) -> None:
         """
@@ -3112,6 +3184,8 @@ class ApiManagementServiceResource(ApimResource):  # pylint: disable=too-many-in
          'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled'.
          Known values are: "Enabled" and "Disabled".
         :paramtype public_network_access: str or ~azure.mgmt.apimanagement.models.PublicNetworkAccess
+        :keyword configuration_api: Configuration API configuration of the API Management service.
+        :paramtype configuration_api: ~azure.mgmt.apimanagement.models.ConfigurationApi
         :keyword virtual_network_configuration: Virtual network configuration of the API Management
          service.
         :paramtype virtual_network_configuration:
@@ -3175,6 +3249,13 @@ class ApiManagementServiceResource(ApimResource):  # pylint: disable=too-many-in
         :keyword private_endpoint_connections: List of Private Endpoint Connections of this service.
         :paramtype private_endpoint_connections:
          list[~azure.mgmt.apimanagement.models.RemotePrivateEndpointConnectionWrapper]
+        :keyword legacy_portal_status: Status of legacy portal in the API Management service. Known
+         values are: "Enabled" and "Disabled".
+        :paramtype legacy_portal_status: str or ~azure.mgmt.apimanagement.models.LegacyPortalStatus
+        :keyword developer_portal_status: Status of developer portal in this API Management service.
+         Known values are: "Enabled" and "Disabled".
+        :paramtype developer_portal_status: str or
+         ~azure.mgmt.apimanagement.models.DeveloperPortalStatus
         :keyword publisher_email: Publisher email. Required.
         :paramtype publisher_email: str
         :keyword publisher_name: Publisher name. Required.
@@ -3202,6 +3283,7 @@ class ApiManagementServiceResource(ApimResource):  # pylint: disable=too-many-in
         self.private_ip_addresses = None
         self.public_ip_address_id = public_ip_address_id
         self.public_network_access = public_network_access
+        self.configuration_api = configuration_api
         self.virtual_network_configuration = virtual_network_configuration
         self.additional_locations = additional_locations
         self.custom_properties = custom_properties
@@ -3215,6 +3297,8 @@ class ApiManagementServiceResource(ApimResource):  # pylint: disable=too-many-in
         self.restore = restore
         self.private_endpoint_connections = private_endpoint_connections
         self.platform_version = None
+        self.legacy_portal_status = legacy_portal_status
+        self.developer_portal_status = developer_portal_status
         self.publisher_email = publisher_email
         self.publisher_name = publisher_name
 
@@ -3319,6 +3403,8 @@ class ApiManagementServiceUpdateParameters(ApimResource):  # pylint: disable=too
      'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled'.
      Known values are: "Enabled" and "Disabled".
     :vartype public_network_access: str or ~azure.mgmt.apimanagement.models.PublicNetworkAccess
+    :ivar configuration_api: Configuration API configuration of the API Management service.
+    :vartype configuration_api: ~azure.mgmt.apimanagement.models.ConfigurationApi
     :ivar virtual_network_configuration: Virtual network configuration of the API Management
      service.
     :vartype virtual_network_configuration:
@@ -3386,8 +3472,14 @@ class ApiManagementServiceUpdateParameters(ApimResource):  # pylint: disable=too
     :vartype private_endpoint_connections:
      list[~azure.mgmt.apimanagement.models.RemotePrivateEndpointConnectionWrapper]
     :ivar platform_version: Compute Platform Version running the service in this location. Known
-     values are: "undetermined", "stv1", "stv2", and "mtv1".
+     values are: "undetermined", "stv1", "stv2", "mtv1", and "stv2.1".
     :vartype platform_version: str or ~azure.mgmt.apimanagement.models.PlatformVersion
+    :ivar legacy_portal_status: Status of legacy portal in the API Management service. Known values
+     are: "Enabled" and "Disabled".
+    :vartype legacy_portal_status: str or ~azure.mgmt.apimanagement.models.LegacyPortalStatus
+    :ivar developer_portal_status: Status of developer portal in this API Management service. Known
+     values are: "Enabled" and "Disabled".
+    :vartype developer_portal_status: str or ~azure.mgmt.apimanagement.models.DeveloperPortalStatus
     :ivar publisher_email: Publisher email.
     :vartype publisher_email: str
     :ivar publisher_name: Publisher name.
@@ -3441,6 +3533,7 @@ class ApiManagementServiceUpdateParameters(ApimResource):  # pylint: disable=too
         "private_ip_addresses": {"key": "properties.privateIPAddresses", "type": "[str]"},
         "public_ip_address_id": {"key": "properties.publicIpAddressId", "type": "str"},
         "public_network_access": {"key": "properties.publicNetworkAccess", "type": "str"},
+        "configuration_api": {"key": "properties.configurationApi", "type": "ConfigurationApi"},
         "virtual_network_configuration": {
             "key": "properties.virtualNetworkConfiguration",
             "type": "VirtualNetworkConfiguration",
@@ -3460,6 +3553,8 @@ class ApiManagementServiceUpdateParameters(ApimResource):  # pylint: disable=too
             "type": "[RemotePrivateEndpointConnectionWrapper]",
         },
         "platform_version": {"key": "properties.platformVersion", "type": "str"},
+        "legacy_portal_status": {"key": "properties.legacyPortalStatus", "type": "str"},
+        "developer_portal_status": {"key": "properties.developerPortalStatus", "type": "str"},
         "publisher_email": {"key": "properties.publisherEmail", "type": "str"},
         "publisher_name": {"key": "properties.publisherName", "type": "str"},
     }
@@ -3475,6 +3570,7 @@ class ApiManagementServiceUpdateParameters(ApimResource):  # pylint: disable=too
         hostname_configurations: Optional[List["_models.HostnameConfiguration"]] = None,
         public_ip_address_id: Optional[str] = None,
         public_network_access: Optional[Union[str, "_models.PublicNetworkAccess"]] = None,
+        configuration_api: Optional["_models.ConfigurationApi"] = None,
         virtual_network_configuration: Optional["_models.VirtualNetworkConfiguration"] = None,
         additional_locations: Optional[List["_models.AdditionalLocation"]] = None,
         custom_properties: Optional[Dict[str, str]] = None,
@@ -3486,6 +3582,8 @@ class ApiManagementServiceUpdateParameters(ApimResource):  # pylint: disable=too
         api_version_constraint: Optional["_models.ApiVersionConstraint"] = None,
         restore: bool = False,
         private_endpoint_connections: Optional[List["_models.RemotePrivateEndpointConnectionWrapper"]] = None,
+        legacy_portal_status: Union[str, "_models.LegacyPortalStatus"] = "Enabled",
+        developer_portal_status: Union[str, "_models.DeveloperPortalStatus"] = "Enabled",
         publisher_email: Optional[str] = None,
         publisher_name: Optional[str] = None,
         **kwargs: Any
@@ -3513,6 +3611,8 @@ class ApiManagementServiceUpdateParameters(ApimResource):  # pylint: disable=too
          'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled'.
          Known values are: "Enabled" and "Disabled".
         :paramtype public_network_access: str or ~azure.mgmt.apimanagement.models.PublicNetworkAccess
+        :keyword configuration_api: Configuration API configuration of the API Management service.
+        :paramtype configuration_api: ~azure.mgmt.apimanagement.models.ConfigurationApi
         :keyword virtual_network_configuration: Virtual network configuration of the API Management
          service.
         :paramtype virtual_network_configuration:
@@ -3576,6 +3676,13 @@ class ApiManagementServiceUpdateParameters(ApimResource):  # pylint: disable=too
         :keyword private_endpoint_connections: List of Private Endpoint Connections of this service.
         :paramtype private_endpoint_connections:
          list[~azure.mgmt.apimanagement.models.RemotePrivateEndpointConnectionWrapper]
+        :keyword legacy_portal_status: Status of legacy portal in the API Management service. Known
+         values are: "Enabled" and "Disabled".
+        :paramtype legacy_portal_status: str or ~azure.mgmt.apimanagement.models.LegacyPortalStatus
+        :keyword developer_portal_status: Status of developer portal in this API Management service.
+         Known values are: "Enabled" and "Disabled".
+        :paramtype developer_portal_status: str or
+         ~azure.mgmt.apimanagement.models.DeveloperPortalStatus
         :keyword publisher_email: Publisher email.
         :paramtype publisher_email: str
         :keyword publisher_name: Publisher name.
@@ -3601,6 +3708,7 @@ class ApiManagementServiceUpdateParameters(ApimResource):  # pylint: disable=too
         self.private_ip_addresses = None
         self.public_ip_address_id = public_ip_address_id
         self.public_network_access = public_network_access
+        self.configuration_api = configuration_api
         self.virtual_network_configuration = virtual_network_configuration
         self.additional_locations = additional_locations
         self.custom_properties = custom_properties
@@ -3614,6 +3722,8 @@ class ApiManagementServiceUpdateParameters(ApimResource):  # pylint: disable=too
         self.restore = restore
         self.private_endpoint_connections = private_endpoint_connections
         self.platform_version = None
+        self.legacy_portal_status = legacy_portal_status
+        self.developer_portal_status = developer_portal_status
         self.publisher_email = publisher_email
         self.publisher_name = publisher_name
 
@@ -3667,6 +3777,8 @@ class ApiManagementServiceUpdateProperties(
      'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled'.
      Known values are: "Enabled" and "Disabled".
     :vartype public_network_access: str or ~azure.mgmt.apimanagement.models.PublicNetworkAccess
+    :ivar configuration_api: Configuration API configuration of the API Management service.
+    :vartype configuration_api: ~azure.mgmt.apimanagement.models.ConfigurationApi
     :ivar virtual_network_configuration: Virtual network configuration of the API Management
      service.
     :vartype virtual_network_configuration:
@@ -3734,8 +3846,14 @@ class ApiManagementServiceUpdateProperties(
     :vartype private_endpoint_connections:
      list[~azure.mgmt.apimanagement.models.RemotePrivateEndpointConnectionWrapper]
     :ivar platform_version: Compute Platform Version running the service in this location. Known
-     values are: "undetermined", "stv1", "stv2", and "mtv1".
+     values are: "undetermined", "stv1", "stv2", "mtv1", and "stv2.1".
     :vartype platform_version: str or ~azure.mgmt.apimanagement.models.PlatformVersion
+    :ivar legacy_portal_status: Status of legacy portal in the API Management service. Known values
+     are: "Enabled" and "Disabled".
+    :vartype legacy_portal_status: str or ~azure.mgmt.apimanagement.models.LegacyPortalStatus
+    :ivar developer_portal_status: Status of developer portal in this API Management service. Known
+     values are: "Enabled" and "Disabled".
+    :vartype developer_portal_status: str or ~azure.mgmt.apimanagement.models.DeveloperPortalStatus
     :ivar publisher_email: Publisher email.
     :vartype publisher_email: str
     :ivar publisher_name: Publisher name.
@@ -3777,6 +3895,7 @@ class ApiManagementServiceUpdateProperties(
         "private_ip_addresses": {"key": "privateIPAddresses", "type": "[str]"},
         "public_ip_address_id": {"key": "publicIpAddressId", "type": "str"},
         "public_network_access": {"key": "publicNetworkAccess", "type": "str"},
+        "configuration_api": {"key": "configurationApi", "type": "ConfigurationApi"},
         "virtual_network_configuration": {"key": "virtualNetworkConfiguration", "type": "VirtualNetworkConfiguration"},
         "additional_locations": {"key": "additionalLocations", "type": "[AdditionalLocation]"},
         "custom_properties": {"key": "customProperties", "type": "{str}"},
@@ -3793,6 +3912,8 @@ class ApiManagementServiceUpdateProperties(
             "type": "[RemotePrivateEndpointConnectionWrapper]",
         },
         "platform_version": {"key": "platformVersion", "type": "str"},
+        "legacy_portal_status": {"key": "legacyPortalStatus", "type": "str"},
+        "developer_portal_status": {"key": "developerPortalStatus", "type": "str"},
         "publisher_email": {"key": "publisherEmail", "type": "str"},
         "publisher_name": {"key": "publisherName", "type": "str"},
     }
@@ -3804,6 +3925,7 @@ class ApiManagementServiceUpdateProperties(
         hostname_configurations: Optional[List["_models.HostnameConfiguration"]] = None,
         public_ip_address_id: Optional[str] = None,
         public_network_access: Optional[Union[str, "_models.PublicNetworkAccess"]] = None,
+        configuration_api: Optional["_models.ConfigurationApi"] = None,
         virtual_network_configuration: Optional["_models.VirtualNetworkConfiguration"] = None,
         additional_locations: Optional[List["_models.AdditionalLocation"]] = None,
         custom_properties: Optional[Dict[str, str]] = None,
@@ -3815,6 +3937,8 @@ class ApiManagementServiceUpdateProperties(
         api_version_constraint: Optional["_models.ApiVersionConstraint"] = None,
         restore: bool = False,
         private_endpoint_connections: Optional[List["_models.RemotePrivateEndpointConnectionWrapper"]] = None,
+        legacy_portal_status: Union[str, "_models.LegacyPortalStatus"] = "Enabled",
+        developer_portal_status: Union[str, "_models.DeveloperPortalStatus"] = "Enabled",
         publisher_email: Optional[str] = None,
         publisher_name: Optional[str] = None,
         **kwargs: Any
@@ -3834,6 +3958,8 @@ class ApiManagementServiceUpdateProperties(
          'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled'.
          Known values are: "Enabled" and "Disabled".
         :paramtype public_network_access: str or ~azure.mgmt.apimanagement.models.PublicNetworkAccess
+        :keyword configuration_api: Configuration API configuration of the API Management service.
+        :paramtype configuration_api: ~azure.mgmt.apimanagement.models.ConfigurationApi
         :keyword virtual_network_configuration: Virtual network configuration of the API Management
          service.
         :paramtype virtual_network_configuration:
@@ -3897,6 +4023,13 @@ class ApiManagementServiceUpdateProperties(
         :keyword private_endpoint_connections: List of Private Endpoint Connections of this service.
         :paramtype private_endpoint_connections:
          list[~azure.mgmt.apimanagement.models.RemotePrivateEndpointConnectionWrapper]
+        :keyword legacy_portal_status: Status of legacy portal in the API Management service. Known
+         values are: "Enabled" and "Disabled".
+        :paramtype legacy_portal_status: str or ~azure.mgmt.apimanagement.models.LegacyPortalStatus
+        :keyword developer_portal_status: Status of developer portal in this API Management service.
+         Known values are: "Enabled" and "Disabled".
+        :paramtype developer_portal_status: str or
+         ~azure.mgmt.apimanagement.models.DeveloperPortalStatus
         :keyword publisher_email: Publisher email.
         :paramtype publisher_email: str
         :keyword publisher_name: Publisher name.
@@ -3907,6 +4040,7 @@ class ApiManagementServiceUpdateProperties(
             hostname_configurations=hostname_configurations,
             public_ip_address_id=public_ip_address_id,
             public_network_access=public_network_access,
+            configuration_api=configuration_api,
             virtual_network_configuration=virtual_network_configuration,
             additional_locations=additional_locations,
             custom_properties=custom_properties,
@@ -3918,6 +4052,8 @@ class ApiManagementServiceUpdateProperties(
             api_version_constraint=api_version_constraint,
             restore=restore,
             private_endpoint_connections=private_endpoint_connections,
+            legacy_portal_status=legacy_portal_status,
+            developer_portal_status=developer_portal_status,
             **kwargs
         )
         self.publisher_email = publisher_email
@@ -4283,8 +4419,6 @@ class ApiReleaseCollection(_serialization.Model):
 
     :ivar value: Page values.
     :vartype value: list[~azure.mgmt.apimanagement.models.ApiReleaseContract]
-    :ivar count: Total record count number across all pages.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
@@ -4296,18 +4430,13 @@ class ApiReleaseCollection(_serialization.Model):
 
     _attribute_map = {
         "value": {"key": "value", "type": "[ApiReleaseContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, count: Optional[int] = None, **kwargs: Any) -> None:
-        """
-        :keyword count: Total record count number across all pages.
-        :paramtype count: int
-        """
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
         super().__init__(**kwargs)
         self.value = None
-        self.count = count
         self.next_link = None
 
 
@@ -4374,8 +4503,6 @@ class ApiRevisionCollection(_serialization.Model):
 
     :ivar value: Page values.
     :vartype value: list[~azure.mgmt.apimanagement.models.ApiRevisionContract]
-    :ivar count: Total record count number across all pages.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
@@ -4387,18 +4514,13 @@ class ApiRevisionCollection(_serialization.Model):
 
     _attribute_map = {
         "value": {"key": "value", "type": "[ApiRevisionContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, count: Optional[int] = None, **kwargs: Any) -> None:
-        """
-        :keyword count: Total record count number across all pages.
-        :paramtype count: int
-        """
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
         super().__init__(**kwargs)
         self.value = None
-        self.count = count
         self.next_link = None
 
 
@@ -4526,7 +4648,8 @@ class ApiTagResourceContractProperties(ApiEntityBaseContract):  # pylint: disabl
     :ivar subscription_key_parameter_names: Protocols over which API is made available.
     :vartype subscription_key_parameter_names:
      ~azure.mgmt.apimanagement.models.SubscriptionKeyParameterNamesContract
-    :ivar api_type: Type of API. Known values are: "http", "soap", "websocket", and "graphql".
+    :ivar api_type: Type of API. Known values are: "http", "soap", "websocket", "graphql", and
+     "odata".
     :vartype api_type: str or ~azure.mgmt.apimanagement.models.ApiType
     :ivar api_revision: Describes the revision of the API. If no value is provided, default
      revision 1 is created.
@@ -4637,7 +4760,8 @@ class ApiTagResourceContractProperties(ApiEntityBaseContract):  # pylint: disabl
         :keyword subscription_key_parameter_names: Protocols over which API is made available.
         :paramtype subscription_key_parameter_names:
          ~azure.mgmt.apimanagement.models.SubscriptionKeyParameterNamesContract
-        :keyword api_type: Type of API. Known values are: "http", "soap", "websocket", and "graphql".
+        :keyword api_type: Type of API. Known values are: "http", "soap", "websocket", "graphql", and
+         "odata".
         :paramtype api_type: str or ~azure.mgmt.apimanagement.models.ApiType
         :keyword api_revision: Describes the revision of the API. If no value is provided, default
          revision 1 is created.
@@ -4712,7 +4836,8 @@ class ApiUpdateContract(_serialization.Model):  # pylint: disable=too-many-insta
     :ivar subscription_key_parameter_names: Protocols over which API is made available.
     :vartype subscription_key_parameter_names:
      ~azure.mgmt.apimanagement.models.SubscriptionKeyParameterNamesContract
-    :ivar api_type: Type of API. Known values are: "http", "soap", "websocket", and "graphql".
+    :ivar api_type: Type of API. Known values are: "http", "soap", "websocket", "graphql", and
+     "odata".
     :vartype api_type: str or ~azure.mgmt.apimanagement.models.ApiType
     :ivar api_revision: Describes the revision of the API. If no value is provided, default
      revision 1 is created.
@@ -4822,7 +4947,8 @@ class ApiUpdateContract(_serialization.Model):  # pylint: disable=too-many-insta
         :keyword subscription_key_parameter_names: Protocols over which API is made available.
         :paramtype subscription_key_parameter_names:
          ~azure.mgmt.apimanagement.models.SubscriptionKeyParameterNamesContract
-        :keyword api_type: Type of API. Known values are: "http", "soap", "websocket", and "graphql".
+        :keyword api_type: Type of API. Known values are: "http", "soap", "websocket", "graphql", and
+         "odata".
         :paramtype api_type: str or ~azure.mgmt.apimanagement.models.ApiType
         :keyword api_revision: Describes the revision of the API. If no value is provided, default
          revision 1 is created.
@@ -4907,15 +5033,12 @@ class ApiVersionSetCollection(_serialization.Model):
 
     :ivar value: Page values.
     :vartype value: list[~azure.mgmt.apimanagement.models.ApiVersionSetContract]
-    :ivar count: Total record count number across all pages.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
 
     _attribute_map = {
         "value": {"key": "value", "type": "[ApiVersionSetContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
@@ -4923,21 +5046,17 @@ class ApiVersionSetCollection(_serialization.Model):
         self,
         *,
         value: Optional[List["_models.ApiVersionSetContract"]] = None,
-        count: Optional[int] = None,
         next_link: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword value: Page values.
         :paramtype value: list[~azure.mgmt.apimanagement.models.ApiVersionSetContract]
-        :keyword count: Total record count number across all pages.
-        :paramtype count: int
         :keyword next_link: Next page link if any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.count = count
         self.next_link = next_link
 
 
@@ -5466,15 +5585,12 @@ class AuthorizationAccessPolicyCollection(_serialization.Model):
 
     :ivar value: Page values.
     :vartype value: list[~azure.mgmt.apimanagement.models.AuthorizationAccessPolicyContract]
-    :ivar count: Total record count number across all pages.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
 
     _attribute_map = {
         "value": {"key": "value", "type": "[AuthorizationAccessPolicyContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
@@ -5482,21 +5598,17 @@ class AuthorizationAccessPolicyCollection(_serialization.Model):
         self,
         *,
         value: Optional[List["_models.AuthorizationAccessPolicyContract"]] = None,
-        count: Optional[int] = None,
         next_link: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword value: Page values.
         :paramtype value: list[~azure.mgmt.apimanagement.models.AuthorizationAccessPolicyContract]
-        :keyword count: Total record count number across all pages.
-        :paramtype count: int
         :keyword next_link: Next page link if any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.count = count
         self.next_link = next_link
 
 
@@ -5550,15 +5662,12 @@ class AuthorizationCollection(_serialization.Model):
 
     :ivar value: Page values.
     :vartype value: list[~azure.mgmt.apimanagement.models.AuthorizationContract]
-    :ivar count: Total record count number across all pages.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
 
     _attribute_map = {
         "value": {"key": "value", "type": "[AuthorizationContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
@@ -5566,21 +5675,17 @@ class AuthorizationCollection(_serialization.Model):
         self,
         *,
         value: Optional[List["_models.AuthorizationContract"]] = None,
-        count: Optional[int] = None,
         next_link: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword value: Page values.
         :paramtype value: list[~azure.mgmt.apimanagement.models.AuthorizationContract]
-        :keyword count: Total record count number across all pages.
-        :paramtype count: int
         :keyword next_link: Next page link if any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.count = count
         self.next_link = next_link
 
 
@@ -5906,15 +6011,12 @@ class AuthorizationServerCollection(_serialization.Model):
 
     :ivar value: Page values.
     :vartype value: list[~azure.mgmt.apimanagement.models.AuthorizationServerContract]
-    :ivar count: Total record count number across all pages.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
 
     _attribute_map = {
         "value": {"key": "value", "type": "[AuthorizationServerContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
@@ -5922,21 +6024,17 @@ class AuthorizationServerCollection(_serialization.Model):
         self,
         *,
         value: Optional[List["_models.AuthorizationServerContract"]] = None,
-        count: Optional[int] = None,
         next_link: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword value: Page values.
         :paramtype value: list[~azure.mgmt.apimanagement.models.AuthorizationServerContract]
-        :keyword count: Total record count number across all pages.
-        :paramtype count: int
         :keyword next_link: Next page link if any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.count = count
         self.next_link = next_link
 
 
@@ -7004,6 +7102,8 @@ class BackendBaseParameters(_serialization.Model):
     :vartype proxy: ~azure.mgmt.apimanagement.models.BackendProxyContract
     :ivar tls: Backend TLS Properties.
     :vartype tls: ~azure.mgmt.apimanagement.models.BackendTlsProperties
+    :ivar circuit_breaker: Backend Circuit Breaker Configuration.
+    :vartype circuit_breaker: ~azure.mgmt.apimanagement.models.BackendCircuitBreaker
     """
 
     _validation = {
@@ -7020,6 +7120,7 @@ class BackendBaseParameters(_serialization.Model):
         "credentials": {"key": "credentials", "type": "BackendCredentialsContract"},
         "proxy": {"key": "proxy", "type": "BackendProxyContract"},
         "tls": {"key": "tls", "type": "BackendTlsProperties"},
+        "circuit_breaker": {"key": "circuitBreaker", "type": "BackendCircuitBreaker"},
     }
 
     def __init__(
@@ -7032,6 +7133,7 @@ class BackendBaseParameters(_serialization.Model):
         credentials: Optional["_models.BackendCredentialsContract"] = None,
         proxy: Optional["_models.BackendProxyContract"] = None,
         tls: Optional["_models.BackendTlsProperties"] = None,
+        circuit_breaker: Optional["_models.BackendCircuitBreaker"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -7050,6 +7152,8 @@ class BackendBaseParameters(_serialization.Model):
         :paramtype proxy: ~azure.mgmt.apimanagement.models.BackendProxyContract
         :keyword tls: Backend TLS Properties.
         :paramtype tls: ~azure.mgmt.apimanagement.models.BackendTlsProperties
+        :keyword circuit_breaker: Backend Circuit Breaker Configuration.
+        :paramtype circuit_breaker: ~azure.mgmt.apimanagement.models.BackendCircuitBreaker
         """
         super().__init__(**kwargs)
         self.title = title
@@ -7059,6 +7163,31 @@ class BackendBaseParameters(_serialization.Model):
         self.credentials = credentials
         self.proxy = proxy
         self.tls = tls
+        self.circuit_breaker = circuit_breaker
+
+
+class BackendCircuitBreaker(_serialization.Model):
+    """The configuration of the backend circuit breaker.
+
+    :ivar rules: The rules for tripping the backend.
+    :vartype rules: list[~azure.mgmt.apimanagement.models.CircuitBreakerRule]
+    """
+
+    _validation = {
+        "rules": {"max_items": 15, "min_items": 0},
+    }
+
+    _attribute_map = {
+        "rules": {"key": "rules", "type": "[CircuitBreakerRule]"},
+    }
+
+    def __init__(self, *, rules: Optional[List["_models.CircuitBreakerRule"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword rules: The rules for tripping the backend.
+        :paramtype rules: list[~azure.mgmt.apimanagement.models.CircuitBreakerRule]
+        """
+        super().__init__(**kwargs)
+        self.rules = rules
 
 
 class BackendCollection(_serialization.Model):
@@ -7066,37 +7195,26 @@ class BackendCollection(_serialization.Model):
 
     :ivar value: Backend values.
     :vartype value: list[~azure.mgmt.apimanagement.models.BackendContract]
-    :ivar count: Total record count number across all pages.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
 
     _attribute_map = {
         "value": {"key": "value", "type": "[BackendContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
     def __init__(
-        self,
-        *,
-        value: Optional[List["_models.BackendContract"]] = None,
-        count: Optional[int] = None,
-        next_link: Optional[str] = None,
-        **kwargs: Any
+        self, *, value: Optional[List["_models.BackendContract"]] = None, next_link: Optional[str] = None, **kwargs: Any
     ) -> None:
         """
         :keyword value: Backend values.
         :paramtype value: list[~azure.mgmt.apimanagement.models.BackendContract]
-        :keyword count: Total record count number across all pages.
-        :paramtype count: int
         :keyword next_link: Next page link if any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.count = count
         self.next_link = next_link
 
 
@@ -7128,6 +7246,8 @@ class BackendContract(ProxyResource):  # pylint: disable=too-many-instance-attri
     :vartype proxy: ~azure.mgmt.apimanagement.models.BackendProxyContract
     :ivar tls: Backend TLS Properties.
     :vartype tls: ~azure.mgmt.apimanagement.models.BackendTlsProperties
+    :ivar circuit_breaker: Backend Circuit Breaker Configuration.
+    :vartype circuit_breaker: ~azure.mgmt.apimanagement.models.BackendCircuitBreaker
     :ivar url: Runtime Url of the Backend.
     :vartype url: str
     :ivar protocol: Backend communication protocol. Known values are: "http" and "soap".
@@ -7155,6 +7275,7 @@ class BackendContract(ProxyResource):  # pylint: disable=too-many-instance-attri
         "credentials": {"key": "properties.credentials", "type": "BackendCredentialsContract"},
         "proxy": {"key": "properties.proxy", "type": "BackendProxyContract"},
         "tls": {"key": "properties.tls", "type": "BackendTlsProperties"},
+        "circuit_breaker": {"key": "properties.circuitBreaker", "type": "BackendCircuitBreaker"},
         "url": {"key": "properties.url", "type": "str"},
         "protocol": {"key": "properties.protocol", "type": "str"},
     }
@@ -7169,6 +7290,7 @@ class BackendContract(ProxyResource):  # pylint: disable=too-many-instance-attri
         credentials: Optional["_models.BackendCredentialsContract"] = None,
         proxy: Optional["_models.BackendProxyContract"] = None,
         tls: Optional["_models.BackendTlsProperties"] = None,
+        circuit_breaker: Optional["_models.BackendCircuitBreaker"] = None,
         url: Optional[str] = None,
         protocol: Optional[Union[str, "_models.BackendProtocol"]] = None,
         **kwargs: Any
@@ -7189,6 +7311,8 @@ class BackendContract(ProxyResource):  # pylint: disable=too-many-instance-attri
         :paramtype proxy: ~azure.mgmt.apimanagement.models.BackendProxyContract
         :keyword tls: Backend TLS Properties.
         :paramtype tls: ~azure.mgmt.apimanagement.models.BackendTlsProperties
+        :keyword circuit_breaker: Backend Circuit Breaker Configuration.
+        :paramtype circuit_breaker: ~azure.mgmt.apimanagement.models.BackendCircuitBreaker
         :keyword url: Runtime Url of the Backend.
         :paramtype url: str
         :keyword protocol: Backend communication protocol. Known values are: "http" and "soap".
@@ -7202,6 +7326,7 @@ class BackendContract(ProxyResource):  # pylint: disable=too-many-instance-attri
         self.credentials = credentials
         self.proxy = proxy
         self.tls = tls
+        self.circuit_breaker = circuit_breaker
         self.url = url
         self.protocol = protocol
 
@@ -7226,6 +7351,8 @@ class BackendContractProperties(BackendBaseParameters):
     :vartype proxy: ~azure.mgmt.apimanagement.models.BackendProxyContract
     :ivar tls: Backend TLS Properties.
     :vartype tls: ~azure.mgmt.apimanagement.models.BackendTlsProperties
+    :ivar circuit_breaker: Backend Circuit Breaker Configuration.
+    :vartype circuit_breaker: ~azure.mgmt.apimanagement.models.BackendCircuitBreaker
     :ivar url: Runtime Url of the Backend. Required.
     :vartype url: str
     :ivar protocol: Backend communication protocol. Required. Known values are: "http" and "soap".
@@ -7248,6 +7375,7 @@ class BackendContractProperties(BackendBaseParameters):
         "credentials": {"key": "credentials", "type": "BackendCredentialsContract"},
         "proxy": {"key": "proxy", "type": "BackendProxyContract"},
         "tls": {"key": "tls", "type": "BackendTlsProperties"},
+        "circuit_breaker": {"key": "circuitBreaker", "type": "BackendCircuitBreaker"},
         "url": {"key": "url", "type": "str"},
         "protocol": {"key": "protocol", "type": "str"},
     }
@@ -7264,6 +7392,7 @@ class BackendContractProperties(BackendBaseParameters):
         credentials: Optional["_models.BackendCredentialsContract"] = None,
         proxy: Optional["_models.BackendProxyContract"] = None,
         tls: Optional["_models.BackendTlsProperties"] = None,
+        circuit_breaker: Optional["_models.BackendCircuitBreaker"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -7282,6 +7411,8 @@ class BackendContractProperties(BackendBaseParameters):
         :paramtype proxy: ~azure.mgmt.apimanagement.models.BackendProxyContract
         :keyword tls: Backend TLS Properties.
         :paramtype tls: ~azure.mgmt.apimanagement.models.BackendTlsProperties
+        :keyword circuit_breaker: Backend Circuit Breaker Configuration.
+        :paramtype circuit_breaker: ~azure.mgmt.apimanagement.models.BackendCircuitBreaker
         :keyword url: Runtime Url of the Backend. Required.
         :paramtype url: str
         :keyword protocol: Backend communication protocol. Required. Known values are: "http" and
@@ -7296,6 +7427,7 @@ class BackendContractProperties(BackendBaseParameters):
             credentials=credentials,
             proxy=proxy,
             tls=tls,
+            circuit_breaker=circuit_breaker,
             **kwargs
         )
         self.url = url
@@ -7592,6 +7724,8 @@ class BackendUpdateParameterProperties(BackendBaseParameters):
     :vartype proxy: ~azure.mgmt.apimanagement.models.BackendProxyContract
     :ivar tls: Backend TLS Properties.
     :vartype tls: ~azure.mgmt.apimanagement.models.BackendTlsProperties
+    :ivar circuit_breaker: Backend Circuit Breaker Configuration.
+    :vartype circuit_breaker: ~azure.mgmt.apimanagement.models.BackendCircuitBreaker
     :ivar url: Runtime Url of the Backend.
     :vartype url: str
     :ivar protocol: Backend communication protocol. Known values are: "http" and "soap".
@@ -7613,6 +7747,7 @@ class BackendUpdateParameterProperties(BackendBaseParameters):
         "credentials": {"key": "credentials", "type": "BackendCredentialsContract"},
         "proxy": {"key": "proxy", "type": "BackendProxyContract"},
         "tls": {"key": "tls", "type": "BackendTlsProperties"},
+        "circuit_breaker": {"key": "circuitBreaker", "type": "BackendCircuitBreaker"},
         "url": {"key": "url", "type": "str"},
         "protocol": {"key": "protocol", "type": "str"},
     }
@@ -7627,6 +7762,7 @@ class BackendUpdateParameterProperties(BackendBaseParameters):
         credentials: Optional["_models.BackendCredentialsContract"] = None,
         proxy: Optional["_models.BackendProxyContract"] = None,
         tls: Optional["_models.BackendTlsProperties"] = None,
+        circuit_breaker: Optional["_models.BackendCircuitBreaker"] = None,
         url: Optional[str] = None,
         protocol: Optional[Union[str, "_models.BackendProtocol"]] = None,
         **kwargs: Any
@@ -7647,6 +7783,8 @@ class BackendUpdateParameterProperties(BackendBaseParameters):
         :paramtype proxy: ~azure.mgmt.apimanagement.models.BackendProxyContract
         :keyword tls: Backend TLS Properties.
         :paramtype tls: ~azure.mgmt.apimanagement.models.BackendTlsProperties
+        :keyword circuit_breaker: Backend Circuit Breaker Configuration.
+        :paramtype circuit_breaker: ~azure.mgmt.apimanagement.models.BackendCircuitBreaker
         :keyword url: Runtime Url of the Backend.
         :paramtype url: str
         :keyword protocol: Backend communication protocol. Known values are: "http" and "soap".
@@ -7660,6 +7798,7 @@ class BackendUpdateParameterProperties(BackendBaseParameters):
             credentials=credentials,
             proxy=proxy,
             tls=tls,
+            circuit_breaker=circuit_breaker,
             **kwargs
         )
         self.url = url
@@ -7684,6 +7823,8 @@ class BackendUpdateParameters(_serialization.Model):
     :vartype proxy: ~azure.mgmt.apimanagement.models.BackendProxyContract
     :ivar tls: Backend TLS Properties.
     :vartype tls: ~azure.mgmt.apimanagement.models.BackendTlsProperties
+    :ivar circuit_breaker: Backend Circuit Breaker Configuration.
+    :vartype circuit_breaker: ~azure.mgmt.apimanagement.models.BackendCircuitBreaker
     :ivar url: Runtime Url of the Backend.
     :vartype url: str
     :ivar protocol: Backend communication protocol. Known values are: "http" and "soap".
@@ -7705,6 +7846,7 @@ class BackendUpdateParameters(_serialization.Model):
         "credentials": {"key": "properties.credentials", "type": "BackendCredentialsContract"},
         "proxy": {"key": "properties.proxy", "type": "BackendProxyContract"},
         "tls": {"key": "properties.tls", "type": "BackendTlsProperties"},
+        "circuit_breaker": {"key": "properties.circuitBreaker", "type": "BackendCircuitBreaker"},
         "url": {"key": "properties.url", "type": "str"},
         "protocol": {"key": "properties.protocol", "type": "str"},
     }
@@ -7719,6 +7861,7 @@ class BackendUpdateParameters(_serialization.Model):
         credentials: Optional["_models.BackendCredentialsContract"] = None,
         proxy: Optional["_models.BackendProxyContract"] = None,
         tls: Optional["_models.BackendTlsProperties"] = None,
+        circuit_breaker: Optional["_models.BackendCircuitBreaker"] = None,
         url: Optional[str] = None,
         protocol: Optional[Union[str, "_models.BackendProtocol"]] = None,
         **kwargs: Any
@@ -7739,6 +7882,8 @@ class BackendUpdateParameters(_serialization.Model):
         :paramtype proxy: ~azure.mgmt.apimanagement.models.BackendProxyContract
         :keyword tls: Backend TLS Properties.
         :paramtype tls: ~azure.mgmt.apimanagement.models.BackendTlsProperties
+        :keyword circuit_breaker: Backend Circuit Breaker Configuration.
+        :paramtype circuit_breaker: ~azure.mgmt.apimanagement.models.BackendCircuitBreaker
         :keyword url: Runtime Url of the Backend.
         :paramtype url: str
         :keyword protocol: Backend communication protocol. Known values are: "http" and "soap".
@@ -7752,6 +7897,7 @@ class BackendUpdateParameters(_serialization.Model):
         self.credentials = credentials
         self.proxy = proxy
         self.tls = tls
+        self.circuit_breaker = circuit_breaker
         self.url = url
         self.protocol = protocol
 
@@ -7785,37 +7931,26 @@ class CacheCollection(_serialization.Model):
 
     :ivar value: Page values.
     :vartype value: list[~azure.mgmt.apimanagement.models.CacheContract]
-    :ivar count: Total record count number across all pages.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
 
     _attribute_map = {
         "value": {"key": "value", "type": "[CacheContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
     def __init__(
-        self,
-        *,
-        value: Optional[List["_models.CacheContract"]] = None,
-        count: Optional[int] = None,
-        next_link: Optional[str] = None,
-        **kwargs: Any
+        self, *, value: Optional[List["_models.CacheContract"]] = None, next_link: Optional[str] = None, **kwargs: Any
     ) -> None:
         """
         :keyword value: Page values.
         :paramtype value: list[~azure.mgmt.apimanagement.models.CacheContract]
-        :keyword count: Total record count number across all pages.
-        :paramtype count: int
         :keyword next_link: Next page link if any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.count = count
         self.next_link = next_link
 
 
@@ -7950,15 +8085,12 @@ class CertificateCollection(_serialization.Model):
 
     :ivar value: Page values.
     :vartype value: list[~azure.mgmt.apimanagement.models.CertificateContract]
-    :ivar count: Total record count number across all pages.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
 
     _attribute_map = {
         "value": {"key": "value", "type": "[CertificateContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
@@ -7966,21 +8098,17 @@ class CertificateCollection(_serialization.Model):
         self,
         *,
         value: Optional[List["_models.CertificateContract"]] = None,
-        count: Optional[int] = None,
         next_link: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword value: Page values.
         :paramtype value: list[~azure.mgmt.apimanagement.models.CertificateContract]
-        :keyword count: Total record count number across all pages.
-        :paramtype count: int
         :keyword next_link: Next page link if any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.count = count
         self.next_link = next_link
 
 
@@ -8189,6 +8317,103 @@ class CertificateInformation(_serialization.Model):
         self.subject = subject
 
 
+class CircuitBreakerFailureCondition(_serialization.Model):
+    """The trip conditions of the circuit breaker.
+
+    :ivar count: The threshold for opening the circuit.
+    :vartype count: int
+    :ivar percentage: The threshold for opening the circuit.
+    :vartype percentage: int
+    :ivar interval: The interval during which the failures are counted.
+    :vartype interval: ~datetime.timedelta
+    :ivar status_code_ranges: The status code ranges which are considered as failure.
+    :vartype status_code_ranges: list[~azure.mgmt.apimanagement.models.FailureStatusCodeRange]
+    :ivar error_reasons: The error reasons which are considered as failure.
+    :vartype error_reasons: list[str]
+    """
+
+    _validation = {
+        "status_code_ranges": {"max_items": 10, "min_items": 0},
+        "error_reasons": {"max_items": 10, "min_items": 0},
+    }
+
+    _attribute_map = {
+        "count": {"key": "count", "type": "int"},
+        "percentage": {"key": "percentage", "type": "int"},
+        "interval": {"key": "interval", "type": "duration"},
+        "status_code_ranges": {"key": "statusCodeRanges", "type": "[FailureStatusCodeRange]"},
+        "error_reasons": {"key": "errorReasons", "type": "[str]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        count: Optional[int] = None,
+        percentage: Optional[int] = None,
+        interval: Optional[datetime.timedelta] = None,
+        status_code_ranges: Optional[List["_models.FailureStatusCodeRange"]] = None,
+        error_reasons: Optional[List[str]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword count: The threshold for opening the circuit.
+        :paramtype count: int
+        :keyword percentage: The threshold for opening the circuit.
+        :paramtype percentage: int
+        :keyword interval: The interval during which the failures are counted.
+        :paramtype interval: ~datetime.timedelta
+        :keyword status_code_ranges: The status code ranges which are considered as failure.
+        :paramtype status_code_ranges: list[~azure.mgmt.apimanagement.models.FailureStatusCodeRange]
+        :keyword error_reasons: The error reasons which are considered as failure.
+        :paramtype error_reasons: list[str]
+        """
+        super().__init__(**kwargs)
+        self.count = count
+        self.percentage = percentage
+        self.interval = interval
+        self.status_code_ranges = status_code_ranges
+        self.error_reasons = error_reasons
+
+
+class CircuitBreakerRule(_serialization.Model):
+    """Rule configuration to trip the backend.
+
+    :ivar name: The rule name.
+    :vartype name: str
+    :ivar failure_condition: The conditions for tripping the circuit breaker.
+    :vartype failure_condition: ~azure.mgmt.apimanagement.models.CircuitBreakerFailureCondition
+    :ivar trip_duration: The duration for which the circuit will be tripped.
+    :vartype trip_duration: ~datetime.timedelta
+    """
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "failure_condition": {"key": "failureCondition", "type": "CircuitBreakerFailureCondition"},
+        "trip_duration": {"key": "tripDuration", "type": "duration"},
+    }
+
+    def __init__(
+        self,
+        *,
+        name: Optional[str] = None,
+        failure_condition: Optional["_models.CircuitBreakerFailureCondition"] = None,
+        trip_duration: Optional[datetime.timedelta] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword name: The rule name.
+        :paramtype name: str
+        :keyword failure_condition: The conditions for tripping the circuit breaker.
+        :paramtype failure_condition: ~azure.mgmt.apimanagement.models.CircuitBreakerFailureCondition
+        :keyword trip_duration: The duration for which the circuit will be tripped.
+        :paramtype trip_duration: ~datetime.timedelta
+        """
+        super().__init__(**kwargs)
+        self.name = name
+        self.failure_condition = failure_condition
+        self.trip_duration = trip_duration
+
+
 class ClientSecretContract(_serialization.Model):
     """Client or app secret used in IdentityProviders, Aad, OpenID or OAuth.
 
@@ -8207,6 +8432,32 @@ class ClientSecretContract(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.client_secret = client_secret
+
+
+class ConfigurationApi(_serialization.Model):
+    """Information regarding the Configuration API of the API Management service.
+
+    :ivar legacy_api: Indication whether or not the legacy Configuration API (v1) should be exposed
+     on the API Management service. Value is optional but must be 'Enabled' or 'Disabled'. If
+     'Disabled', legacy Configuration API (v1) will not be available for self-hosted gateways.
+     Default value is 'Enabled'. Known values are: "Enabled" and "Disabled".
+    :vartype legacy_api: str or ~azure.mgmt.apimanagement.models.LegacyApiState
+    """
+
+    _attribute_map = {
+        "legacy_api": {"key": "legacyApi", "type": "str"},
+    }
+
+    def __init__(self, *, legacy_api: Union[str, "_models.LegacyApiState"] = "Enabled", **kwargs: Any) -> None:
+        """
+        :keyword legacy_api: Indication whether or not the legacy Configuration API (v1) should be
+         exposed on the API Management service. Value is optional but must be 'Enabled' or 'Disabled'.
+         If 'Disabled', legacy Configuration API (v1) will not be available for self-hosted gateways.
+         Default value is 'Enabled'. Known values are: "Enabled" and "Disabled".
+        :paramtype legacy_api: str or ~azure.mgmt.apimanagement.models.LegacyApiState
+        """
+        super().__init__(**kwargs)
+        self.legacy_api = legacy_api
 
 
 class ConnectivityCheckRequest(_serialization.Model):
@@ -9015,15 +9266,12 @@ class DiagnosticCollection(_serialization.Model):
 
     :ivar value: Page values.
     :vartype value: list[~azure.mgmt.apimanagement.models.DiagnosticContract]
-    :ivar count: Total record count number across all pages.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
 
     _attribute_map = {
         "value": {"key": "value", "type": "[DiagnosticContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
@@ -9031,21 +9279,17 @@ class DiagnosticCollection(_serialization.Model):
         self,
         *,
         value: Optional[List["_models.DiagnosticContract"]] = None,
-        count: Optional[int] = None,
         next_link: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword value: Page values.
         :paramtype value: list[~azure.mgmt.apimanagement.models.DiagnosticContract]
-        :keyword count: Total record count number across all pages.
-        :paramtype count: int
         :keyword next_link: Next page link if any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.count = count
         self.next_link = next_link
 
 
@@ -9272,15 +9516,12 @@ class EmailTemplateCollection(_serialization.Model):
 
     :ivar value: Page values.
     :vartype value: list[~azure.mgmt.apimanagement.models.EmailTemplateContract]
-    :ivar count: Total record count number across all pages.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
 
     _attribute_map = {
         "value": {"key": "value", "type": "[EmailTemplateContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
@@ -9288,21 +9529,17 @@ class EmailTemplateCollection(_serialization.Model):
         self,
         *,
         value: Optional[List["_models.EmailTemplateContract"]] = None,
-        count: Optional[int] = None,
         next_link: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword value: Page values.
         :paramtype value: list[~azure.mgmt.apimanagement.models.EmailTemplateContract]
-        :keyword count: Total record count number across all pages.
-        :paramtype count: int
         :keyword next_link: Next page link if any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.count = count
         self.next_link = next_link
 
 
@@ -9667,6 +9904,43 @@ class ErrorResponseBody(_serialization.Model):
         self.details = details
 
 
+class FailureStatusCodeRange(_serialization.Model):
+    """The failure http status code range.
+
+    :ivar min: The minimum http status code.
+    :vartype min: int
+    :ivar max: The maximum http status code.
+    :vartype max: int
+    """
+
+    _validation = {
+        "min": {"maximum": 599, "minimum": 200},
+        "max": {"maximum": 599, "minimum": 200},
+    }
+
+    _attribute_map = {
+        "min": {"key": "min", "type": "int"},
+        "max": {"key": "max", "type": "int"},
+    }
+
+    def __init__(
+        self,
+        *,
+        min: Optional[int] = None,  # pylint: disable=redefined-builtin
+        max: Optional[int] = None,  # pylint: disable=redefined-builtin
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword min: The minimum http status code.
+        :paramtype min: int
+        :keyword max: The maximum http status code.
+        :paramtype max: int
+        """
+        super().__init__(**kwargs)
+        self.min = min
+        self.max = max
+
+
 class GatewayCertificateAuthorityCollection(_serialization.Model):
     """Paged Gateway certificate authority list representation.
 
@@ -9741,8 +10015,6 @@ class GatewayCollection(_serialization.Model):
 
     :ivar value: Page values.
     :vartype value: list[~azure.mgmt.apimanagement.models.GatewayContract]
-    :ivar count: Total record count number across all pages.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
@@ -9754,18 +10026,13 @@ class GatewayCollection(_serialization.Model):
 
     _attribute_map = {
         "value": {"key": "value", "type": "[GatewayContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, count: Optional[int] = None, **kwargs: Any) -> None:
-        """
-        :keyword count: Total record count number across all pages.
-        :paramtype count: int
-        """
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
         super().__init__(**kwargs)
         self.value = None
-        self.count = count
         self.next_link = None
 
 
@@ -9819,6 +10086,26 @@ class GatewayContract(ProxyResource):
         super().__init__(**kwargs)
         self.location_data = location_data
         self.description = description
+
+
+class GatewayDebugCredentialsContract(_serialization.Model):
+    """Gateway debug credentials.
+
+    :ivar token: Gateway debug token.
+    :vartype token: str
+    """
+
+    _attribute_map = {
+        "token": {"key": "token", "type": "str"},
+    }
+
+    def __init__(self, *, token: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword token: Gateway debug token.
+        :paramtype token: str
+        """
+        super().__init__(**kwargs)
+        self.token = token
 
 
 class GatewayHostnameConfigurationCollection(_serialization.Model):
@@ -9984,6 +10271,76 @@ class GatewayKeysContract(_serialization.Model):
         self.secondary = secondary
 
 
+class GatewayListDebugCredentialsContract(_serialization.Model):
+    """List debug credentials properties.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar credentials_expire_after: Credentials expiration in ISO8601 format. Maximum duration of
+     the credentials is PT1H. When property is not specified, them value PT1H is used.
+    :vartype credentials_expire_after: ~datetime.timedelta
+    :ivar purposes: Purposes of debug credential. Required.
+    :vartype purposes: list[str or
+     ~azure.mgmt.apimanagement.models.GatewayListDebugCredentialsContractPurpose]
+    :ivar api_id: Full resource Id of an API. Required.
+    :vartype api_id: str
+    """
+
+    _validation = {
+        "purposes": {"required": True},
+        "api_id": {"required": True},
+    }
+
+    _attribute_map = {
+        "credentials_expire_after": {"key": "credentialsExpireAfter", "type": "duration"},
+        "purposes": {"key": "purposes", "type": "[str]"},
+        "api_id": {"key": "apiId", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        purposes: List[Union[str, "_models.GatewayListDebugCredentialsContractPurpose"]],
+        api_id: str,
+        credentials_expire_after: Optional[datetime.timedelta] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword credentials_expire_after: Credentials expiration in ISO8601 format. Maximum duration
+         of the credentials is PT1H. When property is not specified, them value PT1H is used.
+        :paramtype credentials_expire_after: ~datetime.timedelta
+        :keyword purposes: Purposes of debug credential. Required.
+        :paramtype purposes: list[str or
+         ~azure.mgmt.apimanagement.models.GatewayListDebugCredentialsContractPurpose]
+        :keyword api_id: Full resource Id of an API. Required.
+        :paramtype api_id: str
+        """
+        super().__init__(**kwargs)
+        self.credentials_expire_after = credentials_expire_after
+        self.purposes = purposes
+        self.api_id = api_id
+
+
+class GatewayListTraceContract(_serialization.Model):
+    """List trace properties.
+
+    :ivar trace_id: Trace id.
+    :vartype trace_id: str
+    """
+
+    _attribute_map = {
+        "trace_id": {"key": "traceId", "type": "str"},
+    }
+
+    def __init__(self, *, trace_id: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword trace_id: Trace id.
+        :paramtype trace_id: str
+        """
+        super().__init__(**kwargs)
+        self.trace_id = trace_id
+
+
 class GatewayTokenContract(_serialization.Model):
     """Gateway access token.
 
@@ -10070,8 +10427,6 @@ class GlobalSchemaCollection(_serialization.Model):
 
     :ivar value: Global Schema Contract value.
     :vartype value: list[~azure.mgmt.apimanagement.models.GlobalSchemaContract]
-    :ivar count: Total record count number.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
@@ -10083,18 +10438,13 @@ class GlobalSchemaCollection(_serialization.Model):
 
     _attribute_map = {
         "value": {"key": "value", "type": "[GlobalSchemaContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, count: Optional[int] = None, **kwargs: Any) -> None:
-        """
-        :keyword count: Total record count number.
-        :paramtype count: int
-        """
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
         super().__init__(**kwargs)
         self.value = None
-        self.count = count
         self.next_link = None
 
 
@@ -10169,37 +10519,26 @@ class GroupCollection(_serialization.Model):
 
     :ivar value: Page values.
     :vartype value: list[~azure.mgmt.apimanagement.models.GroupContract]
-    :ivar count: Total record count number across all pages.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
 
     _attribute_map = {
         "value": {"key": "value", "type": "[GroupContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
     def __init__(
-        self,
-        *,
-        value: Optional[List["_models.GroupContract"]] = None,
-        count: Optional[int] = None,
-        next_link: Optional[str] = None,
-        **kwargs: Any
+        self, *, value: Optional[List["_models.GroupContract"]] = None, next_link: Optional[str] = None, **kwargs: Any
     ) -> None:
         """
         :keyword value: Page values.
         :paramtype value: list[~azure.mgmt.apimanagement.models.GroupContract]
-        :keyword count: Total record count number across all pages.
-        :paramtype count: int
         :keyword next_link: Next page link if any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.count = count
         self.next_link = next_link
 
 
@@ -10460,7 +10799,7 @@ class HostnameConfiguration(_serialization.Model):  # pylint: disable=too-many-i
     All required parameters must be populated in order to send to Azure.
 
     :ivar type: Hostname type. Required. Known values are: "Proxy", "Portal", "Management", "Scm",
-     and "DeveloperPortal".
+     "DeveloperPortal", and "ConfigurationApi".
     :vartype type: str or ~azure.mgmt.apimanagement.models.HostnameType
     :ivar host_name: Hostname to configure on the Api Management service. Required.
     :vartype host_name: str
@@ -10532,7 +10871,7 @@ class HostnameConfiguration(_serialization.Model):  # pylint: disable=too-many-i
     ) -> None:
         """
         :keyword type: Hostname type. Required. Known values are: "Proxy", "Portal", "Management",
-         "Scm", and "DeveloperPortal".
+         "Scm", "DeveloperPortal", and "ConfigurationApi".
         :paramtype type: str or ~azure.mgmt.apimanagement.models.HostnameType
         :keyword host_name: Hostname to configure on the Api Management service. Required.
         :paramtype host_name: str
@@ -11301,15 +11640,12 @@ class IdentityProviderList(_serialization.Model):
 
     :ivar value: Identity Provider configuration values.
     :vartype value: list[~azure.mgmt.apimanagement.models.IdentityProviderContract]
-    :ivar count: Total record count number across all pages.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
 
     _attribute_map = {
         "value": {"key": "value", "type": "[IdentityProviderContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
@@ -11317,21 +11653,17 @@ class IdentityProviderList(_serialization.Model):
         self,
         *,
         value: Optional[List["_models.IdentityProviderContract"]] = None,
-        count: Optional[int] = None,
         next_link: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword value: Identity Provider configuration values.
         :paramtype value: list[~azure.mgmt.apimanagement.models.IdentityProviderContract]
-        :keyword count: Total record count number across all pages.
-        :paramtype count: int
         :keyword next_link: Next page link if any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.count = count
         self.next_link = next_link
 
 
@@ -11588,8 +11920,6 @@ class IssueAttachmentCollection(_serialization.Model):
 
     :ivar value: Issue Attachment values.
     :vartype value: list[~azure.mgmt.apimanagement.models.IssueAttachmentContract]
-    :ivar count: Total record count number across all pages.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
@@ -11601,18 +11931,13 @@ class IssueAttachmentCollection(_serialization.Model):
 
     _attribute_map = {
         "value": {"key": "value", "type": "[IssueAttachmentContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, count: Optional[int] = None, **kwargs: Any) -> None:
-        """
-        :keyword count: Total record count number across all pages.
-        :paramtype count: int
-        """
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
         super().__init__(**kwargs)
         self.value = None
-        self.count = count
         self.next_link = None
 
 
@@ -11683,8 +12008,6 @@ class IssueCollection(_serialization.Model):
 
     :ivar value: Issue values.
     :vartype value: list[~azure.mgmt.apimanagement.models.IssueContract]
-    :ivar count: Total record count number across all pages.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
@@ -11696,18 +12019,13 @@ class IssueCollection(_serialization.Model):
 
     _attribute_map = {
         "value": {"key": "value", "type": "[IssueContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, count: Optional[int] = None, **kwargs: Any) -> None:
-        """
-        :keyword count: Total record count number across all pages.
-        :paramtype count: int
-        """
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
         super().__init__(**kwargs)
         self.value = None
-        self.count = count
         self.next_link = None
 
 
@@ -11718,8 +12036,6 @@ class IssueCommentCollection(_serialization.Model):
 
     :ivar value: Issue Comment values.
     :vartype value: list[~azure.mgmt.apimanagement.models.IssueCommentContract]
-    :ivar count: Total record count number across all pages.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
@@ -11731,18 +12047,13 @@ class IssueCommentCollection(_serialization.Model):
 
     _attribute_map = {
         "value": {"key": "value", "type": "[IssueCommentContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, count: Optional[int] = None, **kwargs: Any) -> None:
-        """
-        :keyword count: Total record count number across all pages.
-        :paramtype count: int
-        """
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
         super().__init__(**kwargs)
         self.value = None
-        self.count = count
         self.next_link = None
 
 
@@ -12239,37 +12550,26 @@ class LoggerCollection(_serialization.Model):
 
     :ivar value: Logger values.
     :vartype value: list[~azure.mgmt.apimanagement.models.LoggerContract]
-    :ivar count: Total record count number across all pages.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
 
     _attribute_map = {
         "value": {"key": "value", "type": "[LoggerContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
     def __init__(
-        self,
-        *,
-        value: Optional[List["_models.LoggerContract"]] = None,
-        count: Optional[int] = None,
-        next_link: Optional[str] = None,
-        **kwargs: Any
+        self, *, value: Optional[List["_models.LoggerContract"]] = None, next_link: Optional[str] = None, **kwargs: Any
     ) -> None:
         """
         :keyword value: Logger values.
         :paramtype value: list[~azure.mgmt.apimanagement.models.LoggerContract]
-        :keyword count: Total record count number across all pages.
-        :paramtype count: int
         :keyword next_link: Next page link if any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.count = count
         self.next_link = next_link
 
 
@@ -12406,20 +12706,39 @@ class LoggerUpdateContract(_serialization.Model):
         self.is_buffered = is_buffered
 
 
+class MigrateToStv2Contract(_serialization.Model):
+    """Describes an available API Management SKU.
+
+    :ivar mode: Mode of Migration to stv2. Default is PreserveIp. Known values are: "PreserveIp"
+     and "NewIP".
+    :vartype mode: str or ~azure.mgmt.apimanagement.models.MigrateToStv2Mode
+    """
+
+    _attribute_map = {
+        "mode": {"key": "mode", "type": "str"},
+    }
+
+    def __init__(self, *, mode: Optional[Union[str, "_models.MigrateToStv2Mode"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword mode: Mode of Migration to stv2. Default is PreserveIp. Known values are: "PreserveIp"
+         and "NewIP".
+        :paramtype mode: str or ~azure.mgmt.apimanagement.models.MigrateToStv2Mode
+        """
+        super().__init__(**kwargs)
+        self.mode = mode
+
+
 class NamedValueCollection(_serialization.Model):
     """Paged NamedValue list representation.
 
     :ivar value: Page values.
     :vartype value: list[~azure.mgmt.apimanagement.models.NamedValueContract]
-    :ivar count: Total record count number across all pages.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
 
     _attribute_map = {
         "value": {"key": "value", "type": "[NamedValueContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
@@ -12427,21 +12746,17 @@ class NamedValueCollection(_serialization.Model):
         self,
         *,
         value: Optional[List["_models.NamedValueContract"]] = None,
-        count: Optional[int] = None,
         next_link: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword value: Page values.
         :paramtype value: list[~azure.mgmt.apimanagement.models.NamedValueContract]
-        :keyword count: Total record count number across all pages.
-        :paramtype count: int
         :keyword next_link: Next page link if any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.count = count
         self.next_link = next_link
 
 
@@ -13004,15 +13319,12 @@ class NotificationCollection(_serialization.Model):
 
     :ivar value: Page values.
     :vartype value: list[~azure.mgmt.apimanagement.models.NotificationContract]
-    :ivar count: Total record count number across all pages.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
 
     _attribute_map = {
         "value": {"key": "value", "type": "[NotificationContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
@@ -13020,21 +13332,17 @@ class NotificationCollection(_serialization.Model):
         self,
         *,
         value: Optional[List["_models.NotificationContract"]] = None,
-        count: Optional[int] = None,
         next_link: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword value: Page values.
         :paramtype value: list[~azure.mgmt.apimanagement.models.NotificationContract]
-        :keyword count: Total record count number across all pages.
-        :paramtype count: int
         :keyword next_link: Next page link if any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.count = count
         self.next_link = next_link
 
 
@@ -13164,15 +13472,12 @@ class OpenIdConnectProviderCollection(_serialization.Model):
 
     :ivar value: Page values.
     :vartype value: list[~azure.mgmt.apimanagement.models.OpenidConnectProviderContract]
-    :ivar count: Total record count number across all pages.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
 
     _attribute_map = {
         "value": {"key": "value", "type": "[OpenidConnectProviderContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
@@ -13180,21 +13485,17 @@ class OpenIdConnectProviderCollection(_serialization.Model):
         self,
         *,
         value: Optional[List["_models.OpenidConnectProviderContract"]] = None,
-        count: Optional[int] = None,
         next_link: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword value: Page values.
         :paramtype value: list[~azure.mgmt.apimanagement.models.OpenidConnectProviderContract]
-        :keyword count: Total record count number across all pages.
-        :paramtype count: int
         :keyword next_link: Next page link if any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.count = count
         self.next_link = next_link
 
 
@@ -13417,8 +13718,6 @@ class OperationCollection(_serialization.Model):
 
     :ivar value: Page values.
     :vartype value: list[~azure.mgmt.apimanagement.models.OperationContract]
-    :ivar count: Total record count number across all pages.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
@@ -13430,18 +13729,13 @@ class OperationCollection(_serialization.Model):
 
     _attribute_map = {
         "value": {"key": "value", "type": "[OperationContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, count: Optional[int] = None, **kwargs: Any) -> None:
-        """
-        :keyword count: Total record count number across all pages.
-        :paramtype count: int
-        """
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
         super().__init__(**kwargs)
         self.value = None
-        self.count = count
         self.next_link = None
 
 
@@ -14369,37 +14663,26 @@ class PolicyCollection(_serialization.Model):
 
     :ivar value: Policy Contract value.
     :vartype value: list[~azure.mgmt.apimanagement.models.PolicyContract]
-    :ivar count: Total record count number.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
 
     _attribute_map = {
         "value": {"key": "value", "type": "[PolicyContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
     def __init__(
-        self,
-        *,
-        value: Optional[List["_models.PolicyContract"]] = None,
-        count: Optional[int] = None,
-        next_link: Optional[str] = None,
-        **kwargs: Any
+        self, *, value: Optional[List["_models.PolicyContract"]] = None, next_link: Optional[str] = None, **kwargs: Any
     ) -> None:
         """
         :keyword value: Policy Contract value.
         :paramtype value: list[~azure.mgmt.apimanagement.models.PolicyContract]
-        :keyword count: Total record count number.
-        :paramtype count: int
         :keyword next_link: Next page link if any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.count = count
         self.next_link = next_link
 
 
@@ -14457,31 +14740,19 @@ class PolicyDescriptionCollection(_serialization.Model):
 
     :ivar value: Descriptions of API Management policies.
     :vartype value: list[~azure.mgmt.apimanagement.models.PolicyDescriptionContract]
-    :ivar count: Total record count number.
-    :vartype count: int
     """
 
     _attribute_map = {
         "value": {"key": "value", "type": "[PolicyDescriptionContract]"},
-        "count": {"key": "count", "type": "int"},
     }
 
-    def __init__(
-        self,
-        *,
-        value: Optional[List["_models.PolicyDescriptionContract"]] = None,
-        count: Optional[int] = None,
-        **kwargs: Any
-    ) -> None:
+    def __init__(self, *, value: Optional[List["_models.PolicyDescriptionContract"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Descriptions of API Management policies.
         :paramtype value: list[~azure.mgmt.apimanagement.models.PolicyDescriptionContract]
-        :keyword count: Total record count number.
-        :paramtype count: int
         """
         super().__init__(**kwargs)
         self.value = value
-        self.count = count
 
 
 class PolicyDescriptionContract(ProxyResource):
@@ -14531,15 +14802,12 @@ class PolicyFragmentCollection(_serialization.Model):
 
     :ivar value: Policy fragment contract value.
     :vartype value: list[~azure.mgmt.apimanagement.models.PolicyFragmentContract]
-    :ivar count: Total record count number.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
 
     _attribute_map = {
         "value": {"key": "value", "type": "[PolicyFragmentContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
@@ -14547,21 +14815,17 @@ class PolicyFragmentCollection(_serialization.Model):
         self,
         *,
         value: Optional[List["_models.PolicyFragmentContract"]] = None,
-        count: Optional[int] = None,
         next_link: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword value: Policy fragment contract value.
         :paramtype value: list[~azure.mgmt.apimanagement.models.PolicyFragmentContract]
-        :keyword count: Total record count number.
-        :paramtype count: int
         :keyword next_link: Next page link if any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.count = count
         self.next_link = next_link
 
 
@@ -15085,31 +15349,19 @@ class PortalSettingsCollection(_serialization.Model):
 
     :ivar value: Descriptions of API Management policies.
     :vartype value: list[~azure.mgmt.apimanagement.models.PortalSettingsContract]
-    :ivar count: Total record count number.
-    :vartype count: int
     """
 
     _attribute_map = {
         "value": {"key": "value", "type": "[PortalSettingsContract]"},
-        "count": {"key": "count", "type": "int"},
     }
 
-    def __init__(
-        self,
-        *,
-        value: Optional[List["_models.PortalSettingsContract"]] = None,
-        count: Optional[int] = None,
-        **kwargs: Any
-    ) -> None:
+    def __init__(self, *, value: Optional[List["_models.PortalSettingsContract"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Descriptions of API Management policies.
         :paramtype value: list[~azure.mgmt.apimanagement.models.PortalSettingsContract]
-        :keyword count: Total record count number.
-        :paramtype count: int
         """
         super().__init__(**kwargs)
         self.value = value
-        self.count = count
 
 
 class PortalSettingsContract(ProxyResource):
@@ -15595,42 +15847,102 @@ class PrivateLinkServiceConnectionState(_serialization.Model):
         self.actions_required = actions_required
 
 
-class ProductCollection(_serialization.Model):
-    """Paged Products list representation.
+class ProductApiLinkCollection(_serialization.Model):
+    """Paged Product-API link list representation.
 
     :ivar value: Page values.
-    :vartype value: list[~azure.mgmt.apimanagement.models.ProductContract]
-    :ivar count: Total record count number across all pages.
-    :vartype count: int
+    :vartype value: list[~azure.mgmt.apimanagement.models.ProductApiLinkContract]
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
 
     _attribute_map = {
-        "value": {"key": "value", "type": "[ProductContract]"},
-        "count": {"key": "count", "type": "int"},
+        "value": {"key": "value", "type": "[ProductApiLinkContract]"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
     def __init__(
         self,
         *,
-        value: Optional[List["_models.ProductContract"]] = None,
-        count: Optional[int] = None,
+        value: Optional[List["_models.ProductApiLinkContract"]] = None,
         next_link: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword value: Page values.
-        :paramtype value: list[~azure.mgmt.apimanagement.models.ProductContract]
-        :keyword count: Total record count number across all pages.
-        :paramtype count: int
+        :paramtype value: list[~azure.mgmt.apimanagement.models.ProductApiLinkContract]
         :keyword next_link: Next page link if any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.count = count
+        self.next_link = next_link
+
+
+class ProductApiLinkContract(ProxyResource):
+    """Product-API link details.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar api_id: Full resource Id of an API.
+    :vartype api_id: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "api_id": {"key": "properties.apiId", "type": "str"},
+    }
+
+    def __init__(self, *, api_id: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword api_id: Full resource Id of an API.
+        :paramtype api_id: str
+        """
+        super().__init__(**kwargs)
+        self.api_id = api_id
+
+
+class ProductCollection(_serialization.Model):
+    """Paged Products list representation.
+
+    :ivar value: Page values.
+    :vartype value: list[~azure.mgmt.apimanagement.models.ProductContract]
+    :ivar next_link: Next page link if any.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[ProductContract]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: Optional[List["_models.ProductContract"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: Page values.
+        :paramtype value: list[~azure.mgmt.apimanagement.models.ProductContract]
+        :keyword next_link: Next page link if any.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
         self.next_link = next_link
 
 
@@ -15944,6 +16256,77 @@ class ProductContractProperties(ProductEntityBaseParameters):
             **kwargs
         )
         self.display_name = display_name
+
+
+class ProductGroupLinkCollection(_serialization.Model):
+    """Paged Product-group link list representation.
+
+    :ivar value: Page values.
+    :vartype value: list[~azure.mgmt.apimanagement.models.ProductGroupLinkContract]
+    :ivar next_link: Next page link if any.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[ProductGroupLinkContract]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        value: Optional[List["_models.ProductGroupLinkContract"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: Page values.
+        :paramtype value: list[~azure.mgmt.apimanagement.models.ProductGroupLinkContract]
+        :keyword next_link: Next page link if any.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class ProductGroupLinkContract(ProxyResource):
+    """Product-group link details.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar group_id: Full resource Id of a group.
+    :vartype group_id: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "group_id": {"key": "properties.groupId", "type": "str"},
+    }
+
+    def __init__(self, *, group_id: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword group_id: Full resource Id of a group.
+        :paramtype group_id: str
+        """
+        super().__init__(**kwargs)
+        self.group_id = group_id
 
 
 class ProductTagResourceContractProperties(ProductEntityBaseParameters):
@@ -16264,15 +16647,12 @@ class QuotaCounterCollection(_serialization.Model):
 
     :ivar value: Quota counter values.
     :vartype value: list[~azure.mgmt.apimanagement.models.QuotaCounterContract]
-    :ivar count: Total record count number across all pages.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
 
     _attribute_map = {
         "value": {"key": "value", "type": "[QuotaCounterContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
@@ -16280,21 +16660,17 @@ class QuotaCounterCollection(_serialization.Model):
         self,
         *,
         value: Optional[List["_models.QuotaCounterContract"]] = None,
-        count: Optional[int] = None,
         next_link: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword value: Quota counter values.
         :paramtype value: list[~azure.mgmt.apimanagement.models.QuotaCounterContract]
-        :keyword count: Total record count number across all pages.
-        :paramtype count: int
         :keyword next_link: Next page link if any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.count = count
         self.next_link = next_link
 
 
@@ -16455,15 +16831,12 @@ class RecipientEmailCollection(_serialization.Model):
 
     :ivar value: Page values.
     :vartype value: list[~azure.mgmt.apimanagement.models.RecipientEmailContract]
-    :ivar count: Total record count number across all pages.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
 
     _attribute_map = {
         "value": {"key": "value", "type": "[RecipientEmailContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
@@ -16471,21 +16844,17 @@ class RecipientEmailCollection(_serialization.Model):
         self,
         *,
         value: Optional[List["_models.RecipientEmailContract"]] = None,
-        count: Optional[int] = None,
         next_link: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword value: Page values.
         :paramtype value: list[~azure.mgmt.apimanagement.models.RecipientEmailContract]
-        :keyword count: Total record count number across all pages.
-        :paramtype count: int
         :keyword next_link: Next page link if any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.count = count
         self.next_link = next_link
 
 
@@ -16559,15 +16928,12 @@ class RecipientUserCollection(_serialization.Model):
 
     :ivar value: Page values.
     :vartype value: list[~azure.mgmt.apimanagement.models.RecipientUserContract]
-    :ivar count: Total record count number across all pages.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
 
     _attribute_map = {
         "value": {"key": "value", "type": "[RecipientUserContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
@@ -16575,21 +16941,17 @@ class RecipientUserCollection(_serialization.Model):
         self,
         *,
         value: Optional[List["_models.RecipientUserContract"]] = None,
-        count: Optional[int] = None,
         next_link: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword value: Page values.
         :paramtype value: list[~azure.mgmt.apimanagement.models.RecipientUserContract]
-        :keyword count: Total record count number across all pages.
-        :paramtype count: int
         :keyword next_link: Next page link if any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.count = count
         self.next_link = next_link
 
 
@@ -16675,37 +17037,26 @@ class RegionListResult(_serialization.Model):
 
     :ivar value: Lists of Regions.
     :vartype value: list[~azure.mgmt.apimanagement.models.RegionContract]
-    :ivar count: Total record count number across all pages.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
 
     _attribute_map = {
         "value": {"key": "value", "type": "[RegionContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
     def __init__(
-        self,
-        *,
-        value: Optional[List["_models.RegionContract"]] = None,
-        count: Optional[int] = None,
-        next_link: Optional[str] = None,
-        **kwargs: Any
+        self, *, value: Optional[List["_models.RegionContract"]] = None, next_link: Optional[str] = None, **kwargs: Any
     ) -> None:
         """
         :keyword value: Lists of Regions.
         :paramtype value: list[~azure.mgmt.apimanagement.models.RegionContract]
-        :keyword count: Total record count number across all pages.
-        :paramtype count: int
         :keyword next_link: Next page link if any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.count = count
         self.next_link = next_link
 
 
@@ -16809,15 +17160,12 @@ class ReportCollection(_serialization.Model):
 
     :ivar value: Page values.
     :vartype value: list[~azure.mgmt.apimanagement.models.ReportRecordContract]
-    :ivar count: Total record count number across all pages.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
 
     _attribute_map = {
         "value": {"key": "value", "type": "[ReportRecordContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
@@ -16825,21 +17173,17 @@ class ReportCollection(_serialization.Model):
         self,
         *,
         value: Optional[List["_models.ReportRecordContract"]] = None,
-        count: Optional[int] = None,
         next_link: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword value: Page values.
         :paramtype value: list[~azure.mgmt.apimanagement.models.ReportRecordContract]
-        :keyword count: Total record count number across all pages.
-        :paramtype count: int
         :keyword next_link: Next page link if any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.count = count
         self.next_link = next_link
 
 
@@ -17180,31 +17524,19 @@ class RequestReportCollection(_serialization.Model):
 
     :ivar value: Page values.
     :vartype value: list[~azure.mgmt.apimanagement.models.RequestReportRecordContract]
-    :ivar count: Total record count number across all pages.
-    :vartype count: int
     """
 
     _attribute_map = {
         "value": {"key": "value", "type": "[RequestReportRecordContract]"},
-        "count": {"key": "count", "type": "int"},
     }
 
-    def __init__(
-        self,
-        *,
-        value: Optional[List["_models.RequestReportRecordContract"]] = None,
-        count: Optional[int] = None,
-        **kwargs: Any
-    ) -> None:
+    def __init__(self, *, value: Optional[List["_models.RequestReportRecordContract"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Page values.
         :paramtype value: list[~azure.mgmt.apimanagement.models.RequestReportRecordContract]
-        :keyword count: Total record count number across all pages.
-        :paramtype count: int
         """
         super().__init__(**kwargs)
         self.value = value
-        self.count = count
 
 
 class RequestReportRecordContract(_serialization.Model):  # pylint: disable=too-many-instance-attributes
@@ -17371,8 +17703,6 @@ class ResolverCollection(_serialization.Model):
 
     :ivar value: Page values.
     :vartype value: list[~azure.mgmt.apimanagement.models.ResolverContract]
-    :ivar count: Total record count number across all pages.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
@@ -17384,18 +17714,13 @@ class ResolverCollection(_serialization.Model):
 
     _attribute_map = {
         "value": {"key": "value", "type": "[ResolverContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, count: Optional[int] = None, **kwargs: Any) -> None:
-        """
-        :keyword count: Total record count number across all pages.
-        :paramtype count: int
-        """
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
         super().__init__(**kwargs)
         self.value = None
-        self.count = count
         self.next_link = None
 
 
@@ -17641,15 +17966,12 @@ class ResourceCollection(_serialization.Model):
 
     :ivar value: A collection of resources.
     :vartype value: list[~azure.mgmt.apimanagement.models.ResourceCollectionValueItem]
-    :ivar count: Total record count number.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
 
     _attribute_map = {
         "value": {"key": "value", "type": "[ResourceCollectionValueItem]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
@@ -17657,21 +17979,17 @@ class ResourceCollection(_serialization.Model):
         self,
         *,
         value: Optional[List["_models.ResourceCollectionValueItem"]] = None,
-        count: Optional[int] = None,
         next_link: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword value: A collection of resources.
         :paramtype value: list[~azure.mgmt.apimanagement.models.ResourceCollectionValueItem]
-        :keyword count: Total record count number.
-        :paramtype count: int
         :keyword next_link: Next page link if any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.count = count
         self.next_link = next_link
 
 
@@ -18014,8 +18332,6 @@ class SchemaCollection(_serialization.Model):
 
     :ivar value: API Schema Contract value.
     :vartype value: list[~azure.mgmt.apimanagement.models.SchemaContract]
-    :ivar count: Total record count number.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
@@ -18027,18 +18343,13 @@ class SchemaCollection(_serialization.Model):
 
     _attribute_map = {
         "value": {"key": "value", "type": "[SchemaContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, count: Optional[int] = None, **kwargs: Any) -> None:
-        """
-        :keyword count: Total record count number.
-        :paramtype count: int
-        """
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
         super().__init__(**kwargs)
         self.value = None
-        self.count = count
         self.next_link = None
 
 
@@ -18060,7 +18371,8 @@ class SchemaContract(ProxyResource):
      - ``Swagger`` Schema use ``application/vnd.ms-azure-apim.swagger.definitions+json`` </br> -
      ``WSDL`` Schema use ``application/vnd.ms-azure-apim.xsd+xml`` </br> - ``OpenApi`` Schema use
      ``application/vnd.oai.openapi.components+json`` </br> - ``WADL Schema`` use
-     ``application/vnd.ms-azure-apim.wadl.grammars+xml``.
+     ``application/vnd.ms-azure-apim.wadl.grammars+xml`` </br> - ``OData Schema`` use
+     ``application/vnd.ms-azure-apim.odata.schema``.
     :vartype content_type: str
     :ivar value: Json escaped string defining the document representing the Schema. Used for
      schemas other than Swagger/OpenAPI.
@@ -18103,7 +18415,8 @@ class SchemaContract(ProxyResource):
          - ``Swagger`` Schema use ``application/vnd.ms-azure-apim.swagger.definitions+json`` </br> -
          ``WSDL`` Schema use ``application/vnd.ms-azure-apim.xsd+xml`` </br> - ``OpenApi`` Schema use
          ``application/vnd.oai.openapi.components+json`` </br> - ``WADL Schema`` use
-         ``application/vnd.ms-azure-apim.wadl.grammars+xml``.
+         ``application/vnd.ms-azure-apim.wadl.grammars+xml`` </br> - ``OData Schema`` use
+         ``application/vnd.ms-azure-apim.odata.schema``.
         :paramtype content_type: str
         :keyword value: Json escaped string defining the document representing the Schema. Used for
          schemas other than Swagger/OpenAPI.
@@ -18127,15 +18440,12 @@ class SubscriptionCollection(_serialization.Model):
 
     :ivar value: Page values.
     :vartype value: list[~azure.mgmt.apimanagement.models.SubscriptionContract]
-    :ivar count: Total record count number across all pages.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
 
     _attribute_map = {
         "value": {"key": "value", "type": "[SubscriptionContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
@@ -18143,21 +18453,17 @@ class SubscriptionCollection(_serialization.Model):
         self,
         *,
         value: Optional[List["_models.SubscriptionContract"]] = None,
-        count: Optional[int] = None,
         next_link: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword value: Page values.
         :paramtype value: list[~azure.mgmt.apimanagement.models.SubscriptionContract]
-        :keyword count: Total record count number across all pages.
-        :paramtype count: int
         :keyword next_link: Next page link if any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.count = count
         self.next_link = next_link
 
 
@@ -18674,42 +18980,102 @@ class SystemData(_serialization.Model):
         self.last_modified_at = last_modified_at
 
 
-class TagCollection(_serialization.Model):
-    """Paged Tag list representation.
+class TagApiLinkCollection(_serialization.Model):
+    """Paged Tag-API link list representation.
 
     :ivar value: Page values.
-    :vartype value: list[~azure.mgmt.apimanagement.models.TagContract]
-    :ivar count: Total record count number across all pages.
-    :vartype count: int
+    :vartype value: list[~azure.mgmt.apimanagement.models.TagApiLinkContract]
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
 
     _attribute_map = {
-        "value": {"key": "value", "type": "[TagContract]"},
-        "count": {"key": "count", "type": "int"},
+        "value": {"key": "value", "type": "[TagApiLinkContract]"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
     def __init__(
         self,
         *,
-        value: Optional[List["_models.TagContract"]] = None,
-        count: Optional[int] = None,
+        value: Optional[List["_models.TagApiLinkContract"]] = None,
         next_link: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword value: Page values.
-        :paramtype value: list[~azure.mgmt.apimanagement.models.TagContract]
-        :keyword count: Total record count number across all pages.
-        :paramtype count: int
+        :paramtype value: list[~azure.mgmt.apimanagement.models.TagApiLinkContract]
         :keyword next_link: Next page link if any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.count = count
+        self.next_link = next_link
+
+
+class TagApiLinkContract(ProxyResource):
+    """Tag-API link details.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar api_id: Full resource Id of an API.
+    :vartype api_id: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "api_id": {"key": "properties.apiId", "type": "str"},
+    }
+
+    def __init__(self, *, api_id: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword api_id: Full resource Id of an API.
+        :paramtype api_id: str
+        """
+        super().__init__(**kwargs)
+        self.api_id = api_id
+
+
+class TagCollection(_serialization.Model):
+    """Paged Tag list representation.
+
+    :ivar value: Page values.
+    :vartype value: list[~azure.mgmt.apimanagement.models.TagContract]
+    :ivar next_link: Next page link if any.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[TagContract]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: Optional[List["_models.TagContract"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: Page values.
+        :paramtype value: list[~azure.mgmt.apimanagement.models.TagContract]
+        :keyword next_link: Next page link if any.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
         self.next_link = next_link
 
 
@@ -18825,15 +19191,12 @@ class TagDescriptionCollection(_serialization.Model):
 
     :ivar value: Page values.
     :vartype value: list[~azure.mgmt.apimanagement.models.TagDescriptionContract]
-    :ivar count: Total record count number across all pages.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
 
     _attribute_map = {
         "value": {"key": "value", "type": "[TagDescriptionContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
@@ -18841,21 +19204,17 @@ class TagDescriptionCollection(_serialization.Model):
         self,
         *,
         value: Optional[List["_models.TagDescriptionContract"]] = None,
-        count: Optional[int] = None,
         next_link: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword value: Page values.
         :paramtype value: list[~azure.mgmt.apimanagement.models.TagDescriptionContract]
-        :keyword count: Total record count number across all pages.
-        :paramtype count: int
         :keyword next_link: Next page link if any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.count = count
         self.next_link = next_link
 
 
@@ -19036,20 +19395,159 @@ class TagDescriptionCreateParameters(_serialization.Model):
         self.external_docs_description = external_docs_description
 
 
+class TagOperationLinkCollection(_serialization.Model):
+    """Paged Tag-operation link list representation.
+
+    :ivar value: Page values.
+    :vartype value: list[~azure.mgmt.apimanagement.models.TagOperationLinkContract]
+    :ivar next_link: Next page link if any.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[TagOperationLinkContract]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        value: Optional[List["_models.TagOperationLinkContract"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: Page values.
+        :paramtype value: list[~azure.mgmt.apimanagement.models.TagOperationLinkContract]
+        :keyword next_link: Next page link if any.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class TagOperationLinkContract(ProxyResource):
+    """Tag-operation link details.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar operation_id: Full resource Id of an API operation.
+    :vartype operation_id: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "operation_id": {"key": "properties.operationId", "type": "str"},
+    }
+
+    def __init__(self, *, operation_id: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword operation_id: Full resource Id of an API operation.
+        :paramtype operation_id: str
+        """
+        super().__init__(**kwargs)
+        self.operation_id = operation_id
+
+
+class TagProductLinkCollection(_serialization.Model):
+    """Paged Tag-product link list representation.
+
+    :ivar value: Page values.
+    :vartype value: list[~azure.mgmt.apimanagement.models.TagProductLinkContract]
+    :ivar next_link: Next page link if any.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[TagProductLinkContract]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        value: Optional[List["_models.TagProductLinkContract"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: Page values.
+        :paramtype value: list[~azure.mgmt.apimanagement.models.TagProductLinkContract]
+        :keyword next_link: Next page link if any.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class TagProductLinkContract(ProxyResource):
+    """Tag-product link details.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar product_id: Full resource Id of a product.
+    :vartype product_id: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "product_id": {"key": "properties.productId", "type": "str"},
+    }
+
+    def __init__(self, *, product_id: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword product_id: Full resource Id of a product.
+        :paramtype product_id: str
+        """
+        super().__init__(**kwargs)
+        self.product_id = product_id
+
+
 class TagResourceCollection(_serialization.Model):
     """Paged Tag list representation.
 
     :ivar value: Page values.
     :vartype value: list[~azure.mgmt.apimanagement.models.TagResourceContract]
-    :ivar count: Total record count number across all pages.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
 
     _attribute_map = {
         "value": {"key": "value", "type": "[TagResourceContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
@@ -19057,21 +19555,17 @@ class TagResourceCollection(_serialization.Model):
         self,
         *,
         value: Optional[List["_models.TagResourceContract"]] = None,
-        count: Optional[int] = None,
         next_link: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword value: Page values.
         :paramtype value: list[~azure.mgmt.apimanagement.models.TagResourceContract]
-        :keyword count: Total record count number across all pages.
-        :paramtype count: int
         :keyword next_link: Next page link if any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.count = count
         self.next_link = next_link
 
 
@@ -19407,37 +19901,26 @@ class UserCollection(_serialization.Model):
 
     :ivar value: Page values.
     :vartype value: list[~azure.mgmt.apimanagement.models.UserContract]
-    :ivar count: Total record count number across all pages.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
 
     _attribute_map = {
         "value": {"key": "value", "type": "[UserContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
     def __init__(
-        self,
-        *,
-        value: Optional[List["_models.UserContract"]] = None,
-        count: Optional[int] = None,
-        next_link: Optional[str] = None,
-        **kwargs: Any
+        self, *, value: Optional[List["_models.UserContract"]] = None, next_link: Optional[str] = None, **kwargs: Any
     ) -> None:
         """
         :keyword value: Page values.
         :paramtype value: list[~azure.mgmt.apimanagement.models.UserContract]
-        :keyword count: Total record count number across all pages.
-        :paramtype count: int
         :keyword next_link: Next page link if any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.count = count
         self.next_link = next_link
 
 
@@ -19858,15 +20341,12 @@ class UserIdentityCollection(_serialization.Model):
 
     :ivar value: User Identity values.
     :vartype value: list[~azure.mgmt.apimanagement.models.UserIdentityContract]
-    :ivar count: Total record count number across all pages.
-    :vartype count: int
     :ivar next_link: Next page link if any.
     :vartype next_link: str
     """
 
     _attribute_map = {
         "value": {"key": "value", "type": "[UserIdentityContract]"},
-        "count": {"key": "count", "type": "int"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
@@ -19874,21 +20354,17 @@ class UserIdentityCollection(_serialization.Model):
         self,
         *,
         value: Optional[List["_models.UserIdentityContract"]] = None,
-        count: Optional[int] = None,
         next_link: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword value: User Identity values.
         :paramtype value: list[~azure.mgmt.apimanagement.models.UserIdentityContract]
-        :keyword count: Total record count number across all pages.
-        :paramtype count: int
         :keyword next_link: Next page link if any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.count = count
         self.next_link = next_link
 
 
@@ -20306,6 +20782,83 @@ class WikiUpdateContract(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.documents = documents
+
+
+class WorkspaceCollection(_serialization.Model):
+    """Paged workspace list representation.
+
+    :ivar value: Page values.
+    :vartype value: list[~azure.mgmt.apimanagement.models.WorkspaceContract]
+    :ivar next_link: Next page link if any.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[WorkspaceContract]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        value: Optional[List["_models.WorkspaceContract"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: Page values.
+        :paramtype value: list[~azure.mgmt.apimanagement.models.WorkspaceContract]
+        :keyword next_link: Next page link if any.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class WorkspaceContract(ProxyResource):
+    """Workspace details.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar display_name: Name of the workspace.
+    :vartype display_name: str
+    :ivar description: Description of the workspace.
+    :vartype description: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "display_name": {"key": "properties.displayName", "type": "str"},
+        "description": {"key": "properties.description", "type": "str"},
+    }
+
+    def __init__(self, *, display_name: Optional[str] = None, description: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword display_name: Name of the workspace.
+        :paramtype display_name: str
+        :keyword description: Description of the workspace.
+        :paramtype description: str
+        """
+        super().__init__(**kwargs)
+        self.display_name = display_name
+        self.description = description
 
 
 class X509CertificateName(_serialization.Model):
