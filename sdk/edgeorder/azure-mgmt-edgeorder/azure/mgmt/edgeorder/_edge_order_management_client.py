@@ -72,6 +72,8 @@ class EdgeOrderManagementClient(EdgeOrderManagementClientOperationsMixin, MultiA
         profile: KnownProfiles=KnownProfiles.default,
         **kwargs: Any
     ):
+        if api_version:
+            kwargs.setdefault('api_version', api_version)
         self._config = EdgeOrderManagementClientConfiguration(credential, subscription_id, **kwargs)
         self._client = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
         super(EdgeOrderManagementClient, self).__init__(
@@ -90,6 +92,7 @@ class EdgeOrderManagementClient(EdgeOrderManagementClientOperationsMixin, MultiA
            * 2020-12-01-preview: :mod:`v2020_12_01_preview.models<azure.mgmt.edgeorder.v2020_12_01_preview.models>`
            * 2021-12-01: :mod:`v2021_12_01.models<azure.mgmt.edgeorder.v2021_12_01.models>`
            * 2022-05-01-preview: :mod:`v2022_05_01_preview.models<azure.mgmt.edgeorder.v2022_05_01_preview.models>`
+           * 2023-07-01-preview: :mod:`v2023_07_01_preview.models<azure.mgmt.edgeorder.v2023_07_01_preview.models>`
         """
         if api_version == '2020-12-01-preview':
             from .v2020_12_01_preview import models
@@ -100,6 +103,9 @@ class EdgeOrderManagementClient(EdgeOrderManagementClientOperationsMixin, MultiA
         elif api_version == '2022-05-01-preview':
             from .v2022_05_01_preview import models
             return models
+        elif api_version == '2023-07-01-preview':
+            from .v2023_07_01_preview import models
+            return models
         raise ValueError("API version {} is not available".format(api_version))
 
     @property
@@ -107,70 +113,85 @@ class EdgeOrderManagementClient(EdgeOrderManagementClientOperationsMixin, MultiA
         """Instance depends on the API version:
 
            * 2022-05-01-preview: :class:`AddressesOperations<azure.mgmt.edgeorder.v2022_05_01_preview.operations.AddressesOperations>`
+           * 2023-07-01-preview: :class:`AddressesOperations<azure.mgmt.edgeorder.v2023_07_01_preview.operations.AddressesOperations>`
         """
         api_version = self._get_api_version('addresses')
         if api_version == '2022-05-01-preview':
             from .v2022_05_01_preview.operations import AddressesOperations as OperationClass
+        elif api_version == '2023-07-01-preview':
+            from .v2023_07_01_preview.operations import AddressesOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'addresses'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def operations(self):
         """Instance depends on the API version:
 
            * 2022-05-01-preview: :class:`Operations<azure.mgmt.edgeorder.v2022_05_01_preview.operations.Operations>`
+           * 2023-07-01-preview: :class:`Operations<azure.mgmt.edgeorder.v2023_07_01_preview.operations.Operations>`
         """
         api_version = self._get_api_version('operations')
         if api_version == '2022-05-01-preview':
             from .v2022_05_01_preview.operations import Operations as OperationClass
+        elif api_version == '2023-07-01-preview':
+            from .v2023_07_01_preview.operations import Operations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'operations'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def order_items(self):
         """Instance depends on the API version:
 
            * 2022-05-01-preview: :class:`OrderItemsOperations<azure.mgmt.edgeorder.v2022_05_01_preview.operations.OrderItemsOperations>`
+           * 2023-07-01-preview: :class:`OrderItemsOperations<azure.mgmt.edgeorder.v2023_07_01_preview.operations.OrderItemsOperations>`
         """
         api_version = self._get_api_version('order_items')
         if api_version == '2022-05-01-preview':
             from .v2022_05_01_preview.operations import OrderItemsOperations as OperationClass
+        elif api_version == '2023-07-01-preview':
+            from .v2023_07_01_preview.operations import OrderItemsOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'order_items'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def orders(self):
         """Instance depends on the API version:
 
            * 2022-05-01-preview: :class:`OrdersOperations<azure.mgmt.edgeorder.v2022_05_01_preview.operations.OrdersOperations>`
+           * 2023-07-01-preview: :class:`OrdersOperations<azure.mgmt.edgeorder.v2023_07_01_preview.operations.OrdersOperations>`
         """
         api_version = self._get_api_version('orders')
         if api_version == '2022-05-01-preview':
             from .v2022_05_01_preview.operations import OrdersOperations as OperationClass
+        elif api_version == '2023-07-01-preview':
+            from .v2023_07_01_preview.operations import OrdersOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'orders'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def products_and_configurations(self):
         """Instance depends on the API version:
 
            * 2022-05-01-preview: :class:`ProductsAndConfigurationsOperations<azure.mgmt.edgeorder.v2022_05_01_preview.operations.ProductsAndConfigurationsOperations>`
+           * 2023-07-01-preview: :class:`ProductsAndConfigurationsOperations<azure.mgmt.edgeorder.v2023_07_01_preview.operations.ProductsAndConfigurationsOperations>`
         """
         api_version = self._get_api_version('products_and_configurations')
         if api_version == '2022-05-01-preview':
             from .v2022_05_01_preview.operations import ProductsAndConfigurationsOperations as OperationClass
+        elif api_version == '2023-07-01-preview':
+            from .v2023_07_01_preview.operations import ProductsAndConfigurationsOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'products_and_configurations'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     def close(self):
         self._client.close()
