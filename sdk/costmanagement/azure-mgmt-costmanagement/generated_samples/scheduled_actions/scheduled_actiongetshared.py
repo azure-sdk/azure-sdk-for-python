@@ -14,7 +14,7 @@ from azure.mgmt.costmanagement import CostManagementClient
     pip install azure-identity
     pip install azure-mgmt-costmanagement
 # USAGE
-    python scheduled_actiongetprivate.py
+    python scheduled_actiongetshared.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -28,12 +28,13 @@ def main():
         credential=DefaultAzureCredential(),
     )
 
-    response = client.scheduled_actions.get(
+    response = client.scheduled_actions.get_by_scope(
+        scope="subscriptions/00000000-0000-0000-0000-000000000000",
         name="monthlyCostByResource",
     )
     print(response)
 
 
-# x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/scheduledActions/scheduledAction-get-private.json
+# x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2023-03-01/examples/scheduledActions/scheduledAction-get-shared.json
 if __name__ == "__main__":
     main()

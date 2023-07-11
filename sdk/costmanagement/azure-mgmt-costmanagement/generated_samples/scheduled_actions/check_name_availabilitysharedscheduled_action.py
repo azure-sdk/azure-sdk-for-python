@@ -14,7 +14,7 @@ from azure.mgmt.costmanagement import CostManagementClient
     pip install azure-identity
     pip install azure-mgmt-costmanagement
 # USAGE
-    python scheduled_actionslist_with_filterprivate.py
+    python check_name_availabilitysharedscheduled_action.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -28,11 +28,13 @@ def main():
         credential=DefaultAzureCredential(),
     )
 
-    response = client.scheduled_actions.list()
-    for item in response:
-        print(item)
+    response = client.scheduled_actions.check_name_availability_by_scope(
+        scope="subscriptions/00000000-0000-0000-0000-000000000000",
+        check_name_availability_request={"name": "testName", "type": "Microsoft.CostManagement/ScheduledActions"},
+    )
+    print(response)
 
 
-# x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/scheduledActions/scheduledActions-listWithFilter-private.json
+# x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2023-03-01/examples/scheduledActions/checkNameAvailability-shared-scheduledAction.json
 if __name__ == "__main__":
     main()

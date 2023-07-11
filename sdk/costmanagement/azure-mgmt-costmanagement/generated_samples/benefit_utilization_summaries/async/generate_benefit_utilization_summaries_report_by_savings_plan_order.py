@@ -14,7 +14,7 @@ from azure.mgmt.costmanagement import CostManagementClient
     pip install azure-identity
     pip install azure-mgmt-costmanagement
 # USAGE
-    python savings_plan_savings_plan_order_id_daily.py
+    python generate_benefit_utilization_summaries_report_by_savings_plan_order.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -28,13 +28,17 @@ def main():
         credential=DefaultAzureCredential(),
     )
 
-    response = client.benefit_utilization_summaries.list_by_savings_plan_order(
-        savings_plan_order_id="66cccc66-6ccc-6c66-666c-66cc6c6c66c6",
-    )
-    for item in response:
-        print(item)
+    response = client.generate_benefit_utilization_summaries_report.begin_generate_by_savings_plan_order_id(
+        savings_plan_order_id="00000000-0000-0000-0000-000000000000",
+        benefit_utilization_summaries_request={
+            "endDate": "2022-08-31T00:00:00Z",
+            "grain": "Daily",
+            "startDate": "2022-06-01T00:00:00Z",
+        },
+    ).result()
+    print(response)
 
 
-# x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/BenefitUtilizationSummaries/SavingsPlan-SavingsPlanOrderId-Daily.json
+# x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2023-03-01/examples/BenefitUtilizationSummaries/Async/GenerateBenefitUtilizationSummariesReportBySavingsPlanOrder.json
 if __name__ == "__main__":
     main()
