@@ -159,6 +159,8 @@ class ResourceState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DISABLING = "Disabling"
     DISABLE_FAILED = "DisableFailed"
     DISABLED = "Disabled"
+    SCALING = "Scaling"
+    SCALING_FAILED = "ScalingFailed"
 
 
 class SkuName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
