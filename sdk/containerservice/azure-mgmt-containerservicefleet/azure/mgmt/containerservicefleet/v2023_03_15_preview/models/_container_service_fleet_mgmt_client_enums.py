@@ -29,8 +29,11 @@ class FleetMemberProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta)
     """The provisioning state of the last accepted operation."""
 
     SUCCEEDED = "Succeeded"
+    """Resource has been created."""
     FAILED = "Failed"
+    """Resource creation failed."""
     CANCELED = "Canceled"
+    """Resource creation was canceled."""
     JOINING = "Joining"
     LEAVING = "Leaving"
     UPDATING = "Updating"
@@ -40,8 +43,11 @@ class FleetProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The provisioning state of the last accepted operation."""
 
     SUCCEEDED = "Succeeded"
+    """Resource has been created."""
     FAILED = "Failed"
+    """Resource creation failed."""
     CANCELED = "Canceled"
+    """Resource creation was canceled."""
     CREATING = "Creating"
     UPDATING = "Updating"
     DELETING = "Deleting"
@@ -70,8 +76,11 @@ class UpdateRunProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The provisioning state of the UpdateRun resource."""
 
     SUCCEEDED = "Succeeded"
+    """Resource has been created."""
     FAILED = "Failed"
+    """Resource creation failed."""
     CANCELED = "Canceled"
+    """Resource creation was canceled."""
 
 
 class UpdateState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
