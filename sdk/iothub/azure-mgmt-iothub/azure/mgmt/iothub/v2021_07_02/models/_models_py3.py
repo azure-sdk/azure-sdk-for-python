@@ -930,7 +930,7 @@ class FallbackRouteProperties(_serialization.Model):
      underscores, hyphens, has a maximum length of 64 characters, and must be unique.
     :vartype name: str
     :ivar source: The source to which the routing rule is to be applied to. For example,
-     DeviceMessages. Required. Known values are: "Invalid", "DeviceMessages", "TwinChangeEvents",
+     DeviceMessages. Required. Known values are: "DeviceMessages", "Invalid", "TwinChangeEvents",
      "DeviceLifecycleEvents", "DeviceJobLifecycleEvents", and "DeviceConnectionStateEvents".
     :vartype source: str or ~azure.mgmt.iothub.v2021_07_02.models.RoutingSource
     :ivar condition: The condition which is evaluated in order to apply the fallback route. If the
@@ -973,7 +973,7 @@ class FallbackRouteProperties(_serialization.Model):
          periods, underscores, hyphens, has a maximum length of 64 characters, and must be unique.
         :paramtype name: str
         :keyword source: The source to which the routing rule is to be applied to. For example,
-         DeviceMessages. Required. Known values are: "Invalid", "DeviceMessages", "TwinChangeEvents",
+         DeviceMessages. Required. Known values are: "DeviceMessages", "Invalid", "TwinChangeEvents",
          "DeviceLifecycleEvents", "DeviceJobLifecycleEvents", and "DeviceConnectionStateEvents".
         :paramtype source: str or ~azure.mgmt.iothub.v2021_07_02.models.RoutingSource
         :keyword condition: The condition which is evaluated in order to apply the fallback route. If
@@ -1961,7 +1961,7 @@ class JobResponse(_serialization.Model):
     :vartype end_time_utc: ~datetime.datetime
     :ivar type: The type of the job. Known values are: "unknown", "export", "import", "backup",
      "readDeviceProperties", "writeDeviceProperties", "updateDeviceConfiguration", "rebootDevice",
-     "factoryResetDevice", and "firmwareUpdate".
+     "factoryResetDevice", "firmwareUpdate", and "import".
     :vartype type: str or ~azure.mgmt.iothub.v2021_07_02.models.JobType
     :ivar status: The status of the job. Known values are: "unknown", "enqueued", "running",
      "completed", "failed", and "cancelled".
@@ -2699,8 +2699,8 @@ class RouteProperties(_serialization.Model):
     :ivar name: The name of the route. The name can only include alphanumeric characters, periods,
      underscores, hyphens, has a maximum length of 64 characters, and must be unique. Required.
     :vartype name: str
-    :ivar source: The source that the routing rule is to be applied to, such as DeviceMessages.
-     Required. Known values are: "Invalid", "DeviceMessages", "TwinChangeEvents",
+    :ivar source: The source to which the routing rule is to be applied to. For example,
+     DeviceMessages. Required. Known values are: "DeviceMessages", "Invalid", "TwinChangeEvents",
      "DeviceLifecycleEvents", "DeviceJobLifecycleEvents", and "DeviceConnectionStateEvents".
     :vartype source: str or ~azure.mgmt.iothub.v2021_07_02.models.RoutingSource
     :ivar condition: The condition that is evaluated to apply the routing rule. If no condition is
@@ -2744,8 +2744,8 @@ class RouteProperties(_serialization.Model):
          periods, underscores, hyphens, has a maximum length of 64 characters, and must be unique.
          Required.
         :paramtype name: str
-        :keyword source: The source that the routing rule is to be applied to, such as DeviceMessages.
-         Required. Known values are: "Invalid", "DeviceMessages", "TwinChangeEvents",
+        :keyword source: The source to which the routing rule is to be applied to. For example,
+         DeviceMessages. Required. Known values are: "DeviceMessages", "Invalid", "TwinChangeEvents",
          "DeviceLifecycleEvents", "DeviceJobLifecycleEvents", and "DeviceConnectionStateEvents".
         :paramtype source: str or ~azure.mgmt.iothub.v2021_07_02.models.RoutingSource
         :keyword condition: The condition that is evaluated to apply the routing rule. If no condition
@@ -3678,9 +3678,9 @@ class TagsResource(_serialization.Model):
 class TestAllRoutesInput(_serialization.Model):
     """Input for testing all routes.
 
-    :ivar routing_source: Routing source. Known values are: "Invalid", "DeviceMessages",
-     "TwinChangeEvents", "DeviceLifecycleEvents", "DeviceJobLifecycleEvents", and
-     "DeviceConnectionStateEvents".
+    :ivar routing_source: The source to which the routing rule is to be applied to. For example,
+     DeviceMessages. Known values are: "DeviceMessages", "Invalid", "TwinChangeEvents",
+     "DeviceLifecycleEvents", "DeviceJobLifecycleEvents", and "DeviceConnectionStateEvents".
     :vartype routing_source: str or ~azure.mgmt.iothub.v2021_07_02.models.RoutingSource
     :ivar message: Routing message.
     :vartype message: ~azure.mgmt.iothub.v2021_07_02.models.RoutingMessage
@@ -3703,9 +3703,9 @@ class TestAllRoutesInput(_serialization.Model):
         **kwargs: Any
     ) -> None:
         """
-        :keyword routing_source: Routing source. Known values are: "Invalid", "DeviceMessages",
-         "TwinChangeEvents", "DeviceLifecycleEvents", "DeviceJobLifecycleEvents", and
-         "DeviceConnectionStateEvents".
+        :keyword routing_source: The source to which the routing rule is to be applied to. For example,
+         DeviceMessages. Known values are: "DeviceMessages", "Invalid", "TwinChangeEvents",
+         "DeviceLifecycleEvents", "DeviceJobLifecycleEvents", and "DeviceConnectionStateEvents".
         :paramtype routing_source: str or ~azure.mgmt.iothub.v2021_07_02.models.RoutingSource
         :keyword message: Routing message.
         :paramtype message: ~azure.mgmt.iothub.v2021_07_02.models.RoutingMessage

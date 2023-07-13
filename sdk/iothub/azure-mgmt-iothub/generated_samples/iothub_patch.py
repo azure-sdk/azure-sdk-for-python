@@ -14,7 +14,7 @@ from azure.mgmt.iothub import IotHubClient
     pip install azure-identity
     pip install azure-mgmt-iothub
 # USAGE
-    python iothub_deleteconsumergroup.py
+    python iothub_patch.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,14 +29,14 @@ def main():
         subscription_id="91d12660-3dec-467a-be2a-213b5544ddc0",
     )
 
-    client.iot_hub_resource.delete_event_hub_consumer_group(
+    response = client.iot_hub_resource.begin_update(
         resource_group_name="myResourceGroup",
-        resource_name="testHub",
-        event_hub_endpoint_name="events",
-        name="test",
-    )
+        resource_name="myHub",
+        iot_hub_tags={"tags": {"foo": "bar"}},
+    ).result()
+    print(response)
 
 
-# x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/stable/2021-07-02/examples/iothub_deleteconsumergroup.json
+# x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/stable/2021-07-02/examples/iothub_patch.json
 if __name__ == "__main__":
     main()
