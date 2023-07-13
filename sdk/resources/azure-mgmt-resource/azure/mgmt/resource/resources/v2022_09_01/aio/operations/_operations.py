@@ -78,7 +78,6 @@ from ...operations._operations import (
     build_deployments_list_at_scope_request,
     build_deployments_list_at_subscription_scope_request,
     build_deployments_list_at_tenant_scope_request,
-    build_deployments_list_by_resource_group_request,
     build_deployments_validate_at_management_group_scope_request,
     build_deployments_validate_at_scope_request,
     build_deployments_validate_at_subscription_scope_request,
@@ -134,109 +133,9 @@ if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
     from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
-JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
-
-
-class Operations:
-    """
-    .. warning::
-        **DO NOT** instantiate this class directly.
-
-        Instead, you should access the following operations through
-        :class:`~azure.mgmt.resource.resources.v2022_09_01.aio.ResourceManagementClient`'s
-        :attr:`operations` attribute.
-    """
-
-    models = _models
-
-    def __init__(self, *args, **kwargs) -> None:
-        input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
-
-    @distributed_trace
-    def list(self, **kwargs: Any) -> AsyncIterable["_models.Operation"]:
-        """Lists all of the available Microsoft.Resources REST API operations.
-
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: An iterator like instance of either Operation or the result of cls(response)
-        :rtype:
-         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.resource.resources.v2022_09_01.models.Operation]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
-        cls: ClsType[_models.OperationListResult] = kwargs.pop("cls", None)
-
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(next_link=None):
-            if not next_link:
-
-                request = build_operations_list_request(
-                    api_version=api_version,
-                    template_url=self.list.metadata["url"],
-                    headers=_headers,
-                    params=_params,
-                )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-
-            else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
-
-        async def extract_data(pipeline_response):
-            deserialized = self._deserialize("OperationListResult", pipeline_response)
-            list_of_elem = deserialized.value
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.next_link or None, AsyncList(list_of_elem)
-
-        async def get_next(next_link=None):
-            request = prepare_request(next_link)
-
-            _stream = False
-            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-            return pipeline_response
-
-        return AsyncItemPaged(get_next, extract_data)
-
-    list.metadata = {"url": "/providers/Microsoft.Resources/operations"}
 
 
 class DeploymentsOperations:  # pylint: disable=too-many-public-methods
@@ -257,6 +156,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         self._config = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
 
     async def _delete_at_scope_initial(  # pylint: disable=inconsistent-return-statements
         self, scope: str, deployment_name: str, **kwargs: Any
@@ -272,7 +172,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_deployments_delete_at_scope_request(
@@ -333,7 +233,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
@@ -395,7 +295,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_deployments_check_existence_at_scope_request(
@@ -440,7 +340,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.DeploymentExtended] = kwargs.pop("cls", None)
 
@@ -597,7 +497,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.DeploymentExtended] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -666,7 +566,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[_models.DeploymentExtended] = kwargs.pop("cls", None)
 
         request = build_deployments_get_at_scope_request(
@@ -731,7 +631,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_deployments_cancel_at_scope_request(
@@ -775,7 +675,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[Optional[_models.DeploymentValidateResult]] = kwargs.pop("cls", None)
 
@@ -929,7 +829,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.DeploymentValidateResult] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -1000,7 +900,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[_models.DeploymentExportResult] = kwargs.pop("cls", None)
 
         request = build_deployments_export_template_at_scope_request(
@@ -1059,7 +959,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[_models.DeploymentListResult] = kwargs.pop("cls", None)
 
         error_map = {
@@ -1143,7 +1043,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_deployments_delete_at_tenant_scope_request(
@@ -1201,7 +1101,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
@@ -1260,7 +1160,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_deployments_check_existence_at_tenant_scope_request(
@@ -1304,7 +1204,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.DeploymentExtended] = kwargs.pop("cls", None)
 
@@ -1453,7 +1353,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.DeploymentExtended] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -1519,7 +1419,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[_models.DeploymentExtended] = kwargs.pop("cls", None)
 
         request = build_deployments_get_at_tenant_scope_request(
@@ -1581,7 +1481,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_deployments_cancel_at_tenant_scope_request(
@@ -1624,7 +1524,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[Optional[_models.DeploymentValidateResult]] = kwargs.pop("cls", None)
 
@@ -1771,7 +1671,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.DeploymentValidateResult] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -1829,7 +1729,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[Optional[_models.WhatIfOperationResult]] = kwargs.pop("cls", None)
 
@@ -1979,7 +1879,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.WhatIfOperationResult] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -2049,7 +1949,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[_models.DeploymentExportResult] = kwargs.pop("cls", None)
 
         request = build_deployments_export_template_at_tenant_scope_request(
@@ -2105,7 +2005,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[_models.DeploymentListResult] = kwargs.pop("cls", None)
 
         error_map = {
@@ -2188,7 +2088,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_deployments_delete_at_management_group_scope_request(
@@ -2253,7 +2153,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
@@ -2319,7 +2219,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_deployments_check_existence_at_management_group_scope_request(
@@ -2366,7 +2266,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.DeploymentExtended] = kwargs.pop("cls", None)
 
@@ -2529,7 +2429,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.DeploymentExtended] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -2600,7 +2500,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[_models.DeploymentExtended] = kwargs.pop("cls", None)
 
         request = build_deployments_get_at_management_group_scope_request(
@@ -2667,7 +2567,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_deployments_cancel_at_management_group_scope_request(
@@ -2713,7 +2613,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[Optional[_models.DeploymentValidateResult]] = kwargs.pop("cls", None)
 
@@ -2874,7 +2774,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.DeploymentValidateResult] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -2933,7 +2833,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[Optional[_models.WhatIfOperationResult]] = kwargs.pop("cls", None)
 
@@ -3097,7 +2997,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.WhatIfOperationResult] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -3170,7 +3070,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[_models.DeploymentExportResult] = kwargs.pop("cls", None)
 
         request = build_deployments_export_template_at_management_group_scope_request(
@@ -3229,7 +3129,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[_models.DeploymentListResult] = kwargs.pop("cls", None)
 
         error_map = {
@@ -3315,7 +3215,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_deployments_delete_at_subscription_scope_request(
@@ -3376,7 +3276,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
@@ -3437,7 +3337,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_deployments_check_existence_at_subscription_scope_request(
@@ -3484,7 +3384,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.DeploymentExtended] = kwargs.pop("cls", None)
 
@@ -3634,7 +3534,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.DeploymentExtended] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -3700,7 +3600,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[_models.DeploymentExtended] = kwargs.pop("cls", None)
 
         request = build_deployments_get_at_subscription_scope_request(
@@ -3765,7 +3665,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_deployments_cancel_at_subscription_scope_request(
@@ -3811,7 +3711,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[Optional[_models.DeploymentValidateResult]] = kwargs.pop("cls", None)
 
@@ -3958,7 +3858,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.DeploymentValidateResult] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -4016,7 +3916,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[Optional[_models.WhatIfOperationResult]] = kwargs.pop("cls", None)
 
@@ -4166,7 +4066,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.WhatIfOperationResult] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -4236,7 +4136,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[_models.DeploymentExportResult] = kwargs.pop("cls", None)
 
         request = build_deployments_export_template_at_subscription_scope_request(
@@ -4293,7 +4193,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[_models.DeploymentListResult] = kwargs.pop("cls", None)
 
         error_map = {
@@ -4379,7 +4279,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_deployments_delete_request(
@@ -4445,7 +4345,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
@@ -4510,7 +4410,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_deployments_check_existence_request(
@@ -4558,7 +4458,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.DeploymentExtended] = kwargs.pop("cls", None)
 
@@ -4725,7 +4625,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.DeploymentExtended] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -4795,7 +4695,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[_models.DeploymentExtended] = kwargs.pop("cls", None)
 
         request = build_deployments_get_request(
@@ -4864,7 +4764,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_deployments_cancel_request(
@@ -4911,7 +4811,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[Optional[_models.DeploymentValidateResult]] = kwargs.pop("cls", None)
 
@@ -5075,7 +4975,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.DeploymentValidateResult] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -5138,7 +5038,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[Optional[_models.WhatIfOperationResult]] = kwargs.pop("cls", None)
 
@@ -5309,7 +5209,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.WhatIfOperationResult] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -5383,7 +5283,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[_models.DeploymentExportResult] = kwargs.pop("cls", None)
 
         request = build_deployments_export_template_request(
@@ -5420,103 +5320,6 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         "url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}/exportTemplate"
     }
 
-    @distributed_trace
-    def list_by_resource_group(
-        self, resource_group_name: str, filter: Optional[str] = None, top: Optional[int] = None, **kwargs: Any
-    ) -> AsyncIterable["_models.DeploymentExtended"]:
-        """Get all the deployments for a resource group.
-
-        :param resource_group_name: The name of the resource group with the deployments to get. The
-         name is case insensitive. Required.
-        :type resource_group_name: str
-        :param filter: The filter to apply on the operation. For example, you can use
-         $filter=provisioningState eq '{state}'. Default value is None.
-        :type filter: str
-        :param top: The number of results to get. If null is passed, returns all deployments. Default
-         value is None.
-        :type top: int
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: An iterator like instance of either DeploymentExtended or the result of cls(response)
-        :rtype:
-         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.resource.resources.v2022_09_01.models.DeploymentExtended]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
-        cls: ClsType[_models.DeploymentListResult] = kwargs.pop("cls", None)
-
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(next_link=None):
-            if not next_link:
-
-                request = build_deployments_list_by_resource_group_request(
-                    resource_group_name=resource_group_name,
-                    subscription_id=self._config.subscription_id,
-                    filter=filter,
-                    top=top,
-                    api_version=api_version,
-                    template_url=self.list_by_resource_group.metadata["url"],
-                    headers=_headers,
-                    params=_params,
-                )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-
-            else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
-
-        async def extract_data(pipeline_response):
-            deserialized = self._deserialize("DeploymentListResult", pipeline_response)
-            list_of_elem = deserialized.value
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.next_link or None, AsyncList(list_of_elem)
-
-        async def get_next(next_link=None):
-            request = prepare_request(next_link)
-
-            _stream = False
-            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-            return pipeline_response
-
-        return AsyncItemPaged(get_next, extract_data)
-
-    list_by_resource_group.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/"
-    }
-
     @distributed_trace_async
     async def calculate_template_hash(self, template: JSON, **kwargs: Any) -> _models.TemplateHashResult:
         """Calculate the hash of the given template.
@@ -5539,7 +5342,7 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         content_type: str = kwargs.pop("content_type", _headers.pop("Content-Type", "application/json"))
         cls: ClsType[_models.TemplateHashResult] = kwargs.pop("cls", None)
 
@@ -5577,6 +5380,1716 @@ class DeploymentsOperations:  # pylint: disable=too-many-public-methods
     calculate_template_hash.metadata = {"url": "/providers/Microsoft.Resources/calculateTemplateHash"}
 
 
+class ResourceGroupsOperations:
+    """
+    .. warning::
+        **DO NOT** instantiate this class directly.
+
+        Instead, you should access the following operations through
+        :class:`~azure.mgmt.resource.resources.v2022_09_01.aio.ResourceManagementClient`'s
+        :attr:`resource_groups` attribute.
+    """
+
+    models = _models
+
+    def __init__(self, *args, **kwargs) -> None:
+        input_args = list(args)
+        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
+
+    async def _export_template_initial(
+        self, resource_group_name: str, parameters: Union[_models.ExportTemplateRequest, IO], **kwargs: Any
+    ) -> Optional[_models.ResourceGroupExportResult]:
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[Optional[_models.ResourceGroupExportResult]] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(parameters, (IOBase, bytes)):
+            _content = parameters
+        else:
+            _json = self._serialize.body(parameters, "ExportTemplateRequest")
+
+        request = build_resource_groups_export_template_request(
+            resource_group_name=resource_group_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
+            template_url=self._export_template_initial.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200, 202]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+
+        deserialized = None
+        if response.status_code == 200:
+            deserialized = self._deserialize("ResourceGroupExportResult", pipeline_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})
+
+        return deserialized
+
+    _export_template_initial.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/exportTemplate"
+    }
+
+    @overload
+    async def begin_export_template(
+        self,
+        resource_group_name: str,
+        parameters: _models.ExportTemplateRequest,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> AsyncLROPoller[_models.ResourceGroupExportResult]:
+        """Captures the specified resource group as a template.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param parameters: Parameters for exporting the template. Required.
+        :type parameters: ~azure.mgmt.resource.resources.v2022_09_01.models.ExportTemplateRequest
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
+        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
+         this operation to not poll, or pass in your own initialized polling object for a personal
+         polling strategy.
+        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
+        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
+         Retry-After header is present.
+        :return: An instance of AsyncLROPoller that returns either ResourceGroupExportResult or the
+         result of cls(response)
+        :rtype:
+         ~azure.core.polling.AsyncLROPoller[~azure.mgmt.resource.resources.v2022_09_01.models.ResourceGroupExportResult]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def begin_export_template(
+        self, resource_group_name: str, parameters: IO, *, content_type: str = "application/json", **kwargs: Any
+    ) -> AsyncLROPoller[_models.ResourceGroupExportResult]:
+        """Captures the specified resource group as a template.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param parameters: Parameters for exporting the template. Required.
+        :type parameters: IO
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
+        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
+         this operation to not poll, or pass in your own initialized polling object for a personal
+         polling strategy.
+        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
+        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
+         Retry-After header is present.
+        :return: An instance of AsyncLROPoller that returns either ResourceGroupExportResult or the
+         result of cls(response)
+        :rtype:
+         ~azure.core.polling.AsyncLROPoller[~azure.mgmt.resource.resources.v2022_09_01.models.ResourceGroupExportResult]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace_async
+    async def begin_export_template(
+        self, resource_group_name: str, parameters: Union[_models.ExportTemplateRequest, IO], **kwargs: Any
+    ) -> AsyncLROPoller[_models.ResourceGroupExportResult]:
+        """Captures the specified resource group as a template.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param parameters: Parameters for exporting the template. Is either a ExportTemplateRequest
+         type or a IO type. Required.
+        :type parameters: ~azure.mgmt.resource.resources.v2022_09_01.models.ExportTemplateRequest or IO
+        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
+         Default value is None.
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
+        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
+         this operation to not poll, or pass in your own initialized polling object for a personal
+         polling strategy.
+        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
+        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
+         Retry-After header is present.
+        :return: An instance of AsyncLROPoller that returns either ResourceGroupExportResult or the
+         result of cls(response)
+        :rtype:
+         ~azure.core.polling.AsyncLROPoller[~azure.mgmt.resource.resources.v2022_09_01.models.ResourceGroupExportResult]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.ResourceGroupExportResult] = kwargs.pop("cls", None)
+        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
+        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
+        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
+        if cont_token is None:
+            raw_result = await self._export_template_initial(
+                resource_group_name=resource_group_name,
+                parameters=parameters,
+                api_version=api_version,
+                content_type=content_type,
+                cls=lambda x, y, z: x,
+                headers=_headers,
+                params=_params,
+                **kwargs
+            )
+        kwargs.pop("error_map", None)
+
+        def get_long_running_output(pipeline_response):
+            deserialized = self._deserialize("ResourceGroupExportResult", pipeline_response)
+            if cls:
+                return cls(pipeline_response, deserialized, {})
+            return deserialized
+
+        if polling is True:
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
+        elif polling is False:
+            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
+        else:
+            polling_method = polling
+        if cont_token:
+            return AsyncLROPoller.from_continuation_token(
+                polling_method=polling_method,
+                continuation_token=cont_token,
+                client=self._client,
+                deserialization_callback=get_long_running_output,
+            )
+        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+
+    begin_export_template.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/exportTemplate"
+    }
+
+    @distributed_trace_async
+    async def check_existence(self, resource_group_name: str, **kwargs: Any) -> bool:
+        """Checks whether a resource group exists.
+
+        :param resource_group_name: The name of the resource group to check. The name is case
+         insensitive. Required.
+        :type resource_group_name: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: bool or the result of cls(response)
+        :rtype: bool
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
+        cls: ClsType[None] = kwargs.pop("cls", None)
+
+        request = build_resource_groups_check_existence_request(
+            resource_group_name=resource_group_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            template_url=self.check_existence.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [204, 404]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+
+        if cls:
+            return cls(pipeline_response, None, {})
+        return 200 <= response.status_code <= 299
+
+    check_existence.metadata = {"url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}"}
+
+    @overload
+    async def create_or_update(
+        self,
+        resource_group_name: str,
+        parameters: _models.ResourceGroup,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.ResourceGroup:
+        """Creates or updates a resource group.
+
+        :param resource_group_name: The name of the resource group to create or update. Can include
+         alphanumeric, underscore, parentheses, hyphen, period (except at end), and Unicode characters
+         that match the allowed characters. Required.
+        :type resource_group_name: str
+        :param parameters: Parameters supplied to the create or update a resource group. Required.
+        :type parameters: ~azure.mgmt.resource.resources.v2022_09_01.models.ResourceGroup
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: ResourceGroup or the result of cls(response)
+        :rtype: ~azure.mgmt.resource.resources.v2022_09_01.models.ResourceGroup
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def create_or_update(
+        self, resource_group_name: str, parameters: IO, *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.ResourceGroup:
+        """Creates or updates a resource group.
+
+        :param resource_group_name: The name of the resource group to create or update. Can include
+         alphanumeric, underscore, parentheses, hyphen, period (except at end), and Unicode characters
+         that match the allowed characters. Required.
+        :type resource_group_name: str
+        :param parameters: Parameters supplied to the create or update a resource group. Required.
+        :type parameters: IO
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: ResourceGroup or the result of cls(response)
+        :rtype: ~azure.mgmt.resource.resources.v2022_09_01.models.ResourceGroup
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace_async
+    async def create_or_update(
+        self, resource_group_name: str, parameters: Union[_models.ResourceGroup, IO], **kwargs: Any
+    ) -> _models.ResourceGroup:
+        """Creates or updates a resource group.
+
+        :param resource_group_name: The name of the resource group to create or update. Can include
+         alphanumeric, underscore, parentheses, hyphen, period (except at end), and Unicode characters
+         that match the allowed characters. Required.
+        :type resource_group_name: str
+        :param parameters: Parameters supplied to the create or update a resource group. Is either a
+         ResourceGroup type or a IO type. Required.
+        :type parameters: ~azure.mgmt.resource.resources.v2022_09_01.models.ResourceGroup or IO
+        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
+         Default value is None.
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: ResourceGroup or the result of cls(response)
+        :rtype: ~azure.mgmt.resource.resources.v2022_09_01.models.ResourceGroup
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.ResourceGroup] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(parameters, (IOBase, bytes)):
+            _content = parameters
+        else:
+            _json = self._serialize.body(parameters, "ResourceGroup")
+
+        request = build_resource_groups_create_or_update_request(
+            resource_group_name=resource_group_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
+            template_url=self.create_or_update.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200, 201]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+
+        if response.status_code == 200:
+            deserialized = self._deserialize("ResourceGroup", pipeline_response)
+
+        if response.status_code == 201:
+            deserialized = self._deserialize("ResourceGroup", pipeline_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    create_or_update.metadata = {"url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}"}
+
+    async def _delete_initial(  # pylint: disable=inconsistent-return-statements
+        self, resource_group_name: str, force_deletion_types: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
+        cls: ClsType[None] = kwargs.pop("cls", None)
+
+        request = build_resource_groups_delete_request(
+            resource_group_name=resource_group_name,
+            subscription_id=self._config.subscription_id,
+            force_deletion_types=force_deletion_types,
+            api_version=api_version,
+            template_url=self._delete_initial.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200, 202]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+
+        if cls:
+            return cls(pipeline_response, None, {})
+
+    _delete_initial.metadata = {"url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}"}
+
+    @distributed_trace_async
+    async def begin_delete(
+        self, resource_group_name: str, force_deletion_types: Optional[str] = None, **kwargs: Any
+    ) -> AsyncLROPoller[None]:
+        """Deletes a resource group.
+
+        When you delete a resource group, all of its resources are also deleted. Deleting a resource
+        group deletes all of its template deployments and currently stored operations.
+
+        :param resource_group_name: The name of the resource group to delete. The name is case
+         insensitive. Required.
+        :type resource_group_name: str
+        :param force_deletion_types: The resource types you want to force delete. Currently, only the
+         following is supported:
+         forceDeletionTypes=Microsoft.Compute/virtualMachines,Microsoft.Compute/virtualMachineScaleSets.
+         Default value is None.
+        :type force_deletion_types: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
+        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
+         this operation to not poll, or pass in your own initialized polling object for a personal
+         polling strategy.
+        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
+        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
+         Retry-After header is present.
+        :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
+        :rtype: ~azure.core.polling.AsyncLROPoller[None]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
+        cls: ClsType[None] = kwargs.pop("cls", None)
+        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
+        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
+        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
+        if cont_token is None:
+            raw_result = await self._delete_initial(  # type: ignore
+                resource_group_name=resource_group_name,
+                force_deletion_types=force_deletion_types,
+                api_version=api_version,
+                cls=lambda x, y, z: x,
+                headers=_headers,
+                params=_params,
+                **kwargs
+            )
+        kwargs.pop("error_map", None)
+
+        def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
+            if cls:
+                return cls(pipeline_response, None, {})
+
+        if polling is True:
+            polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
+        elif polling is False:
+            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
+        else:
+            polling_method = polling
+        if cont_token:
+            return AsyncLROPoller.from_continuation_token(
+                polling_method=polling_method,
+                continuation_token=cont_token,
+                client=self._client,
+                deserialization_callback=get_long_running_output,
+            )
+        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+
+    begin_delete.metadata = {"url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}"}
+
+    @distributed_trace_async
+    async def get(self, resource_group_name: str, **kwargs: Any) -> _models.ResourceGroup:
+        """Gets a resource group.
+
+        :param resource_group_name: The name of the resource group to get. The name is case
+         insensitive. Required.
+        :type resource_group_name: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: ResourceGroup or the result of cls(response)
+        :rtype: ~azure.mgmt.resource.resources.v2022_09_01.models.ResourceGroup
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
+        cls: ClsType[_models.ResourceGroup] = kwargs.pop("cls", None)
+
+        request = build_resource_groups_get_request(
+            resource_group_name=resource_group_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            template_url=self.get.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("ResourceGroup", pipeline_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})
+
+        return deserialized
+
+    get.metadata = {"url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}"}
+
+    @overload
+    async def update(
+        self,
+        resource_group_name: str,
+        parameters: _models.ResourceGroupPatchable,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.ResourceGroup:
+        """Updates a resource group.
+
+        Resource groups can be updated through a simple PATCH operation to a group address. The format
+        of the request is the same as that for creating a resource group. If a field is unspecified,
+        the current value is retained.
+
+        :param resource_group_name: The name of the resource group to update. The name is case
+         insensitive. Required.
+        :type resource_group_name: str
+        :param parameters: Parameters supplied to update a resource group. Required.
+        :type parameters: ~azure.mgmt.resource.resources.v2022_09_01.models.ResourceGroupPatchable
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: ResourceGroup or the result of cls(response)
+        :rtype: ~azure.mgmt.resource.resources.v2022_09_01.models.ResourceGroup
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def update(
+        self, resource_group_name: str, parameters: IO, *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.ResourceGroup:
+        """Updates a resource group.
+
+        Resource groups can be updated through a simple PATCH operation to a group address. The format
+        of the request is the same as that for creating a resource group. If a field is unspecified,
+        the current value is retained.
+
+        :param resource_group_name: The name of the resource group to update. The name is case
+         insensitive. Required.
+        :type resource_group_name: str
+        :param parameters: Parameters supplied to update a resource group. Required.
+        :type parameters: IO
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: ResourceGroup or the result of cls(response)
+        :rtype: ~azure.mgmt.resource.resources.v2022_09_01.models.ResourceGroup
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace_async
+    async def update(
+        self, resource_group_name: str, parameters: Union[_models.ResourceGroupPatchable, IO], **kwargs: Any
+    ) -> _models.ResourceGroup:
+        """Updates a resource group.
+
+        Resource groups can be updated through a simple PATCH operation to a group address. The format
+        of the request is the same as that for creating a resource group. If a field is unspecified,
+        the current value is retained.
+
+        :param resource_group_name: The name of the resource group to update. The name is case
+         insensitive. Required.
+        :type resource_group_name: str
+        :param parameters: Parameters supplied to update a resource group. Is either a
+         ResourceGroupPatchable type or a IO type. Required.
+        :type parameters: ~azure.mgmt.resource.resources.v2022_09_01.models.ResourceGroupPatchable or
+         IO
+        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
+         Default value is None.
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: ResourceGroup or the result of cls(response)
+        :rtype: ~azure.mgmt.resource.resources.v2022_09_01.models.ResourceGroup
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.ResourceGroup] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(parameters, (IOBase, bytes)):
+            _content = parameters
+        else:
+            _json = self._serialize.body(parameters, "ResourceGroupPatchable")
+
+        request = build_resource_groups_update_request(
+            resource_group_name=resource_group_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
+            template_url=self.update.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("ResourceGroup", pipeline_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})
+
+        return deserialized
+
+    update.metadata = {"url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}"}
+
+    @distributed_trace
+    def list(
+        self, filter: Optional[str] = None, top: Optional[int] = None, **kwargs: Any
+    ) -> AsyncIterable["_models.ResourceGroup"]:
+        """Gets all the resource groups for a subscription.
+
+        :param filter: The filter to apply on the operation.:code:`<br>`:code:`<br>`You can filter by
+         tag names and values. For example, to filter for a tag name and value, use $filter=tagName eq
+         'tag1' and tagValue eq 'Value1'. Default value is None.
+        :type filter: str
+        :param top: The number of results to return. If null is passed, returns all resource groups.
+         Default value is None.
+        :type top: int
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: An iterator like instance of either ResourceGroup or the result of cls(response)
+        :rtype:
+         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.resource.resources.v2022_09_01.models.ResourceGroup]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
+        cls: ClsType[_models.ResourceGroupListResult] = kwargs.pop("cls", None)
+
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(next_link=None):
+            if not next_link:
+
+                request = build_resource_groups_list_request(
+                    subscription_id=self._config.subscription_id,
+                    filter=filter,
+                    top=top,
+                    api_version=api_version,
+                    template_url=self.list.metadata["url"],
+                    headers=_headers,
+                    params=_params,
+                )
+                request = _convert_request(request)
+                request.url = self._client.format_url(request.url)
+
+            else:
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._config.api_version
+                request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
+                request = _convert_request(request)
+                request.url = self._client.format_url(request.url)
+                request.method = "GET"
+            return request
+
+        async def extract_data(pipeline_response):
+            deserialized = self._deserialize("ResourceGroupListResult", pipeline_response)
+            list_of_elem = deserialized.value
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.next_link or None, AsyncList(list_of_elem)
+
+        async def get_next(next_link=None):
+            request = prepare_request(next_link)
+
+            _stream = False
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+                request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+
+            return pipeline_response
+
+        return AsyncItemPaged(get_next, extract_data)
+
+    list.metadata = {"url": "/subscriptions/{subscriptionId}/resourcegroups"}
+
+
+class DeploymentOperationsOperations:
+    """
+    .. warning::
+        **DO NOT** instantiate this class directly.
+
+        Instead, you should access the following operations through
+        :class:`~azure.mgmt.resource.resources.v2022_09_01.aio.ResourceManagementClient`'s
+        :attr:`deployment_operations` attribute.
+    """
+
+    models = _models
+
+    def __init__(self, *args, **kwargs) -> None:
+        input_args = list(args)
+        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
+
+    @distributed_trace_async
+    async def get_at_scope(
+        self, scope: str, deployment_name: str, operation_id: str, **kwargs: Any
+    ) -> _models.DeploymentOperation:
+        """Gets a deployments operation.
+
+        :param scope: The resource scope. Required.
+        :type scope: str
+        :param deployment_name: The name of the deployment. Required.
+        :type deployment_name: str
+        :param operation_id: The ID of the operation to get. Required.
+        :type operation_id: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: DeploymentOperation or the result of cls(response)
+        :rtype: ~azure.mgmt.resource.resources.v2022_09_01.models.DeploymentOperation
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
+        cls: ClsType[_models.DeploymentOperation] = kwargs.pop("cls", None)
+
+        request = build_deployment_operations_get_at_scope_request(
+            scope=scope,
+            deployment_name=deployment_name,
+            operation_id=operation_id,
+            api_version=api_version,
+            template_url=self.get_at_scope.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("DeploymentOperation", pipeline_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})
+
+        return deserialized
+
+    get_at_scope.metadata = {
+        "url": "/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/operations/{operationId}"
+    }
+
+    @distributed_trace
+    def list_at_scope(
+        self, scope: str, deployment_name: str, top: Optional[int] = None, **kwargs: Any
+    ) -> AsyncIterable["_models.DeploymentOperation"]:
+        """Gets all deployments operations for a deployment.
+
+        :param scope: The resource scope. Required.
+        :type scope: str
+        :param deployment_name: The name of the deployment. Required.
+        :type deployment_name: str
+        :param top: The number of results to return. Default value is None.
+        :type top: int
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: An iterator like instance of either DeploymentOperation or the result of cls(response)
+        :rtype:
+         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.resource.resources.v2022_09_01.models.DeploymentOperation]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
+        cls: ClsType[_models.DeploymentOperationsListResult] = kwargs.pop("cls", None)
+
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(next_link=None):
+            if not next_link:
+
+                request = build_deployment_operations_list_at_scope_request(
+                    scope=scope,
+                    deployment_name=deployment_name,
+                    top=top,
+                    api_version=api_version,
+                    template_url=self.list_at_scope.metadata["url"],
+                    headers=_headers,
+                    params=_params,
+                )
+                request = _convert_request(request)
+                request.url = self._client.format_url(request.url)
+
+            else:
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._config.api_version
+                request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
+                request = _convert_request(request)
+                request.url = self._client.format_url(request.url)
+                request.method = "GET"
+            return request
+
+        async def extract_data(pipeline_response):
+            deserialized = self._deserialize("DeploymentOperationsListResult", pipeline_response)
+            list_of_elem = deserialized.value
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.next_link or None, AsyncList(list_of_elem)
+
+        async def get_next(next_link=None):
+            request = prepare_request(next_link)
+
+            _stream = False
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+                request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+
+            return pipeline_response
+
+        return AsyncItemPaged(get_next, extract_data)
+
+    list_at_scope.metadata = {"url": "/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/operations"}
+
+    @distributed_trace_async
+    async def get_at_tenant_scope(
+        self, deployment_name: str, operation_id: str, **kwargs: Any
+    ) -> _models.DeploymentOperation:
+        """Gets a deployments operation.
+
+        :param deployment_name: The name of the deployment. Required.
+        :type deployment_name: str
+        :param operation_id: The ID of the operation to get. Required.
+        :type operation_id: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: DeploymentOperation or the result of cls(response)
+        :rtype: ~azure.mgmt.resource.resources.v2022_09_01.models.DeploymentOperation
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
+        cls: ClsType[_models.DeploymentOperation] = kwargs.pop("cls", None)
+
+        request = build_deployment_operations_get_at_tenant_scope_request(
+            deployment_name=deployment_name,
+            operation_id=operation_id,
+            api_version=api_version,
+            template_url=self.get_at_tenant_scope.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("DeploymentOperation", pipeline_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})
+
+        return deserialized
+
+    get_at_tenant_scope.metadata = {
+        "url": "/providers/Microsoft.Resources/deployments/{deploymentName}/operations/{operationId}"
+    }
+
+    @distributed_trace
+    def list_at_tenant_scope(
+        self, deployment_name: str, top: Optional[int] = None, **kwargs: Any
+    ) -> AsyncIterable["_models.DeploymentOperation"]:
+        """Gets all deployments operations for a deployment.
+
+        :param deployment_name: The name of the deployment. Required.
+        :type deployment_name: str
+        :param top: The number of results to return. Default value is None.
+        :type top: int
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: An iterator like instance of either DeploymentOperation or the result of cls(response)
+        :rtype:
+         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.resource.resources.v2022_09_01.models.DeploymentOperation]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
+        cls: ClsType[_models.DeploymentOperationsListResult] = kwargs.pop("cls", None)
+
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(next_link=None):
+            if not next_link:
+
+                request = build_deployment_operations_list_at_tenant_scope_request(
+                    deployment_name=deployment_name,
+                    top=top,
+                    api_version=api_version,
+                    template_url=self.list_at_tenant_scope.metadata["url"],
+                    headers=_headers,
+                    params=_params,
+                )
+                request = _convert_request(request)
+                request.url = self._client.format_url(request.url)
+
+            else:
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._config.api_version
+                request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
+                request = _convert_request(request)
+                request.url = self._client.format_url(request.url)
+                request.method = "GET"
+            return request
+
+        async def extract_data(pipeline_response):
+            deserialized = self._deserialize("DeploymentOperationsListResult", pipeline_response)
+            list_of_elem = deserialized.value
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.next_link or None, AsyncList(list_of_elem)
+
+        async def get_next(next_link=None):
+            request = prepare_request(next_link)
+
+            _stream = False
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+                request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+
+            return pipeline_response
+
+        return AsyncItemPaged(get_next, extract_data)
+
+    list_at_tenant_scope.metadata = {"url": "/providers/Microsoft.Resources/deployments/{deploymentName}/operations"}
+
+    @distributed_trace_async
+    async def get_at_management_group_scope(
+        self, group_id: str, deployment_name: str, operation_id: str, **kwargs: Any
+    ) -> _models.DeploymentOperation:
+        """Gets a deployments operation.
+
+        :param group_id: The management group ID. Required.
+        :type group_id: str
+        :param deployment_name: The name of the deployment. Required.
+        :type deployment_name: str
+        :param operation_id: The ID of the operation to get. Required.
+        :type operation_id: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: DeploymentOperation or the result of cls(response)
+        :rtype: ~azure.mgmt.resource.resources.v2022_09_01.models.DeploymentOperation
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
+        cls: ClsType[_models.DeploymentOperation] = kwargs.pop("cls", None)
+
+        request = build_deployment_operations_get_at_management_group_scope_request(
+            group_id=group_id,
+            deployment_name=deployment_name,
+            operation_id=operation_id,
+            api_version=api_version,
+            template_url=self.get_at_management_group_scope.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("DeploymentOperation", pipeline_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})
+
+        return deserialized
+
+    get_at_management_group_scope.metadata = {
+        "url": "/providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}/operations/{operationId}"
+    }
+
+    @distributed_trace
+    def list_at_management_group_scope(
+        self, group_id: str, deployment_name: str, top: Optional[int] = None, **kwargs: Any
+    ) -> AsyncIterable["_models.DeploymentOperation"]:
+        """Gets all deployments operations for a deployment.
+
+        :param group_id: The management group ID. Required.
+        :type group_id: str
+        :param deployment_name: The name of the deployment. Required.
+        :type deployment_name: str
+        :param top: The number of results to return. Default value is None.
+        :type top: int
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: An iterator like instance of either DeploymentOperation or the result of cls(response)
+        :rtype:
+         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.resource.resources.v2022_09_01.models.DeploymentOperation]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
+        cls: ClsType[_models.DeploymentOperationsListResult] = kwargs.pop("cls", None)
+
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(next_link=None):
+            if not next_link:
+
+                request = build_deployment_operations_list_at_management_group_scope_request(
+                    group_id=group_id,
+                    deployment_name=deployment_name,
+                    top=top,
+                    api_version=api_version,
+                    template_url=self.list_at_management_group_scope.metadata["url"],
+                    headers=_headers,
+                    params=_params,
+                )
+                request = _convert_request(request)
+                request.url = self._client.format_url(request.url)
+
+            else:
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._config.api_version
+                request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
+                request = _convert_request(request)
+                request.url = self._client.format_url(request.url)
+                request.method = "GET"
+            return request
+
+        async def extract_data(pipeline_response):
+            deserialized = self._deserialize("DeploymentOperationsListResult", pipeline_response)
+            list_of_elem = deserialized.value
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.next_link or None, AsyncList(list_of_elem)
+
+        async def get_next(next_link=None):
+            request = prepare_request(next_link)
+
+            _stream = False
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+                request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+
+            return pipeline_response
+
+        return AsyncItemPaged(get_next, extract_data)
+
+    list_at_management_group_scope.metadata = {
+        "url": "/providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}/operations"
+    }
+
+    @distributed_trace_async
+    async def get_at_subscription_scope(
+        self, deployment_name: str, operation_id: str, **kwargs: Any
+    ) -> _models.DeploymentOperation:
+        """Gets a deployments operation.
+
+        :param deployment_name: The name of the deployment. Required.
+        :type deployment_name: str
+        :param operation_id: The ID of the operation to get. Required.
+        :type operation_id: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: DeploymentOperation or the result of cls(response)
+        :rtype: ~azure.mgmt.resource.resources.v2022_09_01.models.DeploymentOperation
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
+        cls: ClsType[_models.DeploymentOperation] = kwargs.pop("cls", None)
+
+        request = build_deployment_operations_get_at_subscription_scope_request(
+            deployment_name=deployment_name,
+            operation_id=operation_id,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            template_url=self.get_at_subscription_scope.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("DeploymentOperation", pipeline_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})
+
+        return deserialized
+
+    get_at_subscription_scope.metadata = {
+        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}/operations/{operationId}"
+    }
+
+    @distributed_trace
+    def list_at_subscription_scope(
+        self, deployment_name: str, top: Optional[int] = None, **kwargs: Any
+    ) -> AsyncIterable["_models.DeploymentOperation"]:
+        """Gets all deployments operations for a deployment.
+
+        :param deployment_name: The name of the deployment. Required.
+        :type deployment_name: str
+        :param top: The number of results to return. Default value is None.
+        :type top: int
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: An iterator like instance of either DeploymentOperation or the result of cls(response)
+        :rtype:
+         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.resource.resources.v2022_09_01.models.DeploymentOperation]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
+        cls: ClsType[_models.DeploymentOperationsListResult] = kwargs.pop("cls", None)
+
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(next_link=None):
+            if not next_link:
+
+                request = build_deployment_operations_list_at_subscription_scope_request(
+                    deployment_name=deployment_name,
+                    subscription_id=self._config.subscription_id,
+                    top=top,
+                    api_version=api_version,
+                    template_url=self.list_at_subscription_scope.metadata["url"],
+                    headers=_headers,
+                    params=_params,
+                )
+                request = _convert_request(request)
+                request.url = self._client.format_url(request.url)
+
+            else:
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._config.api_version
+                request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
+                request = _convert_request(request)
+                request.url = self._client.format_url(request.url)
+                request.method = "GET"
+            return request
+
+        async def extract_data(pipeline_response):
+            deserialized = self._deserialize("DeploymentOperationsListResult", pipeline_response)
+            list_of_elem = deserialized.value
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.next_link or None, AsyncList(list_of_elem)
+
+        async def get_next(next_link=None):
+            request = prepare_request(next_link)
+
+            _stream = False
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+                request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+
+            return pipeline_response
+
+        return AsyncItemPaged(get_next, extract_data)
+
+    list_at_subscription_scope.metadata = {
+        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}/operations"
+    }
+
+    @distributed_trace_async
+    async def get(
+        self, resource_group_name: str, deployment_name: str, operation_id: str, **kwargs: Any
+    ) -> _models.DeploymentOperation:
+        """Gets a deployments operation.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param deployment_name: The name of the deployment. Required.
+        :type deployment_name: str
+        :param operation_id: The ID of the operation to get. Required.
+        :type operation_id: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: DeploymentOperation or the result of cls(response)
+        :rtype: ~azure.mgmt.resource.resources.v2022_09_01.models.DeploymentOperation
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
+        cls: ClsType[_models.DeploymentOperation] = kwargs.pop("cls", None)
+
+        request = build_deployment_operations_get_request(
+            resource_group_name=resource_group_name,
+            deployment_name=deployment_name,
+            operation_id=operation_id,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            template_url=self.get.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("DeploymentOperation", pipeline_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})
+
+        return deserialized
+
+    get.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/deployments/{deploymentName}/operations/{operationId}"
+    }
+
+    @distributed_trace
+    def list(
+        self, resource_group_name: str, deployment_name: str, top: Optional[int] = None, **kwargs: Any
+    ) -> AsyncIterable["_models.DeploymentOperation"]:
+        """Gets all deployments operations for a deployment.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param deployment_name: The name of the deployment. Required.
+        :type deployment_name: str
+        :param top: The number of results to return. Default value is None.
+        :type top: int
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: An iterator like instance of either DeploymentOperation or the result of cls(response)
+        :rtype:
+         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.resource.resources.v2022_09_01.models.DeploymentOperation]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
+        cls: ClsType[_models.DeploymentOperationsListResult] = kwargs.pop("cls", None)
+
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(next_link=None):
+            if not next_link:
+
+                request = build_deployment_operations_list_request(
+                    resource_group_name=resource_group_name,
+                    deployment_name=deployment_name,
+                    subscription_id=self._config.subscription_id,
+                    top=top,
+                    api_version=api_version,
+                    template_url=self.list.metadata["url"],
+                    headers=_headers,
+                    params=_params,
+                )
+                request = _convert_request(request)
+                request.url = self._client.format_url(request.url)
+
+            else:
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._config.api_version
+                request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
+                request = _convert_request(request)
+                request.url = self._client.format_url(request.url)
+                request.method = "GET"
+            return request
+
+        async def extract_data(pipeline_response):
+            deserialized = self._deserialize("DeploymentOperationsListResult", pipeline_response)
+            list_of_elem = deserialized.value
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.next_link or None, AsyncList(list_of_elem)
+
+        async def get_next(next_link=None):
+            request = prepare_request(next_link)
+
+            _stream = False
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+                request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+
+            return pipeline_response
+
+        return AsyncItemPaged(get_next, extract_data)
+
+    list.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/deployments/{deploymentName}/operations"
+    }
+
+
+class Operations:
+    """
+    .. warning::
+        **DO NOT** instantiate this class directly.
+
+        Instead, you should access the following operations through
+        :class:`~azure.mgmt.resource.resources.v2022_09_01.aio.ResourceManagementClient`'s
+        :attr:`operations` attribute.
+    """
+
+    models = _models
+
+    def __init__(self, *args, **kwargs) -> None:
+        input_args = list(args)
+        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
+
+    @distributed_trace
+    def list(self, **kwargs: Any) -> AsyncIterable["_models.Operation"]:
+        """Lists all of the available Microsoft.Resources REST API operations.
+
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: An iterator like instance of either Operation or the result of cls(response)
+        :rtype:
+         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.resource.resources.v2022_09_01.models.Operation]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
+        cls: ClsType[_models.OperationListResult] = kwargs.pop("cls", None)
+
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(next_link=None):
+            if not next_link:
+
+                request = build_operations_list_request(
+                    api_version=api_version,
+                    template_url=self.list.metadata["url"],
+                    headers=_headers,
+                    params=_params,
+                )
+                request = _convert_request(request)
+                request.url = self._client.format_url(request.url)
+
+            else:
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._config.api_version
+                request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
+                request = _convert_request(request)
+                request.url = self._client.format_url(request.url)
+                request.method = "GET"
+            return request
+
+        async def extract_data(pipeline_response):
+            deserialized = self._deserialize("OperationListResult", pipeline_response)
+            list_of_elem = deserialized.value
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.next_link or None, AsyncList(list_of_elem)
+
+        async def get_next(next_link=None):
+            request = prepare_request(next_link)
+
+            _stream = False
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+                request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+
+            return pipeline_response
+
+        return AsyncItemPaged(get_next, extract_data)
+
+    list.metadata = {"url": "/providers/Microsoft.Resources/operations"}
+
+
 class ProvidersOperations:
     """
     .. warning::
@@ -5595,6 +7108,7 @@ class ProvidersOperations:
         self._config = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
 
     @distributed_trace_async
     async def unregister(self, resource_provider_namespace: str, **kwargs: Any) -> _models.Provider:
@@ -5619,7 +7133,7 @@ class ProvidersOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[_models.Provider] = kwargs.pop("cls", None)
 
         request = build_providers_unregister_request(
@@ -5683,7 +7197,7 @@ class ProvidersOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_providers_register_at_management_group_scope_request(
@@ -5739,7 +7253,7 @@ class ProvidersOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[_models.ProviderPermissionListResult] = kwargs.pop("cls", None)
 
         request = build_providers_provider_permissions_request(
@@ -5860,7 +7374,7 @@ class ProvidersOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.Provider] = kwargs.pop("cls", None)
 
@@ -5926,7 +7440,7 @@ class ProvidersOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[_models.ProviderListResult] = kwargs.pop("cls", None)
 
         error_map = {
@@ -6012,7 +7526,7 @@ class ProvidersOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[_models.ProviderListResult] = kwargs.pop("cls", None)
 
         error_map = {
@@ -6107,7 +7621,7 @@ class ProvidersOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[_models.Provider] = kwargs.pop("cls", None)
 
         request = build_providers_get_request(
@@ -6169,7 +7683,7 @@ class ProvidersOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[_models.Provider] = kwargs.pop("cls", None)
 
         request = build_providers_get_at_tenant_scope_request(
@@ -6222,6 +7736,7 @@ class ProviderResourceTypesOperations:
         self._config = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
 
     @distributed_trace_async
     async def list(
@@ -6250,7 +7765,7 @@ class ProviderResourceTypesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[_models.ProviderResourceTypeListResult] = kwargs.pop("cls", None)
 
         request = build_provider_resource_types_list_request(
@@ -6304,6 +7819,7 @@ class ResourcesOperations:  # pylint: disable=too-many-public-methods
         self._config = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
 
     @distributed_trace
     def list_by_resource_group(
@@ -6351,7 +7867,7 @@ class ResourcesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[_models.ResourceListResult] = kwargs.pop("cls", None)
 
         error_map = {
@@ -6439,7 +7955,7 @@ class ResourcesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
@@ -6587,7 +8103,7 @@ class ResourcesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -6643,7 +8159,7 @@ class ResourcesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
@@ -6797,7 +8313,7 @@ class ResourcesOperations:  # pylint: disable=too-many-public-methods
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -6888,7 +8404,7 @@ class ResourcesOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[_models.ResourceListResult] = kwargs.pop("cls", None)
 
         error_map = {
@@ -8456,813 +9972,6 @@ class ResourcesOperations:  # pylint: disable=too-many-public-methods
     get_by_id.metadata = {"url": "/{resourceId}"}
 
 
-class ResourceGroupsOperations:
-    """
-    .. warning::
-        **DO NOT** instantiate this class directly.
-
-        Instead, you should access the following operations through
-        :class:`~azure.mgmt.resource.resources.v2022_09_01.aio.ResourceManagementClient`'s
-        :attr:`resource_groups` attribute.
-    """
-
-    models = _models
-
-    def __init__(self, *args, **kwargs) -> None:
-        input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
-
-    @distributed_trace_async
-    async def check_existence(self, resource_group_name: str, **kwargs: Any) -> bool:
-        """Checks whether a resource group exists.
-
-        :param resource_group_name: The name of the resource group to check. The name is case
-         insensitive. Required.
-        :type resource_group_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: bool or the result of cls(response)
-        :rtype: bool
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
-        cls: ClsType[None] = kwargs.pop("cls", None)
-
-        request = build_resource_groups_check_existence_request(
-            resource_group_name=resource_group_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            template_url=self.check_existence.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [204, 404]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        if cls:
-            return cls(pipeline_response, None, {})
-        return 200 <= response.status_code <= 299
-
-    check_existence.metadata = {"url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}"}
-
-    @overload
-    async def create_or_update(
-        self,
-        resource_group_name: str,
-        parameters: _models.ResourceGroup,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> _models.ResourceGroup:
-        """Creates or updates a resource group.
-
-        :param resource_group_name: The name of the resource group to create or update. Can include
-         alphanumeric, underscore, parentheses, hyphen, period (except at end), and Unicode characters
-         that match the allowed characters. Required.
-        :type resource_group_name: str
-        :param parameters: Parameters supplied to the create or update a resource group. Required.
-        :type parameters: ~azure.mgmt.resource.resources.v2022_09_01.models.ResourceGroup
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: ResourceGroup or the result of cls(response)
-        :rtype: ~azure.mgmt.resource.resources.v2022_09_01.models.ResourceGroup
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    async def create_or_update(
-        self, resource_group_name: str, parameters: IO, *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models.ResourceGroup:
-        """Creates or updates a resource group.
-
-        :param resource_group_name: The name of the resource group to create or update. Can include
-         alphanumeric, underscore, parentheses, hyphen, period (except at end), and Unicode characters
-         that match the allowed characters. Required.
-        :type resource_group_name: str
-        :param parameters: Parameters supplied to the create or update a resource group. Required.
-        :type parameters: IO
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: ResourceGroup or the result of cls(response)
-        :rtype: ~azure.mgmt.resource.resources.v2022_09_01.models.ResourceGroup
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @distributed_trace_async
-    async def create_or_update(
-        self, resource_group_name: str, parameters: Union[_models.ResourceGroup, IO], **kwargs: Any
-    ) -> _models.ResourceGroup:
-        """Creates or updates a resource group.
-
-        :param resource_group_name: The name of the resource group to create or update. Can include
-         alphanumeric, underscore, parentheses, hyphen, period (except at end), and Unicode characters
-         that match the allowed characters. Required.
-        :type resource_group_name: str
-        :param parameters: Parameters supplied to the create or update a resource group. Is either a
-         ResourceGroup type or a IO type. Required.
-        :type parameters: ~azure.mgmt.resource.resources.v2022_09_01.models.ResourceGroup or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: ResourceGroup or the result of cls(response)
-        :rtype: ~azure.mgmt.resource.resources.v2022_09_01.models.ResourceGroup
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.ResourceGroup] = kwargs.pop("cls", None)
-
-        content_type = content_type or "application/json"
-        _json = None
-        _content = None
-        if isinstance(parameters, (IOBase, bytes)):
-            _content = parameters
-        else:
-            _json = self._serialize.body(parameters, "ResourceGroup")
-
-        request = build_resource_groups_create_or_update_request(
-            resource_group_name=resource_group_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            content_type=content_type,
-            json=_json,
-            content=_content,
-            template_url=self.create_or_update.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200, 201]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        if response.status_code == 200:
-            deserialized = self._deserialize("ResourceGroup", pipeline_response)
-
-        if response.status_code == 201:
-            deserialized = self._deserialize("ResourceGroup", pipeline_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-    create_or_update.metadata = {"url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}"}
-
-    async def _delete_initial(  # pylint: disable=inconsistent-return-statements
-        self, resource_group_name: str, force_deletion_types: Optional[str] = None, **kwargs: Any
-    ) -> None:
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
-        cls: ClsType[None] = kwargs.pop("cls", None)
-
-        request = build_resource_groups_delete_request(
-            resource_group_name=resource_group_name,
-            subscription_id=self._config.subscription_id,
-            force_deletion_types=force_deletion_types,
-            api_version=api_version,
-            template_url=self._delete_initial.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200, 202]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        if cls:
-            return cls(pipeline_response, None, {})
-
-    _delete_initial.metadata = {"url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}"}
-
-    @distributed_trace_async
-    async def begin_delete(
-        self, resource_group_name: str, force_deletion_types: Optional[str] = None, **kwargs: Any
-    ) -> AsyncLROPoller[None]:
-        """Deletes a resource group.
-
-        When you delete a resource group, all of its resources are also deleted. Deleting a resource
-        group deletes all of its template deployments and currently stored operations.
-
-        :param resource_group_name: The name of the resource group to delete. The name is case
-         insensitive. Required.
-        :type resource_group_name: str
-        :param force_deletion_types: The resource types you want to force delete. Currently, only the
-         following is supported:
-         forceDeletionTypes=Microsoft.Compute/virtualMachines,Microsoft.Compute/virtualMachineScaleSets.
-         Default value is None.
-        :type force_deletion_types: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
-        :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[None]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
-        cls: ClsType[None] = kwargs.pop("cls", None)
-        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
-        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
-        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
-        if cont_token is None:
-            raw_result = await self._delete_initial(  # type: ignore
-                resource_group_name=resource_group_name,
-                force_deletion_types=force_deletion_types,
-                api_version=api_version,
-                cls=lambda x, y, z: x,
-                headers=_headers,
-                params=_params,
-                **kwargs
-            )
-        kwargs.pop("error_map", None)
-
-        def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
-            if cls:
-                return cls(pipeline_response, None, {})
-
-        if polling is True:
-            polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
-        elif polling is False:
-            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
-        else:
-            polling_method = polling
-        if cont_token:
-            return AsyncLROPoller.from_continuation_token(
-                polling_method=polling_method,
-                continuation_token=cont_token,
-                client=self._client,
-                deserialization_callback=get_long_running_output,
-            )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete.metadata = {"url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}"}
-
-    @distributed_trace_async
-    async def get(self, resource_group_name: str, **kwargs: Any) -> _models.ResourceGroup:
-        """Gets a resource group.
-
-        :param resource_group_name: The name of the resource group to get. The name is case
-         insensitive. Required.
-        :type resource_group_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: ResourceGroup or the result of cls(response)
-        :rtype: ~azure.mgmt.resource.resources.v2022_09_01.models.ResourceGroup
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
-        cls: ClsType[_models.ResourceGroup] = kwargs.pop("cls", None)
-
-        request = build_resource_groups_get_request(
-            resource_group_name=resource_group_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            template_url=self.get.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("ResourceGroup", pipeline_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})
-
-        return deserialized
-
-    get.metadata = {"url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}"}
-
-    @overload
-    async def update(
-        self,
-        resource_group_name: str,
-        parameters: _models.ResourceGroupPatchable,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> _models.ResourceGroup:
-        """Updates a resource group.
-
-        Resource groups can be updated through a simple PATCH operation to a group address. The format
-        of the request is the same as that for creating a resource group. If a field is unspecified,
-        the current value is retained.
-
-        :param resource_group_name: The name of the resource group to update. The name is case
-         insensitive. Required.
-        :type resource_group_name: str
-        :param parameters: Parameters supplied to update a resource group. Required.
-        :type parameters: ~azure.mgmt.resource.resources.v2022_09_01.models.ResourceGroupPatchable
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: ResourceGroup or the result of cls(response)
-        :rtype: ~azure.mgmt.resource.resources.v2022_09_01.models.ResourceGroup
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    async def update(
-        self, resource_group_name: str, parameters: IO, *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models.ResourceGroup:
-        """Updates a resource group.
-
-        Resource groups can be updated through a simple PATCH operation to a group address. The format
-        of the request is the same as that for creating a resource group. If a field is unspecified,
-        the current value is retained.
-
-        :param resource_group_name: The name of the resource group to update. The name is case
-         insensitive. Required.
-        :type resource_group_name: str
-        :param parameters: Parameters supplied to update a resource group. Required.
-        :type parameters: IO
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: ResourceGroup or the result of cls(response)
-        :rtype: ~azure.mgmt.resource.resources.v2022_09_01.models.ResourceGroup
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @distributed_trace_async
-    async def update(
-        self, resource_group_name: str, parameters: Union[_models.ResourceGroupPatchable, IO], **kwargs: Any
-    ) -> _models.ResourceGroup:
-        """Updates a resource group.
-
-        Resource groups can be updated through a simple PATCH operation to a group address. The format
-        of the request is the same as that for creating a resource group. If a field is unspecified,
-        the current value is retained.
-
-        :param resource_group_name: The name of the resource group to update. The name is case
-         insensitive. Required.
-        :type resource_group_name: str
-        :param parameters: Parameters supplied to update a resource group. Is either a
-         ResourceGroupPatchable type or a IO type. Required.
-        :type parameters: ~azure.mgmt.resource.resources.v2022_09_01.models.ResourceGroupPatchable or
-         IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: ResourceGroup or the result of cls(response)
-        :rtype: ~azure.mgmt.resource.resources.v2022_09_01.models.ResourceGroup
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.ResourceGroup] = kwargs.pop("cls", None)
-
-        content_type = content_type or "application/json"
-        _json = None
-        _content = None
-        if isinstance(parameters, (IOBase, bytes)):
-            _content = parameters
-        else:
-            _json = self._serialize.body(parameters, "ResourceGroupPatchable")
-
-        request = build_resource_groups_update_request(
-            resource_group_name=resource_group_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            content_type=content_type,
-            json=_json,
-            content=_content,
-            template_url=self.update.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("ResourceGroup", pipeline_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})
-
-        return deserialized
-
-    update.metadata = {"url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}"}
-
-    async def _export_template_initial(
-        self, resource_group_name: str, parameters: Union[_models.ExportTemplateRequest, IO], **kwargs: Any
-    ) -> Optional[_models.ResourceGroupExportResult]:
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[Optional[_models.ResourceGroupExportResult]] = kwargs.pop("cls", None)
-
-        content_type = content_type or "application/json"
-        _json = None
-        _content = None
-        if isinstance(parameters, (IOBase, bytes)):
-            _content = parameters
-        else:
-            _json = self._serialize.body(parameters, "ExportTemplateRequest")
-
-        request = build_resource_groups_export_template_request(
-            resource_group_name=resource_group_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            content_type=content_type,
-            json=_json,
-            content=_content,
-            template_url=self._export_template_initial.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200, 202]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        deserialized = None
-        if response.status_code == 200:
-            deserialized = self._deserialize("ResourceGroupExportResult", pipeline_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})
-
-        return deserialized
-
-    _export_template_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/exportTemplate"
-    }
-
-    @overload
-    async def begin_export_template(
-        self,
-        resource_group_name: str,
-        parameters: _models.ExportTemplateRequest,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> AsyncLROPoller[_models.ResourceGroupExportResult]:
-        """Captures the specified resource group as a template.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param parameters: Parameters for exporting the template. Required.
-        :type parameters: ~azure.mgmt.resource.resources.v2022_09_01.models.ExportTemplateRequest
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
-        :return: An instance of AsyncLROPoller that returns either ResourceGroupExportResult or the
-         result of cls(response)
-        :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.mgmt.resource.resources.v2022_09_01.models.ResourceGroupExportResult]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    async def begin_export_template(
-        self, resource_group_name: str, parameters: IO, *, content_type: str = "application/json", **kwargs: Any
-    ) -> AsyncLROPoller[_models.ResourceGroupExportResult]:
-        """Captures the specified resource group as a template.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param parameters: Parameters for exporting the template. Required.
-        :type parameters: IO
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
-        :return: An instance of AsyncLROPoller that returns either ResourceGroupExportResult or the
-         result of cls(response)
-        :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.mgmt.resource.resources.v2022_09_01.models.ResourceGroupExportResult]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @distributed_trace_async
-    async def begin_export_template(
-        self, resource_group_name: str, parameters: Union[_models.ExportTemplateRequest, IO], **kwargs: Any
-    ) -> AsyncLROPoller[_models.ResourceGroupExportResult]:
-        """Captures the specified resource group as a template.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param parameters: Parameters for exporting the template. Is either a ExportTemplateRequest
-         type or a IO type. Required.
-        :type parameters: ~azure.mgmt.resource.resources.v2022_09_01.models.ExportTemplateRequest or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
-        :return: An instance of AsyncLROPoller that returns either ResourceGroupExportResult or the
-         result of cls(response)
-        :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.mgmt.resource.resources.v2022_09_01.models.ResourceGroupExportResult]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.ResourceGroupExportResult] = kwargs.pop("cls", None)
-        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
-        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
-        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
-        if cont_token is None:
-            raw_result = await self._export_template_initial(
-                resource_group_name=resource_group_name,
-                parameters=parameters,
-                api_version=api_version,
-                content_type=content_type,
-                cls=lambda x, y, z: x,
-                headers=_headers,
-                params=_params,
-                **kwargs
-            )
-        kwargs.pop("error_map", None)
-
-        def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("ResourceGroupExportResult", pipeline_response)
-            if cls:
-                return cls(pipeline_response, deserialized, {})
-            return deserialized
-
-        if polling is True:
-            polling_method: AsyncPollingMethod = cast(
-                AsyncPollingMethod, AsyncARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
-            )
-        elif polling is False:
-            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
-        else:
-            polling_method = polling
-        if cont_token:
-            return AsyncLROPoller.from_continuation_token(
-                polling_method=polling_method,
-                continuation_token=cont_token,
-                client=self._client,
-                deserialization_callback=get_long_running_output,
-            )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_export_template.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/exportTemplate"
-    }
-
-    @distributed_trace
-    def list(
-        self, filter: Optional[str] = None, top: Optional[int] = None, **kwargs: Any
-    ) -> AsyncIterable["_models.ResourceGroup"]:
-        """Gets all the resource groups for a subscription.
-
-        :param filter: The filter to apply on the operation.:code:`<br>`:code:`<br>`You can filter by
-         tag names and values. For example, to filter for a tag name and value, use $filter=tagName eq
-         'tag1' and tagValue eq 'Value1'. Default value is None.
-        :type filter: str
-        :param top: The number of results to return. If null is passed, returns all resource groups.
-         Default value is None.
-        :type top: int
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: An iterator like instance of either ResourceGroup or the result of cls(response)
-        :rtype:
-         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.resource.resources.v2022_09_01.models.ResourceGroup]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
-        cls: ClsType[_models.ResourceGroupListResult] = kwargs.pop("cls", None)
-
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(next_link=None):
-            if not next_link:
-
-                request = build_resource_groups_list_request(
-                    subscription_id=self._config.subscription_id,
-                    filter=filter,
-                    top=top,
-                    api_version=api_version,
-                    template_url=self.list.metadata["url"],
-                    headers=_headers,
-                    params=_params,
-                )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-
-            else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
-
-        async def extract_data(pipeline_response):
-            deserialized = self._deserialize("ResourceGroupListResult", pipeline_response)
-            list_of_elem = deserialized.value
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.next_link or None, AsyncList(list_of_elem)
-
-        async def get_next(next_link=None):
-            request = prepare_request(next_link)
-
-            _stream = False
-            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-            return pipeline_response
-
-        return AsyncItemPaged(get_next, extract_data)
-
-    list.metadata = {"url": "/subscriptions/{subscriptionId}/resourcegroups"}
-
-
 class TagsOperations:
     """
     .. warning::
@@ -9281,6 +9990,7 @@ class TagsOperations:
         self._config = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
 
     @distributed_trace_async
     async def delete_value(  # pylint: disable=inconsistent-return-statements
@@ -9312,7 +10022,7 @@ class TagsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_tags_delete_value_request(
@@ -9370,7 +10080,7 @@ class TagsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[_models.TagValue] = kwargs.pop("cls", None)
 
         request = build_tags_create_or_update_value_request(
@@ -9436,7 +10146,7 @@ class TagsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[_models.TagDetails] = kwargs.pop("cls", None)
 
         request = build_tags_create_or_update_request(
@@ -9500,7 +10210,7 @@ class TagsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_tags_delete_request(
@@ -9548,7 +10258,7 @@ class TagsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[_models.TagsListResult] = kwargs.pop("cls", None)
 
         error_map = {
@@ -9630,7 +10340,7 @@ class TagsOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[Optional[_models.TagsResource]] = kwargs.pop("cls", None)
 
@@ -9776,7 +10486,7 @@ class TagsOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.TagsResource] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -9832,7 +10542,7 @@ class TagsOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[Optional[_models.TagsResource]] = kwargs.pop("cls", None)
 
@@ -9995,7 +10705,7 @@ class TagsOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.TagsResource] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -10061,7 +10771,7 @@ class TagsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[_models.TagsResource] = kwargs.pop("cls", None)
 
         request = build_tags_get_at_scope_request(
@@ -10108,7 +10818,7 @@ class TagsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_tags_delete_at_scope_request(
@@ -10164,7 +10874,7 @@ class TagsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2022-09-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
@@ -10195,803 +10905,3 @@ class TagsOperations:
         return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     begin_delete_at_scope.metadata = {"url": "/{scope}/providers/Microsoft.Resources/tags/default"}
-
-
-class DeploymentOperationsOperations:
-    """
-    .. warning::
-        **DO NOT** instantiate this class directly.
-
-        Instead, you should access the following operations through
-        :class:`~azure.mgmt.resource.resources.v2022_09_01.aio.ResourceManagementClient`'s
-        :attr:`deployment_operations` attribute.
-    """
-
-    models = _models
-
-    def __init__(self, *args, **kwargs) -> None:
-        input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
-
-    @distributed_trace_async
-    async def get_at_scope(
-        self, scope: str, deployment_name: str, operation_id: str, **kwargs: Any
-    ) -> _models.DeploymentOperation:
-        """Gets a deployments operation.
-
-        :param scope: The resource scope. Required.
-        :type scope: str
-        :param deployment_name: The name of the deployment. Required.
-        :type deployment_name: str
-        :param operation_id: The ID of the operation to get. Required.
-        :type operation_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: DeploymentOperation or the result of cls(response)
-        :rtype: ~azure.mgmt.resource.resources.v2022_09_01.models.DeploymentOperation
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
-        cls: ClsType[_models.DeploymentOperation] = kwargs.pop("cls", None)
-
-        request = build_deployment_operations_get_at_scope_request(
-            scope=scope,
-            deployment_name=deployment_name,
-            operation_id=operation_id,
-            api_version=api_version,
-            template_url=self.get_at_scope.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("DeploymentOperation", pipeline_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})
-
-        return deserialized
-
-    get_at_scope.metadata = {
-        "url": "/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/operations/{operationId}"
-    }
-
-    @distributed_trace
-    def list_at_scope(
-        self, scope: str, deployment_name: str, top: Optional[int] = None, **kwargs: Any
-    ) -> AsyncIterable["_models.DeploymentOperation"]:
-        """Gets all deployments operations for a deployment.
-
-        :param scope: The resource scope. Required.
-        :type scope: str
-        :param deployment_name: The name of the deployment. Required.
-        :type deployment_name: str
-        :param top: The number of results to return. Default value is None.
-        :type top: int
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: An iterator like instance of either DeploymentOperation or the result of cls(response)
-        :rtype:
-         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.resource.resources.v2022_09_01.models.DeploymentOperation]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
-        cls: ClsType[_models.DeploymentOperationsListResult] = kwargs.pop("cls", None)
-
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(next_link=None):
-            if not next_link:
-
-                request = build_deployment_operations_list_at_scope_request(
-                    scope=scope,
-                    deployment_name=deployment_name,
-                    top=top,
-                    api_version=api_version,
-                    template_url=self.list_at_scope.metadata["url"],
-                    headers=_headers,
-                    params=_params,
-                )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-
-            else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
-
-        async def extract_data(pipeline_response):
-            deserialized = self._deserialize("DeploymentOperationsListResult", pipeline_response)
-            list_of_elem = deserialized.value
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.next_link or None, AsyncList(list_of_elem)
-
-        async def get_next(next_link=None):
-            request = prepare_request(next_link)
-
-            _stream = False
-            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-            return pipeline_response
-
-        return AsyncItemPaged(get_next, extract_data)
-
-    list_at_scope.metadata = {"url": "/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/operations"}
-
-    @distributed_trace_async
-    async def get_at_tenant_scope(
-        self, deployment_name: str, operation_id: str, **kwargs: Any
-    ) -> _models.DeploymentOperation:
-        """Gets a deployments operation.
-
-        :param deployment_name: The name of the deployment. Required.
-        :type deployment_name: str
-        :param operation_id: The ID of the operation to get. Required.
-        :type operation_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: DeploymentOperation or the result of cls(response)
-        :rtype: ~azure.mgmt.resource.resources.v2022_09_01.models.DeploymentOperation
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
-        cls: ClsType[_models.DeploymentOperation] = kwargs.pop("cls", None)
-
-        request = build_deployment_operations_get_at_tenant_scope_request(
-            deployment_name=deployment_name,
-            operation_id=operation_id,
-            api_version=api_version,
-            template_url=self.get_at_tenant_scope.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("DeploymentOperation", pipeline_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})
-
-        return deserialized
-
-    get_at_tenant_scope.metadata = {
-        "url": "/providers/Microsoft.Resources/deployments/{deploymentName}/operations/{operationId}"
-    }
-
-    @distributed_trace
-    def list_at_tenant_scope(
-        self, deployment_name: str, top: Optional[int] = None, **kwargs: Any
-    ) -> AsyncIterable["_models.DeploymentOperation"]:
-        """Gets all deployments operations for a deployment.
-
-        :param deployment_name: The name of the deployment. Required.
-        :type deployment_name: str
-        :param top: The number of results to return. Default value is None.
-        :type top: int
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: An iterator like instance of either DeploymentOperation or the result of cls(response)
-        :rtype:
-         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.resource.resources.v2022_09_01.models.DeploymentOperation]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
-        cls: ClsType[_models.DeploymentOperationsListResult] = kwargs.pop("cls", None)
-
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(next_link=None):
-            if not next_link:
-
-                request = build_deployment_operations_list_at_tenant_scope_request(
-                    deployment_name=deployment_name,
-                    top=top,
-                    api_version=api_version,
-                    template_url=self.list_at_tenant_scope.metadata["url"],
-                    headers=_headers,
-                    params=_params,
-                )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-
-            else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
-
-        async def extract_data(pipeline_response):
-            deserialized = self._deserialize("DeploymentOperationsListResult", pipeline_response)
-            list_of_elem = deserialized.value
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.next_link or None, AsyncList(list_of_elem)
-
-        async def get_next(next_link=None):
-            request = prepare_request(next_link)
-
-            _stream = False
-            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-            return pipeline_response
-
-        return AsyncItemPaged(get_next, extract_data)
-
-    list_at_tenant_scope.metadata = {"url": "/providers/Microsoft.Resources/deployments/{deploymentName}/operations"}
-
-    @distributed_trace_async
-    async def get_at_management_group_scope(
-        self, group_id: str, deployment_name: str, operation_id: str, **kwargs: Any
-    ) -> _models.DeploymentOperation:
-        """Gets a deployments operation.
-
-        :param group_id: The management group ID. Required.
-        :type group_id: str
-        :param deployment_name: The name of the deployment. Required.
-        :type deployment_name: str
-        :param operation_id: The ID of the operation to get. Required.
-        :type operation_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: DeploymentOperation or the result of cls(response)
-        :rtype: ~azure.mgmt.resource.resources.v2022_09_01.models.DeploymentOperation
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
-        cls: ClsType[_models.DeploymentOperation] = kwargs.pop("cls", None)
-
-        request = build_deployment_operations_get_at_management_group_scope_request(
-            group_id=group_id,
-            deployment_name=deployment_name,
-            operation_id=operation_id,
-            api_version=api_version,
-            template_url=self.get_at_management_group_scope.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("DeploymentOperation", pipeline_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})
-
-        return deserialized
-
-    get_at_management_group_scope.metadata = {
-        "url": "/providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}/operations/{operationId}"
-    }
-
-    @distributed_trace
-    def list_at_management_group_scope(
-        self, group_id: str, deployment_name: str, top: Optional[int] = None, **kwargs: Any
-    ) -> AsyncIterable["_models.DeploymentOperation"]:
-        """Gets all deployments operations for a deployment.
-
-        :param group_id: The management group ID. Required.
-        :type group_id: str
-        :param deployment_name: The name of the deployment. Required.
-        :type deployment_name: str
-        :param top: The number of results to return. Default value is None.
-        :type top: int
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: An iterator like instance of either DeploymentOperation or the result of cls(response)
-        :rtype:
-         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.resource.resources.v2022_09_01.models.DeploymentOperation]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
-        cls: ClsType[_models.DeploymentOperationsListResult] = kwargs.pop("cls", None)
-
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(next_link=None):
-            if not next_link:
-
-                request = build_deployment_operations_list_at_management_group_scope_request(
-                    group_id=group_id,
-                    deployment_name=deployment_name,
-                    top=top,
-                    api_version=api_version,
-                    template_url=self.list_at_management_group_scope.metadata["url"],
-                    headers=_headers,
-                    params=_params,
-                )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-
-            else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
-
-        async def extract_data(pipeline_response):
-            deserialized = self._deserialize("DeploymentOperationsListResult", pipeline_response)
-            list_of_elem = deserialized.value
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.next_link or None, AsyncList(list_of_elem)
-
-        async def get_next(next_link=None):
-            request = prepare_request(next_link)
-
-            _stream = False
-            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-            return pipeline_response
-
-        return AsyncItemPaged(get_next, extract_data)
-
-    list_at_management_group_scope.metadata = {
-        "url": "/providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}/operations"
-    }
-
-    @distributed_trace_async
-    async def get_at_subscription_scope(
-        self, deployment_name: str, operation_id: str, **kwargs: Any
-    ) -> _models.DeploymentOperation:
-        """Gets a deployments operation.
-
-        :param deployment_name: The name of the deployment. Required.
-        :type deployment_name: str
-        :param operation_id: The ID of the operation to get. Required.
-        :type operation_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: DeploymentOperation or the result of cls(response)
-        :rtype: ~azure.mgmt.resource.resources.v2022_09_01.models.DeploymentOperation
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
-        cls: ClsType[_models.DeploymentOperation] = kwargs.pop("cls", None)
-
-        request = build_deployment_operations_get_at_subscription_scope_request(
-            deployment_name=deployment_name,
-            operation_id=operation_id,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            template_url=self.get_at_subscription_scope.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("DeploymentOperation", pipeline_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})
-
-        return deserialized
-
-    get_at_subscription_scope.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}/operations/{operationId}"
-    }
-
-    @distributed_trace
-    def list_at_subscription_scope(
-        self, deployment_name: str, top: Optional[int] = None, **kwargs: Any
-    ) -> AsyncIterable["_models.DeploymentOperation"]:
-        """Gets all deployments operations for a deployment.
-
-        :param deployment_name: The name of the deployment. Required.
-        :type deployment_name: str
-        :param top: The number of results to return. Default value is None.
-        :type top: int
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: An iterator like instance of either DeploymentOperation or the result of cls(response)
-        :rtype:
-         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.resource.resources.v2022_09_01.models.DeploymentOperation]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
-        cls: ClsType[_models.DeploymentOperationsListResult] = kwargs.pop("cls", None)
-
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(next_link=None):
-            if not next_link:
-
-                request = build_deployment_operations_list_at_subscription_scope_request(
-                    deployment_name=deployment_name,
-                    subscription_id=self._config.subscription_id,
-                    top=top,
-                    api_version=api_version,
-                    template_url=self.list_at_subscription_scope.metadata["url"],
-                    headers=_headers,
-                    params=_params,
-                )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-
-            else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
-
-        async def extract_data(pipeline_response):
-            deserialized = self._deserialize("DeploymentOperationsListResult", pipeline_response)
-            list_of_elem = deserialized.value
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.next_link or None, AsyncList(list_of_elem)
-
-        async def get_next(next_link=None):
-            request = prepare_request(next_link)
-
-            _stream = False
-            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-            return pipeline_response
-
-        return AsyncItemPaged(get_next, extract_data)
-
-    list_at_subscription_scope.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}/operations"
-    }
-
-    @distributed_trace_async
-    async def get(
-        self, resource_group_name: str, deployment_name: str, operation_id: str, **kwargs: Any
-    ) -> _models.DeploymentOperation:
-        """Gets a deployments operation.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param deployment_name: The name of the deployment. Required.
-        :type deployment_name: str
-        :param operation_id: The ID of the operation to get. Required.
-        :type operation_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: DeploymentOperation or the result of cls(response)
-        :rtype: ~azure.mgmt.resource.resources.v2022_09_01.models.DeploymentOperation
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
-        cls: ClsType[_models.DeploymentOperation] = kwargs.pop("cls", None)
-
-        request = build_deployment_operations_get_request(
-            resource_group_name=resource_group_name,
-            deployment_name=deployment_name,
-            operation_id=operation_id,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            template_url=self.get.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("DeploymentOperation", pipeline_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})
-
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/deployments/{deploymentName}/operations/{operationId}"
-    }
-
-    @distributed_trace
-    def list(
-        self, resource_group_name: str, deployment_name: str, top: Optional[int] = None, **kwargs: Any
-    ) -> AsyncIterable["_models.DeploymentOperation"]:
-        """Gets all deployments operations for a deployment.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param deployment_name: The name of the deployment. Required.
-        :type deployment_name: str
-        :param top: The number of results to return. Default value is None.
-        :type top: int
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: An iterator like instance of either DeploymentOperation or the result of cls(response)
-        :rtype:
-         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.resource.resources.v2022_09_01.models.DeploymentOperation]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-09-01"))
-        cls: ClsType[_models.DeploymentOperationsListResult] = kwargs.pop("cls", None)
-
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(next_link=None):
-            if not next_link:
-
-                request = build_deployment_operations_list_request(
-                    resource_group_name=resource_group_name,
-                    deployment_name=deployment_name,
-                    subscription_id=self._config.subscription_id,
-                    top=top,
-                    api_version=api_version,
-                    template_url=self.list.metadata["url"],
-                    headers=_headers,
-                    params=_params,
-                )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-
-            else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
-
-        async def extract_data(pipeline_response):
-            deserialized = self._deserialize("DeploymentOperationsListResult", pipeline_response)
-            list_of_elem = deserialized.value
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.next_link or None, AsyncList(list_of_elem)
-
-        async def get_next(next_link=None):
-            request = prepare_request(next_link)
-
-            _stream = False
-            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-            return pipeline_response
-
-        return AsyncItemPaged(get_next, extract_data)
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/deployments/{deploymentName}/operations"
-    }

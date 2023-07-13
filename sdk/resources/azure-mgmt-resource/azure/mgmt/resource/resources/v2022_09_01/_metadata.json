@@ -105,13 +105,13 @@
         "async_imports": "{\"regular\": {\"azurecore\": {\"azure.core.configuration\": [\"Configuration\"], \"azure.core.pipeline\": [\"policies\"], \"azure.mgmt.core.policies\": [\"ARMHttpLoggingPolicy\", \"AsyncARMChallengeAuthenticationPolicy\"]}, \"local\": {\".._version\": [\"VERSION\"]}}, \"conditional\": {\"stdlib\": {\"typing\": [\"Any\"]}}, \"typing\": {\"azurecore\": {\"azure.core.credentials_async\": [\"AsyncTokenCredential\"]}}}"
     },
     "operation_groups": {
-        "operations": "Operations",
         "deployments": "DeploymentsOperations",
+        "resource_groups": "ResourceGroupsOperations",
+        "deployment_operations": "DeploymentOperationsOperations",
+        "operations": "Operations",
         "providers": "ProvidersOperations",
         "provider_resource_types": "ProviderResourceTypesOperations",
         "resources": "ResourcesOperations",
-        "resource_groups": "ResourceGroupsOperations",
-        "tags": "TagsOperations",
-        "deployment_operations": "DeploymentOperationsOperations"
+        "tags": "TagsOperations"
     }
 }

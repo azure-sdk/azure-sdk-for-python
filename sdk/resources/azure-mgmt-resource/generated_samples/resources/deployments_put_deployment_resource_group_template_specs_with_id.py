@@ -14,7 +14,7 @@ from azure.mgmt.resource import ResourceManagementClient
     pip install azure-identity
     pip install azure-mgmt-resource
 # USAGE
-    python export_resource_group_with_filtering.py
+    python deployments_put_deployment_resource_group_template_specs_with_id.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,21 +26,25 @@ from azure.mgmt.resource import ResourceManagementClient
 def main():
     client = ResourceManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="00000000-0000-0000-0000-000000000000",
+        subscription_id="00000000-0000-0000-0000-000000000001",
     )
 
-    response = client.resource_groups.begin_export_template(
+    response = client.deployments.begin_create_or_update(
         resource_group_name="my-resource-group",
+        deployment_name="my-deployment",
         parameters={
-            "options": "SkipResourceNameParameterization",
-            "resources": [
-                "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/My.RP/myResourceType/myFirstResource"
-            ],
+            "properties": {
+                "mode": "Incremental",
+                "parameters": {},
+                "templateLink": {
+                    "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/my-resource-group/providers/Microsoft.Resources/TemplateSpecs/TemplateSpec-Name/versions/v1"
+                },
+            }
         },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2022-09-01/examples/ExportResourceGroupWithFiltering.json
+# x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2022-09-01/examples/Deployments_PutDeploymentResourceGroupTemplateSpecsWithId.json
 if __name__ == "__main__":
     main()

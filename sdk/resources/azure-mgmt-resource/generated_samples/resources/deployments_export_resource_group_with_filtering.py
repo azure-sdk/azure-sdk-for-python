@@ -14,7 +14,7 @@ from azure.mgmt.resource import ResourceManagementClient
     pip install azure-identity
     pip install azure-mgmt-resource
 # USAGE
-    python put_deployment_at_scope.py
+    python deployments_export_resource_group_with_filtering.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,25 +26,21 @@ from azure.mgmt.resource import ResourceManagementClient
 def main():
     client = ResourceManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="SUBSCRIPTION_ID",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.deployments.begin_create_or_update_at_scope(
-        scope="providers/Microsoft.Management/managementGroups/my-management-group-id",
-        deployment_name="my-deployment",
+    response = client.resource_groups.begin_export_template(
+        resource_group_name="my-resource-group",
         parameters={
-            "location": "eastus",
-            "properties": {
-                "mode": "Incremental",
-                "parameters": {},
-                "templateLink": {"uri": "https://example.com/exampleTemplate.json"},
-            },
-            "tags": {"tagKey1": "tag-value-1", "tagKey2": "tag-value-2"},
+            "options": "SkipResourceNameParameterization",
+            "resources": [
+                "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/My.RP/myResourceType/myFirstResource"
+            ],
         },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2022-09-01/examples/PutDeploymentAtScope.json
+# x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2022-09-01/examples/Deployments_ExportResourceGroupWithFiltering.json
 if __name__ == "__main__":
     main()

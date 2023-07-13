@@ -14,7 +14,7 @@ from azure.mgmt.resource import ResourceManagementClient
     pip install azure-identity
     pip install azure-mgmt-resource
 # USAGE
-    python post_deployment_what_if_on_subscription.py
+    python deployments_put_deployment_with_on_error_deployment_specific_deployment.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,23 +26,24 @@ from azure.mgmt.resource import ResourceManagementClient
 def main():
     client = ResourceManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="00000000-0000-0000-0000-000000000001",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.deployments.begin_what_if_at_subscription_scope(
+    response = client.deployments.begin_create_or_update(
+        resource_group_name="my-resource-group",
         deployment_name="my-deployment",
         parameters={
-            "location": "westus",
             "properties": {
-                "mode": "Incremental",
+                "mode": "Complete",
+                "onErrorDeployment": {"deploymentName": "name-of-deployment-to-use", "type": "SpecificDeployment"},
                 "parameters": {},
                 "templateLink": {"uri": "https://example.com/exampleTemplate.json"},
-            },
+            }
         },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2022-09-01/examples/PostDeploymentWhatIfOnSubscription.json
+# x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2022-09-01/examples/Deployments_PutDeploymentWithOnErrorDeploymentSpecificDeployment.json
 if __name__ == "__main__":
     main()

@@ -14,7 +14,7 @@ from azure.mgmt.resource import ResourceManagementClient
     pip install azure-identity
     pip install azure-mgmt-resource
 # USAGE
-    python calculate_template_hash.py
+    python deployments_export_resource_group.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,28 +26,16 @@ from azure.mgmt.resource import ResourceManagementClient
 def main():
     client = ResourceManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="SUBSCRIPTION_ID",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.deployments.calculate_template_hash(
-        template={
-            "$schema": "http://schemas.management.azure.com/deploymentTemplate?api-version=2014-04-01-preview",
-            "contentVersion": "1.0.0.0",
-            "outputs": {"string": {"type": "string", "value": "myvalue"}},
-            "parameters": {"string": {"type": "string"}},
-            "resources": [],
-            "variables": {
-                "array": [1, 2, 3, 4],
-                "bool": True,
-                "int": 42,
-                "object": {"object": {"location": "West US", "vmSize": "Large"}},
-                "string": "string",
-            },
-        },
-    )
+    response = client.resource_groups.begin_export_template(
+        resource_group_name="my-resource-group",
+        parameters={"options": "IncludeParameterDefaultValue,IncludeComments", "resources": ["*"]},
+    ).result()
     print(response)
 
 
-# x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2022-09-01/examples/CalculateTemplateHash.json
+# x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2022-09-01/examples/Deployments_ExportResourceGroup.json
 if __name__ == "__main__":
     main()

@@ -14,7 +14,7 @@ from azure.mgmt.resource import ResourceManagementClient
     pip install azure-identity
     pip install azure-mgmt-resource
 # USAGE
-    python put_deployment_resource_group.py
+    python deployments_calculate_template_hash.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,26 +26,28 @@ from azure.mgmt.resource import ResourceManagementClient
 def main():
     client = ResourceManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="00000000-0000-0000-0000-000000000001",
+        subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.deployments.begin_create_or_update(
-        resource_group_name="my-resource-group",
-        deployment_name="my-deployment",
-        parameters={
-            "properties": {
-                "mode": "Incremental",
-                "parameters": {},
-                "templateLink": {
-                    "queryString": "sv=2019-02-02&st=2019-04-29T22%3A18%3A26Z&se=2019-04-30T02%3A23%3A26Z&sr=b&sp=rw&sip=168.1.5.60-168.1.5.70&spr=https&sig=xxxxxxxx0xxxxxxxxxxxxx%2bxxxxxxxxxxxxxxxxxxxx%3d",
-                    "uri": "https://example.com/exampleTemplate.json",
-                },
-            }
+    response = client.deployments.calculate_template_hash(
+        template={
+            "$schema": "http://schemas.management.azure.com/deploymentTemplate?api-version=2014-04-01-preview",
+            "contentVersion": "1.0.0.0",
+            "outputs": {"string": {"type": "string", "value": "myvalue"}},
+            "parameters": {"string": {"type": "string"}},
+            "resources": [],
+            "variables": {
+                "array": [1, 2, 3, 4],
+                "bool": True,
+                "int": 42,
+                "object": {"object": {"location": "West US", "vmSize": "Large"}},
+                "string": "string",
+            },
         },
-    ).result()
+    )
     print(response)
 
 
-# x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2022-09-01/examples/PutDeploymentResourceGroup.json
+# x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2022-09-01/examples/Deployments_CalculateTemplateHash.json
 if __name__ == "__main__":
     main()

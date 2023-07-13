@@ -14,7 +14,7 @@ from azure.mgmt.resource import ResourceManagementClient
     pip install azure-identity
     pip install azure-mgmt-resource
 # USAGE
-    python post_deployment_what_if_on_resource_group.py
+    python deployments_put_deployment_resource_group.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,20 +29,23 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000001",
     )
 
-    response = client.deployments.begin_what_if(
+    response = client.deployments.begin_create_or_update(
         resource_group_name="my-resource-group",
         deployment_name="my-deployment",
         parameters={
             "properties": {
                 "mode": "Incremental",
                 "parameters": {},
-                "templateLink": {"uri": "https://example.com/exampleTemplate.json"},
+                "templateLink": {
+                    "queryString": "sv=2019-02-02&st=2019-04-29T22%3A18%3A26Z&se=2019-04-30T02%3A23%3A26Z&sr=b&sp=rw&sip=168.1.5.60-168.1.5.70&spr=https&sig=xxxxxxxx0xxxxxxxxxxxxx%2bxxxxxxxxxxxxxxxxxxxx%3d",
+                    "uri": "https://example.com/exampleTemplate.json",
+                },
             }
         },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2022-09-01/examples/PostDeploymentWhatIfOnResourceGroup.json
+# x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2022-09-01/examples/Deployments_PutDeploymentResourceGroup.json
 if __name__ == "__main__":
     main()

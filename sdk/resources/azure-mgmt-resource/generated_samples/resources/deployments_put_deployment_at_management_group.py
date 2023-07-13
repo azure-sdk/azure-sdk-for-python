@@ -14,7 +14,7 @@ from azure.mgmt.resource import ResourceManagementClient
     pip install azure-identity
     pip install azure-mgmt-resource
 # USAGE
-    python post_deployment_what_if_on_tenant.py
+    python deployments_put_deployment_at_management_group.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,8 +29,9 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.deployments.begin_what_if_at_tenant_scope(
-        deployment_name="exampleDeploymentName",
+    response = client.deployments.begin_create_or_update_at_management_group_scope(
+        group_id="my-management-group-id",
+        deployment_name="my-deployment",
         parameters={
             "location": "eastus",
             "properties": {
@@ -43,6 +44,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2022-09-01/examples/PostDeploymentWhatIfOnTenant.json
+# x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2022-09-01/examples/Deployments_PutDeploymentAtManagementGroup.json
 if __name__ == "__main__":
     main()
