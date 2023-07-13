@@ -16,10 +16,12 @@ from .. import models as _models
 from .._serialization import Deserializer, Serializer
 from ._configuration import AgriFoodMgmtClientConfiguration
 from .operations import (
+    CheckNameAvailabilityOperations,
+    DataConnectorsOperations,
+    DataManagerForAgricultureExtensionsOperations,
+    DataManagerForAgricultureResourcesOperations,
     ExtensionsOperations,
-    FarmBeatsExtensionsOperations,
-    FarmBeatsModelsOperations,
-    LocationsOperations,
+    OperationResultsOperations,
     Operations,
     PrivateEndpointConnectionsOperations,
     PrivateLinkResourcesOperations,
@@ -33,17 +35,25 @@ if TYPE_CHECKING:
 
 
 class AgriFoodMgmtClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
-    """APIs documentation for Azure AgFoodPlatform Resource Provider Service.
+    """APIs documentation for Microsoft Azure Data Manager for Agriculture Service.
 
+    :ivar check_name_availability: CheckNameAvailabilityOperations operations
+    :vartype check_name_availability:
+     azure.mgmt.agrifood.aio.operations.CheckNameAvailabilityOperations
+    :ivar data_connectors: DataConnectorsOperations operations
+    :vartype data_connectors: azure.mgmt.agrifood.aio.operations.DataConnectorsOperations
+    :ivar data_manager_for_agriculture_extensions: DataManagerForAgricultureExtensionsOperations
+     operations
+    :vartype data_manager_for_agriculture_extensions:
+     azure.mgmt.agrifood.aio.operations.DataManagerForAgricultureExtensionsOperations
+    :ivar data_manager_for_agriculture_resources: DataManagerForAgricultureResourcesOperations
+     operations
+    :vartype data_manager_for_agriculture_resources:
+     azure.mgmt.agrifood.aio.operations.DataManagerForAgricultureResourcesOperations
+    :ivar operation_results: OperationResultsOperations operations
+    :vartype operation_results: azure.mgmt.agrifood.aio.operations.OperationResultsOperations
     :ivar extensions: ExtensionsOperations operations
     :vartype extensions: azure.mgmt.agrifood.aio.operations.ExtensionsOperations
-    :ivar farm_beats_extensions: FarmBeatsExtensionsOperations operations
-    :vartype farm_beats_extensions:
-     azure.mgmt.agrifood.aio.operations.FarmBeatsExtensionsOperations
-    :ivar farm_beats_models: FarmBeatsModelsOperations operations
-    :vartype farm_beats_models: azure.mgmt.agrifood.aio.operations.FarmBeatsModelsOperations
-    :ivar locations: LocationsOperations operations
-    :vartype locations: azure.mgmt.agrifood.aio.operations.LocationsOperations
     :ivar operations: Operations operations
     :vartype operations: azure.mgmt.agrifood.aio.operations.Operations
     :ivar private_endpoint_connections: PrivateEndpointConnectionsOperations operations
@@ -59,13 +69,11 @@ class AgriFoodMgmtClient:  # pylint: disable=client-accepts-api-version-keyword,
      azure.mgmt.agrifood.aio.operations.SolutionsDiscoverabilityOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
-    :param solution_id: Solution Id of the solution. Required.
-    :type solution_id: str
     :param subscription_id: The ID of the target subscription. The value must be an UUID. Required.
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2021-09-01-preview". Note that overriding
+    :keyword api_version: Api Version. Default value is "2023-06-01-preview". Note that overriding
      this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -75,28 +83,31 @@ class AgriFoodMgmtClient:  # pylint: disable=client-accepts-api-version-keyword,
     def __init__(
         self,
         credential: "AsyncTokenCredential",
-        solution_id: str,
         subscription_id: str,
         base_url: str = "https://management.azure.com",
         **kwargs: Any
     ) -> None:
-        self._config = AgriFoodMgmtClientConfiguration(
-            credential=credential, solution_id=solution_id, subscription_id=subscription_id, **kwargs
-        )
-        self._client = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        self._config = AgriFoodMgmtClientConfiguration(credential=credential, subscription_id=subscription_id, **kwargs)
+        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
+        self.check_name_availability = CheckNameAvailabilityOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.data_connectors = DataConnectorsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.data_manager_for_agriculture_extensions = DataManagerForAgricultureExtensionsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.data_manager_for_agriculture_resources = DataManagerForAgricultureResourcesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.operation_results = OperationResultsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.extensions = ExtensionsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.farm_beats_extensions = FarmBeatsExtensionsOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.farm_beats_models = FarmBeatsModelsOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.locations = LocationsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
         self.private_endpoint_connections = PrivateEndpointConnectionsOperations(
             self._client, self._config, self._serialize, self._deserialize
@@ -138,5 +149,5 @@ class AgriFoodMgmtClient:  # pylint: disable=client-accepts-api-version-keyword,
         await self._client.__aenter__()
         return self
 
-    async def __aexit__(self, *exc_details) -> None:
+    async def __aexit__(self, *exc_details: Any) -> None:
         await self._client.__aexit__(*exc_details)
