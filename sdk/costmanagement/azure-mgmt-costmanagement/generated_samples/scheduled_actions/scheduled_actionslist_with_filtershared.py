@@ -14,7 +14,7 @@ from azure.mgmt.costmanagement import CostManagementClient
     pip install azure-identity
     pip install azure-mgmt-costmanagement
 # USAGE
-    python scheduled_actioninsight_alertcreate_or_updateshared.py
+    python scheduled_actionslist_with_filtershared.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -28,30 +28,13 @@ def main():
         credential=DefaultAzureCredential(),
     )
 
-    response = client.scheduled_actions.create_or_update_by_scope(
+    response = client.scheduled_actions.list_by_scope(
         scope="subscriptions/00000000-0000-0000-0000-000000000000",
-        name="dailyAnomalyByResource",
-        scheduled_action={
-            "kind": "InsightAlert",
-            "properties": {
-                "displayName": "Daily anomaly by resource",
-                "notification": {
-                    "subject": "Cost anomaly detected in the resource",
-                    "to": ["user@gmail.com", "team@gmail.com"],
-                },
-                "schedule": {
-                    "endDate": "2021-06-19T22:21:51.1287144Z",
-                    "frequency": "Daily",
-                    "startDate": "2020-06-19T22:21:51.1287144Z",
-                },
-                "status": "Enabled",
-                "viewId": "/providers/Microsoft.CostManagement/views/swaggerExample",
-            },
-        },
     )
-    print(response)
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/scheduledActions/scheduledAction-insightAlert-createOrUpdate-shared.json
+# x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2023-03-01/examples/scheduledActions/scheduledActions-listWithFilter-shared.json
 if __name__ == "__main__":
     main()

@@ -114,6 +114,23 @@ class BenefitKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Benefit is SavingsPlan."""
 
 
+class BenefitUtilizationSummaryReportSchema(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The CSV file from the reportUrl and secondaryReportUrl blob link will consist of the following
+    columns of benefit utilization data. UtilizedPercentage will be 0 for savings plans reports and
+    non data bricks reservations. Utilization percentages will be 0 for data bricks reservations.
+    """
+
+    KIND = "Kind"
+    AVG_UTILIZATION_PERCENTAGE = "AvgUtilizationPercentage"
+    BENEFIT_ORDER_ID = "BenefitOrderId"
+    BENEFIT_ID = "BenefitId"
+    BENEFIT_TYPE = "BenefitType"
+    MAX_UTILIZATION_PERCENTAGE = "MaxUtilizationPercentage"
+    MIN_UTILIZATION_PERCENTAGE = "MinUtilizationPercentage"
+    USAGE_DATE = "UsageDate"
+    UTILIZED_PERCENTAGE = "UtilizedPercentage"
+
+
 class ChartType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Chart type of the main view in Cost Analysis. Required."""
 
@@ -199,7 +216,9 @@ class ExecutionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class ExportType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The type of the query."""
+    """The type of the export. Note that 'Usage' is equivalent to 'ActualCost' and is applicable to
+    exports that do not yet provide data for charges or amortization for service reservations.
+    """
 
     USAGE = "Usage"
     ACTUAL_COST = "ActualCost"
@@ -291,7 +310,7 @@ class GrainParameter(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class GranularityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The granularity of rows in the forecast."""
+    """The granularity of rows in the export. Currently only 'Daily' is supported."""
 
     DAILY = "Daily"
 
@@ -323,11 +342,12 @@ class MetricType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class OperationStatusType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The status of the long running operation."""
+    """Enum representing the status of an async operation."""
 
     RUNNING = "Running"
-    COMPLETED = "Completed"
+    COMPLETE = "Complete"
     FAILED = "Failed"
+    COMPLETED = "Completed"
 
 
 class OperatorType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -502,7 +522,7 @@ class Term(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class TimeframeType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The time frame for pulling data for the query. If custom, then a specific time period must be
+    """The time frame for pulling data for the export. If custom, then a specific time period must be
     provided.
     """
 

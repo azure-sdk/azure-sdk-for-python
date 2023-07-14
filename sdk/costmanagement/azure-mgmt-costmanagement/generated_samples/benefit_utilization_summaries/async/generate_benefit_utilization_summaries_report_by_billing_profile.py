@@ -14,7 +14,7 @@ from azure.mgmt.costmanagement import CostManagementClient
     pip install azure-identity
     pip install azure-mgmt-costmanagement
 # USAGE
-    python scheduled_actionslistprivate.py
+    python generate_benefit_utilization_summaries_report_by_billing_profile.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -28,11 +28,19 @@ def main():
         credential=DefaultAzureCredential(),
     )
 
-    response = client.scheduled_actions.list()
-    for item in response:
-        print(item)
+    response = client.generate_benefit_utilization_summaries_report.begin_generate_by_billing_profile(
+        billing_account_id="00000000-0000-0000-0000-000000000000",
+        billing_profile_id="CZSFR-SDFXC-DSDF",
+        benefit_utilization_summaries_request={
+            "endDate": "2022-08-31T00:00:00Z",
+            "grain": "Daily",
+            "kind": "Reservation",
+            "startDate": "2022-06-01T00:00:00Z",
+        },
+    ).result()
+    print(response)
 
 
-# x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/scheduledActions/scheduledActions-list-private.json
+# x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2023-03-01/examples/BenefitUtilizationSummaries/Async/GenerateBenefitUtilizationSummariesReportByBillingProfile.json
 if __name__ == "__main__":
     main()
