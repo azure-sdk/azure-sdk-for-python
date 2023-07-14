@@ -72,6 +72,8 @@ class EdgeOrderManagementClient(EdgeOrderManagementClientOperationsMixin, MultiA
         profile: KnownProfiles = KnownProfiles.default,
         **kwargs: Any
     ) -> None:
+        if api_version:
+            kwargs.setdefault('api_version', api_version)
         self._config = EdgeOrderManagementClientConfiguration(credential, subscription_id, **kwargs)
         self._client = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
         super(EdgeOrderManagementClient, self).__init__(
@@ -90,6 +92,7 @@ class EdgeOrderManagementClient(EdgeOrderManagementClientOperationsMixin, MultiA
            * 2020-12-01-preview: :mod:`v2020_12_01_preview.models<azure.mgmt.edgeorder.v2020_12_01_preview.models>`
            * 2021-12-01: :mod:`v2021_12_01.models<azure.mgmt.edgeorder.v2021_12_01.models>`
            * 2022-05-01-preview: :mod:`v2022_05_01_preview.models<azure.mgmt.edgeorder.v2022_05_01_preview.models>`
+           * 2023-05-01-preview: :mod:`v2023_05_01_preview.models<azure.mgmt.edgeorder.v2023_05_01_preview.models>`
         """
         if api_version == '2020-12-01-preview':
             from ..v2020_12_01_preview import models
@@ -100,6 +103,9 @@ class EdgeOrderManagementClient(EdgeOrderManagementClientOperationsMixin, MultiA
         elif api_version == '2022-05-01-preview':
             from ..v2022_05_01_preview import models
             return models
+        elif api_version == '2023-05-01-preview':
+            from ..v2023_05_01_preview import models
+            return models
         raise ValueError("API version {} is not available".format(api_version))
 
     @property
@@ -107,70 +113,225 @@ class EdgeOrderManagementClient(EdgeOrderManagementClientOperationsMixin, MultiA
         """Instance depends on the API version:
 
            * 2022-05-01-preview: :class:`AddressesOperations<azure.mgmt.edgeorder.v2022_05_01_preview.aio.operations.AddressesOperations>`
+           * 2023-05-01-preview: :class:`AddressesOperations<azure.mgmt.edgeorder.v2023_05_01_preview.aio.operations.AddressesOperations>`
         """
         api_version = self._get_api_version('addresses')
         if api_version == '2022-05-01-preview':
             from ..v2022_05_01_preview.aio.operations import AddressesOperations as OperationClass
+        elif api_version == '2023-05-01-preview':
+            from ..v2023_05_01_preview.aio.operations import AddressesOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'addresses'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
+
+    @property
+    def hci_catalog(self):
+        """Instance depends on the API version:
+
+           * 2023-05-01-preview: :class:`HciCatalogOperations<azure.mgmt.edgeorder.v2023_05_01_preview.aio.operations.HciCatalogOperations>`
+        """
+        api_version = self._get_api_version('hci_catalog')
+        if api_version == '2023-05-01-preview':
+            from ..v2023_05_01_preview.aio.operations import HciCatalogOperations as OperationClass
+        else:
+            raise ValueError("API version {} does not have operation group 'hci_catalog'".format(api_version))
+        self._config.api_version = api_version
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
+
+    @property
+    def hci_catalog_platforms(self):
+        """Instance depends on the API version:
+
+           * 2023-05-01-preview: :class:`HciCatalogPlatformsOperations<azure.mgmt.edgeorder.v2023_05_01_preview.aio.operations.HciCatalogPlatformsOperations>`
+        """
+        api_version = self._get_api_version('hci_catalog_platforms')
+        if api_version == '2023-05-01-preview':
+            from ..v2023_05_01_preview.aio.operations import HciCatalogPlatformsOperations as OperationClass
+        else:
+            raise ValueError("API version {} does not have operation group 'hci_catalog_platforms'".format(api_version))
+        self._config.api_version = api_version
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
+
+    @property
+    def hci_catalog_project(self):
+        """Instance depends on the API version:
+
+           * 2023-05-01-preview: :class:`HciCatalogProjectOperations<azure.mgmt.edgeorder.v2023_05_01_preview.aio.operations.HciCatalogProjectOperations>`
+        """
+        api_version = self._get_api_version('hci_catalog_project')
+        if api_version == '2023-05-01-preview':
+            from ..v2023_05_01_preview.aio.operations import HciCatalogProjectOperations as OperationClass
+        else:
+            raise ValueError("API version {} does not have operation group 'hci_catalog_project'".format(api_version))
+        self._config.api_version = api_version
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
+
+    @property
+    def hci_catalog_projects(self):
+        """Instance depends on the API version:
+
+           * 2023-05-01-preview: :class:`HciCatalogProjectsOperations<azure.mgmt.edgeorder.v2023_05_01_preview.aio.operations.HciCatalogProjectsOperations>`
+        """
+        api_version = self._get_api_version('hci_catalog_projects')
+        if api_version == '2023-05-01-preview':
+            from ..v2023_05_01_preview.aio.operations import HciCatalogProjectsOperations as OperationClass
+        else:
+            raise ValueError("API version {} does not have operation group 'hci_catalog_projects'".format(api_version))
+        self._config.api_version = api_version
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
+
+    @property
+    def hci_catalog_vendors(self):
+        """Instance depends on the API version:
+
+           * 2023-05-01-preview: :class:`HciCatalogVendorsOperations<azure.mgmt.edgeorder.v2023_05_01_preview.aio.operations.HciCatalogVendorsOperations>`
+        """
+        api_version = self._get_api_version('hci_catalog_vendors')
+        if api_version == '2023-05-01-preview':
+            from ..v2023_05_01_preview.aio.operations import HciCatalogVendorsOperations as OperationClass
+        else:
+            raise ValueError("API version {} does not have operation group 'hci_catalog_vendors'".format(api_version))
+        self._config.api_version = api_version
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
+
+    @property
+    def hci_flight_catalog(self):
+        """Instance depends on the API version:
+
+           * 2023-05-01-preview: :class:`HciFlightCatalogOperations<azure.mgmt.edgeorder.v2023_05_01_preview.aio.operations.HciFlightCatalogOperations>`
+        """
+        api_version = self._get_api_version('hci_flight_catalog')
+        if api_version == '2023-05-01-preview':
+            from ..v2023_05_01_preview.aio.operations import HciFlightCatalogOperations as OperationClass
+        else:
+            raise ValueError("API version {} does not have operation group 'hci_flight_catalog'".format(api_version))
+        self._config.api_version = api_version
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
+
+    @property
+    def hci_flight_catalog_platforms(self):
+        """Instance depends on the API version:
+
+           * 2023-05-01-preview: :class:`HciFlightCatalogPlatformsOperations<azure.mgmt.edgeorder.v2023_05_01_preview.aio.operations.HciFlightCatalogPlatformsOperations>`
+        """
+        api_version = self._get_api_version('hci_flight_catalog_platforms')
+        if api_version == '2023-05-01-preview':
+            from ..v2023_05_01_preview.aio.operations import HciFlightCatalogPlatformsOperations as OperationClass
+        else:
+            raise ValueError("API version {} does not have operation group 'hci_flight_catalog_platforms'".format(api_version))
+        self._config.api_version = api_version
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
+
+    @property
+    def hci_flight_catalog_project(self):
+        """Instance depends on the API version:
+
+           * 2023-05-01-preview: :class:`HciFlightCatalogProjectOperations<azure.mgmt.edgeorder.v2023_05_01_preview.aio.operations.HciFlightCatalogProjectOperations>`
+        """
+        api_version = self._get_api_version('hci_flight_catalog_project')
+        if api_version == '2023-05-01-preview':
+            from ..v2023_05_01_preview.aio.operations import HciFlightCatalogProjectOperations as OperationClass
+        else:
+            raise ValueError("API version {} does not have operation group 'hci_flight_catalog_project'".format(api_version))
+        self._config.api_version = api_version
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
+
+    @property
+    def hci_flight_catalog_projects(self):
+        """Instance depends on the API version:
+
+           * 2023-05-01-preview: :class:`HciFlightCatalogProjectsOperations<azure.mgmt.edgeorder.v2023_05_01_preview.aio.operations.HciFlightCatalogProjectsOperations>`
+        """
+        api_version = self._get_api_version('hci_flight_catalog_projects')
+        if api_version == '2023-05-01-preview':
+            from ..v2023_05_01_preview.aio.operations import HciFlightCatalogProjectsOperations as OperationClass
+        else:
+            raise ValueError("API version {} does not have operation group 'hci_flight_catalog_projects'".format(api_version))
+        self._config.api_version = api_version
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
+
+    @property
+    def hci_flight_catalog_vendors(self):
+        """Instance depends on the API version:
+
+           * 2023-05-01-preview: :class:`HciFlightCatalogVendorsOperations<azure.mgmt.edgeorder.v2023_05_01_preview.aio.operations.HciFlightCatalogVendorsOperations>`
+        """
+        api_version = self._get_api_version('hci_flight_catalog_vendors')
+        if api_version == '2023-05-01-preview':
+            from ..v2023_05_01_preview.aio.operations import HciFlightCatalogVendorsOperations as OperationClass
+        else:
+            raise ValueError("API version {} does not have operation group 'hci_flight_catalog_vendors'".format(api_version))
+        self._config.api_version = api_version
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def operations(self):
         """Instance depends on the API version:
 
            * 2022-05-01-preview: :class:`Operations<azure.mgmt.edgeorder.v2022_05_01_preview.aio.operations.Operations>`
+           * 2023-05-01-preview: :class:`Operations<azure.mgmt.edgeorder.v2023_05_01_preview.aio.operations.Operations>`
         """
         api_version = self._get_api_version('operations')
         if api_version == '2022-05-01-preview':
             from ..v2022_05_01_preview.aio.operations import Operations as OperationClass
+        elif api_version == '2023-05-01-preview':
+            from ..v2023_05_01_preview.aio.operations import Operations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'operations'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def order_items(self):
         """Instance depends on the API version:
 
            * 2022-05-01-preview: :class:`OrderItemsOperations<azure.mgmt.edgeorder.v2022_05_01_preview.aio.operations.OrderItemsOperations>`
+           * 2023-05-01-preview: :class:`OrderItemsOperations<azure.mgmt.edgeorder.v2023_05_01_preview.aio.operations.OrderItemsOperations>`
         """
         api_version = self._get_api_version('order_items')
         if api_version == '2022-05-01-preview':
             from ..v2022_05_01_preview.aio.operations import OrderItemsOperations as OperationClass
+        elif api_version == '2023-05-01-preview':
+            from ..v2023_05_01_preview.aio.operations import OrderItemsOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'order_items'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def orders(self):
         """Instance depends on the API version:
 
            * 2022-05-01-preview: :class:`OrdersOperations<azure.mgmt.edgeorder.v2022_05_01_preview.aio.operations.OrdersOperations>`
+           * 2023-05-01-preview: :class:`OrdersOperations<azure.mgmt.edgeorder.v2023_05_01_preview.aio.operations.OrdersOperations>`
         """
         api_version = self._get_api_version('orders')
         if api_version == '2022-05-01-preview':
             from ..v2022_05_01_preview.aio.operations import OrdersOperations as OperationClass
+        elif api_version == '2023-05-01-preview':
+            from ..v2023_05_01_preview.aio.operations import OrdersOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'orders'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def products_and_configurations(self):
         """Instance depends on the API version:
 
            * 2022-05-01-preview: :class:`ProductsAndConfigurationsOperations<azure.mgmt.edgeorder.v2022_05_01_preview.aio.operations.ProductsAndConfigurationsOperations>`
+           * 2023-05-01-preview: :class:`ProductsAndConfigurationsOperations<azure.mgmt.edgeorder.v2023_05_01_preview.aio.operations.ProductsAndConfigurationsOperations>`
         """
         api_version = self._get_api_version('products_and_configurations')
         if api_version == '2022-05-01-preview':
             from ..v2022_05_01_preview.aio.operations import ProductsAndConfigurationsOperations as OperationClass
+        elif api_version == '2023-05-01-preview':
+            from ..v2023_05_01_preview.aio.operations import ProductsAndConfigurationsOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'products_and_configurations'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     async def close(self):
         await self._client.close()
