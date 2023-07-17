@@ -10,7 +10,6 @@ from ._models_py3 import ApiError
 from ._models_py3 import ApiErrorBase
 from ._models_py3 import CommunityGallery
 from ._models_py3 import CommunityGalleryImage
-from ._models_py3 import CommunityGalleryImageIdentifier
 from ._models_py3 import CommunityGalleryImageList
 from ._models_py3 import CommunityGalleryImageVersion
 from ._models_py3 import CommunityGalleryImageVersionList
@@ -101,7 +100,6 @@ from ._models_py3 import UserAssignedIdentitiesValue
 from ._compute_management_client_enums import AggregatedReplicationState
 from ._compute_management_client_enums import Architecture
 from ._compute_management_client_enums import ConfidentialVMEncryptionType
-from ._compute_management_client_enums import EdgeZoneStorageAccountType
 from ._compute_management_client_enums import ExtendedLocationTypes
 from ._compute_management_client_enums import GalleryApplicationCustomActionParameterType
 from ._compute_management_client_enums import GalleryExpandParams
@@ -132,7 +130,6 @@ __all__ = [
     "ApiErrorBase",
     "CommunityGallery",
     "CommunityGalleryImage",
-    "CommunityGalleryImageIdentifier",
     "CommunityGalleryImageList",
     "CommunityGalleryImageVersion",
     "CommunityGalleryImageVersionList",
@@ -222,7 +219,6 @@ __all__ = [
     "AggregatedReplicationState",
     "Architecture",
     "ConfidentialVMEncryptionType",
-    "EdgeZoneStorageAccountType",
     "ExtendedLocationTypes",
     "GalleryApplicationCustomActionParameterType",
     "GalleryExpandParams",
