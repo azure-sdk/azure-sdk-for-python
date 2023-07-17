@@ -18,6 +18,7 @@ from ._configuration import CosmosDBManagementClientConfiguration
 from .operations import (
     CassandraClustersOperations,
     CassandraDataCentersOperations,
+    CassandraRepairOperations,
     CassandraResourcesOperations,
     CollectionOperations,
     CollectionPartitionOperations,
@@ -118,6 +119,8 @@ class CosmosDBManagementClient:  # pylint: disable=client-accepts-api-version-ke
     :ivar cassandra_data_centers: CassandraDataCentersOperations operations
     :vartype cassandra_data_centers:
      azure.mgmt.cosmosdb.aio.operations.CassandraDataCentersOperations
+    :ivar cassandra_repair: CassandraRepairOperations operations
+    :vartype cassandra_repair: azure.mgmt.cosmosdb.aio.operations.CassandraRepairOperations
     :ivar mongo_clusters: MongoClustersOperations operations
     :vartype mongo_clusters: azure.mgmt.cosmosdb.aio.operations.MongoClustersOperations
     :ivar notebook_workspaces: NotebookWorkspacesOperations operations
@@ -245,6 +248,9 @@ class CosmosDBManagementClient:  # pylint: disable=client-accepts-api-version-ke
             self._client, self._config, self._serialize, self._deserialize
         )
         self.cassandra_data_centers = CassandraDataCentersOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.cassandra_repair = CassandraRepairOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.mongo_clusters = MongoClustersOperations(self._client, self._config, self._serialize, self._deserialize)

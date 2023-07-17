@@ -544,61 +544,100 @@ class BackupPolicyMigrationState(_serialization.Model):
         self.start_time = start_time
 
 
-class BackupResource(ARMProxyResource):
+class BackupResource(_serialization.Model):
     """A restorable backup of a Cassandra cluster.
 
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar id: The unique resource identifier of the database account.
-    :vartype id: str
-    :ivar name: The name of the database account.
-    :vartype name: str
-    :ivar type: The type of Azure resource.
-    :vartype type: str
-    :ivar properties:
-    :vartype properties: ~azure.mgmt.cosmosdb.models.BackupResourceProperties
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "properties": {"key": "properties", "type": "BackupResourceProperties"},
-    }
-
-    def __init__(self, *, properties: Optional["_models.BackupResourceProperties"] = None, **kwargs: Any) -> None:
-        """
-        :keyword properties:
-        :paramtype properties: ~azure.mgmt.cosmosdb.models.BackupResourceProperties
-        """
-        super().__init__(**kwargs)
-        self.properties = properties
-
-
-class BackupResourceProperties(_serialization.Model):
-    """BackupResourceProperties.
-
-    :ivar timestamp: The time this backup was taken, formatted like 2021-01-21T17:35:21.
-    :vartype timestamp: ~datetime.datetime
+    :ivar backup_id: The unique identifier of backup.
+    :vartype backup_id: str
+    :ivar backup_state: The current state of the backup. Known values are: "Initiated",
+     "InProgress", "Succeeded", and "Failed".
+    :vartype backup_state: str or ~azure.mgmt.cosmosdb.models.BackupState
+    :ivar backup_start_timestamp: The time at which the backup process begins.
+    :vartype backup_start_timestamp: ~datetime.datetime
+    :ivar backup_stop_timestamp: The time at which the backup process ends.
+    :vartype backup_stop_timestamp: ~datetime.datetime
+    :ivar backup_expiry_timestamp: The time at which the backup will expire.
+    :vartype backup_expiry_timestamp: ~datetime.datetime
     """
 
     _attribute_map = {
-        "timestamp": {"key": "timestamp", "type": "iso-8601"},
+        "backup_id": {"key": "backupId", "type": "str"},
+        "backup_state": {"key": "backupState", "type": "str"},
+        "backup_start_timestamp": {"key": "backupStartTimestamp", "type": "iso-8601"},
+        "backup_stop_timestamp": {"key": "backupStopTimestamp", "type": "iso-8601"},
+        "backup_expiry_timestamp": {"key": "backupExpiryTimestamp", "type": "iso-8601"},
     }
 
-    def __init__(self, *, timestamp: Optional[datetime.datetime] = None, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        *,
+        backup_id: Optional[str] = None,
+        backup_state: Optional[Union[str, "_models.BackupState"]] = None,
+        backup_start_timestamp: Optional[datetime.datetime] = None,
+        backup_stop_timestamp: Optional[datetime.datetime] = None,
+        backup_expiry_timestamp: Optional[datetime.datetime] = None,
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword timestamp: The time this backup was taken, formatted like 2021-01-21T17:35:21.
-        :paramtype timestamp: ~datetime.datetime
+        :keyword backup_id: The unique identifier of backup.
+        :paramtype backup_id: str
+        :keyword backup_state: The current state of the backup. Known values are: "Initiated",
+         "InProgress", "Succeeded", and "Failed".
+        :paramtype backup_state: str or ~azure.mgmt.cosmosdb.models.BackupState
+        :keyword backup_start_timestamp: The time at which the backup process begins.
+        :paramtype backup_start_timestamp: ~datetime.datetime
+        :keyword backup_stop_timestamp: The time at which the backup process ends.
+        :paramtype backup_stop_timestamp: ~datetime.datetime
+        :keyword backup_expiry_timestamp: The time at which the backup will expire.
+        :paramtype backup_expiry_timestamp: ~datetime.datetime
         """
         super().__init__(**kwargs)
-        self.timestamp = timestamp
+        self.backup_id = backup_id
+        self.backup_state = backup_state
+        self.backup_start_timestamp = backup_start_timestamp
+        self.backup_stop_timestamp = backup_stop_timestamp
+        self.backup_expiry_timestamp = backup_expiry_timestamp
+
+
+class BackupSchedule(_serialization.Model):
+    """BackupSchedule.
+
+    :ivar schedule_name: The unique identifier of backup schedule.
+    :vartype schedule_name: str
+    :ivar cron_expression: The cron expression that defines when you want to back up your data.
+    :vartype cron_expression: str
+    :ivar retention_in_hours: The retention period (hours) of the backups. If you want to retain
+     data forever, set retention to 0.
+    :vartype retention_in_hours: int
+    """
+
+    _attribute_map = {
+        "schedule_name": {"key": "scheduleName", "type": "str"},
+        "cron_expression": {"key": "cronExpression", "type": "str"},
+        "retention_in_hours": {"key": "retentionInHours", "type": "int"},
+    }
+
+    def __init__(
+        self,
+        *,
+        schedule_name: Optional[str] = None,
+        cron_expression: Optional[str] = None,
+        retention_in_hours: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword schedule_name: The unique identifier of backup schedule.
+        :paramtype schedule_name: str
+        :keyword cron_expression: The cron expression that defines when you want to back up your data.
+        :paramtype cron_expression: str
+        :keyword retention_in_hours: The retention period (hours) of the backups. If you want to retain
+         data forever, set retention to 0.
+        :paramtype retention_in_hours: int
+        """
+        super().__init__(**kwargs)
+        self.schedule_name = schedule_name
+        self.cron_expression = cron_expression
+        self.retention_in_hours = retention_in_hours
 
 
 class Capability(_serialization.Model):
@@ -694,6 +733,8 @@ class CassandraClusterDataCenterNodeItem(_serialization.Model):  # pylint: disab
     :vartype memory_total_kb: int
     :ivar cpu_usage: A float representing the current system-wide CPU utilization as a percentage.
     :vartype cpu_usage: float
+    :ivar is_latest_model: If node has been updated to latest model.
+    :vartype is_latest_model: bool
     """
 
     _attribute_map = {
@@ -714,6 +755,7 @@ class CassandraClusterDataCenterNodeItem(_serialization.Model):  # pylint: disab
         "memory_free_kb": {"key": "memoryFreeKB", "type": "int"},
         "memory_total_kb": {"key": "memoryTotalKB", "type": "int"},
         "cpu_usage": {"key": "cpuUsage", "type": "float"},
+        "is_latest_model": {"key": "isLatestModel", "type": "bool"},
     }
 
     def __init__(
@@ -736,6 +778,7 @@ class CassandraClusterDataCenterNodeItem(_serialization.Model):  # pylint: disab
         memory_free_kb: Optional[int] = None,
         memory_total_kb: Optional[int] = None,
         cpu_usage: Optional[float] = None,
+        is_latest_model: Optional[bool] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -779,6 +822,8 @@ class CassandraClusterDataCenterNodeItem(_serialization.Model):  # pylint: disab
         :keyword cpu_usage: A float representing the current system-wide CPU utilization as a
          percentage.
         :paramtype cpu_usage: float
+        :keyword is_latest_model: If node has been updated to latest model.
+        :paramtype is_latest_model: bool
         """
         super().__init__(**kwargs)
         self.address = address
@@ -798,6 +843,7 @@ class CassandraClusterDataCenterNodeItem(_serialization.Model):  # pylint: disab
         self.memory_free_kb = memory_free_kb
         self.memory_total_kb = memory_total_kb
         self.cpu_usage = cpu_usage
+        self.is_latest_model = is_latest_model
 
 
 class CassandraClusterPublicStatus(_serialization.Model):
@@ -896,6 +942,215 @@ class CassandraClusterPublicStatusDataCentersItem(_serialization.Model):
         self.name = name
         self.seed_nodes = seed_nodes
         self.nodes = nodes
+
+
+class CassandraClusterRepairListFilter(_serialization.Model):
+    """Request object to filter list of repair runs.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar keyspace: Keyspace name of the repair run.
+    :vartype keyspace: str
+    :ivar repair_run_states:
+    :vartype repair_run_states: list[str or
+     ~azure.mgmt.cosmosdb.models.CassandraRepairRunStateEnum]
+    """
+
+    _validation = {
+        "keyspace": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "keyspace": {"key": "keyspace", "type": "str"},
+        "repair_run_states": {"key": "repairRunStates", "type": "[str]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        repair_run_states: Optional[List[Union[str, "_models.CassandraRepairRunStateEnum"]]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword repair_run_states:
+        :paramtype repair_run_states: list[str or
+         ~azure.mgmt.cosmosdb.models.CassandraRepairRunStateEnum]
+        """
+        super().__init__(**kwargs)
+        self.keyspace = None
+        self.repair_run_states = repair_run_states
+
+
+class CassandraClusterRepairPublicProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+    """CassandraClusterRepairPublicProperties.
+
+    :ivar keyspace: keyspace to be repaired.
+    :vartype keyspace: str
+    :ivar owner: owner of the repair run.
+    :vartype owner: str
+    :ivar cause: note on reason for repair run.
+    :vartype cause: str
+    :ivar tables: list of column famalies to be repaird. if empty whole keyspace will be repaired.
+    :vartype tables: list[str]
+    :ivar segment_count: Number of segments in repair run.
+    :vartype segment_count: int
+    :ivar repair_parallelism: Defines the used repair parallelism for repair run. Valid values are
+     SEQUENTIAL, PARALLEL or DATACENTER_AWARE.
+    :vartype repair_parallelism: str
+    :ivar intensity: Defines the repair intensity for repair run.
+    :vartype intensity: float
+    :ivar incremental_repair: Defines if incremental repair should be done. [true/false]. True when
+     this flag is passed. False otherwise.
+    :vartype incremental_repair: bool
+    :ivar auto_start: Setting this flag will automatically start the repair run at time of
+     creation.
+    :vartype auto_start: bool
+    :ivar nodes: A specific comma separated list of nodes IP address whose tokens should be
+     repaired.
+    :vartype nodes: list[str]
+    :ivar data_centers: A float representing the current system-wide CPU utilization as a
+     percentage.
+    :vartype data_centers: list[str]
+    :ivar blacklisted_tables: The name of the tables that should not be repaired. Cannot be used in
+     conjunction with the tables parameter.
+    :vartype blacklisted_tables: list[str]
+    :ivar repair_thread_count: Thread Count to be used for the parallel repair. Since Cassandra
+     2.2, repairs can be performed with up to 4 threads in order to parallelize the work on
+     different token ranges.
+    :vartype repair_thread_count: int
+    """
+
+    _attribute_map = {
+        "keyspace": {"key": "keyspace", "type": "str"},
+        "owner": {"key": "owner", "type": "str"},
+        "cause": {"key": "cause", "type": "str"},
+        "tables": {"key": "tables", "type": "[str]"},
+        "segment_count": {"key": "segmentCount", "type": "int"},
+        "repair_parallelism": {"key": "repairParallelism", "type": "str"},
+        "intensity": {"key": "intensity", "type": "float"},
+        "incremental_repair": {"key": "incrementalRepair", "type": "bool"},
+        "auto_start": {"key": "autoStart", "type": "bool"},
+        "nodes": {"key": "nodes", "type": "[str]"},
+        "data_centers": {"key": "dataCenters", "type": "[str]"},
+        "blacklisted_tables": {"key": "blacklistedTables", "type": "[str]"},
+        "repair_thread_count": {"key": "repairThreadCount", "type": "int"},
+    }
+
+    def __init__(
+        self,
+        *,
+        keyspace: Optional[str] = None,
+        owner: Optional[str] = None,
+        cause: Optional[str] = None,
+        tables: Optional[List[str]] = None,
+        segment_count: Optional[int] = None,
+        repair_parallelism: Optional[str] = None,
+        intensity: Optional[float] = None,
+        incremental_repair: Optional[bool] = None,
+        auto_start: Optional[bool] = None,
+        nodes: Optional[List[str]] = None,
+        data_centers: Optional[List[str]] = None,
+        blacklisted_tables: Optional[List[str]] = None,
+        repair_thread_count: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword keyspace: keyspace to be repaired.
+        :paramtype keyspace: str
+        :keyword owner: owner of the repair run.
+        :paramtype owner: str
+        :keyword cause: note on reason for repair run.
+        :paramtype cause: str
+        :keyword tables: list of column famalies to be repaird. if empty whole keyspace will be
+         repaired.
+        :paramtype tables: list[str]
+        :keyword segment_count: Number of segments in repair run.
+        :paramtype segment_count: int
+        :keyword repair_parallelism: Defines the used repair parallelism for repair run. Valid values
+         are SEQUENTIAL, PARALLEL or DATACENTER_AWARE.
+        :paramtype repair_parallelism: str
+        :keyword intensity: Defines the repair intensity for repair run.
+        :paramtype intensity: float
+        :keyword incremental_repair: Defines if incremental repair should be done. [true/false]. True
+         when this flag is passed. False otherwise.
+        :paramtype incremental_repair: bool
+        :keyword auto_start: Setting this flag will automatically start the repair run at time of
+         creation.
+        :paramtype auto_start: bool
+        :keyword nodes: A specific comma separated list of nodes IP address whose tokens should be
+         repaired.
+        :paramtype nodes: list[str]
+        :keyword data_centers: A float representing the current system-wide CPU utilization as a
+         percentage.
+        :paramtype data_centers: list[str]
+        :keyword blacklisted_tables: The name of the tables that should not be repaired. Cannot be used
+         in conjunction with the tables parameter.
+        :paramtype blacklisted_tables: list[str]
+        :keyword repair_thread_count: Thread Count to be used for the parallel repair. Since Cassandra
+         2.2, repairs can be performed with up to 4 threads in order to parallelize the work on
+         different token ranges.
+        :paramtype repair_thread_count: int
+        """
+        super().__init__(**kwargs)
+        self.keyspace = keyspace
+        self.owner = owner
+        self.cause = cause
+        self.tables = tables
+        self.segment_count = segment_count
+        self.repair_parallelism = repair_parallelism
+        self.intensity = intensity
+        self.incremental_repair = incremental_repair
+        self.auto_start = auto_start
+        self.nodes = nodes
+        self.data_centers = data_centers
+        self.blacklisted_tables = blacklisted_tables
+        self.repair_thread_count = repair_thread_count
+
+
+class CassandraClusterRepairPublicResource(_serialization.Model):
+    """CassandraClusterRepairPublicResource.
+
+    :ivar id:
+    :vartype id: str
+    :ivar name:
+    :vartype name: str
+    :ivar type:
+    :vartype type: str
+    :ivar properties:
+    :vartype properties: ~azure.mgmt.cosmosdb.models.CassandraClusterRepairPublicProperties
+    """
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "properties": {"key": "properties", "type": "CassandraClusterRepairPublicProperties"},
+    }
+
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        name: Optional[str] = None,
+        type: Optional[str] = None,
+        properties: Optional["_models.CassandraClusterRepairPublicProperties"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword id:
+        :paramtype id: str
+        :keyword name:
+        :paramtype name: str
+        :keyword type:
+        :paramtype type: str
+        :keyword properties:
+        :paramtype properties: ~azure.mgmt.cosmosdb.models.CassandraClusterRepairPublicProperties
+        """
+        super().__init__(**kwargs)
+        self.id = id
+        self.name = name
+        self.type = type
+        self.properties = properties
 
 
 class CassandraError(_serialization.Model):
@@ -1315,6 +1570,798 @@ class CassandraPartitionKey(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.name = name
+
+
+class CassandraReaperClusterStatus(_serialization.Model):
+    """CassandraReaperClusterStatus.
+
+    :ivar name:
+    :vartype name: str
+    :ivar jmx_user_name:
+    :vartype jmx_user_name: str
+    :ivar jmx_password_is_set:
+    :vartype jmx_password_is_set: bool
+    :ivar seed_hosts:
+    :vartype seed_hosts: list[str]
+    :ivar repair_runs:
+    :vartype repair_runs: list[~azure.mgmt.cosmosdb.models.CassandraReaperRunStatus]
+    :ivar repair_schedules:
+    :vartype repair_schedules: list[~azure.mgmt.cosmosdb.models.CassandraReaperScheduleStatus]
+    :ivar nodes_status:
+    :vartype nodes_status: ~azure.mgmt.cosmosdb.models.CassandraReaperNodeStatus
+    """
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "jmx_user_name": {"key": "jmxUserName", "type": "str"},
+        "jmx_password_is_set": {"key": "jmxPasswordIsSet", "type": "bool"},
+        "seed_hosts": {"key": "seedHosts", "type": "[str]"},
+        "repair_runs": {"key": "repairRuns", "type": "[CassandraReaperRunStatus]"},
+        "repair_schedules": {"key": "repairSchedules", "type": "[CassandraReaperScheduleStatus]"},
+        "nodes_status": {"key": "nodesStatus", "type": "CassandraReaperNodeStatus"},
+    }
+
+    def __init__(
+        self,
+        *,
+        name: Optional[str] = None,
+        jmx_user_name: Optional[str] = None,
+        jmx_password_is_set: Optional[bool] = None,
+        seed_hosts: Optional[List[str]] = None,
+        repair_runs: Optional[List["_models.CassandraReaperRunStatus"]] = None,
+        repair_schedules: Optional[List["_models.CassandraReaperScheduleStatus"]] = None,
+        nodes_status: Optional["_models.CassandraReaperNodeStatus"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword name:
+        :paramtype name: str
+        :keyword jmx_user_name:
+        :paramtype jmx_user_name: str
+        :keyword jmx_password_is_set:
+        :paramtype jmx_password_is_set: bool
+        :keyword seed_hosts:
+        :paramtype seed_hosts: list[str]
+        :keyword repair_runs:
+        :paramtype repair_runs: list[~azure.mgmt.cosmosdb.models.CassandraReaperRunStatus]
+        :keyword repair_schedules:
+        :paramtype repair_schedules: list[~azure.mgmt.cosmosdb.models.CassandraReaperScheduleStatus]
+        :keyword nodes_status:
+        :paramtype nodes_status: ~azure.mgmt.cosmosdb.models.CassandraReaperNodeStatus
+        """
+        super().__init__(**kwargs)
+        self.name = name
+        self.jmx_user_name = jmx_user_name
+        self.jmx_password_is_set = jmx_password_is_set
+        self.seed_hosts = seed_hosts
+        self.repair_runs = repair_runs
+        self.repair_schedules = repair_schedules
+        self.nodes_status = nodes_status
+
+
+class CassandraReaperEndpointState(_serialization.Model):
+    """CassandraReaperEndpointState.
+
+    :ivar endpoint:
+    :vartype endpoint: str
+    :ivar host_id:
+    :vartype host_id: str
+    :ivar data_center:
+    :vartype data_center: str
+    :ivar rack:
+    :vartype rack: str
+    :ivar status:
+    :vartype status: str
+    :ivar severity:
+    :vartype severity: float
+    :ivar release_version:
+    :vartype release_version: str
+    :ivar tokens:
+    :vartype tokens: str
+    :ivar load:
+    :vartype load: float
+    :ivar type:
+    :vartype type: str
+    """
+
+    _attribute_map = {
+        "endpoint": {"key": "endpoint", "type": "str"},
+        "host_id": {"key": "hostId", "type": "str"},
+        "data_center": {"key": "dataCenter", "type": "str"},
+        "rack": {"key": "rack", "type": "str"},
+        "status": {"key": "status", "type": "str"},
+        "severity": {"key": "severity", "type": "float"},
+        "release_version": {"key": "releaseVersion", "type": "str"},
+        "tokens": {"key": "tokens", "type": "str"},
+        "load": {"key": "load", "type": "float"},
+        "type": {"key": "type", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        endpoint: Optional[str] = None,
+        host_id: Optional[str] = None,
+        data_center: Optional[str] = None,
+        rack: Optional[str] = None,
+        status: Optional[str] = None,
+        severity: Optional[float] = None,
+        release_version: Optional[str] = None,
+        tokens: Optional[str] = None,
+        load: Optional[float] = None,
+        type: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword endpoint:
+        :paramtype endpoint: str
+        :keyword host_id:
+        :paramtype host_id: str
+        :keyword data_center:
+        :paramtype data_center: str
+        :keyword rack:
+        :paramtype rack: str
+        :keyword status:
+        :paramtype status: str
+        :keyword severity:
+        :paramtype severity: float
+        :keyword release_version:
+        :paramtype release_version: str
+        :keyword tokens:
+        :paramtype tokens: str
+        :keyword load:
+        :paramtype load: float
+        :keyword type:
+        :paramtype type: str
+        """
+        super().__init__(**kwargs)
+        self.endpoint = endpoint
+        self.host_id = host_id
+        self.data_center = data_center
+        self.rack = rack
+        self.status = status
+        self.severity = severity
+        self.release_version = release_version
+        self.tokens = tokens
+        self.load = load
+        self.type = type
+
+
+class CassandraReaperGossipInfo(_serialization.Model):
+    """CassandraReaperGossipInfo.
+
+    :ivar source_node:
+    :vartype source_node: str
+    :ivar endpoints: Dictionary of
+     <components·1vevrom·schemas·cassandrareapergossipinfo·properties·endpoints·additionalproperties>.
+    :vartype endpoints: dict[str, dict[str,
+     list[~azure.mgmt.cosmosdb.models.CassandraReaperEndpointState]]]
+    :ivar total_load:
+    :vartype total_load: float
+    :ivar endpoint_names:
+    :vartype endpoint_names: list[str]
+    """
+
+    _attribute_map = {
+        "source_node": {"key": "sourceNode", "type": "str"},
+        "endpoints": {"key": "endpoints", "type": "{{[CassandraReaperEndpointState]}}"},
+        "total_load": {"key": "totalLoad", "type": "float"},
+        "endpoint_names": {"key": "endpointNames", "type": "[str]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        source_node: Optional[str] = None,
+        endpoints: Optional[Dict[str, Dict[str, List["_models.CassandraReaperEndpointState"]]]] = None,
+        total_load: Optional[float] = None,
+        endpoint_names: Optional[List[str]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword source_node:
+        :paramtype source_node: str
+        :keyword endpoints: Dictionary of
+         <components·1vevrom·schemas·cassandrareapergossipinfo·properties·endpoints·additionalproperties>.
+        :paramtype endpoints: dict[str, dict[str,
+         list[~azure.mgmt.cosmosdb.models.CassandraReaperEndpointState]]]
+        :keyword total_load:
+        :paramtype total_load: float
+        :keyword endpoint_names:
+        :paramtype endpoint_names: list[str]
+        """
+        super().__init__(**kwargs)
+        self.source_node = source_node
+        self.endpoints = endpoints
+        self.total_load = total_load
+        self.endpoint_names = endpoint_names
+
+
+class CassandraReaperNodeStatus(_serialization.Model):
+    """CassandraReaperNodeStatus.
+
+    :ivar endpoint_states:
+    :vartype endpoint_states: list[~azure.mgmt.cosmosdb.models.CassandraReaperGossipInfo]
+    """
+
+    _attribute_map = {
+        "endpoint_states": {"key": "endpointStates", "type": "[CassandraReaperGossipInfo]"},
+    }
+
+    def __init__(
+        self, *, endpoint_states: Optional[List["_models.CassandraReaperGossipInfo"]] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword endpoint_states:
+        :paramtype endpoint_states: list[~azure.mgmt.cosmosdb.models.CassandraReaperGossipInfo]
+        """
+        super().__init__(**kwargs)
+        self.endpoint_states = endpoint_states
+
+
+class CassandraReaperRunStatus(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+    """CassandraReaperRunStatus.
+
+    :ivar cause:
+    :vartype cause: str
+    :ivar owner:
+    :vartype owner: str
+    :ivar id:
+    :vartype id: str
+    :ivar cluster_name:
+    :vartype cluster_name: str
+    :ivar column_families:
+    :vartype column_families: list[str]
+    :ivar keyspace_name:
+    :vartype keyspace_name: str
+    :ivar repair_state:
+    :vartype repair_state: str
+    :ivar intensity:
+    :vartype intensity: float
+    :ivar incremental_repair:
+    :vartype incremental_repair: bool
+    :ivar total_segments:
+    :vartype total_segments: int
+    :ivar repair_parallelism:
+    :vartype repair_parallelism: str
+    :ivar segments_repaired:
+    :vartype segments_repaired: int
+    :ivar last_event:
+    :vartype last_event: str
+    :ivar duration:
+    :vartype duration: str
+    :ivar nodes:
+    :vartype nodes: list[str]
+    :ivar datacenters:
+    :vartype datacenters: list[str]
+    :ivar blacklisted_tables:
+    :vartype blacklisted_tables: list[str]
+    :ivar repair_thread_count:
+    :vartype repair_thread_count: int
+    :ivar repair_unit_id:
+    :vartype repair_unit_id: str
+    :ivar creation_time:
+    :vartype creation_time: str
+    :ivar start_time:
+    :vartype start_time: str
+    :ivar end_time:
+    :vartype end_time: str
+    :ivar pause_time:
+    :vartype pause_time: str
+    :ivar current_time:
+    :vartype current_time: str
+    :ivar segment_timeout:
+    :vartype segment_timeout: str
+    :ivar adaptive_schedule:
+    :vartype adaptive_schedule: str
+    """
+
+    _attribute_map = {
+        "cause": {"key": "cause", "type": "str"},
+        "owner": {"key": "owner", "type": "str"},
+        "id": {"key": "id", "type": "str"},
+        "cluster_name": {"key": "cluster_name", "type": "str"},
+        "column_families": {"key": "column_families", "type": "[str]"},
+        "keyspace_name": {"key": "keyspace_name", "type": "str"},
+        "repair_state": {"key": "repairState", "type": "str"},
+        "intensity": {"key": "intensity", "type": "float"},
+        "incremental_repair": {"key": "incremental_repair", "type": "bool"},
+        "total_segments": {"key": "total_segments", "type": "int"},
+        "repair_parallelism": {"key": "repair_parallelism", "type": "str"},
+        "segments_repaired": {"key": "segments_repaired", "type": "int"},
+        "last_event": {"key": "last_event", "type": "str"},
+        "duration": {"key": "duration", "type": "str"},
+        "nodes": {"key": "nodes", "type": "[str]"},
+        "datacenters": {"key": "datacenters", "type": "[str]"},
+        "blacklisted_tables": {"key": "blacklisted_tables", "type": "[str]"},
+        "repair_thread_count": {"key": "repair_thread_count", "type": "int"},
+        "repair_unit_id": {"key": "repair_unit_id", "type": "str"},
+        "creation_time": {"key": "creation_time", "type": "str"},
+        "start_time": {"key": "start_time", "type": "str"},
+        "end_time": {"key": "end_time", "type": "str"},
+        "pause_time": {"key": "pause_time", "type": "str"},
+        "current_time": {"key": "current_time", "type": "str"},
+        "segment_timeout": {"key": "segment_timeout", "type": "str"},
+        "adaptive_schedule": {"key": "adaptive_schedule", "type": "str"},
+    }
+
+    def __init__(  # pylint: disable=too-many-locals
+        self,
+        *,
+        cause: Optional[str] = None,
+        owner: Optional[str] = None,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        cluster_name: Optional[str] = None,
+        column_families: Optional[List[str]] = None,
+        keyspace_name: Optional[str] = None,
+        repair_state: Optional[str] = None,
+        intensity: Optional[float] = None,
+        incremental_repair: Optional[bool] = None,
+        total_segments: Optional[int] = None,
+        repair_parallelism: Optional[str] = None,
+        segments_repaired: Optional[int] = None,
+        last_event: Optional[str] = None,
+        duration: Optional[str] = None,
+        nodes: Optional[List[str]] = None,
+        datacenters: Optional[List[str]] = None,
+        blacklisted_tables: Optional[List[str]] = None,
+        repair_thread_count: Optional[int] = None,
+        repair_unit_id: Optional[str] = None,
+        creation_time: Optional[str] = None,
+        start_time: Optional[str] = None,
+        end_time: Optional[str] = None,
+        pause_time: Optional[str] = None,
+        current_time: Optional[str] = None,
+        segment_timeout: Optional[str] = None,
+        adaptive_schedule: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword cause:
+        :paramtype cause: str
+        :keyword owner:
+        :paramtype owner: str
+        :keyword id:
+        :paramtype id: str
+        :keyword cluster_name:
+        :paramtype cluster_name: str
+        :keyword column_families:
+        :paramtype column_families: list[str]
+        :keyword keyspace_name:
+        :paramtype keyspace_name: str
+        :keyword repair_state:
+        :paramtype repair_state: str
+        :keyword intensity:
+        :paramtype intensity: float
+        :keyword incremental_repair:
+        :paramtype incremental_repair: bool
+        :keyword total_segments:
+        :paramtype total_segments: int
+        :keyword repair_parallelism:
+        :paramtype repair_parallelism: str
+        :keyword segments_repaired:
+        :paramtype segments_repaired: int
+        :keyword last_event:
+        :paramtype last_event: str
+        :keyword duration:
+        :paramtype duration: str
+        :keyword nodes:
+        :paramtype nodes: list[str]
+        :keyword datacenters:
+        :paramtype datacenters: list[str]
+        :keyword blacklisted_tables:
+        :paramtype blacklisted_tables: list[str]
+        :keyword repair_thread_count:
+        :paramtype repair_thread_count: int
+        :keyword repair_unit_id:
+        :paramtype repair_unit_id: str
+        :keyword creation_time:
+        :paramtype creation_time: str
+        :keyword start_time:
+        :paramtype start_time: str
+        :keyword end_time:
+        :paramtype end_time: str
+        :keyword pause_time:
+        :paramtype pause_time: str
+        :keyword current_time:
+        :paramtype current_time: str
+        :keyword segment_timeout:
+        :paramtype segment_timeout: str
+        :keyword adaptive_schedule:
+        :paramtype adaptive_schedule: str
+        """
+        super().__init__(**kwargs)
+        self.cause = cause
+        self.owner = owner
+        self.id = id
+        self.cluster_name = cluster_name
+        self.column_families = column_families
+        self.keyspace_name = keyspace_name
+        self.repair_state = repair_state
+        self.intensity = intensity
+        self.incremental_repair = incremental_repair
+        self.total_segments = total_segments
+        self.repair_parallelism = repair_parallelism
+        self.segments_repaired = segments_repaired
+        self.last_event = last_event
+        self.duration = duration
+        self.nodes = nodes
+        self.datacenters = datacenters
+        self.blacklisted_tables = blacklisted_tables
+        self.repair_thread_count = repair_thread_count
+        self.repair_unit_id = repair_unit_id
+        self.creation_time = creation_time
+        self.start_time = start_time
+        self.end_time = end_time
+        self.pause_time = pause_time
+        self.current_time = current_time
+        self.segment_timeout = segment_timeout
+        self.adaptive_schedule = adaptive_schedule
+
+
+class CassandraReaperRunStatusFeedResponse(_serialization.Model):
+    """CassandraReaperRunStatusFeedResponse.
+
+    :ivar value:
+    :vartype value: list[~azure.mgmt.cosmosdb.models.CassandraReaperRunStatus]
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[CassandraReaperRunStatus]"},
+    }
+
+    def __init__(self, *, value: Optional[List["_models.CassandraReaperRunStatus"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword value:
+        :paramtype value: list[~azure.mgmt.cosmosdb.models.CassandraReaperRunStatus]
+        """
+        super().__init__(**kwargs)
+        self.value = value
+
+
+class CassandraReaperScheduleStatus(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+    """CassandraReaperScheduleStatus.
+
+    :ivar id:
+    :vartype id: str
+    :ivar owner:
+    :vartype owner: str
+    :ivar state:
+    :vartype state: str
+    :ivar intensity:
+    :vartype intensity: float
+    :ivar cluster_name:
+    :vartype cluster_name: str
+    :ivar keyspace_name:
+    :vartype keyspace_name: str
+    :ivar column_families:
+    :vartype column_families: list[str]
+    :ivar repair_parallelism:
+    :vartype repair_parallelism: str
+    :ivar incremental_repair:
+    :vartype incremental_repair: bool
+    :ivar scheduled_days_between:
+    :vartype scheduled_days_between: int
+    :ivar nodes:
+    :vartype nodes: list[str]
+    :ivar datacenters:
+    :vartype datacenters: list[str]
+    :ivar blacklisted_tables:
+    :vartype blacklisted_tables: list[str]
+    :ivar segment_count_per_node:
+    :vartype segment_count_per_node: int
+    :ivar repair_thread_count:
+    :vartype repair_thread_count: int
+    :ivar repair_unit_id:
+    :vartype repair_unit_id: str
+    :ivar next_activation:
+    :vartype next_activation: str
+    :ivar creation_time:
+    :vartype creation_time: str
+    :ivar pause_time:
+    :vartype pause_time: str
+    :ivar segment_timeout:
+    :vartype segment_timeout: int
+    :ivar adaptive:
+    :vartype adaptive: bool
+    :ivar percent_unrepaired_threshold:
+    :vartype percent_unrepaired_threshold: int
+    """
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "owner": {"key": "owner", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "intensity": {"key": "intensity", "type": "float"},
+        "cluster_name": {"key": "clusterName", "type": "str"},
+        "keyspace_name": {"key": "keyspaceName", "type": "str"},
+        "column_families": {"key": "columnFamilies", "type": "[str]"},
+        "repair_parallelism": {"key": "repairParallelism", "type": "str"},
+        "incremental_repair": {"key": "incrementalRepair", "type": "bool"},
+        "scheduled_days_between": {"key": "scheduledDaysBetween", "type": "int"},
+        "nodes": {"key": "nodes", "type": "[str]"},
+        "datacenters": {"key": "datacenters", "type": "[str]"},
+        "blacklisted_tables": {"key": "blacklistedTables", "type": "[str]"},
+        "segment_count_per_node": {"key": "segmentCountPerNode", "type": "int"},
+        "repair_thread_count": {"key": "repairThreadCount", "type": "int"},
+        "repair_unit_id": {"key": "repairUnitId", "type": "str"},
+        "next_activation": {"key": "nextActivation", "type": "str"},
+        "creation_time": {"key": "creationTime", "type": "str"},
+        "pause_time": {"key": "pauseTime", "type": "str"},
+        "segment_timeout": {"key": "segmentTimeout", "type": "int"},
+        "adaptive": {"key": "adaptive", "type": "bool"},
+        "percent_unrepaired_threshold": {"key": "percentUnrepairedThreshold", "type": "int"},
+    }
+
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        owner: Optional[str] = None,
+        state: Optional[str] = None,
+        intensity: Optional[float] = None,
+        cluster_name: Optional[str] = None,
+        keyspace_name: Optional[str] = None,
+        column_families: Optional[List[str]] = None,
+        repair_parallelism: Optional[str] = None,
+        incremental_repair: Optional[bool] = None,
+        scheduled_days_between: Optional[int] = None,
+        nodes: Optional[List[str]] = None,
+        datacenters: Optional[List[str]] = None,
+        blacklisted_tables: Optional[List[str]] = None,
+        segment_count_per_node: Optional[int] = None,
+        repair_thread_count: Optional[int] = None,
+        repair_unit_id: Optional[str] = None,
+        next_activation: Optional[str] = None,
+        creation_time: Optional[str] = None,
+        pause_time: Optional[str] = None,
+        segment_timeout: Optional[int] = None,
+        adaptive: Optional[bool] = None,
+        percent_unrepaired_threshold: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword id:
+        :paramtype id: str
+        :keyword owner:
+        :paramtype owner: str
+        :keyword state:
+        :paramtype state: str
+        :keyword intensity:
+        :paramtype intensity: float
+        :keyword cluster_name:
+        :paramtype cluster_name: str
+        :keyword keyspace_name:
+        :paramtype keyspace_name: str
+        :keyword column_families:
+        :paramtype column_families: list[str]
+        :keyword repair_parallelism:
+        :paramtype repair_parallelism: str
+        :keyword incremental_repair:
+        :paramtype incremental_repair: bool
+        :keyword scheduled_days_between:
+        :paramtype scheduled_days_between: int
+        :keyword nodes:
+        :paramtype nodes: list[str]
+        :keyword datacenters:
+        :paramtype datacenters: list[str]
+        :keyword blacklisted_tables:
+        :paramtype blacklisted_tables: list[str]
+        :keyword segment_count_per_node:
+        :paramtype segment_count_per_node: int
+        :keyword repair_thread_count:
+        :paramtype repair_thread_count: int
+        :keyword repair_unit_id:
+        :paramtype repair_unit_id: str
+        :keyword next_activation:
+        :paramtype next_activation: str
+        :keyword creation_time:
+        :paramtype creation_time: str
+        :keyword pause_time:
+        :paramtype pause_time: str
+        :keyword segment_timeout:
+        :paramtype segment_timeout: int
+        :keyword adaptive:
+        :paramtype adaptive: bool
+        :keyword percent_unrepaired_threshold:
+        :paramtype percent_unrepaired_threshold: int
+        """
+        super().__init__(**kwargs)
+        self.id = id
+        self.owner = owner
+        self.state = state
+        self.intensity = intensity
+        self.cluster_name = cluster_name
+        self.keyspace_name = keyspace_name
+        self.column_families = column_families
+        self.repair_parallelism = repair_parallelism
+        self.incremental_repair = incremental_repair
+        self.scheduled_days_between = scheduled_days_between
+        self.nodes = nodes
+        self.datacenters = datacenters
+        self.blacklisted_tables = blacklisted_tables
+        self.segment_count_per_node = segment_count_per_node
+        self.repair_thread_count = repair_thread_count
+        self.repair_unit_id = repair_unit_id
+        self.next_activation = next_activation
+        self.creation_time = creation_time
+        self.pause_time = pause_time
+        self.segment_timeout = segment_timeout
+        self.adaptive = adaptive
+        self.percent_unrepaired_threshold = percent_unrepaired_threshold
+
+
+class CassandraRepairRingRange(_serialization.Model):
+    """CassandraRepairRingRange.
+
+    :ivar start:
+    :vartype start: str
+    :ivar end:
+    :vartype end: str
+    """
+
+    _attribute_map = {
+        "start": {"key": "start", "type": "str"},
+        "end": {"key": "end", "type": "str"},
+    }
+
+    def __init__(self, *, start: Optional[str] = None, end: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword start:
+        :paramtype start: str
+        :keyword end:
+        :paramtype end: str
+        """
+        super().__init__(**kwargs)
+        self.start = start
+        self.end = end
+
+
+class CassandraRepairSegment(_serialization.Model):
+    """CassandraRepairSegment.
+
+    :ivar id:
+    :vartype id: str
+    :ivar run_id:
+    :vartype run_id: str
+    :ivar repair_unit_id:
+    :vartype repair_unit_id: str
+    :ivar token_range:
+    :vartype token_range: ~azure.mgmt.cosmosdb.models.CassandraRepairTokenRange
+    :ivar fail_count:
+    :vartype fail_count: int
+    :ivar state:
+    :vartype state: str
+    :ivar coordinator_host:
+    :vartype coordinator_host: str
+    :ivar start_time:
+    :vartype start_time: str
+    :ivar end_time:
+    :vartype end_time: str
+    :ivar replicas: Dictionary of :code:`<string>`.
+    :vartype replicas: dict[str, str]
+    """
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "run_id": {"key": "runId", "type": "str"},
+        "repair_unit_id": {"key": "repairUnitId", "type": "str"},
+        "token_range": {"key": "tokenRange", "type": "CassandraRepairTokenRange"},
+        "fail_count": {"key": "failCount", "type": "int"},
+        "state": {"key": "state", "type": "str"},
+        "coordinator_host": {"key": "coordinatorHost", "type": "str"},
+        "start_time": {"key": "startTime", "type": "str"},
+        "end_time": {"key": "endTime", "type": "str"},
+        "replicas": {"key": "replicas", "type": "{str}"},
+    }
+
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        run_id: Optional[str] = None,
+        repair_unit_id: Optional[str] = None,
+        token_range: Optional["_models.CassandraRepairTokenRange"] = None,
+        fail_count: Optional[int] = None,
+        state: Optional[str] = None,
+        coordinator_host: Optional[str] = None,
+        start_time: Optional[str] = None,
+        end_time: Optional[str] = None,
+        replicas: Optional[Dict[str, str]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword id:
+        :paramtype id: str
+        :keyword run_id:
+        :paramtype run_id: str
+        :keyword repair_unit_id:
+        :paramtype repair_unit_id: str
+        :keyword token_range:
+        :paramtype token_range: ~azure.mgmt.cosmosdb.models.CassandraRepairTokenRange
+        :keyword fail_count:
+        :paramtype fail_count: int
+        :keyword state:
+        :paramtype state: str
+        :keyword coordinator_host:
+        :paramtype coordinator_host: str
+        :keyword start_time:
+        :paramtype start_time: str
+        :keyword end_time:
+        :paramtype end_time: str
+        :keyword replicas: Dictionary of :code:`<string>`.
+        :paramtype replicas: dict[str, str]
+        """
+        super().__init__(**kwargs)
+        self.id = id
+        self.run_id = run_id
+        self.repair_unit_id = repair_unit_id
+        self.token_range = token_range
+        self.fail_count = fail_count
+        self.state = state
+        self.coordinator_host = coordinator_host
+        self.start_time = start_time
+        self.end_time = end_time
+        self.replicas = replicas
+
+
+class CassandraRepairSegmentResourceFeedResponse(_serialization.Model):
+    """CassandraRepairSegmentResourceFeedResponse.
+
+    :ivar value:
+    :vartype value: list[~azure.mgmt.cosmosdb.models.CassandraRepairSegment]
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[CassandraRepairSegment]"},
+    }
+
+    def __init__(self, *, value: Optional[List["_models.CassandraRepairSegment"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword value:
+        :paramtype value: list[~azure.mgmt.cosmosdb.models.CassandraRepairSegment]
+        """
+        super().__init__(**kwargs)
+        self.value = value
+
+
+class CassandraRepairTokenRange(_serialization.Model):
+    """CassandraRepairTokenRange.
+
+    :ivar base_range:
+    :vartype base_range: ~azure.mgmt.cosmosdb.models.CassandraRepairRingRange
+    :ivar token_ranges:
+    :vartype token_ranges: list[~azure.mgmt.cosmosdb.models.CassandraRepairRingRange]
+    :ivar replicas: Dictionary of :code:`<string>`.
+    :vartype replicas: dict[str, str]
+    """
+
+    _attribute_map = {
+        "base_range": {"key": "baseRange", "type": "CassandraRepairRingRange"},
+        "token_ranges": {"key": "tokenRanges", "type": "[CassandraRepairRingRange]"},
+        "replicas": {"key": "replicas", "type": "{str}"},
+    }
+
+    def __init__(
+        self,
+        *,
+        base_range: Optional["_models.CassandraRepairRingRange"] = None,
+        token_ranges: Optional[List["_models.CassandraRepairRingRange"]] = None,
+        replicas: Optional[Dict[str, str]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword base_range:
+        :paramtype base_range: ~azure.mgmt.cosmosdb.models.CassandraRepairRingRange
+        :keyword token_ranges:
+        :paramtype token_ranges: list[~azure.mgmt.cosmosdb.models.CassandraRepairRingRange]
+        :keyword replicas: Dictionary of :code:`<string>`.
+        :paramtype replicas: dict[str, str]
+        """
+        super().__init__(**kwargs)
+        self.base_range = base_range
+        self.token_ranges = token_ranges
+        self.replicas = replicas
 
 
 class CassandraSchema(_serialization.Model):
@@ -2633,8 +3680,16 @@ class ClusterResourceProperties(_serialization.Model):  # pylint: disable=too-ma
     :vartype deallocated: bool
     :ivar cassandra_audit_logging_enabled: Whether Cassandra audit logging is enabled.
     :vartype cassandra_audit_logging_enabled: bool
+    :ivar cluster_type: Type of the cluster. If set to Production, some operations might not be
+     permitted on cluster. Known values are: "Production" and "NonProduction".
+    :vartype cluster_type: str or ~azure.mgmt.cosmosdb.models.ClusterType
     :ivar provision_error: Error related to resource provisioning.
     :vartype provision_error: ~azure.mgmt.cosmosdb.models.CassandraError
+    :ivar extensions: Extensions to be added or updated on cluster.
+    :vartype extensions: list[str]
+    :ivar backup_schedules: List of backup schedules that define when you want to back up your
+     data.
+    :vartype backup_schedules: list[~azure.mgmt.cosmosdb.models.BackupSchedule]
     """
 
     _validation = {
@@ -2660,7 +3715,10 @@ class ClusterResourceProperties(_serialization.Model):  # pylint: disable=too-ma
         "hours_between_backups": {"key": "hoursBetweenBackups", "type": "int"},
         "deallocated": {"key": "deallocated", "type": "bool"},
         "cassandra_audit_logging_enabled": {"key": "cassandraAuditLoggingEnabled", "type": "bool"},
+        "cluster_type": {"key": "clusterType", "type": "str"},
         "provision_error": {"key": "provisionError", "type": "CassandraError"},
+        "extensions": {"key": "extensions", "type": "[str]"},
+        "backup_schedules": {"key": "backupSchedules", "type": "[BackupSchedule]"},
     }
 
     def __init__(
@@ -2681,7 +3739,10 @@ class ClusterResourceProperties(_serialization.Model):  # pylint: disable=too-ma
         hours_between_backups: Optional[int] = None,
         deallocated: Optional[bool] = None,
         cassandra_audit_logging_enabled: Optional[bool] = None,
+        cluster_type: Optional[Union[str, "_models.ClusterType"]] = None,
         provision_error: Optional["_models.CassandraError"] = None,
+        extensions: Optional[List[str]] = None,
+        backup_schedules: Optional[List["_models.BackupSchedule"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -2741,8 +3802,16 @@ class ClusterResourceProperties(_serialization.Model):  # pylint: disable=too-ma
         :paramtype deallocated: bool
         :keyword cassandra_audit_logging_enabled: Whether Cassandra audit logging is enabled.
         :paramtype cassandra_audit_logging_enabled: bool
+        :keyword cluster_type: Type of the cluster. If set to Production, some operations might not be
+         permitted on cluster. Known values are: "Production" and "NonProduction".
+        :paramtype cluster_type: str or ~azure.mgmt.cosmosdb.models.ClusterType
         :keyword provision_error: Error related to resource provisioning.
         :paramtype provision_error: ~azure.mgmt.cosmosdb.models.CassandraError
+        :keyword extensions: Extensions to be added or updated on cluster.
+        :paramtype extensions: list[str]
+        :keyword backup_schedules: List of backup schedules that define when you want to back up your
+         data.
+        :paramtype backup_schedules: list[~azure.mgmt.cosmosdb.models.BackupSchedule]
         """
         super().__init__(**kwargs)
         self.provisioning_state = provisioning_state
@@ -2762,7 +3831,10 @@ class ClusterResourceProperties(_serialization.Model):  # pylint: disable=too-ma
         self.hours_between_backups = hours_between_backups
         self.deallocated = deallocated
         self.cassandra_audit_logging_enabled = cassandra_audit_logging_enabled
+        self.cluster_type = cluster_type
         self.provision_error = provision_error
+        self.extensions = extensions
+        self.backup_schedules = backup_schedules
 
 
 class Column(_serialization.Model):

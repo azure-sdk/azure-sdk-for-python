@@ -55,6 +55,15 @@ class BackupPolicyType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     CONTINUOUS = "Continuous"
 
 
+class BackupState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The current state of the backup."""
+
+    INITIATED = "Initiated"
+    IN_PROGRESS = "InProgress"
+    SUCCEEDED = "Succeeded"
+    FAILED = "Failed"
+
+
 class BackupStorageRedundancy(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Enum to indicate type of backup storage redundancy."""
 
@@ -63,11 +72,30 @@ class BackupStorageRedundancy(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ZONE = "Zone"
 
 
+class CassandraRepairRunStateEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Valid states of repair run."""
+
+    NOT_STARTED = "NOT_STARTED"
+    RUNNING = "RUNNING"
+    ERROR = "ERROR"
+    DONE = "DONE"
+    PAUSED = "PAUSED"
+    ABORTED = "ABORTED"
+    DELETED = "DELETED"
+
+
 class CheckNameAvailabilityReason(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The reason why the given name is not available."""
 
     INVALID = "Invalid"
     ALREADY_EXISTS = "AlreadyExists"
+
+
+class ClusterType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of the cluster. If set to Production, some operations might not be permitted on cluster."""
+
+    PRODUCTION = "Production"
+    NON_PRODUCTION = "NonProduction"
 
 
 class CompositePathSortOrder(str, Enum, metaclass=CaseInsensitiveEnumMeta):

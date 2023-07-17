@@ -20,12 +20,15 @@ from ._models_py3 import BackupInformation
 from ._models_py3 import BackupPolicy
 from ._models_py3 import BackupPolicyMigrationState
 from ._models_py3 import BackupResource
-from ._models_py3 import BackupResourceProperties
+from ._models_py3 import BackupSchedule
 from ._models_py3 import Capability
 from ._models_py3 import Capacity
 from ._models_py3 import CassandraClusterDataCenterNodeItem
 from ._models_py3 import CassandraClusterPublicStatus
 from ._models_py3 import CassandraClusterPublicStatusDataCentersItem
+from ._models_py3 import CassandraClusterRepairListFilter
+from ._models_py3 import CassandraClusterRepairPublicProperties
+from ._models_py3 import CassandraClusterRepairPublicResource
 from ._models_py3 import CassandraError
 from ._models_py3 import CassandraKeyspaceCreateUpdateParameters
 from ._models_py3 import CassandraKeyspaceGetPropertiesOptions
@@ -34,6 +37,17 @@ from ._models_py3 import CassandraKeyspaceGetResults
 from ._models_py3 import CassandraKeyspaceListResult
 from ._models_py3 import CassandraKeyspaceResource
 from ._models_py3 import CassandraPartitionKey
+from ._models_py3 import CassandraReaperClusterStatus
+from ._models_py3 import CassandraReaperEndpointState
+from ._models_py3 import CassandraReaperGossipInfo
+from ._models_py3 import CassandraReaperNodeStatus
+from ._models_py3 import CassandraReaperRunStatus
+from ._models_py3 import CassandraReaperRunStatusFeedResponse
+from ._models_py3 import CassandraReaperScheduleStatus
+from ._models_py3 import CassandraRepairRingRange
+from ._models_py3 import CassandraRepairSegment
+from ._models_py3 import CassandraRepairSegmentResourceFeedResponse
+from ._models_py3 import CassandraRepairTokenRange
 from ._models_py3 import CassandraSchema
 from ._models_py3 import CassandraTableCreateUpdateParameters
 from ._models_py3 import CassandraTableGetPropertiesOptions
@@ -336,8 +350,11 @@ from ._cosmos_db_management_client_enums import ApiType
 from ._cosmos_db_management_client_enums import AuthenticationMethod
 from ._cosmos_db_management_client_enums import BackupPolicyMigrationStatus
 from ._cosmos_db_management_client_enums import BackupPolicyType
+from ._cosmos_db_management_client_enums import BackupState
 from ._cosmos_db_management_client_enums import BackupStorageRedundancy
+from ._cosmos_db_management_client_enums import CassandraRepairRunStateEnum
 from ._cosmos_db_management_client_enums import CheckNameAvailabilityReason
+from ._cosmos_db_management_client_enums import ClusterType
 from ._cosmos_db_management_client_enums import CompositePathSortOrder
 from ._cosmos_db_management_client_enums import ConflictResolutionMode
 from ._cosmos_db_management_client_enums import ConnectionState
@@ -402,12 +419,15 @@ __all__ = [
     "BackupPolicy",
     "BackupPolicyMigrationState",
     "BackupResource",
-    "BackupResourceProperties",
+    "BackupSchedule",
     "Capability",
     "Capacity",
     "CassandraClusterDataCenterNodeItem",
     "CassandraClusterPublicStatus",
     "CassandraClusterPublicStatusDataCentersItem",
+    "CassandraClusterRepairListFilter",
+    "CassandraClusterRepairPublicProperties",
+    "CassandraClusterRepairPublicResource",
     "CassandraError",
     "CassandraKeyspaceCreateUpdateParameters",
     "CassandraKeyspaceGetPropertiesOptions",
@@ -416,6 +436,17 @@ __all__ = [
     "CassandraKeyspaceListResult",
     "CassandraKeyspaceResource",
     "CassandraPartitionKey",
+    "CassandraReaperClusterStatus",
+    "CassandraReaperEndpointState",
+    "CassandraReaperGossipInfo",
+    "CassandraReaperNodeStatus",
+    "CassandraReaperRunStatus",
+    "CassandraReaperRunStatusFeedResponse",
+    "CassandraReaperScheduleStatus",
+    "CassandraRepairRingRange",
+    "CassandraRepairSegment",
+    "CassandraRepairSegmentResourceFeedResponse",
+    "CassandraRepairTokenRange",
     "CassandraSchema",
     "CassandraTableCreateUpdateParameters",
     "CassandraTableGetPropertiesOptions",
@@ -717,8 +748,11 @@ __all__ = [
     "AuthenticationMethod",
     "BackupPolicyMigrationStatus",
     "BackupPolicyType",
+    "BackupState",
     "BackupStorageRedundancy",
+    "CassandraRepairRunStateEnum",
     "CheckNameAvailabilityReason",
+    "ClusterType",
     "CompositePathSortOrder",
     "ConflictResolutionMode",
     "ConnectionState",
