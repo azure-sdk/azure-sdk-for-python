@@ -22,15 +22,14 @@ from azure.core.exceptions import (
 )
 from azure.core.paging import ItemPaged
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import HttpResponse
-from azure.core.rest import HttpRequest
+from azure.core.rest import HttpRequest, HttpResponse
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 
 from .. import models as _models
 from .._model_base import AzureJSONEncoder, _deserialize
 from .._serialization import Serializer
-from .._vendor import ContentSafetyClientMixinABC, _format_url_section
+from .._vendor import ContentSafetyClientMixinABC
 
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
@@ -101,7 +100,7 @@ def build_content_safety_get_text_blocklist_request(blocklist_name: str, **kwarg
         "blocklistName": _SERIALIZER.url("blocklist_name", blocklist_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -126,7 +125,7 @@ def build_content_safety_create_or_update_text_blocklist_request(blocklist_name:
         "blocklistName": _SERIALIZER.url("blocklist_name", blocklist_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -149,7 +148,7 @@ def build_content_safety_delete_text_blocklist_request(blocklist_name: str, **kw
         "blocklistName": _SERIALIZER.url("blocklist_name", blocklist_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -190,7 +189,7 @@ def build_content_safety_add_block_items_request(blocklist_name: str, **kwargs: 
         "blocklistName": _SERIALIZER.url("blocklist_name", blocklist_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -215,7 +214,7 @@ def build_content_safety_remove_block_items_request(blocklist_name: str, **kwarg
         "blocklistName": _SERIALIZER.url("blocklist_name", blocklist_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -243,7 +242,7 @@ def build_content_safety_get_text_blocklist_item_request(
         "blockItemId": _SERIALIZER.url("block_item_id", block_item_id, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -269,7 +268,7 @@ def build_content_safety_list_text_blocklist_items_request(
         "blocklistName": _SERIALIZER.url("blocklist_name", blocklist_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")

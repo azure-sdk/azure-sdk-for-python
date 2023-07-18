@@ -59,32 +59,35 @@ def _timedelta_as_isostr(td: timedelta) -> str:
     if days:
         date_str = "%sD" % days
 
-    # Build time
-    time_str = "T"
+    if hours or minutes or seconds:
+        # Build time
+        time_str = "T"
 
-    # Hours
-    bigger_exists = date_str or hours
-    if bigger_exists:
-        time_str += "{:02}H".format(hours)
+        # Hours
+        bigger_exists = date_str or hours
+        if bigger_exists:
+            time_str += "{:02}H".format(hours)
 
-    # Minutes
-    bigger_exists = bigger_exists or minutes
-    if bigger_exists:
-        time_str += "{:02}M".format(minutes)
+        # Minutes
+        bigger_exists = bigger_exists or minutes
+        if bigger_exists:
+            time_str += "{:02}M".format(minutes)
 
-    # Seconds
-    try:
-        if seconds.is_integer():
-            seconds_string = "{:02}".format(int(seconds))
-        else:
-            # 9 chars long w/ leading 0, 6 digits after decimal
-            seconds_string = "%09.6f" % seconds
-            # Remove trailing zeros
-            seconds_string = seconds_string.rstrip("0")
-    except AttributeError:  # int.is_integer() raises
-        seconds_string = "{:02}".format(seconds)
+        # Seconds
+        try:
+            if seconds.is_integer():
+                seconds_string = "{:02}".format(int(seconds))
+            else:
+                # 9 chars long w/ leading 0, 6 digits after decimal
+                seconds_string = "%09.6f" % seconds
+                # Remove trailing zeros
+                seconds_string = seconds_string.rstrip("0")
+        except AttributeError:  # int.is_integer() raises
+            seconds_string = "{:02}".format(seconds)
 
-    time_str += "{}S".format(seconds_string)
+        time_str += "{}S".format(seconds_string)
+    else:
+        time_str = ""
 
     return "P" + date_str + time_str
 
@@ -135,7 +138,7 @@ def _serialize_datetime(o):
 
 def _is_readonly(p):
     try:
-        return p._readonly  # pylint: disable=protected-access
+        return p._visibility == ["read"]  # pylint: disable=protected-access
     except AttributeError:
         return False
 
@@ -642,14 +645,14 @@ class _RestField:
         name: typing.Optional[str] = None,
         type: typing.Optional[typing.Callable] = None,  # pylint: disable=redefined-builtin
         is_discriminator: bool = False,
-        readonly: bool = False,
+        visibility: typing.Optional[typing.List[str]] = None,
         default: typing.Any = _UNSET,
     ):
         self._type = type
         self._rest_name_input = name
         self._module: typing.Optional[str] = None
         self._is_discriminator = is_discriminator
-        self._readonly = readonly
+        self._visibility = visibility
         self._is_model = False
         self._default = default
 
@@ -689,10 +692,10 @@ def rest_field(
     *,
     name: typing.Optional[str] = None,
     type: typing.Optional[typing.Callable] = None,  # pylint: disable=redefined-builtin
-    readonly: bool = False,
+    visibility: typing.Optional[typing.List[str]] = None,
     default: typing.Any = _UNSET,
 ) -> typing.Any:
-    return _RestField(name=name, type=type, readonly=readonly, default=default)
+    return _RestField(name=name, type=type, visibility=visibility, default=default)
 
 
 def rest_discriminator(
