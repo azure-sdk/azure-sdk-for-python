@@ -34,11 +34,11 @@ def main():
         workspace_name="my-aml-workspace",
         name="string",
         version="string",
-        body={"pendingUploadId": "string", "pendingUploadType": "None"},
+        body={"pendingUploadId": "string", "pendingUploadType": "TemporaryBlobReference"},
     )
     print(response)
 
 
-# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2023-04-01/examples/Workspace/CodeVersion/createOrGetStartPendingUpload.json
+# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2023-08-01-preview/examples/Workspace/CodeVersion/createOrGetStartPendingUpload.json
 if __name__ == "__main__":
     main()
