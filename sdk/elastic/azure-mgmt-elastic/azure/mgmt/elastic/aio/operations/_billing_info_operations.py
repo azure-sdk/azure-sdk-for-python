@@ -17,80 +17,44 @@ from azure.core.exceptions import (
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import HttpResponse
+from azure.core.pipeline.transport import AsyncHttpResponse
 from azure.core.rest import HttpRequest
-from azure.core.tracing.decorator import distributed_trace
+from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
-from .. import models as _models
-from .._serialization import Serializer
-from .._vendor import _convert_request, _format_url_section
+from ... import models as _models
+from ..._vendor import _convert_request
+from ...operations._billing_info_operations import build_get_request
 
 T = TypeVar("T")
-ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
-
-_SERIALIZER = Serializer()
-_SERIALIZER.client_side_validation = False
+ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
 
-def build_details_request(
-    resource_group_name: str, monitor_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop(
-        "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/vmIngestionDetails",
-    )  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url(
-            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
-        ),
-        "monitorName": _SERIALIZER.url("monitor_name", monitor_name, "str"),
-    }
-
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-class VMIngestionOperations:
+class BillingInfoOperations:
     """
     .. warning::
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.elastic.MicrosoftElastic`'s
-        :attr:`vm_ingestion` attribute.
+        :class:`~azure.mgmt.elastic.aio.MicrosoftElastic`'s
+        :attr:`billing_info` attribute.
     """
 
     models = _models
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
         self._client = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
-    @distributed_trace
-    def details(self, resource_group_name: str, monitor_name: str, **kwargs: Any) -> _models.VMIngestionDetailsResponse:
-        """List the vm ingestion details that will be monitored by the Elastic monitor resource.
+    @distributed_trace_async
+    async def get(self, resource_group_name: str, monitor_name: str, **kwargs: Any) -> _models.BillingInfoResponse:
+        """Get marketplace and organization info mapped to the given monitor.
 
-        List the vm ingestion details that will be monitored by the Elastic monitor resource.
+        Get marketplace and organization info mapped to the given monitor.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -98,8 +62,8 @@ class VMIngestionOperations:
         :param monitor_name: Monitor resource name. Required.
         :type monitor_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: VMIngestionDetailsResponse or the result of cls(response)
-        :rtype: ~azure.mgmt.elastic.models.VMIngestionDetailsResponse
+        :return: BillingInfoResponse or the result of cls(response)
+        :rtype: ~azure.mgmt.elastic.models.BillingInfoResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map = {
@@ -114,14 +78,14 @@ class VMIngestionOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.VMIngestionDetailsResponse] = kwargs.pop("cls", None)
+        cls: ClsType[_models.BillingInfoResponse] = kwargs.pop("cls", None)
 
-        request = build_details_request(
+        request = build_get_request(
             resource_group_name=resource_group_name,
             monitor_name=monitor_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.details.metadata["url"],
+            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
@@ -129,7 +93,7 @@ class VMIngestionOperations:
         request.url = self._client.format_url(request.url)
 
         _stream = False
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             request, stream=_stream, **kwargs
         )
 
@@ -142,13 +106,13 @@ class VMIngestionOperations:
             )
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("VMIngestionDetailsResponse", pipeline_response)
+        deserialized = self._deserialize("BillingInfoResponse", pipeline_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})
 
         return deserialized
 
-    details.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/vmIngestionDetails"
+    get.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/getBillingInfo"
     }

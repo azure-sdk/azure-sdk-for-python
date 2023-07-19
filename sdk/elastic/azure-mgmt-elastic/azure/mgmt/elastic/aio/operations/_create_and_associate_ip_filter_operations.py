@@ -122,8 +122,8 @@ class CreateAndAssociateIPFilterOperations:
 
         Create and Associate IP traffic filter for the given deployment.
 
-        :param resource_group_name: The name of the resource group to which the Elastic resource
-         belongs. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param monitor_name: Monitor resource name. Required.
         :type monitor_name: str

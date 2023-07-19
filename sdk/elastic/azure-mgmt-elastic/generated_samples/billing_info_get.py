@@ -14,7 +14,7 @@ from azure.mgmt.elastic import MicrosoftElastic
     pip install azure-identity
     pip install azure-mgmt-elastic
 # USAGE
-    python all_traffic_filters_list.py
+    python billing_info_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,13 +29,13 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.all_traffic_filters.list(
+    response = client.billing_info.get(
         resource_group_name="myResourceGroup",
         monitor_name="myMonitor",
     )
     print(response)
 
 
-# x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-07-01-preview/examples/AllTrafficFilters_list.json
+# x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-07-01-preview/examples/BillingInfo_Get.json
 if __name__ == "__main__":
     main()
