@@ -29,7 +29,7 @@ def main():
         subscription_id="4385cf00-2d3a-425a-832f-f4285b1c9dce",
     )
 
-    response = client.support_packages.begin_trigger_support_package(
+    client.support_packages.begin_trigger_support_package(
         device_name="testedgedevice",
         resource_group_name="GroupForEdgeAutomation",
         trigger_support_package_request={
@@ -40,7 +40,6 @@ def main():
             }
         },
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/databoxedge/resource-manager/Microsoft.DataBoxEdge/stable/2022-03-01/examples/TriggerSupportPackage.json
