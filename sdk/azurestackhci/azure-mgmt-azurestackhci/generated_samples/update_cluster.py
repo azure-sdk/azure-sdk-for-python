@@ -33,9 +33,10 @@ def main():
         resource_group_name="test-rg",
         cluster_name="myCluster",
         cluster={
+            "identity": {"type": "SystemAssigned"},
             "properties": {
                 "cloudManagementEndpoint": "https://98294836-31be-4668-aeae-698667faf99b.waconazure.com",
-                "desiredProperties": {"diagnosticLevel": "Required", "windowsServerSubscription": "Enabled"},
+                "desiredProperties": {"diagnosticLevel": "Basic", "windowsServerSubscription": "Enabled"},
             },
             "tags": {"tag1": "value1", "tag2": "value2"},
         },
@@ -43,6 +44,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/preview/2021-09-01-preview/examples/UpdateCluster.json
+# x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2023-03-01/examples/UpdateCluster.json
 if __name__ == "__main__":
     main()
