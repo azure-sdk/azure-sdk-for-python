@@ -37,7 +37,7 @@ def main():
             "location": "westus",
             "properties": {
                 "actions": ["push"],
-                "customHeaders": {"Authorization": "Basic 000000000000000000000000000000000000000000000000000"},
+                "customHeaders": {"Authorization": "******"},
                 "scope": "myRepository",
                 "serviceUri": "http://myservice.com",
                 "status": "enabled",
