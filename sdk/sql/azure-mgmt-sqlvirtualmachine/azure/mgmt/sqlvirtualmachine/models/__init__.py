@@ -52,6 +52,7 @@ from ._models_py3 import UnhealthyReplicaInfo
 from ._models_py3 import WsfcDomainCredentials
 from ._models_py3 import WsfcDomainProfile
 
+from ._sql_virtual_machine_management_client_enums import AdditionalVmPatch
 from ._sql_virtual_machine_management_client_enums import AssessmentDayOfWeek
 from ._sql_virtual_machine_management_client_enums import AutoBackupDaysOfWeek
 from ._sql_virtual_machine_management_client_enums import BackupScheduleType
@@ -128,6 +129,7 @@ __all__ = [
     "UnhealthyReplicaInfo",
     "WsfcDomainCredentials",
     "WsfcDomainProfile",
+    "AdditionalVmPatch",
     "AssessmentDayOfWeek",
     "AutoBackupDaysOfWeek",
     "BackupScheduleType",
