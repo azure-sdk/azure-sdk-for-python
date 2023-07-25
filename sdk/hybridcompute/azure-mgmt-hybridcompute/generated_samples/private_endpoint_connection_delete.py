@@ -29,14 +29,13 @@ def main():
         subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.private_endpoint_connections.begin_delete(
+    client.private_endpoint_connections.begin_delete(
         resource_group_name="myResourceGroup",
         scope_name="myPrivateLinkScope",
         private_endpoint_connection_name="private-endpoint-connection-name",
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/stable/2022-03-10/examples/PrivateEndpointConnectionDelete.json
+# x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-04-25-preview/examples/PrivateEndpointConnectionDelete.json
 if __name__ == "__main__":
     main()
