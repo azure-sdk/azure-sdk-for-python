@@ -14,7 +14,7 @@ from azure.mgmt.managementgroups import ManagementGroupsAPI
     pip install azure-identity
     pip install azure-mgmt-managementgroups
 # USAGE
-    python get_entities.py
+    python patch_hierarchy_settings.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -28,11 +28,18 @@ def main():
         credential=DefaultAzureCredential(),
     )
 
-    response = client.entities.list()
-    for item in response:
-        print(item)
+    response = client.hierarchy_settings.update(
+        group_id="root",
+        create_tenant_settings_request={
+            "properties": {
+                "defaultManagementGroup": "/providers/Microsoft.Management/managementGroups/DefaultGroup",
+                "requireAuthorizationForGroupCreation": True,
+            }
+        },
+    )
+    print(response)
 
 
-# x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2023-04-01/examples/GetEntities.json
+# x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2023-04-01/examples/PatchHierarchySettings.json
 if __name__ == "__main__":
     main()

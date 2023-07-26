@@ -9,7 +9,7 @@
 
 import datetime
 import sys
-from typing import List, Optional, TYPE_CHECKING, Union
+from typing import Any, List, Optional, TYPE_CHECKING, Union
 
 from .. import _serialization
 
@@ -62,7 +62,7 @@ class AzureAsyncOperationResults(_serialization.Model):
         "display_name": {"key": "properties.displayName", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: Optional[str] = None, display_name: Optional[str] = None, **kwargs):
+    def __init__(self, *, tenant_id: Optional[str] = None, display_name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The AAD Tenant ID associated with the management group. For example,
          00000000-0000-0000-0000-000000000000.
@@ -99,8 +99,8 @@ class CheckNameAvailabilityRequest(_serialization.Model):
         *,
         name: Optional[str] = None,
         type: Optional[Literal["Microsoft.Management/managementGroups"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: the name to check for availability.
         :paramtype name: str
@@ -145,7 +145,7 @@ class CheckNameAvailabilityResult(_serialization.Model):
         "message": {"key": "message", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.name_available = None
@@ -190,7 +190,7 @@ class CreateManagementGroupChildInfo(_serialization.Model):
         "children": {"key": "children", "type": "[CreateManagementGroupChildInfo]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.type = None
@@ -228,7 +228,7 @@ class CreateManagementGroupDetails(_serialization.Model):
         "parent": {"key": "parent", "type": "CreateParentGroupInfo"},
     }
 
-    def __init__(self, *, parent: Optional["_models.CreateParentGroupInfo"] = None, **kwargs):
+    def __init__(self, *, parent: Optional["_models.CreateParentGroupInfo"] = None, **kwargs: Any) -> None:
         """
         :keyword parent: (Optional) The ID of the parent management group used during creation.
         :paramtype parent: ~azure.mgmt.managementgroups.models.CreateParentGroupInfo
@@ -288,8 +288,8 @@ class CreateManagementGroupRequest(_serialization.Model):
         name: Optional[str] = None,
         display_name: Optional[str] = None,
         details: Optional["_models.CreateManagementGroupDetails"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: The name of the management group. For example,
          00000000-0000-0000-0000-000000000000.
@@ -338,8 +338,8 @@ class CreateOrUpdateSettingsRequest(_serialization.Model):
         *,
         require_authorization_for_group_creation: Optional[bool] = None,
         default_management_group: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword require_authorization_for_group_creation: Indicates whether RBAC access is required
          upon group creation under the root Management Group. If set to true, user will require
@@ -382,7 +382,7 @@ class CreateParentGroupInfo(_serialization.Model):
         "display_name": {"key": "displayName", "type": "str"},
     }
 
-    def __init__(self, *, id: Optional[str] = None, **kwargs):  # pylint: disable=redefined-builtin
+    def __init__(self, *, id: Optional[str] = None, **kwargs: Any) -> None:  # pylint: disable=redefined-builtin
         """
         :keyword id: The fully qualified ID for the parent management group.  For example,
          /providers/Microsoft.Management/managementGroups/0000000-0000-0000-0000-000000000000.
@@ -433,8 +433,8 @@ class DescendantInfo(_serialization.Model):
         *,
         display_name: Optional[str] = None,
         parent: Optional["_models.DescendantParentGroupInfo"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword display_name: The friendly name of the management group.
         :paramtype display_name: str
@@ -469,7 +469,7 @@ class DescendantListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.DescendantInfo"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.DescendantInfo"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The list of descendants.
         :paramtype value: list[~azure.mgmt.managementgroups.models.DescendantInfo]
@@ -491,7 +491,7 @@ class DescendantParentGroupInfo(_serialization.Model):
         "id": {"key": "id", "type": "str"},
     }
 
-    def __init__(self, *, id: Optional[str] = None, **kwargs):  # pylint: disable=redefined-builtin
+    def __init__(self, *, id: Optional[str] = None, **kwargs: Any) -> None:  # pylint: disable=redefined-builtin
         """
         :keyword id: The fully qualified ID for the parent management group.  For example,
          /providers/Microsoft.Management/managementGroups/0000000-0000-0000-0000-000000000000.
@@ -544,8 +544,8 @@ class EntityHierarchyItem(_serialization.Model):
         display_name: Optional[str] = None,
         permissions: Optional[Union[str, "_models.Permissions"]] = None,
         children: Optional[List["_models.EntityHierarchyItem"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword display_name: The friendly name of the management group.
         :paramtype display_name: str
@@ -639,8 +639,8 @@ class EntityInfo(_serialization.Model):  # pylint: disable=too-many-instance-att
         number_of_child_groups: Optional[int] = None,
         parent_display_name_chain: Optional[List[str]] = None,
         parent_name_chain: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tenant_id: The AAD Tenant ID associated with the entity. For example,
          00000000-0000-0000-0000-000000000000.
@@ -709,7 +709,7 @@ class EntityListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.EntityInfo"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.EntityInfo"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The list of entities.
         :paramtype value: list[~azure.mgmt.managementgroups.models.EntityInfo]
@@ -732,7 +732,7 @@ class EntityParentGroupInfo(_serialization.Model):
         "id": {"key": "id", "type": "str"},
     }
 
-    def __init__(self, *, id: Optional[str] = None, **kwargs):  # pylint: disable=redefined-builtin
+    def __init__(self, *, id: Optional[str] = None, **kwargs: Any) -> None:  # pylint: disable=redefined-builtin
         """
         :keyword id: The fully qualified ID for the parent management group.  For example,
          /providers/Microsoft.Management/managementGroups/0000000-0000-0000-0000-000000000000.
@@ -760,8 +760,8 @@ class ErrorDetails(_serialization.Model):
     }
 
     def __init__(
-        self, *, code: Optional[str] = None, message: Optional[str] = None, details: Optional[str] = None, **kwargs
-    ):
+        self, *, code: Optional[str] = None, message: Optional[str] = None, details: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword code: One of a server-defined set of error codes.
         :paramtype code: str
@@ -787,7 +787,7 @@ class ErrorResponse(_serialization.Model):
         "error": {"key": "error", "type": "ErrorDetails"},
     }
 
-    def __init__(self, *, error: Optional["_models.ErrorDetails"] = None, **kwargs):
+    def __init__(self, *, error: Optional["_models.ErrorDetails"] = None, **kwargs: Any) -> None:
         """
         :keyword error: The details of the error.
         :paramtype error: ~azure.mgmt.managementgroups.models.ErrorDetails
@@ -848,8 +848,8 @@ class HierarchySettings(_serialization.Model):
         tenant_id: Optional[str] = None,
         require_authorization_for_group_creation: Optional[bool] = None,
         default_management_group: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tenant_id: The AAD Tenant ID associated with the hierarchy settings. For example,
          00000000-0000-0000-0000-000000000000.
@@ -926,8 +926,8 @@ class HierarchySettingsInfo(_serialization.Model):
         tenant_id: Optional[str] = None,
         require_authorization_for_group_creation: Optional[bool] = None,
         default_management_group: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tenant_id: The AAD Tenant ID associated with the hierarchy settings. For example,
          00000000-0000-0000-0000-000000000000.
@@ -969,10 +969,10 @@ class HierarchySettingsList(_serialization.Model):
 
     _attribute_map = {
         "value": {"key": "value", "type": "[HierarchySettingsInfo]"},
-        "next_link": {"key": "nextLink", "type": "str"},
+        "next_link": {"key": "@nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.HierarchySettingsInfo"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.HierarchySettingsInfo"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The list of hierarchy settings.
         :paramtype value: list[~azure.mgmt.managementgroups.models.HierarchySettingsInfo]
@@ -1002,7 +1002,9 @@ class ListSubscriptionUnderManagementGroup(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.SubscriptionUnderManagementGroup"]] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.SubscriptionUnderManagementGroup"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: The list of subscriptions.
         :paramtype value: list[~azure.mgmt.managementgroups.models.SubscriptionUnderManagementGroup]
@@ -1059,8 +1061,8 @@ class ManagementGroup(_serialization.Model):
         display_name: Optional[str] = None,
         details: Optional["_models.ManagementGroupDetails"] = None,
         children: Optional[List["_models.ManagementGroupChildInfo"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tenant_id: The AAD Tenant ID associated with the management group. For example,
          00000000-0000-0000-0000-000000000000.
@@ -1117,8 +1119,8 @@ class ManagementGroupChildInfo(_serialization.Model):
         name: Optional[str] = None,
         display_name: Optional[str] = None,
         children: Optional[List["_models.ManagementGroupChildInfo"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword type: The fully qualified resource type which includes provider namespace (e.g.
          Microsoft.Management/managementGroups). Known values are:
@@ -1187,8 +1189,8 @@ class ManagementGroupDetails(_serialization.Model):
         path: Optional[List["_models.ManagementGroupPathElement"]] = None,
         management_group_ancestors: Optional[List[str]] = None,
         management_group_ancestors_chain: Optional[List["_models.ManagementGroupPathElement"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword version: The version number of the object.
         :paramtype version: int
@@ -1251,7 +1253,7 @@ class ManagementGroupInfo(_serialization.Model):
         "display_name": {"key": "properties.displayName", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: Optional[str] = None, display_name: Optional[str] = None, **kwargs):
+    def __init__(self, *, tenant_id: Optional[str] = None, display_name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The AAD Tenant ID associated with the management group. For example,
          00000000-0000-0000-0000-000000000000.
@@ -1284,10 +1286,10 @@ class ManagementGroupListResult(_serialization.Model):
 
     _attribute_map = {
         "value": {"key": "value", "type": "[ManagementGroupInfo]"},
-        "next_link": {"key": "nextLink", "type": "str"},
+        "next_link": {"key": "@nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.ManagementGroupInfo"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.ManagementGroupInfo"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The list of management groups.
         :paramtype value: list[~azure.mgmt.managementgroups.models.ManagementGroupInfo]
@@ -1311,7 +1313,7 @@ class ManagementGroupPathElement(_serialization.Model):
         "display_name": {"key": "displayName", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, display_name: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, display_name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: The name of the group.
         :paramtype name: str
@@ -1343,7 +1345,7 @@ class Operation(_serialization.Model):
         "display": {"key": "display", "type": "OperationDisplayProperties"},
     }
 
-    def __init__(self, *, display: Optional["_models.OperationDisplayProperties"] = None, **kwargs):
+    def __init__(self, *, display: Optional["_models.OperationDisplayProperties"] = None, **kwargs: Any) -> None:
         """
         :keyword display: The object that represents the operation.
         :paramtype display: ~azure.mgmt.managementgroups.models.OperationDisplayProperties
@@ -1382,7 +1384,7 @@ class OperationDisplayProperties(_serialization.Model):
         "description": {"key": "description", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.provider = None
@@ -1412,7 +1414,7 @@ class OperationListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -1453,7 +1455,7 @@ class OperationResults(_serialization.Model):
         "display_name": {"key": "properties.displayName", "type": "str"},
     }
 
-    def __init__(self, *, tenant_id: Optional[str] = None, display_name: Optional[str] = None, **kwargs):
+    def __init__(self, *, tenant_id: Optional[str] = None, display_name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword tenant_id: The AAD Tenant ID associated with the management group. For example,
          00000000-0000-0000-0000-000000000000.
@@ -1466,49 +1468,6 @@ class OperationResults(_serialization.Model):
         self.type = None
         self.name = None
         self.tenant_id = tenant_id
-        self.display_name = display_name
-
-
-class ParentGroupBagInfo(_serialization.Model):
-    """The ID, name and displayName of the parent management group.
-
-    :ivar id: The fully qualified ID for the parent management group.  For example,
-     /providers/Microsoft.Management/managementGroups/0000000-0000-0000-0000-000000000000.
-    :vartype id: str
-    :ivar name: The name of the parent management group. For example,
-     00000000-0000-0000-0000-000000000000.
-    :vartype name: str
-    :ivar display_name: The friendly name of the parent management group.
-    :vartype display_name: str
-    """
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "display_name": {"key": "displayName", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        id: Optional[str] = None,  # pylint: disable=redefined-builtin
-        name: Optional[str] = None,
-        display_name: Optional[str] = None,
-        **kwargs
-    ):
-        """
-        :keyword id: The fully qualified ID for the parent management group.  For example,
-         /providers/Microsoft.Management/managementGroups/0000000-0000-0000-0000-000000000000.
-        :paramtype id: str
-        :keyword name: The name of the parent management group. For example,
-         00000000-0000-0000-0000-000000000000.
-        :paramtype name: str
-        :keyword display_name: The friendly name of the parent management group.
-        :paramtype display_name: str
-        """
-        super().__init__(**kwargs)
-        self.id = id
-        self.name = name
         self.display_name = display_name
 
 
@@ -1536,8 +1495,8 @@ class ParentGroupInfo(_serialization.Model):
         id: Optional[str] = None,  # pylint: disable=redefined-builtin
         name: Optional[str] = None,
         display_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: The fully qualified ID for the parent management group.  For example,
          /providers/Microsoft.Management/managementGroups/0000000-0000-0000-0000-000000000000.
@@ -1568,7 +1527,9 @@ class PatchManagementGroupRequest(_serialization.Model):
         "parent_group_id": {"key": "parentGroupId", "type": "str"},
     }
 
-    def __init__(self, *, display_name: Optional[str] = None, parent_group_id: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, display_name: Optional[str] = None, parent_group_id: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword display_name: The friendly name of the management group.
         :paramtype display_name: str
@@ -1601,8 +1562,8 @@ class SubscriptionUnderManagementGroup(_serialization.Model):
     :vartype tenant: str
     :ivar display_name: The friendly name of the subscription.
     :vartype display_name: str
-    :ivar parent: The ID, name and displayName of the parent management group.
-    :vartype parent: ~azure.mgmt.managementgroups.models.ParentGroupBagInfo
+    :ivar parent: The ID of the parent management group.
+    :vartype parent: ~azure.mgmt.managementgroups.models.DescendantParentGroupInfo
     :ivar state: The state of the subscription.
     :vartype state: str
     """
@@ -1619,7 +1580,7 @@ class SubscriptionUnderManagementGroup(_serialization.Model):
         "name": {"key": "name", "type": "str"},
         "tenant": {"key": "properties.tenant", "type": "str"},
         "display_name": {"key": "properties.displayName", "type": "str"},
-        "parent": {"key": "properties.parent", "type": "ParentGroupBagInfo"},
+        "parent": {"key": "properties.parent", "type": "DescendantParentGroupInfo"},
         "state": {"key": "properties.state", "type": "str"},
     }
 
@@ -1628,18 +1589,18 @@ class SubscriptionUnderManagementGroup(_serialization.Model):
         *,
         tenant: Optional[str] = None,
         display_name: Optional[str] = None,
-        parent: Optional["_models.ParentGroupBagInfo"] = None,
+        parent: Optional["_models.DescendantParentGroupInfo"] = None,
         state: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tenant: The AAD Tenant ID associated with the subscription. For example,
          00000000-0000-0000-0000-000000000000.
         :paramtype tenant: str
         :keyword display_name: The friendly name of the subscription.
         :paramtype display_name: str
-        :keyword parent: The ID, name and displayName of the parent management group.
-        :paramtype parent: ~azure.mgmt.managementgroups.models.ParentGroupBagInfo
+        :keyword parent: The ID of the parent management group.
+        :paramtype parent: ~azure.mgmt.managementgroups.models.DescendantParentGroupInfo
         :keyword state: The state of the subscription.
         :paramtype state: str
         """
@@ -1676,7 +1637,7 @@ class TenantBackfillStatusResult(_serialization.Model):
         "status": {"key": "status", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.tenant_id = None
