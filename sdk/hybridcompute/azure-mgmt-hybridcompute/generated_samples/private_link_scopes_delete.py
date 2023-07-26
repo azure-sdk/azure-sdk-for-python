@@ -29,13 +29,12 @@ def main():
         subscription_id="86dc51d3-92ed-4d7e-947a-775ea79b4919",
     )
 
-    response = client.private_link_scopes.begin_delete(
+    client.private_link_scopes.begin_delete(
         resource_group_name="my-resource-group",
         scope_name="my-privatelinkscope",
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/stable/2022-03-10/examples/PrivateLinkScopesDelete.json
+# x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-03-15-preview/examples/PrivateLinkScopesDelete.json
 if __name__ == "__main__":
     main()

@@ -29,7 +29,7 @@ def main():
         subscription_id="{subscriptionId}",
     )
 
-    response = client.begin_upgrade_extensions(
+    client.begin_upgrade_extensions(
         resource_group_name="myResourceGroup",
         machine_name="myMachine",
         extension_upgrade_parameters={
@@ -39,9 +39,8 @@ def main():
             }
         },
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/stable/2022-03-10/examples/Extensions_Upgrade.json
+# x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-03-15-preview/examples/Extensions_Upgrade.json
 if __name__ == "__main__":
     main()
