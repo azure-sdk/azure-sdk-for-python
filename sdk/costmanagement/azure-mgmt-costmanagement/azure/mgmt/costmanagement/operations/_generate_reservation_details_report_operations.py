@@ -42,7 +42,7 @@ def build_by_billing_account_id_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-03-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -73,7 +73,7 @@ def build_by_billing_profile_id_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-03-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -184,7 +184,7 @@ class GenerateReservationDetailsReportOperations:
         """Generates the reservations details report for provided date range asynchronously based on
         enrollment id. The Reservation usage details can be viewed only by certain enterprise roles.
         For more details on the roles see,
-        https://docs.microsoft.com/azure/cost-management-billing/manage/understand-ea-roles#usage-and-costs-access-by-role.
+        https://docs.microsoft.com/en-us/azure/cost-management-billing/manage/understand-ea-roles#usage-and-costs-access-by-role.
 
         .. seealso::
            - https://docs.microsoft.com/en-us/rest/api/costmanagement/
@@ -323,7 +323,7 @@ class GenerateReservationDetailsReportOperations:
         """Generates the reservations details report for provided date range asynchronously by billing
         profile. The Reservation usage details can be viewed by only certain enterprise roles by
         default. For more details on the roles see,
-        https://docs.microsoft.com/azure/cost-management-billing/reservations/reservation-utilization#view-utilization-in-the-azure-portal-with-azure-rbac-access.
+        https://docs.microsoft.com/en-us/azure/cost-management-billing/reservations/reservation-utilization#view-utilization-in-the-azure-portal-with-azure-rbac-access.
 
         .. seealso::
            - https://docs.microsoft.com/en-us/rest/api/costmanagement/
