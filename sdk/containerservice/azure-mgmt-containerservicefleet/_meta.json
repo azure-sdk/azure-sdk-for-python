@@ -1,11 +1,15 @@
 {
-  "commit": "1fea23ac36b111293dc3efc30f725e9ebb790f7f",
+  "commit": "6acfe0c7323bd9b487416de7d3368e1470df25b2",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
-  "autorest": "3.9.2",
+  "autorest": "3.9.6",
   "use": [
-    "@autorest/python@6.4.12",
-    "@autorest/modelerfour@4.24.3"
+    "@autorest/python@6.6.0",
+    "@autorest/modelerfour@4.26.2"
   ],
-  "autorest_command": "autorest specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/readme.md --generate-sample=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/home/vsts/work/1/azure-sdk-for-python/sdk --use=@autorest/python@6.4.12 --use=@autorest/modelerfour@4.24.3 --version=3.9.2 --version-tolerant=False",
-  "readme": "specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/readme.md"
+  "autorest_command": "autorest specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/readme.md --generate-sample=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/mnt/vss/_work/1/s/azure-sdk-for-python/sdk --use=@autorest/python@6.6.0 --use=@autorest/modelerfour@4.26.2 --version=3.9.6 --version-tolerant=False",
+  "readme": "specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/readme.md",
+  "package-2023-03-preview": "2023-07-26 17:10:43 -0700 438d2db3745d0427a7405f8c48a5b8135ea1a570 preview/2023-03-15-preview/fleets.json",
+  "package-2022-09-preview": "2023-07-26 17:07:03 -0700 eef0e9097a290db596eb688805f05597bef63f33 preview/2022-09-02-preview/fleets.json",
+  "package-2022-07-preview": "2023-02-15 15:17:59 +0800 67527326606bd3c71700e2b96ff3c9ce9e655e29 preview/2022-07-02-preview/fleets.json",
+  "package-2022-06-preview": "2023-02-15 15:17:59 +0800 67527326606bd3c71700e2b96ff3c9ce9e655e29 preview/2022-06-02-preview/fleets.json"
 }
