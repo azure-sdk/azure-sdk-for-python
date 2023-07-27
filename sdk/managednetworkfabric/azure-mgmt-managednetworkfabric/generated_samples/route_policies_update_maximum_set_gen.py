@@ -34,6 +34,7 @@ def main():
         route_policy_name="example-routePolicy",
         body={
             "properties": {
+                "defaultAction": "Deny",
                 "statements": [
                     {
                         "action": {
@@ -87,7 +88,7 @@ def main():
                         },
                         "sequenceNumber": 7,
                     }
-                ]
+                ],
             },
             "tags": {"keyID": "keyValue"},
         },
