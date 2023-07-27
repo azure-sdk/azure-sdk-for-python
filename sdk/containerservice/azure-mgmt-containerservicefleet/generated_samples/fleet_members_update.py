@@ -29,12 +29,12 @@ def main():
         subscription_id="subid1",
     )
 
-    response = client.fleet_members.update(
+    response = client.fleet_members.begin_update(
         resource_group_name="rg1",
         fleet_name="fleet1",
         fleet_member_name="member-1",
         properties={"properties": {"group": "staging"}},
-    )
+    ).result()
     print(response)
 
 

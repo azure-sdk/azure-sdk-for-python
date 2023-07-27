@@ -29,11 +29,11 @@ def main():
         subscription_id="subid1",
     )
 
-    response = client.fleets.update(
+    response = client.fleets.begin_update(
         resource_group_name="rg1",
         fleet_name="fleet1",
         properties={"tags": {"env": "prod", "tier": "secure"}},
-    )
+    ).result()
     print(response)
 
 
