@@ -87,15 +87,15 @@ class MaintenanceWindowsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2020-11-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.MaintenanceWindows] = kwargs.pop("cls", None)
 
         request = build_get_request(
             resource_group_name=resource_group_name,
             server_name=server_name,
             database_name=database_name,
-            subscription_id=self._config.subscription_id,
             maintenance_window_name=maintenance_window_name,
+            subscription_id=self._config.subscription_id,
             api_version=api_version,
             template_url=self.get.metadata["url"],
             headers=_headers,
@@ -123,7 +123,7 @@ class MaintenanceWindowsOperations:
         return deserialized
 
     get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/maintenanceWindows/current"
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/maintenanceWindows/{maintenanceWindowName}"
     }
 
     @overload
@@ -236,7 +236,7 @@ class MaintenanceWindowsOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2020-11-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
@@ -252,8 +252,8 @@ class MaintenanceWindowsOperations:
             resource_group_name=resource_group_name,
             server_name=server_name,
             database_name=database_name,
-            subscription_id=self._config.subscription_id,
             maintenance_window_name=maintenance_window_name,
+            subscription_id=self._config.subscription_id,
             api_version=api_version,
             content_type=content_type,
             json=_json,
@@ -280,5 +280,5 @@ class MaintenanceWindowsOperations:
             return cls(pipeline_response, None, {})
 
     create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/maintenanceWindows/current"
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/maintenanceWindows/{maintenanceWindowName}"
     }
