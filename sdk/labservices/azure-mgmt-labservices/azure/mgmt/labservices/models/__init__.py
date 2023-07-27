@@ -50,6 +50,7 @@ from ._models_py3 import ProxyResource
 from ._models_py3 import RecurrencePattern
 from ._models_py3 import ResetPasswordBody
 from ._models_py3 import Resource
+from ._models_py3 import ResourceOperationError
 from ._models_py3 import RosterProfile
 from ._models_py3 import SaveImageBody
 from ._models_py3 import Schedule
@@ -146,6 +147,7 @@ __all__ = [
     "RecurrencePattern",
     "ResetPasswordBody",
     "Resource",
+    "ResourceOperationError",
     "RosterProfile",
     "SaveImageBody",
     "Schedule",

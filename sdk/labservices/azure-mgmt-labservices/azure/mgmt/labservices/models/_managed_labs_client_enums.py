@@ -36,11 +36,11 @@ class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 class CreateOption(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Indicates what lab virtual machines are created from."""
 
-    #: An image is used to create all lab user virtual machines. When this option is set, no template
-    #: VM will be created.
     IMAGE = "Image"
-    #: A template VM will be used to create all lab user virtual machines.
+    """An image is used to create all lab user virtual machines. When this option is set, no template
+    #: VM will be created."""
     TEMPLATE_VM = "TemplateVM"
+    """A template VM will be used to create all lab user virtual machines."""
 
 
 class EnableState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -53,14 +53,14 @@ class EnableState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 class InvitationState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The lab user invitation state."""
 
-    #: The invitation has not been sent.
     NOT_SENT = "NotSent"
-    #: Currently sending the invitation.
+    """The invitation has not been sent."""
     SENDING = "Sending"
-    #: The invitation has been successfully sent.
+    """Currently sending the invitation."""
     SENT = "Sent"
-    #: There was an error while sending the invitation.
+    """The invitation has been successfully sent."""
     FAILED = "Failed"
+    """There was an error while sending the invitation."""
 
 
 class LabServicesSkuTier(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -73,31 +73,31 @@ class LabServicesSkuTier(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 class LabState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The state of a virtual machine."""
 
-    #: The lab is currently in draft (has not been published).
     DRAFT = "Draft"
-    #: The lab is publishing.
+    """The lab is currently in draft (has not been published)."""
     PUBLISHING = "Publishing"
-    #: The lab is scaling.
+    """The lab is publishing."""
     SCALING = "Scaling"
-    #: The lab is syncing users.
+    """The lab is scaling."""
     SYNCING = "Syncing"
-    #: The lab has been published.
+    """The lab is syncing users."""
     PUBLISHED = "Published"
+    """The lab has been published."""
 
 
 class OperationStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The operation status."""
 
-    #: The operation has been accepted but hasn't started.
     NOT_STARTED = "NotStarted"
-    #: The operation is running
+    """The operation has been accepted but hasn't started."""
     IN_PROGRESS = "InProgress"
-    #: The operation Succeeded
+    """The operation is running"""
     SUCCEEDED = "Succeeded"
-    #: The operation failed
+    """The operation Succeeded"""
     FAILED = "Failed"
-    #: Not supported yet
+    """The operation failed"""
     CANCELED = "Canceled"
+    """Not supported yet"""
 
 
 class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -113,10 +113,10 @@ class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 class OsState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The operating system state."""
 
-    #: Image does not contain any machine and user specific information.
     GENERALIZED = "Generalized"
-    #: Image contains machine and user specific information.
+    """Image does not contain any machine and user specific information."""
     SPECIALIZED = "Specialized"
+    """Image contains machine and user specific information."""
 
 
 class OsType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -129,38 +129,38 @@ class OsType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Resource provisioning state."""
 
-    #: Resource is in the process of being created.
     CREATING = "Creating"
-    #: New property values are being applied to the resource.
+    """Resource is in the process of being created."""
     UPDATING = "Updating"
-    #: Resource is in the process of being deleted.
+    """New property values are being applied to the resource."""
     DELETING = "Deleting"
-    #: Resource is in healthy state after creation or update operation.
+    """Resource is in the process of being deleted."""
     SUCCEEDED = "Succeeded"
-    #: Previous operation on the resource has failed leaving resource in unhealthy state.
+    """Resource is in healthy state after creation or update operation."""
     FAILED = "Failed"
-    #: The resource is locked and changes are currently blocked. This could be due to maintenance or a
-    #: scheduled operation. The state will go back to succeeded once the locking operation has
-    #: finished.
+    """Previous operation on the resource has failed leaving resource in unhealthy state."""
     LOCKED = "Locked"
+    """The resource is locked and changes are currently blocked. This could be due to maintenance or a
+    #: scheduled operation. The state will go back to succeeded once the locking operation has
+    #: finished."""
 
 
 class RecurrenceFrequency(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Schedule recurrence frequencies."""
 
-    #: Schedule will run every days.
     DAILY = "Daily"
-    #: Schedule will run every week on days specified in weekDays.
+    """Schedule will run every days."""
     WEEKLY = "Weekly"
+    """Schedule will run every week on days specified in weekDays."""
 
 
 class RegistrationState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The user lab registration state."""
 
-    #: User has not yet registered with the lab.
     REGISTERED = "Registered"
-    #: User has registered with the lab.
+    """User has not yet registered with the lab."""
     NOT_REGISTERED = "NotRegistered"
+    """User has registered with the lab."""
 
 
 class RestrictionReasonCode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -179,24 +179,24 @@ class RestrictionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 class ScaleType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The localized name of the resource."""
 
-    #: The capacity is not adjustable in any way.
     NONE = "None"
-    #: The user must manually scale this SKU in and out.
+    """The capacity is not adjustable in any way."""
     MANUAL = "Manual"
-    #: The user is permitted to scale this SKU in and out.
+    """The user must manually scale this SKU in and out."""
     AUTOMATIC = "Automatic"
+    """The user is permitted to scale this SKU in and out."""
 
 
 class ShutdownOnIdleMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Defines whether to shut down VM on idle and the criteria for idle detection."""
 
-    #: The VM won't be shut down when it is idle.
     NONE = "None"
-    #: The VM will be considered as idle when there is no keyboard or mouse input.
+    """The VM won't be shut down when it is idle."""
     USER_ABSENCE = "UserAbsence"
-    #: The VM will be considered as idle when user is absent and the resource (CPU and disk)
-    #: consumption is low.
+    """The VM will be considered as idle when there is no keyboard or mouse input."""
     LOW_USAGE = "LowUsage"
+    """The VM will be considered as idle when user is absent and the resource (CPU and disk)
+    #: consumption is low."""
 
 
 class SkuTier(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -219,45 +219,45 @@ class UsageUnit(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 class VirtualMachineState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The state of a virtual machine."""
 
-    #: The VM is currently stopped.
     STOPPED = "Stopped"
-    #: The VM is starting.
+    """The VM is currently stopped."""
     STARTING = "Starting"
-    #: The VM is running.
+    """The VM is starting."""
     RUNNING = "Running"
-    #: The VM is stopping.
+    """The VM is running."""
     STOPPING = "Stopping"
-    #: The VM password is being reset.
+    """The VM is stopping."""
     RESETTING_PASSWORD = "ResettingPassword"
-    #: The VM is being reimaged.
+    """The VM password is being reset."""
     REIMAGING = "Reimaging"
-    #: The VM is being redeployed.
+    """The VM is being reimaged."""
     REDEPLOYING = "Redeploying"
+    """The VM is being redeployed."""
 
 
 class VirtualMachineType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of the lab virtual machine."""
 
-    #: A user VM
     USER = "User"
-    #: A template VM
+    """A user VM"""
     TEMPLATE = "Template"
+    """A template VM"""
 
 
 class WeekDay(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Days of the week."""
 
-    #: Schedule will run on Sunday
     SUNDAY = "Sunday"
-    #: Schedule will run on Monday
+    """Schedule will run on Sunday"""
     MONDAY = "Monday"
-    #: Schedule will run on Tuesday
+    """Schedule will run on Monday"""
     TUESDAY = "Tuesday"
-    #: Schedule will run on Wednesday
+    """Schedule will run on Tuesday"""
     WEDNESDAY = "Wednesday"
-    #: Schedule will run on Thursday
+    """Schedule will run on Wednesday"""
     THURSDAY = "Thursday"
-    #: Schedule will run on Friday
+    """Schedule will run on Thursday"""
     FRIDAY = "Friday"
-    #: Schedule will run on Saturday
+    """Schedule will run on Friday"""
     SATURDAY = "Saturday"
+    """Schedule will run on Saturday"""
