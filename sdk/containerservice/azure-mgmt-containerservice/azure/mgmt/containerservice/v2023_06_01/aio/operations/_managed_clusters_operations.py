@@ -151,7 +151,7 @@ class ManagedClustersOperations:  # pylint: disable=too-many-public-methods
     async def list_kubernetes_versions(self, location: str, **kwargs: Any) -> _models.KubernetesVersionListResult:
         """Gets a list of supported Kubernetes versions in the specified subscription.
 
-        Contains extra metadata on the version, including supported patch versions, capabilities,
+        XXXX. Contains extra metadata on the version, including supported patch versions, capabilities,
         available upgrades, and details on preview status of the version.
 
         :param location: The name of Azure region. Required.
