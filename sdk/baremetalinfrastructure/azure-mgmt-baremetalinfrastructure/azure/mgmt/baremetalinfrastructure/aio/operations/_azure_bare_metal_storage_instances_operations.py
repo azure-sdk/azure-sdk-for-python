@@ -29,12 +29,12 @@ from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from ... import models as _models
 from ..._vendor import _convert_request
-from ...operations._azure_bare_metal_instances_operations import (
+from ...operations._azure_bare_metal_storage_instances_operations import (
+    build_create_request,
     build_delete_request,
     build_get_request,
     build_list_by_resource_group_request,
     build_list_by_subscription_request,
-    build_put_request,
     build_update_request,
 )
 
@@ -42,14 +42,14 @@ T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
 
-class AzureBareMetalInstancesOperations:
+class AzureBareMetalStorageInstancesOperations:
     """
     .. warning::
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
         :class:`~azure.mgmt.baremetalinfrastructure.aio.BareMetalInfrastructureClient`'s
-        :attr:`azure_bare_metal_instances` attribute.
+        :attr:`azure_bare_metal_storage_instances` attribute.
     """
 
     models = _models
@@ -62,24 +62,24 @@ class AzureBareMetalInstancesOperations:
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    def list_by_subscription(self, **kwargs: Any) -> AsyncIterable["_models.AzureBareMetalInstance"]:
-        """Gets a list of Azure BareMetal instances in the specified subscription.
+    def list_by_subscription(self, **kwargs: Any) -> AsyncIterable["_models.AzureBareMetalStorageInstance"]:
+        """Gets a list of Azure BareMetalStorage instances in the specified subscription.
 
-        Gets a list of AzureBareMetal instances in the specified subscription. The operations returns
-        various properties of each Azure BareMetal instance.
+        Gets a list of AzureBareMetalStorage instances in the specified subscription. The operations
+        returns various properties of each Azure BareMetal instance.
 
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: An iterator like instance of either AzureBareMetalInstance or the result of
+        :return: An iterator like instance of either AzureBareMetalStorageInstance or the result of
          cls(response)
         :rtype:
-         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.baremetalinfrastructure.models.AzureBareMetalInstance]
+         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.baremetalinfrastructure.models.AzureBareMetalStorageInstance]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.AzureBareMetalInstancesListResult] = kwargs.pop("cls", None)
+        cls: ClsType[_models.AzureBareMetalStorageInstancesListResult] = kwargs.pop("cls", None)
 
         error_map = {
             401: ClientAuthenticationError,
@@ -121,7 +121,7 @@ class AzureBareMetalInstancesOperations:
             return request
 
         async def extract_data(pipeline_response):
-            deserialized = self._deserialize("AzureBareMetalInstancesListResult", pipeline_response)
+            deserialized = self._deserialize("AzureBareMetalStorageInstancesListResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
@@ -146,33 +146,34 @@ class AzureBareMetalInstancesOperations:
         return AsyncItemPaged(get_next, extract_data)
 
     list_by_subscription.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.BareMetalInfrastructure/bareMetalInstances"
+        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.BareMetalInfrastructure/bareMetalStorageInstances"
     }
 
     @distributed_trace
     def list_by_resource_group(
         self, resource_group_name: str, **kwargs: Any
-    ) -> AsyncIterable["_models.AzureBareMetalInstance"]:
-        """Gets a list of Azure BareMetal instances in the specified subscription and resource group.
+    ) -> AsyncIterable["_models.AzureBareMetalStorageInstance"]:
+        """Gets a list of Azure BareMetalStorage instances in the specified subscription and resource
+        group.
 
-        Gets a list of AzureBareMetal instances in the specified subscription and resource group. The
-        operations returns various properties of each Azure BareMetal instance.
+        Gets a list of AzureBareMetalStorage instances in the specified subscription and resource
+        group. The operations returns various properties of each Azure BareMetal instance.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: An iterator like instance of either AzureBareMetalInstance or the result of
+        :return: An iterator like instance of either AzureBareMetalStorageInstance or the result of
          cls(response)
         :rtype:
-         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.baremetalinfrastructure.models.AzureBareMetalInstance]
+         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.baremetalinfrastructure.models.AzureBareMetalStorageInstance]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.AzureBareMetalInstancesListResult] = kwargs.pop("cls", None)
+        cls: ClsType[_models.AzureBareMetalStorageInstancesListResult] = kwargs.pop("cls", None)
 
         error_map = {
             401: ClientAuthenticationError,
@@ -215,7 +216,7 @@ class AzureBareMetalInstancesOperations:
             return request
 
         async def extract_data(pipeline_response):
-            deserialized = self._deserialize("AzureBareMetalInstancesListResult", pipeline_response)
+            deserialized = self._deserialize("AzureBareMetalStorageInstancesListResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
@@ -240,26 +241,27 @@ class AzureBareMetalInstancesOperations:
         return AsyncItemPaged(get_next, extract_data)
 
     list_by_resource_group.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BareMetalInfrastructure/bareMetalInstances"
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BareMetalInfrastructure/bareMetalStorageInstances"
     }
 
     @distributed_trace_async
     async def get(
-        self, resource_group_name: str, azure_bare_metal_instance_name: str, **kwargs: Any
-    ) -> _models.AzureBareMetalInstance:
-        """Gets an Azure BareMetal instance.
+        self, resource_group_name: str, azure_bare_metal_storage_instance_name: str, **kwargs: Any
+    ) -> _models.AzureBareMetalStorageInstance:
+        """Gets an Azure BareMetal Storage instance.
 
-        Gets an Azure BareMetal instance for the specified subscription, resource group, and instance
-        name.
+        Gets an Azure BareMetal Storage instance for the specified subscription, resource group, and
+        instance name.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param azure_bare_metal_instance_name: Name of the Azure BareMetal on Azure instance. Required.
-        :type azure_bare_metal_instance_name: str
+        :param azure_bare_metal_storage_instance_name: Name of the AzureBareMetalStorage on Azure
+         instance. Required.
+        :type azure_bare_metal_storage_instance_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: AzureBareMetalInstance or the result of cls(response)
-        :rtype: ~azure.mgmt.baremetalinfrastructure.models.AzureBareMetalInstance
+        :return: AzureBareMetalStorageInstance or the result of cls(response)
+        :rtype: ~azure.mgmt.baremetalinfrastructure.models.AzureBareMetalStorageInstance
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map = {
@@ -274,11 +276,11 @@ class AzureBareMetalInstancesOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.AzureBareMetalInstance] = kwargs.pop("cls", None)
+        cls: ClsType[_models.AzureBareMetalStorageInstance] = kwargs.pop("cls", None)
 
         request = build_get_request(
             resource_group_name=resource_group_name,
-            azure_bare_metal_instance_name=azure_bare_metal_instance_name,
+            azure_bare_metal_storage_instance_name=azure_bare_metal_storage_instance_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             template_url=self.get.metadata["url"],
@@ -300,7 +302,7 @@ class AzureBareMetalInstancesOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("AzureBareMetalInstance", pipeline_response)
+        deserialized = self._deserialize("AzureBareMetalStorageInstance", pipeline_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})
@@ -308,165 +310,100 @@ class AzureBareMetalInstancesOperations:
         return deserialized
 
     get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BareMetalInfrastructure/bareMetalInstances/{azureBareMetalInstanceName}"
-    }
-
-    @distributed_trace_async
-    async def delete(  # pylint: disable=inconsistent-return-statements
-        self, resource_group_name: str, azure_bare_metal_instance_name: str, **kwargs: Any
-    ) -> None:
-        """Deletes an Azure BareMetal instance.
-
-        Deletes an Azure BareMetal instance for the specified subscription, resource group, and
-        instance name.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param azure_bare_metal_instance_name: Name of the Azure BareMetal on Azure instance. Required.
-        :type azure_bare_metal_instance_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: None or the result of cls(response)
-        :rtype: None
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-            501: lambda response: HttpResponseError(response=response, error_format=ARMErrorFormat),
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[None] = kwargs.pop("cls", None)
-
-        request = build_delete_request(
-            resource_group_name=resource_group_name,
-            azure_bare_metal_instance_name=azure_bare_metal_instance_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            template_url=self.delete.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in []:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-        if cls:
-            return cls(pipeline_response, None, {})
-
-    delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BareMetalInfrastructure/bareMetalInstances/{azureBareMetalInstanceName}"
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BareMetalInfrastructure/bareMetalStorageInstances/{azureBareMetalStorageInstanceName}"
     }
 
     @overload
-    async def put(  # pylint: disable=inconsistent-return-statements
+    async def create(
         self,
         resource_group_name: str,
-        azure_bare_metal_instance_name: str,
-        request_body_parameters: Optional[_models.AzureBareMetalInstance] = None,
+        azure_bare_metal_storage_instance_name: str,
+        request_body_parameters: _models.AzureBareMetalStorageInstance,
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> None:
-        """Adds an Azure BareMetal Instance.
+    ) -> _models.AzureBareMetalStorageInstance:
+        """Create an azure baremetal storage resource.
 
-        Adds an Azure BareMetal instance for the specified subscription, resource group, and instance
-        name.
+        Create an azure baremetal storage resource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param azure_bare_metal_instance_name: Name of the Azure BareMetal on Azure instance. Required.
-        :type azure_bare_metal_instance_name: str
-        :param request_body_parameters: request body for put call. Default value is None.
+        :param azure_bare_metal_storage_instance_name: Name of the AzureBareMetalStorage on Azure
+         instance. Required.
+        :type azure_bare_metal_storage_instance_name: str
+        :param request_body_parameters: request body for put call. Required.
         :type request_body_parameters:
-         ~azure.mgmt.baremetalinfrastructure.models.AzureBareMetalInstance
+         ~azure.mgmt.baremetalinfrastructure.models.AzureBareMetalStorageInstance
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: None or the result of cls(response)
-        :rtype: None
+        :return: AzureBareMetalStorageInstance or the result of cls(response)
+        :rtype: ~azure.mgmt.baremetalinfrastructure.models.AzureBareMetalStorageInstance
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    async def put(  # pylint: disable=inconsistent-return-statements
+    async def create(
         self,
         resource_group_name: str,
-        azure_bare_metal_instance_name: str,
-        request_body_parameters: Optional[IO] = None,
+        azure_bare_metal_storage_instance_name: str,
+        request_body_parameters: IO,
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> None:
-        """Adds an Azure BareMetal Instance.
+    ) -> _models.AzureBareMetalStorageInstance:
+        """Create an azure baremetal storage resource.
 
-        Adds an Azure BareMetal instance for the specified subscription, resource group, and instance
-        name.
+        Create an azure baremetal storage resource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param azure_bare_metal_instance_name: Name of the Azure BareMetal on Azure instance. Required.
-        :type azure_bare_metal_instance_name: str
-        :param request_body_parameters: request body for put call. Default value is None.
+        :param azure_bare_metal_storage_instance_name: Name of the AzureBareMetalStorage on Azure
+         instance. Required.
+        :type azure_bare_metal_storage_instance_name: str
+        :param request_body_parameters: request body for put call. Required.
         :type request_body_parameters: IO
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: None or the result of cls(response)
-        :rtype: None
+        :return: AzureBareMetalStorageInstance or the result of cls(response)
+        :rtype: ~azure.mgmt.baremetalinfrastructure.models.AzureBareMetalStorageInstance
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @distributed_trace_async
-    async def put(  # pylint: disable=inconsistent-return-statements
+    async def create(
         self,
         resource_group_name: str,
-        azure_bare_metal_instance_name: str,
-        request_body_parameters: Optional[Union[_models.AzureBareMetalInstance, IO]] = None,
+        azure_bare_metal_storage_instance_name: str,
+        request_body_parameters: Union[_models.AzureBareMetalStorageInstance, IO],
         **kwargs: Any
-    ) -> None:
-        """Adds an Azure BareMetal Instance.
+    ) -> _models.AzureBareMetalStorageInstance:
+        """Create an azure baremetal storage resource.
 
-        Adds an Azure BareMetal instance for the specified subscription, resource group, and instance
-        name.
+        Create an azure baremetal storage resource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param azure_bare_metal_instance_name: Name of the Azure BareMetal on Azure instance. Required.
-        :type azure_bare_metal_instance_name: str
-        :param request_body_parameters: request body for put call. Is either a AzureBareMetalInstance
-         type or a IO type. Default value is None.
+        :param azure_bare_metal_storage_instance_name: Name of the AzureBareMetalStorage on Azure
+         instance. Required.
+        :type azure_bare_metal_storage_instance_name: str
+        :param request_body_parameters: request body for put call. Is either a
+         AzureBareMetalStorageInstance type or a IO type. Required.
         :type request_body_parameters:
-         ~azure.mgmt.baremetalinfrastructure.models.AzureBareMetalInstance or IO
+         ~azure.mgmt.baremetalinfrastructure.models.AzureBareMetalStorageInstance or IO
         :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
          Default value is None.
         :paramtype content_type: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: None or the result of cls(response)
-        :rtype: None
+        :return: AzureBareMetalStorageInstance or the result of cls(response)
+        :rtype: ~azure.mgmt.baremetalinfrastructure.models.AzureBareMetalStorageInstance
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map = {
@@ -474,7 +411,6 @@ class AzureBareMetalInstancesOperations:
             404: ResourceNotFoundError,
             409: ResourceExistsError,
             304: ResourceNotModifiedError,
-            501: lambda response: HttpResponseError(response=response, error_format=ARMErrorFormat),
         }
         error_map.update(kwargs.pop("error_map", {}) or {})
 
@@ -483,7 +419,7 @@ class AzureBareMetalInstancesOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[None] = kwargs.pop("cls", None)
+        cls: ClsType[_models.AzureBareMetalStorageInstance] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -491,20 +427,17 @@ class AzureBareMetalInstancesOperations:
         if isinstance(request_body_parameters, (IOBase, bytes)):
             _content = request_body_parameters
         else:
-            if request_body_parameters is not None:
-                _json = self._serialize.body(request_body_parameters, "AzureBareMetalInstance")
-            else:
-                _json = None
+            _json = self._serialize.body(request_body_parameters, "AzureBareMetalStorageInstance")
 
-        request = build_put_request(
+        request = build_create_request(
             resource_group_name=resource_group_name,
-            azure_bare_metal_instance_name=azure_bare_metal_instance_name,
+            azure_bare_metal_storage_instance_name=azure_bare_metal_storage_instance_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.put.metadata["url"],
+            template_url=self.create.metadata["url"],
             headers=_headers,
             params=_params,
         )
@@ -518,46 +451,55 @@ class AzureBareMetalInstancesOperations:
 
         response = pipeline_response.http_response
 
-        if response.status_code not in []:
+        if response.status_code not in [200, 201]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        if cls:
-            return cls(pipeline_response, None, {})
+        if response.status_code == 200:
+            deserialized = self._deserialize("AzureBareMetalStorageInstance", pipeline_response)
 
-    put.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BareMetalInfrastructure/bareMetalInstances/{azureBareMetalInstanceName}"
+        if response.status_code == 201:
+            deserialized = self._deserialize("AzureBareMetalStorageInstance", pipeline_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    create.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BareMetalInfrastructure/bareMetalStorageInstances/{azureBareMetalStorageInstanceName}"
     }
 
     @overload
     async def update(
         self,
         resource_group_name: str,
-        azure_bare_metal_instance_name: str,
+        azure_bare_metal_storage_instance_name: str,
         tags_parameter: _models.Tags,
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> _models.AzureBareMetalInstance:
-        """Patches the Tags field of a Azure BareMetal instance.
+    ) -> _models.AzureBareMetalStorageInstance:
+        """Patches the Tags field of a Azure BareMetalStorage instance.
 
-        Patches the Tags field of a Azure BareMetal instance for the specified subscription, resource
-        group, and instance name.
+        Patches the Tags field of a Azure BareMetalStorage instance for the specified subscription,
+        resource group, and instance name.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param azure_bare_metal_instance_name: Name of the Azure BareMetal on Azure instance. Required.
-        :type azure_bare_metal_instance_name: str
+        :param azure_bare_metal_storage_instance_name: Name of the AzureBareMetalStorage on Azure
+         instance. Required.
+        :type azure_bare_metal_storage_instance_name: str
         :param tags_parameter: Request body that only contains the new Tags field. Required.
         :type tags_parameter: ~azure.mgmt.baremetalinfrastructure.models.Tags
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: AzureBareMetalInstance or the result of cls(response)
-        :rtype: ~azure.mgmt.baremetalinfrastructure.models.AzureBareMetalInstance
+        :return: AzureBareMetalStorageInstance or the result of cls(response)
+        :rtype: ~azure.mgmt.baremetalinfrastructure.models.AzureBareMetalStorageInstance
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -565,30 +507,31 @@ class AzureBareMetalInstancesOperations:
     async def update(
         self,
         resource_group_name: str,
-        azure_bare_metal_instance_name: str,
+        azure_bare_metal_storage_instance_name: str,
         tags_parameter: IO,
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> _models.AzureBareMetalInstance:
-        """Patches the Tags field of a Azure BareMetal instance.
+    ) -> _models.AzureBareMetalStorageInstance:
+        """Patches the Tags field of a Azure BareMetalStorage instance.
 
-        Patches the Tags field of a Azure BareMetal instance for the specified subscription, resource
-        group, and instance name.
+        Patches the Tags field of a Azure BareMetalStorage instance for the specified subscription,
+        resource group, and instance name.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param azure_bare_metal_instance_name: Name of the Azure BareMetal on Azure instance. Required.
-        :type azure_bare_metal_instance_name: str
+        :param azure_bare_metal_storage_instance_name: Name of the AzureBareMetalStorage on Azure
+         instance. Required.
+        :type azure_bare_metal_storage_instance_name: str
         :param tags_parameter: Request body that only contains the new Tags field. Required.
         :type tags_parameter: IO
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: AzureBareMetalInstance or the result of cls(response)
-        :rtype: ~azure.mgmt.baremetalinfrastructure.models.AzureBareMetalInstance
+        :return: AzureBareMetalStorageInstance or the result of cls(response)
+        :rtype: ~azure.mgmt.baremetalinfrastructure.models.AzureBareMetalStorageInstance
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -596,20 +539,21 @@ class AzureBareMetalInstancesOperations:
     async def update(
         self,
         resource_group_name: str,
-        azure_bare_metal_instance_name: str,
+        azure_bare_metal_storage_instance_name: str,
         tags_parameter: Union[_models.Tags, IO],
         **kwargs: Any
-    ) -> _models.AzureBareMetalInstance:
-        """Patches the Tags field of a Azure BareMetal instance.
+    ) -> _models.AzureBareMetalStorageInstance:
+        """Patches the Tags field of a Azure BareMetalStorage instance.
 
-        Patches the Tags field of a Azure BareMetal instance for the specified subscription, resource
-        group, and instance name.
+        Patches the Tags field of a Azure BareMetalStorage instance for the specified subscription,
+        resource group, and instance name.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param azure_bare_metal_instance_name: Name of the Azure BareMetal on Azure instance. Required.
-        :type azure_bare_metal_instance_name: str
+        :param azure_bare_metal_storage_instance_name: Name of the AzureBareMetalStorage on Azure
+         instance. Required.
+        :type azure_bare_metal_storage_instance_name: str
         :param tags_parameter: Request body that only contains the new Tags field. Is either a Tags
          type or a IO type. Required.
         :type tags_parameter: ~azure.mgmt.baremetalinfrastructure.models.Tags or IO
@@ -617,8 +561,8 @@ class AzureBareMetalInstancesOperations:
          Default value is None.
         :paramtype content_type: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: AzureBareMetalInstance or the result of cls(response)
-        :rtype: ~azure.mgmt.baremetalinfrastructure.models.AzureBareMetalInstance
+        :return: AzureBareMetalStorageInstance or the result of cls(response)
+        :rtype: ~azure.mgmt.baremetalinfrastructure.models.AzureBareMetalStorageInstance
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map = {
@@ -634,7 +578,7 @@ class AzureBareMetalInstancesOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.AzureBareMetalInstance] = kwargs.pop("cls", None)
+        cls: ClsType[_models.AzureBareMetalStorageInstance] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -646,7 +590,7 @@ class AzureBareMetalInstancesOperations:
 
         request = build_update_request(
             resource_group_name=resource_group_name,
-            azure_bare_metal_instance_name=azure_bare_metal_instance_name,
+            azure_bare_metal_storage_instance_name=azure_bare_metal_storage_instance_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             content_type=content_type,
@@ -671,7 +615,7 @@ class AzureBareMetalInstancesOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("AzureBareMetalInstance", pipeline_response)
+        deserialized = self._deserialize("AzureBareMetalStorageInstance", pipeline_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})
@@ -679,5 +623,69 @@ class AzureBareMetalInstancesOperations:
         return deserialized
 
     update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BareMetalInfrastructure/bareMetalInstances/{azureBareMetalInstanceName}"
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BareMetalInfrastructure/bareMetalStorageInstances/{azureBareMetalStorageInstanceName}"
+    }
+
+    @distributed_trace_async
+    async def delete(  # pylint: disable=inconsistent-return-statements
+        self, resource_group_name: str, azure_bare_metal_storage_instance_name: str, **kwargs: Any
+    ) -> None:
+        """Delete an AzureBareMetalStorageInstance.
+
+        Delete an AzureBareMetalStorageInstance.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param azure_bare_metal_storage_instance_name: Name of the AzureBareMetalStorage on Azure
+         instance. Required.
+        :type azure_bare_metal_storage_instance_name: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: None or the result of cls(response)
+        :rtype: None
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[None] = kwargs.pop("cls", None)
+
+        request = build_delete_request(
+            resource_group_name=resource_group_name,
+            azure_bare_metal_storage_instance_name=azure_bare_metal_storage_instance_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            template_url=self.delete.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200, 204]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        if cls:
+            return cls(pipeline_response, None, {})
+
+    delete.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BareMetalInfrastructure/bareMetalStorageInstances/{azureBareMetalStorageInstanceName}"
     }
