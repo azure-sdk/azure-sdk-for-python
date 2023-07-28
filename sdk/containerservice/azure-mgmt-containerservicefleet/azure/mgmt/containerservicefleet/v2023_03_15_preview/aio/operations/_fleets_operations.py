@@ -63,6 +63,7 @@ class FleetsOperations:
         self._config = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
 
     @distributed_trace
     def list_by_subscription(self, **kwargs: Any) -> AsyncIterable["_models.Fleet"]:
@@ -77,7 +78,9 @@ class FleetsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-03-15-preview"))
+        api_version: str = kwargs.pop(
+            "api_version", _params.pop("api-version", self._api_version or "2023-03-15-preview")
+        )
         cls: ClsType[_models.FleetListResult] = kwargs.pop("cls", None)
 
         error_map = {
@@ -164,7 +167,9 @@ class FleetsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-03-15-preview"))
+        api_version: str = kwargs.pop(
+            "api_version", _params.pop("api-version", self._api_version or "2023-03-15-preview")
+        )
         cls: ClsType[_models.FleetListResult] = kwargs.pop("cls", None)
 
         error_map = {
@@ -261,7 +266,9 @@ class FleetsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-03-15-preview"))
+        api_version: str = kwargs.pop(
+            "api_version", _params.pop("api-version", self._api_version or "2023-03-15-preview")
+        )
         cls: ClsType[_models.Fleet] = kwargs.pop("cls", None)
 
         request = build_get_request(
@@ -319,7 +326,9 @@ class FleetsOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-03-15-preview"))
+        api_version: str = kwargs.pop(
+            "api_version", _params.pop("api-version", self._api_version or "2023-03-15-preview")
+        )
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.Fleet] = kwargs.pop("cls", None)
 
@@ -510,7 +519,9 @@ class FleetsOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-03-15-preview"))
+        api_version: str = kwargs.pop(
+            "api_version", _params.pop("api-version", self._api_version or "2023-03-15-preview")
+        )
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.Fleet] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -560,100 +571,14 @@ class FleetsOperations:
         "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}"
     }
 
-    @overload
-    async def update(
-        self,
-        resource_group_name: str,
-        fleet_name: str,
-        properties: _models.FleetPatch,
-        if_match: Optional[str] = None,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> _models.Fleet:
-        """Update a Fleet.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param fleet_name: The name of the Fleet resource. Required.
-        :type fleet_name: str
-        :param properties: The resource properties to be updated. Required.
-        :type properties: ~azure.mgmt.containerservicefleet.v2023_03_15_preview.models.FleetPatch
-        :param if_match: The request should only proceed if an entity matches this string. Default
-         value is None.
-        :type if_match: str
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: Fleet or the result of cls(response)
-        :rtype: ~azure.mgmt.containerservicefleet.v2023_03_15_preview.models.Fleet
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    async def update(
-        self,
-        resource_group_name: str,
-        fleet_name: str,
-        properties: IO,
-        if_match: Optional[str] = None,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> _models.Fleet:
-        """Update a Fleet.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param fleet_name: The name of the Fleet resource. Required.
-        :type fleet_name: str
-        :param properties: The resource properties to be updated. Required.
-        :type properties: IO
-        :param if_match: The request should only proceed if an entity matches this string. Default
-         value is None.
-        :type if_match: str
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: Fleet or the result of cls(response)
-        :rtype: ~azure.mgmt.containerservicefleet.v2023_03_15_preview.models.Fleet
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @distributed_trace_async
-    async def update(
+    async def _update_initial(
         self,
         resource_group_name: str,
         fleet_name: str,
         properties: Union[_models.FleetPatch, IO],
         if_match: Optional[str] = None,
         **kwargs: Any
-    ) -> _models.Fleet:
-        """Update a Fleet.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param fleet_name: The name of the Fleet resource. Required.
-        :type fleet_name: str
-        :param properties: The resource properties to be updated. Is either a FleetPatch type or a IO
-         type. Required.
-        :type properties: ~azure.mgmt.containerservicefleet.v2023_03_15_preview.models.FleetPatch or IO
-        :param if_match: The request should only proceed if an entity matches this string. Default
-         value is None.
-        :type if_match: str
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: Fleet or the result of cls(response)
-        :rtype: ~azure.mgmt.containerservicefleet.v2023_03_15_preview.models.Fleet
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
+    ) -> Optional[_models.Fleet]:
         error_map = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -665,9 +590,11 @@ class FleetsOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-03-15-preview"))
+        api_version: str = kwargs.pop(
+            "api_version", _params.pop("api-version", self._api_version or "2023-03-15-preview")
+        )
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.Fleet] = kwargs.pop("cls", None)
+        cls: ClsType[Optional[_models.Fleet]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -686,7 +613,7 @@ class FleetsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.update.metadata["url"],
+            template_url=self._update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
@@ -700,19 +627,197 @@ class FleetsOperations:
 
         response = pipeline_response.http_response
 
-        if response.status_code not in [200]:
+        if response.status_code not in [200, 202]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("Fleet", pipeline_response)
+        deserialized = None
+        response_headers = {}
+        if response.status_code == 200:
+            deserialized = self._deserialize("Fleet", pipeline_response)
+
+        if response.status_code == 202:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, response_headers)
 
         return deserialized
 
-    update.metadata = {
+    _update_initial.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}"
+    }
+
+    @overload
+    async def begin_update(
+        self,
+        resource_group_name: str,
+        fleet_name: str,
+        properties: _models.FleetPatch,
+        if_match: Optional[str] = None,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> AsyncLROPoller[_models.Fleet]:
+        """Update a Fleet.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param fleet_name: The name of the Fleet resource. Required.
+        :type fleet_name: str
+        :param properties: The resource properties to be updated. Required.
+        :type properties: ~azure.mgmt.containerservicefleet.v2023_03_15_preview.models.FleetPatch
+        :param if_match: The request should only proceed if an entity matches this string. Default
+         value is None.
+        :type if_match: str
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
+        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
+         this operation to not poll, or pass in your own initialized polling object for a personal
+         polling strategy.
+        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
+        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
+         Retry-After header is present.
+        :return: An instance of AsyncLROPoller that returns either Fleet or the result of cls(response)
+        :rtype:
+         ~azure.core.polling.AsyncLROPoller[~azure.mgmt.containerservicefleet.v2023_03_15_preview.models.Fleet]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def begin_update(
+        self,
+        resource_group_name: str,
+        fleet_name: str,
+        properties: IO,
+        if_match: Optional[str] = None,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> AsyncLROPoller[_models.Fleet]:
+        """Update a Fleet.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param fleet_name: The name of the Fleet resource. Required.
+        :type fleet_name: str
+        :param properties: The resource properties to be updated. Required.
+        :type properties: IO
+        :param if_match: The request should only proceed if an entity matches this string. Default
+         value is None.
+        :type if_match: str
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
+        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
+         this operation to not poll, or pass in your own initialized polling object for a personal
+         polling strategy.
+        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
+        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
+         Retry-After header is present.
+        :return: An instance of AsyncLROPoller that returns either Fleet or the result of cls(response)
+        :rtype:
+         ~azure.core.polling.AsyncLROPoller[~azure.mgmt.containerservicefleet.v2023_03_15_preview.models.Fleet]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace_async
+    async def begin_update(
+        self,
+        resource_group_name: str,
+        fleet_name: str,
+        properties: Union[_models.FleetPatch, IO],
+        if_match: Optional[str] = None,
+        **kwargs: Any
+    ) -> AsyncLROPoller[_models.Fleet]:
+        """Update a Fleet.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param fleet_name: The name of the Fleet resource. Required.
+        :type fleet_name: str
+        :param properties: The resource properties to be updated. Is either a FleetPatch type or a IO
+         type. Required.
+        :type properties: ~azure.mgmt.containerservicefleet.v2023_03_15_preview.models.FleetPatch or IO
+        :param if_match: The request should only proceed if an entity matches this string. Default
+         value is None.
+        :type if_match: str
+        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
+         Default value is None.
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
+        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
+         this operation to not poll, or pass in your own initialized polling object for a personal
+         polling strategy.
+        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
+        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
+         Retry-After header is present.
+        :return: An instance of AsyncLROPoller that returns either Fleet or the result of cls(response)
+        :rtype:
+         ~azure.core.polling.AsyncLROPoller[~azure.mgmt.containerservicefleet.v2023_03_15_preview.models.Fleet]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop(
+            "api_version", _params.pop("api-version", self._api_version or "2023-03-15-preview")
+        )
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.Fleet] = kwargs.pop("cls", None)
+        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
+        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
+        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
+        if cont_token is None:
+            raw_result = await self._update_initial(
+                resource_group_name=resource_group_name,
+                fleet_name=fleet_name,
+                properties=properties,
+                if_match=if_match,
+                api_version=api_version,
+                content_type=content_type,
+                cls=lambda x, y, z: x,
+                headers=_headers,
+                params=_params,
+                **kwargs
+            )
+        kwargs.pop("error_map", None)
+
+        def get_long_running_output(pipeline_response):
+            deserialized = self._deserialize("Fleet", pipeline_response)
+            if cls:
+                return cls(pipeline_response, deserialized, {})
+            return deserialized
+
+        if polling is True:
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
+        elif polling is False:
+            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
+        else:
+            polling_method = polling
+        if cont_token:
+            return AsyncLROPoller.from_continuation_token(
+                polling_method=polling_method,
+                continuation_token=cont_token,
+                client=self._client,
+                deserialization_callback=get_long_running_output,
+            )
+        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+
+    begin_update.metadata = {
         "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}"
     }
 
@@ -730,7 +835,9 @@ class FleetsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-03-15-preview"))
+        api_version: str = kwargs.pop(
+            "api_version", _params.pop("api-version", self._api_version or "2023-03-15-preview")
+        )
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_delete_request(
@@ -799,7 +906,9 @@ class FleetsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-03-15-preview"))
+        api_version: str = kwargs.pop(
+            "api_version", _params.pop("api-version", self._api_version or "2023-03-15-preview")
+        )
         cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
@@ -869,7 +978,9 @@ class FleetsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-03-15-preview"))
+        api_version: str = kwargs.pop(
+            "api_version", _params.pop("api-version", self._api_version or "2023-03-15-preview")
+        )
         cls: ClsType[_models.FleetCredentialResults] = kwargs.pop("cls", None)
 
         request = build_list_credentials_request(
