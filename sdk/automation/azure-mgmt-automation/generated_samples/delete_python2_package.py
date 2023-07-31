@@ -29,12 +29,11 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.python2_package.delete(
+    client.python2_package.delete(
         resource_group_name="rg",
         automation_account_name="myAutomationAccount33",
         package_name="OmsCompositeResources",
     )
-    print(response)
 
 
 # x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2022-08-08/examples/deletePython2Package.json
