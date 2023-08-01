@@ -17,7 +17,6 @@ from .._serialization import Deserializer, Serializer
 from ._configuration import MonitorManagementClientConfiguration
 from .operations import (
     ActivityLogsOperations,
-    AlertRulesOperations,
     AutoscaleSettingsOperations,
     EventCategoriesOperations,
     Operations,
@@ -44,14 +43,15 @@ class MonitorManagementClient:  # pylint: disable=client-accepts-api-version-key
     :ivar tenant_activity_logs: TenantActivityLogsOperations operations
     :vartype tenant_activity_logs:
      azure.mgmt.monitor.v2015_04_01.operations.TenantActivityLogsOperations
-    :ivar alert_rules: AlertRulesOperations operations
-    :vartype alert_rules: azure.mgmt.monitor.v2015_04_01.operations.AlertRulesOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
     :param subscription_id: The ID of the target subscription. Required.
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
+    :keyword api_version: Api Version. Default value is "2015-04-01". Note that overriding this
+     default value may result in unsupported behavior.
+    :paramtype api_version: str
     """
 
     def __init__(
@@ -70,18 +70,19 @@ class MonitorManagementClient:  # pylint: disable=client-accepts-api-version-key
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
-        self.activity_logs = ActivityLogsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.activity_logs = ActivityLogsOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2015-04-01"
+        )
         self.autoscale_settings = AutoscaleSettingsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2015-04-01"
         )
         self.event_categories = EventCategoriesOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2015-04-01"
         )
-        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
+        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize, "2015-04-01")
         self.tenant_activity_logs = TenantActivityLogsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2015-04-01"
         )
-        self.alert_rules = AlertRulesOperations(self._client, self._config, self._serialize, self._deserialize)
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> HttpResponse:
         """Runs the network request through the client's chained policies.

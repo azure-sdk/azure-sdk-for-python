@@ -25,7 +25,7 @@ from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from .. import models as _models
 from ..._serialization import Serializer
-from .._vendor import _convert_request, _format_url_section
+from .._vendor import _convert_request
 
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
@@ -54,7 +54,7 @@ def build_list_request(resource_group_name: str, rule_name: str, subscription_id
         "ruleName": _SERIALIZER.url("rule_name", rule_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -88,7 +88,7 @@ def build_list_by_name_request(
         "statusName": _SERIALIZER.url("status_name", status_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -117,6 +117,7 @@ class MetricAlertsStatusOperations:
         self._config = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
 
     @distributed_trace
     def list(self, resource_group_name: str, rule_name: str, **kwargs: Any) -> _models.MetricAlertStatusCollection:
@@ -143,7 +144,7 @@ class MetricAlertsStatusOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-03-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2018-03-01"))
         cls: ClsType[_models.MetricAlertStatusCollection] = kwargs.pop("cls", None)
 
         request = build_list_request(
@@ -210,7 +211,7 @@ class MetricAlertsStatusOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2018-03-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2018-03-01"))
         cls: ClsType[_models.MetricAlertStatusCollection] = kwargs.pop("cls", None)
 
         request = build_list_by_name_request(
