@@ -37,6 +37,7 @@ def main():
                 "aclsUrl": "https://microsoft.com/a",
                 "annotation": "annotation",
                 "configurationType": "File",
+                "defaultAction": "Permit",
                 "dynamicMatchConfigurations": [
                     {
                         "ipGroups": [
