@@ -9,7 +9,7 @@
 
 import datetime
 import sys
-from typing import Dict, List, Optional, TYPE_CHECKING, Union
+from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
 from .. import _serialization
 
@@ -64,8 +64,8 @@ class AutoShutdownProfile(_serialization.Model):
         disconnect_delay: Optional[datetime.timedelta] = None,
         no_connect_delay: Optional[datetime.timedelta] = None,
         idle_delay: Optional[datetime.timedelta] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword shutdown_on_disconnect: Whether shutdown on disconnect is enabled. Known values are:
          "Enabled" and "Disabled".
@@ -126,8 +126,8 @@ class ConnectionProfile(_serialization.Model):
         web_rdp_access: Optional[Union[str, "_models.ConnectionType"]] = None,
         client_ssh_access: Optional[Union[str, "_models.ConnectionType"]] = None,
         client_rdp_access: Optional[Union[str, "_models.ConnectionType"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword web_ssh_access: The enabled access level for Web Access over SSH. Known values are:
          "Public", "Private", and "None".
@@ -169,7 +169,7 @@ class Credentials(_serialization.Model):
         "password": {"key": "password", "type": "str"},
     }
 
-    def __init__(self, *, username: str, password: Optional[str] = None, **kwargs):
+    def __init__(self, *, username: str, password: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword username: The username to use when signing in to lab VMs. Required.
         :paramtype username: str
@@ -202,7 +202,7 @@ class ErrorAdditionalInfo(_serialization.Model):
         "info": {"key": "info", "type": "object"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.type = None
@@ -242,7 +242,7 @@ class ErrorDetail(_serialization.Model):
         "additional_info": {"key": "additionalInfo", "type": "[ErrorAdditionalInfo]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.code = None
@@ -253,7 +253,8 @@ class ErrorDetail(_serialization.Model):
 
 
 class ErrorResponse(_serialization.Model):
-    """Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.).
+    """Common error response for all Azure Resource Manager APIs to return error details for failed
+    operations. (This also follows the OData error response format.).
 
     :ivar error: The error object.
     :vartype error: ~azure.mgmt.labservices.models.ErrorDetail
@@ -263,7 +264,7 @@ class ErrorResponse(_serialization.Model):
         "error": {"key": "error", "type": "ErrorDetail"},
     }
 
-    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs):
+    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs: Any) -> None:
         """
         :keyword error: The error object.
         :paramtype error: ~azure.mgmt.labservices.models.ErrorDetail
@@ -296,7 +297,7 @@ class Identity(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, *, type: Optional[Literal["SystemAssigned"]] = None, **kwargs):
+    def __init__(self, *, type: Optional[Literal["SystemAssigned"]] = None, **kwargs: Any) -> None:
         """
         :keyword type: The identity type. Default value is "SystemAssigned".
         :paramtype type: str
@@ -334,7 +335,7 @@ class Resource(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -343,7 +344,8 @@ class Resource(_serialization.Model):
 
 
 class ProxyResource(Resource):
-    """The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location.
+    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
+    tags and a location.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -369,7 +371,7 @@ class ProxyResource(Resource):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
 
@@ -474,8 +476,8 @@ class Image(ProxyResource):  # pylint: disable=too-many-instance-attributes
         *,
         enabled_state: Optional[Union[str, "_models.EnableState"]] = None,
         available_regions: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword enabled_state: Is the image enabled. Known values are: "Enabled" and "Disabled".
         :paramtype enabled_state: str or ~azure.mgmt.labservices.models.EnableState
@@ -513,7 +515,7 @@ class ImageUpdateProperties(_serialization.Model):
         "enabled_state": {"key": "enabledState", "type": "str"},
     }
 
-    def __init__(self, *, enabled_state: Optional[Union[str, "_models.EnableState"]] = None, **kwargs):
+    def __init__(self, *, enabled_state: Optional[Union[str, "_models.EnableState"]] = None, **kwargs: Any) -> None:
         """
         :keyword enabled_state: Is the image enabled. Known values are: "Enabled" and "Disabled".
         :paramtype enabled_state: str or ~azure.mgmt.labservices.models.EnableState
@@ -604,8 +606,8 @@ class ImageProperties(ImageUpdateProperties):  # pylint: disable=too-many-instan
         *,
         enabled_state: Optional[Union[str, "_models.EnableState"]] = None,
         available_regions: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword enabled_state: Is the image enabled. Known values are: "Enabled" and "Disabled".
         :paramtype enabled_state: str or ~azure.mgmt.labservices.models.EnableState
@@ -671,8 +673,8 @@ class ImageReference(_serialization.Model):
         publisher: Optional[str] = None,
         sku: Optional[str] = None,
         version: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: Image resource ID.
         :paramtype id: str
@@ -705,7 +707,7 @@ class ImageUpdate(_serialization.Model):
         "enabled_state": {"key": "properties.enabledState", "type": "str"},
     }
 
-    def __init__(self, *, enabled_state: Optional[Union[str, "_models.EnableState"]] = None, **kwargs):
+    def __init__(self, *, enabled_state: Optional[Union[str, "_models.EnableState"]] = None, **kwargs: Any) -> None:
         """
         :keyword enabled_state: Is the image enabled. Known values are: "Enabled" and "Disabled".
         :paramtype enabled_state: str or ~azure.mgmt.labservices.models.EnableState
@@ -725,7 +727,7 @@ class InviteBody(_serialization.Model):
         "text": {"key": "text", "type": "str"},
     }
 
-    def __init__(self, *, text: Optional[str] = None, **kwargs):
+    def __init__(self, *, text: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword text: Custom text for the invite email.
         :paramtype text: str
@@ -735,7 +737,8 @@ class InviteBody(_serialization.Model):
 
 
 class TrackedResource(Resource):
-    """The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'.
+    """The resource model definition for an Azure Resource Manager tracked top level resource which
+    has 'tags' and a 'location'.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -770,7 +773,7 @@ class TrackedResource(Resource):
         "location": {"key": "location", "type": "str"},
     }
 
-    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -832,6 +835,8 @@ class Lab(TrackedResource):  # pylint: disable=too-many-instance-attributes
     :ivar state: The lab state. Known values are: "Draft", "Publishing", "Scaling", "Syncing", and
      "Published".
     :vartype state: str or ~azure.mgmt.labservices.models.LabState
+    :ivar resource_operation_error: Error details of last operation done on lab.
+    :vartype resource_operation_error: ~azure.mgmt.labservices.models.ResourceOperationError
     """
 
     _validation = {
@@ -844,6 +849,7 @@ class Lab(TrackedResource):  # pylint: disable=too-many-instance-attributes
         "title": {"max_length": 120, "min_length": 1},
         "provisioning_state": {"readonly": True},
         "state": {"readonly": True},
+        "resource_operation_error": {"readonly": True},
     }
 
     _attribute_map = {
@@ -864,6 +870,7 @@ class Lab(TrackedResource):  # pylint: disable=too-many-instance-attributes
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "network_profile": {"key": "properties.networkProfile", "type": "LabNetworkProfile"},
         "state": {"key": "properties.state", "type": "str"},
+        "resource_operation_error": {"key": "properties.resourceOperationError", "type": "ResourceOperationError"},
     }
 
     def __init__(
@@ -880,8 +887,8 @@ class Lab(TrackedResource):  # pylint: disable=too-many-instance-attributes
         title: Optional[str] = None,
         description: Optional[str] = None,
         network_profile: Optional["_models.LabNetworkProfile"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -924,6 +931,7 @@ class Lab(TrackedResource):  # pylint: disable=too-many-instance-attributes
         self.provisioning_state = None
         self.network_profile = network_profile
         self.state = None
+        self.resource_operation_error = None
 
 
 class LabNetworkProfile(_serialization.Model):
@@ -955,8 +963,8 @@ class LabNetworkProfile(_serialization.Model):
         subnet_id: Optional[str] = None,
         load_balancer_id: Optional[str] = None,
         public_ip_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword subnet_id: The external subnet resource id.
         :paramtype subnet_id: str
@@ -972,7 +980,9 @@ class LabNetworkProfile(_serialization.Model):
 
 
 class LabPlan(TrackedResource):  # pylint: disable=too-many-instance-attributes
-    """Lab Plans act as a permission container for creating labs via labs.azure.com. Additionally, they can provide a set of default configurations that will apply at the time of creating a lab, but these defaults can still be overwritten.
+    """Lab Plans act as a permission container for creating labs via labs.azure.com. Additionally,
+    they can provide a set of default configurations that will apply at the time of creating a lab,
+    but these defaults can still be overwritten.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -1021,6 +1031,8 @@ class LabPlan(TrackedResource):  # pylint: disable=too-many-instance-attributes
     :ivar provisioning_state: Current provisioning state of the lab plan. Known values are:
      "Creating", "Updating", "Deleting", "Succeeded", "Failed", and "Locked".
     :vartype provisioning_state: str or ~azure.mgmt.labservices.models.ProvisioningState
+    :ivar resource_operation_error: Error details of last operation done on lab plan.
+    :vartype resource_operation_error: ~azure.mgmt.labservices.models.ResourceOperationError
     """
 
     _validation = {
@@ -1032,6 +1044,7 @@ class LabPlan(TrackedResource):  # pylint: disable=too-many-instance-attributes
         "shared_gallery_id": {"max_length": 2000, "min_length": 3},
         "linked_lms_instance": {"max_length": 2000, "min_length": 3},
         "provisioning_state": {"readonly": True},
+        "resource_operation_error": {"readonly": True},
     }
 
     _attribute_map = {
@@ -1053,6 +1066,7 @@ class LabPlan(TrackedResource):  # pylint: disable=too-many-instance-attributes
         "support_info": {"key": "properties.supportInfo", "type": "SupportInfo"},
         "linked_lms_instance": {"key": "properties.linkedLmsInstance", "type": "str"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "resource_operation_error": {"key": "properties.resourceOperationError", "type": "ResourceOperationError"},
     }
 
     def __init__(
@@ -1068,8 +1082,8 @@ class LabPlan(TrackedResource):  # pylint: disable=too-many-instance-attributes
         shared_gallery_id: Optional[str] = None,
         support_info: Optional["_models.SupportInfo"] = None,
         linked_lms_instance: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -1113,6 +1127,7 @@ class LabPlan(TrackedResource):  # pylint: disable=too-many-instance-attributes
         self.support_info = support_info
         self.linked_lms_instance = linked_lms_instance
         self.provisioning_state = None
+        self.resource_operation_error = None
 
 
 class LabPlanNetworkProfile(_serialization.Model):
@@ -1130,7 +1145,7 @@ class LabPlanNetworkProfile(_serialization.Model):
         "subnet_id": {"key": "subnetId", "type": "str"},
     }
 
-    def __init__(self, *, subnet_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, subnet_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword subnet_id: The external subnet resource id.
         :paramtype subnet_id: str
@@ -1193,8 +1208,8 @@ class LabPlanUpdateProperties(_serialization.Model):
         shared_gallery_id: Optional[str] = None,
         support_info: Optional["_models.SupportInfo"] = None,
         linked_lms_instance: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword default_connection_profile: The default lab connection profile. This can be changed on
          a lab resource and only provides a default profile.
@@ -1263,12 +1278,15 @@ class LabPlanProperties(LabPlanUpdateProperties):
     :ivar provisioning_state: Current provisioning state of the lab plan. Known values are:
      "Creating", "Updating", "Deleting", "Succeeded", "Failed", and "Locked".
     :vartype provisioning_state: str or ~azure.mgmt.labservices.models.ProvisioningState
+    :ivar resource_operation_error: Error details of last operation done on lab plan.
+    :vartype resource_operation_error: ~azure.mgmt.labservices.models.ResourceOperationError
     """
 
     _validation = {
         "shared_gallery_id": {"max_length": 2000, "min_length": 3},
         "linked_lms_instance": {"max_length": 2000, "min_length": 3},
         "provisioning_state": {"readonly": True},
+        "resource_operation_error": {"readonly": True},
     }
 
     _attribute_map = {
@@ -1280,6 +1298,7 @@ class LabPlanProperties(LabPlanUpdateProperties):
         "support_info": {"key": "supportInfo", "type": "SupportInfo"},
         "linked_lms_instance": {"key": "linkedLmsInstance", "type": "str"},
         "provisioning_state": {"key": "provisioningState", "type": "str"},
+        "resource_operation_error": {"key": "resourceOperationError", "type": "ResourceOperationError"},
     }
 
     def __init__(
@@ -1292,8 +1311,8 @@ class LabPlanProperties(LabPlanUpdateProperties):
         shared_gallery_id: Optional[str] = None,
         support_info: Optional["_models.SupportInfo"] = None,
         linked_lms_instance: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword default_connection_profile: The default lab connection profile. This can be changed on
          a lab resource and only provides a default profile.
@@ -1331,6 +1350,7 @@ class LabPlanProperties(LabPlanUpdateProperties):
             **kwargs
         )
         self.provisioning_state = None
+        self.resource_operation_error = None
 
 
 class TrackedResourceUpdate(_serialization.Model):
@@ -1344,7 +1364,7 @@ class TrackedResourceUpdate(_serialization.Model):
         "tags": {"key": "tags", "type": "[str]"},
     }
 
-    def __init__(self, *, tags: Optional[List[str]] = None, **kwargs):
+    def __init__(self, *, tags: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: list[str]
@@ -1418,8 +1438,8 @@ class LabPlanUpdate(TrackedResourceUpdate):
         shared_gallery_id: Optional[str] = None,
         support_info: Optional["_models.SupportInfo"] = None,
         linked_lms_instance: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: list[str]
@@ -1513,8 +1533,8 @@ class LabUpdateProperties(_serialization.Model):
         lab_plan_id: Optional[str] = None,
         title: Optional[str] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword auto_shutdown_profile: The resource auto shutdown configuration for the lab. This
          controls whether actions are taken on resources that are sitting idle.
@@ -1582,6 +1602,8 @@ class LabProperties(LabUpdateProperties):  # pylint: disable=too-many-instance-a
     :ivar state: The lab state. Known values are: "Draft", "Publishing", "Scaling", "Syncing", and
      "Published".
     :vartype state: str or ~azure.mgmt.labservices.models.LabState
+    :ivar resource_operation_error: Error details of last operation done on lab.
+    :vartype resource_operation_error: ~azure.mgmt.labservices.models.ResourceOperationError
     """
 
     _validation = {
@@ -1589,6 +1611,7 @@ class LabProperties(LabUpdateProperties):  # pylint: disable=too-many-instance-a
         "title": {"max_length": 120, "min_length": 1},
         "provisioning_state": {"readonly": True},
         "state": {"readonly": True},
+        "resource_operation_error": {"readonly": True},
     }
 
     _attribute_map = {
@@ -1603,6 +1626,7 @@ class LabProperties(LabUpdateProperties):  # pylint: disable=too-many-instance-a
         "provisioning_state": {"key": "provisioningState", "type": "str"},
         "network_profile": {"key": "networkProfile", "type": "LabNetworkProfile"},
         "state": {"key": "state", "type": "str"},
+        "resource_operation_error": {"key": "resourceOperationError", "type": "ResourceOperationError"},
     }
 
     def __init__(
@@ -1617,8 +1641,8 @@ class LabProperties(LabUpdateProperties):  # pylint: disable=too-many-instance-a
         title: Optional[str] = None,
         description: Optional[str] = None,
         network_profile: Optional["_models.LabNetworkProfile"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword auto_shutdown_profile: The resource auto shutdown configuration for the lab. This
          controls whether actions are taken on resources that are sitting idle.
@@ -1658,6 +1682,7 @@ class LabProperties(LabUpdateProperties):  # pylint: disable=too-many-instance-a
         self.provisioning_state = None
         self.network_profile = network_profile
         self.state = None
+        self.resource_operation_error = None
 
 
 class LabServicesSku(_serialization.Model):
@@ -1712,7 +1737,7 @@ class LabServicesSku(_serialization.Model):
         "restrictions": {"key": "restrictions", "type": "[LabServicesSkuRestrictions]"},
     }
 
-    def __init__(self, *, capacity: Optional["_models.LabServicesSkuCapacity"] = None, **kwargs):
+    def __init__(self, *, capacity: Optional["_models.LabServicesSkuCapacity"] = None, **kwargs: Any) -> None:
         """
         :keyword capacity: The scale out/in options of the SKU.
         :paramtype capacity: ~azure.mgmt.labservices.models.LabServicesSkuCapacity
@@ -1751,7 +1776,7 @@ class LabServicesSkuCapabilities(_serialization.Model):
         "value": {"key": "value", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.name = None
@@ -1788,7 +1813,7 @@ class LabServicesSkuCapacity(_serialization.Model):
         "scale_type": {"key": "scaleType", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.default = None
@@ -1822,7 +1847,7 @@ class LabServicesSkuCost(_serialization.Model):
         "extended_unit": {"key": "extendedUnit", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.meter_id = None
@@ -1856,7 +1881,7 @@ class LabServicesSkuRestrictions(_serialization.Model):
         "reason_code": {"key": "reasonCode", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.type = None
@@ -1920,8 +1945,8 @@ class LabUpdate(TrackedResourceUpdate):
         lab_plan_id: Optional[str] = None,
         title: Optional[str] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: list[str]
@@ -1977,7 +2002,7 @@ class ListUsagesResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Usage"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.Usage"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The array page of Usages.
         :paramtype value: list[~azure.mgmt.labservices.models.Usage]
@@ -2024,7 +2049,7 @@ class Operation(_serialization.Model):
         "action_type": {"key": "actionType", "type": "str"},
     }
 
-    def __init__(self, *, display: Optional["_models.OperationDisplay"] = None, **kwargs):
+    def __init__(self, *, display: Optional["_models.OperationDisplay"] = None, **kwargs: Any) -> None:
         """
         :keyword display: Localized display information for this particular operation.
         :paramtype display: ~azure.mgmt.labservices.models.OperationDisplay
@@ -2070,7 +2095,7 @@ class OperationDisplay(_serialization.Model):
         "description": {"key": "description", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.provider = None
@@ -2080,7 +2105,8 @@ class OperationDisplay(_serialization.Model):
 
 
 class OperationListResult(_serialization.Model):
-    """A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results.
+    """A list of REST API operations supported by an Azure Resource Provider. It contains an URL link
+    to get the next set of results.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -2100,7 +2126,7 @@ class OperationListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -2156,8 +2182,8 @@ class OperationResult(_serialization.Model):
         end_time: Optional[datetime.datetime] = None,
         percent_complete: Optional[float] = None,
         error: Optional["_models.ErrorDetail"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword status: The operation status. Required. Known values are: "NotStarted", "InProgress",
          "Succeeded", "Failed", and "Canceled".
@@ -2202,7 +2228,7 @@ class PagedImages(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -2230,7 +2256,7 @@ class PagedLabPlans(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -2258,7 +2284,7 @@ class PagedLabs(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -2286,7 +2312,7 @@ class PagedLabServicesSkus(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -2314,7 +2340,7 @@ class PagedSchedules(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -2342,7 +2368,7 @@ class PagedUsers(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -2370,7 +2396,7 @@ class PagedVirtualMachines(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -2415,8 +2441,8 @@ class RecurrencePattern(_serialization.Model):
         expiration_date: datetime.datetime,
         week_days: Optional[List[Union[str, "_models.WeekDay"]]] = None,
         interval: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword frequency: The frequency of the recurrence. Required. Known values are: "Daily" and
          "Weekly".
@@ -2459,7 +2485,7 @@ class ResetPasswordBody(_serialization.Model):
         "password": {"key": "password", "type": "str"},
     }
 
-    def __init__(self, *, username: str, password: str, **kwargs):
+    def __init__(self, *, username: str, password: str, **kwargs: Any) -> None:
         """
         :keyword username: The user whose password is being reset. Required.
         :paramtype username: str
@@ -2469,6 +2495,52 @@ class ResetPasswordBody(_serialization.Model):
         super().__init__(**kwargs)
         self.username = username
         self.password = password
+
+
+class ResourceOperationError(_serialization.Model):
+    """Error details of the latest operation failure on this resource.
+
+    :ivar timestamp: The datetime of when the error occured.
+    :vartype timestamp: ~datetime.datetime
+    :ivar code: The code that corresponds to the type of operation failure.
+    :vartype code: str
+    :ivar message: The operation failure message.
+    :vartype message: str
+    :ivar action: The operation action that failed.
+    :vartype action: str
+    """
+
+    _attribute_map = {
+        "timestamp": {"key": "timestamp", "type": "iso-8601"},
+        "code": {"key": "code", "type": "str"},
+        "message": {"key": "message", "type": "str"},
+        "action": {"key": "action", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        timestamp: Optional[datetime.datetime] = None,
+        code: Optional[str] = None,
+        message: Optional[str] = None,
+        action: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword timestamp: The datetime of when the error occured.
+        :paramtype timestamp: ~datetime.datetime
+        :keyword code: The code that corresponds to the type of operation failure.
+        :paramtype code: str
+        :keyword message: The operation failure message.
+        :paramtype message: str
+        :keyword action: The operation action that failed.
+        :paramtype action: str
+        """
+        super().__init__(**kwargs)
+        self.timestamp = timestamp
+        self.code = code
+        self.message = message
+        self.action = action
 
 
 class RosterProfile(_serialization.Model):
@@ -2504,8 +2576,8 @@ class RosterProfile(_serialization.Model):
         lms_instance: Optional[str] = None,
         lti_client_id: Optional[str] = None,
         lti_roster_endpoint: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword active_directory_group_id: The AAD group ID which this lab roster is populated from.
          Having this set enables AAD sync mode.
@@ -2546,7 +2618,9 @@ class SaveImageBody(_serialization.Model):
         "lab_virtual_machine_id": {"key": "labVirtualMachineId", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, lab_virtual_machine_id: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, name: Optional[str] = None, lab_virtual_machine_id: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword name: The name for the image we create.
         :paramtype name: str
@@ -2559,7 +2633,7 @@ class SaveImageBody(_serialization.Model):
         self.lab_virtual_machine_id = lab_virtual_machine_id
 
 
-class Schedule(ProxyResource):
+class Schedule(ProxyResource):  # pylint: disable=too-many-instance-attributes
     """Schedule for automatically turning virtual machines in a lab on and off at specified times.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2589,6 +2663,8 @@ class Schedule(ProxyResource):
     :ivar provisioning_state: Current provisioning state of the schedule. Known values are:
      "Creating", "Updating", "Deleting", "Succeeded", "Failed", and "Locked".
     :vartype provisioning_state: str or ~azure.mgmt.labservices.models.ProvisioningState
+    :ivar resource_operation_error: Error details of last operation done on schedule.
+    :vartype resource_operation_error: ~azure.mgmt.labservices.models.ResourceOperationError
     """
 
     _validation = {
@@ -2599,6 +2675,7 @@ class Schedule(ProxyResource):
         "time_zone_id": {"max_length": 50},
         "notes": {"max_length": 1000},
         "provisioning_state": {"readonly": True},
+        "resource_operation_error": {"readonly": True},
     }
 
     _attribute_map = {
@@ -2612,6 +2689,7 @@ class Schedule(ProxyResource):
         "time_zone_id": {"key": "properties.timeZoneId", "type": "str"},
         "notes": {"key": "properties.notes", "type": "str"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "resource_operation_error": {"key": "properties.resourceOperationError", "type": "ResourceOperationError"},
     }
 
     def __init__(
@@ -2622,8 +2700,8 @@ class Schedule(ProxyResource):
         recurrence_pattern: Optional["_models.RecurrencePattern"] = None,
         time_zone_id: Optional[str] = None,
         notes: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword start_at: When lab user virtual machines will be started. Timestamp offsets will be
          ignored and timeZoneId is used instead.
@@ -2646,6 +2724,7 @@ class Schedule(ProxyResource):
         self.time_zone_id = time_zone_id
         self.notes = notes
         self.provisioning_state = None
+        self.resource_operation_error = None
 
 
 class ScheduleUpdateProperties(_serialization.Model):
@@ -2686,8 +2765,8 @@ class ScheduleUpdateProperties(_serialization.Model):
         recurrence_pattern: Optional["_models.RecurrencePattern"] = None,
         time_zone_id: Optional[str] = None,
         notes: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword start_at: When lab user virtual machines will be started. Timestamp offsets will be
          ignored and timeZoneId is used instead.
@@ -2730,12 +2809,15 @@ class ScheduleProperties(ScheduleUpdateProperties):
     :ivar provisioning_state: Current provisioning state of the schedule. Known values are:
      "Creating", "Updating", "Deleting", "Succeeded", "Failed", and "Locked".
     :vartype provisioning_state: str or ~azure.mgmt.labservices.models.ProvisioningState
+    :ivar resource_operation_error: Error details of last operation done on schedule.
+    :vartype resource_operation_error: ~azure.mgmt.labservices.models.ResourceOperationError
     """
 
     _validation = {
         "time_zone_id": {"max_length": 50},
         "notes": {"max_length": 1000},
         "provisioning_state": {"readonly": True},
+        "resource_operation_error": {"readonly": True},
     }
 
     _attribute_map = {
@@ -2745,6 +2827,7 @@ class ScheduleProperties(ScheduleUpdateProperties):
         "time_zone_id": {"key": "timeZoneId", "type": "str"},
         "notes": {"key": "notes", "type": "str"},
         "provisioning_state": {"key": "provisioningState", "type": "str"},
+        "resource_operation_error": {"key": "resourceOperationError", "type": "ResourceOperationError"},
     }
 
     def __init__(
@@ -2755,8 +2838,8 @@ class ScheduleProperties(ScheduleUpdateProperties):
         recurrence_pattern: Optional["_models.RecurrencePattern"] = None,
         time_zone_id: Optional[str] = None,
         notes: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword start_at: When lab user virtual machines will be started. Timestamp offsets will be
          ignored and timeZoneId is used instead.
@@ -2780,10 +2863,12 @@ class ScheduleProperties(ScheduleUpdateProperties):
             **kwargs
         )
         self.provisioning_state = None
+        self.resource_operation_error = None
 
 
 class ScheduleUpdate(_serialization.Model):
-    """Schedule for automatically turning virtual machines in a lab on and off at specified times. Used for updates.
+    """Schedule for automatically turning virtual machines in a lab on and off at specified times.
+    Used for updates.
 
     :ivar start_at: When lab user virtual machines will be started. Timestamp offsets will be
      ignored and timeZoneId is used instead.
@@ -2820,8 +2905,8 @@ class ScheduleUpdate(_serialization.Model):
         recurrence_pattern: Optional["_models.RecurrencePattern"] = None,
         time_zone_id: Optional[str] = None,
         notes: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword start_at: When lab user virtual machines will be started. Timestamp offsets will be
          ignored and timeZoneId is used instead.
@@ -2865,7 +2950,7 @@ class SecurityProfile(_serialization.Model):
         "open_access": {"key": "openAccess", "type": "str"},
     }
 
-    def __init__(self, *, open_access: Optional[Union[str, "_models.EnableState"]] = None, **kwargs):
+    def __init__(self, *, open_access: Optional[Union[str, "_models.EnableState"]] = None, **kwargs: Any) -> None:
         """
         :keyword open_access: Whether any user or only specified users can register to a lab. Known
          values are: "Enabled" and "Disabled".
@@ -2918,8 +3003,8 @@ class Sku(_serialization.Model):
         size: Optional[str] = None,
         family: Optional[str] = None,
         capacity: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: The name of the SKU. Ex - P3. It is typically a letter+number code. Required.
         :paramtype name: str
@@ -2978,8 +3063,8 @@ class SupportInfo(_serialization.Model):
         email: Optional[str] = None,
         phone: Optional[str] = None,
         instructions: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword url: Support web address.
         :paramtype url: str
@@ -3034,8 +3119,8 @@ class SystemData(_serialization.Model):
         last_modified_by: Optional[str] = None,
         last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
         last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword created_by: The identity that created the resource.
         :paramtype created_by: str
@@ -3092,8 +3177,8 @@ class Usage(_serialization.Model):
         unit: Optional[Union[str, "_models.UsageUnit"]] = None,
         name: Optional["_models.UsageName"] = None,
         id: Optional[str] = None,  # pylint: disable=redefined-builtin
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword current_value: The current usage.
         :paramtype current_value: int
@@ -3137,8 +3222,8 @@ class UsageName(_serialization.Model):
         localized_value: Optional[str] = None,
         sku_instances: Optional[List[str]] = None,
         value: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword localized_value: The localized name of the resource.
         :paramtype localized_value: str
@@ -3176,6 +3261,8 @@ class User(ProxyResource):  # pylint: disable=too-many-instance-attributes
     :ivar provisioning_state: Current provisioning state of the user resource. Known values are:
      "Creating", "Updating", "Deleting", "Succeeded", "Failed", and "Locked".
     :vartype provisioning_state: str or ~azure.mgmt.labservices.models.ProvisioningState
+    :ivar resource_operation_error: Error details of last operation done on lab plan.
+    :vartype resource_operation_error: ~azure.mgmt.labservices.models.ResourceOperationError
     :ivar display_name: Display name of the user, for example user's full name.
     :vartype display_name: str
     :ivar email: Email address of the user. Required.
@@ -3198,6 +3285,7 @@ class User(ProxyResource):  # pylint: disable=too-many-instance-attributes
         "type": {"readonly": True},
         "system_data": {"readonly": True},
         "provisioning_state": {"readonly": True},
+        "resource_operation_error": {"readonly": True},
         "display_name": {"readonly": True},
         "email": {"required": True, "max_length": 254, "min_length": 6},
         "registration_state": {"readonly": True},
@@ -3213,6 +3301,7 @@ class User(ProxyResource):  # pylint: disable=too-many-instance-attributes
         "system_data": {"key": "systemData", "type": "SystemData"},
         "additional_usage_quota": {"key": "properties.additionalUsageQuota", "type": "duration"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "resource_operation_error": {"key": "properties.resourceOperationError", "type": "ResourceOperationError"},
         "display_name": {"key": "properties.displayName", "type": "str"},
         "email": {"key": "properties.email", "type": "str"},
         "registration_state": {"key": "properties.registrationState", "type": "str"},
@@ -3221,7 +3310,9 @@ class User(ProxyResource):  # pylint: disable=too-many-instance-attributes
         "total_usage": {"key": "properties.totalUsage", "type": "duration"},
     }
 
-    def __init__(self, *, email: str, additional_usage_quota: Optional[datetime.timedelta] = None, **kwargs):
+    def __init__(
+        self, *, email: str, additional_usage_quota: Optional[datetime.timedelta] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword additional_usage_quota: The amount of usage quota time the user gets in addition to
          the lab usage quota.
@@ -3233,6 +3324,7 @@ class User(ProxyResource):  # pylint: disable=too-many-instance-attributes
         self.system_data = None
         self.additional_usage_quota = additional_usage_quota
         self.provisioning_state = None
+        self.resource_operation_error = None
         self.display_name = None
         self.email = email
         self.registration_state = None
@@ -3253,7 +3345,7 @@ class UserUpdateProperties(_serialization.Model):
         "additional_usage_quota": {"key": "additionalUsageQuota", "type": "duration"},
     }
 
-    def __init__(self, *, additional_usage_quota: Optional[datetime.timedelta] = None, **kwargs):
+    def __init__(self, *, additional_usage_quota: Optional[datetime.timedelta] = None, **kwargs: Any) -> None:
         """
         :keyword additional_usage_quota: The amount of usage quota time the user gets in addition to
          the lab usage quota.
@@ -3276,6 +3368,8 @@ class UserProperties(UserUpdateProperties):
     :ivar provisioning_state: Current provisioning state of the user resource. Known values are:
      "Creating", "Updating", "Deleting", "Succeeded", "Failed", and "Locked".
     :vartype provisioning_state: str or ~azure.mgmt.labservices.models.ProvisioningState
+    :ivar resource_operation_error: Error details of last operation done on lab plan.
+    :vartype resource_operation_error: ~azure.mgmt.labservices.models.ResourceOperationError
     :ivar display_name: Display name of the user, for example user's full name.
     :vartype display_name: str
     :ivar email: Email address of the user. Required.
@@ -3294,6 +3388,7 @@ class UserProperties(UserUpdateProperties):
 
     _validation = {
         "provisioning_state": {"readonly": True},
+        "resource_operation_error": {"readonly": True},
         "display_name": {"readonly": True},
         "email": {"required": True, "max_length": 254, "min_length": 6},
         "registration_state": {"readonly": True},
@@ -3305,6 +3400,7 @@ class UserProperties(UserUpdateProperties):
     _attribute_map = {
         "additional_usage_quota": {"key": "additionalUsageQuota", "type": "duration"},
         "provisioning_state": {"key": "provisioningState", "type": "str"},
+        "resource_operation_error": {"key": "resourceOperationError", "type": "ResourceOperationError"},
         "display_name": {"key": "displayName", "type": "str"},
         "email": {"key": "email", "type": "str"},
         "registration_state": {"key": "registrationState", "type": "str"},
@@ -3313,7 +3409,9 @@ class UserProperties(UserUpdateProperties):
         "total_usage": {"key": "totalUsage", "type": "duration"},
     }
 
-    def __init__(self, *, email: str, additional_usage_quota: Optional[datetime.timedelta] = None, **kwargs):
+    def __init__(
+        self, *, email: str, additional_usage_quota: Optional[datetime.timedelta] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword additional_usage_quota: The amount of usage quota time the user gets in addition to
          the lab usage quota.
@@ -3323,6 +3421,7 @@ class UserProperties(UserUpdateProperties):
         """
         super().__init__(additional_usage_quota=additional_usage_quota, **kwargs)
         self.provisioning_state = None
+        self.resource_operation_error = None
         self.display_name = None
         self.email = email
         self.registration_state = None
@@ -3343,7 +3442,7 @@ class UserUpdate(_serialization.Model):
         "additional_usage_quota": {"key": "properties.additionalUsageQuota", "type": "duration"},
     }
 
-    def __init__(self, *, additional_usage_quota: Optional[datetime.timedelta] = None, **kwargs):
+    def __init__(self, *, additional_usage_quota: Optional[datetime.timedelta] = None, **kwargs: Any) -> None:
         """
         :keyword additional_usage_quota: The amount of usage quota time the user gets in addition to
          the lab usage quota.
@@ -3374,6 +3473,8 @@ class VirtualMachine(ProxyResource):
     :ivar state: The current state of the virtual machine. Known values are: "Stopped", "Starting",
      "Running", "Stopping", "ResettingPassword", "Reimaging", and "Redeploying".
     :vartype state: str or ~azure.mgmt.labservices.models.VirtualMachineState
+    :ivar resource_operation_error: Error details of last operation done on lab plan.
+    :vartype resource_operation_error: ~azure.mgmt.labservices.models.ResourceOperationError
     :ivar connection_profile: Profile for information about connecting to the virtual machine.
     :vartype connection_profile: ~azure.mgmt.labservices.models.VirtualMachineConnectionProfile
     :ivar claimed_by_user_id: The lab user ID (not the PUID!) of who claimed the virtual machine.
@@ -3389,6 +3490,7 @@ class VirtualMachine(ProxyResource):
         "system_data": {"readonly": True},
         "provisioning_state": {"readonly": True},
         "state": {"readonly": True},
+        "resource_operation_error": {"readonly": True},
         "connection_profile": {"readonly": True},
         "claimed_by_user_id": {"readonly": True},
         "vm_type": {"readonly": True},
@@ -3401,17 +3503,19 @@ class VirtualMachine(ProxyResource):
         "system_data": {"key": "systemData", "type": "SystemData"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "state": {"key": "properties.state", "type": "str"},
+        "resource_operation_error": {"key": "properties.resourceOperationError", "type": "ResourceOperationError"},
         "connection_profile": {"key": "properties.connectionProfile", "type": "VirtualMachineConnectionProfile"},
         "claimed_by_user_id": {"key": "properties.claimedByUserId", "type": "str"},
         "vm_type": {"key": "properties.vmType", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.system_data = None
         self.provisioning_state = None
         self.state = None
+        self.resource_operation_error = None
         self.connection_profile = None
         self.claimed_by_user_id = None
         self.vm_type = None
@@ -3429,7 +3533,9 @@ class VirtualMachineAdditionalCapabilities(_serialization.Model):
         "install_gpu_drivers": {"key": "installGpuDrivers", "type": "str"},
     }
 
-    def __init__(self, *, install_gpu_drivers: Optional[Union[str, "_models.EnableState"]] = None, **kwargs):
+    def __init__(
+        self, *, install_gpu_drivers: Optional[Union[str, "_models.EnableState"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword install_gpu_drivers: Flag to pre-install dedicated GPU drivers. Known values are:
          "Enabled" and "Disabled".
@@ -3485,7 +3591,7 @@ class VirtualMachineConnectionProfile(_serialization.Model):
         "non_admin_username": {"key": "nonAdminUsername", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.private_ip_address = None
@@ -3560,8 +3666,8 @@ class VirtualMachineProfile(_serialization.Model):
         additional_capabilities: Optional["_models.VirtualMachineAdditionalCapabilities"] = None,
         use_shared_password: Optional[Union[str, "_models.EnableState"]] = None,
         non_admin_user: Optional["_models.Credentials"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword create_option: Indicates what lab virtual machines are created from. Required. Known
          values are: "Image" and "TemplateVM".
