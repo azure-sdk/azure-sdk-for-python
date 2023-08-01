@@ -69,6 +69,7 @@ class ComponentVersionsOperations:
         top: Optional[int] = None,
         skip: Optional[str] = None,
         list_view_type: Optional[Union[str, _models.ListViewType]] = None,
+        stage: Optional[str] = None,
         **kwargs: Any
     ) -> AsyncIterable["_models.ComponentVersion"]:
         """List component versions.
@@ -91,6 +92,8 @@ class ComponentVersionsOperations:
         :param list_view_type: View type for including/excluding (for example) archived entities. Known
          values are: "ActiveOnly", "ArchivedOnly", and "All". Default value is None.
         :type list_view_type: str or ~azure.mgmt.machinelearningservices.models.ListViewType
+        :param stage: Component stage. Default value is None.
+        :type stage: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ComponentVersion or the result of cls(response)
         :rtype:
@@ -123,6 +126,7 @@ class ComponentVersionsOperations:
                     top=top,
                     skip=skip,
                     list_view_type=list_view_type,
+                    stage=stage,
                     api_version=api_version,
                     template_url=self.list.metadata["url"],
                     headers=_headers,
