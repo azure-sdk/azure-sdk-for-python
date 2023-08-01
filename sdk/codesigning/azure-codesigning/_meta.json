@@ -1,0 +1,6 @@
+{
+  "commit": "6aeadc825c5086dbd2ca71fe044ef0f94db480e9",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/codesigning/CodeSigning",
+  "@azure-tools/typespec-python": "0.12.0"
+}
