@@ -76,19 +76,19 @@ class MonitorManagementClient:  # pylint: disable=client-accepts-api-version-key
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
         self.private_link_scopes = PrivateLinkScopesOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2021-07-01-preview"
         )
         self.private_link_scope_operation_status = PrivateLinkScopeOperationStatusOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2021-07-01-preview"
         )
         self.private_link_resources = PrivateLinkResourcesOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2021-07-01-preview"
         )
         self.private_endpoint_connections = PrivateEndpointConnectionsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2021-07-01-preview"
         )
         self.private_link_scoped_resources = PrivateLinkScopedResourcesOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2021-07-01-preview"
         )
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> Awaitable[AsyncHttpResponse]:

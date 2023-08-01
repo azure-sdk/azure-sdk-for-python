@@ -59,10 +59,10 @@ class MonitorManagementClient:  # pylint: disable=client-accepts-api-version-key
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
         self.autoscale_settings = AutoscaleSettingsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2022-10-01"
         )
         self.predictive_metric = PredictiveMetricOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2022-10-01"
         )
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> HttpResponse:
