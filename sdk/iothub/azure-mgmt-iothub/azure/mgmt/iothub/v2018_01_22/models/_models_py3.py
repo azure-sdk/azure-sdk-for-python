@@ -112,7 +112,7 @@ class CertificateProperties(_serialization.Model):
     :ivar subject: The certificate's subject name.
     :vartype subject: str
     :ivar expiry: The certificate's expiration date and time.
-    :vartype expiry: ~datetime.datetime
+    :vartype expiry: str
     :ivar thumbprint: The certificate's thumbprint.
     :vartype thumbprint: str
     :ivar is_verified: Determines whether certificate has been verified.
@@ -134,7 +134,7 @@ class CertificateProperties(_serialization.Model):
 
     _attribute_map = {
         "subject": {"key": "subject", "type": "str"},
-        "expiry": {"key": "expiry", "type": "rfc-1123"},
+        "expiry": {"key": "expiry", "type": "str"},
         "thumbprint": {"key": "thumbprint", "type": "str"},
         "is_verified": {"key": "isVerified", "type": "bool"},
         "created": {"key": "created", "type": "rfc-1123"},
@@ -1303,7 +1303,7 @@ class JobResponse(_serialization.Model):
     :vartype end_time_utc: ~datetime.datetime
     :ivar type: The type of the job. Known values are: "unknown", "export", "import", "backup",
      "readDeviceProperties", "writeDeviceProperties", "updateDeviceConfiguration", "rebootDevice",
-     "factoryResetDevice", and "firmwareUpdate".
+     "factoryResetDevice", "firmwareUpdate", and "import".
     :vartype type: str or ~azure.mgmt.iothub.v2018_01_22.models.JobType
     :ivar status: The status of the job. Known values are: "unknown", "enqueued", "running",
      "completed", "failed", and "cancelled".
