@@ -14,7 +14,7 @@ from azure.mgmt.loganalytics import LogAnalyticsManagementClient
     pip install azure-identity
     pip install azure-mgmt-loganalytics
 # USAGE
-    python data_sources_delete.py
+    python query_packs_update_tags_only.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,16 +26,17 @@ from azure.mgmt.loganalytics import LogAnalyticsManagementClient
 def main():
     client = LogAnalyticsManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="00000000-0000-0000-0000-00000000000",
+        subscription_id="subid",
     )
 
-    client.data_sources.delete(
-        resource_group_name="OIAutoRest5123",
-        workspace_name="AzTest9724",
-        data_source_name="AzTestDS774",
+    response = client.query_packs.update_tags(
+        resource_group_name="my-resource-group",
+        query_pack_name="my-querypack",
+        query_pack_tags={"tags": {"Tag1": "Value1", "Tag2": "Value2"}},
     )
+    print(response)
 
 
-# x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2020-08-01/examples/DataSourcesDelete.json
+# x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPacksUpdateTagsOnly.json
 if __name__ == "__main__":
     main()
