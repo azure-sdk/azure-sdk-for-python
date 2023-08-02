@@ -1,19 +1,19 @@
 {
-  "commit": "b5f54222a4a925eb0239cd6653ab8b27185195f4",
+  "commit": "d227cfe0e5b3066e4f04e2665741458864a2633e",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
   "autorest": "3.9.7",
   "use": [
     "@autorest/python@6.7.1",
     "@autorest/modelerfour@4.26.2"
   ],
-  "autorest_command": "autorest specification/compute/resource-manager/readme.md --generate-sample=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/home/vsts/work/1/azure-sdk-for-python/sdk --use=@autorest/python@6.7.1 --use=@autorest/modelerfour@4.26.2 --version=3.9.7 --version-tolerant=False",
+  "autorest_command": "autorest specification/compute/resource-manager/readme.md --generate-sample=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/mnt/vss/_work/1/s/azure-sdk-for-python/sdk --use=@autorest/python@6.7.1 --use=@autorest/modelerfour@4.26.2 --version=3.9.7 --version-tolerant=False",
   "readme": "specification/compute/resource-manager/readme.md",
   "package-2023-03-01-only": "2023-04-17 22:42:05 -0400 b06a6f45e472dd07c2e0dab06b1e52dfe2684c88 Microsoft.Compute/ComputeRP/stable/2023-03-01/virtualMachineScaleSet.json",
   "package-2023-01-02-only": "2023-06-28 00:48:15 -0400 b1d41f8dc643415d4dc6ee82bdb2fef04ef45bc9 Microsoft.Compute/DiskRP/stable/2023-01-02/snapshot.json",
   "package-2022-11-01-only": "2023-03-01 02:28:46 -0500 03261080b3083a9e8cb0b61d840cc8291c596590 Microsoft.Compute/common-types/v1/common.json",
   "package-2022-09-04-only": "2023-03-01 02:28:46 -0500 03261080b3083a9e8cb0b61d840cc8291c596590 Microsoft.Compute/common-types/v1/common.json",
   "package-2022-08-01-only": "2023-07-25 07:16:18 +0530 324d833f80ccd86dfd5b8035625ea17b537edf51 Microsoft.Compute/ComputeRP/stable/2022-08-01/computeRPCommon.json",
-  "package-2022-07-02-only": "2023-03-01 02:28:46 -0500 03261080b3083a9e8cb0b61d840cc8291c596590 Microsoft.Compute/common-types/v1/common.json",
+  "package-2022-07-02-only": "2023-05-02 15:00:46 -0400 307f92162c4d9258de1ebe28b51a912b6bff61a8 Microsoft.Compute/DiskRP/stable/2022-07-02/diskAccess.json",
   "package-2022-04-04-only": "2022-08-04 22:48:19 -0400 a31c376ede1e91abc3ab476ae8e8d316e80541c0 Microsoft.Compute/CloudserviceRP/stable/2022-04-04/cloudService.json",
   "package-2022-03-03-only": "2023-05-16 23:00:04 -0400 a2140e7ff0a6c28df501b16c51fe85b762a386fc Microsoft.Compute/GalleryRP/stable/2022-03-03/communityGallery.json",
   "package-2022-03-02-only": "2022-08-04 22:48:19 -0400 a31c376ede1e91abc3ab476ae8e8d316e80541c0 Microsoft.Compute/DiskRP/stable/2022-03-02/snapshot.json",
