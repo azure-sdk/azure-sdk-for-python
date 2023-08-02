@@ -14,7 +14,7 @@ from azure.mgmt.automation import AutomationClient
     pip install azure-identity
     pip install azure-mgmt-automation
 # USAGE
-    python create_or_update_source_control.py
+    python resume_job.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,32 +26,16 @@ from azure.mgmt.automation import AutomationClient
 def main():
     client = AutomationClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subid",
+        subscription_id="51766542-3ed7-4a72-a187-0c8ab644ddab",
     )
 
-    response = client.source_control.create_or_update(
-        resource_group_name="rg",
-        automation_account_name="sampleAccount9",
-        source_control_name="sampleSourceControl",
-        parameters={
-            "properties": {
-                "autoSync": True,
-                "branch": "master",
-                "description": "my description",
-                "folderPath": "/folderOne/folderTwo",
-                "publishRunbook": True,
-                "repoUrl": "https://sampleUser.visualstudio.com/myProject/_git/myRepository",
-                "securityToken": {
-                    "accessToken": "3a326f7a0dcd343ea58fee21f2fd5fb4c1234567",
-                    "tokenType": "PersonalAccessToken",
-                },
-                "sourceType": "VsoGit",
-            }
-        },
+    client.job.resume(
+        resource_group_name="mygroup",
+        automation_account_name="ContoseAutomationAccount",
+        job_name="foo",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2022-08-08/examples/sourceControl/createOrUpdateSourceControl.json
+# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2022-08-08/examples/job/resumeJob.json
 if __name__ == "__main__":
     main()
