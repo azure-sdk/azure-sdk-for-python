@@ -147,13 +147,14 @@ class GenerateCostDetailsReportOperations:
         response along with details on the report blob(s) that are available for download. The details
         on the file(s) available for download will be available in the polling response body. To
         Understand cost details (formerly known as usage details) fields found in files ,see
-        https://learn.microsoft.com/azure/cost-management-billing/automate/understand-usage-details-fields.
+        https://learn.microsoft.com/en-us/azure/cost-management-billing/automate/understand-usage-details-fields.
 
         .. seealso::
            - https://docs.microsoft.com/en-us/rest/api/costmanagement/
 
-        :param scope: The ARM Resource ID for subscription, resource group, billing account, or other
-         billing scopes. For details, see https://aka.ms/costmgmt/scopes. Required.
+        :param scope: The ARM Resource ID for subscription, billing account, or other billing
+         scopes.Currently Resource Group and Management Group are not supported. For details, see
+         https://aka.ms/costmgmt/scopes. Required.
         :type scope: str
         :param parameters: Parameters supplied to the Create cost details operation. Required.
         :type parameters: ~azure.mgmt.costmanagement.models.GenerateCostDetailsReportRequestDefinition
@@ -190,13 +191,14 @@ class GenerateCostDetailsReportOperations:
         response along with details on the report blob(s) that are available for download. The details
         on the file(s) available for download will be available in the polling response body. To
         Understand cost details (formerly known as usage details) fields found in files ,see
-        https://learn.microsoft.com/azure/cost-management-billing/automate/understand-usage-details-fields.
+        https://learn.microsoft.com/en-us/azure/cost-management-billing/automate/understand-usage-details-fields.
 
         .. seealso::
            - https://docs.microsoft.com/en-us/rest/api/costmanagement/
 
-        :param scope: The ARM Resource ID for subscription, resource group, billing account, or other
-         billing scopes. For details, see https://aka.ms/costmgmt/scopes. Required.
+        :param scope: The ARM Resource ID for subscription, billing account, or other billing
+         scopes.Currently Resource Group and Management Group are not supported. For details, see
+         https://aka.ms/costmgmt/scopes. Required.
         :type scope: str
         :param parameters: Parameters supplied to the Create cost details operation. Required.
         :type parameters: IO
@@ -233,13 +235,14 @@ class GenerateCostDetailsReportOperations:
         response along with details on the report blob(s) that are available for download. The details
         on the file(s) available for download will be available in the polling response body. To
         Understand cost details (formerly known as usage details) fields found in files ,see
-        https://learn.microsoft.com/azure/cost-management-billing/automate/understand-usage-details-fields.
+        https://learn.microsoft.com/en-us/azure/cost-management-billing/automate/understand-usage-details-fields.
 
         .. seealso::
            - https://docs.microsoft.com/en-us/rest/api/costmanagement/
 
-        :param scope: The ARM Resource ID for subscription, resource group, billing account, or other
-         billing scopes. For details, see https://aka.ms/costmgmt/scopes. Required.
+        :param scope: The ARM Resource ID for subscription, billing account, or other billing
+         scopes.Currently Resource Group and Management Group are not supported. For details, see
+         https://aka.ms/costmgmt/scopes. Required.
         :type scope: str
         :param parameters: Parameters supplied to the Create cost details operation. Is either a
          GenerateCostDetailsReportRequestDefinition type or a IO type. Required.
@@ -369,8 +372,9 @@ class GenerateCostDetailsReportOperations:
         """Get the result of the specified operation. This link is provided in the CostDetails creation
         request response Location header.
 
-        :param scope: The ARM Resource ID for subscription, resource group, billing account, or other
-         billing scopes. For details, see https://aka.ms/costmgmt/scopes. Required.
+        :param scope: The ARM Resource ID for subscription, billing account, or other billing
+         scopes.Currently Resource Group and Management Group are not supported. For details, see
+         https://aka.ms/costmgmt/scopes. Required.
         :type scope: str
         :param operation_id: The target operation Id. Required.
         :type operation_id: str
