@@ -36,14 +36,7 @@ def main():
         client_info={
             "properties": {
                 "attributes": {"deviceTypes": ["Fan", "Light", "AC"], "floor": 3, "room": "345"},
-                "authentication": {
-                    "certificateSubject": {
-                        "commonName": "CertificateCommonName",
-                        "countryCode": "US",
-                        "organization": "Microsoft",
-                        "organizationUnit": "Azure",
-                    }
-                },
+                "clientCertificateAuthentication": {"validationScheme": "SubjectMatchesAuthenticationName"},
                 "description": "This is a test client",
                 "state": "Enabled",
             }
