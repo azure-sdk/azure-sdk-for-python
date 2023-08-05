@@ -28,11 +28,10 @@ def main():
         credential=DefaultAzureCredential(),
     )
 
-    response = client.reservation.unarchive(
+    client.reservation.unarchive(
         reservation_order_id="276e7ae4-84d0-4da6-ab4b-d6b94f3557da",
         reservation_id="356e7ae4-84d0-4da6-ab4b-d6b94f3557da",
     )
-    print(response)
 
 
 # x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-11-01/examples/Unarchive.json
