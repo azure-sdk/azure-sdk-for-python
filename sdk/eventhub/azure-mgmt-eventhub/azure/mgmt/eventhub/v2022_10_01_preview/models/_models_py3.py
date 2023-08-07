@@ -271,7 +271,7 @@ class ApplicationGroupPolicy(_serialization.Model):
         self.type: Optional[str] = None
 
 
-class ArmDisasterRecovery(ProxyResource):
+class ArmDisasterRecovery(ProxyResource):  # pylint: disable=too-many-instance-attributes
     """Single item in List or Get Alias(Disaster Recovery configuration) operation.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -296,6 +296,8 @@ class ArmDisasterRecovery(ProxyResource):
     :ivar partner_namespace: ARM Id of the Primary/Secondary eventhub namespace name, which is part
      of GEO DR pairing.
     :vartype partner_namespace: str
+    :ivar type_properties_type: replication type. "MetadataReplication"
+    :vartype type_properties_type: str or ~azure.mgmt.eventhub.v2022_10_01_preview.models.Type
     :ivar alternate_name: Alternate name specified when alias and namespace names are same.
     :vartype alternate_name: str
     :ivar role: role of namespace in GEO DR - possible values 'Primary' or 'PrimaryNotReplicating'
@@ -324,18 +326,26 @@ class ArmDisasterRecovery(ProxyResource):
         "system_data": {"key": "systemData", "type": "SystemData"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "partner_namespace": {"key": "properties.partnerNamespace", "type": "str"},
+        "type_properties_type": {"key": "properties.type", "type": "str"},
         "alternate_name": {"key": "properties.alternateName", "type": "str"},
         "role": {"key": "properties.role", "type": "str"},
         "pending_replication_operations_count": {"key": "properties.pendingReplicationOperationsCount", "type": "int"},
     }
 
     def __init__(
-        self, *, partner_namespace: Optional[str] = None, alternate_name: Optional[str] = None, **kwargs: Any
+        self,
+        *,
+        partner_namespace: Optional[str] = None,
+        type_properties_type: Union[str, "_models.Type"] = "MetadataReplication",
+        alternate_name: Optional[str] = None,
+        **kwargs: Any
     ) -> None:
         """
         :keyword partner_namespace: ARM Id of the Primary/Secondary eventhub namespace name, which is
          part of GEO DR pairing.
         :paramtype partner_namespace: str
+        :keyword type_properties_type: replication type. "MetadataReplication"
+        :paramtype type_properties_type: str or ~azure.mgmt.eventhub.v2022_10_01_preview.models.Type
         :keyword alternate_name: Alternate name specified when alias and namespace names are same.
         :paramtype alternate_name: str
         """
@@ -343,6 +353,7 @@ class ArmDisasterRecovery(ProxyResource):
         self.system_data = None
         self.provisioning_state = None
         self.partner_namespace = partner_namespace
+        self.type_properties_type = type_properties_type
         self.alternate_name = alternate_name
         self.role = None
         self.pending_replication_operations_count = None
@@ -751,6 +762,10 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
     :vartype system_data: ~azure.mgmt.eventhub.v2022_10_01_preview.models.SystemData
     :ivar created_at: The UTC time when the Event Hubs Cluster was created.
     :vartype created_at: str
+    :ivar provisioning_state: Provisioning state of the Cluster. Known values are: "Unknown",
+     "Creating", "Deleting", "Scaling", "Active", "Failed", "Succeeded", and "Canceled".
+    :vartype provisioning_state: str or
+     ~azure.mgmt.eventhub.v2022_10_01_preview.models.ProvisioningState
     :ivar updated_at: The UTC time when the Event Hubs Cluster was last updated.
     :vartype updated_at: str
     :ivar metric_id: The metric ID of the cluster resource. Provided by the service and not
@@ -768,6 +783,7 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
         "type": {"readonly": True},
         "system_data": {"readonly": True},
         "created_at": {"readonly": True},
+        "provisioning_state": {"readonly": True},
         "updated_at": {"readonly": True},
         "metric_id": {"readonly": True},
         "status": {"readonly": True},
@@ -782,6 +798,7 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
         "sku": {"key": "sku", "type": "ClusterSku"},
         "system_data": {"key": "systemData", "type": "SystemData"},
         "created_at": {"key": "properties.createdAt", "type": "str"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "updated_at": {"key": "properties.updatedAt", "type": "str"},
         "metric_id": {"key": "properties.metricId", "type": "str"},
         "status": {"key": "properties.status", "type": "str"},
@@ -811,6 +828,7 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
         self.sku = sku
         self.system_data = None
         self.created_at = None
+        self.provisioning_state = None
         self.updated_at = None
         self.metric_id = None
         self.status = None
@@ -1223,16 +1241,16 @@ class EHNamespace(TrackedResource):  # pylint: disable=too-many-instance-attribu
         tags: Optional[Dict[str, str]] = None,
         sku: Optional["_models.Sku"] = None,
         identity: Optional["_models.Identity"] = None,
-        minimum_tls_version: Optional[Union[str, "_models.TlsVersion"]] = None,
+        minimum_tls_version: Union[str, "_models.TlsVersion"] = "1.2",
         cluster_arm_id: Optional[str] = None,
         is_auto_inflate_enabled: Optional[bool] = None,
         public_network_access: Union[str, "_models.PublicNetworkAccess"] = "Enabled",
         maximum_throughput_units: Optional[int] = None,
         kafka_enabled: Optional[bool] = None,
-        zone_redundant: Optional[bool] = None,
+        zone_redundant: bool = False,
         encryption: Optional["_models.Encryption"] = None,
         private_endpoint_connections: Optional[List["_models.PrivateEndpointConnection"]] = None,
-        disable_local_auth: Optional[bool] = None,
+        disable_local_auth: bool = False,
         alternate_name: Optional[str] = None,
         **kwargs: Any
     ) -> None:
@@ -1912,7 +1930,7 @@ class NetworkSecurityPerimeter(_serialization.Model):
         self.location = location
 
 
-class NetworkSecurityPerimeterConfiguration(Resource):
+class NetworkSecurityPerimeterConfiguration(ProxyResource):
     """Network Security Perimeter related configurations of a given namespace.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1922,9 +1940,11 @@ class NetworkSecurityPerimeterConfiguration(Resource):
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-     "Microsoft.Storage/storageAccounts".
+    :ivar type: The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or
+     "Microsoft.EventHub/Namespaces/EventHubs".
     :vartype type: str
+    :ivar location: The geo-location where the resource lives.
+    :vartype location: str
     :ivar provisioning_state: Provisioning state of NetworkSecurityPerimeter configuration
      propagation. Known values are: "Unknown", "Creating", "Updating", "Accepted",
      "InvalidResponse", "Succeeded", "SucceededWithIssues", "Failed", "Deleting", "Deleted", and
@@ -1949,6 +1969,7 @@ class NetworkSecurityPerimeterConfiguration(Resource):
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "location": {"readonly": True},
         "network_security_perimeter": {"readonly": True},
         "resource_association": {"readonly": True},
         "profile": {"readonly": True},
@@ -1958,6 +1979,7 @@ class NetworkSecurityPerimeterConfiguration(Resource):
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "location": {"key": "location", "type": "str"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "provisioning_issues": {"key": "properties.provisioningIssues", "type": "[ProvisioningIssue]"},
         "network_security_perimeter": {
@@ -2244,7 +2266,7 @@ class NWRuleSetIpRules(_serialization.Model):
         self,
         *,
         ip_mask: Optional[str] = None,
-        action: Optional[Union[str, "_models.NetworkRuleIPAction"]] = None,
+        action: Union[str, "_models.NetworkRuleIPAction"] = "Allow",
         **kwargs: Any
     ) -> None:
         """
@@ -2458,6 +2480,8 @@ class PrivateEndpointConnection(ProxyResource):
     :ivar private_link_service_connection_state: Details about the state of the connection.
     :vartype private_link_service_connection_state:
      ~azure.mgmt.eventhub.v2022_10_01_preview.models.ConnectionState
+    :ivar group_id: Array of group IDs.
+    :vartype group_id: list[str]
     :ivar provisioning_state: Provisioning state of the Private Endpoint Connection. Known values
      are: "Creating", "Updating", "Deleting", "Succeeded", "Canceled", and "Failed".
     :vartype provisioning_state: str or
@@ -2483,6 +2507,7 @@ class PrivateEndpointConnection(ProxyResource):
             "key": "properties.privateLinkServiceConnectionState",
             "type": "ConnectionState",
         },
+        "group_id": {"key": "properties.groupId", "type": "[str]"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
     }
 
@@ -2491,6 +2516,7 @@ class PrivateEndpointConnection(ProxyResource):
         *,
         private_endpoint: Optional["_models.PrivateEndpoint"] = None,
         private_link_service_connection_state: Optional["_models.ConnectionState"] = None,
+        group_id: Optional[List[str]] = None,
         provisioning_state: Optional[Union[str, "_models.EndPointProvisioningState"]] = None,
         **kwargs: Any
     ) -> None:
@@ -2500,6 +2526,8 @@ class PrivateEndpointConnection(ProxyResource):
         :keyword private_link_service_connection_state: Details about the state of the connection.
         :paramtype private_link_service_connection_state:
          ~azure.mgmt.eventhub.v2022_10_01_preview.models.ConnectionState
+        :keyword group_id: Array of group IDs.
+        :paramtype group_id: list[str]
         :keyword provisioning_state: Provisioning state of the Private Endpoint Connection. Known
          values are: "Creating", "Updating", "Deleting", "Succeeded", "Canceled", and "Failed".
         :paramtype provisioning_state: str or
@@ -2509,6 +2537,7 @@ class PrivateEndpointConnection(ProxyResource):
         self.system_data = None
         self.private_endpoint = private_endpoint
         self.private_link_service_connection_state = private_link_service_connection_state
+        self.group_id = group_id
         self.provisioning_state = provisioning_state
 
 
@@ -2735,15 +2764,15 @@ class RetentionDescription(_serialization.Model):
     """Properties to configure retention settings for the  eventhub.
 
     :ivar cleanup_policy: Enumerates the possible values for cleanup policy. Known values are:
-     "Delete" and "Compaction".
+     "Delete" and "Compact".
     :vartype cleanup_policy: str or
      ~azure.mgmt.eventhub.v2022_10_01_preview.models.CleanupPolicyRetentionDescription
     :ivar retention_time_in_hours: Number of hours to retain the events for this Event Hub. This
-     value is only used when cleanupPolicy is Delete. If cleanupPolicy is Compaction the returned
-     value of this property is Long.MaxValue.
+     value is only used when cleanupPolicy is Delete. If cleanupPolicy is Compact the returned value
+     of this property is Long.MaxValue.
     :vartype retention_time_in_hours: int
     :ivar tombstone_retention_time_in_hours: Number of hours to retain the tombstone markers of a
-     compacted Event Hub. This value is only used when cleanupPolicy is Compaction. Consumer must
+     compacted Event Hub. This value is only used when cleanupPolicy is Compact. Consumer must
      complete reading the tombstone marker within this specified amount of time if consumer begins
      from starting offset to ensure they get a valid snapshot for the specific key described by the
      tombstone marker within the compacted Event Hub.
@@ -2759,22 +2788,22 @@ class RetentionDescription(_serialization.Model):
     def __init__(
         self,
         *,
-        cleanup_policy: Optional[Union[str, "_models.CleanupPolicyRetentionDescription"]] = None,
+        cleanup_policy: Union[str, "_models.CleanupPolicyRetentionDescription"] = "Delete",
         retention_time_in_hours: Optional[int] = None,
         tombstone_retention_time_in_hours: Optional[int] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword cleanup_policy: Enumerates the possible values for cleanup policy. Known values are:
-         "Delete" and "Compaction".
+         "Delete" and "Compact".
         :paramtype cleanup_policy: str or
          ~azure.mgmt.eventhub.v2022_10_01_preview.models.CleanupPolicyRetentionDescription
         :keyword retention_time_in_hours: Number of hours to retain the events for this Event Hub. This
-         value is only used when cleanupPolicy is Delete. If cleanupPolicy is Compaction the returned
-         value of this property is Long.MaxValue.
+         value is only used when cleanupPolicy is Delete. If cleanupPolicy is Compact the returned value
+         of this property is Long.MaxValue.
         :paramtype retention_time_in_hours: int
         :keyword tombstone_retention_time_in_hours: Number of hours to retain the tombstone markers of
-         a compacted Event Hub. This value is only used when cleanupPolicy is Compaction. Consumer must
+         a compacted Event Hub. This value is only used when cleanupPolicy is Compact. Consumer must
          complete reading the tombstone marker within this specified amount of time if consumer begins
          from starting offset to ensure they get a valid snapshot for the specific key described by the
          tombstone marker within the compacted Event Hub.

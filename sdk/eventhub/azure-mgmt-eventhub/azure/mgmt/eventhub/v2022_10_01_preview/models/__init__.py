@@ -91,6 +91,7 @@ from ._event_hub_management_client_enums import NetworkRuleIPAction
 from ._event_hub_management_client_enums import NetworkSecurityPerimeterConfigurationProvisioningState
 from ._event_hub_management_client_enums import NspAccessRuleDirection
 from ._event_hub_management_client_enums import PrivateLinkConnectionStatus
+from ._event_hub_management_client_enums import ProvisioningState
 from ._event_hub_management_client_enums import ProvisioningStateDR
 from ._event_hub_management_client_enums import PublicNetworkAccess
 from ._event_hub_management_client_enums import PublicNetworkAccessFlag
@@ -101,6 +102,7 @@ from ._event_hub_management_client_enums import SchemaType
 from ._event_hub_management_client_enums import SkuName
 from ._event_hub_management_client_enums import SkuTier
 from ._event_hub_management_client_enums import TlsVersion
+from ._event_hub_management_client_enums import Type
 from ._event_hub_management_client_enums import UnavailableReason
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
@@ -191,6 +193,7 @@ __all__ = [
     "NetworkSecurityPerimeterConfigurationProvisioningState",
     "NspAccessRuleDirection",
     "PrivateLinkConnectionStatus",
+    "ProvisioningState",
     "ProvisioningStateDR",
     "PublicNetworkAccess",
     "PublicNetworkAccessFlag",
@@ -201,6 +204,7 @@ __all__ = [
     "SkuName",
     "SkuTier",
     "TlsVersion",
+    "Type",
     "UnavailableReason",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])

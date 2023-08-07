@@ -271,7 +271,7 @@ class ApplicationGroupPolicy(_serialization.Model):
         self.type: Optional[str] = None
 
 
-class ArmDisasterRecovery(ProxyResource):
+class ArmDisasterRecovery(ProxyResource):  # pylint: disable=too-many-instance-attributes
     """Single item in List or Get Alias(Disaster Recovery configuration) operation.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -296,6 +296,8 @@ class ArmDisasterRecovery(ProxyResource):
     :ivar partner_namespace: ARM Id of the Primary/Secondary eventhub namespace name, which is part
      of GEO DR pairing.
     :vartype partner_namespace: str
+    :ivar type_properties_type: replication type. Default value is "MetadataReplication".
+    :vartype type_properties_type: str
     :ivar alternate_name: Alternate name specified when alias and namespace names are same.
     :vartype alternate_name: str
     :ivar role: role of namespace in GEO DR - possible values 'Primary' or 'PrimaryNotReplicating'
@@ -324,18 +326,26 @@ class ArmDisasterRecovery(ProxyResource):
         "system_data": {"key": "systemData", "type": "SystemData"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "partner_namespace": {"key": "properties.partnerNamespace", "type": "str"},
+        "type_properties_type": {"key": "properties.type", "type": "str"},
         "alternate_name": {"key": "properties.alternateName", "type": "str"},
         "role": {"key": "properties.role", "type": "str"},
         "pending_replication_operations_count": {"key": "properties.pendingReplicationOperationsCount", "type": "int"},
     }
 
     def __init__(
-        self, *, partner_namespace: Optional[str] = None, alternate_name: Optional[str] = None, **kwargs: Any
+        self,
+        *,
+        partner_namespace: Optional[str] = None,
+        type_properties_type: Literal["MetadataReplication"] = "MetadataReplication",
+        alternate_name: Optional[str] = None,
+        **kwargs: Any
     ) -> None:
         """
         :keyword partner_namespace: ARM Id of the Primary/Secondary eventhub namespace name, which is
          part of GEO DR pairing.
         :paramtype partner_namespace: str
+        :keyword type_properties_type: replication type. Default value is "MetadataReplication".
+        :paramtype type_properties_type: str
         :keyword alternate_name: Alternate name specified when alias and namespace names are same.
         :paramtype alternate_name: str
         """
@@ -343,6 +353,7 @@ class ArmDisasterRecovery(ProxyResource):
         self.system_data = None
         self.provisioning_state = None
         self.partner_namespace = partner_namespace
+        self.type_properties_type = type_properties_type
         self.alternate_name = alternate_name
         self.role = None
         self.pending_replication_operations_count = None
@@ -751,6 +762,10 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
     :vartype system_data: ~azure.mgmt.eventhub.v2022_01_01_preview.models.SystemData
     :ivar created_at: The UTC time when the Event Hubs Cluster was created.
     :vartype created_at: str
+    :ivar provisioning_state: Provisioning state of the Cluster. Known values are: "Unknown",
+     "Creating", "Deleting", "Scaling", "Active", "Failed", "Succeeded", and "Canceled".
+    :vartype provisioning_state: str or
+     ~azure.mgmt.eventhub.v2022_01_01_preview.models.ProvisioningState
     :ivar updated_at: The UTC time when the Event Hubs Cluster was last updated.
     :vartype updated_at: str
     :ivar metric_id: The metric ID of the cluster resource. Provided by the service and not
@@ -768,6 +783,7 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
         "type": {"readonly": True},
         "system_data": {"readonly": True},
         "created_at": {"readonly": True},
+        "provisioning_state": {"readonly": True},
         "updated_at": {"readonly": True},
         "metric_id": {"readonly": True},
         "status": {"readonly": True},
@@ -782,6 +798,7 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
         "sku": {"key": "sku", "type": "ClusterSku"},
         "system_data": {"key": "systemData", "type": "SystemData"},
         "created_at": {"key": "properties.createdAt", "type": "str"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "updated_at": {"key": "properties.updatedAt", "type": "str"},
         "metric_id": {"key": "properties.metricId", "type": "str"},
         "status": {"key": "properties.status", "type": "str"},
@@ -811,6 +828,7 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
         self.sku = sku
         self.system_data = None
         self.created_at = None
+        self.provisioning_state = None
         self.updated_at = None
         self.metric_id = None
         self.status = None
@@ -1229,7 +1247,7 @@ class EHNamespace(TrackedResource):  # pylint: disable=too-many-instance-attribu
         public_network_access: Union[str, "_models.PublicNetworkAccess"] = "Enabled",
         maximum_throughput_units: Optional[int] = None,
         kafka_enabled: Optional[bool] = None,
-        zone_redundant: Optional[bool] = None,
+        zone_redundant: bool = False,
         encryption: Optional["_models.Encryption"] = None,
         private_endpoint_connections: Optional[List["_models.PrivateEndpointConnection"]] = None,
         disable_local_auth: Optional[bool] = None,
@@ -2247,7 +2265,7 @@ class NWRuleSetIpRules(_serialization.Model):
         self,
         *,
         ip_mask: Optional[str] = None,
-        action: Optional[Union[str, "_models.NetworkRuleIPAction"]] = None,
+        action: Union[str, "_models.NetworkRuleIPAction"] = "Allow",
         **kwargs: Any
     ) -> None:
         """
@@ -2461,6 +2479,8 @@ class PrivateEndpointConnection(ProxyResource):
     :ivar private_link_service_connection_state: Details about the state of the connection.
     :vartype private_link_service_connection_state:
      ~azure.mgmt.eventhub.v2022_01_01_preview.models.ConnectionState
+    :ivar group_id: Array of group IDs.
+    :vartype group_id: list[str]
     :ivar provisioning_state: Provisioning state of the Private Endpoint Connection. Known values
      are: "Creating", "Updating", "Deleting", "Succeeded", "Canceled", and "Failed".
     :vartype provisioning_state: str or
@@ -2486,6 +2506,7 @@ class PrivateEndpointConnection(ProxyResource):
             "key": "properties.privateLinkServiceConnectionState",
             "type": "ConnectionState",
         },
+        "group_id": {"key": "properties.groupId", "type": "[str]"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
     }
 
@@ -2494,6 +2515,7 @@ class PrivateEndpointConnection(ProxyResource):
         *,
         private_endpoint: Optional["_models.PrivateEndpoint"] = None,
         private_link_service_connection_state: Optional["_models.ConnectionState"] = None,
+        group_id: Optional[List[str]] = None,
         provisioning_state: Optional[Union[str, "_models.EndPointProvisioningState"]] = None,
         **kwargs: Any
     ) -> None:
@@ -2503,6 +2525,8 @@ class PrivateEndpointConnection(ProxyResource):
         :keyword private_link_service_connection_state: Details about the state of the connection.
         :paramtype private_link_service_connection_state:
          ~azure.mgmt.eventhub.v2022_01_01_preview.models.ConnectionState
+        :keyword group_id: Array of group IDs.
+        :paramtype group_id: list[str]
         :keyword provisioning_state: Provisioning state of the Private Endpoint Connection. Known
          values are: "Creating", "Updating", "Deleting", "Succeeded", "Canceled", and "Failed".
         :paramtype provisioning_state: str or
@@ -2512,6 +2536,7 @@ class PrivateEndpointConnection(ProxyResource):
         self.system_data = None
         self.private_endpoint = private_endpoint
         self.private_link_service_connection_state = private_link_service_connection_state
+        self.group_id = group_id
         self.provisioning_state = provisioning_state
 
 

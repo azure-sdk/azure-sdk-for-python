@@ -89,6 +89,7 @@ from ._event_hub_management_client_enums import NetworkRuleIPAction
 from ._event_hub_management_client_enums import NetworkSecurityPerimeterConfigurationProvisioningState
 from ._event_hub_management_client_enums import NspAccessRuleDirection
 from ._event_hub_management_client_enums import PrivateLinkConnectionStatus
+from ._event_hub_management_client_enums import ProvisioningState
 from ._event_hub_management_client_enums import ProvisioningStateDR
 from ._event_hub_management_client_enums import PublicNetworkAccess
 from ._event_hub_management_client_enums import PublicNetworkAccessFlag
@@ -187,6 +188,7 @@ __all__ = [
     "NetworkSecurityPerimeterConfigurationProvisioningState",
     "NspAccessRuleDirection",
     "PrivateLinkConnectionStatus",
+    "ProvisioningState",
     "ProvisioningStateDR",
     "PublicNetworkAccess",
     "PublicNetworkAccessFlag",

@@ -137,6 +137,8 @@ class ArmDisasterRecovery(Resource):
     :ivar partner_namespace: ARM Id of the Primary/Secondary eventhub namespace name, which is part
      of GEO DR pairing.
     :vartype partner_namespace: str
+    :ivar type_properties_type: replication type. "MetadataReplication"
+    :vartype type_properties_type: str or ~azure.mgmt.eventhub.v2018_01_01_preview.models.Type
     :ivar alternate_name: Alternate name specified when alias and namespace names are same.
     :vartype alternate_name: str
     :ivar role: role of namespace in GEO DR - possible values 'Primary' or 'PrimaryNotReplicating'
@@ -161,24 +163,33 @@ class ArmDisasterRecovery(Resource):
         "type": {"key": "type", "type": "str"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "partner_namespace": {"key": "properties.partnerNamespace", "type": "str"},
+        "type_properties_type": {"key": "properties.type", "type": "str"},
         "alternate_name": {"key": "properties.alternateName", "type": "str"},
         "role": {"key": "properties.role", "type": "str"},
         "pending_replication_operations_count": {"key": "properties.pendingReplicationOperationsCount", "type": "int"},
     }
 
     def __init__(
-        self, *, partner_namespace: Optional[str] = None, alternate_name: Optional[str] = None, **kwargs: Any
+        self,
+        *,
+        partner_namespace: Optional[str] = None,
+        type_properties_type: Union[str, "_models.Type"] = "MetadataReplication",
+        alternate_name: Optional[str] = None,
+        **kwargs: Any
     ) -> None:
         """
         :keyword partner_namespace: ARM Id of the Primary/Secondary eventhub namespace name, which is
          part of GEO DR pairing.
         :paramtype partner_namespace: str
+        :keyword type_properties_type: replication type. "MetadataReplication"
+        :paramtype type_properties_type: str or ~azure.mgmt.eventhub.v2018_01_01_preview.models.Type
         :keyword alternate_name: Alternate name specified when alias and namespace names are same.
         :paramtype alternate_name: str
         """
         super().__init__(**kwargs)
         self.provisioning_state = None
         self.partner_namespace = partner_namespace
+        self.type_properties_type = type_properties_type
         self.alternate_name = alternate_name
         self.role = None
         self.pending_replication_operations_count = None
@@ -525,7 +536,7 @@ class TrackedResource(Resource):
         self.tags = tags
 
 
-class Cluster(TrackedResource):
+class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
     """Single Event Hubs Cluster resource in List or Get operations.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -546,6 +557,10 @@ class Cluster(TrackedResource):
     :vartype sku: ~azure.mgmt.eventhub.v2018_01_01_preview.models.ClusterSku
     :ivar created_at: The UTC time when the Event Hubs Cluster was created.
     :vartype created_at: str
+    :ivar provisioning_state: Provisioning state of the Cluster. Known values are: "Unknown",
+     "Creating", "Deleting", "Scaling", "Active", "Failed", "Succeeded", and "Canceled".
+    :vartype provisioning_state: str or
+     ~azure.mgmt.eventhub.v2018_01_01_preview.models.ProvisioningState
     :ivar updated_at: The UTC time when the Event Hubs Cluster was last updated.
     :vartype updated_at: str
     :ivar metric_id: The metric ID of the cluster resource. Provided by the service and not
@@ -560,6 +575,7 @@ class Cluster(TrackedResource):
         "name": {"readonly": True},
         "type": {"readonly": True},
         "created_at": {"readonly": True},
+        "provisioning_state": {"readonly": True},
         "updated_at": {"readonly": True},
         "metric_id": {"readonly": True},
         "status": {"readonly": True},
@@ -573,6 +589,7 @@ class Cluster(TrackedResource):
         "tags": {"key": "tags", "type": "{str}"},
         "sku": {"key": "sku", "type": "ClusterSku"},
         "created_at": {"key": "properties.createdAt", "type": "str"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "updated_at": {"key": "properties.updatedAt", "type": "str"},
         "metric_id": {"key": "properties.metricId", "type": "str"},
         "status": {"key": "properties.status", "type": "str"},
@@ -597,6 +614,7 @@ class Cluster(TrackedResource):
         super().__init__(location=location, tags=tags, **kwargs)
         self.sku = sku
         self.created_at = None
+        self.provisioning_state = None
         self.updated_at = None
         self.metric_id = None
         self.status = None
@@ -956,7 +974,7 @@ class EHNamespace(TrackedResource):  # pylint: disable=too-many-instance-attribu
         is_auto_inflate_enabled: Optional[bool] = None,
         maximum_throughput_units: Optional[int] = None,
         kafka_enabled: Optional[bool] = None,
-        zone_redundant: Optional[bool] = None,
+        zone_redundant: bool = False,
         encryption: Optional["_models.Encryption"] = None,
         **kwargs: Any
     ) -> None:
@@ -1630,7 +1648,7 @@ class NWRuleSetIpRules(_serialization.Model):
         self,
         *,
         ip_mask: Optional[str] = None,
-        action: Optional[Union[str, "_models.NetworkRuleIPAction"]] = None,
+        action: Union[str, "_models.NetworkRuleIPAction"] = "Allow",
         **kwargs: Any
     ) -> None:
         """

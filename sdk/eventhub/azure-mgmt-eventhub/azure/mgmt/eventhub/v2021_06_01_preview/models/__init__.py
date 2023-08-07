@@ -65,11 +65,13 @@ from ._event_hub_management_client_enums import KeyType
 from ._event_hub_management_client_enums import ManagedServiceIdentityType
 from ._event_hub_management_client_enums import NetworkRuleIPAction
 from ._event_hub_management_client_enums import PrivateLinkConnectionStatus
+from ._event_hub_management_client_enums import ProvisioningState
 from ._event_hub_management_client_enums import ProvisioningStateDR
 from ._event_hub_management_client_enums import PublicNetworkAccessFlag
 from ._event_hub_management_client_enums import RoleDisasterRecovery
 from ._event_hub_management_client_enums import SkuName
 from ._event_hub_management_client_enums import SkuTier
+from ._event_hub_management_client_enums import Type
 from ._event_hub_management_client_enums import UnavailableReason
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
@@ -134,11 +136,13 @@ __all__ = [
     "ManagedServiceIdentityType",
     "NetworkRuleIPAction",
     "PrivateLinkConnectionStatus",
+    "ProvisioningState",
     "ProvisioningStateDR",
     "PublicNetworkAccessFlag",
     "RoleDisasterRecovery",
     "SkuName",
     "SkuTier",
+    "Type",
     "UnavailableReason",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])

@@ -145,6 +145,19 @@ class PrivateLinkConnectionStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DISCONNECTED = "Disconnected"
 
 
+class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Provisioning state of the Cluster."""
+
+    UNKNOWN = "Unknown"
+    CREATING = "Creating"
+    DELETING = "Deleting"
+    SCALING = "Scaling"
+    ACTIVE = "Active"
+    FAILED = "Failed"
+    SUCCEEDED = "Succeeded"
+    CANCELED = "Canceled"
+
+
 class ProvisioningStateDR(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Provisioning state of the Alias(Disaster Recovery configuration) - possible values 'Accepted'
     or 'Succeeded' or 'Failed'.

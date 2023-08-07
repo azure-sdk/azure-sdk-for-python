@@ -28,7 +28,7 @@ class CleanupPolicyRetentionDescription(str, Enum, metaclass=CaseInsensitiveEnum
     """Enumerates the possible values for cleanup policy."""
 
     DELETE = "Delete"
-    COMPACTION = "Compaction"
+    COMPACT = "Compact"
 
 
 class ClusterSkuName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -152,6 +152,19 @@ class PrivateLinkConnectionStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DISCONNECTED = "Disconnected"
 
 
+class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Provisioning state of the Cluster."""
+
+    UNKNOWN = "Unknown"
+    CREATING = "Creating"
+    DELETING = "Deleting"
+    SCALING = "Scaling"
+    ACTIVE = "Active"
+    FAILED = "Failed"
+    SUCCEEDED = "Succeeded"
+    CANCELED = "Canceled"
+
+
 class ProvisioningStateDR(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Provisioning state of the Alias(Disaster Recovery configuration) - possible values 'Accepted'
     or 'Succeeded' or 'Failed'.
@@ -238,6 +251,12 @@ class TlsVersion(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ONE0 = "1.0"
     ONE1 = "1.1"
     ONE2 = "1.2"
+
+
+class Type(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """replication type."""
+
+    METADATA_REPLICATION = "MetadataReplication"
 
 
 class UnavailableReason(str, Enum, metaclass=CaseInsensitiveEnumMeta):
