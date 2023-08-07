@@ -145,6 +145,12 @@ class SkuTier(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     PREMIUM = "Premium"
 
 
+class Type(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """replication type."""
+
+    METADATA_REPLICATION = "MetadataReplication"
+
+
 class UnavailableReason(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Specifies the reason for the unavailability of the service."""
 

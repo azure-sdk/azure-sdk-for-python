@@ -168,6 +168,12 @@ class TlsVersion(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ONE2 = "1.2"
 
 
+class Type(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """replication type."""
+
+    METADATA_REPLICATION = "MetadataReplication"
+
+
 class UnavailableReason(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Specifies the reason for the unavailability of the service."""
 

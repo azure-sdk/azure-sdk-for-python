@@ -85,30 +85,42 @@ class ServiceBusManagementClient:  # pylint: disable=client-accepts-api-version-
         self._config = ServiceBusManagementClientConfiguration(
             credential=credential, subscription_id=subscription_id, **kwargs
         )
-        self._client = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        self._client: ARMPipelineClient = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
-        self.namespaces = NamespacesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.namespaces = NamespacesOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2021-01-01-preview"
+        )
         self.private_endpoint_connections = PrivateEndpointConnectionsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2021-01-01-preview"
         )
         self.private_link_resources = PrivateLinkResourcesOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2021-01-01-preview"
         )
-        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
+        self.operations = Operations(
+            self._client, self._config, self._serialize, self._deserialize, "2021-01-01-preview"
+        )
         self.disaster_recovery_configs = DisasterRecoveryConfigsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2021-01-01-preview"
         )
         self.migration_configs = MigrationConfigsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2021-01-01-preview"
         )
-        self.queues = QueuesOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.topics = TopicsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.rules = RulesOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.subscriptions = SubscriptionsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.queues = QueuesOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2021-01-01-preview"
+        )
+        self.topics = TopicsOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2021-01-01-preview"
+        )
+        self.rules = RulesOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2021-01-01-preview"
+        )
+        self.subscriptions = SubscriptionsOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2021-01-01-preview"
+        )
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> HttpResponse:
         """Runs the network request through the client's chained policies.

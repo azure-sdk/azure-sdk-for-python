@@ -1,11 +1,19 @@
 {
-  "commit": "19f98c9f526f8db961f172276dd6d6882a86ed86",
+  "commit": "e42d9e8e7d29f0781d64413f159467178950041a",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
-  "autorest": "3.9.2",
+  "autorest": "3.9.7",
   "use": [
-    "@autorest/python@6.4.0",
-    "@autorest/modelerfour@4.24.3"
+    "@autorest/python@6.7.1",
+    "@autorest/modelerfour@4.26.2"
   ],
-  "autorest_command": "autorest specification/servicebus/resource-manager/readme.md --generate-sample=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/home/vsts/work/1/azure-sdk-for-python/sdk --use=@autorest/python@6.4.0 --use=@autorest/modelerfour@4.24.3 --version=3.9.2 --version-tolerant=False",
-  "readme": "specification/servicebus/resource-manager/readme.md"
+  "autorest_command": "autorest specification/servicebus/resource-manager/readme.md --generate-sample=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/mnt/vss/_work/1/s/azure-sdk-for-python/sdk --use=@autorest/python@6.7.1 --use=@autorest/modelerfour@4.26.2 --version=3.9.7 --version-tolerant=False",
+  "readme": "specification/servicebus/resource-manager/readme.md",
+  "package-2022-10-preview": "2023-08-07 10:27:18 +0530 0b6f72d54983762b24e67a2dc621f2b6e1d2b24f Microsoft.ServiceBus/preview/2022-10-01-preview/DisasterRecoveryConfig.json",
+  "package-2022-01-preview": "2023-08-07 10:27:18 +0530 0b6f72d54983762b24e67a2dc621f2b6e1d2b24f Microsoft.ServiceBus/preview/2022-01-01-preview/DisasterRecoveryConfig.json",
+  "package-2021-11": "2022-06-05 19:46:58 -0700 2d6cb29af754f48a08f94cb6113bb1f01a4e0eb9 Microsoft.ServiceBus/stable/2021-11-01/namespace-preview.json",
+  "package-2021-06-preview": "2023-08-07 10:27:18 +0530 0b6f72d54983762b24e67a2dc621f2b6e1d2b24f Microsoft.ServiceBus/preview/2021-06-01-preview/DisasterRecoveryConfig.json",
+  "package-2021-01-preview": "2023-08-07 10:27:18 +0530 0b6f72d54983762b24e67a2dc621f2b6e1d2b24f Microsoft.ServiceBus/preview/2021-01-01-preview/DisasterRecoveryConfig.json",
+  "package-2018-01-preview": "2023-08-07 10:27:18 +0530 0b6f72d54983762b24e67a2dc621f2b6e1d2b24f Microsoft.ServiceBus/preview/2018-01-01-preview/DisasterRecoveryConfig.json",
+  "package-2017-04": "2021-03-25 10:47:57 +0800 e4c056151df3c59bbb2221e23f623fdb625313c5 Microsoft.ServiceBus/stable/2017-04-01/Rules.json",
+  "package-2015-08": "2019-06-12 19:26:02 -0400 8024b7e11a19c823d835ae05ec00769eaa10b057 Microsoft.ServiceBus/stable/2015-08-01/servicebus.json"
 }

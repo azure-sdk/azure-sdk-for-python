@@ -76,6 +76,7 @@ from ._service_bus_management_client_enums import ProvisioningStateDR
 from ._service_bus_management_client_enums import RoleDisasterRecovery
 from ._service_bus_management_client_enums import SkuName
 from ._service_bus_management_client_enums import SkuTier
+from ._service_bus_management_client_enums import Type
 from ._service_bus_management_client_enums import UnavailableReason
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
@@ -151,6 +152,7 @@ __all__ = [
     "RoleDisasterRecovery",
     "SkuName",
     "SkuTier",
+    "Type",
     "UnavailableReason",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])

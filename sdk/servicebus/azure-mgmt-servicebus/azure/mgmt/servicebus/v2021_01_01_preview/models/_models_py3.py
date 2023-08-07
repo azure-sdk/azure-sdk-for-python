@@ -182,6 +182,8 @@ class ArmDisasterRecovery(Resource):
     :ivar partner_namespace: ARM Id of the Primary/Secondary eventhub namespace name, which is part
      of GEO DR pairing.
     :vartype partner_namespace: str
+    :ivar type_properties_type: replication type. "MetadataReplication"
+    :vartype type_properties_type: str or ~azure.mgmt.servicebus.v2021_01_01_preview.models.Type
     :ivar alternate_name: Primary/Secondary eventhub namespace name, which is part of GEO DR
      pairing.
     :vartype alternate_name: str
@@ -208,17 +210,25 @@ class ArmDisasterRecovery(Resource):
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "pending_replication_operations_count": {"key": "properties.pendingReplicationOperationsCount", "type": "int"},
         "partner_namespace": {"key": "properties.partnerNamespace", "type": "str"},
+        "type_properties_type": {"key": "properties.type", "type": "str"},
         "alternate_name": {"key": "properties.alternateName", "type": "str"},
         "role": {"key": "properties.role", "type": "str"},
     }
 
     def __init__(
-        self, *, partner_namespace: Optional[str] = None, alternate_name: Optional[str] = None, **kwargs: Any
+        self,
+        *,
+        partner_namespace: Optional[str] = None,
+        type_properties_type: Union[str, "_models.Type"] = "MetadataReplication",
+        alternate_name: Optional[str] = None,
+        **kwargs: Any
     ) -> None:
         """
         :keyword partner_namespace: ARM Id of the Primary/Secondary eventhub namespace name, which is
          part of GEO DR pairing.
         :paramtype partner_namespace: str
+        :keyword type_properties_type: replication type. "MetadataReplication"
+        :paramtype type_properties_type: str or ~azure.mgmt.servicebus.v2021_01_01_preview.models.Type
         :keyword alternate_name: Primary/Secondary eventhub namespace name, which is part of GEO DR
          pairing.
         :paramtype alternate_name: str
@@ -228,6 +238,7 @@ class ArmDisasterRecovery(Resource):
         self.provisioning_state = None
         self.pending_replication_operations_count = None
         self.partner_namespace = partner_namespace
+        self.type_properties_type = type_properties_type
         self.alternate_name = alternate_name
         self.role = None
 
@@ -1193,6 +1204,8 @@ class PrivateEndpointConnection(Resource):
     :ivar private_link_service_connection_state: Details about the state of the connection.
     :vartype private_link_service_connection_state:
      ~azure.mgmt.servicebus.v2021_01_01_preview.models.ConnectionState
+    :ivar group_id: Array of group IDs.
+    :vartype group_id: list[str]
     :ivar provisioning_state: Provisioning state of the Private Endpoint Connection. Known values
      are: "Creating", "Updating", "Deleting", "Succeeded", "Canceled", and "Failed".
     :vartype provisioning_state: str or
@@ -1216,6 +1229,7 @@ class PrivateEndpointConnection(Resource):
             "key": "properties.privateLinkServiceConnectionState",
             "type": "ConnectionState",
         },
+        "group_id": {"key": "properties.groupId", "type": "[str]"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
     }
 
@@ -1224,6 +1238,7 @@ class PrivateEndpointConnection(Resource):
         *,
         private_endpoint: Optional["_models.PrivateEndpoint"] = None,
         private_link_service_connection_state: Optional["_models.ConnectionState"] = None,
+        group_id: Optional[List[str]] = None,
         provisioning_state: Optional[Union[str, "_models.EndPointProvisioningState"]] = None,
         **kwargs: Any
     ) -> None:
@@ -1233,6 +1248,8 @@ class PrivateEndpointConnection(Resource):
         :keyword private_link_service_connection_state: Details about the state of the connection.
         :paramtype private_link_service_connection_state:
          ~azure.mgmt.servicebus.v2021_01_01_preview.models.ConnectionState
+        :keyword group_id: Array of group IDs.
+        :paramtype group_id: list[str]
         :keyword provisioning_state: Provisioning state of the Private Endpoint Connection. Known
          values are: "Creating", "Updating", "Deleting", "Succeeded", "Canceled", and "Failed".
         :paramtype provisioning_state: str or
@@ -1242,6 +1259,7 @@ class PrivateEndpointConnection(Resource):
         self.system_data = None
         self.private_endpoint = private_endpoint
         self.private_link_service_connection_state = private_link_service_connection_state
+        self.group_id = group_id
         self.provisioning_state = provisioning_state
 
 
@@ -2658,6 +2676,8 @@ class SqlFilter(_serialization.Model):
     :ivar requires_preprocessing: Value that indicates whether the rule action requires
      preprocessing.
     :vartype requires_preprocessing: bool
+    :ivar parameters: Sets the value of a filter expression.
+    :vartype parameters: dict[str, str]
     """
 
     _validation = {
@@ -2668,6 +2688,7 @@ class SqlFilter(_serialization.Model):
         "sql_expression": {"key": "sqlExpression", "type": "str"},
         "compatibility_level": {"key": "compatibilityLevel", "type": "int"},
         "requires_preprocessing": {"key": "requiresPreprocessing", "type": "bool"},
+        "parameters": {"key": "parameters", "type": "{str}"},
     }
 
     def __init__(
@@ -2676,6 +2697,7 @@ class SqlFilter(_serialization.Model):
         sql_expression: Optional[str] = None,
         compatibility_level: int = 20,
         requires_preprocessing: bool = True,
+        parameters: Optional[Dict[str, str]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -2687,11 +2709,14 @@ class SqlFilter(_serialization.Model):
         :keyword requires_preprocessing: Value that indicates whether the rule action requires
          preprocessing.
         :paramtype requires_preprocessing: bool
+        :keyword parameters: Sets the value of a filter expression.
+        :paramtype parameters: dict[str, str]
         """
         super().__init__(**kwargs)
         self.sql_expression = sql_expression
         self.compatibility_level = compatibility_level
         self.requires_preprocessing = requires_preprocessing
+        self.parameters = parameters
 
 
 class SqlRuleAction(Action):
