@@ -26,6 +26,7 @@ from azure.mgmt.containerservice import ContainerServiceClient
 def main():
     client = ContainerServiceClient(
         credential=DefaultAzureCredential(),
+        agent_pool_name="AGENT_POOL_NAME",
         subscription_id="subid1",
     )
 
@@ -36,6 +37,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-06-01/examples/SnapshotsListByResourceGroup.json
+# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-07-02-preview/examples/SnapshotsListByResourceGroup.json
 if __name__ == "__main__":
     main()

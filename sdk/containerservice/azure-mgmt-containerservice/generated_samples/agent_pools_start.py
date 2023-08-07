@@ -26,18 +26,18 @@ from azure.mgmt.containerservice import ContainerServiceClient
 def main():
     client = ContainerServiceClient(
         credential=DefaultAzureCredential(),
+        agent_pool_name="agentpool1",
         subscription_id="subid1",
     )
 
     response = client.agent_pools.begin_create_or_update(
         resource_group_name="rg1",
         resource_name="clustername1",
-        agent_pool_name="agentpool1",
         parameters={"properties": {"powerState": {"code": "Running"}}},
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-06-01/examples/AgentPools_Start.json
+# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-07-02-preview/examples/AgentPools_Start.json
 if __name__ == "__main__":
     main()

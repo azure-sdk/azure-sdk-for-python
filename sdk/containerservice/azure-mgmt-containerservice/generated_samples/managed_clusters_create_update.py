@@ -26,6 +26,7 @@ from azure.mgmt.containerservice import ContainerServiceClient
 def main():
     client = ContainerServiceClient(
         credential=DefaultAzureCredential(),
+        agent_pool_name="AGENT_POOL_NAME",
         subscription_id="subid1",
     )
 
@@ -76,6 +77,7 @@ def main():
                     "outboundType": "loadBalancer",
                 },
                 "servicePrincipalProfile": {"clientId": "clientid", "secret": "secret"},
+                "upgradeSettings": {"overrideSettings": {"forceUpgrade": True, "until": "2022-11-01T13:00:00Z"}},
                 "windowsProfile": {"adminPassword": "replacePassword1234$", "adminUsername": "azureuser"},
             },
             "sku": {"name": "Basic", "tier": "Free"},
@@ -85,6 +87,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-06-01/examples/ManagedClustersCreate_Update.json
+# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-07-02-preview/examples/ManagedClustersCreate_Update.json
 if __name__ == "__main__":
     main()
