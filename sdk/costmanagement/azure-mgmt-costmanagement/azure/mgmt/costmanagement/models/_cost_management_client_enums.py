@@ -114,6 +114,23 @@ class BenefitKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Benefit is SavingsPlan."""
 
 
+class BenefitUtilizationSummaryReportSchema(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The CSV file from the reportUrl and secondaryReportUrl blob link will consist of the following
+    columns of benefit utilization data. UtilizedPercentage will be 0 for savings plans reports and
+    non data bricks reservations. Utilization percentages will be 0 for data bricks reservations.
+    """
+
+    KIND = "Kind"
+    AVG_UTILIZATION_PERCENTAGE = "AvgUtilizationPercentage"
+    BENEFIT_ORDER_ID = "BenefitOrderId"
+    BENEFIT_ID = "BenefitId"
+    BENEFIT_TYPE = "BenefitType"
+    MAX_UTILIZATION_PERCENTAGE = "MaxUtilizationPercentage"
+    MIN_UTILIZATION_PERCENTAGE = "MinUtilizationPercentage"
+    USAGE_DATE = "UsageDate"
+    UTILIZED_PERCENTAGE = "UtilizedPercentage"
+
+
 class ChartType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Chart type of the main view in Cost Analysis. Required."""
 
@@ -129,6 +146,24 @@ class CheckNameAvailabilityReason(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     INVALID = "Invalid"
     ALREADY_EXISTS = "AlreadyExists"
+
+
+class CostAllocationPolicyType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Method to use for allocating cost. FixedProportion indicates that cost will be split based on
+    specified percentage values.
+    """
+
+    FIXED_PROPORTION = "FixedProportion"
+
+
+class CostAllocationResourceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Category of resource to use for allocation."""
+
+    DIMENSION = "Dimension"
+    """Indicates an Azure dimension such as a subscription id or resource group name is being used for
+    #: allocation."""
+    TAG = "Tag"
+    """Allocates cost based on Azure Tag key value pairs."""
 
 
 class CostDetailsDataFormat(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -199,7 +234,9 @@ class ExecutionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class ExportType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The type of the query."""
+    """The type of the export. Note that 'Usage' is equivalent to 'ActualCost' and is applicable to
+    exports that do not yet provide data for charges or amortization for service reservations.
+    """
 
     USAGE = "Usage"
     ACTUAL_COST = "ActualCost"
@@ -291,7 +328,7 @@ class GrainParameter(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class GranularityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The granularity of rows in the forecast."""
+    """The granularity of rows in the export. Currently only 'Daily' is supported."""
 
     DAILY = "Daily"
 
@@ -323,11 +360,12 @@ class MetricType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class OperationStatusType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The status of the long running operation."""
+    """Enum representing the status of an async operation."""
 
     RUNNING = "Running"
-    COMPLETED = "Completed"
+    COMPLETE = "Complete"
     FAILED = "Failed"
+    COMPLETED = "Completed"
 
 
 class OperatorType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -369,6 +407,14 @@ class QueryOperatorType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     IN = "In"
     IN_ENUM = "In"
+
+
+class Reason(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The reason this name is not available."""
+
+    INVALID = "Invalid"
+    ALREADY_EXISTS = "AlreadyExists"
+    VALID = "Valid"
 
 
 class RecurrenceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -444,6 +490,18 @@ class ReservationReportSchema(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     USED_HOURS = "UsedHours"
 
 
+class RuleStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Current status of the rule."""
+
+    NOT_ACTIVE = "NotActive"
+    """Rule is saved but not used to allocate costs."""
+    ACTIVE = "Active"
+    """Rule is saved and impacting cost allocation."""
+    PROCESSING = "Processing"
+    """Rule is saved and cost allocation is being updated. Readonly value that cannot be submitted in
+    #: a put request."""
+
+
 class ScheduledActionKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Kind of the scheduled action."""
 
@@ -492,6 +550,13 @@ class StatusType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     INACTIVE = "Inactive"
 
 
+class SystemAssignedServiceIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of managed service identity (either system assigned, or none)."""
+
+    NONE = "None"
+    SYSTEM_ASSIGNED = "SystemAssigned"
+
+
 class Term(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Grain which corresponds to value."""
 
@@ -502,7 +567,7 @@ class Term(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class TimeframeType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The time frame for pulling data for the query. If custom, then a specific time period must be
+    """The time frame for pulling data for the export. If custom, then a specific time period must be
     provided.
     """
 
