@@ -26,8 +26,11 @@ from azure.mgmt.core.exceptions import ARMErrorFormat
 from ... import models as _models
 from ..._vendor import _convert_request
 from ...operations._traffic_manager_user_metrics_keys_operations import (
+    build_create_or_update_no_default_request,
     build_create_or_update_request,
+    build_delete_no_default_request,
     build_delete_request,
+    build_get_no_default_request,
     build_get_request,
 )
 
@@ -217,4 +220,169 @@ class TrafficManagerUserMetricsKeysOperations:
 
     delete.metadata = {
         "url": "/subscriptions/{subscriptionId}/providers/Microsoft.Network/trafficManagerUserMetricsKeys/default"
+    }
+
+    @distributed_trace_async
+    async def get_no_default(self, **kwargs: Any) -> _models.UserMetricsModel:
+        """Get the subscription-level key used for Real User Metrics collection.
+
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: UserMetricsModel or the result of cls(response)
+        :rtype: ~azure.mgmt.trafficmanager.models.UserMetricsModel
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[_models.UserMetricsModel] = kwargs.pop("cls", None)
+
+        request = build_get_no_default_request(
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            template_url=self.get_no_default.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("UserMetricsModel", pipeline_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})
+
+        return deserialized
+
+    get_no_default.metadata = {
+        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.Network/trafficManagerUserMetricsKeys"
+    }
+
+    @distributed_trace_async
+    async def create_or_update_no_default(self, **kwargs: Any) -> _models.UserMetricsModel:
+        """Create or update a subscription-level key used for Real User Metrics collection.
+
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: UserMetricsModel or the result of cls(response)
+        :rtype: ~azure.mgmt.trafficmanager.models.UserMetricsModel
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[_models.UserMetricsModel] = kwargs.pop("cls", None)
+
+        request = build_create_or_update_no_default_request(
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            template_url=self.create_or_update_no_default.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [201]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("UserMetricsModel", pipeline_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})
+
+        return deserialized
+
+    create_or_update_no_default.metadata = {
+        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.Network/trafficManagerUserMetricsKeys"
+    }
+
+    @distributed_trace_async
+    async def delete_no_default(self, **kwargs: Any) -> _models.DeleteOperationResult:
+        """Delete a subscription-level key used for Real User Metrics collection.
+
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: DeleteOperationResult or the result of cls(response)
+        :rtype: ~azure.mgmt.trafficmanager.models.DeleteOperationResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[_models.DeleteOperationResult] = kwargs.pop("cls", None)
+
+        request = build_delete_no_default_request(
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            template_url=self.delete_no_default.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("DeleteOperationResult", pipeline_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})
+
+        return deserialized
+
+    delete_no_default.metadata = {
+        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.Network/trafficManagerUserMetricsKeys"
     }
