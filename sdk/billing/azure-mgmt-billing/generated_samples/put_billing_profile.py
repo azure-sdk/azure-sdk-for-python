@@ -14,7 +14,7 @@ from azure.mgmt.billing import BillingManagementClient
     pip install azure-identity
     pip install azure-mgmt-billing
 # USAGE
-    python policy_by_billing_profile.py
+    python put_billing_profile.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,13 +29,30 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.policies.get_by_billing_profile(
+    response = client.billing_profiles.begin_create_or_update(
         billing_account_name="{billingAccountName}",
         billing_profile_name="{billingProfileName}",
-    )
+        parameters={
+            "properties": {
+                "billTo": {
+                    "addressLine1": "Test Address 1",
+                    "city": "Redmond",
+                    "country": "US",
+                    "firstName": "Test",
+                    "lastName": "User",
+                    "postalCode": "12345",
+                    "region": "WA",
+                },
+                "displayName": "Finance",
+                "enabledAzurePlans": [{"skuId": "0001"}, {"skuId": "0002"}],
+                "invoiceEmailOptIn": True,
+                "poNumber": "ABC12345",
+            }
+        },
+    ).result()
     print(response)
 
 
-# x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2020-05-01/examples/Policy.json
+# x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2020-05-01/examples/PutBillingProfile.json
 if __name__ == "__main__":
     main()

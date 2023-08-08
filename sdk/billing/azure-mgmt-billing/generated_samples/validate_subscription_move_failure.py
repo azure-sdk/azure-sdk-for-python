@@ -14,7 +14,7 @@ from azure.mgmt.billing import BillingManagementClient
     pip install azure-identity
     pip install azure-mgmt-billing
 # USAGE
-    python subscription_move_validate_failure.py
+    python validate_subscription_move_failure.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,

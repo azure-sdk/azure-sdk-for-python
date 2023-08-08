@@ -14,7 +14,7 @@ from azure.mgmt.billing import BillingManagementClient
     pip install azure-identity
     pip install azure-mgmt-billing
 # USAGE
-    python invoice_download.py
+    python validate_product_move_failure.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,14 +29,16 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.invoices.begin_download_invoice(
+    response = client.products.validate_move(
         billing_account_name="{billingAccountName}",
-        invoice_name="{invoiceName}",
-        download_token="DRS_12345",
-    ).result()
+        product_name="{productName}",
+        parameters={
+            "destinationInvoiceSectionId": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{newInvoiceSectionName}"
+        },
+    )
     print(response)
 
 
-# x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2020-05-01/examples/ModernInvoiceDownload.json
+# x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2020-05-01/examples/ValidateProductMoveFailure.json
 if __name__ == "__main__":
     main()
