@@ -44,6 +44,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/connectedvmware/resource-manager/Microsoft.ConnectedVMwarevSphere/preview/2022-07-15-preview/examples/VirtualMachineInstallPatches.json
+# x-ms-original-file: specification/connectedvmware/resource-manager/Microsoft.ConnectedVMwarevSphere/preview/2023-03-01-preview/examples/VirtualMachineInstallPatches.json
 if __name__ == "__main__":
     main()

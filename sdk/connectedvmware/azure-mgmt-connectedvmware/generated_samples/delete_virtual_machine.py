@@ -29,13 +29,12 @@ def main():
         subscription_id="fd3c3665-1729-4b7b-9a38-238e83b0f98b",
     )
 
-    response = client.virtual_machines.begin_delete(
+    client.virtual_machines.begin_delete(
         resource_group_name="testrg",
         virtual_machine_name="DemoVM",
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/connectedvmware/resource-manager/Microsoft.ConnectedVMwarevSphere/preview/2022-07-15-preview/examples/DeleteVirtualMachine.json
+# x-ms-original-file: specification/connectedvmware/resource-manager/Microsoft.ConnectedVMwarevSphere/preview/2023-03-01-preview/examples/DeleteVirtualMachine.json
 if __name__ == "__main__":
     main()

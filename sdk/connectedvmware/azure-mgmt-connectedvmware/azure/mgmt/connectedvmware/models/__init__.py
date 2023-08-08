@@ -32,6 +32,7 @@ from ._models_py3 import HttpProxyConfiguration
 from ._models_py3 import HybridIdentityMetadata
 from ._models_py3 import HybridIdentityMetadataList
 from ._models_py3 import Identity
+from ._models_py3 import InfrastructureProfile
 from ._models_py3 import InventoryItem
 from ._models_py3 import InventoryItemDetails
 from ._models_py3 import InventoryItemProperties
@@ -54,6 +55,7 @@ from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
 from ._models_py3 import OperationsList
 from ._models_py3 import OsProfile
+from ._models_py3 import OsProfileForVMInstance
 from ._models_py3 import OsProfileLinuxConfiguration
 from ._models_py3 import OsProfileUpdate
 from ._models_py3 import OsProfileUpdateLinuxConfiguration
@@ -82,6 +84,9 @@ from ._models_py3 import VirtualMachine
 from ._models_py3 import VirtualMachineAssessPatchesResult
 from ._models_py3 import VirtualMachineInstallPatchesParameters
 from ._models_py3 import VirtualMachineInstallPatchesResult
+from ._models_py3 import VirtualMachineInstance
+from ._models_py3 import VirtualMachineInstanceUpdate
+from ._models_py3 import VirtualMachineInstancesList
 from ._models_py3 import VirtualMachineInventoryItem
 from ._models_py3 import VirtualMachineTemplate
 from ._models_py3 import VirtualMachineTemplateInventoryItem
@@ -92,6 +97,8 @@ from ._models_py3 import VirtualNetwork
 from ._models_py3 import VirtualNetworkInventoryItem
 from ._models_py3 import VirtualNetworksList
 from ._models_py3 import VirtualSCSIController
+from ._models_py3 import VmInstanceHybridIdentityMetadata
+from ._models_py3 import VmInstanceHybridIdentityMetadataList
 from ._models_py3 import WindowsParameters
 
 from ._azure_arc_vmware_management_service_api_enums import CreatedByType
@@ -149,6 +156,7 @@ __all__ = [
     "HybridIdentityMetadata",
     "HybridIdentityMetadataList",
     "Identity",
+    "InfrastructureProfile",
     "InventoryItem",
     "InventoryItemDetails",
     "InventoryItemProperties",
@@ -171,6 +179,7 @@ __all__ = [
     "OperationDisplay",
     "OperationsList",
     "OsProfile",
+    "OsProfileForVMInstance",
     "OsProfileLinuxConfiguration",
     "OsProfileUpdate",
     "OsProfileUpdateLinuxConfiguration",
@@ -199,6 +208,9 @@ __all__ = [
     "VirtualMachineAssessPatchesResult",
     "VirtualMachineInstallPatchesParameters",
     "VirtualMachineInstallPatchesResult",
+    "VirtualMachineInstance",
+    "VirtualMachineInstanceUpdate",
+    "VirtualMachineInstancesList",
     "VirtualMachineInventoryItem",
     "VirtualMachineTemplate",
     "VirtualMachineTemplateInventoryItem",
@@ -209,6 +221,8 @@ __all__ = [
     "VirtualNetworkInventoryItem",
     "VirtualNetworksList",
     "VirtualSCSIController",
+    "VmInstanceHybridIdentityMetadata",
+    "VmInstanceHybridIdentityMetadataList",
     "WindowsParameters",
     "CreatedByType",
     "DiskMode",

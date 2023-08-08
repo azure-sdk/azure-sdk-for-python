@@ -29,14 +29,13 @@ def main():
         subscription_id="fd3c3665-1729-4b7b-9a38-238e83b0f98b",
     )
 
-    response = client.guest_agents.begin_delete(
+    client.guest_agents.begin_delete(
         resource_group_name="testrg",
         virtual_machine_name="ContosoVm",
         name="default",
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/connectedvmware/resource-manager/Microsoft.ConnectedVMwarevSphere/preview/2022-07-15-preview/examples/DeleteGuestAgent.json
+# x-ms-original-file: specification/connectedvmware/resource-manager/Microsoft.ConnectedVMwarevSphere/preview/2023-03-01-preview/examples/DeleteGuestAgent.json
 if __name__ == "__main__":
     main()

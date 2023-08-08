@@ -20,6 +20,9 @@ from ._hybrid_identity_metadata_operations import HybridIdentityMetadataOperatio
 from ._machine_extensions_operations import MachineExtensionsOperations
 from ._azure_arc_vmware_management_service_api_operations import AzureArcVMwareManagementServiceAPIOperationsMixin
 from ._guest_agents_operations import GuestAgentsOperations
+from ._virtual_machine_instances_operations import VirtualMachineInstancesOperations
+from ._vm_instance_hybrid_identity_metadata_operations import VmInstanceHybridIdentityMetadataOperations
+from ._vm_instance_guest_agents_operations import VMInstanceGuestAgentsOperations
 
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
@@ -40,6 +43,9 @@ __all__ = [
     "MachineExtensionsOperations",
     "AzureArcVMwareManagementServiceAPIOperationsMixin",
     "GuestAgentsOperations",
+    "VirtualMachineInstancesOperations",
+    "VmInstanceHybridIdentityMetadataOperations",
+    "VMInstanceGuestAgentsOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()

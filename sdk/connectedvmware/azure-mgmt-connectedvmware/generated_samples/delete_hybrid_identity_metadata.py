@@ -29,14 +29,13 @@ def main():
         subscription_id="fd3c3665-1729-4b7b-9a38-238e83b0f98b",
     )
 
-    response = client.hybrid_identity_metadata.delete(
+    client.hybrid_identity_metadata.delete(
         resource_group_name="testrg",
         virtual_machine_name="ContosoVm",
         metadata_name="default",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/connectedvmware/resource-manager/Microsoft.ConnectedVMwarevSphere/preview/2022-07-15-preview/examples/DeleteHybridIdentityMetadata.json
+# x-ms-original-file: specification/connectedvmware/resource-manager/Microsoft.ConnectedVMwarevSphere/preview/2023-03-01-preview/examples/DeleteHybridIdentityMetadata.json
 if __name__ == "__main__":
     main()
