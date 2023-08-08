@@ -10,15 +10,6 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
-class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The type of identity that created the resource."""
-
-    USER = "User"
-    APPLICATION = "Application"
-    MANAGED_IDENTITY = "ManagedIdentity"
-    KEY = "Key"
-
-
 class KeyType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Whether the operation refers to the primary or secondary key."""
 
@@ -39,19 +30,3 @@ class Name(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     S0 = "S0"
     S1 = "S1"
     G2 = "G2"
-
-
-class ResourceIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The identity type."""
-
-    SYSTEM_ASSIGNED = "SystemAssigned"
-    USER_ASSIGNED = "UserAssigned"
-    SYSTEM_ASSIGNED_USER_ASSIGNED = "SystemAssigned, UserAssigned"
-    NONE = "None"
-
-
-class SigningKey(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The Map account key to use for signing."""
-
-    PRIMARY_KEY = "primaryKey"
-    SECONDARY_KEY = "secondaryKey"

@@ -6,12 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from ._models_py3 import AccountSasParameters
-from ._models_py3 import (
-    Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties,
-)
-from ._models_py3 import CorsRule
-from ._models_py3 import CorsRules
 from ._models_py3 import Creator
 from ._models_py3 import CreatorList
 from ._models_py3 import CreatorProperties
@@ -20,14 +14,6 @@ from ._models_py3 import Dimension
 from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorDetail
 from ._models_py3 import ErrorResponse
-from ._models_py3 import LinkedResource
-from ._models_py3 import ManagedServiceIdentity
-from ._models_py3 import MapsAccount
-from ._models_py3 import MapsAccountKeys
-from ._models_py3 import MapsAccountProperties
-from ._models_py3 import MapsAccountSasToken
-from ._models_py3 import MapsAccountUpdateParameters
-from ._models_py3 import MapsAccounts
 from ._models_py3 import MapsKeySpecification
 from ._models_py3 import MapsOperations
 from ._models_py3 import MetricSpecification
@@ -36,24 +22,16 @@ from ._models_py3 import OperationDisplay
 from ._models_py3 import Resource
 from ._models_py3 import ServiceSpecification
 from ._models_py3 import Sku
-from ._models_py3 import SystemData
 from ._models_py3 import TrackedResource
 
-from ._azure_maps_management_client_enums import CreatedByType
 from ._azure_maps_management_client_enums import KeyType
 from ._azure_maps_management_client_enums import Kind
 from ._azure_maps_management_client_enums import Name
-from ._azure_maps_management_client_enums import ResourceIdentityType
-from ._azure_maps_management_client_enums import SigningKey
 from ._patch import __all__ as _patch_all
-from ._patch import *  # type: ignore # pylint: disable=unused-wildcard-import
+from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
-    "AccountSasParameters",
-    "Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties",
-    "CorsRule",
-    "CorsRules",
     "Creator",
     "CreatorList",
     "CreatorProperties",
@@ -62,14 +40,6 @@ __all__ = [
     "ErrorAdditionalInfo",
     "ErrorDetail",
     "ErrorResponse",
-    "LinkedResource",
-    "ManagedServiceIdentity",
-    "MapsAccount",
-    "MapsAccountKeys",
-    "MapsAccountProperties",
-    "MapsAccountSasToken",
-    "MapsAccountUpdateParameters",
-    "MapsAccounts",
     "MapsKeySpecification",
     "MapsOperations",
     "MetricSpecification",
@@ -78,14 +48,10 @@ __all__ = [
     "Resource",
     "ServiceSpecification",
     "Sku",
-    "SystemData",
     "TrackedResource",
-    "CreatedByType",
     "KeyType",
     "Kind",
     "Name",
-    "ResourceIdentityType",
-    "SigningKey",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()

@@ -7,186 +7,13 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-import datetime
-from typing import Dict, List, Optional, TYPE_CHECKING, Union
+from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
 from .. import _serialization
 
 if TYPE_CHECKING:
     # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
-
-
-class AccountSasParameters(_serialization.Model):
-    """Parameters used to create an account Shared Access Signature (SAS) token. The REST API access control is provided by Azure Maps Role Based Access (RBAC) identity and access.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar signing_key: The Map account key to use for signing. Required. Known values are:
-     "primaryKey" and "secondaryKey".
-    :vartype signing_key: str or ~azure.mgmt.maps.models.SigningKey
-    :ivar principal_id: The principal Id also known as the object Id of a User Assigned Managed
-     Identity currently assigned to the Map Account. To assign a Managed Identity of the account,
-     use operation Create or Update an assign a User Assigned Identity resource Id. Required.
-    :vartype principal_id: str
-    :ivar regions: Optional, allows control of which region locations are permitted access to Azure
-     Maps REST APIs with the SAS token. Example: "eastus", "westus2". Omitting this parameter will
-     allow all region locations to be accessible.
-    :vartype regions: list[str]
-    :ivar max_rate_per_second: Required parameter which represents the desired maximum request per
-     second to allowed for the given SAS token. This does not guarantee perfect accuracy in
-     measurements but provides application safe guards of abuse with eventual enforcement.
-    :vartype max_rate_per_second: int
-    :ivar start: The date time offset of when the token validity begins. For example
-     "2017-05-24T10:42:03.1567373Z". Required.
-    :vartype start: str
-    :ivar expiry: The date time offset of when the token validity expires. For example
-     "2017-05-24T10:42:03.1567373Z". Required.
-    :vartype expiry: str
-    """
-
-    _validation = {
-        "signing_key": {"required": True},
-        "principal_id": {"required": True},
-        "max_rate_per_second": {"required": True, "maximum": 500, "minimum_ex": 0},
-        "start": {"required": True},
-        "expiry": {"required": True},
-    }
-
-    _attribute_map = {
-        "signing_key": {"key": "signingKey", "type": "str"},
-        "principal_id": {"key": "principalId", "type": "str"},
-        "regions": {"key": "regions", "type": "[str]"},
-        "max_rate_per_second": {"key": "maxRatePerSecond", "type": "int"},
-        "start": {"key": "start", "type": "str"},
-        "expiry": {"key": "expiry", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        signing_key: Union[str, "_models.SigningKey"],
-        principal_id: str,
-        max_rate_per_second: int = 500,
-        start: str,
-        expiry: str,
-        regions: Optional[List[str]] = None,
-        **kwargs
-    ):
-        """
-        :keyword signing_key: The Map account key to use for signing. Required. Known values are:
-         "primaryKey" and "secondaryKey".
-        :paramtype signing_key: str or ~azure.mgmt.maps.models.SigningKey
-        :keyword principal_id: The principal Id also known as the object Id of a User Assigned Managed
-         Identity currently assigned to the Map Account. To assign a Managed Identity of the account,
-         use operation Create or Update an assign a User Assigned Identity resource Id. Required.
-        :paramtype principal_id: str
-        :keyword regions: Optional, allows control of which region locations are permitted access to
-         Azure Maps REST APIs with the SAS token. Example: "eastus", "westus2". Omitting this parameter
-         will allow all region locations to be accessible.
-        :paramtype regions: list[str]
-        :keyword max_rate_per_second: Required parameter which represents the desired maximum request
-         per second to allowed for the given SAS token. This does not guarantee perfect accuracy in
-         measurements but provides application safe guards of abuse with eventual enforcement.
-        :paramtype max_rate_per_second: int
-        :keyword start: The date time offset of when the token validity begins. For example
-         "2017-05-24T10:42:03.1567373Z". Required.
-        :paramtype start: str
-        :keyword expiry: The date time offset of when the token validity expires. For example
-         "2017-05-24T10:42:03.1567373Z". Required.
-        :paramtype expiry: str
-        """
-        super().__init__(**kwargs)
-        self.signing_key = signing_key
-        self.principal_id = principal_id
-        self.regions = regions
-        self.max_rate_per_second = max_rate_per_second
-        self.start = start
-        self.expiry = expiry
-
-
-class Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties(
-    _serialization.Model
-):
-    """Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar principal_id: The principal id of user assigned identity.
-    :vartype principal_id: str
-    :ivar client_id: The client id of user assigned identity.
-    :vartype client_id: str
-    """
-
-    _validation = {
-        "principal_id": {"readonly": True},
-        "client_id": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "principal_id": {"key": "principalId", "type": "str"},
-        "client_id": {"key": "clientId", "type": "str"},
-    }
-
-    def __init__(self, **kwargs):
-        """ """
-        super().__init__(**kwargs)
-        self.principal_id = None
-        self.client_id = None
-
-
-class CorsRule(_serialization.Model):
-    """Specifies a CORS rule for the Map Account.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar allowed_origins: Required if CorsRule element is present. A list of origin domains that
-     will be allowed via CORS, or "*" to allow all domains. Required.
-    :vartype allowed_origins: list[str]
-    """
-
-    _validation = {
-        "allowed_origins": {"required": True},
-    }
-
-    _attribute_map = {
-        "allowed_origins": {"key": "allowedOrigins", "type": "[str]"},
-    }
-
-    def __init__(self, *, allowed_origins: List[str], **kwargs):
-        """
-        :keyword allowed_origins: Required if CorsRule element is present. A list of origin domains
-         that will be allowed via CORS, or "*" to allow all domains. Required.
-        :paramtype allowed_origins: list[str]
-        """
-        super().__init__(**kwargs)
-        self.allowed_origins = allowed_origins
-
-
-class CorsRules(_serialization.Model):
-    """Sets the CORS rules. You can include up to five CorsRule elements in the request.
-
-    :ivar cors_rules: The list of CORS rules. You can include up to five CorsRule elements in the
-     request.
-    :vartype cors_rules: list[~azure.mgmt.maps.models.CorsRule]
-    """
-
-    _validation = {
-        "cors_rules": {"max_items": 5, "min_items": 0},
-    }
-
-    _attribute_map = {
-        "cors_rules": {"key": "corsRules", "type": "[CorsRule]"},
-    }
-
-    def __init__(self, *, cors_rules: Optional[List["_models.CorsRule"]] = None, **kwargs):
-        """
-        :keyword cors_rules: The list of CORS rules. You can include up to five CorsRule elements in
-         the request.
-        :paramtype cors_rules: list[~azure.mgmt.maps.models.CorsRule]
-        """
-        super().__init__(**kwargs)
-        self.cors_rules = cors_rules
 
 
 class Resource(_serialization.Model):
@@ -216,7 +43,7 @@ class Resource(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -225,7 +52,8 @@ class Resource(_serialization.Model):
 
 
 class TrackedResource(Resource):
-    """The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'.
+    """The resource model definition for an Azure Resource Manager tracked top level resource which
+    has 'tags' and a 'location'.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -260,7 +88,7 @@ class TrackedResource(Resource):
         "location": {"key": "location", "type": "str"},
     }
 
-    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -273,7 +101,8 @@ class TrackedResource(Resource):
 
 
 class Creator(TrackedResource):
-    """An Azure resource which represents Maps Creator product and provides ability to manage private location data.
+    """An Azure resource which represents Maps Creator product and provides ability to manage private
+    location data.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -293,8 +122,6 @@ class Creator(TrackedResource):
     :vartype location: str
     :ivar properties: The Creator resource properties. Required.
     :vartype properties: ~azure.mgmt.maps.models.CreatorProperties
-    :ivar system_data: The system meta data relating to this resource.
-    :vartype system_data: ~azure.mgmt.maps.models.SystemData
     """
 
     _validation = {
@@ -303,7 +130,6 @@ class Creator(TrackedResource):
         "type": {"readonly": True},
         "location": {"required": True},
         "properties": {"required": True},
-        "system_data": {"readonly": True},
     }
 
     _attribute_map = {
@@ -313,12 +139,16 @@ class Creator(TrackedResource):
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
         "properties": {"key": "properties", "type": "CreatorProperties"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
     }
 
     def __init__(
-        self, *, location: str, properties: "_models.CreatorProperties", tags: Optional[Dict[str, str]] = None, **kwargs
-    ):
+        self,
+        *,
+        location: str,
+        properties: "_models.CreatorProperties",
+        tags: Optional[Dict[str, str]] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -329,7 +159,6 @@ class Creator(TrackedResource):
         """
         super().__init__(tags=tags, location=location, **kwargs)
         self.properties = properties
-        self.system_data = None
 
 
 class CreatorList(_serialization.Model):
@@ -353,7 +182,7 @@ class CreatorList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, next_link: Optional[str] = None, **kwargs):
+    def __init__(self, *, next_link: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword next_link: URL client should use to fetch the next page (per server side paging).
          It's null for now, added for future use.
@@ -377,6 +206,12 @@ class CreatorProperties(_serialization.Model):
     :ivar storage_units: The storage units to be allocated. Integer values from 1 to 100,
      inclusive. Required.
     :vartype storage_units: int
+    :ivar total_storage_unit_size_in_bytes: The total allocated storage unit size in bytes for the
+     creator resource.
+    :vartype total_storage_unit_size_in_bytes: int
+    :ivar consumed_storage_unit_size_in_bytes: The consumed storage unit size in bytes for the
+     creator resource.
+    :vartype consumed_storage_unit_size_in_bytes: int
     """
 
     _validation = {
@@ -387,17 +222,34 @@ class CreatorProperties(_serialization.Model):
     _attribute_map = {
         "provisioning_state": {"key": "provisioningState", "type": "str"},
         "storage_units": {"key": "storageUnits", "type": "int"},
+        "total_storage_unit_size_in_bytes": {"key": "totalStorageUnitSizeInBytes", "type": "int"},
+        "consumed_storage_unit_size_in_bytes": {"key": "consumedStorageUnitSizeInBytes", "type": "int"},
     }
 
-    def __init__(self, *, storage_units: int, **kwargs):
+    def __init__(
+        self,
+        *,
+        storage_units: int,
+        total_storage_unit_size_in_bytes: Optional[int] = None,
+        consumed_storage_unit_size_in_bytes: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword storage_units: The storage units to be allocated. Integer values from 1 to 100,
          inclusive. Required.
         :paramtype storage_units: int
+        :keyword total_storage_unit_size_in_bytes: The total allocated storage unit size in bytes for
+         the creator resource.
+        :paramtype total_storage_unit_size_in_bytes: int
+        :keyword consumed_storage_unit_size_in_bytes: The consumed storage unit size in bytes for the
+         creator resource.
+        :paramtype consumed_storage_unit_size_in_bytes: int
         """
         super().__init__(**kwargs)
         self.provisioning_state = None
         self.storage_units = storage_units
+        self.total_storage_unit_size_in_bytes = total_storage_unit_size_in_bytes
+        self.consumed_storage_unit_size_in_bytes = consumed_storage_unit_size_in_bytes
 
 
 class CreatorUpdateParameters(_serialization.Model):
@@ -416,6 +268,12 @@ class CreatorUpdateParameters(_serialization.Model):
     :ivar storage_units: The storage units to be allocated. Integer values from 1 to 100,
      inclusive.
     :vartype storage_units: int
+    :ivar total_storage_unit_size_in_bytes: The total allocated storage unit size in bytes for the
+     creator resource.
+    :vartype total_storage_unit_size_in_bytes: int
+    :ivar consumed_storage_unit_size_in_bytes: The consumed storage unit size in bytes for the
+     creator resource.
+    :vartype consumed_storage_unit_size_in_bytes: int
     """
 
     _validation = {
@@ -427,9 +285,19 @@ class CreatorUpdateParameters(_serialization.Model):
         "tags": {"key": "tags", "type": "{str}"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "storage_units": {"key": "properties.storageUnits", "type": "int"},
+        "total_storage_unit_size_in_bytes": {"key": "properties.totalStorageUnitSizeInBytes", "type": "int"},
+        "consumed_storage_unit_size_in_bytes": {"key": "properties.consumedStorageUnitSizeInBytes", "type": "int"},
     }
 
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, storage_units: Optional[int] = None, **kwargs):
+    def __init__(
+        self,
+        *,
+        tags: Optional[Dict[str, str]] = None,
+        storage_units: Optional[int] = None,
+        total_storage_unit_size_in_bytes: Optional[int] = None,
+        consumed_storage_unit_size_in_bytes: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Gets or sets a list of key value pairs that describe the resource. These tags
          can be used in viewing and grouping this resource (across resource groups). A maximum of 15
@@ -439,11 +307,19 @@ class CreatorUpdateParameters(_serialization.Model):
         :keyword storage_units: The storage units to be allocated. Integer values from 1 to 100,
          inclusive.
         :paramtype storage_units: int
+        :keyword total_storage_unit_size_in_bytes: The total allocated storage unit size in bytes for
+         the creator resource.
+        :paramtype total_storage_unit_size_in_bytes: int
+        :keyword consumed_storage_unit_size_in_bytes: The consumed storage unit size in bytes for the
+         creator resource.
+        :paramtype consumed_storage_unit_size_in_bytes: int
         """
         super().__init__(**kwargs)
         self.tags = tags
         self.provisioning_state = None
         self.storage_units = storage_units
+        self.total_storage_unit_size_in_bytes = total_storage_unit_size_in_bytes
+        self.consumed_storage_unit_size_in_bytes = consumed_storage_unit_size_in_bytes
 
 
 class Dimension(_serialization.Model):
@@ -481,8 +357,8 @@ class Dimension(_serialization.Model):
         internal_metric_name: Optional[str] = None,
         source_mdm_namespace: Optional[str] = None,
         to_be_exported_to_shoebox: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Display name of dimension.
         :paramtype name: str
@@ -527,7 +403,7 @@ class ErrorAdditionalInfo(_serialization.Model):
         "info": {"key": "info", "type": "object"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.type = None
@@ -567,7 +443,7 @@ class ErrorDetail(_serialization.Model):
         "additional_info": {"key": "additionalInfo", "type": "[ErrorAdditionalInfo]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.code = None
@@ -578,7 +454,8 @@ class ErrorDetail(_serialization.Model):
 
 
 class ErrorResponse(_serialization.Model):
-    """Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.).
+    """Common error response for all Azure Resource Manager APIs to return error details for failed
+    operations. (This also follows the OData error response format.).
 
     :ivar error: The error object.
     :vartype error: ~azure.mgmt.maps.models.ErrorDetail
@@ -588,452 +465,13 @@ class ErrorResponse(_serialization.Model):
         "error": {"key": "error", "type": "ErrorDetail"},
     }
 
-    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs):
+    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs: Any) -> None:
         """
         :keyword error: The error object.
         :paramtype error: ~azure.mgmt.maps.models.ErrorDetail
         """
         super().__init__(**kwargs)
         self.error = error
-
-
-class LinkedResource(_serialization.Model):
-    """Linked resource is reference to a resource deployed in an Azure subscription, add the linked resource ``uniqueName`` value as an optional parameter for operations on Azure Maps Geospatial REST APIs.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar unique_name: A provided name which uniquely identifies the linked resource. Required.
-    :vartype unique_name: str
-    :ivar id: ARM resource id in the form:
-     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/accounts/{storageName}'.
-     Required.
-    :vartype id: str
-    """
-
-    _validation = {
-        "unique_name": {"required": True},
-        "id": {"required": True},
-    }
-
-    _attribute_map = {
-        "unique_name": {"key": "uniqueName", "type": "str"},
-        "id": {"key": "id", "type": "str"},
-    }
-
-    def __init__(self, *, unique_name: str, id: str, **kwargs):  # pylint: disable=redefined-builtin
-        """
-        :keyword unique_name: A provided name which uniquely identifies the linked resource. Required.
-        :paramtype unique_name: str
-        :keyword id: ARM resource id in the form:
-         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/accounts/{storageName}'.
-         Required.
-        :paramtype id: str
-        """
-        super().__init__(**kwargs)
-        self.unique_name = unique_name
-        self.id = id
-
-
-class ManagedServiceIdentity(_serialization.Model):
-    """Identity for the resource.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar principal_id: The principal ID of resource identity.
-    :vartype principal_id: str
-    :ivar tenant_id: The tenant ID of resource.
-    :vartype tenant_id: str
-    :ivar type: The identity type. Known values are: "SystemAssigned", "UserAssigned",
-     "SystemAssigned, UserAssigned", and "None".
-    :vartype type: str or ~azure.mgmt.maps.models.ResourceIdentityType
-    :ivar user_assigned_identities: The list of user identities associated with the resource. The
-     user identity dictionary key references will be ARM resource ids in the form:
-     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-    :vartype user_assigned_identities: dict[str,
-     ~azure.mgmt.maps.models.Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties]
-    """
-
-    _validation = {
-        "principal_id": {"readonly": True},
-        "tenant_id": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "principal_id": {"key": "principalId", "type": "str"},
-        "tenant_id": {"key": "tenantId", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "user_assigned_identities": {
-            "key": "userAssignedIdentities",
-            "type": "{Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties}",
-        },
-    }
-
-    def __init__(
-        self,
-        *,
-        type: Optional[Union[str, "_models.ResourceIdentityType"]] = None,
-        user_assigned_identities: Optional[
-            Dict[
-                str,
-                "_models.Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties",
-            ]
-        ] = None,
-        **kwargs
-    ):
-        """
-        :keyword type: The identity type. Known values are: "SystemAssigned", "UserAssigned",
-         "SystemAssigned, UserAssigned", and "None".
-        :paramtype type: str or ~azure.mgmt.maps.models.ResourceIdentityType
-        :keyword user_assigned_identities: The list of user identities associated with the resource.
-         The user identity dictionary key references will be ARM resource ids in the form:
-         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-        :paramtype user_assigned_identities: dict[str,
-         ~azure.mgmt.maps.models.Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties]
-        """
-        super().__init__(**kwargs)
-        self.principal_id = None
-        self.tenant_id = None
-        self.type = type
-        self.user_assigned_identities = user_assigned_identities
-
-
-class MapsAccount(TrackedResource):
-    """An Azure resource which represents access to a suite of Maps REST APIs.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-    :vartype id: str
-    :ivar name: The name of the resource.
-    :vartype name: str
-    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-     "Microsoft.Storage/storageAccounts".
-    :vartype type: str
-    :ivar tags: Resource tags.
-    :vartype tags: dict[str, str]
-    :ivar location: The geo-location where the resource lives. Required.
-    :vartype location: str
-    :ivar sku: The SKU of this account. Required.
-    :vartype sku: ~azure.mgmt.maps.models.Sku
-    :ivar kind: Get or Set Kind property. Known values are: "Gen1" and "Gen2".
-    :vartype kind: str or ~azure.mgmt.maps.models.Kind
-    :ivar system_data: The system meta data relating to this resource.
-    :vartype system_data: ~azure.mgmt.maps.models.SystemData
-    :ivar identity: Sets the identity property for maps account.
-    :vartype identity: ~azure.mgmt.maps.models.ManagedServiceIdentity
-    :ivar properties: The map account properties.
-    :vartype properties: ~azure.mgmt.maps.models.MapsAccountProperties
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "location": {"required": True},
-        "sku": {"required": True},
-        "system_data": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "tags": {"key": "tags", "type": "{str}"},
-        "location": {"key": "location", "type": "str"},
-        "sku": {"key": "sku", "type": "Sku"},
-        "kind": {"key": "kind", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-        "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
-        "properties": {"key": "properties", "type": "MapsAccountProperties"},
-    }
-
-    def __init__(
-        self,
-        *,
-        location: str,
-        sku: "_models.Sku",
-        tags: Optional[Dict[str, str]] = None,
-        kind: Union[str, "_models.Kind"] = "Gen1",
-        identity: Optional["_models.ManagedServiceIdentity"] = None,
-        properties: Optional["_models.MapsAccountProperties"] = None,
-        **kwargs
-    ):
-        """
-        :keyword tags: Resource tags.
-        :paramtype tags: dict[str, str]
-        :keyword location: The geo-location where the resource lives. Required.
-        :paramtype location: str
-        :keyword sku: The SKU of this account. Required.
-        :paramtype sku: ~azure.mgmt.maps.models.Sku
-        :keyword kind: Get or Set Kind property. Known values are: "Gen1" and "Gen2".
-        :paramtype kind: str or ~azure.mgmt.maps.models.Kind
-        :keyword identity: Sets the identity property for maps account.
-        :paramtype identity: ~azure.mgmt.maps.models.ManagedServiceIdentity
-        :keyword properties: The map account properties.
-        :paramtype properties: ~azure.mgmt.maps.models.MapsAccountProperties
-        """
-        super().__init__(tags=tags, location=location, **kwargs)
-        self.sku = sku
-        self.kind = kind
-        self.system_data = None
-        self.identity = identity
-        self.properties = properties
-
-
-class MapsAccountKeys(_serialization.Model):
-    """The set of keys which can be used to access the Maps REST APIs. Two keys are provided for key rotation without interruption.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar primary_key_last_updated: The last updated date and time of the primary key.
-    :vartype primary_key_last_updated: str
-    :ivar primary_key: The primary key for accessing the Maps REST APIs.
-    :vartype primary_key: str
-    :ivar secondary_key: The secondary key for accessing the Maps REST APIs.
-    :vartype secondary_key: str
-    :ivar secondary_key_last_updated: The last updated date and time of the secondary key.
-    :vartype secondary_key_last_updated: str
-    """
-
-    _validation = {
-        "primary_key_last_updated": {"readonly": True},
-        "primary_key": {"readonly": True},
-        "secondary_key": {"readonly": True},
-        "secondary_key_last_updated": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "primary_key_last_updated": {"key": "primaryKeyLastUpdated", "type": "str"},
-        "primary_key": {"key": "primaryKey", "type": "str"},
-        "secondary_key": {"key": "secondaryKey", "type": "str"},
-        "secondary_key_last_updated": {"key": "secondaryKeyLastUpdated", "type": "str"},
-    }
-
-    def __init__(self, **kwargs):
-        """ """
-        super().__init__(**kwargs)
-        self.primary_key_last_updated = None
-        self.primary_key = None
-        self.secondary_key = None
-        self.secondary_key_last_updated = None
-
-
-class MapsAccountProperties(_serialization.Model):
-    """Additional Map account properties.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar unique_id: A unique identifier for the maps account.
-    :vartype unique_id: str
-    :ivar disable_local_auth: Allows toggle functionality on Azure Policy to disable Azure Maps
-     local authentication support. This will disable Shared Keys authentication from any usage.
-    :vartype disable_local_auth: bool
-    :ivar provisioning_state: The provisioning state of the Map account resource.
-    :vartype provisioning_state: str
-    :ivar linked_resources: Sets the resources to be used for Managed Identities based operations
-     for the Map account resource.
-    :vartype linked_resources: list[~azure.mgmt.maps.models.LinkedResource]
-    :ivar cors: Specifies CORS rules for the Blob service. You can include up to five CorsRule
-     elements in the request. If no CorsRule elements are included in the request body, all CORS
-     rules will be deleted, and CORS will be disabled for the Blob service.
-    :vartype cors: ~azure.mgmt.maps.models.CorsRules
-    """
-
-    _validation = {
-        "unique_id": {"readonly": True},
-        "provisioning_state": {"readonly": True},
-        "linked_resources": {"max_items": 10, "min_items": 0},
-    }
-
-    _attribute_map = {
-        "unique_id": {"key": "uniqueId", "type": "str"},
-        "disable_local_auth": {"key": "disableLocalAuth", "type": "bool"},
-        "provisioning_state": {"key": "provisioningState", "type": "str"},
-        "linked_resources": {"key": "linkedResources", "type": "[LinkedResource]"},
-        "cors": {"key": "cors", "type": "CorsRules"},
-    }
-
-    def __init__(
-        self,
-        *,
-        disable_local_auth: bool = False,
-        linked_resources: Optional[List["_models.LinkedResource"]] = None,
-        cors: Optional["_models.CorsRules"] = None,
-        **kwargs
-    ):
-        """
-        :keyword disable_local_auth: Allows toggle functionality on Azure Policy to disable Azure Maps
-         local authentication support. This will disable Shared Keys authentication from any usage.
-        :paramtype disable_local_auth: bool
-        :keyword linked_resources: Sets the resources to be used for Managed Identities based
-         operations for the Map account resource.
-        :paramtype linked_resources: list[~azure.mgmt.maps.models.LinkedResource]
-        :keyword cors: Specifies CORS rules for the Blob service. You can include up to five CorsRule
-         elements in the request. If no CorsRule elements are included in the request body, all CORS
-         rules will be deleted, and CORS will be disabled for the Blob service.
-        :paramtype cors: ~azure.mgmt.maps.models.CorsRules
-        """
-        super().__init__(**kwargs)
-        self.unique_id = None
-        self.disable_local_auth = disable_local_auth
-        self.provisioning_state = None
-        self.linked_resources = linked_resources
-        self.cors = cors
-
-
-class MapsAccounts(_serialization.Model):
-    """A list of Maps Accounts.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar value: a Maps Account.
-    :vartype value: list[~azure.mgmt.maps.models.MapsAccount]
-    :ivar next_link: URL client should use to fetch the next page (per server side paging).
-     It's null for now, added for future use.
-    :vartype next_link: str
-    """
-
-    _validation = {
-        "value": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[MapsAccount]"},
-        "next_link": {"key": "nextLink", "type": "str"},
-    }
-
-    def __init__(self, *, next_link: Optional[str] = None, **kwargs):
-        """
-        :keyword next_link: URL client should use to fetch the next page (per server side paging).
-         It's null for now, added for future use.
-        :paramtype next_link: str
-        """
-        super().__init__(**kwargs)
-        self.value = None
-        self.next_link = next_link
-
-
-class MapsAccountSasToken(_serialization.Model):
-    """A new Sas token which can be used to access the Maps REST APIs and is controlled by the specified Managed identity permissions on Azure (IAM) Role Based Access Control.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar account_sas_token: The shared access signature access token.
-    :vartype account_sas_token: str
-    """
-
-    _validation = {
-        "account_sas_token": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "account_sas_token": {"key": "accountSasToken", "type": "str"},
-    }
-
-    def __init__(self, **kwargs):
-        """ """
-        super().__init__(**kwargs)
-        self.account_sas_token = None
-
-
-class MapsAccountUpdateParameters(_serialization.Model):
-    """Parameters used to update an existing Maps Account.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar tags: Gets or sets a list of key value pairs that describe the resource. These tags can
-     be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags
-     can be provided for a resource. Each tag must have a key no greater than 128 characters and
-     value no greater than 256 characters.
-    :vartype tags: dict[str, str]
-    :ivar kind: Get or Set Kind property. Known values are: "Gen1" and "Gen2".
-    :vartype kind: str or ~azure.mgmt.maps.models.Kind
-    :ivar sku: The SKU of this account.
-    :vartype sku: ~azure.mgmt.maps.models.Sku
-    :ivar identity: Sets the identity property for maps account.
-    :vartype identity: ~azure.mgmt.maps.models.ManagedServiceIdentity
-    :ivar unique_id: A unique identifier for the maps account.
-    :vartype unique_id: str
-    :ivar disable_local_auth: Allows toggle functionality on Azure Policy to disable Azure Maps
-     local authentication support. This will disable Shared Keys authentication from any usage.
-    :vartype disable_local_auth: bool
-    :ivar provisioning_state: The provisioning state of the Map account resource.
-    :vartype provisioning_state: str
-    :ivar linked_resources: Sets the resources to be used for Managed Identities based operations
-     for the Map account resource.
-    :vartype linked_resources: list[~azure.mgmt.maps.models.LinkedResource]
-    :ivar cors: Specifies CORS rules for the Blob service. You can include up to five CorsRule
-     elements in the request. If no CorsRule elements are included in the request body, all CORS
-     rules will be deleted, and CORS will be disabled for the Blob service.
-    :vartype cors: ~azure.mgmt.maps.models.CorsRules
-    """
-
-    _validation = {
-        "unique_id": {"readonly": True},
-        "provisioning_state": {"readonly": True},
-        "linked_resources": {"max_items": 10, "min_items": 0},
-    }
-
-    _attribute_map = {
-        "tags": {"key": "tags", "type": "{str}"},
-        "kind": {"key": "kind", "type": "str"},
-        "sku": {"key": "sku", "type": "Sku"},
-        "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
-        "unique_id": {"key": "properties.uniqueId", "type": "str"},
-        "disable_local_auth": {"key": "properties.disableLocalAuth", "type": "bool"},
-        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
-        "linked_resources": {"key": "properties.linkedResources", "type": "[LinkedResource]"},
-        "cors": {"key": "properties.cors", "type": "CorsRules"},
-    }
-
-    def __init__(
-        self,
-        *,
-        tags: Optional[Dict[str, str]] = None,
-        kind: Union[str, "_models.Kind"] = "Gen1",
-        sku: Optional["_models.Sku"] = None,
-        identity: Optional["_models.ManagedServiceIdentity"] = None,
-        disable_local_auth: bool = False,
-        linked_resources: Optional[List["_models.LinkedResource"]] = None,
-        cors: Optional["_models.CorsRules"] = None,
-        **kwargs
-    ):
-        """
-        :keyword tags: Gets or sets a list of key value pairs that describe the resource. These tags
-         can be used in viewing and grouping this resource (across resource groups). A maximum of 15
-         tags can be provided for a resource. Each tag must have a key no greater than 128 characters
-         and value no greater than 256 characters.
-        :paramtype tags: dict[str, str]
-        :keyword kind: Get or Set Kind property. Known values are: "Gen1" and "Gen2".
-        :paramtype kind: str or ~azure.mgmt.maps.models.Kind
-        :keyword sku: The SKU of this account.
-        :paramtype sku: ~azure.mgmt.maps.models.Sku
-        :keyword identity: Sets the identity property for maps account.
-        :paramtype identity: ~azure.mgmt.maps.models.ManagedServiceIdentity
-        :keyword disable_local_auth: Allows toggle functionality on Azure Policy to disable Azure Maps
-         local authentication support. This will disable Shared Keys authentication from any usage.
-        :paramtype disable_local_auth: bool
-        :keyword linked_resources: Sets the resources to be used for Managed Identities based
-         operations for the Map account resource.
-        :paramtype linked_resources: list[~azure.mgmt.maps.models.LinkedResource]
-        :keyword cors: Specifies CORS rules for the Blob service. You can include up to five CorsRule
-         elements in the request. If no CorsRule elements are included in the request body, all CORS
-         rules will be deleted, and CORS will be disabled for the Blob service.
-        :paramtype cors: ~azure.mgmt.maps.models.CorsRules
-        """
-        super().__init__(**kwargs)
-        self.tags = tags
-        self.kind = kind
-        self.sku = sku
-        self.identity = identity
-        self.unique_id = None
-        self.disable_local_auth = disable_local_auth
-        self.provisioning_state = None
-        self.linked_resources = linked_resources
-        self.cors = cors
 
 
 class MapsKeySpecification(_serialization.Model):
@@ -1054,7 +492,7 @@ class MapsKeySpecification(_serialization.Model):
         "key_type": {"key": "keyType", "type": "str"},
     }
 
-    def __init__(self, *, key_type: Union[str, "_models.KeyType"], **kwargs):
+    def __init__(self, *, key_type: Union[str, "_models.KeyType"], **kwargs: Any) -> None:
         """
         :keyword key_type: Whether the operation refers to the primary or secondary key. Required.
          Known values are: "primary" and "secondary".
@@ -1085,7 +523,7 @@ class MapsOperations(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, next_link: Optional[str] = None, **kwargs):
+    def __init__(self, *, next_link: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword next_link: URL client should use to fetch the next page (per server side paging).
          It's null for now, added for future use.
@@ -1096,7 +534,7 @@ class MapsOperations(_serialization.Model):
         self.next_link = next_link
 
 
-class MetricSpecification(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class MetricSpecification(_serialization.Model):
     """Metric specification of operation.
 
     :ivar name: Name of metric specification.
@@ -1117,10 +555,6 @@ class MetricSpecification(_serialization.Model):  # pylint: disable=too-many-ins
     :vartype category: str
     :ivar resource_id_dimension_name_override: Account Resource Id.
     :vartype resource_id_dimension_name_override: str
-    :ivar source_mdm_account: Source metrics account.
-    :vartype source_mdm_account: str
-    :ivar internal_metric_name: Internal metric name.
-    :vartype internal_metric_name: str
     """
 
     _attribute_map = {
@@ -1133,8 +567,6 @@ class MetricSpecification(_serialization.Model):  # pylint: disable=too-many-ins
         "fill_gap_with_zero": {"key": "fillGapWithZero", "type": "bool"},
         "category": {"key": "category", "type": "str"},
         "resource_id_dimension_name_override": {"key": "resourceIdDimensionNameOverride", "type": "str"},
-        "source_mdm_account": {"key": "sourceMdmAccount", "type": "str"},
-        "internal_metric_name": {"key": "internalMetricName", "type": "str"},
     }
 
     def __init__(
@@ -1149,10 +581,8 @@ class MetricSpecification(_serialization.Model):  # pylint: disable=too-many-ins
         fill_gap_with_zero: Optional[bool] = None,
         category: Optional[str] = None,
         resource_id_dimension_name_override: Optional[str] = None,
-        source_mdm_account: Optional[str] = None,
-        internal_metric_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Name of metric specification.
         :paramtype name: str
@@ -1172,10 +602,6 @@ class MetricSpecification(_serialization.Model):  # pylint: disable=too-many-ins
         :paramtype category: str
         :keyword resource_id_dimension_name_override: Account Resource Id.
         :paramtype resource_id_dimension_name_override: str
-        :keyword source_mdm_account: Source metrics account.
-        :paramtype source_mdm_account: str
-        :keyword internal_metric_name: Internal metric name.
-        :paramtype internal_metric_name: str
         """
         super().__init__(**kwargs)
         self.name = name
@@ -1187,8 +613,6 @@ class MetricSpecification(_serialization.Model):  # pylint: disable=too-many-ins
         self.fill_gap_with_zero = fill_gap_with_zero
         self.category = category
         self.resource_id_dimension_name_override = resource_id_dimension_name_override
-        self.source_mdm_account = source_mdm_account
-        self.internal_metric_name = internal_metric_name
 
 
 class OperationDetail(_serialization.Model):
@@ -1222,8 +646,8 @@ class OperationDetail(_serialization.Model):
         display: Optional["_models.OperationDisplay"] = None,
         origin: Optional[str] = None,
         service_specification: Optional["_models.ServiceSpecification"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Name of the operation.
         :paramtype name: str
@@ -1271,8 +695,8 @@ class OperationDisplay(_serialization.Model):
         resource: Optional[str] = None,
         operation: Optional[str] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword provider: Resource provider of the operation.
         :paramtype provider: str
@@ -1301,7 +725,9 @@ class ServiceSpecification(_serialization.Model):
         "metric_specifications": {"key": "metricSpecifications", "type": "[MetricSpecification]"},
     }
 
-    def __init__(self, *, metric_specifications: Optional[List["_models.MetricSpecification"]] = None, **kwargs):
+    def __init__(
+        self, *, metric_specifications: Optional[List["_models.MetricSpecification"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword metric_specifications: Metric specifications of operation.
         :paramtype metric_specifications: list[~azure.mgmt.maps.models.MetricSpecification]
@@ -1334,7 +760,7 @@ class Sku(_serialization.Model):
         "tier": {"key": "tier", "type": "str"},
     }
 
-    def __init__(self, *, name: Union[str, "_models.Name"], **kwargs):
+    def __init__(self, *, name: Union[str, "_models.Name"], **kwargs: Any) -> None:
         """
         :keyword name: The name of the SKU, in standard format (such as S0). Required. Known values
          are: "S0", "S1", and "G2".
@@ -1343,67 +769,3 @@ class Sku(_serialization.Model):
         super().__init__(**kwargs)
         self.name = name
         self.tier = None
-
-
-class SystemData(_serialization.Model):
-    """Metadata pertaining to creation and last modification of the resource.
-
-    :ivar created_by: The identity that created the resource.
-    :vartype created_by: str
-    :ivar created_by_type: The type of identity that created the resource. Known values are:
-     "User", "Application", "ManagedIdentity", and "Key".
-    :vartype created_by_type: str or ~azure.mgmt.maps.models.CreatedByType
-    :ivar created_at: The timestamp of resource creation (UTC).
-    :vartype created_at: ~datetime.datetime
-    :ivar last_modified_by: The identity that last modified the resource.
-    :vartype last_modified_by: str
-    :ivar last_modified_by_type: The type of identity that last modified the resource. Known values
-     are: "User", "Application", "ManagedIdentity", and "Key".
-    :vartype last_modified_by_type: str or ~azure.mgmt.maps.models.CreatedByType
-    :ivar last_modified_at: The timestamp of resource last modification (UTC).
-    :vartype last_modified_at: ~datetime.datetime
-    """
-
-    _attribute_map = {
-        "created_by": {"key": "createdBy", "type": "str"},
-        "created_by_type": {"key": "createdByType", "type": "str"},
-        "created_at": {"key": "createdAt", "type": "iso-8601"},
-        "last_modified_by": {"key": "lastModifiedBy", "type": "str"},
-        "last_modified_by_type": {"key": "lastModifiedByType", "type": "str"},
-        "last_modified_at": {"key": "lastModifiedAt", "type": "iso-8601"},
-    }
-
-    def __init__(
-        self,
-        *,
-        created_by: Optional[str] = None,
-        created_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
-        created_at: Optional[datetime.datetime] = None,
-        last_modified_by: Optional[str] = None,
-        last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
-        last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
-        """
-        :keyword created_by: The identity that created the resource.
-        :paramtype created_by: str
-        :keyword created_by_type: The type of identity that created the resource. Known values are:
-         "User", "Application", "ManagedIdentity", and "Key".
-        :paramtype created_by_type: str or ~azure.mgmt.maps.models.CreatedByType
-        :keyword created_at: The timestamp of resource creation (UTC).
-        :paramtype created_at: ~datetime.datetime
-        :keyword last_modified_by: The identity that last modified the resource.
-        :paramtype last_modified_by: str
-        :keyword last_modified_by_type: The type of identity that last modified the resource. Known
-         values are: "User", "Application", "ManagedIdentity", and "Key".
-        :paramtype last_modified_by_type: str or ~azure.mgmt.maps.models.CreatedByType
-        :keyword last_modified_at: The timestamp of resource last modification (UTC).
-        :paramtype last_modified_at: ~datetime.datetime
-        """
-        super().__init__(**kwargs)
-        self.created_by = created_by
-        self.created_by_type = created_by_type
-        self.created_at = created_at
-        self.last_modified_by = last_modified_by
-        self.last_modified_by_type = last_modified_by_type
-        self.last_modified_at = last_modified_at

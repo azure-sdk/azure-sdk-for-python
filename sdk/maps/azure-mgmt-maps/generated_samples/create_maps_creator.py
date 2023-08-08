@@ -14,7 +14,7 @@ from azure.mgmt.maps import AzureMapsManagementClient
     pip install azure-identity
     pip install azure-mgmt-maps
 # USAGE
-    python get_operations.py
+    python create_maps_creator.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,14 +26,18 @@ from azure.mgmt.maps import AzureMapsManagementClient
 def main():
     client = AzureMapsManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="SUBSCRIPTION_ID",
+        subscription_id="21a9967a-e8a9-4656-a70b-96ff1c4d05a0",
     )
 
-    response = client.maps.list_operations()
-    for item in response:
-        print(item)
+    response = client.creators.create_or_update(
+        resource_group_name="myResourceGroup",
+        account_name="myMapsAccount",
+        creator_name="myCreator",
+        creator_resource={"location": "eastus2", "properties": {"storageUnits": 5}, "tags": {"test": "true"}},
+    )
+    print(response)
 
 
-# x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/preview/2021-12-01-preview/examples/GetOperations.json
+# x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/preview/2023-08-01-preview/examples/CreateMapsCreator.json
 if __name__ == "__main__":
     main()
