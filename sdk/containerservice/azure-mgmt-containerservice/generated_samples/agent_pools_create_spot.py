@@ -26,13 +26,13 @@ from azure.mgmt.containerservice import ContainerServiceClient
 def main():
     client = ContainerServiceClient(
         credential=DefaultAzureCredential(),
+        agent_pool_name="agentpool1",
         subscription_id="subid1",
     )
 
     response = client.agent_pools.begin_create_or_update(
         resource_group_name="rg1",
         resource_name="clustername1",
-        agent_pool_name="agentpool1",
         parameters={
             "properties": {
                 "count": 3,
@@ -50,6 +50,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-07-01/examples/AgentPoolsCreate_Spot.json
+# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-07-02-preview/examples/AgentPoolsCreate_Spot.json
 if __name__ == "__main__":
     main()
