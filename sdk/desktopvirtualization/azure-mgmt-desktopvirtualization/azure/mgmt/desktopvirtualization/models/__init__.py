@@ -35,6 +35,13 @@ from ._models_py3 import MsixPackageApplications
 from ._models_py3 import MsixPackageDependencies
 from ._models_py3 import OperationProperties
 from ._models_py3 import Plan
+from ._models_py3 import PrivateEndpoint
+from ._models_py3 import PrivateEndpointConnection
+from ._models_py3 import PrivateEndpointConnectionListResultWithSystemData
+from ._models_py3 import PrivateEndpointConnectionWithSystemData
+from ._models_py3 import PrivateLinkResource
+from ._models_py3 import PrivateLinkResourceListResult
+from ._models_py3 import PrivateLinkServiceConnectionState
 from ._models_py3 import RegistrationInfo
 from ._models_py3 import RegistrationInfoPatch
 from ._models_py3 import Resource
@@ -79,9 +86,13 @@ from ._desktop_virtualization_mgmt_client_enums import DayOfWeek
 from ._desktop_virtualization_mgmt_client_enums import HealthCheckName
 from ._desktop_virtualization_mgmt_client_enums import HealthCheckResult
 from ._desktop_virtualization_mgmt_client_enums import HostPoolType
+from ._desktop_virtualization_mgmt_client_enums import HostpoolPublicNetworkAccess
 from ._desktop_virtualization_mgmt_client_enums import LoadBalancerType
 from ._desktop_virtualization_mgmt_client_enums import PersonalDesktopAssignmentType
 from ._desktop_virtualization_mgmt_client_enums import PreferredAppGroupType
+from ._desktop_virtualization_mgmt_client_enums import PrivateEndpointConnectionProvisioningState
+from ._desktop_virtualization_mgmt_client_enums import PrivateEndpointServiceConnectionStatus
+from ._desktop_virtualization_mgmt_client_enums import PublicNetworkAccess
 from ._desktop_virtualization_mgmt_client_enums import RegistrationTokenOperation
 from ._desktop_virtualization_mgmt_client_enums import RemoteApplicationType
 from ._desktop_virtualization_mgmt_client_enums import SSOSecretType
@@ -128,6 +139,13 @@ __all__ = [
     "MsixPackageDependencies",
     "OperationProperties",
     "Plan",
+    "PrivateEndpoint",
+    "PrivateEndpointConnection",
+    "PrivateEndpointConnectionListResultWithSystemData",
+    "PrivateEndpointConnectionWithSystemData",
+    "PrivateLinkResource",
+    "PrivateLinkResourceListResult",
+    "PrivateLinkServiceConnectionState",
     "RegistrationInfo",
     "RegistrationInfoPatch",
     "Resource",
@@ -171,9 +189,13 @@ __all__ = [
     "HealthCheckName",
     "HealthCheckResult",
     "HostPoolType",
+    "HostpoolPublicNetworkAccess",
     "LoadBalancerType",
     "PersonalDesktopAssignmentType",
     "PreferredAppGroupType",
+    "PrivateEndpointConnectionProvisioningState",
+    "PrivateEndpointServiceConnectionStatus",
+    "PublicNetworkAccess",
     "RegistrationTokenOperation",
     "RemoteApplicationType",
     "SSOSecretType",
