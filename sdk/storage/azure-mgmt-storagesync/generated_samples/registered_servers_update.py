@@ -14,7 +14,7 @@ from azure.mgmt.storagesync import MicrosoftStorageSync
     pip install azure-identity
     pip install azure-mgmt-storagesync
 # USAGE
-    python cloud_endpoints_restoreheartbeat.py
+    python registered_servers_update.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,15 +29,15 @@ def main():
         subscription_id="52b8da2f-61e0-4a1f-8dde-336911f367fb",
     )
 
-    response = client.cloud_endpoints.restoreheartbeat(
+    response = client.registered_servers.begin_update(
         resource_group_name="SampleResourceGroup_1",
         storage_sync_service_name="SampleStorageSyncService_1",
-        sync_group_name="SampleSyncGroup_1",
-        cloud_endpoint_name="SampleCloudEndpoint_1",
-    )
+        server_id="080d4133-bdb5-40a0-96a0-71a6057bfe9a",
+        parameters={"properties": {"applicationId": "00000000-0000-0000-0000-000000000001"}},
+    ).result()
     print(response)
 
 
-# x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2022-06-01/examples/CloudEndpoints_RestoreHeatbeat.json
+# x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2022-09-01/examples/RegisteredServers_Update.json
 if __name__ == "__main__":
     main()
