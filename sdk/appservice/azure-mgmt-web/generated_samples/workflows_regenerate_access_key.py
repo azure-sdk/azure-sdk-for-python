@@ -29,13 +29,12 @@ def main():
         subscription_id="34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
     )
 
-    response = client.workflows.regenerate_access_key(
+    client.workflows.regenerate_access_key(
         resource_group_name="testResourceGroup",
         name="test-name",
         workflow_name="testWorkflowName",
         key_type={"keyType": "Primary"},
     )
-    print(response)
 
 
 # x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/Workflows_RegenerateAccessKey.json

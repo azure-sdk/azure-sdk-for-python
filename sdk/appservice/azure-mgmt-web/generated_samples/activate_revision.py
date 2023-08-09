@@ -29,12 +29,11 @@ def main():
         subscription_id="34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
     )
 
-    response = client.container_apps_revisions.activate_revision(
+    client.container_apps_revisions.activate_revision(
         resource_group_name="rg",
         container_app_name="testcontainerApp0",
         name="testcontainerApp0-pjxhsye",
     )
-    print(response)
 
 
 # x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/ActivateRevision.json
