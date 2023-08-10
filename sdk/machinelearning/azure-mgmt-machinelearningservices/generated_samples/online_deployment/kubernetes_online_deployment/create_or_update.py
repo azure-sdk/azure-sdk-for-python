@@ -74,6 +74,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2023-04-01/examples/OnlineDeployment/KubernetesOnlineDeployment/createOrUpdate.json
+# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2023-08-01-preview/examples/OnlineDeployment/KubernetesOnlineDeployment/createOrUpdate.json
 if __name__ == "__main__":
     main()
