@@ -743,8 +743,6 @@ class AzureBackupJob(_serialization.Model):  # pylint: disable=too-many-instance
     :vartype progress_enabled: bool
     :ivar progress_url: Url which contains job's progress.
     :vartype progress_url: str
-    :ivar rehydration_priority: Priority to be used for rehydration.
-    :vartype rehydration_priority: str
     :ivar restore_type: It indicates the sub type of operation i.e. in case of Restore it can be
      ALR/OLR.
     :vartype restore_type: str
@@ -789,7 +787,6 @@ class AzureBackupJob(_serialization.Model):  # pylint: disable=too-many-instance
         "policy_name": {"readonly": True},
         "progress_enabled": {"required": True},
         "progress_url": {"readonly": True},
-        "rehydration_priority": {"readonly": True},
         "restore_type": {"readonly": True},
         "source_resource_group": {"required": True},
         "source_subscription_id": {"required": True},
@@ -820,7 +817,6 @@ class AzureBackupJob(_serialization.Model):  # pylint: disable=too-many-instance
         "policy_name": {"key": "policyName", "type": "str"},
         "progress_enabled": {"key": "progressEnabled", "type": "bool"},
         "progress_url": {"key": "progressUrl", "type": "str"},
-        "rehydration_priority": {"key": "rehydrationPriority", "type": "str"},
         "restore_type": {"key": "restoreType", "type": "str"},
         "source_resource_group": {"key": "sourceResourceGroup", "type": "str"},
         "source_subscription_id": {"key": "sourceSubscriptionID", "type": "str"},
@@ -931,7 +927,6 @@ class AzureBackupJob(_serialization.Model):  # pylint: disable=too-many-instance
         self.policy_name = None
         self.progress_enabled = progress_enabled
         self.progress_url = None
-        self.rehydration_priority = None
         self.restore_type = None
         self.source_resource_group = source_resource_group
         self.source_subscription_id = source_subscription_id
@@ -2614,29 +2609,6 @@ class BaseBackupPolicyResourceList(DppResourceList):
         self.value = value
 
 
-class BaseResourceProperties(_serialization.Model):
-    """Properties which are specific to datasource/datasourceSets.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar object_type: Type of the specific object - used for deserializing. Required.
-    :vartype object_type: str
-    """
-
-    _validation = {
-        "object_type": {"required": True},
-    }
-
-    _attribute_map = {
-        "object_type": {"key": "objectType", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-        self.object_type: Optional[str] = None
-
-
 class BlobBackupDatasourceParameters(BackupDatasourceParameters):
     """Parameters to be used during configuration of backup of blobs.
 
@@ -3012,6 +2984,153 @@ class CopyOnExpiryOption(CopyOption):
         self.object_type: str = "CopyOnExpiryOption"
 
 
+class CrossRegionRestoreDetails(_serialization.Model):
+    """Cross Region Restore details.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar source_region: Required.
+    :vartype source_region: str
+    :ivar source_backup_instance_id: Required.
+    :vartype source_backup_instance_id: str
+    """
+
+    _validation = {
+        "source_region": {"required": True},
+        "source_backup_instance_id": {"required": True},
+    }
+
+    _attribute_map = {
+        "source_region": {"key": "sourceRegion", "type": "str"},
+        "source_backup_instance_id": {"key": "sourceBackupInstanceId", "type": "str"},
+    }
+
+    def __init__(self, *, source_region: str, source_backup_instance_id: str, **kwargs: Any) -> None:
+        """
+        :keyword source_region: Required.
+        :paramtype source_region: str
+        :keyword source_backup_instance_id: Required.
+        :paramtype source_backup_instance_id: str
+        """
+        super().__init__(**kwargs)
+        self.source_region = source_region
+        self.source_backup_instance_id = source_backup_instance_id
+
+
+class CrossRegionRestoreJobRequest(_serialization.Model):
+    """CrossRegionRestoreJobRequest.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar source_region: Required.
+    :vartype source_region: str
+    :ivar source_backup_vault_id: Required.
+    :vartype source_backup_vault_id: str
+    :ivar job_id: Required.
+    :vartype job_id: str
+    """
+
+    _validation = {
+        "source_region": {"required": True},
+        "source_backup_vault_id": {"required": True},
+        "job_id": {"required": True},
+    }
+
+    _attribute_map = {
+        "source_region": {"key": "sourceRegion", "type": "str"},
+        "source_backup_vault_id": {"key": "sourceBackupVaultId", "type": "str"},
+        "job_id": {"key": "jobId", "type": "str"},
+    }
+
+    def __init__(self, *, source_region: str, source_backup_vault_id: str, job_id: str, **kwargs: Any) -> None:
+        """
+        :keyword source_region: Required.
+        :paramtype source_region: str
+        :keyword source_backup_vault_id: Required.
+        :paramtype source_backup_vault_id: str
+        :keyword job_id: Required.
+        :paramtype job_id: str
+        """
+        super().__init__(**kwargs)
+        self.source_region = source_region
+        self.source_backup_vault_id = source_backup_vault_id
+        self.job_id = job_id
+
+
+class CrossRegionRestoreJobsRequest(_serialization.Model):
+    """CrossRegionRestoreJobsRequest.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar source_region: Required.
+    :vartype source_region: str
+    :ivar source_backup_vault_id: Required.
+    :vartype source_backup_vault_id: str
+    """
+
+    _validation = {
+        "source_region": {"required": True},
+        "source_backup_vault_id": {"required": True},
+    }
+
+    _attribute_map = {
+        "source_region": {"key": "sourceRegion", "type": "str"},
+        "source_backup_vault_id": {"key": "sourceBackupVaultId", "type": "str"},
+    }
+
+    def __init__(self, *, source_region: str, source_backup_vault_id: str, **kwargs: Any) -> None:
+        """
+        :keyword source_region: Required.
+        :paramtype source_region: str
+        :keyword source_backup_vault_id: Required.
+        :paramtype source_backup_vault_id: str
+        """
+        super().__init__(**kwargs)
+        self.source_region = source_region
+        self.source_backup_vault_id = source_backup_vault_id
+
+
+class CrossRegionRestoreRequestObject(_serialization.Model):
+    """Cross Region Restore Request Object.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar restore_request_object: Gets or sets the restore request object. Required.
+    :vartype restore_request_object: ~azure.mgmt.dataprotection.models.AzureBackupRestoreRequest
+    :ivar cross_region_restore_details: Cross region restore details. Required.
+    :vartype cross_region_restore_details:
+     ~azure.mgmt.dataprotection.models.CrossRegionRestoreDetails
+    """
+
+    _validation = {
+        "restore_request_object": {"required": True},
+        "cross_region_restore_details": {"required": True},
+    }
+
+    _attribute_map = {
+        "restore_request_object": {"key": "restoreRequestObject", "type": "AzureBackupRestoreRequest"},
+        "cross_region_restore_details": {"key": "crossRegionRestoreDetails", "type": "CrossRegionRestoreDetails"},
+    }
+
+    def __init__(
+        self,
+        *,
+        restore_request_object: "_models.AzureBackupRestoreRequest",
+        cross_region_restore_details: "_models.CrossRegionRestoreDetails",
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword restore_request_object: Gets or sets the restore request object. Required.
+        :paramtype restore_request_object: ~azure.mgmt.dataprotection.models.AzureBackupRestoreRequest
+        :keyword cross_region_restore_details: Cross region restore details. Required.
+        :paramtype cross_region_restore_details:
+         ~azure.mgmt.dataprotection.models.CrossRegionRestoreDetails
+        """
+        super().__init__(**kwargs)
+        self.restore_request_object = restore_request_object
+        self.cross_region_restore_details = cross_region_restore_details
+
+
 class CrossRegionRestoreSettings(_serialization.Model):
     """CrossRegionRestoreSettings.
 
@@ -3106,8 +3225,6 @@ class Datasource(_serialization.Model):
     :vartype resource_type: str
     :ivar resource_uri: Uri of the resource.
     :vartype resource_uri: str
-    :ivar resource_properties: Properties specific to data source.
-    :vartype resource_properties: ~azure.mgmt.dataprotection.models.BaseResourceProperties
     """
 
     _validation = {
@@ -3122,7 +3239,6 @@ class Datasource(_serialization.Model):
         "resource_name": {"key": "resourceName", "type": "str"},
         "resource_type": {"key": "resourceType", "type": "str"},
         "resource_uri": {"key": "resourceUri", "type": "str"},
-        "resource_properties": {"key": "resourceProperties", "type": "BaseResourceProperties"},
     }
 
     def __init__(
@@ -3135,7 +3251,6 @@ class Datasource(_serialization.Model):
         resource_name: Optional[str] = None,
         resource_type: Optional[str] = None,
         resource_uri: Optional[str] = None,
-        resource_properties: Optional["_models.BaseResourceProperties"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -3154,8 +3269,6 @@ class Datasource(_serialization.Model):
         :paramtype resource_type: str
         :keyword resource_uri: Uri of the resource.
         :paramtype resource_uri: str
-        :keyword resource_properties: Properties specific to data source.
-        :paramtype resource_properties: ~azure.mgmt.dataprotection.models.BaseResourceProperties
         """
         super().__init__(**kwargs)
         self.datasource_type = datasource_type
@@ -3165,7 +3278,6 @@ class Datasource(_serialization.Model):
         self.resource_name = resource_name
         self.resource_type = resource_type
         self.resource_uri = resource_uri
-        self.resource_properties = resource_properties
 
 
 class DatasourceSet(_serialization.Model):
@@ -3188,8 +3300,6 @@ class DatasourceSet(_serialization.Model):
     :vartype resource_type: str
     :ivar resource_uri: Uri of the resource.
     :vartype resource_uri: str
-    :ivar resource_properties: Properties specific to data source set.
-    :vartype resource_properties: ~azure.mgmt.dataprotection.models.BaseResourceProperties
     """
 
     _validation = {
@@ -3204,7 +3314,6 @@ class DatasourceSet(_serialization.Model):
         "resource_name": {"key": "resourceName", "type": "str"},
         "resource_type": {"key": "resourceType", "type": "str"},
         "resource_uri": {"key": "resourceUri", "type": "str"},
-        "resource_properties": {"key": "resourceProperties", "type": "BaseResourceProperties"},
     }
 
     def __init__(
@@ -3217,7 +3326,6 @@ class DatasourceSet(_serialization.Model):
         resource_name: Optional[str] = None,
         resource_type: Optional[str] = None,
         resource_uri: Optional[str] = None,
-        resource_properties: Optional["_models.BaseResourceProperties"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -3236,8 +3344,6 @@ class DatasourceSet(_serialization.Model):
         :paramtype resource_type: str
         :keyword resource_uri: Uri of the resource.
         :paramtype resource_uri: str
-        :keyword resource_properties: Properties specific to data source set.
-        :paramtype resource_properties: ~azure.mgmt.dataprotection.models.BaseResourceProperties
         """
         super().__init__(**kwargs)
         self.datasource_type = datasource_type
@@ -3247,7 +3353,6 @@ class DatasourceSet(_serialization.Model):
         self.resource_name = resource_name
         self.resource_type = resource_type
         self.resource_uri = resource_uri
-        self.resource_properties = resource_properties
 
 
 class DataStoreInfoBase(_serialization.Model):
@@ -3629,7 +3734,7 @@ class DppIdentityDetails(_serialization.Model):
     :vartype type: str
     :ivar user_assigned_identities: Gets or sets the user assigned identities.
     :vartype user_assigned_identities: dict[str,
-     ~azure.mgmt.dataprotection.models.UserAssignedIdentity]
+     ~azure.mgmt.dataprotection.models.UserAssignedIdentityDetails]
     """
 
     _validation = {
@@ -3641,14 +3746,14 @@ class DppIdentityDetails(_serialization.Model):
         "principal_id": {"key": "principalId", "type": "str"},
         "tenant_id": {"key": "tenantId", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "user_assigned_identities": {"key": "userAssignedIdentities", "type": "{UserAssignedIdentity}"},
+        "user_assigned_identities": {"key": "userAssignedIdentities", "type": "{UserAssignedIdentityDetails}"},
     }
 
     def __init__(
         self,
         *,
         type: Optional[str] = None,
-        user_assigned_identities: Optional[Dict[str, "_models.UserAssignedIdentity"]] = None,
+        user_assigned_identities: Optional[Dict[str, "_models.UserAssignedIdentityDetails"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -3657,7 +3762,7 @@ class DppIdentityDetails(_serialization.Model):
         :paramtype type: str
         :keyword user_assigned_identities: Gets or sets the user assigned identities.
         :paramtype user_assigned_identities: dict[str,
-         ~azure.mgmt.dataprotection.models.UserAssignedIdentity]
+         ~azure.mgmt.dataprotection.models.UserAssignedIdentityDetails]
         """
         super().__init__(**kwargs)
         self.principal_id = None
@@ -3978,6 +4083,36 @@ class FeatureValidationResponse(FeatureValidationResponseBase):
         self.object_type: str = "FeatureValidationResponse"
         self.feature_type = feature_type
         self.features = features
+
+
+class FetchSecondaryRPsRequestParameters(_serialization.Model):
+    """Information about BI whose secondary RecoveryPoints are requested
+    Source region and
+    BI ARM path.
+
+    :ivar source_region: Source region in which BackupInstance is located.
+    :vartype source_region: str
+    :ivar source_backup_instance_id: ARM Path of BackupInstance.
+    :vartype source_backup_instance_id: str
+    """
+
+    _attribute_map = {
+        "source_region": {"key": "sourceRegion", "type": "str"},
+        "source_backup_instance_id": {"key": "sourceBackupInstanceId", "type": "str"},
+    }
+
+    def __init__(
+        self, *, source_region: Optional[str] = None, source_backup_instance_id: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword source_region: Source region in which BackupInstance is located.
+        :paramtype source_region: str
+        :keyword source_backup_instance_id: ARM Path of BackupInstance.
+        :paramtype source_backup_instance_id: str
+        """
+        super().__init__(**kwargs)
+        self.source_region = source_region
+        self.source_backup_instance_id = source_backup_instance_id
 
 
 class IdentityDetails(_serialization.Model):
@@ -4443,29 +4578,26 @@ class KubernetesClusterBackupDatasourceParameters(BackupDatasourceParameters):
     :ivar object_type: Type of the specific object - used for deserializing. Required.
     :vartype object_type: str
     :ivar snapshot_volumes: Gets or sets the volume snapshot property. This property if enabled
-     will take volume snapshots during backup. Required.
+     will take volume snapshots during restore. Required.
     :vartype snapshot_volumes: bool
     :ivar include_cluster_scope_resources: Gets or sets the include cluster resources property.
-     This property if enabled will include cluster scope resources during backup. Required.
+     This property if enabled will include cluster scope resources during restore. Required.
     :vartype include_cluster_scope_resources: bool
     :ivar included_namespaces: Gets or sets the include namespaces property. This property sets the
-     namespaces to be included during backup.
+     namespaces to be included during restore.
     :vartype included_namespaces: list[str]
     :ivar excluded_namespaces: Gets or sets the exclude namespaces property. This property sets the
-     namespaces to be excluded during backup.
+     namespaces to be excluded during restore.
     :vartype excluded_namespaces: list[str]
     :ivar included_resource_types: Gets or sets the include resource types property. This property
-     sets the resource types to be included during backup.
+     sets the resource types to be included during restore.
     :vartype included_resource_types: list[str]
     :ivar excluded_resource_types: Gets or sets the exclude resource types property. This property
-     sets the resource types to be excluded during backup.
+     sets the resource types to be excluded during restore.
     :vartype excluded_resource_types: list[str]
     :ivar label_selectors: Gets or sets the LabelSelectors property. This property sets the
-     resource with such label selectors to be included during backup.
+     resource with such label selectors to be included during restore.
     :vartype label_selectors: list[str]
-    :ivar backup_hook_references: Gets or sets the backup hook references. This property sets the
-     hook reference to be executed during backup.
-    :vartype backup_hook_references: list[~azure.mgmt.dataprotection.models.NamespacedNameResource]
     """
 
     _validation = {
@@ -4483,7 +4615,6 @@ class KubernetesClusterBackupDatasourceParameters(BackupDatasourceParameters):
         "included_resource_types": {"key": "includedResourceTypes", "type": "[str]"},
         "excluded_resource_types": {"key": "excludedResourceTypes", "type": "[str]"},
         "label_selectors": {"key": "labelSelectors", "type": "[str]"},
-        "backup_hook_references": {"key": "backupHookReferences", "type": "[NamespacedNameResource]"},
     }
 
     def __init__(
@@ -4496,35 +4627,30 @@ class KubernetesClusterBackupDatasourceParameters(BackupDatasourceParameters):
         included_resource_types: Optional[List[str]] = None,
         excluded_resource_types: Optional[List[str]] = None,
         label_selectors: Optional[List[str]] = None,
-        backup_hook_references: Optional[List["_models.NamespacedNameResource"]] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword snapshot_volumes: Gets or sets the volume snapshot property. This property if enabled
-         will take volume snapshots during backup. Required.
+         will take volume snapshots during restore. Required.
         :paramtype snapshot_volumes: bool
         :keyword include_cluster_scope_resources: Gets or sets the include cluster resources property.
-         This property if enabled will include cluster scope resources during backup. Required.
+         This property if enabled will include cluster scope resources during restore. Required.
         :paramtype include_cluster_scope_resources: bool
         :keyword included_namespaces: Gets or sets the include namespaces property. This property sets
-         the namespaces to be included during backup.
+         the namespaces to be included during restore.
         :paramtype included_namespaces: list[str]
         :keyword excluded_namespaces: Gets or sets the exclude namespaces property. This property sets
-         the namespaces to be excluded during backup.
+         the namespaces to be excluded during restore.
         :paramtype excluded_namespaces: list[str]
         :keyword included_resource_types: Gets or sets the include resource types property. This
-         property sets the resource types to be included during backup.
+         property sets the resource types to be included during restore.
         :paramtype included_resource_types: list[str]
         :keyword excluded_resource_types: Gets or sets the exclude resource types property. This
-         property sets the resource types to be excluded during backup.
+         property sets the resource types to be excluded during restore.
         :paramtype excluded_resource_types: list[str]
         :keyword label_selectors: Gets or sets the LabelSelectors property. This property sets the
-         resource with such label selectors to be included during backup.
+         resource with such label selectors to be included during restore.
         :paramtype label_selectors: list[str]
-        :keyword backup_hook_references: Gets or sets the backup hook references. This property sets
-         the hook reference to be executed during backup.
-        :paramtype backup_hook_references:
-         list[~azure.mgmt.dataprotection.models.NamespacedNameResource]
         """
         super().__init__(**kwargs)
         self.object_type: str = "KubernetesClusterBackupDatasourceParameters"
@@ -4535,10 +4661,9 @@ class KubernetesClusterBackupDatasourceParameters(BackupDatasourceParameters):
         self.included_resource_types = included_resource_types
         self.excluded_resource_types = excluded_resource_types
         self.label_selectors = label_selectors
-        self.backup_hook_references = backup_hook_references
 
 
-class KubernetesClusterRestoreCriteria(ItemLevelRestoreCriteria):  # pylint: disable=too-many-instance-attributes
+class KubernetesClusterRestoreCriteria(ItemLevelRestoreCriteria):
     """kubernetes Cluster Backup target info for restore operation.
 
     All required parameters must be populated in order to send to Azure.
@@ -4574,10 +4699,6 @@ class KubernetesClusterRestoreCriteria(ItemLevelRestoreCriteria):  # pylint: dis
     :ivar namespace_mappings: Gets or sets the Namespace Mappings property. This property sets if
      namespace needs to be change during restore.
     :vartype namespace_mappings: dict[str, str]
-    :ivar restore_hook_references: Gets or sets the restore hook references. This property sets the
-     hook reference to be executed during restore.
-    :vartype restore_hook_references:
-     list[~azure.mgmt.dataprotection.models.NamespacedNameResource]
     """
 
     _validation = {
@@ -4596,7 +4717,6 @@ class KubernetesClusterRestoreCriteria(ItemLevelRestoreCriteria):  # pylint: dis
         "persistent_volume_restore_mode": {"key": "persistentVolumeRestoreMode", "type": "str"},
         "conflict_policy": {"key": "conflictPolicy", "type": "str"},
         "namespace_mappings": {"key": "namespaceMappings", "type": "{str}"},
-        "restore_hook_references": {"key": "restoreHookReferences", "type": "[NamespacedNameResource]"},
     }
 
     def __init__(
@@ -4611,7 +4731,6 @@ class KubernetesClusterRestoreCriteria(ItemLevelRestoreCriteria):  # pylint: dis
         persistent_volume_restore_mode: Optional[Union[str, "_models.PersistentVolumeRestoreMode"]] = None,
         conflict_policy: Optional[Union[str, "_models.ExistingResourcePolicy"]] = None,
         namespace_mappings: Optional[Dict[str, str]] = None,
-        restore_hook_references: Optional[List["_models.NamespacedNameResource"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -4644,10 +4763,6 @@ class KubernetesClusterRestoreCriteria(ItemLevelRestoreCriteria):  # pylint: dis
         :keyword namespace_mappings: Gets or sets the Namespace Mappings property. This property sets
          if namespace needs to be change during restore.
         :paramtype namespace_mappings: dict[str, str]
-        :keyword restore_hook_references: Gets or sets the restore hook references. This property sets
-         the hook reference to be executed during restore.
-        :paramtype restore_hook_references:
-         list[~azure.mgmt.dataprotection.models.NamespacedNameResource]
         """
         super().__init__(**kwargs)
         self.object_type: str = "KubernetesClusterRestoreCriteria"
@@ -4660,7 +4775,6 @@ class KubernetesClusterRestoreCriteria(ItemLevelRestoreCriteria):  # pylint: dis
         self.persistent_volume_restore_mode = persistent_volume_restore_mode
         self.conflict_policy = conflict_policy
         self.namespace_mappings = namespace_mappings
-        self.restore_hook_references = restore_hook_references
 
 
 class KubernetesPVRestoreCriteria(ItemLevelRestoreCriteria):
@@ -4759,32 +4873,6 @@ class MonitoringSettings(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.azure_monitor_alert_settings = azure_monitor_alert_settings
-
-
-class NamespacedNameResource(_serialization.Model):
-    """Class to refer resources which contains namespace and name.
-
-    :ivar name: Name of the resource.
-    :vartype name: str
-    :ivar namespace: Namespace in which the resource exists.
-    :vartype namespace: str
-    """
-
-    _attribute_map = {
-        "name": {"key": "name", "type": "str"},
-        "namespace": {"key": "namespace", "type": "str"},
-    }
-
-    def __init__(self, *, name: Optional[str] = None, namespace: Optional[str] = None, **kwargs: Any) -> None:
-        """
-        :keyword name: Name of the resource.
-        :paramtype name: str
-        :keyword namespace: Namespace in which the resource exists.
-        :paramtype namespace: str
-        """
-        super().__init__(**kwargs)
-        self.name = name
-        self.namespace = namespace
 
 
 class OperationExtendedInfo(_serialization.Model):
@@ -6652,32 +6740,32 @@ class UnlockDeleteResponse(_serialization.Model):
         self.unlock_delete_expiry_time = unlock_delete_expiry_time
 
 
-class UserAssignedIdentity(_serialization.Model):
-    """User assigned identity properties.
+class UserAssignedIdentityDetails(_serialization.Model):
+    """User Assigned Identity Details.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar principal_id: The principal ID of the assigned identity.
-    :vartype principal_id: str
-    :ivar client_id: The client ID of the assigned identity.
+    :ivar client_id: The Client Id of the User Assigned Managed Identity.
     :vartype client_id: str
+    :ivar principal_id: The Object Id of the User Assigned Managed Identity.
+    :vartype principal_id: str
     """
 
     _validation = {
-        "principal_id": {"readonly": True},
         "client_id": {"readonly": True},
+        "principal_id": {"readonly": True},
     }
 
     _attribute_map = {
-        "principal_id": {"key": "principalId", "type": "str"},
         "client_id": {"key": "clientId", "type": "str"},
+        "principal_id": {"key": "principalId", "type": "str"},
     }
 
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.principal_id = None
         self.client_id = None
+        self.principal_id = None
 
 
 class UserFacingError(_serialization.Model):
@@ -6759,6 +6847,47 @@ class UserFacingError(_serialization.Model):
         self.message = message
         self.recommended_action = recommended_action
         self.target = target
+
+
+class ValidateCrossRegionRestoreRequestObject(_serialization.Model):
+    """Cross Region Restore Request Object.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar restore_request_object: Gets or sets the restore request object. Required.
+    :vartype restore_request_object: ~azure.mgmt.dataprotection.models.AzureBackupRestoreRequest
+    :ivar cross_region_restore_details: Cross region restore details. Required.
+    :vartype cross_region_restore_details:
+     ~azure.mgmt.dataprotection.models.CrossRegionRestoreDetails
+    """
+
+    _validation = {
+        "restore_request_object": {"required": True},
+        "cross_region_restore_details": {"required": True},
+    }
+
+    _attribute_map = {
+        "restore_request_object": {"key": "restoreRequestObject", "type": "AzureBackupRestoreRequest"},
+        "cross_region_restore_details": {"key": "crossRegionRestoreDetails", "type": "CrossRegionRestoreDetails"},
+    }
+
+    def __init__(
+        self,
+        *,
+        restore_request_object: "_models.AzureBackupRestoreRequest",
+        cross_region_restore_details: "_models.CrossRegionRestoreDetails",
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword restore_request_object: Gets or sets the restore request object. Required.
+        :paramtype restore_request_object: ~azure.mgmt.dataprotection.models.AzureBackupRestoreRequest
+        :keyword cross_region_restore_details: Cross region restore details. Required.
+        :paramtype cross_region_restore_details:
+         ~azure.mgmt.dataprotection.models.CrossRegionRestoreDetails
+        """
+        super().__init__(**kwargs)
+        self.restore_request_object = restore_request_object
+        self.cross_region_restore_details = cross_region_restore_details
 
 
 class ValidateForBackupRequest(_serialization.Model):

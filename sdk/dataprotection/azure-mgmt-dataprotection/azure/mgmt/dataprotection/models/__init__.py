@@ -48,7 +48,6 @@ from ._models_py3 import BaseBackupPolicy
 from ._models_py3 import BaseBackupPolicyResource
 from ._models_py3 import BaseBackupPolicyResourceList
 from ._models_py3 import BasePolicyRule
-from ._models_py3 import BaseResourceProperties
 from ._models_py3 import BlobBackupDatasourceParameters
 from ._models_py3 import CheckNameAvailabilityRequest
 from ._models_py3 import CheckNameAvailabilityResult
@@ -60,6 +59,10 @@ from ._models_py3 import ClientDiscoveryResponse
 from ._models_py3 import ClientDiscoveryValueForSingleApi
 from ._models_py3 import CopyOnExpiryOption
 from ._models_py3 import CopyOption
+from ._models_py3 import CrossRegionRestoreDetails
+from ._models_py3 import CrossRegionRestoreJobRequest
+from ._models_py3 import CrossRegionRestoreJobsRequest
+from ._models_py3 import CrossRegionRestoreRequestObject
 from ._models_py3 import CrossRegionRestoreSettings
 from ._models_py3 import CrossSubscriptionRestoreSettings
 from ._models_py3 import CustomCopyOption
@@ -91,6 +94,7 @@ from ._models_py3 import FeatureValidationRequest
 from ._models_py3 import FeatureValidationRequestBase
 from ._models_py3 import FeatureValidationResponse
 from ._models_py3 import FeatureValidationResponseBase
+from ._models_py3 import FetchSecondaryRPsRequestParameters
 from ._models_py3 import IdentityDetails
 from ._models_py3 import ImmediateCopyOption
 from ._models_py3 import ImmutabilitySettings
@@ -105,7 +109,6 @@ from ._models_py3 import KubernetesClusterRestoreCriteria
 from ._models_py3 import KubernetesPVRestoreCriteria
 from ._models_py3 import KubernetesStorageClassRestoreCriteria
 from ._models_py3 import MonitoringSettings
-from ._models_py3 import NamespacedNameResource
 from ._models_py3 import OperationExtendedInfo
 from ._models_py3 import OperationJobExtendedInfo
 from ._models_py3 import OperationResource
@@ -151,8 +154,9 @@ from ._models_py3 import TriggerBackupRequest
 from ._models_py3 import TriggerContext
 from ._models_py3 import UnlockDeleteRequest
 from ._models_py3 import UnlockDeleteResponse
-from ._models_py3 import UserAssignedIdentity
+from ._models_py3 import UserAssignedIdentityDetails
 from ._models_py3 import UserFacingError
+from ._models_py3 import ValidateCrossRegionRestoreRequestObject
 from ._models_py3 import ValidateForBackupRequest
 from ._models_py3 import ValidateRestoreRequestObject
 
@@ -234,7 +238,6 @@ __all__ = [
     "BaseBackupPolicyResource",
     "BaseBackupPolicyResourceList",
     "BasePolicyRule",
-    "BaseResourceProperties",
     "BlobBackupDatasourceParameters",
     "CheckNameAvailabilityRequest",
     "CheckNameAvailabilityResult",
@@ -246,6 +249,10 @@ __all__ = [
     "ClientDiscoveryValueForSingleApi",
     "CopyOnExpiryOption",
     "CopyOption",
+    "CrossRegionRestoreDetails",
+    "CrossRegionRestoreJobRequest",
+    "CrossRegionRestoreJobsRequest",
+    "CrossRegionRestoreRequestObject",
     "CrossRegionRestoreSettings",
     "CrossSubscriptionRestoreSettings",
     "CustomCopyOption",
@@ -277,6 +284,7 @@ __all__ = [
     "FeatureValidationRequestBase",
     "FeatureValidationResponse",
     "FeatureValidationResponseBase",
+    "FetchSecondaryRPsRequestParameters",
     "IdentityDetails",
     "ImmediateCopyOption",
     "ImmutabilitySettings",
@@ -291,7 +299,6 @@ __all__ = [
     "KubernetesPVRestoreCriteria",
     "KubernetesStorageClassRestoreCriteria",
     "MonitoringSettings",
-    "NamespacedNameResource",
     "OperationExtendedInfo",
     "OperationJobExtendedInfo",
     "OperationResource",
@@ -337,8 +344,9 @@ __all__ = [
     "TriggerContext",
     "UnlockDeleteRequest",
     "UnlockDeleteResponse",
-    "UserAssignedIdentity",
+    "UserAssignedIdentityDetails",
     "UserFacingError",
+    "ValidateCrossRegionRestoreRequestObject",
     "ValidateForBackupRequest",
     "ValidateRestoreRequestObject",
     "AbsoluteMarker",
