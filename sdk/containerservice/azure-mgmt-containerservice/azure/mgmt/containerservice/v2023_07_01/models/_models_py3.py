@@ -1656,6 +1656,8 @@ class KubernetesVersion(_serialization.Model):
      ~azure.mgmt.containerservice.v2023_07_01.models.KubernetesVersionCapabilities
     :ivar is_preview: Whether this version is in preview mode.
     :vartype is_preview: bool
+    :ivar is_default: Default Kubernetes release AKS create with.
+    :vartype is_default: bool
     :ivar patch_versions: Patch versions of Kubernetes release.
     :vartype patch_versions: dict[str,
      ~azure.mgmt.containerservice.v2023_07_01.models.KubernetesPatchVersion]
@@ -1665,6 +1667,7 @@ class KubernetesVersion(_serialization.Model):
         "version": {"key": "version", "type": "str"},
         "capabilities": {"key": "capabilities", "type": "KubernetesVersionCapabilities"},
         "is_preview": {"key": "isPreview", "type": "bool"},
+        "is_default": {"key": "isDefault", "type": "bool"},
         "patch_versions": {"key": "patchVersions", "type": "{KubernetesPatchVersion}"},
     }
 
@@ -1674,6 +1677,7 @@ class KubernetesVersion(_serialization.Model):
         version: Optional[str] = None,
         capabilities: Optional["_models.KubernetesVersionCapabilities"] = None,
         is_preview: Optional[bool] = None,
+        is_default: Optional[bool] = None,
         patch_versions: Optional[Dict[str, "_models.KubernetesPatchVersion"]] = None,
         **kwargs: Any
     ) -> None:
@@ -1685,6 +1689,8 @@ class KubernetesVersion(_serialization.Model):
          ~azure.mgmt.containerservice.v2023_07_01.models.KubernetesVersionCapabilities
         :keyword is_preview: Whether this version is in preview mode.
         :paramtype is_preview: bool
+        :keyword is_default: Default Kubernetes release AKS create with.
+        :paramtype is_default: bool
         :keyword patch_versions: Patch versions of Kubernetes release.
         :paramtype patch_versions: dict[str,
          ~azure.mgmt.containerservice.v2023_07_01.models.KubernetesPatchVersion]
@@ -1693,6 +1699,7 @@ class KubernetesVersion(_serialization.Model):
         self.version = version
         self.capabilities = capabilities
         self.is_preview = is_preview
+        self.is_default = is_default
         self.patch_versions = patch_versions
 
 
