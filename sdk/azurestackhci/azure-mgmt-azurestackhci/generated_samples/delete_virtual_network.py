@@ -29,13 +29,12 @@ def main():
         subscription_id="fd3c3665-1729-4b7b-9a38-238e83b0f98b",
     )
 
-    response = client.virtualnetworks.delete(
+    client.virtual_networks.begin_delete(
         resource_group_name="test-rg",
-        virtualnetworks_name="test-vnet",
-    )
-    print(response)
+        virtual_network_name="test-vnet",
+    ).result()
 
 
-# x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/preview/2021-09-01-preview/examples/DeleteVirtualNetwork.json
+# x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/preview/2023-07-01-preview/examples/DeleteVirtualNetwork.json
 if __name__ == "__main__":
     main()

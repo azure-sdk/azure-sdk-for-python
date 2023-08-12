@@ -29,10 +29,10 @@ def main():
         subscription_id="fd3c3665-1729-4b7b-9a38-238e83b0f98b",
     )
 
-    response = client.networkinterfaces.begin_create_or_update(
+    response = client.network_interfaces.begin_create_or_update(
         resource_group_name="test-rg",
-        networkinterfaces_name="test-nic",
-        networkinterfaces={
+        network_interface_name="test-nic",
+        network_interfaces={
             "extendedLocation": {
                 "name": "/subscriptions/a95612cb-f1fa-4daa-a4fd-272844fa512c/resourceGroups/dogfoodarc/providers/Microsoft.ExtendedLocation/customLocations/dogfood-location",
                 "type": "CustomLocation",
@@ -46,6 +46,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/preview/2021-09-01-preview/examples/PutNetworkInterface.json
+# x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/preview/2023-07-01-preview/examples/PutNetworkInterface.json
 if __name__ == "__main__":
     main()
