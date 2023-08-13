@@ -14,7 +14,7 @@ from azure.mgmt.agrifood import AgriFoodMgmtClient
     pip install azure-identity
     pip install azure-mgmt-agrifood
 # USAGE
-    python farm_beats_extensions_get.py
+    python data_manager_for_agriculture_extensions_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,16 +26,15 @@ from azure.mgmt.agrifood import AgriFoodMgmtClient
 def main():
     client = AgriFoodMgmtClient(
         credential=DefaultAzureCredential(),
-        solution_id="SOLUTION_ID",
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.farm_beats_extensions.get(
-        farm_beats_extension_id="DTN.ContentServices",
+    response = client.data_manager_for_agriculture_extensions.get(
+        data_manager_for_agriculture_extension_id="DTN.ContentServices",
     )
     print(response)
 
 
-# x-ms-original-file: specification/agrifood/resource-manager/Microsoft.AgFoodPlatform/preview/2021-09-01-preview/examples/FarmBeatsExtensions_Get.json
+# x-ms-original-file: specification/agrifood/resource-manager/Microsoft.AgFoodPlatform/preview/2023-06-01-preview/examples/DataManagerForAgricultureExtensions_Get.json
 if __name__ == "__main__":
     main()
