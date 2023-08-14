@@ -1,6 +1,6 @@
 {
     "chosen_version": "2015-07-01",
-    "total_api_version_list": ["2014-04-01", "2015-07-01"],
+    "total_api_version_list": ["2015-07-01"],
     "client": {
         "name": "MonitorManagementClient",
         "filename": "_monitor_management_client",
@@ -21,13 +21,6 @@
                 "docstring_type": "~azure.core.credentials.TokenCredential",
                 "required": true,
                 "method_location": "positional"
-            },
-            "subscription_id": {
-                "signature": "subscription_id: str,",
-                "description": "The ID of the target subscription. Required.",
-                "docstring_type": "str",
-                "required": true,
-                "method_location": "positional"
             }
         },
         "async": {
@@ -36,17 +29,11 @@
                 "description": "Credential needed for the client to connect to Azure. Required.",
                 "docstring_type": "~azure.core.credentials_async.AsyncTokenCredential",
                 "required": true
-            },
-            "subscription_id": {
-                "signature": "subscription_id: str,",
-                "description": "The ID of the target subscription. Required.",
-                "docstring_type": "str",
-                "required": true
             }
         },
         "constant": {
         },
-        "call": "credential, subscription_id",
+        "call": "credential",
         "service_client_specific": {
             "sync": {
                 "api_version": {
@@ -107,7 +94,6 @@
     "operation_groups": {
         "service_diagnostic_settings": "ServiceDiagnosticSettingsOperations",
         "metric_definitions": "MetricDefinitionsOperations",
-        "alert_rules": "AlertRulesOperations",
         "operations": "Operations"
     }
 }

@@ -66,13 +66,13 @@ class MonitorManagementClient:  # pylint: disable=client-accepts-api-version-key
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
         self.data_collection_endpoints = DataCollectionEndpointsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2021-04-01"
         )
         self.data_collection_rule_associations = DataCollectionRuleAssociationsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2021-04-01"
         )
         self.data_collection_rules = DataCollectionRulesOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2021-04-01"
         )
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> HttpResponse:
