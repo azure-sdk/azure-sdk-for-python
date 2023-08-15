@@ -35,7 +35,7 @@ class BackupRequest(_serialization.Model):
         "azure_file_share": {"key": "azureFileShare", "type": "str"},
     }
 
-    def __init__(self, *, azure_file_share: Optional[str] = None, **kwargs):
+    def __init__(self, *, azure_file_share: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword azure_file_share: Azure File Share.
         :paramtype azure_file_share: str
@@ -70,7 +70,7 @@ class CheckNameAvailabilityParameters(_serialization.Model):
 
     type = "Microsoft.StorageSync/storageSyncServices"
 
-    def __init__(self, *, name: str, **kwargs):
+    def __init__(self, *, name: str, **kwargs: Any) -> None:
         """
         :keyword name: The name to check for availability. Required.
         :paramtype name: str
@@ -108,7 +108,7 @@ class CheckNameAvailabilityResult(_serialization.Model):
         "message": {"key": "message", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.name_available = None
@@ -148,7 +148,7 @@ class Resource(_serialization.Model):
         "system_data": {"key": "systemData", "type": "SystemData"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -158,7 +158,8 @@ class Resource(_serialization.Model):
 
 
 class ProxyResource(Resource):
-    """The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location.
+    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
+    tags and a location.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -189,7 +190,7 @@ class ProxyResource(Resource):
         "system_data": {"key": "systemData", "type": "SystemData"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
 
@@ -273,8 +274,8 @@ class CloudEndpoint(ProxyResource):  # pylint: disable=too-many-instance-attribu
         provisioning_state: Optional[str] = None,
         last_workflow_id: Optional[str] = None,
         last_operation_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword storage_account_resource_id: Storage Account Resource Id.
         :paramtype storage_account_resource_id: str
@@ -327,7 +328,7 @@ class CloudEndpointAfsShareMetadataCertificatePublicKeys(_serialization.Model):
         "second_key": {"key": "secondKey", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.first_key = None
@@ -345,7 +346,7 @@ class CloudEndpointArray(_serialization.Model):
         "value": {"key": "value", "type": "[CloudEndpoint]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.CloudEndpoint"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.CloudEndpoint"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Collection of CloudEndpoint.
         :paramtype value: list[~azure.mgmt.storagesync.models.CloudEndpoint]
@@ -425,7 +426,7 @@ class CloudEndpointChangeEnumerationActivity(_serialization.Model):  # pylint: d
         "deletes_progress_percent": {"key": "deletesProgressPercent", "type": "int"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.last_updated_timestamp = None
@@ -469,7 +470,7 @@ class CloudEndpointChangeEnumerationStatus(_serialization.Model):
         "activity": {"key": "activity", "type": "CloudEndpointChangeEnumerationActivity"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.last_updated_timestamp = None
@@ -528,8 +529,8 @@ class CloudEndpointCreateParameters(ProxyResource):
         azure_file_share_name: Optional[str] = None,
         storage_account_tenant_id: Optional[str] = None,
         friendly_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword storage_account_resource_id: Storage Account Resource Id.
         :paramtype storage_account_resource_id: str
@@ -584,7 +585,7 @@ class CloudEndpointLastChangeEnumerationStatus(_serialization.Model):
         "next_run_timestamp": {"key": "nextRunTimestamp", "type": "iso-8601"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.started_timestamp = None
@@ -625,7 +626,7 @@ class CloudTieringCachePerformance(_serialization.Model):
         "cache_hit_bytes_percent": {"key": "cacheHitBytesPercent", "type": "int"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.last_updated_timestamp = None
@@ -658,7 +659,7 @@ class CloudTieringDatePolicyStatus(_serialization.Model):
         },
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.last_updated_timestamp = None
@@ -690,7 +691,7 @@ class CloudTieringFilesNotTiering(_serialization.Model):
         "errors": {"key": "errors", "type": "[FilesNotTieringError]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.last_updated_timestamp = None
@@ -719,7 +720,7 @@ class CloudTieringLowDiskMode(_serialization.Model):
         "state": {"key": "state", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.last_updated_timestamp = None
@@ -763,7 +764,7 @@ class CloudTieringSpaceSavings(_serialization.Model):
         "space_savings_bytes": {"key": "spaceSavingsBytes", "type": "int"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.last_updated_timestamp = None
@@ -800,7 +801,7 @@ class CloudTieringVolumeFreeSpacePolicyStatus(_serialization.Model):
         "current_volume_free_space_percent": {"key": "currentVolumeFreeSpacePercent", "type": "int"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.last_updated_timestamp = None
@@ -829,7 +830,7 @@ class FilesNotTieringError(_serialization.Model):
         "file_count": {"key": "fileCount", "type": "int"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.error_code = None
@@ -877,7 +878,7 @@ class LocationOperationStatus(_serialization.Model):
         "percent_complete": {"key": "percentComplete", "type": "int"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -916,8 +917,8 @@ class OperationDisplayInfo(_serialization.Model):
         operation: Optional[str] = None,
         provider: Optional[str] = None,
         resource: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword description: The description of the operation.
         :paramtype description: str
@@ -962,8 +963,8 @@ class OperationDisplayResource(_serialization.Model):
         resource: Optional[str] = None,
         operation: Optional[str] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword provider: Operation Display Resource Provider.
         :paramtype provider: str
@@ -1008,8 +1009,8 @@ class OperationEntity(_serialization.Model):
         display: Optional["_models.OperationDisplayInfo"] = None,
         origin: Optional[str] = None,
         properties: Optional["_models.OperationProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Operation name: {provider}/{resource}/{operation}.
         :paramtype name: str
@@ -1042,8 +1043,8 @@ class OperationEntityListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, next_link: Optional[str] = None, value: Optional[List["_models.OperationEntity"]] = None, **kwargs
-    ):
+        self, *, next_link: Optional[str] = None, value: Optional[List["_models.OperationEntity"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword next_link: The link used to get the next page of operations.
         :paramtype next_link: str
@@ -1068,8 +1069,8 @@ class OperationProperties(_serialization.Model):
     }
 
     def __init__(
-        self, *, service_specification: Optional["_models.OperationResourceServiceSpecification"] = None, **kwargs
-    ):
+        self, *, service_specification: Optional["_models.OperationResourceServiceSpecification"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword service_specification: Service specification for the operations resource.
         :paramtype service_specification:
@@ -1123,8 +1124,8 @@ class OperationResourceMetricSpecification(_serialization.Model):
         supported_aggregation_types: Optional[List[str]] = None,
         fill_gap_with_zero: Optional[bool] = None,
         dimensions: Optional[List["_models.OperationResourceMetricSpecificationDimension"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Name of the metric.
         :paramtype name: str
@@ -1178,8 +1179,8 @@ class OperationResourceMetricSpecificationDimension(_serialization.Model):
         name: Optional[str] = None,
         display_name: Optional[str] = None,
         to_be_exported_for_shoebox: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Name of the dimension.
         :paramtype name: str
@@ -1207,8 +1208,11 @@ class OperationResourceServiceSpecification(_serialization.Model):
     }
 
     def __init__(
-        self, *, metric_specifications: Optional[List["_models.OperationResourceMetricSpecification"]] = None, **kwargs
-    ):
+        self,
+        *,
+        metric_specifications: Optional[List["_models.OperationResourceMetricSpecification"]] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword metric_specifications: List of metric specifications.
         :paramtype metric_specifications:
@@ -1251,7 +1255,7 @@ class OperationStatus(_serialization.Model):
         "error": {"key": "error", "type": "StorageSyncApiError"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.name = None
@@ -1278,7 +1282,7 @@ class PostBackupResponse(_serialization.Model):
         "cloud_endpoint_name": {"key": "backupMetadata.cloudEndpointName", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.cloud_endpoint_name = None
@@ -1327,8 +1331,8 @@ class PostRestoreRequest(_serialization.Model):
         source_azure_file_share_uri: Optional[str] = None,
         failed_file_list: Optional[str] = None,
         restore_file_spec: Optional[List["_models.RestoreFileSpec"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword partition: Post Restore partition.
         :paramtype partition: str
@@ -1409,8 +1413,8 @@ class PreRestoreRequest(_serialization.Model):
         backup_metadata_property_bag: Optional[str] = None,
         restore_file_spec: Optional[List["_models.RestoreFileSpec"]] = None,
         pause_wait_for_sync_drain_time_period_in_seconds: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword partition: Pre Restore partition.
         :paramtype partition: str
@@ -1461,7 +1465,7 @@ class PrivateEndpoint(_serialization.Model):
         "id": {"key": "id", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -1521,8 +1525,8 @@ class PrivateEndpointConnection(Resource):
         *,
         private_endpoint: Optional["_models.PrivateEndpoint"] = None,
         private_link_service_connection_state: Optional["_models.PrivateLinkServiceConnectionState"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword private_endpoint: The resource of private end point.
         :paramtype private_endpoint: ~azure.mgmt.storagesync.models.PrivateEndpoint
@@ -1548,7 +1552,7 @@ class PrivateEndpointConnectionListResult(_serialization.Model):
         "value": {"key": "value", "type": "[PrivateEndpointConnection]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.PrivateEndpointConnection"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.PrivateEndpointConnection"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Array of private endpoint connections.
         :paramtype value: list[~azure.mgmt.storagesync.models.PrivateEndpointConnection]
@@ -1600,7 +1604,7 @@ class PrivateLinkResource(Resource):
         "required_zone_names": {"key": "properties.requiredZoneNames", "type": "[str]"},
     }
 
-    def __init__(self, *, required_zone_names: Optional[List[str]] = None, **kwargs):
+    def __init__(self, *, required_zone_names: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
         :keyword required_zone_names: The private link resource Private link DNS zone name.
         :paramtype required_zone_names: list[str]
@@ -1622,7 +1626,7 @@ class PrivateLinkResourceListResult(_serialization.Model):
         "value": {"key": "value", "type": "[PrivateLinkResource]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.PrivateLinkResource"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.PrivateLinkResource"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Array of private link resources.
         :paramtype value: list[~azure.mgmt.storagesync.models.PrivateLinkResource]
@@ -1632,7 +1636,8 @@ class PrivateLinkResourceListResult(_serialization.Model):
 
 
 class PrivateLinkServiceConnectionState(_serialization.Model):
-    """A collection of information about the state of the connection between service consumer and provider.
+    """A collection of information about the state of the connection between service consumer and
+    provider.
 
     :ivar status: Indicates whether the connection has been Approved/Rejected/Removed by the owner
      of the service. Known values are: "Pending", "Approved", and "Rejected".
@@ -1656,8 +1661,8 @@ class PrivateLinkServiceConnectionState(_serialization.Model):
         status: Optional[Union[str, "_models.PrivateEndpointServiceConnectionStatus"]] = None,
         description: Optional[str] = None,
         actions_required: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword status: Indicates whether the connection has been Approved/Rejected/Removed by the
          owner of the service. Known values are: "Pending", "Approved", and "Rejected".
@@ -1688,7 +1693,7 @@ class RecallActionParameters(_serialization.Model):
         "recall_path": {"key": "recallPath", "type": "str"},
     }
 
-    def __init__(self, *, pattern: Optional[str] = None, recall_path: Optional[str] = None, **kwargs):
+    def __init__(self, *, pattern: Optional[str] = None, recall_path: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword pattern: Pattern of the files.
         :paramtype pattern: str
@@ -1829,8 +1834,8 @@ class RegisteredServer(ProxyResource):  # pylint: disable=too-many-instance-attr
         management_endpoint_uri: Optional[str] = None,
         monitoring_endpoint_uri: Optional[str] = None,
         monitoring_configuration: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword server_certificate: Registered Server Certificate.
         :paramtype server_certificate: str
@@ -1910,7 +1915,7 @@ class RegisteredServerArray(_serialization.Model):
         "value": {"key": "value", "type": "[RegisteredServer]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.RegisteredServer"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.RegisteredServer"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Collection of Registered Server.
         :paramtype value: list[~azure.mgmt.storagesync.models.RegisteredServer]
@@ -1990,8 +1995,8 @@ class RegisteredServerCreateParameters(ProxyResource):  # pylint: disable=too-ma
         cluster_name: Optional[str] = None,
         server_id: Optional[str] = None,
         friendly_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword server_certificate: Registered Server Certificate.
         :paramtype server_certificate: str
@@ -2038,7 +2043,9 @@ class ResourcesMoveInfo(_serialization.Model):
         "resources": {"key": "resources", "type": "[str]"},
     }
 
-    def __init__(self, *, target_resource_group: Optional[str] = None, resources: Optional[List[str]] = None, **kwargs):
+    def __init__(
+        self, *, target_resource_group: Optional[str] = None, resources: Optional[List[str]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword target_resource_group: Target resource group.
         :paramtype target_resource_group: str
@@ -2064,7 +2071,7 @@ class RestoreFileSpec(_serialization.Model):
         "isdir": {"key": "isdir", "type": "bool"},
     }
 
-    def __init__(self, *, path: Optional[str] = None, isdir: Optional[bool] = None, **kwargs):
+    def __init__(self, *, path: Optional[str] = None, isdir: Optional[bool] = None, **kwargs: Any) -> None:
         """
         :keyword path: Restore file spec path.
         :paramtype path: str
@@ -2206,8 +2213,8 @@ class ServerEndpoint(ProxyResource):  # pylint: disable=too-many-instance-attrib
         initial_download_policy: Optional[Union[str, "_models.InitialDownloadPolicy"]] = None,
         local_cache_mode: Optional[Union[str, "_models.LocalCacheMode"]] = None,
         initial_upload_policy: Optional[Union[str, "_models.InitialUploadPolicy"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword server_local_path: Server Local path.
         :paramtype server_local_path: str
@@ -2272,7 +2279,7 @@ class ServerEndpointArray(_serialization.Model):
         "value": {"key": "value", "type": "[ServerEndpoint]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.ServerEndpoint"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.ServerEndpoint"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Collection of ServerEndpoint.
         :paramtype value: list[~azure.mgmt.storagesync.models.ServerEndpoint]
@@ -2310,7 +2317,7 @@ class ServerEndpointBackgroundDataDownloadActivity(_serialization.Model):
         "downloaded_bytes": {"key": "downloadedBytes", "type": "int"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.timestamp = None
@@ -2382,7 +2389,7 @@ class ServerEndpointCloudTieringStatus(_serialization.Model):  # pylint: disable
         "low_disk_mode": {"key": "lowDiskMode", "type": "CloudTieringLowDiskMode"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.last_updated_timestamp = None
@@ -2484,8 +2491,8 @@ class ServerEndpointCreateParameters(ProxyResource):  # pylint: disable=too-many
         initial_download_policy: Optional[Union[str, "_models.InitialDownloadPolicy"]] = None,
         local_cache_mode: Optional[Union[str, "_models.LocalCacheMode"]] = None,
         initial_upload_policy: Optional[Union[str, "_models.InitialUploadPolicy"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword server_local_path: Server Local path.
         :paramtype server_local_path: str
@@ -2555,7 +2562,7 @@ class ServerEndpointFilesNotSyncingError(_serialization.Model):
         "transient_count": {"key": "transientCount", "type": "int"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.error_code = None
@@ -2584,7 +2591,7 @@ class ServerEndpointRecallError(_serialization.Model):
         "count": {"key": "count", "type": "int"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.error_code = None
@@ -2616,7 +2623,7 @@ class ServerEndpointRecallStatus(_serialization.Model):
         "recall_errors": {"key": "recallErrors", "type": "[ServerEndpointRecallError]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.last_updated_timestamp = None
@@ -2670,7 +2677,7 @@ class ServerEndpointSyncActivityStatus(_serialization.Model):
         "session_minutes_remaining": {"key": "sessionMinutesRemaining", "type": "int"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.timestamp = None
@@ -2730,7 +2737,7 @@ class ServerEndpointSyncSessionStatus(_serialization.Model):
         "last_sync_mode": {"key": "lastSyncMode", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.last_sync_result = None
@@ -2815,7 +2822,7 @@ class ServerEndpointSyncStatus(_serialization.Model):  # pylint: disable=too-man
         },
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.download_health = None
@@ -2875,8 +2882,8 @@ class ServerEndpointUpdateParameters(_serialization.Model):
         offline_data_transfer: Optional[Union[str, "_models.FeatureStatus"]] = None,
         offline_data_transfer_share_name: Optional[str] = None,
         local_cache_mode: Optional[Union[str, "_models.LocalCacheMode"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword cloud_tiering: Cloud Tiering. Known values are: "on" and "off".
         :paramtype cloud_tiering: str or ~azure.mgmt.storagesync.models.FeatureStatus
@@ -2934,8 +2941,8 @@ class StorageSyncApiError(_serialization.Model):
         target: Optional[str] = None,
         details: Optional["_models.StorageSyncErrorDetails"] = None,
         innererror: Optional["_models.StorageSyncInnerErrorDetails"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword code: Error code of the given entry.
         :paramtype code: str
@@ -2975,8 +2982,8 @@ class StorageSyncError(_serialization.Model):
         *,
         error: Optional["_models.StorageSyncApiError"] = None,
         innererror: Optional["_models.StorageSyncApiError"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword error: Error details of the given entry.
         :paramtype error: ~azure.mgmt.storagesync.models.StorageSyncApiError
@@ -3031,8 +3038,8 @@ class StorageSyncErrorDetails(_serialization.Model):
         http_method: Optional[str] = None,
         hashed_message: Optional[str] = None,
         http_error_code: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword code: Error code of the given entry.
         :paramtype code: str
@@ -3089,8 +3096,8 @@ class StorageSyncInnerErrorDetails(_serialization.Model):
         message: Optional[str] = None,
         inner_exception: Optional[str] = None,
         inner_exception_call_stack: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword call_stack: Call stack of the error.
         :paramtype call_stack: str
@@ -3109,7 +3116,8 @@ class StorageSyncInnerErrorDetails(_serialization.Model):
 
 
 class TrackedResource(Resource):
-    """The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'.
+    """The resource model definition for an Azure Resource Manager tracked top level resource which
+    has 'tags' and a 'location'.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -3149,7 +3157,7 @@ class TrackedResource(Resource):
         "location": {"key": "location", "type": "str"},
     }
 
-    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -3241,8 +3249,8 @@ class StorageSyncService(TrackedResource):  # pylint: disable=too-many-instance-
         location: str,
         tags: Optional[Dict[str, str]] = None,
         incoming_traffic_policy: Optional[Union[str, "_models.IncomingTrafficPolicy"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -3273,7 +3281,7 @@ class StorageSyncServiceArray(_serialization.Model):
         "value": {"key": "value", "type": "[StorageSyncService]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.StorageSyncService"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.StorageSyncService"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Collection of StorageSyncServices.
         :paramtype value: list[~azure.mgmt.storagesync.models.StorageSyncService]
@@ -3318,8 +3326,8 @@ class StorageSyncServiceCreateParameters(_serialization.Model):
         location: str,
         tags: Optional[Dict[str, str]] = None,
         incoming_traffic_policy: Optional[Union[str, "_models.IncomingTrafficPolicy"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Required. Gets or sets the location of the resource. This will be one of the
          supported and registered Azure Geo Regions (e.g. West US, East US, Southeast Asia, etc.). The
@@ -3361,8 +3369,8 @@ class StorageSyncServiceUpdateParameters(_serialization.Model):
         *,
         tags: Optional[Dict[str, str]] = None,
         incoming_traffic_policy: Optional[Union[str, "_models.IncomingTrafficPolicy"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: The user-specified tags associated with the storage sync service.
         :paramtype tags: dict[str, str]
@@ -3400,8 +3408,8 @@ class SubscriptionState(_serialization.Model):
     }
 
     def __init__(
-        self, *, state: Optional[Union[str, "_models.Reason"]] = None, properties: Optional[JSON] = None, **kwargs
-    ):
+        self, *, state: Optional[Union[str, "_models.Reason"]] = None, properties: Optional[JSON] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword state: State of Azure Subscription. Known values are: "Registered", "Unregistered",
          "Warned", "Suspended", and "Deleted".
@@ -3455,7 +3463,7 @@ class SyncGroup(ProxyResource):
         "sync_group_status": {"key": "properties.syncGroupStatus", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.unique_id = None
@@ -3473,7 +3481,7 @@ class SyncGroupArray(_serialization.Model):
         "value": {"key": "value", "type": "[SyncGroup]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.SyncGroup"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.SyncGroup"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Collection of SyncGroup.
         :paramtype value: list[~azure.mgmt.storagesync.models.SyncGroup]
@@ -3517,7 +3525,7 @@ class SyncGroupCreateParameters(ProxyResource):
         "properties": {"key": "properties", "type": "object"},
     }
 
-    def __init__(self, *, properties: Optional[JSON] = None, **kwargs):
+    def __init__(self, *, properties: Optional[JSON] = None, **kwargs: Any) -> None:
         """
         :keyword properties: The parameters used to create the sync group.
         :paramtype properties: JSON
@@ -3563,8 +3571,8 @@ class SystemData(_serialization.Model):
         last_modified_by: Optional[str] = None,
         last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
         last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword created_by: The identity that created the resource.
         :paramtype created_by: str
@@ -3616,8 +3624,8 @@ class TriggerChangeDetectionParameters(_serialization.Model):
         directory_path: Optional[str] = None,
         change_detection_mode: Optional[Union[str, "_models.ChangeDetectionMode"]] = None,
         paths: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword directory_path: Relative path to a directory Azure File share for which change
          detection is to be performed.
@@ -3646,7 +3654,7 @@ class TriggerRolloverRequest(_serialization.Model):
         "server_certificate": {"key": "serverCertificate", "type": "str"},
     }
 
-    def __init__(self, *, server_certificate: Optional[str] = None, **kwargs):
+    def __init__(self, *, server_certificate: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword server_certificate: Certificate Data.
         :paramtype server_certificate: str
@@ -3723,8 +3731,8 @@ class Workflow(ProxyResource):  # pylint: disable=too-many-instance-attributes
         operation: Optional[Union[str, "_models.OperationDirection"]] = None,
         steps: Optional[str] = None,
         last_operation_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword last_step_name: last step name.
         :paramtype last_step_name: str
@@ -3760,7 +3768,7 @@ class WorkflowArray(_serialization.Model):
         "value": {"key": "value", "type": "[Workflow]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Workflow"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.Workflow"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Collection of workflow items.
         :paramtype value: list[~azure.mgmt.storagesync.models.Workflow]

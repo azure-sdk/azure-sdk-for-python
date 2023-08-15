@@ -36,6 +36,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2022-06-01/examples/StorageSyncServiceCheckNameAvailability_Available.json
+# x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2022-09-01/examples/StorageSyncServiceCheckNameAvailability_Available.json
 if __name__ == "__main__":
     main()
