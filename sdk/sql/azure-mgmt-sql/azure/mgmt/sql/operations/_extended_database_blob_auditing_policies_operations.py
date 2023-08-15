@@ -28,7 +28,7 @@ from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import _convert_request, _format_url_section
+from .._vendor import _convert_request
 
 if sys.version_info >= (3, 8):
     from typing import Literal  # pylint: disable=no-name-in-module, ungrouped-imports
@@ -47,7 +47,7 @@ def build_list_by_database_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-11-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -62,7 +62,7 @@ def build_list_by_database_request(
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -80,7 +80,7 @@ def build_get_request(
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     blob_auditing_policy_name: Literal["default"] = kwargs.pop("blob_auditing_policy_name", "default")
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-11-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -96,7 +96,7 @@ def build_get_request(
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -114,7 +114,7 @@ def build_create_or_update_request(
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     blob_auditing_policy_name: Literal["default"] = kwargs.pop("blob_auditing_policy_name", "default")
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-11-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -131,7 +131,7 @@ def build_create_or_update_request(
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -185,7 +185,7 @@ class ExtendedDatabaseBlobAuditingPoliciesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-11-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01-preview"))
         cls: ClsType[_models.ExtendedDatabaseBlobAuditingPolicyListResult] = kwargs.pop("cls", None)
 
         error_map = {
@@ -280,7 +280,7 @@ class ExtendedDatabaseBlobAuditingPoliciesOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         blob_auditing_policy_name: Literal["default"] = kwargs.pop("blob_auditing_policy_name", "default")
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-11-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01-preview"))
         cls: ClsType[_models.ExtendedDatabaseBlobAuditingPolicy] = kwargs.pop("cls", None)
 
         request = build_get_request(
@@ -431,7 +431,7 @@ class ExtendedDatabaseBlobAuditingPoliciesOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         blob_auditing_policy_name: Literal["default"] = kwargs.pop("blob_auditing_policy_name", "default")
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-11-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01-preview"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.ExtendedDatabaseBlobAuditingPolicy] = kwargs.pop("cls", None)
 

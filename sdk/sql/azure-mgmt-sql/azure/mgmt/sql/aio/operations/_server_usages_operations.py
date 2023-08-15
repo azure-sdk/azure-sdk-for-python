@@ -55,7 +55,7 @@ class ServerUsagesOperations:
     def list_by_server(
         self, resource_group_name: str, server_name: str, **kwargs: Any
     ) -> AsyncIterable["_models.ServerUsage"]:
-        """Returns server usages.
+        """Gets server usages.
 
         :param resource_group_name: The name of the resource group that contains the resource. You can
          obtain this value from the Azure Resource Manager API or the portal. Required.
@@ -70,7 +70,7 @@ class ServerUsagesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2014-04-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01-preview"))
         cls: ClsType[_models.ServerUsageListResult] = kwargs.pop("cls", None)
 
         error_map = {
@@ -108,7 +108,7 @@ class ServerUsagesOperations:
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
-            return None, AsyncList(list_of_elem)
+            return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
             request = prepare_request(next_link)
