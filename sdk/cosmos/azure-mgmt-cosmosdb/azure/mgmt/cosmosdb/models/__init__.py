@@ -75,6 +75,7 @@ from ._models_py3 import ContinuousModeBackupPolicy
 from ._models_py3 import ContinuousModeProperties
 from ._models_py3 import CorsPolicy
 from ._models_py3 import CosmosCassandraDataTransferDataSourceSink
+from ._models_py3 import CosmosDataTransferDataSourceSink
 from ._models_py3 import CosmosMongoDataTransferDataSourceSink
 from ._models_py3 import CosmosSqlDataTransferDataSourceSink
 from ._models_py3 import CreateJobRequest
@@ -457,6 +458,7 @@ __all__ = [
     "ContinuousModeProperties",
     "CorsPolicy",
     "CosmosCassandraDataTransferDataSourceSink",
+    "CosmosDataTransferDataSourceSink",
     "CosmosMongoDataTransferDataSourceSink",
     "CosmosSqlDataTransferDataSourceSink",
     "CreateJobRequest",

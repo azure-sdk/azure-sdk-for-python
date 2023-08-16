@@ -3330,11 +3330,33 @@ class CorsPolicy(_serialization.Model):
         self.max_age_in_seconds = max_age_in_seconds
 
 
-class CosmosCassandraDataTransferDataSourceSink(DataTransferDataSourceSink):
+class CosmosDataTransferDataSourceSink(_serialization.Model):
+    """A base CosmosDB data source/sink.
+
+    :ivar remote_account_name:
+    :vartype remote_account_name: str
+    """
+
+    _attribute_map = {
+        "remote_account_name": {"key": "remoteAccountName", "type": "str"},
+    }
+
+    def __init__(self, *, remote_account_name: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword remote_account_name:
+        :paramtype remote_account_name: str
+        """
+        super().__init__(**kwargs)
+        self.remote_account_name = remote_account_name
+
+
+class CosmosCassandraDataTransferDataSourceSink(DataTransferDataSourceSink, CosmosDataTransferDataSourceSink):
     """A CosmosDB Cassandra API data source/sink.
 
     All required parameters must be populated in order to send to Azure.
 
+    :ivar remote_account_name:
+    :vartype remote_account_name: str
     :ivar component: Known values are: "CosmosDBCassandra", "CosmosDBMongo", "CosmosDBSql", and
      "AzureBlobStorage".
     :vartype component: str or ~azure.mgmt.cosmosdb.models.DataTransferComponent
@@ -3351,29 +3373,37 @@ class CosmosCassandraDataTransferDataSourceSink(DataTransferDataSourceSink):
     }
 
     _attribute_map = {
+        "remote_account_name": {"key": "remoteAccountName", "type": "str"},
         "component": {"key": "component", "type": "str"},
         "keyspace_name": {"key": "keyspaceName", "type": "str"},
         "table_name": {"key": "tableName", "type": "str"},
     }
 
-    def __init__(self, *, keyspace_name: str, table_name: str, **kwargs: Any) -> None:
+    def __init__(
+        self, *, keyspace_name: str, table_name: str, remote_account_name: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
+        :keyword remote_account_name:
+        :paramtype remote_account_name: str
         :keyword keyspace_name: Required.
         :paramtype keyspace_name: str
         :keyword table_name: Required.
         :paramtype table_name: str
         """
-        super().__init__(**kwargs)
+        super().__init__(remote_account_name=remote_account_name, **kwargs)
+        self.remote_account_name = remote_account_name
         self.component: str = "CosmosDBCassandra"
         self.keyspace_name = keyspace_name
         self.table_name = table_name
 
 
-class CosmosMongoDataTransferDataSourceSink(DataTransferDataSourceSink):
+class CosmosMongoDataTransferDataSourceSink(DataTransferDataSourceSink, CosmosDataTransferDataSourceSink):
     """A CosmosDB Cassandra API data source/sink.
 
     All required parameters must be populated in order to send to Azure.
 
+    :ivar remote_account_name:
+    :vartype remote_account_name: str
     :ivar component: Known values are: "CosmosDBCassandra", "CosmosDBMongo", "CosmosDBSql", and
      "AzureBlobStorage".
     :vartype component: str or ~azure.mgmt.cosmosdb.models.DataTransferComponent
@@ -3390,29 +3420,37 @@ class CosmosMongoDataTransferDataSourceSink(DataTransferDataSourceSink):
     }
 
     _attribute_map = {
+        "remote_account_name": {"key": "remoteAccountName", "type": "str"},
         "component": {"key": "component", "type": "str"},
         "database_name": {"key": "databaseName", "type": "str"},
         "collection_name": {"key": "collectionName", "type": "str"},
     }
 
-    def __init__(self, *, database_name: str, collection_name: str, **kwargs: Any) -> None:
+    def __init__(
+        self, *, database_name: str, collection_name: str, remote_account_name: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
+        :keyword remote_account_name:
+        :paramtype remote_account_name: str
         :keyword database_name: Required.
         :paramtype database_name: str
         :keyword collection_name: Required.
         :paramtype collection_name: str
         """
-        super().__init__(**kwargs)
+        super().__init__(remote_account_name=remote_account_name, **kwargs)
+        self.remote_account_name = remote_account_name
         self.component: str = "CosmosDBMongo"
         self.database_name = database_name
         self.collection_name = collection_name
 
 
-class CosmosSqlDataTransferDataSourceSink(DataTransferDataSourceSink):
+class CosmosSqlDataTransferDataSourceSink(DataTransferDataSourceSink, CosmosDataTransferDataSourceSink):
     """A CosmosDB Cassandra API data source/sink.
 
     All required parameters must be populated in order to send to Azure.
 
+    :ivar remote_account_name:
+    :vartype remote_account_name: str
     :ivar component: Known values are: "CosmosDBCassandra", "CosmosDBMongo", "CosmosDBSql", and
      "AzureBlobStorage".
     :vartype component: str or ~azure.mgmt.cosmosdb.models.DataTransferComponent
@@ -3429,19 +3467,25 @@ class CosmosSqlDataTransferDataSourceSink(DataTransferDataSourceSink):
     }
 
     _attribute_map = {
+        "remote_account_name": {"key": "remoteAccountName", "type": "str"},
         "component": {"key": "component", "type": "str"},
         "database_name": {"key": "databaseName", "type": "str"},
         "container_name": {"key": "containerName", "type": "str"},
     }
 
-    def __init__(self, *, database_name: str, container_name: str, **kwargs: Any) -> None:
+    def __init__(
+        self, *, database_name: str, container_name: str, remote_account_name: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
+        :keyword remote_account_name:
+        :paramtype remote_account_name: str
         :keyword database_name: Required.
         :paramtype database_name: str
         :keyword container_name: Required.
         :paramtype container_name: str
         """
-        super().__init__(**kwargs)
+        super().__init__(remote_account_name=remote_account_name, **kwargs)
+        self.remote_account_name = remote_account_name
         self.component: str = "CosmosDBSql"
         self.database_name = database_name
         self.container_name = container_name
