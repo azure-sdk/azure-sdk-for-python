@@ -30,7 +30,7 @@ from azure.mgmt.core.polling.arm_polling import ARMPolling
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import _convert_request, _format_url_section
+from .._vendor import _convert_request
 
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
@@ -52,7 +52,7 @@ def build_list_by_subscription_request(subscription_id: str, **kwargs: Any) -> H
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -82,7 +82,7 @@ def build_list_by_resource_group_request(resource_group_name: str, subscription_
         ),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -113,7 +113,7 @@ def build_get_request(resource_group_name: str, catalog_name: str, subscription_
         "catalogName": _SERIALIZER.url("catalog_name", catalog_name, "str", pattern=r"^[A-Za-z0-9_-]{1,50}$"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -147,7 +147,7 @@ def build_create_or_update_request(
         "catalogName": _SERIALIZER.url("catalog_name", catalog_name, "str", pattern=r"^[A-Za-z0-9_-]{1,50}$"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -183,7 +183,7 @@ def build_update_request(
         "catalogName": _SERIALIZER.url("catalog_name", catalog_name, "str", pattern=r"^[A-Za-z0-9_-]{1,50}$"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -218,7 +218,7 @@ def build_delete_request(
         "catalogName": _SERIALIZER.url("catalog_name", catalog_name, "str", pattern=r"^[A-Za-z0-9_-]{1,50}$"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -251,7 +251,7 @@ def build_count_devices_request(
         "catalogName": _SERIALIZER.url("catalog_name", catalog_name, "str", pattern=r"^[A-Za-z0-9_-]{1,50}$"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -292,7 +292,7 @@ def build_list_deployments_request(
         "catalogName": _SERIALIZER.url("catalog_name", catalog_name, "str", pattern=r"^[A-Za-z0-9_-]{1,50}$"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -342,7 +342,7 @@ def build_list_device_groups_request(
         "catalogName": _SERIALIZER.url("catalog_name", catalog_name, "str", pattern=r"^[A-Za-z0-9_-]{1,50}$"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -393,7 +393,7 @@ def build_list_device_insights_request(
         "catalogName": _SERIALIZER.url("catalog_name", catalog_name, "str", pattern=r"^[A-Za-z0-9_-]{1,50}$"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -442,7 +442,7 @@ def build_list_devices_request(
         "catalogName": _SERIALIZER.url("catalog_name", catalog_name, "str", pattern=r"^[A-Za-z0-9_-]{1,50}$"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
