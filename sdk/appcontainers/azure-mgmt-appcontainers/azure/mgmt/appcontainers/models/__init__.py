@@ -31,6 +31,7 @@ from ._models_py3 import BaseContainer
 from ._models_py3 import BillingMeter
 from ._models_py3 import BillingMeterCollection
 from ._models_py3 import BillingMeterProperties
+from ._models_py3 import BlobStorageTokenStore
 from ._models_py3 import Certificate
 from ._models_py3 import CertificateCollection
 from ._models_py3 import CertificatePatch
@@ -87,6 +88,7 @@ from ._models_py3 import DiagnosticsDataApiResponse
 from ._models_py3 import DiagnosticsDefinition
 from ._models_py3 import DiagnosticsProperties
 from ._models_py3 import DiagnosticsStatus
+from ._models_py3 import EncryptionSettings
 from ._models_py3 import EnvironmentAuthToken
 from ._models_py3 import EnvironmentVar
 from ._models_py3 import ErrorAdditionalInfo
@@ -104,11 +106,13 @@ from ._models_py3 import HttpSettings
 from ._models_py3 import HttpSettingsRoutes
 from ._models_py3 import IdentityProviders
 from ._models_py3 import Ingress
+from ._models_py3 import IngressPortMapping
 from ._models_py3 import IngressStickySessions
 from ._models_py3 import InitContainer
 from ._models_py3 import IpSecurityRestrictionRule
 from ._models_py3 import Job
 from ._models_py3 import JobConfiguration
+from ._models_py3 import JobConfigurationEventTriggerConfig
 from ._models_py3 import JobConfigurationManualTriggerConfig
 from ._models_py3 import JobConfigurationScheduleTriggerConfig
 from ._models_py3 import JobExecution
@@ -118,11 +122,14 @@ from ._models_py3 import JobExecutionNamesCollection
 from ._models_py3 import JobExecutionTemplate
 from ._models_py3 import JobPatchProperties
 from ._models_py3 import JobPatchPropertiesProperties
+from ._models_py3 import JobScale
+from ._models_py3 import JobScaleRule
 from ._models_py3 import JobSecretsCollection
 from ._models_py3 import JobTemplate
 from ._models_py3 import JobsCollection
 from ._models_py3 import JwtClaimChecks
 from ._models_py3 import KedaConfiguration
+from ._models_py3 import ListUsagesResult
 from ._models_py3 import LogAnalyticsConfiguration
 from ._models_py3 import Login
 from ._models_py3 import LoginRoutes
@@ -132,11 +139,13 @@ from ._models_py3 import ManagedCertificateCollection
 from ._models_py3 import ManagedCertificatePatch
 from ._models_py3 import ManagedCertificateProperties
 from ._models_py3 import ManagedEnvironment
+from ._models_py3 import ManagedEnvironmentPropertiesPeerAuthentication
 from ._models_py3 import ManagedEnvironmentStorage
 from ._models_py3 import ManagedEnvironmentStorageProperties
 from ._models_py3 import ManagedEnvironmentStoragesCollection
 from ._models_py3 import ManagedEnvironmentsCollection
 from ._models_py3 import ManagedServiceIdentity
+from ._models_py3 import Mtls
 from ._models_py3 import Nonce
 from ._models_py3 import OpenIdConnectClientCredential
 from ._models_py3 import OpenIdConnectConfig
@@ -160,15 +169,20 @@ from ._models_py3 import ScaleRuleAuth
 from ._models_py3 import Secret
 from ._models_py3 import SecretVolumeItem
 from ._models_py3 import SecretsCollection
+from ._models_py3 import Service
+from ._models_py3 import ServiceBind
 from ._models_py3 import SourceControl
 from ._models_py3 import SourceControlCollection
 from ._models_py3 import SystemData
 from ._models_py3 import TcpScaleRule
 from ._models_py3 import Template
+from ._models_py3 import TokenStore
 from ._models_py3 import TrackedResource
 from ._models_py3 import TrafficWeight
 from ._models_py3 import Twitter
 from ._models_py3 import TwitterRegistration
+from ._models_py3 import Usage
+from ._models_py3 import UsageName
 from ._models_py3 import UserAssignedIdentity
 from ._models_py3 import VnetConfiguration
 from ._models_py3 import Volume
@@ -188,7 +202,9 @@ from ._container_apps_api_client_enums import BindingType
 from ._container_apps_api_client_enums import CertificateProvisioningState
 from ._container_apps_api_client_enums import CheckNameAvailabilityReason
 from ._container_apps_api_client_enums import ConnectedEnvironmentProvisioningState
+from ._container_apps_api_client_enums import ContainerAppContainerRunningState
 from ._container_apps_api_client_enums import ContainerAppProvisioningState
+from ._container_apps_api_client_enums import ContainerAppReplicaRunningState
 from ._container_apps_api_client_enums import CookieExpirationConvention
 from ._container_apps_api_client_enums import CreatedByType
 from ._container_apps_api_client_enums import DnsVerificationTestResult
@@ -204,6 +220,7 @@ from ._container_apps_api_client_enums import ManagedCertificateDomainControlVal
 from ._container_apps_api_client_enums import ManagedServiceIdentityType
 from ._container_apps_api_client_enums import RevisionHealthState
 from ._container_apps_api_client_enums import RevisionProvisioningState
+from ._container_apps_api_client_enums import RevisionRunningState
 from ._container_apps_api_client_enums import Scheme
 from ._container_apps_api_client_enums import SourceControlOperationState
 from ._container_apps_api_client_enums import StorageType
@@ -240,6 +257,7 @@ __all__ = [
     "BillingMeter",
     "BillingMeterCollection",
     "BillingMeterProperties",
+    "BlobStorageTokenStore",
     "Certificate",
     "CertificateCollection",
     "CertificatePatch",
@@ -296,6 +314,7 @@ __all__ = [
     "DiagnosticsDefinition",
     "DiagnosticsProperties",
     "DiagnosticsStatus",
+    "EncryptionSettings",
     "EnvironmentAuthToken",
     "EnvironmentVar",
     "ErrorAdditionalInfo",
@@ -313,11 +332,13 @@ __all__ = [
     "HttpSettingsRoutes",
     "IdentityProviders",
     "Ingress",
+    "IngressPortMapping",
     "IngressStickySessions",
     "InitContainer",
     "IpSecurityRestrictionRule",
     "Job",
     "JobConfiguration",
+    "JobConfigurationEventTriggerConfig",
     "JobConfigurationManualTriggerConfig",
     "JobConfigurationScheduleTriggerConfig",
     "JobExecution",
@@ -327,11 +348,14 @@ __all__ = [
     "JobExecutionTemplate",
     "JobPatchProperties",
     "JobPatchPropertiesProperties",
+    "JobScale",
+    "JobScaleRule",
     "JobSecretsCollection",
     "JobTemplate",
     "JobsCollection",
     "JwtClaimChecks",
     "KedaConfiguration",
+    "ListUsagesResult",
     "LogAnalyticsConfiguration",
     "Login",
     "LoginRoutes",
@@ -341,11 +365,13 @@ __all__ = [
     "ManagedCertificatePatch",
     "ManagedCertificateProperties",
     "ManagedEnvironment",
+    "ManagedEnvironmentPropertiesPeerAuthentication",
     "ManagedEnvironmentStorage",
     "ManagedEnvironmentStorageProperties",
     "ManagedEnvironmentStoragesCollection",
     "ManagedEnvironmentsCollection",
     "ManagedServiceIdentity",
+    "Mtls",
     "Nonce",
     "OpenIdConnectClientCredential",
     "OpenIdConnectConfig",
@@ -369,15 +395,20 @@ __all__ = [
     "Secret",
     "SecretVolumeItem",
     "SecretsCollection",
+    "Service",
+    "ServiceBind",
     "SourceControl",
     "SourceControlCollection",
     "SystemData",
     "TcpScaleRule",
     "Template",
+    "TokenStore",
     "TrackedResource",
     "TrafficWeight",
     "Twitter",
     "TwitterRegistration",
+    "Usage",
+    "UsageName",
     "UserAssignedIdentity",
     "VnetConfiguration",
     "Volume",
@@ -396,7 +427,9 @@ __all__ = [
     "CertificateProvisioningState",
     "CheckNameAvailabilityReason",
     "ConnectedEnvironmentProvisioningState",
+    "ContainerAppContainerRunningState",
     "ContainerAppProvisioningState",
+    "ContainerAppReplicaRunningState",
     "CookieExpirationConvention",
     "CreatedByType",
     "DnsVerificationTestResult",
@@ -412,6 +445,7 @@ __all__ = [
     "ManagedServiceIdentityType",
     "RevisionHealthState",
     "RevisionProvisioningState",
+    "RevisionRunningState",
     "Scheme",
     "SourceControlOperationState",
     "StorageType",
