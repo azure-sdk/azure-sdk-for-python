@@ -35,6 +35,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportGetByBillingAccount.json
+# x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/preview/2023-09-01-preview/examples/ExportGetByBillingAccount.json
 if __name__ == "__main__":
     main()

@@ -102,7 +102,7 @@ class GenerateCostDetailsReportOperations:
 
         response = pipeline_response.http_response
 
-        if response.status_code not in [200, 202, 204]:
+        if response.status_code not in [200, 202]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(
                 _models.GenerateCostDetailsReportErrorResponse, pipeline_response
@@ -145,9 +145,7 @@ class GenerateCostDetailsReportOperations:
         will provide a 202 response with a 'Location' header if the operation is still in progress.
         Once the report generation operation completes, the polling endpoint will provide a 200
         response along with details on the report blob(s) that are available for download. The details
-        on the file(s) available for download will be available in the polling response body. To
-        Understand cost details (formerly known as usage details) fields found in files ,see
-        https://learn.microsoft.com/azure/cost-management-billing/automate/understand-usage-details-fields.
+        on the file(s) available for download will be available in the polling response body.
 
         .. seealso::
            - https://docs.microsoft.com/en-us/rest/api/costmanagement/
@@ -188,9 +186,7 @@ class GenerateCostDetailsReportOperations:
         will provide a 202 response with a 'Location' header if the operation is still in progress.
         Once the report generation operation completes, the polling endpoint will provide a 200
         response along with details on the report blob(s) that are available for download. The details
-        on the file(s) available for download will be available in the polling response body. To
-        Understand cost details (formerly known as usage details) fields found in files ,see
-        https://learn.microsoft.com/azure/cost-management-billing/automate/understand-usage-details-fields.
+        on the file(s) available for download will be available in the polling response body.
 
         .. seealso::
            - https://docs.microsoft.com/en-us/rest/api/costmanagement/
@@ -231,9 +227,7 @@ class GenerateCostDetailsReportOperations:
         will provide a 202 response with a 'Location' header if the operation is still in progress.
         Once the report generation operation completes, the polling endpoint will provide a 200
         response along with details on the report blob(s) that are available for download. The details
-        on the file(s) available for download will be available in the polling response body. To
-        Understand cost details (formerly known as usage details) fields found in files ,see
-        https://learn.microsoft.com/azure/cost-management-billing/automate/understand-usage-details-fields.
+        on the file(s) available for download will be available in the polling response body.
 
         .. seealso::
            - https://docs.microsoft.com/en-us/rest/api/costmanagement/

@@ -20,6 +20,12 @@ from ._models_py3 import BenefitUtilizationSummariesListResult
 from ._models_py3 import BenefitUtilizationSummary
 from ._models_py3 import BenefitUtilizationSummaryProperties
 from ._models_py3 import BlobInfo
+from ._models_py3 import Budget
+from ._models_py3 import BudgetComparisonExpression
+from ._models_py3 import BudgetFilter
+from ._models_py3 import BudgetFilterProperties
+from ._models_py3 import BudgetTimePeriod
+from ._models_py3 import BudgetsListResult
 from ._models_py3 import CheckNameAvailabilityRequest
 from ._models_py3 import CheckNameAvailabilityResponse
 from ._models_py3 import CommonExportProperties
@@ -28,6 +34,7 @@ from ._models_py3 import CostDetailsTimePeriod
 from ._models_py3 import CostManagementOperation
 from ._models_py3 import CostManagementProxyResource
 from ._models_py3 import CostManagementResource
+from ._models_py3 import CurrentSpend
 from ._models_py3 import Dimension
 from ._models_py3 import DimensionsListResult
 from ._models_py3 import DismissAlertPayload
@@ -58,6 +65,7 @@ from ._models_py3 import ForecastDatasetConfiguration
 from ._models_py3 import ForecastDefinition
 from ._models_py3 import ForecastFilter
 from ._models_py3 import ForecastResult
+from ._models_py3 import ForecastSpend
 from ._models_py3 import ForecastTimePeriod
 from ._models_py3 import GenerateCostDetailsReportErrorResponse
 from ._models_py3 import GenerateCostDetailsReportRequestDefinition
@@ -69,6 +77,7 @@ from ._models_py3 import GenerateDetailedCostReportTimePeriod
 from ._models_py3 import IncludedQuantityUtilizationSummary
 from ._models_py3 import IncludedQuantityUtilizationSummaryProperties
 from ._models_py3 import KpiProperties
+from ._models_py3 import Notification
 from ._models_py3 import NotificationProperties
 from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
@@ -105,6 +114,7 @@ from ._models_py3 import ScheduledActionProxyResource
 from ._models_py3 import SharedScopeBenefitRecommendationProperties
 from ._models_py3 import SingleScopeBenefitRecommendationProperties
 from ._models_py3 import Status
+from ._models_py3 import SystemAssignedServiceIdentity
 from ._models_py3 import SystemData
 from ._models_py3 import View
 from ._models_py3 import ViewListResult
@@ -119,12 +129,16 @@ from ._cost_management_client_enums import AlertStatus
 from ._cost_management_client_enums import AlertTimeGrainType
 from ._cost_management_client_enums import AlertType
 from ._cost_management_client_enums import BenefitKind
+from ._cost_management_client_enums import BudgetNotificationOperatorType
+from ._cost_management_client_enums import BudgetOperatorType
+from ._cost_management_client_enums import CategoryType
 from ._cost_management_client_enums import ChartType
 from ._cost_management_client_enums import CheckNameAvailabilityReason
 from ._cost_management_client_enums import CostDetailsDataFormat
 from ._cost_management_client_enums import CostDetailsMetricType
 from ._cost_management_client_enums import CostDetailsStatusType
 from ._cost_management_client_enums import CreatedByType
+from ._cost_management_client_enums import CultureCode
 from ._cost_management_client_enums import DaysOfWeek
 from ._cost_management_client_enums import ExecutionStatus
 from ._cost_management_client_enums import ExecutionType
@@ -135,6 +149,7 @@ from ._cost_management_client_enums import ForecastOperatorType
 from ._cost_management_client_enums import ForecastTimeframe
 from ._cost_management_client_enums import ForecastType
 from ._cost_management_client_enums import FormatType
+from ._cost_management_client_enums import Frequency
 from ._cost_management_client_enums import FunctionName
 from ._cost_management_client_enums import FunctionType
 from ._cost_management_client_enums import GenerateDetailedCostReportMetricType
@@ -162,7 +177,10 @@ from ._cost_management_client_enums import ScheduledActionKind
 from ._cost_management_client_enums import ScheduledActionStatus
 from ._cost_management_client_enums import Scope
 from ._cost_management_client_enums import StatusType
+from ._cost_management_client_enums import SystemAssignedServiceIdentityType
 from ._cost_management_client_enums import Term
+from ._cost_management_client_enums import ThresholdType
+from ._cost_management_client_enums import TimeGrainType
 from ._cost_management_client_enums import TimeframeType
 from ._cost_management_client_enums import WeeksOfMonth
 from ._patch import __all__ as _patch_all
@@ -184,6 +202,12 @@ __all__ = [
     "BenefitUtilizationSummary",
     "BenefitUtilizationSummaryProperties",
     "BlobInfo",
+    "Budget",
+    "BudgetComparisonExpression",
+    "BudgetFilter",
+    "BudgetFilterProperties",
+    "BudgetTimePeriod",
+    "BudgetsListResult",
     "CheckNameAvailabilityRequest",
     "CheckNameAvailabilityResponse",
     "CommonExportProperties",
@@ -192,6 +216,7 @@ __all__ = [
     "CostManagementOperation",
     "CostManagementProxyResource",
     "CostManagementResource",
+    "CurrentSpend",
     "Dimension",
     "DimensionsListResult",
     "DismissAlertPayload",
@@ -222,6 +247,7 @@ __all__ = [
     "ForecastDefinition",
     "ForecastFilter",
     "ForecastResult",
+    "ForecastSpend",
     "ForecastTimePeriod",
     "GenerateCostDetailsReportErrorResponse",
     "GenerateCostDetailsReportRequestDefinition",
@@ -233,6 +259,7 @@ __all__ = [
     "IncludedQuantityUtilizationSummary",
     "IncludedQuantityUtilizationSummaryProperties",
     "KpiProperties",
+    "Notification",
     "NotificationProperties",
     "Operation",
     "OperationDisplay",
@@ -269,6 +296,7 @@ __all__ = [
     "SharedScopeBenefitRecommendationProperties",
     "SingleScopeBenefitRecommendationProperties",
     "Status",
+    "SystemAssignedServiceIdentity",
     "SystemData",
     "View",
     "ViewListResult",
@@ -282,12 +310,16 @@ __all__ = [
     "AlertTimeGrainType",
     "AlertType",
     "BenefitKind",
+    "BudgetNotificationOperatorType",
+    "BudgetOperatorType",
+    "CategoryType",
     "ChartType",
     "CheckNameAvailabilityReason",
     "CostDetailsDataFormat",
     "CostDetailsMetricType",
     "CostDetailsStatusType",
     "CreatedByType",
+    "CultureCode",
     "DaysOfWeek",
     "ExecutionStatus",
     "ExecutionType",
@@ -298,6 +330,7 @@ __all__ = [
     "ForecastTimeframe",
     "ForecastType",
     "FormatType",
+    "Frequency",
     "FunctionName",
     "FunctionType",
     "GenerateDetailedCostReportMetricType",
@@ -325,7 +358,10 @@ __all__ = [
     "ScheduledActionStatus",
     "Scope",
     "StatusType",
+    "SystemAssignedServiceIdentityType",
     "Term",
+    "ThresholdType",
+    "TimeGrainType",
     "TimeframeType",
     "WeeksOfMonth",
 ]

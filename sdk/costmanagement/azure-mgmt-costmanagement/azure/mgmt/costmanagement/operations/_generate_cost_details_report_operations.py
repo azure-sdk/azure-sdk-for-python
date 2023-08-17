@@ -28,7 +28,7 @@ from azure.mgmt.core.polling.arm_polling import ARMPolling
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import _convert_request, _format_url_section
+from .._vendor import _convert_request
 
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
@@ -41,7 +41,7 @@ def build_create_operation_request(scope: str, **kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -51,7 +51,7 @@ def build_create_operation_request(scope: str, **kwargs: Any) -> HttpRequest:
         "scope": _SERIALIZER.url("scope", scope, "str", skip_quote=True),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -68,7 +68,7 @@ def build_get_operation_results_request(scope: str, operation_id: str, **kwargs:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -80,7 +80,7 @@ def build_get_operation_results_request(scope: str, operation_id: str, **kwargs:
         "operationId": _SERIALIZER.url("operation_id", operation_id, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -156,7 +156,7 @@ class GenerateCostDetailsReportOperations:
 
         response = pipeline_response.http_response
 
-        if response.status_code not in [200, 202, 204]:
+        if response.status_code not in [200, 202]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(
                 _models.GenerateCostDetailsReportErrorResponse, pipeline_response
@@ -199,9 +199,7 @@ class GenerateCostDetailsReportOperations:
         will provide a 202 response with a 'Location' header if the operation is still in progress.
         Once the report generation operation completes, the polling endpoint will provide a 200
         response along with details on the report blob(s) that are available for download. The details
-        on the file(s) available for download will be available in the polling response body. To
-        Understand cost details (formerly known as usage details) fields found in files ,see
-        https://learn.microsoft.com/azure/cost-management-billing/automate/understand-usage-details-fields.
+        on the file(s) available for download will be available in the polling response body.
 
         .. seealso::
            - https://docs.microsoft.com/en-us/rest/api/costmanagement/
@@ -242,9 +240,7 @@ class GenerateCostDetailsReportOperations:
         will provide a 202 response with a 'Location' header if the operation is still in progress.
         Once the report generation operation completes, the polling endpoint will provide a 200
         response along with details on the report blob(s) that are available for download. The details
-        on the file(s) available for download will be available in the polling response body. To
-        Understand cost details (formerly known as usage details) fields found in files ,see
-        https://learn.microsoft.com/azure/cost-management-billing/automate/understand-usage-details-fields.
+        on the file(s) available for download will be available in the polling response body.
 
         .. seealso::
            - https://docs.microsoft.com/en-us/rest/api/costmanagement/
@@ -285,9 +281,7 @@ class GenerateCostDetailsReportOperations:
         will provide a 202 response with a 'Location' header if the operation is still in progress.
         Once the report generation operation completes, the polling endpoint will provide a 200
         response along with details on the report blob(s) that are available for download. The details
-        on the file(s) available for download will be available in the polling response body. To
-        Understand cost details (formerly known as usage details) fields found in files ,see
-        https://learn.microsoft.com/azure/cost-management-billing/automate/understand-usage-details-fields.
+        on the file(s) available for download will be available in the polling response body.
 
         .. seealso::
            - https://docs.microsoft.com/en-us/rest/api/costmanagement/

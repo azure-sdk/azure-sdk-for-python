@@ -273,7 +273,6 @@ class ScheduledActionsOperations:
         self,
         name: str,
         scheduled_action: _models.ScheduledAction,
-        if_match: Optional[str] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -284,10 +283,6 @@ class ScheduledActionsOperations:
         :type name: str
         :param scheduled_action: Scheduled action to be created or updated. Required.
         :type scheduled_action: ~azure.mgmt.costmanagement.models.ScheduledAction
-        :param if_match: ETag of the Entity. Not required when creating an entity. Optional when
-         updating an entity and can be specified to achieve optimistic concurrency. Default value is
-         None.
-        :type if_match: str
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -299,13 +294,7 @@ class ScheduledActionsOperations:
 
     @overload
     async def create_or_update(
-        self,
-        name: str,
-        scheduled_action: IO,
-        if_match: Optional[str] = None,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
+        self, name: str, scheduled_action: IO, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.ScheduledAction:
         """Create or update a private scheduled action.
 
@@ -313,10 +302,6 @@ class ScheduledActionsOperations:
         :type name: str
         :param scheduled_action: Scheduled action to be created or updated. Required.
         :type scheduled_action: IO
-        :param if_match: ETag of the Entity. Not required when creating an entity. Optional when
-         updating an entity and can be specified to achieve optimistic concurrency. Default value is
-         None.
-        :type if_match: str
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -328,11 +313,7 @@ class ScheduledActionsOperations:
 
     @distributed_trace_async
     async def create_or_update(
-        self,
-        name: str,
-        scheduled_action: Union[_models.ScheduledAction, IO],
-        if_match: Optional[str] = None,
-        **kwargs: Any
+        self, name: str, scheduled_action: Union[_models.ScheduledAction, IO], **kwargs: Any
     ) -> _models.ScheduledAction:
         """Create or update a private scheduled action.
 
@@ -341,10 +322,6 @@ class ScheduledActionsOperations:
         :param scheduled_action: Scheduled action to be created or updated. Is either a ScheduledAction
          type or a IO type. Required.
         :type scheduled_action: ~azure.mgmt.costmanagement.models.ScheduledAction or IO
-        :param if_match: ETag of the Entity. Not required when creating an entity. Optional when
-         updating an entity and can be specified to achieve optimistic concurrency. Default value is
-         None.
-        :type if_match: str
         :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
          Default value is None.
         :paramtype content_type: str
@@ -378,7 +355,7 @@ class ScheduledActionsOperations:
 
         request = build_create_or_update_request(
             name=name,
-            if_match=if_match,
+            if_match=self._config.if_match,
             api_version=api_version,
             content_type=content_type,
             json=_json,
@@ -535,7 +512,6 @@ class ScheduledActionsOperations:
         scope: str,
         name: str,
         scheduled_action: _models.ScheduledAction,
-        if_match: Optional[str] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -564,10 +540,6 @@ class ScheduledActionsOperations:
         :type name: str
         :param scheduled_action: Scheduled action to be created or updated. Required.
         :type scheduled_action: ~azure.mgmt.costmanagement.models.ScheduledAction
-        :param if_match: ETag of the Entity. Not required when creating an entity. Optional when
-         updating an entity and can be specified to achieve optimistic concurrency. Default value is
-         None.
-        :type if_match: str
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -579,14 +551,7 @@ class ScheduledActionsOperations:
 
     @overload
     async def create_or_update_by_scope(
-        self,
-        scope: str,
-        name: str,
-        scheduled_action: IO,
-        if_match: Optional[str] = None,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
+        self, scope: str, name: str, scheduled_action: IO, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.ScheduledAction:
         """Create or update a shared scheduled action within the given scope.
 
@@ -612,10 +577,6 @@ class ScheduledActionsOperations:
         :type name: str
         :param scheduled_action: Scheduled action to be created or updated. Required.
         :type scheduled_action: IO
-        :param if_match: ETag of the Entity. Not required when creating an entity. Optional when
-         updating an entity and can be specified to achieve optimistic concurrency. Default value is
-         None.
-        :type if_match: str
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -627,12 +588,7 @@ class ScheduledActionsOperations:
 
     @distributed_trace_async
     async def create_or_update_by_scope(
-        self,
-        scope: str,
-        name: str,
-        scheduled_action: Union[_models.ScheduledAction, IO],
-        if_match: Optional[str] = None,
-        **kwargs: Any
+        self, scope: str, name: str, scheduled_action: Union[_models.ScheduledAction, IO], **kwargs: Any
     ) -> _models.ScheduledAction:
         """Create or update a shared scheduled action within the given scope.
 
@@ -659,10 +615,6 @@ class ScheduledActionsOperations:
         :param scheduled_action: Scheduled action to be created or updated. Is either a ScheduledAction
          type or a IO type. Required.
         :type scheduled_action: ~azure.mgmt.costmanagement.models.ScheduledAction or IO
-        :param if_match: ETag of the Entity. Not required when creating an entity. Optional when
-         updating an entity and can be specified to achieve optimistic concurrency. Default value is
-         None.
-        :type if_match: str
         :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
          Default value is None.
         :paramtype content_type: str
@@ -697,7 +649,7 @@ class ScheduledActionsOperations:
         request = build_create_or_update_by_scope_request(
             scope=scope,
             name=name,
-            if_match=if_match,
+            if_match=self._config.if_match,
             api_version=api_version,
             content_type=content_type,
             json=_json,
