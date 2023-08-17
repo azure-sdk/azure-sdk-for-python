@@ -9,7 +9,6 @@
 from ._models_py3 import Association
 from ._models_py3 import AssociationListResult
 from ._models_py3 import AssociationSubnet
-from ._models_py3 import AssociationSubnetUpdate
 from ._models_py3 import AssociationUpdate
 from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorDetail
@@ -41,7 +40,6 @@ __all__ = [
     "Association",
     "AssociationListResult",
     "AssociationSubnet",
-    "AssociationSubnetUpdate",
     "AssociationUpdate",
     "ErrorAdditionalInfo",
     "ErrorDetail",

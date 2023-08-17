@@ -248,26 +248,6 @@ class AssociationSubnet(_serialization.Model):
         self.id = id
 
 
-class AssociationSubnetUpdate(_serialization.Model):
-    """Association Subnet.
-
-    :ivar id: Association ID.
-    :vartype id: str
-    """
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-    }
-
-    def __init__(self, *, id: Optional[str] = None, **kwargs: Any) -> None:  # pylint: disable=redefined-builtin
-        """
-        :keyword id: Association ID.
-        :paramtype id: str
-        """
-        super().__init__(**kwargs)
-        self.id = id
-
-
 class AssociationUpdate(_serialization.Model):
     """The type used for update operations of the Association.
 
@@ -276,13 +256,13 @@ class AssociationUpdate(_serialization.Model):
     :ivar association_type: Association Type. "subnets"
     :vartype association_type: str or ~azure.mgmt.servicenetworking.models.AssociationType
     :ivar subnet: Association Subnet.
-    :vartype subnet: ~azure.mgmt.servicenetworking.models.AssociationSubnetUpdate
+    :vartype subnet: ~azure.mgmt.servicenetworking.models.AssociationSubnet
     """
 
     _attribute_map = {
         "tags": {"key": "tags", "type": "{str}"},
         "association_type": {"key": "properties.associationType", "type": "str"},
-        "subnet": {"key": "properties.subnet", "type": "AssociationSubnetUpdate"},
+        "subnet": {"key": "properties.subnet", "type": "AssociationSubnet"},
     }
 
     def __init__(
@@ -290,7 +270,7 @@ class AssociationUpdate(_serialization.Model):
         *,
         tags: Optional[Dict[str, str]] = None,
         association_type: Optional[Union[str, "_models.AssociationType"]] = None,
-        subnet: Optional["_models.AssociationSubnetUpdate"] = None,
+        subnet: Optional["_models.AssociationSubnet"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -299,7 +279,7 @@ class AssociationUpdate(_serialization.Model):
         :keyword association_type: Association Type. "subnets"
         :paramtype association_type: str or ~azure.mgmt.servicenetworking.models.AssociationType
         :keyword subnet: Association Subnet.
-        :paramtype subnet: ~azure.mgmt.servicenetworking.models.AssociationSubnetUpdate
+        :paramtype subnet: ~azure.mgmt.servicenetworking.models.AssociationSubnet
         """
         super().__init__(**kwargs)
         self.tags = tags
