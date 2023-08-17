@@ -2422,7 +2422,35 @@ class DatastoreProperties(ResourceBase):
         self.is_default = None
 
 
-class AzureBlobDatastore(DatastoreProperties):  # pylint: disable=too-many-instance-attributes
+class AzureDatastore(_serialization.Model):
+    """Base definition for Azure datastore contents configuration.
+
+    :ivar resource_group: Azure Resource Group name.
+    :vartype resource_group: str
+    :ivar subscription_id: Azure Subscription Id.
+    :vartype subscription_id: str
+    """
+
+    _attribute_map = {
+        "resource_group": {"key": "resourceGroup", "type": "str"},
+        "subscription_id": {"key": "subscriptionId", "type": "str"},
+    }
+
+    def __init__(
+        self, *, resource_group: Optional[str] = None, subscription_id: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword resource_group: Azure Resource Group name.
+        :paramtype resource_group: str
+        :keyword subscription_id: Azure Subscription Id.
+        :paramtype subscription_id: str
+        """
+        super().__init__(**kwargs)
+        self.resource_group = resource_group
+        self.subscription_id = subscription_id
+
+
+class AzureBlobDatastore(AzureDatastore, DatastoreProperties):  # pylint: disable=too-many-instance-attributes
     """Azure Blob datastore configuration.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2443,6 +2471,10 @@ class AzureBlobDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
     :ivar is_default: Readonly property to indicate if datastore is the workspace default
      datastore.
     :vartype is_default: bool
+    :ivar resource_group: Azure Resource Group name.
+    :vartype resource_group: str
+    :ivar subscription_id: Azure Subscription Id.
+    :vartype subscription_id: str
     :ivar account_name: Storage account name.
     :vartype account_name: str
     :ivar container_name: Storage account container name.
@@ -2471,6 +2503,8 @@ class AzureBlobDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
         "credentials": {"key": "credentials", "type": "DatastoreCredentials"},
         "datastore_type": {"key": "datastoreType", "type": "str"},
         "is_default": {"key": "isDefault", "type": "bool"},
+        "resource_group": {"key": "resourceGroup", "type": "str"},
+        "subscription_id": {"key": "subscriptionId", "type": "str"},
         "account_name": {"key": "accountName", "type": "str"},
         "container_name": {"key": "containerName", "type": "str"},
         "endpoint": {"key": "endpoint", "type": "str"},
@@ -2485,6 +2519,8 @@ class AzureBlobDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
         description: Optional[str] = None,
         properties: Optional[Dict[str, str]] = None,
         tags: Optional[Dict[str, str]] = None,
+        resource_group: Optional[str] = None,
+        subscription_id: Optional[str] = None,
         account_name: Optional[str] = None,
         container_name: Optional[str] = None,
         endpoint: Optional[str] = None,
@@ -2501,6 +2537,10 @@ class AzureBlobDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
         :paramtype tags: dict[str, str]
         :keyword credentials: [Required] Account credentials. Required.
         :paramtype credentials: ~azure.mgmt.machinelearningservices.models.DatastoreCredentials
+        :keyword resource_group: Azure Resource Group name.
+        :paramtype resource_group: str
+        :keyword subscription_id: Azure Subscription Id.
+        :paramtype subscription_id: str
         :keyword account_name: Storage account name.
         :paramtype account_name: str
         :keyword container_name: Storage account container name.
@@ -2515,16 +2555,31 @@ class AzureBlobDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
         :paramtype service_data_access_auth_identity: str or
          ~azure.mgmt.machinelearningservices.models.ServiceDataAccessAuthIdentity
         """
-        super().__init__(description=description, properties=properties, tags=tags, credentials=credentials, **kwargs)
+        super().__init__(
+            resource_group=resource_group,
+            subscription_id=subscription_id,
+            description=description,
+            properties=properties,
+            tags=tags,
+            credentials=credentials,
+            **kwargs
+        )
+        self.description = description
+        self.properties = properties
+        self.tags = tags
+        self.credentials = credentials
         self.datastore_type: str = "AzureBlob"
+        self.is_default = None
         self.account_name = account_name
         self.container_name = container_name
         self.endpoint = endpoint
         self.protocol = protocol
         self.service_data_access_auth_identity = service_data_access_auth_identity
+        self.resource_group = resource_group
+        self.subscription_id = subscription_id
 
 
-class AzureDataLakeGen1Datastore(DatastoreProperties):
+class AzureDataLakeGen1Datastore(AzureDatastore, DatastoreProperties):
     """Azure Data Lake Gen1 datastore configuration.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2545,6 +2600,10 @@ class AzureDataLakeGen1Datastore(DatastoreProperties):
     :ivar is_default: Readonly property to indicate if datastore is the workspace default
      datastore.
     :vartype is_default: bool
+    :ivar resource_group: Azure Resource Group name.
+    :vartype resource_group: str
+    :ivar subscription_id: Azure Subscription Id.
+    :vartype subscription_id: str
     :ivar service_data_access_auth_identity: Indicates which identity to use to authenticate
      service data access to customer's storage. Known values are: "None",
      "WorkspaceSystemAssignedIdentity", and "WorkspaceUserAssignedIdentity".
@@ -2568,6 +2627,8 @@ class AzureDataLakeGen1Datastore(DatastoreProperties):
         "credentials": {"key": "credentials", "type": "DatastoreCredentials"},
         "datastore_type": {"key": "datastoreType", "type": "str"},
         "is_default": {"key": "isDefault", "type": "bool"},
+        "resource_group": {"key": "resourceGroup", "type": "str"},
+        "subscription_id": {"key": "subscriptionId", "type": "str"},
         "service_data_access_auth_identity": {"key": "serviceDataAccessAuthIdentity", "type": "str"},
         "store_name": {"key": "storeName", "type": "str"},
     }
@@ -2580,6 +2641,8 @@ class AzureDataLakeGen1Datastore(DatastoreProperties):
         description: Optional[str] = None,
         properties: Optional[Dict[str, str]] = None,
         tags: Optional[Dict[str, str]] = None,
+        resource_group: Optional[str] = None,
+        subscription_id: Optional[str] = None,
         service_data_access_auth_identity: Optional[Union[str, "_models.ServiceDataAccessAuthIdentity"]] = None,
         **kwargs: Any
     ) -> None:
@@ -2592,6 +2655,10 @@ class AzureDataLakeGen1Datastore(DatastoreProperties):
         :paramtype tags: dict[str, str]
         :keyword credentials: [Required] Account credentials. Required.
         :paramtype credentials: ~azure.mgmt.machinelearningservices.models.DatastoreCredentials
+        :keyword resource_group: Azure Resource Group name.
+        :paramtype resource_group: str
+        :keyword subscription_id: Azure Subscription Id.
+        :paramtype subscription_id: str
         :keyword service_data_access_auth_identity: Indicates which identity to use to authenticate
          service data access to customer's storage. Known values are: "None",
          "WorkspaceSystemAssignedIdentity", and "WorkspaceUserAssignedIdentity".
@@ -2600,13 +2667,28 @@ class AzureDataLakeGen1Datastore(DatastoreProperties):
         :keyword store_name: [Required] Azure Data Lake store name. Required.
         :paramtype store_name: str
         """
-        super().__init__(description=description, properties=properties, tags=tags, credentials=credentials, **kwargs)
+        super().__init__(
+            resource_group=resource_group,
+            subscription_id=subscription_id,
+            description=description,
+            properties=properties,
+            tags=tags,
+            credentials=credentials,
+            **kwargs
+        )
+        self.description = description
+        self.properties = properties
+        self.tags = tags
+        self.credentials = credentials
         self.datastore_type: str = "AzureDataLakeGen1"
+        self.is_default = None
         self.service_data_access_auth_identity = service_data_access_auth_identity
         self.store_name = store_name
+        self.resource_group = resource_group
+        self.subscription_id = subscription_id
 
 
-class AzureDataLakeGen2Datastore(DatastoreProperties):  # pylint: disable=too-many-instance-attributes
+class AzureDataLakeGen2Datastore(AzureDatastore, DatastoreProperties):  # pylint: disable=too-many-instance-attributes
     """Azure Data Lake Gen2 datastore configuration.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2627,6 +2709,10 @@ class AzureDataLakeGen2Datastore(DatastoreProperties):  # pylint: disable=too-ma
     :ivar is_default: Readonly property to indicate if datastore is the workspace default
      datastore.
     :vartype is_default: bool
+    :ivar resource_group: Azure Resource Group name.
+    :vartype resource_group: str
+    :ivar subscription_id: Azure Subscription Id.
+    :vartype subscription_id: str
     :ivar account_name: [Required] Storage account name. Required.
     :vartype account_name: str
     :ivar endpoint: Azure cloud endpoint for the storage account.
@@ -2657,6 +2743,8 @@ class AzureDataLakeGen2Datastore(DatastoreProperties):  # pylint: disable=too-ma
         "credentials": {"key": "credentials", "type": "DatastoreCredentials"},
         "datastore_type": {"key": "datastoreType", "type": "str"},
         "is_default": {"key": "isDefault", "type": "bool"},
+        "resource_group": {"key": "resourceGroup", "type": "str"},
+        "subscription_id": {"key": "subscriptionId", "type": "str"},
         "account_name": {"key": "accountName", "type": "str"},
         "endpoint": {"key": "endpoint", "type": "str"},
         "filesystem": {"key": "filesystem", "type": "str"},
@@ -2673,6 +2761,8 @@ class AzureDataLakeGen2Datastore(DatastoreProperties):  # pylint: disable=too-ma
         description: Optional[str] = None,
         properties: Optional[Dict[str, str]] = None,
         tags: Optional[Dict[str, str]] = None,
+        resource_group: Optional[str] = None,
+        subscription_id: Optional[str] = None,
         endpoint: Optional[str] = None,
         protocol: Optional[str] = None,
         service_data_access_auth_identity: Optional[Union[str, "_models.ServiceDataAccessAuthIdentity"]] = None,
@@ -2687,6 +2777,10 @@ class AzureDataLakeGen2Datastore(DatastoreProperties):  # pylint: disable=too-ma
         :paramtype tags: dict[str, str]
         :keyword credentials: [Required] Account credentials. Required.
         :paramtype credentials: ~azure.mgmt.machinelearningservices.models.DatastoreCredentials
+        :keyword resource_group: Azure Resource Group name.
+        :paramtype resource_group: str
+        :keyword subscription_id: Azure Subscription Id.
+        :paramtype subscription_id: str
         :keyword account_name: [Required] Storage account name. Required.
         :paramtype account_name: str
         :keyword endpoint: Azure cloud endpoint for the storage account.
@@ -2701,16 +2795,31 @@ class AzureDataLakeGen2Datastore(DatastoreProperties):  # pylint: disable=too-ma
         :paramtype service_data_access_auth_identity: str or
          ~azure.mgmt.machinelearningservices.models.ServiceDataAccessAuthIdentity
         """
-        super().__init__(description=description, properties=properties, tags=tags, credentials=credentials, **kwargs)
+        super().__init__(
+            resource_group=resource_group,
+            subscription_id=subscription_id,
+            description=description,
+            properties=properties,
+            tags=tags,
+            credentials=credentials,
+            **kwargs
+        )
+        self.description = description
+        self.properties = properties
+        self.tags = tags
+        self.credentials = credentials
         self.datastore_type: str = "AzureDataLakeGen2"
+        self.is_default = None
         self.account_name = account_name
         self.endpoint = endpoint
         self.filesystem = filesystem
         self.protocol = protocol
         self.service_data_access_auth_identity = service_data_access_auth_identity
+        self.resource_group = resource_group
+        self.subscription_id = subscription_id
 
 
-class AzureFileDatastore(DatastoreProperties):  # pylint: disable=too-many-instance-attributes
+class AzureFileDatastore(AzureDatastore, DatastoreProperties):  # pylint: disable=too-many-instance-attributes
     """Azure File datastore configuration.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2731,6 +2840,10 @@ class AzureFileDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
     :ivar is_default: Readonly property to indicate if datastore is the workspace default
      datastore.
     :vartype is_default: bool
+    :ivar resource_group: Azure Resource Group name.
+    :vartype resource_group: str
+    :ivar subscription_id: Azure Subscription Id.
+    :vartype subscription_id: str
     :ivar account_name: [Required] Storage account name. Required.
     :vartype account_name: str
     :ivar endpoint: Azure cloud endpoint for the storage account.
@@ -2762,6 +2875,8 @@ class AzureFileDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
         "credentials": {"key": "credentials", "type": "DatastoreCredentials"},
         "datastore_type": {"key": "datastoreType", "type": "str"},
         "is_default": {"key": "isDefault", "type": "bool"},
+        "resource_group": {"key": "resourceGroup", "type": "str"},
+        "subscription_id": {"key": "subscriptionId", "type": "str"},
         "account_name": {"key": "accountName", "type": "str"},
         "endpoint": {"key": "endpoint", "type": "str"},
         "file_share_name": {"key": "fileShareName", "type": "str"},
@@ -2778,6 +2893,8 @@ class AzureFileDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
         description: Optional[str] = None,
         properties: Optional[Dict[str, str]] = None,
         tags: Optional[Dict[str, str]] = None,
+        resource_group: Optional[str] = None,
+        subscription_id: Optional[str] = None,
         endpoint: Optional[str] = None,
         protocol: Optional[str] = None,
         service_data_access_auth_identity: Optional[Union[str, "_models.ServiceDataAccessAuthIdentity"]] = None,
@@ -2792,6 +2909,10 @@ class AzureFileDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
         :paramtype tags: dict[str, str]
         :keyword credentials: [Required] Account credentials. Required.
         :paramtype credentials: ~azure.mgmt.machinelearningservices.models.DatastoreCredentials
+        :keyword resource_group: Azure Resource Group name.
+        :paramtype resource_group: str
+        :keyword subscription_id: Azure Subscription Id.
+        :paramtype subscription_id: str
         :keyword account_name: [Required] Storage account name. Required.
         :paramtype account_name: str
         :keyword endpoint: Azure cloud endpoint for the storage account.
@@ -2807,13 +2928,28 @@ class AzureFileDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
         :paramtype service_data_access_auth_identity: str or
          ~azure.mgmt.machinelearningservices.models.ServiceDataAccessAuthIdentity
         """
-        super().__init__(description=description, properties=properties, tags=tags, credentials=credentials, **kwargs)
+        super().__init__(
+            resource_group=resource_group,
+            subscription_id=subscription_id,
+            description=description,
+            properties=properties,
+            tags=tags,
+            credentials=credentials,
+            **kwargs
+        )
+        self.description = description
+        self.properties = properties
+        self.tags = tags
+        self.credentials = credentials
         self.datastore_type: str = "AzureFile"
+        self.is_default = None
         self.account_name = account_name
         self.endpoint = endpoint
         self.file_share_name = file_share_name
         self.protocol = protocol
         self.service_data_access_auth_identity = service_data_access_auth_identity
+        self.resource_group = resource_group
+        self.subscription_id = subscription_id
 
 
 class EarlyTerminationPolicy(_serialization.Model):
