@@ -14,7 +14,7 @@ from azure.mgmt.defendereasm import EasmMgmtClient
     pip install azure-identity
     pip install azure-mgmt-defendereasm
 # USAGE
-    python workspaces_create_and_update.py
+    python tasks_get_by_workspace.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,13 +29,14 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.workspaces.begin_create_and_update(
+    response = client.tasks.get_by_workspace(
         resource_group_name="dummyrg",
         workspace_name="ThisisaWorkspace",
-    ).result()
+        task_id="ThisisaTaskId",
+    )
     print(response)
 
 
-# x-ms-original-file: specification/riskiq/resource-manager/Microsoft.Easm/preview/2023-04-01-preview/examples/Workspaces_CreateAndUpdate.json
+# x-ms-original-file: specification/riskiq/resource-manager/Microsoft.Easm/preview/2023-04-01-preview/examples/Tasks_GetByWorkspace.json
 if __name__ == "__main__":
     main()

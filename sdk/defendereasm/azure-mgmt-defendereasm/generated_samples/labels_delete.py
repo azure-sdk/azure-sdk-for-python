@@ -29,14 +29,13 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.labels.begin_delete(
+    client.labels.begin_delete(
         resource_group_name="dummyrg",
         workspace_name="ThisisaWorkspace",
         label_name="ThisisaLabel",
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/riskiq/resource-manager/Microsoft.Easm/preview/2022-04-01-preview/examples/Labels_Delete.json
+# x-ms-original-file: specification/riskiq/resource-manager/Microsoft.Easm/preview/2023-04-01-preview/examples/Labels_Delete.json
 if __name__ == "__main__":
     main()
