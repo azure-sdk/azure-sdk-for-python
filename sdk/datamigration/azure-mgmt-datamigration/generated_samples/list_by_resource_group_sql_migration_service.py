@@ -14,7 +14,7 @@ from azure.mgmt.datamigration import DataMigrationManagementClient
     pip install azure-identity
     pip install azure-mgmt-datamigration
 # USAGE
-    python services_check_status.py
+    python list_by_resource_group_sql_migration_service.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,16 +26,16 @@ from azure.mgmt.datamigration import DataMigrationManagementClient
 def main():
     client = DataMigrationManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="fc04246f-04c5-437e-ac5e-206a19e7193f",
+        subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.services.check_status(
-        group_name="DmsSdkRg",
-        service_name="DmsSdkService",
+    response = client.sql_migration_services.list_by_resource_group(
+        resource_group_name="testrg",
     )
-    print(response)
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2023-07-15-preview/examples/Services_CheckStatus.json
+# x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2023-07-15-preview/examples/ListByResourceGroupSqlMigrationService.json
 if __name__ == "__main__":
     main()

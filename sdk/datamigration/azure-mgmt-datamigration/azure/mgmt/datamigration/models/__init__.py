@@ -208,8 +208,11 @@ from ._models_py3 import MigrateSyncCompleteCommandInput
 from ._models_py3 import MigrateSyncCompleteCommandOutput
 from ._models_py3 import MigrateSyncCompleteCommandProperties
 from ._models_py3 import MigrationEligibilityInfo
+from ._models_py3 import MigrationListResult
 from ._models_py3 import MigrationOperationInput
 from ._models_py3 import MigrationReportResult
+from ._models_py3 import MigrationService
+from ._models_py3 import MigrationServiceUpdate
 from ._models_py3 import MigrationStatusDetails
 from ._models_py3 import MigrationTableMetadata
 from ._models_py3 import MigrationValidationDatabaseLevelResult
@@ -585,8 +588,11 @@ __all__ = [
     "MigrateSyncCompleteCommandOutput",
     "MigrateSyncCompleteCommandProperties",
     "MigrationEligibilityInfo",
+    "MigrationListResult",
     "MigrationOperationInput",
     "MigrationReportResult",
+    "MigrationService",
+    "MigrationServiceUpdate",
     "MigrationStatusDetails",
     "MigrationTableMetadata",
     "MigrationValidationDatabaseLevelResult",

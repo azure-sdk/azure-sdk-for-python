@@ -471,7 +471,7 @@ class SqlSourcePlatform(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 class SsisMigrationOverwriteOption(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The overwrite option for SSIS object migration, only ignore and overwrite are supported in DMS
-    now and future may add Reuse option for container object.
+    (classic) now and future may add Reuse option for container object.
     """
 
     IGNORE = "Ignore"
@@ -488,7 +488,7 @@ class SsisMigrationStage(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class SsisStoreType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """An enumeration of supported source SSIS store type in DMS."""
+    """An enumeration of supported source SSIS store type in DMS (classic)."""
 
     SSIS_CATALOG = "SsisCatalog"
 

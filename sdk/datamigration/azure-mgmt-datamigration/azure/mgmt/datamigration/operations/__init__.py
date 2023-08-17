@@ -10,6 +10,7 @@ from ._database_migrations_sql_db_operations import DatabaseMigrationsSqlDbOpera
 from ._database_migrations_sql_mi_operations import DatabaseMigrationsSqlMiOperations
 from ._database_migrations_sql_vm_operations import DatabaseMigrationsSqlVmOperations
 from ._operations import Operations
+from ._migration_services_operations import MigrationServicesOperations
 from ._sql_migration_services_operations import SqlMigrationServicesOperations
 from ._resource_skus_operations import ResourceSkusOperations
 from ._services_operations import ServicesOperations
@@ -28,6 +29,7 @@ __all__ = [
     "DatabaseMigrationsSqlMiOperations",
     "DatabaseMigrationsSqlVmOperations",
     "Operations",
+    "MigrationServicesOperations",
     "SqlMigrationServicesOperations",
     "ResourceSkusOperations",
     "ServicesOperations",
