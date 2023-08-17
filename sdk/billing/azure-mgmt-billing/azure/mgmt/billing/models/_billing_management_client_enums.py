@@ -82,6 +82,9 @@ class BillingProfileStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ACTIVE = "Active"
     DISABLED = "Disabled"
     WARNED = "Warned"
+    DELETED = "Deleted"
+    UNDER_REVIEW = "UnderReview"
+    UNKNOWN = "Unknown"
 
 
 class BillingProfileStatusReasonCode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
