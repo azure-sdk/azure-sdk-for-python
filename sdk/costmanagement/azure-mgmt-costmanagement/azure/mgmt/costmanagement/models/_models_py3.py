@@ -24,16 +24,86 @@ if TYPE_CHECKING:
 JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 
 
-class CostManagementProxyResource(_serialization.Model):
+class Resource(_serialization.Model):
+    """Common fields that are returned in the response for all Azure Resource Manager resources.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.id = None
+        self.name = None
+        self.type = None
+
+
+class ProxyResource(Resource):
+    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
+    tags and a location.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+
+
+class CostManagementProxyResource(ProxyResource):
     """The Resource model definition.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Resource Id.
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
-    :ivar name: Resource name.
+    :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: Resource type.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
     :ivar e_tag: eTag of the resource. To handle concurrent update scenario, this field will be
      used to determine whether the user is updating the latest version or not.
@@ -60,9 +130,6 @@ class CostManagementProxyResource(_serialization.Model):
         :paramtype e_tag: str
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
         self.e_tag = e_tag
 
 
@@ -71,11 +138,13 @@ class Alert(CostManagementProxyResource):  # pylint: disable=too-many-instance-a
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Resource Id.
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
-    :ivar name: Resource name.
+    :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: Resource type.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
     :ivar e_tag: eTag of the resource. To handle concurrent update scenario, this field will be
      used to determine whether the user is updating the latest version or not.
@@ -540,41 +609,6 @@ class AllSavingsList(_serialization.Model):
         self.next_link = None
 
 
-class Resource(_serialization.Model):
-    """Common fields that are returned in the response for all Azure Resource Manager resources.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-    :vartype id: str
-    :ivar name: The name of the resource.
-    :vartype name: str
-    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-     "Microsoft.Storage/storageAccounts".
-    :vartype type: str
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-
-
 class BenefitResource(Resource):
     """The benefit resource model definition.
 
@@ -970,6 +1004,475 @@ class BlobInfo(_serialization.Model):
         super().__init__(**kwargs)
         self.blob_link = blob_link
         self.byte_count = byte_count
+
+
+class Budget(CostManagementProxyResource):  # pylint: disable=too-many-instance-attributes
+    """A budget resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar e_tag: eTag of the resource. To handle concurrent update scenario, this field will be
+     used to determine whether the user is updating the latest version or not.
+    :vartype e_tag: str
+    :ivar category: The category of the budget.
+
+
+     * 'Cost' defines a Budget.
+     * 'ReservationUtilization' defines a Reservation Utilization Alert Rule. Known values are:
+     "Cost" and "ReservationUtilization".
+    :vartype category: str or ~azure.mgmt.costmanagement.models.CategoryType
+    :ivar amount: The total amount of cost to track with the budget.
+
+      Supported for CategoryType(s): Cost.
+
+      Required for CategoryType(s): Cost.
+    :vartype amount: float
+    :ivar time_grain: The time covered by a budget. Tracking of the amount will be reset based on
+     the time grain.
+
+     Supported for CategoryType(s): Cost, ReservationUtilization.
+
+      Supported timeGrainTypes for **CategoryType: Cost**
+
+
+     * Monthly
+     * Quarterly
+     * Annually
+     * BillingMonth*
+     * BillingQuarter*
+     *
+       BillingAnnual*
+
+       *only supported for Web Direct customers.
+
+       Supported timeGrainTypes for **CategoryType: ReservationUtilization**
+
+     * Last7Days
+     *
+       Last30Days
+
+       Required for CategoryType(s): Cost, ReservationUtilization. Known values are: "Monthly",
+     "Quarterly", "Annually", "BillingMonth", "BillingQuarter", "BillingAnnual", "Last7Days", and
+     "Last30Days".
+    :vartype time_grain: str or ~azure.mgmt.costmanagement.models.TimeGrainType
+    :ivar time_period: The time period that defines the active period of the budget. The budget
+     will evaluate data on or after the startDate and will expire on the endDate.
+
+      Supported for CategoryType(s): Cost, ReservationUtilization.
+
+      Required for CategoryType(s): Cost, ReservationUtilization.
+    :vartype time_period: ~azure.mgmt.costmanagement.models.BudgetTimePeriod
+    :ivar filter: May be used to filter budgets by user-specified dimensions and/or tags.
+
+      Supported for CategoryType(s): Cost, ReservationUtilization.
+    :vartype filter: ~azure.mgmt.costmanagement.models.BudgetFilter
+    :ivar current_spend: The current amount of cost which is being tracked for a budget.
+
+      Supported for CategoryType(s): Cost.
+    :vartype current_spend: ~azure.mgmt.costmanagement.models.CurrentSpend
+    :ivar notifications: Dictionary of notifications associated with the budget.
+
+      Supported for CategoryType(s): Cost, ReservationUtilization.
+
+
+     * Constraints for **CategoryType: Cost** - Budget can have up to 5 notifications with
+     thresholdType: Actual and 5 notifications with thresholdType: Forecasted.
+     * Constraints for **CategoryType: ReservationUtilization** - Only one notification allowed.
+     thresholdType is not applicable.
+    :vartype notifications: dict[str, ~azure.mgmt.costmanagement.models.Notification]
+    :ivar forecast_spend: The forecasted cost which is being tracked for a budget.
+
+      Supported for CategoryType(s): Cost.
+    :vartype forecast_spend: ~azure.mgmt.costmanagement.models.ForecastSpend
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "current_spend": {"readonly": True},
+        "forecast_spend": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "e_tag": {"key": "eTag", "type": "str"},
+        "category": {"key": "properties.category", "type": "str"},
+        "amount": {"key": "properties.amount", "type": "float"},
+        "time_grain": {"key": "properties.timeGrain", "type": "str"},
+        "time_period": {"key": "properties.timePeriod", "type": "BudgetTimePeriod"},
+        "filter": {"key": "properties.filter", "type": "BudgetFilter"},
+        "current_spend": {"key": "properties.currentSpend", "type": "CurrentSpend"},
+        "notifications": {"key": "properties.notifications", "type": "{Notification}"},
+        "forecast_spend": {"key": "properties.forecastSpend", "type": "ForecastSpend"},
+    }
+
+    def __init__(
+        self,
+        *,
+        e_tag: Optional[str] = None,
+        category: Optional[Union[str, "_models.CategoryType"]] = None,
+        amount: Optional[float] = None,
+        time_grain: Optional[Union[str, "_models.TimeGrainType"]] = None,
+        time_period: Optional["_models.BudgetTimePeriod"] = None,
+        filter: Optional["_models.BudgetFilter"] = None,  # pylint: disable=redefined-builtin
+        notifications: Optional[Dict[str, "_models.Notification"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword e_tag: eTag of the resource. To handle concurrent update scenario, this field will be
+         used to determine whether the user is updating the latest version or not.
+        :paramtype e_tag: str
+        :keyword category: The category of the budget.
+
+
+         * 'Cost' defines a Budget.
+         * 'ReservationUtilization' defines a Reservation Utilization Alert Rule. Known values are:
+         "Cost" and "ReservationUtilization".
+        :paramtype category: str or ~azure.mgmt.costmanagement.models.CategoryType
+        :keyword amount: The total amount of cost to track with the budget.
+
+          Supported for CategoryType(s): Cost.
+
+          Required for CategoryType(s): Cost.
+        :paramtype amount: float
+        :keyword time_grain: The time covered by a budget. Tracking of the amount will be reset based
+         on the time grain.
+
+         Supported for CategoryType(s): Cost, ReservationUtilization.
+
+          Supported timeGrainTypes for **CategoryType: Cost**
+
+
+         * Monthly
+         * Quarterly
+         * Annually
+         * BillingMonth*
+         * BillingQuarter*
+         *
+           BillingAnnual*
+
+           *only supported for Web Direct customers.
+
+           Supported timeGrainTypes for **CategoryType: ReservationUtilization**
+
+         * Last7Days
+         *
+           Last30Days
+
+           Required for CategoryType(s): Cost, ReservationUtilization. Known values are: "Monthly",
+         "Quarterly", "Annually", "BillingMonth", "BillingQuarter", "BillingAnnual", "Last7Days", and
+         "Last30Days".
+        :paramtype time_grain: str or ~azure.mgmt.costmanagement.models.TimeGrainType
+        :keyword time_period: The time period that defines the active period of the budget. The budget
+         will evaluate data on or after the startDate and will expire on the endDate.
+
+          Supported for CategoryType(s): Cost, ReservationUtilization.
+
+          Required for CategoryType(s): Cost, ReservationUtilization.
+        :paramtype time_period: ~azure.mgmt.costmanagement.models.BudgetTimePeriod
+        :keyword filter: May be used to filter budgets by user-specified dimensions and/or tags.
+
+          Supported for CategoryType(s): Cost, ReservationUtilization.
+        :paramtype filter: ~azure.mgmt.costmanagement.models.BudgetFilter
+        :keyword notifications: Dictionary of notifications associated with the budget.
+
+          Supported for CategoryType(s): Cost, ReservationUtilization.
+
+
+         * Constraints for **CategoryType: Cost** - Budget can have up to 5 notifications with
+         thresholdType: Actual and 5 notifications with thresholdType: Forecasted.
+         * Constraints for **CategoryType: ReservationUtilization** - Only one notification allowed.
+         thresholdType is not applicable.
+        :paramtype notifications: dict[str, ~azure.mgmt.costmanagement.models.Notification]
+        """
+        super().__init__(e_tag=e_tag, **kwargs)
+        self.category = category
+        self.amount = amount
+        self.time_grain = time_grain
+        self.time_period = time_period
+        self.filter = filter
+        self.current_spend = None
+        self.notifications = notifications
+        self.forecast_spend = None
+
+
+class BudgetComparisonExpression(_serialization.Model):
+    """The comparison expression to be used in the budgets.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar name: The name of the column to use in comparison. Required.
+    :vartype name: str
+    :ivar operator: The operator to use for comparison. Required. Known values are: "In" and "In".
+    :vartype operator: str or ~azure.mgmt.costmanagement.models.BudgetOperatorType
+    :ivar values: Array of values to use for comparison. Required.
+    :vartype values: list[str]
+    """
+
+    _validation = {
+        "name": {"required": True},
+        "operator": {"required": True},
+        "values": {"required": True},
+    }
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "operator": {"key": "operator", "type": "str"},
+        "values": {"key": "values", "type": "[str]"},
+    }
+
+    def __init__(
+        self, *, name: str, operator: Union[str, "_models.BudgetOperatorType"], values: List[str], **kwargs: Any
+    ) -> None:
+        """
+        :keyword name: The name of the column to use in comparison. Required.
+        :paramtype name: str
+        :keyword operator: The operator to use for comparison. Required. Known values are: "In" and
+         "In".
+        :paramtype operator: str or ~azure.mgmt.costmanagement.models.BudgetOperatorType
+        :keyword values: Array of values to use for comparison. Required.
+        :paramtype values: list[str]
+        """
+        super().__init__(**kwargs)
+        self.name = name
+        self.operator = operator
+        self.values = values
+
+
+class BudgetFilter(_serialization.Model):
+    """May be used to filter budgets by user-specified dimensions and/or tags.
+
+     Supported for CategoryType(s): Cost, ReservationUtilization.
+
+    :ivar and_property: The logical "AND" expression. Must have at least 2 items.
+
+      Supported for CategoryType(s): Cost.
+    :vartype and_property: list[~azure.mgmt.costmanagement.models.BudgetFilterProperties]
+    :ivar dimensions: Has comparison expression for a dimension.
+
+      Supported for CategoryType(s): Cost, ReservationUtilization.
+
+     Supported dimension names for **CategoryType: ReservationUtilization**
+
+
+     * ReservationId
+     * ReservedResourceType.
+    :vartype dimensions: ~azure.mgmt.costmanagement.models.BudgetComparisonExpression
+    :ivar tags: Has comparison expression for a tag.
+
+      Supported for CategoryType(s): Cost.
+    :vartype tags: ~azure.mgmt.costmanagement.models.BudgetComparisonExpression
+    """
+
+    _attribute_map = {
+        "and_property": {"key": "and", "type": "[BudgetFilterProperties]"},
+        "dimensions": {"key": "dimensions", "type": "BudgetComparisonExpression"},
+        "tags": {"key": "tags", "type": "BudgetComparisonExpression"},
+    }
+
+    def __init__(
+        self,
+        *,
+        and_property: Optional[List["_models.BudgetFilterProperties"]] = None,
+        dimensions: Optional["_models.BudgetComparisonExpression"] = None,
+        tags: Optional["_models.BudgetComparisonExpression"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword and_property: The logical "AND" expression. Must have at least 2 items.
+
+          Supported for CategoryType(s): Cost.
+        :paramtype and_property: list[~azure.mgmt.costmanagement.models.BudgetFilterProperties]
+        :keyword dimensions: Has comparison expression for a dimension.
+
+          Supported for CategoryType(s): Cost, ReservationUtilization.
+
+         Supported dimension names for **CategoryType: ReservationUtilization**
+
+
+         * ReservationId
+         * ReservedResourceType.
+        :paramtype dimensions: ~azure.mgmt.costmanagement.models.BudgetComparisonExpression
+        :keyword tags: Has comparison expression for a tag.
+
+          Supported for CategoryType(s): Cost.
+        :paramtype tags: ~azure.mgmt.costmanagement.models.BudgetComparisonExpression
+        """
+        super().__init__(**kwargs)
+        self.and_property = and_property
+        self.dimensions = dimensions
+        self.tags = tags
+
+
+class BudgetFilterProperties(_serialization.Model):
+    """The Dimensions or Tags to filter a budget by.
+
+     Supported for CategoryType(s): Cost, ReservationUtilization.
+
+    :ivar dimensions: Has comparison expression for a dimension.
+
+      Supported for CategoryType(s): Cost, ReservationUtilization.
+
+     Supported dimension names for **CategoryType: ReservationUtilization**
+
+
+     * ReservationId
+     * ReservedResourceType.
+    :vartype dimensions: ~azure.mgmt.costmanagement.models.BudgetComparisonExpression
+    :ivar tags: Has comparison expression for a tag.
+
+      Supported for CategoryType(s): Cost.
+    :vartype tags: ~azure.mgmt.costmanagement.models.BudgetComparisonExpression
+    """
+
+    _attribute_map = {
+        "dimensions": {"key": "dimensions", "type": "BudgetComparisonExpression"},
+        "tags": {"key": "tags", "type": "BudgetComparisonExpression"},
+    }
+
+    def __init__(
+        self,
+        *,
+        dimensions: Optional["_models.BudgetComparisonExpression"] = None,
+        tags: Optional["_models.BudgetComparisonExpression"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword dimensions: Has comparison expression for a dimension.
+
+          Supported for CategoryType(s): Cost, ReservationUtilization.
+
+         Supported dimension names for **CategoryType: ReservationUtilization**
+
+
+         * ReservationId
+         * ReservedResourceType.
+        :paramtype dimensions: ~azure.mgmt.costmanagement.models.BudgetComparisonExpression
+        :keyword tags: Has comparison expression for a tag.
+
+          Supported for CategoryType(s): Cost.
+        :paramtype tags: ~azure.mgmt.costmanagement.models.BudgetComparisonExpression
+        """
+        super().__init__(**kwargs)
+        self.dimensions = dimensions
+        self.tags = tags
+
+
+class BudgetsListResult(_serialization.Model):
+    """Result of listing budgets. It contains a list of available budgets in the scope provided.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar value: The list of budgets.
+    :vartype value: list[~azure.mgmt.costmanagement.models.Budget]
+    :ivar next_link: The link (url) to the next page of results.
+     It's null for now, added for future use.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"readonly": True},
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[Budget]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.value = None
+        self.next_link = None
+
+
+class BudgetTimePeriod(_serialization.Model):
+    """The time period that defines the active period of the budget. The budget will evaluate data on
+    or after the startDate and will expire on the endDate.
+
+     Supported for CategoryType(s): Cost, ReservationUtilization.
+
+     Required for CategoryType(s): Cost, ReservationUtilization.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar start_date: The start date for the budget.
+
+
+     *
+       Constraints for **CategoryType: Cost** - Must be first of the month and should be less than
+     the end date. Budget start date must be on or after June 1, 2017. Future start date should not
+     be more than twelve months. Past start date should  be selected within the timegrain period.
+
+     *
+       Constraints for **CategoryType: ReservationUtilization** - Must be on or after the current
+     date and less than the end date. Required.
+    :vartype start_date: ~datetime.datetime
+    :ivar end_date: The end date for the budget.
+
+
+     *
+       Constraints for **CategoryType: Cost** - No constraints. If not provided, we default this to
+     10 years from the start date.
+
+     *
+       Constraints for **CategoryType: ReservationUtilization** - End date cannot be more than 3
+     years after the start date.
+    :vartype end_date: ~datetime.datetime
+    """
+
+    _validation = {
+        "start_date": {"required": True},
+    }
+
+    _attribute_map = {
+        "start_date": {"key": "startDate", "type": "iso-8601"},
+        "end_date": {"key": "endDate", "type": "iso-8601"},
+    }
+
+    def __init__(
+        self, *, start_date: datetime.datetime, end_date: Optional[datetime.datetime] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword start_date: The start date for the budget.
+
+
+         *
+           Constraints for **CategoryType: Cost** - Must be first of the month and should be less than
+         the end date. Budget start date must be on or after June 1, 2017. Future start date should not
+         be more than twelve months. Past start date should  be selected within the timegrain period.
+
+         *
+           Constraints for **CategoryType: ReservationUtilization** - Must be on or after the current
+         date and less than the end date. Required.
+        :paramtype start_date: ~datetime.datetime
+        :keyword end_date: The end date for the budget.
+
+
+         *
+           Constraints for **CategoryType: Cost** - No constraints. If not provided, we default this to
+         10 years from the start date.
+
+         *
+           Constraints for **CategoryType: ReservationUtilization** - End date cannot be more than 3
+         years after the start date.
+        :paramtype end_date: ~datetime.datetime
+        """
+        super().__init__(**kwargs)
+        self.start_date = start_date
+        self.end_date = end_date
 
 
 class CheckNameAvailabilityRequest(_serialization.Model):
@@ -1425,6 +1928,36 @@ class CostManagementResource(_serialization.Model):
         self.tags = None
 
 
+class CurrentSpend(_serialization.Model):
+    """The current amount of cost which is being tracked for a budget.
+
+     Supported for CategoryType(s): Cost.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar amount: The total amount of cost which is being tracked by the budget.
+    :vartype amount: float
+    :ivar unit: The unit of measure for the budget amount.
+    :vartype unit: str
+    """
+
+    _validation = {
+        "amount": {"readonly": True},
+        "unit": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "amount": {"key": "amount", "type": "float"},
+        "unit": {"key": "unit", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.amount = None
+        self.unit = None
+
+
 class Dimension(CostManagementResource):  # pylint: disable=too-many-instance-attributes
     """List of Dimension.
 
@@ -1807,15 +2340,22 @@ class Export(CostManagementProxyResource):  # pylint: disable=too-many-instance-
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Resource Id.
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
-    :ivar name: Resource name.
+    :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: Resource type.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
     :ivar e_tag: eTag of the resource. To handle concurrent update scenario, this field will be
      used to determine whether the user is updating the latest version or not.
     :vartype e_tag: str
+    :ivar identity: The managed identity associated with Export.
+    :vartype identity: ~azure.mgmt.costmanagement.models.SystemAssignedServiceIdentity
+    :ivar location: The location of the Export's managed identity. Only required when utilizing
+     managed identity.
+    :vartype location: str
     :ivar format: The format of the export being delivered. Currently only 'Csv' is supported.
      "Csv"
     :vartype format: str or ~azure.mgmt.costmanagement.models.FormatType
@@ -1848,6 +2388,8 @@ class Export(CostManagementProxyResource):  # pylint: disable=too-many-instance-
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "e_tag": {"key": "eTag", "type": "str"},
+        "identity": {"key": "identity", "type": "SystemAssignedServiceIdentity"},
+        "location": {"key": "location", "type": "str"},
         "format": {"key": "properties.format", "type": "str"},
         "delivery_info": {"key": "properties.deliveryInfo", "type": "ExportDeliveryInfo"},
         "definition": {"key": "properties.definition", "type": "ExportDefinition"},
@@ -1861,6 +2403,8 @@ class Export(CostManagementProxyResource):  # pylint: disable=too-many-instance-
         self,
         *,
         e_tag: Optional[str] = None,
+        identity: Optional["_models.SystemAssignedServiceIdentity"] = None,
+        location: Optional[str] = None,
         format: Optional[Union[str, "_models.FormatType"]] = None,
         delivery_info: Optional["_models.ExportDeliveryInfo"] = None,
         definition: Optional["_models.ExportDefinition"] = None,
@@ -1873,6 +2417,11 @@ class Export(CostManagementProxyResource):  # pylint: disable=too-many-instance-
         :keyword e_tag: eTag of the resource. To handle concurrent update scenario, this field will be
          used to determine whether the user is updating the latest version or not.
         :paramtype e_tag: str
+        :keyword identity: The managed identity associated with Export.
+        :paramtype identity: ~azure.mgmt.costmanagement.models.SystemAssignedServiceIdentity
+        :keyword location: The location of the Export's managed identity. Only required when utilizing
+         managed identity.
+        :paramtype location: str
         :keyword format: The format of the export being delivered. Currently only 'Csv' is supported.
          "Csv"
         :paramtype format: str or ~azure.mgmt.costmanagement.models.FormatType
@@ -1890,6 +2439,8 @@ class Export(CostManagementProxyResource):  # pylint: disable=too-many-instance-
         :paramtype schedule: ~azure.mgmt.costmanagement.models.ExportSchedule
         """
         super().__init__(e_tag=e_tag, **kwargs)
+        self.identity = identity
+        self.location = location
         self.format = format
         self.delivery_info = delivery_info
         self.definition = definition
@@ -2300,11 +2851,13 @@ class ExportRun(CostManagementProxyResource):  # pylint: disable=too-many-instan
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Resource Id.
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
-    :ivar name: Resource name.
+    :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: Resource type.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
     :ivar e_tag: eTag of the resource. To handle concurrent update scenario, this field will be
      used to determine whether the user is updating the latest version or not.
@@ -2885,6 +3438,37 @@ class ForecastResult(CostManagementResource):
         self.next_link = next_link
         self.columns = columns
         self.rows = rows
+
+
+class ForecastSpend(_serialization.Model):
+    """The forecasted cost which is being tracked for a budget.
+
+     Supported for CategoryType(s): Cost.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar amount: The forecasted cost for the total time period which is being tracked by the
+     budget. This value is only provided if the budget contains a forecast alert type.
+    :vartype amount: float
+    :ivar unit: The unit of measure for the budget amount.
+    :vartype unit: str
+    """
+
+    _validation = {
+        "amount": {"readonly": True},
+        "unit": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "amount": {"key": "amount", "type": "float"},
+        "unit": {"key": "unit", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.amount = None
+        self.unit = None
 
 
 class ForecastTimePeriod(_serialization.Model):
@@ -3503,6 +4087,195 @@ class KpiProperties(_serialization.Model):
         self.enabled = enabled
 
 
+class Notification(_serialization.Model):
+    """The notification associated with a budget.
+
+     Supported for CategoryType(s): Cost, ReservationUtilization.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar enabled: The notification is enabled or not.
+
+      Supported for CategoryType(s): Cost, ReservationUtilization. Required.
+    :vartype enabled: bool
+    :ivar operator: The comparison operator.
+
+      Supported for CategoryType(s): Cost, ReservationUtilization.
+
+      Supported operators for **CategoryType: Cost**
+
+
+     * GreaterThan
+     *
+       GreaterThanOrEqualTo
+
+       Supported operators for **CategoryType: ReservationUtilization**
+
+     * LessThan. Required. Known values are: "EqualTo", "GreaterThan", "GreaterThanOrEqualTo", and
+     "LessThan".
+    :vartype operator: str or ~azure.mgmt.costmanagement.models.BudgetNotificationOperatorType
+    :ivar threshold: Threshold value associated with a notification. It is always percent with a
+     maximum of 2 decimal places.
+
+      Supported for CategoryType(s): Cost, ReservationUtilization.
+
+      **CategoryType: Cost** - Must be between 0 and 1000. Notification is sent when the cost
+     exceeded the threshold.
+
+      **CategoryType: ReservationUtilization** - Must be between 0 and 100. Notification is sent
+     when a reservation has a utilization percentage below the threshold. Required.
+    :vartype threshold: float
+    :ivar frequency: Frequency of a notification. Represents how long the notification will be
+     silent after triggering an alert for a threshold breach. If not specified, the frequency will
+     be set by default based on the timeGrain (Weekly when timeGrain: Last7Days, Monthly when
+     timeGrain: Last30Days).
+
+      Supported for CategoryType(s): ReservationUtilization. Known values are: "Daily", "Weekly",
+     and "Monthly".
+    :vartype frequency: str or ~azure.mgmt.costmanagement.models.Frequency
+    :ivar contact_emails: Email addresses to send the notification to when the threshold is
+     breached. Must have at least one contact email or contact group specified at the Subscription
+     or Resource Group scopes. All other scopes must have at least one contact email specified.
+
+      Supported for CategoryType(s): Cost, ReservationUtilization. Required.
+    :vartype contact_emails: list[str]
+    :ivar contact_roles: Subscription or Resource Group scopes only. Contact roles to send the
+     notification to when the threshold is breached.
+
+      Supported for CategoryType(s): Cost.
+    :vartype contact_roles: list[str]
+    :ivar contact_groups: Subscription or Resource Group scopes only. Action groups to send the
+     notification to when the threshold is exceeded. Must be provided as a fully qualified Azure
+     resource id.
+
+      Supported for CategoryType(s): Cost.
+    :vartype contact_groups: list[str]
+    :ivar threshold_type: The type of threshold.
+
+      Supported for CategoryType(s): Cost. Known values are: "Actual" and "Forecasted".
+    :vartype threshold_type: str or ~azure.mgmt.costmanagement.models.ThresholdType
+    :ivar locale: Language in which the recipient will receive the notification,
+
+      Supported for CategoryType(s): Cost, ReservationUtilization. Known values are: "en-us",
+     "ja-jp", "zh-cn", "de-de", "es-es", "fr-fr", "it-it", "ko-kr", "pt-br", "ru-ru", "zh-tw",
+     "cs-cz", "pl-pl", "tr-tr", "da-dk", "en-gb", "hu-hu", "nb-no", "nl-nl", "pt-pt", and "sv-se".
+    :vartype locale: str or ~azure.mgmt.costmanagement.models.CultureCode
+    """
+
+    _validation = {
+        "enabled": {"required": True},
+        "operator": {"required": True},
+        "threshold": {"required": True},
+        "contact_emails": {"required": True, "max_items": 50, "min_items": 0},
+        "contact_groups": {"max_items": 50, "min_items": 0},
+    }
+
+    _attribute_map = {
+        "enabled": {"key": "enabled", "type": "bool"},
+        "operator": {"key": "operator", "type": "str"},
+        "threshold": {"key": "threshold", "type": "float"},
+        "frequency": {"key": "frequency", "type": "str"},
+        "contact_emails": {"key": "contactEmails", "type": "[str]"},
+        "contact_roles": {"key": "contactRoles", "type": "[str]"},
+        "contact_groups": {"key": "contactGroups", "type": "[str]"},
+        "threshold_type": {"key": "thresholdType", "type": "str"},
+        "locale": {"key": "locale", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        enabled: bool,
+        operator: Union[str, "_models.BudgetNotificationOperatorType"],
+        threshold: float,
+        contact_emails: List[str],
+        frequency: Optional[Union[str, "_models.Frequency"]] = None,
+        contact_roles: Optional[List[str]] = None,
+        contact_groups: Optional[List[str]] = None,
+        threshold_type: Union[str, "_models.ThresholdType"] = "Actual",
+        locale: Optional[Union[str, "_models.CultureCode"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword enabled: The notification is enabled or not.
+
+          Supported for CategoryType(s): Cost, ReservationUtilization. Required.
+        :paramtype enabled: bool
+        :keyword operator: The comparison operator.
+
+          Supported for CategoryType(s): Cost, ReservationUtilization.
+
+          Supported operators for **CategoryType: Cost**
+
+
+         * GreaterThan
+         *
+           GreaterThanOrEqualTo
+
+           Supported operators for **CategoryType: ReservationUtilization**
+
+         * LessThan. Required. Known values are: "EqualTo", "GreaterThan", "GreaterThanOrEqualTo", and
+         "LessThan".
+        :paramtype operator: str or ~azure.mgmt.costmanagement.models.BudgetNotificationOperatorType
+        :keyword threshold: Threshold value associated with a notification. It is always percent with a
+         maximum of 2 decimal places.
+
+          Supported for CategoryType(s): Cost, ReservationUtilization.
+
+          **CategoryType: Cost** - Must be between 0 and 1000. Notification is sent when the cost
+         exceeded the threshold.
+
+          **CategoryType: ReservationUtilization** - Must be between 0 and 100. Notification is sent
+         when a reservation has a utilization percentage below the threshold. Required.
+        :paramtype threshold: float
+        :keyword frequency: Frequency of a notification. Represents how long the notification will be
+         silent after triggering an alert for a threshold breach. If not specified, the frequency will
+         be set by default based on the timeGrain (Weekly when timeGrain: Last7Days, Monthly when
+         timeGrain: Last30Days).
+
+          Supported for CategoryType(s): ReservationUtilization. Known values are: "Daily", "Weekly",
+         and "Monthly".
+        :paramtype frequency: str or ~azure.mgmt.costmanagement.models.Frequency
+        :keyword contact_emails: Email addresses to send the notification to when the threshold is
+         breached. Must have at least one contact email or contact group specified at the Subscription
+         or Resource Group scopes. All other scopes must have at least one contact email specified.
+
+          Supported for CategoryType(s): Cost, ReservationUtilization. Required.
+        :paramtype contact_emails: list[str]
+        :keyword contact_roles: Subscription or Resource Group scopes only. Contact roles to send the
+         notification to when the threshold is breached.
+
+          Supported for CategoryType(s): Cost.
+        :paramtype contact_roles: list[str]
+        :keyword contact_groups: Subscription or Resource Group scopes only. Action groups to send the
+         notification to when the threshold is exceeded. Must be provided as a fully qualified Azure
+         resource id.
+
+          Supported for CategoryType(s): Cost.
+        :paramtype contact_groups: list[str]
+        :keyword threshold_type: The type of threshold.
+
+          Supported for CategoryType(s): Cost. Known values are: "Actual" and "Forecasted".
+        :paramtype threshold_type: str or ~azure.mgmt.costmanagement.models.ThresholdType
+        :keyword locale: Language in which the recipient will receive the notification,
+
+          Supported for CategoryType(s): Cost, ReservationUtilization. Known values are: "en-us",
+         "ja-jp", "zh-cn", "de-de", "es-es", "fr-fr", "it-it", "ko-kr", "pt-br", "ru-ru", "zh-tw",
+         "cs-cz", "pl-pl", "tr-tr", "da-dk", "en-gb", "hu-hu", "nb-no", "nl-nl", "pt-pt", and "sv-se".
+        :paramtype locale: str or ~azure.mgmt.costmanagement.models.CultureCode
+        """
+        super().__init__(**kwargs)
+        self.enabled = enabled
+        self.operator = operator
+        self.threshold = threshold
+        self.frequency = frequency
+        self.contact_emails = contact_emails
+        self.contact_roles = contact_roles
+        self.contact_groups = contact_groups
+        self.threshold_type = threshold_type
+        self.locale = locale
+
+
 class NotificationProperties(_serialization.Model):
     """The properties of the scheduled action notification.
 
@@ -3712,39 +4485,6 @@ class PivotProperties(_serialization.Model):
         super().__init__(**kwargs)
         self.type = type
         self.name = name
-
-
-class ProxyResource(Resource):
-    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
-    tags and a location.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-    :vartype id: str
-    :ivar name: The name of the resource.
-    :vartype name: str
-    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-     "Microsoft.Storage/storageAccounts".
-    :vartype type: str
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
 
 
 class QueryAggregation(_serialization.Model):
@@ -4583,26 +5323,28 @@ class SavingsPlanUtilizationSummary(BenefitUtilizationSummary):  # pylint: disab
     :vartype usage_date: ~datetime.datetime
     :ivar avg_utilization_percentage: This is the average hourly utilization for each date range
      that corresponds to given grain (Daily, Monthly). Suppose the API call is for usageDate >
-     2022-10-01 and usageDate < 2022-10-31 at a daily granularity. There will be one record per
-     benefit id for each day. For a single day, the avgUtilizationPercentage value will be equal to
-     the average of the set of values where the set contains 24 utilization percentage entries one
-     for each hour in a specific day.
+     2023-09-01-preview and usageDate < 2022-10-31 at a daily granularity. There will be one record
+     per benefit id for each day. For a single day, the avgUtilizationPercentage value will be equal
+     to the average of the set of values where the set contains 24 utilization percentage entries
+     one for each hour in a specific day.
     :vartype avg_utilization_percentage: float
     :ivar min_utilization_percentage: This is the minimum hourly utilization for each date range
      that corresponds to given grain (Daily, Monthly). Suppose the API call is for usageDate >
-     2022-10-01 and usageDate < 2022-10-31 at a daily granularity. There will be one record per
-     benefit id for each day. For a single day, the minUtilizationPercentage value will be equal to
-     the smallest in the set of values where the set contains 24 utilization percentage entries one
-     for each hour in a specific day. If on the day 2022-10-18, the lowest utilization percentage
-     was 10% at hour 4, then the value for the minUtilizationPercentage in the response will be 10%.
+     2023-09-01-preview and usageDate < 2022-10-31 at a daily granularity. There will be one record
+     per benefit id for each day. For a single day, the minUtilizationPercentage value will be equal
+     to the smallest in the set of values where the set contains 24 utilization percentage entries
+     one for each hour in a specific day. If on the day 2022-10-18, the lowest utilization
+     percentage was 10% at hour 4, then the value for the minUtilizationPercentage in the response
+     will be 10%.
     :vartype min_utilization_percentage: float
     :ivar max_utilization_percentage: This is the maximum hourly utilization for each date range
      that corresponds to given grain (Daily, Monthly). Suppose the API call is for usageDate >
-     2022-10-01 and usageDate < 2022-10-31 at a daily granularity. There will be one record per
-     benefit id for each day. For a single day, the maxUtilizationPercentage value will be equal to
-     the largest in the set of values where the set contains 24 utilization percentage entries one
-     for each hour in a specific day. If on the day 2022-10-18, the largest utilization percentage
-     was 90% at hour 5, then the value for the maxUtilizationPercentage in the response will be 90%.
+     2023-09-01-preview and usageDate < 2022-10-31 at a daily granularity. There will be one record
+     per benefit id for each day. For a single day, the maxUtilizationPercentage value will be equal
+     to the largest in the set of values where the set contains 24 utilization percentage entries
+     one for each hour in a specific day. If on the day 2022-10-18, the largest utilization
+     percentage was 90% at hour 5, then the value for the maxUtilizationPercentage in the response
+     will be 90%.
     :vartype max_utilization_percentage: float
     """
 
@@ -4672,26 +5414,28 @@ class SavingsPlanUtilizationSummaryProperties(BenefitUtilizationSummaryPropertie
     :vartype usage_date: ~datetime.datetime
     :ivar avg_utilization_percentage: This is the average hourly utilization for each date range
      that corresponds to given grain (Daily, Monthly). Suppose the API call is for usageDate >
-     2022-10-01 and usageDate < 2022-10-31 at a daily granularity. There will be one record per
-     benefit id for each day. For a single day, the avgUtilizationPercentage value will be equal to
-     the average of the set of values where the set contains 24 utilization percentage entries one
-     for each hour in a specific day.
+     2023-09-01-preview and usageDate < 2022-10-31 at a daily granularity. There will be one record
+     per benefit id for each day. For a single day, the avgUtilizationPercentage value will be equal
+     to the average of the set of values where the set contains 24 utilization percentage entries
+     one for each hour in a specific day.
     :vartype avg_utilization_percentage: float
     :ivar min_utilization_percentage: This is the minimum hourly utilization for each date range
      that corresponds to given grain (Daily, Monthly). Suppose the API call is for usageDate >
-     2022-10-01 and usageDate < 2022-10-31 at a daily granularity. There will be one record per
-     benefit id for each day. For a single day, the minUtilizationPercentage value will be equal to
-     the smallest in the set of values where the set contains 24 utilization percentage entries one
-     for each hour in a specific day. If on the day 2022-10-18, the lowest utilization percentage
-     was 10% at hour 4, then the value for the minUtilizationPercentage in the response will be 10%.
+     2023-09-01-preview and usageDate < 2022-10-31 at a daily granularity. There will be one record
+     per benefit id for each day. For a single day, the minUtilizationPercentage value will be equal
+     to the smallest in the set of values where the set contains 24 utilization percentage entries
+     one for each hour in a specific day. If on the day 2022-10-18, the lowest utilization
+     percentage was 10% at hour 4, then the value for the minUtilizationPercentage in the response
+     will be 10%.
     :vartype min_utilization_percentage: float
     :ivar max_utilization_percentage: This is the maximum hourly utilization for each date range
      that corresponds to given grain (Daily, Monthly). Suppose the API call is for usageDate >
-     2022-10-01 and usageDate < 2022-10-31 at a daily granularity. There will be one record per
-     benefit id for each day. For a single day, the maxUtilizationPercentage value will be equal to
-     the largest in the set of values where the set contains 24 utilization percentage entries one
-     for each hour in a specific day. If on the day 2022-10-18, the largest utilization percentage
-     was 90% at hour 5, then the value for the maxUtilizationPercentage in the response will be 90%.
+     2023-09-01-preview and usageDate < 2022-10-31 at a daily granularity. There will be one record
+     per benefit id for each day. For a single day, the maxUtilizationPercentage value will be equal
+     to the largest in the set of values where the set contains 24 utilization percentage entries
+     one for each hour in a specific day. If on the day 2022-10-18, the largest utilization
+     percentage was 90% at hour 5, then the value for the maxUtilizationPercentage in the response
+     will be 90%.
     :vartype max_utilization_percentage: float
     """
 
@@ -4741,10 +5485,9 @@ class ScheduledActionProxyResource(ProxyResource):
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar e_tag: Resource Etag. For update calls, eTag is optional and can be specified to achieve
-     optimistic concurrency. Fetch the resource's eTag by doing a 'GET' call first and then
-     including the latest eTag as part of the request body or 'If-Match' header while performing the
-     update. For create calls, eTag is not required.
+    :ivar e_tag: Resource Etag. For update calls, eTag is mandatory. Fetch the resource's eTag by
+     doing a 'GET' call first and then including the latest eTag as part of the request body or
+     'If-Match' header while performing the update. For create calls, eTag is not required.
     :vartype e_tag: str
     :ivar kind: Kind of the scheduled action. Known values are: "Email" and "InsightAlert".
     :vartype kind: str or ~azure.mgmt.costmanagement.models.ScheduledActionKind
@@ -4793,10 +5536,9 @@ class ScheduledAction(ScheduledActionProxyResource):  # pylint: disable=too-many
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar e_tag: Resource Etag. For update calls, eTag is optional and can be specified to achieve
-     optimistic concurrency. Fetch the resource's eTag by doing a 'GET' call first and then
-     including the latest eTag as part of the request body or 'If-Match' header while performing the
-     update. For create calls, eTag is not required.
+    :ivar e_tag: Resource Etag. For update calls, eTag is mandatory. Fetch the resource's eTag by
+     doing a 'GET' call first and then including the latest eTag as part of the request body or
+     'If-Match' header while performing the update. For create calls, eTag is not required.
     :vartype e_tag: str
     :ivar kind: Kind of the scheduled action. Known values are: "Email" and "InsightAlert".
     :vartype kind: str or ~azure.mgmt.costmanagement.models.ScheduledActionKind
@@ -5297,6 +6039,48 @@ class Status(_serialization.Model):
         self.status = status
 
 
+class SystemAssignedServiceIdentity(_serialization.Model):
+    """Managed service identity (either system assigned, or none).
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar principal_id: The service principal ID of the system assigned identity. This property
+     will only be provided for a system assigned identity.
+    :vartype principal_id: str
+    :ivar tenant_id: The tenant ID of the system assigned identity. This property will only be
+     provided for a system assigned identity.
+    :vartype tenant_id: str
+    :ivar type: Type of managed service identity (either system assigned, or none). Required. Known
+     values are: "None" and "SystemAssigned".
+    :vartype type: str or ~azure.mgmt.costmanagement.models.SystemAssignedServiceIdentityType
+    """
+
+    _validation = {
+        "principal_id": {"readonly": True},
+        "tenant_id": {"readonly": True},
+        "type": {"required": True},
+    }
+
+    _attribute_map = {
+        "principal_id": {"key": "principalId", "type": "str"},
+        "tenant_id": {"key": "tenantId", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+    }
+
+    def __init__(self, *, type: Union[str, "_models.SystemAssignedServiceIdentityType"], **kwargs: Any) -> None:
+        """
+        :keyword type: Type of managed service identity (either system assigned, or none). Required.
+         Known values are: "None" and "SystemAssigned".
+        :paramtype type: str or ~azure.mgmt.costmanagement.models.SystemAssignedServiceIdentityType
+        """
+        super().__init__(**kwargs)
+        self.principal_id = None
+        self.tenant_id = None
+        self.type = type
+
+
 class SystemData(_serialization.Model):
     """Metadata pertaining to creation and last modification of the resource.
 
@@ -5366,11 +6150,13 @@ class View(CostManagementProxyResource):  # pylint: disable=too-many-instance-at
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Resource Id.
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
-    :ivar name: Resource name.
+    :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: Resource type.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
     :ivar e_tag: eTag of the resource. To handle concurrent update scenario, this field will be
      used to determine whether the user is updating the latest version or not.
@@ -5429,6 +6215,9 @@ class View(CostManagementProxyResource):  # pylint: disable=too-many-instance-at
     :vartype data_set: ~azure.mgmt.costmanagement.models.ReportConfigDataset
     :ivar include_monetary_commitment: If true, report includes monetary commitment.
     :vartype include_monetary_commitment: bool
+    :ivar provider: Optionally select a resource provider to get detailed usage information.
+     Permitted values include 'AKS'.
+    :vartype provider: str
     """
 
     _validation = {
@@ -5436,7 +6225,6 @@ class View(CostManagementProxyResource):  # pylint: disable=too-many-instance-at
         "name": {"readonly": True},
         "type": {"readonly": True},
         "created_on": {"readonly": True},
-        "modified_on": {"readonly": True},
         "currency": {"readonly": True},
     }
 
@@ -5461,6 +6249,7 @@ class View(CostManagementProxyResource):  # pylint: disable=too-many-instance-at
         "time_period": {"key": "properties.query.timePeriod", "type": "ReportConfigTimePeriod"},
         "data_set": {"key": "properties.query.dataSet", "type": "ReportConfigDataset"},
         "include_monetary_commitment": {"key": "properties.query.includeMonetaryCommitment", "type": "bool"},
+        "provider": {"key": "properties.query.provider", "type": "str"},
     }
 
     def __init__(
@@ -5469,6 +6258,7 @@ class View(CostManagementProxyResource):  # pylint: disable=too-many-instance-at
         e_tag: Optional[str] = None,
         display_name: Optional[str] = None,
         scope: Optional[str] = None,
+        modified_on: Optional[datetime.datetime] = None,
         date_range: Optional[str] = None,
         chart: Optional[Union[str, "_models.ChartType"]] = None,
         accumulated: Optional[Union[str, "_models.AccumulatedType"]] = None,
@@ -5480,6 +6270,7 @@ class View(CostManagementProxyResource):  # pylint: disable=too-many-instance-at
         time_period: Optional["_models.ReportConfigTimePeriod"] = None,
         data_set: Optional["_models.ReportConfigDataset"] = None,
         include_monetary_commitment: Optional[bool] = None,
+        provider: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -5506,6 +6297,8 @@ class View(CostManagementProxyResource):  # pylint: disable=too-many-instance-at
          '/providers/Microsoft.CostManagement/externalSubscriptions/{externalSubscriptionName}' for
          ExternalSubscription scope.
         :paramtype scope: str
+        :keyword modified_on: Date when the user last modified this view.
+        :paramtype modified_on: ~datetime.datetime
         :keyword date_range: Date range of the current view.
         :paramtype date_range: str
         :keyword chart: Chart type of the main view in Cost Analysis. Required. Known values are:
@@ -5534,12 +6327,15 @@ class View(CostManagementProxyResource):  # pylint: disable=too-many-instance-at
         :paramtype data_set: ~azure.mgmt.costmanagement.models.ReportConfigDataset
         :keyword include_monetary_commitment: If true, report includes monetary commitment.
         :paramtype include_monetary_commitment: bool
+        :keyword provider: Optionally select a resource provider to get detailed usage information.
+         Permitted values include 'AKS'.
+        :paramtype provider: str
         """
         super().__init__(e_tag=e_tag, **kwargs)
         self.display_name = display_name
         self.scope = scope
         self.created_on = None
-        self.modified_on = None
+        self.modified_on = modified_on
         self.date_range = date_range
         self.currency = None
         self.chart = chart
@@ -5552,6 +6348,7 @@ class View(CostManagementProxyResource):  # pylint: disable=too-many-instance-at
         self.time_period = time_period
         self.data_set = data_set
         self.include_monetary_commitment = include_monetary_commitment
+        self.provider = provider
 
 
 class ViewListResult(_serialization.Model):
