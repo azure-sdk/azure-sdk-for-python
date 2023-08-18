@@ -14,7 +14,7 @@ from azure.mgmt.signalr import SignalRManagementClient
     pip install azure-identity
     pip install azure-mgmt-signalr
 # USAGE
-    python signal_r_list_by_resource_group.py
+    python signal_rreplicas_delete.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,13 +29,13 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.signal_r.list_by_resource_group(
+    client.signal_rreplicas.delete(
         resource_group_name="myResourceGroup",
+        resource_name="mySignalRService",
+        replica_name="mySignalRService-eastus",
     )
-    for item in response:
-        print(item)
 
 
-# x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/preview/2023-08-01-preview/examples/SignalR_ListByResourceGroup.json
+# x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/preview/2023-08-01-preview/examples/SignalRReplicas_Delete.json
 if __name__ == "__main__":
     main()
