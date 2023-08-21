@@ -26,7 +26,7 @@ from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import _convert_request, _format_url_section
+from .._vendor import _convert_request
 
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
@@ -39,7 +39,7 @@ def build_get_capabilities_request(location: str, subscription_id: str, **kwargs
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-15-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -52,7 +52,7 @@ def build_get_capabilities_request(location: str, subscription_id: str, **kwargs
         "location": _SERIALIZER.url("location", location, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -67,7 +67,7 @@ def build_list_usages_request(location: str, subscription_id: str, **kwargs: Any
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-15-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -79,7 +79,7 @@ def build_list_usages_request(location: str, subscription_id: str, **kwargs: Any
         "location": _SERIALIZER.url("location", location, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -94,7 +94,7 @@ def build_list_billing_specs_request(location: str, subscription_id: str, **kwar
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-15-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -107,7 +107,7 @@ def build_list_billing_specs_request(location: str, subscription_id: str, **kwar
         "location": _SERIALIZER.url("location", location, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -124,7 +124,7 @@ def build_get_azure_async_operation_status_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-15-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -138,7 +138,7 @@ def build_get_azure_async_operation_status_request(
         "operationId": _SERIALIZER.url("operation_id", operation_id, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -153,7 +153,7 @@ def build_check_name_availability_request(location: str, subscription_id: str, *
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-15-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -167,7 +167,7 @@ def build_check_name_availability_request(location: str, subscription_id: str, *
         "location": _SERIALIZER.url("location", location, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -184,7 +184,7 @@ def build_validate_cluster_create_request_request(location: str, subscription_id
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-15-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -198,7 +198,7 @@ def build_validate_cluster_create_request_request(location: str, subscription_id
         "location": _SERIALIZER.url("location", location, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")

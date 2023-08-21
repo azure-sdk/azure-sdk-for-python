@@ -34,6 +34,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/ListHDInsightOperations.json
+# x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-08-15-preview/examples/ListHDInsightOperations.json
 if __name__ == "__main__":
     main()

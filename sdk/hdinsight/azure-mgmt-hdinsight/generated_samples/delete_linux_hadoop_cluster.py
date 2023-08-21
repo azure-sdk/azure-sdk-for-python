@@ -35,6 +35,6 @@ def main():
     ).result()
 
 
-# x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/DeleteLinuxHadoopCluster.json
+# x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-08-15-preview/examples/DeleteLinuxHadoopCluster.json
 if __name__ == "__main__":
     main()
