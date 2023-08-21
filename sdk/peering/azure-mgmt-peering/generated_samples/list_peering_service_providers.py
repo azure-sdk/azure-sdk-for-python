@@ -34,6 +34,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2022-10-01/examples/ListPeeringServiceProviders.json
+# x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2023-08-01/examples/ListPeeringServiceProviders.json
 if __name__ == "__main__":
     main()

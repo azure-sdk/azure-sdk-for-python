@@ -29,14 +29,13 @@ def main():
         subscription_id="subId",
     )
 
-    response = client.connection_monitor_tests.delete(
+    client.connection_monitor_tests.delete(
         resource_group_name="rgName",
         peering_service_name="peeringServiceName",
         connection_monitor_test_name="connectionMonitorTestName",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2022-10-01/examples/DeleteConnectionMonitorTest.json
+# x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2023-08-01/examples/DeleteConnectionMonitorTest.json
 if __name__ == "__main__":
     main()
