@@ -150,10 +150,16 @@ class KeyPermissions(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class KeyRotationPolicyActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The type of action."""
+    """The type of the action."""
 
+    ROTATE = "Rotate"
+    """Rotate the key based on the key policy. Key Vault only. Managed HSM uses camelCase 'rotate'
+    #: instead."""
     ROTATE = "rotate"
-    NOTIFY = "notify"
+    """Rotate the key based on the key policy. Managed HSM only. Key Vault uses PascalCase 'Rotate'
+    #: instead."""
+    NOTIFY = "Notify"
+    """Trigger Event Grid events. Defaults to 30 days before expiry. Key Vault only."""
 
 
 class ManagedHsmSkuFamily(str, Enum, metaclass=CaseInsensitiveEnumMeta):
