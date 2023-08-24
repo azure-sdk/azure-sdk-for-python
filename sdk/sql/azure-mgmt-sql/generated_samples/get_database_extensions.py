@@ -37,6 +37,6 @@ def main():
     )
 
 
-# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-02-01-preview/examples/GetDatabaseExtensions.json
+# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/GetDatabaseExtensions.json
 if __name__ == "__main__":
     main()
