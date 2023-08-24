@@ -71,6 +71,41 @@ class Capability(_serialization.Model):
         self.value = value
 
 
+class CheckNameAvailabilityParameters(_serialization.Model):
+    """Parameters body to pass for resource name availability check.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar name: Resource name. Required.
+    :vartype name: str
+    :ivar type: Resource type. The only legal value of this property for checking redis enterprise
+     cache name availability is 'Microsoft.Cache/redisenterprise'. Required.
+    :vartype type: str
+    """
+
+    _validation = {
+        "name": {"required": True},
+        "type": {"required": True},
+    }
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+    }
+
+    def __init__(self, *, name: str, type: str, **kwargs: Any) -> None:
+        """
+        :keyword name: Resource name. Required.
+        :paramtype name: str
+        :keyword type: Resource type. The only legal value of this property for checking redis
+         enterprise cache name availability is 'Microsoft.Cache/redisenterprise'. Required.
+        :paramtype type: str
+        """
+        super().__init__(**kwargs)
+        self.name = name
+        self.type = type
+
+
 class Resource(_serialization.Model):
     """Common fields that are returned in the response for all Azure Resource Manager resources.
 
@@ -206,7 +241,7 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
     :vartype provisioning_state: str or ~azure.mgmt.redisenterprise.models.ProvisioningState
     :ivar resource_state: Current resource status of the cluster. Known values are: "Running",
      "Creating", "CreateFailed", "Updating", "UpdateFailed", "Deleting", "DeleteFailed", "Enabling",
-     "EnableFailed", "Disabling", "DisableFailed", and "Disabled".
+     "EnableFailed", "Disabling", "DisableFailed", "Disabled", "Scaling", and "ScalingFailed".
     :vartype resource_state: str or ~azure.mgmt.redisenterprise.models.ResourceState
     :ivar redis_version: Version of redis the cluster supports, e.g. '6'.
     :vartype redis_version: str
@@ -466,7 +501,7 @@ class ClusterUpdate(_serialization.Model):
     :vartype provisioning_state: str or ~azure.mgmt.redisenterprise.models.ProvisioningState
     :ivar resource_state: Current resource status of the cluster. Known values are: "Running",
      "Creating", "CreateFailed", "Updating", "UpdateFailed", "Deleting", "DeleteFailed", "Enabling",
-     "EnableFailed", "Disabling", "DisableFailed", and "Disabled".
+     "EnableFailed", "Disabling", "DisableFailed", "Disabled", "Scaling", and "ScalingFailed".
     :vartype resource_state: str or ~azure.mgmt.redisenterprise.models.ResourceState
     :ivar redis_version: Version of redis the cluster supports, e.g. '6'.
     :vartype redis_version: str
@@ -602,7 +637,7 @@ class Database(ProxyResource):  # pylint: disable=too-many-instance-attributes
     :vartype provisioning_state: str or ~azure.mgmt.redisenterprise.models.ProvisioningState
     :ivar resource_state: Current resource status of the database. Known values are: "Running",
      "Creating", "CreateFailed", "Updating", "UpdateFailed", "Deleting", "DeleteFailed", "Enabling",
-     "EnableFailed", "Disabling", "DisableFailed", and "Disabled".
+     "EnableFailed", "Disabling", "DisableFailed", "Disabled", "Scaling", and "ScalingFailed".
     :vartype resource_state: str or ~azure.mgmt.redisenterprise.models.ResourceState
     :ivar clustering_policy: Clustering policy - default is OSSCluster. Specified at create time.
      Known values are: "EnterpriseCluster" and "OSSCluster".
@@ -773,7 +808,7 @@ class DatabaseUpdate(_serialization.Model):
     :vartype provisioning_state: str or ~azure.mgmt.redisenterprise.models.ProvisioningState
     :ivar resource_state: Current resource status of the database. Known values are: "Running",
      "Creating", "CreateFailed", "Updating", "UpdateFailed", "Deleting", "DeleteFailed", "Enabling",
-     "EnableFailed", "Disabling", "DisableFailed", and "Disabled".
+     "EnableFailed", "Disabling", "DisableFailed", "Disabled", "Scaling", and "ScalingFailed".
     :vartype resource_state: str or ~azure.mgmt.redisenterprise.models.ResourceState
     :ivar clustering_policy: Clustering policy - default is OSSCluster. Specified at create time.
      Known values are: "EnterpriseCluster" and "OSSCluster".
@@ -978,8 +1013,8 @@ class ExportClusterParameters(_serialization.Model):
 class FlushParameters(_serialization.Model):
     """Parameters for a Redis Enterprise active geo-replication flush operation.
 
-    :ivar ids: The resource identifiers of all the other database resources in the georeplication
-     group to be flushed.
+    :ivar ids: The identifiers of all the other database resources in the georeplication group to
+     be flushed.
     :vartype ids: list[str]
     """
 
@@ -989,8 +1024,8 @@ class FlushParameters(_serialization.Model):
 
     def __init__(self, *, ids: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
-        :keyword ids: The resource identifiers of all the other database resources in the
-         georeplication group to be flushed.
+        :keyword ids: The identifiers of all the other database resources in the georeplication group
+         to be flushed.
         :paramtype ids: list[str]
         """
         super().__init__(**kwargs)
