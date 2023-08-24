@@ -65,11 +65,17 @@ class ApplicationInsightsManagementClient:  # pylint: disable=client-accepts-api
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
         self.proactive_detection_configurations = ProactiveDetectionConfigurationsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2018-05-01-preview"
         )
-        self.components = ComponentsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
-        self.web_tests = WebTestsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.components = ComponentsOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2018-05-01-preview"
+        )
+        self.operations = Operations(
+            self._client, self._config, self._serialize, self._deserialize, "2018-05-01-preview"
+        )
+        self.web_tests = WebTestsOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2018-05-01-preview"
+        )
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> Awaitable[AsyncHttpResponse]:
         """Runs the network request through the client's chained policies.
