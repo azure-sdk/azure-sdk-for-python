@@ -14,7 +14,7 @@ from azure.mgmt.machinelearningservices import MachineLearningServicesMgmtClient
     pip install azure-identity
     pip install azure-mgmt-machinelearningservices
 # USAGE
-    python aks_compute.py
+    python get_blob_reference_sas.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,17 +26,19 @@ from azure.mgmt.machinelearningservices import MachineLearningServicesMgmtClient
 def main():
     client = MachineLearningServicesMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+        subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.compute.get(
-        resource_group_name="testrg123",
-        workspace_name="workspaces123",
-        compute_name="compute123",
+    response = client.registry_model_versions.get_blob_reference_sas(
+        resource_group_name="test-rg",
+        registry_name="registryName",
+        model_name="string",
+        version="string",
+        body={"blobUri": "https://www.contoso.com/example"},
     )
     print(response)
 
 
-# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2023-10-01/examples/Compute/get/AKSCompute.json
+# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2023-10-01/examples/Registry/ModelVersion/getBlobReferenceSAS.json
 if __name__ == "__main__":
     main()

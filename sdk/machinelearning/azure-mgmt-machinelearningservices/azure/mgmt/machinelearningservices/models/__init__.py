@@ -26,6 +26,7 @@ from ._models_py3 import AmlOperationDisplay
 from ._models_py3 import AmlOperationListResult
 from ._models_py3 import AmlToken
 from ._models_py3 import AmlUserFeature
+from ._models_py3 import AnonymousAccessCredentialDto
 from ._models_py3 import ArmResourceId
 from ._models_py3 import AssetBase
 from ._models_py3 import AssetContainer
@@ -45,6 +46,7 @@ from ._models_py3 import AutoTargetRollingWindowSize
 from ._models_py3 import AzureBlobDatastore
 from ._models_py3 import AzureDataLakeGen1Datastore
 from ._models_py3 import AzureDataLakeGen2Datastore
+from ._models_py3 import AzureDatastore
 from ._models_py3 import AzureFileDatastore
 from ._models_py3 import BanditPolicy
 from ._models_py3 import BatchDeployment
@@ -58,6 +60,8 @@ from ._models_py3 import BatchRetrySettings
 from ._models_py3 import BayesianSamplingAlgorithm
 from ._models_py3 import BindOptions
 from ._models_py3 import BlobReferenceForConsumptionDto
+from ._models_py3 import BlobReferenceSASRequestDto
+from ._models_py3 import BlobReferenceSASResponseDto
 from ._models_py3 import BuildContext
 from ._models_py3 import CertificateDatastoreCredentials
 from ._models_py3 import CertificateDatastoreSecrets
@@ -120,6 +124,7 @@ from ._models_py3 import DataLakeAnalytics
 from ._models_py3 import DataLakeAnalyticsSchema
 from ._models_py3 import DataLakeAnalyticsSchemaProperties
 from ._models_py3 import DataPathAssetReference
+from ._models_py3 import DataReferenceCredentialDto
 from ._models_py3 import DataVersionBase
 from ._models_py3 import DataVersionBaseProperties
 from ._models_py3 import DataVersionBaseResourceArmPaginatedResult
@@ -144,6 +149,7 @@ from ._models_py3 import DiagnoseResult
 from ._models_py3 import DiagnoseWorkspaceParameters
 from ._models_py3 import DistributionConfiguration
 from ._models_py3 import Docker
+from ._models_py3 import DockerCredentialDto
 from ._models_py3 import EarlyTerminationPolicy
 from ._models_py3 import EncryptionKeyVaultProperties
 from ._models_py3 import EncryptionProperty
@@ -231,6 +237,7 @@ from ._models_py3 import MLTableJobInput
 from ._models_py3 import MLTableJobOutput
 from ._models_py3 import ManagedIdentity
 from ._models_py3 import ManagedIdentityAuthTypeWorkspaceConnectionProperties
+from ._models_py3 import ManagedIdentityCredentialDto
 from ._models_py3 import ManagedOnlineDeployment
 from ._models_py3 import ManagedServiceIdentity
 from ._models_py3 import MedianStoppingPolicy
@@ -273,7 +280,6 @@ from ._models_py3 import PartialMinimalTrackedResourceWithSku
 from ._models_py3 import PartialRegistryPartialTrackedResource
 from ._models_py3 import PartialSku
 from ._models_py3 import Password
-from ._models_py3 import PendingUploadCredentialDto
 from ._models_py3 import PendingUploadRequestDto
 from ._models_py3 import PendingUploadResponseDto
 from ._models_py3 import PersonalComputeInstanceSettings
@@ -425,6 +431,7 @@ from ._machine_learning_services_mgmt_client_enums import ConnectionCategory
 from ._machine_learning_services_mgmt_client_enums import ContainerType
 from ._machine_learning_services_mgmt_client_enums import CreatedByType
 from ._machine_learning_services_mgmt_client_enums import CredentialsType
+from ._machine_learning_services_mgmt_client_enums import DataReferenceCredentialType
 from ._machine_learning_services_mgmt_client_enums import DataType
 from ._machine_learning_services_mgmt_client_enums import DatastoreType
 from ._machine_learning_services_mgmt_client_enums import DeploymentProvisioningState
@@ -475,7 +482,6 @@ from ._machine_learning_services_mgmt_client_enums import OperationTrigger
 from ._machine_learning_services_mgmt_client_enums import OrderString
 from ._machine_learning_services_mgmt_client_enums import OsType
 from ._machine_learning_services_mgmt_client_enums import OutputDeliveryMode
-from ._machine_learning_services_mgmt_client_enums import PendingUploadCredentialType
 from ._machine_learning_services_mgmt_client_enums import PendingUploadType
 from ._machine_learning_services_mgmt_client_enums import PrivateEndpointConnectionProvisioningState
 from ._machine_learning_services_mgmt_client_enums import PrivateEndpointServiceConnectionStatus
@@ -552,6 +558,7 @@ __all__ = [
     "AmlOperationListResult",
     "AmlToken",
     "AmlUserFeature",
+    "AnonymousAccessCredentialDto",
     "ArmResourceId",
     "AssetBase",
     "AssetContainer",
@@ -571,6 +578,7 @@ __all__ = [
     "AzureBlobDatastore",
     "AzureDataLakeGen1Datastore",
     "AzureDataLakeGen2Datastore",
+    "AzureDatastore",
     "AzureFileDatastore",
     "BanditPolicy",
     "BatchDeployment",
@@ -584,6 +592,8 @@ __all__ = [
     "BayesianSamplingAlgorithm",
     "BindOptions",
     "BlobReferenceForConsumptionDto",
+    "BlobReferenceSASRequestDto",
+    "BlobReferenceSASResponseDto",
     "BuildContext",
     "CertificateDatastoreCredentials",
     "CertificateDatastoreSecrets",
@@ -646,6 +656,7 @@ __all__ = [
     "DataLakeAnalyticsSchema",
     "DataLakeAnalyticsSchemaProperties",
     "DataPathAssetReference",
+    "DataReferenceCredentialDto",
     "DataVersionBase",
     "DataVersionBaseProperties",
     "DataVersionBaseResourceArmPaginatedResult",
@@ -670,6 +681,7 @@ __all__ = [
     "DiagnoseWorkspaceParameters",
     "DistributionConfiguration",
     "Docker",
+    "DockerCredentialDto",
     "EarlyTerminationPolicy",
     "EncryptionKeyVaultProperties",
     "EncryptionProperty",
@@ -757,6 +769,7 @@ __all__ = [
     "MLTableJobOutput",
     "ManagedIdentity",
     "ManagedIdentityAuthTypeWorkspaceConnectionProperties",
+    "ManagedIdentityCredentialDto",
     "ManagedOnlineDeployment",
     "ManagedServiceIdentity",
     "MedianStoppingPolicy",
@@ -799,7 +812,6 @@ __all__ = [
     "PartialRegistryPartialTrackedResource",
     "PartialSku",
     "Password",
-    "PendingUploadCredentialDto",
     "PendingUploadRequestDto",
     "PendingUploadResponseDto",
     "PersonalComputeInstanceSettings",
@@ -950,6 +962,7 @@ __all__ = [
     "ContainerType",
     "CreatedByType",
     "CredentialsType",
+    "DataReferenceCredentialType",
     "DataType",
     "DatastoreType",
     "DeploymentProvisioningState",
@@ -1000,7 +1013,6 @@ __all__ = [
     "OrderString",
     "OsType",
     "OutputDeliveryMode",
-    "PendingUploadCredentialType",
     "PendingUploadType",
     "PrivateEndpointConnectionProvisioningState",
     "PrivateEndpointServiceConnectionStatus",
