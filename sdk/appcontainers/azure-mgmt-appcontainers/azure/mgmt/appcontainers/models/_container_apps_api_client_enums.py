@@ -71,6 +71,16 @@ class BindingType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SNI_ENABLED = "SniEnabled"
 
 
+class BuildStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Status of the build once it has been provisioned."""
+
+    NOT_STARTED = "NotStarted"
+    IN_PROGRESS = "InProgress"
+    SUCCEEDED = "Succeeded"
+    CANCELED = "Canceled"
+    FAILED = "Failed"
+
+
 class CertificateProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Provisioning state of the certificate."""
 
@@ -141,6 +151,14 @@ class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     APPLICATION = "Application"
     MANAGED_IDENTITY = "ManagedIdentity"
     KEY = "Key"
+
+
+class DetectionStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The status of the patch detection."""
+
+    SUCCEEDED = "Succeeded"
+    REGISTRY_LOGIN_FAILED = "RegistryLoginFailed"
+    FAILED = "Failed"
 
 
 class DnsVerificationTestResult(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -250,6 +268,40 @@ class ManagedServiceIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SYSTEM_ASSIGNED = "SystemAssigned"
     USER_ASSIGNED = "UserAssigned"
     SYSTEM_ASSIGNED_USER_ASSIGNED = "SystemAssigned,UserAssigned"
+
+
+class PatchApplyStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The status of the patch once it has been provisioned."""
+
+    NOT_STARTED = "NotStarted"
+    REBASE_IN_PROGRESS = "RebaseInProgress"
+    CREATING_REVISION = "CreatingRevision"
+    SUCCEEDED = "Succeeded"
+    CANCELED = "Canceled"
+    REBASE_FAILED = "RebaseFailed"
+    REVISION_CREATION_FAILED = "RevisionCreationFailed"
+    IMAGE_PUSH_PULL_FAILED = "ImagePushPullFailed"
+    MANUALLY_SKIPPED = "ManuallySkipped"
+
+
+class PatchType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type for the patch."""
+
+    FRAMEWORK_SECURITY = "FrameworkSecurity"
+    OS_SECURITY = "OSSecurity"
+    FRAMEWORK_AND_OS = "FrameworkAndOS"
+    OTHER = "Other"
+
+
+class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Resource instance provisioning state."""
+
+    SUCCEEDED = "Succeeded"
+    FAILED = "Failed"
+    CANCELED = "Canceled"
+    CREATING = "Creating"
+    UPDATING = "Updating"
+    DELETING = "Deleting"
 
 
 class RevisionHealthState(str, Enum, metaclass=CaseInsensitiveEnumMeta):

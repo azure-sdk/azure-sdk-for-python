@@ -9,6 +9,8 @@
 from ._container_apps_auth_configs_operations import ContainerAppsAuthConfigsOperations
 from ._available_workload_profiles_operations import AvailableWorkloadProfilesOperations
 from ._billing_meters_operations import BillingMetersOperations
+from ._builders_operations import BuildersOperations
+from ._builds_operations import BuildsOperations
 from ._connected_environments_operations import ConnectedEnvironmentsOperations
 from ._connected_environments_certificates_operations import ConnectedEnvironmentsCertificatesOperations
 from ._connected_environments_dapr_components_operations import ConnectedEnvironmentsDaprComponentsOperations
@@ -29,7 +31,10 @@ from ._managed_certificates_operations import ManagedCertificatesOperations
 from ._namespaces_operations import NamespacesOperations
 from ._dapr_components_operations import DaprComponentsOperations
 from ._managed_environments_storages_operations import ManagedEnvironmentsStoragesOperations
+from ._patches_operations import PatchesOperations
 from ._container_apps_source_controls_operations import ContainerAppsSourceControlsOperations
+from ._usages_operations import UsagesOperations
+from ._managed_environment_usages_operations import ManagedEnvironmentUsagesOperations
 
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
@@ -39,6 +44,8 @@ __all__ = [
     "ContainerAppsAuthConfigsOperations",
     "AvailableWorkloadProfilesOperations",
     "BillingMetersOperations",
+    "BuildersOperations",
+    "BuildsOperations",
     "ConnectedEnvironmentsOperations",
     "ConnectedEnvironmentsCertificatesOperations",
     "ConnectedEnvironmentsDaprComponentsOperations",
@@ -59,7 +66,10 @@ __all__ = [
     "NamespacesOperations",
     "DaprComponentsOperations",
     "ManagedEnvironmentsStoragesOperations",
+    "PatchesOperations",
     "ContainerAppsSourceControlsOperations",
+    "UsagesOperations",
+    "ManagedEnvironmentUsagesOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
