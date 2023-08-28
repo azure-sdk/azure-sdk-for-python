@@ -81,6 +81,15 @@ class CertificateProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta)
     PENDING = "Pending"
 
 
+class CertificateType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of the certificate. Allowed values are ``ServerSSLCertificate`` and
+    ``ImagePullTrustedCA``.
+    """
+
+    SERVER_SSL_CERTIFICATE = "ServerSSLCertificate"
+    IMAGE_PULL_TRUSTED_CA = "ImagePullTrustedCA"
+
+
 class CheckNameAvailabilityReason(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The reason why the given name is not available."""
 

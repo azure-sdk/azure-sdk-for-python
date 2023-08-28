@@ -14,7 +14,7 @@ from azure.mgmt.appcontainers import ContainerAppsAPIClient
     pip install azure-identity
     pip install azure-mgmt-appcontainers
 # USAGE
-    python container_apps_check_name_availability.py
+    python usages_list.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,17 +26,16 @@ from azure.mgmt.appcontainers import ContainerAppsAPIClient
 def main():
     client = ContainerAppsAPIClient(
         credential=DefaultAzureCredential(),
-        subscription_id="34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+        subscription_id="subid",
     )
 
-    response = client.namespaces.check_name_availability(
-        resource_group_name="examplerg",
-        environment_name="testcontainerenv",
-        check_name_availability_request={"name": "testcappname", "type": "Microsoft.App/containerApps"},
+    response = client.usages.list(
+        location="westus",
     )
-    print(response)
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-08-01-preview/examples/ContainerApps_CheckNameAvailability.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-08-01-preview/examples/Usages_List.json
 if __name__ == "__main__":
     main()

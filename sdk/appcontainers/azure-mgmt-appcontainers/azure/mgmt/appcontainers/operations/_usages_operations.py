@@ -36,7 +36,7 @@ _SERIALIZER = Serializer()
 _SERIALIZER.client_side_validation = False
 
 
-def build_get_request(location: str, subscription_id: str, **kwargs: Any) -> HttpRequest:
+def build_list_request(location: str, subscription_id: str, **kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
@@ -45,12 +45,11 @@ def build_get_request(location: str, subscription_id: str, **kwargs: Any) -> Htt
 
     # Construct URL
     _url = kwargs.pop(
-        "template_url",
-        "/subscriptions/{subscriptionId}/providers/Microsoft.App/locations/{location}/availableManagedEnvironmentsWorkloadProfileTypes",
-    )  # pylint: disable=line-too-long
+        "template_url", "/subscriptions/{subscriptionId}/providers/Microsoft.App/locations/{location}/usages"
+    )
     path_format_arguments = {
+        "location": _SERIALIZER.url("location", location, "str", pattern=r"^[-\w\._]+$"),
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
-        "location": _SERIALIZER.url("location", location, "str", min_length=1),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -64,14 +63,14 @@ def build_get_request(location: str, subscription_id: str, **kwargs: Any) -> Htt
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-class AvailableWorkloadProfilesOperations:
+class UsagesOperations:
     """
     .. warning::
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
         :class:`~azure.mgmt.appcontainers.ContainerAppsAPIClient`'s
-        :attr:`available_workload_profiles` attribute.
+        :attr:`usages` attribute.
     """
 
     models = _models
@@ -84,24 +83,22 @@ class AvailableWorkloadProfilesOperations:
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    def get(self, location: str, **kwargs: Any) -> Iterable["_models.AvailableWorkloadProfile"]:
-        """Get available workload profiles by location.
+    def list(self, location: str, **kwargs: Any) -> Iterable["_models.Usage"]:
+        """Gets, for the specified location, the current resource usage information as well as the limits
+        under the subscription.
 
-        Get all available workload profiles for a location.
-
-        :param location: The name of Azure region. Required.
+        :param location: The location for which resource usage is queried. Required.
         :type location: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: An iterator like instance of either AvailableWorkloadProfile or the result of
-         cls(response)
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.appcontainers.models.AvailableWorkloadProfile]
+        :return: An iterator like instance of either Usage or the result of cls(response)
+        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.appcontainers.models.Usage]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.AvailableWorkloadProfilesCollection] = kwargs.pop("cls", None)
+        cls: ClsType[_models.ListUsagesResult] = kwargs.pop("cls", None)
 
         error_map = {
             401: ClientAuthenticationError,
@@ -114,11 +111,11 @@ class AvailableWorkloadProfilesOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_get_request(
+                request = build_list_request(
                     location=location,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.get.metadata["url"],
+                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
@@ -144,7 +141,7 @@ class AvailableWorkloadProfilesOperations:
             return request
 
         def extract_data(pipeline_response):
-            deserialized = self._deserialize("AvailableWorkloadProfilesCollection", pipeline_response)
+            deserialized = self._deserialize("ListUsagesResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
@@ -161,13 +158,11 @@ class AvailableWorkloadProfilesOperations:
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+                error = self._deserialize.failsafe_deserialize(_models.DefaultErrorResponse, pipeline_response)
                 raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
 
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.App/locations/{location}/availableManagedEnvironmentsWorkloadProfileTypes"
-    }
+    list.metadata = {"url": "/subscriptions/{subscriptionId}/providers/Microsoft.App/locations/{location}/usages"}
