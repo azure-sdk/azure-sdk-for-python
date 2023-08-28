@@ -15,6 +15,7 @@ class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     ADD_ACTION_GROUPS = "AddActionGroups"
     REMOVE_ALL_ACTION_GROUPS = "RemoveAllActionGroups"
+    CORRELATE_ALERTS = "CorrelateAlerts"
 
 
 class AlertModificationEvent(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -114,6 +115,47 @@ class MetadataIdentifier(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     MONITOR_SERVICE_LIST = "MonitorServiceList"
 
 
+class MetricAlertsDisplayUnit(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The unit to display for a metric alert rule."""
+
+    NONE = "None"
+    PERCENTAGE = "Percentage"
+    BYTES = "Bytes"
+    KILOBYTES = "Kilobytes"
+    MEGABYTES = "Megabytes"
+    GIGABYTES = "Gigabytes"
+    TERABYTES = "Terabytes"
+    PETABYTES = "Petabytes"
+    BYTES_PER_DAY = "BytesPerDay"
+    BYTES_PER_HOUR = "BytesPerHour"
+    BYTES_PER_MINUTE = "BytesPerMinute"
+    BYTES_PER_SECOND = "BytesPerSecond"
+    KILOBYTES_PER_SECOND = "KilobytesPerSecond"
+    MEGABYTES_PER_SECOND = "MegabytesPerSecond"
+    GIGABYTES_PER_SECOND = "GigabytesPerSecond"
+    TERABYTES_PER_SECOND = "TerabytesPerSecond"
+    PETABYTES_PER_SECOND = "PetabytesPerSecond"
+    COUNT = "Count"
+    THOUSAND = "Thousand"
+    MILLION = "Million"
+    BILLION = "Billion"
+    TRILLION = "Trillion"
+    MICRO_SECONDS = "MicroSeconds"
+    MILLI_SECONDS = "MilliSeconds"
+    SECONDS = "Seconds"
+    MINUTES = "Minutes"
+    HOURS = "Hours"
+    DAYS = "Days"
+    COUNT_PER_DAY = "CountPerDay"
+    COUNT_PER_HOUR = "CountPerHour"
+    COUNT_PER_MINUTE = "CountPerMinute"
+    COUNT_PER_SECOND = "CountPerSecond"
+    THOUSAND_PER_SECOND = "ThousandPerSecond"
+    MILLION_PER_SECOND = "MillionPerSecond"
+    BILLION_PER_SECOND = "BillionPerSecond"
+    TRILLION_PER_SECOND = "TrillionPerSecond"
+
+
 class MonitorCondition(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """MonitorCondition."""
 
@@ -138,6 +180,13 @@ class MonitorService(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SMART_DETECTOR = "SmartDetector"
     VM_INSIGHTS = "VM Insights"
     ZABBIX = "Zabbix"
+
+
+class NotificationsForCorrelatedAlerts(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Indicates how to handle child alerts notifications."""
+
+    NOTIFY_ALWAYS = "NotifyAlways"
+    SUPPRESS_ALWAYS = "SuppressAlways"
 
 
 class Operator(str, Enum, metaclass=CaseInsensitiveEnumMeta):
