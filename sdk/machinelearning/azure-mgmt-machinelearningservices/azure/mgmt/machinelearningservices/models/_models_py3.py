@@ -1349,6 +1349,69 @@ class AmlUserFeature(_serialization.Model):
         self.description = description
 
 
+class DataReferenceCredentialDto(_serialization.Model):
+    """DataReferenceCredentialDto.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    DockerCredentialDto, ManagedIdentityCredentialDto, AnonymousAccessCredentialDto,
+    SASCredentialDto
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar credential_type: [Required] Credential type used to authentication with storage.
+     Required. Known values are: "SAS", "DockerCredentials", "ManagedIdentity", and "NoCredentials".
+    :vartype credential_type: str or
+     ~azure.mgmt.machinelearningservices.models.DataReferenceCredentialType
+    """
+
+    _validation = {
+        "credential_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "credential_type": {"key": "credentialType", "type": "str"},
+    }
+
+    _subtype_map = {
+        "credential_type": {
+            "DockerCredentials": "DockerCredentialDto",
+            "ManagedIdentity": "ManagedIdentityCredentialDto",
+            "NoCredentials": "AnonymousAccessCredentialDto",
+            "SAS": "SASCredentialDto",
+        }
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.credential_type: Optional[str] = None
+
+
+class AnonymousAccessCredentialDto(DataReferenceCredentialDto):
+    """AnonymousAccessCredentialDto.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar credential_type: [Required] Credential type used to authentication with storage.
+     Required. Known values are: "SAS", "DockerCredentials", "ManagedIdentity", and "NoCredentials".
+    :vartype credential_type: str or
+     ~azure.mgmt.machinelearningservices.models.DataReferenceCredentialType
+    """
+
+    _validation = {
+        "credential_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "credential_type": {"key": "credentialType", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.credential_type: str = "NoCredentials"
+
+
 class ArmResourceId(_serialization.Model):
     """ARM ResourceId of a resource.
 
@@ -2422,7 +2485,35 @@ class DatastoreProperties(ResourceBase):
         self.is_default = None
 
 
-class AzureBlobDatastore(DatastoreProperties):  # pylint: disable=too-many-instance-attributes
+class AzureDatastore(_serialization.Model):
+    """Base definition for Azure datastore contents configuration.
+
+    :ivar resource_group: Azure Resource Group name.
+    :vartype resource_group: str
+    :ivar subscription_id: Azure Subscription Id.
+    :vartype subscription_id: str
+    """
+
+    _attribute_map = {
+        "resource_group": {"key": "resourceGroup", "type": "str"},
+        "subscription_id": {"key": "subscriptionId", "type": "str"},
+    }
+
+    def __init__(
+        self, *, resource_group: Optional[str] = None, subscription_id: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword resource_group: Azure Resource Group name.
+        :paramtype resource_group: str
+        :keyword subscription_id: Azure Subscription Id.
+        :paramtype subscription_id: str
+        """
+        super().__init__(**kwargs)
+        self.resource_group = resource_group
+        self.subscription_id = subscription_id
+
+
+class AzureBlobDatastore(AzureDatastore, DatastoreProperties):  # pylint: disable=too-many-instance-attributes
     """Azure Blob datastore configuration.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2443,6 +2534,10 @@ class AzureBlobDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
     :ivar is_default: Readonly property to indicate if datastore is the workspace default
      datastore.
     :vartype is_default: bool
+    :ivar resource_group: Azure Resource Group name.
+    :vartype resource_group: str
+    :ivar subscription_id: Azure Subscription Id.
+    :vartype subscription_id: str
     :ivar account_name: Storage account name.
     :vartype account_name: str
     :ivar container_name: Storage account container name.
@@ -2471,6 +2566,8 @@ class AzureBlobDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
         "credentials": {"key": "credentials", "type": "DatastoreCredentials"},
         "datastore_type": {"key": "datastoreType", "type": "str"},
         "is_default": {"key": "isDefault", "type": "bool"},
+        "resource_group": {"key": "resourceGroup", "type": "str"},
+        "subscription_id": {"key": "subscriptionId", "type": "str"},
         "account_name": {"key": "accountName", "type": "str"},
         "container_name": {"key": "containerName", "type": "str"},
         "endpoint": {"key": "endpoint", "type": "str"},
@@ -2485,6 +2582,8 @@ class AzureBlobDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
         description: Optional[str] = None,
         properties: Optional[Dict[str, str]] = None,
         tags: Optional[Dict[str, str]] = None,
+        resource_group: Optional[str] = None,
+        subscription_id: Optional[str] = None,
         account_name: Optional[str] = None,
         container_name: Optional[str] = None,
         endpoint: Optional[str] = None,
@@ -2501,6 +2600,10 @@ class AzureBlobDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
         :paramtype tags: dict[str, str]
         :keyword credentials: [Required] Account credentials. Required.
         :paramtype credentials: ~azure.mgmt.machinelearningservices.models.DatastoreCredentials
+        :keyword resource_group: Azure Resource Group name.
+        :paramtype resource_group: str
+        :keyword subscription_id: Azure Subscription Id.
+        :paramtype subscription_id: str
         :keyword account_name: Storage account name.
         :paramtype account_name: str
         :keyword container_name: Storage account container name.
@@ -2515,16 +2618,31 @@ class AzureBlobDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
         :paramtype service_data_access_auth_identity: str or
          ~azure.mgmt.machinelearningservices.models.ServiceDataAccessAuthIdentity
         """
-        super().__init__(description=description, properties=properties, tags=tags, credentials=credentials, **kwargs)
+        super().__init__(
+            resource_group=resource_group,
+            subscription_id=subscription_id,
+            description=description,
+            properties=properties,
+            tags=tags,
+            credentials=credentials,
+            **kwargs
+        )
+        self.description = description
+        self.properties = properties
+        self.tags = tags
+        self.credentials = credentials
         self.datastore_type: str = "AzureBlob"
+        self.is_default = None
         self.account_name = account_name
         self.container_name = container_name
         self.endpoint = endpoint
         self.protocol = protocol
         self.service_data_access_auth_identity = service_data_access_auth_identity
+        self.resource_group = resource_group
+        self.subscription_id = subscription_id
 
 
-class AzureDataLakeGen1Datastore(DatastoreProperties):
+class AzureDataLakeGen1Datastore(AzureDatastore, DatastoreProperties):
     """Azure Data Lake Gen1 datastore configuration.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2545,6 +2663,10 @@ class AzureDataLakeGen1Datastore(DatastoreProperties):
     :ivar is_default: Readonly property to indicate if datastore is the workspace default
      datastore.
     :vartype is_default: bool
+    :ivar resource_group: Azure Resource Group name.
+    :vartype resource_group: str
+    :ivar subscription_id: Azure Subscription Id.
+    :vartype subscription_id: str
     :ivar service_data_access_auth_identity: Indicates which identity to use to authenticate
      service data access to customer's storage. Known values are: "None",
      "WorkspaceSystemAssignedIdentity", and "WorkspaceUserAssignedIdentity".
@@ -2568,6 +2690,8 @@ class AzureDataLakeGen1Datastore(DatastoreProperties):
         "credentials": {"key": "credentials", "type": "DatastoreCredentials"},
         "datastore_type": {"key": "datastoreType", "type": "str"},
         "is_default": {"key": "isDefault", "type": "bool"},
+        "resource_group": {"key": "resourceGroup", "type": "str"},
+        "subscription_id": {"key": "subscriptionId", "type": "str"},
         "service_data_access_auth_identity": {"key": "serviceDataAccessAuthIdentity", "type": "str"},
         "store_name": {"key": "storeName", "type": "str"},
     }
@@ -2580,6 +2704,8 @@ class AzureDataLakeGen1Datastore(DatastoreProperties):
         description: Optional[str] = None,
         properties: Optional[Dict[str, str]] = None,
         tags: Optional[Dict[str, str]] = None,
+        resource_group: Optional[str] = None,
+        subscription_id: Optional[str] = None,
         service_data_access_auth_identity: Optional[Union[str, "_models.ServiceDataAccessAuthIdentity"]] = None,
         **kwargs: Any
     ) -> None:
@@ -2592,6 +2718,10 @@ class AzureDataLakeGen1Datastore(DatastoreProperties):
         :paramtype tags: dict[str, str]
         :keyword credentials: [Required] Account credentials. Required.
         :paramtype credentials: ~azure.mgmt.machinelearningservices.models.DatastoreCredentials
+        :keyword resource_group: Azure Resource Group name.
+        :paramtype resource_group: str
+        :keyword subscription_id: Azure Subscription Id.
+        :paramtype subscription_id: str
         :keyword service_data_access_auth_identity: Indicates which identity to use to authenticate
          service data access to customer's storage. Known values are: "None",
          "WorkspaceSystemAssignedIdentity", and "WorkspaceUserAssignedIdentity".
@@ -2600,13 +2730,28 @@ class AzureDataLakeGen1Datastore(DatastoreProperties):
         :keyword store_name: [Required] Azure Data Lake store name. Required.
         :paramtype store_name: str
         """
-        super().__init__(description=description, properties=properties, tags=tags, credentials=credentials, **kwargs)
+        super().__init__(
+            resource_group=resource_group,
+            subscription_id=subscription_id,
+            description=description,
+            properties=properties,
+            tags=tags,
+            credentials=credentials,
+            **kwargs
+        )
+        self.description = description
+        self.properties = properties
+        self.tags = tags
+        self.credentials = credentials
         self.datastore_type: str = "AzureDataLakeGen1"
+        self.is_default = None
         self.service_data_access_auth_identity = service_data_access_auth_identity
         self.store_name = store_name
+        self.resource_group = resource_group
+        self.subscription_id = subscription_id
 
 
-class AzureDataLakeGen2Datastore(DatastoreProperties):  # pylint: disable=too-many-instance-attributes
+class AzureDataLakeGen2Datastore(AzureDatastore, DatastoreProperties):  # pylint: disable=too-many-instance-attributes
     """Azure Data Lake Gen2 datastore configuration.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2627,6 +2772,10 @@ class AzureDataLakeGen2Datastore(DatastoreProperties):  # pylint: disable=too-ma
     :ivar is_default: Readonly property to indicate if datastore is the workspace default
      datastore.
     :vartype is_default: bool
+    :ivar resource_group: Azure Resource Group name.
+    :vartype resource_group: str
+    :ivar subscription_id: Azure Subscription Id.
+    :vartype subscription_id: str
     :ivar account_name: [Required] Storage account name. Required.
     :vartype account_name: str
     :ivar endpoint: Azure cloud endpoint for the storage account.
@@ -2657,6 +2806,8 @@ class AzureDataLakeGen2Datastore(DatastoreProperties):  # pylint: disable=too-ma
         "credentials": {"key": "credentials", "type": "DatastoreCredentials"},
         "datastore_type": {"key": "datastoreType", "type": "str"},
         "is_default": {"key": "isDefault", "type": "bool"},
+        "resource_group": {"key": "resourceGroup", "type": "str"},
+        "subscription_id": {"key": "subscriptionId", "type": "str"},
         "account_name": {"key": "accountName", "type": "str"},
         "endpoint": {"key": "endpoint", "type": "str"},
         "filesystem": {"key": "filesystem", "type": "str"},
@@ -2673,6 +2824,8 @@ class AzureDataLakeGen2Datastore(DatastoreProperties):  # pylint: disable=too-ma
         description: Optional[str] = None,
         properties: Optional[Dict[str, str]] = None,
         tags: Optional[Dict[str, str]] = None,
+        resource_group: Optional[str] = None,
+        subscription_id: Optional[str] = None,
         endpoint: Optional[str] = None,
         protocol: Optional[str] = None,
         service_data_access_auth_identity: Optional[Union[str, "_models.ServiceDataAccessAuthIdentity"]] = None,
@@ -2687,6 +2840,10 @@ class AzureDataLakeGen2Datastore(DatastoreProperties):  # pylint: disable=too-ma
         :paramtype tags: dict[str, str]
         :keyword credentials: [Required] Account credentials. Required.
         :paramtype credentials: ~azure.mgmt.machinelearningservices.models.DatastoreCredentials
+        :keyword resource_group: Azure Resource Group name.
+        :paramtype resource_group: str
+        :keyword subscription_id: Azure Subscription Id.
+        :paramtype subscription_id: str
         :keyword account_name: [Required] Storage account name. Required.
         :paramtype account_name: str
         :keyword endpoint: Azure cloud endpoint for the storage account.
@@ -2701,16 +2858,31 @@ class AzureDataLakeGen2Datastore(DatastoreProperties):  # pylint: disable=too-ma
         :paramtype service_data_access_auth_identity: str or
          ~azure.mgmt.machinelearningservices.models.ServiceDataAccessAuthIdentity
         """
-        super().__init__(description=description, properties=properties, tags=tags, credentials=credentials, **kwargs)
+        super().__init__(
+            resource_group=resource_group,
+            subscription_id=subscription_id,
+            description=description,
+            properties=properties,
+            tags=tags,
+            credentials=credentials,
+            **kwargs
+        )
+        self.description = description
+        self.properties = properties
+        self.tags = tags
+        self.credentials = credentials
         self.datastore_type: str = "AzureDataLakeGen2"
+        self.is_default = None
         self.account_name = account_name
         self.endpoint = endpoint
         self.filesystem = filesystem
         self.protocol = protocol
         self.service_data_access_auth_identity = service_data_access_auth_identity
+        self.resource_group = resource_group
+        self.subscription_id = subscription_id
 
 
-class AzureFileDatastore(DatastoreProperties):  # pylint: disable=too-many-instance-attributes
+class AzureFileDatastore(AzureDatastore, DatastoreProperties):  # pylint: disable=too-many-instance-attributes
     """Azure File datastore configuration.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2731,6 +2903,10 @@ class AzureFileDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
     :ivar is_default: Readonly property to indicate if datastore is the workspace default
      datastore.
     :vartype is_default: bool
+    :ivar resource_group: Azure Resource Group name.
+    :vartype resource_group: str
+    :ivar subscription_id: Azure Subscription Id.
+    :vartype subscription_id: str
     :ivar account_name: [Required] Storage account name. Required.
     :vartype account_name: str
     :ivar endpoint: Azure cloud endpoint for the storage account.
@@ -2762,6 +2938,8 @@ class AzureFileDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
         "credentials": {"key": "credentials", "type": "DatastoreCredentials"},
         "datastore_type": {"key": "datastoreType", "type": "str"},
         "is_default": {"key": "isDefault", "type": "bool"},
+        "resource_group": {"key": "resourceGroup", "type": "str"},
+        "subscription_id": {"key": "subscriptionId", "type": "str"},
         "account_name": {"key": "accountName", "type": "str"},
         "endpoint": {"key": "endpoint", "type": "str"},
         "file_share_name": {"key": "fileShareName", "type": "str"},
@@ -2778,6 +2956,8 @@ class AzureFileDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
         description: Optional[str] = None,
         properties: Optional[Dict[str, str]] = None,
         tags: Optional[Dict[str, str]] = None,
+        resource_group: Optional[str] = None,
+        subscription_id: Optional[str] = None,
         endpoint: Optional[str] = None,
         protocol: Optional[str] = None,
         service_data_access_auth_identity: Optional[Union[str, "_models.ServiceDataAccessAuthIdentity"]] = None,
@@ -2792,6 +2972,10 @@ class AzureFileDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
         :paramtype tags: dict[str, str]
         :keyword credentials: [Required] Account credentials. Required.
         :paramtype credentials: ~azure.mgmt.machinelearningservices.models.DatastoreCredentials
+        :keyword resource_group: Azure Resource Group name.
+        :paramtype resource_group: str
+        :keyword subscription_id: Azure Subscription Id.
+        :paramtype subscription_id: str
         :keyword account_name: [Required] Storage account name. Required.
         :paramtype account_name: str
         :keyword endpoint: Azure cloud endpoint for the storage account.
@@ -2807,13 +2991,28 @@ class AzureFileDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
         :paramtype service_data_access_auth_identity: str or
          ~azure.mgmt.machinelearningservices.models.ServiceDataAccessAuthIdentity
         """
-        super().__init__(description=description, properties=properties, tags=tags, credentials=credentials, **kwargs)
+        super().__init__(
+            resource_group=resource_group,
+            subscription_id=subscription_id,
+            description=description,
+            properties=properties,
+            tags=tags,
+            credentials=credentials,
+            **kwargs
+        )
+        self.description = description
+        self.properties = properties
+        self.tags = tags
+        self.credentials = credentials
         self.datastore_type: str = "AzureFile"
+        self.is_default = None
         self.account_name = account_name
         self.endpoint = endpoint
         self.file_share_name = file_share_name
         self.protocol = protocol
         self.service_data_access_auth_identity = service_data_access_auth_identity
+        self.resource_group = resource_group
+        self.subscription_id = subscription_id
 
 
 class EarlyTerminationPolicy(_serialization.Model):
@@ -3780,14 +3979,14 @@ class BlobReferenceForConsumptionDto(_serialization.Model):
      Example: https://blob.windows.core.net/Container/Path.
     :vartype blob_uri: str
     :ivar credential: Credential info to access storage account.
-    :vartype credential: ~azure.mgmt.machinelearningservices.models.PendingUploadCredentialDto
+    :vartype credential: ~azure.mgmt.machinelearningservices.models.DataReferenceCredentialDto
     :ivar storage_account_arm_id: Arm ID of the storage account to use.
     :vartype storage_account_arm_id: str
     """
 
     _attribute_map = {
         "blob_uri": {"key": "blobUri", "type": "str"},
-        "credential": {"key": "credential", "type": "PendingUploadCredentialDto"},
+        "credential": {"key": "credential", "type": "DataReferenceCredentialDto"},
         "storage_account_arm_id": {"key": "storageAccountArmId", "type": "str"},
     }
 
@@ -3795,7 +3994,7 @@ class BlobReferenceForConsumptionDto(_serialization.Model):
         self,
         *,
         blob_uri: Optional[str] = None,
-        credential: Optional["_models.PendingUploadCredentialDto"] = None,
+        credential: Optional["_models.DataReferenceCredentialDto"] = None,
         storage_account_arm_id: Optional[str] = None,
         **kwargs: Any
     ) -> None:
@@ -3804,7 +4003,7 @@ class BlobReferenceForConsumptionDto(_serialization.Model):
          Example: https://blob.windows.core.net/Container/Path.
         :paramtype blob_uri: str
         :keyword credential: Credential info to access storage account.
-        :paramtype credential: ~azure.mgmt.machinelearningservices.models.PendingUploadCredentialDto
+        :paramtype credential: ~azure.mgmt.machinelearningservices.models.DataReferenceCredentialDto
         :keyword storage_account_arm_id: Arm ID of the storage account to use.
         :paramtype storage_account_arm_id: str
         """
@@ -3812,6 +4011,56 @@ class BlobReferenceForConsumptionDto(_serialization.Model):
         self.blob_uri = blob_uri
         self.credential = credential
         self.storage_account_arm_id = storage_account_arm_id
+
+
+class BlobReferenceSASRequestDto(_serialization.Model):
+    """BlobReferenceSASRequestDto.
+
+    :ivar blob_uri: Data Reference URI to request SAS for.
+    :vartype blob_uri: str
+    """
+
+    _attribute_map = {
+        "blob_uri": {"key": "blobUri", "type": "str"},
+    }
+
+    def __init__(self, *, blob_uri: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword blob_uri: Data Reference URI to request SAS for.
+        :paramtype blob_uri: str
+        """
+        super().__init__(**kwargs)
+        self.blob_uri = blob_uri
+
+
+class BlobReferenceSASResponseDto(_serialization.Model):
+    """BlobReferenceSASResponseDto.
+
+    :ivar blob_reference_for_consumption: Consumption context for blob data reference.
+    :vartype blob_reference_for_consumption:
+     ~azure.mgmt.machinelearningservices.models.BlobReferenceForConsumptionDto
+    """
+
+    _attribute_map = {
+        "blob_reference_for_consumption": {
+            "key": "blobReferenceForConsumption",
+            "type": "BlobReferenceForConsumptionDto",
+        },
+    }
+
+    def __init__(
+        self,
+        *,
+        blob_reference_for_consumption: Optional["_models.BlobReferenceForConsumptionDto"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword blob_reference_for_consumption: Consumption context for blob data reference.
+        :paramtype blob_reference_for_consumption:
+         ~azure.mgmt.machinelearningservices.models.BlobReferenceForConsumptionDto
+        """
+        super().__init__(**kwargs)
+        self.blob_reference_for_consumption = blob_reference_for_consumption
 
 
 class BuildContext(_serialization.Model):
@@ -8392,6 +8641,44 @@ class Docker(_serialization.Model):
         super().__init__(**kwargs)
         self.additional_properties = additional_properties
         self.privileged = privileged
+
+
+class DockerCredentialDto(DataReferenceCredentialDto):
+    """DockerCredentialDto.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar credential_type: [Required] Credential type used to authentication with storage.
+     Required. Known values are: "SAS", "DockerCredentials", "ManagedIdentity", and "NoCredentials".
+    :vartype credential_type: str or
+     ~azure.mgmt.machinelearningservices.models.DataReferenceCredentialType
+    :ivar password: container registry password.
+    :vartype password: str
+    :ivar user_name: container registry username.
+    :vartype user_name: str
+    """
+
+    _validation = {
+        "credential_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "credential_type": {"key": "credentialType", "type": "str"},
+        "password": {"key": "password", "type": "str"},
+        "user_name": {"key": "userName", "type": "str"},
+    }
+
+    def __init__(self, *, password: Optional[str] = None, user_name: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword password: container registry password.
+        :paramtype password: str
+        :keyword user_name: container registry username.
+        :paramtype user_name: str
+        """
+        super().__init__(**kwargs)
+        self.credential_type: str = "DockerCredentials"
+        self.password = password
+        self.user_name = user_name
 
 
 class EncryptionKeyVaultProperties(_serialization.Model):
@@ -14482,6 +14769,79 @@ class ManagedIdentityAuthTypeWorkspaceConnectionProperties(WorkspaceConnectionPr
         self.credentials = credentials
 
 
+class ManagedIdentityCredentialDto(DataReferenceCredentialDto):
+    """ManagedIdentityCredentialDto.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar credential_type: [Required] Credential type used to authentication with storage.
+     Required. Known values are: "SAS", "DockerCredentials", "ManagedIdentity", and "NoCredentials".
+    :vartype credential_type: str or
+     ~azure.mgmt.machinelearningservices.models.DataReferenceCredentialType
+    :ivar managed_identity_type: Type of managed identity.
+    :vartype managed_identity_type: str
+    :ivar user_managed_identity_client_id: ClientId for the UAMI. For ManagedIdentityType =
+     SystemManaged, this field is null.
+    :vartype user_managed_identity_client_id: str
+    :ivar user_managed_identity_principal_id: PrincipalId for the UAMI. For ManagedIdentityType =
+     SystemManaged, this field is null.
+    :vartype user_managed_identity_principal_id: str
+    :ivar user_managed_identity_resource_id: Full arm scope for the Id. For ManagedIdentityType =
+     SystemManaged, this field is null.
+    :vartype user_managed_identity_resource_id: str
+    :ivar user_managed_identity_tenant_id: TenantId for the UAMI. For ManagedIdentityType =
+     SystemManaged, this field is null.
+    :vartype user_managed_identity_tenant_id: str
+    """
+
+    _validation = {
+        "credential_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "credential_type": {"key": "credentialType", "type": "str"},
+        "managed_identity_type": {"key": "managedIdentityType", "type": "str"},
+        "user_managed_identity_client_id": {"key": "userManagedIdentityClientId", "type": "str"},
+        "user_managed_identity_principal_id": {"key": "userManagedIdentityPrincipalId", "type": "str"},
+        "user_managed_identity_resource_id": {"key": "userManagedIdentityResourceId", "type": "str"},
+        "user_managed_identity_tenant_id": {"key": "userManagedIdentityTenantId", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        managed_identity_type: Optional[str] = None,
+        user_managed_identity_client_id: Optional[str] = None,
+        user_managed_identity_principal_id: Optional[str] = None,
+        user_managed_identity_resource_id: Optional[str] = None,
+        user_managed_identity_tenant_id: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword managed_identity_type: Type of managed identity.
+        :paramtype managed_identity_type: str
+        :keyword user_managed_identity_client_id: ClientId for the UAMI. For ManagedIdentityType =
+         SystemManaged, this field is null.
+        :paramtype user_managed_identity_client_id: str
+        :keyword user_managed_identity_principal_id: PrincipalId for the UAMI. For ManagedIdentityType
+         = SystemManaged, this field is null.
+        :paramtype user_managed_identity_principal_id: str
+        :keyword user_managed_identity_resource_id: Full arm scope for the Id. For ManagedIdentityType
+         = SystemManaged, this field is null.
+        :paramtype user_managed_identity_resource_id: str
+        :keyword user_managed_identity_tenant_id: TenantId for the UAMI. For ManagedIdentityType =
+         SystemManaged, this field is null.
+        :paramtype user_managed_identity_tenant_id: str
+        """
+        super().__init__(**kwargs)
+        self.credential_type: str = "ManagedIdentity"
+        self.managed_identity_type = managed_identity_type
+        self.user_managed_identity_client_id = user_managed_identity_client_id
+        self.user_managed_identity_principal_id = user_managed_identity_principal_id
+        self.user_managed_identity_resource_id = user_managed_identity_resource_id
+        self.user_managed_identity_tenant_id = user_managed_identity_tenant_id
+
+
 class ManagedOnlineDeployment(OnlineDeploymentProperties):  # pylint: disable=too-many-instance-attributes
     """Properties specific to a ManagedOnlineDeployment.
 
@@ -16590,11 +16950,52 @@ class PATAuthTypeWorkspaceConnectionProperties(WorkspaceConnectionPropertiesV2):
         self.credentials = credentials
 
 
+class PendingUploadBlobReferenceForConsumptionDto(_serialization.Model):
+    """PendingUploadBlobReferenceForConsumptionDto.
+
+    :ivar blob_uri: Blob URI path for client to upload data.
+     Example: https://blob.windows.core.net/Container/Path.
+    :vartype blob_uri: str
+    :ivar credential: Credential info to access storage account.
+    :vartype credential: ~azure.mgmt.machinelearningservices.models.PendingUploadCredentialDto
+    :ivar storage_account_arm_id: Arm ID of the storage account to use.
+    :vartype storage_account_arm_id: str
+    """
+
+    _attribute_map = {
+        "blob_uri": {"key": "blobUri", "type": "str"},
+        "credential": {"key": "credential", "type": "PendingUploadCredentialDto"},
+        "storage_account_arm_id": {"key": "storageAccountArmId", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        blob_uri: Optional[str] = None,
+        credential: Optional["_models.PendingUploadCredentialDto"] = None,
+        storage_account_arm_id: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword blob_uri: Blob URI path for client to upload data.
+         Example: https://blob.windows.core.net/Container/Path.
+        :paramtype blob_uri: str
+        :keyword credential: Credential info to access storage account.
+        :paramtype credential: ~azure.mgmt.machinelearningservices.models.PendingUploadCredentialDto
+        :keyword storage_account_arm_id: Arm ID of the storage account to use.
+        :paramtype storage_account_arm_id: str
+        """
+        super().__init__(**kwargs)
+        self.blob_uri = blob_uri
+        self.credential = credential
+        self.storage_account_arm_id = storage_account_arm_id
+
+
 class PendingUploadCredentialDto(_serialization.Model):
     """PendingUploadCredentialDto.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
-    SASCredentialDto
+    PendingUploadSASCredentialDto
 
     All required parameters must be populated in order to send to Azure.
 
@@ -16612,7 +17013,7 @@ class PendingUploadCredentialDto(_serialization.Model):
         "credential_type": {"key": "credentialType", "type": "str"},
     }
 
-    _subtype_map = {"credential_type": {"SAS": "SASCredentialDto"}}
+    _subtype_map = {"credential_type": {"SAS": "PendingUploadSASCredentialDto"}}
 
     def __init__(self, **kwargs: Any) -> None:
         """ """
@@ -16661,7 +17062,7 @@ class PendingUploadResponseDto(_serialization.Model):
 
     :ivar blob_reference_for_consumption: Container level read, write, list SAS.
     :vartype blob_reference_for_consumption:
-     ~azure.mgmt.machinelearningservices.models.BlobReferenceForConsumptionDto
+     ~azure.mgmt.machinelearningservices.models.PendingUploadBlobReferenceForConsumptionDto
     :ivar pending_upload_id: ID for this upload request.
     :vartype pending_upload_id: str
     :ivar pending_upload_type: TemporaryBlobReference is the only supported type. Known values are:
@@ -16673,7 +17074,7 @@ class PendingUploadResponseDto(_serialization.Model):
     _attribute_map = {
         "blob_reference_for_consumption": {
             "key": "blobReferenceForConsumption",
-            "type": "BlobReferenceForConsumptionDto",
+            "type": "PendingUploadBlobReferenceForConsumptionDto",
         },
         "pending_upload_id": {"key": "pendingUploadId", "type": "str"},
         "pending_upload_type": {"key": "pendingUploadType", "type": "str"},
@@ -16682,7 +17083,7 @@ class PendingUploadResponseDto(_serialization.Model):
     def __init__(
         self,
         *,
-        blob_reference_for_consumption: Optional["_models.BlobReferenceForConsumptionDto"] = None,
+        blob_reference_for_consumption: Optional["_models.PendingUploadBlobReferenceForConsumptionDto"] = None,
         pending_upload_id: Optional[str] = None,
         pending_upload_type: Optional[Union[str, "_models.PendingUploadType"]] = None,
         **kwargs: Any
@@ -16690,7 +17091,7 @@ class PendingUploadResponseDto(_serialization.Model):
         """
         :keyword blob_reference_for_consumption: Container level read, write, list SAS.
         :paramtype blob_reference_for_consumption:
-         ~azure.mgmt.machinelearningservices.models.BlobReferenceForConsumptionDto
+         ~azure.mgmt.machinelearningservices.models.PendingUploadBlobReferenceForConsumptionDto
         :keyword pending_upload_id: ID for this upload request.
         :paramtype pending_upload_id: str
         :keyword pending_upload_type: TemporaryBlobReference is the only supported type. Known values
@@ -16702,6 +17103,38 @@ class PendingUploadResponseDto(_serialization.Model):
         self.blob_reference_for_consumption = blob_reference_for_consumption
         self.pending_upload_id = pending_upload_id
         self.pending_upload_type = pending_upload_type
+
+
+class PendingUploadSASCredentialDto(PendingUploadCredentialDto):
+    """PendingUploadSASCredentialDto.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar credential_type: [Required] Credential type used to authentication with storage.
+     Required. "SAS"
+    :vartype credential_type: str or
+     ~azure.mgmt.machinelearningservices.models.PendingUploadCredentialType
+    :ivar sas_uri: Full SAS Uri, including the storage, container/blob path and SAS token.
+    :vartype sas_uri: str
+    """
+
+    _validation = {
+        "credential_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "credential_type": {"key": "credentialType", "type": "str"},
+        "sas_uri": {"key": "sasUri", "type": "str"},
+    }
+
+    def __init__(self, *, sas_uri: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword sas_uri: Full SAS Uri, including the storage, container/blob path and SAS token.
+        :paramtype sas_uri: str
+        """
+        super().__init__(**kwargs)
+        self.credential_type: str = "SAS"
+        self.sas_uri = sas_uri
 
 
 class PersonalComputeInstanceSettings(_serialization.Model):
@@ -18535,15 +18968,15 @@ class SASAuthTypeWorkspaceConnectionProperties(WorkspaceConnectionPropertiesV2):
         self.credentials = credentials
 
 
-class SASCredentialDto(PendingUploadCredentialDto):
+class SASCredentialDto(DataReferenceCredentialDto):
     """SASCredentialDto.
 
     All required parameters must be populated in order to send to Azure.
 
     :ivar credential_type: [Required] Credential type used to authentication with storage.
-     Required. "SAS"
+     Required. Known values are: "SAS", "DockerCredentials", "ManagedIdentity", and "NoCredentials".
     :vartype credential_type: str or
-     ~azure.mgmt.machinelearningservices.models.PendingUploadCredentialType
+     ~azure.mgmt.machinelearningservices.models.DataReferenceCredentialType
     :ivar sas_uri: Full SAS Uri, including the storage, container/blob path and SAS token.
     :vartype sas_uri: str
     """

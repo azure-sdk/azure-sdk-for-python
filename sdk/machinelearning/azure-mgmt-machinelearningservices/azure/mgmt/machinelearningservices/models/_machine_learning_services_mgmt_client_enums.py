@@ -325,6 +325,15 @@ class CredentialsType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SERVICE_PRINCIPAL = "ServicePrincipal"
 
 
+class DataReferenceCredentialType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Enum to determine data reference credential type."""
+
+    SAS = "SAS"
+    DOCKER_CREDENTIALS = "DockerCredentials"
+    MANAGED_IDENTITY = "ManagedIdentity"
+    NO_CREDENTIALS = "NoCredentials"
+
+
 class DatastoreType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Enum to determine the datastore contents type."""
 
@@ -888,7 +897,7 @@ class OutputDeliveryMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class PendingUploadCredentialType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Enum to determine the PendingUpload credentials type."""
+    """Enum to determine PendingUploads credential type."""
 
     SAS = "SAS"
 
