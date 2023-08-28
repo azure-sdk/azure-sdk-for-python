@@ -14,7 +14,7 @@ from azure.mgmt.databricks import AzureDatabricksManagementClient
     pip install azure-identity
     pip install azure-mgmt-databricks
 # USAGE
-    python workspace_delete.py
+    python workspace_create_with_catalog.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,12 +29,20 @@ def main():
         subscription_id="subid",
     )
 
-    client.workspaces.begin_delete(
+    response = client.workspaces.begin_create_or_update(
         resource_group_name="rg",
         workspace_name="myWorkspace",
+        parameters={
+            "location": "eastus2",
+            "properties": {
+                "defaultCatalog": {"initialName": "myCatalog", "initialType": "UnityCatalog"},
+                "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
+            },
+        },
     ).result()
+    print(response)
 
 
-# x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/preview/2023-09-15-preview/examples/WorkspaceDelete.json
+# x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/preview/2023-09-15-preview/examples/WorkspaceCreateWithCatalog.json
 if __name__ == "__main__":
     main()

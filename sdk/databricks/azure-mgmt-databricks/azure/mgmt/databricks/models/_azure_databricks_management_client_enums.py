@@ -10,6 +10,28 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
+class AutomaticClusterUpdate(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Status of automated cluster updates feature."""
+
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+
+
+class ComplianceSecurityProfile(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Status of Compliance Security Profile feature."""
+
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+
+
+class ComplianceStandard(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Compliance standard that can be associated with a workspace."""
+
+    HIPAA = "HIPAA"
+    PCI = "PCI"
+    FEDRAMP_MODERATE = "FEDRAMP_MODERATE"
+
+
 class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of identity that created the resource."""
 
@@ -31,6 +53,20 @@ class EncryptionKeySource(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The encryption keySource (provider). Possible values (case-insensitive):  Microsoft.Keyvault."""
 
     MICROSOFT_KEYVAULT = "Microsoft.Keyvault"
+
+
+class EnhancedSecurityMonitoring(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Status of Enhanced Security Monitoring feature."""
+
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+
+
+class InitialType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of the initial default catalog of the workspace."""
+
+    HIVE_METASTORE = "HiveMetastore"
+    UNITY_CATALOG = "UnityCatalog"
 
 
 class KeySource(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -90,18 +126,18 @@ class PrivateLinkServiceConnectionStatus(str, Enum, metaclass=CaseInsensitiveEnu
 
 
 class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Provisioning status of the workspace."""
+    """Provisioning status of the accessConnector."""
 
+    DELETED = "Deleted"
+    FAILED = "Failed"
+    SUCCEEDED = "Succeeded"
     ACCEPTED = "Accepted"
     RUNNING = "Running"
     READY = "Ready"
     CREATING = "Creating"
     CREATED = "Created"
     DELETING = "Deleting"
-    DELETED = "Deleted"
     CANCELED = "Canceled"
-    FAILED = "Failed"
-    SUCCEEDED = "Succeeded"
     UPDATING = "Updating"
 
 

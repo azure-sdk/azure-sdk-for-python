@@ -12,12 +12,14 @@ from ._models_py3 import AccessConnectorProperties
 from ._models_py3 import AccessConnectorUpdate
 from ._models_py3 import AddressSpace
 from ._models_py3 import CreatedBy
+from ._models_py3 import DefaultCatalogDefinition
 from ._models_py3 import Encryption
 from ._models_py3 import EncryptionEntitiesDefinition
 from ._models_py3 import EncryptionV2
 from ._models_py3 import EncryptionV2KeyVaultProperties
 from ._models_py3 import EndpointDependency
 from ._models_py3 import EndpointDetail
+from ._models_py3 import EnhancedSecurityComplianceDefinition
 from ._models_py3 import ErrorDetail
 from ._models_py3 import ErrorInfo
 from ._models_py3 import ErrorResponse
@@ -57,9 +59,14 @@ from ._models_py3 import WorkspacePropertiesEncryption
 from ._models_py3 import WorkspaceProviderAuthorization
 from ._models_py3 import WorkspaceUpdate
 
+from ._azure_databricks_management_client_enums import AutomaticClusterUpdate
+from ._azure_databricks_management_client_enums import ComplianceSecurityProfile
+from ._azure_databricks_management_client_enums import ComplianceStandard
 from ._azure_databricks_management_client_enums import CreatedByType
 from ._azure_databricks_management_client_enums import CustomParameterType
 from ._azure_databricks_management_client_enums import EncryptionKeySource
+from ._azure_databricks_management_client_enums import EnhancedSecurityMonitoring
+from ._azure_databricks_management_client_enums import InitialType
 from ._azure_databricks_management_client_enums import KeySource
 from ._azure_databricks_management_client_enums import ManagedServiceIdentityType
 from ._azure_databricks_management_client_enums import PeeringProvisioningState
@@ -80,12 +87,14 @@ __all__ = [
     "AccessConnectorUpdate",
     "AddressSpace",
     "CreatedBy",
+    "DefaultCatalogDefinition",
     "Encryption",
     "EncryptionEntitiesDefinition",
     "EncryptionV2",
     "EncryptionV2KeyVaultProperties",
     "EndpointDependency",
     "EndpointDetail",
+    "EnhancedSecurityComplianceDefinition",
     "ErrorDetail",
     "ErrorInfo",
     "ErrorResponse",
@@ -124,9 +133,14 @@ __all__ = [
     "WorkspacePropertiesEncryption",
     "WorkspaceProviderAuthorization",
     "WorkspaceUpdate",
+    "AutomaticClusterUpdate",
+    "ComplianceSecurityProfile",
+    "ComplianceStandard",
     "CreatedByType",
     "CustomParameterType",
     "EncryptionKeySource",
+    "EnhancedSecurityMonitoring",
+    "InitialType",
     "KeySource",
     "ManagedServiceIdentityType",
     "PeeringProvisioningState",

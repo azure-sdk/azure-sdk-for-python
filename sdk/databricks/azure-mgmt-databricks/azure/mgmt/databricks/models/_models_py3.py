@@ -212,8 +212,8 @@ class AccessConnectorProperties(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar provisioning_state: Provisioning status of the accessConnector. Known values are:
-     "Accepted", "Running", "Ready", "Creating", "Created", "Deleting", "Deleted", "Canceled",
-     "Failed", "Succeeded", and "Updating".
+     "Deleted", "Failed", "Succeeded", "Accepted", "Running", "Ready", "Creating", "Created",
+     "Deleting", "Canceled", and "Updating".
     :vartype provisioning_state: str or ~azure.mgmt.databricks.models.ProvisioningState
     """
 
@@ -318,6 +318,40 @@ class CreatedBy(_serialization.Model):
         self.oid = None
         self.puid = None
         self.application_id = None
+
+
+class DefaultCatalogDefinition(_serialization.Model):
+    """Information regarding the initial default catalog associated with the workspace.
+
+    :ivar initial_name: Name of the initial default catalog of the workspace.
+    :vartype initial_name: str
+    :ivar initial_type: Type of the initial default catalog of the workspace. Known values are:
+     "HiveMetastore" and "UnityCatalog".
+    :vartype initial_type: str or ~azure.mgmt.databricks.models.InitialType
+    """
+
+    _attribute_map = {
+        "initial_name": {"key": "initialName", "type": "str"},
+        "initial_type": {"key": "initialType", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        initial_name: Optional[str] = None,
+        initial_type: Optional[Union[str, "_models.InitialType"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword initial_name: Name of the initial default catalog of the workspace.
+        :paramtype initial_name: str
+        :keyword initial_type: Type of the initial default catalog of the workspace. Known values are:
+         "HiveMetastore" and "UnityCatalog".
+        :paramtype initial_type: str or ~azure.mgmt.databricks.models.InitialType
+        """
+        super().__init__(**kwargs)
+        self.initial_name = initial_name
+        self.initial_type = initial_type
 
 
 class Encryption(_serialization.Model):
@@ -560,6 +594,63 @@ class EndpointDetail(_serialization.Model):
         self.port = port
         self.latency = latency
         self.is_accessible = is_accessible
+
+
+class EnhancedSecurityComplianceDefinition(_serialization.Model):
+    """Status of settings related to the Enhanced Security and Compliance Add-On.
+
+    :ivar automatic_cluster_update: Status of automated cluster updates feature. Known values are:
+     "Enabled" and "Disabled".
+    :vartype automatic_cluster_update: str or ~azure.mgmt.databricks.models.AutomaticClusterUpdate
+    :ivar compliance_security_profile: Status of Compliance Security Profile feature. Known values
+     are: "Enabled" and "Disabled".
+    :vartype compliance_security_profile: str or
+     ~azure.mgmt.databricks.models.ComplianceSecurityProfile
+    :ivar compliance_standards: Compliance standards associated with the workspace.
+    :vartype compliance_standards: list[str or ~azure.mgmt.databricks.models.ComplianceStandard]
+    :ivar enhanced_security_monitoring: Status of Enhanced Security Monitoring feature. Known
+     values are: "Enabled" and "Disabled".
+    :vartype enhanced_security_monitoring: str or
+     ~azure.mgmt.databricks.models.EnhancedSecurityMonitoring
+    """
+
+    _attribute_map = {
+        "automatic_cluster_update": {"key": "automaticClusterUpdate", "type": "str"},
+        "compliance_security_profile": {"key": "complianceSecurityProfile", "type": "str"},
+        "compliance_standards": {"key": "complianceStandards", "type": "[str]"},
+        "enhanced_security_monitoring": {"key": "enhancedSecurityMonitoring", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        automatic_cluster_update: Optional[Union[str, "_models.AutomaticClusterUpdate"]] = None,
+        compliance_security_profile: Optional[Union[str, "_models.ComplianceSecurityProfile"]] = None,
+        compliance_standards: Optional[List[Union[str, "_models.ComplianceStandard"]]] = None,
+        enhanced_security_monitoring: Optional[Union[str, "_models.EnhancedSecurityMonitoring"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword automatic_cluster_update: Status of automated cluster updates feature. Known values
+         are: "Enabled" and "Disabled".
+        :paramtype automatic_cluster_update: str or
+         ~azure.mgmt.databricks.models.AutomaticClusterUpdate
+        :keyword compliance_security_profile: Status of Compliance Security Profile feature. Known
+         values are: "Enabled" and "Disabled".
+        :paramtype compliance_security_profile: str or
+         ~azure.mgmt.databricks.models.ComplianceSecurityProfile
+        :keyword compliance_standards: Compliance standards associated with the workspace.
+        :paramtype compliance_standards: list[str or ~azure.mgmt.databricks.models.ComplianceStandard]
+        :keyword enhanced_security_monitoring: Status of Enhanced Security Monitoring feature. Known
+         values are: "Enabled" and "Disabled".
+        :paramtype enhanced_security_monitoring: str or
+         ~azure.mgmt.databricks.models.EnhancedSecurityMonitoring
+        """
+        super().__init__(**kwargs)
+        self.automatic_cluster_update = automatic_cluster_update
+        self.compliance_security_profile = compliance_security_profile
+        self.compliance_standards = compliance_standards
+        self.enhanced_security_monitoring = enhanced_security_monitoring
 
 
 class ErrorDetail(_serialization.Model):
@@ -1697,9 +1788,9 @@ class Workspace(TrackedResource):  # pylint: disable=too-many-instance-attribute
     :vartype managed_resource_group_id: str
     :ivar parameters: The workspace's custom parameters.
     :vartype parameters: ~azure.mgmt.databricks.models.WorkspaceCustomParameters
-    :ivar provisioning_state: The workspace provisioning state. Known values are: "Accepted",
-     "Running", "Ready", "Creating", "Created", "Deleting", "Deleted", "Canceled", "Failed",
-     "Succeeded", and "Updating".
+    :ivar provisioning_state: The workspace provisioning state. Known values are: "Deleted",
+     "Failed", "Succeeded", "Accepted", "Running", "Ready", "Creating", "Created", "Deleting",
+     "Canceled", and "Updating".
     :vartype provisioning_state: str or ~azure.mgmt.databricks.models.ProvisioningState
     :ivar ui_definition_uri: The blob URI where the UI definition file is located.
     :vartype ui_definition_uri: str
@@ -1728,6 +1819,10 @@ class Workspace(TrackedResource):  # pylint: disable=too-many-instance-attribute
     :vartype disk_encryption_set_id: str
     :ivar encryption: Encryption properties for databricks workspace.
     :vartype encryption: ~azure.mgmt.databricks.models.WorkspacePropertiesEncryption
+    :ivar enhanced_security_compliance: Contains settings related to the Enhanced Security and
+     Compliance Add-On.
+    :vartype enhanced_security_compliance:
+     ~azure.mgmt.databricks.models.EnhancedSecurityComplianceDefinition
     :ivar private_endpoint_connections: Private endpoint connections created on the workspace.
     :vartype private_endpoint_connections:
      list[~azure.mgmt.databricks.models.PrivateEndpointConnection]
@@ -1739,6 +1834,9 @@ class Workspace(TrackedResource):  # pylint: disable=too-many-instance-attribute
      'NoAzureDatabricksRules'. 'NoAzureServiceRules' value is for internal use only. Known values
      are: "AllRules", "NoAzureDatabricksRules", and "NoAzureServiceRules".
     :vartype required_nsg_rules: str or ~azure.mgmt.databricks.models.RequiredNsgRules
+    :ivar default_catalog: Information regarding the initial default catalog associated with the
+     workspace.
+    :vartype default_catalog: ~azure.mgmt.databricks.models.DefaultCatalogDefinition
     """
 
     _validation = {
@@ -1781,12 +1879,17 @@ class Workspace(TrackedResource):  # pylint: disable=too-many-instance-attribute
         "managed_disk_identity": {"key": "properties.managedDiskIdentity", "type": "ManagedIdentityConfiguration"},
         "disk_encryption_set_id": {"key": "properties.diskEncryptionSetId", "type": "str"},
         "encryption": {"key": "properties.encryption", "type": "WorkspacePropertiesEncryption"},
+        "enhanced_security_compliance": {
+            "key": "properties.enhancedSecurityCompliance",
+            "type": "EnhancedSecurityComplianceDefinition",
+        },
         "private_endpoint_connections": {
             "key": "properties.privateEndpointConnections",
             "type": "[PrivateEndpointConnection]",
         },
         "public_network_access": {"key": "properties.publicNetworkAccess", "type": "str"},
         "required_nsg_rules": {"key": "properties.requiredNsgRules", "type": "str"},
+        "default_catalog": {"key": "properties.defaultCatalog", "type": "DefaultCatalogDefinition"},
     }
 
     def __init__(  # pylint: disable=too-many-locals
@@ -1804,8 +1907,10 @@ class Workspace(TrackedResource):  # pylint: disable=too-many-instance-attribute
         storage_account_identity: Optional["_models.ManagedIdentityConfiguration"] = None,
         managed_disk_identity: Optional["_models.ManagedIdentityConfiguration"] = None,
         encryption: Optional["_models.WorkspacePropertiesEncryption"] = None,
+        enhanced_security_compliance: Optional["_models.EnhancedSecurityComplianceDefinition"] = None,
         public_network_access: Optional[Union[str, "_models.PublicNetworkAccess"]] = None,
         required_nsg_rules: Optional[Union[str, "_models.RequiredNsgRules"]] = None,
+        default_catalog: Optional["_models.DefaultCatalogDefinition"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -1836,6 +1941,10 @@ class Workspace(TrackedResource):  # pylint: disable=too-many-instance-attribute
         :paramtype managed_disk_identity: ~azure.mgmt.databricks.models.ManagedIdentityConfiguration
         :keyword encryption: Encryption properties for databricks workspace.
         :paramtype encryption: ~azure.mgmt.databricks.models.WorkspacePropertiesEncryption
+        :keyword enhanced_security_compliance: Contains settings related to the Enhanced Security and
+         Compliance Add-On.
+        :paramtype enhanced_security_compliance:
+         ~azure.mgmt.databricks.models.EnhancedSecurityComplianceDefinition
         :keyword public_network_access: The network access type for accessing workspace. Set value to
          disabled to access workspace only via private link. Known values are: "Enabled" and "Disabled".
         :paramtype public_network_access: str or ~azure.mgmt.databricks.models.PublicNetworkAccess
@@ -1844,6 +1953,9 @@ class Workspace(TrackedResource):  # pylint: disable=too-many-instance-attribute
          'NoAzureDatabricksRules'. 'NoAzureServiceRules' value is for internal use only. Known values
          are: "AllRules", "NoAzureDatabricksRules", and "NoAzureServiceRules".
         :paramtype required_nsg_rules: str or ~azure.mgmt.databricks.models.RequiredNsgRules
+        :keyword default_catalog: Information regarding the initial default catalog associated with the
+         workspace.
+        :paramtype default_catalog: ~azure.mgmt.databricks.models.DefaultCatalogDefinition
         """
         super().__init__(tags=tags, location=location, **kwargs)
         self.sku = sku
@@ -1862,9 +1974,11 @@ class Workspace(TrackedResource):  # pylint: disable=too-many-instance-attribute
         self.managed_disk_identity = managed_disk_identity
         self.disk_encryption_set_id = None
         self.encryption = encryption
+        self.enhanced_security_compliance = enhanced_security_compliance
         self.private_endpoint_connections = None
         self.public_network_access = public_network_access
         self.required_nsg_rules = required_nsg_rules
+        self.default_catalog = default_catalog
 
 
 class WorkspaceCustomBooleanParameter(_serialization.Model):
