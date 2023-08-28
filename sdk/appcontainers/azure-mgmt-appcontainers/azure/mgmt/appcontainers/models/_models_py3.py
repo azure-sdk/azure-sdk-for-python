@@ -78,6 +78,26 @@ class AllowedPrincipals(_serialization.Model):
         self.identities = identities
 
 
+class AppInsightsConfiguration(_serialization.Model):
+    """Configuration of Application Insights.
+
+    :ivar connection_string: Application Insights connection string.
+    :vartype connection_string: str
+    """
+
+    _attribute_map = {
+        "connection_string": {"key": "connectionString", "type": "str"},
+    }
+
+    def __init__(self, *, connection_string: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword connection_string: Application Insights connection string.
+        :paramtype connection_string: str
+        """
+        super().__init__(**kwargs)
+        self.connection_string = connection_string
+
+
 class Apple(_serialization.Model):
     """The configuration settings of the Apple provider.
 
@@ -323,6 +343,9 @@ class AuthConfig(ProxyResource):
     :ivar http_settings: The configuration settings of the HTTP requests for authentication and
      authorization requests made against ContainerApp Service Authentication/Authorization.
     :vartype http_settings: ~azure.mgmt.appcontainers.models.HttpSettings
+    :ivar encryption_settings: The configuration settings of the secrets references of encryption
+     key and signing key for ContainerApp Service Authentication/Authorization.
+    :vartype encryption_settings: ~azure.mgmt.appcontainers.models.EncryptionSettings
     """
 
     _validation = {
@@ -342,6 +365,7 @@ class AuthConfig(ProxyResource):
         "identity_providers": {"key": "properties.identityProviders", "type": "IdentityProviders"},
         "login": {"key": "properties.login", "type": "Login"},
         "http_settings": {"key": "properties.httpSettings", "type": "HttpSettings"},
+        "encryption_settings": {"key": "properties.encryptionSettings", "type": "EncryptionSettings"},
     }
 
     def __init__(
@@ -352,6 +376,7 @@ class AuthConfig(ProxyResource):
         identity_providers: Optional["_models.IdentityProviders"] = None,
         login: Optional["_models.Login"] = None,
         http_settings: Optional["_models.HttpSettings"] = None,
+        encryption_settings: Optional["_models.EncryptionSettings"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -370,6 +395,9 @@ class AuthConfig(ProxyResource):
         :keyword http_settings: The configuration settings of the HTTP requests for authentication and
          authorization requests made against ContainerApp Service Authentication/Authorization.
         :paramtype http_settings: ~azure.mgmt.appcontainers.models.HttpSettings
+        :keyword encryption_settings: The configuration settings of the secrets references of
+         encryption key and signing key for ContainerApp Service Authentication/Authorization.
+        :paramtype encryption_settings: ~azure.mgmt.appcontainers.models.EncryptionSettings
         """
         super().__init__(**kwargs)
         self.platform = platform
@@ -377,6 +405,7 @@ class AuthConfig(ProxyResource):
         self.identity_providers = identity_providers
         self.login = login
         self.http_settings = http_settings
+        self.encryption_settings = encryption_settings
 
 
 class AuthConfigCollection(_serialization.Model):
@@ -1210,6 +1239,34 @@ class BillingMeterProperties(_serialization.Model):
         self.category = category
         self.meter_type = meter_type
         self.display_name = display_name
+
+
+class BlobStorageTokenStore(_serialization.Model):
+    """The configuration settings of the storage of the tokens if blob storage is used.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar sas_url_setting_name: The name of the app secrets containing the SAS URL of the blob
+     storage containing the tokens. Required.
+    :vartype sas_url_setting_name: str
+    """
+
+    _validation = {
+        "sas_url_setting_name": {"required": True},
+    }
+
+    _attribute_map = {
+        "sas_url_setting_name": {"key": "sasUrlSettingName", "type": "str"},
+    }
+
+    def __init__(self, *, sas_url_setting_name: str, **kwargs: Any) -> None:
+        """
+        :keyword sas_url_setting_name: The name of the app secrets containing the SAS URL of the blob
+         storage containing the tokens. Required.
+        :paramtype sas_url_setting_name: str
+        """
+        super().__init__(**kwargs)
+        self.sas_url_setting_name = sas_url_setting_name
 
 
 class TrackedResource(Resource):
@@ -3382,6 +3439,32 @@ class DaprSecretsCollection(_serialization.Model):
         self.value = value
 
 
+class DataDogConfiguration(_serialization.Model):
+    """Configuration of datadog.
+
+    :ivar site: The data dog site.
+    :vartype site: str
+    :ivar key: The data dog api key.
+    :vartype key: str
+    """
+
+    _attribute_map = {
+        "site": {"key": "site", "type": "str"},
+        "key": {"key": "key", "type": "str"},
+    }
+
+    def __init__(self, *, site: Optional[str] = None, key: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword site: The data dog site.
+        :paramtype site: str
+        :keyword key: The data dog api key.
+        :paramtype key: str
+        """
+        super().__init__(**kwargs)
+        self.site = site
+        self.key = key
+
+
 class DefaultAuthorizationPolicy(_serialization.Model):
     """The configuration settings of the Azure Active Directory default authorization policy.
 
@@ -3519,6 +3602,28 @@ class DefaultErrorResponseErrorDetailsItem(_serialization.Model):
         self.code = None
         self.message = None
         self.target = None
+
+
+class DestinationsConfiguration(_serialization.Model):
+    """Configuration of Open Telemetry destinations.
+
+    :ivar data_dog_configuration: Open telemetry datadog destination configuration.
+    :vartype data_dog_configuration: ~azure.mgmt.appcontainers.models.DataDogConfiguration
+    """
+
+    _attribute_map = {
+        "data_dog_configuration": {"key": "dataDogConfiguration", "type": "DataDogConfiguration"},
+    }
+
+    def __init__(
+        self, *, data_dog_configuration: Optional["_models.DataDogConfiguration"] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword data_dog_configuration: Open telemetry datadog destination configuration.
+        :paramtype data_dog_configuration: ~azure.mgmt.appcontainers.models.DataDogConfiguration
+        """
+        super().__init__(**kwargs)
+        self.data_dog_configuration = data_dog_configuration
 
 
 class DiagnosticDataProviderMetadata(_serialization.Model):
@@ -3986,6 +4091,43 @@ class DiagnosticSupportTopic(_serialization.Model):
         super().__init__(**kwargs)
         self.id = None
         self.pes_id = None
+
+
+class EncryptionSettings(_serialization.Model):
+    """The configuration settings of the secrets references of encryption key and signing key for
+    ContainerApp Service Authentication/Authorization.
+
+    :ivar container_app_auth_encryption_secret_name: The secret name which is referenced for
+     EncryptionKey.
+    :vartype container_app_auth_encryption_secret_name: str
+    :ivar container_app_auth_signing_secret_name: The secret name which is referenced for
+     SigningKey.
+    :vartype container_app_auth_signing_secret_name: str
+    """
+
+    _attribute_map = {
+        "container_app_auth_encryption_secret_name": {"key": "containerAppAuthEncryptionSecretName", "type": "str"},
+        "container_app_auth_signing_secret_name": {"key": "containerAppAuthSigningSecretName", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        container_app_auth_encryption_secret_name: Optional[str] = None,
+        container_app_auth_signing_secret_name: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword container_app_auth_encryption_secret_name: The secret name which is referenced for
+         EncryptionKey.
+        :paramtype container_app_auth_encryption_secret_name: str
+        :keyword container_app_auth_signing_secret_name: The secret name which is referenced for
+         SigningKey.
+        :paramtype container_app_auth_signing_secret_name: str
+        """
+        super().__init__(**kwargs)
+        self.container_app_auth_encryption_secret_name = container_app_auth_encryption_secret_name
+        self.container_app_auth_signing_secret_name = container_app_auth_signing_secret_name
 
 
 class EnvironmentAuthToken(TrackedResource):
@@ -4753,6 +4895,8 @@ class Ingress(_serialization.Model):  # pylint: disable=too-many-instance-attrib
      ~azure.mgmt.appcontainers.models.IngressClientCertificateMode
     :ivar cors_policy: CORS policy for container app.
     :vartype cors_policy: ~azure.mgmt.appcontainers.models.CorsPolicy
+    :ivar additional_port_mappings: Settings to expose additional ports on container app.
+    :vartype additional_port_mappings: list[~azure.mgmt.appcontainers.models.IngressPortMapping]
     """
 
     _validation = {
@@ -4772,6 +4916,7 @@ class Ingress(_serialization.Model):  # pylint: disable=too-many-instance-attrib
         "sticky_sessions": {"key": "stickySessions", "type": "IngressStickySessions"},
         "client_certificate_mode": {"key": "clientCertificateMode", "type": "str"},
         "cors_policy": {"key": "corsPolicy", "type": "CorsPolicy"},
+        "additional_port_mappings": {"key": "additionalPortMappings", "type": "[IngressPortMapping]"},
     }
 
     def __init__(
@@ -4788,6 +4933,7 @@ class Ingress(_serialization.Model):  # pylint: disable=too-many-instance-attrib
         sticky_sessions: Optional["_models.IngressStickySessions"] = None,
         client_certificate_mode: Optional[Union[str, "_models.IngressClientCertificateMode"]] = None,
         cors_policy: Optional["_models.CorsPolicy"] = None,
+        additional_port_mappings: Optional[List["_models.IngressPortMapping"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -4820,6 +4966,8 @@ class Ingress(_serialization.Model):  # pylint: disable=too-many-instance-attrib
          ~azure.mgmt.appcontainers.models.IngressClientCertificateMode
         :keyword cors_policy: CORS policy for container app.
         :paramtype cors_policy: ~azure.mgmt.appcontainers.models.CorsPolicy
+        :keyword additional_port_mappings: Settings to expose additional ports on container app.
+        :paramtype additional_port_mappings: list[~azure.mgmt.appcontainers.models.IngressPortMapping]
         """
         super().__init__(**kwargs)
         self.fqdn = None
@@ -4834,6 +4982,50 @@ class Ingress(_serialization.Model):  # pylint: disable=too-many-instance-attrib
         self.sticky_sessions = sticky_sessions
         self.client_certificate_mode = client_certificate_mode
         self.cors_policy = cors_policy
+        self.additional_port_mappings = additional_port_mappings
+
+
+class IngressPortMapping(_serialization.Model):
+    """Port mappings of container app ingress.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar external: Specifies whether the app port is accessible outside of the environment.
+     Required.
+    :vartype external: bool
+    :ivar target_port: Specifies the port user's container listens on. Required.
+    :vartype target_port: int
+    :ivar exposed_port: Specifies the exposed port for the target port. If not specified, it
+     defaults to target port.
+    :vartype exposed_port: int
+    """
+
+    _validation = {
+        "external": {"required": True},
+        "target_port": {"required": True},
+    }
+
+    _attribute_map = {
+        "external": {"key": "external", "type": "bool"},
+        "target_port": {"key": "targetPort", "type": "int"},
+        "exposed_port": {"key": "exposedPort", "type": "int"},
+    }
+
+    def __init__(self, *, external: bool, target_port: int, exposed_port: Optional[int] = None, **kwargs: Any) -> None:
+        """
+        :keyword external: Specifies whether the app port is accessible outside of the environment.
+         Required.
+        :paramtype external: bool
+        :keyword target_port: Specifies the port user's container listens on. Required.
+        :paramtype target_port: int
+        :keyword exposed_port: Specifies the exposed port for the target port. If not specified, it
+         defaults to target port.
+        :paramtype exposed_port: int
+        """
+        super().__init__(**kwargs)
+        self.external = external
+        self.target_port = target_port
+        self.exposed_port = exposed_port
 
 
 class IngressStickySessions(_serialization.Model):
@@ -5877,6 +6069,36 @@ class KedaConfiguration(_serialization.Model):
         self.version = None
 
 
+class ListUsagesResult(_serialization.Model):
+    """ListUsagesResult.
+
+    :ivar value: The list of compute resource usages.
+    :vartype value: list[~azure.mgmt.appcontainers.models.Usage]
+    :ivar next_link: The URI to fetch the next page of compute resource usage information. Call
+     ListNext() with this to fetch the next page of compute resource usage information.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[Usage]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: Optional[List["_models.Usage"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: The list of compute resource usages.
+        :paramtype value: list[~azure.mgmt.appcontainers.models.Usage]
+        :keyword next_link: The URI to fetch the next page of compute resource usage information. Call
+         ListNext() with this to fetch the next page of compute resource usage information.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
 class LogAnalyticsConfiguration(_serialization.Model):
     """Log Analytics configuration, must only be provided when destination is configured as
     'log-analytics'.
@@ -5910,6 +6132,8 @@ class Login(_serialization.Model):
 
     :ivar routes: The routes that specify the endpoints used for login and logout requests.
     :vartype routes: ~azure.mgmt.appcontainers.models.LoginRoutes
+    :ivar token_store: The configuration settings of the token store.
+    :vartype token_store: ~azure.mgmt.appcontainers.models.TokenStore
     :ivar preserve_url_fragments_for_logins: :code:`<code>true</code>` if the fragments from the
      request are preserved after the login request is made; otherwise, :code:`<code>false</code>`.
     :vartype preserve_url_fragments_for_logins: bool
@@ -5926,6 +6150,7 @@ class Login(_serialization.Model):
 
     _attribute_map = {
         "routes": {"key": "routes", "type": "LoginRoutes"},
+        "token_store": {"key": "tokenStore", "type": "TokenStore"},
         "preserve_url_fragments_for_logins": {"key": "preserveUrlFragmentsForLogins", "type": "bool"},
         "allowed_external_redirect_urls": {"key": "allowedExternalRedirectUrls", "type": "[str]"},
         "cookie_expiration": {"key": "cookieExpiration", "type": "CookieExpiration"},
@@ -5936,6 +6161,7 @@ class Login(_serialization.Model):
         self,
         *,
         routes: Optional["_models.LoginRoutes"] = None,
+        token_store: Optional["_models.TokenStore"] = None,
         preserve_url_fragments_for_logins: Optional[bool] = None,
         allowed_external_redirect_urls: Optional[List[str]] = None,
         cookie_expiration: Optional["_models.CookieExpiration"] = None,
@@ -5945,6 +6171,8 @@ class Login(_serialization.Model):
         """
         :keyword routes: The routes that specify the endpoints used for login and logout requests.
         :paramtype routes: ~azure.mgmt.appcontainers.models.LoginRoutes
+        :keyword token_store: The configuration settings of the token store.
+        :paramtype token_store: ~azure.mgmt.appcontainers.models.TokenStore
         :keyword preserve_url_fragments_for_logins: :code:`<code>true</code>` if the fragments from the
          request are preserved after the login request is made; otherwise, :code:`<code>false</code>`.
         :paramtype preserve_url_fragments_for_logins: bool
@@ -5960,6 +6188,7 @@ class Login(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.routes = routes
+        self.token_store = token_store
         self.preserve_url_fragments_for_logins = preserve_url_fragments_for_logins
         self.allowed_external_redirect_urls = allowed_external_redirect_urls
         self.cookie_expiration = cookie_expiration
@@ -6004,6 +6233,26 @@ class LoginScopes(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.scopes = scopes
+
+
+class LogsConfiguration(_serialization.Model):
+    """Configuration of Open Telemetry logs.
+
+    :ivar destinations: Open telemetry logs destinations.
+    :vartype destinations: list[str]
+    """
+
+    _attribute_map = {
+        "destinations": {"key": "destinations", "type": "[str]"},
+    }
+
+    def __init__(self, *, destinations: Optional[List[str]] = None, **kwargs: Any) -> None:
+        """
+        :keyword destinations: Open telemetry logs destinations.
+        :paramtype destinations: list[str]
+        """
+        super().__init__(**kwargs)
+        self.destinations = destinations
 
 
 class ManagedCertificate(TrackedResource):
@@ -6230,6 +6479,11 @@ class ManagedEnvironment(TrackedResource):  # pylint: disable=too-many-instance-
      app logs to a destination. Currently only "log-analytics" is
      supported.
     :vartype app_logs_configuration: ~azure.mgmt.appcontainers.models.AppLogsConfiguration
+    :ivar app_insights_configuration: Environment level Application Insights configuration.
+    :vartype app_insights_configuration: ~azure.mgmt.appcontainers.models.AppInsightsConfiguration
+    :ivar open_telemetry_configuration: Environment Open Telemetry configuration.
+    :vartype open_telemetry_configuration:
+     ~azure.mgmt.appcontainers.models.OpenTelemetryConfiguration
     :ivar zone_redundant: Whether or not this Managed Environment is zone-redundant.
     :vartype zone_redundant: bool
     :ivar custom_domain_configuration: Custom domain configuration for the environment.
@@ -6281,6 +6535,14 @@ class ManagedEnvironment(TrackedResource):  # pylint: disable=too-many-instance-
         "default_domain": {"key": "properties.defaultDomain", "type": "str"},
         "static_ip": {"key": "properties.staticIp", "type": "str"},
         "app_logs_configuration": {"key": "properties.appLogsConfiguration", "type": "AppLogsConfiguration"},
+        "app_insights_configuration": {
+            "key": "properties.appInsightsConfiguration",
+            "type": "AppInsightsConfiguration",
+        },
+        "open_telemetry_configuration": {
+            "key": "properties.openTelemetryConfiguration",
+            "type": "OpenTelemetryConfiguration",
+        },
         "zone_redundant": {"key": "properties.zoneRedundant", "type": "bool"},
         "custom_domain_configuration": {
             "key": "properties.customDomainConfiguration",
@@ -6297,7 +6559,7 @@ class ManagedEnvironment(TrackedResource):  # pylint: disable=too-many-instance-
         },
     }
 
-    def __init__(
+    def __init__(  # pylint: disable=too-many-locals
         self,
         *,
         location: str,
@@ -6307,6 +6569,8 @@ class ManagedEnvironment(TrackedResource):  # pylint: disable=too-many-instance-
         dapr_ai_connection_string: Optional[str] = None,
         vnet_configuration: Optional["_models.VnetConfiguration"] = None,
         app_logs_configuration: Optional["_models.AppLogsConfiguration"] = None,
+        app_insights_configuration: Optional["_models.AppInsightsConfiguration"] = None,
+        open_telemetry_configuration: Optional["_models.OpenTelemetryConfiguration"] = None,
         zone_redundant: Optional[bool] = None,
         custom_domain_configuration: Optional["_models.CustomDomainConfiguration"] = None,
         workload_profiles: Optional[List["_models.WorkloadProfile"]] = None,
@@ -6335,6 +6599,12 @@ class ManagedEnvironment(TrackedResource):  # pylint: disable=too-many-instance-
          app logs to a destination. Currently only "log-analytics" is
          supported.
         :paramtype app_logs_configuration: ~azure.mgmt.appcontainers.models.AppLogsConfiguration
+        :keyword app_insights_configuration: Environment level Application Insights configuration.
+        :paramtype app_insights_configuration:
+         ~azure.mgmt.appcontainers.models.AppInsightsConfiguration
+        :keyword open_telemetry_configuration: Environment Open Telemetry configuration.
+        :paramtype open_telemetry_configuration:
+         ~azure.mgmt.appcontainers.models.OpenTelemetryConfiguration
         :keyword zone_redundant: Whether or not this Managed Environment is zone-redundant.
         :paramtype zone_redundant: bool
         :keyword custom_domain_configuration: Custom domain configuration for the environment.
@@ -6364,6 +6634,8 @@ class ManagedEnvironment(TrackedResource):  # pylint: disable=too-many-instance-
         self.default_domain = None
         self.static_ip = None
         self.app_logs_configuration = app_logs_configuration
+        self.app_insights_configuration = app_insights_configuration
+        self.open_telemetry_configuration = open_telemetry_configuration
         self.zone_redundant = zone_redundant
         self.custom_domain_configuration = custom_domain_configuration
         self.event_stream_endpoint = None
@@ -6583,6 +6855,26 @@ class ManagedServiceIdentity(_serialization.Model):
         self.user_assigned_identities = user_assigned_identities
 
 
+class MetricsConfiguration(_serialization.Model):
+    """Configuration of Open Telemetry metrics.
+
+    :ivar destinations: Open telemetry metrics destinations.
+    :vartype destinations: list[str]
+    """
+
+    _attribute_map = {
+        "destinations": {"key": "destinations", "type": "[str]"},
+    }
+
+    def __init__(self, *, destinations: Optional[List[str]] = None, **kwargs: Any) -> None:
+        """
+        :keyword destinations: Open telemetry metrics destinations.
+        :paramtype destinations: list[str]
+        """
+        super().__init__(**kwargs)
+        self.destinations = destinations
+
+
 class Mtls(_serialization.Model):
     """Configuration properties for mutual TLS authentication.
 
@@ -6795,6 +7087,53 @@ class OpenIdConnectRegistration(_serialization.Model):
         self.client_id = client_id
         self.client_credential = client_credential
         self.open_id_connect_configuration = open_id_connect_configuration
+
+
+class OpenTelemetryConfiguration(_serialization.Model):
+    """Configuration of Open Telemetry.
+
+    :ivar destinations_configuration: Open telemetry destinations configuration.
+    :vartype destinations_configuration: ~azure.mgmt.appcontainers.models.DestinationsConfiguration
+    :ivar traces_configuration: Open telemetry trace configuration.
+    :vartype traces_configuration: ~azure.mgmt.appcontainers.models.TracesConfiguration
+    :ivar logs_configuration: Open telemetry logs configuration.
+    :vartype logs_configuration: ~azure.mgmt.appcontainers.models.LogsConfiguration
+    :ivar metrics_configuration: Open telemetry metrics configuration.
+    :vartype metrics_configuration: ~azure.mgmt.appcontainers.models.MetricsConfiguration
+    """
+
+    _attribute_map = {
+        "destinations_configuration": {"key": "destinationsConfiguration", "type": "DestinationsConfiguration"},
+        "traces_configuration": {"key": "tracesConfiguration", "type": "TracesConfiguration"},
+        "logs_configuration": {"key": "logsConfiguration", "type": "LogsConfiguration"},
+        "metrics_configuration": {"key": "metricsConfiguration", "type": "MetricsConfiguration"},
+    }
+
+    def __init__(
+        self,
+        *,
+        destinations_configuration: Optional["_models.DestinationsConfiguration"] = None,
+        traces_configuration: Optional["_models.TracesConfiguration"] = None,
+        logs_configuration: Optional["_models.LogsConfiguration"] = None,
+        metrics_configuration: Optional["_models.MetricsConfiguration"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword destinations_configuration: Open telemetry destinations configuration.
+        :paramtype destinations_configuration:
+         ~azure.mgmt.appcontainers.models.DestinationsConfiguration
+        :keyword traces_configuration: Open telemetry trace configuration.
+        :paramtype traces_configuration: ~azure.mgmt.appcontainers.models.TracesConfiguration
+        :keyword logs_configuration: Open telemetry logs configuration.
+        :paramtype logs_configuration: ~azure.mgmt.appcontainers.models.LogsConfiguration
+        :keyword metrics_configuration: Open telemetry metrics configuration.
+        :paramtype metrics_configuration: ~azure.mgmt.appcontainers.models.MetricsConfiguration
+        """
+        super().__init__(**kwargs)
+        self.destinations_configuration = destinations_configuration
+        self.traces_configuration = traces_configuration
+        self.logs_configuration = logs_configuration
+        self.metrics_configuration = metrics_configuration
 
 
 class OperationDetail(_serialization.Model):
@@ -7890,6 +8229,75 @@ class Template(_serialization.Model):
         self.service_binds = service_binds
 
 
+class TokenStore(_serialization.Model):
+    """The configuration settings of the token store.
+
+    :ivar enabled: :code:`<code>true</code>` to durably store platform-specific security tokens
+     that are obtained during login flows; otherwise, :code:`<code>false</code>`.
+      The default is :code:`<code>false</code>`.
+    :vartype enabled: bool
+    :ivar token_refresh_extension_hours: The number of hours after session token expiration that a
+     session token can be used to
+     call the token refresh API. The default is 72 hours.
+    :vartype token_refresh_extension_hours: float
+    :ivar azure_blob_storage: The configuration settings of the storage of the tokens if blob
+     storage is used.
+    :vartype azure_blob_storage: ~azure.mgmt.appcontainers.models.BlobStorageTokenStore
+    """
+
+    _attribute_map = {
+        "enabled": {"key": "enabled", "type": "bool"},
+        "token_refresh_extension_hours": {"key": "tokenRefreshExtensionHours", "type": "float"},
+        "azure_blob_storage": {"key": "azureBlobStorage", "type": "BlobStorageTokenStore"},
+    }
+
+    def __init__(
+        self,
+        *,
+        enabled: Optional[bool] = None,
+        token_refresh_extension_hours: Optional[float] = None,
+        azure_blob_storage: Optional["_models.BlobStorageTokenStore"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword enabled: :code:`<code>true</code>` to durably store platform-specific security tokens
+         that are obtained during login flows; otherwise, :code:`<code>false</code>`.
+          The default is :code:`<code>false</code>`.
+        :paramtype enabled: bool
+        :keyword token_refresh_extension_hours: The number of hours after session token expiration that
+         a session token can be used to
+         call the token refresh API. The default is 72 hours.
+        :paramtype token_refresh_extension_hours: float
+        :keyword azure_blob_storage: The configuration settings of the storage of the tokens if blob
+         storage is used.
+        :paramtype azure_blob_storage: ~azure.mgmt.appcontainers.models.BlobStorageTokenStore
+        """
+        super().__init__(**kwargs)
+        self.enabled = enabled
+        self.token_refresh_extension_hours = token_refresh_extension_hours
+        self.azure_blob_storage = azure_blob_storage
+
+
+class TracesConfiguration(_serialization.Model):
+    """Configuration of Open Telemetry traces.
+
+    :ivar destinations: Open telemetry traces destinations.
+    :vartype destinations: list[str]
+    """
+
+    _attribute_map = {
+        "destinations": {"key": "destinations", "type": "[str]"},
+    }
+
+    def __init__(self, *, destinations: Optional[List[str]] = None, **kwargs: Any) -> None:
+        """
+        :keyword destinations: Open telemetry traces destinations.
+        :paramtype destinations: list[str]
+        """
+        super().__init__(**kwargs)
+        self.destinations = destinations
+
+
 class TrafficWeight(_serialization.Model):
     """Traffic weight assigned to a revision.
 
@@ -8007,6 +8415,81 @@ class TwitterRegistration(_serialization.Model):
         super().__init__(**kwargs)
         self.consumer_key = consumer_key
         self.consumer_secret_setting_name = consumer_secret_setting_name
+
+
+class Usage(_serialization.Model):
+    """Describes Compute Resource Usage.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar unit: An enum describing the unit of usage measurement. Required. Default value is
+     "Count".
+    :vartype unit: str
+    :ivar current_value: The current usage of the resource. Required.
+    :vartype current_value: int
+    :ivar limit: The maximum permitted usage of the resource. Required.
+    :vartype limit: int
+    :ivar name: The name of the type of usage. Required.
+    :vartype name: ~azure.mgmt.appcontainers.models.UsageName
+    """
+
+    _validation = {
+        "unit": {"required": True, "constant": True},
+        "current_value": {"required": True},
+        "limit": {"required": True},
+        "name": {"required": True},
+    }
+
+    _attribute_map = {
+        "unit": {"key": "unit", "type": "str"},
+        "current_value": {"key": "currentValue", "type": "int"},
+        "limit": {"key": "limit", "type": "int"},
+        "name": {"key": "name", "type": "UsageName"},
+    }
+
+    unit = "Count"
+
+    def __init__(self, *, current_value: int, limit: int, name: "_models.UsageName", **kwargs: Any) -> None:
+        """
+        :keyword current_value: The current usage of the resource. Required.
+        :paramtype current_value: int
+        :keyword limit: The maximum permitted usage of the resource. Required.
+        :paramtype limit: int
+        :keyword name: The name of the type of usage. Required.
+        :paramtype name: ~azure.mgmt.appcontainers.models.UsageName
+        """
+        super().__init__(**kwargs)
+        self.current_value = current_value
+        self.limit = limit
+        self.name = name
+
+
+class UsageName(_serialization.Model):
+    """The Usage Names.
+
+    :ivar value: The name of the resource.
+    :vartype value: str
+    :ivar localized_value: The localized name of the resource.
+    :vartype localized_value: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "str"},
+        "localized_value": {"key": "localizedValue", "type": "str"},
+    }
+
+    def __init__(self, *, value: Optional[str] = None, localized_value: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword value: The name of the resource.
+        :paramtype value: str
+        :keyword localized_value: The localized name of the resource.
+        :paramtype localized_value: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.localized_value = localized_value
 
 
 class UserAssignedIdentity(_serialization.Model):

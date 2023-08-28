@@ -8,6 +8,7 @@
 
 from ._models_py3 import AllowedAudiencesValidation
 from ._models_py3 import AllowedPrincipals
+from ._models_py3 import AppInsightsConfiguration
 from ._models_py3 import AppLogsConfiguration
 from ._models_py3 import AppRegistration
 from ._models_py3 import Apple
@@ -31,6 +32,7 @@ from ._models_py3 import BaseContainer
 from ._models_py3 import BillingMeter
 from ._models_py3 import BillingMeterCollection
 from ._models_py3 import BillingMeterProperties
+from ._models_py3 import BlobStorageTokenStore
 from ._models_py3 import Certificate
 from ._models_py3 import CertificateCollection
 from ._models_py3 import CertificatePatch
@@ -71,10 +73,12 @@ from ._models_py3 import DaprConfiguration
 from ._models_py3 import DaprMetadata
 from ._models_py3 import DaprSecret
 from ._models_py3 import DaprSecretsCollection
+from ._models_py3 import DataDogConfiguration
 from ._models_py3 import DefaultAuthorizationPolicy
 from ._models_py3 import DefaultErrorResponse
 from ._models_py3 import DefaultErrorResponseError
 from ._models_py3 import DefaultErrorResponseErrorDetailsItem
+from ._models_py3 import DestinationsConfiguration
 from ._models_py3 import DiagnosticDataProviderMetadata
 from ._models_py3 import DiagnosticDataProviderMetadataPropertyBagItem
 from ._models_py3 import DiagnosticDataTableResponseColumn
@@ -87,6 +91,7 @@ from ._models_py3 import DiagnosticsDataApiResponse
 from ._models_py3 import DiagnosticsDefinition
 from ._models_py3 import DiagnosticsProperties
 from ._models_py3 import DiagnosticsStatus
+from ._models_py3 import EncryptionSettings
 from ._models_py3 import EnvironmentAuthToken
 from ._models_py3 import EnvironmentVar
 from ._models_py3 import ErrorAdditionalInfo
@@ -104,6 +109,7 @@ from ._models_py3 import HttpSettings
 from ._models_py3 import HttpSettingsRoutes
 from ._models_py3 import IdentityProviders
 from ._models_py3 import Ingress
+from ._models_py3 import IngressPortMapping
 from ._models_py3 import IngressStickySessions
 from ._models_py3 import InitContainer
 from ._models_py3 import IpSecurityRestrictionRule
@@ -126,10 +132,12 @@ from ._models_py3 import JobTemplate
 from ._models_py3 import JobsCollection
 from ._models_py3 import JwtClaimChecks
 from ._models_py3 import KedaConfiguration
+from ._models_py3 import ListUsagesResult
 from ._models_py3 import LogAnalyticsConfiguration
 from ._models_py3 import Login
 from ._models_py3 import LoginRoutes
 from ._models_py3 import LoginScopes
+from ._models_py3 import LogsConfiguration
 from ._models_py3 import ManagedCertificate
 from ._models_py3 import ManagedCertificateCollection
 from ._models_py3 import ManagedCertificatePatch
@@ -141,12 +149,14 @@ from ._models_py3 import ManagedEnvironmentStorageProperties
 from ._models_py3 import ManagedEnvironmentStoragesCollection
 from ._models_py3 import ManagedEnvironmentsCollection
 from ._models_py3 import ManagedServiceIdentity
+from ._models_py3 import MetricsConfiguration
 from ._models_py3 import Mtls
 from ._models_py3 import Nonce
 from ._models_py3 import OpenIdConnectClientCredential
 from ._models_py3 import OpenIdConnectConfig
 from ._models_py3 import OpenIdConnectLogin
 from ._models_py3 import OpenIdConnectRegistration
+from ._models_py3 import OpenTelemetryConfiguration
 from ._models_py3 import OperationDetail
 from ._models_py3 import OperationDisplay
 from ._models_py3 import ProxyResource
@@ -172,10 +182,14 @@ from ._models_py3 import SourceControlCollection
 from ._models_py3 import SystemData
 from ._models_py3 import TcpScaleRule
 from ._models_py3 import Template
+from ._models_py3 import TokenStore
+from ._models_py3 import TracesConfiguration
 from ._models_py3 import TrackedResource
 from ._models_py3 import TrafficWeight
 from ._models_py3 import Twitter
 from ._models_py3 import TwitterRegistration
+from ._models_py3 import Usage
+from ._models_py3 import UsageName
 from ._models_py3 import UserAssignedIdentity
 from ._models_py3 import VnetConfiguration
 from ._models_py3 import Volume
@@ -227,6 +241,7 @@ from ._patch import patch_sdk as _patch_sdk
 __all__ = [
     "AllowedAudiencesValidation",
     "AllowedPrincipals",
+    "AppInsightsConfiguration",
     "AppLogsConfiguration",
     "AppRegistration",
     "Apple",
@@ -250,6 +265,7 @@ __all__ = [
     "BillingMeter",
     "BillingMeterCollection",
     "BillingMeterProperties",
+    "BlobStorageTokenStore",
     "Certificate",
     "CertificateCollection",
     "CertificatePatch",
@@ -290,10 +306,12 @@ __all__ = [
     "DaprMetadata",
     "DaprSecret",
     "DaprSecretsCollection",
+    "DataDogConfiguration",
     "DefaultAuthorizationPolicy",
     "DefaultErrorResponse",
     "DefaultErrorResponseError",
     "DefaultErrorResponseErrorDetailsItem",
+    "DestinationsConfiguration",
     "DiagnosticDataProviderMetadata",
     "DiagnosticDataProviderMetadataPropertyBagItem",
     "DiagnosticDataTableResponseColumn",
@@ -306,6 +324,7 @@ __all__ = [
     "DiagnosticsDefinition",
     "DiagnosticsProperties",
     "DiagnosticsStatus",
+    "EncryptionSettings",
     "EnvironmentAuthToken",
     "EnvironmentVar",
     "ErrorAdditionalInfo",
@@ -323,6 +342,7 @@ __all__ = [
     "HttpSettingsRoutes",
     "IdentityProviders",
     "Ingress",
+    "IngressPortMapping",
     "IngressStickySessions",
     "InitContainer",
     "IpSecurityRestrictionRule",
@@ -345,10 +365,12 @@ __all__ = [
     "JobsCollection",
     "JwtClaimChecks",
     "KedaConfiguration",
+    "ListUsagesResult",
     "LogAnalyticsConfiguration",
     "Login",
     "LoginRoutes",
     "LoginScopes",
+    "LogsConfiguration",
     "ManagedCertificate",
     "ManagedCertificateCollection",
     "ManagedCertificatePatch",
@@ -360,12 +382,14 @@ __all__ = [
     "ManagedEnvironmentStoragesCollection",
     "ManagedEnvironmentsCollection",
     "ManagedServiceIdentity",
+    "MetricsConfiguration",
     "Mtls",
     "Nonce",
     "OpenIdConnectClientCredential",
     "OpenIdConnectConfig",
     "OpenIdConnectLogin",
     "OpenIdConnectRegistration",
+    "OpenTelemetryConfiguration",
     "OperationDetail",
     "OperationDisplay",
     "ProxyResource",
@@ -391,10 +415,14 @@ __all__ = [
     "SystemData",
     "TcpScaleRule",
     "Template",
+    "TokenStore",
+    "TracesConfiguration",
     "TrackedResource",
     "TrafficWeight",
     "Twitter",
     "TwitterRegistration",
+    "Usage",
+    "UsageName",
     "UserAssignedIdentity",
     "VnetConfiguration",
     "Volume",
