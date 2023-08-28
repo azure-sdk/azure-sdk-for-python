@@ -748,6 +748,8 @@ class AzureBackupJob(_serialization.Model):  # pylint: disable=too-many-instance
     :ivar restore_type: It indicates the sub type of operation i.e. in case of Restore it can be
      ALR/OLR.
     :vartype restore_type: str
+    :ivar source_data_store_type: The type of the source data store.
+    :vartype source_data_store_type: str
     :ivar source_resource_group: Resource Group Name of the Datasource. Required.
     :vartype source_resource_group: str
     :ivar source_subscription_id: SubscriptionId corresponding to the DataSource. Required.
@@ -791,6 +793,7 @@ class AzureBackupJob(_serialization.Model):  # pylint: disable=too-many-instance
         "progress_url": {"readonly": True},
         "rehydration_priority": {"readonly": True},
         "restore_type": {"readonly": True},
+        "source_data_store_type": {"readonly": True},
         "source_resource_group": {"required": True},
         "source_subscription_id": {"required": True},
         "start_time": {"required": True},
@@ -822,6 +825,7 @@ class AzureBackupJob(_serialization.Model):  # pylint: disable=too-many-instance
         "progress_url": {"key": "progressUrl", "type": "str"},
         "rehydration_priority": {"key": "rehydrationPriority", "type": "str"},
         "restore_type": {"key": "restoreType", "type": "str"},
+        "source_data_store_type": {"key": "sourceDataStoreType", "type": "str"},
         "source_resource_group": {"key": "sourceResourceGroup", "type": "str"},
         "source_subscription_id": {"key": "sourceSubscriptionID", "type": "str"},
         "start_time": {"key": "startTime", "type": "iso-8601"},
@@ -933,6 +937,7 @@ class AzureBackupJob(_serialization.Model):  # pylint: disable=too-many-instance
         self.progress_url = None
         self.rehydration_priority = None
         self.restore_type = None
+        self.source_data_store_type = None
         self.source_resource_group = source_resource_group
         self.source_subscription_id = source_subscription_id
         self.start_time = start_time
@@ -943,6 +948,26 @@ class AzureBackupJob(_serialization.Model):  # pylint: disable=too-many-instance
         self.etag = etag
         self.source_data_store_name = source_data_store_name
         self.destination_data_store_name = destination_data_store_name
+
+
+class AzureBackupJobProgressUrl(_serialization.Model):
+    """Job Progress URL class.
+
+    :ivar progress_url: Read SAS URI for a blob from which current job progress can be read.
+    :vartype progress_url: str
+    """
+
+    _attribute_map = {
+        "progress_url": {"key": "progressUrl", "type": "str"},
+    }
+
+    def __init__(self, *, progress_url: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword progress_url: Read SAS URI for a blob from which current job progress can be read.
+        :paramtype progress_url: str
+        """
+        super().__init__(**kwargs)
+        self.progress_url = progress_url
 
 
 class AzureBackupJobResource(DppResource):
@@ -2617,10 +2642,14 @@ class BaseBackupPolicyResourceList(DppResourceList):
 class BaseResourceProperties(_serialization.Model):
     """Properties which are specific to datasource/datasourceSets.
 
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    DefaultResourceProperties
+
     All required parameters must be populated in order to send to Azure.
 
     :ivar object_type: Type of the specific object - used for deserializing. Required.
-    :vartype object_type: str
+     "DefaultResourceProperties"
+    :vartype object_type: str or ~azure.mgmt.dataprotection.models.ResourcePropertiesObjectType
     """
 
     _validation = {
@@ -2630,6 +2659,8 @@ class BaseResourceProperties(_serialization.Model):
     _attribute_map = {
         "object_type": {"key": "objectType", "type": "str"},
     }
+
+    _subtype_map = {"object_type": {"DefaultResourceProperties": "DefaultResourceProperties"}}
 
     def __init__(self, **kwargs: Any) -> None:
         """ """
@@ -3012,6 +3043,153 @@ class CopyOnExpiryOption(CopyOption):
         self.object_type: str = "CopyOnExpiryOption"
 
 
+class CrossRegionRestoreDetails(_serialization.Model):
+    """Cross Region Restore details.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar source_region: Required.
+    :vartype source_region: str
+    :ivar source_backup_instance_id: Required.
+    :vartype source_backup_instance_id: str
+    """
+
+    _validation = {
+        "source_region": {"required": True},
+        "source_backup_instance_id": {"required": True},
+    }
+
+    _attribute_map = {
+        "source_region": {"key": "sourceRegion", "type": "str"},
+        "source_backup_instance_id": {"key": "sourceBackupInstanceId", "type": "str"},
+    }
+
+    def __init__(self, *, source_region: str, source_backup_instance_id: str, **kwargs: Any) -> None:
+        """
+        :keyword source_region: Required.
+        :paramtype source_region: str
+        :keyword source_backup_instance_id: Required.
+        :paramtype source_backup_instance_id: str
+        """
+        super().__init__(**kwargs)
+        self.source_region = source_region
+        self.source_backup_instance_id = source_backup_instance_id
+
+
+class CrossRegionRestoreJobRequest(_serialization.Model):
+    """CrossRegionRestoreJobRequest.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar source_region: Required.
+    :vartype source_region: str
+    :ivar source_backup_vault_id: Required.
+    :vartype source_backup_vault_id: str
+    :ivar job_id: Required.
+    :vartype job_id: str
+    """
+
+    _validation = {
+        "source_region": {"required": True},
+        "source_backup_vault_id": {"required": True},
+        "job_id": {"required": True},
+    }
+
+    _attribute_map = {
+        "source_region": {"key": "sourceRegion", "type": "str"},
+        "source_backup_vault_id": {"key": "sourceBackupVaultId", "type": "str"},
+        "job_id": {"key": "jobId", "type": "str"},
+    }
+
+    def __init__(self, *, source_region: str, source_backup_vault_id: str, job_id: str, **kwargs: Any) -> None:
+        """
+        :keyword source_region: Required.
+        :paramtype source_region: str
+        :keyword source_backup_vault_id: Required.
+        :paramtype source_backup_vault_id: str
+        :keyword job_id: Required.
+        :paramtype job_id: str
+        """
+        super().__init__(**kwargs)
+        self.source_region = source_region
+        self.source_backup_vault_id = source_backup_vault_id
+        self.job_id = job_id
+
+
+class CrossRegionRestoreJobsRequest(_serialization.Model):
+    """CrossRegionRestoreJobsRequest.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar source_region: Required.
+    :vartype source_region: str
+    :ivar source_backup_vault_id: Required.
+    :vartype source_backup_vault_id: str
+    """
+
+    _validation = {
+        "source_region": {"required": True},
+        "source_backup_vault_id": {"required": True},
+    }
+
+    _attribute_map = {
+        "source_region": {"key": "sourceRegion", "type": "str"},
+        "source_backup_vault_id": {"key": "sourceBackupVaultId", "type": "str"},
+    }
+
+    def __init__(self, *, source_region: str, source_backup_vault_id: str, **kwargs: Any) -> None:
+        """
+        :keyword source_region: Required.
+        :paramtype source_region: str
+        :keyword source_backup_vault_id: Required.
+        :paramtype source_backup_vault_id: str
+        """
+        super().__init__(**kwargs)
+        self.source_region = source_region
+        self.source_backup_vault_id = source_backup_vault_id
+
+
+class CrossRegionRestoreRequestObject(_serialization.Model):
+    """Cross Region Restore Request Object.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar restore_request_object: Gets or sets the restore request object. Required.
+    :vartype restore_request_object: ~azure.mgmt.dataprotection.models.AzureBackupRestoreRequest
+    :ivar cross_region_restore_details: Cross region restore details. Required.
+    :vartype cross_region_restore_details:
+     ~azure.mgmt.dataprotection.models.CrossRegionRestoreDetails
+    """
+
+    _validation = {
+        "restore_request_object": {"required": True},
+        "cross_region_restore_details": {"required": True},
+    }
+
+    _attribute_map = {
+        "restore_request_object": {"key": "restoreRequestObject", "type": "AzureBackupRestoreRequest"},
+        "cross_region_restore_details": {"key": "crossRegionRestoreDetails", "type": "CrossRegionRestoreDetails"},
+    }
+
+    def __init__(
+        self,
+        *,
+        restore_request_object: "_models.AzureBackupRestoreRequest",
+        cross_region_restore_details: "_models.CrossRegionRestoreDetails",
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword restore_request_object: Gets or sets the restore request object. Required.
+        :paramtype restore_request_object: ~azure.mgmt.dataprotection.models.AzureBackupRestoreRequest
+        :keyword cross_region_restore_details: Cross region restore details. Required.
+        :paramtype cross_region_restore_details:
+         ~azure.mgmt.dataprotection.models.CrossRegionRestoreDetails
+        """
+        super().__init__(**kwargs)
+        self.restore_request_object = restore_request_object
+        self.cross_region_restore_details = cross_region_restore_details
+
+
 class CrossRegionRestoreSettings(_serialization.Model):
     """CrossRegionRestoreSettings.
 
@@ -3313,6 +3491,30 @@ class Day(_serialization.Model):
         super().__init__(**kwargs)
         self.date = date
         self.is_last = is_last
+
+
+class DefaultResourceProperties(BaseResourceProperties):
+    """Default source properties.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar object_type: Type of the specific object - used for deserializing. Required.
+     "DefaultResourceProperties"
+    :vartype object_type: str or ~azure.mgmt.dataprotection.models.ResourcePropertiesObjectType
+    """
+
+    _validation = {
+        "object_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "object_type": {"key": "objectType", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.object_type: str = "DefaultResourceProperties"
 
 
 class DeletedBackupInstance(BackupInstance):  # pylint: disable=too-many-instance-attributes
@@ -3980,6 +4182,36 @@ class FeatureValidationResponse(FeatureValidationResponseBase):
         self.features = features
 
 
+class FetchSecondaryRPsRequestParameters(_serialization.Model):
+    """Information about BI whose secondary RecoveryPoints are requested
+    Source region and
+    BI ARM path.
+
+    :ivar source_region: Source region in which BackupInstance is located.
+    :vartype source_region: str
+    :ivar source_backup_instance_id: ARM Path of BackupInstance.
+    :vartype source_backup_instance_id: str
+    """
+
+    _attribute_map = {
+        "source_region": {"key": "sourceRegion", "type": "str"},
+        "source_backup_instance_id": {"key": "sourceBackupInstanceId", "type": "str"},
+    }
+
+    def __init__(
+        self, *, source_region: Optional[str] = None, source_backup_instance_id: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword source_region: Source region in which BackupInstance is located.
+        :paramtype source_region: str
+        :keyword source_backup_instance_id: ARM Path of BackupInstance.
+        :paramtype source_backup_instance_id: str
+        """
+        super().__init__(**kwargs)
+        self.source_region = source_region
+        self.source_backup_instance_id = source_backup_instance_id
+
+
 class IdentityDetails(_serialization.Model):
     """IdentityDetails.
 
@@ -4338,6 +4570,8 @@ class JobExtendedInfo(_serialization.Model):
     :vartype sub_tasks: list[~azure.mgmt.dataprotection.models.JobSubTask]
     :ivar target_recover_point: Details of the Target Recovery Point.
     :vartype target_recover_point: ~azure.mgmt.dataprotection.models.RestoreJobRecoveryPointDetails
+    :ivar warning_details: A List, detailing the warnings related to the job.
+    :vartype warning_details: list[~azure.mgmt.dataprotection.models.UserFacingWarningDetail]
     """
 
     _validation = {
@@ -4347,6 +4581,7 @@ class JobExtendedInfo(_serialization.Model):
         "source_recover_point": {"readonly": True},
         "sub_tasks": {"readonly": True},
         "target_recover_point": {"readonly": True},
+        "warning_details": {"readonly": True},
     }
 
     _attribute_map = {
@@ -4357,6 +4592,7 @@ class JobExtendedInfo(_serialization.Model):
         "source_recover_point": {"key": "sourceRecoverPoint", "type": "RestoreJobRecoveryPointDetails"},
         "sub_tasks": {"key": "subTasks", "type": "[JobSubTask]"},
         "target_recover_point": {"key": "targetRecoverPoint", "type": "RestoreJobRecoveryPointDetails"},
+        "warning_details": {"key": "warningDetails", "type": "[UserFacingWarningDetail]"},
     }
 
     def __init__(self, *, additional_details: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
@@ -4372,6 +4608,7 @@ class JobExtendedInfo(_serialization.Model):
         self.source_recover_point = None
         self.sub_tasks = None
         self.target_recover_point = None
+        self.warning_details = None
 
 
 class JobSubTask(_serialization.Model):
@@ -4578,6 +4815,12 @@ class KubernetesClusterRestoreCriteria(ItemLevelRestoreCriteria):  # pylint: dis
      hook reference to be executed during restore.
     :vartype restore_hook_references:
      list[~azure.mgmt.dataprotection.models.NamespacedNameResource]
+    :ivar staging_resource_group_id: Gets or sets the staging RG Id for creating staging disks and
+     snapshots during restore.
+    :vartype staging_resource_group_id: str
+    :ivar staging_storage_account_id: Gets or sets the staging Storage Account Id for creating
+     backup object store data during restore.
+    :vartype staging_storage_account_id: str
     """
 
     _validation = {
@@ -4597,6 +4840,8 @@ class KubernetesClusterRestoreCriteria(ItemLevelRestoreCriteria):  # pylint: dis
         "conflict_policy": {"key": "conflictPolicy", "type": "str"},
         "namespace_mappings": {"key": "namespaceMappings", "type": "{str}"},
         "restore_hook_references": {"key": "restoreHookReferences", "type": "[NamespacedNameResource]"},
+        "staging_resource_group_id": {"key": "stagingResourceGroupId", "type": "str"},
+        "staging_storage_account_id": {"key": "stagingStorageAccountId", "type": "str"},
     }
 
     def __init__(
@@ -4612,6 +4857,8 @@ class KubernetesClusterRestoreCriteria(ItemLevelRestoreCriteria):  # pylint: dis
         conflict_policy: Optional[Union[str, "_models.ExistingResourcePolicy"]] = None,
         namespace_mappings: Optional[Dict[str, str]] = None,
         restore_hook_references: Optional[List["_models.NamespacedNameResource"]] = None,
+        staging_resource_group_id: Optional[str] = None,
+        staging_storage_account_id: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -4648,6 +4895,12 @@ class KubernetesClusterRestoreCriteria(ItemLevelRestoreCriteria):  # pylint: dis
          the hook reference to be executed during restore.
         :paramtype restore_hook_references:
          list[~azure.mgmt.dataprotection.models.NamespacedNameResource]
+        :keyword staging_resource_group_id: Gets or sets the staging RG Id for creating staging disks
+         and snapshots during restore.
+        :paramtype staging_resource_group_id: str
+        :keyword staging_storage_account_id: Gets or sets the staging Storage Account Id for creating
+         backup object store data during restore.
+        :paramtype staging_storage_account_id: str
         """
         super().__init__(**kwargs)
         self.object_type: str = "KubernetesClusterRestoreCriteria"
@@ -4661,6 +4914,8 @@ class KubernetesClusterRestoreCriteria(ItemLevelRestoreCriteria):  # pylint: dis
         self.conflict_policy = conflict_policy
         self.namespace_mappings = namespace_mappings
         self.restore_hook_references = restore_hook_references
+        self.staging_resource_group_id = staging_resource_group_id
+        self.staging_storage_account_id = staging_storage_account_id
 
 
 class KubernetesPVRestoreCriteria(ItemLevelRestoreCriteria):
@@ -6680,6 +6935,34 @@ class UserAssignedIdentity(_serialization.Model):
         self.client_id = None
 
 
+class UserAssignedIdentityDetails(_serialization.Model):
+    """User Assigned Identity Details.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar client_id: The Client Id of the User Assigned Managed Identity.
+    :vartype client_id: str
+    :ivar principal_id: The Object Id of the User Assigned Managed Identity.
+    :vartype principal_id: str
+    """
+
+    _validation = {
+        "client_id": {"readonly": True},
+        "principal_id": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "client_id": {"key": "clientId", "type": "str"},
+        "principal_id": {"key": "principalId", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.client_id = None
+        self.principal_id = None
+
+
 class UserFacingError(_serialization.Model):
     """Error object used by layers that have access to localized content, and propagate that to user.
 
@@ -6759,6 +7042,82 @@ class UserFacingError(_serialization.Model):
         self.message = message
         self.recommended_action = recommended_action
         self.target = target
+
+
+class UserFacingWarningDetail(_serialization.Model):
+    """Warning object used by layers that have access to localized content, and propagate that to
+    user.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar resource_name: Name of resource for which warning is raised.
+    :vartype resource_name: str
+    :ivar warning: Error details for the warning. Required.
+    :vartype warning: ~azure.mgmt.dataprotection.models.UserFacingError
+    """
+
+    _validation = {
+        "warning": {"required": True},
+    }
+
+    _attribute_map = {
+        "resource_name": {"key": "resourceName", "type": "str"},
+        "warning": {"key": "warning", "type": "UserFacingError"},
+    }
+
+    def __init__(
+        self, *, warning: "_models.UserFacingError", resource_name: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword resource_name: Name of resource for which warning is raised.
+        :paramtype resource_name: str
+        :keyword warning: Error details for the warning. Required.
+        :paramtype warning: ~azure.mgmt.dataprotection.models.UserFacingError
+        """
+        super().__init__(**kwargs)
+        self.resource_name = resource_name
+        self.warning = warning
+
+
+class ValidateCrossRegionRestoreRequestObject(_serialization.Model):
+    """Cross Region Restore Request Object.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar restore_request_object: Gets or sets the restore request object. Required.
+    :vartype restore_request_object: ~azure.mgmt.dataprotection.models.AzureBackupRestoreRequest
+    :ivar cross_region_restore_details: Cross region restore details. Required.
+    :vartype cross_region_restore_details:
+     ~azure.mgmt.dataprotection.models.CrossRegionRestoreDetails
+    """
+
+    _validation = {
+        "restore_request_object": {"required": True},
+        "cross_region_restore_details": {"required": True},
+    }
+
+    _attribute_map = {
+        "restore_request_object": {"key": "restoreRequestObject", "type": "AzureBackupRestoreRequest"},
+        "cross_region_restore_details": {"key": "crossRegionRestoreDetails", "type": "CrossRegionRestoreDetails"},
+    }
+
+    def __init__(
+        self,
+        *,
+        restore_request_object: "_models.AzureBackupRestoreRequest",
+        cross_region_restore_details: "_models.CrossRegionRestoreDetails",
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword restore_request_object: Gets or sets the restore request object. Required.
+        :paramtype restore_request_object: ~azure.mgmt.dataprotection.models.AzureBackupRestoreRequest
+        :keyword cross_region_restore_details: Cross region restore details. Required.
+        :paramtype cross_region_restore_details:
+         ~azure.mgmt.dataprotection.models.CrossRegionRestoreDetails
+        """
+        super().__init__(**kwargs)
+        self.restore_request_object = restore_request_object
+        self.cross_region_restore_details = cross_region_restore_details
 
 
 class ValidateForBackupRequest(_serialization.Model):
