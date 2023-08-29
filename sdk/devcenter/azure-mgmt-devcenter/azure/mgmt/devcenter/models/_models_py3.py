@@ -3850,10 +3850,10 @@ class ProjectEnvironmentTypeUpdate(_serialization.Model):
         self.user_role_assignments = user_role_assignments
 
 
-class ProjectEnvironmentTypeUpdatePropertiesCreatorRoleAssignment(_serialization.Model):
-    """The role definition assigned to the environment creator on backing resources.
+class RoleAssignment(_serialization.Model):
+    """A set of role assignments.
 
-    :ivar roles: A map of roles to assign to the environment creator.
+    :ivar roles: A map of roles to assign to the parent user.
     :vartype roles: dict[str, ~azure.mgmt.devcenter.models.EnvironmentRole]
     """
 
@@ -3863,11 +3863,30 @@ class ProjectEnvironmentTypeUpdatePropertiesCreatorRoleAssignment(_serialization
 
     def __init__(self, *, roles: Optional[Dict[str, "_models.EnvironmentRole"]] = None, **kwargs: Any) -> None:
         """
-        :keyword roles: A map of roles to assign to the environment creator.
+        :keyword roles: A map of roles to assign to the parent user.
         :paramtype roles: dict[str, ~azure.mgmt.devcenter.models.EnvironmentRole]
         """
         super().__init__(**kwargs)
         self.roles = roles
+
+
+class ProjectEnvironmentTypeUpdatePropertiesCreatorRoleAssignment(RoleAssignment):
+    """The role definition assigned to the environment creator on backing resources.
+
+    :ivar roles: A map of roles to assign to the parent user.
+    :vartype roles: dict[str, ~azure.mgmt.devcenter.models.EnvironmentRole]
+    """
+
+    _attribute_map = {
+        "roles": {"key": "roles", "type": "{EnvironmentRole}"},
+    }
+
+    def __init__(self, *, roles: Optional[Dict[str, "_models.EnvironmentRole"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword roles: A map of roles to assign to the parent user.
+        :paramtype roles: dict[str, ~azure.mgmt.devcenter.models.EnvironmentRole]
+        """
+        super().__init__(roles=roles, **kwargs)
 
 
 class ProjectListResult(_serialization.Model):
@@ -4654,7 +4673,7 @@ class UserAssignedIdentity(_serialization.Model):
         self.client_id = None
 
 
-class UserRoleAssignmentValue(_serialization.Model):
+class UserRoleAssignmentValue(RoleAssignment):
     """Mapping of user object ID to role assignments.
 
     :ivar roles: A map of roles to assign to the parent user.
@@ -4670,5 +4689,4 @@ class UserRoleAssignmentValue(_serialization.Model):
         :keyword roles: A map of roles to assign to the parent user.
         :paramtype roles: dict[str, ~azure.mgmt.devcenter.models.EnvironmentRole]
         """
-        super().__init__(**kwargs)
-        self.roles = roles
+        super().__init__(roles=roles, **kwargs)

@@ -29,12 +29,11 @@ def main():
         subscription_id="0ac520ee-14c0-480f-b6c9-0a90c58ffff",
     )
 
-    response = client.catalogs.begin_sync(
+    client.catalogs.begin_sync(
         resource_group_name="rg1",
         dev_center_name="Contoso",
         catalog_name="CentralCatalog",
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2023-04-01/examples/Catalogs_Sync.json

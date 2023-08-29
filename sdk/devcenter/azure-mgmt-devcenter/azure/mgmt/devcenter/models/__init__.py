@@ -84,6 +84,7 @@ from ._models_py3 import ProxyResource
 from ._models_py3 import RecommendedMachineConfiguration
 from ._models_py3 import Resource
 from ._models_py3 import ResourceRange
+from ._models_py3 import RoleAssignment
 from ._models_py3 import Schedule
 from ._models_py3 import ScheduleListResult
 from ._models_py3 import ScheduleProperties
@@ -204,6 +205,7 @@ __all__ = [
     "RecommendedMachineConfiguration",
     "Resource",
     "ResourceRange",
+    "RoleAssignment",
     "Schedule",
     "ScheduleListResult",
     "ScheduleProperties",
