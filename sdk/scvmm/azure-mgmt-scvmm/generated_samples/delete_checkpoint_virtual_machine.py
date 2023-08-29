@@ -29,13 +29,12 @@ def main():
         subscription_id="fd3c3665-1729-4b7b-9a38-238e83b0f98b",
     )
 
-    response = client.virtual_machines.begin_delete_checkpoint(
+    client.virtual_machines.begin_delete_checkpoint(
         resource_group_name="testrg",
         virtual_machine_name="DemoVM",
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/preview/2020-06-05-preview/examples/DeleteCheckpointVirtualMachine.json
+# x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-04-01-preview/examples/DeleteCheckpointVirtualMachine.json
 if __name__ == "__main__":
     main()

@@ -14,15 +14,31 @@ from ._models_py3 import Cloud
 from ._models_py3 import CloudCapacity
 from ._models_py3 import CloudInventoryItem
 from ._models_py3 import CloudListResult
+from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorDefinition
+from ._models_py3 import ErrorDetail
 from ._models_py3 import ErrorResponse
 from ._models_py3 import ExtendedLocation
+from ._models_py3 import GuestAgent
+from ._models_py3 import GuestAgentList
+from ._models_py3 import GuestAgentProfile
+from ._models_py3 import GuestCredential
 from ._models_py3 import HardwareProfile
 from ._models_py3 import HardwareProfileUpdate
+from ._models_py3 import HttpProxyConfiguration
+from ._models_py3 import HybridIdentityMetadata
+from ._models_py3 import HybridIdentityMetadataList
+from ._models_py3 import Identity
 from ._models_py3 import InventoryItem
 from ._models_py3 import InventoryItemDetails
 from ._models_py3 import InventoryItemProperties
 from ._models_py3 import InventoryItemsList
+from ._models_py3 import MachineExtension
+from ._models_py3 import MachineExtensionInstanceView
+from ._models_py3 import MachineExtensionInstanceViewStatus
+from ._models_py3 import MachineExtensionPropertiesInstanceView
+from ._models_py3 import MachineExtensionUpdate
+from ._models_py3 import MachineExtensionsListResult
 from ._models_py3 import NetworkInterfaces
 from ._models_py3 import NetworkInterfacesUpdate
 from ._models_py3 import NetworkProfile
@@ -40,6 +56,7 @@ from ._models_py3 import StorageProfileUpdate
 from ._models_py3 import StorageQoSPolicy
 from ._models_py3 import StorageQoSPolicyDetails
 from ._models_py3 import SystemData
+from ._models_py3 import TrackedResource
 from ._models_py3 import VMMServer
 from ._models_py3 import VMMServerListResult
 from ._models_py3 import VMMServerPropertiesCredentials
@@ -64,10 +81,14 @@ from ._scvmm_enums import AllocationMethod
 from ._scvmm_enums import CreateDiffDisk
 from ._scvmm_enums import CreatedByType
 from ._scvmm_enums import DynamicMemoryEnabled
+from ._scvmm_enums import IdentityType
 from ._scvmm_enums import InventoryType
 from ._scvmm_enums import IsCustomizable
 from ._scvmm_enums import LimitCpuForMigration
 from ._scvmm_enums import OsType
+from ._scvmm_enums import ProvisioningAction
+from ._scvmm_enums import StatusLevelTypes
+from ._scvmm_enums import StatusTypes
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
@@ -81,15 +102,31 @@ __all__ = [
     "CloudCapacity",
     "CloudInventoryItem",
     "CloudListResult",
+    "ErrorAdditionalInfo",
     "ErrorDefinition",
+    "ErrorDetail",
     "ErrorResponse",
     "ExtendedLocation",
+    "GuestAgent",
+    "GuestAgentList",
+    "GuestAgentProfile",
+    "GuestCredential",
     "HardwareProfile",
     "HardwareProfileUpdate",
+    "HttpProxyConfiguration",
+    "HybridIdentityMetadata",
+    "HybridIdentityMetadataList",
+    "Identity",
     "InventoryItem",
     "InventoryItemDetails",
     "InventoryItemProperties",
     "InventoryItemsList",
+    "MachineExtension",
+    "MachineExtensionInstanceView",
+    "MachineExtensionInstanceViewStatus",
+    "MachineExtensionPropertiesInstanceView",
+    "MachineExtensionUpdate",
+    "MachineExtensionsListResult",
     "NetworkInterfaces",
     "NetworkInterfacesUpdate",
     "NetworkProfile",
@@ -107,6 +144,7 @@ __all__ = [
     "StorageQoSPolicy",
     "StorageQoSPolicyDetails",
     "SystemData",
+    "TrackedResource",
     "VMMServer",
     "VMMServerListResult",
     "VMMServerPropertiesCredentials",
@@ -130,10 +168,14 @@ __all__ = [
     "CreateDiffDisk",
     "CreatedByType",
     "DynamicMemoryEnabled",
+    "IdentityType",
     "InventoryType",
     "IsCustomizable",
     "LimitCpuForMigration",
     "OsType",
+    "ProvisioningAction",
+    "StatusLevelTypes",
+    "StatusTypes",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()

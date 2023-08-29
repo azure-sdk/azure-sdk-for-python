@@ -14,6 +14,9 @@ from ._virtual_machines_operations import VirtualMachinesOperations
 from ._virtual_machine_templates_operations import VirtualMachineTemplatesOperations
 from ._availability_sets_operations import AvailabilitySetsOperations
 from ._inventory_items_operations import InventoryItemsOperations
+from ._hybrid_identity_metadatas_operations import HybridIdentityMetadatasOperations
+from ._machine_extensions_operations import MachineExtensionsOperations
+from ._guest_agents_operations import GuestAgentsOperations
 
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
@@ -28,6 +31,9 @@ __all__ = [
     "VirtualMachineTemplatesOperations",
     "AvailabilitySetsOperations",
     "InventoryItemsOperations",
+    "HybridIdentityMetadatasOperations",
+    "MachineExtensionsOperations",
+    "GuestAgentsOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
