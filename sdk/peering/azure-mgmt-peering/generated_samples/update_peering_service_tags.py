@@ -37,6 +37,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2022-10-01/examples/UpdatePeeringServiceTags.json
+# x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2023-08-01/examples/UpdatePeeringServiceTags.json
 if __name__ == "__main__":
     main()

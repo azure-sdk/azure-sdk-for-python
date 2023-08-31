@@ -23,10 +23,11 @@ from ._peering_service_locations_operations import PeeringServiceLocationsOperat
 from ._prefixes_operations import PrefixesOperations
 from ._peering_service_providers_operations import PeeringServiceProvidersOperations
 from ._peering_services_operations import PeeringServicesOperations
+from ._resource_move_operations import ResourceMoveOperations
 from ._rp_unbilled_prefixes_operations import RpUnbilledPrefixesOperations
 
 from ._patch import __all__ as _patch_all
-from ._patch import *  # type: ignore # pylint: disable=unused-wildcard-import
+from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
@@ -47,6 +48,7 @@ __all__ = [
     "PrefixesOperations",
     "PeeringServiceProvidersOperations",
     "PeeringServicesOperations",
+    "ResourceMoveOperations",
     "RpUnbilledPrefixesOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])

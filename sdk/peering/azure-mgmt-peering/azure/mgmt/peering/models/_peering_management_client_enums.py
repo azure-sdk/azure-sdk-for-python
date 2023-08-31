@@ -31,6 +31,7 @@ class ConnectionState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ACTIVE = "Active"
     TYPE_CHANGE_REQUESTED = "TypeChangeRequested"
     TYPE_CHANGE_IN_PROGRESS = "TypeChangeInProgress"
+    ACTIVE_NO_BILLING = "ActiveNoBilling"
 
 
 class DirectPeeringType(str, Enum, metaclass=CaseInsensitiveEnumMeta):

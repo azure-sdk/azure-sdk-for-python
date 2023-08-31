@@ -57,6 +57,7 @@ from ._models_py3 import PeeringServiceProviderListResult
 from ._models_py3 import PeeringServiceSku
 from ._models_py3 import PeeringSku
 from ._models_py3 import Resource
+from ._models_py3 import ResourceMoveRequest
 from ._models_py3 import ResourceTags
 from ._models_py3 import RpUnbilledPrefix
 from ._models_py3 import RpUnbilledPrefixListResult
@@ -85,7 +86,7 @@ from ._peering_management_client_enums import Size
 from ._peering_management_client_enums import Tier
 from ._peering_management_client_enums import ValidationState
 from ._patch import __all__ as _patch_all
-from ._patch import *  # type: ignore # pylint: disable=unused-wildcard-import
+from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
@@ -140,6 +141,7 @@ __all__ = [
     "PeeringServiceSku",
     "PeeringSku",
     "Resource",
+    "ResourceMoveRequest",
     "ResourceTags",
     "RpUnbilledPrefix",
     "RpUnbilledPrefixListResult",
