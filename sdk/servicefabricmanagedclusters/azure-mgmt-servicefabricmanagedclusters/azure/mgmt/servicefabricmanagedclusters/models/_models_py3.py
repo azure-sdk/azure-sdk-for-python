@@ -1647,6 +1647,12 @@ class ManagedCluster(Resource):  # pylint: disable=too-many-instance-attributes
      VNet, but the subnet is specified at node type level; and for such clusters, the subnetId
      property is required for node types.
     :vartype use_custom_vnet: bool
+    :ivar public_ip_prefix_id: Specify the resource id of a public IP prefix that the load balancer
+     will allocate a public IP address from. Only supports IPv4.
+    :vartype public_ip_prefix_id: str
+    :ivar ddos_protection_plan_id: Specify the resource id of a DDoS network protection plan that
+     will be associated with the virtual network of the cluster.
+    :vartype ddos_protection_plan_id: str
     """
 
     _validation = {
@@ -1711,6 +1717,8 @@ class ManagedCluster(Resource):  # pylint: disable=too-many-instance-attributes
         "service_endpoints": {"key": "properties.serviceEndpoints", "type": "[ServiceEndpoint]"},
         "zonal_update_mode": {"key": "properties.zonalUpdateMode", "type": "str"},
         "use_custom_vnet": {"key": "properties.useCustomVnet", "type": "bool"},
+        "public_ip_prefix_id": {"key": "properties.publicIPPrefixId", "type": "str"},
+        "ddos_protection_plan_id": {"key": "properties.ddosProtectionPlanId", "type": "str"},
     }
 
     def __init__(  # pylint: disable=too-many-locals
@@ -1745,6 +1753,8 @@ class ManagedCluster(Resource):  # pylint: disable=too-many-instance-attributes
         service_endpoints: Optional[List["_models.ServiceEndpoint"]] = None,
         zonal_update_mode: Optional[Union[str, "_models.ZonalUpdateMode"]] = None,
         use_custom_vnet: Optional[bool] = None,
+        public_ip_prefix_id: Optional[str] = None,
+        ddos_protection_plan_id: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -1838,6 +1848,12 @@ class ManagedCluster(Resource):  # pylint: disable=too-many-instance-attributes
          own VNet, but the subnet is specified at node type level; and for such clusters, the subnetId
          property is required for node types.
         :paramtype use_custom_vnet: bool
+        :keyword public_ip_prefix_id: Specify the resource id of a public IP prefix that the load
+         balancer will allocate a public IP address from. Only supports IPv4.
+        :paramtype public_ip_prefix_id: str
+        :keyword ddos_protection_plan_id: Specify the resource id of a DDoS network protection plan
+         that will be associated with the virtual network of the cluster.
+        :paramtype ddos_protection_plan_id: str
         """
         super().__init__(location=location, tags=tags, **kwargs)
         self.sku = sku
@@ -1874,6 +1890,8 @@ class ManagedCluster(Resource):  # pylint: disable=too-many-instance-attributes
         self.service_endpoints = service_endpoints
         self.zonal_update_mode = zonal_update_mode
         self.use_custom_vnet = use_custom_vnet
+        self.public_ip_prefix_id = public_ip_prefix_id
+        self.ddos_protection_plan_id = ddos_protection_plan_id
 
 
 class ManagedClusterCodeVersionResult(_serialization.Model):
@@ -2039,6 +2057,59 @@ class ManagedIdentity(_serialization.Model):
         self.tenant_id = None
         self.type = type
         self.user_assigned_identities = user_assigned_identities
+
+
+class ManagedMaintenanceWindowStatus(_serialization.Model):
+    """Describes the maintenance window status of the Service Fabric Managed Cluster.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar is_window_enabled: If maintenance window is enabled on this cluster.
+    :vartype is_window_enabled: bool
+    :ivar is_region_ready: Indicates if the region is ready to configure maintenance windows.
+    :vartype is_region_ready: bool
+    :ivar is_window_active: If maintenance window is active.
+    :vartype is_window_active: bool
+    :ivar can_apply_updates: If updates can be applied.
+    :vartype can_apply_updates: bool
+    :ivar last_window_status_update_at_utc: Last window update time in UTC.
+    :vartype last_window_status_update_at_utc: ~datetime.datetime
+    :ivar last_window_start_time_utc: Last window start time in UTC.
+    :vartype last_window_start_time_utc: ~datetime.datetime
+    :ivar last_window_end_time_utc: Last window end time in UTC.
+    :vartype last_window_end_time_utc: ~datetime.datetime
+    """
+
+    _validation = {
+        "is_window_enabled": {"readonly": True},
+        "is_region_ready": {"readonly": True},
+        "is_window_active": {"readonly": True},
+        "can_apply_updates": {"readonly": True},
+        "last_window_status_update_at_utc": {"readonly": True},
+        "last_window_start_time_utc": {"readonly": True},
+        "last_window_end_time_utc": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "is_window_enabled": {"key": "isWindowEnabled", "type": "bool"},
+        "is_region_ready": {"key": "isRegionReady", "type": "bool"},
+        "is_window_active": {"key": "isWindowActive", "type": "bool"},
+        "can_apply_updates": {"key": "canApplyUpdates", "type": "bool"},
+        "last_window_status_update_at_utc": {"key": "lastWindowStatusUpdateAtUTC", "type": "iso-8601"},
+        "last_window_start_time_utc": {"key": "lastWindowStartTimeUTC", "type": "iso-8601"},
+        "last_window_end_time_utc": {"key": "lastWindowEndTimeUTC", "type": "iso-8601"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.is_window_enabled = None
+        self.is_region_ready = None
+        self.is_window_active = None
+        self.can_apply_updates = None
+        self.last_window_status_update_at_utc = None
+        self.last_window_start_time_utc = None
+        self.last_window_end_time_utc = None
 
 
 class ManagedProxyResource(_serialization.Model):
@@ -2532,6 +2603,21 @@ class NodeType(ManagedProxyResource):  # pylint: disable=too-many-instance-attri
     :ivar vm_shared_gallery_image_id: Indicates the resource id of the vm shared galleries image.
      This parameter is used for custom vm image.
     :vartype vm_shared_gallery_image_id: str
+    :ivar nat_gateway_id: Specifies the resource id of a NAT Gateway to attach to the subnet of
+     this node type. Node type must use custom load balancer.
+    :vartype nat_gateway_id: str
+    :ivar vm_image_plan: Specifies information about the marketplace image used to create the
+     virtual machine. This element is only used for marketplace images. Before you can use a
+     marketplace image from an API, you must enable the image for programmatic use. In the Azure
+     portal, find the marketplace image that you want to use and then click Want to deploy
+     programmatically, Get Started ->. Enter any required information and then click Save.
+    :vartype vm_image_plan: ~azure.mgmt.servicefabricmanagedclusters.models.VmImagePlan
+    :ivar service_artifact_reference_id: Specifies the service artifact reference id used to set
+     same image version for all virtual machines in the scale set when using 'latest' image version.
+    :vartype service_artifact_reference_id: str
+    :ivar dscp_configuration_id: Specifies the resource id of the DSCP configuration to apply to
+     the node type network interface.
+    :vartype dscp_configuration_id: str
     """
 
     _validation = {
@@ -2591,7 +2677,11 @@ class NodeType(ManagedProxyResource):  # pylint: disable=too-many-instance-attri
         "security_type": {"key": "properties.securityType", "type": "str"},
         "secure_boot_enabled": {"key": "properties.secureBootEnabled", "type": "bool"},
         "enable_node_public_ip": {"key": "properties.enableNodePublicIP", "type": "bool"},
-        "vm_shared_gallery_image_id": {"key": "properties.VmSharedGalleryImageId", "type": "str"},
+        "vm_shared_gallery_image_id": {"key": "properties.vmSharedGalleryImageId", "type": "str"},
+        "nat_gateway_id": {"key": "properties.natGatewayId", "type": "str"},
+        "vm_image_plan": {"key": "properties.vmImagePlan", "type": "VmImagePlan"},
+        "service_artifact_reference_id": {"key": "properties.serviceArtifactReferenceId", "type": "str"},
+        "dscp_configuration_id": {"key": "properties.dscpConfigurationId", "type": "str"},
     }
 
     def __init__(  # pylint: disable=too-many-locals
@@ -2639,6 +2729,10 @@ class NodeType(ManagedProxyResource):  # pylint: disable=too-many-instance-attri
         secure_boot_enabled: Optional[bool] = None,
         enable_node_public_ip: Optional[bool] = None,
         vm_shared_gallery_image_id: Optional[str] = None,
+        nat_gateway_id: Optional[str] = None,
+        vm_image_plan: Optional["_models.VmImagePlan"] = None,
+        service_artifact_reference_id: Optional[str] = None,
+        dscp_configuration_id: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -2780,6 +2874,21 @@ class NodeType(ManagedProxyResource):  # pylint: disable=too-many-instance-attri
         :keyword vm_shared_gallery_image_id: Indicates the resource id of the vm shared galleries
          image. This parameter is used for custom vm image.
         :paramtype vm_shared_gallery_image_id: str
+        :keyword nat_gateway_id: Specifies the resource id of a NAT Gateway to attach to the subnet of
+         this node type. Node type must use custom load balancer.
+        :paramtype nat_gateway_id: str
+        :keyword vm_image_plan: Specifies information about the marketplace image used to create the
+         virtual machine. This element is only used for marketplace images. Before you can use a
+         marketplace image from an API, you must enable the image for programmatic use. In the Azure
+         portal, find the marketplace image that you want to use and then click Want to deploy
+         programmatically, Get Started ->. Enter any required information and then click Save.
+        :paramtype vm_image_plan: ~azure.mgmt.servicefabricmanagedclusters.models.VmImagePlan
+        :keyword service_artifact_reference_id: Specifies the service artifact reference id used to set
+         same image version for all virtual machines in the scale set when using 'latest' image version.
+        :paramtype service_artifact_reference_id: str
+        :keyword dscp_configuration_id: Specifies the resource id of the DSCP configuration to apply to
+         the node type network interface.
+        :paramtype dscp_configuration_id: str
         """
         super().__init__(tags=tags, **kwargs)
         self.sku = sku
@@ -2824,6 +2933,10 @@ class NodeType(ManagedProxyResource):  # pylint: disable=too-many-instance-attri
         self.secure_boot_enabled = secure_boot_enabled
         self.enable_node_public_ip = enable_node_public_ip
         self.vm_shared_gallery_image_id = vm_shared_gallery_image_id
+        self.nat_gateway_id = nat_gateway_id
+        self.vm_image_plan = vm_image_plan
+        self.service_artifact_reference_id = service_artifact_reference_id
+        self.dscp_configuration_id = dscp_configuration_id
 
 
 class NodeTypeActionParameters(_serialization.Model):
@@ -5085,6 +5198,58 @@ class VaultSecretGroup(_serialization.Model):
         super().__init__(**kwargs)
         self.source_vault = source_vault
         self.vault_certificates = vault_certificates
+
+
+class VmImagePlan(_serialization.Model):
+    """Specifies information about the marketplace image used to create the virtual machine. This
+    element is only used for marketplace images. Before you can use a marketplace image from an
+    API, you must enable the image for programmatic use. In the Azure portal, find the marketplace
+    image that you want to use and then click Want to deploy programmatically, Get Started ->.
+    Enter any required information and then click Save.
+
+    :ivar name: The plan ID.
+    :vartype name: str
+    :ivar product: Specifies the product of the image from the marketplace. This is the same value
+     as Offer under the imageReference element.
+    :vartype product: str
+    :ivar promotion_code: The promotion code.
+    :vartype promotion_code: str
+    :ivar publisher: The publisher ID.
+    :vartype publisher: str
+    """
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "product": {"key": "product", "type": "str"},
+        "promotion_code": {"key": "promotionCode", "type": "str"},
+        "publisher": {"key": "publisher", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        name: Optional[str] = None,
+        product: Optional[str] = None,
+        promotion_code: Optional[str] = None,
+        publisher: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword name: The plan ID.
+        :paramtype name: str
+        :keyword product: Specifies the product of the image from the marketplace. This is the same
+         value as Offer under the imageReference element.
+        :paramtype product: str
+        :keyword promotion_code: The promotion code.
+        :paramtype promotion_code: str
+        :keyword publisher: The publisher ID.
+        :paramtype publisher: str
+        """
+        super().__init__(**kwargs)
+        self.name = name
+        self.product = product
+        self.promotion_code = promotion_code
+        self.publisher = publisher
 
 
 class VmManagedIdentity(_serialization.Model):

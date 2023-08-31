@@ -14,7 +14,7 @@ from azure.mgmt.servicefabricmanagedclusters import ServiceFabricManagedClusters
     pip install azure-identity
     pip install azure-mgmt-servicefabricmanagedclusters
 # USAGE
-    python node_type_put_operation_dedicated_host_example.py
+    python node_type_put_operation_vm_image_plan_example.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -35,25 +35,25 @@ def main():
         node_type_name="BE",
         parameters={
             "properties": {
-                "capacities": {},
                 "dataDiskSizeGB": 200,
-                "dataDiskType": "StandardSSD_LRS",
-                "hostGroupId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testhostgroupRG/providers/Microsoft.Compute/hostGroups/testHostGroup",
                 "isPrimary": False,
-                "placementProperties": {},
-                "vmImageOffer": "WindowsServer",
-                "vmImagePublisher": "MicrosoftWindowsServer",
-                "vmImageSku": "2019-Datacenter",
+                "vmImageOffer": "windows_2022_test",
+                "vmImagePlan": {
+                    "name": "win_2022_test_20_10_gen2",
+                    "product": "windows_2022_test",
+                    "publisher": "testpublisher",
+                },
+                "vmImagePublisher": "testpublisher",
+                "vmImageSku": "win_2022_test_20_10_gen2",
                 "vmImageVersion": "latest",
                 "vmInstanceCount": 10,
-                "vmSize": "Standard_D8s_v3",
-                "zones": ["1"],
+                "vmSize": "Standard_D3",
             }
         },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2023-07-01-preview/examples/NodeTypePutOperationDedicatedHost_example.json
+# x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2023-07-01-preview/examples/NodeTypePutOperationVmImagePlan_example.json
 if __name__ == "__main__":
     main()

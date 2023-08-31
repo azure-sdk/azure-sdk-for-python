@@ -43,6 +43,7 @@ def main():
                 "dataDiskLetter": "S",
                 "dataDiskSizeGB": 200,
                 "dataDiskType": "Premium_LRS",
+                "dscpConfigurationId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.Network/dscpConfigurations/myDscpConfig",
                 "enableAcceleratedNetworking": True,
                 "enableEncryptionAtHost": True,
                 "enableNodePublicIP": True,
@@ -59,9 +60,11 @@ def main():
                 "isSpotVM": True,
                 "isStateless": True,
                 "multiplePlacementGroups": True,
+                "natGatewayId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.Network/natGateways/myNatGateway",
                 "placementProperties": {"HasSSD": "true", "NodeColor": "green", "SomeProperty": "5"},
                 "secureBootEnabled": True,
                 "securityType": "TrustedLaunch",
+                "serviceArtifactReferenceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.Compute/galleries/myGallery/serviceArtifacts/myServiceArtifact/vmArtifactsProfiles/myVmArtifactProfile",
                 "spotRestoreTimeout": "PT30M",
                 "subnetId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1",
                 "useDefaultPublicLoadBalancer": True,
@@ -112,6 +115,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2023-02-01-preview/examples/NodeTypePutOperation_example_max.json
+# x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2023-07-01-preview/examples/NodeTypePutOperation_example_max.json
 if __name__ == "__main__":
     main()

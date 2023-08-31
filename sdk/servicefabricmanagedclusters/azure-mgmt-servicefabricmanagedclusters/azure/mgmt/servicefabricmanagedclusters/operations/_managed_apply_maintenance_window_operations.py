@@ -34,7 +34,7 @@ _SERIALIZER = Serializer()
 _SERIALIZER.client_side_validation = False
 
 
-def build_get_request(resource_group_name: str, cluster_name: str, subscription_id: str, **kwargs: Any) -> HttpRequest:
+def build_post_request(resource_group_name: str, cluster_name: str, subscription_id: str, **kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
@@ -44,7 +44,7 @@ def build_get_request(resource_group_name: str, cluster_name: str, subscription_
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/getazresiliencystatus",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applyMaintenanceWindow",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
@@ -63,14 +63,14 @@ def build_get_request(resource_group_name: str, cluster_name: str, subscription_
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-class ManagedAzResiliencyStatusOperations:
+class ManagedApplyMaintenanceWindowOperations:
     """
     .. warning::
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
         :class:`~azure.mgmt.servicefabricmanagedclusters.ServiceFabricManagedClustersManagementClient`'s
-        :attr:`managed_az_resiliency_status` attribute.
+        :attr:`managed_apply_maintenance_window` attribute.
     """
 
     models = _models
@@ -83,20 +83,22 @@ class ManagedAzResiliencyStatusOperations:
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    def get(self, resource_group_name: str, cluster_name: str, **kwargs: Any) -> _models.ManagedAzResiliencyStatus:
-        """Action to get Az Resiliency Status of all the Base resources constituting Service Fabric
-        Managed Clusters.
+    def post(  # pylint: disable=inconsistent-return-statements
+        self, resource_group_name: str, cluster_name: str, **kwargs: Any
+    ) -> None:
+        """Action to Apply Maintenance window on the Service Fabric Managed Clusters, right now. Any
+        pending update will be applied.
 
-        Action to get Az Resiliency Status of all the Base resources constituting Service Fabric
-        Managed Clusters.
+        Action to Apply Maintenance window on the Service Fabric Managed Clusters, right now. Any
+        pending update will be applied.
 
         :param resource_group_name: The name of the resource group. Required.
         :type resource_group_name: str
         :param cluster_name: The name of the cluster resource. Required.
         :type cluster_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: ManagedAzResiliencyStatus or the result of cls(response)
-        :rtype: ~azure.mgmt.servicefabricmanagedclusters.models.ManagedAzResiliencyStatus
+        :return: None or the result of cls(response)
+        :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map = {
@@ -111,14 +113,14 @@ class ManagedAzResiliencyStatusOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.ManagedAzResiliencyStatus] = kwargs.pop("cls", None)
+        cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        request = build_post_request(
             resource_group_name=resource_group_name,
             cluster_name=cluster_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
+            template_url=self.post.metadata["url"],
             headers=_headers,
             params=_params,
         )
@@ -137,13 +139,9 @@ class ManagedAzResiliencyStatusOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorModel, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("ManagedAzResiliencyStatus", pipeline_response)
-
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, None, {})
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/getazresiliencystatus"
+    post.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applyMaintenanceWindow"
     }

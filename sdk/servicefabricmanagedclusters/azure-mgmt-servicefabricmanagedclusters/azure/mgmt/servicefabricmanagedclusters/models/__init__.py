@@ -38,6 +38,7 @@ from ._models_py3 import ManagedClusterCodeVersionResult
 from ._models_py3 import ManagedClusterListResult
 from ._models_py3 import ManagedClusterUpdateParameters
 from ._models_py3 import ManagedIdentity
+from ._models_py3 import ManagedMaintenanceWindowStatus
 from ._models_py3 import ManagedProxyResource
 from ._models_py3 import ManagedVMSize
 from ._models_py3 import ManagedVMSizesResult
@@ -93,6 +94,7 @@ from ._models_py3 import VMSSExtension
 from ._models_py3 import VMSize
 from ._models_py3 import VaultCertificate
 from ._models_py3 import VaultSecretGroup
+from ._models_py3 import VmImagePlan
 from ._models_py3 import VmManagedIdentity
 from ._models_py3 import VmssDataDisk
 
@@ -168,6 +170,7 @@ __all__ = [
     "ManagedClusterListResult",
     "ManagedClusterUpdateParameters",
     "ManagedIdentity",
+    "ManagedMaintenanceWindowStatus",
     "ManagedProxyResource",
     "ManagedVMSize",
     "ManagedVMSizesResult",
@@ -223,6 +226,7 @@ __all__ = [
     "VMSize",
     "VaultCertificate",
     "VaultSecretGroup",
+    "VmImagePlan",
     "VmManagedIdentity",
     "VmssDataDisk",
     "Access",

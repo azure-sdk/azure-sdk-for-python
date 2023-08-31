@@ -44,7 +44,7 @@ def build_get_request(resource_group_name: str, cluster_name: str, subscription_
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/getazresiliencystatus",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/getMaintenanceWindowStatus",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
@@ -63,14 +63,14 @@ def build_get_request(resource_group_name: str, cluster_name: str, subscription_
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-class ManagedAzResiliencyStatusOperations:
+class ManagedMaintenanceWindowStatusOperations:
     """
     .. warning::
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
         :class:`~azure.mgmt.servicefabricmanagedclusters.ServiceFabricManagedClustersManagementClient`'s
-        :attr:`managed_az_resiliency_status` attribute.
+        :attr:`managed_maintenance_window_status` attribute.
     """
 
     models = _models
@@ -83,20 +83,18 @@ class ManagedAzResiliencyStatusOperations:
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    def get(self, resource_group_name: str, cluster_name: str, **kwargs: Any) -> _models.ManagedAzResiliencyStatus:
-        """Action to get Az Resiliency Status of all the Base resources constituting Service Fabric
-        Managed Clusters.
+    def get(self, resource_group_name: str, cluster_name: str, **kwargs: Any) -> _models.ManagedMaintenanceWindowStatus:
+        """Action to get Maintenance Window Status of the Service Fabric Managed Clusters.
 
-        Action to get Az Resiliency Status of all the Base resources constituting Service Fabric
-        Managed Clusters.
+        Action to get Maintenance Window Status of the Service Fabric Managed Clusters.
 
         :param resource_group_name: The name of the resource group. Required.
         :type resource_group_name: str
         :param cluster_name: The name of the cluster resource. Required.
         :type cluster_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: ManagedAzResiliencyStatus or the result of cls(response)
-        :rtype: ~azure.mgmt.servicefabricmanagedclusters.models.ManagedAzResiliencyStatus
+        :return: ManagedMaintenanceWindowStatus or the result of cls(response)
+        :rtype: ~azure.mgmt.servicefabricmanagedclusters.models.ManagedMaintenanceWindowStatus
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map = {
@@ -111,7 +109,7 @@ class ManagedAzResiliencyStatusOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.ManagedAzResiliencyStatus] = kwargs.pop("cls", None)
+        cls: ClsType[_models.ManagedMaintenanceWindowStatus] = kwargs.pop("cls", None)
 
         request = build_get_request(
             resource_group_name=resource_group_name,
@@ -137,7 +135,7 @@ class ManagedAzResiliencyStatusOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorModel, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("ManagedAzResiliencyStatus", pipeline_response)
+        deserialized = self._deserialize("ManagedMaintenanceWindowStatus", pipeline_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})
@@ -145,5 +143,5 @@ class ManagedAzResiliencyStatusOperations:
         return deserialized
 
     get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/getazresiliencystatus"
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/getMaintenanceWindowStatus"
     }
