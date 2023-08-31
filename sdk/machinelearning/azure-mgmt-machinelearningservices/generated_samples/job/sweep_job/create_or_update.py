@@ -35,49 +35,59 @@ def main():
         id="string",
         body={
             "properties": {
+                "autologgerSettings": {"mlflowAutologger": "Disabled"},
+                "codeId": "string",
+                "command": "string",
+                "componentId": "string",
                 "computeId": "string",
                 "description": "string",
                 "displayName": "string",
-                "earlyTermination": {"delayEvaluation": 1, "evaluationInterval": 1, "policyType": "MedianStopping"},
+                "distribution": {"distributionType": "TensorFlow", "parameterServerCount": 1, "workerCount": 1},
+                "environmentId": "string",
+                "environmentVariables": {"string": "string"},
                 "experimentName": "string",
-                "jobType": "Sweep",
-                "limits": {
-                    "jobLimitsType": "Sweep",
-                    "maxConcurrentTrials": 1,
-                    "maxTotalTrials": 1,
-                    "trialTimeout": "PT1S",
+                "identity": {"identityType": "AMLToken"},
+                "inputs": {"string": {"description": "string", "jobInputType": "literal", "value": "string"}},
+                "isArchived": False,
+                "jobType": "Command",
+                "limits": {"jobLimitsType": "Command", "timeout": "PT5M"},
+                "notificationSetting": {"emailOn": ["JobCompleted"], "emails": ["string"]},
+                "outputs": {
+                    "string": {
+                        "assetName": "string",
+                        "assetVersion": "string",
+                        "description": "string",
+                        "jobOutputType": "uri_file",
+                        "mode": "ReadWriteMount",
+                        "uri": "string",
+                    }
                 },
-                "objective": {"goal": "Minimize", "primaryMetric": "string"},
                 "properties": {"string": "string"},
-                "samplingAlgorithm": {"samplingAlgorithmType": "Grid"},
-                "searchSpace": {"string": {}},
+                "queueSettings": {"jobTier": "Basic", "priority": 1},
+                "resources": {
+                    "dockerArgs": "string",
+                    "instanceCount": 1,
+                    "instanceType": "string",
+                    "locations": ["string"],
+                    "properties": {"string": {"5fc1f627-491e-45a0-a6a2-f5b4be884911": None}},
+                    "shmSize": "2g",
+                },
                 "services": {
                     "string": {
                         "endpoint": "string",
                         "jobServiceType": "string",
+                        "nodes": {"nodesValueType": "All"},
                         "port": 1,
                         "properties": {"string": "string"},
                     }
                 },
                 "tags": {"string": "string"},
-                "trial": {
-                    "codeId": "string",
-                    "command": "string",
-                    "distribution": {"distributionType": "Mpi", "processCountPerInstance": 1},
-                    "environmentId": "string",
-                    "environmentVariables": {"string": "string"},
-                    "resources": {
-                        "instanceCount": 1,
-                        "instanceType": "string",
-                        "properties": {"string": {"e6b6493e-7d5e-4db3-be1e-306ec641327e": None}},
-                    },
-                },
             }
         },
     )
     print(response)
 
 
-# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2023-04-01/examples/Job/SweepJob/createOrUpdate.json
+# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2023-08-01-preview/examples/Job/SweepJob/createOrUpdate.json
 if __name__ == "__main__":
     main()

@@ -56,6 +56,8 @@ class Operations:
     def list(self, **kwargs: Any) -> AsyncIterable["_models.AmlOperation"]:
         """Lists all of the available Azure Machine Learning Workspaces REST API operations.
 
+        Lists all of the available Azure Machine Learning Workspaces REST API operations.
+
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either AmlOperation or the result of cls(response)
         :rtype:
