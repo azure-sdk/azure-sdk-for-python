@@ -49,6 +49,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/WorkspaceCreateWithParameters.json
+# x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/preview/2023-09-15-preview/examples/WorkspaceCreateWithParameters.json
 if __name__ == "__main__":
     main()

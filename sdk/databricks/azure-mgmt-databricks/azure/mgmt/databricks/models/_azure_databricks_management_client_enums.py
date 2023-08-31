@@ -10,6 +10,28 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
+class AutomaticClusterUpdateValue(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Status of automatic cluster updates."""
+
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+
+
+class ComplianceSecurityProfileValue(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Status of Compliance Security Profile feature."""
+
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+
+
+class ComplianceStandard(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Compliance standard that can be associated with a workspace."""
+
+    HIPAA = "HIPAA"
+    PCI_DSS = "PCI_DSS"
+    NONE = "NONE"
+
+
 class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of identity that created the resource."""
 
@@ -31,6 +53,20 @@ class EncryptionKeySource(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The encryption keySource (provider). Possible values (case-insensitive):  Microsoft.Keyvault."""
 
     MICROSOFT_KEYVAULT = "Microsoft.Keyvault"
+
+
+class EnhancedSecurityMonitoringValue(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Status of Enhanced Security Monitoring feature."""
+
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+
+
+class InitialType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of the initial default catalog of the workspace."""
+
+    HIVE_METASTORE = "HiveMetastore"
+    UNITY_CATALOG = "UnityCatalog"
 
 
 class KeySource(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -90,18 +126,18 @@ class PrivateLinkServiceConnectionStatus(str, Enum, metaclass=CaseInsensitiveEnu
 
 
 class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Provisioning status of the workspace."""
+    """Provisioning status of the accessConnector."""
 
+    DELETED = "Deleted"
+    FAILED = "Failed"
+    SUCCEEDED = "Succeeded"
     ACCEPTED = "Accepted"
     RUNNING = "Running"
     READY = "Ready"
     CREATING = "Creating"
     CREATED = "Created"
     DELETING = "Deleting"
-    DELETED = "Deleted"
     CANCELED = "Canceled"
-    FAILED = "Failed"
-    SUCCEEDED = "Succeeded"
     UPDATING = "Updating"
 
 
@@ -123,3 +159,28 @@ class RequiredNsgRules(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ALL_RULES = "AllRules"
     NO_AZURE_DATABRICKS_RULES = "NoAzureDatabricksRules"
     NO_AZURE_SERVICE_RULES = "NoAzureServiceRules"
+
+
+class WeekDay(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Day of the week for automatic cluster updates to occur."""
+
+    NONE = "None"
+    MONDAY = "Monday"
+    TUESDAY = "Tuesday"
+    WEDNESDAY = "Wednesday"
+    THURSDAY = "Thursday"
+    FRIDAY = "Friday"
+    SATURDAY = "Saturday"
+    SUNDAY = "Sunday"
+
+
+class WeekDayFrequency(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Frequency of execution of cluster updates."""
+
+    NONE = "None"
+    FIRST_OF_MONTH = "FirstOfMonth"
+    SECOND_OF_MONTH = "SecondOfMonth"
+    THIRD_OF_MONTH = "ThirdOfMonth"
+    FOURTH_OF_MONTH = "FourthOfMonth"
+    FIRST_AND_THIRD_OF_MONTH = "FirstAndThirdOfMonth"
+    SECOND_AND_FOURTH_OF_MONTH = "SecondAndFourthOfMonth"

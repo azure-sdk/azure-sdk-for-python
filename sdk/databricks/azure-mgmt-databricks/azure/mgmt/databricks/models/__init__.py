@@ -11,18 +11,24 @@ from ._models_py3 import AccessConnectorListResult
 from ._models_py3 import AccessConnectorProperties
 from ._models_py3 import AccessConnectorUpdate
 from ._models_py3 import AddressSpace
+from ._models_py3 import AutomaticClusterUpdateDefinition
+from ._models_py3 import ComplianceSecurityProfileDefinition
 from ._models_py3 import CreatedBy
+from ._models_py3 import DefaultCatalogDefinition
 from ._models_py3 import Encryption
 from ._models_py3 import EncryptionEntitiesDefinition
 from ._models_py3 import EncryptionV2
 from ._models_py3 import EncryptionV2KeyVaultProperties
 from ._models_py3 import EndpointDependency
 from ._models_py3 import EndpointDetail
+from ._models_py3 import EnhancedSecurityComplianceDefinition
+from ._models_py3 import EnhancedSecurityMonitoringDefinition
 from ._models_py3 import ErrorDetail
 from ._models_py3 import ErrorInfo
 from ._models_py3 import ErrorResponse
 from ._models_py3 import GroupIdInformation
 from ._models_py3 import GroupIdInformationProperties
+from ._models_py3 import MaintenanceWindowDefinition
 from ._models_py3 import ManagedDiskEncryption
 from ._models_py3 import ManagedDiskEncryptionKeyVaultProperties
 from ._models_py3 import ManagedIdentityConfiguration
@@ -39,6 +45,7 @@ from ._models_py3 import PrivateLinkResourcesList
 from ._models_py3 import PrivateLinkServiceConnectionState
 from ._models_py3 import Resource
 from ._models_py3 import Sku
+from ._models_py3 import StartTimeWindowDefinition
 from ._models_py3 import SystemData
 from ._models_py3 import TrackedResource
 from ._models_py3 import UserAssignedIdentity
@@ -57,9 +64,14 @@ from ._models_py3 import WorkspacePropertiesEncryption
 from ._models_py3 import WorkspaceProviderAuthorization
 from ._models_py3 import WorkspaceUpdate
 
+from ._azure_databricks_management_client_enums import AutomaticClusterUpdateValue
+from ._azure_databricks_management_client_enums import ComplianceSecurityProfileValue
+from ._azure_databricks_management_client_enums import ComplianceStandard
 from ._azure_databricks_management_client_enums import CreatedByType
 from ._azure_databricks_management_client_enums import CustomParameterType
 from ._azure_databricks_management_client_enums import EncryptionKeySource
+from ._azure_databricks_management_client_enums import EnhancedSecurityMonitoringValue
+from ._azure_databricks_management_client_enums import InitialType
 from ._azure_databricks_management_client_enums import KeySource
 from ._azure_databricks_management_client_enums import ManagedServiceIdentityType
 from ._azure_databricks_management_client_enums import PeeringProvisioningState
@@ -69,6 +81,8 @@ from ._azure_databricks_management_client_enums import PrivateLinkServiceConnect
 from ._azure_databricks_management_client_enums import ProvisioningState
 from ._azure_databricks_management_client_enums import PublicNetworkAccess
 from ._azure_databricks_management_client_enums import RequiredNsgRules
+from ._azure_databricks_management_client_enums import WeekDay
+from ._azure_databricks_management_client_enums import WeekDayFrequency
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
@@ -79,18 +93,24 @@ __all__ = [
     "AccessConnectorProperties",
     "AccessConnectorUpdate",
     "AddressSpace",
+    "AutomaticClusterUpdateDefinition",
+    "ComplianceSecurityProfileDefinition",
     "CreatedBy",
+    "DefaultCatalogDefinition",
     "Encryption",
     "EncryptionEntitiesDefinition",
     "EncryptionV2",
     "EncryptionV2KeyVaultProperties",
     "EndpointDependency",
     "EndpointDetail",
+    "EnhancedSecurityComplianceDefinition",
+    "EnhancedSecurityMonitoringDefinition",
     "ErrorDetail",
     "ErrorInfo",
     "ErrorResponse",
     "GroupIdInformation",
     "GroupIdInformationProperties",
+    "MaintenanceWindowDefinition",
     "ManagedDiskEncryption",
     "ManagedDiskEncryptionKeyVaultProperties",
     "ManagedIdentityConfiguration",
@@ -107,6 +127,7 @@ __all__ = [
     "PrivateLinkServiceConnectionState",
     "Resource",
     "Sku",
+    "StartTimeWindowDefinition",
     "SystemData",
     "TrackedResource",
     "UserAssignedIdentity",
@@ -124,9 +145,14 @@ __all__ = [
     "WorkspacePropertiesEncryption",
     "WorkspaceProviderAuthorization",
     "WorkspaceUpdate",
+    "AutomaticClusterUpdateValue",
+    "ComplianceSecurityProfileValue",
+    "ComplianceStandard",
     "CreatedByType",
     "CustomParameterType",
     "EncryptionKeySource",
+    "EnhancedSecurityMonitoringValue",
+    "InitialType",
     "KeySource",
     "ManagedServiceIdentityType",
     "PeeringProvisioningState",
@@ -136,6 +162,8 @@ __all__ = [
     "ProvisioningState",
     "PublicNetworkAccess",
     "RequiredNsgRules",
+    "WeekDay",
+    "WeekDayFrequency",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
