@@ -586,7 +586,7 @@ class RegistriesOperations:
 
     async def _create_or_update_initial(
         self, resource_group_name: str, registry_name: str, body: Union[_models.Registry, IO], **kwargs: Any
-    ) -> _models.Registry:
+    ) -> Optional[_models.Registry]:
         error_map = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -600,7 +600,7 @@ class RegistriesOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.Registry] = kwargs.pop("cls", None)
+        cls: ClsType[Optional[_models.Registry]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -632,21 +632,29 @@ class RegistriesOperations:
 
         response = pipeline_response.http_response
 
-        if response.status_code not in [200, 201]:
+        if response.status_code not in [200, 201, 202]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
+        deserialized = None
+        response_headers = {}
         if response.status_code == 200:
             deserialized = self._deserialize("Registry", pipeline_response)
 
         if response.status_code == 201:
             deserialized = self._deserialize("Registry", pipeline_response)
 
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
+        if response.status_code == 202:
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+            response_headers["Azure-AsyncOperation"] = self._deserialize(
+                "str", response.headers.get("Azure-AsyncOperation")
+            )
 
-        return deserialized  # type: ignore
+        if cls:
+            return cls(pipeline_response, deserialized, response_headers)
+
+        return deserialized
 
     _create_or_update_initial.metadata = {
         "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}"

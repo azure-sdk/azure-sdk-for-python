@@ -41,6 +41,22 @@ def main():
                 "intellectualPropertyPublisher": "string",
                 "managedResourceGroup": {"resourceId": "string"},
                 "mlFlowRegistryUri": "string",
+                "privateEndpointConnections": [
+                    {
+                        "id": "string",
+                        "location": "string",
+                        "properties": {
+                            "groupIds": ["string"],
+                            "privateEndpoint": {"subnetArmId": "string"},
+                            "privateLinkServiceConnectionState": {
+                                "actionsRequired": "string",
+                                "description": "string",
+                                "status": "Approved",
+                            },
+                            "provisioningState": "string",
+                        },
+                    }
+                ],
                 "publicNetworkAccess": "string",
                 "regionDetails": [
                     {
@@ -51,22 +67,6 @@ def main():
                         ],
                     }
                 ],
-                "registryPrivateEndpointConnections": [
-                    {
-                        "id": "string",
-                        "location": "string",
-                        "properties": {
-                            "groupIds": ["string"],
-                            "privateEndpoint": {"subnetArmId": "string"},
-                            "provisioningState": "string",
-                            "registryPrivateLinkServiceConnectionState": {
-                                "actionsRequired": "string",
-                                "description": "string",
-                                "status": "Approved",
-                            },
-                        },
-                    }
-                ],
             },
             "sku": {"capacity": 1, "family": "string", "name": "string", "size": "string", "tier": "Free"},
             "tags": {},
@@ -75,6 +75,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2023-04-01/examples/Registries/createOrUpdate-UserCreated.json
+# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2023-06-01-preview/examples/Registries/createOrUpdate-UserCreated.json
 if __name__ == "__main__":
     main()
