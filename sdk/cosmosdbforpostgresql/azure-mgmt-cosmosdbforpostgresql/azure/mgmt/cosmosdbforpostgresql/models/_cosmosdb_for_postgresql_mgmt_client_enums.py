@@ -10,6 +10,20 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
+class AuthConfigActiveDirectoryAuth(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """AuthConfigActiveDirectoryAuth."""
+
+    ENABLED = "enabled"
+    DISABLED = "disabled"
+
+
+class AuthConfigPasswordAuth(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """AuthConfigPasswordAuth."""
+
+    ENABLED = "enabled"
+    DISABLED = "disabled"
+
+
 class ConfigurationDataType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Data type of the configuration."""
 
@@ -60,6 +74,20 @@ class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     CANCELED = "Canceled"
     IN_PROGRESS = "InProgress"
     FAILED = "Failed"
+
+
+class RolePropertiesEntraIdPrincipalType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """RolePropertiesEntraIdPrincipalType."""
+
+    USER = "user"
+    SERVICE_PRINCIPAL = "servicePrincipal"
+
+
+class RolePropertiesExternalPrincipalType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """RolePropertiesExternalPrincipalType."""
+
+    USER = "user"
+    SERVICE_PRINCIPAL = "servicePrincipal"
 
 
 class ServerRole(str, Enum, metaclass=CaseInsensitiveEnumMeta):

@@ -6,6 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._models_py3 import AuthConfig
 from ._models_py3 import Cluster
 from ._models_py3 import ClusterConfigurationListResult
 from ._models_py3 import ClusterForUpdate
@@ -36,6 +37,8 @@ from ._models_py3 import ProxyResource
 from ._models_py3 import Resource
 from ._models_py3 import Role
 from ._models_py3 import RoleListResult
+from ._models_py3 import RolePropertiesEntraIdPrincipal
+from ._models_py3 import RolePropertiesExternalPrincipal
 from ._models_py3 import ServerConfiguration
 from ._models_py3 import ServerConfigurationListResult
 from ._models_py3 import ServerNameItem
@@ -45,18 +48,23 @@ from ._models_py3 import SimplePrivateEndpointConnection
 from ._models_py3 import SystemData
 from ._models_py3 import TrackedResource
 
+from ._cosmosdb_for_postgresql_mgmt_client_enums import AuthConfigActiveDirectoryAuth
+from ._cosmosdb_for_postgresql_mgmt_client_enums import AuthConfigPasswordAuth
 from ._cosmosdb_for_postgresql_mgmt_client_enums import ConfigurationDataType
 from ._cosmosdb_for_postgresql_mgmt_client_enums import CreatedByType
 from ._cosmosdb_for_postgresql_mgmt_client_enums import OperationOrigin
 from ._cosmosdb_for_postgresql_mgmt_client_enums import PrivateEndpointConnectionProvisioningState
 from ._cosmosdb_for_postgresql_mgmt_client_enums import PrivateEndpointServiceConnectionStatus
 from ._cosmosdb_for_postgresql_mgmt_client_enums import ProvisioningState
+from ._cosmosdb_for_postgresql_mgmt_client_enums import RolePropertiesEntraIdPrincipalType
+from ._cosmosdb_for_postgresql_mgmt_client_enums import RolePropertiesExternalPrincipalType
 from ._cosmosdb_for_postgresql_mgmt_client_enums import ServerRole
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "AuthConfig",
     "Cluster",
     "ClusterConfigurationListResult",
     "ClusterForUpdate",
@@ -87,6 +95,8 @@ __all__ = [
     "Resource",
     "Role",
     "RoleListResult",
+    "RolePropertiesEntraIdPrincipal",
+    "RolePropertiesExternalPrincipal",
     "ServerConfiguration",
     "ServerConfigurationListResult",
     "ServerNameItem",
@@ -95,12 +105,16 @@ __all__ = [
     "SimplePrivateEndpointConnection",
     "SystemData",
     "TrackedResource",
+    "AuthConfigActiveDirectoryAuth",
+    "AuthConfigPasswordAuth",
     "ConfigurationDataType",
     "CreatedByType",
     "OperationOrigin",
     "PrivateEndpointConnectionProvisioningState",
     "PrivateEndpointServiceConnectionStatus",
     "ProvisioningState",
+    "RolePropertiesEntraIdPrincipalType",
+    "RolePropertiesExternalPrincipalType",
     "ServerRole",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])

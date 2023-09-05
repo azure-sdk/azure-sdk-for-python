@@ -17,6 +17,41 @@ if TYPE_CHECKING:
     from .. import models as _models
 
 
+class AuthConfig(_serialization.Model):
+    """Authentication configuration of a cluster.
+
+    :ivar active_directory_auth: Known values are: "enabled" and "disabled".
+    :vartype active_directory_auth: str or
+     ~azure.mgmt.cosmosdbforpostgresql.models.AuthConfigActiveDirectoryAuth
+    :ivar password_auth: Known values are: "enabled" and "disabled".
+    :vartype password_auth: str or ~azure.mgmt.cosmosdbforpostgresql.models.AuthConfigPasswordAuth
+    """
+
+    _attribute_map = {
+        "active_directory_auth": {"key": "activeDirectoryAuth", "type": "str"},
+        "password_auth": {"key": "passwordAuth", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        active_directory_auth: Optional[Union[str, "_models.AuthConfigActiveDirectoryAuth"]] = None,
+        password_auth: Optional[Union[str, "_models.AuthConfigPasswordAuth"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword active_directory_auth: Known values are: "enabled" and "disabled".
+        :paramtype active_directory_auth: str or
+         ~azure.mgmt.cosmosdbforpostgresql.models.AuthConfigActiveDirectoryAuth
+        :keyword password_auth: Known values are: "enabled" and "disabled".
+        :paramtype password_auth: str or
+         ~azure.mgmt.cosmosdbforpostgresql.models.AuthConfigPasswordAuth
+        """
+        super().__init__(**kwargs)
+        self.active_directory_auth = active_directory_auth
+        self.password_auth = password_auth
+
+
 class Resource(_serialization.Model):
     """Common fields that are returned in the response for all Azure Resource Manager resources.
 
@@ -151,7 +186,9 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
     :vartype maintenance_window: ~azure.mgmt.cosmosdbforpostgresql.models.MaintenanceWindow
     :ivar preferred_primary_zone: Preferred primary availability zone (AZ) for all cluster servers.
     :vartype preferred_primary_zone: str
-    :ivar enable_shards_on_coordinator: If shards on coordinator is enabled or not for the cluster.
+    :ivar enable_shards_on_coordinator: If distributed tables are placed on coordinator or not.
+     Should be set to 'true' on single node clusters. Requires shard rebalancing after value is
+     changed.
     :vartype enable_shards_on_coordinator: bool
     :ivar enable_ha: If high availability (HA) is enabled or not for the cluster.
     :vartype enable_ha: bool
@@ -197,6 +234,11 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
     :ivar private_endpoint_connections: The private endpoint connections for a cluster.
     :vartype private_endpoint_connections:
      list[~azure.mgmt.cosmosdbforpostgresql.models.SimplePrivateEndpointConnection]
+    :ivar database_name: The database name of the cluster. Only one database per cluster is
+     supported.
+    :vartype database_name: str
+    :ivar auth_config: Authentication configuration of a cluster.
+    :vartype auth_config: ~azure.mgmt.cosmosdbforpostgresql.models.AuthConfig
     """
 
     _validation = {
@@ -250,6 +292,8 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
             "key": "properties.privateEndpointConnections",
             "type": "[SimplePrivateEndpointConnection]",
         },
+        "database_name": {"key": "properties.databaseName", "type": "str"},
+        "auth_config": {"key": "properties.authConfig", "type": "AuthConfig"},
     }
 
     def __init__(  # pylint: disable=too-many-locals
@@ -276,6 +320,8 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
         source_resource_id: Optional[str] = None,
         source_location: Optional[str] = None,
         point_in_time_utc: Optional[datetime.datetime] = None,
+        database_name: Optional[str] = None,
+        auth_config: Optional["_models.AuthConfig"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -295,8 +341,9 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
         :keyword preferred_primary_zone: Preferred primary availability zone (AZ) for all cluster
          servers.
         :paramtype preferred_primary_zone: str
-        :keyword enable_shards_on_coordinator: If shards on coordinator is enabled or not for the
-         cluster.
+        :keyword enable_shards_on_coordinator: If distributed tables are placed on coordinator or not.
+         Should be set to 'true' on single node clusters. Requires shard rebalancing after value is
+         changed.
         :paramtype enable_shards_on_coordinator: bool
         :keyword enable_ha: If high availability (HA) is enabled or not for the cluster.
         :paramtype enable_ha: bool
@@ -334,6 +381,11 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
         :paramtype source_location: str
         :keyword point_in_time_utc: Date and time in UTC (ISO8601 format) for cluster restore.
         :paramtype point_in_time_utc: ~datetime.datetime
+        :keyword database_name: The database name of the cluster. Only one database per cluster is
+         supported.
+        :paramtype database_name: str
+        :keyword auth_config: Authentication configuration of a cluster.
+        :paramtype auth_config: ~azure.mgmt.cosmosdbforpostgresql.models.AuthConfig
         """
         super().__init__(tags=tags, location=location, **kwargs)
         self.administrator_login = None
@@ -362,6 +414,8 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
         self.read_replicas = None
         self.earliest_restore_time = None
         self.private_endpoint_connections = None
+        self.database_name = database_name
+        self.auth_config = auth_config
 
 
 class ClusterConfigurationListResult(_serialization.Model):
@@ -408,7 +462,9 @@ class ClusterForUpdate(_serialization.Model):  # pylint: disable=too-many-instan
     :vartype postgresql_version: str
     :ivar citus_version: The Citus extension version on all cluster servers.
     :vartype citus_version: str
-    :ivar enable_shards_on_coordinator: If shards on coordinator is enabled or not for the cluster.
+    :ivar enable_shards_on_coordinator: If distributed tables are placed on coordinator or not.
+     Should be set to 'true' on single node clusters. Requires shard rebalancing after value is
+     changed.
     :vartype enable_shards_on_coordinator: bool
     :ivar enable_ha: If high availability (HA) is enabled or not for the cluster.
     :vartype enable_ha: bool
@@ -493,8 +549,9 @@ class ClusterForUpdate(_serialization.Model):  # pylint: disable=too-many-instan
         :paramtype postgresql_version: str
         :keyword citus_version: The Citus extension version on all cluster servers.
         :paramtype citus_version: str
-        :keyword enable_shards_on_coordinator: If shards on coordinator is enabled or not for the
-         cluster.
+        :keyword enable_shards_on_coordinator: If distributed tables are placed on coordinator or not.
+         Should be set to 'true' on single node clusters. Requires shard rebalancing after value is
+         changed.
         :paramtype enable_shards_on_coordinator: bool
         :keyword enable_ha: If high availability (HA) is enabled or not for the cluster.
         :paramtype enable_ha: bool
@@ -1706,8 +1763,6 @@ class Role(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
-
     :ivar id: Fully qualified resource ID for the resource. E.g.
      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
@@ -1719,8 +1774,16 @@ class Role(ProxyResource):
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
     :vartype system_data: ~azure.mgmt.cosmosdbforpostgresql.models.SystemData
-    :ivar password: The password of the cluster role. Required.
+    :ivar is_admin:
+    :vartype is_admin: bool
+    :ivar password: The password of the cluster role.
     :vartype password: str
+    :ivar external_principal:
+    :vartype external_principal:
+     ~azure.mgmt.cosmosdbforpostgresql.models.RolePropertiesExternalPrincipal
+    :ivar entra_id_principal:
+    :vartype entra_id_principal:
+     ~azure.mgmt.cosmosdbforpostgresql.models.RolePropertiesEntraIdPrincipal
     :ivar provisioning_state: Provisioning state of the role. Known values are: "Succeeded",
      "Canceled", "InProgress", and "Failed".
     :vartype provisioning_state: str or ~azure.mgmt.cosmosdbforpostgresql.models.ProvisioningState
@@ -1731,7 +1794,6 @@ class Role(ProxyResource):
         "name": {"readonly": True},
         "type": {"readonly": True},
         "system_data": {"readonly": True},
-        "password": {"required": True},
         "provisioning_state": {"readonly": True},
     }
 
@@ -1740,17 +1802,39 @@ class Role(ProxyResource):
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "system_data": {"key": "systemData", "type": "SystemData"},
+        "is_admin": {"key": "properties.isAdmin", "type": "bool"},
         "password": {"key": "properties.password", "type": "str"},
+        "external_principal": {"key": "properties.externalPrincipal", "type": "RolePropertiesExternalPrincipal"},
+        "entra_id_principal": {"key": "properties.entraIdPrincipal", "type": "RolePropertiesEntraIdPrincipal"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
     }
 
-    def __init__(self, *, password: str, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        *,
+        is_admin: bool = False,
+        password: Optional[str] = None,
+        external_principal: Optional["_models.RolePropertiesExternalPrincipal"] = None,
+        entra_id_principal: Optional["_models.RolePropertiesEntraIdPrincipal"] = None,
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword password: The password of the cluster role. Required.
+        :keyword is_admin:
+        :paramtype is_admin: bool
+        :keyword password: The password of the cluster role.
         :paramtype password: str
+        :keyword external_principal:
+        :paramtype external_principal:
+         ~azure.mgmt.cosmosdbforpostgresql.models.RolePropertiesExternalPrincipal
+        :keyword entra_id_principal:
+        :paramtype entra_id_principal:
+         ~azure.mgmt.cosmosdbforpostgresql.models.RolePropertiesEntraIdPrincipal
         """
         super().__init__(**kwargs)
+        self.is_admin = is_admin
         self.password = password
+        self.external_principal = external_principal
+        self.entra_id_principal = entra_id_principal
         self.provisioning_state = None
 
 
@@ -1772,6 +1856,102 @@ class RoleListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
+
+
+class RolePropertiesEntraIdPrincipal(_serialization.Model):
+    """RolePropertiesEntraIdPrincipal.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar object_id: Required.
+    :vartype object_id: str
+    :ivar principal_type: Required. Known values are: "user" and "servicePrincipal".
+    :vartype principal_type: str or
+     ~azure.mgmt.cosmosdbforpostgresql.models.RolePropertiesEntraIdPrincipalType
+    :ivar tenant_id:
+    :vartype tenant_id: str
+    """
+
+    _validation = {
+        "object_id": {"required": True},
+        "principal_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "object_id": {"key": "objectId", "type": "str"},
+        "principal_type": {"key": "principalType", "type": "str"},
+        "tenant_id": {"key": "tenantId", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        object_id: str,
+        principal_type: Union[str, "_models.RolePropertiesEntraIdPrincipalType"],
+        tenant_id: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword object_id: Required.
+        :paramtype object_id: str
+        :keyword principal_type: Required. Known values are: "user" and "servicePrincipal".
+        :paramtype principal_type: str or
+         ~azure.mgmt.cosmosdbforpostgresql.models.RolePropertiesEntraIdPrincipalType
+        :keyword tenant_id:
+        :paramtype tenant_id: str
+        """
+        super().__init__(**kwargs)
+        self.object_id = object_id
+        self.principal_type = principal_type
+        self.tenant_id = tenant_id
+
+
+class RolePropertiesExternalPrincipal(_serialization.Model):
+    """RolePropertiesExternalPrincipal.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar principal_id: Required.
+    :vartype principal_id: str
+    :ivar principal_type: Required. Known values are: "user" and "servicePrincipal".
+    :vartype principal_type: str or
+     ~azure.mgmt.cosmosdbforpostgresql.models.RolePropertiesExternalPrincipalType
+    :ivar tenant_id:
+    :vartype tenant_id: str
+    """
+
+    _validation = {
+        "principal_id": {"required": True},
+        "principal_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "principal_id": {"key": "principalId", "type": "str"},
+        "principal_type": {"key": "principalType", "type": "str"},
+        "tenant_id": {"key": "tenantId", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        principal_id: str,
+        principal_type: Union[str, "_models.RolePropertiesExternalPrincipalType"],
+        tenant_id: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword principal_id: Required.
+        :paramtype principal_id: str
+        :keyword principal_type: Required. Known values are: "user" and "servicePrincipal".
+        :paramtype principal_type: str or
+         ~azure.mgmt.cosmosdbforpostgresql.models.RolePropertiesExternalPrincipalType
+        :keyword tenant_id:
+        :paramtype tenant_id: str
+        """
+        super().__init__(**kwargs)
+        self.principal_id = principal_id
+        self.principal_type = principal_type
+        self.tenant_id = tenant_id
 
 
 class ServerConfiguration(ProxyResource):  # pylint: disable=too-many-instance-attributes
