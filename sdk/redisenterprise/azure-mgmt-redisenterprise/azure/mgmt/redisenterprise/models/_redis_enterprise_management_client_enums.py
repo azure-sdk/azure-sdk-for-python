@@ -37,24 +37,6 @@ class ClusteringPolicy(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     OSS_CLUSTER = "OSSCluster"
 
 
-class CmkIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Only userAssignedIdentity is supported in this API version; other types may be supported in the
-    future.
-    """
-
-    SYSTEM_ASSIGNED_IDENTITY = "systemAssignedIdentity"
-    USER_ASSIGNED_IDENTITY = "userAssignedIdentity"
-
-
-class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The type of identity that created the resource."""
-
-    USER = "User"
-    APPLICATION = "Application"
-    MANAGED_IDENTITY = "ManagedIdentity"
-    KEY = "Key"
-
-
 class EvictionPolicy(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Redis eviction policy - default is VolatileLRU."""
 
@@ -76,17 +58,6 @@ class LinkState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     UNLINKING = "Unlinking"
     LINK_FAILED = "LinkFailed"
     UNLINK_FAILED = "UnlinkFailed"
-
-
-class ManagedServiceIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Type of managed service identity (where both SystemAssigned and UserAssigned types are
-    allowed).
-    """
-
-    NONE = "None"
-    SYSTEM_ASSIGNED = "SystemAssigned"
-    USER_ASSIGNED = "UserAssigned"
-    SYSTEM_ASSIGNED_USER_ASSIGNED = "SystemAssigned, UserAssigned"
 
 
 class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -162,7 +133,9 @@ class ResourceState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class SkuName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """SkuName."""
+    """The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10,
+    EnterpriseFlash_F300 etc.).
+    """
 
     ENTERPRISE_E10 = "Enterprise_E10"
     ENTERPRISE_E20 = "Enterprise_E20"
