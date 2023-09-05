@@ -1019,9 +1019,10 @@ class RedisCommonProperties(_serialization.Model):
      higher) to connect (e,g, '1.0', '1.1', '1.2'). Known values are: "1.0", "1.1", and "1.2".
     :vartype minimum_tls_version: str or ~azure.mgmt.redis.models.TlsVersion
     :ivar public_network_access: Whether or not public endpoint access is allowed for this cache.
-     Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private
-     endpoints are the exclusive access method. Default value is 'Enabled'. Known values are:
-     "Enabled" and "Disabled".
+     Value is optional, but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private
+     endpoints are the exclusive access method. Default value is 'Enabled'. Note: This setting is
+     important for caches with private endpoints. It has *no effect* on caches that are joined to,
+     or injected into, a virtual network subnet. Known values are: "Enabled" and "Disabled".
     :vartype public_network_access: str or ~azure.mgmt.redis.models.PublicNetworkAccess
     """
 
@@ -1076,9 +1077,11 @@ class RedisCommonProperties(_serialization.Model):
          higher) to connect (e,g, '1.0', '1.1', '1.2'). Known values are: "1.0", "1.1", and "1.2".
         :paramtype minimum_tls_version: str or ~azure.mgmt.redis.models.TlsVersion
         :keyword public_network_access: Whether or not public endpoint access is allowed for this
-         cache.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled',
-         private endpoints are the exclusive access method. Default value is 'Enabled'. Known values
-         are: "Enabled" and "Disabled".
+         cache.  Value is optional, but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled',
+         private endpoints are the exclusive access method. Default value is 'Enabled'. Note: This
+         setting is important for caches with private endpoints. It has *no effect* on caches that are
+         joined to, or injected into, a virtual network subnet. Known values are: "Enabled" and
+         "Disabled".
         :paramtype public_network_access: str or ~azure.mgmt.redis.models.PublicNetworkAccess
         """
         super().__init__(**kwargs)
@@ -1294,9 +1297,10 @@ class RedisCreateParameters(_serialization.Model):  # pylint: disable=too-many-i
      higher) to connect (e,g, '1.0', '1.1', '1.2'). Known values are: "1.0", "1.1", and "1.2".
     :vartype minimum_tls_version: str or ~azure.mgmt.redis.models.TlsVersion
     :ivar public_network_access: Whether or not public endpoint access is allowed for this cache.
-     Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private
-     endpoints are the exclusive access method. Default value is 'Enabled'. Known values are:
-     "Enabled" and "Disabled".
+     Value is optional, but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private
+     endpoints are the exclusive access method. Default value is 'Enabled'. Note: This setting is
+     important for caches with private endpoints. It has *no effect* on caches that are joined to,
+     or injected into, a virtual network subnet. Known values are: "Enabled" and "Disabled".
     :vartype public_network_access: str or ~azure.mgmt.redis.models.PublicNetworkAccess
     :ivar sku: The SKU of the Redis cache to deploy. Required.
     :vartype sku: ~azure.mgmt.redis.models.Sku
@@ -1312,9 +1316,6 @@ class RedisCreateParameters(_serialization.Model):  # pylint: disable=too-many-i
     _validation = {
         "location": {"required": True},
         "sku": {"required": True},
-        "subnet_id": {
-            "pattern": r"^/subscriptions/[^/]*/resourceGroups/[^/]*/providers/Microsoft.(ClassicNetwork|Network)/virtualNetworks/[^/]*/subnets/[^/]*$"
-        },
         "static_ip": {"pattern": r"^\d+\.\d+\.\d+\.\d+$"},
     }
 
@@ -1394,9 +1395,11 @@ class RedisCreateParameters(_serialization.Model):  # pylint: disable=too-many-i
          higher) to connect (e,g, '1.0', '1.1', '1.2'). Known values are: "1.0", "1.1", and "1.2".
         :paramtype minimum_tls_version: str or ~azure.mgmt.redis.models.TlsVersion
         :keyword public_network_access: Whether or not public endpoint access is allowed for this
-         cache.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled',
-         private endpoints are the exclusive access method. Default value is 'Enabled'. Known values
-         are: "Enabled" and "Disabled".
+         cache.  Value is optional, but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled',
+         private endpoints are the exclusive access method. Default value is 'Enabled'. Note: This
+         setting is important for caches with private endpoints. It has *no effect* on caches that are
+         joined to, or injected into, a virtual network subnet. Known values are: "Enabled" and
+         "Disabled".
         :paramtype public_network_access: str or ~azure.mgmt.redis.models.PublicNetworkAccess
         :keyword sku: The SKU of the Redis cache to deploy. Required.
         :paramtype sku: ~azure.mgmt.redis.models.Sku
@@ -1454,9 +1457,10 @@ class RedisCreateProperties(RedisCommonProperties):  # pylint: disable=too-many-
      higher) to connect (e,g, '1.0', '1.1', '1.2'). Known values are: "1.0", "1.1", and "1.2".
     :vartype minimum_tls_version: str or ~azure.mgmt.redis.models.TlsVersion
     :ivar public_network_access: Whether or not public endpoint access is allowed for this cache.
-     Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private
-     endpoints are the exclusive access method. Default value is 'Enabled'. Known values are:
-     "Enabled" and "Disabled".
+     Value is optional, but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private
+     endpoints are the exclusive access method. Default value is 'Enabled'. Note: This setting is
+     important for caches with private endpoints. It has *no effect* on caches that are joined to,
+     or injected into, a virtual network subnet. Known values are: "Enabled" and "Disabled".
     :vartype public_network_access: str or ~azure.mgmt.redis.models.PublicNetworkAccess
     :ivar sku: The SKU of the Redis cache to deploy. Required.
     :vartype sku: ~azure.mgmt.redis.models.Sku
@@ -1471,9 +1475,6 @@ class RedisCreateProperties(RedisCommonProperties):  # pylint: disable=too-many-
 
     _validation = {
         "sku": {"required": True},
-        "subnet_id": {
-            "pattern": r"^/subscriptions/[^/]*/resourceGroups/[^/]*/providers/Microsoft.(ClassicNetwork|Network)/virtualNetworks/[^/]*/subnets/[^/]*$"
-        },
         "static_ip": {"pattern": r"^\d+\.\d+\.\d+\.\d+$"},
     }
 
@@ -1534,9 +1535,11 @@ class RedisCreateProperties(RedisCommonProperties):  # pylint: disable=too-many-
          higher) to connect (e,g, '1.0', '1.1', '1.2'). Known values are: "1.0", "1.1", and "1.2".
         :paramtype minimum_tls_version: str or ~azure.mgmt.redis.models.TlsVersion
         :keyword public_network_access: Whether or not public endpoint access is allowed for this
-         cache.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled',
-         private endpoints are the exclusive access method. Default value is 'Enabled'. Known values
-         are: "Enabled" and "Disabled".
+         cache.  Value is optional, but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled',
+         private endpoints are the exclusive access method. Default value is 'Enabled'. Note: This
+         setting is important for caches with private endpoints. It has *no effect* on caches that are
+         joined to, or injected into, a virtual network subnet. Known values are: "Enabled" and
+         "Disabled".
         :paramtype public_network_access: str or ~azure.mgmt.redis.models.PublicNetworkAccess
         :keyword sku: The SKU of the Redis cache to deploy. Required.
         :paramtype sku: ~azure.mgmt.redis.models.Sku
@@ -2225,9 +2228,10 @@ class RedisProperties(RedisCreateProperties):  # pylint: disable=too-many-instan
      higher) to connect (e,g, '1.0', '1.1', '1.2'). Known values are: "1.0", "1.1", and "1.2".
     :vartype minimum_tls_version: str or ~azure.mgmt.redis.models.TlsVersion
     :ivar public_network_access: Whether or not public endpoint access is allowed for this cache.
-     Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private
-     endpoints are the exclusive access method. Default value is 'Enabled'. Known values are:
-     "Enabled" and "Disabled".
+     Value is optional, but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private
+     endpoints are the exclusive access method. Default value is 'Enabled'. Note: This setting is
+     important for caches with private endpoints. It has *no effect* on caches that are joined to,
+     or injected into, a virtual network subnet. Known values are: "Enabled" and "Disabled".
     :vartype public_network_access: str or ~azure.mgmt.redis.models.PublicNetworkAccess
     :ivar sku: The SKU of the Redis cache to deploy. Required.
     :vartype sku: ~azure.mgmt.redis.models.Sku
@@ -2262,9 +2266,6 @@ class RedisProperties(RedisCreateProperties):  # pylint: disable=too-many-instan
 
     _validation = {
         "sku": {"required": True},
-        "subnet_id": {
-            "pattern": r"^/subscriptions/[^/]*/resourceGroups/[^/]*/providers/Microsoft.(ClassicNetwork|Network)/virtualNetworks/[^/]*/subnets/[^/]*$"
-        },
         "static_ip": {"pattern": r"^\d+\.\d+\.\d+\.\d+$"},
         "provisioning_state": {"readonly": True},
         "host_name": {"readonly": True},
@@ -2341,9 +2342,11 @@ class RedisProperties(RedisCreateProperties):  # pylint: disable=too-many-instan
          higher) to connect (e,g, '1.0', '1.1', '1.2'). Known values are: "1.0", "1.1", and "1.2".
         :paramtype minimum_tls_version: str or ~azure.mgmt.redis.models.TlsVersion
         :keyword public_network_access: Whether or not public endpoint access is allowed for this
-         cache.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled',
-         private endpoints are the exclusive access method. Default value is 'Enabled'. Known values
-         are: "Enabled" and "Disabled".
+         cache.  Value is optional, but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled',
+         private endpoints are the exclusive access method. Default value is 'Enabled'. Note: This
+         setting is important for caches with private endpoints. It has *no effect* on caches that are
+         joined to, or injected into, a virtual network subnet. Known values are: "Enabled" and
+         "Disabled".
         :paramtype public_network_access: str or ~azure.mgmt.redis.models.PublicNetworkAccess
         :keyword sku: The SKU of the Redis cache to deploy. Required.
         :paramtype sku: ~azure.mgmt.redis.models.Sku
@@ -2545,9 +2548,10 @@ class RedisResource(TrackedResource):  # pylint: disable=too-many-instance-attri
      higher) to connect (e,g, '1.0', '1.1', '1.2'). Known values are: "1.0", "1.1", and "1.2".
     :vartype minimum_tls_version: str or ~azure.mgmt.redis.models.TlsVersion
     :ivar public_network_access: Whether or not public endpoint access is allowed for this cache.
-     Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private
-     endpoints are the exclusive access method. Default value is 'Enabled'. Known values are:
-     "Enabled" and "Disabled".
+     Value is optional, but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private
+     endpoints are the exclusive access method. Default value is 'Enabled'. Note: This setting is
+     important for caches with private endpoints. It has *no effect* on caches that are joined to,
+     or injected into, a virtual network subnet. Known values are: "Enabled" and "Disabled".
     :vartype public_network_access: str or ~azure.mgmt.redis.models.PublicNetworkAccess
     :ivar sku: The SKU of the Redis cache to deploy. Required.
     :vartype sku: ~azure.mgmt.redis.models.Sku
@@ -2586,9 +2590,6 @@ class RedisResource(TrackedResource):  # pylint: disable=too-many-instance-attri
         "type": {"readonly": True},
         "location": {"required": True},
         "sku": {"required": True},
-        "subnet_id": {
-            "pattern": r"^/subscriptions/[^/]*/resourceGroups/[^/]*/providers/Microsoft.(ClassicNetwork|Network)/virtualNetworks/[^/]*/subnets/[^/]*$"
-        },
         "static_ip": {"pattern": r"^\d+\.\d+\.\d+\.\d+$"},
         "provisioning_state": {"readonly": True},
         "host_name": {"readonly": True},
@@ -2690,9 +2691,11 @@ class RedisResource(TrackedResource):  # pylint: disable=too-many-instance-attri
          higher) to connect (e,g, '1.0', '1.1', '1.2'). Known values are: "1.0", "1.1", and "1.2".
         :paramtype minimum_tls_version: str or ~azure.mgmt.redis.models.TlsVersion
         :keyword public_network_access: Whether or not public endpoint access is allowed for this
-         cache.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled',
-         private endpoints are the exclusive access method. Default value is 'Enabled'. Known values
-         are: "Enabled" and "Disabled".
+         cache.  Value is optional, but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled',
+         private endpoints are the exclusive access method. Default value is 'Enabled'. Note: This
+         setting is important for caches with private endpoints. It has *no effect* on caches that are
+         joined to, or injected into, a virtual network subnet. Known values are: "Enabled" and
+         "Disabled".
         :paramtype public_network_access: str or ~azure.mgmt.redis.models.PublicNetworkAccess
         :keyword sku: The SKU of the Redis cache to deploy. Required.
         :paramtype sku: ~azure.mgmt.redis.models.Sku
@@ -2758,9 +2761,10 @@ class RedisUpdateParameters(_serialization.Model):  # pylint: disable=too-many-i
      higher) to connect (e,g, '1.0', '1.1', '1.2'). Known values are: "1.0", "1.1", and "1.2".
     :vartype minimum_tls_version: str or ~azure.mgmt.redis.models.TlsVersion
     :ivar public_network_access: Whether or not public endpoint access is allowed for this cache.
-     Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private
-     endpoints are the exclusive access method. Default value is 'Enabled'. Known values are:
-     "Enabled" and "Disabled".
+     Value is optional, but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private
+     endpoints are the exclusive access method. Default value is 'Enabled'. Note: This setting is
+     important for caches with private endpoints. It has *no effect* on caches that are joined to,
+     or injected into, a virtual network subnet. Known values are: "Enabled" and "Disabled".
     :vartype public_network_access: str or ~azure.mgmt.redis.models.PublicNetworkAccess
     :ivar sku: The SKU of the Redis cache to deploy.
     :vartype sku: ~azure.mgmt.redis.models.Sku
@@ -2830,9 +2834,11 @@ class RedisUpdateParameters(_serialization.Model):  # pylint: disable=too-many-i
          higher) to connect (e,g, '1.0', '1.1', '1.2'). Known values are: "1.0", "1.1", and "1.2".
         :paramtype minimum_tls_version: str or ~azure.mgmt.redis.models.TlsVersion
         :keyword public_network_access: Whether or not public endpoint access is allowed for this
-         cache.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled',
-         private endpoints are the exclusive access method. Default value is 'Enabled'. Known values
-         are: "Enabled" and "Disabled".
+         cache.  Value is optional, but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled',
+         private endpoints are the exclusive access method. Default value is 'Enabled'. Note: This
+         setting is important for caches with private endpoints. It has *no effect* on caches that are
+         joined to, or injected into, a virtual network subnet. Known values are: "Enabled" and
+         "Disabled".
         :paramtype public_network_access: str or ~azure.mgmt.redis.models.PublicNetworkAccess
         :keyword sku: The SKU of the Redis cache to deploy.
         :paramtype sku: ~azure.mgmt.redis.models.Sku
@@ -2877,9 +2883,10 @@ class RedisUpdateProperties(RedisCommonProperties):
      higher) to connect (e,g, '1.0', '1.1', '1.2'). Known values are: "1.0", "1.1", and "1.2".
     :vartype minimum_tls_version: str or ~azure.mgmt.redis.models.TlsVersion
     :ivar public_network_access: Whether or not public endpoint access is allowed for this cache.
-     Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private
-     endpoints are the exclusive access method. Default value is 'Enabled'. Known values are:
-     "Enabled" and "Disabled".
+     Value is optional, but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private
+     endpoints are the exclusive access method. Default value is 'Enabled'. Note: This setting is
+     important for caches with private endpoints. It has *no effect* on caches that are joined to,
+     or injected into, a virtual network subnet. Known values are: "Enabled" and "Disabled".
     :vartype public_network_access: str or ~azure.mgmt.redis.models.PublicNetworkAccess
     :ivar sku: The SKU of the Redis cache to deploy.
     :vartype sku: ~azure.mgmt.redis.models.Sku
@@ -2938,9 +2945,11 @@ class RedisUpdateProperties(RedisCommonProperties):
          higher) to connect (e,g, '1.0', '1.1', '1.2'). Known values are: "1.0", "1.1", and "1.2".
         :paramtype minimum_tls_version: str or ~azure.mgmt.redis.models.TlsVersion
         :keyword public_network_access: Whether or not public endpoint access is allowed for this
-         cache.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled',
-         private endpoints are the exclusive access method. Default value is 'Enabled'. Known values
-         are: "Enabled" and "Disabled".
+         cache.  Value is optional, but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled',
+         private endpoints are the exclusive access method. Default value is 'Enabled'. Note: This
+         setting is important for caches with private endpoints. It has *no effect* on caches that are
+         joined to, or injected into, a virtual network subnet. Known values are: "Enabled" and
+         "Disabled".
         :paramtype public_network_access: str or ~azure.mgmt.redis.models.PublicNetworkAccess
         :keyword sku: The SKU of the Redis cache to deploy.
         :paramtype sku: ~azure.mgmt.redis.models.Sku
