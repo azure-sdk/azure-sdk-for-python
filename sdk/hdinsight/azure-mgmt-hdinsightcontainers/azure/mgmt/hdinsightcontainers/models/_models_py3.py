@@ -1049,45 +1049,18 @@ class ClusterLogAnalyticsProfile(_serialization.Model):
         self.metrics_enabled = metrics_enabled
 
 
-class ClusterPatch(TrackedResource):
+class ClusterPatch(_serialization.Model):
     """The patch for a cluster.
 
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
-    :vartype id: str
-    :ivar name: The name of the resource.
-    :vartype name: str
-    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-     "Microsoft.Storage/storageAccounts".
-    :vartype type: str
-    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
-     information.
-    :vartype system_data: ~azure.mgmt.hdinsightcontainers.models.SystemData
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
-    :ivar location: The geo-location where the resource lives. Required.
+    :ivar location: The geo-location where the resource lives.
     :vartype location: str
     :ivar cluster_profile: Cluster resource patch properties.
     :vartype cluster_profile: ~azure.mgmt.hdinsightcontainers.models.UpdatableClusterProfile
     """
 
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-        "location": {"required": True},
-    }
-
     _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
         "cluster_profile": {"key": "properties.clusterProfile", "type": "UpdatableClusterProfile"},
@@ -1096,20 +1069,22 @@ class ClusterPatch(TrackedResource):
     def __init__(
         self,
         *,
-        location: str,
         tags: Optional[Dict[str, str]] = None,
+        location: Optional[str] = None,
         cluster_profile: Optional["_models.UpdatableClusterProfile"] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
-        :keyword location: The geo-location where the resource lives. Required.
+        :keyword location: The geo-location where the resource lives.
         :paramtype location: str
         :keyword cluster_profile: Cluster resource patch properties.
         :paramtype cluster_profile: ~azure.mgmt.hdinsightcontainers.models.UpdatableClusterProfile
         """
-        super().__init__(tags=tags, location=location, **kwargs)
+        super().__init__(**kwargs)
+        self.tags = tags
+        self.location = location
         self.cluster_profile = cluster_profile
 
 
