@@ -7,7 +7,7 @@
 # --------------------------------------------------------------------------
 
 from copy import deepcopy
-from typing import Any, Awaitable
+from typing import Any, Awaitable, TYPE_CHECKING, Union
 
 from azure.core import AsyncPipelineClient
 from azure.core.credentials import AzureKeyCredential
@@ -17,6 +17,10 @@ from .._serialization import Deserializer, Serializer
 from ._configuration import ContentSafetyClientConfiguration
 from ._operations import ContentSafetyClientOperationsMixin
 
+if TYPE_CHECKING:
+    # pylint: disable=unused-import,ungrouped-imports
+    from azure.core.credentials_async import AsyncTokenCredential
+
 
 class ContentSafetyClient(ContentSafetyClientOperationsMixin):  # pylint: disable=client-accepts-api-version-keyword
     """Analyze harmful content.
@@ -24,15 +28,19 @@ class ContentSafetyClient(ContentSafetyClientOperationsMixin):  # pylint: disabl
     :param endpoint: Supported Cognitive Services endpoints (protocol and hostname, for example:
      https://:code:`<resource-name>`.cognitiveservices.azure.com). Required.
     :type endpoint: str
-    :param credential: Credential needed for the client to connect to Azure. Required.
-    :type credential: ~azure.core.credentials.AzureKeyCredential
+    :param credential: Credential needed for the client to connect to Azure. Is either a
+     AzureKeyCredential type or a TokenCredential type. Required.
+    :type credential: ~azure.core.credentials.AzureKeyCredential or
+     ~azure.core.credentials_async.AsyncTokenCredential
     :keyword api_version: The API version to use for this operation. Default value is
-     "2023-04-30-preview". Note that overriding this default value may result in unsupported
+     "2023-10-15-preview". Note that overriding this default value may result in unsupported
      behavior.
     :paramtype api_version: str
     """
 
-    def __init__(self, endpoint: str, credential: AzureKeyCredential, **kwargs: Any) -> None:
+    def __init__(
+        self, endpoint: str, credential: Union[AzureKeyCredential, "AsyncTokenCredential"], **kwargs: Any
+    ) -> None:
         _endpoint = "{endpoint}/contentsafety"
         self._config = ContentSafetyClientConfiguration(endpoint=endpoint, credential=credential, **kwargs)
         self._client: AsyncPipelineClient = AsyncPipelineClient(base_url=_endpoint, config=self._config, **kwargs)

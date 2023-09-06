@@ -6,43 +6,61 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from ._models import AddBlockItemsOptions
-from ._models import AddBlockItemsResult
+from ._models import AddOrUpdateTextBlocklistItemsOptions
+from ._models import AddOrUpdateTextBlocklistItemsResult
 from ._models import AnalyzeImageOptions
 from ._models import AnalyzeImageResult
 from ._models import AnalyzeTextOptions
 from ._models import AnalyzeTextResult
-from ._models import ImageAnalyzeSeverityResult
+from ._models import BlocklistPolicy
+from ._models import ImageCategoriesAnalysis
+from ._models import ImageCategoryPolicy
 from ._models import ImageData
-from ._models import RemoveBlockItemsOptions
-from ._models import TextAnalyzeSeverityResult
-from ._models import TextBlockItem
-from ._models import TextBlockItemInfo
+from ._models import ImagePolicy
+from ._models import Project
+from ._models import RemoveTextBlocklistItemsOptions
 from ._models import TextBlocklist
-from ._models import TextBlocklistMatchResult
+from ._models import TextBlocklistItem
+from ._models import TextBlocklistMatch
+from ._models import TextCategoriesAnalysis
+from ._models import TextCategoryPolicy
+from ._models import TextPolicy
 
+from ._enums import AnalyzeImageOutputType
+from ._enums import AnalyzeTextOutputType
+from ._enums import ContentModality
 from ._enums import ImageCategory
+from ._enums import SeverityThreshold
 from ._enums import TextCategory
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
-    "AddBlockItemsOptions",
-    "AddBlockItemsResult",
+    "AddOrUpdateTextBlocklistItemsOptions",
+    "AddOrUpdateTextBlocklistItemsResult",
     "AnalyzeImageOptions",
     "AnalyzeImageResult",
     "AnalyzeTextOptions",
     "AnalyzeTextResult",
-    "ImageAnalyzeSeverityResult",
+    "BlocklistPolicy",
+    "ImageCategoriesAnalysis",
+    "ImageCategoryPolicy",
     "ImageData",
-    "RemoveBlockItemsOptions",
-    "TextAnalyzeSeverityResult",
-    "TextBlockItem",
-    "TextBlockItemInfo",
+    "ImagePolicy",
+    "Project",
+    "RemoveTextBlocklistItemsOptions",
     "TextBlocklist",
-    "TextBlocklistMatchResult",
+    "TextBlocklistItem",
+    "TextBlocklistMatch",
+    "TextCategoriesAnalysis",
+    "TextCategoryPolicy",
+    "TextPolicy",
+    "AnalyzeImageOutputType",
+    "AnalyzeTextOutputType",
+    "ContentModality",
     "ImageCategory",
+    "SeverityThreshold",
     "TextCategory",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])

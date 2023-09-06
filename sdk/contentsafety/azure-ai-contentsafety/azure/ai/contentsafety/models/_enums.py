@@ -10,6 +10,29 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
+class AnalyzeImageOutputType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of image analysis output."""
+
+    FOUR_SEVERITY_LEVELS = "FourSeverityLevels"
+    """Output severities in four levels, the value could be 0, 2, 4, 6."""
+
+
+class AnalyzeTextOutputType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of text analysis output."""
+
+    FOUR_SEVERITY_LEVELS = "FourSeverityLevels"
+    """Output severities in four levels, the value could be 0, 2, 4, 6."""
+
+
+class ContentModality(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Modality type."""
+
+    TEXT = "Text"
+    """Text modality."""
+    IMAGE = "Image"
+    """Image modality."""
+
+
 class ImageCategory(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Image analyze category."""
 
@@ -17,6 +40,21 @@ class ImageCategory(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SELF_HARM = "SelfHarm"
     SEXUAL = "Sexual"
     VIOLENCE = "Violence"
+
+
+class SeverityThreshold(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Modality type."""
+
+    ZERO：0 = "Zero：0"
+    """The threshold value is 0."""
+    TWO：2 = "Two：2"
+    """The threshold value is 2."""
+    FOUR：4 = "Four：4"
+    """The threshold value is 4."""
+    SIX：6 = "Six：6"
+    """The threshold value is 6."""
+    MAXIMUM = "-1"
+    """The threshold value is a maximum value."""
 
 
 class TextCategory(str, Enum, metaclass=CaseInsensitiveEnumMeta):
