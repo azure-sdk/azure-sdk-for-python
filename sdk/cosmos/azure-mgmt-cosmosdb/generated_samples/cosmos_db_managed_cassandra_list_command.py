@@ -14,7 +14,7 @@ from azure.mgmt.cosmosdb import CosmosDBManagementClient
     pip install azure-identity
     pip install azure-mgmt-cosmosdb
 # USAGE
-    python cosmos_db_sql_database_partition_merge.py
+    python cosmos_db_managed_cassandra_list_command.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,15 +29,13 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.sql_resources.begin_sql_database_partition_merge(
-        resource_group_name="rgName",
-        account_name="ddb1",
-        database_name="databaseName",
-        merge_parameters={"isDryRun": False},
+    response = client.cassandra_clusters.begin_list_command(
+        resource_group_name="cassandra-prod-rg",
+        cluster_name="cassandra-prod",
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBSqlDatabasePartitionMerge.json
+# x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-09-15/examples/CosmosDBManagedCassandraListCommand.json
 if __name__ == "__main__":
     main()
