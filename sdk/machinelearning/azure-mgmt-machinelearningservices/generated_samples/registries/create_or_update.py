@@ -14,7 +14,7 @@ from azure.mgmt.machinelearningservices import MachineLearningServicesMgmtClient
     pip install azure-identity
     pip install azure-mgmt-machinelearningservices
 # USAGE
-    python create_or_update_user_created.py
+    python create_or_update.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -41,30 +41,46 @@ def main():
                 "intellectualPropertyPublisher": "string",
                 "managedResourceGroup": {"resourceId": "string"},
                 "mlFlowRegistryUri": "string",
-                "publicNetworkAccess": "string",
-                "regionDetails": [
-                    {
-                        "acrDetails": [{"userCreatedAcrAccount": {"armResourceId": {"resourceId": "string"}}}],
-                        "location": "string",
-                        "storageAccountDetails": [
-                            {"userCreatedStorageAccount": {"armResourceId": {"resourceId": "string"}}}
-                        ],
-                    }
-                ],
-                "registryPrivateEndpointConnections": [
+                "privateEndpointConnections": [
                     {
                         "id": "string",
                         "location": "string",
                         "properties": {
                             "groupIds": ["string"],
                             "privateEndpoint": {"subnetArmId": "string"},
-                            "provisioningState": "string",
-                            "registryPrivateLinkServiceConnectionState": {
+                            "privateLinkServiceConnectionState": {
                                 "actionsRequired": "string",
                                 "description": "string",
                                 "status": "Approved",
                             },
+                            "provisioningState": "string",
                         },
+                    }
+                ],
+                "publicNetworkAccess": "string",
+                "regionDetails": [
+                    {
+                        "acrDetails": [
+                            {
+                                "systemCreatedAcrAccount": {
+                                    "acrAccountName": "string",
+                                    "acrAccountSku": "string",
+                                    "armResourceId": {"resourceId": "string"},
+                                }
+                            }
+                        ],
+                        "location": "string",
+                        "storageAccountDetails": [
+                            {
+                                "systemCreatedStorageAccount": {
+                                    "allowBlobPublicAccess": False,
+                                    "armResourceId": {"resourceId": "string"},
+                                    "storageAccountHnsEnabled": False,
+                                    "storageAccountName": "string",
+                                    "storageAccountType": "string",
+                                }
+                            }
+                        ],
                     }
                 ],
             },
@@ -75,6 +91,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2023-04-01/examples/Registries/createOrUpdate-UserCreated.json
+# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2023-06-01-preview/examples/Registries/createOrUpdate.json
 if __name__ == "__main__":
     main()

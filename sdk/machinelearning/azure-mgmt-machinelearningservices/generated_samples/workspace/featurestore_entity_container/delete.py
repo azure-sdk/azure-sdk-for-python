@@ -14,7 +14,7 @@ from azure.mgmt.machinelearningservices import MachineLearningServicesMgmtClient
     pip install azure-identity
     pip install azure-mgmt-machinelearningservices
 # USAGE
-    python get_user_created.py
+    python delete.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,13 +29,13 @@ def main():
         subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.registries.get(
+    client.featurestore_entity_containers.begin_delete(
         resource_group_name="test-rg",
-        registry_name="string",
-    )
-    print(response)
+        workspace_name="my-aml-workspace",
+        name="string",
+    ).result()
 
 
-# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2023-04-01/examples/Registries/get-UserCreated.json
+# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2023-06-01-preview/examples/Workspace/FeaturestoreEntityContainer/delete.json
 if __name__ == "__main__":
     main()
