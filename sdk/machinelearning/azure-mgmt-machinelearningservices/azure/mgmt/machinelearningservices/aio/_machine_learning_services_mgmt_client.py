@@ -29,6 +29,8 @@ from .operations import (
     EnvironmentContainersOperations,
     EnvironmentVersionsOperations,
     JobsOperations,
+    ManagedNetworkProvisionsOperations,
+    ManagedNetworkSettingsRuleOperations,
     ModelContainersOperations,
     ModelVersionsOperations,
     OnlineDeploymentsOperations,
@@ -86,6 +88,12 @@ class MachineLearningServicesMgmtClient:  # pylint: disable=client-accepts-api-v
     :ivar workspace_connections: WorkspaceConnectionsOperations operations
     :vartype workspace_connections:
      azure.mgmt.machinelearningservices.aio.operations.WorkspaceConnectionsOperations
+    :ivar managed_network_settings_rule: ManagedNetworkSettingsRuleOperations operations
+    :vartype managed_network_settings_rule:
+     azure.mgmt.machinelearningservices.aio.operations.ManagedNetworkSettingsRuleOperations
+    :ivar managed_network_provisions: ManagedNetworkProvisionsOperations operations
+    :vartype managed_network_provisions:
+     azure.mgmt.machinelearningservices.aio.operations.ManagedNetworkProvisionsOperations
     :ivar registry_code_containers: RegistryCodeContainersOperations operations
     :vartype registry_code_containers:
      azure.mgmt.machinelearningservices.aio.operations.RegistryCodeContainersOperations
@@ -175,7 +183,7 @@ class MachineLearningServicesMgmtClient:  # pylint: disable=client-accepts-api-v
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2023-04-01". Note that overriding this
+    :keyword api_version: Api Version. Default value is "2023-10-01". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -213,6 +221,12 @@ class MachineLearningServicesMgmtClient:  # pylint: disable=client-accepts-api-v
             self._client, self._config, self._serialize, self._deserialize
         )
         self.workspace_connections = WorkspaceConnectionsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.managed_network_settings_rule = ManagedNetworkSettingsRuleOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.managed_network_provisions = ManagedNetworkProvisionsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.registry_code_containers = RegistryCodeContainersOperations(

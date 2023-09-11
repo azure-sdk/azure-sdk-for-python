@@ -1147,112 +1147,6 @@ class AmlComputeProperties(_serialization.Model):  # pylint: disable=too-many-in
         self.property_bag = property_bag
 
 
-class AmlOperation(_serialization.Model):
-    """Azure Machine Learning workspace REST API operation.
-
-    :ivar name: Operation name: {provider}/{resource}/{operation}.
-    :vartype name: str
-    :ivar display: Display name of operation.
-    :vartype display: ~azure.mgmt.machinelearningservices.models.AmlOperationDisplay
-    :ivar is_data_action: Indicates whether the operation applies to data-plane.
-    :vartype is_data_action: bool
-    """
-
-    _attribute_map = {
-        "name": {"key": "name", "type": "str"},
-        "display": {"key": "display", "type": "AmlOperationDisplay"},
-        "is_data_action": {"key": "isDataAction", "type": "bool"},
-    }
-
-    def __init__(
-        self,
-        *,
-        name: Optional[str] = None,
-        display: Optional["_models.AmlOperationDisplay"] = None,
-        is_data_action: Optional[bool] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword name: Operation name: {provider}/{resource}/{operation}.
-        :paramtype name: str
-        :keyword display: Display name of operation.
-        :paramtype display: ~azure.mgmt.machinelearningservices.models.AmlOperationDisplay
-        :keyword is_data_action: Indicates whether the operation applies to data-plane.
-        :paramtype is_data_action: bool
-        """
-        super().__init__(**kwargs)
-        self.name = name
-        self.display = display
-        self.is_data_action = is_data_action
-
-
-class AmlOperationDisplay(_serialization.Model):
-    """Display name of operation.
-
-    :ivar provider: The resource provider name: Microsoft.MachineLearningExperimentation.
-    :vartype provider: str
-    :ivar resource: The resource on which the operation is performed.
-    :vartype resource: str
-    :ivar operation: The operation that users can perform.
-    :vartype operation: str
-    :ivar description: The description for the operation.
-    :vartype description: str
-    """
-
-    _attribute_map = {
-        "provider": {"key": "provider", "type": "str"},
-        "resource": {"key": "resource", "type": "str"},
-        "operation": {"key": "operation", "type": "str"},
-        "description": {"key": "description", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        provider: Optional[str] = None,
-        resource: Optional[str] = None,
-        operation: Optional[str] = None,
-        description: Optional[str] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword provider: The resource provider name: Microsoft.MachineLearningExperimentation.
-        :paramtype provider: str
-        :keyword resource: The resource on which the operation is performed.
-        :paramtype resource: str
-        :keyword operation: The operation that users can perform.
-        :paramtype operation: str
-        :keyword description: The description for the operation.
-        :paramtype description: str
-        """
-        super().__init__(**kwargs)
-        self.provider = provider
-        self.resource = resource
-        self.operation = operation
-        self.description = description
-
-
-class AmlOperationListResult(_serialization.Model):
-    """An array of operations supported by the resource provider.
-
-    :ivar value: List of AML workspace operations supported by the AML workspace resource provider.
-    :vartype value: list[~azure.mgmt.machinelearningservices.models.AmlOperation]
-    """
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[AmlOperation]"},
-    }
-
-    def __init__(self, *, value: Optional[List["_models.AmlOperation"]] = None, **kwargs: Any) -> None:
-        """
-        :keyword value: List of AML workspace operations supported by the AML workspace resource
-         provider.
-        :paramtype value: list[~azure.mgmt.machinelearningservices.models.AmlOperation]
-        """
-        super().__init__(**kwargs)
-        self.value = value
-
-
 class IdentityConfiguration(_serialization.Model):
     """Base definition for identity configuration.
 
@@ -2422,7 +2316,35 @@ class DatastoreProperties(ResourceBase):
         self.is_default = None
 
 
-class AzureBlobDatastore(DatastoreProperties):  # pylint: disable=too-many-instance-attributes
+class AzureDatastore(_serialization.Model):
+    """Base definition for Azure datastore contents configuration.
+
+    :ivar resource_group: Azure Resource Group name.
+    :vartype resource_group: str
+    :ivar subscription_id: Azure Subscription Id.
+    :vartype subscription_id: str
+    """
+
+    _attribute_map = {
+        "resource_group": {"key": "resourceGroup", "type": "str"},
+        "subscription_id": {"key": "subscriptionId", "type": "str"},
+    }
+
+    def __init__(
+        self, *, resource_group: Optional[str] = None, subscription_id: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword resource_group: Azure Resource Group name.
+        :paramtype resource_group: str
+        :keyword subscription_id: Azure Subscription Id.
+        :paramtype subscription_id: str
+        """
+        super().__init__(**kwargs)
+        self.resource_group = resource_group
+        self.subscription_id = subscription_id
+
+
+class AzureBlobDatastore(AzureDatastore, DatastoreProperties):  # pylint: disable=too-many-instance-attributes
     """Azure Blob datastore configuration.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2443,6 +2365,10 @@ class AzureBlobDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
     :ivar is_default: Readonly property to indicate if datastore is the workspace default
      datastore.
     :vartype is_default: bool
+    :ivar resource_group: Azure Resource Group name.
+    :vartype resource_group: str
+    :ivar subscription_id: Azure Subscription Id.
+    :vartype subscription_id: str
     :ivar account_name: Storage account name.
     :vartype account_name: str
     :ivar container_name: Storage account container name.
@@ -2471,6 +2397,8 @@ class AzureBlobDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
         "credentials": {"key": "credentials", "type": "DatastoreCredentials"},
         "datastore_type": {"key": "datastoreType", "type": "str"},
         "is_default": {"key": "isDefault", "type": "bool"},
+        "resource_group": {"key": "resourceGroup", "type": "str"},
+        "subscription_id": {"key": "subscriptionId", "type": "str"},
         "account_name": {"key": "accountName", "type": "str"},
         "container_name": {"key": "containerName", "type": "str"},
         "endpoint": {"key": "endpoint", "type": "str"},
@@ -2485,6 +2413,8 @@ class AzureBlobDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
         description: Optional[str] = None,
         properties: Optional[Dict[str, str]] = None,
         tags: Optional[Dict[str, str]] = None,
+        resource_group: Optional[str] = None,
+        subscription_id: Optional[str] = None,
         account_name: Optional[str] = None,
         container_name: Optional[str] = None,
         endpoint: Optional[str] = None,
@@ -2501,6 +2431,10 @@ class AzureBlobDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
         :paramtype tags: dict[str, str]
         :keyword credentials: [Required] Account credentials. Required.
         :paramtype credentials: ~azure.mgmt.machinelearningservices.models.DatastoreCredentials
+        :keyword resource_group: Azure Resource Group name.
+        :paramtype resource_group: str
+        :keyword subscription_id: Azure Subscription Id.
+        :paramtype subscription_id: str
         :keyword account_name: Storage account name.
         :paramtype account_name: str
         :keyword container_name: Storage account container name.
@@ -2515,16 +2449,31 @@ class AzureBlobDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
         :paramtype service_data_access_auth_identity: str or
          ~azure.mgmt.machinelearningservices.models.ServiceDataAccessAuthIdentity
         """
-        super().__init__(description=description, properties=properties, tags=tags, credentials=credentials, **kwargs)
+        super().__init__(
+            resource_group=resource_group,
+            subscription_id=subscription_id,
+            description=description,
+            properties=properties,
+            tags=tags,
+            credentials=credentials,
+            **kwargs
+        )
+        self.description = description
+        self.properties = properties
+        self.tags = tags
+        self.credentials = credentials
         self.datastore_type: str = "AzureBlob"
+        self.is_default = None
         self.account_name = account_name
         self.container_name = container_name
         self.endpoint = endpoint
         self.protocol = protocol
         self.service_data_access_auth_identity = service_data_access_auth_identity
+        self.resource_group = resource_group
+        self.subscription_id = subscription_id
 
 
-class AzureDataLakeGen1Datastore(DatastoreProperties):
+class AzureDataLakeGen1Datastore(AzureDatastore, DatastoreProperties):
     """Azure Data Lake Gen1 datastore configuration.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2545,6 +2494,10 @@ class AzureDataLakeGen1Datastore(DatastoreProperties):
     :ivar is_default: Readonly property to indicate if datastore is the workspace default
      datastore.
     :vartype is_default: bool
+    :ivar resource_group: Azure Resource Group name.
+    :vartype resource_group: str
+    :ivar subscription_id: Azure Subscription Id.
+    :vartype subscription_id: str
     :ivar service_data_access_auth_identity: Indicates which identity to use to authenticate
      service data access to customer's storage. Known values are: "None",
      "WorkspaceSystemAssignedIdentity", and "WorkspaceUserAssignedIdentity".
@@ -2568,6 +2521,8 @@ class AzureDataLakeGen1Datastore(DatastoreProperties):
         "credentials": {"key": "credentials", "type": "DatastoreCredentials"},
         "datastore_type": {"key": "datastoreType", "type": "str"},
         "is_default": {"key": "isDefault", "type": "bool"},
+        "resource_group": {"key": "resourceGroup", "type": "str"},
+        "subscription_id": {"key": "subscriptionId", "type": "str"},
         "service_data_access_auth_identity": {"key": "serviceDataAccessAuthIdentity", "type": "str"},
         "store_name": {"key": "storeName", "type": "str"},
     }
@@ -2580,6 +2535,8 @@ class AzureDataLakeGen1Datastore(DatastoreProperties):
         description: Optional[str] = None,
         properties: Optional[Dict[str, str]] = None,
         tags: Optional[Dict[str, str]] = None,
+        resource_group: Optional[str] = None,
+        subscription_id: Optional[str] = None,
         service_data_access_auth_identity: Optional[Union[str, "_models.ServiceDataAccessAuthIdentity"]] = None,
         **kwargs: Any
     ) -> None:
@@ -2592,6 +2549,10 @@ class AzureDataLakeGen1Datastore(DatastoreProperties):
         :paramtype tags: dict[str, str]
         :keyword credentials: [Required] Account credentials. Required.
         :paramtype credentials: ~azure.mgmt.machinelearningservices.models.DatastoreCredentials
+        :keyword resource_group: Azure Resource Group name.
+        :paramtype resource_group: str
+        :keyword subscription_id: Azure Subscription Id.
+        :paramtype subscription_id: str
         :keyword service_data_access_auth_identity: Indicates which identity to use to authenticate
          service data access to customer's storage. Known values are: "None",
          "WorkspaceSystemAssignedIdentity", and "WorkspaceUserAssignedIdentity".
@@ -2600,13 +2561,28 @@ class AzureDataLakeGen1Datastore(DatastoreProperties):
         :keyword store_name: [Required] Azure Data Lake store name. Required.
         :paramtype store_name: str
         """
-        super().__init__(description=description, properties=properties, tags=tags, credentials=credentials, **kwargs)
+        super().__init__(
+            resource_group=resource_group,
+            subscription_id=subscription_id,
+            description=description,
+            properties=properties,
+            tags=tags,
+            credentials=credentials,
+            **kwargs
+        )
+        self.description = description
+        self.properties = properties
+        self.tags = tags
+        self.credentials = credentials
         self.datastore_type: str = "AzureDataLakeGen1"
+        self.is_default = None
         self.service_data_access_auth_identity = service_data_access_auth_identity
         self.store_name = store_name
+        self.resource_group = resource_group
+        self.subscription_id = subscription_id
 
 
-class AzureDataLakeGen2Datastore(DatastoreProperties):  # pylint: disable=too-many-instance-attributes
+class AzureDataLakeGen2Datastore(AzureDatastore, DatastoreProperties):  # pylint: disable=too-many-instance-attributes
     """Azure Data Lake Gen2 datastore configuration.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2627,6 +2603,10 @@ class AzureDataLakeGen2Datastore(DatastoreProperties):  # pylint: disable=too-ma
     :ivar is_default: Readonly property to indicate if datastore is the workspace default
      datastore.
     :vartype is_default: bool
+    :ivar resource_group: Azure Resource Group name.
+    :vartype resource_group: str
+    :ivar subscription_id: Azure Subscription Id.
+    :vartype subscription_id: str
     :ivar account_name: [Required] Storage account name. Required.
     :vartype account_name: str
     :ivar endpoint: Azure cloud endpoint for the storage account.
@@ -2657,6 +2637,8 @@ class AzureDataLakeGen2Datastore(DatastoreProperties):  # pylint: disable=too-ma
         "credentials": {"key": "credentials", "type": "DatastoreCredentials"},
         "datastore_type": {"key": "datastoreType", "type": "str"},
         "is_default": {"key": "isDefault", "type": "bool"},
+        "resource_group": {"key": "resourceGroup", "type": "str"},
+        "subscription_id": {"key": "subscriptionId", "type": "str"},
         "account_name": {"key": "accountName", "type": "str"},
         "endpoint": {"key": "endpoint", "type": "str"},
         "filesystem": {"key": "filesystem", "type": "str"},
@@ -2673,6 +2655,8 @@ class AzureDataLakeGen2Datastore(DatastoreProperties):  # pylint: disable=too-ma
         description: Optional[str] = None,
         properties: Optional[Dict[str, str]] = None,
         tags: Optional[Dict[str, str]] = None,
+        resource_group: Optional[str] = None,
+        subscription_id: Optional[str] = None,
         endpoint: Optional[str] = None,
         protocol: Optional[str] = None,
         service_data_access_auth_identity: Optional[Union[str, "_models.ServiceDataAccessAuthIdentity"]] = None,
@@ -2687,6 +2671,10 @@ class AzureDataLakeGen2Datastore(DatastoreProperties):  # pylint: disable=too-ma
         :paramtype tags: dict[str, str]
         :keyword credentials: [Required] Account credentials. Required.
         :paramtype credentials: ~azure.mgmt.machinelearningservices.models.DatastoreCredentials
+        :keyword resource_group: Azure Resource Group name.
+        :paramtype resource_group: str
+        :keyword subscription_id: Azure Subscription Id.
+        :paramtype subscription_id: str
         :keyword account_name: [Required] Storage account name. Required.
         :paramtype account_name: str
         :keyword endpoint: Azure cloud endpoint for the storage account.
@@ -2701,16 +2689,31 @@ class AzureDataLakeGen2Datastore(DatastoreProperties):  # pylint: disable=too-ma
         :paramtype service_data_access_auth_identity: str or
          ~azure.mgmt.machinelearningservices.models.ServiceDataAccessAuthIdentity
         """
-        super().__init__(description=description, properties=properties, tags=tags, credentials=credentials, **kwargs)
+        super().__init__(
+            resource_group=resource_group,
+            subscription_id=subscription_id,
+            description=description,
+            properties=properties,
+            tags=tags,
+            credentials=credentials,
+            **kwargs
+        )
+        self.description = description
+        self.properties = properties
+        self.tags = tags
+        self.credentials = credentials
         self.datastore_type: str = "AzureDataLakeGen2"
+        self.is_default = None
         self.account_name = account_name
         self.endpoint = endpoint
         self.filesystem = filesystem
         self.protocol = protocol
         self.service_data_access_auth_identity = service_data_access_auth_identity
+        self.resource_group = resource_group
+        self.subscription_id = subscription_id
 
 
-class AzureFileDatastore(DatastoreProperties):  # pylint: disable=too-many-instance-attributes
+class AzureFileDatastore(AzureDatastore, DatastoreProperties):  # pylint: disable=too-many-instance-attributes
     """Azure File datastore configuration.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2731,6 +2734,10 @@ class AzureFileDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
     :ivar is_default: Readonly property to indicate if datastore is the workspace default
      datastore.
     :vartype is_default: bool
+    :ivar resource_group: Azure Resource Group name.
+    :vartype resource_group: str
+    :ivar subscription_id: Azure Subscription Id.
+    :vartype subscription_id: str
     :ivar account_name: [Required] Storage account name. Required.
     :vartype account_name: str
     :ivar endpoint: Azure cloud endpoint for the storage account.
@@ -2762,6 +2769,8 @@ class AzureFileDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
         "credentials": {"key": "credentials", "type": "DatastoreCredentials"},
         "datastore_type": {"key": "datastoreType", "type": "str"},
         "is_default": {"key": "isDefault", "type": "bool"},
+        "resource_group": {"key": "resourceGroup", "type": "str"},
+        "subscription_id": {"key": "subscriptionId", "type": "str"},
         "account_name": {"key": "accountName", "type": "str"},
         "endpoint": {"key": "endpoint", "type": "str"},
         "file_share_name": {"key": "fileShareName", "type": "str"},
@@ -2778,6 +2787,8 @@ class AzureFileDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
         description: Optional[str] = None,
         properties: Optional[Dict[str, str]] = None,
         tags: Optional[Dict[str, str]] = None,
+        resource_group: Optional[str] = None,
+        subscription_id: Optional[str] = None,
         endpoint: Optional[str] = None,
         protocol: Optional[str] = None,
         service_data_access_auth_identity: Optional[Union[str, "_models.ServiceDataAccessAuthIdentity"]] = None,
@@ -2792,6 +2803,10 @@ class AzureFileDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
         :paramtype tags: dict[str, str]
         :keyword credentials: [Required] Account credentials. Required.
         :paramtype credentials: ~azure.mgmt.machinelearningservices.models.DatastoreCredentials
+        :keyword resource_group: Azure Resource Group name.
+        :paramtype resource_group: str
+        :keyword subscription_id: Azure Subscription Id.
+        :paramtype subscription_id: str
         :keyword account_name: [Required] Storage account name. Required.
         :paramtype account_name: str
         :keyword endpoint: Azure cloud endpoint for the storage account.
@@ -2807,13 +2822,28 @@ class AzureFileDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
         :paramtype service_data_access_auth_identity: str or
          ~azure.mgmt.machinelearningservices.models.ServiceDataAccessAuthIdentity
         """
-        super().__init__(description=description, properties=properties, tags=tags, credentials=credentials, **kwargs)
+        super().__init__(
+            resource_group=resource_group,
+            subscription_id=subscription_id,
+            description=description,
+            properties=properties,
+            tags=tags,
+            credentials=credentials,
+            **kwargs
+        )
+        self.description = description
+        self.properties = properties
+        self.tags = tags
+        self.credentials = credentials
         self.datastore_type: str = "AzureFile"
+        self.is_default = None
         self.account_name = account_name
         self.endpoint = endpoint
         self.file_share_name = file_share_name
         self.protocol = protocol
         self.service_data_access_auth_identity = service_data_access_auth_identity
+        self.resource_group = resource_group
+        self.subscription_id = subscription_id
 
 
 class EarlyTerminationPolicy(_serialization.Model):
@@ -9911,6 +9941,116 @@ class FQDNEndpointsProperties(_serialization.Model):
         self.endpoints = endpoints
 
 
+class OutboundRule(_serialization.Model):
+    """Outbound Rule for the managed network of a machine learning workspace.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    FqdnOutboundRule, PrivateEndpointOutboundRule, ServiceTagOutboundRule
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar category: Category of a managed network Outbound Rule of a machine learning workspace.
+     Known values are: "Required", "Recommended", and "UserDefined".
+    :vartype category: str or ~azure.mgmt.machinelearningservices.models.RuleCategory
+    :ivar status: Type of a managed network Outbound Rule of a machine learning workspace. Known
+     values are: "Inactive" and "Active".
+    :vartype status: str or ~azure.mgmt.machinelearningservices.models.RuleStatus
+    :ivar type: Type of a managed network Outbound Rule of a machine learning workspace. Required.
+     Known values are: "FQDN", "PrivateEndpoint", and "ServiceTag".
+    :vartype type: str or ~azure.mgmt.machinelearningservices.models.RuleType
+    """
+
+    _validation = {
+        "type": {"required": True},
+    }
+
+    _attribute_map = {
+        "category": {"key": "category", "type": "str"},
+        "status": {"key": "status", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+    }
+
+    _subtype_map = {
+        "type": {
+            "FQDN": "FqdnOutboundRule",
+            "PrivateEndpoint": "PrivateEndpointOutboundRule",
+            "ServiceTag": "ServiceTagOutboundRule",
+        }
+    }
+
+    def __init__(
+        self,
+        *,
+        category: Optional[Union[str, "_models.RuleCategory"]] = None,
+        status: Optional[Union[str, "_models.RuleStatus"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword category: Category of a managed network Outbound Rule of a machine learning workspace.
+         Known values are: "Required", "Recommended", and "UserDefined".
+        :paramtype category: str or ~azure.mgmt.machinelearningservices.models.RuleCategory
+        :keyword status: Type of a managed network Outbound Rule of a machine learning workspace. Known
+         values are: "Inactive" and "Active".
+        :paramtype status: str or ~azure.mgmt.machinelearningservices.models.RuleStatus
+        """
+        super().__init__(**kwargs)
+        self.category = category
+        self.status = status
+        self.type: Optional[str] = None
+
+
+class FqdnOutboundRule(OutboundRule):
+    """FQDN Outbound Rule for the managed network of a machine learning workspace.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar category: Category of a managed network Outbound Rule of a machine learning workspace.
+     Known values are: "Required", "Recommended", and "UserDefined".
+    :vartype category: str or ~azure.mgmt.machinelearningservices.models.RuleCategory
+    :ivar status: Type of a managed network Outbound Rule of a machine learning workspace. Known
+     values are: "Inactive" and "Active".
+    :vartype status: str or ~azure.mgmt.machinelearningservices.models.RuleStatus
+    :ivar type: Type of a managed network Outbound Rule of a machine learning workspace. Required.
+     Known values are: "FQDN", "PrivateEndpoint", and "ServiceTag".
+    :vartype type: str or ~azure.mgmt.machinelearningservices.models.RuleType
+    :ivar destination:
+    :vartype destination: str
+    """
+
+    _validation = {
+        "type": {"required": True},
+    }
+
+    _attribute_map = {
+        "category": {"key": "category", "type": "str"},
+        "status": {"key": "status", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "destination": {"key": "destination", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        category: Optional[Union[str, "_models.RuleCategory"]] = None,
+        status: Optional[Union[str, "_models.RuleStatus"]] = None,
+        destination: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword category: Category of a managed network Outbound Rule of a machine learning workspace.
+         Known values are: "Required", "Recommended", and "UserDefined".
+        :paramtype category: str or ~azure.mgmt.machinelearningservices.models.RuleCategory
+        :keyword status: Type of a managed network Outbound Rule of a machine learning workspace. Known
+         values are: "Inactive" and "Active".
+        :paramtype status: str or ~azure.mgmt.machinelearningservices.models.RuleStatus
+        :keyword destination:
+        :paramtype destination: str
+        """
+        super().__init__(category=category, status=status, **kwargs)
+        self.type: str = "FQDN"
+        self.destination = destination
+
+
 class GridSamplingAlgorithm(SamplingAlgorithm):
     """Defines a Sampling Algorithm that exhaustively generates every value combination in the space.
 
@@ -14482,6 +14622,114 @@ class ManagedIdentityAuthTypeWorkspaceConnectionProperties(WorkspaceConnectionPr
         self.credentials = credentials
 
 
+class ManagedNetworkProvisionOptions(_serialization.Model):
+    """Managed Network Provisioning options for managed network of a machine learning workspace.
+
+    :ivar include_spark:
+    :vartype include_spark: bool
+    """
+
+    _attribute_map = {
+        "include_spark": {"key": "includeSpark", "type": "bool"},
+    }
+
+    def __init__(self, *, include_spark: Optional[bool] = None, **kwargs: Any) -> None:
+        """
+        :keyword include_spark:
+        :paramtype include_spark: bool
+        """
+        super().__init__(**kwargs)
+        self.include_spark = include_spark
+
+
+class ManagedNetworkProvisionStatus(_serialization.Model):
+    """Status of the Provisioning for the managed network of a machine learning workspace.
+
+    :ivar spark_ready:
+    :vartype spark_ready: bool
+    :ivar status: Status for the managed network of a machine learning workspace. Known values are:
+     "Inactive" and "Active".
+    :vartype status: str or ~azure.mgmt.machinelearningservices.models.ManagedNetworkStatus
+    """
+
+    _attribute_map = {
+        "spark_ready": {"key": "sparkReady", "type": "bool"},
+        "status": {"key": "status", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        spark_ready: Optional[bool] = None,
+        status: Optional[Union[str, "_models.ManagedNetworkStatus"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword spark_ready:
+        :paramtype spark_ready: bool
+        :keyword status: Status for the managed network of a machine learning workspace. Known values
+         are: "Inactive" and "Active".
+        :paramtype status: str or ~azure.mgmt.machinelearningservices.models.ManagedNetworkStatus
+        """
+        super().__init__(**kwargs)
+        self.spark_ready = spark_ready
+        self.status = status
+
+
+class ManagedNetworkSettings(_serialization.Model):
+    """Managed Network settings for a machine learning workspace.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar isolation_mode: Isolation mode for the managed network of a machine learning workspace.
+     Known values are: "Disabled", "AllowInternetOutbound", and "AllowOnlyApprovedOutbound".
+    :vartype isolation_mode: str or ~azure.mgmt.machinelearningservices.models.IsolationMode
+    :ivar network_id:
+    :vartype network_id: str
+    :ivar outbound_rules: Dictionary of :code:`<OutboundRule>`.
+    :vartype outbound_rules: dict[str, ~azure.mgmt.machinelearningservices.models.OutboundRule]
+    :ivar status: Status of the Provisioning for the managed network of a machine learning
+     workspace.
+    :vartype status: ~azure.mgmt.machinelearningservices.models.ManagedNetworkProvisionStatus
+    """
+
+    _validation = {
+        "network_id": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "isolation_mode": {"key": "isolationMode", "type": "str"},
+        "network_id": {"key": "networkId", "type": "str"},
+        "outbound_rules": {"key": "outboundRules", "type": "{OutboundRule}"},
+        "status": {"key": "status", "type": "ManagedNetworkProvisionStatus"},
+    }
+
+    def __init__(
+        self,
+        *,
+        isolation_mode: Optional[Union[str, "_models.IsolationMode"]] = None,
+        outbound_rules: Optional[Dict[str, "_models.OutboundRule"]] = None,
+        status: Optional["_models.ManagedNetworkProvisionStatus"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword isolation_mode: Isolation mode for the managed network of a machine learning
+         workspace. Known values are: "Disabled", "AllowInternetOutbound", and
+         "AllowOnlyApprovedOutbound".
+        :paramtype isolation_mode: str or ~azure.mgmt.machinelearningservices.models.IsolationMode
+        :keyword outbound_rules: Dictionary of :code:`<OutboundRule>`.
+        :paramtype outbound_rules: dict[str, ~azure.mgmt.machinelearningservices.models.OutboundRule]
+        :keyword status: Status of the Provisioning for the managed network of a machine learning
+         workspace.
+        :paramtype status: ~azure.mgmt.machinelearningservices.models.ManagedNetworkProvisionStatus
+        """
+        super().__init__(**kwargs)
+        self.isolation_mode = isolation_mode
+        self.network_id = None
+        self.outbound_rules = outbound_rules
+        self.status = status
+
+
 class ManagedOnlineDeployment(OnlineDeploymentProperties):  # pylint: disable=too-many-instance-attributes
     """Properties specific to a ManagedOnlineDeployment.
 
@@ -16159,6 +16407,212 @@ class OnlineRequestSettings(_serialization.Model):
         self.request_timeout = request_timeout
 
 
+class Operation(_serialization.Model):
+    """Details of a REST API operation, returned from the Resource Provider Operations API.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar name: The name of the operation, as per Resource-Based Access Control (RBAC). Examples:
+     "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action".
+    :vartype name: str
+    :ivar is_data_action: Whether the operation applies to data-plane. This is "true" for
+     data-plane operations and "false" for ARM/control-plane operations.
+    :vartype is_data_action: bool
+    :ivar display: Localized display information for this particular operation.
+    :vartype display: ~azure.mgmt.machinelearningservices.models.OperationDisplay
+    :ivar origin: The intended executor of the operation; as in Resource Based Access Control
+     (RBAC) and audit logs UX. Default value is "user,system". Known values are: "user", "system",
+     and "user,system".
+    :vartype origin: str or ~azure.mgmt.machinelearningservices.models.Origin
+    :ivar action_type: Enum. Indicates the action type. "Internal" refers to actions that are for
+     internal only APIs. "Internal"
+    :vartype action_type: str or ~azure.mgmt.machinelearningservices.models.ActionType
+    """
+
+    _validation = {
+        "name": {"readonly": True},
+        "is_data_action": {"readonly": True},
+        "origin": {"readonly": True},
+        "action_type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "is_data_action": {"key": "isDataAction", "type": "bool"},
+        "display": {"key": "display", "type": "OperationDisplay"},
+        "origin": {"key": "origin", "type": "str"},
+        "action_type": {"key": "actionType", "type": "str"},
+    }
+
+    def __init__(self, *, display: Optional["_models.OperationDisplay"] = None, **kwargs: Any) -> None:
+        """
+        :keyword display: Localized display information for this particular operation.
+        :paramtype display: ~azure.mgmt.machinelearningservices.models.OperationDisplay
+        """
+        super().__init__(**kwargs)
+        self.name = None
+        self.is_data_action = None
+        self.display = display
+        self.origin = None
+        self.action_type = None
+
+
+class OperationDisplay(_serialization.Model):
+    """Localized display information for this particular operation.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar provider: The localized friendly form of the resource provider name, e.g. "Microsoft
+     Monitoring Insights" or "Microsoft Compute".
+    :vartype provider: str
+    :ivar resource: The localized friendly name of the resource type related to this operation.
+     E.g. "Virtual Machines" or "Job Schedule Collections".
+    :vartype resource: str
+    :ivar operation: The concise, localized friendly name for the operation; suitable for
+     dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
+    :vartype operation: str
+    :ivar description: The short, localized friendly description of the operation; suitable for
+     tool tips and detailed views.
+    :vartype description: str
+    """
+
+    _validation = {
+        "provider": {"readonly": True},
+        "resource": {"readonly": True},
+        "operation": {"readonly": True},
+        "description": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "provider": {"key": "provider", "type": "str"},
+        "resource": {"key": "resource", "type": "str"},
+        "operation": {"key": "operation", "type": "str"},
+        "description": {"key": "description", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.provider = None
+        self.resource = None
+        self.operation = None
+        self.description = None
+
+
+class OperationListResult(_serialization.Model):
+    """A list of REST API operations supported by an Azure Resource Provider. It contains an URL link
+    to get the next set of results.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar value: List of operations supported by the resource provider.
+    :vartype value: list[~azure.mgmt.machinelearningservices.models.Operation]
+    :ivar next_link: URL to get the next set of operation list results (if there are any).
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"readonly": True},
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[Operation]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.value = None
+        self.next_link = None
+
+
+class OutboundRuleBasicResource(Resource):
+    """Outbound Rule Basic Resource for the managed network of a machine learning workspace.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.machinelearningservices.models.SystemData
+    :ivar properties: Outbound Rule for the managed network of a machine learning workspace.
+     Required.
+    :vartype properties: ~azure.mgmt.machinelearningservices.models.OutboundRule
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "properties": {"required": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "properties": {"key": "properties", "type": "OutboundRule"},
+    }
+
+    def __init__(self, *, properties: "_models.OutboundRule", **kwargs: Any) -> None:
+        """
+        :keyword properties: Outbound Rule for the managed network of a machine learning workspace.
+         Required.
+        :paramtype properties: ~azure.mgmt.machinelearningservices.models.OutboundRule
+        """
+        super().__init__(**kwargs)
+        self.properties = properties
+
+
+class OutboundRuleListResult(_serialization.Model):
+    """List of outbound rules for the managed network of a machine learning workspace.
+
+    :ivar next_link: The link to the next page constructed using the continuationToken.  If null,
+     there are no additional pages.
+    :vartype next_link: str
+    :ivar value: The list of machine learning workspaces. Since this list may be incomplete, the
+     nextLink field should be used to request the next list of machine learning workspaces.
+    :vartype value: list[~azure.mgmt.machinelearningservices.models.OutboundRuleBasicResource]
+    """
+
+    _attribute_map = {
+        "next_link": {"key": "nextLink", "type": "str"},
+        "value": {"key": "value", "type": "[OutboundRuleBasicResource]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        next_link: Optional[str] = None,
+        value: Optional[List["_models.OutboundRuleBasicResource"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword next_link: The link to the next page constructed using the continuationToken.  If
+         null, there are no additional pages.
+        :paramtype next_link: str
+        :keyword value: The list of machine learning workspaces. Since this list may be incomplete, the
+         nextLink field should be used to request the next list of machine learning workspaces.
+        :paramtype value: list[~azure.mgmt.machinelearningservices.models.OutboundRuleBasicResource]
+        """
+        super().__init__(**kwargs)
+        self.next_link = next_link
+        self.value = value
+
+
 class OutputPathAssetReference(AssetReferenceBase):
     """Reference to an asset via its path in a job output.
 
@@ -17015,6 +17469,109 @@ class PrivateEndpointConnectionListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
+
+
+class PrivateEndpointDestination(_serialization.Model):
+    """Private Endpoint destination for a Private Endpoint Outbound Rule for the managed network of a
+    machine learning workspace.
+
+    :ivar service_resource_id:
+    :vartype service_resource_id: str
+    :ivar spark_enabled:
+    :vartype spark_enabled: bool
+    :ivar spark_status: Type of a managed network Outbound Rule of a machine learning workspace.
+     Known values are: "Inactive" and "Active".
+    :vartype spark_status: str or ~azure.mgmt.machinelearningservices.models.RuleStatus
+    :ivar subresource_target:
+    :vartype subresource_target: str
+    """
+
+    _attribute_map = {
+        "service_resource_id": {"key": "serviceResourceId", "type": "str"},
+        "spark_enabled": {"key": "sparkEnabled", "type": "bool"},
+        "spark_status": {"key": "sparkStatus", "type": "str"},
+        "subresource_target": {"key": "subresourceTarget", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        service_resource_id: Optional[str] = None,
+        spark_enabled: Optional[bool] = None,
+        spark_status: Optional[Union[str, "_models.RuleStatus"]] = None,
+        subresource_target: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword service_resource_id:
+        :paramtype service_resource_id: str
+        :keyword spark_enabled:
+        :paramtype spark_enabled: bool
+        :keyword spark_status: Type of a managed network Outbound Rule of a machine learning workspace.
+         Known values are: "Inactive" and "Active".
+        :paramtype spark_status: str or ~azure.mgmt.machinelearningservices.models.RuleStatus
+        :keyword subresource_target:
+        :paramtype subresource_target: str
+        """
+        super().__init__(**kwargs)
+        self.service_resource_id = service_resource_id
+        self.spark_enabled = spark_enabled
+        self.spark_status = spark_status
+        self.subresource_target = subresource_target
+
+
+class PrivateEndpointOutboundRule(OutboundRule):
+    """Private Endpoint Outbound Rule for the managed network of a machine learning workspace.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar category: Category of a managed network Outbound Rule of a machine learning workspace.
+     Known values are: "Required", "Recommended", and "UserDefined".
+    :vartype category: str or ~azure.mgmt.machinelearningservices.models.RuleCategory
+    :ivar status: Type of a managed network Outbound Rule of a machine learning workspace. Known
+     values are: "Inactive" and "Active".
+    :vartype status: str or ~azure.mgmt.machinelearningservices.models.RuleStatus
+    :ivar type: Type of a managed network Outbound Rule of a machine learning workspace. Required.
+     Known values are: "FQDN", "PrivateEndpoint", and "ServiceTag".
+    :vartype type: str or ~azure.mgmt.machinelearningservices.models.RuleType
+    :ivar destination: Private Endpoint destination for a Private Endpoint Outbound Rule for the
+     managed network of a machine learning workspace.
+    :vartype destination: ~azure.mgmt.machinelearningservices.models.PrivateEndpointDestination
+    """
+
+    _validation = {
+        "type": {"required": True},
+    }
+
+    _attribute_map = {
+        "category": {"key": "category", "type": "str"},
+        "status": {"key": "status", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "destination": {"key": "destination", "type": "PrivateEndpointDestination"},
+    }
+
+    def __init__(
+        self,
+        *,
+        category: Optional[Union[str, "_models.RuleCategory"]] = None,
+        status: Optional[Union[str, "_models.RuleStatus"]] = None,
+        destination: Optional["_models.PrivateEndpointDestination"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword category: Category of a managed network Outbound Rule of a machine learning workspace.
+         Known values are: "Required", "Recommended", and "UserDefined".
+        :paramtype category: str or ~azure.mgmt.machinelearningservices.models.RuleCategory
+        :keyword status: Type of a managed network Outbound Rule of a machine learning workspace. Known
+         values are: "Inactive" and "Active".
+        :paramtype status: str or ~azure.mgmt.machinelearningservices.models.RuleStatus
+        :keyword destination: Private Endpoint destination for a Private Endpoint Outbound Rule for the
+         managed network of a machine learning workspace.
+        :paramtype destination: ~azure.mgmt.machinelearningservices.models.PrivateEndpointDestination
+        """
+        super().__init__(category=category, status=status, **kwargs)
+        self.type: str = "PrivateEndpoint"
+        self.destination = destination
 
 
 class PrivateEndpointResource(PrivateEndpoint):
@@ -19093,6 +19650,117 @@ class ServicePrincipalDatastoreSecrets(DatastoreSecrets):
         super().__init__(**kwargs)
         self.secrets_type: str = "ServicePrincipal"
         self.client_secret = client_secret
+
+
+class ServiceTagDestination(_serialization.Model):
+    """Service Tag destination for a Service Tag Outbound Rule for the managed network of a machine
+    learning workspace.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar action: The action enum for networking rule. Known values are: "Allow" and "Deny".
+    :vartype action: str or ~azure.mgmt.machinelearningservices.models.RuleAction
+    :ivar address_prefixes: Optional, if provided, the ServiceTag property will be ignored.
+    :vartype address_prefixes: list[str]
+    :ivar port_ranges:
+    :vartype port_ranges: str
+    :ivar protocol:
+    :vartype protocol: str
+    :ivar service_tag:
+    :vartype service_tag: str
+    """
+
+    _validation = {
+        "address_prefixes": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "action": {"key": "action", "type": "str"},
+        "address_prefixes": {"key": "addressPrefixes", "type": "[str]"},
+        "port_ranges": {"key": "portRanges", "type": "str"},
+        "protocol": {"key": "protocol", "type": "str"},
+        "service_tag": {"key": "serviceTag", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        action: Optional[Union[str, "_models.RuleAction"]] = None,
+        port_ranges: Optional[str] = None,
+        protocol: Optional[str] = None,
+        service_tag: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword action: The action enum for networking rule. Known values are: "Allow" and "Deny".
+        :paramtype action: str or ~azure.mgmt.machinelearningservices.models.RuleAction
+        :keyword port_ranges:
+        :paramtype port_ranges: str
+        :keyword protocol:
+        :paramtype protocol: str
+        :keyword service_tag:
+        :paramtype service_tag: str
+        """
+        super().__init__(**kwargs)
+        self.action = action
+        self.address_prefixes = None
+        self.port_ranges = port_ranges
+        self.protocol = protocol
+        self.service_tag = service_tag
+
+
+class ServiceTagOutboundRule(OutboundRule):
+    """Service Tag Outbound Rule for the managed network of a machine learning workspace.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar category: Category of a managed network Outbound Rule of a machine learning workspace.
+     Known values are: "Required", "Recommended", and "UserDefined".
+    :vartype category: str or ~azure.mgmt.machinelearningservices.models.RuleCategory
+    :ivar status: Type of a managed network Outbound Rule of a machine learning workspace. Known
+     values are: "Inactive" and "Active".
+    :vartype status: str or ~azure.mgmt.machinelearningservices.models.RuleStatus
+    :ivar type: Type of a managed network Outbound Rule of a machine learning workspace. Required.
+     Known values are: "FQDN", "PrivateEndpoint", and "ServiceTag".
+    :vartype type: str or ~azure.mgmt.machinelearningservices.models.RuleType
+    :ivar destination: Service Tag destination for a Service Tag Outbound Rule for the managed
+     network of a machine learning workspace.
+    :vartype destination: ~azure.mgmt.machinelearningservices.models.ServiceTagDestination
+    """
+
+    _validation = {
+        "type": {"required": True},
+    }
+
+    _attribute_map = {
+        "category": {"key": "category", "type": "str"},
+        "status": {"key": "status", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "destination": {"key": "destination", "type": "ServiceTagDestination"},
+    }
+
+    def __init__(
+        self,
+        *,
+        category: Optional[Union[str, "_models.RuleCategory"]] = None,
+        status: Optional[Union[str, "_models.RuleStatus"]] = None,
+        destination: Optional["_models.ServiceTagDestination"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword category: Category of a managed network Outbound Rule of a machine learning workspace.
+         Known values are: "Required", "Recommended", and "UserDefined".
+        :paramtype category: str or ~azure.mgmt.machinelearningservices.models.RuleCategory
+        :keyword status: Type of a managed network Outbound Rule of a machine learning workspace. Known
+         values are: "Inactive" and "Active".
+        :paramtype status: str or ~azure.mgmt.machinelearningservices.models.RuleStatus
+        :keyword destination: Service Tag destination for a Service Tag Outbound Rule for the managed
+         network of a machine learning workspace.
+        :paramtype destination: ~azure.mgmt.machinelearningservices.models.ServiceTagDestination
+        """
+        super().__init__(category=category, status=status, **kwargs)
+        self.type: str = "ServiceTag"
+        self.destination = destination
 
 
 class SetupScripts(_serialization.Model):
@@ -22319,6 +22987,8 @@ class Workspace(Resource):  # pylint: disable=too-many-instance-attributes
     :ivar v1_legacy_mode: Enabling v1_legacy_mode may prevent you from using features provided by
      the v2 API.
     :vartype v1_legacy_mode: bool
+    :ivar managed_network: Managed Network settings for a machine learning workspace.
+    :vartype managed_network: ~azure.mgmt.machinelearningservices.models.ManagedNetworkSettings
     """
 
     _validation = {
@@ -22380,6 +23050,7 @@ class Workspace(Resource):  # pylint: disable=too-many-instance-attributes
         "storage_hns_enabled": {"key": "properties.storageHnsEnabled", "type": "bool"},
         "ml_flow_tracking_uri": {"key": "properties.mlFlowTrackingUri", "type": "str"},
         "v1_legacy_mode": {"key": "properties.v1LegacyMode", "type": "bool"},
+        "managed_network": {"key": "properties.managedNetwork", "type": "ManagedNetworkSettings"},
     }
 
     def __init__(  # pylint: disable=too-many-locals
@@ -22405,6 +23076,7 @@ class Workspace(Resource):  # pylint: disable=too-many-instance-attributes
         service_managed_resources_settings: Optional["_models.ServiceManagedResourcesSettings"] = None,
         primary_user_assigned_identity: Optional[str] = None,
         v1_legacy_mode: bool = False,
+        managed_network: Optional["_models.ManagedNetworkSettings"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -22461,6 +23133,8 @@ class Workspace(Resource):  # pylint: disable=too-many-instance-attributes
         :keyword v1_legacy_mode: Enabling v1_legacy_mode may prevent you from using features provided
          by the v2 API.
         :paramtype v1_legacy_mode: bool
+        :keyword managed_network: Managed Network settings for a machine learning workspace.
+        :paramtype managed_network: ~azure.mgmt.machinelearningservices.models.ManagedNetworkSettings
         """
         super().__init__(**kwargs)
         self.identity = identity
@@ -22492,6 +23166,7 @@ class Workspace(Resource):  # pylint: disable=too-many-instance-attributes
         self.storage_hns_enabled = None
         self.ml_flow_tracking_uri = None
         self.v1_legacy_mode = v1_legacy_mode
+        self.managed_network = managed_network
 
 
 class WorkspaceConnectionManagedIdentity(_serialization.Model):

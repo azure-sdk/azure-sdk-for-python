@@ -21,9 +21,6 @@ from ._models_py3 import AmlComputeNodeInformation
 from ._models_py3 import AmlComputeNodesInformation
 from ._models_py3 import AmlComputeProperties
 from ._models_py3 import AmlComputeSchema
-from ._models_py3 import AmlOperation
-from ._models_py3 import AmlOperationDisplay
-from ._models_py3 import AmlOperationListResult
 from ._models_py3 import AmlToken
 from ._models_py3 import AmlUserFeature
 from ._models_py3 import ArmResourceId
@@ -45,6 +42,7 @@ from ._models_py3 import AutoTargetRollingWindowSize
 from ._models_py3 import AzureBlobDatastore
 from ._models_py3 import AzureDataLakeGen1Datastore
 from ._models_py3 import AzureDataLakeGen2Datastore
+from ._models_py3 import AzureDatastore
 from ._models_py3 import AzureFileDatastore
 from ._models_py3 import BanditPolicy
 from ._models_py3 import BatchDeployment
@@ -176,6 +174,7 @@ from ._models_py3 import ForecastHorizon
 from ._models_py3 import Forecasting
 from ._models_py3 import ForecastingSettings
 from ._models_py3 import ForecastingTrainingSettings
+from ._models_py3 import FqdnOutboundRule
 from ._models_py3 import GridSamplingAlgorithm
 from ._models_py3 import HDInsight
 from ._models_py3 import HDInsightProperties
@@ -231,6 +230,9 @@ from ._models_py3 import MLTableJobInput
 from ._models_py3 import MLTableJobOutput
 from ._models_py3 import ManagedIdentity
 from ._models_py3 import ManagedIdentityAuthTypeWorkspaceConnectionProperties
+from ._models_py3 import ManagedNetworkProvisionOptions
+from ._models_py3 import ManagedNetworkProvisionStatus
+from ._models_py3 import ManagedNetworkSettings
 from ._models_py3 import ManagedOnlineDeployment
 from ._models_py3 import ManagedServiceIdentity
 from ._models_py3 import MedianStoppingPolicy
@@ -261,6 +263,12 @@ from ._models_py3 import OnlineEndpointProperties
 from ._models_py3 import OnlineEndpointTrackedResourceArmPaginatedResult
 from ._models_py3 import OnlineRequestSettings
 from ._models_py3 import OnlineScaleSettings
+from ._models_py3 import Operation
+from ._models_py3 import OperationDisplay
+from ._models_py3 import OperationListResult
+from ._models_py3 import OutboundRule
+from ._models_py3 import OutboundRuleBasicResource
+from ._models_py3 import OutboundRuleListResult
 from ._models_py3 import OutputPathAssetReference
 from ._models_py3 import PATAuthTypeWorkspaceConnectionProperties
 from ._models_py3 import PaginatedComputeResourcesList
@@ -281,6 +289,8 @@ from ._models_py3 import PipelineJob
 from ._models_py3 import PrivateEndpoint
 from ._models_py3 import PrivateEndpointConnection
 from ._models_py3 import PrivateEndpointConnectionListResult
+from ._models_py3 import PrivateEndpointDestination
+from ._models_py3 import PrivateEndpointOutboundRule
 from ._models_py3 import PrivateEndpointResource
 from ._models_py3 import PrivateLinkResource
 from ._models_py3 import PrivateLinkResourceListResult
@@ -328,6 +338,8 @@ from ._models_py3 import Seasonality
 from ._models_py3 import ServiceManagedResourcesSettings
 from ._models_py3 import ServicePrincipalDatastoreCredentials
 from ._models_py3 import ServicePrincipalDatastoreSecrets
+from ._models_py3 import ServiceTagDestination
+from ._models_py3 import ServiceTagOutboundRule
 from ._models_py3 import SetupScripts
 from ._models_py3 import SharedPrivateLinkResource
 from ._models_py3 import Sku
@@ -402,6 +414,7 @@ from ._models_py3 import WorkspaceConnectionUsernamePassword
 from ._models_py3 import WorkspaceListResult
 from ._models_py3 import WorkspaceUpdateParameters
 
+from ._machine_learning_services_mgmt_client_enums import ActionType
 from ._machine_learning_services_mgmt_client_enums import AllocationState
 from ._machine_learning_services_mgmt_client_enums import ApplicationSharingPolicy
 from ._machine_learning_services_mgmt_client_enums import AssetProvisioningState
@@ -449,6 +462,7 @@ from ._machine_learning_services_mgmt_client_enums import IdentityConfigurationT
 from ._machine_learning_services_mgmt_client_enums import ImageType
 from ._machine_learning_services_mgmt_client_enums import InputDeliveryMode
 from ._machine_learning_services_mgmt_client_enums import InstanceSegmentationPrimaryMetrics
+from ._machine_learning_services_mgmt_client_enums import IsolationMode
 from ._machine_learning_services_mgmt_client_enums import JobInputType
 from ._machine_learning_services_mgmt_client_enums import JobLimitsType
 from ._machine_learning_services_mgmt_client_enums import JobOutputType
@@ -459,6 +473,7 @@ from ._machine_learning_services_mgmt_client_enums import LearningRateScheduler
 from ._machine_learning_services_mgmt_client_enums import ListViewType
 from ._machine_learning_services_mgmt_client_enums import LoadBalancerType
 from ._machine_learning_services_mgmt_client_enums import LogVerbosity
+from ._machine_learning_services_mgmt_client_enums import ManagedNetworkStatus
 from ._machine_learning_services_mgmt_client_enums import ManagedServiceIdentityType
 from ._machine_learning_services_mgmt_client_enums import ModelSize
 from ._machine_learning_services_mgmt_client_enums import MountAction
@@ -473,6 +488,7 @@ from ._machine_learning_services_mgmt_client_enums import OperationName
 from ._machine_learning_services_mgmt_client_enums import OperationStatus
 from ._machine_learning_services_mgmt_client_enums import OperationTrigger
 from ._machine_learning_services_mgmt_client_enums import OrderString
+from ._machine_learning_services_mgmt_client_enums import Origin
 from ._machine_learning_services_mgmt_client_enums import OsType
 from ._machine_learning_services_mgmt_client_enums import OutputDeliveryMode
 from ._machine_learning_services_mgmt_client_enums import PendingUploadCredentialType
@@ -491,6 +507,10 @@ from ._machine_learning_services_mgmt_client_enums import ReferenceType
 from ._machine_learning_services_mgmt_client_enums import RegressionModels
 from ._machine_learning_services_mgmt_client_enums import RegressionPrimaryMetrics
 from ._machine_learning_services_mgmt_client_enums import RemoteLoginPortPublicAccess
+from ._machine_learning_services_mgmt_client_enums import RuleAction
+from ._machine_learning_services_mgmt_client_enums import RuleCategory
+from ._machine_learning_services_mgmt_client_enums import RuleStatus
+from ._machine_learning_services_mgmt_client_enums import RuleType
 from ._machine_learning_services_mgmt_client_enums import SamplingAlgorithmType
 from ._machine_learning_services_mgmt_client_enums import ScaleType
 from ._machine_learning_services_mgmt_client_enums import ScheduleActionType
@@ -547,9 +567,6 @@ __all__ = [
     "AmlComputeNodesInformation",
     "AmlComputeProperties",
     "AmlComputeSchema",
-    "AmlOperation",
-    "AmlOperationDisplay",
-    "AmlOperationListResult",
     "AmlToken",
     "AmlUserFeature",
     "ArmResourceId",
@@ -571,6 +588,7 @@ __all__ = [
     "AzureBlobDatastore",
     "AzureDataLakeGen1Datastore",
     "AzureDataLakeGen2Datastore",
+    "AzureDatastore",
     "AzureFileDatastore",
     "BanditPolicy",
     "BatchDeployment",
@@ -702,6 +720,7 @@ __all__ = [
     "Forecasting",
     "ForecastingSettings",
     "ForecastingTrainingSettings",
+    "FqdnOutboundRule",
     "GridSamplingAlgorithm",
     "HDInsight",
     "HDInsightProperties",
@@ -757,6 +776,9 @@ __all__ = [
     "MLTableJobOutput",
     "ManagedIdentity",
     "ManagedIdentityAuthTypeWorkspaceConnectionProperties",
+    "ManagedNetworkProvisionOptions",
+    "ManagedNetworkProvisionStatus",
+    "ManagedNetworkSettings",
     "ManagedOnlineDeployment",
     "ManagedServiceIdentity",
     "MedianStoppingPolicy",
@@ -787,6 +809,12 @@ __all__ = [
     "OnlineEndpointTrackedResourceArmPaginatedResult",
     "OnlineRequestSettings",
     "OnlineScaleSettings",
+    "Operation",
+    "OperationDisplay",
+    "OperationListResult",
+    "OutboundRule",
+    "OutboundRuleBasicResource",
+    "OutboundRuleListResult",
     "OutputPathAssetReference",
     "PATAuthTypeWorkspaceConnectionProperties",
     "PaginatedComputeResourcesList",
@@ -807,6 +835,8 @@ __all__ = [
     "PrivateEndpoint",
     "PrivateEndpointConnection",
     "PrivateEndpointConnectionListResult",
+    "PrivateEndpointDestination",
+    "PrivateEndpointOutboundRule",
     "PrivateEndpointResource",
     "PrivateLinkResource",
     "PrivateLinkResourceListResult",
@@ -854,6 +884,8 @@ __all__ = [
     "ServiceManagedResourcesSettings",
     "ServicePrincipalDatastoreCredentials",
     "ServicePrincipalDatastoreSecrets",
+    "ServiceTagDestination",
+    "ServiceTagOutboundRule",
     "SetupScripts",
     "SharedPrivateLinkResource",
     "Sku",
@@ -927,6 +959,7 @@ __all__ = [
     "WorkspaceConnectionUsernamePassword",
     "WorkspaceListResult",
     "WorkspaceUpdateParameters",
+    "ActionType",
     "AllocationState",
     "ApplicationSharingPolicy",
     "AssetProvisioningState",
@@ -974,6 +1007,7 @@ __all__ = [
     "ImageType",
     "InputDeliveryMode",
     "InstanceSegmentationPrimaryMetrics",
+    "IsolationMode",
     "JobInputType",
     "JobLimitsType",
     "JobOutputType",
@@ -984,6 +1018,7 @@ __all__ = [
     "ListViewType",
     "LoadBalancerType",
     "LogVerbosity",
+    "ManagedNetworkStatus",
     "ManagedServiceIdentityType",
     "ModelSize",
     "MountAction",
@@ -998,6 +1033,7 @@ __all__ = [
     "OperationStatus",
     "OperationTrigger",
     "OrderString",
+    "Origin",
     "OsType",
     "OutputDeliveryMode",
     "PendingUploadCredentialType",
@@ -1016,6 +1052,10 @@ __all__ = [
     "RegressionModels",
     "RegressionPrimaryMetrics",
     "RemoteLoginPortPublicAccess",
+    "RuleAction",
+    "RuleCategory",
+    "RuleStatus",
+    "RuleType",
     "SamplingAlgorithmType",
     "ScaleType",
     "ScheduleActionType",
