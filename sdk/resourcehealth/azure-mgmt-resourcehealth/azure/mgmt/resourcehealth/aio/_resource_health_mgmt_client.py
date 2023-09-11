@@ -70,6 +70,8 @@ class ResourceHealthMgmtClient(MultiApiClientMixin, _SDKClient):
         profile: KnownProfiles = KnownProfiles.default,
         **kwargs: Any
     ) -> None:
+        if api_version:
+            kwargs.setdefault('api_version', api_version)
         self._config = ResourceHealthMgmtClientConfiguration(credential, subscription_id, **kwargs)
         self._client = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
         super(ResourceHealthMgmtClient, self).__init__(
@@ -118,7 +120,7 @@ class ResourceHealthMgmtClient(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'availability_statuses'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def child_availability_statuses(self):
@@ -135,7 +137,7 @@ class ResourceHealthMgmtClient(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'child_availability_statuses'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def child_resources(self):
@@ -152,7 +154,7 @@ class ResourceHealthMgmtClient(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'child_resources'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def emerging_issues(self):
@@ -169,7 +171,7 @@ class ResourceHealthMgmtClient(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'emerging_issues'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def event(self):
@@ -183,7 +185,7 @@ class ResourceHealthMgmtClient(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'event'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def events(self):
@@ -200,7 +202,7 @@ class ResourceHealthMgmtClient(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'events'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def impacted_resources(self):
@@ -214,7 +216,7 @@ class ResourceHealthMgmtClient(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'impacted_resources'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def metadata(self):
@@ -231,7 +233,7 @@ class ResourceHealthMgmtClient(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'metadata'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def operations(self):
@@ -251,7 +253,7 @@ class ResourceHealthMgmtClient(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'operations'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def security_advisory_impacted_resources(self):
@@ -265,7 +267,7 @@ class ResourceHealthMgmtClient(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'security_advisory_impacted_resources'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     async def close(self):
         await self._client.close()
