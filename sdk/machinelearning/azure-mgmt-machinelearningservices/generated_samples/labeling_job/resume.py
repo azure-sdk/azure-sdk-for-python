@@ -14,7 +14,7 @@ from azure.mgmt.machinelearningservices import MachineLearningServicesMgmtClient
     pip install azure-identity
     pip install azure-mgmt-machinelearningservices
 # USAGE
-    python update_user_created.py
+    python resume.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,18 +29,13 @@ def main():
         subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.registries.update(
-        resource_group_name="test-rg",
-        registry_name="string",
-        body={
-            "identity": {"type": "UserAssigned", "userAssignedIdentities": {"string": {}}},
-            "sku": {"capacity": 1, "family": "string", "name": "string", "size": "string", "tier": "Basic"},
-            "tags": {},
-        },
-    )
-    print(response)
+    client.labeling_jobs.begin_resume(
+        resource_group_name="workspace-1234",
+        workspace_name="testworkspace",
+        id="testLabelingJob",
+    ).result()
 
 
-# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2023-04-01/examples/Registries/update-UserCreated.json
+# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2023-06-01-preview/examples/LabelingJob/resume.json
 if __name__ == "__main__":
     main()

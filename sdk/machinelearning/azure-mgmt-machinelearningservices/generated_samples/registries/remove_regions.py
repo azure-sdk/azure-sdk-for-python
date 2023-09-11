@@ -41,6 +41,22 @@ def main():
                 "intellectualPropertyPublisher": "string",
                 "managedResourceGroup": {"resourceId": "string"},
                 "mlFlowRegistryUri": "string",
+                "privateEndpointConnections": [
+                    {
+                        "id": "string",
+                        "location": "string",
+                        "properties": {
+                            "groupIds": ["string"],
+                            "privateEndpoint": {"subnetArmId": "string"},
+                            "privateLinkServiceConnectionState": {
+                                "actionsRequired": "string",
+                                "description": "string",
+                                "status": "Approved",
+                            },
+                            "provisioningState": "string",
+                        },
+                    }
+                ],
                 "publicNetworkAccess": "string",
                 "regionDetails": [
                     {
@@ -50,8 +66,7 @@ def main():
                                     "acrAccountName": "string",
                                     "acrAccountSku": "string",
                                     "armResourceId": {"resourceId": "string"},
-                                },
-                                "userCreatedAcrAccount": {"armResourceId": {"resourceId": "string"}},
+                                }
                             }
                         ],
                         "location": "string",
@@ -63,26 +78,9 @@ def main():
                                     "storageAccountHnsEnabled": False,
                                     "storageAccountName": "string",
                                     "storageAccountType": "string",
-                                },
-                                "userCreatedStorageAccount": {"armResourceId": {"resourceId": "string"}},
+                                }
                             }
                         ],
-                    }
-                ],
-                "registryPrivateEndpointConnections": [
-                    {
-                        "id": "string",
-                        "location": "string",
-                        "properties": {
-                            "groupIds": ["string"],
-                            "privateEndpoint": {"subnetArmId": "string"},
-                            "provisioningState": "string",
-                            "registryPrivateLinkServiceConnectionState": {
-                                "actionsRequired": "string",
-                                "description": "string",
-                                "status": "Approved",
-                            },
-                        },
                     }
                 ],
             },
@@ -93,6 +91,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2023-04-01/examples/Registries/removeRegions.json
+# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2023-06-01-preview/examples/Registries/removeRegions.json
 if __name__ == "__main__":
     main()
