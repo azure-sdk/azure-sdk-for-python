@@ -124,6 +124,8 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         profile: KnownProfiles = KnownProfiles.default,
         **kwargs: Any
     ) -> None:
+        if api_version:
+            kwargs.setdefault('api_version', api_version)
         self._config = SecurityCenterConfiguration(credential, subscription_id, **kwargs)
         self._client = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
         super(SecurityCenter, self).__init__(
@@ -270,7 +272,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'adaptive_application_controls'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def adaptive_network_hardenings(self):
@@ -284,7 +286,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'adaptive_network_hardenings'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def advanced_threat_protection(self):
@@ -298,7 +300,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'advanced_threat_protection'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def alerts(self):
@@ -315,7 +317,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'alerts'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def alerts_suppression_rules(self):
@@ -329,7 +331,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'alerts_suppression_rules'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def allowed_connections(self):
@@ -343,7 +345,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'allowed_connections'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def api_collection(self):
@@ -357,7 +359,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'api_collection'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def api_collection_offboarding(self):
@@ -371,7 +373,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'api_collection_offboarding'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def api_collection_onboarding(self):
@@ -385,7 +387,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'api_collection_onboarding'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def application(self):
@@ -399,7 +401,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'application'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def applications(self):
@@ -413,7 +415,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'applications'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def assessments(self):
@@ -430,7 +432,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'assessments'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def assessments_metadata(self):
@@ -447,7 +449,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'assessments_metadata'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def auto_provisioning_settings(self):
@@ -461,7 +463,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'auto_provisioning_settings'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def automations(self):
@@ -475,7 +477,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'automations'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def compliance_results(self):
@@ -489,7 +491,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'compliance_results'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def compliances(self):
@@ -503,7 +505,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'compliances'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def connectors(self):
@@ -517,7 +519,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'connectors'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def custom_assessment_automations(self):
@@ -531,7 +533,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'custom_assessment_automations'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def custom_entity_store_assignments(self):
@@ -545,7 +547,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'custom_entity_store_assignments'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def device_security_groups(self):
@@ -559,7 +561,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'device_security_groups'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def discovered_security_solutions(self):
@@ -573,7 +575,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'discovered_security_solutions'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def external_security_solutions(self):
@@ -587,7 +589,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'external_security_solutions'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def governance_assignments(self):
@@ -601,7 +603,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'governance_assignments'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def governance_rules(self):
@@ -615,7 +617,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'governance_rules'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def health_report(self):
@@ -629,7 +631,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'health_report'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def health_reports(self):
@@ -643,7 +645,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'health_reports'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def information_protection_policies(self):
@@ -657,7 +659,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'information_protection_policies'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def ingestion_settings(self):
@@ -671,7 +673,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'ingestion_settings'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def iot_security_solution(self):
@@ -685,7 +687,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'iot_security_solution'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def iot_security_solution_analytics(self):
@@ -699,7 +701,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'iot_security_solution_analytics'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def iot_security_solutions_analytics_aggregated_alert(self):
@@ -713,7 +715,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'iot_security_solutions_analytics_aggregated_alert'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def iot_security_solutions_analytics_recommendation(self):
@@ -727,7 +729,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'iot_security_solutions_analytics_recommendation'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def jit_network_access_policies(self):
@@ -741,7 +743,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'jit_network_access_policies'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def locations(self):
@@ -755,7 +757,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'locations'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def mde_onboardings(self):
@@ -769,7 +771,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'mde_onboardings'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def operations(self):
@@ -783,7 +785,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'operations'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def pricings(self):
@@ -803,7 +805,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'pricings'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def regulatory_compliance_assessments(self):
@@ -817,7 +819,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'regulatory_compliance_assessments'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def regulatory_compliance_controls(self):
@@ -831,7 +833,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'regulatory_compliance_controls'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def regulatory_compliance_standards(self):
@@ -845,7 +847,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'regulatory_compliance_standards'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def secure_score_control_definitions(self):
@@ -859,7 +861,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'secure_score_control_definitions'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def secure_score_controls(self):
@@ -873,7 +875,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'secure_score_controls'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def secure_scores(self):
@@ -887,7 +889,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'secure_scores'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def security_connector_application(self):
@@ -901,7 +903,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'security_connector_application'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def security_connector_applications(self):
@@ -915,7 +917,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'security_connector_applications'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def security_connectors(self):
@@ -938,7 +940,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'security_connectors'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def security_contacts(self):
@@ -952,7 +954,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'security_contacts'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def security_operators(self):
@@ -966,7 +968,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'security_operators'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def security_solutions(self):
@@ -980,7 +982,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'security_solutions'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def security_solutions_reference_data(self):
@@ -994,7 +996,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'security_solutions_reference_data'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def server_vulnerability_assessment(self):
@@ -1008,7 +1010,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'server_vulnerability_assessment'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def settings(self):
@@ -1028,7 +1030,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'settings'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def software_inventories(self):
@@ -1042,7 +1044,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'software_inventories'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def sql_vulnerability_assessment_baseline_rules(self):
@@ -1059,7 +1061,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'sql_vulnerability_assessment_baseline_rules'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def sql_vulnerability_assessment_scan_results(self):
@@ -1076,7 +1078,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'sql_vulnerability_assessment_scan_results'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def sql_vulnerability_assessment_scans(self):
@@ -1093,7 +1095,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'sql_vulnerability_assessment_scans'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def sub_assessments(self):
@@ -1107,7 +1109,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'sub_assessments'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def tasks(self):
@@ -1121,7 +1123,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'tasks'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def topology(self):
@@ -1135,7 +1137,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'topology'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def workspace_settings(self):
@@ -1149,7 +1151,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         else:
             raise ValueError("API version {} does not have operation group 'workspace_settings'".format(api_version))
         self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)))
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     async def close(self):
         await self._client.close()

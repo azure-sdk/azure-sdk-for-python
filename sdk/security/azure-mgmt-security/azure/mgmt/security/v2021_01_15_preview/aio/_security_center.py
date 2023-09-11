@@ -54,7 +54,7 @@ class SecurityCenter:  # pylint: disable=client-accepts-api-version-keyword
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
         self.ingestion_settings = IngestionSettingsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2021-01-15-preview"
         )
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> Awaitable[AsyncHttpResponse]:
