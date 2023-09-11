@@ -75,18 +75,22 @@ class SecurityCenter:  # pylint: disable=client-accepts-api-version-keyword
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
         self.regulatory_compliance_standards = RegulatoryComplianceStandardsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2019-01-01-preview"
         )
         self.regulatory_compliance_controls = RegulatoryComplianceControlsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2019-01-01-preview"
         )
         self.regulatory_compliance_assessments = RegulatoryComplianceAssessmentsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2019-01-01-preview"
         )
-        self.sub_assessments = SubAssessmentsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.automations = AutomationsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.sub_assessments = SubAssessmentsOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2019-01-01-preview"
+        )
+        self.automations = AutomationsOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2019-01-01-preview"
+        )
         self.alerts_suppression_rules = AlertsSuppressionRulesOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2019-01-01-preview"
         )
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> HttpResponse:
