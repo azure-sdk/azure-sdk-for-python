@@ -14,7 +14,7 @@ from azure.mgmt.azurearcdata import AzureArcDataManagementClient
     pip install azure-identity
     pip install azure-mgmt-azurearcdata
 # USAGE
-    python list_by_resource_group_data_controller.py
+    python update_sql_server_database.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,13 +29,15 @@ def main():
         subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.data_controllers.list_in_group(
+    response = client.sql_server_databases.update(
         resource_group_name="testrg",
+        sql_server_instance_name="testsqlManagedInstance",
+        database_name="testdb",
+        sql_server_database_update={"tags": {"mytag": "myval1"}},
     )
-    for item in response:
-        print(item)
+    print(response)
 
 
-# x-ms-original-file: specification/azurearcdata/resource-manager/Microsoft.AzureArcData/preview/2023-05-16-preview/examples/ListByResourceGroupDataController.json
+# x-ms-original-file: specification/azurearcdata/resource-manager/Microsoft.AzureArcData/preview/2023-05-16-preview/examples/UpdateSqlServerDatabase.json
 if __name__ == "__main__":
     main()

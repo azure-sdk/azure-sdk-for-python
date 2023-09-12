@@ -17,6 +17,15 @@ class AccountProvisioningMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     MANUAL = "manual"
 
 
+class AlwaysOnRole(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The role of the SQL Server, based on availability."""
+
+    NONE = "None"
+    FAILOVER_CLUSTER_INSTANCE = "FailoverClusterInstance"
+    FAILOVER_CLUSTER_NODE = "FailoverClusterNode"
+    AVAILABILITY_GROUP_REPLICA = "AvailabilityGroupReplica"
+
+
 class ArcSqlManagedInstanceLicenseType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The license type to apply for this managed instance."""
 
@@ -55,12 +64,33 @@ class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     KEY = "Key"
 
 
+class DatabaseState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """State of the database."""
+
+    ONLINE = "Online"
+    RESTORING = "Restoring"
+    RECOVERING = "Recovering"
+    RECOVERY_PENDING = "RecoveryPending"
+    SUSPECT = "Suspect"
+    EMERGENCY = "Emergency"
+    OFFLINE = "Offline"
+    COPYING = "Copying"
+    OFFLINE_SECONDARY = "OfflineSecondary"
+
+
 class DefenderStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Status of Azure Defender."""
 
     PROTECTED = "Protected"
     UNPROTECTED = "Unprotected"
     UNKNOWN = "Unknown"
+
+
+class DifferentialBackupHours(int, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The differential backup interval in hours."""
+
+    TWELVE = 12
+    TWENTY_FOUR = 24
 
 
 class EditionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -72,12 +102,21 @@ class EditionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     WEB = "Web"
     DEVELOPER = "Developer"
     EXPRESS = "Express"
+    BUSINESS_INTELLIGENCE = "Business Intelligence"
 
 
 class ExtendedLocationTypes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of extendedLocation."""
 
     CUSTOM_LOCATION = "CustomLocation"
+
+
+class FailoverGroupPartnerSyncMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The partner sync mode of the SQL managed instance."""
+
+    ASYNC = "async"
+    SYNC = "sync"
+    ASYNC_ENUM = "async"
 
 
 class HostType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -109,11 +148,37 @@ class Infrastructure(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     OTHER = "other"
 
 
+class InstanceFailoverGroupRole(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The role of the SQL managed instance in this failover group."""
+
+    PRIMARY = "primary"
+    SECONDARY = "secondary"
+    FORCE_PRIMARY_ALLOW_DATA_LOSS = "force-primary-allow-data-loss"
+    FORCE_SECONDARY = "force-secondary"
+
+
 class OperationOrigin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The intended executor of the operation."""
 
     USER = "user"
     SYSTEM = "system"
+
+
+class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The provisioning state of the failover group resource."""
+
+    SUCCEEDED = "Succeeded"
+    FAILED = "Failed"
+    CANCELED = "Canceled"
+    ACCEPTED = "Accepted"
+
+
+class RecoveryMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Status of the database."""
+
+    FULL = "Full"
+    BULK_LOGGED = "Bulk-logged"
+    SIMPLE = "Simple"
 
 
 class SqlManagedInstanceSkuTier(str, Enum, metaclass=CaseInsensitiveEnumMeta):

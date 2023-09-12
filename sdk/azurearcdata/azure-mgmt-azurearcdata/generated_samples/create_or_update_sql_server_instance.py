@@ -35,15 +35,33 @@ def main():
         sql_server_instance={
             "location": "northeurope",
             "properties": {
+                "alwaysOnRole": "FailoverClusterInstance",
                 "azureDefenderStatus": "Protected",
                 "azureDefenderStatusLastUpdated": "2020-01-02T17:18:19.1234567Z",
+                "backupPolicy": {
+                    "differentialBackupHours": 12,
+                    "fullBackupDays": 1,
+                    "retentionPeriodDays": 1,
+                    "transactionLogBackupMinutes": 30,
+                },
                 "collation": "collation",
                 "containerResourceId": "Resource id of hosting Arc Machine",
+                "cores": "4",
                 "currentVersion": "2012",
                 "edition": "Developer",
+                "failoverCluster": {
+                    "hostNames": ["DEV-HOSTNAME1", "DEV-HOSTNAME2"],
+                    "id": "f836af7e-85ed-4ea4-91fb-67709b34e323",
+                    "networkName": "networkNameOfSQLFCI",
+                    "sqlInstanceIds": [
+                        "/subscriptions/dummySub/resourceGroups/dummyRG/providers/Microsoft.AzureArcData/SqlServerInstances/sqlServer1",
+                        "/subscriptions/dummySub/resourceGroups/dummyRG/providers/Microsoft.AzureArcData/SqlServerInstances/sqlServer2",
+                    ],
+                },
                 "hostType": "Physical Server",
                 "instanceName": "name of instance",
                 "licenseType": "Free",
+                "monitoring": {"enabled": False},
                 "patchLevel": "patchlevel",
                 "productId": "sql id",
                 "status": "Registered",
@@ -58,6 +76,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/azurearcdata/resource-manager/Microsoft.AzureArcData/preview/2022-03-01-preview/examples/CreateOrUpdateSqlServerInstance.json
+# x-ms-original-file: specification/azurearcdata/resource-manager/Microsoft.AzureArcData/preview/2023-05-16-preview/examples/CreateOrUpdateSqlServerInstance.json
 if __name__ == "__main__":
     main()
