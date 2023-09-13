@@ -10,6 +10,12 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
+class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs."""
+
+    INTERNAL = "Internal"
+
+
 class AllocationState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Allocation state of the compute. Possible values are: steady - Indicates that the compute is
     not resizing. There are no changes to the number of compute nodes in the compute in progress. A
@@ -678,6 +684,16 @@ class JobStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Default job status if not mapped to all other statuses"""
 
 
+class JobTier(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Enum to determine the job tier."""
+
+    NULL = "Null"
+    SPOT = "Spot"
+    BASIC = "Basic"
+    STANDARD = "Standard"
+    PREMIUM = "Premium"
+
+
 class JobType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Enum to determine the type of job."""
 
@@ -871,6 +887,16 @@ class OrderString(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     CREATED_AT_ASC = "CreatedAtAsc"
     UPDATED_AT_DESC = "UpdatedAtDesc"
     UPDATED_AT_ASC = "UpdatedAtAsc"
+
+
+class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit
+    logs UX. Default value is "user,system".
+    """
+
+    USER = "user"
+    SYSTEM = "system"
+    USER_SYSTEM = "user,system"
 
 
 class OsType(str, Enum, metaclass=CaseInsensitiveEnumMeta):

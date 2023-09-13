@@ -71,6 +71,7 @@ class JobsOperations:
         job_type: Optional[str] = None,
         tag: Optional[str] = None,
         list_view_type: Optional[Union[str, _models.ListViewType]] = None,
+        properties: Optional[str] = None,
         **kwargs: Any
     ) -> AsyncIterable["_models.JobBase"]:
         """Lists Jobs in the workspace.
@@ -91,6 +92,9 @@ class JobsOperations:
         :param list_view_type: View type for including/excluding (for example) archived entities. Known
          values are: "ActiveOnly", "ArchivedOnly", and "All". Default value is None.
         :type list_view_type: str or ~azure.mgmt.machinelearningservices.models.ListViewType
+        :param properties: Comma-separated list of user property names (and optionally values).
+         Example: prop1,prop2=value2. Default value is None.
+        :type properties: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either JobBase or the result of cls(response)
         :rtype:
@@ -122,6 +126,7 @@ class JobsOperations:
                     job_type=job_type,
                     tag=tag,
                     list_view_type=list_view_type,
+                    properties=properties,
                     api_version=api_version,
                     template_url=self.list.metadata["url"],
                     headers=_headers,

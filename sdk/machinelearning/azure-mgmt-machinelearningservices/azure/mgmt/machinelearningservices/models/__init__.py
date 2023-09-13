@@ -21,9 +21,6 @@ from ._models_py3 import AmlComputeNodeInformation
 from ._models_py3 import AmlComputeNodesInformation
 from ._models_py3 import AmlComputeProperties
 from ._models_py3 import AmlComputeSchema
-from ._models_py3 import AmlOperation
-from ._models_py3 import AmlOperationDisplay
-from ._models_py3 import AmlOperationListResult
 from ._models_py3 import AmlToken
 from ._models_py3 import AmlUserFeature
 from ._models_py3 import ArmResourceId
@@ -45,6 +42,7 @@ from ._models_py3 import AutoTargetRollingWindowSize
 from ._models_py3 import AzureBlobDatastore
 from ._models_py3 import AzureDataLakeGen1Datastore
 from ._models_py3 import AzureDataLakeGen2Datastore
+from ._models_py3 import AzureDatastore
 from ._models_py3 import AzureFileDatastore
 from ._models_py3 import BanditPolicy
 from ._models_py3 import BatchDeployment
@@ -261,6 +259,9 @@ from ._models_py3 import OnlineEndpointProperties
 from ._models_py3 import OnlineEndpointTrackedResourceArmPaginatedResult
 from ._models_py3 import OnlineRequestSettings
 from ._models_py3 import OnlineScaleSettings
+from ._models_py3 import Operation
+from ._models_py3 import OperationDisplay
+from ._models_py3 import OperationListResult
 from ._models_py3 import OutputPathAssetReference
 from ._models_py3 import PATAuthTypeWorkspaceConnectionProperties
 from ._models_py3 import PaginatedComputeResourcesList
@@ -287,6 +288,7 @@ from ._models_py3 import PrivateLinkResourceListResult
 from ._models_py3 import PrivateLinkServiceConnectionState
 from ._models_py3 import ProbeSettings
 from ._models_py3 import PyTorch
+from ._models_py3 import QueueSettings
 from ._models_py3 import QuotaBaseProperties
 from ._models_py3 import QuotaUpdateParameters
 from ._models_py3 import RandomSamplingAlgorithm
@@ -402,6 +404,7 @@ from ._models_py3 import WorkspaceConnectionUsernamePassword
 from ._models_py3 import WorkspaceListResult
 from ._models_py3 import WorkspaceUpdateParameters
 
+from ._machine_learning_services_mgmt_client_enums import ActionType
 from ._machine_learning_services_mgmt_client_enums import AllocationState
 from ._machine_learning_services_mgmt_client_enums import ApplicationSharingPolicy
 from ._machine_learning_services_mgmt_client_enums import AssetProvisioningState
@@ -453,6 +456,7 @@ from ._machine_learning_services_mgmt_client_enums import JobInputType
 from ._machine_learning_services_mgmt_client_enums import JobLimitsType
 from ._machine_learning_services_mgmt_client_enums import JobOutputType
 from ._machine_learning_services_mgmt_client_enums import JobStatus
+from ._machine_learning_services_mgmt_client_enums import JobTier
 from ._machine_learning_services_mgmt_client_enums import JobType
 from ._machine_learning_services_mgmt_client_enums import KeyType
 from ._machine_learning_services_mgmt_client_enums import LearningRateScheduler
@@ -473,6 +477,7 @@ from ._machine_learning_services_mgmt_client_enums import OperationName
 from ._machine_learning_services_mgmt_client_enums import OperationStatus
 from ._machine_learning_services_mgmt_client_enums import OperationTrigger
 from ._machine_learning_services_mgmt_client_enums import OrderString
+from ._machine_learning_services_mgmt_client_enums import Origin
 from ._machine_learning_services_mgmt_client_enums import OsType
 from ._machine_learning_services_mgmt_client_enums import OutputDeliveryMode
 from ._machine_learning_services_mgmt_client_enums import PendingUploadCredentialType
@@ -547,9 +552,6 @@ __all__ = [
     "AmlComputeNodesInformation",
     "AmlComputeProperties",
     "AmlComputeSchema",
-    "AmlOperation",
-    "AmlOperationDisplay",
-    "AmlOperationListResult",
     "AmlToken",
     "AmlUserFeature",
     "ArmResourceId",
@@ -571,6 +573,7 @@ __all__ = [
     "AzureBlobDatastore",
     "AzureDataLakeGen1Datastore",
     "AzureDataLakeGen2Datastore",
+    "AzureDatastore",
     "AzureFileDatastore",
     "BanditPolicy",
     "BatchDeployment",
@@ -787,6 +790,9 @@ __all__ = [
     "OnlineEndpointTrackedResourceArmPaginatedResult",
     "OnlineRequestSettings",
     "OnlineScaleSettings",
+    "Operation",
+    "OperationDisplay",
+    "OperationListResult",
     "OutputPathAssetReference",
     "PATAuthTypeWorkspaceConnectionProperties",
     "PaginatedComputeResourcesList",
@@ -813,6 +819,7 @@ __all__ = [
     "PrivateLinkServiceConnectionState",
     "ProbeSettings",
     "PyTorch",
+    "QueueSettings",
     "QuotaBaseProperties",
     "QuotaUpdateParameters",
     "RandomSamplingAlgorithm",
@@ -927,6 +934,7 @@ __all__ = [
     "WorkspaceConnectionUsernamePassword",
     "WorkspaceListResult",
     "WorkspaceUpdateParameters",
+    "ActionType",
     "AllocationState",
     "ApplicationSharingPolicy",
     "AssetProvisioningState",
@@ -978,6 +986,7 @@ __all__ = [
     "JobLimitsType",
     "JobOutputType",
     "JobStatus",
+    "JobTier",
     "JobType",
     "KeyType",
     "LearningRateScheduler",
@@ -998,6 +1007,7 @@ __all__ = [
     "OperationStatus",
     "OperationTrigger",
     "OrderString",
+    "Origin",
     "OsType",
     "OutputDeliveryMode",
     "PendingUploadCredentialType",
