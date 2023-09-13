@@ -257,7 +257,7 @@ class Capability(_serialization.Model):
         self.value = None
 
 
-class Catalog(Resource):
+class Catalog(Resource):  # pylint: disable=too-many-instance-attributes
     """Represents a catalog.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -285,6 +285,13 @@ class Catalog(Resource):
     :ivar sync_state: The synchronization state of the catalog. Known values are: "Succeeded",
      "InProgress", "Failed", and "Canceled".
     :vartype sync_state: str or ~azure.mgmt.devcenter.models.CatalogSyncState
+    :ivar last_sync_stats: Stats of the latest synchronization.
+    :vartype last_sync_stats: ~azure.mgmt.devcenter.models.SyncStats
+    :ivar connection_state: The connection state of the catalog. Known values are: "Connected" and
+     "Disconnected".
+    :vartype connection_state: str or ~azure.mgmt.devcenter.models.CatalogConnectionState
+    :ivar last_connection_time: When the catalog was last connected.
+    :vartype last_connection_time: ~datetime.datetime
     :ivar last_sync_time: When the catalog was last synced.
     :vartype last_sync_time: ~datetime.datetime
     """
@@ -296,6 +303,9 @@ class Catalog(Resource):
         "system_data": {"readonly": True},
         "provisioning_state": {"readonly": True},
         "sync_state": {"readonly": True},
+        "last_sync_stats": {"readonly": True},
+        "connection_state": {"readonly": True},
+        "last_connection_time": {"readonly": True},
         "last_sync_time": {"readonly": True},
     }
 
@@ -308,6 +318,9 @@ class Catalog(Resource):
         "ado_git": {"key": "properties.adoGit", "type": "GitCatalog"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "sync_state": {"key": "properties.syncState", "type": "str"},
+        "last_sync_stats": {"key": "properties.lastSyncStats", "type": "SyncStats"},
+        "connection_state": {"key": "properties.connectionState", "type": "str"},
+        "last_connection_time": {"key": "properties.lastConnectionTime", "type": "iso-8601"},
         "last_sync_time": {"key": "properties.lastSyncTime", "type": "iso-8601"},
     }
 
@@ -329,7 +342,64 @@ class Catalog(Resource):
         self.ado_git = ado_git
         self.provisioning_state = None
         self.sync_state = None
+        self.last_sync_stats = None
+        self.connection_state = None
+        self.last_connection_time = None
         self.last_sync_time = None
+
+
+class CatalogConflictError(_serialization.Model):
+    """An individual conflict error.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar path: The path of the file that has a conflicting name.
+    :vartype path: str
+    :ivar name: Name of the conflicting catalog item.
+    :vartype name: str
+    """
+
+    _validation = {
+        "path": {"readonly": True},
+        "name": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "path": {"key": "path", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.path = None
+        self.name = None
+
+
+class CatalogErrorDetails(_serialization.Model):
+    """Catalog error details.
+
+    :ivar code: An identifier for the error.
+    :vartype code: str
+    :ivar message: A message describing the error.
+    :vartype message: str
+    """
+
+    _attribute_map = {
+        "code": {"key": "code", "type": "str"},
+        "message": {"key": "message", "type": "str"},
+    }
+
+    def __init__(self, *, code: Optional[str] = None, message: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword code: An identifier for the error.
+        :paramtype code: str
+        :keyword message: A message describing the error.
+        :paramtype message: str
+        """
+        super().__init__(**kwargs)
+        self.code = code
+        self.message = message
 
 
 class CatalogListResult(_serialization.Model):
@@ -409,6 +479,13 @@ class CatalogProperties(CatalogUpdateProperties):
     :ivar sync_state: The synchronization state of the catalog. Known values are: "Succeeded",
      "InProgress", "Failed", and "Canceled".
     :vartype sync_state: str or ~azure.mgmt.devcenter.models.CatalogSyncState
+    :ivar last_sync_stats: Stats of the latest synchronization.
+    :vartype last_sync_stats: ~azure.mgmt.devcenter.models.SyncStats
+    :ivar connection_state: The connection state of the catalog. Known values are: "Connected" and
+     "Disconnected".
+    :vartype connection_state: str or ~azure.mgmt.devcenter.models.CatalogConnectionState
+    :ivar last_connection_time: When the catalog was last connected.
+    :vartype last_connection_time: ~datetime.datetime
     :ivar last_sync_time: When the catalog was last synced.
     :vartype last_sync_time: ~datetime.datetime
     """
@@ -416,6 +493,9 @@ class CatalogProperties(CatalogUpdateProperties):
     _validation = {
         "provisioning_state": {"readonly": True},
         "sync_state": {"readonly": True},
+        "last_sync_stats": {"readonly": True},
+        "connection_state": {"readonly": True},
+        "last_connection_time": {"readonly": True},
         "last_sync_time": {"readonly": True},
     }
 
@@ -424,6 +504,9 @@ class CatalogProperties(CatalogUpdateProperties):
         "ado_git": {"key": "adoGit", "type": "GitCatalog"},
         "provisioning_state": {"key": "provisioningState", "type": "str"},
         "sync_state": {"key": "syncState", "type": "str"},
+        "last_sync_stats": {"key": "lastSyncStats", "type": "SyncStats"},
+        "connection_state": {"key": "connectionState", "type": "str"},
+        "last_connection_time": {"key": "lastConnectionTime", "type": "iso-8601"},
         "last_sync_time": {"key": "lastSyncTime", "type": "iso-8601"},
     }
 
@@ -443,7 +526,62 @@ class CatalogProperties(CatalogUpdateProperties):
         super().__init__(git_hub=git_hub, ado_git=ado_git, **kwargs)
         self.provisioning_state = None
         self.sync_state = None
+        self.last_sync_stats = None
+        self.connection_state = None
+        self.last_connection_time = None
         self.last_sync_time = None
+
+
+class CatalogResourceValidationErrorDetails(_serialization.Model):
+    """List of validator error details. Populated when changes are made to the resource or its
+    dependent resources that impact the validity of the Catalog resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar errors: Errors associated with resources synchronized from the catalog.
+    :vartype errors: list[~azure.mgmt.devcenter.models.CatalogErrorDetails]
+    """
+
+    _validation = {
+        "errors": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "errors": {"key": "errors", "type": "[CatalogErrorDetails]"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.errors = None
+
+
+class CatalogSyncError(_serialization.Model):
+    """An individual synchronization error.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar path: The path of the file the error is associated with.
+    :vartype path: str
+    :ivar error_details: Errors associated with the file.
+    :vartype error_details: list[~azure.mgmt.devcenter.models.CatalogErrorDetails]
+    """
+
+    _validation = {
+        "path": {"readonly": True},
+        "error_details": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "path": {"key": "path", "type": "str"},
+        "error_details": {"key": "errorDetails", "type": "[CatalogErrorDetails]"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.path = None
+        self.error_details = None
 
 
 class CatalogUpdate(_serialization.Model):
@@ -612,6 +750,258 @@ class CloudErrorBody(_serialization.Model):
         self.details = details
 
 
+class CustomerManagedKeyEncryption(_serialization.Model):
+    """All Customer-managed key encryption properties for the resource.
+
+    :ivar key_encryption_key_identity: All identity configuration for Customer-managed key settings
+     defining which identity should be used to auth to Key Vault.
+    :vartype key_encryption_key_identity:
+     ~azure.mgmt.devcenter.models.CustomerManagedKeyEncryptionKeyIdentity
+    :ivar key_encryption_key_url: key encryption key Url, versioned or non-versioned. Ex:
+     https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 or
+     https://contosovault.vault.azure.net/keys/contosokek.
+    :vartype key_encryption_key_url: str
+    """
+
+    _attribute_map = {
+        "key_encryption_key_identity": {
+            "key": "keyEncryptionKeyIdentity",
+            "type": "CustomerManagedKeyEncryptionKeyIdentity",
+        },
+        "key_encryption_key_url": {"key": "keyEncryptionKeyUrl", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        key_encryption_key_identity: Optional["_models.CustomerManagedKeyEncryptionKeyIdentity"] = None,
+        key_encryption_key_url: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword key_encryption_key_identity: All identity configuration for Customer-managed key
+         settings defining which identity should be used to auth to Key Vault.
+        :paramtype key_encryption_key_identity:
+         ~azure.mgmt.devcenter.models.CustomerManagedKeyEncryptionKeyIdentity
+        :keyword key_encryption_key_url: key encryption key Url, versioned or non-versioned. Ex:
+         https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 or
+         https://contosovault.vault.azure.net/keys/contosokek.
+        :paramtype key_encryption_key_url: str
+        """
+        super().__init__(**kwargs)
+        self.key_encryption_key_identity = key_encryption_key_identity
+        self.key_encryption_key_url = key_encryption_key_url
+
+
+class CustomerManagedKeyEncryptionKeyIdentity(_serialization.Model):
+    """All identity configuration for Customer-managed key settings defining which identity should be
+    used to auth to Key Vault.
+
+    :ivar identity_type: Values can be systemAssignedIdentity or userAssignedIdentity. Known values
+     are: "systemAssignedIdentity", "userAssignedIdentity", and "delegatedResourceIdentity".
+    :vartype identity_type: str or ~azure.mgmt.devcenter.models.IdentityType
+    :ivar user_assigned_identity_resource_id: user assigned identity to use for accessing key
+     encryption key Url. Ex:
+     /subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/:code:`<resource
+     group>`/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. Mutually exclusive
+     with identityType systemAssignedIdentity and delegatedResourceIdentity.
+    :vartype user_assigned_identity_resource_id: str
+    :ivar delegated_identity_client_id: delegated identity to use for accessing key encryption key
+     Url. Ex: /subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/:code:`<resource
+     group>`/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. Mutually exclusive
+     with identityType systemAssignedIdentity and userAssignedIdentity - internal use only.
+    :vartype delegated_identity_client_id: str
+    """
+
+    _attribute_map = {
+        "identity_type": {"key": "identityType", "type": "str"},
+        "user_assigned_identity_resource_id": {"key": "userAssignedIdentityResourceId", "type": "str"},
+        "delegated_identity_client_id": {"key": "delegatedIdentityClientId", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        identity_type: Optional[Union[str, "_models.IdentityType"]] = None,
+        user_assigned_identity_resource_id: Optional[str] = None,
+        delegated_identity_client_id: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword identity_type: Values can be systemAssignedIdentity or userAssignedIdentity. Known
+         values are: "systemAssignedIdentity", "userAssignedIdentity", and "delegatedResourceIdentity".
+        :paramtype identity_type: str or ~azure.mgmt.devcenter.models.IdentityType
+        :keyword user_assigned_identity_resource_id: user assigned identity to use for accessing key
+         encryption key Url. Ex:
+         /subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/:code:`<resource
+         group>`/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. Mutually exclusive
+         with identityType systemAssignedIdentity and delegatedResourceIdentity.
+        :paramtype user_assigned_identity_resource_id: str
+        :keyword delegated_identity_client_id: delegated identity to use for accessing key encryption
+         key Url. Ex:
+         /subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/:code:`<resource
+         group>`/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. Mutually exclusive
+         with identityType systemAssignedIdentity and userAssignedIdentity - internal use only.
+        :paramtype delegated_identity_client_id: str
+        """
+        super().__init__(**kwargs)
+        self.identity_type = identity_type
+        self.user_assigned_identity_resource_id = user_assigned_identity_resource_id
+        self.delegated_identity_client_id = delegated_identity_client_id
+
+
+class ProxyResource(Resource):
+    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
+    tags and a location.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.devcenter.models.SystemData
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+
+
+class CustomizationTask(ProxyResource):
+    """Represents a Task to be used in customizing a Dev Box.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.devcenter.models.SystemData
+    :ivar inputs: Inputs to the task.
+    :vartype inputs: dict[str, ~azure.mgmt.devcenter.models.CustomizationTaskInput]
+    :ivar timeout: The default timeout for the task.
+    :vartype timeout: int
+    :ivar validation_status: Validation status for the Task. Known values are: "Unknown",
+     "Pending", "Succeeded", and "Failed".
+    :vartype validation_status: str or ~azure.mgmt.devcenter.models.CatalogResourceValidationStatus
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "inputs": {"readonly": True},
+        "timeout": {"readonly": True},
+        "validation_status": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "inputs": {"key": "properties.inputs", "type": "{CustomizationTaskInput}"},
+        "timeout": {"key": "properties.timeout", "type": "int"},
+        "validation_status": {"key": "properties.validationStatus", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.inputs = None
+        self.timeout = None
+        self.validation_status = None
+
+
+class CustomizationTaskInput(_serialization.Model):
+    """Input for a Task.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar description: Description of the input.
+    :vartype description: str
+    :ivar type: Type of the input. Known values are: "string", "number", and "boolean".
+    :vartype type: str or ~azure.mgmt.devcenter.models.CustomizationTaskInputType
+    :ivar required: Whether or not the input is required.
+    :vartype required: bool
+    """
+
+    _validation = {
+        "description": {"readonly": True},
+        "type": {"readonly": True},
+        "required": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "description": {"key": "description", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "required": {"key": "required", "type": "bool"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.description = None
+        self.type = None
+        self.required = None
+
+
+class CustomizationTaskListResult(_serialization.Model):
+    """Results of the Task list operation.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar value: Current page of results.
+    :vartype value: list[~azure.mgmt.devcenter.models.CustomizationTask]
+    :ivar next_link: URL to get the next set of results if there are any.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"readonly": True},
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[CustomizationTask]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.value = None
+        self.next_link = None
+
+
 class TrackedResource(Resource):
     """The resource model definition for an Azure Resource Manager tracked top level resource which
     has 'tags' and a 'location'.
@@ -711,6 +1101,9 @@ class DevBoxDefinition(TrackedResource):  # pylint: disable=too-many-instance-at
      image validation is not successful.
     :vartype image_validation_error_details:
      ~azure.mgmt.devcenter.models.ImageValidationErrorDetails
+    :ivar validation_status: Validation status for the Dev Box Definition. Known values are:
+     "Unknown", "Pending", "Succeeded", and "Failed".
+    :vartype validation_status: str or ~azure.mgmt.devcenter.models.CatalogResourceValidationStatus
     :ivar active_image_reference: Image reference information for the currently active image (only
      populated during updates).
     :vartype active_image_reference: ~azure.mgmt.devcenter.models.ImageReference
@@ -725,6 +1118,7 @@ class DevBoxDefinition(TrackedResource):  # pylint: disable=too-many-instance-at
         "provisioning_state": {"readonly": True},
         "image_validation_status": {"readonly": True},
         "image_validation_error_details": {"readonly": True},
+        "validation_status": {"readonly": True},
         "active_image_reference": {"readonly": True},
     }
 
@@ -745,6 +1139,7 @@ class DevBoxDefinition(TrackedResource):  # pylint: disable=too-many-instance-at
             "key": "properties.imageValidationErrorDetails",
             "type": "ImageValidationErrorDetails",
         },
+        "validation_status": {"key": "properties.validationStatus", "type": "str"},
         "active_image_reference": {"key": "properties.activeImageReference", "type": "ImageReference"},
     }
 
@@ -784,6 +1179,7 @@ class DevBoxDefinition(TrackedResource):  # pylint: disable=too-many-instance-at
         self.provisioning_state = None
         self.image_validation_status = None
         self.image_validation_error_details = None
+        self.validation_status = None
         self.active_image_reference = None
 
 
@@ -896,6 +1292,9 @@ class DevBoxDefinitionProperties(DevBoxDefinitionUpdateProperties):
      image validation is not successful.
     :vartype image_validation_error_details:
      ~azure.mgmt.devcenter.models.ImageValidationErrorDetails
+    :ivar validation_status: Validation status for the Dev Box Definition. Known values are:
+     "Unknown", "Pending", "Succeeded", and "Failed".
+    :vartype validation_status: str or ~azure.mgmt.devcenter.models.CatalogResourceValidationStatus
     :ivar active_image_reference: Image reference information for the currently active image (only
      populated during updates).
     :vartype active_image_reference: ~azure.mgmt.devcenter.models.ImageReference
@@ -905,6 +1304,7 @@ class DevBoxDefinitionProperties(DevBoxDefinitionUpdateProperties):
         "provisioning_state": {"readonly": True},
         "image_validation_status": {"readonly": True},
         "image_validation_error_details": {"readonly": True},
+        "validation_status": {"readonly": True},
         "active_image_reference": {"readonly": True},
     }
 
@@ -916,6 +1316,7 @@ class DevBoxDefinitionProperties(DevBoxDefinitionUpdateProperties):
         "provisioning_state": {"key": "provisioningState", "type": "str"},
         "image_validation_status": {"key": "imageValidationStatus", "type": "str"},
         "image_validation_error_details": {"key": "imageValidationErrorDetails", "type": "ImageValidationErrorDetails"},
+        "validation_status": {"key": "validationStatus", "type": "str"},
         "active_image_reference": {"key": "activeImageReference", "type": "ImageReference"},
     }
 
@@ -951,6 +1352,7 @@ class DevBoxDefinitionProperties(DevBoxDefinitionUpdateProperties):
         self.provisioning_state = None
         self.image_validation_status = None
         self.image_validation_error_details = None
+        self.validation_status = None
         self.active_image_reference = None
 
 
@@ -1068,6 +1470,9 @@ class DevCenter(TrackedResource):
     :vartype location: str
     :ivar identity: Managed identity properties.
     :vartype identity: ~azure.mgmt.devcenter.models.ManagedServiceIdentity
+    :ivar encryption: Encryption settings to be used for server-side encryption for proprietary
+     content (such as catalogs, logs, customizations).
+    :vartype encryption: ~azure.mgmt.devcenter.models.Encryption
     :ivar provisioning_state: The provisioning state of the resource. Known values are:
      "NotSpecified", "Accepted", "Running", "Creating", "Created", "Updating", "Updated",
      "Deleting", "Deleted", "Succeeded", "Failed", "Canceled", "MovingResources",
@@ -1095,6 +1500,7 @@ class DevCenter(TrackedResource):
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
         "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
+        "encryption": {"key": "properties.encryption", "type": "Encryption"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "dev_center_uri": {"key": "properties.devCenterUri", "type": "str"},
     }
@@ -1105,6 +1511,7 @@ class DevCenter(TrackedResource):
         location: str,
         tags: Optional[Dict[str, str]] = None,
         identity: Optional["_models.ManagedServiceIdentity"] = None,
+        encryption: Optional["_models.Encryption"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -1114,9 +1521,13 @@ class DevCenter(TrackedResource):
         :paramtype location: str
         :keyword identity: Managed identity properties.
         :paramtype identity: ~azure.mgmt.devcenter.models.ManagedServiceIdentity
+        :keyword encryption: Encryption settings to be used for server-side encryption for proprietary
+         content (such as catalogs, logs, customizations).
+        :paramtype encryption: ~azure.mgmt.devcenter.models.Encryption
         """
         super().__init__(tags=tags, location=location, **kwargs)
         self.identity = identity
+        self.encryption = encryption
         self.provisioning_state = None
         self.dev_center_uri = None
 
@@ -1147,6 +1558,68 @@ class DevCenterListResult(_serialization.Model):
         super().__init__(**kwargs)
         self.value = None
         self.next_link = None
+
+
+class DevCenterUpdateProperties(_serialization.Model):
+    """Properties of the devcenter. These properties can be updated after the resource has been
+    created.
+
+    :ivar encryption: Encryption settings to be used for server-side encryption for proprietary
+     content (such as catalogs, logs, customizations).
+    :vartype encryption: ~azure.mgmt.devcenter.models.Encryption
+    """
+
+    _attribute_map = {
+        "encryption": {"key": "encryption", "type": "Encryption"},
+    }
+
+    def __init__(self, *, encryption: Optional["_models.Encryption"] = None, **kwargs: Any) -> None:
+        """
+        :keyword encryption: Encryption settings to be used for server-side encryption for proprietary
+         content (such as catalogs, logs, customizations).
+        :paramtype encryption: ~azure.mgmt.devcenter.models.Encryption
+        """
+        super().__init__(**kwargs)
+        self.encryption = encryption
+
+
+class DevCenterProperties(DevCenterUpdateProperties):
+    """Properties of the devcenter.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar encryption: Encryption settings to be used for server-side encryption for proprietary
+     content (such as catalogs, logs, customizations).
+    :vartype encryption: ~azure.mgmt.devcenter.models.Encryption
+    :ivar provisioning_state: The provisioning state of the resource. Known values are:
+     "NotSpecified", "Accepted", "Running", "Creating", "Created", "Updating", "Updated",
+     "Deleting", "Deleted", "Succeeded", "Failed", "Canceled", "MovingResources",
+     "TransientFailure", "RolloutInProgress", and "StorageProvisioningFailed".
+    :vartype provisioning_state: str or ~azure.mgmt.devcenter.models.ProvisioningState
+    :ivar dev_center_uri: The URI of the Dev Center.
+    :vartype dev_center_uri: str
+    """
+
+    _validation = {
+        "provisioning_state": {"readonly": True},
+        "dev_center_uri": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "encryption": {"key": "encryption", "type": "Encryption"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+        "dev_center_uri": {"key": "devCenterUri", "type": "str"},
+    }
+
+    def __init__(self, *, encryption: Optional["_models.Encryption"] = None, **kwargs: Any) -> None:
+        """
+        :keyword encryption: Encryption settings to be used for server-side encryption for proprietary
+         content (such as catalogs, logs, customizations).
+        :paramtype encryption: ~azure.mgmt.devcenter.models.Encryption
+        """
+        super().__init__(encryption=encryption, **kwargs)
+        self.provisioning_state = None
+        self.dev_center_uri = None
 
 
 class Sku(_serialization.Model):
@@ -1309,12 +1782,16 @@ class DevCenterUpdate(TrackedResourceUpdate):
     :vartype location: str
     :ivar identity: Managed identity properties.
     :vartype identity: ~azure.mgmt.devcenter.models.ManagedServiceIdentity
+    :ivar encryption: Encryption settings to be used for server-side encryption for proprietary
+     content (such as catalogs, logs, customizations).
+    :vartype encryption: ~azure.mgmt.devcenter.models.Encryption
     """
 
     _attribute_map = {
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
         "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
+        "encryption": {"key": "properties.encryption", "type": "Encryption"},
     }
 
     def __init__(
@@ -1323,6 +1800,7 @@ class DevCenterUpdate(TrackedResourceUpdate):
         tags: Optional[Dict[str, str]] = None,
         location: Optional[str] = None,
         identity: Optional["_models.ManagedServiceIdentity"] = None,
+        encryption: Optional["_models.Encryption"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -1332,9 +1810,42 @@ class DevCenterUpdate(TrackedResourceUpdate):
         :paramtype location: str
         :keyword identity: Managed identity properties.
         :paramtype identity: ~azure.mgmt.devcenter.models.ManagedServiceIdentity
+        :keyword encryption: Encryption settings to be used for server-side encryption for proprietary
+         content (such as catalogs, logs, customizations).
+        :paramtype encryption: ~azure.mgmt.devcenter.models.Encryption
         """
         super().__init__(tags=tags, location=location, **kwargs)
         self.identity = identity
+        self.encryption = encryption
+
+
+class Encryption(_serialization.Model):
+    """Encryption.
+
+    :ivar customer_managed_key_encryption: All Customer-managed key encryption properties for the
+     resource.
+    :vartype customer_managed_key_encryption:
+     ~azure.mgmt.devcenter.models.CustomerManagedKeyEncryption
+    """
+
+    _attribute_map = {
+        "customer_managed_key_encryption": {
+            "key": "customerManagedKeyEncryption",
+            "type": "CustomerManagedKeyEncryption",
+        },
+    }
+
+    def __init__(
+        self, *, customer_managed_key_encryption: Optional["_models.CustomerManagedKeyEncryption"] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword customer_managed_key_encryption: All Customer-managed key encryption properties for
+         the resource.
+        :paramtype customer_managed_key_encryption:
+         ~azure.mgmt.devcenter.models.CustomerManagedKeyEncryption
+        """
+        super().__init__(**kwargs)
+        self.customer_managed_key_encryption = customer_managed_key_encryption
 
 
 class EndpointDependency(_serialization.Model):
@@ -1393,6 +1904,142 @@ class EndpointDetail(_serialization.Model):
         """ """
         super().__init__(**kwargs)
         self.port = None
+
+
+class EnvironmentDefinition(ProxyResource):
+    """Represents an environment definition catalog item.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.devcenter.models.SystemData
+    :ivar description: A short description of the environment definition.
+    :vartype description: str
+    :ivar parameters: Input parameters passed to an environment.
+    :vartype parameters: list[~azure.mgmt.devcenter.models.EnvironmentDefinitionParameter]
+    :ivar template_path: Path to the Environment Definition entrypoint file.
+    :vartype template_path: str
+    :ivar validation_status: Validation status for the environment definition. Known values are:
+     "Unknown", "Pending", "Succeeded", and "Failed".
+    :vartype validation_status: str or ~azure.mgmt.devcenter.models.CatalogResourceValidationStatus
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "description": {"readonly": True},
+        "parameters": {"readonly": True},
+        "template_path": {"readonly": True},
+        "validation_status": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "description": {"key": "properties.description", "type": "str"},
+        "parameters": {"key": "properties.parameters", "type": "[EnvironmentDefinitionParameter]"},
+        "template_path": {"key": "properties.templatePath", "type": "str"},
+        "validation_status": {"key": "properties.validationStatus", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.description = None
+        self.parameters = None
+        self.template_path = None
+        self.validation_status = None
+
+
+class EnvironmentDefinitionListResult(_serialization.Model):
+    """Results of the environment definition list operation.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar value: Current page of results.
+    :vartype value: list[~azure.mgmt.devcenter.models.EnvironmentDefinition]
+    :ivar next_link: URL to get the next set of results if there are any.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"readonly": True},
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[EnvironmentDefinition]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.value = None
+        self.next_link = None
+
+
+class EnvironmentDefinitionParameter(_serialization.Model):
+    """Properties of an Environment Definition parameter.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Unique ID of the parameter.
+    :vartype id: str
+    :ivar name: Display name of the parameter.
+    :vartype name: str
+    :ivar description: Description of the parameter.
+    :vartype description: str
+    :ivar type: A string of one of the basic JSON types (number, integer, array, object, boolean,
+     string). Known values are: "array", "boolean", "integer", "number", "object", and "string".
+    :vartype type: str or ~azure.mgmt.devcenter.models.ParameterType
+    :ivar read_only: Whether or not this parameter is read-only.  If true, default should have a
+     value.
+    :vartype read_only: bool
+    :ivar required: Whether or not this parameter is required.
+    :vartype required: bool
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "description": {"readonly": True},
+        "type": {"readonly": True},
+        "read_only": {"readonly": True},
+        "required": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "description": {"key": "description", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "read_only": {"key": "readOnly", "type": "bool"},
+        "required": {"key": "required", "type": "bool"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.id = None
+        self.name = None
+        self.description = None
+        self.type = None
+        self.read_only = None
+        self.required = None
 
 
 class EnvironmentRole(_serialization.Model):
@@ -1906,44 +2553,6 @@ class HealthStatusDetail(_serialization.Model):
         super().__init__(**kwargs)
         self.code = None
         self.message = None
-
-
-class ProxyResource(Resource):
-    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
-    tags and a location.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-    :vartype id: str
-    :ivar name: The name of the resource.
-    :vartype name: str
-    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-     "Microsoft.Storage/storageAccounts".
-    :vartype type: str
-    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
-     information.
-    :vartype system_data: ~azure.mgmt.devcenter.models.SystemData
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
 
 
 class Image(ProxyResource):  # pylint: disable=too-many-instance-attributes
@@ -3072,6 +3681,10 @@ class Pool(TrackedResource):  # pylint: disable=too-many-instance-attributes
     :ivar stop_on_disconnect: Stop on disconnect configuration settings for Dev Boxes created in
      this pool.
     :vartype stop_on_disconnect: ~azure.mgmt.devcenter.models.StopOnDisconnectConfiguration
+    :ivar single_sign_on_status: Indicates whether Dev Boxes in this pool are created with single
+     sign on enabled. The also requires that single sign on be enabled on the tenant. Known values
+     are: "Disabled" and "Enabled".
+    :vartype single_sign_on_status: str or ~azure.mgmt.devcenter.models.SingleSignOnStatus
     :ivar health_status: Overall health status of the Pool. Indicates whether or not the Pool is
      available to create Dev Boxes. Known values are: "Unknown", "Pending", "Healthy", "Warning",
      and "Unhealthy".
@@ -3079,6 +3692,8 @@ class Pool(TrackedResource):  # pylint: disable=too-many-instance-attributes
     :ivar health_status_details: Details on the Pool health status to help diagnose issues. This is
      only populated when the pool status indicates the pool is in a non-healthy state.
     :vartype health_status_details: list[~azure.mgmt.devcenter.models.HealthStatusDetail]
+    :ivar dev_box_count: Indicates the number of provisioned Dev Boxes in this pool.
+    :vartype dev_box_count: int
     :ivar provisioning_state: The provisioning state of the resource. Known values are:
      "NotSpecified", "Accepted", "Running", "Creating", "Created", "Updating", "Updated",
      "Deleting", "Deleted", "Succeeded", "Failed", "Canceled", "MovingResources",
@@ -3094,6 +3709,7 @@ class Pool(TrackedResource):  # pylint: disable=too-many-instance-attributes
         "location": {"required": True},
         "health_status": {"readonly": True},
         "health_status_details": {"readonly": True},
+        "dev_box_count": {"readonly": True},
         "provisioning_state": {"readonly": True},
     }
 
@@ -3109,8 +3725,10 @@ class Pool(TrackedResource):  # pylint: disable=too-many-instance-attributes
         "license_type": {"key": "properties.licenseType", "type": "str"},
         "local_administrator": {"key": "properties.localAdministrator", "type": "str"},
         "stop_on_disconnect": {"key": "properties.stopOnDisconnect", "type": "StopOnDisconnectConfiguration"},
+        "single_sign_on_status": {"key": "properties.singleSignOnStatus", "type": "str"},
         "health_status": {"key": "properties.healthStatus", "type": "str"},
         "health_status_details": {"key": "properties.healthStatusDetails", "type": "[HealthStatusDetail]"},
+        "dev_box_count": {"key": "properties.devBoxCount", "type": "int"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
     }
 
@@ -3124,6 +3742,7 @@ class Pool(TrackedResource):  # pylint: disable=too-many-instance-attributes
         license_type: Optional[Union[str, "_models.LicenseType"]] = None,
         local_administrator: Optional[Union[str, "_models.LocalAdminStatus"]] = None,
         stop_on_disconnect: Optional["_models.StopOnDisconnectConfiguration"] = None,
+        single_sign_on_status: Optional[Union[str, "_models.SingleSignOnStatus"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -3144,6 +3763,10 @@ class Pool(TrackedResource):  # pylint: disable=too-many-instance-attributes
         :keyword stop_on_disconnect: Stop on disconnect configuration settings for Dev Boxes created in
          this pool.
         :paramtype stop_on_disconnect: ~azure.mgmt.devcenter.models.StopOnDisconnectConfiguration
+        :keyword single_sign_on_status: Indicates whether Dev Boxes in this pool are created with
+         single sign on enabled. The also requires that single sign on be enabled on the tenant. Known
+         values are: "Disabled" and "Enabled".
+        :paramtype single_sign_on_status: str or ~azure.mgmt.devcenter.models.SingleSignOnStatus
         """
         super().__init__(tags=tags, location=location, **kwargs)
         self.dev_box_definition_name = dev_box_definition_name
@@ -3151,8 +3774,10 @@ class Pool(TrackedResource):  # pylint: disable=too-many-instance-attributes
         self.license_type = license_type
         self.local_administrator = local_administrator
         self.stop_on_disconnect = stop_on_disconnect
+        self.single_sign_on_status = single_sign_on_status
         self.health_status = None
         self.health_status_details = None
+        self.dev_box_count = None
         self.provisioning_state = None
 
 
@@ -3200,6 +3825,10 @@ class PoolUpdateProperties(_serialization.Model):
     :ivar stop_on_disconnect: Stop on disconnect configuration settings for Dev Boxes created in
      this pool.
     :vartype stop_on_disconnect: ~azure.mgmt.devcenter.models.StopOnDisconnectConfiguration
+    :ivar single_sign_on_status: Indicates whether Dev Boxes in this pool are created with single
+     sign on enabled. The also requires that single sign on be enabled on the tenant. Known values
+     are: "Disabled" and "Enabled".
+    :vartype single_sign_on_status: str or ~azure.mgmt.devcenter.models.SingleSignOnStatus
     """
 
     _attribute_map = {
@@ -3208,6 +3837,7 @@ class PoolUpdateProperties(_serialization.Model):
         "license_type": {"key": "licenseType", "type": "str"},
         "local_administrator": {"key": "localAdministrator", "type": "str"},
         "stop_on_disconnect": {"key": "stopOnDisconnect", "type": "StopOnDisconnectConfiguration"},
+        "single_sign_on_status": {"key": "singleSignOnStatus", "type": "str"},
     }
 
     def __init__(
@@ -3218,6 +3848,7 @@ class PoolUpdateProperties(_serialization.Model):
         license_type: Optional[Union[str, "_models.LicenseType"]] = None,
         local_administrator: Optional[Union[str, "_models.LocalAdminStatus"]] = None,
         stop_on_disconnect: Optional["_models.StopOnDisconnectConfiguration"] = None,
+        single_sign_on_status: Optional[Union[str, "_models.SingleSignOnStatus"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -3234,6 +3865,10 @@ class PoolUpdateProperties(_serialization.Model):
         :keyword stop_on_disconnect: Stop on disconnect configuration settings for Dev Boxes created in
          this pool.
         :paramtype stop_on_disconnect: ~azure.mgmt.devcenter.models.StopOnDisconnectConfiguration
+        :keyword single_sign_on_status: Indicates whether Dev Boxes in this pool are created with
+         single sign on enabled. The also requires that single sign on be enabled on the tenant. Known
+         values are: "Disabled" and "Enabled".
+        :paramtype single_sign_on_status: str or ~azure.mgmt.devcenter.models.SingleSignOnStatus
         """
         super().__init__(**kwargs)
         self.dev_box_definition_name = dev_box_definition_name
@@ -3241,6 +3876,7 @@ class PoolUpdateProperties(_serialization.Model):
         self.license_type = license_type
         self.local_administrator = local_administrator
         self.stop_on_disconnect = stop_on_disconnect
+        self.single_sign_on_status = single_sign_on_status
 
 
 class PoolProperties(PoolUpdateProperties):
@@ -3261,6 +3897,10 @@ class PoolProperties(PoolUpdateProperties):
     :ivar stop_on_disconnect: Stop on disconnect configuration settings for Dev Boxes created in
      this pool.
     :vartype stop_on_disconnect: ~azure.mgmt.devcenter.models.StopOnDisconnectConfiguration
+    :ivar single_sign_on_status: Indicates whether Dev Boxes in this pool are created with single
+     sign on enabled. The also requires that single sign on be enabled on the tenant. Known values
+     are: "Disabled" and "Enabled".
+    :vartype single_sign_on_status: str or ~azure.mgmt.devcenter.models.SingleSignOnStatus
     :ivar health_status: Overall health status of the Pool. Indicates whether or not the Pool is
      available to create Dev Boxes. Known values are: "Unknown", "Pending", "Healthy", "Warning",
      and "Unhealthy".
@@ -3268,6 +3908,8 @@ class PoolProperties(PoolUpdateProperties):
     :ivar health_status_details: Details on the Pool health status to help diagnose issues. This is
      only populated when the pool status indicates the pool is in a non-healthy state.
     :vartype health_status_details: list[~azure.mgmt.devcenter.models.HealthStatusDetail]
+    :ivar dev_box_count: Indicates the number of provisioned Dev Boxes in this pool.
+    :vartype dev_box_count: int
     :ivar provisioning_state: The provisioning state of the resource. Known values are:
      "NotSpecified", "Accepted", "Running", "Creating", "Created", "Updating", "Updated",
      "Deleting", "Deleted", "Succeeded", "Failed", "Canceled", "MovingResources",
@@ -3278,6 +3920,7 @@ class PoolProperties(PoolUpdateProperties):
     _validation = {
         "health_status": {"readonly": True},
         "health_status_details": {"readonly": True},
+        "dev_box_count": {"readonly": True},
         "provisioning_state": {"readonly": True},
     }
 
@@ -3287,8 +3930,10 @@ class PoolProperties(PoolUpdateProperties):
         "license_type": {"key": "licenseType", "type": "str"},
         "local_administrator": {"key": "localAdministrator", "type": "str"},
         "stop_on_disconnect": {"key": "stopOnDisconnect", "type": "StopOnDisconnectConfiguration"},
+        "single_sign_on_status": {"key": "singleSignOnStatus", "type": "str"},
         "health_status": {"key": "healthStatus", "type": "str"},
         "health_status_details": {"key": "healthStatusDetails", "type": "[HealthStatusDetail]"},
+        "dev_box_count": {"key": "devBoxCount", "type": "int"},
         "provisioning_state": {"key": "provisioningState", "type": "str"},
     }
 
@@ -3300,6 +3945,7 @@ class PoolProperties(PoolUpdateProperties):
         license_type: Optional[Union[str, "_models.LicenseType"]] = None,
         local_administrator: Optional[Union[str, "_models.LocalAdminStatus"]] = None,
         stop_on_disconnect: Optional["_models.StopOnDisconnectConfiguration"] = None,
+        single_sign_on_status: Optional[Union[str, "_models.SingleSignOnStatus"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -3316,6 +3962,10 @@ class PoolProperties(PoolUpdateProperties):
         :keyword stop_on_disconnect: Stop on disconnect configuration settings for Dev Boxes created in
          this pool.
         :paramtype stop_on_disconnect: ~azure.mgmt.devcenter.models.StopOnDisconnectConfiguration
+        :keyword single_sign_on_status: Indicates whether Dev Boxes in this pool are created with
+         single sign on enabled. The also requires that single sign on be enabled on the tenant. Known
+         values are: "Disabled" and "Enabled".
+        :paramtype single_sign_on_status: str or ~azure.mgmt.devcenter.models.SingleSignOnStatus
         """
         super().__init__(
             dev_box_definition_name=dev_box_definition_name,
@@ -3323,10 +3973,12 @@ class PoolProperties(PoolUpdateProperties):
             license_type=license_type,
             local_administrator=local_administrator,
             stop_on_disconnect=stop_on_disconnect,
+            single_sign_on_status=single_sign_on_status,
             **kwargs
         )
         self.health_status = None
         self.health_status_details = None
+        self.dev_box_count = None
         self.provisioning_state = None
 
 
@@ -3351,6 +4003,10 @@ class PoolUpdate(TrackedResourceUpdate):
     :ivar stop_on_disconnect: Stop on disconnect configuration settings for Dev Boxes created in
      this pool.
     :vartype stop_on_disconnect: ~azure.mgmt.devcenter.models.StopOnDisconnectConfiguration
+    :ivar single_sign_on_status: Indicates whether Dev Boxes in this pool are created with single
+     sign on enabled. The also requires that single sign on be enabled on the tenant. Known values
+     are: "Disabled" and "Enabled".
+    :vartype single_sign_on_status: str or ~azure.mgmt.devcenter.models.SingleSignOnStatus
     """
 
     _attribute_map = {
@@ -3361,6 +4017,7 @@ class PoolUpdate(TrackedResourceUpdate):
         "license_type": {"key": "properties.licenseType", "type": "str"},
         "local_administrator": {"key": "properties.localAdministrator", "type": "str"},
         "stop_on_disconnect": {"key": "properties.stopOnDisconnect", "type": "StopOnDisconnectConfiguration"},
+        "single_sign_on_status": {"key": "properties.singleSignOnStatus", "type": "str"},
     }
 
     def __init__(
@@ -3373,6 +4030,7 @@ class PoolUpdate(TrackedResourceUpdate):
         license_type: Optional[Union[str, "_models.LicenseType"]] = None,
         local_administrator: Optional[Union[str, "_models.LocalAdminStatus"]] = None,
         stop_on_disconnect: Optional["_models.StopOnDisconnectConfiguration"] = None,
+        single_sign_on_status: Optional[Union[str, "_models.SingleSignOnStatus"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -3393,6 +4051,10 @@ class PoolUpdate(TrackedResourceUpdate):
         :keyword stop_on_disconnect: Stop on disconnect configuration settings for Dev Boxes created in
          this pool.
         :paramtype stop_on_disconnect: ~azure.mgmt.devcenter.models.StopOnDisconnectConfiguration
+        :keyword single_sign_on_status: Indicates whether Dev Boxes in this pool are created with
+         single sign on enabled. The also requires that single sign on be enabled on the tenant. Known
+         values are: "Disabled" and "Enabled".
+        :paramtype single_sign_on_status: str or ~azure.mgmt.devcenter.models.SingleSignOnStatus
         """
         super().__init__(tags=tags, location=location, **kwargs)
         self.dev_box_definition_name = dev_box_definition_name
@@ -3400,6 +4062,7 @@ class PoolUpdate(TrackedResourceUpdate):
         self.license_type = license_type
         self.local_administrator = local_administrator
         self.stop_on_disconnect = stop_on_disconnect
+        self.single_sign_on_status = single_sign_on_status
 
 
 class Project(TrackedResource):  # pylint: disable=too-many-instance-attributes
@@ -4488,6 +5151,89 @@ class StopOnDisconnectConfiguration(_serialization.Model):
         super().__init__(**kwargs)
         self.status = status
         self.grace_period_minutes = grace_period_minutes
+
+
+class SyncErrorDetails(_serialization.Model):
+    """Synchronization error details.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar operation_error: Error information for the overall synchronization operation.
+    :vartype operation_error: ~azure.mgmt.devcenter.models.CatalogErrorDetails
+    :ivar conflicts: Catalog items that have conflicting names.
+    :vartype conflicts: list[~azure.mgmt.devcenter.models.CatalogConflictError]
+    :ivar errors: Errors that occured during synchronization.
+    :vartype errors: list[~azure.mgmt.devcenter.models.CatalogSyncError]
+    """
+
+    _validation = {
+        "operation_error": {"readonly": True},
+        "conflicts": {"readonly": True},
+        "errors": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "operation_error": {"key": "operationError", "type": "CatalogErrorDetails"},
+        "conflicts": {"key": "conflicts", "type": "[CatalogConflictError]"},
+        "errors": {"key": "errors", "type": "[CatalogSyncError]"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.operation_error = None
+        self.conflicts = None
+        self.errors = None
+
+
+class SyncStats(_serialization.Model):
+    """Stats of the synchronization.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar added: Count of catalog items added during synchronization.
+    :vartype added: int
+    :ivar updated: Count of catalog items updated during synchronization.
+    :vartype updated: int
+    :ivar unchanged: Count of catalog items that were unchanged during synchronization.
+    :vartype unchanged: int
+    :ivar removed: Count of catalog items removed during synchronization.
+    :vartype removed: int
+    :ivar validation_errors: Count of catalog items that had validation errors during
+     synchronization.
+    :vartype validation_errors: int
+    :ivar synchronization_errors: Count of synchronization errors that occured during
+     synchronization.
+    :vartype synchronization_errors: int
+    """
+
+    _validation = {
+        "added": {"readonly": True, "minimum": 0},
+        "updated": {"readonly": True, "minimum": 0},
+        "unchanged": {"readonly": True, "minimum": 0},
+        "removed": {"readonly": True, "minimum": 0},
+        "validation_errors": {"readonly": True, "minimum": 0},
+        "synchronization_errors": {"readonly": True, "minimum": 0},
+    }
+
+    _attribute_map = {
+        "added": {"key": "added", "type": "int"},
+        "updated": {"key": "updated", "type": "int"},
+        "unchanged": {"key": "unchanged", "type": "int"},
+        "removed": {"key": "removed", "type": "int"},
+        "validation_errors": {"key": "validationErrors", "type": "int"},
+        "synchronization_errors": {"key": "synchronizationErrors", "type": "int"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.added = None
+        self.updated = None
+        self.unchanged = None
+        self.removed = None
+        self.validation_errors = None
+        self.synchronization_errors = None
 
 
 class SystemData(_serialization.Model):
