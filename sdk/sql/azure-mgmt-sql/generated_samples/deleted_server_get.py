@@ -30,12 +30,12 @@ def main():
     )
 
     response = client.deleted_servers.get(
-        location_name="japaneast",
         deleted_server_name="sqlcrudtest-d-1414",
+        resource_group_name="Default",
     )
     print(response)
 
 
-# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/DeletedServerGet.json
+# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/DeletedServerGet.json
 if __name__ == "__main__":
     main()
