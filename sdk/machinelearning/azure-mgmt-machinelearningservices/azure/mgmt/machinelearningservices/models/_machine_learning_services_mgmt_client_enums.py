@@ -10,6 +10,12 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
+class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs."""
+
+    INTERNAL = "Internal"
+
+
 class AllocationState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Allocation state of the compute. Possible values are: steady - Indicates that the compute is
     not resizing. There are no changes to the number of compute nodes in the compute in progress. A
@@ -610,6 +616,14 @@ class InstanceSegmentationPrimaryMetrics(str, Enum, metaclass=CaseInsensitiveEnu
     #: AP is calculated for each class and averaged to get the MAP."""
 
 
+class IsolationMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Isolation mode for the managed network of a machine learning workspace."""
+
+    DISABLED = "Disabled"
+    ALLOW_INTERNET_OUTBOUND = "AllowInternetOutbound"
+    ALLOW_ONLY_APPROVED_OUTBOUND = "AllowOnlyApprovedOutbound"
+
+
 class JobInputType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Enum to determine the Job Input Type."""
 
@@ -678,6 +692,16 @@ class JobStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Default job status if not mapped to all other statuses"""
 
 
+class JobTier(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Enum to determine the job tier."""
+
+    NULL = "Null"
+    SPOT = "Spot"
+    BASIC = "Basic"
+    STANDARD = "Standard"
+    PREMIUM = "Premium"
+
+
 class JobType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Enum to determine the type of job."""
 
@@ -735,6 +759,13 @@ class LogVerbosity(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Error and above log statements logged."""
     CRITICAL = "Critical"
     """Only critical statements logged."""
+
+
+class ManagedNetworkStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Status for the managed network of a machine learning workspace."""
+
+    INACTIVE = "Inactive"
+    ACTIVE = "Active"
 
 
 class ManagedServiceIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -871,6 +902,16 @@ class OrderString(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     CREATED_AT_ASC = "CreatedAtAsc"
     UPDATED_AT_DESC = "UpdatedAtDesc"
     UPDATED_AT_ASC = "UpdatedAtAsc"
+
+
+class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit
+    logs UX. Default value is "user,system".
+    """
+
+    USER = "user"
+    SYSTEM = "system"
+    USER_SYSTEM = "user,system"
 
 
 class OsType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -1071,6 +1112,36 @@ class RemoteLoginPortPublicAccess(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ENABLED = "Enabled"
     DISABLED = "Disabled"
     NOT_SPECIFIED = "NotSpecified"
+
+
+class RuleAction(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The action enum for networking rule."""
+
+    ALLOW = "Allow"
+    DENY = "Deny"
+
+
+class RuleCategory(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Category of a managed network Outbound Rule of a machine learning workspace."""
+
+    REQUIRED = "Required"
+    RECOMMENDED = "Recommended"
+    USER_DEFINED = "UserDefined"
+
+
+class RuleStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of a managed network Outbound Rule of a machine learning workspace."""
+
+    INACTIVE = "Inactive"
+    ACTIVE = "Active"
+
+
+class RuleType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of a managed network Outbound Rule of a machine learning workspace."""
+
+    FQDN = "FQDN"
+    PRIVATE_ENDPOINT = "PrivateEndpoint"
+    SERVICE_TAG = "ServiceTag"
 
 
 class SamplingAlgorithmType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
