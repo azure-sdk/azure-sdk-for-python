@@ -14,7 +14,7 @@ from azure.mgmt.alertsmanagement import AlertsManagementClient
     pip install azure-identity
     pip install azure-mgmt-alertsmanagement
 # USAGE
-    python alerts_meta_data_monitor_service.py
+    python alert_rule_recommendations_get_by_resource_vm.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,12 +29,13 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.alerts.meta_data(
-        identifier="MonitorServiceList",
+    response = client.alert_rule_recommendations.list_by_resource(
+        resource_uri="subscriptions/2f00cc51-6809-498f-9ffc-48c42aff570d/resourcegroups/test/providers/Microsoft.Compute/virtualMachines/testMachineCanBeSafelyDeleted",
     )
-    print(response)
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/alertsmanagement/resource-manager/Microsoft.AlertsManagement/preview/2023-07-12-preview/examples/AlertsMetaData_MonitorService.json
+# x-ms-original-file: specification/alertsmanagement/resource-manager/Microsoft.AlertsManagement/preview/2023-01-01-preview/examples/AlertRuleRecommendations_GetByResource_VM.json
 if __name__ == "__main__":
     main()
