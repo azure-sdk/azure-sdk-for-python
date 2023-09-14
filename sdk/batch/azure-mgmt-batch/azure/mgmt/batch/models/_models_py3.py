@@ -2619,7 +2619,7 @@ class FixedScaleSettings(_serialization.Model):
     def __init__(
         self,
         *,
-        resize_timeout: Optional[datetime.timedelta] = None,
+        resize_timeout: datetime.timedelta = "PT15M",
         target_dedicated_nodes: Optional[int] = None,
         target_low_priority_nodes: Optional[int] = None,
         node_deallocation_option: Optional[Union[str, "_models.ComputeNodeDeallocationOption"]] = None,
@@ -2684,7 +2684,7 @@ class ImageReference(_serialization.Model):
         publisher: Optional[str] = None,
         offer: Optional[str] = None,
         sku: Optional[str] = None,
-        version: Optional[str] = None,
+        version: str = "latest",
         id: Optional[str] = None,  # pylint: disable=redefined-builtin
         **kwargs: Any
     ) -> None:
@@ -3293,7 +3293,7 @@ class NetworkConfiguration(_serialization.Model):
         self,
         *,
         subnet_id: Optional[str] = None,
-        dynamic_vnet_assignment_scope: Optional[Union[str, "_models.DynamicVNetAssignmentScope"]] = None,
+        dynamic_vnet_assignment_scope: Union[str, "_models.DynamicVNetAssignmentScope"] = "none",
         endpoint_configuration: Optional["_models.PoolEndpointConfiguration"] = None,
         public_ip_address_configuration: Optional["_models.PublicIPAddressConfiguration"] = None,
         enable_accelerated_networking: Optional[bool] = None,
@@ -3914,7 +3914,7 @@ class Pool(ProxyResource):  # pylint: disable=too-many-instance-attributes
         scale_settings: Optional["_models.ScaleSettings"] = None,
         inter_node_communication: Optional[Union[str, "_models.InterNodeCommunicationState"]] = None,
         network_configuration: Optional["_models.NetworkConfiguration"] = None,
-        task_slots_per_node: Optional[int] = None,
+        task_slots_per_node: int = 1,
         task_scheduling_policy: Optional["_models.TaskSchedulingPolicy"] = None,
         user_accounts: Optional[List["_models.UserAccount"]] = None,
         metadata: Optional[List["_models.MetadataItem"]] = None,
@@ -4618,7 +4618,7 @@ class StartTask(_serialization.Model):
      task once, and may then retry up to this limit. For example, if the maximum retry count is 3,
      Batch tries the task up to 4 times (one initial try and 3 retries). If the maximum retry count
      is 0, the Batch service does not retry the task. If the maximum retry count is -1, the Batch
-     service retries the task without limit.
+     service retries the task without limit. Default is 0.
     :vartype max_task_retry_count: int
     :ivar wait_for_success: If true and the start task fails on a compute node, the Batch service
      retries the start task up to its maximum retry count (maxTaskRetryCount). If the task has still
@@ -4653,7 +4653,7 @@ class StartTask(_serialization.Model):
         resource_files: Optional[List["_models.ResourceFile"]] = None,
         environment_settings: Optional[List["_models.EnvironmentSetting"]] = None,
         user_identity: Optional["_models.UserIdentity"] = None,
-        max_task_retry_count: Optional[int] = None,
+        max_task_retry_count: int = 0,
         wait_for_success: Optional[bool] = None,
         container_settings: Optional["_models.TaskContainerSettings"] = None,
         **kwargs: Any
@@ -4678,7 +4678,7 @@ class StartTask(_serialization.Model):
          the task once, and may then retry up to this limit. For example, if the maximum retry count is
          3, Batch tries the task up to 4 times (one initial try and 3 retries). If the maximum retry
          count is 0, the Batch service does not retry the task. If the maximum retry count is -1, the
-         Batch service retries the task without limit.
+         Batch service retries the task without limit. Default is 0.
         :paramtype max_task_retry_count: int
         :keyword wait_for_success: If true and the start task fails on a compute node, the Batch
          service retries the start task up to its maximum retry count (maxTaskRetryCount). If the task
@@ -4837,8 +4837,8 @@ class TaskSchedulingPolicy(_serialization.Model):
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar node_fill_type: How tasks should be distributed across compute nodes. Required. Known
-     values are: "Spread" and "Pack".
+    :ivar node_fill_type: How tasks should be distributed across compute nodes. Known values are:
+     "Spread" and "Pack".
     :vartype node_fill_type: str or ~azure.mgmt.batch.models.ComputeNodeFillType
     """
 
@@ -4850,10 +4850,10 @@ class TaskSchedulingPolicy(_serialization.Model):
         "node_fill_type": {"key": "nodeFillType", "type": "str"},
     }
 
-    def __init__(self, *, node_fill_type: Union[str, "_models.ComputeNodeFillType"], **kwargs: Any) -> None:
+    def __init__(self, *, node_fill_type: Union[str, "_models.ComputeNodeFillType"] = "Spread", **kwargs: Any) -> None:
         """
-        :keyword node_fill_type: How tasks should be distributed across compute nodes. Required. Known
-         values are: "Spread" and "Pack".
+        :keyword node_fill_type: How tasks should be distributed across compute nodes. Known values
+         are: "Spread" and "Pack".
         :paramtype node_fill_type: str or ~azure.mgmt.batch.models.ComputeNodeFillType
         """
         super().__init__(**kwargs)
