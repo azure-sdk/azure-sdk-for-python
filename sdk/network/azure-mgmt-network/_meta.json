@@ -1,12 +1,12 @@
 {
-  "commit": "0baf811c3c76c87b3c127d098519bd97141222dd",
+  "commit": "6ef2d967c7a983e7087b4729ceec02deab130cd8",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
   "autorest": "3.9.7",
   "use": [
     "@autorest/python@6.7.1",
     "@autorest/modelerfour@4.26.2"
   ],
-  "autorest_command": "autorest specification/network/resource-manager/readme.md --generate-sample=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/home/vsts/work/1/azure-sdk-for-python/sdk --use=@autorest/python@6.7.1 --use=@autorest/modelerfour@4.26.2 --version=3.9.7 --version-tolerant=False",
+  "autorest_command": "autorest specification/network/resource-manager/readme.md --generate-sample=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/mnt/vss/_work/1/s/azure-sdk-for-python/sdk --use=@autorest/python@6.7.1 --use=@autorest/modelerfour@4.26.2 --version=3.9.7 --version-tolerant=False",
   "readme": "specification/network/resource-manager/readme.md",
   "package-2023-02": "2023-06-19 07:26:19 +0530 0b4a0a3f4bfc198df608f373784505e42e248c2c Microsoft.Network/stable/2023-02-01/networkVirtualAppliance.json",
   "package-2021-02": "2021-09-14 19:30:27 -0700 54f1c87938269d4706629dc04c26ee1f3634585a Microsoft.Network/stable/2021-02-01/privateLinkService.json",
