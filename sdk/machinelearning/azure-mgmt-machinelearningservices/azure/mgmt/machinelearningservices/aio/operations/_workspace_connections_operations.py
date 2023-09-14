@@ -34,6 +34,8 @@ from ...operations._workspace_connections_operations import (
     build_delete_request,
     build_get_request,
     build_list_request,
+    build_list_secrets_request,
+    build_update_request,
 )
 
 T = TypeVar("T")
@@ -59,293 +61,6 @@ class WorkspaceConnectionsOperations:
         self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
-    @overload
-    async def create(
-        self,
-        resource_group_name: str,
-        workspace_name: str,
-        connection_name: str,
-        parameters: _models.WorkspaceConnectionPropertiesV2BasicResource,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> _models.WorkspaceConnectionPropertiesV2BasicResource:
-        """create.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param workspace_name: Name of Azure Machine Learning workspace. Required.
-        :type workspace_name: str
-        :param connection_name: Friendly name of the workspace connection. Required.
-        :type connection_name: str
-        :param parameters: The object for creating or updating a new workspace connection. Required.
-        :type parameters:
-         ~azure.mgmt.machinelearningservices.models.WorkspaceConnectionPropertiesV2BasicResource
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: WorkspaceConnectionPropertiesV2BasicResource or the result of cls(response)
-        :rtype: ~azure.mgmt.machinelearningservices.models.WorkspaceConnectionPropertiesV2BasicResource
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    async def create(
-        self,
-        resource_group_name: str,
-        workspace_name: str,
-        connection_name: str,
-        parameters: IO,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> _models.WorkspaceConnectionPropertiesV2BasicResource:
-        """create.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param workspace_name: Name of Azure Machine Learning workspace. Required.
-        :type workspace_name: str
-        :param connection_name: Friendly name of the workspace connection. Required.
-        :type connection_name: str
-        :param parameters: The object for creating or updating a new workspace connection. Required.
-        :type parameters: IO
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: WorkspaceConnectionPropertiesV2BasicResource or the result of cls(response)
-        :rtype: ~azure.mgmt.machinelearningservices.models.WorkspaceConnectionPropertiesV2BasicResource
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @distributed_trace_async
-    async def create(
-        self,
-        resource_group_name: str,
-        workspace_name: str,
-        connection_name: str,
-        parameters: Union[_models.WorkspaceConnectionPropertiesV2BasicResource, IO],
-        **kwargs: Any
-    ) -> _models.WorkspaceConnectionPropertiesV2BasicResource:
-        """create.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param workspace_name: Name of Azure Machine Learning workspace. Required.
-        :type workspace_name: str
-        :param connection_name: Friendly name of the workspace connection. Required.
-        :type connection_name: str
-        :param parameters: The object for creating or updating a new workspace connection. Is either a
-         WorkspaceConnectionPropertiesV2BasicResource type or a IO type. Required.
-        :type parameters:
-         ~azure.mgmt.machinelearningservices.models.WorkspaceConnectionPropertiesV2BasicResource or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: WorkspaceConnectionPropertiesV2BasicResource or the result of cls(response)
-        :rtype: ~azure.mgmt.machinelearningservices.models.WorkspaceConnectionPropertiesV2BasicResource
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.WorkspaceConnectionPropertiesV2BasicResource] = kwargs.pop("cls", None)
-
-        content_type = content_type or "application/json"
-        _json = None
-        _content = None
-        if isinstance(parameters, (IOBase, bytes)):
-            _content = parameters
-        else:
-            _json = self._serialize.body(parameters, "WorkspaceConnectionPropertiesV2BasicResource")
-
-        request = build_create_request(
-            resource_group_name=resource_group_name,
-            workspace_name=workspace_name,
-            connection_name=connection_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            content_type=content_type,
-            json=_json,
-            content=_content,
-            template_url=self.create.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("WorkspaceConnectionPropertiesV2BasicResource", pipeline_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})
-
-        return deserialized
-
-    create.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}"
-    }
-
-    @distributed_trace_async
-    async def get(
-        self, resource_group_name: str, workspace_name: str, connection_name: str, **kwargs: Any
-    ) -> _models.WorkspaceConnectionPropertiesV2BasicResource:
-        """get.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param workspace_name: Name of Azure Machine Learning workspace. Required.
-        :type workspace_name: str
-        :param connection_name: Friendly name of the workspace connection. Required.
-        :type connection_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: WorkspaceConnectionPropertiesV2BasicResource or the result of cls(response)
-        :rtype: ~azure.mgmt.machinelearningservices.models.WorkspaceConnectionPropertiesV2BasicResource
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.WorkspaceConnectionPropertiesV2BasicResource] = kwargs.pop("cls", None)
-
-        request = build_get_request(
-            resource_group_name=resource_group_name,
-            workspace_name=workspace_name,
-            connection_name=connection_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            template_url=self.get.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("WorkspaceConnectionPropertiesV2BasicResource", pipeline_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})
-
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}"
-    }
-
-    @distributed_trace_async
-    async def delete(  # pylint: disable=inconsistent-return-statements
-        self, resource_group_name: str, workspace_name: str, connection_name: str, **kwargs: Any
-    ) -> None:
-        """delete.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param workspace_name: Name of Azure Machine Learning workspace. Required.
-        :type workspace_name: str
-        :param connection_name: Friendly name of the workspace connection. Required.
-        :type connection_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: None or the result of cls(response)
-        :rtype: None
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[None] = kwargs.pop("cls", None)
-
-        request = build_delete_request(
-            resource_group_name=resource_group_name,
-            workspace_name=workspace_name,
-            connection_name=connection_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            template_url=self.delete.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200, 204]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-        if cls:
-            return cls(pipeline_response, None, {})
-
-    delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}"
-    }
-
     @distributed_trace
     def list(
         self,
@@ -355,7 +70,9 @@ class WorkspaceConnectionsOperations:
         category: Optional[str] = None,
         **kwargs: Any
     ) -> AsyncIterable["_models.WorkspaceConnectionPropertiesV2BasicResource"]:
-        """list.
+        """Lists all the available machine learning workspaces connections under the specified workspace.
+
+        Lists all the available machine learning workspaces connections under the specified workspace.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -451,4 +168,538 @@ class WorkspaceConnectionsOperations:
 
     list.metadata = {
         "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections"
+    }
+
+    @distributed_trace_async
+    async def delete(  # pylint: disable=inconsistent-return-statements
+        self, resource_group_name: str, workspace_name: str, connection_name: str, **kwargs: Any
+    ) -> None:
+        """Delete machine learning workspaces connections by name.
+
+        Delete machine learning workspaces connections by name.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param workspace_name: Name of Azure Machine Learning workspace. Required.
+        :type workspace_name: str
+        :param connection_name: Friendly name of the workspace connection. Required.
+        :type connection_name: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: None or the result of cls(response)
+        :rtype: None
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[None] = kwargs.pop("cls", None)
+
+        request = build_delete_request(
+            resource_group_name=resource_group_name,
+            workspace_name=workspace_name,
+            connection_name=connection_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            template_url=self.delete.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200, 204]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        if cls:
+            return cls(pipeline_response, None, {})
+
+    delete.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}"
+    }
+
+    @distributed_trace_async
+    async def get(
+        self, resource_group_name: str, workspace_name: str, connection_name: str, **kwargs: Any
+    ) -> _models.WorkspaceConnectionPropertiesV2BasicResource:
+        """Lists machine learning workspaces connections by name.
+
+        Lists machine learning workspaces connections by name.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param workspace_name: Name of Azure Machine Learning workspace. Required.
+        :type workspace_name: str
+        :param connection_name: Friendly name of the workspace connection. Required.
+        :type connection_name: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: WorkspaceConnectionPropertiesV2BasicResource or the result of cls(response)
+        :rtype: ~azure.mgmt.machinelearningservices.models.WorkspaceConnectionPropertiesV2BasicResource
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[_models.WorkspaceConnectionPropertiesV2BasicResource] = kwargs.pop("cls", None)
+
+        request = build_get_request(
+            resource_group_name=resource_group_name,
+            workspace_name=workspace_name,
+            connection_name=connection_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            template_url=self.get.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("WorkspaceConnectionPropertiesV2BasicResource", pipeline_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})
+
+        return deserialized
+
+    get.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}"
+    }
+
+    @overload
+    async def update(
+        self,
+        resource_group_name: str,
+        workspace_name: str,
+        connection_name: str,
+        body: Optional[_models.WorkspaceConnectionUpdateParameter] = None,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.WorkspaceConnectionPropertiesV2BasicResource:
+        """Update machine learning workspaces connections under the specified workspace.
+
+        Update machine learning workspaces connections under the specified workspace.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param workspace_name: Name of Azure Machine Learning workspace. Required.
+        :type workspace_name: str
+        :param connection_name: Friendly name of the workspace connection. Required.
+        :type connection_name: str
+        :param body: Parameters for workspace connection update. Default value is None.
+        :type body: ~azure.mgmt.machinelearningservices.models.WorkspaceConnectionUpdateParameter
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: WorkspaceConnectionPropertiesV2BasicResource or the result of cls(response)
+        :rtype: ~azure.mgmt.machinelearningservices.models.WorkspaceConnectionPropertiesV2BasicResource
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def update(
+        self,
+        resource_group_name: str,
+        workspace_name: str,
+        connection_name: str,
+        body: Optional[IO] = None,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.WorkspaceConnectionPropertiesV2BasicResource:
+        """Update machine learning workspaces connections under the specified workspace.
+
+        Update machine learning workspaces connections under the specified workspace.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param workspace_name: Name of Azure Machine Learning workspace. Required.
+        :type workspace_name: str
+        :param connection_name: Friendly name of the workspace connection. Required.
+        :type connection_name: str
+        :param body: Parameters for workspace connection update. Default value is None.
+        :type body: IO
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: WorkspaceConnectionPropertiesV2BasicResource or the result of cls(response)
+        :rtype: ~azure.mgmt.machinelearningservices.models.WorkspaceConnectionPropertiesV2BasicResource
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace_async
+    async def update(
+        self,
+        resource_group_name: str,
+        workspace_name: str,
+        connection_name: str,
+        body: Optional[Union[_models.WorkspaceConnectionUpdateParameter, IO]] = None,
+        **kwargs: Any
+    ) -> _models.WorkspaceConnectionPropertiesV2BasicResource:
+        """Update machine learning workspaces connections under the specified workspace.
+
+        Update machine learning workspaces connections under the specified workspace.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param workspace_name: Name of Azure Machine Learning workspace. Required.
+        :type workspace_name: str
+        :param connection_name: Friendly name of the workspace connection. Required.
+        :type connection_name: str
+        :param body: Parameters for workspace connection update. Is either a
+         WorkspaceConnectionUpdateParameter type or a IO type. Default value is None.
+        :type body: ~azure.mgmt.machinelearningservices.models.WorkspaceConnectionUpdateParameter or IO
+        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
+         Default value is None.
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: WorkspaceConnectionPropertiesV2BasicResource or the result of cls(response)
+        :rtype: ~azure.mgmt.machinelearningservices.models.WorkspaceConnectionPropertiesV2BasicResource
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.WorkspaceConnectionPropertiesV2BasicResource] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(body, (IOBase, bytes)):
+            _content = body
+        else:
+            if body is not None:
+                _json = self._serialize.body(body, "WorkspaceConnectionUpdateParameter")
+            else:
+                _json = None
+
+        request = build_update_request(
+            resource_group_name=resource_group_name,
+            workspace_name=workspace_name,
+            connection_name=connection_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
+            template_url=self.update.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("WorkspaceConnectionPropertiesV2BasicResource", pipeline_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})
+
+        return deserialized
+
+    update.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}"
+    }
+
+    @overload
+    async def create(
+        self,
+        resource_group_name: str,
+        workspace_name: str,
+        connection_name: str,
+        body: Optional[_models.WorkspaceConnectionPropertiesV2BasicResource] = None,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.WorkspaceConnectionPropertiesV2BasicResource:
+        """Create or update machine learning workspaces connections under the specified workspace.
+
+        Create or update machine learning workspaces connections under the specified workspace.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param workspace_name: Name of Azure Machine Learning workspace. Required.
+        :type workspace_name: str
+        :param connection_name: Friendly name of the workspace connection. Required.
+        :type connection_name: str
+        :param body: The object for creating or updating a new workspace connection. Default value is
+         None.
+        :type body:
+         ~azure.mgmt.machinelearningservices.models.WorkspaceConnectionPropertiesV2BasicResource
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: WorkspaceConnectionPropertiesV2BasicResource or the result of cls(response)
+        :rtype: ~azure.mgmt.machinelearningservices.models.WorkspaceConnectionPropertiesV2BasicResource
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def create(
+        self,
+        resource_group_name: str,
+        workspace_name: str,
+        connection_name: str,
+        body: Optional[IO] = None,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.WorkspaceConnectionPropertiesV2BasicResource:
+        """Create or update machine learning workspaces connections under the specified workspace.
+
+        Create or update machine learning workspaces connections under the specified workspace.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param workspace_name: Name of Azure Machine Learning workspace. Required.
+        :type workspace_name: str
+        :param connection_name: Friendly name of the workspace connection. Required.
+        :type connection_name: str
+        :param body: The object for creating or updating a new workspace connection. Default value is
+         None.
+        :type body: IO
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: WorkspaceConnectionPropertiesV2BasicResource or the result of cls(response)
+        :rtype: ~azure.mgmt.machinelearningservices.models.WorkspaceConnectionPropertiesV2BasicResource
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace_async
+    async def create(
+        self,
+        resource_group_name: str,
+        workspace_name: str,
+        connection_name: str,
+        body: Optional[Union[_models.WorkspaceConnectionPropertiesV2BasicResource, IO]] = None,
+        **kwargs: Any
+    ) -> _models.WorkspaceConnectionPropertiesV2BasicResource:
+        """Create or update machine learning workspaces connections under the specified workspace.
+
+        Create or update machine learning workspaces connections under the specified workspace.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param workspace_name: Name of Azure Machine Learning workspace. Required.
+        :type workspace_name: str
+        :param connection_name: Friendly name of the workspace connection. Required.
+        :type connection_name: str
+        :param body: The object for creating or updating a new workspace connection. Is either a
+         WorkspaceConnectionPropertiesV2BasicResource type or a IO type. Default value is None.
+        :type body:
+         ~azure.mgmt.machinelearningservices.models.WorkspaceConnectionPropertiesV2BasicResource or IO
+        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
+         Default value is None.
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: WorkspaceConnectionPropertiesV2BasicResource or the result of cls(response)
+        :rtype: ~azure.mgmt.machinelearningservices.models.WorkspaceConnectionPropertiesV2BasicResource
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.WorkspaceConnectionPropertiesV2BasicResource] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(body, (IOBase, bytes)):
+            _content = body
+        else:
+            if body is not None:
+                _json = self._serialize.body(body, "WorkspaceConnectionPropertiesV2BasicResource")
+            else:
+                _json = None
+
+        request = build_create_request(
+            resource_group_name=resource_group_name,
+            workspace_name=workspace_name,
+            connection_name=connection_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
+            template_url=self.create.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("WorkspaceConnectionPropertiesV2BasicResource", pipeline_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})
+
+        return deserialized
+
+    create.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}"
+    }
+
+    @distributed_trace_async
+    async def list_secrets(
+        self, resource_group_name: str, workspace_name: str, connection_name: str, **kwargs: Any
+    ) -> _models.WorkspaceConnectionPropertiesV2BasicResource:
+        """List all the secrets of a machine learning workspaces connections.
+
+        List all the secrets of a machine learning workspaces connections.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param workspace_name: Name of Azure Machine Learning workspace. Required.
+        :type workspace_name: str
+        :param connection_name: Friendly name of the workspace connection. Required.
+        :type connection_name: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: WorkspaceConnectionPropertiesV2BasicResource or the result of cls(response)
+        :rtype: ~azure.mgmt.machinelearningservices.models.WorkspaceConnectionPropertiesV2BasicResource
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[_models.WorkspaceConnectionPropertiesV2BasicResource] = kwargs.pop("cls", None)
+
+        request = build_list_secrets_request(
+            resource_group_name=resource_group_name,
+            workspace_name=workspace_name,
+            connection_name=connection_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            template_url=self.list_secrets.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("WorkspaceConnectionPropertiesV2BasicResource", pipeline_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})
+
+        return deserialized
+
+    list_secrets.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}/listsecrets"
     }
