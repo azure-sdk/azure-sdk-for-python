@@ -26,6 +26,7 @@ from azure.mgmt.resourcegraph import ResourceGraphClient
 def main():
     client = ResourceGraphClient(
         credential=DefaultAzureCredential(),
+        base_url="BASE_URL",
     )
 
     response = client.resource_changes(

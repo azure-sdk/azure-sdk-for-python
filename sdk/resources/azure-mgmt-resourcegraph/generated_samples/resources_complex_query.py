@@ -26,6 +26,7 @@ from azure.mgmt.resourcegraph import ResourceGraphClient
 def main():
     client = ResourceGraphClient(
         credential=DefaultAzureCredential(),
+        base_url="BASE_URL",
     )
 
     response = client.resources(
@@ -37,6 +38,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/stable/2022-10-01/examples/ResourcesComplexQuery.json
+# x-ms-original-file: specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/preview/2023-09-01-preview/examples/ResourcesComplexQuery.json
 if __name__ == "__main__":
     main()

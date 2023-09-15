@@ -14,7 +14,7 @@ from azure.mgmt.resourcegraph import ResourceGraphClient
     pip install azure-identity
     pip install azure-mgmt-resourcegraph
 # USAGE
-    python resources_random_page_query.py
+    python resources_generate_query.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,16 +29,12 @@ def main():
         base_url="BASE_URL",
     )
 
-    response = client.resources(
-        query={
-            "options": {"$skip": 10, "$top": 2},
-            "query": "Resources | where name contains 'test' | project id, name, type, location",
-            "subscriptions": ["cfbbd179-59d2-4052-aa06-9270a38aa9d6"],
-        },
+    response = client.query.generate_query(
+        body={"prompt": "I want to see my virtual machines"},
     )
     print(response)
 
 
-# x-ms-original-file: specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/preview/2023-09-01-preview/examples/ResourcesRandomPageQuery.json
+# x-ms-original-file: specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/preview/2023-09-01-preview/examples/ResourcesGenerateQuery.json
 if __name__ == "__main__":
     main()

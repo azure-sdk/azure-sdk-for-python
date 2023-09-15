@@ -6,6 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._query_operations import QueryOperations
 from ._resource_graph_client_operations import ResourceGraphClientOperationsMixin
 from ._operations import Operations
 
@@ -14,6 +15,7 @@ from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "QueryOperations",
     "ResourceGraphClientOperationsMixin",
     "Operations",
 ]
