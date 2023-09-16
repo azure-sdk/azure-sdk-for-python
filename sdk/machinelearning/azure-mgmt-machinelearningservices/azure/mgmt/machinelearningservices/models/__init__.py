@@ -21,11 +21,9 @@ from ._models_py3 import AmlComputeNodeInformation
 from ._models_py3 import AmlComputeNodesInformation
 from ._models_py3 import AmlComputeProperties
 from ._models_py3 import AmlComputeSchema
-from ._models_py3 import AmlOperation
-from ._models_py3 import AmlOperationDisplay
-from ._models_py3 import AmlOperationListResult
 from ._models_py3 import AmlToken
 from ._models_py3 import AmlUserFeature
+from ._models_py3 import AnonymousAccessCredential
 from ._models_py3 import ArmResourceId
 from ._models_py3 import AssetBase
 from ._models_py3 import AssetContainer
@@ -45,6 +43,7 @@ from ._models_py3 import AutoTargetRollingWindowSize
 from ._models_py3 import AzureBlobDatastore
 from ._models_py3 import AzureDataLakeGen1Datastore
 from ._models_py3 import AzureDataLakeGen2Datastore
+from ._models_py3 import AzureDatastore
 from ._models_py3 import AzureFileDatastore
 from ._models_py3 import BanditPolicy
 from ._models_py3 import BatchDeployment
@@ -120,6 +119,7 @@ from ._models_py3 import DataLakeAnalytics
 from ._models_py3 import DataLakeAnalyticsSchema
 from ._models_py3 import DataLakeAnalyticsSchemaProperties
 from ._models_py3 import DataPathAssetReference
+from ._models_py3 import DataReferenceCredential
 from ._models_py3 import DataVersionBase
 from ._models_py3 import DataVersionBaseProperties
 from ._models_py3 import DataVersionBaseResourceArmPaginatedResult
@@ -137,6 +137,7 @@ from ._models_py3 import DefaultScaleSettings
 from ._models_py3 import DeploymentLogs
 from ._models_py3 import DeploymentLogsRequest
 from ._models_py3 import DeploymentResourceConfiguration
+from ._models_py3 import DestinationAsset
 from ._models_py3 import DiagnoseRequestProperties
 from ._models_py3 import DiagnoseResponseResult
 from ._models_py3 import DiagnoseResponseResultValue
@@ -144,6 +145,7 @@ from ._models_py3 import DiagnoseResult
 from ._models_py3 import DiagnoseWorkspaceParameters
 from ._models_py3 import DistributionConfiguration
 from ._models_py3 import Docker
+from ._models_py3 import DockerCredential
 from ._models_py3 import EarlyTerminationPolicy
 from ._models_py3 import EncryptionKeyVaultProperties
 from ._models_py3 import EncryptionProperty
@@ -176,6 +178,9 @@ from ._models_py3 import ForecastHorizon
 from ._models_py3 import Forecasting
 from ._models_py3 import ForecastingSettings
 from ._models_py3 import ForecastingTrainingSettings
+from ._models_py3 import GetBlobReferenceForConsumptionDto
+from ._models_py3 import GetBlobReferenceSASRequestDto
+from ._models_py3 import GetBlobReferenceSASResponseDto
 from ._models_py3 import GridSamplingAlgorithm
 from ._models_py3 import HDInsight
 from ._models_py3 import HDInsightProperties
@@ -231,6 +236,7 @@ from ._models_py3 import MLTableJobInput
 from ._models_py3 import MLTableJobOutput
 from ._models_py3 import ManagedIdentity
 from ._models_py3 import ManagedIdentityAuthTypeWorkspaceConnectionProperties
+from ._models_py3 import ManagedIdentityCredential
 from ._models_py3 import ManagedOnlineDeployment
 from ._models_py3 import ManagedServiceIdentity
 from ._models_py3 import MedianStoppingPolicy
@@ -261,6 +267,9 @@ from ._models_py3 import OnlineEndpointProperties
 from ._models_py3 import OnlineEndpointTrackedResourceArmPaginatedResult
 from ._models_py3 import OnlineRequestSettings
 from ._models_py3 import OnlineScaleSettings
+from ._models_py3 import Operation
+from ._models_py3 import OperationDisplay
+from ._models_py3 import OperationListResult
 from ._models_py3 import OutputPathAssetReference
 from ._models_py3 import PATAuthTypeWorkspaceConnectionProperties
 from ._models_py3 import PaginatedComputeResourcesList
@@ -287,6 +296,7 @@ from ._models_py3 import PrivateLinkResourceListResult
 from ._models_py3 import PrivateLinkServiceConnectionState
 from ._models_py3 import ProbeSettings
 from ._models_py3 import PyTorch
+from ._models_py3 import QueueSettings
 from ._models_py3 import QuotaBaseProperties
 from ._models_py3 import QuotaUpdateParameters
 from ._models_py3 import RandomSamplingAlgorithm
@@ -311,6 +321,7 @@ from ._models_py3 import ResourceName
 from ._models_py3 import ResourceQuota
 from ._models_py3 import Route
 from ._models_py3 import SASAuthTypeWorkspaceConnectionProperties
+from ._models_py3 import SASCredential
 from ._models_py3 import SASCredentialDto
 from ._models_py3 import SamplingAlgorithm
 from ._models_py3 import SasDatastoreCredentials
@@ -402,6 +413,7 @@ from ._models_py3 import WorkspaceConnectionUsernamePassword
 from ._models_py3 import WorkspaceListResult
 from ._models_py3 import WorkspaceUpdateParameters
 
+from ._machine_learning_services_mgmt_client_enums import ActionType
 from ._machine_learning_services_mgmt_client_enums import AllocationState
 from ._machine_learning_services_mgmt_client_enums import ApplicationSharingPolicy
 from ._machine_learning_services_mgmt_client_enums import AssetProvisioningState
@@ -425,6 +437,7 @@ from ._machine_learning_services_mgmt_client_enums import ConnectionCategory
 from ._machine_learning_services_mgmt_client_enums import ContainerType
 from ._machine_learning_services_mgmt_client_enums import CreatedByType
 from ._machine_learning_services_mgmt_client_enums import CredentialsType
+from ._machine_learning_services_mgmt_client_enums import DataReferenceCredentialType
 from ._machine_learning_services_mgmt_client_enums import DataType
 from ._machine_learning_services_mgmt_client_enums import DatastoreType
 from ._machine_learning_services_mgmt_client_enums import DeploymentProvisioningState
@@ -453,6 +466,7 @@ from ._machine_learning_services_mgmt_client_enums import JobInputType
 from ._machine_learning_services_mgmt_client_enums import JobLimitsType
 from ._machine_learning_services_mgmt_client_enums import JobOutputType
 from ._machine_learning_services_mgmt_client_enums import JobStatus
+from ._machine_learning_services_mgmt_client_enums import JobTier
 from ._machine_learning_services_mgmt_client_enums import JobType
 from ._machine_learning_services_mgmt_client_enums import KeyType
 from ._machine_learning_services_mgmt_client_enums import LearningRateScheduler
@@ -473,6 +487,7 @@ from ._machine_learning_services_mgmt_client_enums import OperationName
 from ._machine_learning_services_mgmt_client_enums import OperationStatus
 from ._machine_learning_services_mgmt_client_enums import OperationTrigger
 from ._machine_learning_services_mgmt_client_enums import OrderString
+from ._machine_learning_services_mgmt_client_enums import Origin
 from ._machine_learning_services_mgmt_client_enums import OsType
 from ._machine_learning_services_mgmt_client_enums import OutputDeliveryMode
 from ._machine_learning_services_mgmt_client_enums import PendingUploadCredentialType
@@ -547,11 +562,9 @@ __all__ = [
     "AmlComputeNodesInformation",
     "AmlComputeProperties",
     "AmlComputeSchema",
-    "AmlOperation",
-    "AmlOperationDisplay",
-    "AmlOperationListResult",
     "AmlToken",
     "AmlUserFeature",
+    "AnonymousAccessCredential",
     "ArmResourceId",
     "AssetBase",
     "AssetContainer",
@@ -571,6 +584,7 @@ __all__ = [
     "AzureBlobDatastore",
     "AzureDataLakeGen1Datastore",
     "AzureDataLakeGen2Datastore",
+    "AzureDatastore",
     "AzureFileDatastore",
     "BanditPolicy",
     "BatchDeployment",
@@ -646,6 +660,7 @@ __all__ = [
     "DataLakeAnalyticsSchema",
     "DataLakeAnalyticsSchemaProperties",
     "DataPathAssetReference",
+    "DataReferenceCredential",
     "DataVersionBase",
     "DataVersionBaseProperties",
     "DataVersionBaseResourceArmPaginatedResult",
@@ -663,6 +678,7 @@ __all__ = [
     "DeploymentLogs",
     "DeploymentLogsRequest",
     "DeploymentResourceConfiguration",
+    "DestinationAsset",
     "DiagnoseRequestProperties",
     "DiagnoseResponseResult",
     "DiagnoseResponseResultValue",
@@ -670,6 +686,7 @@ __all__ = [
     "DiagnoseWorkspaceParameters",
     "DistributionConfiguration",
     "Docker",
+    "DockerCredential",
     "EarlyTerminationPolicy",
     "EncryptionKeyVaultProperties",
     "EncryptionProperty",
@@ -702,6 +719,9 @@ __all__ = [
     "Forecasting",
     "ForecastingSettings",
     "ForecastingTrainingSettings",
+    "GetBlobReferenceForConsumptionDto",
+    "GetBlobReferenceSASRequestDto",
+    "GetBlobReferenceSASResponseDto",
     "GridSamplingAlgorithm",
     "HDInsight",
     "HDInsightProperties",
@@ -757,6 +777,7 @@ __all__ = [
     "MLTableJobOutput",
     "ManagedIdentity",
     "ManagedIdentityAuthTypeWorkspaceConnectionProperties",
+    "ManagedIdentityCredential",
     "ManagedOnlineDeployment",
     "ManagedServiceIdentity",
     "MedianStoppingPolicy",
@@ -787,6 +808,9 @@ __all__ = [
     "OnlineEndpointTrackedResourceArmPaginatedResult",
     "OnlineRequestSettings",
     "OnlineScaleSettings",
+    "Operation",
+    "OperationDisplay",
+    "OperationListResult",
     "OutputPathAssetReference",
     "PATAuthTypeWorkspaceConnectionProperties",
     "PaginatedComputeResourcesList",
@@ -813,6 +837,7 @@ __all__ = [
     "PrivateLinkServiceConnectionState",
     "ProbeSettings",
     "PyTorch",
+    "QueueSettings",
     "QuotaBaseProperties",
     "QuotaUpdateParameters",
     "RandomSamplingAlgorithm",
@@ -837,6 +862,7 @@ __all__ = [
     "ResourceQuota",
     "Route",
     "SASAuthTypeWorkspaceConnectionProperties",
+    "SASCredential",
     "SASCredentialDto",
     "SamplingAlgorithm",
     "SasDatastoreCredentials",
@@ -927,6 +953,7 @@ __all__ = [
     "WorkspaceConnectionUsernamePassword",
     "WorkspaceListResult",
     "WorkspaceUpdateParameters",
+    "ActionType",
     "AllocationState",
     "ApplicationSharingPolicy",
     "AssetProvisioningState",
@@ -950,6 +977,7 @@ __all__ = [
     "ContainerType",
     "CreatedByType",
     "CredentialsType",
+    "DataReferenceCredentialType",
     "DataType",
     "DatastoreType",
     "DeploymentProvisioningState",
@@ -978,6 +1006,7 @@ __all__ = [
     "JobLimitsType",
     "JobOutputType",
     "JobStatus",
+    "JobTier",
     "JobType",
     "KeyType",
     "LearningRateScheduler",
@@ -998,6 +1027,7 @@ __all__ = [
     "OperationStatus",
     "OperationTrigger",
     "OrderString",
+    "Origin",
     "OsType",
     "OutputDeliveryMode",
     "PendingUploadCredentialType",

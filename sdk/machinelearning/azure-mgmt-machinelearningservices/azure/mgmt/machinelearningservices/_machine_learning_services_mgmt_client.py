@@ -43,6 +43,7 @@ from .operations import (
     RegistryComponentContainersOperations,
     RegistryComponentVersionsOperations,
     RegistryDataContainersOperations,
+    RegistryDataReferencesOperations,
     RegistryDataVersionsOperations,
     RegistryEnvironmentContainersOperations,
     RegistryEnvironmentVersionsOperations,
@@ -104,6 +105,9 @@ class MachineLearningServicesMgmtClient:  # pylint: disable=client-accepts-api-v
     :ivar registry_data_versions: RegistryDataVersionsOperations operations
     :vartype registry_data_versions:
      azure.mgmt.machinelearningservices.operations.RegistryDataVersionsOperations
+    :ivar registry_data_references: RegistryDataReferencesOperations operations
+    :vartype registry_data_references:
+     azure.mgmt.machinelearningservices.operations.RegistryDataReferencesOperations
     :ivar registry_environment_containers: RegistryEnvironmentContainersOperations operations
     :vartype registry_environment_containers:
      azure.mgmt.machinelearningservices.operations.RegistryEnvironmentContainersOperations
@@ -172,7 +176,7 @@ class MachineLearningServicesMgmtClient:  # pylint: disable=client-accepts-api-v
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2023-04-01". Note that overriding this
+    :keyword api_version: Api Version. Default value is "2023-10-01". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -228,6 +232,9 @@ class MachineLearningServicesMgmtClient:  # pylint: disable=client-accepts-api-v
             self._client, self._config, self._serialize, self._deserialize
         )
         self.registry_data_versions = RegistryDataVersionsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.registry_data_references = RegistryDataReferencesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.registry_environment_containers = RegistryEnvironmentContainersOperations(
