@@ -14,7 +14,7 @@ from azure.mgmt.containerservicefleet import ContainerServiceFleetMgmtClient
     pip install azure-identity
     pip install azure-mgmt-containerservicefleet
 # USAGE
-    python fleets_list_by_sub.py
+    python update_strategies_list_by_fleet.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,14 +26,17 @@ from azure.mgmt.containerservicefleet import ContainerServiceFleetMgmtClient
 def main():
     client = ContainerServiceFleetMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subid1",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.fleets.list_by_subscription()
+    response = client.fleet_update_strategies.list_by_fleet(
+        resource_group_name="rg1",
+        fleet_name="fleet1",
+    )
     for item in response:
         print(item)
 
 
-# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-08-15-preview/examples/Fleets_ListBySub.json
+# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-08-15-preview/examples/UpdateStrategies_ListByFleet.json
 if __name__ == "__main__":
     main()
