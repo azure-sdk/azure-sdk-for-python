@@ -517,6 +517,48 @@ class ContinuousAction(Action):
         self.selector_id = selector_id
 
 
+class CustomerDataStorageProperties(_serialization.Model):
+    """Model that represents the Customer Managed Storage for an Experiment.
+
+    :ivar storage_account_resource_id: ARM Resource ID of the Storage account to use for Customer
+     Data storage.
+    :vartype storage_account_resource_id: str
+    :ivar blob_container_name: Name of the Azure Blob Storage container to use or create.
+    :vartype blob_container_name: str
+    """
+
+    _validation = {
+        "blob_container_name": {
+            "max_length": 63,
+            "min_length": 3,
+            "pattern": r"^[a-z0-9]([a-z0-9]|(-(?!-))){1,61}[a-z0-9]$",
+        },
+    }
+
+    _attribute_map = {
+        "storage_account_resource_id": {"key": "storageAccountResourceId", "type": "str"},
+        "blob_container_name": {"key": "blobContainerName", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        storage_account_resource_id: Optional[str] = None,
+        blob_container_name: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword storage_account_resource_id: ARM Resource ID of the Storage account to use for
+         Customer Data storage.
+        :paramtype storage_account_resource_id: str
+        :keyword blob_container_name: Name of the Azure Blob Storage container to use or create.
+        :paramtype blob_container_name: str
+        """
+        super().__init__(**kwargs)
+        self.storage_account_resource_id = storage_account_resource_id
+        self.blob_container_name = blob_container_name
+
+
 class DelayAction(Action):
     """Model that represents a delay action.
 
@@ -739,7 +781,7 @@ class TrackedResource(Resource):
         self.location = location
 
 
-class Experiment(TrackedResource):
+class Experiment(TrackedResource):  # pylint: disable=too-many-instance-attributes
     """Model that represents a Experiment resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -769,6 +811,9 @@ class Experiment(TrackedResource):
     :ivar start_on_creation: A boolean value that indicates if experiment should be started on
      creation or not.
     :vartype start_on_creation: bool
+    :ivar customer_data_storage: Optional customer-managed Storage account where Experiment schema
+     will be stored.
+    :vartype customer_data_storage: ~azure.mgmt.chaos.models.CustomerDataStorageProperties
     """
 
     _validation = {
@@ -792,6 +837,7 @@ class Experiment(TrackedResource):
         "steps": {"key": "properties.steps", "type": "[Step]"},
         "selectors": {"key": "properties.selectors", "type": "[Selector]"},
         "start_on_creation": {"key": "properties.startOnCreation", "type": "bool"},
+        "customer_data_storage": {"key": "properties.customerDataStorage", "type": "CustomerDataStorageProperties"},
     }
 
     def __init__(
@@ -803,6 +849,7 @@ class Experiment(TrackedResource):
         tags: Optional[Dict[str, str]] = None,
         identity: Optional["_models.ResourceIdentity"] = None,
         start_on_creation: Optional[bool] = None,
+        customer_data_storage: Optional["_models.CustomerDataStorageProperties"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -819,6 +866,9 @@ class Experiment(TrackedResource):
         :keyword start_on_creation: A boolean value that indicates if experiment should be started on
          creation or not.
         :paramtype start_on_creation: bool
+        :keyword customer_data_storage: Optional customer-managed Storage account where Experiment
+         schema will be stored.
+        :paramtype customer_data_storage: ~azure.mgmt.chaos.models.CustomerDataStorageProperties
         """
         super().__init__(tags=tags, location=location, **kwargs)
         self.system_data = None
@@ -826,6 +876,7 @@ class Experiment(TrackedResource):
         self.steps = steps
         self.selectors = selectors
         self.start_on_creation = start_on_creation
+        self.customer_data_storage = customer_data_storage
 
 
 class ExperimentCancelOperationResult(_serialization.Model):

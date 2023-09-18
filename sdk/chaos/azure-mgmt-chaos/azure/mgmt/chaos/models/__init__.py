@@ -16,6 +16,7 @@ from ._models_py3 import CapabilityType
 from ._models_py3 import CapabilityTypeListResult
 from ._models_py3 import CapabilityTypePropertiesRuntimeProperties
 from ._models_py3 import ContinuousAction
+from ._models_py3 import CustomerDataStorageProperties
 from ._models_py3 import DelayAction
 from ._models_py3 import DiscreteAction
 from ._models_py3 import ErrorAdditionalInfo
@@ -78,6 +79,7 @@ __all__ = [
     "CapabilityTypeListResult",
     "CapabilityTypePropertiesRuntimeProperties",
     "ContinuousAction",
+    "CustomerDataStorageProperties",
     "DelayAction",
     "DiscreteAction",
     "ErrorAdditionalInfo",
