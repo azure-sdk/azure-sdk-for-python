@@ -67,6 +67,8 @@ class ClientType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     NODEJS = "nodejs"
     SPRING_BOOT = "springBoot"
     KAFKA_SPRING_BOOT = "kafka-springBoot"
+    JMS_SPRING_BOOT = "jms-springBoot"
+    DAPR = "dapr"
 
 
 class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -76,6 +78,20 @@ class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     APPLICATION = "Application"
     MANAGED_IDENTITY = "ManagedIdentity"
     KEY = "Key"
+
+
+class DaprBindingComponentDirection(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The direction supported by the dapr binding component."""
+
+    INPUT = "input"
+    OUTPUT = "output"
+
+
+class DaprMetadataRequired(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The value indicating whether the metadata is required or not."""
+
+    TRUE = "true"
+    FALSE = "false"
 
 
 class DeleteOrUpdateBehavior(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -116,6 +132,13 @@ class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     USER = "user"
     SYSTEM = "system"
     USER_SYSTEM = "user,system"
+
+
+class SecretSourceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of secret source."""
+
+    RAW_VALUE = "rawValue"
+    KEY_VAULT_SECRET = "keyVaultSecret"
 
 
 class SecretType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
