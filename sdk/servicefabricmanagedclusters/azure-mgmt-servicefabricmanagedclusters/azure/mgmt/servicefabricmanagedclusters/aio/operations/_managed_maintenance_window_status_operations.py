@@ -25,20 +25,20 @@ from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from ... import models as _models
 from ..._vendor import _convert_request
-from ...operations._operation_results_operations import build_get_request
+from ...operations._managed_maintenance_window_status_operations import build_get_request
 
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
 
-class OperationResultsOperations:
+class ManagedMaintenanceWindowStatusOperations:
     """
     .. warning::
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
         :class:`~azure.mgmt.servicefabricmanagedclusters.aio.ServiceFabricManagedClustersManagementClient`'s
-        :attr:`operation_results` attribute.
+        :attr:`managed_maintenance_window_status` attribute.
     """
 
     models = _models
@@ -51,21 +51,20 @@ class OperationResultsOperations:
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace_async
-    async def get(  # pylint: disable=inconsistent-return-statements
-        self, location: str, operation_id: str, **kwargs: Any
-    ) -> None:
-        """Get long running operation result.
+    async def get(
+        self, resource_group_name: str, cluster_name: str, **kwargs: Any
+    ) -> _models.ManagedMaintenanceWindowStatus:
+        """Action to get Maintenance Window Status of the Service Fabric Managed Clusters.
 
-        Get long running operation result.
+        Action to get Maintenance Window Status of the Service Fabric Managed Clusters.
 
-        :param location: The location for the cluster code versions. This is different from cluster
-         location. Required.
-        :type location: str
-        :param operation_id: operation identifier. Required.
-        :type operation_id: str
+        :param resource_group_name: The name of the resource group. Required.
+        :type resource_group_name: str
+        :param cluster_name: The name of the cluster resource. Required.
+        :type cluster_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: None or the result of cls(response)
-        :rtype: None
+        :return: ManagedMaintenanceWindowStatus or the result of cls(response)
+        :rtype: ~azure.mgmt.servicefabricmanagedclusters.models.ManagedMaintenanceWindowStatus
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map = {
@@ -80,11 +79,11 @@ class OperationResultsOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[None] = kwargs.pop("cls", None)
+        cls: ClsType[_models.ManagedMaintenanceWindowStatus] = kwargs.pop("cls", None)
 
         request = build_get_request(
-            location=location,
-            operation_id=operation_id,
+            resource_group_name=resource_group_name,
+            cluster_name=cluster_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             template_url=self.get.metadata["url"],
@@ -101,18 +100,18 @@ class OperationResultsOperations:
 
         response = pipeline_response.http_response
 
-        if response.status_code not in [200, 202, 204]:
+        if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(_models.ErrorModel, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        response_headers = {}
-        if response.status_code == 202:
-            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+        deserialized = self._deserialize("ManagedMaintenanceWindowStatus", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, None, response_headers)
+            return cls(pipeline_response, deserialized, {})
+
+        return deserialized
 
     get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric/locations/{location}/managedClusterOperationResults/{operationId}"
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/getMaintenanceWindowStatus"
     }

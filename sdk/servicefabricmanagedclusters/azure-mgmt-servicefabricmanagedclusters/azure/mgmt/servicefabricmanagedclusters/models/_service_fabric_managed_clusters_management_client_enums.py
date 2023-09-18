@@ -230,6 +230,13 @@ class PrivateEndpointNetworkPolicies(str, Enum, metaclass=CaseInsensitiveEnumMet
     DISABLED = "disabled"
 
 
+class PrivateIPAddressVersion(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Specifies whether the IP configuration's private IP is IPv4 or IPv6. Default is IPv4."""
+
+    I_PV4 = "IPv4"
+    I_PV6 = "IPv6"
+
+
 class PrivateLinkServiceNetworkPolicies(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Enable or Disable apply network policies on private link service in the subnet."""
 
@@ -250,6 +257,13 @@ class Protocol(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     TCP = "tcp"
     UDP = "udp"
+
+
+class PublicIPAddressVersion(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Specifies whether the IP configuration's public IP is IPv4 or IPv6. Default is IPv4."""
+
+    I_PV4 = "IPv4"
+    I_PV6 = "IPv6"
 
 
 class RollingUpgradeMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -395,6 +409,13 @@ class VmSetupAction(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Enable windows containers feature."""
     ENABLE_HYPER_V = "EnableHyperV"
     """Enables windows HyperV feature."""
+
+
+class VmssExtensionSetupOrder(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Vm extension setup order."""
+
+    BEFORE_SF_RUNTIME = "BeforeSFRuntime"
+    """Indicates that the vm extension should run before the service fabric runtime starts."""
 
 
 class ZonalUpdateMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):

@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from ._models_py3 import AddRemoveIncrementalNamedPartitionScalingMechanism
+from ._models_py3 import AdditionalNetworkInterfaceConfiguration
 from ._models_py3 import ApplicationHealthPolicy
 from ._models_py3 import ApplicationResource
 from ._models_py3 import ApplicationResourceList
@@ -30,6 +31,9 @@ from ._models_py3 import ErrorModel
 from ._models_py3 import ErrorModelError
 from ._models_py3 import FrontendConfiguration
 from ._models_py3 import IPTag
+from ._models_py3 import IpConfiguration
+from ._models_py3 import IpConfigurationPublicIPAddressConfiguration
+from ._models_py3 import IpTag
 from ._models_py3 import LoadBalancingRule
 from ._models_py3 import LongRunningOperationResult
 from ._models_py3 import ManagedAzResiliencyStatus
@@ -38,6 +42,7 @@ from ._models_py3 import ManagedClusterCodeVersionResult
 from ._models_py3 import ManagedClusterListResult
 from ._models_py3 import ManagedClusterUpdateParameters
 from ._models_py3 import ManagedIdentity
+from ._models_py3 import ManagedMaintenanceWindowStatus
 from ._models_py3 import ManagedProxyResource
 from ._models_py3 import ManagedVMSize
 from ._models_py3 import ManagedVMSizesResult
@@ -93,6 +98,7 @@ from ._models_py3 import VMSSExtension
 from ._models_py3 import VMSize
 from ._models_py3 import VaultCertificate
 from ._models_py3 import VaultSecretGroup
+from ._models_py3 import VmImagePlan
 from ._models_py3 import VmManagedIdentity
 from ._models_py3 import VmssDataDisk
 
@@ -115,9 +121,11 @@ from ._service_fabric_managed_clusters_management_client_enums import NsgProtoco
 from ._service_fabric_managed_clusters_management_client_enums import OsType
 from ._service_fabric_managed_clusters_management_client_enums import PartitionScheme
 from ._service_fabric_managed_clusters_management_client_enums import PrivateEndpointNetworkPolicies
+from ._service_fabric_managed_clusters_management_client_enums import PrivateIPAddressVersion
 from ._service_fabric_managed_clusters_management_client_enums import PrivateLinkServiceNetworkPolicies
 from ._service_fabric_managed_clusters_management_client_enums import ProbeProtocol
 from ._service_fabric_managed_clusters_management_client_enums import Protocol
+from ._service_fabric_managed_clusters_management_client_enums import PublicIPAddressVersion
 from ._service_fabric_managed_clusters_management_client_enums import RollingUpgradeMode
 from ._service_fabric_managed_clusters_management_client_enums import SecurityType
 from ._service_fabric_managed_clusters_management_client_enums import ServiceCorrelationScheme
@@ -130,6 +138,7 @@ from ._service_fabric_managed_clusters_management_client_enums import ServiceSca
 from ._service_fabric_managed_clusters_management_client_enums import SkuName
 from ._service_fabric_managed_clusters_management_client_enums import UpdateType
 from ._service_fabric_managed_clusters_management_client_enums import VmSetupAction
+from ._service_fabric_managed_clusters_management_client_enums import VmssExtensionSetupOrder
 from ._service_fabric_managed_clusters_management_client_enums import ZonalUpdateMode
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
@@ -137,6 +146,7 @@ from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
     "AddRemoveIncrementalNamedPartitionScalingMechanism",
+    "AdditionalNetworkInterfaceConfiguration",
     "ApplicationHealthPolicy",
     "ApplicationResource",
     "ApplicationResourceList",
@@ -160,6 +170,9 @@ __all__ = [
     "ErrorModelError",
     "FrontendConfiguration",
     "IPTag",
+    "IpConfiguration",
+    "IpConfigurationPublicIPAddressConfiguration",
+    "IpTag",
     "LoadBalancingRule",
     "LongRunningOperationResult",
     "ManagedAzResiliencyStatus",
@@ -168,6 +181,7 @@ __all__ = [
     "ManagedClusterListResult",
     "ManagedClusterUpdateParameters",
     "ManagedIdentity",
+    "ManagedMaintenanceWindowStatus",
     "ManagedProxyResource",
     "ManagedVMSize",
     "ManagedVMSizesResult",
@@ -223,6 +237,7 @@ __all__ = [
     "VMSize",
     "VaultCertificate",
     "VaultSecretGroup",
+    "VmImagePlan",
     "VmManagedIdentity",
     "VmssDataDisk",
     "Access",
@@ -244,9 +259,11 @@ __all__ = [
     "OsType",
     "PartitionScheme",
     "PrivateEndpointNetworkPolicies",
+    "PrivateIPAddressVersion",
     "PrivateLinkServiceNetworkPolicies",
     "ProbeProtocol",
     "Protocol",
+    "PublicIPAddressVersion",
     "RollingUpgradeMode",
     "SecurityType",
     "ServiceCorrelationScheme",
@@ -259,6 +276,7 @@ __all__ = [
     "SkuName",
     "UpdateType",
     "VmSetupAction",
+    "VmssExtensionSetupOrder",
     "ZonalUpdateMode",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
