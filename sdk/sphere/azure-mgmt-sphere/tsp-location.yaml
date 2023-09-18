@@ -1,0 +1,5 @@
+repo: Azure/azure-rest-api-specs
+additionalDirectories: []
+directory: specification/sphere/Sphere.Management
+commit: ea1e60cb2a45d04826a435a2e68eba82177ec036
+

@@ -1,5 +1,5 @@
 {
-  "commit": "23d88533ddfde4d1565a897fe95d42fb0d9333e5",
+  "commit": "ea1e60cb2a45d04826a435a2e68eba82177ec036",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
   "autorest": "3.9.6",
   "use": [
@@ -7,5 +7,7 @@
     "@autorest/modelerfour@4.26.2"
   ],
   "autorest_command": "autorest specification/sphere/resource-manager/readme.md --generate-sample=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/home/vsts/work/1/azure-sdk-for-python/sdk --use=@autorest/python@6.6.0 --use=@autorest/modelerfour@4.26.2 --version=3.9.6 --version-tolerant=False",
-  "readme": "specification/sphere/resource-manager/readme.md"
+  "readme": "specification/sphere/resource-manager/readme.md",
+  "typespec_src": "specification/sphere/Sphere.Management",
+  "@azure-tools/typespec-python": "0.13.5"
 }
