@@ -30,7 +30,7 @@ from azure.mgmt.core.polling.arm_polling import ARMPolling
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import _convert_request, _format_url_section
+from .._vendor import _convert_request
 
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
@@ -45,7 +45,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -63,7 +63,7 @@ def build_get_request(
         ),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -80,7 +80,7 @@ def build_create_or_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -99,7 +99,7 @@ def build_create_or_update_request(
         ),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -113,12 +113,12 @@ def build_create_or_update_request(
 
 
 def build_delete_request(
-    resource_group_name: str, workspace_name: str, subscription_id: str, **kwargs: Any
+    resource_group_name: str, workspace_name: str, subscription_id: str, *, force_to_purge: bool = False, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -136,10 +136,12 @@ def build_delete_request(
         ),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    if force_to_purge is not None:
+        _params["forceToPurge"] = _SERIALIZER.query("force_to_purge", force_to_purge, "bool")
 
     # Construct headers
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
@@ -153,7 +155,7 @@ def build_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -172,7 +174,7 @@ def build_update_request(
         ),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -191,7 +193,7 @@ def build_list_by_resource_group_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -206,7 +208,7 @@ def build_list_by_resource_group_request(
         ),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -225,7 +227,7 @@ def build_diagnose_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -244,7 +246,7 @@ def build_diagnose_request(
         ),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -263,7 +265,7 @@ def build_list_keys_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -281,7 +283,7 @@ def build_list_keys_request(
         ),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -298,7 +300,7 @@ def build_resync_keys_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -316,7 +318,7 @@ def build_resync_keys_request(
         ),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -333,7 +335,7 @@ def build_list_by_subscription_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -344,7 +346,7 @@ def build_list_by_subscription_request(
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -363,7 +365,7 @@ def build_list_notebook_access_token_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -381,7 +383,7 @@ def build_list_notebook_access_token_request(
         ),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -398,7 +400,7 @@ def build_prepare_notebook_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -416,7 +418,7 @@ def build_prepare_notebook_request(
         ),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -433,7 +435,7 @@ def build_list_storage_account_keys_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -451,7 +453,7 @@ def build_list_storage_account_keys_request(
         ),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -468,7 +470,7 @@ def build_list_notebook_keys_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -486,7 +488,7 @@ def build_list_notebook_keys_request(
         ),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -503,7 +505,7 @@ def build_list_outbound_network_dependencies_endpoints_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -521,7 +523,7 @@ def build_list_outbound_network_dependencies_endpoints_request(
         ),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -668,11 +670,16 @@ class WorkspacesOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         deserialized = None
+        response_headers = {}
         if response.status_code == 200:
             deserialized = self._deserialize("Workspace", pipeline_response)
 
+        if response.status_code == 202:
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, response_headers)
 
         return deserialized
 
@@ -830,7 +837,7 @@ class WorkspacesOperations:
     }
 
     def _delete_initial(  # pylint: disable=inconsistent-return-statements
-        self, resource_group_name: str, workspace_name: str, **kwargs: Any
+        self, resource_group_name: str, workspace_name: str, force_to_purge: bool = False, **kwargs: Any
     ) -> None:
         error_map = {
             401: ClientAuthenticationError,
@@ -850,6 +857,7 @@ class WorkspacesOperations:
             resource_group_name=resource_group_name,
             workspace_name=workspace_name,
             subscription_id=self._config.subscription_id,
+            force_to_purge=force_to_purge,
             api_version=api_version,
             template_url=self._delete_initial.metadata["url"],
             headers=_headers,
@@ -878,7 +886,9 @@ class WorkspacesOperations:
     }
 
     @distributed_trace
-    def begin_delete(self, resource_group_name: str, workspace_name: str, **kwargs: Any) -> LROPoller[None]:
+    def begin_delete(
+        self, resource_group_name: str, workspace_name: str, force_to_purge: bool = False, **kwargs: Any
+    ) -> LROPoller[None]:
         """Deletes a machine learning workspace.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -886,6 +896,8 @@ class WorkspacesOperations:
         :type resource_group_name: str
         :param workspace_name: Name of Azure Machine Learning workspace. Required.
         :type workspace_name: str
+        :param force_to_purge: Flag to indicate delete is a purge request. Default value is False.
+        :type force_to_purge: bool
         :keyword callable cls: A custom type or function that will be passed the direct response
         :keyword str continuation_token: A continuation token to restart a poller from a saved state.
         :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
@@ -910,6 +922,7 @@ class WorkspacesOperations:
             raw_result = self._delete_initial(  # type: ignore
                 resource_group_name=resource_group_name,
                 workspace_name=workspace_name,
+                force_to_purge=force_to_purge,
                 api_version=api_version,
                 cls=lambda x, y, z: x,
                 headers=_headers,
@@ -999,11 +1012,16 @@ class WorkspacesOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         deserialized = None
+        response_headers = {}
         if response.status_code == 200:
             deserialized = self._deserialize("Workspace", pipeline_response)
 
+        if response.status_code == 202:
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, response_headers)
 
         return deserialized
 
@@ -1604,8 +1622,13 @@ class WorkspacesOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
+        response_headers = {}
+        if response.status_code == 202:
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+
         if cls:
-            return cls(pipeline_response, None, {})
+            return cls(pipeline_response, None, response_headers)
 
     _resync_keys_initial.metadata = {
         "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/resyncKeys"
@@ -1869,11 +1892,16 @@ class WorkspacesOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         deserialized = None
+        response_headers = {}
         if response.status_code == 200:
             deserialized = self._deserialize("NotebookResourceInfo", pipeline_response)
 
+        if response.status_code == 202:
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, response_headers)
 
         return deserialized
 
