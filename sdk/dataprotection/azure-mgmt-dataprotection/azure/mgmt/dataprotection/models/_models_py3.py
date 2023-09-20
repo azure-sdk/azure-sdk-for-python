@@ -2617,10 +2617,14 @@ class BaseBackupPolicyResourceList(DppResourceList):
 class BaseResourceProperties(_serialization.Model):
     """Properties which are specific to datasource/datasourceSets.
 
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    DefaultResourceProperties
+
     All required parameters must be populated in order to send to Azure.
 
     :ivar object_type: Type of the specific object - used for deserializing. Required.
-    :vartype object_type: str
+     "DefaultResourceProperties"
+    :vartype object_type: str or ~azure.mgmt.dataprotection.models.ResourcePropertiesObjectType
     """
 
     _validation = {
@@ -2630,6 +2634,8 @@ class BaseResourceProperties(_serialization.Model):
     _attribute_map = {
         "object_type": {"key": "objectType", "type": "str"},
     }
+
+    _subtype_map = {"object_type": {"DefaultResourceProperties": "DefaultResourceProperties"}}
 
     def __init__(self, **kwargs: Any) -> None:
         """ """
@@ -2955,6 +2961,64 @@ class ClientDiscoveryValueForSingleApi(_serialization.Model):
         self.properties = properties
 
 
+class CmkKekIdentity(_serialization.Model):
+    """The details of the managed identity used for CMK.
+
+    :ivar identity_type: The identity type. 'SystemAssigned' and 'UserAssigned' are mutually
+     exclusive. 'SystemAssigned' will use implicitly created managed identity. Known values are:
+     "SystemAssigned" and "UserAssigned".
+    :vartype identity_type: str or ~azure.mgmt.dataprotection.models.IdentityType
+    :ivar identity_id: The managed identity to be used which has access permissions to the Key
+     Vault. Provide a value here in case identity types: 'UserAssigned' only.
+    :vartype identity_id: str
+    """
+
+    _attribute_map = {
+        "identity_type": {"key": "identityType", "type": "str"},
+        "identity_id": {"key": "identityId", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        identity_type: Optional[Union[str, "_models.IdentityType"]] = None,
+        identity_id: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword identity_type: The identity type. 'SystemAssigned' and 'UserAssigned' are mutually
+         exclusive. 'SystemAssigned' will use implicitly created managed identity. Known values are:
+         "SystemAssigned" and "UserAssigned".
+        :paramtype identity_type: str or ~azure.mgmt.dataprotection.models.IdentityType
+        :keyword identity_id: The managed identity to be used which has access permissions to the Key
+         Vault. Provide a value here in case identity types: 'UserAssigned' only.
+        :paramtype identity_id: str
+        """
+        super().__init__(**kwargs)
+        self.identity_type = identity_type
+        self.identity_id = identity_id
+
+
+class CmkKeyVaultProperties(_serialization.Model):
+    """The properties of the Key Vault which hosts CMK.
+
+    :ivar key_uri: The key uri of the Customer Managed Key.
+    :vartype key_uri: str
+    """
+
+    _attribute_map = {
+        "key_uri": {"key": "keyUri", "type": "str"},
+    }
+
+    def __init__(self, *, key_uri: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword key_uri: The key uri of the Customer Managed Key.
+        :paramtype key_uri: str
+        """
+        super().__init__(**kwargs)
+        self.key_uri = key_uri
+
+
 class CopyOption(_serialization.Model):
     """Options to copy.
 
@@ -3010,6 +3074,153 @@ class CopyOnExpiryOption(CopyOption):
         """ """
         super().__init__(**kwargs)
         self.object_type: str = "CopyOnExpiryOption"
+
+
+class CrossRegionRestoreDetails(_serialization.Model):
+    """Cross Region Restore details.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar source_region: Required.
+    :vartype source_region: str
+    :ivar source_backup_instance_id: Required.
+    :vartype source_backup_instance_id: str
+    """
+
+    _validation = {
+        "source_region": {"required": True},
+        "source_backup_instance_id": {"required": True},
+    }
+
+    _attribute_map = {
+        "source_region": {"key": "sourceRegion", "type": "str"},
+        "source_backup_instance_id": {"key": "sourceBackupInstanceId", "type": "str"},
+    }
+
+    def __init__(self, *, source_region: str, source_backup_instance_id: str, **kwargs: Any) -> None:
+        """
+        :keyword source_region: Required.
+        :paramtype source_region: str
+        :keyword source_backup_instance_id: Required.
+        :paramtype source_backup_instance_id: str
+        """
+        super().__init__(**kwargs)
+        self.source_region = source_region
+        self.source_backup_instance_id = source_backup_instance_id
+
+
+class CrossRegionRestoreJobRequest(_serialization.Model):
+    """CrossRegionRestoreJobRequest.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar source_region: Required.
+    :vartype source_region: str
+    :ivar source_backup_vault_id: Required.
+    :vartype source_backup_vault_id: str
+    :ivar job_id: Required.
+    :vartype job_id: str
+    """
+
+    _validation = {
+        "source_region": {"required": True},
+        "source_backup_vault_id": {"required": True},
+        "job_id": {"required": True},
+    }
+
+    _attribute_map = {
+        "source_region": {"key": "sourceRegion", "type": "str"},
+        "source_backup_vault_id": {"key": "sourceBackupVaultId", "type": "str"},
+        "job_id": {"key": "jobId", "type": "str"},
+    }
+
+    def __init__(self, *, source_region: str, source_backup_vault_id: str, job_id: str, **kwargs: Any) -> None:
+        """
+        :keyword source_region: Required.
+        :paramtype source_region: str
+        :keyword source_backup_vault_id: Required.
+        :paramtype source_backup_vault_id: str
+        :keyword job_id: Required.
+        :paramtype job_id: str
+        """
+        super().__init__(**kwargs)
+        self.source_region = source_region
+        self.source_backup_vault_id = source_backup_vault_id
+        self.job_id = job_id
+
+
+class CrossRegionRestoreJobsRequest(_serialization.Model):
+    """CrossRegionRestoreJobsRequest.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar source_region: Required.
+    :vartype source_region: str
+    :ivar source_backup_vault_id: Required.
+    :vartype source_backup_vault_id: str
+    """
+
+    _validation = {
+        "source_region": {"required": True},
+        "source_backup_vault_id": {"required": True},
+    }
+
+    _attribute_map = {
+        "source_region": {"key": "sourceRegion", "type": "str"},
+        "source_backup_vault_id": {"key": "sourceBackupVaultId", "type": "str"},
+    }
+
+    def __init__(self, *, source_region: str, source_backup_vault_id: str, **kwargs: Any) -> None:
+        """
+        :keyword source_region: Required.
+        :paramtype source_region: str
+        :keyword source_backup_vault_id: Required.
+        :paramtype source_backup_vault_id: str
+        """
+        super().__init__(**kwargs)
+        self.source_region = source_region
+        self.source_backup_vault_id = source_backup_vault_id
+
+
+class CrossRegionRestoreRequestObject(_serialization.Model):
+    """Cross Region Restore Request Object.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar restore_request_object: Gets or sets the restore request object. Required.
+    :vartype restore_request_object: ~azure.mgmt.dataprotection.models.AzureBackupRestoreRequest
+    :ivar cross_region_restore_details: Cross region restore details. Required.
+    :vartype cross_region_restore_details:
+     ~azure.mgmt.dataprotection.models.CrossRegionRestoreDetails
+    """
+
+    _validation = {
+        "restore_request_object": {"required": True},
+        "cross_region_restore_details": {"required": True},
+    }
+
+    _attribute_map = {
+        "restore_request_object": {"key": "restoreRequestObject", "type": "AzureBackupRestoreRequest"},
+        "cross_region_restore_details": {"key": "crossRegionRestoreDetails", "type": "CrossRegionRestoreDetails"},
+    }
+
+    def __init__(
+        self,
+        *,
+        restore_request_object: "_models.AzureBackupRestoreRequest",
+        cross_region_restore_details: "_models.CrossRegionRestoreDetails",
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword restore_request_object: Gets or sets the restore request object. Required.
+        :paramtype restore_request_object: ~azure.mgmt.dataprotection.models.AzureBackupRestoreRequest
+        :keyword cross_region_restore_details: Cross region restore details. Required.
+        :paramtype cross_region_restore_details:
+         ~azure.mgmt.dataprotection.models.CrossRegionRestoreDetails
+        """
+        super().__init__(**kwargs)
+        self.restore_request_object = restore_request_object
+        self.cross_region_restore_details = cross_region_restore_details
 
 
 class CrossRegionRestoreSettings(_serialization.Model):
@@ -3313,6 +3524,30 @@ class Day(_serialization.Model):
         super().__init__(**kwargs)
         self.date = date
         self.is_last = is_last
+
+
+class DefaultResourceProperties(BaseResourceProperties):
+    """Default source properties.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar object_type: Type of the specific object - used for deserializing. Required.
+     "DefaultResourceProperties"
+    :vartype object_type: str or ~azure.mgmt.dataprotection.models.ResourcePropertiesObjectType
+    """
+
+    _validation = {
+        "object_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "object_type": {"key": "objectType", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.object_type: str = "DefaultResourceProperties"
 
 
 class DeletedBackupInstance(BackupInstance):  # pylint: disable=too-many-instance-attributes
@@ -3688,6 +3923,58 @@ class DppTrackedResourceList(_serialization.Model):
         self.next_link = next_link
 
 
+class EncryptionSettings(_serialization.Model):
+    """Customer Managed Key details of the resource.
+
+    :ivar state: Encryption state of the Backup Vault. Known values are: "Enabled", "Disabled", and
+     "Inconsistent".
+    :vartype state: str or ~azure.mgmt.dataprotection.models.EncryptionState
+    :ivar key_vault_properties: The properties of the Key Vault which hosts CMK.
+    :vartype key_vault_properties: ~azure.mgmt.dataprotection.models.CmkKeyVaultProperties
+    :ivar kek_identity: The details of the managed identity used for CMK.
+    :vartype kek_identity: ~azure.mgmt.dataprotection.models.CmkKekIdentity
+    :ivar infrastructure_encryption: Enabling/Disabling the Double Encryption state. Known values
+     are: "Enabled" and "Disabled".
+    :vartype infrastructure_encryption: str or
+     ~azure.mgmt.dataprotection.models.InfrastructureEncryptionState
+    """
+
+    _attribute_map = {
+        "state": {"key": "state", "type": "str"},
+        "key_vault_properties": {"key": "keyVaultProperties", "type": "CmkKeyVaultProperties"},
+        "kek_identity": {"key": "kekIdentity", "type": "CmkKekIdentity"},
+        "infrastructure_encryption": {"key": "infrastructureEncryption", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        state: Optional[Union[str, "_models.EncryptionState"]] = None,
+        key_vault_properties: Optional["_models.CmkKeyVaultProperties"] = None,
+        kek_identity: Optional["_models.CmkKekIdentity"] = None,
+        infrastructure_encryption: Optional[Union[str, "_models.InfrastructureEncryptionState"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword state: Encryption state of the Backup Vault. Known values are: "Enabled", "Disabled",
+         and "Inconsistent".
+        :paramtype state: str or ~azure.mgmt.dataprotection.models.EncryptionState
+        :keyword key_vault_properties: The properties of the Key Vault which hosts CMK.
+        :paramtype key_vault_properties: ~azure.mgmt.dataprotection.models.CmkKeyVaultProperties
+        :keyword kek_identity: The details of the managed identity used for CMK.
+        :paramtype kek_identity: ~azure.mgmt.dataprotection.models.CmkKekIdentity
+        :keyword infrastructure_encryption: Enabling/Disabling the Double Encryption state. Known
+         values are: "Enabled" and "Disabled".
+        :paramtype infrastructure_encryption: str or
+         ~azure.mgmt.dataprotection.models.InfrastructureEncryptionState
+        """
+        super().__init__(**kwargs)
+        self.state = state
+        self.key_vault_properties = key_vault_properties
+        self.kek_identity = kek_identity
+        self.infrastructure_encryption = infrastructure_encryption
+
+
 class Error(_serialization.Model):
     """The resource management error response.
 
@@ -3978,6 +4265,36 @@ class FeatureValidationResponse(FeatureValidationResponseBase):
         self.object_type: str = "FeatureValidationResponse"
         self.feature_type = feature_type
         self.features = features
+
+
+class FetchSecondaryRPsRequestParameters(_serialization.Model):
+    """Information about BI whose secondary RecoveryPoints are requested
+    Source region and
+    BI ARM path.
+
+    :ivar source_region: Source region in which BackupInstance is located.
+    :vartype source_region: str
+    :ivar source_backup_instance_id: ARM Path of BackupInstance.
+    :vartype source_backup_instance_id: str
+    """
+
+    _attribute_map = {
+        "source_region": {"key": "sourceRegion", "type": "str"},
+        "source_backup_instance_id": {"key": "sourceBackupInstanceId", "type": "str"},
+    }
+
+    def __init__(
+        self, *, source_region: Optional[str] = None, source_backup_instance_id: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword source_region: Source region in which BackupInstance is located.
+        :paramtype source_region: str
+        :keyword source_backup_instance_id: ARM Path of BackupInstance.
+        :paramtype source_backup_instance_id: str
+        """
+        super().__init__(**kwargs)
+        self.source_region = source_region
+        self.source_backup_instance_id = source_backup_instance_id
 
 
 class IdentityDetails(_serialization.Model):
@@ -6136,11 +6453,14 @@ class SecuritySettings(_serialization.Model):
     :vartype soft_delete_settings: ~azure.mgmt.dataprotection.models.SoftDeleteSettings
     :ivar immutability_settings: Immutability Settings at vault level.
     :vartype immutability_settings: ~azure.mgmt.dataprotection.models.ImmutabilitySettings
+    :ivar encryption_settings: Customer Managed Key details of the resource.
+    :vartype encryption_settings: ~azure.mgmt.dataprotection.models.EncryptionSettings
     """
 
     _attribute_map = {
         "soft_delete_settings": {"key": "softDeleteSettings", "type": "SoftDeleteSettings"},
         "immutability_settings": {"key": "immutabilitySettings", "type": "ImmutabilitySettings"},
+        "encryption_settings": {"key": "encryptionSettings", "type": "EncryptionSettings"},
     }
 
     def __init__(
@@ -6148,6 +6468,7 @@ class SecuritySettings(_serialization.Model):
         *,
         soft_delete_settings: Optional["_models.SoftDeleteSettings"] = None,
         immutability_settings: Optional["_models.ImmutabilitySettings"] = None,
+        encryption_settings: Optional["_models.EncryptionSettings"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -6155,10 +6476,13 @@ class SecuritySettings(_serialization.Model):
         :paramtype soft_delete_settings: ~azure.mgmt.dataprotection.models.SoftDeleteSettings
         :keyword immutability_settings: Immutability Settings at vault level.
         :paramtype immutability_settings: ~azure.mgmt.dataprotection.models.ImmutabilitySettings
+        :keyword encryption_settings: Customer Managed Key details of the resource.
+        :paramtype encryption_settings: ~azure.mgmt.dataprotection.models.EncryptionSettings
         """
         super().__init__(**kwargs)
         self.soft_delete_settings = soft_delete_settings
         self.immutability_settings = immutability_settings
+        self.encryption_settings = encryption_settings
 
 
 class SoftDeleteSettings(_serialization.Model):
@@ -6759,6 +7083,47 @@ class UserFacingError(_serialization.Model):
         self.message = message
         self.recommended_action = recommended_action
         self.target = target
+
+
+class ValidateCrossRegionRestoreRequestObject(_serialization.Model):
+    """Cross Region Restore Request Object.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar restore_request_object: Gets or sets the restore request object. Required.
+    :vartype restore_request_object: ~azure.mgmt.dataprotection.models.AzureBackupRestoreRequest
+    :ivar cross_region_restore_details: Cross region restore details. Required.
+    :vartype cross_region_restore_details:
+     ~azure.mgmt.dataprotection.models.CrossRegionRestoreDetails
+    """
+
+    _validation = {
+        "restore_request_object": {"required": True},
+        "cross_region_restore_details": {"required": True},
+    }
+
+    _attribute_map = {
+        "restore_request_object": {"key": "restoreRequestObject", "type": "AzureBackupRestoreRequest"},
+        "cross_region_restore_details": {"key": "crossRegionRestoreDetails", "type": "CrossRegionRestoreDetails"},
+    }
+
+    def __init__(
+        self,
+        *,
+        restore_request_object: "_models.AzureBackupRestoreRequest",
+        cross_region_restore_details: "_models.CrossRegionRestoreDetails",
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword restore_request_object: Gets or sets the restore request object. Required.
+        :paramtype restore_request_object: ~azure.mgmt.dataprotection.models.AzureBackupRestoreRequest
+        :keyword cross_region_restore_details: Cross region restore details. Required.
+        :paramtype cross_region_restore_details:
+         ~azure.mgmt.dataprotection.models.CrossRegionRestoreDetails
+        """
+        super().__init__(**kwargs)
+        self.restore_request_object = restore_request_object
+        self.cross_region_restore_details = cross_region_restore_details
 
 
 class ValidateForBackupRequest(_serialization.Model):
