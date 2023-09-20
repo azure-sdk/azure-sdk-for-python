@@ -28,7 +28,7 @@ from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import _convert_request, _format_url_section
+from .._vendor import _convert_request
 
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
@@ -43,7 +43,7 @@ def build_create_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -60,10 +60,12 @@ def build_create_request(
         "workspaceName": _SERIALIZER.url(
             "workspace_name", workspace_name, "str", pattern=r"^[a-zA-Z0-9][a-zA-Z0-9_-]{2,32}$"
         ),
-        "connectionName": _SERIALIZER.url("connection_name", connection_name, "str"),
+        "connectionName": _SERIALIZER.url(
+            "connection_name", connection_name, "str", pattern=r"^[a-zA-Z0-9][a-zA-Z0-9_-]{2,32}$"
+        ),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -82,7 +84,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -98,10 +100,12 @@ def build_get_request(
         "workspaceName": _SERIALIZER.url(
             "workspace_name", workspace_name, "str", pattern=r"^[a-zA-Z0-9][a-zA-Z0-9_-]{2,32}$"
         ),
-        "connectionName": _SERIALIZER.url("connection_name", connection_name, "str"),
+        "connectionName": _SERIALIZER.url(
+            "connection_name", connection_name, "str", pattern=r"^[a-zA-Z0-9][a-zA-Z0-9_-]{2,32}$"
+        ),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -118,7 +122,7 @@ def build_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -134,10 +138,12 @@ def build_delete_request(
         "workspaceName": _SERIALIZER.url(
             "workspace_name", workspace_name, "str", pattern=r"^[a-zA-Z0-9][a-zA-Z0-9_-]{2,32}$"
         ),
-        "connectionName": _SERIALIZER.url("connection_name", connection_name, "str"),
+        "connectionName": _SERIALIZER.url(
+            "connection_name", connection_name, "str", pattern=r"^[a-zA-Z0-9][a-zA-Z0-9_-]{2,32}$"
+        ),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -160,7 +166,7 @@ def build_list_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -178,7 +184,7 @@ def build_list_request(
         ),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     if target is not None:
