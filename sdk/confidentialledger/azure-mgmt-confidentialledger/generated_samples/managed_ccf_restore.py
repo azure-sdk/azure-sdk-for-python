@@ -14,7 +14,7 @@ from azure.mgmt.confidentialledger import ConfidentialLedger
     pip install azure-identity
     pip install azure-mgmt-confidentialledger
 # USAGE
-    python managed_ccf_get.py
+    python managed_ccf_restore.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,13 +29,14 @@ def main():
         subscription_id="0000000-0000-0000-0000-000000000001",
     )
 
-    response = client.managed_ccf.get(
+    response = client.managed_ccf.begin_restore(
         resource_group_name="DummyResourceGroupName",
         app_name="DummyMccfAppName",
-    )
+        managed_ccf={"fileShareName": "DummyFileShareName", "restoreRegion": "EastUS", "uri": "DummySASUri"},
+    ).result()
     print(response)
 
 
-# x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-06-28-preview/examples/ManagedCCF_Get.json
+# x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-06-28-preview/examples/ManagedCCF_Restore.json
 if __name__ == "__main__":
     main()
