@@ -27,6 +27,8 @@ def main():
     client = SearchManagementClient(
         credential=DefaultAzureCredential(),
         subscription_id="SUBSCRIPTION_ID",
+        location="LOCATION",
+        sku_name="SKU_NAME",
     )
 
     response = client.operations.list()
@@ -34,6 +36,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2022-09-01/examples/OperationsList.json
+# x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/OperationsList.json
 if __name__ == "__main__":
     main()

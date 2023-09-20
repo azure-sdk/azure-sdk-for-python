@@ -27,16 +27,17 @@ def main():
     client = SearchManagementClient(
         credential=DefaultAzureCredential(),
         subscription_id="subid",
+        location="LOCATION",
+        sku_name="SKU_NAME",
     )
 
-    response = client.query_keys.delete(
+    client.query_keys.delete(
         resource_group_name="rg1",
         search_service_name="mysearchservice",
         key="<a query API key>",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2022-09-01/examples/SearchDeleteQueryKey.json
+# x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchDeleteQueryKey.json
 if __name__ == "__main__":
     main()

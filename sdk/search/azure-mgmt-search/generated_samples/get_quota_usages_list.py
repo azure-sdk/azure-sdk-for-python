@@ -14,7 +14,7 @@ from azure.mgmt.search import SearchManagementClient
     pip install azure-identity
     pip install azure-mgmt-search
 # USAGE
-    python list_shared_private_link_resources_by_service.py
+    python get_quota_usages_list.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -27,18 +27,15 @@ def main():
     client = SearchManagementClient(
         credential=DefaultAzureCredential(),
         subscription_id="subid",
-        location="LOCATION",
+        location="westus",
         sku_name="SKU_NAME",
     )
 
-    response = client.shared_private_link_resources.list_by_service(
-        resource_group_name="rg1",
-        search_service_name="mysearchservice",
-    )
+    response = client.usages.list_by_subscription()
     for item in response:
         print(item)
 
 
-# x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/ListSharedPrivateLinkResourcesByService.json
+# x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/GetQuotaUsagesList.json
 if __name__ == "__main__":
     main()

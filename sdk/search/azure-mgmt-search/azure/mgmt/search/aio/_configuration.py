@@ -6,7 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-import sys
 from typing import Any, TYPE_CHECKING
 
 from azure.core.configuration import Configuration
@@ -14,11 +13,6 @@ from azure.core.pipeline import policies
 from azure.mgmt.core.policies import ARMHttpLoggingPolicy, AsyncARMChallengeAuthenticationPolicy
 
 from .._version import VERSION
-
-if sys.version_info >= (3, 8):
-    from typing import Literal  # pylint: disable=no-name-in-module, ungrouped-imports
-else:
-    from typing_extensions import Literal  # type: ignore  # pylint: disable=ungrouped-imports
 
 if TYPE_CHECKING:
     # pylint: disable=unused-import,ungrouped-imports
@@ -36,22 +30,35 @@ class SearchManagementClientConfiguration(Configuration):  # pylint: disable=too
     :param subscription_id: The unique identifier for a Microsoft Azure subscription. You can
      obtain this value from the Azure Resource Manager API or the portal. Required.
     :type subscription_id: str
-    :keyword api_version: Api Version. Default value is "2022-09-01". Note that overriding this
+    :param location: The unique location name for a Microsoft Azure geographic region. Required.
+    :type location: str
+    :param sku_name: The unique search service sku name supported by Azure Cognitive Search.
+     Required.
+    :type sku_name: str
+    :keyword api_version: Api Version. Default value is "2023-11-01". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str
     """
 
-    def __init__(self, credential: "AsyncTokenCredential", subscription_id: str, **kwargs: Any) -> None:
+    def __init__(
+        self, credential: "AsyncTokenCredential", subscription_id: str, location: str, sku_name: str, **kwargs: Any
+    ) -> None:
         super(SearchManagementClientConfiguration, self).__init__(**kwargs)
-        api_version: Literal["2022-09-01"] = kwargs.pop("api_version", "2022-09-01")
+        api_version: str = kwargs.pop("api_version", "2023-11-01")
 
         if credential is None:
             raise ValueError("Parameter 'credential' must not be None.")
         if subscription_id is None:
             raise ValueError("Parameter 'subscription_id' must not be None.")
+        if location is None:
+            raise ValueError("Parameter 'location' must not be None.")
+        if sku_name is None:
+            raise ValueError("Parameter 'sku_name' must not be None.")
 
         self.credential = credential
         self.subscription_id = subscription_id
+        self.location = location
+        self.sku_name = sku_name
         self.api_version = api_version
         self.credential_scopes = kwargs.pop("credential_scopes", ["https://management.azure.com/.default"])
         kwargs.setdefault("sdk_moniker", "mgmt-search/{}".format(VERSION))

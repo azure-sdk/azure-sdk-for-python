@@ -21,8 +21,10 @@ from .operations import (
     PrivateEndpointConnectionsOperations,
     PrivateLinkResourcesOperations,
     QueryKeysOperations,
+    SearchManagementClientOperationsMixin,
     ServicesOperations,
     SharedPrivateLinkResourcesOperations,
+    UsagesOperations,
 )
 
 if TYPE_CHECKING:
@@ -30,7 +32,9 @@ if TYPE_CHECKING:
     from azure.core.credentials_async import AsyncTokenCredential
 
 
-class SearchManagementClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
+class SearchManagementClient(
+    SearchManagementClientOperationsMixin
+):  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
     """Client that can be used to manage Azure Cognitive Search services and API keys.
 
     :ivar operations: Operations operations
@@ -50,14 +54,21 @@ class SearchManagementClient:  # pylint: disable=client-accepts-api-version-keyw
     :ivar shared_private_link_resources: SharedPrivateLinkResourcesOperations operations
     :vartype shared_private_link_resources:
      azure.mgmt.search.aio.operations.SharedPrivateLinkResourcesOperations
+    :ivar usages: UsagesOperations operations
+    :vartype usages: azure.mgmt.search.aio.operations.UsagesOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
     :param subscription_id: The unique identifier for a Microsoft Azure subscription. You can
      obtain this value from the Azure Resource Manager API or the portal. Required.
     :type subscription_id: str
+    :param location: The unique location name for a Microsoft Azure geographic region. Required.
+    :type location: str
+    :param sku_name: The unique search service sku name supported by Azure Cognitive Search.
+     Required.
+    :type sku_name: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2022-09-01". Note that overriding this
+    :keyword api_version: Api Version. Default value is "2023-11-01". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -68,13 +79,15 @@ class SearchManagementClient:  # pylint: disable=client-accepts-api-version-keyw
         self,
         credential: "AsyncTokenCredential",
         subscription_id: str,
+        location: str,
+        sku_name: str,
         base_url: str = "https://management.azure.com",
         **kwargs: Any
     ) -> None:
         self._config = SearchManagementClientConfiguration(
-            credential=credential, subscription_id=subscription_id, **kwargs
+            credential=credential, subscription_id=subscription_id, location=location, sku_name=sku_name, **kwargs
         )
-        self._client = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
@@ -93,6 +106,7 @@ class SearchManagementClient:  # pylint: disable=client-accepts-api-version-keyw
         self.shared_private_link_resources = SharedPrivateLinkResourcesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.usages = UsagesOperations(self._client, self._config, self._serialize, self._deserialize)
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> Awaitable[AsyncHttpResponse]:
         """Runs the network request through the client's chained policies.
@@ -123,5 +137,5 @@ class SearchManagementClient:  # pylint: disable=client-accepts-api-version-keyw
         await self._client.__aenter__()
         return self
 
-    async def __aexit__(self, *exc_details) -> None:
+    async def __aexit__(self, *exc_details: Any) -> None:
         await self._client.__aexit__(*exc_details)

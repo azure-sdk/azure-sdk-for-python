@@ -27,6 +27,8 @@ def main():
     client = SearchManagementClient(
         credential=DefaultAzureCredential(),
         subscription_id="subid",
+        location="LOCATION",
+        sku_name="SKU_NAME",
     )
 
     response = client.services.begin_create_or_update(
@@ -47,6 +49,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2022-09-01/examples/SearchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPs.json
+# x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPs.json
 if __name__ == "__main__":
     main()

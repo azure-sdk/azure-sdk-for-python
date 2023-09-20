@@ -27,6 +27,8 @@ def main():
     client = SearchManagementClient(
         credential=DefaultAzureCredential(),
         subscription_id="subid",
+        location="LOCATION",
+        sku_name="SKU_NAME",
     )
 
     response = client.query_keys.list_by_search_service(
@@ -37,6 +39,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2022-09-01/examples/SearchListQueryKeysBySearchService.json
+# x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchListQueryKeysBySearchService.json
 if __name__ == "__main__":
     main()
