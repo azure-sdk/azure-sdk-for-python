@@ -14,7 +14,7 @@ from azure.mgmt.alertsmanagement import AlertsManagementClient
     pip install azure-identity
     pip install azure-mgmt-alertsmanagement
 # USAGE
-    python alerts_meta_data_monitor_service.py
+    python alerts_list_enrichments.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,12 +29,14 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.alerts.meta_data(
-        identifier="MonitorServiceList",
+    response = client.alerts.list_enrichments(
+        scope="subscriptions/72fa99ef-9c84-4a7c-b343-ec62da107d81",
+        alert_id="66114d64-d9d9-478b-95c9-b789d6502101",
     )
-    print(response)
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/alertsmanagement/resource-manager/Microsoft.AlertsManagement/preview/2023-07-12-preview/examples/AlertsMetaData_MonitorService.json
+# x-ms-original-file: specification/alertsmanagement/resource-manager/Microsoft.AlertsManagement/preview/2023-07-12-preview/examples/Alerts_ListEnrichments.json
 if __name__ == "__main__":
     main()
