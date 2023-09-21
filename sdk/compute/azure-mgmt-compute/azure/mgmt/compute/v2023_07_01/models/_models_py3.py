@@ -8370,7 +8370,8 @@ class VirtualMachine(Resource):  # pylint: disable=too-many-instance-attributes
     :vartype scheduled_events_profile:
      ~azure.mgmt.compute.v2023_07_01.models.ScheduledEventsProfile
     :ivar user_data: UserData for the VM, which must be base-64 encoded. Customer should not pass
-     any secrets in here. Minimum api-version: 2021-03-01.
+     any secrets in here. Maximum size limit of 256KB before base-64 encoding. Minimum api-version:
+     2021-03-01.
     :vartype user_data: str
     :ivar capacity_reservation: Specifies information about the capacity reservation that is used
      to allocate virtual machine. Minimum api-version: 2021-04-01.
@@ -8573,7 +8574,8 @@ class VirtualMachine(Resource):  # pylint: disable=too-many-instance-attributes
         :paramtype scheduled_events_profile:
          ~azure.mgmt.compute.v2023_07_01.models.ScheduledEventsProfile
         :keyword user_data: UserData for the VM, which must be base-64 encoded. Customer should not
-         pass any secrets in here. Minimum api-version: 2021-03-01.
+         pass any secrets in here. Maximum size limit of 256KB before base-64 encoding. Minimum
+         api-version: 2021-03-01.
         :paramtype user_data: str
         :keyword capacity_reservation: Specifies information about the capacity reservation that is
          used to allocate virtual machine. Minimum api-version: 2021-04-01.
@@ -15445,7 +15447,8 @@ class VirtualMachineUpdate(UpdateResource):  # pylint: disable=too-many-instance
     :vartype scheduled_events_profile:
      ~azure.mgmt.compute.v2023_07_01.models.ScheduledEventsProfile
     :ivar user_data: UserData for the VM, which must be base-64 encoded. Customer should not pass
-     any secrets in here. Minimum api-version: 2021-03-01.
+     any secrets in here. Maximum size limit of 256KB before base-64 encoding. Minimum api-version:
+     2021-03-01.
     :vartype user_data: str
     :ivar capacity_reservation: Specifies information about the capacity reservation that is used
      to allocate virtual machine. Minimum api-version: 2021-04-01.
@@ -15631,7 +15634,8 @@ class VirtualMachineUpdate(UpdateResource):  # pylint: disable=too-many-instance
         :paramtype scheduled_events_profile:
          ~azure.mgmt.compute.v2023_07_01.models.ScheduledEventsProfile
         :keyword user_data: UserData for the VM, which must be base-64 encoded. Customer should not
-         pass any secrets in here. Minimum api-version: 2021-03-01.
+         pass any secrets in here. Maximum size limit of 256KB before base-64 encoding. Minimum
+         api-version: 2021-03-01.
         :paramtype user_data: str
         :keyword capacity_reservation: Specifies information about the capacity reservation that is
          used to allocate virtual machine. Minimum api-version: 2021-04-01.
