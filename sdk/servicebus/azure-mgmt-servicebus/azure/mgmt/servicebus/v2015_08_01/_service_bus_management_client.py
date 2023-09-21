@@ -59,17 +59,21 @@ class ServiceBusManagementClient:  # pylint: disable=client-accepts-api-version-
         self._config = ServiceBusManagementClientConfiguration(
             credential=credential, subscription_id=subscription_id, **kwargs
         )
-        self._client = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        self._client: ARMPipelineClient = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
-        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
-        self.namespaces = NamespacesOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.queues = QueuesOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.topics = TopicsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.subscriptions = SubscriptionsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize, "2015-08-01")
+        self.namespaces = NamespacesOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2015-08-01"
+        )
+        self.queues = QueuesOperations(self._client, self._config, self._serialize, self._deserialize, "2015-08-01")
+        self.topics = TopicsOperations(self._client, self._config, self._serialize, self._deserialize, "2015-08-01")
+        self.subscriptions = SubscriptionsOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2015-08-01"
+        )
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> HttpResponse:
         """Runs the network request through the client's chained policies.
