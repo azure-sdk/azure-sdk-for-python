@@ -39,6 +39,6 @@ def main():
     )
 
 
-# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/RecommendedColumnSensitivityLabelDisable.json
+# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/RecommendedColumnSensitivityLabelDisable.json
 if __name__ == "__main__":
     main()
