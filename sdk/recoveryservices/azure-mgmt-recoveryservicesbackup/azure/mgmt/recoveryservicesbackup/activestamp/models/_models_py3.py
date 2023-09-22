@@ -12697,7 +12697,7 @@ class BackupStatusRequest(_serialization.Model):
         self.po_logical_name = po_logical_name
 
 
-class BackupStatusResponse(_serialization.Model):
+class BackupStatusResponse(_serialization.Model):  # pylint: disable=too-many-instance-attributes
     """BackupStatus response.
 
     :ivar protection_status: Specifies whether the container is registered or not. Known values
@@ -12723,6 +12723,12 @@ class BackupStatusResponse(_serialization.Model):
     :vartype policy_name: str
     :ivar registration_status: Container registration status.
     :vartype registration_status: str
+    :ivar protected_items_count: Number of protected items.
+    :vartype protected_items_count: int
+    :ivar acquire_storage_account_lock: Specifies whether the storage account lock has been
+     acquired or not. Known values are: "Acquire" and "NotAcquire".
+    :vartype acquire_storage_account_lock: str or
+     ~azure.mgmt.recoveryservicesbackup.activestamp.models.AcquireStorageAccountLock
     """
 
     _attribute_map = {
@@ -12735,6 +12741,8 @@ class BackupStatusResponse(_serialization.Model):
         "error_message": {"key": "errorMessage", "type": "str"},
         "policy_name": {"key": "policyName", "type": "str"},
         "registration_status": {"key": "registrationStatus", "type": "str"},
+        "protected_items_count": {"key": "protectedItemsCount", "type": "int"},
+        "acquire_storage_account_lock": {"key": "acquireStorageAccountLock", "type": "str"},
     }
 
     def __init__(
@@ -12749,6 +12757,8 @@ class BackupStatusResponse(_serialization.Model):
         error_message: Optional[str] = None,
         policy_name: Optional[str] = None,
         registration_status: Optional[str] = None,
+        protected_items_count: Optional[int] = None,
+        acquire_storage_account_lock: Optional[Union[str, "_models.AcquireStorageAccountLock"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -12775,6 +12785,12 @@ class BackupStatusResponse(_serialization.Model):
         :paramtype policy_name: str
         :keyword registration_status: Container registration status.
         :paramtype registration_status: str
+        :keyword protected_items_count: Number of protected items.
+        :paramtype protected_items_count: int
+        :keyword acquire_storage_account_lock: Specifies whether the storage account lock has been
+         acquired or not. Known values are: "Acquire" and "NotAcquire".
+        :paramtype acquire_storage_account_lock: str or
+         ~azure.mgmt.recoveryservicesbackup.activestamp.models.AcquireStorageAccountLock
         """
         super().__init__(**kwargs)
         self.protection_status = protection_status
@@ -12786,6 +12802,8 @@ class BackupStatusResponse(_serialization.Model):
         self.error_message = error_message
         self.policy_name = policy_name
         self.registration_status = registration_status
+        self.protected_items_count = protected_items_count
+        self.acquire_storage_account_lock = acquire_storage_account_lock
 
 
 class BEKDetails(_serialization.Model):
@@ -15570,6 +15588,10 @@ class IaasVMRecoveryPoint(RecoveryPoint):  # pylint: disable=too-many-instance-a
     :ivar is_private_access_enabled_on_any_disk: This flag denotes if any of the disks in the VM
      are using Private access network setting.
     :vartype is_private_access_enabled_on_any_disk: bool
+    :ivar extended_location: Extended location of the VM recovery point,
+     should be null if VM is in public cloud.
+    :vartype extended_location:
+     ~azure.mgmt.recoveryservicesbackup.activestamp.models.ExtendedLocation
     """
 
     _validation = {
@@ -15602,6 +15624,7 @@ class IaasVMRecoveryPoint(RecoveryPoint):  # pylint: disable=too-many-instance-a
         "security_type": {"key": "securityType", "type": "str"},
         "recovery_point_properties": {"key": "recoveryPointProperties", "type": "RecoveryPointProperties"},
         "is_private_access_enabled_on_any_disk": {"key": "isPrivateAccessEnabledOnAnyDisk", "type": "bool"},
+        "extended_location": {"key": "extendedLocation", "type": "ExtendedLocation"},
     }
 
     def __init__(
@@ -15625,6 +15648,7 @@ class IaasVMRecoveryPoint(RecoveryPoint):  # pylint: disable=too-many-instance-a
         security_type: Optional[str] = None,
         recovery_point_properties: Optional["_models.RecoveryPointProperties"] = None,
         is_private_access_enabled_on_any_disk: Optional[bool] = None,
+        extended_location: Optional["_models.ExtendedLocation"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -15675,6 +15699,10 @@ class IaasVMRecoveryPoint(RecoveryPoint):  # pylint: disable=too-many-instance-a
         :keyword is_private_access_enabled_on_any_disk: This flag denotes if any of the disks in the VM
          are using Private access network setting.
         :paramtype is_private_access_enabled_on_any_disk: bool
+        :keyword extended_location: Extended location of the VM recovery point,
+         should be null if VM is in public cloud.
+        :paramtype extended_location:
+         ~azure.mgmt.recoveryservicesbackup.activestamp.models.ExtendedLocation
         """
         super().__init__(**kwargs)
         self.object_type: str = "IaasVMRecoveryPoint"
@@ -15696,6 +15724,7 @@ class IaasVMRecoveryPoint(RecoveryPoint):  # pylint: disable=too-many-instance-a
         self.security_type = security_type
         self.recovery_point_properties = recovery_point_properties
         self.is_private_access_enabled_on_any_disk = is_private_access_enabled_on_any_disk
+        self.extended_location = extended_location
 
 
 class IaasVMRestoreRequest(RestoreRequest):  # pylint: disable=too-many-instance-attributes
