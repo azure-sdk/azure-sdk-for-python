@@ -14,7 +14,7 @@ from azure.mgmt.chaos import ChaosManagementClient
     pip install azure-identity
     pip install azure-mgmt-chaos
 # USAGE
-    python get_acapability_type.py
+    python get_experiment_execution_details.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,14 +29,14 @@ def main():
         subscription_id="6b052e15-03d3-4f17-b2e1-be7f07588291",
     )
 
-    response = client.capability_types.get(
-        location_name="westus2",
-        target_type_name="Microsoft-VirtualMachine",
-        capability_type_name="Shutdown-1.0",
+    response = client.experiments.get_execution_details(
+        resource_group_name="exampleRG",
+        experiment_name="exampleExperiment",
+        execution_details_id="f24500ad-744e-4a26-864b-b76199eac333",
     )
     print(response)
 
 
-# x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2023-04-15-preview/examples/GetACapabilityType.json
+# x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2023-09-01-preview/examples/GetExperimentExecutionDetails.json
 if __name__ == "__main__":
     main()

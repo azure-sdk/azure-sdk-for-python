@@ -14,7 +14,7 @@ from azure.mgmt.chaos import ChaosManagementClient
     pip install azure-identity
     pip install azure-mgmt-chaos
 # USAGE
-    python get_aexperiment_status.py
+    python update_experiment.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,14 +29,21 @@ def main():
         subscription_id="6b052e15-03d3-4f17-b2e1-be7f07588291",
     )
 
-    response = client.experiments.get_status(
+    response = client.experiments.begin_update(
         resource_group_name="exampleRG",
         experiment_name="exampleExperiment",
-        status_id="50734542-2e64-4e08-814c-cc0e7475f7e4",
-    )
+        experiment={
+            "identity": {
+                "type": "UserAssigned",
+                "userAssignedIdentities": {
+                    "/subscriptions/6b052e15-03d3-4f17-b2e1-be7f07588291/resourceGroups/exampleRG/providers/Microsoft.ManagedIdentity/userAssignedIdentity/exampleUMI": {}
+                },
+            }
+        },
+    ).result()
     print(response)
 
 
-# x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2023-04-15-preview/examples/GetAExperimentStatus.json
+# x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2023-09-01-preview/examples/UpdateExperiment.json
 if __name__ == "__main__":
     main()
