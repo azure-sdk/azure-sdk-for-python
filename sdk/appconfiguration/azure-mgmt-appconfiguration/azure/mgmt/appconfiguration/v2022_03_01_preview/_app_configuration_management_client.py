@@ -79,17 +79,23 @@ class AppConfigurationManagementClient:  # pylint: disable=client-accepts-api-ve
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
         self.configuration_stores = ConfigurationStoresOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2022-03-01-preview"
         )
-        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
+        self.operations = Operations(
+            self._client, self._config, self._serialize, self._deserialize, "2022-03-01-preview"
+        )
         self.private_endpoint_connections = PrivateEndpointConnectionsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2022-03-01-preview"
         )
         self.private_link_resources = PrivateLinkResourcesOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2022-03-01-preview"
         )
-        self.key_values = KeyValuesOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.replicas = ReplicasOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.key_values = KeyValuesOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2022-03-01-preview"
+        )
+        self.replicas = ReplicasOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2022-03-01-preview"
+        )
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> HttpResponse:
         """Runs the network request through the client's chained policies.

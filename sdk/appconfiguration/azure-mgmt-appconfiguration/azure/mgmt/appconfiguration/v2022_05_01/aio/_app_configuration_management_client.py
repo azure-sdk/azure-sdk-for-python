@@ -74,16 +74,18 @@ class AppConfigurationManagementClient:  # pylint: disable=client-accepts-api-ve
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
         self.configuration_stores = ConfigurationStoresOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2022-05-01"
         )
-        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
+        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize, "2022-05-01")
         self.private_endpoint_connections = PrivateEndpointConnectionsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2022-05-01"
         )
         self.private_link_resources = PrivateLinkResourcesOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2022-05-01"
         )
-        self.key_values = KeyValuesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.key_values = KeyValuesOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2022-05-01"
+        )
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> Awaitable[AsyncHttpResponse]:
         """Runs the network request through the client's chained policies.
