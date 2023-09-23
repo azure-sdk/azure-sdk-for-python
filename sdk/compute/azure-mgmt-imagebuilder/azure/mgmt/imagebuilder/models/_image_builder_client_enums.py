@@ -19,6 +19,13 @@ class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     KEY = "Key"
 
 
+class OnBuildError(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Error handling behavior upon build failure."""
+
+    CLEANUP = "cleanup"
+    ABORT = "abort"
+
+
 class ProvisioningErrorCode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Error code of the provisioning failure."""
 
@@ -81,7 +88,7 @@ class RunSubState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DISTRIBUTING = "Distributing"
 
 
-class SharedImageStorageAccountType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+class SharedImageStorageAccountTypeBROKEN(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Specifies the storage account type to be used to store the Azure Compute Gallery image version
     in.
     """

@@ -291,6 +291,8 @@ class ImageTemplate(TrackedResource):  # pylint: disable=too-many-instance-attri
     :vartype validate: ~azure.mgmt.imagebuilder.models.ImageTemplatePropertiesValidate
     :ivar distribute: The distribution targets where the image output needs to go to.
     :vartype distribute: list[~azure.mgmt.imagebuilder.models.ImageTemplateDistributor]
+    :ivar error_handling: Error handling options upon a build failure.
+    :vartype error_handling: ~azure.mgmt.imagebuilder.models.ImageTemplatePropertiesErrorHandling
     :ivar provisioning_state: Provisioning state of the resource. Known values are: "Creating",
      "Updating", "Succeeded", "Failed", "Deleting", and "Canceled".
     :vartype provisioning_state: str or ~azure.mgmt.imagebuilder.models.ProvisioningState
@@ -347,6 +349,7 @@ class ImageTemplate(TrackedResource):  # pylint: disable=too-many-instance-attri
         "optimize": {"key": "properties.optimize", "type": "ImageTemplatePropertiesOptimize"},
         "validate": {"key": "properties.validate", "type": "ImageTemplatePropertiesValidate"},
         "distribute": {"key": "properties.distribute", "type": "[ImageTemplateDistributor]"},
+        "error_handling": {"key": "properties.errorHandling", "type": "ImageTemplatePropertiesErrorHandling"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "provisioning_error": {"key": "properties.provisioningError", "type": "ProvisioningError"},
         "last_run_status": {"key": "properties.lastRunStatus", "type": "ImageTemplateLastRunStatus"},
@@ -367,6 +370,7 @@ class ImageTemplate(TrackedResource):  # pylint: disable=too-many-instance-attri
         optimize: Optional["_models.ImageTemplatePropertiesOptimize"] = None,
         validate: Optional["_models.ImageTemplatePropertiesValidate"] = None,
         distribute: Optional[List["_models.ImageTemplateDistributor"]] = None,
+        error_handling: Optional["_models.ImageTemplatePropertiesErrorHandling"] = None,
         build_timeout_in_minutes: int = 0,
         vm_profile: Optional["_models.ImageTemplateVmProfile"] = None,
         staging_resource_group: Optional[str] = None,
@@ -391,6 +395,8 @@ class ImageTemplate(TrackedResource):  # pylint: disable=too-many-instance-attri
         :paramtype validate: ~azure.mgmt.imagebuilder.models.ImageTemplatePropertiesValidate
         :keyword distribute: The distribution targets where the image output needs to go to.
         :paramtype distribute: list[~azure.mgmt.imagebuilder.models.ImageTemplateDistributor]
+        :keyword error_handling: Error handling options upon a build failure.
+        :paramtype error_handling: ~azure.mgmt.imagebuilder.models.ImageTemplatePropertiesErrorHandling
         :keyword build_timeout_in_minutes: Maximum duration to wait while building the image template
          (includes all customizations, optimization, validations, and distributions). Omit or specify 0
          to use the default (4 hours).
@@ -414,6 +420,7 @@ class ImageTemplate(TrackedResource):  # pylint: disable=too-many-instance-attri
         self.optimize = optimize
         self.validate = validate
         self.distribute = distribute
+        self.error_handling = error_handling
         self.provisioning_state = None
         self.provisioning_error = None
         self.last_run_status = None
@@ -1193,6 +1200,50 @@ class ImageTemplatePowerShellValidator(ImageTemplateInVMValidator):
         self.valid_exit_codes = valid_exit_codes
 
 
+class ImageTemplatePropertiesErrorHandling(_serialization.Model):
+    """Error handling options upon a build failure.
+
+    :ivar on_customizer_error: If there is a customizer error and this field is set to 'cleanup',
+     the build VM and associated network resources will be cleaned up. This is the default behavior.
+     If there is a customizer error and this field is set to 'abort', the build VM will be
+     preserved. Known values are: "cleanup" and "abort".
+    :vartype on_customizer_error: str or ~azure.mgmt.imagebuilder.models.OnBuildError
+    :ivar on_validation_error: If there is a validation error and this field is set to 'cleanup',
+     the build VM and associated network resources will be cleaned up. This is the default behavior.
+     If there is a validation error and this field is set to 'abort', the build VM will be
+     preserved. Known values are: "cleanup" and "abort".
+    :vartype on_validation_error: str or ~azure.mgmt.imagebuilder.models.OnBuildError
+    """
+
+    _attribute_map = {
+        "on_customizer_error": {"key": "onCustomizerError", "type": "str"},
+        "on_validation_error": {"key": "onValidationError", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        on_customizer_error: Optional[Union[str, "_models.OnBuildError"]] = None,
+        on_validation_error: Optional[Union[str, "_models.OnBuildError"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword on_customizer_error: If there is a customizer error and this field is set to
+         'cleanup', the build VM and associated network resources will be cleaned up. This is the
+         default behavior. If there is a customizer error and this field is set to 'abort', the build VM
+         will be preserved. Known values are: "cleanup" and "abort".
+        :paramtype on_customizer_error: str or ~azure.mgmt.imagebuilder.models.OnBuildError
+        :keyword on_validation_error: If there is a validation error and this field is set to
+         'cleanup', the build VM and associated network resources will be cleaned up. This is the
+         default behavior. If there is a validation error and this field is set to 'abort', the build VM
+         will be preserved. Known values are: "cleanup" and "abort".
+        :paramtype on_validation_error: str or ~azure.mgmt.imagebuilder.models.OnBuildError
+        """
+        super().__init__(**kwargs)
+        self.on_customizer_error = on_customizer_error
+        self.on_validation_error = on_validation_error
+
+
 class ImageTemplatePropertiesOptimize(_serialization.Model):
     """Specifies optimization to be performed on image.
 
@@ -1377,7 +1428,7 @@ class ImageTemplateSharedImageDistributor(ImageTemplateDistributor):
      replicationRegions is specified. This field is deprecated - use targetRegions instead. Known
      values are: "Standard_LRS", "Standard_ZRS", and "Premium_LRS".
     :vartype storage_account_type: str or
-     ~azure.mgmt.imagebuilder.models.SharedImageStorageAccountType
+     ~azure.mgmt.imagebuilder.models.SharedImageStorageAccountTypeBROKEN
     :ivar target_regions: The target regions where the distributed Image Version is going to be
      replicated to. This object supersedes replicationRegions and can be specified only if
      replicationRegions is not specified.
@@ -1412,7 +1463,7 @@ class ImageTemplateSharedImageDistributor(ImageTemplateDistributor):
         artifact_tags: Optional[Dict[str, str]] = None,
         replication_regions: Optional[List[str]] = None,
         exclude_from_latest: bool = False,
-        storage_account_type: Optional[Union[str, "_models.SharedImageStorageAccountType"]] = None,
+        storage_account_type: Optional[Union[str, "_models.SharedImageStorageAccountTypeBROKEN"]] = None,
         target_regions: Optional[List["_models.TargetRegion"]] = None,
         versioning: Optional["_models.DistributeVersioner"] = None,
         **kwargs: Any
@@ -1437,7 +1488,7 @@ class ImageTemplateSharedImageDistributor(ImageTemplateDistributor):
          replicationRegions is specified. This field is deprecated - use targetRegions instead. Known
          values are: "Standard_LRS", "Standard_ZRS", and "Premium_LRS".
         :paramtype storage_account_type: str or
-         ~azure.mgmt.imagebuilder.models.SharedImageStorageAccountType
+         ~azure.mgmt.imagebuilder.models.SharedImageStorageAccountTypeBROKEN
         :keyword target_regions: The target regions where the distributed Image Version is going to be
          replicated to. This object supersedes replicationRegions and can be specified only if
          replicationRegions is not specified.
@@ -2314,7 +2365,7 @@ class TargetRegion(_serialization.Model):
      this region. Omit to use the default (Standard_LRS). Known values are: "Standard_LRS",
      "Standard_ZRS", and "Premium_LRS".
     :vartype storage_account_type: str or
-     ~azure.mgmt.imagebuilder.models.SharedImageStorageAccountType
+     ~azure.mgmt.imagebuilder.models.SharedImageStorageAccountTypeBROKEN
     """
 
     _validation = {
@@ -2333,7 +2384,7 @@ class TargetRegion(_serialization.Model):
         *,
         name: str,
         replica_count: int = 1,
-        storage_account_type: Optional[Union[str, "_models.SharedImageStorageAccountType"]] = None,
+        storage_account_type: Optional[Union[str, "_models.SharedImageStorageAccountTypeBROKEN"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -2346,7 +2397,7 @@ class TargetRegion(_serialization.Model):
          in this region. Omit to use the default (Standard_LRS). Known values are: "Standard_LRS",
          "Standard_ZRS", and "Premium_LRS".
         :paramtype storage_account_type: str or
-         ~azure.mgmt.imagebuilder.models.SharedImageStorageAccountType
+         ~azure.mgmt.imagebuilder.models.SharedImageStorageAccountTypeBROKEN
         """
         super().__init__(**kwargs)
         self.name = name

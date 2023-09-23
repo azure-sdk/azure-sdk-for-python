@@ -29,11 +29,10 @@ def main():
         subscription_id="{subscription-id}",
     )
 
-    response = client.virtual_machine_image_templates.begin_run(
+    client.virtual_machine_image_templates.begin_run(
         resource_group_name="myResourceGroup",
         image_template_name="myImageTemplate",
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2022-07-01/examples/RunImageTemplate.json

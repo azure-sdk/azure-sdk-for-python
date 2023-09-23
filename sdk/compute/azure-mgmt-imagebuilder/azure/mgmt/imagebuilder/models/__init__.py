@@ -24,6 +24,7 @@ from ._models_py3 import ImageTemplateManagedImageSource
 from ._models_py3 import ImageTemplatePlatformImageSource
 from ._models_py3 import ImageTemplatePowerShellCustomizer
 from ._models_py3 import ImageTemplatePowerShellValidator
+from ._models_py3 import ImageTemplatePropertiesErrorHandling
 from ._models_py3 import ImageTemplatePropertiesOptimize
 from ._models_py3 import ImageTemplatePropertiesOptimizeVmBoot
 from ._models_py3 import ImageTemplatePropertiesValidate
@@ -58,12 +59,13 @@ from ._models_py3 import UserAssignedIdentity
 from ._models_py3 import VirtualNetworkConfig
 
 from ._image_builder_client_enums import CreatedByType
+from ._image_builder_client_enums import OnBuildError
 from ._image_builder_client_enums import ProvisioningErrorCode
 from ._image_builder_client_enums import ProvisioningState
 from ._image_builder_client_enums import ResourceIdentityType
 from ._image_builder_client_enums import RunState
 from ._image_builder_client_enums import RunSubState
-from ._image_builder_client_enums import SharedImageStorageAccountType
+from ._image_builder_client_enums import SharedImageStorageAccountTypeBROKEN
 from ._image_builder_client_enums import VMBootOptimizationState
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
@@ -88,6 +90,7 @@ __all__ = [
     "ImageTemplatePlatformImageSource",
     "ImageTemplatePowerShellCustomizer",
     "ImageTemplatePowerShellValidator",
+    "ImageTemplatePropertiesErrorHandling",
     "ImageTemplatePropertiesOptimize",
     "ImageTemplatePropertiesOptimizeVmBoot",
     "ImageTemplatePropertiesValidate",
@@ -121,12 +124,13 @@ __all__ = [
     "UserAssignedIdentity",
     "VirtualNetworkConfig",
     "CreatedByType",
+    "OnBuildError",
     "ProvisioningErrorCode",
     "ProvisioningState",
     "ResourceIdentityType",
     "RunState",
     "RunSubState",
-    "SharedImageStorageAccountType",
+    "SharedImageStorageAccountTypeBROKEN",
     "VMBootOptimizationState",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
