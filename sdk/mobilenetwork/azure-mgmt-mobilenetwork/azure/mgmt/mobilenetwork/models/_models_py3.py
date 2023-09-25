@@ -1476,6 +1476,44 @@ class ErrorResponse(_serialization.Model):
         self.error = error
 
 
+class EventHubConfiguration(_serialization.Model):
+    """Configuration for sending packet core events to Azure Event Hub.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Resource ID  of Azure Event Hub to send packet core events to. Required.
+    :vartype id: str
+    :ivar reporting_interval: The duration (in seconds) between UE usage reports.
+    :vartype reporting_interval: int
+    """
+
+    _validation = {
+        "id": {
+            "required": True,
+            "pattern": r"^/[sS][uU][bB][sS][cC][rR][iI][pP][tT][iI][oO][nN][sS]/[^/?#]+/[rR][eE][sS][oO][uU][rR][cC][eE][gG][rR][oO][uU][pP][sS]/[^/?#]+/[pP][rR][oO][vV][iI][dD][eE][rR][sS]/[mM][iI][cC][rR][oO][sS][oO][fF][tT]\.[eE][vV][eE][nN][tT][hH][uU][bB]/[nN][aA][mM][eE][sS][pP][aA][cC][eE][sS]/[^/?#]+/[eV][vV][eE][nN][tT][hH][uU][bB][sS]/[^/?#]+$",
+        },
+        "reporting_interval": {"maximum": 3600, "minimum": 30},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "reporting_interval": {"key": "reportingInterval", "type": "int"},
+    }
+
+    def __init__(
+        self, *, id: str, reporting_interval: int = 1800, **kwargs: Any  # pylint: disable=redefined-builtin
+    ) -> None:
+        """
+        :keyword id: Resource ID  of Azure Event Hub to send packet core events to. Required.
+        :paramtype id: str
+        :keyword reporting_interval: The duration (in seconds) between UE usage reports.
+        :paramtype reporting_interval: int
+        """
+        super().__init__(**kwargs)
+        self.id = id
+        self.reporting_interval = reporting_interval
+
+
 class HttpsServerCertificate(_serialization.Model):
     """HTTPS server certificate configuration.
 
@@ -1988,6 +2026,34 @@ class NaptConfiguration(_serialization.Model):
         self.pinhole_timeouts = pinhole_timeouts
 
 
+class NASRerouteConfiguration(_serialization.Model):
+    """Configuration enabling NAS reroute.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar macro_mme_group_id: The macro network's MME group ID. This is where unknown UEs are sent
+     to via NAS reroute. Required.
+    :vartype macro_mme_group_id: int
+    """
+
+    _validation = {
+        "macro_mme_group_id": {"required": True, "maximum": 65535, "minimum": 0},
+    }
+
+    _attribute_map = {
+        "macro_mme_group_id": {"key": "macroMmeGroupId", "type": "int"},
+    }
+
+    def __init__(self, *, macro_mme_group_id: int, **kwargs: Any) -> None:
+        """
+        :keyword macro_mme_group_id: The macro network's MME group ID. This is where unknown UEs are
+         sent to via NAS reroute. Required.
+        :paramtype macro_mme_group_id: int
+        """
+        super().__init__(**kwargs)
+        self.macro_mme_group_id = macro_mme_group_id
+
+
 class Operation(_serialization.Model):
     """Object that describes a single Microsoft.MobileNetwork operation.
 
@@ -2276,6 +2342,12 @@ class PacketCoreControlPlane(TrackedResource):  # pylint: disable=too-many-insta
     :ivar control_plane_access_interface: The control plane interface on the access network. For 5G
      networks, this is the N2 interface. For 4G networks, this is the S1-MME interface. Required.
     :vartype control_plane_access_interface: ~azure.mgmt.mobilenetwork.models.InterfaceProperties
+    :ivar control_plane_access_virtual_ipv4_addresses: The virtual IP address(es) for the control
+     plane on the access network in a High Availability (HA) system. In an HA deployment the access
+     network router should be configured to anycast traffic for this address to the control plane
+     access interfaces on the active and standby nodes. In non-HA system this list should be omitted
+     or empty.
+    :vartype control_plane_access_virtual_ipv4_addresses: list[str]
     :ivar sku: The SKU defining the throughput and SIM allowances for this packet core control
      plane deployment. Required. Known values are: "G0", "G1", "G2", "G5", and "G10".
     :vartype sku: str or ~azure.mgmt.mobilenetwork.models.BillingSku
@@ -2289,6 +2361,10 @@ class PacketCoreControlPlane(TrackedResource):  # pylint: disable=too-many-insta
      ~azure.mgmt.mobilenetwork.models.LocalDiagnosticsAccessConfiguration
     :ivar diagnostics_upload: Configuration for uploading packet core diagnostics.
     :vartype diagnostics_upload: ~azure.mgmt.mobilenetwork.models.DiagnosticsUploadConfiguration
+    :ivar event_hub: Configuration for sending packet core events to an Azure Event Hub.
+    :vartype event_hub: ~azure.mgmt.mobilenetwork.models.EventHubConfiguration
+    :ivar signaling: Signaling configuration for the packet core.
+    :vartype signaling: ~azure.mgmt.mobilenetwork.models.SignalingConfiguration
     :ivar interop_settings: Settings to allow interoperability with third party components e.g.
      RANs and UEs.
     :vartype interop_settings: JSON
@@ -2306,6 +2382,7 @@ class PacketCoreControlPlane(TrackedResource):  # pylint: disable=too-many-insta
         "installed_version": {"readonly": True},
         "rollback_version": {"readonly": True},
         "control_plane_access_interface": {"required": True},
+        "control_plane_access_virtual_ipv4_addresses": {"unique": True},
         "sku": {"required": True},
         "ue_mtu": {"maximum": 1930, "minimum": 1280},
         "local_diagnostics_access": {"required": True},
@@ -2331,6 +2408,10 @@ class PacketCoreControlPlane(TrackedResource):  # pylint: disable=too-many-insta
             "key": "properties.controlPlaneAccessInterface",
             "type": "InterfaceProperties",
         },
+        "control_plane_access_virtual_ipv4_addresses": {
+            "key": "properties.controlPlaneAccessVirtualIpv4Addresses",
+            "type": "[str]",
+        },
         "sku": {"key": "properties.sku", "type": "str"},
         "ue_mtu": {"key": "properties.ueMtu", "type": "int"},
         "local_diagnostics_access": {
@@ -2338,10 +2419,12 @@ class PacketCoreControlPlane(TrackedResource):  # pylint: disable=too-many-insta
             "type": "LocalDiagnosticsAccessConfiguration",
         },
         "diagnostics_upload": {"key": "properties.diagnosticsUpload", "type": "DiagnosticsUploadConfiguration"},
+        "event_hub": {"key": "properties.eventHub", "type": "EventHubConfiguration"},
+        "signaling": {"key": "properties.signaling", "type": "SignalingConfiguration"},
         "interop_settings": {"key": "properties.interopSettings", "type": "object"},
     }
 
-    def __init__(
+    def __init__(  # pylint: disable=too-many-locals
         self,
         *,
         location: str,
@@ -2355,8 +2438,11 @@ class PacketCoreControlPlane(TrackedResource):  # pylint: disable=too-many-insta
         installation: Optional["_models.Installation"] = None,
         core_network_technology: Union[str, "_models.CoreNetworkType"] = "5GC",
         version: Optional[str] = None,
+        control_plane_access_virtual_ipv4_addresses: Optional[List[str]] = None,
         ue_mtu: int = 1440,
         diagnostics_upload: Optional["_models.DiagnosticsUploadConfiguration"] = None,
+        event_hub: Optional["_models.EventHubConfiguration"] = None,
+        signaling: Optional["_models.SignalingConfiguration"] = None,
         interop_settings: Optional[JSON] = None,
         **kwargs: Any
     ) -> None:
@@ -2382,6 +2468,12 @@ class PacketCoreControlPlane(TrackedResource):  # pylint: disable=too-many-insta
         :keyword control_plane_access_interface: The control plane interface on the access network. For
          5G networks, this is the N2 interface. For 4G networks, this is the S1-MME interface. Required.
         :paramtype control_plane_access_interface: ~azure.mgmt.mobilenetwork.models.InterfaceProperties
+        :keyword control_plane_access_virtual_ipv4_addresses: The virtual IP address(es) for the
+         control plane on the access network in a High Availability (HA) system. In an HA deployment the
+         access network router should be configured to anycast traffic for this address to the control
+         plane access interfaces on the active and standby nodes. In non-HA system this list should be
+         omitted or empty.
+        :paramtype control_plane_access_virtual_ipv4_addresses: list[str]
         :keyword sku: The SKU defining the throughput and SIM allowances for this packet core control
          plane deployment. Required. Known values are: "G0", "G1", "G2", "G5", and "G10".
         :paramtype sku: str or ~azure.mgmt.mobilenetwork.models.BillingSku
@@ -2395,6 +2487,10 @@ class PacketCoreControlPlane(TrackedResource):  # pylint: disable=too-many-insta
          ~azure.mgmt.mobilenetwork.models.LocalDiagnosticsAccessConfiguration
         :keyword diagnostics_upload: Configuration for uploading packet core diagnostics.
         :paramtype diagnostics_upload: ~azure.mgmt.mobilenetwork.models.DiagnosticsUploadConfiguration
+        :keyword event_hub: Configuration for sending packet core events to an Azure Event Hub.
+        :paramtype event_hub: ~azure.mgmt.mobilenetwork.models.EventHubConfiguration
+        :keyword signaling: Signaling configuration for the packet core.
+        :paramtype signaling: ~azure.mgmt.mobilenetwork.models.SignalingConfiguration
         :keyword interop_settings: Settings to allow interoperability with third party components e.g.
          RANs and UEs.
         :paramtype interop_settings: JSON
@@ -2410,10 +2506,13 @@ class PacketCoreControlPlane(TrackedResource):  # pylint: disable=too-many-insta
         self.installed_version = None
         self.rollback_version = None
         self.control_plane_access_interface = control_plane_access_interface
+        self.control_plane_access_virtual_ipv4_addresses = control_plane_access_virtual_ipv4_addresses
         self.sku = sku
         self.ue_mtu = ue_mtu
         self.local_diagnostics_access = local_diagnostics_access
         self.diagnostics_upload = diagnostics_upload
+        self.event_hub = event_hub
+        self.signaling = signaling
         self.interop_settings = interop_settings
 
 
@@ -2615,6 +2714,12 @@ class PacketCoreDataPlane(TrackedResource):
     :ivar user_plane_access_interface: The user plane interface on the access network. For 5G
      networks, this is the N3 interface. For 4G networks, this is the S1-U interface. Required.
     :vartype user_plane_access_interface: ~azure.mgmt.mobilenetwork.models.InterfaceProperties
+    :ivar user_plane_access_virtual_ipv4_addresses: The virtual IP address(es) for the user plane
+     on the access network in a High Availability (HA) system. In an HA deployment the access
+     network router should be configured to forward traffic for this address to the control plane
+     access interface on the active or standby node. In non-HA system this list should be omitted or
+     empty.
+    :vartype user_plane_access_virtual_ipv4_addresses: list[str]
     """
 
     _validation = {
@@ -2625,6 +2730,7 @@ class PacketCoreDataPlane(TrackedResource):
         "location": {"required": True},
         "provisioning_state": {"readonly": True},
         "user_plane_access_interface": {"required": True},
+        "user_plane_access_virtual_ipv4_addresses": {"unique": True},
     }
 
     _attribute_map = {
@@ -2636,6 +2742,10 @@ class PacketCoreDataPlane(TrackedResource):
         "location": {"key": "location", "type": "str"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "user_plane_access_interface": {"key": "properties.userPlaneAccessInterface", "type": "InterfaceProperties"},
+        "user_plane_access_virtual_ipv4_addresses": {
+            "key": "properties.userPlaneAccessVirtualIpv4Addresses",
+            "type": "[str]",
+        },
     }
 
     def __init__(
@@ -2644,6 +2754,7 @@ class PacketCoreDataPlane(TrackedResource):
         location: str,
         user_plane_access_interface: "_models.InterfaceProperties",
         tags: Optional[Dict[str, str]] = None,
+        user_plane_access_virtual_ipv4_addresses: Optional[List[str]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -2654,10 +2765,17 @@ class PacketCoreDataPlane(TrackedResource):
         :keyword user_plane_access_interface: The user plane interface on the access network. For 5G
          networks, this is the N3 interface. For 4G networks, this is the S1-U interface. Required.
         :paramtype user_plane_access_interface: ~azure.mgmt.mobilenetwork.models.InterfaceProperties
+        :keyword user_plane_access_virtual_ipv4_addresses: The virtual IP address(es) for the user
+         plane on the access network in a High Availability (HA) system. In an HA deployment the access
+         network router should be configured to forward traffic for this address to the control plane
+         access interface on the active or standby node. In non-HA system this list should be omitted or
+         empty.
+        :paramtype user_plane_access_virtual_ipv4_addresses: list[str]
         """
         super().__init__(tags=tags, location=location, **kwargs)
         self.provisioning_state = None
         self.user_plane_access_interface = user_plane_access_interface
+        self.user_plane_access_virtual_ipv4_addresses = user_plane_access_virtual_ipv4_addresses
 
 
 class PacketCoreDataPlaneListResult(_serialization.Model):
@@ -3511,6 +3629,26 @@ class ServiceResourceId(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.id = id
+
+
+class SignalingConfiguration(_serialization.Model):
+    """Signaling configuration for the packet core.
+
+    :ivar nas_reroute: Configuration enabling 4G NAS reroute.
+    :vartype nas_reroute: ~azure.mgmt.mobilenetwork.models.NASRerouteConfiguration
+    """
+
+    _attribute_map = {
+        "nas_reroute": {"key": "nasReroute", "type": "NASRerouteConfiguration"},
+    }
+
+    def __init__(self, *, nas_reroute: Optional["_models.NASRerouteConfiguration"] = None, **kwargs: Any) -> None:
+        """
+        :keyword nas_reroute: Configuration enabling 4G NAS reroute.
+        :paramtype nas_reroute: ~azure.mgmt.mobilenetwork.models.NASRerouteConfiguration
+        """
+        super().__init__(**kwargs)
+        self.nas_reroute = nas_reroute
 
 
 class Sim(ProxyResource):  # pylint: disable=too-many-instance-attributes
