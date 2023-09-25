@@ -134,6 +134,8 @@ class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     CREATING = "Creating"
     UPDATING = "Updating"
     DELETING = "Deleting"
+    SCALING = "Scaling"
+    SCALING_FAILED = "ScalingFailed"
 
 
 class RdbFrequency(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -159,6 +161,8 @@ class ResourceState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DISABLING = "Disabling"
     DISABLE_FAILED = "DisableFailed"
     DISABLED = "Disabled"
+    SCALING = "Scaling"
+    SCALING_FAILED = "ScalingFailed"
 
 
 class SkuName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
