@@ -7,14 +7,14 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
-from azure.mgmt.workloads import WorkloadsMgmtClient
+from azure.mgmt.workloads.sapvirtualinstance import WorkloadsClient
 
 """
 # PREREQUISITES
     pip install azure-identity
-    pip install azure-mgmt-workloads
+    pip install azure-mgmt-workloads-sapvirtualinstance
 # USAGE
-    python sap_landscape_monitor_delete.py
+    python sap_database_instances_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -24,18 +24,19 @@ from azure.mgmt.workloads import WorkloadsMgmtClient
 
 
 def main():
-    client = WorkloadsMgmtClient(
+    client = WorkloadsClient(
         credential=DefaultAzureCredential(),
-        subscription_id="00000000-0000-0000-0000-000000000000",
+        subscription_id="6d875e77-e412-4d7d-9af4-8895278b4443",
     )
 
-    response = client.sap_landscape_monitor.delete(
-        resource_group_name="myResourceGroup",
-        monitor_name="mySapMonitor",
+    response = client.sap_database_instances.get(
+        resource_group_name="test-rg",
+        sap_virtual_instance_name="X00",
+        database_instance_name="databaseServer",
     )
     print(response)
 
 
-# x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/workloadmonitor/SapLandscapeMonitor_Delete.json
+# x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPVirtualInstance/preview/2023-10-01-preview/examples/sapdatabaseinstances/SAPDatabaseInstances_Get.json
 if __name__ == "__main__":
     main()
