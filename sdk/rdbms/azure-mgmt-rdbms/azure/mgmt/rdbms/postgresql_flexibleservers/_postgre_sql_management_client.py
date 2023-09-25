@@ -33,6 +33,7 @@ from .operations import (
     PostgreSQLManagementClientOperationsMixin,
     ReplicasOperations,
     ServerCapabilitiesOperations,
+    ServerThreatProtectionSettingsOperations,
     ServersOperations,
     VirtualNetworkSubnetUsageOperations,
 )
@@ -98,6 +99,9 @@ class PostgreSQLManagementClient(
     :ivar ltr_backup_operations: LtrBackupOperationsOperations operations
     :vartype ltr_backup_operations:
      azure.mgmt.rdbms.postgresql_flexibleservers.operations.LtrBackupOperationsOperations
+    :ivar server_threat_protection_settings: ServerThreatProtectionSettingsOperations operations
+    :vartype server_threat_protection_settings:
+     azure.mgmt.rdbms.postgresql_flexibleservers.operations.ServerThreatProtectionSettingsOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
     :param subscription_id: The ID of the target subscription. Required.
@@ -157,6 +161,9 @@ class PostgreSQLManagementClient(
         )
         self.flexible_server = FlexibleServerOperations(self._client, self._config, self._serialize, self._deserialize)
         self.ltr_backup_operations = LtrBackupOperationsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.server_threat_protection_settings = ServerThreatProtectionSettingsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
 

@@ -67,6 +67,8 @@ from ._models_py3 import ServerForUpdate
 from ._models_py3 import ServerListResult
 from ._models_py3 import ServerSku
 from ._models_py3 import ServerSkuCapability
+from ._models_py3 import ServerThreatProtectionListResult
+from ._models_py3 import ServerThreatProtectionSettingsModel
 from ._models_py3 import ServerVersionCapability
 from ._models_py3 import Sku
 from ._models_py3 import Storage
@@ -122,6 +124,8 @@ from ._postgre_sql_management_client_enums import SkuTier
 from ._postgre_sql_management_client_enums import StartDataMigrationEnum
 from ._postgre_sql_management_client_enums import StorageAutoGrow
 from ._postgre_sql_management_client_enums import StorageAutoGrowthSupportedEnum
+from ._postgre_sql_management_client_enums import ThreatProtectionName
+from ._postgre_sql_management_client_enums import ThreatProtectionState
 from ._postgre_sql_management_client_enums import TriggerCutoverEnum
 from ._postgre_sql_management_client_enums import ZoneRedundantHaAndGeoBackupSupportedEnum
 from ._postgre_sql_management_client_enums import ZoneRedundantHaSupportedEnum
@@ -191,6 +195,8 @@ __all__ = [
     "ServerListResult",
     "ServerSku",
     "ServerSkuCapability",
+    "ServerThreatProtectionListResult",
+    "ServerThreatProtectionSettingsModel",
     "ServerVersionCapability",
     "Sku",
     "Storage",
@@ -245,6 +251,8 @@ __all__ = [
     "StartDataMigrationEnum",
     "StorageAutoGrow",
     "StorageAutoGrowthSupportedEnum",
+    "ThreatProtectionName",
+    "ThreatProtectionState",
     "TriggerCutoverEnum",
     "ZoneRedundantHaAndGeoBackupSupportedEnum",
     "ZoneRedundantHaSupportedEnum",

@@ -377,6 +377,21 @@ class StorageAutoGrowthSupportedEnum(str, Enum, metaclass=CaseInsensitiveEnumMet
     DISABLED = "Disabled"
 
 
+class ThreatProtectionName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """ThreatProtectionName."""
+
+    DEFAULT = "Default"
+
+
+class ThreatProtectionState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Specifies the state of the Threat Protection, whether it is enabled or disabled or a state has
+    not been applied yet on the specific server.
+    """
+
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+
+
 class TriggerCutoverEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """To trigger cutover for entire migration we need to send this flag as True."""
 

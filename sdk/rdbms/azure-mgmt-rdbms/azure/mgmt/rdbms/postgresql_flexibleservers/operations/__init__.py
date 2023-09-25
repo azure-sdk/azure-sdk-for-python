@@ -25,6 +25,7 @@ from ._log_files_operations import LogFilesOperations
 from ._virtual_network_subnet_usage_operations import VirtualNetworkSubnetUsageOperations
 from ._flexible_server_operations import FlexibleServerOperations
 from ._ltr_backup_operations_operations import LtrBackupOperationsOperations
+from ._server_threat_protection_settings_operations import ServerThreatProtectionSettingsOperations
 
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
@@ -50,6 +51,7 @@ __all__ = [
     "VirtualNetworkSubnetUsageOperations",
     "FlexibleServerOperations",
     "LtrBackupOperationsOperations",
+    "ServerThreatProtectionSettingsOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()

@@ -14,7 +14,7 @@ from azure.mgmt.rdbms.postgresql_flexibleservers import PostgreSQLManagementClie
     pip install azure-identity
     pip install azure-mgmt-rdbms
 # USAGE
-    python server_update.py
+    python server_threat_protection_settings_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,25 +26,17 @@ from azure.mgmt.rdbms.postgresql_flexibleservers import PostgreSQLManagementClie
 def main():
     client = PostgreSQLManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="ffffffff-ffff-ffff-ffff-ffffffffffff",
+        subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.servers.begin_update(
-        resource_group_name="TestGroup",
-        server_name="pgtestsvc4",
-        parameters={
-            "properties": {
-                "administratorLoginPassword": "newpassword",
-                "backup": {"backupRetentionDays": 20},
-                "createMode": "Update",
-                "storage": {"autoGrow": "Enabled", "storageSizeGB": 1024, "tier": "P30"},
-            },
-            "sku": {"name": "Standard_D8s_v3", "tier": "GeneralPurpose"},
-        },
-    ).result()
+    response = client.server_threat_protection_settings.get(
+        resource_group_name="threatprotection-6852",
+        server_name="threatprotection-2080",
+        threat_protection_name="Default",
+    )
     print(response)
 
 
-# x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/ServerUpdate.json
+# x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/ServerThreatProtectionSettingsGet.json
 if __name__ == "__main__":
     main()
