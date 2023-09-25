@@ -36,6 +36,6 @@ def main():
     ).result()
 
 
-# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-02-01-preview/examples/OutboundFirewallRuleDelete.json
+# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/OutboundFirewallRuleDelete.json
 if __name__ == "__main__":
     main()
