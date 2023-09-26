@@ -29,10 +29,9 @@ def main():
         subscription_id="subscriptionId",
     )
 
-    response = client.recommendations.generate()
-    print(response)
+    client.recommendations.generate()
 
 
-# x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2020-01-01/examples/GenerateRecommendations.json
+# x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2023-01-01/examples/GenerateRecommendations.json
 if __name__ == "__main__":
     main()

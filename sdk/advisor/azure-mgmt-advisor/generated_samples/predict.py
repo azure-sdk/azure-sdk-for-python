@@ -14,7 +14,7 @@ from azure.mgmt.advisor import AdvisorManagementClient
     pip install azure-identity
     pip install azure-mgmt-advisor
 # USAGE
-    python list_recommendations.py
+    python predict.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,11 +29,23 @@ def main():
         subscription_id="subscriptionId",
     )
 
-    response = client.recommendations.list()
-    for item in response:
-        print(item)
+    response = client.predict(
+        prediction_request={
+            "properties": {
+                "extendedProperties": {
+                    "deploymentType": "Linux_IaaS_Software_Store",
+                    "numberOfInstances": 10,
+                    "region": "CentralUS",
+                    "sku": "Standard_Dv4",
+                    "type": "iaas",
+                },
+                "predictionType": "PredictiveRightsizing",
+            }
+        },
+    )
+    print(response)
 
 
-# x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2023-01-01/examples/ListRecommendations.json
+# x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2023-01-01/examples/Predict.json
 if __name__ == "__main__":
     main()

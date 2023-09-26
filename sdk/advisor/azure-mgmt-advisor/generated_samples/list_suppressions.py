@@ -26,7 +26,7 @@ from azure.mgmt.advisor import AdvisorManagementClient
 def main():
     client = AdvisorManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subscriptionId1",
+        subscription_id="53fbee0d-de2c-472b-9144-2341e6a0900b",
     )
 
     response = client.suppressions.list()
@@ -34,6 +34,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2020-01-01/examples/ListSuppressions.json
+# x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2023-01-01/examples/ListSuppressions.json
 if __name__ == "__main__":
     main()

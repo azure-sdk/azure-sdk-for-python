@@ -31,13 +31,13 @@ def main():
 
     response = client.suppressions.create(
         resource_uri="resourceUri",
-        recommendation_id="recommendationId",
+        recommendation_id="200a071c-c08f-40cf-b109-09cf7ef4d9e6",
         name="suppressionName1",
         suppression_contract={"properties": {"ttl": "07:00:00:00"}},
     )
     print(response)
 
 
-# x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2020-01-01/examples/CreateSuppression.json
+# x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2023-01-01/examples/CreateSuppression.json
 if __name__ == "__main__":
     main()

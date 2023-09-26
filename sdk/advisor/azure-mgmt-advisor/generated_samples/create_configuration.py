@@ -14,7 +14,7 @@ from azure.mgmt.advisor import AdvisorManagementClient
     pip install azure-identity
     pip install azure-mgmt-advisor
 # USAGE
-    python list_recommendations.py
+    python create_configuration.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,11 +29,29 @@ def main():
         subscription_id="subscriptionId",
     )
 
-    response = client.recommendations.list()
-    for item in response:
-        print(item)
+    response = client.configurations.create_in_subscription_duration(
+        configuration_name="default",
+        config_contract={
+            "properties": {
+                "digests": [
+                    {
+                        "actionGroupResourceId": "/subscriptions/607D4130-212F-4B6A-A5D0-C526F91ADCE7/resourceGroups/resourceGroup/providers/microsoft.insights/actionGroups/actionGroupName",
+                        "categories": ["HighAvailability", "Security", "Performance", "Cost", "OperationalExcellence"],
+                        "frequency": 30,
+                        "language": "en",
+                        "name": "digestConfigName",
+                        "state": "Active",
+                    }
+                ],
+                "duration": "7",
+                "exclude": True,
+                "lowCpuThreshold": "5",
+            }
+        },
+    )
+    print(response)
 
 
-# x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2023-01-01/examples/ListRecommendations.json
+# x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2023-01-01/examples/CreateConfiguration.json
 if __name__ == "__main__":
     main()

@@ -7,6 +7,9 @@
 # --------------------------------------------------------------------------
 
 from ._models_py3 import ARMErrorResponseBody
+from ._models_py3 import AdvisorScoreEntity
+from ._models_py3 import AdvisorScoreEntityProperties
+from ._models_py3 import AdvisorScoreResponse
 from ._models_py3 import ArmErrorResponse
 from ._models_py3 import ConfigData
 from ._models_py3 import ConfigurationListResult
@@ -17,26 +20,40 @@ from ._models_py3 import MetadataSupportedValueDetail
 from ._models_py3 import OperationDisplayInfo
 from ._models_py3 import OperationEntity
 from ._models_py3 import OperationEntityListResult
+from ._models_py3 import PredictionRequest
+from ._models_py3 import PredictionResponse
+from ._models_py3 import ProxyResource
 from ._models_py3 import Resource
 from ._models_py3 import ResourceMetadata
 from ._models_py3 import ResourceRecommendationBase
 from ._models_py3 import ResourceRecommendationBaseListResult
+from ._models_py3 import ScoreEntity
 from ._models_py3 import ShortDescription
 from ._models_py3 import SuppressionContract
 from ._models_py3 import SuppressionContractListResult
+from ._models_py3 import SystemData
+from ._models_py3 import TimeSeriesEntityItem
 
+from ._advisor_management_client_enums import Aggregated
 from ._advisor_management_client_enums import Category
 from ._advisor_management_client_enums import ConfigurationName
 from ._advisor_management_client_enums import CpuThreshold
+from ._advisor_management_client_enums import CreatedByType
 from ._advisor_management_client_enums import DigestConfigState
+from ._advisor_management_client_enums import Duration
 from ._advisor_management_client_enums import Impact
+from ._advisor_management_client_enums import PredictionType
+from ._advisor_management_client_enums import Risk
 from ._advisor_management_client_enums import Scenario
 from ._patch import __all__ as _patch_all
-from ._patch import *  # type: ignore # pylint: disable=unused-wildcard-import
+from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
     "ARMErrorResponseBody",
+    "AdvisorScoreEntity",
+    "AdvisorScoreEntityProperties",
+    "AdvisorScoreResponse",
     "ArmErrorResponse",
     "ConfigData",
     "ConfigurationListResult",
@@ -47,18 +64,29 @@ __all__ = [
     "OperationDisplayInfo",
     "OperationEntity",
     "OperationEntityListResult",
+    "PredictionRequest",
+    "PredictionResponse",
+    "ProxyResource",
     "Resource",
     "ResourceMetadata",
     "ResourceRecommendationBase",
     "ResourceRecommendationBaseListResult",
+    "ScoreEntity",
     "ShortDescription",
     "SuppressionContract",
     "SuppressionContractListResult",
+    "SystemData",
+    "TimeSeriesEntityItem",
+    "Aggregated",
     "Category",
     "ConfigurationName",
     "CpuThreshold",
+    "CreatedByType",
     "DigestConfigState",
+    "Duration",
     "Impact",
+    "PredictionType",
+    "Risk",
     "Scenario",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
