@@ -37,6 +37,7 @@ def main():
             "properties": {
                 "annotation": "annotation",
                 "fabricASN": 29249,
+                "fabricVersion": "1.x.x",
                 "ipv4Prefix": "10.18.0.0/19",
                 "ipv6Prefix": "3FFE:FFFF:0:CD40::/59",
                 "managementNetworkConfiguration": {
