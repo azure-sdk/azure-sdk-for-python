@@ -14,7 +14,7 @@ from azure.mgmt.sql import SqlManagementClient
     pip install azure-identity
     pip install azure-mgmt-sql
 # USAGE
-    python server_communication_link_delete.py
+    python managed_instance_long_term_retention_policy_delete.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,13 +29,15 @@ def main():
         subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    client.server_communication_links.delete(
-        resource_group_name="sqlcrudtest-7398",
-        server_name="sqlcrudtest-4645",
-        communication_link_name="link1",
-    )
+    response = client.managed_instance_long_term_retention_policies.begin_delete(
+        resource_group_name="testResourceGroup",
+        managed_instance_name="testInstance",
+        database_name="testDatabase",
+        policy_name="default",
+    ).result()
+    print(response)
 
 
-# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/stable/2014-04-01/examples/ServerCommunicationLinkDelete.json
+# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/ManagedInstanceLongTermRetentionPolicyDelete.json
 if __name__ == "__main__":
     main()
