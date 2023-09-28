@@ -17,6 +17,26 @@ if TYPE_CHECKING:
     from .. import models as _models
 
 
+class ErrorObjectResponse(_serialization.Model):
+    """Describes the format of Error response with a wrapper object.
+
+    :ivar error: Wrapper object for error information.
+    :vartype error: ~azure.mgmt.commerce.models.ErrorResponse
+    """
+
+    _attribute_map = {
+        "error": {"key": "error", "type": "ErrorResponse"},
+    }
+
+    def __init__(self, *, error: Optional["_models.ErrorResponse"] = None, **kwargs: Any) -> None:
+        """
+        :keyword error: Wrapper object for error information.
+        :paramtype error: ~azure.mgmt.commerce.models.ErrorResponse
+        """
+        super().__init__(**kwargs)
+        self.error = error
+
+
 class ErrorResponse(_serialization.Model):
     """Describes the format of Error response.
 
@@ -41,26 +61,6 @@ class ErrorResponse(_serialization.Model):
         super().__init__(**kwargs)
         self.code = code
         self.message = message
-
-
-class InfoField(_serialization.Model):
-    """Key-value pairs of instance details in the legacy format.
-
-    :ivar project: Identifies the name of the instance provisioned by the user.
-    :vartype project: str
-    """
-
-    _attribute_map = {
-        "project": {"key": "project", "type": "str"},
-    }
-
-    def __init__(self, *, project: Optional[str] = None, **kwargs: Any) -> None:
-        """
-        :keyword project: Identifies the name of the instance provisioned by the user.
-        :paramtype project: str
-        """
-        super().__init__(**kwargs)
-        self.project = project
 
 
 class MeterInfo(_serialization.Model):
@@ -485,7 +485,7 @@ class UsageAggregation(_serialization.Model):  # pylint: disable=too-many-instan
     :ivar meter_region: Region of the meterId used for billing purposes.
     :vartype meter_region: str
     :ivar info_fields: Key-value pairs of instance details (legacy format).
-    :vartype info_fields: ~azure.mgmt.commerce.models.InfoField
+    :vartype info_fields: any
     :ivar instance_data: Key-value pairs of instance details represented as a string.
     :vartype instance_data: str
     """
@@ -504,7 +504,7 @@ class UsageAggregation(_serialization.Model):  # pylint: disable=too-many-instan
         "meter_category": {"key": "properties.meterCategory", "type": "str"},
         "meter_sub_category": {"key": "properties.meterSubCategory", "type": "str"},
         "meter_region": {"key": "properties.meterRegion", "type": "str"},
-        "info_fields": {"key": "properties.infoFields", "type": "InfoField"},
+        "info_fields": {"key": "properties.infoFields", "type": "object"},
         "instance_data": {"key": "properties.instanceData", "type": "str"},
     }
 
@@ -524,7 +524,7 @@ class UsageAggregation(_serialization.Model):  # pylint: disable=too-many-instan
         meter_category: Optional[str] = None,
         meter_sub_category: Optional[str] = None,
         meter_region: Optional[str] = None,
-        info_fields: Optional["_models.InfoField"] = None,
+        info_fields: Optional[Any] = None,
         instance_data: Optional[str] = None,
         **kwargs: Any
     ) -> None:
@@ -558,7 +558,7 @@ class UsageAggregation(_serialization.Model):  # pylint: disable=too-many-instan
         :keyword meter_region: Region of the meterId used for billing purposes.
         :paramtype meter_region: str
         :keyword info_fields: Key-value pairs of instance details (legacy format).
-        :paramtype info_fields: ~azure.mgmt.commerce.models.InfoField
+        :paramtype info_fields: any
         :keyword instance_data: Key-value pairs of instance details represented as a string.
         :paramtype instance_data: str
         """
