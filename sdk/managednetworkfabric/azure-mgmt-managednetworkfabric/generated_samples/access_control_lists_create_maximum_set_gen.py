@@ -38,6 +38,7 @@ def main():
                 "aclsUrl": "https://ACL-Storage-URL",
                 "annotation": "annotation",
                 "configurationType": "File",
+                "defaultAction": "Permit",
                 "dynamicMatchConfigurations": [
                     {
                         "ipGroups": [
