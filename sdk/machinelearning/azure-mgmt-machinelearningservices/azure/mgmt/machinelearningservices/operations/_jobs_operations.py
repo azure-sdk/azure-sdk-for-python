@@ -30,7 +30,7 @@ from azure.mgmt.core.polling.arm_polling import ARMPolling
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import _convert_request, _format_url_section
+from .._vendor import _convert_request
 
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
@@ -48,12 +48,13 @@ def build_list_request(
     job_type: Optional[str] = None,
     tag: Optional[str] = None,
     list_view_type: Optional[Union[str, _models.ListViewType]] = None,
+    properties: Optional[str] = None,
     **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -71,7 +72,7 @@ def build_list_request(
         ),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -83,6 +84,8 @@ def build_list_request(
         _params["tag"] = _SERIALIZER.query("tag", tag, "str")
     if list_view_type is not None:
         _params["listViewType"] = _SERIALIZER.query("list_view_type", list_view_type, "str")
+    if properties is not None:
+        _params["properties"] = _SERIALIZER.query("properties", properties, "str")
 
     # Construct headers
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
@@ -96,7 +99,7 @@ def build_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -115,7 +118,7 @@ def build_delete_request(
         "id": _SERIALIZER.url("id", id, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -132,7 +135,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -151,7 +154,7 @@ def build_get_request(
         "id": _SERIALIZER.url("id", id, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -168,7 +171,7 @@ def build_create_or_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -188,7 +191,7 @@ def build_create_or_update_request(
         "id": _SERIALIZER.url("id", id, "str", pattern=r"^[a-zA-Z0-9][a-zA-Z0-9\-_]{0,254}$"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -207,7 +210,7 @@ def build_cancel_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -226,7 +229,7 @@ def build_cancel_request(
         "id": _SERIALIZER.url("id", id, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -265,6 +268,7 @@ class JobsOperations:
         job_type: Optional[str] = None,
         tag: Optional[str] = None,
         list_view_type: Optional[Union[str, _models.ListViewType]] = None,
+        properties: Optional[str] = None,
         **kwargs: Any
     ) -> Iterable["_models.JobBase"]:
         """Lists Jobs in the workspace.
@@ -285,6 +289,9 @@ class JobsOperations:
         :param list_view_type: View type for including/excluding (for example) archived entities. Known
          values are: "ActiveOnly", "ArchivedOnly", and "All". Default value is None.
         :type list_view_type: str or ~azure.mgmt.machinelearningservices.models.ListViewType
+        :param properties: Comma-separated list of user property names (and optionally values).
+         Example: prop1,prop2=value2. Default value is None.
+        :type properties: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either JobBase or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.machinelearningservices.models.JobBase]
@@ -315,6 +322,7 @@ class JobsOperations:
                     job_type=job_type,
                     tag=tag,
                     list_view_type=list_view_type,
+                    properties=properties,
                     api_version=api_version,
                     template_url=self.list.metadata["url"],
                     headers=_headers,
@@ -578,8 +586,10 @@ class JobsOperations:
         **kwargs: Any
     ) -> _models.JobBase:
         """Creates and executes a Job.
+        For update case, the Tags in the definition passed in will replace Tags in the existing job.
 
         Creates and executes a Job.
+        For update case, the Tags in the definition passed in will replace Tags in the existing job.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -611,8 +621,10 @@ class JobsOperations:
         **kwargs: Any
     ) -> _models.JobBase:
         """Creates and executes a Job.
+        For update case, the Tags in the definition passed in will replace Tags in the existing job.
 
         Creates and executes a Job.
+        For update case, the Tags in the definition passed in will replace Tags in the existing job.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -637,8 +649,10 @@ class JobsOperations:
         self, resource_group_name: str, workspace_name: str, id: str, body: Union[_models.JobBase, IO], **kwargs: Any
     ) -> _models.JobBase:
         """Creates and executes a Job.
+        For update case, the Tags in the definition passed in will replace Tags in the existing job.
 
         Creates and executes a Job.
+        For update case, the Tags in the definition passed in will replace Tags in the existing job.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
