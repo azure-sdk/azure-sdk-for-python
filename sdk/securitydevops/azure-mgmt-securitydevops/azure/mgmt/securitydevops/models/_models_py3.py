@@ -8,7 +8,7 @@
 # --------------------------------------------------------------------------
 
 import datetime
-from typing import Dict, List, Optional, TYPE_CHECKING, Union
+from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
 from .. import _serialization
 
@@ -48,8 +48,8 @@ class ActionableRemediation(_serialization.Model):
         severity_levels: Optional[List[str]] = None,
         categories: Optional[List[Union[str, "_models.RuleCategory"]]] = None,
         branch_configuration: Optional["_models.TargetBranchConfiguration"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword state: ActionableRemediation Setting.
          None - the setting was never set.
@@ -85,7 +85,7 @@ class AuthorizationInfo(_serialization.Model):
         "code": {"key": "code", "type": "str"},
     }
 
-    def __init__(self, *, code: Optional[str] = None, **kwargs):
+    def __init__(self, *, code: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword code: Gets or sets one-time OAuth code to exchange for refresh and access tokens.
 
@@ -129,7 +129,7 @@ class Resource(_serialization.Model):
         "system_data": {"key": "systemData", "type": "SystemData"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -139,7 +139,8 @@ class Resource(_serialization.Model):
 
 
 class TrackedResource(Resource):
-    """The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'.
+    """The resource model definition for an Azure Resource Manager tracked top level resource which
+    has 'tags' and a 'location'.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -179,7 +180,7 @@ class TrackedResource(Resource):
         "location": {"key": "location", "type": "str"},
     }
 
-    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -241,8 +242,8 @@ class AzureDevOpsConnector(TrackedResource):
         location: str,
         tags: Optional[Dict[str, str]] = None,
         properties: Optional["_models.AzureDevOpsConnectorProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -270,8 +271,12 @@ class AzureDevOpsConnectorListResponse(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.AzureDevOpsConnector"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self,
+        *,
+        value: Optional[List["_models.AzureDevOpsConnector"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets list of resources.
         :paramtype value: list[~azure.mgmt.securitydevops.models.AzureDevOpsConnector]
@@ -311,8 +316,8 @@ class AzureDevOpsConnectorProperties(_serialization.Model):
         *,
         authorization: Optional["_models.AuthorizationInfo"] = None,
         orgs: Optional[List["_models.AzureDevOpsOrgMetadata"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword authorization:
         :paramtype authorization: ~azure.mgmt.securitydevops.models.AuthorizationInfo
@@ -326,7 +331,8 @@ class AzureDevOpsConnectorProperties(_serialization.Model):
 
 
 class ProxyResource(Resource):
-    """The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location.
+    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
+    tags and a location.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -357,7 +363,7 @@ class ProxyResource(Resource):
         "system_data": {"key": "systemData", "type": "SystemData"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
 
@@ -397,7 +403,9 @@ class AzureDevOpsConnectorStats(ProxyResource):
         "properties": {"key": "properties", "type": "AzureDevOpsConnectorStatsProperties"},
     }
 
-    def __init__(self, *, properties: Optional["_models.AzureDevOpsConnectorStatsProperties"] = None, **kwargs):
+    def __init__(
+        self, *, properties: Optional["_models.AzureDevOpsConnectorStatsProperties"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword properties:
         :paramtype properties: ~azure.mgmt.securitydevops.models.AzureDevOpsConnectorStatsProperties
@@ -425,8 +433,8 @@ class AzureDevOpsConnectorStatsListResponse(_serialization.Model):
         *,
         value: Optional[List["_models.AzureDevOpsConnectorStats"]] = None,
         next_link: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets list of resources.
         :paramtype value: list[~azure.mgmt.securitydevops.models.AzureDevOpsConnectorStats]
@@ -470,8 +478,8 @@ class AzureDevOpsConnectorStatsProperties(_serialization.Model):
         orgs_count: Optional[int] = None,
         projects_count: Optional[int] = None,
         repos_count: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword orgs_count: Gets or sets orgs count.
         :paramtype orgs_count: int
@@ -522,7 +530,7 @@ class AzureDevOpsOrg(ProxyResource):
         "properties": {"key": "properties", "type": "AzureDevOpsOrgProperties"},
     }
 
-    def __init__(self, *, properties: Optional["_models.AzureDevOpsOrgProperties"] = None, **kwargs):
+    def __init__(self, *, properties: Optional["_models.AzureDevOpsOrgProperties"] = None, **kwargs: Any) -> None:
         """
         :keyword properties: AzureDevOps Org properties.
         :paramtype properties: ~azure.mgmt.securitydevops.models.AzureDevOpsOrgProperties
@@ -546,8 +554,8 @@ class AzureDevOpsOrgListResponse(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.AzureDevOpsOrg"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.AzureDevOpsOrg"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets list of resources.
         :paramtype value: list[~azure.mgmt.securitydevops.models.AzureDevOpsOrg]
@@ -582,8 +590,8 @@ class AzureDevOpsOrgMetadata(_serialization.Model):
         name: Optional[str] = None,
         auto_discovery: Optional[Union[str, "_models.AutoDiscovery"]] = None,
         projects: Optional[List["_models.AzureDevOpsProjectMetadata"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets name of the AzureDevOps Org.
         :paramtype name: str
@@ -618,7 +626,7 @@ class AzureDevOpsOrgProperties(_serialization.Model):
         "auto_discovery": {"key": "autoDiscovery", "type": "str"},
     }
 
-    def __init__(self, *, auto_discovery: Optional[Union[str, "_models.AutoDiscovery"]] = None, **kwargs):
+    def __init__(self, *, auto_discovery: Optional[Union[str, "_models.AutoDiscovery"]] = None, **kwargs: Any) -> None:
         """
         :keyword auto_discovery: Known values are: "Disabled" and "Enabled".
         :paramtype auto_discovery: str or ~azure.mgmt.securitydevops.models.AutoDiscovery
@@ -663,7 +671,7 @@ class AzureDevOpsProject(ProxyResource):
         "properties": {"key": "properties", "type": "AzureDevOpsProjectProperties"},
     }
 
-    def __init__(self, *, properties: Optional["_models.AzureDevOpsProjectProperties"] = None, **kwargs):
+    def __init__(self, *, properties: Optional["_models.AzureDevOpsProjectProperties"] = None, **kwargs: Any) -> None:
         """
         :keyword properties: AzureDevOps Project properties.
         :paramtype properties: ~azure.mgmt.securitydevops.models.AzureDevOpsProjectProperties
@@ -687,8 +695,12 @@ class AzureDevOpsProjectListResponse(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.AzureDevOpsProject"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self,
+        *,
+        value: Optional[List["_models.AzureDevOpsProject"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets list of resources.
         :paramtype value: list[~azure.mgmt.securitydevops.models.AzureDevOpsProject]
@@ -723,8 +735,8 @@ class AzureDevOpsProjectMetadata(_serialization.Model):
         name: Optional[str] = None,
         auto_discovery: Optional[Union[str, "_models.AutoDiscovery"]] = None,
         repos: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets name of the AzureDevOps Project.
         :paramtype name: str
@@ -771,8 +783,8 @@ class AzureDevOpsProjectProperties(_serialization.Model):
         org_name: Optional[str] = None,
         project_id: Optional[str] = None,
         auto_discovery: Optional[Union[str, "_models.AutoDiscovery"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword org_name: Gets or sets AzureDevOps org Name.
         :paramtype org_name: str
@@ -823,7 +835,7 @@ class AzureDevOpsRepo(ProxyResource):
         "properties": {"key": "properties", "type": "AzureDevOpsRepoProperties"},
     }
 
-    def __init__(self, *, properties: Optional["_models.AzureDevOpsRepoProperties"] = None, **kwargs):
+    def __init__(self, *, properties: Optional["_models.AzureDevOpsRepoProperties"] = None, **kwargs: Any) -> None:
         """
         :keyword properties: AzureDevOps Repo properties.
         :paramtype properties: ~azure.mgmt.securitydevops.models.AzureDevOpsRepoProperties
@@ -847,8 +859,8 @@ class AzureDevOpsRepoListResponse(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.AzureDevOpsRepo"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.AzureDevOpsRepo"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets list of resources.
         :paramtype value: list[~azure.mgmt.securitydevops.models.AzureDevOpsRepo]
@@ -901,7 +913,9 @@ class AzureDevOpsRepoProperties(_serialization.Model):
         "actionable_remediation": {"key": "actionableRemediation", "type": "ActionableRemediation"},
     }
 
-    def __init__(self, *, actionable_remediation: Optional["_models.ActionableRemediation"] = None, **kwargs):
+    def __init__(
+        self, *, actionable_remediation: Optional["_models.ActionableRemediation"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword actionable_remediation:
         :paramtype actionable_remediation: ~azure.mgmt.securitydevops.models.ActionableRemediation
@@ -937,7 +951,7 @@ class ErrorAdditionalInfo(_serialization.Model):
         "info": {"key": "info", "type": "object"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.type = None
@@ -977,7 +991,7 @@ class ErrorDetail(_serialization.Model):
         "additional_info": {"key": "additionalInfo", "type": "[ErrorAdditionalInfo]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.code = None
@@ -988,7 +1002,8 @@ class ErrorDetail(_serialization.Model):
 
 
 class ErrorResponse(_serialization.Model):
-    """Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.).
+    """Common error response for all Azure Resource Manager APIs to return error details for failed
+    operations. (This also follows the OData error response format.).
 
     :ivar error: The error object.
     :vartype error: ~azure.mgmt.securitydevops.models.ErrorDetail
@@ -998,7 +1013,7 @@ class ErrorResponse(_serialization.Model):
         "error": {"key": "error", "type": "ErrorDetail"},
     }
 
-    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs):
+    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs: Any) -> None:
         """
         :keyword error: The error object.
         :paramtype error: ~azure.mgmt.securitydevops.models.ErrorDetail
@@ -1008,7 +1023,8 @@ class ErrorResponse(_serialization.Model):
 
 
 class GitHubConnector(TrackedResource):
-    """Represents an ARM resource for /subscriptions/xxx/resourceGroups/xxx/providers/Microsoft.SecurityDevOps/gitHubConnectors.
+    """Represents an ARM resource for
+    /subscriptions/xxx/resourceGroups/xxx/providers/Microsoft.SecurityDevOps/gitHubConnectors.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -1058,8 +1074,8 @@ class GitHubConnector(TrackedResource):
         location: str,
         tags: Optional[Dict[str, str]] = None,
         properties: Optional["_models.GitHubConnectorProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -1088,8 +1104,8 @@ class GitHubConnectorListResponse(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.GitHubConnector"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.GitHubConnector"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets list of resources.
         :paramtype value: list[~azure.mgmt.securitydevops.models.GitHubConnector]
@@ -1102,7 +1118,8 @@ class GitHubConnectorListResponse(_serialization.Model):
 
 
 class GitHubConnectorProperties(_serialization.Model):
-    """Properties of the ARM resource for /subscriptions/xxx/resourceGroups/xxx/providers/Microsoft.SecurityDevOps/gitHubConnectors.
+    """Properties of the ARM resource for
+    /subscriptions/xxx/resourceGroups/xxx/providers/Microsoft.SecurityDevOps/gitHubConnectors.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -1124,7 +1141,7 @@ class GitHubConnectorProperties(_serialization.Model):
         "code": {"key": "code", "type": "str"},
     }
 
-    def __init__(self, *, code: Optional[str] = None, **kwargs):
+    def __init__(self, *, code: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword code: Gets or sets one-time OAuth code to exchange for refresh and access tokens.
 
@@ -1172,7 +1189,7 @@ class GitHubConnectorStats(ProxyResource):
         "properties": {"key": "properties", "type": "GitHubConnectorStatsProperties"},
     }
 
-    def __init__(self, *, properties: Optional["_models.GitHubConnectorStatsProperties"] = None, **kwargs):
+    def __init__(self, *, properties: Optional["_models.GitHubConnectorStatsProperties"] = None, **kwargs: Any) -> None:
         """
         :keyword properties:
         :paramtype properties: ~azure.mgmt.securitydevops.models.GitHubConnectorStatsProperties
@@ -1196,8 +1213,12 @@ class GitHubConnectorStatsListResponse(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.GitHubConnectorStats"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self,
+        *,
+        value: Optional[List["_models.GitHubConnectorStats"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets list of resources.
         :paramtype value: list[~azure.mgmt.securitydevops.models.GitHubConnectorStats]
@@ -1232,7 +1253,7 @@ class GitHubConnectorStatsProperties(_serialization.Model):
         "repos_count": {"key": "reposCount", "type": "int"},
     }
 
-    def __init__(self, *, owners_count: Optional[int] = None, repos_count: Optional[int] = None, **kwargs):
+    def __init__(self, *, owners_count: Optional[int] = None, repos_count: Optional[int] = None, **kwargs: Any) -> None:
         """
         :keyword owners_count: Gets or sets owners count.
         :paramtype owners_count: int
@@ -1280,7 +1301,7 @@ class GitHubOwner(ProxyResource):
         "properties": {"key": "properties", "type": "GitHubOwnerProperties"},
     }
 
-    def __init__(self, *, properties: Optional["_models.GitHubOwnerProperties"] = None, **kwargs):
+    def __init__(self, *, properties: Optional["_models.GitHubOwnerProperties"] = None, **kwargs: Any) -> None:
         """
         :keyword properties: GitHub Repo Owner properties.
         :paramtype properties: ~azure.mgmt.securitydevops.models.GitHubOwnerProperties
@@ -1304,8 +1325,8 @@ class GitHubOwnerListResponse(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.GitHubOwner"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.GitHubOwner"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets list of resources.
         :paramtype value: list[~azure.mgmt.securitydevops.models.GitHubOwner]
@@ -1337,7 +1358,7 @@ class GitHubOwnerProperties(_serialization.Model):
         "owner_url": {"key": "ownerUrl", "type": "str"},
     }
 
-    def __init__(self, *, owner_url: Optional[str] = None, **kwargs):
+    def __init__(self, *, owner_url: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword owner_url: Gets or sets gitHub owner url.
         :paramtype owner_url: str
@@ -1382,7 +1403,7 @@ class GitHubRepo(ProxyResource):
         "properties": {"key": "properties", "type": "GitHubRepoProperties"},
     }
 
-    def __init__(self, *, properties: Optional["_models.GitHubRepoProperties"] = None, **kwargs):
+    def __init__(self, *, properties: Optional["_models.GitHubRepoProperties"] = None, **kwargs: Any) -> None:
         """
         :keyword properties: GitHub Repo properties.
         :paramtype properties: ~azure.mgmt.securitydevops.models.GitHubRepoProperties
@@ -1406,8 +1427,8 @@ class GitHubRepoListResponse(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.GitHubRepo"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.GitHubRepo"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets list of resources.
         :paramtype value: list[~azure.mgmt.securitydevops.models.GitHubRepo]
@@ -1451,8 +1472,8 @@ class GitHubRepoProperties(_serialization.Model):
         account_id: Optional[int] = None,
         repo_url: Optional[str] = None,
         owner_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword account_id: Gets or sets gitHub repo account id.
         :paramtype account_id: int
@@ -1500,8 +1521,8 @@ class GitHubReposProperties(_serialization.Model):
         account_id: Optional[int] = None,
         repo_name: Optional[str] = None,
         repo_url: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword account_id: Gets or sets gitHub repo account id.
         :paramtype account_id: int
@@ -1554,7 +1575,7 @@ class Operation(_serialization.Model):
         "action_type": {"key": "actionType", "type": "str"},
     }
 
-    def __init__(self, *, display: Optional["_models.OperationDisplay"] = None, **kwargs):
+    def __init__(self, *, display: Optional["_models.OperationDisplay"] = None, **kwargs: Any) -> None:
         """
         :keyword display: Localized display information for this particular operation.
         :paramtype display: ~azure.mgmt.securitydevops.models.OperationDisplay
@@ -1600,7 +1621,7 @@ class OperationDisplay(_serialization.Model):
         "description": {"key": "description", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.provider = None
@@ -1610,7 +1631,8 @@ class OperationDisplay(_serialization.Model):
 
 
 class OperationListResult(_serialization.Model):
-    """A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results.
+    """A list of REST API operations supported by an Azure Resource Provider. It contains an URL link
+    to get the next set of results.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -1630,7 +1652,7 @@ class OperationListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -1674,8 +1696,8 @@ class SystemData(_serialization.Model):
         last_modified_by: Optional[str] = None,
         last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
         last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword created_by: The identity that created the resource.
         :paramtype created_by: str
@@ -1714,7 +1736,7 @@ class TargetBranchConfiguration(_serialization.Model):
         "names": {"key": "names", "type": "[str]"},
     }
 
-    def __init__(self, *, names: Optional[List[str]] = None, **kwargs):
+    def __init__(self, *, names: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
         :keyword names: Gets or sets branches that should have annotations.
 
