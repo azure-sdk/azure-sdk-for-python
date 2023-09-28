@@ -14,7 +14,7 @@ from azure.mgmt.timeseriesinsights import TimeSeriesInsightsClient
     pip install azure-identity
     pip install azure-mgmt-timeseriesinsights
 # USAGE
-    python list_supported_private_link_resources.py
+    python environments_list_by_resource_group.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,17 +26,15 @@ from azure.mgmt.timeseriesinsights import TimeSeriesInsightsClient
 def main():
     client = TimeSeriesInsightsClient(
         credential=DefaultAzureCredential(),
-        subscription_id="mySubscriptionId",
+        subscription_id="subid",
     )
 
-    response = client.private_link_resources.list_supported(
-        resource_group_name="myResourceGroup",
-        environment_name="myEnvironment",
+    response = client.environments.list_by_resource_group(
+        resource_group_name="rg1",
     )
-    for item in response:
-        print(item)
+    print(response)
 
 
-# x-ms-original-file: specification/timeseriesinsights/resource-manager/Microsoft.TimeSeriesInsights/preview/2021-03-31-preview/examples/PrivateLinkResourcesGet.json
+# x-ms-original-file: specification/timeseriesinsights/resource-manager/Microsoft.TimeSeriesInsights/preview/2021-03-31-preview/examples/EnvironmentsListByResourceGroup.json
 if __name__ == "__main__":
     main()

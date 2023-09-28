@@ -29,11 +29,10 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.environments.delete(
+    client.environments.delete(
         resource_group_name="rg1",
         environment_name="env1",
     )
-    print(response)
 
 
 # x-ms-original-file: specification/timeseriesinsights/resource-manager/Microsoft.TimeSeriesInsights/preview/2021-03-31-preview/examples/EnvironmentsDelete.json

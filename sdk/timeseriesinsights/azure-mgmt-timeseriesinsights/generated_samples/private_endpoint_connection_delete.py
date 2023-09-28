@@ -29,12 +29,11 @@ def main():
         subscription_id="mySubscriptionId",
     )
 
-    response = client.private_endpoint_connections.delete(
+    client.private_endpoint_connections.delete(
         resource_group_name="myResourceGroup",
         environment_name="myEnvironment",
         private_endpoint_connection_name="myPrivateEndpointConnectionName",
     )
-    print(response)
 
 
 # x-ms-original-file: specification/timeseriesinsights/resource-manager/Microsoft.TimeSeriesInsights/preview/2021-03-31-preview/examples/PrivateEndpointConnectionDelete.json

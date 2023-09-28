@@ -29,12 +29,11 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.reference_data_sets.delete(
+    client.reference_data_sets.delete(
         resource_group_name="rg1",
         environment_name="env1",
         reference_data_set_name="rds1",
     )
-    print(response)
 
 
 # x-ms-original-file: specification/timeseriesinsights/resource-manager/Microsoft.TimeSeriesInsights/preview/2021-03-31-preview/examples/ReferenceDataSetsDelete.json

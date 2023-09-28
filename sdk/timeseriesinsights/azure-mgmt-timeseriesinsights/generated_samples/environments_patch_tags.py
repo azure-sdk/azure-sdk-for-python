@@ -14,7 +14,7 @@ from azure.mgmt.timeseriesinsights import TimeSeriesInsightsClient
     pip install azure-identity
     pip install azure-mgmt-timeseriesinsights
 # USAGE
-    python delete_event_source.py
+    python environments_patch_tags.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,14 +29,14 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.event_sources.delete(
+    response = client.environments.begin_update(
         resource_group_name="rg1",
         environment_name="env1",
-        event_source_name="es1",
-    )
+        environment_update_parameters={"tags": {"someTag": "someTagValue"}},
+    ).result()
     print(response)
 
 
-# x-ms-original-file: specification/timeseriesinsights/resource-manager/Microsoft.TimeSeriesInsights/preview/2021-03-31-preview/examples/EventSourcesDelete.json
+# x-ms-original-file: specification/timeseriesinsights/resource-manager/Microsoft.TimeSeriesInsights/preview/2021-03-31-preview/examples/EnvironmentsPatchTags.json
 if __name__ == "__main__":
     main()

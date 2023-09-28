@@ -14,7 +14,7 @@ from azure.mgmt.timeseriesinsights import TimeSeriesInsightsClient
     pip install azure-identity
     pip install azure-mgmt-timeseriesinsights
 # USAGE
-    python reference_data_sets_update.py
+    python event_sources_patch_tags.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,15 +29,15 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.reference_data_sets.update(
+    response = client.event_sources.update(
         resource_group_name="rg1",
         environment_name="env1",
-        reference_data_set_name="rds1",
-        reference_data_set_update_parameters={"tags": {"someKey": "someValue"}},
+        event_source_name="es1",
+        event_source_update_parameters={"tags": {"someKey": "someValue"}},
     )
     print(response)
 
 
-# x-ms-original-file: specification/timeseriesinsights/resource-manager/Microsoft.TimeSeriesInsights/preview/2021-03-31-preview/examples/ReferenceDataSetsPatchTags.json
+# x-ms-original-file: specification/timeseriesinsights/resource-manager/Microsoft.TimeSeriesInsights/preview/2021-03-31-preview/examples/EventSourcesPatchTags.json
 if __name__ == "__main__":
     main()

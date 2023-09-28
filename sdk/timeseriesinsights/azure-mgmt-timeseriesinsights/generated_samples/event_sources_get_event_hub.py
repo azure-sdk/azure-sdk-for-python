@@ -14,7 +14,7 @@ from azure.mgmt.timeseriesinsights import TimeSeriesInsightsClient
     pip install azure-identity
     pip install azure-mgmt-timeseriesinsights
 # USAGE
-    python environments_by_subscription.py
+    python event_sources_get_event_hub.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,10 +29,14 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.environments.list_by_subscription()
+    response = client.event_sources.get(
+        resource_group_name="rg1",
+        environment_name="env1",
+        event_source_name="es1",
+    )
     print(response)
 
 
-# x-ms-original-file: specification/timeseriesinsights/resource-manager/Microsoft.TimeSeriesInsights/preview/2021-03-31-preview/examples/EnvironmentsListBySubscription.json
+# x-ms-original-file: specification/timeseriesinsights/resource-manager/Microsoft.TimeSeriesInsights/preview/2021-03-31-preview/examples/EventSourcesGetEventHub.json
 if __name__ == "__main__":
     main()
