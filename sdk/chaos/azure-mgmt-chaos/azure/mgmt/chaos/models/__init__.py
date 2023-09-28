@@ -39,6 +39,15 @@ from ._models_py3 import ListSelector
 from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
 from ._models_py3 import OperationListResult
+from ._models_py3 import PrivateAccess
+from ._models_py3 import PrivateAccessListResult
+from ._models_py3 import PrivateAccessUpdate
+from ._models_py3 import PrivateEndpoint
+from ._models_py3 import PrivateEndpointConnection
+from ._models_py3 import PrivateEndpointConnectionListResult
+from ._models_py3 import PrivateLinkResource
+from ._models_py3 import PrivateLinkResourceListResult
+from ._models_py3 import PrivateLinkServiceConnectionState
 from ._models_py3 import QuerySelector
 from ._models_py3 import Resource
 from ._models_py3 import ResourceIdentity
@@ -60,6 +69,7 @@ from ._chaos_management_client_enums import ActionType
 from ._chaos_management_client_enums import CreatedByType
 from ._chaos_management_client_enums import FilterType
 from ._chaos_management_client_enums import Origin
+from ._chaos_management_client_enums import PrivateEndpointServiceConnectionStatus
 from ._chaos_management_client_enums import ResourceIdentityType
 from ._chaos_management_client_enums import SelectorType
 from ._chaos_management_client_enums import TargetReferenceType
@@ -101,6 +111,15 @@ __all__ = [
     "Operation",
     "OperationDisplay",
     "OperationListResult",
+    "PrivateAccess",
+    "PrivateAccessListResult",
+    "PrivateAccessUpdate",
+    "PrivateEndpoint",
+    "PrivateEndpointConnection",
+    "PrivateEndpointConnectionListResult",
+    "PrivateLinkResource",
+    "PrivateLinkResourceListResult",
+    "PrivateLinkServiceConnectionState",
     "QuerySelector",
     "Resource",
     "ResourceIdentity",
@@ -121,6 +140,7 @@ __all__ = [
     "CreatedByType",
     "FilterType",
     "Origin",
+    "PrivateEndpointServiceConnectionStatus",
     "ResourceIdentityType",
     "SelectorType",
     "TargetReferenceType",

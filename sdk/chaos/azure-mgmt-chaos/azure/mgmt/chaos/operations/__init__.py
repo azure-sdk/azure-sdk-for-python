@@ -10,6 +10,7 @@ from ._capabilities_operations import CapabilitiesOperations
 from ._capability_types_operations import CapabilityTypesOperations
 from ._experiments_operations import ExperimentsOperations
 from ._operations import Operations
+from ._private_accesses_operations import PrivateAccessesOperations
 from ._target_types_operations import TargetTypesOperations
 from ._targets_operations import TargetsOperations
 
@@ -22,6 +23,7 @@ __all__ = [
     "CapabilityTypesOperations",
     "ExperimentsOperations",
     "Operations",
+    "PrivateAccessesOperations",
     "TargetTypesOperations",
     "TargetsOperations",
 ]
