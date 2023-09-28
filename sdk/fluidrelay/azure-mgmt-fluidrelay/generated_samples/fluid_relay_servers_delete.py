@@ -29,11 +29,10 @@ def main():
         subscription_id="xxxx-xxxx-xxxx-xxxx",
     )
 
-    response = client.fluid_relay_servers.delete(
+    client.fluid_relay_servers.delete(
         resource_group="myResourceGroup",
         fluid_relay_server_name="myFluidRelayServer",
     )
-    print(response)
 
 
 # x-ms-original-file: specification/fluidrelay/resource-manager/Microsoft.FluidRelay/stable/2022-06-01/examples/FluidRelayServers_Delete.json
