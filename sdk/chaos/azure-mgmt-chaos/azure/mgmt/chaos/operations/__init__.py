@@ -12,6 +12,7 @@ from ._experiments_operations import ExperimentsOperations
 from ._operations import Operations
 from ._target_types_operations import TargetTypesOperations
 from ._targets_operations import TargetsOperations
+from ._operation_statuses_operations import OperationStatusesOperations
 
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
@@ -24,6 +25,7 @@ __all__ = [
     "Operations",
     "TargetTypesOperations",
     "TargetsOperations",
+    "OperationStatusesOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()

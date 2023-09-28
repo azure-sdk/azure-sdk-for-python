@@ -19,6 +19,7 @@ from .operations import (
     CapabilitiesOperations,
     CapabilityTypesOperations,
     ExperimentsOperations,
+    OperationStatusesOperations,
     Operations,
     TargetTypesOperations,
     TargetsOperations,
@@ -29,7 +30,7 @@ if TYPE_CHECKING:
     from azure.core.credentials_async import AsyncTokenCredential
 
 
-class ChaosManagementClient:  # pylint: disable=client-accepts-api-version-keyword
+class ChaosManagementClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
     """Chaos Management Client.
 
     :ivar capabilities: CapabilitiesOperations operations
@@ -44,15 +45,19 @@ class ChaosManagementClient:  # pylint: disable=client-accepts-api-version-keywo
     :vartype target_types: azure.mgmt.chaos.aio.operations.TargetTypesOperations
     :ivar targets: TargetsOperations operations
     :vartype targets: azure.mgmt.chaos.aio.operations.TargetsOperations
+    :ivar operation_statuses: OperationStatusesOperations operations
+    :vartype operation_statuses: azure.mgmt.chaos.aio.operations.OperationStatusesOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
     :param subscription_id: GUID that represents an Azure subscription ID. Required.
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2023-04-15-preview". Note that overriding
+    :keyword api_version: Api Version. Default value is "2023-10-27-preview". Note that overriding
      this default value may result in unsupported behavior.
     :paramtype api_version: str
+    :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
+     Retry-After header is present.
     """
 
     def __init__(
@@ -79,6 +84,9 @@ class ChaosManagementClient:  # pylint: disable=client-accepts-api-version-keywo
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
         self.target_types = TargetTypesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.targets = TargetsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.operation_statuses = OperationStatusesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> Awaitable[AsyncHttpResponse]:
         """Runs the network request through the client's chained policies.
