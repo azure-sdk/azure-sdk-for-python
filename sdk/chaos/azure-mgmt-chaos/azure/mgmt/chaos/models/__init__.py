@@ -22,14 +22,12 @@ from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorDetail
 from ._models_py3 import ErrorResponse
 from ._models_py3 import Experiment
-from ._models_py3 import ExperimentCancelOperationResult
 from ._models_py3 import ExperimentExecutionActionTargetDetailsError
 from ._models_py3 import ExperimentExecutionActionTargetDetailsProperties
 from ._models_py3 import ExperimentExecutionDetails
 from ._models_py3 import ExperimentExecutionDetailsListResult
 from ._models_py3 import ExperimentExecutionDetailsPropertiesRunInformation
 from ._models_py3 import ExperimentListResult
-from ._models_py3 import ExperimentStartOperationResult
 from ._models_py3 import ExperimentStatus
 from ._models_py3 import ExperimentStatusListResult
 from ._models_py3 import ExperimentUpdate
@@ -39,6 +37,16 @@ from ._models_py3 import ListSelector
 from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
 from ._models_py3 import OperationListResult
+from ._models_py3 import OperationStatus
+from ._models_py3 import PrivateAccess
+from ._models_py3 import PrivateAccessListResult
+from ._models_py3 import PrivateAccessUpdate
+from ._models_py3 import PrivateEndpoint
+from ._models_py3 import PrivateEndpointConnection
+from ._models_py3 import PrivateEndpointConnectionListResult
+from ._models_py3 import PrivateLinkResource
+from ._models_py3 import PrivateLinkResourceListResult
+from ._models_py3 import PrivateLinkServiceConnectionState
 from ._models_py3 import QuerySelector
 from ._models_py3 import Resource
 from ._models_py3 import ResourceIdentity
@@ -60,6 +68,8 @@ from ._chaos_management_client_enums import ActionType
 from ._chaos_management_client_enums import CreatedByType
 from ._chaos_management_client_enums import FilterType
 from ._chaos_management_client_enums import Origin
+from ._chaos_management_client_enums import PrivateEndpointServiceConnectionStatus
+from ._chaos_management_client_enums import ProvisioningState
 from ._chaos_management_client_enums import ResourceIdentityType
 from ._chaos_management_client_enums import SelectorType
 from ._chaos_management_client_enums import TargetReferenceType
@@ -84,14 +94,12 @@ __all__ = [
     "ErrorDetail",
     "ErrorResponse",
     "Experiment",
-    "ExperimentCancelOperationResult",
     "ExperimentExecutionActionTargetDetailsError",
     "ExperimentExecutionActionTargetDetailsProperties",
     "ExperimentExecutionDetails",
     "ExperimentExecutionDetailsListResult",
     "ExperimentExecutionDetailsPropertiesRunInformation",
     "ExperimentListResult",
-    "ExperimentStartOperationResult",
     "ExperimentStatus",
     "ExperimentStatusListResult",
     "ExperimentUpdate",
@@ -101,6 +109,16 @@ __all__ = [
     "Operation",
     "OperationDisplay",
     "OperationListResult",
+    "OperationStatus",
+    "PrivateAccess",
+    "PrivateAccessListResult",
+    "PrivateAccessUpdate",
+    "PrivateEndpoint",
+    "PrivateEndpointConnection",
+    "PrivateEndpointConnectionListResult",
+    "PrivateLinkResource",
+    "PrivateLinkResourceListResult",
+    "PrivateLinkServiceConnectionState",
     "QuerySelector",
     "Resource",
     "ResourceIdentity",
@@ -121,6 +139,8 @@ __all__ = [
     "CreatedByType",
     "FilterType",
     "Origin",
+    "PrivateEndpointServiceConnectionStatus",
+    "ProvisioningState",
     "ResourceIdentityType",
     "SelectorType",
     "TargetReferenceType",

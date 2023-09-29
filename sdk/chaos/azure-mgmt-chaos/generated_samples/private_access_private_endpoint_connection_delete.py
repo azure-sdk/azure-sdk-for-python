@@ -14,7 +14,7 @@ from azure.mgmt.chaos import ChaosManagementClient
     pip install azure-identity
     pip install azure-mgmt-chaos
 # USAGE
-    python create_or_update_atarget.py
+    python private_access_private_endpoint_connection_delete.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,17 +29,13 @@ def main():
         subscription_id="6b052e15-03d3-4f17-b2e1-be7f07588291",
     )
 
-    response = client.targets.create_or_update(
-        resource_group_name="exampleRG",
-        parent_provider_namespace="Microsoft.Compute",
-        parent_resource_type="virtualMachines",
-        parent_resource_name="exampleVM",
-        target_name="Microsoft-Agent",
-        target={"properties": {"identities": [{"subject": "CN=example.subject", "type": "CertificateSubjectIssuer"}]}},
-    )
-    print(response)
+    client.private_accesses.begin_delete_a_private_endpoint_connection(
+        resource_group_name="myResourceGroup",
+        private_access_name="myPrivateAccess",
+        private_endpoint_connection_name="myPrivateEndpointConnection",
+    ).result()
 
 
-# x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2023-04-15-preview/examples/CreateOrUpdateATarget.json
+# x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2023-10-27-preview/examples/PrivateAccessPrivateEndpointConnection_Delete.json
 if __name__ == "__main__":
     main()
