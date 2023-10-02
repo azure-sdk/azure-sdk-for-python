@@ -517,6 +517,48 @@ class ContinuousAction(Action):
         self.selector_id = selector_id
 
 
+class CustomerDataStorageProperties(_serialization.Model):
+    """Model that represents the Customer Managed Storage for an Experiment.
+
+    :ivar storage_account_resource_id: ARM Resource ID of the Storage account to use for Customer
+     Data storage.
+    :vartype storage_account_resource_id: str
+    :ivar blob_container_name: Name of the Azure Blob Storage container to use or create.
+    :vartype blob_container_name: str
+    """
+
+    _validation = {
+        "blob_container_name": {
+            "max_length": 63,
+            "min_length": 3,
+            "pattern": r"^[a-z0-9]([a-z0-9]|(-(?!-))){1,61}[a-z0-9]$",
+        },
+    }
+
+    _attribute_map = {
+        "storage_account_resource_id": {"key": "storageAccountResourceId", "type": "str"},
+        "blob_container_name": {"key": "blobContainerName", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        storage_account_resource_id: Optional[str] = None,
+        blob_container_name: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword storage_account_resource_id: ARM Resource ID of the Storage account to use for
+         Customer Data storage.
+        :paramtype storage_account_resource_id: str
+        :keyword blob_container_name: Name of the Azure Blob Storage container to use or create.
+        :paramtype blob_container_name: str
+        """
+        super().__init__(**kwargs)
+        self.storage_account_resource_id = storage_account_resource_id
+        self.blob_container_name = blob_container_name
+
+
 class DelayAction(Action):
     """Model that represents a delay action.
 
@@ -739,7 +781,7 @@ class TrackedResource(Resource):
         self.location = location
 
 
-class Experiment(TrackedResource):
+class Experiment(TrackedResource):  # pylint: disable=too-many-instance-attributes
     """Model that represents a Experiment resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -762,13 +804,16 @@ class Experiment(TrackedResource):
     :vartype system_data: ~azure.mgmt.chaos.models.SystemData
     :ivar identity: The identity of the experiment resource.
     :vartype identity: ~azure.mgmt.chaos.models.ResourceIdentity
+    :ivar provisioning_state: Most recent provisioning state for the given experiment resource.
+     Known values are: "Succeeded", "Failed", "Canceled", "Creating", "Updating", and "Deleting".
+    :vartype provisioning_state: str or ~azure.mgmt.chaos.models.ProvisioningState
     :ivar steps: List of steps. Required.
     :vartype steps: list[~azure.mgmt.chaos.models.Step]
     :ivar selectors: List of selectors. Required.
     :vartype selectors: list[~azure.mgmt.chaos.models.Selector]
-    :ivar start_on_creation: A boolean value that indicates if experiment should be started on
-     creation or not.
-    :vartype start_on_creation: bool
+    :ivar customer_data_storage: Optional customer-managed Storage account where Experiment schema
+     will be stored.
+    :vartype customer_data_storage: ~azure.mgmt.chaos.models.CustomerDataStorageProperties
     """
 
     _validation = {
@@ -777,6 +822,7 @@ class Experiment(TrackedResource):
         "type": {"readonly": True},
         "location": {"required": True},
         "system_data": {"readonly": True},
+        "provisioning_state": {"readonly": True},
         "steps": {"required": True, "min_items": 1},
         "selectors": {"required": True, "min_items": 1},
     }
@@ -789,9 +835,10 @@ class Experiment(TrackedResource):
         "location": {"key": "location", "type": "str"},
         "system_data": {"key": "systemData", "type": "SystemData"},
         "identity": {"key": "identity", "type": "ResourceIdentity"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
         "steps": {"key": "properties.steps", "type": "[Step]"},
         "selectors": {"key": "properties.selectors", "type": "[Selector]"},
-        "start_on_creation": {"key": "properties.startOnCreation", "type": "bool"},
+        "customer_data_storage": {"key": "properties.customerDataStorage", "type": "CustomerDataStorageProperties"},
     }
 
     def __init__(
@@ -802,7 +849,7 @@ class Experiment(TrackedResource):
         selectors: List["_models.Selector"],
         tags: Optional[Dict[str, str]] = None,
         identity: Optional["_models.ResourceIdentity"] = None,
-        start_on_creation: Optional[bool] = None,
+        customer_data_storage: Optional["_models.CustomerDataStorageProperties"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -816,44 +863,17 @@ class Experiment(TrackedResource):
         :paramtype steps: list[~azure.mgmt.chaos.models.Step]
         :keyword selectors: List of selectors. Required.
         :paramtype selectors: list[~azure.mgmt.chaos.models.Selector]
-        :keyword start_on_creation: A boolean value that indicates if experiment should be started on
-         creation or not.
-        :paramtype start_on_creation: bool
+        :keyword customer_data_storage: Optional customer-managed Storage account where Experiment
+         schema will be stored.
+        :paramtype customer_data_storage: ~azure.mgmt.chaos.models.CustomerDataStorageProperties
         """
         super().__init__(tags=tags, location=location, **kwargs)
         self.system_data = None
         self.identity = identity
+        self.provisioning_state = None
         self.steps = steps
         self.selectors = selectors
-        self.start_on_creation = start_on_creation
-
-
-class ExperimentCancelOperationResult(_serialization.Model):
-    """Model that represents the result of a cancel Experiment operation.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar name: String of the Experiment name.
-    :vartype name: str
-    :ivar status_url: URL to retrieve the Experiment status.
-    :vartype status_url: str
-    """
-
-    _validation = {
-        "name": {"readonly": True},
-        "status_url": {"readonly": True, "max_length": 2048},
-    }
-
-    _attribute_map = {
-        "name": {"key": "name", "type": "str"},
-        "status_url": {"key": "statusUrl", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-        self.name = None
-        self.status_url = None
+        self.customer_data_storage = customer_data_storage
 
 
 class ExperimentExecutionActionTargetDetailsError(_serialization.Model):
@@ -1081,34 +1101,6 @@ class ExperimentListResult(_serialization.Model):
         super().__init__(**kwargs)
         self.value = None
         self.next_link = None
-
-
-class ExperimentStartOperationResult(_serialization.Model):
-    """Model that represents the result of a start Experiment operation.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar name: String of the Experiment name.
-    :vartype name: str
-    :ivar status_url: URL to retrieve the Experiment status.
-    :vartype status_url: str
-    """
-
-    _validation = {
-        "name": {"readonly": True},
-        "status_url": {"readonly": True, "max_length": 2048},
-    }
-
-    _attribute_map = {
-        "name": {"key": "name", "type": "str"},
-        "status_url": {"key": "statusUrl", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-        self.name = None
-        self.status_url = None
 
 
 class ExperimentStatus(_serialization.Model):
@@ -1506,6 +1498,66 @@ class OperationListResult(_serialization.Model):
         super().__init__(**kwargs)
         self.value = None
         self.next_link = None
+
+
+class OperationStatus(_serialization.Model):
+    """The status of operation.
+
+    :ivar id: The operation Id.
+    :vartype id: str
+    :ivar name: The operation name.
+    :vartype name: str
+    :ivar start_time: The start time of the operation.
+    :vartype start_time: str
+    :ivar end_time: The end time of the operation.
+    :vartype end_time: str
+    :ivar status: The status of the operation.
+    :vartype status: str
+    :ivar error: The error detail of the operation if any.
+    :vartype error: ~azure.mgmt.chaos.models.ErrorResponse
+    """
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "start_time": {"key": "startTime", "type": "str"},
+        "end_time": {"key": "endTime", "type": "str"},
+        "status": {"key": "status", "type": "str"},
+        "error": {"key": "error", "type": "ErrorResponse"},
+    }
+
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        name: Optional[str] = None,
+        start_time: Optional[str] = None,
+        end_time: Optional[str] = None,
+        status: Optional[str] = None,
+        error: Optional["_models.ErrorResponse"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword id: The operation Id.
+        :paramtype id: str
+        :keyword name: The operation name.
+        :paramtype name: str
+        :keyword start_time: The start time of the operation.
+        :paramtype start_time: str
+        :keyword end_time: The end time of the operation.
+        :paramtype end_time: str
+        :keyword status: The status of the operation.
+        :paramtype status: str
+        :keyword error: The error detail of the operation if any.
+        :paramtype error: ~azure.mgmt.chaos.models.ErrorResponse
+        """
+        super().__init__(**kwargs)
+        self.id = id
+        self.name = name
+        self.start_time = start_time
+        self.end_time = end_time
+        self.status = status
+        self.error = error
 
 
 class QuerySelector(Selector):
