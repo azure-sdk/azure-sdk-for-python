@@ -38,6 +38,14 @@ class AmlFilesystemProvisioningStateType(str, Enum, metaclass=CaseInsensitiveEnu
     CANCELED = "Canceled"
 
 
+class AmlFilesystemSquashMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Squash mode of the AML file system."""
+
+    NONE = "None"
+    ROOT_ONLY = "RootOnly"
+    ALL = "All"
+
+
 class ArchiveStatusType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The state of the archive operation."""
 

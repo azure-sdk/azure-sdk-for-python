@@ -160,8 +160,13 @@ class AmlFilesystem(TrackedResource):  # pylint: disable=too-many-instance-attri
     :ivar filesystem_subnet: Subnet used for managing the AML file system and for client-facing
      operations. This subnet should have at least a /24 subnet mask within the VNET's address space.
     :vartype filesystem_subnet: str
-    :ivar client_info: Client information for the AML file system.
-    :vartype client_info: ~azure.mgmt.storagecache.models.AmlFilesystemClientInfo
+    :ivar mgs_address: The IPv4 address used by clients to mount the AML file system's Lustre
+     Management Service (MGS).
+    :vartype mgs_address: str
+    :ivar mount_command: Recommended command to mount the AML file system.
+    :vartype mount_command: str
+    :ivar lustre_version: The version of Lustre running in the AML file system.
+    :vartype lustre_version: str
     :ivar throughput_provisioned_m_bps: Throughput provisioned in MB per sec, calculated as
      storageCapacityTiB * per-unit storage throughput.
     :vartype throughput_provisioned_m_bps: int
@@ -172,6 +177,8 @@ class AmlFilesystem(TrackedResource):  # pylint: disable=too-many-instance-attri
      ~azure.mgmt.storagecache.models.AmlFilesystemPropertiesMaintenanceWindow
     :ivar hsm: Hydration and archive settings and status.
     :vartype hsm: ~azure.mgmt.storagecache.models.AmlFilesystemPropertiesHsm
+    :ivar root_squash_settings: Specifies root squash settings of the AML file system.
+    :vartype root_squash_settings: ~azure.mgmt.storagecache.models.AmlFilesystemRootSquashSettings
     """
 
     _validation = {
@@ -182,7 +189,9 @@ class AmlFilesystem(TrackedResource):  # pylint: disable=too-many-instance-attri
         "location": {"required": True},
         "health": {"readonly": True},
         "provisioning_state": {"readonly": True},
-        "client_info": {"readonly": True},
+        "mgs_address": {"readonly": True},
+        "mount_command": {"readonly": True},
+        "lustre_version": {"readonly": True},
         "throughput_provisioned_m_bps": {"readonly": True},
     }
 
@@ -200,7 +209,9 @@ class AmlFilesystem(TrackedResource):  # pylint: disable=too-many-instance-attri
         "health": {"key": "properties.health", "type": "AmlFilesystemHealth"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "filesystem_subnet": {"key": "properties.filesystemSubnet", "type": "str"},
-        "client_info": {"key": "properties.clientInfo", "type": "AmlFilesystemClientInfo"},
+        "mgs_address": {"key": "properties.mgsAddress", "type": "str"},
+        "mount_command": {"key": "properties.mountCommand", "type": "str"},
+        "lustre_version": {"key": "properties.lustreVersion", "type": "str"},
         "throughput_provisioned_m_bps": {"key": "properties.throughputProvisionedMBps", "type": "int"},
         "encryption_settings": {"key": "properties.encryptionSettings", "type": "AmlFilesystemEncryptionSettings"},
         "maintenance_window": {
@@ -208,6 +219,7 @@ class AmlFilesystem(TrackedResource):  # pylint: disable=too-many-instance-attri
             "type": "AmlFilesystemPropertiesMaintenanceWindow",
         },
         "hsm": {"key": "properties.hsm", "type": "AmlFilesystemPropertiesHsm"},
+        "root_squash_settings": {"key": "properties.rootSquashSettings", "type": "AmlFilesystemRootSquashSettings"},
     }
 
     def __init__(
@@ -223,6 +235,7 @@ class AmlFilesystem(TrackedResource):  # pylint: disable=too-many-instance-attri
         encryption_settings: Optional["_models.AmlFilesystemEncryptionSettings"] = None,
         maintenance_window: Optional["_models.AmlFilesystemPropertiesMaintenanceWindow"] = None,
         hsm: Optional["_models.AmlFilesystemPropertiesHsm"] = None,
+        root_squash_settings: Optional["_models.AmlFilesystemRootSquashSettings"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -250,6 +263,9 @@ class AmlFilesystem(TrackedResource):  # pylint: disable=too-many-instance-attri
          ~azure.mgmt.storagecache.models.AmlFilesystemPropertiesMaintenanceWindow
         :keyword hsm: Hydration and archive settings and status.
         :paramtype hsm: ~azure.mgmt.storagecache.models.AmlFilesystemPropertiesHsm
+        :keyword root_squash_settings: Specifies root squash settings of the AML file system.
+        :paramtype root_squash_settings:
+         ~azure.mgmt.storagecache.models.AmlFilesystemRootSquashSettings
         """
         super().__init__(tags=tags, location=location, **kwargs)
         self.identity = identity
@@ -259,11 +275,14 @@ class AmlFilesystem(TrackedResource):  # pylint: disable=too-many-instance-attri
         self.health = None
         self.provisioning_state = None
         self.filesystem_subnet = filesystem_subnet
-        self.client_info = None
+        self.mgs_address = None
+        self.mount_command = None
+        self.lustre_version = None
         self.throughput_provisioned_m_bps = None
         self.encryption_settings = encryption_settings
         self.maintenance_window = maintenance_window
         self.hsm = hsm
+        self.root_squash_settings = root_squash_settings
 
 
 class AmlFilesystemArchive(_serialization.Model):
@@ -425,85 +444,6 @@ class AmlFilesystemCheckSubnetErrorFilesystemSubnet(_serialization.Model):
         super().__init__(**kwargs)
         self.status = status
         self.message = message
-
-
-class AmlFilesystemClientInfo(_serialization.Model):
-    """AML file system client information.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar mgs_address: The IPv4 address used by clients to mount the AML file system's Lustre
-     Management Service (MGS).
-    :vartype mgs_address: str
-    :ivar mount_command: Recommended command to mount the AML file system.
-    :vartype mount_command: str
-    :ivar lustre_version: The version of Lustre running in the AML file system.
-    :vartype lustre_version: str
-    :ivar container_storage_interface: Container Storage Interface information for the AML file
-     system.
-    :vartype container_storage_interface:
-     ~azure.mgmt.storagecache.models.AmlFilesystemContainerStorageInterface
-    """
-
-    _validation = {
-        "mgs_address": {"readonly": True},
-        "mount_command": {"readonly": True},
-        "lustre_version": {"readonly": True},
-        "container_storage_interface": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "mgs_address": {"key": "mgsAddress", "type": "str"},
-        "mount_command": {"key": "mountCommand", "type": "str"},
-        "lustre_version": {"key": "lustreVersion", "type": "str"},
-        "container_storage_interface": {
-            "key": "containerStorageInterface",
-            "type": "AmlFilesystemContainerStorageInterface",
-        },
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-        self.mgs_address = None
-        self.mount_command = None
-        self.lustre_version = None
-        self.container_storage_interface = None
-
-
-class AmlFilesystemContainerStorageInterface(_serialization.Model):
-    """AML file system container storage interface information.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar persistent_volume_claim: Recommended AKS Persistent Volume Claim for the CSI driver, in
-     Base64 encoded YAML.
-    :vartype persistent_volume_claim: str
-    :ivar persistent_volume: Recommended AKS Persistent Volume for the CSI driver, in Base64
-     encoded YAML.
-    :vartype persistent_volume: str
-    :ivar storage_class: Recommended AKS Storage Class for the CSI driver, in Base64 encoded YAML.
-    :vartype storage_class: str
-    """
-
-    _validation = {
-        "persistent_volume_claim": {"readonly": True},
-        "persistent_volume": {"readonly": True},
-        "storage_class": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "persistent_volume_claim": {"key": "persistentVolumeClaim", "type": "str"},
-        "persistent_volume": {"key": "persistentVolume", "type": "str"},
-        "storage_class": {"key": "storageClass", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-        self.persistent_volume_claim = None
-        self.persistent_volume = None
-        self.storage_class = None
 
 
 class AmlFilesystemEncryptionSettings(_serialization.Model):
@@ -740,6 +680,66 @@ class AmlFilesystemPropertiesMaintenanceWindow(_serialization.Model):
         self.time_of_day_utc = time_of_day_utc
 
 
+class AmlFilesystemRootSquashSettings(_serialization.Model):
+    """AML file system squash settings.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar mode: Squash mode of the AML file system. Known values are: "None", "RootOnly", and
+     "All".
+    :vartype mode: str or ~azure.mgmt.storagecache.models.AmlFilesystemSquashMode
+    :ivar no_squash_nid_lists: Semicolon separated NID IP Address list(s) to be added to the
+     TrustedSystems.
+    :vartype no_squash_nid_lists: str
+    :ivar squash_uid: User ID to squash to.
+    :vartype squash_uid: int
+    :ivar squash_gid: Group ID to squash to.
+    :vartype squash_gid: int
+    :ivar status: AML file system squash status.
+    :vartype status: str
+    """
+
+    _validation = {
+        "status": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "mode": {"key": "mode", "type": "str"},
+        "no_squash_nid_lists": {"key": "noSquashNidLists", "type": "str"},
+        "squash_uid": {"key": "squashUID", "type": "int"},
+        "squash_gid": {"key": "squashGID", "type": "int"},
+        "status": {"key": "status", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        mode: Optional[Union[str, "_models.AmlFilesystemSquashMode"]] = None,
+        no_squash_nid_lists: Optional[str] = None,
+        squash_uid: Optional[int] = None,
+        squash_gid: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword mode: Squash mode of the AML file system. Known values are: "None", "RootOnly", and
+         "All".
+        :paramtype mode: str or ~azure.mgmt.storagecache.models.AmlFilesystemSquashMode
+        :keyword no_squash_nid_lists: Semicolon separated NID IP Address list(s) to be added to the
+         TrustedSystems.
+        :paramtype no_squash_nid_lists: str
+        :keyword squash_uid: User ID to squash to.
+        :paramtype squash_uid: int
+        :keyword squash_gid: Group ID to squash to.
+        :paramtype squash_gid: int
+        """
+        super().__init__(**kwargs)
+        self.mode = mode
+        self.no_squash_nid_lists = no_squash_nid_lists
+        self.squash_uid = squash_uid
+        self.squash_gid = squash_gid
+        self.status = None
+
+
 class AmlFilesystemsListResult(_serialization.Model):
     """Result of the request to list AML file systems. It contains a list of AML file systems and a
     URL link to get the next set of results.
@@ -827,6 +827,8 @@ class AmlFilesystemUpdate(_serialization.Model):
     :ivar maintenance_window: Start time of a 30-minute weekly maintenance window.
     :vartype maintenance_window:
      ~azure.mgmt.storagecache.models.AmlFilesystemUpdatePropertiesMaintenanceWindow
+    :ivar root_squash_settings: Specifies root squash settings of the AML file system.
+    :vartype root_squash_settings: ~azure.mgmt.storagecache.models.AmlFilesystemRootSquashSettings
     """
 
     _attribute_map = {
@@ -836,6 +838,7 @@ class AmlFilesystemUpdate(_serialization.Model):
             "key": "properties.maintenanceWindow",
             "type": "AmlFilesystemUpdatePropertiesMaintenanceWindow",
         },
+        "root_squash_settings": {"key": "properties.rootSquashSettings", "type": "AmlFilesystemRootSquashSettings"},
     }
 
     def __init__(
@@ -844,6 +847,7 @@ class AmlFilesystemUpdate(_serialization.Model):
         tags: Optional[Dict[str, str]] = None,
         encryption_settings: Optional["_models.AmlFilesystemEncryptionSettings"] = None,
         maintenance_window: Optional["_models.AmlFilesystemUpdatePropertiesMaintenanceWindow"] = None,
+        root_squash_settings: Optional["_models.AmlFilesystemRootSquashSettings"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -854,11 +858,15 @@ class AmlFilesystemUpdate(_serialization.Model):
         :keyword maintenance_window: Start time of a 30-minute weekly maintenance window.
         :paramtype maintenance_window:
          ~azure.mgmt.storagecache.models.AmlFilesystemUpdatePropertiesMaintenanceWindow
+        :keyword root_squash_settings: Specifies root squash settings of the AML file system.
+        :paramtype root_squash_settings:
+         ~azure.mgmt.storagecache.models.AmlFilesystemRootSquashSettings
         """
         super().__init__(**kwargs)
         self.tags = tags
         self.encryption_settings = encryption_settings
         self.maintenance_window = maintenance_window
+        self.root_squash_settings = root_squash_settings
 
 
 class AmlFilesystemUpdatePropertiesMaintenanceWindow(_serialization.Model):
@@ -1208,8 +1216,17 @@ class Cache(_serialization.Model):  # pylint: disable=too-many-instance-attribut
     :vartype system_data: ~azure.mgmt.storagecache.models.SystemData
     :ivar sku: SKU for the cache.
     :vartype sku: ~azure.mgmt.storagecache.models.CacheSku
-    :ivar cache_size_gb: The size of this Cache, in GB.
+    :ivar cache_size_gb: The size of this cache, in GB, when scalingFactor is 1.0. Values depend on
+     the cache SKU - :code:`<a
+     href="https://learn.microsoft.com/en-us/rest/api/storagecache/skus/list?tabs=HTTP">List
+     SKUs</a>`.
     :vartype cache_size_gb: int
+    :ivar scaling_factor: Multiplier that sets the current storage and throughput capacity of the
+     cache. Values depend on the cache SKU - :code:`<a
+     href="https://learn.microsoft.com/en-us/rest/api/storagecache/skus/list?tabs=HTTP">List
+     SKUs</a>`. Values above 1.0 increase the cache size and throughput - for example, the scaling
+     factor 1.33 gives a cache that's 33% larger than its base size.
+    :vartype scaling_factor: float
     :ivar health: Health of the cache.
     :vartype health: ~azure.mgmt.storagecache.models.CacheHealth
     :ivar mount_addresses: Array of IPv4 addresses that can be used by clients mounting this cache.
@@ -1265,6 +1282,7 @@ class Cache(_serialization.Model):  # pylint: disable=too-many-instance-attribut
         "system_data": {"key": "systemData", "type": "SystemData"},
         "sku": {"key": "sku", "type": "CacheSku"},
         "cache_size_gb": {"key": "properties.cacheSizeGB", "type": "int"},
+        "scaling_factor": {"key": "properties.scalingFactor", "type": "float"},
         "health": {"key": "properties.health", "type": "CacheHealth"},
         "mount_addresses": {"key": "properties.mountAddresses", "type": "[str]"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
@@ -1291,6 +1309,7 @@ class Cache(_serialization.Model):  # pylint: disable=too-many-instance-attribut
         identity: Optional["_models.CacheIdentity"] = None,
         sku: Optional["_models.CacheSku"] = None,
         cache_size_gb: Optional[int] = None,
+        scaling_factor: float = 1,
         subnet: Optional[str] = None,
         upgrade_settings: Optional["_models.CacheUpgradeSettings"] = None,
         network_settings: Optional["_models.CacheNetworkSettings"] = None,
@@ -1309,8 +1328,17 @@ class Cache(_serialization.Model):  # pylint: disable=too-many-instance-attribut
         :paramtype identity: ~azure.mgmt.storagecache.models.CacheIdentity
         :keyword sku: SKU for the cache.
         :paramtype sku: ~azure.mgmt.storagecache.models.CacheSku
-        :keyword cache_size_gb: The size of this Cache, in GB.
+        :keyword cache_size_gb: The size of this cache, in GB, when scalingFactor is 1.0. Values depend
+         on the cache SKU - :code:`<a
+         href="https://learn.microsoft.com/en-us/rest/api/storagecache/skus/list?tabs=HTTP">List
+         SKUs</a>`.
         :paramtype cache_size_gb: int
+        :keyword scaling_factor: Multiplier that sets the current storage and throughput capacity of
+         the cache. Values depend on the cache SKU - :code:`<a
+         href="https://learn.microsoft.com/en-us/rest/api/storagecache/skus/list?tabs=HTTP">List
+         SKUs</a>`. Values above 1.0 increase the cache size and throughput - for example, the scaling
+         factor 1.33 gives a cache that's 33% larger than its base size.
+        :paramtype scaling_factor: float
         :keyword subnet: Subnet used for the cache.
         :paramtype subnet: str
         :keyword upgrade_settings: Upgrade settings of the cache.
@@ -1337,6 +1365,7 @@ class Cache(_serialization.Model):  # pylint: disable=too-many-instance-attribut
         self.system_data = None
         self.sku = sku
         self.cache_size_gb = cache_size_gb
+        self.scaling_factor = scaling_factor
         self.health = None
         self.mount_addresses = None
         self.provisioning_state = None
