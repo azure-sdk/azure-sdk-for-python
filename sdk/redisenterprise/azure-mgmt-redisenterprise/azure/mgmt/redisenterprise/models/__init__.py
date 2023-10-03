@@ -8,6 +8,7 @@
 
 from ._models_py3 import AccessKeys
 from ._models_py3 import Capability
+from ._models_py3 import CheckNameAvailabilityParameters
 from ._models_py3 import Cluster
 from ._models_py3 import ClusterList
 from ._models_py3 import ClusterPropertiesEncryption
@@ -76,6 +77,7 @@ from ._patch import patch_sdk as _patch_sdk
 __all__ = [
     "AccessKeys",
     "Capability",
+    "CheckNameAvailabilityParameters",
     "Cluster",
     "ClusterList",
     "ClusterPropertiesEncryption",
