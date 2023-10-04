@@ -22,8 +22,12 @@ from ._models_py3 import CloudTieringFilesNotTiering
 from ._models_py3 import CloudTieringLowDiskMode
 from ._models_py3 import CloudTieringSpaceSavings
 from ._models_py3 import CloudTieringVolumeFreeSpacePolicyStatus
+from ._models_py3 import ErrorAdditionalInfo
+from ._models_py3 import ErrorDetail
+from ._models_py3 import ErrorResponse
 from ._models_py3 import FilesNotTieringError
 from ._models_py3 import LocationOperationStatus
+from ._models_py3 import ManagedServiceIdentity
 from ._models_py3 import OperationDisplayInfo
 from ._models_py3 import OperationDisplayResource
 from ._models_py3 import OperationEntity
@@ -47,6 +51,7 @@ from ._models_py3 import RecallActionParameters
 from ._models_py3 import RegisteredServer
 from ._models_py3 import RegisteredServerArray
 from ._models_py3 import RegisteredServerCreateParameters
+from ._models_py3 import RegisteredServerUpdateParameters
 from ._models_py3 import Resource
 from ._models_py3 import ResourcesMoveInfo
 from ._models_py3 import RestoreFileSpec
@@ -56,6 +61,8 @@ from ._models_py3 import ServerEndpointBackgroundDataDownloadActivity
 from ._models_py3 import ServerEndpointCloudTieringStatus
 from ._models_py3 import ServerEndpointCreateParameters
 from ._models_py3 import ServerEndpointFilesNotSyncingError
+from ._models_py3 import ServerEndpointProvisioningStatus
+from ._models_py3 import ServerEndpointProvisioningStepStatus
 from ._models_py3 import ServerEndpointRecallError
 from ._models_py3 import ServerEndpointRecallStatus
 from ._models_py3 import ServerEndpointSyncActivityStatus
@@ -78,6 +85,7 @@ from ._models_py3 import SystemData
 from ._models_py3 import TrackedResource
 from ._models_py3 import TriggerChangeDetectionParameters
 from ._models_py3 import TriggerRolloverRequest
+from ._models_py3 import UserAssignedIdentity
 from ._models_py3 import Workflow
 from ._models_py3 import WorkflowArray
 
@@ -91,6 +99,7 @@ from ._microsoft_storage_sync_enums import IncomingTrafficPolicy
 from ._microsoft_storage_sync_enums import InitialDownloadPolicy
 from ._microsoft_storage_sync_enums import InitialUploadPolicy
 from ._microsoft_storage_sync_enums import LocalCacheMode
+from ._microsoft_storage_sync_enums import ManagedServiceIdentityType
 from ._microsoft_storage_sync_enums import NameAvailabilityReason
 from ._microsoft_storage_sync_enums import OperationDirection
 from ._microsoft_storage_sync_enums import PrivateEndpointConnectionProvisioningState
@@ -98,13 +107,15 @@ from ._microsoft_storage_sync_enums import PrivateEndpointServiceConnectionStatu
 from ._microsoft_storage_sync_enums import ProgressType
 from ._microsoft_storage_sync_enums import Reason
 from ._microsoft_storage_sync_enums import RegisteredServerAgentVersionStatus
+from ._microsoft_storage_sync_enums import ServerAuthType
 from ._microsoft_storage_sync_enums import ServerEndpointHealthState
 from ._microsoft_storage_sync_enums import ServerEndpointOfflineDataTransferState
 from ._microsoft_storage_sync_enums import ServerEndpointSyncActivityState
 from ._microsoft_storage_sync_enums import ServerEndpointSyncMode
+from ._microsoft_storage_sync_enums import ServerProvisioningStatus
 from ._microsoft_storage_sync_enums import WorkflowStatus
 from ._patch import __all__ as _patch_all
-from ._patch import *  # type: ignore # pylint: disable=unused-wildcard-import
+from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
@@ -124,8 +135,12 @@ __all__ = [
     "CloudTieringLowDiskMode",
     "CloudTieringSpaceSavings",
     "CloudTieringVolumeFreeSpacePolicyStatus",
+    "ErrorAdditionalInfo",
+    "ErrorDetail",
+    "ErrorResponse",
     "FilesNotTieringError",
     "LocationOperationStatus",
+    "ManagedServiceIdentity",
     "OperationDisplayInfo",
     "OperationDisplayResource",
     "OperationEntity",
@@ -149,6 +164,7 @@ __all__ = [
     "RegisteredServer",
     "RegisteredServerArray",
     "RegisteredServerCreateParameters",
+    "RegisteredServerUpdateParameters",
     "Resource",
     "ResourcesMoveInfo",
     "RestoreFileSpec",
@@ -158,6 +174,8 @@ __all__ = [
     "ServerEndpointCloudTieringStatus",
     "ServerEndpointCreateParameters",
     "ServerEndpointFilesNotSyncingError",
+    "ServerEndpointProvisioningStatus",
+    "ServerEndpointProvisioningStepStatus",
     "ServerEndpointRecallError",
     "ServerEndpointRecallStatus",
     "ServerEndpointSyncActivityStatus",
@@ -180,6 +198,7 @@ __all__ = [
     "TrackedResource",
     "TriggerChangeDetectionParameters",
     "TriggerRolloverRequest",
+    "UserAssignedIdentity",
     "Workflow",
     "WorkflowArray",
     "ChangeDetectionMode",
@@ -192,6 +211,7 @@ __all__ = [
     "InitialDownloadPolicy",
     "InitialUploadPolicy",
     "LocalCacheMode",
+    "ManagedServiceIdentityType",
     "NameAvailabilityReason",
     "OperationDirection",
     "PrivateEndpointConnectionProvisioningState",
@@ -199,10 +219,12 @@ __all__ = [
     "ProgressType",
     "Reason",
     "RegisteredServerAgentVersionStatus",
+    "ServerAuthType",
     "ServerEndpointHealthState",
     "ServerEndpointOfflineDataTransferState",
     "ServerEndpointSyncActivityState",
     "ServerEndpointSyncMode",
+    "ServerProvisioningStatus",
     "WorkflowStatus",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
