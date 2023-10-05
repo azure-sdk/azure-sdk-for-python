@@ -29,7 +29,7 @@ from azure.core.exceptions import (
     HttpResponseError,
     ResourceNotFoundError,
     ResourceExistsError,
-    map_error
+    map_error,
 )
 from .._policies import CloudEventDistributedTracingPolicy
 from .._models import EventGridEvent
@@ -64,7 +64,7 @@ SendType = Union[
 ListEventType = Union[List[CloudEvent], List[EventGridEvent], List[Dict]]
 
 
-class EventGridPublisherClient: # pylint: disable=client-accepts-api-version-keyword
+class EventGridPublisherClient:  # pylint: disable=client-accepts-api-version-keyword
     """Asynchronous EventGridPublisherClient publishes events to an EventGrid topic or domain.
     It can be used to publish either an EventGridEvent, a CloudEvent or a Custom Schema.
 
@@ -95,9 +95,7 @@ class EventGridPublisherClient: # pylint: disable=client-accepts-api-version-key
     def __init__(
         self,
         endpoint: str,
-        credential: Union[
-            "AsyncTokenCredential", AzureKeyCredential, AzureSasCredential
-        ],
+        credential: Union["AsyncTokenCredential", AzureKeyCredential, AzureSasCredential],
         **kwargs: Any
     ) -> None:
         self._client = EventGridPublisherClientAsync(
@@ -107,14 +105,9 @@ class EventGridPublisherClient: # pylint: disable=client-accepts-api-version-key
 
     @staticmethod
     def _policies(
-        credential: Union[
-            AzureKeyCredential, AzureSasCredential, "AsyncTokenCredential"
-        ],
-        **kwargs: Any
+        credential: Union[AzureKeyCredential, AzureSasCredential, "AsyncTokenCredential"], **kwargs: Any
     ) -> List[Any]:
-        auth_policy = _get_authentication_policy(
-            credential, AsyncBearerTokenCredentialPolicy
-        )
+        auth_policy = _get_authentication_policy(credential, AsyncBearerTokenCredentialPolicy)
         sdk_moniker = "eventgridpublisherclient/{}".format(VERSION)
         policies = [
             RequestIdPolicy(**kwargs),
@@ -207,15 +200,10 @@ class EventGridPublisherClient: # pylint: disable=client-accepts-api-version-key
         content_type = kwargs.pop("content_type", "application/json; charset=utf-8")
         if isinstance(events[0], CloudEvent) or _is_cloud_event(events[0]):
             try:
-                events = [
-                    _cloud_event_to_generated(e, **kwargs)
-                    for e in events  # pylint: disable=protected-access
-                ]
+                events = [_cloud_event_to_generated(e, **kwargs) for e in events]  # pylint: disable=protected-access
             except AttributeError:
                 ## this is either a dictionary or a CNCF cloud event
-                events = [
-                    _from_cncf_events(e) for e in events
-                ]
+                events = [_from_cncf_events(e) for e in events]
             content_type = "application/cloudevents-batch+json; charset=utf-8"
         elif isinstance(events[0], EventGridEvent) or _is_eventgrid_event(events[0]):
             for event in events:
