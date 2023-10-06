@@ -18,6 +18,8 @@ from ._configuration import MicrosoftElasticConfiguration
 from .operations import (
     AllTrafficFiltersOperations,
     AssociateTrafficFilterOperations,
+    BillingInfoOperations,
+    ConnectedPartnerResourcesOperations,
     CreateAndAssociateIPFilterOperations,
     CreateAndAssociatePLFilterOperations,
     DeploymentInfoOperations,
@@ -59,6 +61,11 @@ class MicrosoftElastic:  # pylint: disable=client-accepts-api-version-keyword,to
     :vartype deployment_info: azure.mgmt.elastic.aio.operations.DeploymentInfoOperations
     :ivar external_user: ExternalUserOperations operations
     :vartype external_user: azure.mgmt.elastic.aio.operations.ExternalUserOperations
+    :ivar billing_info: BillingInfoOperations operations
+    :vartype billing_info: azure.mgmt.elastic.aio.operations.BillingInfoOperations
+    :ivar connected_partner_resources: ConnectedPartnerResourcesOperations operations
+    :vartype connected_partner_resources:
+     azure.mgmt.elastic.aio.operations.ConnectedPartnerResourcesOperations
     :ivar tag_rules: TagRulesOperations operations
     :vartype tag_rules: azure.mgmt.elastic.aio.operations.TagRulesOperations
     :ivar vm_host: VMHostOperations operations
@@ -96,12 +103,11 @@ class MicrosoftElastic:  # pylint: disable=client-accepts-api-version-keyword,to
     :vartype organizations: azure.mgmt.elastic.aio.operations.OrganizationsOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
-    :param subscription_id: The Azure subscription ID. This is a GUID-formatted string (e.g.
-     00000000-0000-0000-0000-000000000000). Required.
+    :param subscription_id: The ID of the target subscription. The value must be an UUID. Required.
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2023-02-01-preview". Note that overriding
+    :keyword api_version: Api Version. Default value is "2023-10-01-preview". Note that overriding
      this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -132,6 +138,10 @@ class MicrosoftElastic:  # pylint: disable=client-accepts-api-version-keyword,to
         )
         self.deployment_info = DeploymentInfoOperations(self._client, self._config, self._serialize, self._deserialize)
         self.external_user = ExternalUserOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.billing_info = BillingInfoOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.connected_partner_resources = ConnectedPartnerResourcesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.tag_rules = TagRulesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.vm_host = VMHostOperations(self._client, self._config, self._serialize, self._deserialize)
         self.vm_ingestion = VMIngestionOperations(self._client, self._config, self._serialize, self._deserialize)

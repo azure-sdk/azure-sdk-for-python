@@ -37,6 +37,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/VMHost_List.json
+# x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-10-01-preview/examples/VMHost_List.json
 if __name__ == "__main__":
     main()

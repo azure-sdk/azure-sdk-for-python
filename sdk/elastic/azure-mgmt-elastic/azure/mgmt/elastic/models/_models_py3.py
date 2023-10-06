@@ -17,6 +17,38 @@ if TYPE_CHECKING:
     from .. import models as _models
 
 
+class BillingInfoResponse(_serialization.Model):
+    """Marketplace Subscription and Organization details to which resource gets billed into.
+
+    :ivar marketplace_saas_info: Marketplace Subscription details.
+    :vartype marketplace_saas_info: ~azure.mgmt.elastic.models.MarketplaceSaaSInfo
+    :ivar partner_billing_entity: Partner Billing Entity details: Organization Info.
+    :vartype partner_billing_entity: ~azure.mgmt.elastic.models.PartnerBillingEntity
+    """
+
+    _attribute_map = {
+        "marketplace_saas_info": {"key": "marketplaceSaasInfo", "type": "MarketplaceSaaSInfo"},
+        "partner_billing_entity": {"key": "partnerBillingEntity", "type": "PartnerBillingEntity"},
+    }
+
+    def __init__(
+        self,
+        *,
+        marketplace_saas_info: Optional["_models.MarketplaceSaaSInfo"] = None,
+        partner_billing_entity: Optional["_models.PartnerBillingEntity"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword marketplace_saas_info: Marketplace Subscription details.
+        :paramtype marketplace_saas_info: ~azure.mgmt.elastic.models.MarketplaceSaaSInfo
+        :keyword partner_billing_entity: Partner Billing Entity details: Organization Info.
+        :paramtype partner_billing_entity: ~azure.mgmt.elastic.models.PartnerBillingEntity
+        """
+        super().__init__(**kwargs)
+        self.marketplace_saas_info = marketplace_saas_info
+        self.partner_billing_entity = partner_billing_entity
+
+
 class CompanyInfo(_serialization.Model):
     """Company information of the user to be passed to partners.
 
@@ -78,6 +110,107 @@ class CompanyInfo(_serialization.Model):
         self.country = country
 
 
+class ConnectedPartnerResourceProperties(_serialization.Model):
+    """Connected Partner Resource Properties.
+
+    :ivar partner_deployment_name: Elastic deployment name.
+    :vartype partner_deployment_name: str
+    :ivar partner_deployment_uri: Deployment URL of the elasticsearch in Elastic cloud deployment.
+    :vartype partner_deployment_uri: str
+    :ivar azure_resource_id: The azure resource Id of the deployment.
+    :vartype azure_resource_id: str
+    :ivar location: The location of the deployment.
+    :vartype location: str
+    """
+
+    _attribute_map = {
+        "partner_deployment_name": {"key": "partnerDeploymentName", "type": "str"},
+        "partner_deployment_uri": {"key": "partnerDeploymentUri", "type": "str"},
+        "azure_resource_id": {"key": "azureResourceId", "type": "str"},
+        "location": {"key": "location", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        partner_deployment_name: Optional[str] = None,
+        partner_deployment_uri: Optional[str] = None,
+        azure_resource_id: Optional[str] = None,
+        location: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword partner_deployment_name: Elastic deployment name.
+        :paramtype partner_deployment_name: str
+        :keyword partner_deployment_uri: Deployment URL of the elasticsearch in Elastic cloud
+         deployment.
+        :paramtype partner_deployment_uri: str
+        :keyword azure_resource_id: The azure resource Id of the deployment.
+        :paramtype azure_resource_id: str
+        :keyword location: The location of the deployment.
+        :paramtype location: str
+        """
+        super().__init__(**kwargs)
+        self.partner_deployment_name = partner_deployment_name
+        self.partner_deployment_uri = partner_deployment_uri
+        self.azure_resource_id = azure_resource_id
+        self.location = location
+
+
+class ConnectedPartnerResourcesListFormat(_serialization.Model):
+    """Connected Partner Resources List Format.
+
+    :ivar properties: Connected Partner Resource Properties.
+    :vartype properties: ~azure.mgmt.elastic.models.ConnectedPartnerResourceProperties
+    """
+
+    _attribute_map = {
+        "properties": {"key": "properties", "type": "ConnectedPartnerResourceProperties"},
+    }
+
+    def __init__(
+        self, *, properties: Optional["_models.ConnectedPartnerResourceProperties"] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword properties: Connected Partner Resource Properties.
+        :paramtype properties: ~azure.mgmt.elastic.models.ConnectedPartnerResourceProperties
+        """
+        super().__init__(**kwargs)
+        self.properties = properties
+
+
+class ConnectedPartnerResourcesListResponse(_serialization.Model):
+    """List of all active elastic deployments.
+
+    :ivar value: Results of a list operation.
+    :vartype value: list[~azure.mgmt.elastic.models.ConnectedPartnerResourcesListFormat]
+    :ivar next_link: Link to the next set of results, if any.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[ConnectedPartnerResourcesListFormat]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        value: Optional[List["_models.ConnectedPartnerResourcesListFormat"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: Results of a list operation.
+        :paramtype value: list[~azure.mgmt.elastic.models.ConnectedPartnerResourcesListFormat]
+        :keyword next_link: Link to the next set of results, if any.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
 class DeploymentInfoResponse(_serialization.Model):
     """The properties of deployment in Elastic cloud corresponding to the Elastic monitor resource.
 
@@ -91,6 +224,9 @@ class DeploymentInfoResponse(_serialization.Model):
     :vartype memory_capacity: str
     :ivar disk_capacity: Disk capacity of the elasticsearch in Elastic cloud deployment.
     :vartype disk_capacity: str
+    :ivar elasticsearch_end_point: Elasticsearch endpoint in Elastic cloud deployment. This is
+     either the aliased_endpoint if available, or the service_url otherwise.
+    :vartype elasticsearch_end_point: str
     :ivar deployment_url: Deployment URL of the elasticsearch in Elastic cloud deployment.
     :vartype deployment_url: str
     :ivar marketplace_saas_info: Marketplace SaaS Info of the resource.
@@ -102,6 +238,7 @@ class DeploymentInfoResponse(_serialization.Model):
         "version": {"readonly": True},
         "memory_capacity": {"readonly": True},
         "disk_capacity": {"readonly": True},
+        "elasticsearch_end_point": {"readonly": True},
         "deployment_url": {"readonly": True},
         "marketplace_saas_info": {"readonly": True},
     }
@@ -111,6 +248,7 @@ class DeploymentInfoResponse(_serialization.Model):
         "version": {"key": "version", "type": "str"},
         "memory_capacity": {"key": "memoryCapacity", "type": "str"},
         "disk_capacity": {"key": "diskCapacity", "type": "str"},
+        "elasticsearch_end_point": {"key": "elasticsearchEndPoint", "type": "str"},
         "deployment_url": {"key": "deploymentUrl", "type": "str"},
         "marketplace_saas_info": {"key": "marketplaceSaasInfo", "type": "MarketplaceSaaSInfo"},
     }
@@ -122,6 +260,7 @@ class DeploymentInfoResponse(_serialization.Model):
         self.version = None
         self.memory_capacity = None
         self.disk_capacity = None
+        self.elasticsearch_end_point = None
         self.deployment_url = None
         self.marketplace_saas_info = None
 
@@ -364,6 +503,89 @@ class ElasticMonitorUpgrade(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.version = version
+
+
+class ElasticOrganizationToAzureSubscriptionMappingResponse(_serialization.Model):
+    """The Azure Subscription ID to which the Organization of the logged in user belongs and gets
+    billed into.
+
+    :ivar properties: The properties of Azure Subscription ID to which the Organization of the
+     logged in user belongs and gets billed into.
+    :vartype properties:
+     ~azure.mgmt.elastic.models.ElasticOrganizationToAzureSubscriptionMappingResponseProperties
+    """
+
+    _attribute_map = {
+        "properties": {"key": "properties", "type": "ElasticOrganizationToAzureSubscriptionMappingResponseProperties"},
+    }
+
+    def __init__(
+        self,
+        *,
+        properties: Optional["_models.ElasticOrganizationToAzureSubscriptionMappingResponseProperties"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword properties: The properties of Azure Subscription ID to which the Organization of the
+         logged in user belongs and gets billed into.
+        :paramtype properties:
+         ~azure.mgmt.elastic.models.ElasticOrganizationToAzureSubscriptionMappingResponseProperties
+        """
+        super().__init__(**kwargs)
+        self.properties = properties
+
+
+class ElasticOrganizationToAzureSubscriptionMappingResponseProperties(_serialization.Model):
+    """The properties of Azure Subscription ID to which the Organization of the logged in user belongs
+    and gets billed into.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar billed_azure_subscription_id: The Azure Subscription ID to which the Organization belongs
+     and gets billed into. This is empty for a new user OR a user without an Elastic Organization.
+    :vartype billed_azure_subscription_id: str
+    :ivar marketplace_saas_info: Marketplace SaaS Info of the resource.
+    :vartype marketplace_saas_info: ~azure.mgmt.elastic.models.MarketplaceSaaSInfo
+    :ivar elastic_organization_id: The Elastic Organization Id.
+    :vartype elastic_organization_id: str
+    :ivar elastic_organization_name: The Elastic Organization Name.
+    :vartype elastic_organization_name: str
+    """
+
+    _validation = {
+        "marketplace_saas_info": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "billed_azure_subscription_id": {"key": "billedAzureSubscriptionId", "type": "str"},
+        "marketplace_saas_info": {"key": "marketplaceSaasInfo", "type": "MarketplaceSaaSInfo"},
+        "elastic_organization_id": {"key": "elasticOrganizationId", "type": "str"},
+        "elastic_organization_name": {"key": "elasticOrganizationName", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        billed_azure_subscription_id: Optional[str] = None,
+        elastic_organization_id: Optional[str] = None,
+        elastic_organization_name: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword billed_azure_subscription_id: The Azure Subscription ID to which the Organization
+         belongs and gets billed into. This is empty for a new user OR a user without an Elastic
+         Organization.
+        :paramtype billed_azure_subscription_id: str
+        :keyword elastic_organization_id: The Elastic Organization Id.
+        :paramtype elastic_organization_id: str
+        :keyword elastic_organization_name: The Elastic Organization Name.
+        :paramtype elastic_organization_name: str
+        """
+        super().__init__(**kwargs)
+        self.billed_azure_subscription_id = billed_azure_subscription_id
+        self.marketplace_saas_info = None
+        self.elastic_organization_id = elastic_organization_id
+        self.elastic_organization_name = elastic_organization_name
 
 
 class ElasticProperties(_serialization.Model):
@@ -873,6 +1095,13 @@ class MarketplaceSaaSInfo(_serialization.Model):
     :vartype marketplace_name: str
     :ivar marketplace_resource_id: Marketplace Subscription Details: Resource URI.
     :vartype marketplace_resource_id: str
+    :ivar marketplace_status: Marketplace Subscription Details: SaaS Subscription Status.
+    :vartype marketplace_status: str
+    :ivar billed_azure_subscription_id: The Azure Subscription ID to which the Marketplace
+     Subscription belongs and gets billed into.
+    :vartype billed_azure_subscription_id: str
+    :ivar subscribed: Flag specifying if the Marketplace status is subscribed or not.
+    :vartype subscribed: bool
     """
 
     _attribute_map = {
@@ -882,6 +1111,9 @@ class MarketplaceSaaSInfo(_serialization.Model):
         },
         "marketplace_name": {"key": "marketplaceName", "type": "str"},
         "marketplace_resource_id": {"key": "marketplaceResourceId", "type": "str"},
+        "marketplace_status": {"key": "marketplaceStatus", "type": "str"},
+        "billed_azure_subscription_id": {"key": "billedAzureSubscriptionId", "type": "str"},
+        "subscribed": {"key": "subscribed", "type": "bool"},
     }
 
     def __init__(
@@ -890,6 +1122,9 @@ class MarketplaceSaaSInfo(_serialization.Model):
         marketplace_subscription: Optional["_models.MarketplaceSaaSInfoMarketplaceSubscription"] = None,
         marketplace_name: Optional[str] = None,
         marketplace_resource_id: Optional[str] = None,
+        marketplace_status: Optional[str] = None,
+        billed_azure_subscription_id: Optional[str] = None,
+        subscribed: Optional[bool] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -900,11 +1135,21 @@ class MarketplaceSaaSInfo(_serialization.Model):
         :paramtype marketplace_name: str
         :keyword marketplace_resource_id: Marketplace Subscription Details: Resource URI.
         :paramtype marketplace_resource_id: str
+        :keyword marketplace_status: Marketplace Subscription Details: SaaS Subscription Status.
+        :paramtype marketplace_status: str
+        :keyword billed_azure_subscription_id: The Azure Subscription ID to which the Marketplace
+         Subscription belongs and gets billed into.
+        :paramtype billed_azure_subscription_id: str
+        :keyword subscribed: Flag specifying if the Marketplace status is subscribed or not.
+        :paramtype subscribed: bool
         """
         super().__init__(**kwargs)
         self.marketplace_subscription = marketplace_subscription
         self.marketplace_name = marketplace_name
         self.marketplace_resource_id = marketplace_resource_id
+        self.marketplace_status = marketplace_status
+        self.billed_azure_subscription_id = billed_azure_subscription_id
+        self.subscribed = subscribed
 
 
 class MarketplaceSaaSInfoMarketplaceSubscription(_serialization.Model):
@@ -1314,6 +1559,45 @@ class OperationResult(_serialization.Model):
         self.is_data_action = is_data_action
         self.display = display
         self.origin = origin
+
+
+class PartnerBillingEntity(_serialization.Model):
+    """Partner Billing details associated with the resource.
+
+    :ivar id: The Elastic Organization Id.
+    :vartype id: str
+    :ivar name: The Elastic Organization Name.
+    :vartype name: str
+    :ivar partner_entity_uri: Link to the elastic organization page.
+    :vartype partner_entity_uri: str
+    """
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "partner_entity_uri": {"key": "partnerEntityUri", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        name: Optional[str] = None,
+        partner_entity_uri: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword id: The Elastic Organization Id.
+        :paramtype id: str
+        :keyword name: The Elastic Organization Name.
+        :paramtype name: str
+        :keyword partner_entity_uri: Link to the elastic organization page.
+        :paramtype partner_entity_uri: str
+        """
+        super().__init__(**kwargs)
+        self.id = id
+        self.name = name
+        self.partner_entity_uri = partner_entity_uri
 
 
 class ResourceProviderDefaultErrorResponse(_serialization.Model):
