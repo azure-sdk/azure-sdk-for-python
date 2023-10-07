@@ -29,13 +29,12 @@ def main():
         subscription_id="00000000-0000-0000-0000-00000000000",
     )
 
-    response = client.clusters.begin_delete(
+    client.clusters.begin_delete(
         resource_group_name="oiautorest6685",
         cluster_name="oiautorest6685",
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2021-06-01/examples/ClustersDelete.json
+# x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2022-10-01/examples/ClustersDelete.json
 if __name__ == "__main__":
     main()

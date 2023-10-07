@@ -44,7 +44,7 @@ def main():
                     "keyName": "aztest2170cert",
                     "keyRsaSize": 1024,
                     "keyVaultUri": "https://aztest2170.vault.azure.net",
-                    "keyVersion": "654ft6c4e63845cbb50fd6fg51540429",
+                    "keyVersion": "",
                 }
             },
             "sku": {"capacity": 1000, "name": "CapacityReservation"},
@@ -54,6 +54,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2021-06-01/examples/ClustersUpdate.json
+# x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2022-10-01/examples/ClustersUpdate.json
 if __name__ == "__main__":
     main()
