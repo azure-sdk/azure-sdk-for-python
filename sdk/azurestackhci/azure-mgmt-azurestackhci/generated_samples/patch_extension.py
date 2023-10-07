@@ -37,9 +37,9 @@ def main():
         extension={
             "properties": {
                 "extensionParameters": {
-                    "publisher": "Microsoft.Compute",
+                    "enableAutomaticUpgrade": False,
+                    "protectedSettings": {"workspaceKey": "xx"},
                     "settings": {"workspaceId": "xx"},
-                    "type": "MicrosoftMonitoringAgent",
                     "typeHandlerVersion": "1.10",
                 }
             }
@@ -48,6 +48,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/preview/2021-09-01-preview/examples/PatchExtension.json
+# x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2023-08-01/examples/PatchExtension.json
 if __name__ == "__main__":
     main()
