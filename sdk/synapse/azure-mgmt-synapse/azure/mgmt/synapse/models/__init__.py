@@ -178,7 +178,6 @@ from ._models_py3 import ReplaceAllIpFirewallRulesRequest
 from ._models_py3 import ReplicationLink
 from ._models_py3 import ReplicationLinkListResult
 from ._models_py3 import Resource
-from ._models_py3 import ResourceMoveDefinition
 from ._models_py3 import RestorableDroppedSqlPool
 from ._models_py3 import RestorableDroppedSqlPoolListResult
 from ._models_py3 import RestorePoint
@@ -527,7 +526,6 @@ __all__ = [
     "ReplicationLink",
     "ReplicationLinkListResult",
     "Resource",
-    "ResourceMoveDefinition",
     "RestorableDroppedSqlPool",
     "RestorableDroppedSqlPoolListResult",
     "RestorePoint",

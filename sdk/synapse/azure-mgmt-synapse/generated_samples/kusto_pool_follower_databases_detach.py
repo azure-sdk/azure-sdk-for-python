@@ -29,7 +29,7 @@ def main():
         subscription_id="12345678-1234-1234-1234-123456789098",
     )
 
-    response = client.kusto_pools.begin_detach_follower_databases(
+    client.kusto_pools.begin_detach_follower_databases(
         workspace_name="kustorptest",
         kusto_pool_name="kustoclusterrptest4",
         resource_group_name="kustorptest",
@@ -38,7 +38,6 @@ def main():
             "clusterResourceId": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Synapse/workspaces/kustorptest/kustoPools/leader4",
         },
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/KustoPoolFollowerDatabasesDetach.json

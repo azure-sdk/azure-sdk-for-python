@@ -29,14 +29,13 @@ def main():
         subscription_id="12345678-1234-1234-1234-123456789098",
     )
 
-    response = client.kusto_pool_database_principal_assignments.begin_delete(
+    client.kusto_pool_database_principal_assignments.begin_delete(
         workspace_name="synapseWorkspaceName",
         kusto_pool_name="kustoclusterrptest4",
         database_name="Kustodatabase8",
         principal_assignment_name="kustoprincipal1",
         resource_group_name="kustorptest",
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/KustoPoolDatabasePrincipalAssignmentsDelete.json
