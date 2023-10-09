@@ -26,13 +26,13 @@ from azure.mgmt.devtestlabs import DevTestLabsClient
 def main():
     client = DevTestLabsClient(
         credential=DefaultAzureCredential(),
-        subscription_id="{subscriptionId}",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
     response = client.virtual_machine_schedules.create_or_update(
         resource_group_name="resourceGroupName",
-        lab_name="{labName}",
-        virtual_machine_name="{vmName}",
+        lab_name="myLabName",
+        virtual_machine_name="vmName",
         name="LabVmsShutdown",
         schedule={
             "location": "{location}",
@@ -47,7 +47,7 @@ def main():
                     "webhookUrl": "{webhookUrl}",
                 },
                 "status": "Enabled",
-                "targetResourceId": "/subscriptions/{subscriptionId}/resourcegroups/resourceGroupName/providers/microsoft.devtestlab/labs/{labName}/virtualMachines/{vmName}",
+                "targetResourceId": "/subscriptions/{subscriptionId}/resourcegroups/resourceGroupName/providers/microsoft.devtestlab/labs/myLabName/virtualMachines/{vmName}",
                 "taskType": "LabVmsShutdownTask",
                 "timeZoneId": "Pacific Standard Time",
                 "weeklyRecurrence": {"time": "1700", "weekdays": ["Friday", "Saturday", "Sunday"]},
@@ -58,6 +58,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2018-09-15/examples/VirtualMachineSchedules_CreateOrUpdate.json
+# x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2021-09-01/examples/VirtualMachineSchedules_CreateOrUpdate.json
 if __name__ == "__main__":
     main()

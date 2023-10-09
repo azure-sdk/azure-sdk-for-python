@@ -26,22 +26,23 @@ from azure.mgmt.devtestlabs import DevTestLabsClient
 def main():
     client = DevTestLabsClient(
         credential=DefaultAzureCredential(),
-        subscription_id="{subscriptionId}",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
     response = client.artifact_sources.create_or_update(
         resource_group_name="resourceGroupName",
-        lab_name="{labName}",
-        name="{artifactSourceName}",
+        lab_name="myLabName",
+        name="myArtifactSource",
         artifact_source={
+            "location": "{location}",
             "properties": {
                 "armTemplateFolderPath": "{armTemplateFolderPath}",
                 "branchRef": "{branchRef}",
                 "displayName": "{displayName}",
                 "folderPath": "{folderPath}",
                 "securityToken": "{securityToken}",
-                "sourceType": "{VsoGit|GitHub|StorageAccount}",
-                "status": "{Enabled|Disabled}",
+                "sourceType": "{sourceType}",
+                "status": "{status}",
                 "uri": "{artifactSourceUri}",
             },
             "tags": {"tagName1": "tagValue1"},
@@ -50,6 +51,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2018-09-15/examples/ArtifactSources_CreateOrUpdate.json
+# x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2021-09-01/examples/ArtifactSources_CreateOrUpdate.json
 if __name__ == "__main__":
     main()

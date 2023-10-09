@@ -25,153 +25,683 @@ JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 
 
 class Resource(_serialization.Model):
-    """An Azure resource.
+    """Common fields that are returned in the response for all Azure Resource Manager resources.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: The identifier of the resource.
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar location: The location of the resource.
-    :vartype location: str
-    :ivar tags: The tags of the resource.
+    :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
     """
 
     _validation = {
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "location": {"required": True},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "location": {"key": "location", "type": "str"},
         "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
     }
 
-    def __init__(self, *, location: Optional[str] = None, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
-        :keyword location: The location of the resource.
-        :paramtype location: str
-        :keyword tags: The tags of the resource.
+        :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
         """
         super().__init__(**kwargs)
         self.id = None
         self.name = None
         self.type = None
-        self.location = location
         self.tags = tags
+        self.location = location
 
 
-class ApplicableSchedule(Resource):
-    """Schedules applicable to a virtual machine. The schedules may have been defined on a VM or on lab level.
+class ApplicableSchedule(Resource):  # pylint: disable=too-many-instance-attributes
+    """Schedules applicable to a virtual machine. The schedules may have been defined on a VM or on
+    lab level.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: The identifier of the resource.
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar location: The location of the resource.
-    :vartype location: str
-    :ivar tags: The tags of the resource.
+    :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
-    :ivar lab_vms_shutdown: The auto-shutdown schedule, if one has been set at the lab or lab
-     resource level.
-    :vartype lab_vms_shutdown: ~azure.mgmt.devtestlabs.models.Schedule
-    :ivar lab_vms_startup: The auto-startup schedule, if one has been set at the lab or lab
-     resource level.
-    :vartype lab_vms_startup: ~azure.mgmt.devtestlabs.models.Schedule
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar system_data: The system metadata relating to this resource.
+    :vartype system_data: ~azure.mgmt.devtestlabs.models.SystemData
+    :ivar id_properties_lab_vms_startup_id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id_properties_lab_vms_startup_id: str
+    :ivar name_properties_lab_vms_startup_name: The name of the resource.
+    :vartype name_properties_lab_vms_startup_name: str
+    :ivar type_properties_lab_vms_startup_type: The type of the resource. E.g.
+     "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+    :vartype type_properties_lab_vms_startup_type: str
+    :ivar tags_properties_lab_vms_startup_tags: Resource tags.
+    :vartype tags_properties_lab_vms_startup_tags: dict[str, str]
+    :ivar location_properties_lab_vms_startup_location: The geo-location where the resource lives.
+    :vartype location_properties_lab_vms_startup_location: str
+    :ivar system_data_properties_lab_vms_startup_system_data: The system metadata relating to this
+     resource.
+    :vartype system_data_properties_lab_vms_startup_system_data:
+     ~azure.mgmt.devtestlabs.models.SystemData
+    :ivar status_properties_lab_vms_startup_properties_status: The status of the schedule (i.e.
+     Enabled, Disabled). Known values are: "Enabled" and "Disabled".
+    :vartype status_properties_lab_vms_startup_properties_status: str or
+     ~azure.mgmt.devtestlabs.models.EnableStatus
+    :ivar task_type_properties_lab_vms_startup_properties_task_type: The task type of the schedule
+     (e.g. LabVmsShutdownTask, LabVmAutoStart).
+    :vartype task_type_properties_lab_vms_startup_properties_task_type: str
+    :ivar time_zone_id_properties_lab_vms_startup_properties_time_zone_id: The time zone ID (e.g.
+     Pacific Standard time).
+    :vartype time_zone_id_properties_lab_vms_startup_properties_time_zone_id: str
+    :ivar created_date_properties_lab_vms_startup_properties_created_date: The creation date of the
+     schedule.
+    :vartype created_date_properties_lab_vms_startup_properties_created_date: ~datetime.datetime
+    :ivar target_resource_id_properties_lab_vms_startup_properties_target_resource_id: The resource
+     ID to which the schedule belongs.
+    :vartype target_resource_id_properties_lab_vms_startup_properties_target_resource_id: str
+    :ivar provisioning_state_properties_lab_vms_startup_properties_provisioning_state: The
+     provisioning status of the resource.
+    :vartype provisioning_state_properties_lab_vms_startup_properties_provisioning_state: str
+    :ivar unique_identifier_properties_lab_vms_startup_properties_unique_identifier: The unique
+     immutable identifier of a resource (Guid).
+    :vartype unique_identifier_properties_lab_vms_startup_properties_unique_identifier: str
+    :ivar status_properties_lab_vms_startup_properties_notification_settings_status: If
+     notifications are enabled for this schedule (i.e. Enabled, Disabled). Known values are:
+     "Enabled" and "Disabled".
+    :vartype status_properties_lab_vms_startup_properties_notification_settings_status: str or
+     ~azure.mgmt.devtestlabs.models.EnableStatus
+    :ivar
+     time_in_minutes_properties_lab_vms_startup_properties_notification_settings_time_in_minutes:
+     Time in minutes before event at which notification will be sent.
+    :vartype
+     time_in_minutes_properties_lab_vms_startup_properties_notification_settings_time_in_minutes:
+     int
+    :ivar webhook_url_properties_lab_vms_startup_properties_notification_settings_webhook_url: The
+     webhook URL to which the notification will be sent.
+    :vartype webhook_url_properties_lab_vms_startup_properties_notification_settings_webhook_url:
+     str
+    :ivar
+     email_recipient_properties_lab_vms_startup_properties_notification_settings_email_recipient:
+     The email recipient to send notifications to (can be a list of semi-colon separated email
+     addresses).
+    :vartype
+     email_recipient_properties_lab_vms_startup_properties_notification_settings_email_recipient:
+     str
+    :ivar
+     notification_locale_properties_lab_vms_startup_properties_notification_settings_notification_locale:
+     The locale to use when sending a notification (fallback for unsupported languages is EN).
+    :vartype
+     notification_locale_properties_lab_vms_startup_properties_notification_settings_notification_locale:
+     str
+    :ivar minute_properties_lab_vms_startup_properties_hourly_recurrence_minute: Minutes of the
+     hour the schedule will run.
+    :vartype minute_properties_lab_vms_startup_properties_hourly_recurrence_minute: int
+    :ivar time_properties_lab_vms_startup_properties_daily_recurrence_time: The time of day the
+     schedule will occur.
+    :vartype time_properties_lab_vms_startup_properties_daily_recurrence_time: str
+    :ivar weekdays_properties_lab_vms_startup_properties_weekly_recurrence_weekdays: The days of
+     the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
+    :vartype weekdays_properties_lab_vms_startup_properties_weekly_recurrence_weekdays: list[str]
+    :ivar time_properties_lab_vms_startup_properties_weekly_recurrence_time: The time of the day
+     the schedule will occur.
+    :vartype time_properties_lab_vms_startup_properties_weekly_recurrence_time: str
+    :ivar id_properties_lab_vms_shutdown_id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id_properties_lab_vms_shutdown_id: str
+    :ivar name_properties_lab_vms_shutdown_name: The name of the resource.
+    :vartype name_properties_lab_vms_shutdown_name: str
+    :ivar type_properties_lab_vms_shutdown_type: The type of the resource. E.g.
+     "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+    :vartype type_properties_lab_vms_shutdown_type: str
+    :ivar tags_properties_lab_vms_shutdown_tags: Resource tags.
+    :vartype tags_properties_lab_vms_shutdown_tags: dict[str, str]
+    :ivar location_properties_lab_vms_shutdown_location: The geo-location where the resource lives.
+    :vartype location_properties_lab_vms_shutdown_location: str
+    :ivar system_data_properties_lab_vms_shutdown_system_data: The system metadata relating to this
+     resource.
+    :vartype system_data_properties_lab_vms_shutdown_system_data:
+     ~azure.mgmt.devtestlabs.models.SystemData
+    :ivar status_properties_lab_vms_shutdown_properties_status: The status of the schedule (i.e.
+     Enabled, Disabled). Known values are: "Enabled" and "Disabled".
+    :vartype status_properties_lab_vms_shutdown_properties_status: str or
+     ~azure.mgmt.devtestlabs.models.EnableStatus
+    :ivar task_type_properties_lab_vms_shutdown_properties_task_type: The task type of the schedule
+     (e.g. LabVmsShutdownTask, LabVmAutoStart).
+    :vartype task_type_properties_lab_vms_shutdown_properties_task_type: str
+    :ivar time_zone_id_properties_lab_vms_shutdown_properties_time_zone_id: The time zone ID (e.g.
+     Pacific Standard time).
+    :vartype time_zone_id_properties_lab_vms_shutdown_properties_time_zone_id: str
+    :ivar created_date_properties_lab_vms_shutdown_properties_created_date: The creation date of
+     the schedule.
+    :vartype created_date_properties_lab_vms_shutdown_properties_created_date: ~datetime.datetime
+    :ivar target_resource_id_properties_lab_vms_shutdown_properties_target_resource_id: The
+     resource ID to which the schedule belongs.
+    :vartype target_resource_id_properties_lab_vms_shutdown_properties_target_resource_id: str
+    :ivar provisioning_state_properties_lab_vms_shutdown_properties_provisioning_state: The
+     provisioning status of the resource.
+    :vartype provisioning_state_properties_lab_vms_shutdown_properties_provisioning_state: str
+    :ivar unique_identifier_properties_lab_vms_shutdown_properties_unique_identifier: The unique
+     immutable identifier of a resource (Guid).
+    :vartype unique_identifier_properties_lab_vms_shutdown_properties_unique_identifier: str
+    :ivar status_properties_lab_vms_shutdown_properties_notification_settings_status: If
+     notifications are enabled for this schedule (i.e. Enabled, Disabled). Known values are:
+     "Enabled" and "Disabled".
+    :vartype status_properties_lab_vms_shutdown_properties_notification_settings_status: str or
+     ~azure.mgmt.devtestlabs.models.EnableStatus
+    :ivar
+     time_in_minutes_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes:
+     Time in minutes before event at which notification will be sent.
+    :vartype
+     time_in_minutes_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes:
+     int
+    :ivar webhook_url_properties_lab_vms_shutdown_properties_notification_settings_webhook_url: The
+     webhook URL to which the notification will be sent.
+    :vartype webhook_url_properties_lab_vms_shutdown_properties_notification_settings_webhook_url:
+     str
+    :ivar
+     email_recipient_properties_lab_vms_shutdown_properties_notification_settings_email_recipient:
+     The email recipient to send notifications to (can be a list of semi-colon separated email
+     addresses).
+    :vartype
+     email_recipient_properties_lab_vms_shutdown_properties_notification_settings_email_recipient:
+     str
+    :ivar
+     notification_locale_properties_lab_vms_shutdown_properties_notification_settings_notification_locale:
+     The locale to use when sending a notification (fallback for unsupported languages is EN).
+    :vartype
+     notification_locale_properties_lab_vms_shutdown_properties_notification_settings_notification_locale:
+     str
+    :ivar minute_properties_lab_vms_shutdown_properties_hourly_recurrence_minute: Minutes of the
+     hour the schedule will run.
+    :vartype minute_properties_lab_vms_shutdown_properties_hourly_recurrence_minute: int
+    :ivar time_properties_lab_vms_shutdown_properties_daily_recurrence_time: The time of day the
+     schedule will occur.
+    :vartype time_properties_lab_vms_shutdown_properties_daily_recurrence_time: str
+    :ivar weekdays_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays: The days of
+     the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
+    :vartype weekdays_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays: list[str]
+    :ivar time_properties_lab_vms_shutdown_properties_weekly_recurrence_time: The time of the day
+     the schedule will occur.
+    :vartype time_properties_lab_vms_shutdown_properties_weekly_recurrence_time: str
     """
 
     _validation = {
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "location": {"required": True},
+        "system_data": {"readonly": True},
+        "id_properties_lab_vms_startup_id": {"readonly": True},
+        "name_properties_lab_vms_startup_name": {"readonly": True},
+        "type_properties_lab_vms_startup_type": {"readonly": True},
+        "system_data_properties_lab_vms_startup_system_data": {"readonly": True},
+        "created_date_properties_lab_vms_startup_properties_created_date": {"readonly": True},
+        "provisioning_state_properties_lab_vms_startup_properties_provisioning_state": {"readonly": True},
+        "unique_identifier_properties_lab_vms_startup_properties_unique_identifier": {"readonly": True},
+        "id_properties_lab_vms_shutdown_id": {"readonly": True},
+        "name_properties_lab_vms_shutdown_name": {"readonly": True},
+        "type_properties_lab_vms_shutdown_type": {"readonly": True},
+        "system_data_properties_lab_vms_shutdown_system_data": {"readonly": True},
+        "created_date_properties_lab_vms_shutdown_properties_created_date": {"readonly": True},
+        "provisioning_state_properties_lab_vms_shutdown_properties_provisioning_state": {"readonly": True},
+        "unique_identifier_properties_lab_vms_shutdown_properties_unique_identifier": {"readonly": True},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "location": {"key": "location", "type": "str"},
         "tags": {"key": "tags", "type": "{str}"},
-        "lab_vms_shutdown": {"key": "properties.labVmsShutdown", "type": "Schedule"},
-        "lab_vms_startup": {"key": "properties.labVmsStartup", "type": "Schedule"},
+        "location": {"key": "location", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "id_properties_lab_vms_startup_id": {"key": "properties.labVmsStartup.id", "type": "str"},
+        "name_properties_lab_vms_startup_name": {"key": "properties.labVmsStartup.name", "type": "str"},
+        "type_properties_lab_vms_startup_type": {"key": "properties.labVmsStartup.type", "type": "str"},
+        "tags_properties_lab_vms_startup_tags": {"key": "properties.labVmsStartup.tags", "type": "{str}"},
+        "location_properties_lab_vms_startup_location": {"key": "properties.labVmsStartup.location", "type": "str"},
+        "system_data_properties_lab_vms_startup_system_data": {
+            "key": "properties.labVmsStartup.systemData",
+            "type": "SystemData",
+        },
+        "status_properties_lab_vms_startup_properties_status": {
+            "key": "properties.labVmsStartup.properties.status",
+            "type": "str",
+        },
+        "task_type_properties_lab_vms_startup_properties_task_type": {
+            "key": "properties.labVmsStartup.properties.taskType",
+            "type": "str",
+        },
+        "time_zone_id_properties_lab_vms_startup_properties_time_zone_id": {
+            "key": "properties.labVmsStartup.properties.timeZoneId",
+            "type": "str",
+        },
+        "created_date_properties_lab_vms_startup_properties_created_date": {
+            "key": "properties.labVmsStartup.properties.createdDate",
+            "type": "iso-8601",
+        },
+        "target_resource_id_properties_lab_vms_startup_properties_target_resource_id": {
+            "key": "properties.labVmsStartup.properties.targetResourceId",
+            "type": "str",
+        },
+        "provisioning_state_properties_lab_vms_startup_properties_provisioning_state": {
+            "key": "properties.labVmsStartup.properties.provisioningState",
+            "type": "str",
+        },
+        "unique_identifier_properties_lab_vms_startup_properties_unique_identifier": {
+            "key": "properties.labVmsStartup.properties.uniqueIdentifier",
+            "type": "str",
+        },
+        "status_properties_lab_vms_startup_properties_notification_settings_status": {
+            "key": "properties.labVmsStartup.properties.notificationSettings.status",
+            "type": "str",
+        },
+        "time_in_minutes_properties_lab_vms_startup_properties_notification_settings_time_in_minutes": {
+            "key": "properties.labVmsStartup.properties.notificationSettings.timeInMinutes",
+            "type": "int",
+        },
+        "webhook_url_properties_lab_vms_startup_properties_notification_settings_webhook_url": {
+            "key": "properties.labVmsStartup.properties.notificationSettings.webhookUrl",
+            "type": "str",
+        },
+        "email_recipient_properties_lab_vms_startup_properties_notification_settings_email_recipient": {
+            "key": "properties.labVmsStartup.properties.notificationSettings.emailRecipient",
+            "type": "str",
+        },
+        "notification_locale_properties_lab_vms_startup_properties_notification_settings_notification_locale": {
+            "key": "properties.labVmsStartup.properties.notificationSettings.notificationLocale",
+            "type": "str",
+        },
+        "minute_properties_lab_vms_startup_properties_hourly_recurrence_minute": {
+            "key": "properties.labVmsStartup.properties.hourlyRecurrence.minute",
+            "type": "int",
+        },
+        "time_properties_lab_vms_startup_properties_daily_recurrence_time": {
+            "key": "properties.labVmsStartup.properties.dailyRecurrence.time",
+            "type": "str",
+        },
+        "weekdays_properties_lab_vms_startup_properties_weekly_recurrence_weekdays": {
+            "key": "properties.labVmsStartup.properties.weeklyRecurrence.weekdays",
+            "type": "[str]",
+        },
+        "time_properties_lab_vms_startup_properties_weekly_recurrence_time": {
+            "key": "properties.labVmsStartup.properties.weeklyRecurrence.time",
+            "type": "str",
+        },
+        "id_properties_lab_vms_shutdown_id": {"key": "properties.labVmsShutdown.id", "type": "str"},
+        "name_properties_lab_vms_shutdown_name": {"key": "properties.labVmsShutdown.name", "type": "str"},
+        "type_properties_lab_vms_shutdown_type": {"key": "properties.labVmsShutdown.type", "type": "str"},
+        "tags_properties_lab_vms_shutdown_tags": {"key": "properties.labVmsShutdown.tags", "type": "{str}"},
+        "location_properties_lab_vms_shutdown_location": {"key": "properties.labVmsShutdown.location", "type": "str"},
+        "system_data_properties_lab_vms_shutdown_system_data": {
+            "key": "properties.labVmsShutdown.systemData",
+            "type": "SystemData",
+        },
+        "status_properties_lab_vms_shutdown_properties_status": {
+            "key": "properties.labVmsShutdown.properties.status",
+            "type": "str",
+        },
+        "task_type_properties_lab_vms_shutdown_properties_task_type": {
+            "key": "properties.labVmsShutdown.properties.taskType",
+            "type": "str",
+        },
+        "time_zone_id_properties_lab_vms_shutdown_properties_time_zone_id": {
+            "key": "properties.labVmsShutdown.properties.timeZoneId",
+            "type": "str",
+        },
+        "created_date_properties_lab_vms_shutdown_properties_created_date": {
+            "key": "properties.labVmsShutdown.properties.createdDate",
+            "type": "iso-8601",
+        },
+        "target_resource_id_properties_lab_vms_shutdown_properties_target_resource_id": {
+            "key": "properties.labVmsShutdown.properties.targetResourceId",
+            "type": "str",
+        },
+        "provisioning_state_properties_lab_vms_shutdown_properties_provisioning_state": {
+            "key": "properties.labVmsShutdown.properties.provisioningState",
+            "type": "str",
+        },
+        "unique_identifier_properties_lab_vms_shutdown_properties_unique_identifier": {
+            "key": "properties.labVmsShutdown.properties.uniqueIdentifier",
+            "type": "str",
+        },
+        "status_properties_lab_vms_shutdown_properties_notification_settings_status": {
+            "key": "properties.labVmsShutdown.properties.notificationSettings.status",
+            "type": "str",
+        },
+        "time_in_minutes_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes": {
+            "key": "properties.labVmsShutdown.properties.notificationSettings.timeInMinutes",
+            "type": "int",
+        },
+        "webhook_url_properties_lab_vms_shutdown_properties_notification_settings_webhook_url": {
+            "key": "properties.labVmsShutdown.properties.notificationSettings.webhookUrl",
+            "type": "str",
+        },
+        "email_recipient_properties_lab_vms_shutdown_properties_notification_settings_email_recipient": {
+            "key": "properties.labVmsShutdown.properties.notificationSettings.emailRecipient",
+            "type": "str",
+        },
+        "notification_locale_properties_lab_vms_shutdown_properties_notification_settings_notification_locale": {
+            "key": "properties.labVmsShutdown.properties.notificationSettings.notificationLocale",
+            "type": "str",
+        },
+        "minute_properties_lab_vms_shutdown_properties_hourly_recurrence_minute": {
+            "key": "properties.labVmsShutdown.properties.hourlyRecurrence.minute",
+            "type": "int",
+        },
+        "time_properties_lab_vms_shutdown_properties_daily_recurrence_time": {
+            "key": "properties.labVmsShutdown.properties.dailyRecurrence.time",
+            "type": "str",
+        },
+        "weekdays_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays": {
+            "key": "properties.labVmsShutdown.properties.weeklyRecurrence.weekdays",
+            "type": "[str]",
+        },
+        "time_properties_lab_vms_shutdown_properties_weekly_recurrence_time": {
+            "key": "properties.labVmsShutdown.properties.weeklyRecurrence.time",
+            "type": "str",
+        },
     }
 
-    def __init__(
+    def __init__(  # pylint: disable=too-many-locals
         self,
         *,
-        location: Optional[str] = None,
+        location: str,
         tags: Optional[Dict[str, str]] = None,
-        lab_vms_shutdown: Optional["_models.Schedule"] = None,
-        lab_vms_startup: Optional["_models.Schedule"] = None,
-        **kwargs
-    ):
+        tags_properties_lab_vms_startup_tags: Optional[Dict[str, str]] = None,
+        location_properties_lab_vms_startup_location: Optional[str] = None,
+        status_properties_lab_vms_startup_properties_status: Optional[Union[str, "_models.EnableStatus"]] = None,
+        task_type_properties_lab_vms_startup_properties_task_type: Optional[str] = None,
+        time_zone_id_properties_lab_vms_startup_properties_time_zone_id: Optional[str] = None,
+        target_resource_id_properties_lab_vms_startup_properties_target_resource_id: Optional[str] = None,
+        status_properties_lab_vms_startup_properties_notification_settings_status: Optional[
+            Union[str, "_models.EnableStatus"]
+        ] = None,
+        time_in_minutes_properties_lab_vms_startup_properties_notification_settings_time_in_minutes: Optional[
+            int
+        ] = None,
+        webhook_url_properties_lab_vms_startup_properties_notification_settings_webhook_url: Optional[str] = None,
+        email_recipient_properties_lab_vms_startup_properties_notification_settings_email_recipient: Optional[
+            str
+        ] = None,
+        notification_locale_properties_lab_vms_startup_properties_notification_settings_notification_locale: Optional[
+            str
+        ] = None,
+        minute_properties_lab_vms_startup_properties_hourly_recurrence_minute: Optional[int] = None,
+        time_properties_lab_vms_startup_properties_daily_recurrence_time: Optional[str] = None,
+        weekdays_properties_lab_vms_startup_properties_weekly_recurrence_weekdays: Optional[List[str]] = None,
+        time_properties_lab_vms_startup_properties_weekly_recurrence_time: Optional[str] = None,
+        tags_properties_lab_vms_shutdown_tags: Optional[Dict[str, str]] = None,
+        location_properties_lab_vms_shutdown_location: Optional[str] = None,
+        status_properties_lab_vms_shutdown_properties_status: Optional[Union[str, "_models.EnableStatus"]] = None,
+        task_type_properties_lab_vms_shutdown_properties_task_type: Optional[str] = None,
+        time_zone_id_properties_lab_vms_shutdown_properties_time_zone_id: Optional[str] = None,
+        target_resource_id_properties_lab_vms_shutdown_properties_target_resource_id: Optional[str] = None,
+        status_properties_lab_vms_shutdown_properties_notification_settings_status: Optional[
+            Union[str, "_models.EnableStatus"]
+        ] = None,
+        time_in_minutes_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes: Optional[
+            int
+        ] = None,
+        webhook_url_properties_lab_vms_shutdown_properties_notification_settings_webhook_url: Optional[str] = None,
+        email_recipient_properties_lab_vms_shutdown_properties_notification_settings_email_recipient: Optional[
+            str
+        ] = None,
+        notification_locale_properties_lab_vms_shutdown_properties_notification_settings_notification_locale: Optional[
+            str
+        ] = None,
+        minute_properties_lab_vms_shutdown_properties_hourly_recurrence_minute: Optional[int] = None,
+        time_properties_lab_vms_shutdown_properties_daily_recurrence_time: Optional[str] = None,
+        weekdays_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays: Optional[List[str]] = None,
+        time_properties_lab_vms_shutdown_properties_weekly_recurrence_time: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword location: The location of the resource.
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
         :paramtype location: str
-        :keyword tags: The tags of the resource.
-        :paramtype tags: dict[str, str]
-        :keyword lab_vms_shutdown: The auto-shutdown schedule, if one has been set at the lab or lab
-         resource level.
-        :paramtype lab_vms_shutdown: ~azure.mgmt.devtestlabs.models.Schedule
-        :keyword lab_vms_startup: The auto-startup schedule, if one has been set at the lab or lab
-         resource level.
-        :paramtype lab_vms_startup: ~azure.mgmt.devtestlabs.models.Schedule
+        :keyword tags_properties_lab_vms_startup_tags: Resource tags.
+        :paramtype tags_properties_lab_vms_startup_tags: dict[str, str]
+        :keyword location_properties_lab_vms_startup_location: The geo-location where the resource
+         lives.
+        :paramtype location_properties_lab_vms_startup_location: str
+        :keyword status_properties_lab_vms_startup_properties_status: The status of the schedule (i.e.
+         Enabled, Disabled). Known values are: "Enabled" and "Disabled".
+        :paramtype status_properties_lab_vms_startup_properties_status: str or
+         ~azure.mgmt.devtestlabs.models.EnableStatus
+        :keyword task_type_properties_lab_vms_startup_properties_task_type: The task type of the
+         schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
+        :paramtype task_type_properties_lab_vms_startup_properties_task_type: str
+        :keyword time_zone_id_properties_lab_vms_startup_properties_time_zone_id: The time zone ID
+         (e.g. Pacific Standard time).
+        :paramtype time_zone_id_properties_lab_vms_startup_properties_time_zone_id: str
+        :keyword target_resource_id_properties_lab_vms_startup_properties_target_resource_id: The
+         resource ID to which the schedule belongs.
+        :paramtype target_resource_id_properties_lab_vms_startup_properties_target_resource_id: str
+        :keyword status_properties_lab_vms_startup_properties_notification_settings_status: If
+         notifications are enabled for this schedule (i.e. Enabled, Disabled). Known values are:
+         "Enabled" and "Disabled".
+        :paramtype status_properties_lab_vms_startup_properties_notification_settings_status: str or
+         ~azure.mgmt.devtestlabs.models.EnableStatus
+        :keyword
+         time_in_minutes_properties_lab_vms_startup_properties_notification_settings_time_in_minutes:
+         Time in minutes before event at which notification will be sent.
+        :paramtype
+         time_in_minutes_properties_lab_vms_startup_properties_notification_settings_time_in_minutes:
+         int
+        :keyword webhook_url_properties_lab_vms_startup_properties_notification_settings_webhook_url:
+         The webhook URL to which the notification will be sent.
+        :paramtype webhook_url_properties_lab_vms_startup_properties_notification_settings_webhook_url:
+         str
+        :keyword
+         email_recipient_properties_lab_vms_startup_properties_notification_settings_email_recipient:
+         The email recipient to send notifications to (can be a list of semi-colon separated email
+         addresses).
+        :paramtype
+         email_recipient_properties_lab_vms_startup_properties_notification_settings_email_recipient:
+         str
+        :keyword
+         notification_locale_properties_lab_vms_startup_properties_notification_settings_notification_locale:
+         The locale to use when sending a notification (fallback for unsupported languages is EN).
+        :paramtype
+         notification_locale_properties_lab_vms_startup_properties_notification_settings_notification_locale:
+         str
+        :keyword minute_properties_lab_vms_startup_properties_hourly_recurrence_minute: Minutes of the
+         hour the schedule will run.
+        :paramtype minute_properties_lab_vms_startup_properties_hourly_recurrence_minute: int
+        :keyword time_properties_lab_vms_startup_properties_daily_recurrence_time: The time of day the
+         schedule will occur.
+        :paramtype time_properties_lab_vms_startup_properties_daily_recurrence_time: str
+        :keyword weekdays_properties_lab_vms_startup_properties_weekly_recurrence_weekdays: The days of
+         the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
+        :paramtype weekdays_properties_lab_vms_startup_properties_weekly_recurrence_weekdays: list[str]
+        :keyword time_properties_lab_vms_startup_properties_weekly_recurrence_time: The time of the day
+         the schedule will occur.
+        :paramtype time_properties_lab_vms_startup_properties_weekly_recurrence_time: str
+        :keyword tags_properties_lab_vms_shutdown_tags: Resource tags.
+        :paramtype tags_properties_lab_vms_shutdown_tags: dict[str, str]
+        :keyword location_properties_lab_vms_shutdown_location: The geo-location where the resource
+         lives.
+        :paramtype location_properties_lab_vms_shutdown_location: str
+        :keyword status_properties_lab_vms_shutdown_properties_status: The status of the schedule (i.e.
+         Enabled, Disabled). Known values are: "Enabled" and "Disabled".
+        :paramtype status_properties_lab_vms_shutdown_properties_status: str or
+         ~azure.mgmt.devtestlabs.models.EnableStatus
+        :keyword task_type_properties_lab_vms_shutdown_properties_task_type: The task type of the
+         schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
+        :paramtype task_type_properties_lab_vms_shutdown_properties_task_type: str
+        :keyword time_zone_id_properties_lab_vms_shutdown_properties_time_zone_id: The time zone ID
+         (e.g. Pacific Standard time).
+        :paramtype time_zone_id_properties_lab_vms_shutdown_properties_time_zone_id: str
+        :keyword target_resource_id_properties_lab_vms_shutdown_properties_target_resource_id: The
+         resource ID to which the schedule belongs.
+        :paramtype target_resource_id_properties_lab_vms_shutdown_properties_target_resource_id: str
+        :keyword status_properties_lab_vms_shutdown_properties_notification_settings_status: If
+         notifications are enabled for this schedule (i.e. Enabled, Disabled). Known values are:
+         "Enabled" and "Disabled".
+        :paramtype status_properties_lab_vms_shutdown_properties_notification_settings_status: str or
+         ~azure.mgmt.devtestlabs.models.EnableStatus
+        :keyword
+         time_in_minutes_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes:
+         Time in minutes before event at which notification will be sent.
+        :paramtype
+         time_in_minutes_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes:
+         int
+        :keyword webhook_url_properties_lab_vms_shutdown_properties_notification_settings_webhook_url:
+         The webhook URL to which the notification will be sent.
+        :paramtype
+         webhook_url_properties_lab_vms_shutdown_properties_notification_settings_webhook_url: str
+        :keyword
+         email_recipient_properties_lab_vms_shutdown_properties_notification_settings_email_recipient:
+         The email recipient to send notifications to (can be a list of semi-colon separated email
+         addresses).
+        :paramtype
+         email_recipient_properties_lab_vms_shutdown_properties_notification_settings_email_recipient:
+         str
+        :keyword
+         notification_locale_properties_lab_vms_shutdown_properties_notification_settings_notification_locale:
+         The locale to use when sending a notification (fallback for unsupported languages is EN).
+        :paramtype
+         notification_locale_properties_lab_vms_shutdown_properties_notification_settings_notification_locale:
+         str
+        :keyword minute_properties_lab_vms_shutdown_properties_hourly_recurrence_minute: Minutes of the
+         hour the schedule will run.
+        :paramtype minute_properties_lab_vms_shutdown_properties_hourly_recurrence_minute: int
+        :keyword time_properties_lab_vms_shutdown_properties_daily_recurrence_time: The time of day the
+         schedule will occur.
+        :paramtype time_properties_lab_vms_shutdown_properties_daily_recurrence_time: str
+        :keyword weekdays_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays: The days
+         of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
+        :paramtype weekdays_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays:
+         list[str]
+        :keyword time_properties_lab_vms_shutdown_properties_weekly_recurrence_time: The time of the
+         day the schedule will occur.
+        :paramtype time_properties_lab_vms_shutdown_properties_weekly_recurrence_time: str
         """
-        super().__init__(location=location, tags=tags, **kwargs)
-        self.lab_vms_shutdown = lab_vms_shutdown
-        self.lab_vms_startup = lab_vms_startup
-
-
-class UpdateResource(_serialization.Model):
-    """Represents an update resource.
-
-    :ivar tags: The tags of the resource.
-    :vartype tags: dict[str, str]
-    """
-
-    _attribute_map = {
-        "tags": {"key": "tags", "type": "{str}"},
-    }
-
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs):
-        """
-        :keyword tags: The tags of the resource.
-        :paramtype tags: dict[str, str]
-        """
-        super().__init__(**kwargs)
-        self.tags = tags
-
-
-class ApplicableScheduleFragment(UpdateResource):
-    """Schedules applicable to a virtual machine. The schedules may have been defined on a VM or on lab level.
-
-    :ivar tags: The tags of the resource.
-    :vartype tags: dict[str, str]
-    """
-
-    _attribute_map = {
-        "tags": {"key": "tags", "type": "{str}"},
-    }
-
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs):
-        """
-        :keyword tags: The tags of the resource.
-        :paramtype tags: dict[str, str]
-        """
-        super().__init__(tags=tags, **kwargs)
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.system_data = None
+        self.id_properties_lab_vms_startup_id = None
+        self.name_properties_lab_vms_startup_name = None
+        self.type_properties_lab_vms_startup_type = None
+        self.tags_properties_lab_vms_startup_tags = tags_properties_lab_vms_startup_tags
+        self.location_properties_lab_vms_startup_location = location_properties_lab_vms_startup_location
+        self.system_data_properties_lab_vms_startup_system_data = None
+        self.status_properties_lab_vms_startup_properties_status = status_properties_lab_vms_startup_properties_status
+        self.task_type_properties_lab_vms_startup_properties_task_type = (
+            task_type_properties_lab_vms_startup_properties_task_type
+        )
+        self.time_zone_id_properties_lab_vms_startup_properties_time_zone_id = (
+            time_zone_id_properties_lab_vms_startup_properties_time_zone_id
+        )
+        self.created_date_properties_lab_vms_startup_properties_created_date = None
+        self.target_resource_id_properties_lab_vms_startup_properties_target_resource_id = (
+            target_resource_id_properties_lab_vms_startup_properties_target_resource_id
+        )
+        self.provisioning_state_properties_lab_vms_startup_properties_provisioning_state = None
+        self.unique_identifier_properties_lab_vms_startup_properties_unique_identifier = None
+        self.status_properties_lab_vms_startup_properties_notification_settings_status = (
+            status_properties_lab_vms_startup_properties_notification_settings_status
+        )
+        self.time_in_minutes_properties_lab_vms_startup_properties_notification_settings_time_in_minutes = (
+            time_in_minutes_properties_lab_vms_startup_properties_notification_settings_time_in_minutes
+        )
+        self.webhook_url_properties_lab_vms_startup_properties_notification_settings_webhook_url = (
+            webhook_url_properties_lab_vms_startup_properties_notification_settings_webhook_url
+        )
+        self.email_recipient_properties_lab_vms_startup_properties_notification_settings_email_recipient = (
+            email_recipient_properties_lab_vms_startup_properties_notification_settings_email_recipient
+        )
+        self.notification_locale_properties_lab_vms_startup_properties_notification_settings_notification_locale = (
+            notification_locale_properties_lab_vms_startup_properties_notification_settings_notification_locale
+        )
+        self.minute_properties_lab_vms_startup_properties_hourly_recurrence_minute = (
+            minute_properties_lab_vms_startup_properties_hourly_recurrence_minute
+        )
+        self.time_properties_lab_vms_startup_properties_daily_recurrence_time = (
+            time_properties_lab_vms_startup_properties_daily_recurrence_time
+        )
+        self.weekdays_properties_lab_vms_startup_properties_weekly_recurrence_weekdays = (
+            weekdays_properties_lab_vms_startup_properties_weekly_recurrence_weekdays
+        )
+        self.time_properties_lab_vms_startup_properties_weekly_recurrence_time = (
+            time_properties_lab_vms_startup_properties_weekly_recurrence_time
+        )
+        self.id_properties_lab_vms_shutdown_id = None
+        self.name_properties_lab_vms_shutdown_name = None
+        self.type_properties_lab_vms_shutdown_type = None
+        self.tags_properties_lab_vms_shutdown_tags = tags_properties_lab_vms_shutdown_tags
+        self.location_properties_lab_vms_shutdown_location = location_properties_lab_vms_shutdown_location
+        self.system_data_properties_lab_vms_shutdown_system_data = None
+        self.status_properties_lab_vms_shutdown_properties_status = status_properties_lab_vms_shutdown_properties_status
+        self.task_type_properties_lab_vms_shutdown_properties_task_type = (
+            task_type_properties_lab_vms_shutdown_properties_task_type
+        )
+        self.time_zone_id_properties_lab_vms_shutdown_properties_time_zone_id = (
+            time_zone_id_properties_lab_vms_shutdown_properties_time_zone_id
+        )
+        self.created_date_properties_lab_vms_shutdown_properties_created_date = None
+        self.target_resource_id_properties_lab_vms_shutdown_properties_target_resource_id = (
+            target_resource_id_properties_lab_vms_shutdown_properties_target_resource_id
+        )
+        self.provisioning_state_properties_lab_vms_shutdown_properties_provisioning_state = None
+        self.unique_identifier_properties_lab_vms_shutdown_properties_unique_identifier = None
+        self.status_properties_lab_vms_shutdown_properties_notification_settings_status = (
+            status_properties_lab_vms_shutdown_properties_notification_settings_status
+        )
+        self.time_in_minutes_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes = (
+            time_in_minutes_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes
+        )
+        self.webhook_url_properties_lab_vms_shutdown_properties_notification_settings_webhook_url = (
+            webhook_url_properties_lab_vms_shutdown_properties_notification_settings_webhook_url
+        )
+        self.email_recipient_properties_lab_vms_shutdown_properties_notification_settings_email_recipient = (
+            email_recipient_properties_lab_vms_shutdown_properties_notification_settings_email_recipient
+        )
+        self.notification_locale_properties_lab_vms_shutdown_properties_notification_settings_notification_locale = (
+            notification_locale_properties_lab_vms_shutdown_properties_notification_settings_notification_locale
+        )
+        self.minute_properties_lab_vms_shutdown_properties_hourly_recurrence_minute = (
+            minute_properties_lab_vms_shutdown_properties_hourly_recurrence_minute
+        )
+        self.time_properties_lab_vms_shutdown_properties_daily_recurrence_time = (
+            time_properties_lab_vms_shutdown_properties_daily_recurrence_time
+        )
+        self.weekdays_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays = (
+            weekdays_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays
+        )
+        self.time_properties_lab_vms_shutdown_properties_weekly_recurrence_time = (
+            time_properties_lab_vms_shutdown_properties_weekly_recurrence_time
+        )
 
 
 class ApplyArtifactsRequest(_serialization.Model):
@@ -185,7 +715,7 @@ class ApplyArtifactsRequest(_serialization.Model):
         "artifacts": {"key": "artifacts", "type": "[ArtifactInstallProperties]"},
     }
 
-    def __init__(self, *, artifacts: Optional[List["_models.ArtifactInstallProperties"]] = None, **kwargs):
+    def __init__(self, *, artifacts: Optional[List["_models.ArtifactInstallProperties"]] = None, **kwargs: Any) -> None:
         """
         :keyword artifacts: The list of artifacts to apply.
         :paramtype artifacts: list[~azure.mgmt.devtestlabs.models.ArtifactInstallProperties]
@@ -199,16 +729,22 @@ class ArmTemplate(Resource):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: The identifier of the resource.
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar location: The location of the resource.
-    :vartype location: str
-    :ivar tags: The tags of the resource.
+    :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar system_data: The system metadata relating to this resource.
+    :vartype system_data: ~azure.mgmt.devtestlabs.models.SystemData
     :ivar display_name: The display name of the ARM template.
     :vartype display_name: str
     :ivar description: The description of the ARM template.
@@ -233,6 +769,8 @@ class ArmTemplate(Resource):  # pylint: disable=too-many-instance-attributes
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "location": {"required": True},
+        "system_data": {"readonly": True},
         "display_name": {"readonly": True},
         "description": {"readonly": True},
         "publisher": {"readonly": True},
@@ -247,8 +785,9 @@ class ArmTemplate(Resource):  # pylint: disable=too-many-instance-attributes
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "location": {"key": "location", "type": "str"},
         "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "display_name": {"key": "properties.displayName", "type": "str"},
         "description": {"key": "properties.description", "type": "str"},
         "publisher": {"key": "properties.publisher", "type": "str"},
@@ -262,14 +801,15 @@ class ArmTemplate(Resource):  # pylint: disable=too-many-instance-attributes
         "enabled": {"key": "properties.enabled", "type": "bool"},
     }
 
-    def __init__(self, *, location: Optional[str] = None, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
-        :keyword location: The location of the resource.
-        :paramtype location: str
-        :keyword tags: The tags of the resource.
+        :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
         """
-        super().__init__(location=location, tags=tags, **kwargs)
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.system_data = None
         self.display_name = None
         self.description = None
         self.publisher = None
@@ -294,7 +834,7 @@ class ArmTemplateInfo(_serialization.Model):
         "parameters": {"key": "parameters", "type": "object"},
     }
 
-    def __init__(self, *, template: Optional[JSON] = None, parameters: Optional[JSON] = None, **kwargs):
+    def __init__(self, *, template: Optional[JSON] = None, parameters: Optional[JSON] = None, **kwargs: Any) -> None:
         """
         :keyword template: The template's contents.
         :paramtype template: JSON
@@ -307,11 +847,11 @@ class ArmTemplateInfo(_serialization.Model):
 
 
 class ArmTemplateList(_serialization.Model):
-    """The response of a list operation.
+    """Contains a list of armTemplates and their properties.
 
-    :ivar value: Results of the list operation.
+    :ivar value: List of armTemplates and their properties.
     :vartype value: list[~azure.mgmt.devtestlabs.models.ArmTemplate]
-    :ivar next_link: Link for next set of results.
+    :ivar next_link: URL to get the next set of operation list results if there are any.
     :vartype next_link: str
     """
 
@@ -321,12 +861,12 @@ class ArmTemplateList(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.ArmTemplate"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.ArmTemplate"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
-        :keyword value: Results of the list operation.
+        :keyword value: List of armTemplates and their properties.
         :paramtype value: list[~azure.mgmt.devtestlabs.models.ArmTemplate]
-        :keyword next_link: Link for next set of results.
+        :keyword next_link: URL to get the next set of operation list results if there are any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
@@ -348,7 +888,7 @@ class ArmTemplateParameterProperties(_serialization.Model):
         "value": {"key": "value", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, value: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, value: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: The name of the template parameter.
         :paramtype name: str
@@ -365,16 +905,22 @@ class Artifact(Resource):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: The identifier of the resource.
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar location: The location of the resource.
-    :vartype location: str
-    :ivar tags: The tags of the resource.
+    :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar system_data: The system metadata relating to this resource.
+    :vartype system_data: ~azure.mgmt.devtestlabs.models.SystemData
     :ivar title: The artifact's title.
     :vartype title: str
     :ivar description: The artifact's description.
@@ -397,6 +943,8 @@ class Artifact(Resource):  # pylint: disable=too-many-instance-attributes
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "location": {"required": True},
+        "system_data": {"readonly": True},
         "title": {"readonly": True},
         "description": {"readonly": True},
         "publisher": {"readonly": True},
@@ -411,8 +959,9 @@ class Artifact(Resource):  # pylint: disable=too-many-instance-attributes
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "location": {"key": "location", "type": "str"},
         "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "title": {"key": "properties.title", "type": "str"},
         "description": {"key": "properties.description", "type": "str"},
         "publisher": {"key": "properties.publisher", "type": "str"},
@@ -423,14 +972,15 @@ class Artifact(Resource):  # pylint: disable=too-many-instance-attributes
         "created_date": {"key": "properties.createdDate", "type": "iso-8601"},
     }
 
-    def __init__(self, *, location: Optional[str] = None, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
-        :keyword location: The location of the resource.
-        :paramtype location: str
-        :keyword tags: The tags of the resource.
+        :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
         """
-        super().__init__(location=location, tags=tags, **kwargs)
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.system_data = None
         self.title = None
         self.description = None
         self.publisher = None
@@ -439,45 +989,6 @@ class Artifact(Resource):  # pylint: disable=too-many-instance-attributes
         self.target_os_type = None
         self.parameters = None
         self.created_date = None
-
-
-class ArtifactDeploymentStatusProperties(_serialization.Model):
-    """Properties of an artifact deployment.
-
-    :ivar deployment_status: The deployment status of the artifact.
-    :vartype deployment_status: str
-    :ivar artifacts_applied: The total count of the artifacts that were successfully applied.
-    :vartype artifacts_applied: int
-    :ivar total_artifacts: The total count of the artifacts that were tentatively applied.
-    :vartype total_artifacts: int
-    """
-
-    _attribute_map = {
-        "deployment_status": {"key": "deploymentStatus", "type": "str"},
-        "artifacts_applied": {"key": "artifactsApplied", "type": "int"},
-        "total_artifacts": {"key": "totalArtifacts", "type": "int"},
-    }
-
-    def __init__(
-        self,
-        *,
-        deployment_status: Optional[str] = None,
-        artifacts_applied: Optional[int] = None,
-        total_artifacts: Optional[int] = None,
-        **kwargs
-    ):
-        """
-        :keyword deployment_status: The deployment status of the artifact.
-        :paramtype deployment_status: str
-        :keyword artifacts_applied: The total count of the artifacts that were successfully applied.
-        :paramtype artifacts_applied: int
-        :keyword total_artifacts: The total count of the artifacts that were tentatively applied.
-        :paramtype total_artifacts: int
-        """
-        super().__init__(**kwargs)
-        self.deployment_status = deployment_status
-        self.artifacts_applied = artifacts_applied
-        self.total_artifacts = total_artifacts
 
 
 class ArtifactInstallProperties(_serialization.Model):
@@ -519,8 +1030,8 @@ class ArtifactInstallProperties(_serialization.Model):
         deployment_status_message: Optional[str] = None,
         vm_extension_status_message: Optional[str] = None,
         install_time: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword artifact_id: The artifact's identifier.
         :paramtype artifact_id: str
@@ -548,11 +1059,11 @@ class ArtifactInstallProperties(_serialization.Model):
 
 
 class ArtifactList(_serialization.Model):
-    """The response of a list operation.
+    """Contains a list of artifacts and their properties.
 
-    :ivar value: Results of the list operation.
+    :ivar value: List of artifacts and their properties.
     :vartype value: list[~azure.mgmt.devtestlabs.models.Artifact]
-    :ivar next_link: Link for next set of results.
+    :ivar next_link: URL to get the next set of operation list results if there are any.
     :vartype next_link: str
     """
 
@@ -561,11 +1072,13 @@ class ArtifactList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Artifact"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.Artifact"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
-        :keyword value: Results of the list operation.
+        :keyword value: List of artifacts and their properties.
         :paramtype value: list[~azure.mgmt.devtestlabs.models.Artifact]
-        :keyword next_link: Link for next set of results.
+        :keyword next_link: URL to get the next set of operation list results if there are any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
@@ -587,7 +1100,7 @@ class ArtifactParameterProperties(_serialization.Model):
         "value": {"key": "value", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, value: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, value: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: The name of the artifact parameter.
         :paramtype name: str
@@ -604,16 +1117,22 @@ class ArtifactSource(Resource):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: The identifier of the resource.
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar location: The location of the resource.
-    :vartype location: str
-    :ivar tags: The tags of the resource.
+    :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar system_data: The system metadata relating to this resource.
+    :vartype system_data: ~azure.mgmt.devtestlabs.models.SystemData
     :ivar display_name: The artifact source's display name.
     :vartype display_name: str
     :ivar uri: The artifact source's URI.
@@ -644,6 +1163,8 @@ class ArtifactSource(Resource):  # pylint: disable=too-many-instance-attributes
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "location": {"required": True},
+        "system_data": {"readonly": True},
         "created_date": {"readonly": True},
         "provisioning_state": {"readonly": True},
         "unique_identifier": {"readonly": True},
@@ -653,8 +1174,9 @@ class ArtifactSource(Resource):  # pylint: disable=too-many-instance-attributes
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "location": {"key": "location", "type": "str"},
         "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "display_name": {"key": "properties.displayName", "type": "str"},
         "uri": {"key": "properties.uri", "type": "str"},
         "source_type": {"key": "properties.sourceType", "type": "str"},
@@ -671,7 +1193,7 @@ class ArtifactSource(Resource):  # pylint: disable=too-many-instance-attributes
     def __init__(
         self,
         *,
-        location: Optional[str] = None,
+        location: str,
         tags: Optional[Dict[str, str]] = None,
         display_name: Optional[str] = None,
         uri: Optional[str] = None,
@@ -681,13 +1203,13 @@ class ArtifactSource(Resource):  # pylint: disable=too-many-instance-attributes
         branch_ref: Optional[str] = None,
         security_token: Optional[str] = None,
         status: Optional[Union[str, "_models.EnableStatus"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword location: The location of the resource.
-        :paramtype location: str
-        :keyword tags: The tags of the resource.
+        :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
         :keyword display_name: The artifact source's display name.
         :paramtype display_name: str
         :keyword uri: The artifact source's URI.
@@ -707,7 +1229,8 @@ class ArtifactSource(Resource):  # pylint: disable=too-many-instance-attributes
          values are: "Enabled" and "Disabled".
         :paramtype status: str or ~azure.mgmt.devtestlabs.models.EnableStatus
         """
-        super().__init__(location=location, tags=tags, **kwargs)
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.system_data = None
         self.display_name = display_name
         self.uri = uri
         self.source_type = source_type
@@ -721,31 +1244,74 @@ class ArtifactSource(Resource):  # pylint: disable=too-many-instance-attributes
         self.unique_identifier = None
 
 
-class ArtifactSourceFragment(UpdateResource):
-    """Properties of an artifact source.
+class UpdateResource(_serialization.Model):
+    """Represents an update resource.
 
     :ivar tags: The tags of the resource.
     :vartype tags: dict[str, str]
+    :ivar identity: The identity of the resource.
+    :vartype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
     """
 
     _attribute_map = {
         "tags": {"key": "tags", "type": "{str}"},
+        "identity": {"key": "identity", "type": "IdentityProperties"},
     }
 
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(
+        self,
+        *,
+        tags: Optional[Dict[str, str]] = None,
+        identity: Optional["_models.IdentityProperties"] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: The tags of the resource.
         :paramtype tags: dict[str, str]
+        :keyword identity: The identity of the resource.
+        :paramtype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
         """
-        super().__init__(tags=tags, **kwargs)
+        super().__init__(**kwargs)
+        self.tags = tags
+        self.identity = identity
+
+
+class ArtifactSourceFragment(UpdateResource):
+    """Patch.
+
+    :ivar tags: The tags of the resource.
+    :vartype tags: dict[str, str]
+    :ivar identity: The identity of the resource.
+    :vartype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
+    """
+
+    _attribute_map = {
+        "tags": {"key": "tags", "type": "{str}"},
+        "identity": {"key": "identity", "type": "IdentityProperties"},
+    }
+
+    def __init__(
+        self,
+        *,
+        tags: Optional[Dict[str, str]] = None,
+        identity: Optional["_models.IdentityProperties"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword tags: The tags of the resource.
+        :paramtype tags: dict[str, str]
+        :keyword identity: The identity of the resource.
+        :paramtype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
+        """
+        super().__init__(tags=tags, identity=identity, **kwargs)
 
 
 class ArtifactSourceList(_serialization.Model):
-    """The response of a list operation.
+    """Contains a list of artifactSources and their properties.
 
-    :ivar value: Results of the list operation.
+    :ivar value: List of artifactSources and their properties.
     :vartype value: list[~azure.mgmt.devtestlabs.models.ArtifactSource]
-    :ivar next_link: Link for next set of results.
+    :ivar next_link: URL to get the next set of operation list results if there are any.
     :vartype next_link: str
     """
 
@@ -755,12 +1321,12 @@ class ArtifactSourceList(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.ArtifactSource"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.ArtifactSource"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
-        :keyword value: Results of the list operation.
+        :keyword value: List of artifactSources and their properties.
         :paramtype value: list[~azure.mgmt.devtestlabs.models.ArtifactSource]
-        :keyword next_link: Link for next set of results.
+        :keyword next_link: URL to get the next set of operation list results if there are any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
@@ -780,7 +1346,7 @@ class AttachDiskProperties(_serialization.Model):
         "leased_by_lab_vm_id": {"key": "leasedByLabVmId", "type": "str"},
     }
 
-    def __init__(self, *, leased_by_lab_vm_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, leased_by_lab_vm_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword leased_by_lab_vm_id: The resource ID of the Lab virtual machine to which the disk is
          attached.
@@ -790,65 +1356,135 @@ class AttachDiskProperties(_serialization.Model):
         self.leased_by_lab_vm_id = leased_by_lab_vm_id
 
 
-class AttachNewDataDiskOptions(_serialization.Model):
-    """Properties to attach new disk to the Virtual Machine.
+class BastionHost(Resource):
+    """Profile of a Bastion Host.
 
-    :ivar disk_size_gi_b: Size of the disk to be attached in Gibibytes.
-    :vartype disk_size_gi_b: int
-    :ivar disk_name: The name of the disk to be attached.
-    :vartype disk_name: str
-    :ivar disk_type: The storage type for the disk (i.e. Standard, Premium). Known values are:
-     "Standard", "Premium", and "StandardSSD".
-    :vartype disk_type: str or ~azure.mgmt.devtestlabs.models.StorageType
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar system_data: The system metadata relating to this resource.
+    :vartype system_data: ~azure.mgmt.devtestlabs.models.SystemData
+    :ivar external_bastion_host_id: The ID of the external BastionHost resource that corresponds to
+     this DTL BastionHost.
+    :vartype external_bastion_host_id: str
+    :ivar ip_address_id: The ID of the PublicIpAddress resource that is created by and paired with
+     this BastionHost.
+    :vartype ip_address_id: str
+    :ivar provisioning_state: The provisioning status of the resource.
+    :vartype provisioning_state: str
+    :ivar unique_identifier: The unique immutable identifier of a resource (Guid).
+    :vartype unique_identifier: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "location": {"required": True},
+        "system_data": {"readonly": True},
+        "external_bastion_host_id": {"readonly": True},
+        "ip_address_id": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+        "unique_identifier": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "external_bastion_host_id": {"key": "properties.externalBastionHostId", "type": "str"},
+        "ip_address_id": {"key": "properties.ipAddressId", "type": "str"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "unique_identifier": {"key": "properties.uniqueIdentifier", "type": "str"},
+    }
+
+    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
+        """
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.system_data = None
+        self.external_bastion_host_id = None
+        self.ip_address_id = None
+        self.provisioning_state = None
+        self.unique_identifier = None
+
+
+class BastionHostFragment(UpdateResource):
+    """Patch.
+
+    :ivar tags: The tags of the resource.
+    :vartype tags: dict[str, str]
+    :ivar identity: The identity of the resource.
+    :vartype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
     """
 
     _attribute_map = {
-        "disk_size_gi_b": {"key": "diskSizeGiB", "type": "int"},
-        "disk_name": {"key": "diskName", "type": "str"},
-        "disk_type": {"key": "diskType", "type": "str"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "identity": {"key": "identity", "type": "IdentityProperties"},
     }
 
     def __init__(
         self,
         *,
-        disk_size_gi_b: Optional[int] = None,
-        disk_name: Optional[str] = None,
-        disk_type: Optional[Union[str, "_models.StorageType"]] = None,
-        **kwargs
-    ):
+        tags: Optional[Dict[str, str]] = None,
+        identity: Optional["_models.IdentityProperties"] = None,
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword disk_size_gi_b: Size of the disk to be attached in Gibibytes.
-        :paramtype disk_size_gi_b: int
-        :keyword disk_name: The name of the disk to be attached.
-        :paramtype disk_name: str
-        :keyword disk_type: The storage type for the disk (i.e. Standard, Premium). Known values are:
-         "Standard", "Premium", and "StandardSSD".
-        :paramtype disk_type: str or ~azure.mgmt.devtestlabs.models.StorageType
+        :keyword tags: The tags of the resource.
+        :paramtype tags: dict[str, str]
+        :keyword identity: The identity of the resource.
+        :paramtype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
         """
-        super().__init__(**kwargs)
-        self.disk_size_gi_b = disk_size_gi_b
-        self.disk_name = disk_name
-        self.disk_type = disk_type
+        super().__init__(tags=tags, identity=identity, **kwargs)
 
 
-class BulkCreationParameters(_serialization.Model):
-    """Parameters for creating multiple virtual machines as a single action.
+class BastionHostList(_serialization.Model):
+    """Contains a list of bastionHosts and their properties.
 
-    :ivar instance_count: The number of virtual machine instances to create.
-    :vartype instance_count: int
+    :ivar value: List of bastionHosts and their properties.
+    :vartype value: list[~azure.mgmt.devtestlabs.models.BastionHost]
+    :ivar next_link: URL to get the next set of operation list results if there are any.
+    :vartype next_link: str
     """
 
     _attribute_map = {
-        "instance_count": {"key": "instanceCount", "type": "int"},
+        "value": {"key": "value", "type": "[BastionHost]"},
+        "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, instance_count: Optional[int] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.BastionHost"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
-        :keyword instance_count: The number of virtual machine instances to create.
-        :paramtype instance_count: int
+        :keyword value: List of bastionHosts and their properties.
+        :paramtype value: list[~azure.mgmt.devtestlabs.models.BastionHost]
+        :keyword next_link: URL to get the next set of operation list results if there are any.
+        :paramtype next_link: str
         """
         super().__init__(**kwargs)
-        self.instance_count = instance_count
+        self.value = value
+        self.next_link = next_link
 
 
 class CloudErrorBody(_serialization.Model):
@@ -878,8 +1514,8 @@ class CloudErrorBody(_serialization.Model):
         message: Optional[str] = None,
         target: Optional[str] = None,
         details: Optional[List["_models.CloudErrorBody"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword code: The error code.
         :paramtype code: str
@@ -925,8 +1561,8 @@ class ComputeDataDisk(_serialization.Model):
         disk_uri: Optional[str] = None,
         managed_disk_id: Optional[str] = None,
         disk_size_gi_b: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets data disk name.
         :paramtype name: str
@@ -968,8 +1604,8 @@ class ComputeVmInstanceViewStatus(_serialization.Model):
         code: Optional[str] = None,
         display_status: Optional[str] = None,
         message: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword code: Gets the status Code.
         :paramtype code: str
@@ -984,154 +1620,27 @@ class ComputeVmInstanceViewStatus(_serialization.Model):
         self.message = message
 
 
-class ComputeVmProperties(_serialization.Model):
-    """Properties of a virtual machine returned by the Microsoft.Compute API.
-
-    :ivar statuses: Gets the statuses of the virtual machine.
-    :vartype statuses: list[~azure.mgmt.devtestlabs.models.ComputeVmInstanceViewStatus]
-    :ivar os_type: Gets the OS type of the virtual machine.
-    :vartype os_type: str
-    :ivar vm_size: Gets the size of the virtual machine.
-    :vartype vm_size: str
-    :ivar network_interface_id: Gets the network interface ID of the virtual machine.
-    :vartype network_interface_id: str
-    :ivar os_disk_id: Gets OS disk blob uri for the virtual machine.
-    :vartype os_disk_id: str
-    :ivar data_disk_ids: Gets data disks blob uri for the virtual machine.
-    :vartype data_disk_ids: list[str]
-    :ivar data_disks: Gets all data disks attached to the virtual machine.
-    :vartype data_disks: list[~azure.mgmt.devtestlabs.models.ComputeDataDisk]
-    """
-
-    _attribute_map = {
-        "statuses": {"key": "statuses", "type": "[ComputeVmInstanceViewStatus]"},
-        "os_type": {"key": "osType", "type": "str"},
-        "vm_size": {"key": "vmSize", "type": "str"},
-        "network_interface_id": {"key": "networkInterfaceId", "type": "str"},
-        "os_disk_id": {"key": "osDiskId", "type": "str"},
-        "data_disk_ids": {"key": "dataDiskIds", "type": "[str]"},
-        "data_disks": {"key": "dataDisks", "type": "[ComputeDataDisk]"},
-    }
-
-    def __init__(
-        self,
-        *,
-        statuses: Optional[List["_models.ComputeVmInstanceViewStatus"]] = None,
-        os_type: Optional[str] = None,
-        vm_size: Optional[str] = None,
-        network_interface_id: Optional[str] = None,
-        os_disk_id: Optional[str] = None,
-        data_disk_ids: Optional[List[str]] = None,
-        data_disks: Optional[List["_models.ComputeDataDisk"]] = None,
-        **kwargs
-    ):
-        """
-        :keyword statuses: Gets the statuses of the virtual machine.
-        :paramtype statuses: list[~azure.mgmt.devtestlabs.models.ComputeVmInstanceViewStatus]
-        :keyword os_type: Gets the OS type of the virtual machine.
-        :paramtype os_type: str
-        :keyword vm_size: Gets the size of the virtual machine.
-        :paramtype vm_size: str
-        :keyword network_interface_id: Gets the network interface ID of the virtual machine.
-        :paramtype network_interface_id: str
-        :keyword os_disk_id: Gets OS disk blob uri for the virtual machine.
-        :paramtype os_disk_id: str
-        :keyword data_disk_ids: Gets data disks blob uri for the virtual machine.
-        :paramtype data_disk_ids: list[str]
-        :keyword data_disks: Gets all data disks attached to the virtual machine.
-        :paramtype data_disks: list[~azure.mgmt.devtestlabs.models.ComputeDataDisk]
-        """
-        super().__init__(**kwargs)
-        self.statuses = statuses
-        self.os_type = os_type
-        self.vm_size = vm_size
-        self.network_interface_id = network_interface_id
-        self.os_disk_id = os_disk_id
-        self.data_disk_ids = data_disk_ids
-        self.data_disks = data_disks
-
-
-class CostThresholdProperties(_serialization.Model):
-    """Properties of a cost threshold item.
-
-    :ivar threshold_id: The ID of the cost threshold item.
-    :vartype threshold_id: str
-    :ivar percentage_threshold: The value of the percentage cost threshold.
-    :vartype percentage_threshold: ~azure.mgmt.devtestlabs.models.PercentageCostThresholdProperties
-    :ivar display_on_chart: Indicates whether this threshold will be displayed on cost charts.
-     Known values are: "Enabled" and "Disabled".
-    :vartype display_on_chart: str or ~azure.mgmt.devtestlabs.models.CostThresholdStatus
-    :ivar send_notification_when_exceeded: Indicates whether notifications will be sent when this
-     threshold is exceeded. Known values are: "Enabled" and "Disabled".
-    :vartype send_notification_when_exceeded: str or
-     ~azure.mgmt.devtestlabs.models.CostThresholdStatus
-    :ivar notification_sent: Indicates the datetime when notifications were last sent for this
-     threshold.
-    :vartype notification_sent: str
-    """
-
-    _attribute_map = {
-        "threshold_id": {"key": "thresholdId", "type": "str"},
-        "percentage_threshold": {"key": "percentageThreshold", "type": "PercentageCostThresholdProperties"},
-        "display_on_chart": {"key": "displayOnChart", "type": "str"},
-        "send_notification_when_exceeded": {"key": "sendNotificationWhenExceeded", "type": "str"},
-        "notification_sent": {"key": "notificationSent", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        threshold_id: Optional[str] = None,
-        percentage_threshold: Optional["_models.PercentageCostThresholdProperties"] = None,
-        display_on_chart: Optional[Union[str, "_models.CostThresholdStatus"]] = None,
-        send_notification_when_exceeded: Optional[Union[str, "_models.CostThresholdStatus"]] = None,
-        notification_sent: Optional[str] = None,
-        **kwargs
-    ):
-        """
-        :keyword threshold_id: The ID of the cost threshold item.
-        :paramtype threshold_id: str
-        :keyword percentage_threshold: The value of the percentage cost threshold.
-        :paramtype percentage_threshold:
-         ~azure.mgmt.devtestlabs.models.PercentageCostThresholdProperties
-        :keyword display_on_chart: Indicates whether this threshold will be displayed on cost charts.
-         Known values are: "Enabled" and "Disabled".
-        :paramtype display_on_chart: str or ~azure.mgmt.devtestlabs.models.CostThresholdStatus
-        :keyword send_notification_when_exceeded: Indicates whether notifications will be sent when
-         this threshold is exceeded. Known values are: "Enabled" and "Disabled".
-        :paramtype send_notification_when_exceeded: str or
-         ~azure.mgmt.devtestlabs.models.CostThresholdStatus
-        :keyword notification_sent: Indicates the datetime when notifications were last sent for this
-         threshold.
-        :paramtype notification_sent: str
-        """
-        super().__init__(**kwargs)
-        self.threshold_id = threshold_id
-        self.percentage_threshold = percentage_threshold
-        self.display_on_chart = display_on_chart
-        self.send_notification_when_exceeded = send_notification_when_exceeded
-        self.notification_sent = notification_sent
-
-
 class CustomImage(Resource):  # pylint: disable=too-many-instance-attributes
     """A custom image.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: The identifier of the resource.
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar location: The location of the resource.
-    :vartype location: str
-    :ivar tags: The tags of the resource.
+    :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
-    :ivar vm: The virtual machine from which the image is to be created.
-    :vartype vm: ~azure.mgmt.devtestlabs.models.CustomImagePropertiesFromVm
-    :ivar vhd: The VHD from which the image is to be created.
-    :vartype vhd: ~azure.mgmt.devtestlabs.models.CustomImagePropertiesCustom
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar system_data: The system metadata relating to this resource.
+    :vartype system_data: ~azure.mgmt.devtestlabs.models.SystemData
     :ivar description: The description of the custom image.
     :vartype description: str
     :ivar author: The author of the custom image.
@@ -1145,8 +1654,6 @@ class CustomImage(Resource):  # pylint: disable=too-many-instance-attributes
     :ivar data_disk_storage_info: Storage information about the data disks present in the custom
      image.
     :vartype data_disk_storage_info: list[~azure.mgmt.devtestlabs.models.DataDiskStorageTypeInfo]
-    :ivar custom_image_plan: Storage information about the plan related to this custom image.
-    :vartype custom_image_plan: ~azure.mgmt.devtestlabs.models.CustomImagePropertiesFromPlan
     :ivar is_plan_authorized: Whether or not the custom images underlying offer/plan has been
      enabled for programmatic deployment.
     :vartype is_plan_authorized: bool
@@ -1154,12 +1661,38 @@ class CustomImage(Resource):  # pylint: disable=too-many-instance-attributes
     :vartype provisioning_state: str
     :ivar unique_identifier: The unique immutable identifier of a resource (Guid).
     :vartype unique_identifier: str
+    :ivar id_properties_custom_image_plan_id: The id of the plan, equivalent to name of the plan.
+    :vartype id_properties_custom_image_plan_id: str
+    :ivar publisher: The publisher for the plan from the marketplace image the custom image is
+     derived from.
+    :vartype publisher: str
+    :ivar offer: The offer for the plan from the marketplace image the custom image is derived
+     from.
+    :vartype offer: str
+    :ivar image_name: The image name.
+    :vartype image_name: str
+    :ivar sys_prep: Indicates whether sysprep has been run on the VHD.
+    :vartype sys_prep: bool
+    :ivar os_type: The OS type of the custom image (i.e. Windows, Linux). Known values are:
+     "Windows", "Linux", and "None".
+    :vartype os_type: str or ~azure.mgmt.devtestlabs.models.CustomImageOsType
+    :ivar source_vm_id: The source vm identifier.
+    :vartype source_vm_id: str
+    :ivar linux_os_state: The state of the Linux OS (i.e. NonDeprovisioned, DeprovisionRequested,
+     DeprovisionApplied). Known values are: "NonDeprovisioned", "DeprovisionRequested", and
+     "DeprovisionApplied".
+    :vartype linux_os_state: str or ~azure.mgmt.devtestlabs.models.LinuxOsState
+    :ivar windows_os_state: The state of the Windows OS (i.e. NonSysprepped, SysprepRequested,
+     SysprepApplied). Known values are: "NonSysprepped", "SysprepRequested", and "SysprepApplied".
+    :vartype windows_os_state: str or ~azure.mgmt.devtestlabs.models.WindowsOsState
     """
 
     _validation = {
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "location": {"required": True},
+        "system_data": {"readonly": True},
         "creation_date": {"readonly": True},
         "provisioning_state": {"readonly": True},
         "unique_identifier": {"readonly": True},
@@ -1169,47 +1702,56 @@ class CustomImage(Resource):  # pylint: disable=too-many-instance-attributes
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "location": {"key": "location", "type": "str"},
         "tags": {"key": "tags", "type": "{str}"},
-        "vm": {"key": "properties.vm", "type": "CustomImagePropertiesFromVm"},
-        "vhd": {"key": "properties.vhd", "type": "CustomImagePropertiesCustom"},
+        "location": {"key": "location", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "description": {"key": "properties.description", "type": "str"},
         "author": {"key": "properties.author", "type": "str"},
         "creation_date": {"key": "properties.creationDate", "type": "iso-8601"},
         "managed_image_id": {"key": "properties.managedImageId", "type": "str"},
         "managed_snapshot_id": {"key": "properties.managedSnapshotId", "type": "str"},
         "data_disk_storage_info": {"key": "properties.dataDiskStorageInfo", "type": "[DataDiskStorageTypeInfo]"},
-        "custom_image_plan": {"key": "properties.customImagePlan", "type": "CustomImagePropertiesFromPlan"},
         "is_plan_authorized": {"key": "properties.isPlanAuthorized", "type": "bool"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "unique_identifier": {"key": "properties.uniqueIdentifier", "type": "str"},
+        "id_properties_custom_image_plan_id": {"key": "properties.customImagePlan.id", "type": "str"},
+        "publisher": {"key": "properties.customImagePlan.publisher", "type": "str"},
+        "offer": {"key": "properties.customImagePlan.offer", "type": "str"},
+        "image_name": {"key": "properties.vhd.imageName", "type": "str"},
+        "sys_prep": {"key": "properties.vhd.sysPrep", "type": "bool"},
+        "os_type": {"key": "properties.vhd.osType", "type": "str"},
+        "source_vm_id": {"key": "properties.vm.sourceVmId", "type": "str"},
+        "linux_os_state": {"key": "properties.vm.linuxOsInfo.linuxOsState", "type": "str"},
+        "windows_os_state": {"key": "properties.vm.windowsOsInfo.windowsOsState", "type": "str"},
     }
 
-    def __init__(
+    def __init__(  # pylint: disable=too-many-locals
         self,
         *,
-        location: Optional[str] = None,
+        location: str,
         tags: Optional[Dict[str, str]] = None,
-        vm: Optional["_models.CustomImagePropertiesFromVm"] = None,
-        vhd: Optional["_models.CustomImagePropertiesCustom"] = None,
         description: Optional[str] = None,
         author: Optional[str] = None,
         managed_image_id: Optional[str] = None,
         managed_snapshot_id: Optional[str] = None,
         data_disk_storage_info: Optional[List["_models.DataDiskStorageTypeInfo"]] = None,
-        custom_image_plan: Optional["_models.CustomImagePropertiesFromPlan"] = None,
         is_plan_authorized: Optional[bool] = None,
-        **kwargs
-    ):
+        id_properties_custom_image_plan_id: Optional[str] = None,
+        publisher: Optional[str] = None,
+        offer: Optional[str] = None,
+        image_name: Optional[str] = None,
+        sys_prep: Optional[bool] = None,
+        os_type: Optional[Union[str, "_models.CustomImageOsType"]] = None,
+        source_vm_id: Optional[str] = None,
+        linux_os_state: Optional[Union[str, "_models.LinuxOsState"]] = None,
+        windows_os_state: Optional[Union[str, "_models.WindowsOsState"]] = None,
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword location: The location of the resource.
-        :paramtype location: str
-        :keyword tags: The tags of the resource.
+        :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
-        :keyword vm: The virtual machine from which the image is to be created.
-        :paramtype vm: ~azure.mgmt.devtestlabs.models.CustomImagePropertiesFromVm
-        :keyword vhd: The VHD from which the image is to be created.
-        :paramtype vhd: ~azure.mgmt.devtestlabs.models.CustomImagePropertiesCustom
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
         :keyword description: The description of the custom image.
         :paramtype description: str
         :keyword author: The author of the custom image.
@@ -1221,52 +1763,93 @@ class CustomImage(Resource):  # pylint: disable=too-many-instance-attributes
         :keyword data_disk_storage_info: Storage information about the data disks present in the custom
          image.
         :paramtype data_disk_storage_info: list[~azure.mgmt.devtestlabs.models.DataDiskStorageTypeInfo]
-        :keyword custom_image_plan: Storage information about the plan related to this custom image.
-        :paramtype custom_image_plan: ~azure.mgmt.devtestlabs.models.CustomImagePropertiesFromPlan
         :keyword is_plan_authorized: Whether or not the custom images underlying offer/plan has been
          enabled for programmatic deployment.
         :paramtype is_plan_authorized: bool
+        :keyword id_properties_custom_image_plan_id: The id of the plan, equivalent to name of the
+         plan.
+        :paramtype id_properties_custom_image_plan_id: str
+        :keyword publisher: The publisher for the plan from the marketplace image the custom image is
+         derived from.
+        :paramtype publisher: str
+        :keyword offer: The offer for the plan from the marketplace image the custom image is derived
+         from.
+        :paramtype offer: str
+        :keyword image_name: The image name.
+        :paramtype image_name: str
+        :keyword sys_prep: Indicates whether sysprep has been run on the VHD.
+        :paramtype sys_prep: bool
+        :keyword os_type: The OS type of the custom image (i.e. Windows, Linux). Known values are:
+         "Windows", "Linux", and "None".
+        :paramtype os_type: str or ~azure.mgmt.devtestlabs.models.CustomImageOsType
+        :keyword source_vm_id: The source vm identifier.
+        :paramtype source_vm_id: str
+        :keyword linux_os_state: The state of the Linux OS (i.e. NonDeprovisioned,
+         DeprovisionRequested, DeprovisionApplied). Known values are: "NonDeprovisioned",
+         "DeprovisionRequested", and "DeprovisionApplied".
+        :paramtype linux_os_state: str or ~azure.mgmt.devtestlabs.models.LinuxOsState
+        :keyword windows_os_state: The state of the Windows OS (i.e. NonSysprepped, SysprepRequested,
+         SysprepApplied). Known values are: "NonSysprepped", "SysprepRequested", and "SysprepApplied".
+        :paramtype windows_os_state: str or ~azure.mgmt.devtestlabs.models.WindowsOsState
         """
-        super().__init__(location=location, tags=tags, **kwargs)
-        self.vm = vm
-        self.vhd = vhd
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.system_data = None
         self.description = description
         self.author = author
         self.creation_date = None
         self.managed_image_id = managed_image_id
         self.managed_snapshot_id = managed_snapshot_id
         self.data_disk_storage_info = data_disk_storage_info
-        self.custom_image_plan = custom_image_plan
         self.is_plan_authorized = is_plan_authorized
         self.provisioning_state = None
         self.unique_identifier = None
+        self.id_properties_custom_image_plan_id = id_properties_custom_image_plan_id
+        self.publisher = publisher
+        self.offer = offer
+        self.image_name = image_name
+        self.sys_prep = sys_prep
+        self.os_type = os_type
+        self.source_vm_id = source_vm_id
+        self.linux_os_state = linux_os_state
+        self.windows_os_state = windows_os_state
 
 
 class CustomImageFragment(UpdateResource):
-    """A custom image.
+    """Patch.
 
     :ivar tags: The tags of the resource.
     :vartype tags: dict[str, str]
+    :ivar identity: The identity of the resource.
+    :vartype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
     """
 
     _attribute_map = {
         "tags": {"key": "tags", "type": "{str}"},
+        "identity": {"key": "identity", "type": "IdentityProperties"},
     }
 
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(
+        self,
+        *,
+        tags: Optional[Dict[str, str]] = None,
+        identity: Optional["_models.IdentityProperties"] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: The tags of the resource.
         :paramtype tags: dict[str, str]
+        :keyword identity: The identity of the resource.
+        :paramtype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
         """
-        super().__init__(tags=tags, **kwargs)
+        super().__init__(tags=tags, identity=identity, **kwargs)
 
 
 class CustomImageList(_serialization.Model):
-    """The response of a list operation.
+    """Contains a list of customImages and their properties.
 
-    :ivar value: Results of the list operation.
+    :ivar value: List of customImages and their properties.
     :vartype value: list[~azure.mgmt.devtestlabs.models.CustomImage]
-    :ivar next_link: Link for next set of results.
+    :ivar next_link: URL to get the next set of operation list results if there are any.
     :vartype next_link: str
     """
 
@@ -1276,12 +1859,12 @@ class CustomImageList(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.CustomImage"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.CustomImage"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
-        :keyword value: Results of the list operation.
+        :keyword value: List of customImages and their properties.
         :paramtype value: list[~azure.mgmt.devtestlabs.models.CustomImage]
-        :keyword next_link: Link for next set of results.
+        :keyword next_link: URL to get the next set of operation list results if there are any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
@@ -1289,54 +1872,7 @@ class CustomImageList(_serialization.Model):
         self.next_link = next_link
 
 
-class CustomImagePropertiesCustom(_serialization.Model):
-    """Properties for creating a custom image from a VHD.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar image_name: The image name.
-    :vartype image_name: str
-    :ivar sys_prep: Indicates whether sysprep has been run on the VHD.
-    :vartype sys_prep: bool
-    :ivar os_type: The OS type of the custom image (i.e. Windows, Linux). Required. Known values
-     are: "Windows", "Linux", and "None".
-    :vartype os_type: str or ~azure.mgmt.devtestlabs.models.CustomImageOsType
-    """
-
-    _validation = {
-        "os_type": {"required": True},
-    }
-
-    _attribute_map = {
-        "image_name": {"key": "imageName", "type": "str"},
-        "sys_prep": {"key": "sysPrep", "type": "bool"},
-        "os_type": {"key": "osType", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        os_type: Union[str, "_models.CustomImageOsType"],
-        image_name: Optional[str] = None,
-        sys_prep: Optional[bool] = None,
-        **kwargs
-    ):
-        """
-        :keyword image_name: The image name.
-        :paramtype image_name: str
-        :keyword sys_prep: Indicates whether sysprep has been run on the VHD.
-        :paramtype sys_prep: bool
-        :keyword os_type: The OS type of the custom image (i.e. Windows, Linux). Required. Known values
-         are: "Windows", "Linux", and "None".
-        :paramtype os_type: str or ~azure.mgmt.devtestlabs.models.CustomImageOsType
-        """
-        super().__init__(**kwargs)
-        self.image_name = image_name
-        self.sys_prep = sys_prep
-        self.os_type = os_type
-
-
-class CustomImagePropertiesFromPlan(_serialization.Model):
+class CustomImagePropertiesFromPlanFragment(_serialization.Model):
     """Properties for plan on a custom image.
 
     :ivar id: The id of the plan, equivalent to name of the plan.
@@ -1361,8 +1897,8 @@ class CustomImagePropertiesFromPlan(_serialization.Model):
         id: Optional[str] = None,  # pylint: disable=redefined-builtin
         publisher: Optional[str] = None,
         offer: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: The id of the plan, equivalent to name of the plan.
         :paramtype id: str
@@ -1379,87 +1915,61 @@ class CustomImagePropertiesFromPlan(_serialization.Model):
         self.offer = offer
 
 
-class CustomImagePropertiesFromVm(_serialization.Model):
-    """Properties for creating a custom image from a virtual machine.
-
-    :ivar source_vm_id: The source vm identifier.
-    :vartype source_vm_id: str
-    :ivar windows_os_info: The Windows OS information of the VM.
-    :vartype windows_os_info: ~azure.mgmt.devtestlabs.models.WindowsOsInfo
-    :ivar linux_os_info: The Linux OS information of the VM.
-    :vartype linux_os_info: ~azure.mgmt.devtestlabs.models.LinuxOsInfo
-    """
-
-    _attribute_map = {
-        "source_vm_id": {"key": "sourceVmId", "type": "str"},
-        "windows_os_info": {"key": "windowsOsInfo", "type": "WindowsOsInfo"},
-        "linux_os_info": {"key": "linuxOsInfo", "type": "LinuxOsInfo"},
-    }
-
-    def __init__(
-        self,
-        *,
-        source_vm_id: Optional[str] = None,
-        windows_os_info: Optional["_models.WindowsOsInfo"] = None,
-        linux_os_info: Optional["_models.LinuxOsInfo"] = None,
-        **kwargs
-    ):
-        """
-        :keyword source_vm_id: The source vm identifier.
-        :paramtype source_vm_id: str
-        :keyword windows_os_info: The Windows OS information of the VM.
-        :paramtype windows_os_info: ~azure.mgmt.devtestlabs.models.WindowsOsInfo
-        :keyword linux_os_info: The Linux OS information of the VM.
-        :paramtype linux_os_info: ~azure.mgmt.devtestlabs.models.LinuxOsInfo
-        """
-        super().__init__(**kwargs)
-        self.source_vm_id = source_vm_id
-        self.windows_os_info = windows_os_info
-        self.linux_os_info = linux_os_info
-
-
 class DataDiskProperties(_serialization.Model):
     """Request body for adding a new or existing data disk to a virtual machine.
 
-    :ivar attach_new_data_disk_options: Specifies options to attach a new disk to the virtual
-     machine.
-    :vartype attach_new_data_disk_options: ~azure.mgmt.devtestlabs.models.AttachNewDataDiskOptions
     :ivar existing_lab_disk_id: Specifies the existing lab disk id to attach to virtual machine.
     :vartype existing_lab_disk_id: str
     :ivar host_caching: Caching option for a data disk (i.e. None, ReadOnly, ReadWrite). Known
      values are: "None", "ReadOnly", and "ReadWrite".
     :vartype host_caching: str or ~azure.mgmt.devtestlabs.models.HostCachingOptions
+    :ivar disk_size_gi_b: Size of the disk to be attached in Gibibytes.
+    :vartype disk_size_gi_b: int
+    :ivar disk_name: The name of the disk to be attached.
+    :vartype disk_name: str
+    :ivar disk_type: The storage type for the disk (i.e. Standard, Premium). Known values are:
+     "Standard", "Premium", and "StandardSSD".
+    :vartype disk_type: str or ~azure.mgmt.devtestlabs.models.StorageType
     """
 
     _attribute_map = {
-        "attach_new_data_disk_options": {"key": "attachNewDataDiskOptions", "type": "AttachNewDataDiskOptions"},
         "existing_lab_disk_id": {"key": "existingLabDiskId", "type": "str"},
         "host_caching": {"key": "hostCaching", "type": "str"},
+        "disk_size_gi_b": {"key": "attachNewDataDiskOptions.diskSizeGiB", "type": "int"},
+        "disk_name": {"key": "attachNewDataDiskOptions.diskName", "type": "str"},
+        "disk_type": {"key": "attachNewDataDiskOptions.diskType", "type": "str"},
     }
 
     def __init__(
         self,
         *,
-        attach_new_data_disk_options: Optional["_models.AttachNewDataDiskOptions"] = None,
         existing_lab_disk_id: Optional[str] = None,
         host_caching: Optional[Union[str, "_models.HostCachingOptions"]] = None,
-        **kwargs
-    ):
+        disk_size_gi_b: Optional[int] = None,
+        disk_name: Optional[str] = None,
+        disk_type: Optional[Union[str, "_models.StorageType"]] = None,
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword attach_new_data_disk_options: Specifies options to attach a new disk to the virtual
-         machine.
-        :paramtype attach_new_data_disk_options:
-         ~azure.mgmt.devtestlabs.models.AttachNewDataDiskOptions
         :keyword existing_lab_disk_id: Specifies the existing lab disk id to attach to virtual machine.
         :paramtype existing_lab_disk_id: str
         :keyword host_caching: Caching option for a data disk (i.e. None, ReadOnly, ReadWrite). Known
          values are: "None", "ReadOnly", and "ReadWrite".
         :paramtype host_caching: str or ~azure.mgmt.devtestlabs.models.HostCachingOptions
+        :keyword disk_size_gi_b: Size of the disk to be attached in Gibibytes.
+        :paramtype disk_size_gi_b: int
+        :keyword disk_name: The name of the disk to be attached.
+        :paramtype disk_name: str
+        :keyword disk_type: The storage type for the disk (i.e. Standard, Premium). Known values are:
+         "Standard", "Premium", and "StandardSSD".
+        :paramtype disk_type: str or ~azure.mgmt.devtestlabs.models.StorageType
         """
         super().__init__(**kwargs)
-        self.attach_new_data_disk_options = attach_new_data_disk_options
         self.existing_lab_disk_id = existing_lab_disk_id
         self.host_caching = host_caching
+        self.disk_size_gi_b = disk_size_gi_b
+        self.disk_name = disk_name
+        self.disk_type = disk_type
 
 
 class DataDiskStorageTypeInfo(_serialization.Model):
@@ -1478,8 +1988,12 @@ class DataDiskStorageTypeInfo(_serialization.Model):
     }
 
     def __init__(
-        self, *, lun: Optional[str] = None, storage_type: Optional[Union[str, "_models.StorageType"]] = None, **kwargs
-    ):
+        self,
+        *,
+        lun: Optional[str] = None,
+        storage_type: Optional[Union[str, "_models.StorageType"]] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword lun: Disk Lun.
         :paramtype lun: str
@@ -1490,26 +2004,6 @@ class DataDiskStorageTypeInfo(_serialization.Model):
         super().__init__(**kwargs)
         self.lun = lun
         self.storage_type = storage_type
-
-
-class DayDetails(_serialization.Model):
-    """Properties of a daily schedule.
-
-    :ivar time: The time of day the schedule will occur.
-    :vartype time: str
-    """
-
-    _attribute_map = {
-        "time": {"key": "time", "type": "str"},
-    }
-
-    def __init__(self, *, time: Optional[str] = None, **kwargs):
-        """
-        :keyword time: The time of day the schedule will occur.
-        :paramtype time: str
-        """
-        super().__init__(**kwargs)
-        self.time = time
 
 
 class DetachDataDiskProperties(_serialization.Model):
@@ -1523,7 +2017,7 @@ class DetachDataDiskProperties(_serialization.Model):
         "existing_lab_disk_id": {"key": "existingLabDiskId", "type": "str"},
     }
 
-    def __init__(self, *, existing_lab_disk_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, existing_lab_disk_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword existing_lab_disk_id: Specifies the disk resource ID to detach from virtual machine.
         :paramtype existing_lab_disk_id: str
@@ -1543,7 +2037,7 @@ class DetachDiskProperties(_serialization.Model):
         "leased_by_lab_vm_id": {"key": "leasedByLabVmId", "type": "str"},
     }
 
-    def __init__(self, *, leased_by_lab_vm_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, leased_by_lab_vm_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword leased_by_lab_vm_id: The resource ID of the Lab VM to which the disk is attached.
         :paramtype leased_by_lab_vm_id: str
@@ -1557,16 +2051,22 @@ class Disk(Resource):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: The identifier of the resource.
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar location: The location of the resource.
-    :vartype location: str
-    :ivar tags: The tags of the resource.
+    :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar system_data: The system metadata relating to this resource.
+    :vartype system_data: ~azure.mgmt.devtestlabs.models.SystemData
     :ivar disk_type: The storage type for the disk (i.e. Standard, Premium). Known values are:
      "Standard", "Premium", and "StandardSSD".
     :vartype disk_type: str or ~azure.mgmt.devtestlabs.models.StorageType
@@ -1597,6 +2097,8 @@ class Disk(Resource):  # pylint: disable=too-many-instance-attributes
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "location": {"required": True},
+        "system_data": {"readonly": True},
         "created_date": {"readonly": True},
         "provisioning_state": {"readonly": True},
         "unique_identifier": {"readonly": True},
@@ -1606,8 +2108,9 @@ class Disk(Resource):  # pylint: disable=too-many-instance-attributes
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "location": {"key": "location", "type": "str"},
         "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "disk_type": {"key": "properties.diskType", "type": "str"},
         "disk_size_gi_b": {"key": "properties.diskSizeGiB", "type": "int"},
         "leased_by_lab_vm_id": {"key": "properties.leasedByLabVmId", "type": "str"},
@@ -1624,7 +2127,7 @@ class Disk(Resource):  # pylint: disable=too-many-instance-attributes
     def __init__(
         self,
         *,
-        location: Optional[str] = None,
+        location: str,
         tags: Optional[Dict[str, str]] = None,
         disk_type: Optional[Union[str, "_models.StorageType"]] = None,
         disk_size_gi_b: Optional[int] = None,
@@ -1634,13 +2137,13 @@ class Disk(Resource):  # pylint: disable=too-many-instance-attributes
         storage_account_id: Optional[str] = None,
         host_caching: Optional[str] = None,
         managed_disk_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword location: The location of the resource.
-        :paramtype location: str
-        :keyword tags: The tags of the resource.
+        :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
         :keyword disk_type: The storage type for the disk (i.e. Standard, Premium). Known values are:
          "Standard", "Premium", and "StandardSSD".
         :paramtype disk_type: str or ~azure.mgmt.devtestlabs.models.StorageType
@@ -1660,7 +2163,8 @@ class Disk(Resource):  # pylint: disable=too-many-instance-attributes
          resource.
         :paramtype managed_disk_id: str
         """
-        super().__init__(location=location, tags=tags, **kwargs)
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.system_data = None
         self.disk_type = disk_type
         self.disk_size_gi_b = disk_size_gi_b
         self.leased_by_lab_vm_id = leased_by_lab_vm_id
@@ -1675,30 +2179,41 @@ class Disk(Resource):  # pylint: disable=too-many-instance-attributes
 
 
 class DiskFragment(UpdateResource):
-    """A Disk.
+    """Patch.
 
     :ivar tags: The tags of the resource.
     :vartype tags: dict[str, str]
+    :ivar identity: The identity of the resource.
+    :vartype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
     """
 
     _attribute_map = {
         "tags": {"key": "tags", "type": "{str}"},
+        "identity": {"key": "identity", "type": "IdentityProperties"},
     }
 
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(
+        self,
+        *,
+        tags: Optional[Dict[str, str]] = None,
+        identity: Optional["_models.IdentityProperties"] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: The tags of the resource.
         :paramtype tags: dict[str, str]
+        :keyword identity: The identity of the resource.
+        :paramtype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
         """
-        super().__init__(tags=tags, **kwargs)
+        super().__init__(tags=tags, identity=identity, **kwargs)
 
 
 class DiskList(_serialization.Model):
-    """The response of a list operation.
+    """Contains a list of disks and their properties.
 
-    :ivar value: Results of the list operation.
+    :ivar value: List of disks and their properties.
     :vartype value: list[~azure.mgmt.devtestlabs.models.Disk]
-    :ivar next_link: Link for next set of results.
+    :ivar next_link: URL to get the next set of operation list results if there are any.
     :vartype next_link: str
     """
 
@@ -1707,11 +2222,13 @@ class DiskList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Disk"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.Disk"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
-        :keyword value: Results of the list operation.
+        :keyword value: List of disks and their properties.
         :paramtype value: list[~azure.mgmt.devtestlabs.models.Disk]
-        :keyword next_link: Link for next set of results.
+        :keyword next_link: URL to get the next set of operation list results if there are any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
@@ -1724,18 +2241,22 @@ class DtlEnvironment(Resource):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: The identifier of the resource.
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar location: The location of the resource.
-    :vartype location: str
-    :ivar tags: The tags of the resource.
+    :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
-    :ivar deployment_properties: The deployment properties of the environment.
-    :vartype deployment_properties: ~azure.mgmt.devtestlabs.models.EnvironmentDeploymentProperties
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar system_data: The system metadata relating to this resource.
+    :vartype system_data: ~azure.mgmt.devtestlabs.models.SystemData
     :ivar arm_template_display_name: The display name of the Azure Resource Manager template that
      produced the environment.
     :vartype arm_template_display_name: str
@@ -1748,12 +2269,18 @@ class DtlEnvironment(Resource):  # pylint: disable=too-many-instance-attributes
     :vartype provisioning_state: str
     :ivar unique_identifier: The unique immutable identifier of a resource (Guid).
     :vartype unique_identifier: str
+    :ivar arm_template_id: The Azure Resource Manager template's identifier.
+    :vartype arm_template_id: str
+    :ivar parameters: The parameters of the Azure Resource Manager template.
+    :vartype parameters: list[~azure.mgmt.devtestlabs.models.ArmTemplateParameterProperties]
     """
 
     _validation = {
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "location": {"required": True},
+        "system_data": {"readonly": True},
         "resource_group_id": {"readonly": True},
         "created_by_user": {"readonly": True},
         "provisioning_state": {"readonly": True},
@@ -1764,71 +2291,88 @@ class DtlEnvironment(Resource):  # pylint: disable=too-many-instance-attributes
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "location": {"key": "location", "type": "str"},
         "tags": {"key": "tags", "type": "{str}"},
-        "deployment_properties": {"key": "properties.deploymentProperties", "type": "EnvironmentDeploymentProperties"},
+        "location": {"key": "location", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "arm_template_display_name": {"key": "properties.armTemplateDisplayName", "type": "str"},
         "resource_group_id": {"key": "properties.resourceGroupId", "type": "str"},
         "created_by_user": {"key": "properties.createdByUser", "type": "str"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "unique_identifier": {"key": "properties.uniqueIdentifier", "type": "str"},
+        "arm_template_id": {"key": "properties.deploymentProperties.armTemplateId", "type": "str"},
+        "parameters": {"key": "properties.deploymentProperties.parameters", "type": "[ArmTemplateParameterProperties]"},
     }
 
     def __init__(
         self,
         *,
-        location: Optional[str] = None,
+        location: str,
         tags: Optional[Dict[str, str]] = None,
-        deployment_properties: Optional["_models.EnvironmentDeploymentProperties"] = None,
         arm_template_display_name: Optional[str] = None,
-        **kwargs
-    ):
+        arm_template_id: Optional[str] = None,
+        parameters: Optional[List["_models.ArmTemplateParameterProperties"]] = None,
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword location: The location of the resource.
-        :paramtype location: str
-        :keyword tags: The tags of the resource.
+        :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
-        :keyword deployment_properties: The deployment properties of the environment.
-        :paramtype deployment_properties:
-         ~azure.mgmt.devtestlabs.models.EnvironmentDeploymentProperties
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
         :keyword arm_template_display_name: The display name of the Azure Resource Manager template
          that produced the environment.
         :paramtype arm_template_display_name: str
+        :keyword arm_template_id: The Azure Resource Manager template's identifier.
+        :paramtype arm_template_id: str
+        :keyword parameters: The parameters of the Azure Resource Manager template.
+        :paramtype parameters: list[~azure.mgmt.devtestlabs.models.ArmTemplateParameterProperties]
         """
-        super().__init__(location=location, tags=tags, **kwargs)
-        self.deployment_properties = deployment_properties
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.system_data = None
         self.arm_template_display_name = arm_template_display_name
         self.resource_group_id = None
         self.created_by_user = None
         self.provisioning_state = None
         self.unique_identifier = None
+        self.arm_template_id = arm_template_id
+        self.parameters = parameters
 
 
 class DtlEnvironmentFragment(UpdateResource):
-    """An environment, which is essentially an ARM template deployment.
+    """Patch.
 
     :ivar tags: The tags of the resource.
     :vartype tags: dict[str, str]
+    :ivar identity: The identity of the resource.
+    :vartype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
     """
 
     _attribute_map = {
         "tags": {"key": "tags", "type": "{str}"},
+        "identity": {"key": "identity", "type": "IdentityProperties"},
     }
 
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(
+        self,
+        *,
+        tags: Optional[Dict[str, str]] = None,
+        identity: Optional["_models.IdentityProperties"] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: The tags of the resource.
         :paramtype tags: dict[str, str]
+        :keyword identity: The identity of the resource.
+        :paramtype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
         """
-        super().__init__(tags=tags, **kwargs)
+        super().__init__(tags=tags, identity=identity, **kwargs)
 
 
 class DtlEnvironmentList(_serialization.Model):
-    """The response of a list operation.
+    """Contains a list of environments and their properties.
 
-    :ivar value: Results of the list operation.
+    :ivar value: List of environments and their properties.
     :vartype value: list[~azure.mgmt.devtestlabs.models.DtlEnvironment]
-    :ivar next_link: Link for next set of results.
+    :ivar next_link: URL to get the next set of operation list results if there are any.
     :vartype next_link: str
     """
 
@@ -1838,49 +2382,17 @@ class DtlEnvironmentList(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.DtlEnvironment"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.DtlEnvironment"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
-        :keyword value: Results of the list operation.
+        :keyword value: List of environments and their properties.
         :paramtype value: list[~azure.mgmt.devtestlabs.models.DtlEnvironment]
-        :keyword next_link: Link for next set of results.
+        :keyword next_link: URL to get the next set of operation list results if there are any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
         self.next_link = next_link
-
-
-class EnvironmentDeploymentProperties(_serialization.Model):
-    """Properties of an environment deployment.
-
-    :ivar arm_template_id: The Azure Resource Manager template's identifier.
-    :vartype arm_template_id: str
-    :ivar parameters: The parameters of the Azure Resource Manager template.
-    :vartype parameters: list[~azure.mgmt.devtestlabs.models.ArmTemplateParameterProperties]
-    """
-
-    _attribute_map = {
-        "arm_template_id": {"key": "armTemplateId", "type": "str"},
-        "parameters": {"key": "parameters", "type": "[ArmTemplateParameterProperties]"},
-    }
-
-    def __init__(
-        self,
-        *,
-        arm_template_id: Optional[str] = None,
-        parameters: Optional[List["_models.ArmTemplateParameterProperties"]] = None,
-        **kwargs
-    ):
-        """
-        :keyword arm_template_id: The Azure Resource Manager template's identifier.
-        :paramtype arm_template_id: str
-        :keyword parameters: The parameters of the Azure Resource Manager template.
-        :paramtype parameters: list[~azure.mgmt.devtestlabs.models.ArmTemplateParameterProperties]
-        """
-        super().__init__(**kwargs)
-        self.arm_template_id = arm_template_id
-        self.parameters = parameters
 
 
 class EvaluatePoliciesProperties(_serialization.Model):
@@ -1910,8 +2422,8 @@ class EvaluatePoliciesProperties(_serialization.Model):
         fact_data: Optional[str] = None,
         value_offset: Optional[str] = None,
         user_object_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword fact_name: The fact name.
         :paramtype fact_name: str
@@ -1940,7 +2452,7 @@ class EvaluatePoliciesRequest(_serialization.Model):
         "policies": {"key": "policies", "type": "[EvaluatePoliciesProperties]"},
     }
 
-    def __init__(self, *, policies: Optional[List["_models.EvaluatePoliciesProperties"]] = None, **kwargs):
+    def __init__(self, *, policies: Optional[List["_models.EvaluatePoliciesProperties"]] = None, **kwargs: Any) -> None:
         """
         :keyword policies: Policies to evaluate.
         :paramtype policies: list[~azure.mgmt.devtestlabs.models.EvaluatePoliciesProperties]
@@ -1960,7 +2472,7 @@ class EvaluatePoliciesResponse(_serialization.Model):
         "results": {"key": "results", "type": "[PolicySetResult]"},
     }
 
-    def __init__(self, *, results: Optional[List["_models.PolicySetResult"]] = None, **kwargs):
+    def __init__(self, *, results: Optional[List["_models.PolicySetResult"]] = None, **kwargs: Any) -> None:
         """
         :keyword results: Results of evaluating a policy set.
         :paramtype results: list[~azure.mgmt.devtestlabs.models.PolicySetResult]
@@ -1972,8 +2484,8 @@ class EvaluatePoliciesResponse(_serialization.Model):
 class Event(_serialization.Model):
     """An event to be notified for.
 
-    :ivar event_name: The event type for which this notification is enabled (i.e. AutoShutdown,
-     Cost). Known values are: "AutoShutdown" and "Cost".
+    :ivar event_name: The event type for which this notification is enabled (i.e. AutoShutdown).
+     "AutoShutdown"
     :vartype event_name: str or ~azure.mgmt.devtestlabs.models.NotificationChannelEventType
     """
 
@@ -1981,10 +2493,12 @@ class Event(_serialization.Model):
         "event_name": {"key": "eventName", "type": "str"},
     }
 
-    def __init__(self, *, event_name: Optional[Union[str, "_models.NotificationChannelEventType"]] = None, **kwargs):
+    def __init__(
+        self, *, event_name: Optional[Union[str, "_models.NotificationChannelEventType"]] = None, **kwargs: Any
+    ) -> None:
         """
-        :keyword event_name: The event type for which this notification is enabled (i.e. AutoShutdown,
-         Cost). Known values are: "AutoShutdown" and "Cost".
+        :keyword event_name: The event type for which this notification is enabled (i.e. AutoShutdown).
+         "AutoShutdown"
         :paramtype event_name: str or ~azure.mgmt.devtestlabs.models.NotificationChannelEventType
         """
         super().__init__(**kwargs)
@@ -2012,8 +2526,8 @@ class ExportResourceUsageParameters(_serialization.Model):
         *,
         blob_storage_absolute_sas_uri: Optional[str] = None,
         usage_start_date: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword blob_storage_absolute_sas_uri: The blob storage absolute sas uri with write permission
          to the container which the usage data needs to be uploaded to.
@@ -2042,8 +2556,12 @@ class ExternalSubnet(_serialization.Model):
     }
 
     def __init__(
-        self, *, id: Optional[str] = None, name: Optional[str] = None, **kwargs  # pylint: disable=redefined-builtin
-    ):
+        self,
+        *,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        name: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: Gets or sets the identifier.
         :paramtype id: str
@@ -2060,121 +2578,1577 @@ class Formula(Resource):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: The identifier of the resource.
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar location: The location of the resource.
-    :vartype location: str
-    :ivar tags: The tags of the resource.
+    :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar system_data: The system metadata relating to this resource.
+    :vartype system_data: ~azure.mgmt.devtestlabs.models.SystemData
     :ivar description: The description of the formula.
     :vartype description: str
     :ivar author: The author of the formula.
     :vartype author: str
-    :ivar os_type: The OS type of the formula.
-    :vartype os_type: str
+    :ivar os_type_properties_os_type: The OS type of the formula.
+    :vartype os_type_properties_os_type: str
     :ivar creation_date: The creation date of the formula.
     :vartype creation_date: ~datetime.datetime
-    :ivar formula_content: The content of the formula.
-    :vartype formula_content: ~azure.mgmt.devtestlabs.models.LabVirtualMachineCreationParameter
-    :ivar vm: Information about a VM from which a formula is to be created.
-    :vartype vm: ~azure.mgmt.devtestlabs.models.FormulaPropertiesFromVm
-    :ivar provisioning_state: The provisioning status of the resource.
-    :vartype provisioning_state: str
-    :ivar unique_identifier: The unique immutable identifier of a resource (Guid).
-    :vartype unique_identifier: str
+    :ivar provisioning_state_properties_provisioning_state: The provisioning status of the
+     resource.
+    :vartype provisioning_state_properties_provisioning_state: str
+    :ivar unique_identifier_properties_unique_identifier: The unique immutable identifier of a
+     resource (Guid).
+    :vartype unique_identifier_properties_unique_identifier: str
+    :ivar lab_vm_id: The identifier of the VM from which a formula is to be created.
+    :vartype lab_vm_id: str
+    :ivar name_properties_formula_content_name: The name of the virtual machine or environment.
+    :vartype name_properties_formula_content_name: str
+    :ivar location_properties_formula_content_location: The location of the new virtual machine or
+     environment.
+    :vartype location_properties_formula_content_location: str
+    :ivar tags_properties_formula_content_tags: The tags of the resource.
+    :vartype tags_properties_formula_content_tags: dict[str, str]
+    :ivar notes: The notes of the virtual machine.
+    :vartype notes: str
+    :ivar owner_object_id: The object identifier of the owner of the virtual machine.
+    :vartype owner_object_id: str
+    :ivar owner_user_principal_name: The user principal name of the virtual machine owner.
+    :vartype owner_user_principal_name: str
+    :ivar created_by_user_id: The object identifier of the creator of the virtual machine.
+    :vartype created_by_user_id: str
+    :ivar created_by_user: The email address of creator of the virtual machine.
+    :vartype created_by_user: str
+    :ivar created_date_properties_formula_content_properties_created_date: The creation date of the
+     virtual machine.
+    :vartype created_date_properties_formula_content_properties_created_date: ~datetime.datetime
+    :ivar compute_id: The resource identifier (Microsoft.Compute) of the virtual machine.
+    :vartype compute_id: str
+    :ivar custom_image_id: The custom image identifier of the virtual machine.
+    :vartype custom_image_id: str
+    :ivar gallery_image_version_id: The shared gallery image version resource identifier of the
+     virtual machine.
+    :vartype gallery_image_version_id: str
+    :ivar shared_image_id: The shared image resource identifier of the virtual machine.
+    :vartype shared_image_id: str
+    :ivar shared_image_version: The shared image version for the specified shared image Id. Will
+     use latest if not specified.
+    :vartype shared_image_version: str
+    :ivar os_type_properties_formula_content_properties_os_type: The OS type of the virtual
+     machine.
+    :vartype os_type_properties_formula_content_properties_os_type: str
+    :ivar size: The size of the virtual machine.
+    :vartype size: str
+    :ivar user_name: The user name of the virtual machine.
+    :vartype user_name: str
+    :ivar password: The password of the virtual machine administrator.
+    :vartype password: str
+    :ivar ssh_key: The SSH key of the virtual machine administrator.
+    :vartype ssh_key: str
+    :ivar is_authentication_with_ssh_key: Indicates whether this virtual machine uses an SSH key
+     for authentication.
+    :vartype is_authentication_with_ssh_key: bool
+    :ivar fqdn: The fully-qualified domain name of the virtual machine.
+    :vartype fqdn: str
+    :ivar lab_subnet_name: The lab subnet name of the virtual machine.
+    :vartype lab_subnet_name: str
+    :ivar lab_virtual_network_id: The lab virtual network identifier of the virtual machine.
+    :vartype lab_virtual_network_id: str
+    :ivar disallow_public_ip_address: Indicates whether the virtual machine is to be created
+     without a public IP address.
+    :vartype disallow_public_ip_address: bool
+    :ivar artifacts: The artifacts to be installed on the virtual machine.
+    :vartype artifacts: list[~azure.mgmt.devtestlabs.models.ArtifactInstallProperties]
+    :ivar plan_id: The id of the plan associated with the virtual machine image.
+    :vartype plan_id: str
+    :ivar os_disk_size_gb: Specifies the size of an empty data disk in gigabytes. This element can
+     be used to overwrite the size of the disk in a virtual machine image.
+    :vartype os_disk_size_gb: int
+    :ivar expiration_date: The expiration date for VM.
+    :vartype expiration_date: ~datetime.datetime
+    :ivar allow_claim: Indicates whether another user can take ownership of the virtual machine.
+    :vartype allow_claim: bool
+    :ivar storage_type: Storage type to use for virtual machine (i.e. Standard, Premium,
+     StandardSSD). Known values are: "Standard", "Premium", and "StandardSSD".
+    :vartype storage_type: str or ~azure.mgmt.devtestlabs.models.StorageType
+    :ivar virtual_machine_creation_source: Tells source of creation of lab virtual machine. Output
+     property only. Known values are: "FromCustomImage", "FromGalleryImage", and
+     "FromSharedGalleryImage".
+    :vartype virtual_machine_creation_source: str or
+     ~azure.mgmt.devtestlabs.models.VirtualMachineCreationSource
+    :ivar environment_id: The resource ID of the environment that contains this virtual machine, if
+     any.
+    :vartype environment_id: str
+    :ivar data_disk_parameters: New or existing data disks to attach to the virtual machine after
+     creation.
+    :vartype data_disk_parameters: list[~azure.mgmt.devtestlabs.models.DataDiskProperties]
+    :ivar schedule_parameters: Virtual Machine schedules to be created.
+    :vartype schedule_parameters: list[~azure.mgmt.devtestlabs.models.ScheduleCreationParameter]
+    :ivar last_known_power_state: Last known compute power state captured in DTL.
+    :vartype last_known_power_state: str
+    :ivar can_apply_artifacts: Flag to determine if apply artifacts can be triggered at the time of
+     fetching the document.
+    :vartype can_apply_artifacts: bool
+    :ivar provisioning_state_properties_formula_content_properties_provisioning_state: The
+     provisioning status of the resource.
+    :vartype provisioning_state_properties_formula_content_properties_provisioning_state: str
+    :ivar unique_identifier_properties_formula_content_properties_unique_identifier: The unique
+     immutable identifier of a resource (Guid).
+    :vartype unique_identifier_properties_formula_content_properties_unique_identifier: str
+    :ivar security_profile: Option to apply more security protection for VMs.
+    :vartype security_profile: ~azure.mgmt.devtestlabs.models.SecurityProfile
+    :ivar id_properties_formula_content_properties_applicable_schedule_id: Fully qualified resource
+     ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id_properties_formula_content_properties_applicable_schedule_id: str
+    :ivar name_properties_formula_content_properties_applicable_schedule_name: The name of the
+     resource.
+    :vartype name_properties_formula_content_properties_applicable_schedule_name: str
+    :ivar type_properties_formula_content_properties_applicable_schedule_type: The type of the
+     resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+    :vartype type_properties_formula_content_properties_applicable_schedule_type: str
+    :ivar tags_properties_formula_content_properties_applicable_schedule_tags: Resource tags.
+    :vartype tags_properties_formula_content_properties_applicable_schedule_tags: dict[str, str]
+    :ivar location_properties_formula_content_properties_applicable_schedule_location: The
+     geo-location where the resource lives.
+    :vartype location_properties_formula_content_properties_applicable_schedule_location: str
+    :ivar system_data_properties_formula_content_properties_applicable_schedule_system_data: The
+     system metadata relating to this resource.
+    :vartype system_data_properties_formula_content_properties_applicable_schedule_system_data:
+     ~azure.mgmt.devtestlabs.models.SystemData
+    :ivar
+     id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_id:
+     Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype
+     id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_id: str
+    :ivar
+     name_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_name:
+     The name of the resource.
+    :vartype
+     name_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_name:
+     str
+    :ivar
+     type_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_type:
+     The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype
+     type_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_type:
+     str
+    :ivar
+     tags_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_tags:
+     Resource tags.
+    :vartype
+     tags_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_tags:
+     dict[str, str]
+    :ivar
+     location_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_location:
+     The geo-location where the resource lives.
+    :vartype
+     location_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_location:
+     str
+    :ivar
+     system_data_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_system_data:
+     The system metadata relating to this resource.
+    :vartype
+     system_data_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_system_data:
+     ~azure.mgmt.devtestlabs.models.SystemData
+    :ivar
+     status_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_status:
+     The status of the schedule (i.e. Enabled, Disabled). Known values are: "Enabled" and
+     "Disabled".
+    :vartype
+     status_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_status:
+     str or ~azure.mgmt.devtestlabs.models.EnableStatus
+    :ivar
+     task_type_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_task_type:
+     The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
+    :vartype
+     task_type_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_task_type:
+     str
+    :ivar
+     time_zone_id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_time_zone_id:
+     The time zone ID (e.g. Pacific Standard time).
+    :vartype
+     time_zone_id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_time_zone_id:
+     str
+    :ivar
+     created_date_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_created_date:
+     The creation date of the schedule.
+    :vartype
+     created_date_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_created_date:
+     ~datetime.datetime
+    :ivar
+     target_resource_id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_target_resource_id:
+     The resource ID to which the schedule belongs.
+    :vartype
+     target_resource_id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_target_resource_id:
+     str
+    :ivar
+     provisioning_state_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_provisioning_state:
+     The provisioning status of the resource.
+    :vartype
+     provisioning_state_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_provisioning_state:
+     str
+    :ivar
+     unique_identifier_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_unique_identifier:
+     The unique immutable identifier of a resource (Guid).
+    :vartype
+     unique_identifier_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_unique_identifier:
+     str
+    :ivar
+     status_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_status:
+     If notifications are enabled for this schedule (i.e. Enabled, Disabled). Known values are:
+     "Enabled" and "Disabled".
+    :vartype
+     status_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_status:
+     str or ~azure.mgmt.devtestlabs.models.EnableStatus
+    :ivar
+     time_in_minutes_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_time_in_minutes:
+     Time in minutes before event at which notification will be sent.
+    :vartype
+     time_in_minutes_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_time_in_minutes:
+     int
+    :ivar
+     webhook_url_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_webhook_url:
+     The webhook URL to which the notification will be sent.
+    :vartype
+     webhook_url_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_webhook_url:
+     str
+    :ivar
+     email_recipient_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_email_recipient:
+     The email recipient to send notifications to (can be a list of semi-colon separated email
+     addresses).
+    :vartype
+     email_recipient_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_email_recipient:
+     str
+    :ivar
+     notification_locale_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_notification_locale:
+     The locale to use when sending a notification (fallback for unsupported languages is EN).
+    :vartype
+     notification_locale_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_notification_locale:
+     str
+    :ivar
+     minute_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_hourly_recurrence_minute:
+     Minutes of the hour the schedule will run.
+    :vartype
+     minute_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_hourly_recurrence_minute:
+     int
+    :ivar
+     time_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_daily_recurrence_time:
+     The time of day the schedule will occur.
+    :vartype
+     time_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_daily_recurrence_time:
+     str
+    :ivar
+     weekdays_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_weekdays:
+     The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
+    :vartype
+     weekdays_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_weekdays:
+     list[str]
+    :ivar
+     time_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_time:
+     The time of the day the schedule will occur.
+    :vartype
+     time_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_time:
+     str
+    :ivar
+     id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_id:
+     Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype
+     id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_id:
+     str
+    :ivar
+     name_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_name:
+     The name of the resource.
+    :vartype
+     name_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_name:
+     str
+    :ivar
+     type_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_type:
+     The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype
+     type_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_type:
+     str
+    :ivar
+     tags_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_tags:
+     Resource tags.
+    :vartype
+     tags_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_tags:
+     dict[str, str]
+    :ivar
+     location_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_location:
+     The geo-location where the resource lives.
+    :vartype
+     location_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_location:
+     str
+    :ivar
+     system_data_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_system_data:
+     The system metadata relating to this resource.
+    :vartype
+     system_data_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_system_data:
+     ~azure.mgmt.devtestlabs.models.SystemData
+    :ivar
+     status_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_status:
+     The status of the schedule (i.e. Enabled, Disabled). Known values are: "Enabled" and
+     "Disabled".
+    :vartype
+     status_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_status:
+     str or ~azure.mgmt.devtestlabs.models.EnableStatus
+    :ivar
+     task_type_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_task_type:
+     The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
+    :vartype
+     task_type_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_task_type:
+     str
+    :ivar
+     time_zone_id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_time_zone_id:
+     The time zone ID (e.g. Pacific Standard time).
+    :vartype
+     time_zone_id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_time_zone_id:
+     str
+    :ivar
+     created_date_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_created_date:
+     The creation date of the schedule.
+    :vartype
+     created_date_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_created_date:
+     ~datetime.datetime
+    :ivar
+     target_resource_id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_target_resource_id:
+     The resource ID to which the schedule belongs.
+    :vartype
+     target_resource_id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_target_resource_id:
+     str
+    :ivar
+     provisioning_state_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_provisioning_state:
+     The provisioning status of the resource.
+    :vartype
+     provisioning_state_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_provisioning_state:
+     str
+    :ivar
+     unique_identifier_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_unique_identifier:
+     The unique immutable identifier of a resource (Guid).
+    :vartype
+     unique_identifier_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_unique_identifier:
+     str
+    :ivar
+     status_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_status:
+     If notifications are enabled for this schedule (i.e. Enabled, Disabled). Known values are:
+     "Enabled" and "Disabled".
+    :vartype
+     status_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_status:
+     str or ~azure.mgmt.devtestlabs.models.EnableStatus
+    :ivar
+     time_in_minutes_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes:
+     Time in minutes before event at which notification will be sent.
+    :vartype
+     time_in_minutes_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes:
+     int
+    :ivar
+     webhook_url_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_webhook_url:
+     The webhook URL to which the notification will be sent.
+    :vartype
+     webhook_url_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_webhook_url:
+     str
+    :ivar
+     email_recipient_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_email_recipient:
+     The email recipient to send notifications to (can be a list of semi-colon separated email
+     addresses).
+    :vartype
+     email_recipient_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_email_recipient:
+     str
+    :ivar
+     notification_locale_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_notification_locale:
+     The locale to use when sending a notification (fallback for unsupported languages is EN).
+    :vartype
+     notification_locale_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_notification_locale:
+     str
+    :ivar
+     minute_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_hourly_recurrence_minute:
+     Minutes of the hour the schedule will run.
+    :vartype
+     minute_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_hourly_recurrence_minute:
+     int
+    :ivar
+     time_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_daily_recurrence_time:
+     The time of day the schedule will occur.
+    :vartype
+     time_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_daily_recurrence_time:
+     str
+    :ivar
+     weekdays_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays:
+     The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
+    :vartype
+     weekdays_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays:
+     list[str]
+    :ivar
+     time_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_time:
+     The time of the day the schedule will occur.
+    :vartype
+     time_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_time:
+     str
+    :ivar virtual_network_id: The resource ID of the virtual network.
+    :vartype virtual_network_id: str
+    :ivar subnet_id: The resource ID of the sub net.
+    :vartype subnet_id: str
+    :ivar public_ip_address_id: The resource ID of the public IP address.
+    :vartype public_ip_address_id: str
+    :ivar public_ip_address: The public IP address.
+    :vartype public_ip_address: str
+    :ivar private_ip_address: The private IP address.
+    :vartype private_ip_address: str
+    :ivar dns_name: The DNS name.
+    :vartype dns_name: str
+    :ivar rdp_authority: The RdpAuthority property is a server DNS host name or IP address followed
+     by the service port number for RDP (Remote Desktop Protocol).
+    :vartype rdp_authority: str
+    :ivar ssh_authority: The SshAuthority property is a server DNS host name or IP address followed
+     by the service port number for SSH.
+    :vartype ssh_authority: str
+    :ivar inbound_nat_rules: The incoming NAT rules.
+    :vartype inbound_nat_rules: list[~azure.mgmt.devtestlabs.models.InboundNatRule]
+    :ivar statuses: Gets the statuses of the virtual machine.
+    :vartype statuses: list[~azure.mgmt.devtestlabs.models.ComputeVmInstanceViewStatus]
+    :ivar os_type_properties_formula_content_properties_compute_vm_os_type: Gets the OS type of the
+     virtual machine.
+    :vartype os_type_properties_formula_content_properties_compute_vm_os_type: str
+    :ivar vm_size: Gets the size of the virtual machine.
+    :vartype vm_size: str
+    :ivar network_interface_id: Gets the network interface ID of the virtual machine.
+    :vartype network_interface_id: str
+    :ivar os_disk_id: Gets OS disk blob uri for the virtual machine.
+    :vartype os_disk_id: str
+    :ivar data_disk_ids: Gets data disks blob uri for the virtual machine.
+    :vartype data_disk_ids: list[str]
+    :ivar data_disks: Gets all data disks attached to the virtual machine.
+    :vartype data_disks: list[~azure.mgmt.devtestlabs.models.ComputeDataDisk]
+    :ivar offer: The offer of the gallery image.
+    :vartype offer: str
+    :ivar publisher: The publisher of the gallery image.
+    :vartype publisher: str
+    :ivar sku: The SKU of the gallery image.
+    :vartype sku: str
+    :ivar os_type_properties_formula_content_properties_gallery_image_reference_os_type: The OS
+     type of the gallery image.
+    :vartype os_type_properties_formula_content_properties_gallery_image_reference_os_type: str
+    :ivar version: The version of the gallery image.
+    :vartype version: str
+    :ivar deployment_status: The deployment status of the artifact.
+    :vartype deployment_status: str
+    :ivar artifacts_applied: The total count of the artifacts that were successfully applied.
+    :vartype artifacts_applied: int
+    :ivar total_artifacts: The total count of the artifacts that were tentatively applied.
+    :vartype total_artifacts: int
+    :ivar instance_count: The number of virtual machine instances to create.
+    :vartype instance_count: int
     """
 
     _validation = {
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "location": {"required": True},
+        "system_data": {"readonly": True},
         "author": {"readonly": True},
         "creation_date": {"readonly": True},
-        "provisioning_state": {"readonly": True},
-        "unique_identifier": {"readonly": True},
+        "provisioning_state_properties_provisioning_state": {"readonly": True},
+        "unique_identifier_properties_unique_identifier": {"readonly": True},
+        "created_by_user_id": {"readonly": True},
+        "created_by_user": {"readonly": True},
+        "compute_id": {"readonly": True},
+        "os_type_properties_formula_content_properties_os_type": {"readonly": True},
+        "fqdn": {"readonly": True},
+        "virtual_machine_creation_source": {"readonly": True},
+        "last_known_power_state": {"readonly": True},
+        "can_apply_artifacts": {"readonly": True},
+        "provisioning_state_properties_formula_content_properties_provisioning_state": {"readonly": True},
+        "unique_identifier_properties_formula_content_properties_unique_identifier": {"readonly": True},
+        "id_properties_formula_content_properties_applicable_schedule_id": {"readonly": True},
+        "name_properties_formula_content_properties_applicable_schedule_name": {"readonly": True},
+        "type_properties_formula_content_properties_applicable_schedule_type": {"readonly": True},
+        "system_data_properties_formula_content_properties_applicable_schedule_system_data": {"readonly": True},
+        "id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_id": {
+            "readonly": True
+        },
+        "name_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_name": {
+            "readonly": True
+        },
+        "type_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_type": {
+            "readonly": True
+        },
+        "system_data_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_system_data": {
+            "readonly": True
+        },
+        "created_date_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_created_date": {
+            "readonly": True
+        },
+        "provisioning_state_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_provisioning_state": {
+            "readonly": True
+        },
+        "unique_identifier_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_unique_identifier": {
+            "readonly": True
+        },
+        "id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_id": {
+            "readonly": True
+        },
+        "name_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_name": {
+            "readonly": True
+        },
+        "type_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_type": {
+            "readonly": True
+        },
+        "system_data_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_system_data": {
+            "readonly": True
+        },
+        "created_date_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_created_date": {
+            "readonly": True
+        },
+        "provisioning_state_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_provisioning_state": {
+            "readonly": True
+        },
+        "unique_identifier_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_unique_identifier": {
+            "readonly": True
+        },
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "location": {"key": "location", "type": "str"},
         "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "description": {"key": "properties.description", "type": "str"},
         "author": {"key": "properties.author", "type": "str"},
-        "os_type": {"key": "properties.osType", "type": "str"},
+        "os_type_properties_os_type": {"key": "properties.osType", "type": "str"},
         "creation_date": {"key": "properties.creationDate", "type": "iso-8601"},
-        "formula_content": {"key": "properties.formulaContent", "type": "LabVirtualMachineCreationParameter"},
-        "vm": {"key": "properties.vm", "type": "FormulaPropertiesFromVm"},
-        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
-        "unique_identifier": {"key": "properties.uniqueIdentifier", "type": "str"},
+        "provisioning_state_properties_provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "unique_identifier_properties_unique_identifier": {"key": "properties.uniqueIdentifier", "type": "str"},
+        "lab_vm_id": {"key": "properties.vm.labVmId", "type": "str"},
+        "name_properties_formula_content_name": {"key": "properties.formulaContent.name", "type": "str"},
+        "location_properties_formula_content_location": {"key": "properties.formulaContent.location", "type": "str"},
+        "tags_properties_formula_content_tags": {"key": "properties.formulaContent.tags", "type": "{str}"},
+        "notes": {"key": "properties.formulaContent.properties.notes", "type": "str"},
+        "owner_object_id": {"key": "properties.formulaContent.properties.ownerObjectId", "type": "str"},
+        "owner_user_principal_name": {
+            "key": "properties.formulaContent.properties.ownerUserPrincipalName",
+            "type": "str",
+        },
+        "created_by_user_id": {"key": "properties.formulaContent.properties.createdByUserId", "type": "str"},
+        "created_by_user": {"key": "properties.formulaContent.properties.createdByUser", "type": "str"},
+        "created_date_properties_formula_content_properties_created_date": {
+            "key": "properties.formulaContent.properties.createdDate",
+            "type": "iso-8601",
+        },
+        "compute_id": {"key": "properties.formulaContent.properties.computeId", "type": "str"},
+        "custom_image_id": {"key": "properties.formulaContent.properties.customImageId", "type": "str"},
+        "gallery_image_version_id": {
+            "key": "properties.formulaContent.properties.galleryImageVersionId",
+            "type": "str",
+        },
+        "shared_image_id": {"key": "properties.formulaContent.properties.sharedImageId", "type": "str"},
+        "shared_image_version": {"key": "properties.formulaContent.properties.sharedImageVersion", "type": "str"},
+        "os_type_properties_formula_content_properties_os_type": {
+            "key": "properties.formulaContent.properties.osType",
+            "type": "str",
+        },
+        "size": {"key": "properties.formulaContent.properties.size", "type": "str"},
+        "user_name": {"key": "properties.formulaContent.properties.userName", "type": "str"},
+        "password": {"key": "properties.formulaContent.properties.password", "type": "str"},
+        "ssh_key": {"key": "properties.formulaContent.properties.sshKey", "type": "str"},
+        "is_authentication_with_ssh_key": {
+            "key": "properties.formulaContent.properties.isAuthenticationWithSshKey",
+            "type": "bool",
+        },
+        "fqdn": {"key": "properties.formulaContent.properties.fqdn", "type": "str"},
+        "lab_subnet_name": {"key": "properties.formulaContent.properties.labSubnetName", "type": "str"},
+        "lab_virtual_network_id": {"key": "properties.formulaContent.properties.labVirtualNetworkId", "type": "str"},
+        "disallow_public_ip_address": {
+            "key": "properties.formulaContent.properties.disallowPublicIpAddress",
+            "type": "bool",
+        },
+        "artifacts": {"key": "properties.formulaContent.properties.artifacts", "type": "[ArtifactInstallProperties]"},
+        "plan_id": {"key": "properties.formulaContent.properties.planId", "type": "str"},
+        "os_disk_size_gb": {"key": "properties.formulaContent.properties.osDiskSizeGb", "type": "int"},
+        "expiration_date": {"key": "properties.formulaContent.properties.expirationDate", "type": "iso-8601"},
+        "allow_claim": {"key": "properties.formulaContent.properties.allowClaim", "type": "bool"},
+        "storage_type": {"key": "properties.formulaContent.properties.storageType", "type": "str"},
+        "virtual_machine_creation_source": {
+            "key": "properties.formulaContent.properties.virtualMachineCreationSource",
+            "type": "str",
+        },
+        "environment_id": {"key": "properties.formulaContent.properties.environmentId", "type": "str"},
+        "data_disk_parameters": {
+            "key": "properties.formulaContent.properties.dataDiskParameters",
+            "type": "[DataDiskProperties]",
+        },
+        "schedule_parameters": {
+            "key": "properties.formulaContent.properties.scheduleParameters",
+            "type": "[ScheduleCreationParameter]",
+        },
+        "last_known_power_state": {"key": "properties.formulaContent.properties.lastKnownPowerState", "type": "str"},
+        "can_apply_artifacts": {"key": "properties.formulaContent.properties.canApplyArtifacts", "type": "bool"},
+        "provisioning_state_properties_formula_content_properties_provisioning_state": {
+            "key": "properties.formulaContent.properties.provisioningState",
+            "type": "str",
+        },
+        "unique_identifier_properties_formula_content_properties_unique_identifier": {
+            "key": "properties.formulaContent.properties.uniqueIdentifier",
+            "type": "str",
+        },
+        "security_profile": {"key": "properties.formulaContent.properties.securityProfile", "type": "SecurityProfile"},
+        "id_properties_formula_content_properties_applicable_schedule_id": {
+            "key": "properties.formulaContent.properties.applicableSchedule.id",
+            "type": "str",
+        },
+        "name_properties_formula_content_properties_applicable_schedule_name": {
+            "key": "properties.formulaContent.properties.applicableSchedule.name",
+            "type": "str",
+        },
+        "type_properties_formula_content_properties_applicable_schedule_type": {
+            "key": "properties.formulaContent.properties.applicableSchedule.type",
+            "type": "str",
+        },
+        "tags_properties_formula_content_properties_applicable_schedule_tags": {
+            "key": "properties.formulaContent.properties.applicableSchedule.tags",
+            "type": "{str}",
+        },
+        "location_properties_formula_content_properties_applicable_schedule_location": {
+            "key": "properties.formulaContent.properties.applicableSchedule.location",
+            "type": "str",
+        },
+        "system_data_properties_formula_content_properties_applicable_schedule_system_data": {
+            "key": "properties.formulaContent.properties.applicableSchedule.systemData",
+            "type": "SystemData",
+        },
+        "id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_id": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.id",
+            "type": "str",
+        },
+        "name_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_name": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.name",
+            "type": "str",
+        },
+        "type_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_type": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.type",
+            "type": "str",
+        },
+        "tags_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_tags": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.tags",
+            "type": "{str}",
+        },
+        "location_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_location": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.location",
+            "type": "str",
+        },
+        "system_data_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_system_data": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.systemData",
+            "type": "SystemData",
+        },
+        "status_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_status": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.properties.status",
+            "type": "str",
+        },
+        "task_type_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_task_type": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.properties.taskType",
+            "type": "str",
+        },
+        "time_zone_id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_time_zone_id": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.properties.timeZoneId",
+            "type": "str",
+        },
+        "created_date_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_created_date": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.properties.createdDate",
+            "type": "iso-8601",
+        },
+        "target_resource_id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_target_resource_id": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.properties.targetResourceId",
+            "type": "str",
+        },
+        "provisioning_state_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_provisioning_state": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.properties.provisioningState",
+            "type": "str",
+        },
+        "unique_identifier_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_unique_identifier": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.properties.uniqueIdentifier",
+            "type": "str",
+        },
+        "status_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_status": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.status",
+            "type": "str",
+        },
+        "time_in_minutes_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_time_in_minutes": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.timeInMinutes",
+            "type": "int",
+        },
+        "webhook_url_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_webhook_url": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.webhookUrl",
+            "type": "str",
+        },
+        "email_recipient_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_email_recipient": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.emailRecipient",
+            "type": "str",
+        },
+        "notification_locale_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_notification_locale": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.notificationLocale",
+            "type": "str",
+        },
+        "minute_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_hourly_recurrence_minute": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.properties.hourlyRecurrence.minute",
+            "type": "int",
+        },
+        "time_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_daily_recurrence_time": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.properties.dailyRecurrence.time",
+            "type": "str",
+        },
+        "weekdays_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_weekdays": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.properties.weeklyRecurrence.weekdays",
+            "type": "[str]",
+        },
+        "time_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_time": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.properties.weeklyRecurrence.time",
+            "type": "str",
+        },
+        "id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_id": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.id",
+            "type": "str",
+        },
+        "name_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_name": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.name",
+            "type": "str",
+        },
+        "type_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_type": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.type",
+            "type": "str",
+        },
+        "tags_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_tags": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.tags",
+            "type": "{str}",
+        },
+        "location_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_location": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.location",
+            "type": "str",
+        },
+        "system_data_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_system_data": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.systemData",
+            "type": "SystemData",
+        },
+        "status_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_status": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.properties.status",
+            "type": "str",
+        },
+        "task_type_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_task_type": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.properties.taskType",
+            "type": "str",
+        },
+        "time_zone_id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_time_zone_id": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.properties.timeZoneId",
+            "type": "str",
+        },
+        "created_date_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_created_date": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.properties.createdDate",
+            "type": "iso-8601",
+        },
+        "target_resource_id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_target_resource_id": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.properties.targetResourceId",
+            "type": "str",
+        },
+        "provisioning_state_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_provisioning_state": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.properties.provisioningState",
+            "type": "str",
+        },
+        "unique_identifier_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_unique_identifier": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.properties.uniqueIdentifier",
+            "type": "str",
+        },
+        "status_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_status": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.status",
+            "type": "str",
+        },
+        "time_in_minutes_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.timeInMinutes",
+            "type": "int",
+        },
+        "webhook_url_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_webhook_url": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.webhookUrl",
+            "type": "str",
+        },
+        "email_recipient_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_email_recipient": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.emailRecipient",
+            "type": "str",
+        },
+        "notification_locale_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_notification_locale": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.notificationLocale",
+            "type": "str",
+        },
+        "minute_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_hourly_recurrence_minute": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.properties.hourlyRecurrence.minute",
+            "type": "int",
+        },
+        "time_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_daily_recurrence_time": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.properties.dailyRecurrence.time",
+            "type": "str",
+        },
+        "weekdays_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.properties.weeklyRecurrence.weekdays",
+            "type": "[str]",
+        },
+        "time_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_time": {
+            "key": "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.properties.weeklyRecurrence.time",
+            "type": "str",
+        },
+        "virtual_network_id": {
+            "key": "properties.formulaContent.properties.networkInterface.virtualNetworkId",
+            "type": "str",
+        },
+        "subnet_id": {"key": "properties.formulaContent.properties.networkInterface.subnetId", "type": "str"},
+        "public_ip_address_id": {
+            "key": "properties.formulaContent.properties.networkInterface.publicIpAddressId",
+            "type": "str",
+        },
+        "public_ip_address": {
+            "key": "properties.formulaContent.properties.networkInterface.publicIpAddress",
+            "type": "str",
+        },
+        "private_ip_address": {
+            "key": "properties.formulaContent.properties.networkInterface.privateIpAddress",
+            "type": "str",
+        },
+        "dns_name": {"key": "properties.formulaContent.properties.networkInterface.dnsName", "type": "str"},
+        "rdp_authority": {"key": "properties.formulaContent.properties.networkInterface.rdpAuthority", "type": "str"},
+        "ssh_authority": {"key": "properties.formulaContent.properties.networkInterface.sshAuthority", "type": "str"},
+        "inbound_nat_rules": {
+            "key": "properties.formulaContent.properties.networkInterface.sharedPublicIpAddressConfiguration.inboundNatRules",
+            "type": "[InboundNatRule]",
+        },
+        "statuses": {
+            "key": "properties.formulaContent.properties.computeVm.statuses",
+            "type": "[ComputeVmInstanceViewStatus]",
+        },
+        "os_type_properties_formula_content_properties_compute_vm_os_type": {
+            "key": "properties.formulaContent.properties.computeVm.osType",
+            "type": "str",
+        },
+        "vm_size": {"key": "properties.formulaContent.properties.computeVm.vmSize", "type": "str"},
+        "network_interface_id": {
+            "key": "properties.formulaContent.properties.computeVm.networkInterfaceId",
+            "type": "str",
+        },
+        "os_disk_id": {"key": "properties.formulaContent.properties.computeVm.osDiskId", "type": "str"},
+        "data_disk_ids": {"key": "properties.formulaContent.properties.computeVm.dataDiskIds", "type": "[str]"},
+        "data_disks": {"key": "properties.formulaContent.properties.computeVm.dataDisks", "type": "[ComputeDataDisk]"},
+        "offer": {"key": "properties.formulaContent.properties.galleryImageReference.offer", "type": "str"},
+        "publisher": {"key": "properties.formulaContent.properties.galleryImageReference.publisher", "type": "str"},
+        "sku": {"key": "properties.formulaContent.properties.galleryImageReference.sku", "type": "str"},
+        "os_type_properties_formula_content_properties_gallery_image_reference_os_type": {
+            "key": "properties.formulaContent.properties.galleryImageReference.osType",
+            "type": "str",
+        },
+        "version": {"key": "properties.formulaContent.properties.galleryImageReference.version", "type": "str"},
+        "deployment_status": {
+            "key": "properties.formulaContent.properties.artifactDeploymentStatus.deploymentStatus",
+            "type": "str",
+        },
+        "artifacts_applied": {
+            "key": "properties.formulaContent.properties.artifactDeploymentStatus.artifactsApplied",
+            "type": "int",
+        },
+        "total_artifacts": {
+            "key": "properties.formulaContent.properties.artifactDeploymentStatus.totalArtifacts",
+            "type": "int",
+        },
+        "instance_count": {
+            "key": "properties.formulaContent.properties.bulkCreationParameters.instanceCount",
+            "type": "int",
+        },
+    }
+
+    def __init__(  # pylint: disable=too-many-locals
+        self,
+        *,
+        location: str,
+        tags: Optional[Dict[str, str]] = None,
+        description: Optional[str] = None,
+        os_type_properties_os_type: Optional[str] = None,
+        lab_vm_id: Optional[str] = None,
+        name_properties_formula_content_name: Optional[str] = None,
+        location_properties_formula_content_location: Optional[str] = None,
+        tags_properties_formula_content_tags: Optional[Dict[str, str]] = None,
+        notes: Optional[str] = None,
+        owner_object_id: str = "dynamicValue",
+        owner_user_principal_name: Optional[str] = None,
+        created_date_properties_formula_content_properties_created_date: Optional[datetime.datetime] = None,
+        custom_image_id: Optional[str] = None,
+        gallery_image_version_id: Optional[str] = None,
+        shared_image_id: Optional[str] = None,
+        shared_image_version: Optional[str] = None,
+        size: Optional[str] = None,
+        user_name: Optional[str] = None,
+        password: Optional[str] = None,
+        ssh_key: Optional[str] = None,
+        is_authentication_with_ssh_key: Optional[bool] = None,
+        lab_subnet_name: Optional[str] = None,
+        lab_virtual_network_id: Optional[str] = None,
+        disallow_public_ip_address: bool = False,
+        artifacts: Optional[List["_models.ArtifactInstallProperties"]] = None,
+        plan_id: Optional[str] = None,
+        os_disk_size_gb: Optional[int] = None,
+        expiration_date: Optional[datetime.datetime] = None,
+        allow_claim: bool = False,
+        storage_type: Optional[Union[str, "_models.StorageType"]] = None,
+        environment_id: Optional[str] = None,
+        data_disk_parameters: Optional[List["_models.DataDiskProperties"]] = None,
+        schedule_parameters: Optional[List["_models.ScheduleCreationParameter"]] = None,
+        security_profile: Optional["_models.SecurityProfile"] = None,
+        tags_properties_formula_content_properties_applicable_schedule_tags: Optional[Dict[str, str]] = None,
+        location_properties_formula_content_properties_applicable_schedule_location: Optional[str] = None,
+        tags_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_tags: Optional[
+            Dict[str, str]
+        ] = None,
+        location_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_location: Optional[
+            str
+        ] = None,
+        status_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_status: Optional[
+            Union[str, "_models.EnableStatus"]
+        ] = None,
+        task_type_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_task_type: Optional[
+            str
+        ] = None,
+        time_zone_id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_time_zone_id: Optional[
+            str
+        ] = None,
+        target_resource_id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_target_resource_id: Optional[
+            str
+        ] = None,
+        status_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_status: Optional[
+            Union[str, "_models.EnableStatus"]
+        ] = None,
+        time_in_minutes_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_time_in_minutes: Optional[
+            int
+        ] = None,
+        webhook_url_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_webhook_url: Optional[
+            str
+        ] = None,
+        email_recipient_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_email_recipient: Optional[
+            str
+        ] = None,
+        notification_locale_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_notification_locale: Optional[
+            str
+        ] = None,
+        minute_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_hourly_recurrence_minute: Optional[
+            int
+        ] = None,
+        time_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_daily_recurrence_time: Optional[
+            str
+        ] = None,
+        weekdays_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_weekdays: Optional[
+            List[str]
+        ] = None,
+        time_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_time: Optional[
+            str
+        ] = None,
+        tags_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_tags: Optional[
+            Dict[str, str]
+        ] = None,
+        location_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_location: Optional[
+            str
+        ] = None,
+        status_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_status: Optional[
+            Union[str, "_models.EnableStatus"]
+        ] = None,
+        task_type_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_task_type: Optional[
+            str
+        ] = None,
+        time_zone_id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_time_zone_id: Optional[
+            str
+        ] = None,
+        target_resource_id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_target_resource_id: Optional[
+            str
+        ] = None,
+        status_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_status: Optional[
+            Union[str, "_models.EnableStatus"]
+        ] = None,
+        time_in_minutes_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes: Optional[
+            int
+        ] = None,
+        webhook_url_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_webhook_url: Optional[
+            str
+        ] = None,
+        email_recipient_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_email_recipient: Optional[
+            str
+        ] = None,
+        notification_locale_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_notification_locale: Optional[
+            str
+        ] = None,
+        minute_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_hourly_recurrence_minute: Optional[
+            int
+        ] = None,
+        time_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_daily_recurrence_time: Optional[
+            str
+        ] = None,
+        weekdays_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays: Optional[
+            List[str]
+        ] = None,
+        time_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_time: Optional[
+            str
+        ] = None,
+        virtual_network_id: Optional[str] = None,
+        subnet_id: Optional[str] = None,
+        public_ip_address_id: Optional[str] = None,
+        public_ip_address: Optional[str] = None,
+        private_ip_address: Optional[str] = None,
+        dns_name: Optional[str] = None,
+        rdp_authority: Optional[str] = None,
+        ssh_authority: Optional[str] = None,
+        inbound_nat_rules: Optional[List["_models.InboundNatRule"]] = None,
+        statuses: Optional[List["_models.ComputeVmInstanceViewStatus"]] = None,
+        os_type_properties_formula_content_properties_compute_vm_os_type: Optional[str] = None,
+        vm_size: Optional[str] = None,
+        network_interface_id: Optional[str] = None,
+        os_disk_id: Optional[str] = None,
+        data_disk_ids: Optional[List[str]] = None,
+        data_disks: Optional[List["_models.ComputeDataDisk"]] = None,
+        offer: Optional[str] = None,
+        publisher: Optional[str] = None,
+        sku: Optional[str] = None,
+        os_type_properties_formula_content_properties_gallery_image_reference_os_type: Optional[str] = None,
+        version: Optional[str] = None,
+        deployment_status: Optional[str] = None,
+        artifacts_applied: Optional[int] = None,
+        total_artifacts: Optional[int] = None,
+        instance_count: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
+        :keyword description: The description of the formula.
+        :paramtype description: str
+        :keyword os_type_properties_os_type: The OS type of the formula.
+        :paramtype os_type_properties_os_type: str
+        :keyword lab_vm_id: The identifier of the VM from which a formula is to be created.
+        :paramtype lab_vm_id: str
+        :keyword name_properties_formula_content_name: The name of the virtual machine or environment.
+        :paramtype name_properties_formula_content_name: str
+        :keyword location_properties_formula_content_location: The location of the new virtual machine
+         or environment.
+        :paramtype location_properties_formula_content_location: str
+        :keyword tags_properties_formula_content_tags: The tags of the resource.
+        :paramtype tags_properties_formula_content_tags: dict[str, str]
+        :keyword notes: The notes of the virtual machine.
+        :paramtype notes: str
+        :keyword owner_object_id: The object identifier of the owner of the virtual machine.
+        :paramtype owner_object_id: str
+        :keyword owner_user_principal_name: The user principal name of the virtual machine owner.
+        :paramtype owner_user_principal_name: str
+        :keyword created_date_properties_formula_content_properties_created_date: The creation date of
+         the virtual machine.
+        :paramtype created_date_properties_formula_content_properties_created_date: ~datetime.datetime
+        :keyword custom_image_id: The custom image identifier of the virtual machine.
+        :paramtype custom_image_id: str
+        :keyword gallery_image_version_id: The shared gallery image version resource identifier of the
+         virtual machine.
+        :paramtype gallery_image_version_id: str
+        :keyword shared_image_id: The shared image resource identifier of the virtual machine.
+        :paramtype shared_image_id: str
+        :keyword shared_image_version: The shared image version for the specified shared image Id. Will
+         use latest if not specified.
+        :paramtype shared_image_version: str
+        :keyword size: The size of the virtual machine.
+        :paramtype size: str
+        :keyword user_name: The user name of the virtual machine.
+        :paramtype user_name: str
+        :keyword password: The password of the virtual machine administrator.
+        :paramtype password: str
+        :keyword ssh_key: The SSH key of the virtual machine administrator.
+        :paramtype ssh_key: str
+        :keyword is_authentication_with_ssh_key: Indicates whether this virtual machine uses an SSH key
+         for authentication.
+        :paramtype is_authentication_with_ssh_key: bool
+        :keyword lab_subnet_name: The lab subnet name of the virtual machine.
+        :paramtype lab_subnet_name: str
+        :keyword lab_virtual_network_id: The lab virtual network identifier of the virtual machine.
+        :paramtype lab_virtual_network_id: str
+        :keyword disallow_public_ip_address: Indicates whether the virtual machine is to be created
+         without a public IP address.
+        :paramtype disallow_public_ip_address: bool
+        :keyword artifacts: The artifacts to be installed on the virtual machine.
+        :paramtype artifacts: list[~azure.mgmt.devtestlabs.models.ArtifactInstallProperties]
+        :keyword plan_id: The id of the plan associated with the virtual machine image.
+        :paramtype plan_id: str
+        :keyword os_disk_size_gb: Specifies the size of an empty data disk in gigabytes. This element
+         can be used to overwrite the size of the disk in a virtual machine image.
+        :paramtype os_disk_size_gb: int
+        :keyword expiration_date: The expiration date for VM.
+        :paramtype expiration_date: ~datetime.datetime
+        :keyword allow_claim: Indicates whether another user can take ownership of the virtual machine.
+        :paramtype allow_claim: bool
+        :keyword storage_type: Storage type to use for virtual machine (i.e. Standard, Premium,
+         StandardSSD). Known values are: "Standard", "Premium", and "StandardSSD".
+        :paramtype storage_type: str or ~azure.mgmt.devtestlabs.models.StorageType
+        :keyword environment_id: The resource ID of the environment that contains this virtual machine,
+         if any.
+        :paramtype environment_id: str
+        :keyword data_disk_parameters: New or existing data disks to attach to the virtual machine
+         after creation.
+        :paramtype data_disk_parameters: list[~azure.mgmt.devtestlabs.models.DataDiskProperties]
+        :keyword schedule_parameters: Virtual Machine schedules to be created.
+        :paramtype schedule_parameters: list[~azure.mgmt.devtestlabs.models.ScheduleCreationParameter]
+        :keyword security_profile: Option to apply more security protection for VMs.
+        :paramtype security_profile: ~azure.mgmt.devtestlabs.models.SecurityProfile
+        :keyword tags_properties_formula_content_properties_applicable_schedule_tags: Resource tags.
+        :paramtype tags_properties_formula_content_properties_applicable_schedule_tags: dict[str, str]
+        :keyword location_properties_formula_content_properties_applicable_schedule_location: The
+         geo-location where the resource lives.
+        :paramtype location_properties_formula_content_properties_applicable_schedule_location: str
+        :keyword
+         tags_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_tags:
+         Resource tags.
+        :paramtype
+         tags_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_tags:
+         dict[str, str]
+        :keyword
+         location_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_location:
+         The geo-location where the resource lives.
+        :paramtype
+         location_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_location:
+         str
+        :keyword
+         status_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_status:
+         The status of the schedule (i.e. Enabled, Disabled). Known values are: "Enabled" and
+         "Disabled".
+        :paramtype
+         status_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_status:
+         str or ~azure.mgmt.devtestlabs.models.EnableStatus
+        :keyword
+         task_type_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_task_type:
+         The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
+        :paramtype
+         task_type_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_task_type:
+         str
+        :keyword
+         time_zone_id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_time_zone_id:
+         The time zone ID (e.g. Pacific Standard time).
+        :paramtype
+         time_zone_id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_time_zone_id:
+         str
+        :keyword
+         target_resource_id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_target_resource_id:
+         The resource ID to which the schedule belongs.
+        :paramtype
+         target_resource_id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_target_resource_id:
+         str
+        :keyword
+         status_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_status:
+         If notifications are enabled for this schedule (i.e. Enabled, Disabled). Known values are:
+         "Enabled" and "Disabled".
+        :paramtype
+         status_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_status:
+         str or ~azure.mgmt.devtestlabs.models.EnableStatus
+        :keyword
+         time_in_minutes_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_time_in_minutes:
+         Time in minutes before event at which notification will be sent.
+        :paramtype
+         time_in_minutes_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_time_in_minutes:
+         int
+        :keyword
+         webhook_url_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_webhook_url:
+         The webhook URL to which the notification will be sent.
+        :paramtype
+         webhook_url_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_webhook_url:
+         str
+        :keyword
+         email_recipient_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_email_recipient:
+         The email recipient to send notifications to (can be a list of semi-colon separated email
+         addresses).
+        :paramtype
+         email_recipient_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_email_recipient:
+         str
+        :keyword
+         notification_locale_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_notification_locale:
+         The locale to use when sending a notification (fallback for unsupported languages is EN).
+        :paramtype
+         notification_locale_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_notification_locale:
+         str
+        :keyword
+         minute_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_hourly_recurrence_minute:
+         Minutes of the hour the schedule will run.
+        :paramtype
+         minute_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_hourly_recurrence_minute:
+         int
+        :keyword
+         time_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_daily_recurrence_time:
+         The time of day the schedule will occur.
+        :paramtype
+         time_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_daily_recurrence_time:
+         str
+        :keyword
+         weekdays_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_weekdays:
+         The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
+        :paramtype
+         weekdays_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_weekdays:
+         list[str]
+        :keyword
+         time_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_time:
+         The time of the day the schedule will occur.
+        :paramtype
+         time_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_time:
+         str
+        :keyword
+         tags_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_tags:
+         Resource tags.
+        :paramtype
+         tags_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_tags:
+         dict[str, str]
+        :keyword
+         location_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_location:
+         The geo-location where the resource lives.
+        :paramtype
+         location_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_location:
+         str
+        :keyword
+         status_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_status:
+         The status of the schedule (i.e. Enabled, Disabled). Known values are: "Enabled" and
+         "Disabled".
+        :paramtype
+         status_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_status:
+         str or ~azure.mgmt.devtestlabs.models.EnableStatus
+        :keyword
+         task_type_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_task_type:
+         The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
+        :paramtype
+         task_type_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_task_type:
+         str
+        :keyword
+         time_zone_id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_time_zone_id:
+         The time zone ID (e.g. Pacific Standard time).
+        :paramtype
+         time_zone_id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_time_zone_id:
+         str
+        :keyword
+         target_resource_id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_target_resource_id:
+         The resource ID to which the schedule belongs.
+        :paramtype
+         target_resource_id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_target_resource_id:
+         str
+        :keyword
+         status_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_status:
+         If notifications are enabled for this schedule (i.e. Enabled, Disabled). Known values are:
+         "Enabled" and "Disabled".
+        :paramtype
+         status_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_status:
+         str or ~azure.mgmt.devtestlabs.models.EnableStatus
+        :keyword
+         time_in_minutes_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes:
+         Time in minutes before event at which notification will be sent.
+        :paramtype
+         time_in_minutes_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes:
+         int
+        :keyword
+         webhook_url_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_webhook_url:
+         The webhook URL to which the notification will be sent.
+        :paramtype
+         webhook_url_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_webhook_url:
+         str
+        :keyword
+         email_recipient_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_email_recipient:
+         The email recipient to send notifications to (can be a list of semi-colon separated email
+         addresses).
+        :paramtype
+         email_recipient_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_email_recipient:
+         str
+        :keyword
+         notification_locale_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_notification_locale:
+         The locale to use when sending a notification (fallback for unsupported languages is EN).
+        :paramtype
+         notification_locale_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_notification_locale:
+         str
+        :keyword
+         minute_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_hourly_recurrence_minute:
+         Minutes of the hour the schedule will run.
+        :paramtype
+         minute_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_hourly_recurrence_minute:
+         int
+        :keyword
+         time_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_daily_recurrence_time:
+         The time of day the schedule will occur.
+        :paramtype
+         time_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_daily_recurrence_time:
+         str
+        :keyword
+         weekdays_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays:
+         The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
+        :paramtype
+         weekdays_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays:
+         list[str]
+        :keyword
+         time_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_time:
+         The time of the day the schedule will occur.
+        :paramtype
+         time_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_time:
+         str
+        :keyword virtual_network_id: The resource ID of the virtual network.
+        :paramtype virtual_network_id: str
+        :keyword subnet_id: The resource ID of the sub net.
+        :paramtype subnet_id: str
+        :keyword public_ip_address_id: The resource ID of the public IP address.
+        :paramtype public_ip_address_id: str
+        :keyword public_ip_address: The public IP address.
+        :paramtype public_ip_address: str
+        :keyword private_ip_address: The private IP address.
+        :paramtype private_ip_address: str
+        :keyword dns_name: The DNS name.
+        :paramtype dns_name: str
+        :keyword rdp_authority: The RdpAuthority property is a server DNS host name or IP address
+         followed by the service port number for RDP (Remote Desktop Protocol).
+        :paramtype rdp_authority: str
+        :keyword ssh_authority: The SshAuthority property is a server DNS host name or IP address
+         followed by the service port number for SSH.
+        :paramtype ssh_authority: str
+        :keyword inbound_nat_rules: The incoming NAT rules.
+        :paramtype inbound_nat_rules: list[~azure.mgmt.devtestlabs.models.InboundNatRule]
+        :keyword statuses: Gets the statuses of the virtual machine.
+        :paramtype statuses: list[~azure.mgmt.devtestlabs.models.ComputeVmInstanceViewStatus]
+        :keyword os_type_properties_formula_content_properties_compute_vm_os_type: Gets the OS type of
+         the virtual machine.
+        :paramtype os_type_properties_formula_content_properties_compute_vm_os_type: str
+        :keyword vm_size: Gets the size of the virtual machine.
+        :paramtype vm_size: str
+        :keyword network_interface_id: Gets the network interface ID of the virtual machine.
+        :paramtype network_interface_id: str
+        :keyword os_disk_id: Gets OS disk blob uri for the virtual machine.
+        :paramtype os_disk_id: str
+        :keyword data_disk_ids: Gets data disks blob uri for the virtual machine.
+        :paramtype data_disk_ids: list[str]
+        :keyword data_disks: Gets all data disks attached to the virtual machine.
+        :paramtype data_disks: list[~azure.mgmt.devtestlabs.models.ComputeDataDisk]
+        :keyword offer: The offer of the gallery image.
+        :paramtype offer: str
+        :keyword publisher: The publisher of the gallery image.
+        :paramtype publisher: str
+        :keyword sku: The SKU of the gallery image.
+        :paramtype sku: str
+        :keyword os_type_properties_formula_content_properties_gallery_image_reference_os_type: The OS
+         type of the gallery image.
+        :paramtype os_type_properties_formula_content_properties_gallery_image_reference_os_type: str
+        :keyword version: The version of the gallery image.
+        :paramtype version: str
+        :keyword deployment_status: The deployment status of the artifact.
+        :paramtype deployment_status: str
+        :keyword artifacts_applied: The total count of the artifacts that were successfully applied.
+        :paramtype artifacts_applied: int
+        :keyword total_artifacts: The total count of the artifacts that were tentatively applied.
+        :paramtype total_artifacts: int
+        :keyword instance_count: The number of virtual machine instances to create.
+        :paramtype instance_count: int
+        """
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.system_data = None
+        self.description = description
+        self.author = None
+        self.os_type_properties_os_type = os_type_properties_os_type
+        self.creation_date = None
+        self.provisioning_state_properties_provisioning_state = None
+        self.unique_identifier_properties_unique_identifier = None
+        self.lab_vm_id = lab_vm_id
+        self.name_properties_formula_content_name = name_properties_formula_content_name
+        self.location_properties_formula_content_location = location_properties_formula_content_location
+        self.tags_properties_formula_content_tags = tags_properties_formula_content_tags
+        self.notes = notes
+        self.owner_object_id = owner_object_id
+        self.owner_user_principal_name = owner_user_principal_name
+        self.created_by_user_id = None
+        self.created_by_user = None
+        self.created_date_properties_formula_content_properties_created_date = (
+            created_date_properties_formula_content_properties_created_date
+        )
+        self.compute_id = None
+        self.custom_image_id = custom_image_id
+        self.gallery_image_version_id = gallery_image_version_id
+        self.shared_image_id = shared_image_id
+        self.shared_image_version = shared_image_version
+        self.os_type_properties_formula_content_properties_os_type = None
+        self.size = size
+        self.user_name = user_name
+        self.password = password
+        self.ssh_key = ssh_key
+        self.is_authentication_with_ssh_key = is_authentication_with_ssh_key
+        self.fqdn = None
+        self.lab_subnet_name = lab_subnet_name
+        self.lab_virtual_network_id = lab_virtual_network_id
+        self.disallow_public_ip_address = disallow_public_ip_address
+        self.artifacts = artifacts
+        self.plan_id = plan_id
+        self.os_disk_size_gb = os_disk_size_gb
+        self.expiration_date = expiration_date
+        self.allow_claim = allow_claim
+        self.storage_type = storage_type
+        self.virtual_machine_creation_source = None
+        self.environment_id = environment_id
+        self.data_disk_parameters = data_disk_parameters
+        self.schedule_parameters = schedule_parameters
+        self.last_known_power_state = None
+        self.can_apply_artifacts = None
+        self.provisioning_state_properties_formula_content_properties_provisioning_state = None
+        self.unique_identifier_properties_formula_content_properties_unique_identifier = None
+        self.security_profile = security_profile
+        self.id_properties_formula_content_properties_applicable_schedule_id = None
+        self.name_properties_formula_content_properties_applicable_schedule_name = None
+        self.type_properties_formula_content_properties_applicable_schedule_type = None
+        self.tags_properties_formula_content_properties_applicable_schedule_tags = (
+            tags_properties_formula_content_properties_applicable_schedule_tags
+        )
+        self.location_properties_formula_content_properties_applicable_schedule_location = (
+            location_properties_formula_content_properties_applicable_schedule_location
+        )
+        self.system_data_properties_formula_content_properties_applicable_schedule_system_data = None
+        self.id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_id = None
+        self.name_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_name = None
+        self.type_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_type = None
+        self.tags_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_tags = (
+            tags_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_tags
+        )
+        self.location_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_location = (
+            location_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_location
+        )
+        self.system_data_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_system_data = (
+            None
+        )
+        self.status_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_status = status_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_status
+        self.task_type_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_task_type = task_type_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_task_type
+        self.time_zone_id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_time_zone_id = time_zone_id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_time_zone_id
+        self.created_date_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_created_date = (
+            None
+        )
+        self.target_resource_id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_target_resource_id = target_resource_id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_target_resource_id
+        self.provisioning_state_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_provisioning_state = (
+            None
+        )
+        self.unique_identifier_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_unique_identifier = (
+            None
+        )
+        self.status_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_status = status_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_status
+        self.time_in_minutes_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_time_in_minutes = time_in_minutes_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_time_in_minutes
+        self.webhook_url_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_webhook_url = webhook_url_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_webhook_url
+        self.email_recipient_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_email_recipient = email_recipient_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_email_recipient
+        self.notification_locale_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_notification_locale = notification_locale_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_notification_locale
+        self.minute_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_hourly_recurrence_minute = minute_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_hourly_recurrence_minute
+        self.time_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_daily_recurrence_time = time_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_daily_recurrence_time
+        self.weekdays_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_weekdays = weekdays_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_weekdays
+        self.time_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_time = time_properties_formula_content_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_time
+        self.id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_id = None
+        self.name_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_name = None
+        self.type_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_type = None
+        self.tags_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_tags = (
+            tags_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_tags
+        )
+        self.location_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_location = (
+            location_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_location
+        )
+        self.system_data_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_system_data = (
+            None
+        )
+        self.status_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_status = status_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_status
+        self.task_type_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_task_type = task_type_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_task_type
+        self.time_zone_id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_time_zone_id = time_zone_id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_time_zone_id
+        self.created_date_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_created_date = (
+            None
+        )
+        self.target_resource_id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_target_resource_id = target_resource_id_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_target_resource_id
+        self.provisioning_state_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_provisioning_state = (
+            None
+        )
+        self.unique_identifier_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_unique_identifier = (
+            None
+        )
+        self.status_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_status = status_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_status
+        self.time_in_minutes_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes = time_in_minutes_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes
+        self.webhook_url_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_webhook_url = webhook_url_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_webhook_url
+        self.email_recipient_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_email_recipient = email_recipient_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_email_recipient
+        self.notification_locale_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_notification_locale = notification_locale_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_notification_locale
+        self.minute_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_hourly_recurrence_minute = minute_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_hourly_recurrence_minute
+        self.time_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_daily_recurrence_time = time_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_daily_recurrence_time
+        self.weekdays_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays = weekdays_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays
+        self.time_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_time = time_properties_formula_content_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_time
+        self.virtual_network_id = virtual_network_id
+        self.subnet_id = subnet_id
+        self.public_ip_address_id = public_ip_address_id
+        self.public_ip_address = public_ip_address
+        self.private_ip_address = private_ip_address
+        self.dns_name = dns_name
+        self.rdp_authority = rdp_authority
+        self.ssh_authority = ssh_authority
+        self.inbound_nat_rules = inbound_nat_rules
+        self.statuses = statuses
+        self.os_type_properties_formula_content_properties_compute_vm_os_type = (
+            os_type_properties_formula_content_properties_compute_vm_os_type
+        )
+        self.vm_size = vm_size
+        self.network_interface_id = network_interface_id
+        self.os_disk_id = os_disk_id
+        self.data_disk_ids = data_disk_ids
+        self.data_disks = data_disks
+        self.offer = offer
+        self.publisher = publisher
+        self.sku = sku
+        self.os_type_properties_formula_content_properties_gallery_image_reference_os_type = (
+            os_type_properties_formula_content_properties_gallery_image_reference_os_type
+        )
+        self.version = version
+        self.deployment_status = deployment_status
+        self.artifacts_applied = artifacts_applied
+        self.total_artifacts = total_artifacts
+        self.instance_count = instance_count
+
+
+class FormulaFragment(UpdateResource):
+    """Patch.
+
+    :ivar tags: The tags of the resource.
+    :vartype tags: dict[str, str]
+    :ivar identity: The identity of the resource.
+    :vartype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
+    """
+
+    _attribute_map = {
+        "tags": {"key": "tags", "type": "{str}"},
+        "identity": {"key": "identity", "type": "IdentityProperties"},
     }
 
     def __init__(
         self,
         *,
-        location: Optional[str] = None,
         tags: Optional[Dict[str, str]] = None,
-        description: Optional[str] = None,
-        os_type: Optional[str] = None,
-        formula_content: Optional["_models.LabVirtualMachineCreationParameter"] = None,
-        vm: Optional["_models.FormulaPropertiesFromVm"] = None,
-        **kwargs
-    ):
-        """
-        :keyword location: The location of the resource.
-        :paramtype location: str
-        :keyword tags: The tags of the resource.
-        :paramtype tags: dict[str, str]
-        :keyword description: The description of the formula.
-        :paramtype description: str
-        :keyword os_type: The OS type of the formula.
-        :paramtype os_type: str
-        :keyword formula_content: The content of the formula.
-        :paramtype formula_content: ~azure.mgmt.devtestlabs.models.LabVirtualMachineCreationParameter
-        :keyword vm: Information about a VM from which a formula is to be created.
-        :paramtype vm: ~azure.mgmt.devtestlabs.models.FormulaPropertiesFromVm
-        """
-        super().__init__(location=location, tags=tags, **kwargs)
-        self.description = description
-        self.author = None
-        self.os_type = os_type
-        self.creation_date = None
-        self.formula_content = formula_content
-        self.vm = vm
-        self.provisioning_state = None
-        self.unique_identifier = None
-
-
-class FormulaFragment(UpdateResource):
-    """A formula for creating a VM, specifying an image base and other parameters.
-
-    :ivar tags: The tags of the resource.
-    :vartype tags: dict[str, str]
-    """
-
-    _attribute_map = {
-        "tags": {"key": "tags", "type": "{str}"},
-    }
-
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs):
+        identity: Optional["_models.IdentityProperties"] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: The tags of the resource.
         :paramtype tags: dict[str, str]
+        :keyword identity: The identity of the resource.
+        :paramtype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
         """
-        super().__init__(tags=tags, **kwargs)
+        super().__init__(tags=tags, identity=identity, **kwargs)
 
 
 class FormulaList(_serialization.Model):
-    """The response of a list operation.
+    """Contains a list of formulas and their properties.
 
-    :ivar value: Results of the list operation.
+    :ivar value: List of formulas and their properties.
     :vartype value: list[~azure.mgmt.devtestlabs.models.Formula]
-    :ivar next_link: Link for next set of results.
+    :ivar next_link: URL to get the next set of operation list results if there are any.
     :vartype next_link: str
     """
 
@@ -2183,11 +4157,13 @@ class FormulaList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Formula"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.Formula"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
-        :keyword value: Results of the list operation.
+        :keyword value: List of formulas and their properties.
         :paramtype value: list[~azure.mgmt.devtestlabs.models.Formula]
-        :keyword next_link: Link for next set of results.
+        :keyword next_link: URL to get the next set of operation list results if there are any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
@@ -2195,49 +4171,33 @@ class FormulaList(_serialization.Model):
         self.next_link = next_link
 
 
-class FormulaPropertiesFromVm(_serialization.Model):
-    """Information about a VM from which a formula is to be created.
-
-    :ivar lab_vm_id: The identifier of the VM from which a formula is to be created.
-    :vartype lab_vm_id: str
-    """
-
-    _attribute_map = {
-        "lab_vm_id": {"key": "labVmId", "type": "str"},
-    }
-
-    def __init__(self, *, lab_vm_id: Optional[str] = None, **kwargs):
-        """
-        :keyword lab_vm_id: The identifier of the VM from which a formula is to be created.
-        :paramtype lab_vm_id: str
-        """
-        super().__init__(**kwargs)
-        self.lab_vm_id = lab_vm_id
-
-
 class GalleryImage(Resource):  # pylint: disable=too-many-instance-attributes
     """A gallery image.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: The identifier of the resource.
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar location: The location of the resource.
-    :vartype location: str
-    :ivar tags: The tags of the resource.
+    :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar system_data: The system metadata relating to this resource.
+    :vartype system_data: ~azure.mgmt.devtestlabs.models.SystemData
     :ivar author: The author of the gallery image.
     :vartype author: str
     :ivar created_date: The creation date of the gallery image.
     :vartype created_date: ~datetime.datetime
     :ivar description: The description of the gallery image.
     :vartype description: str
-    :ivar image_reference: The image reference of the gallery image.
-    :vartype image_reference: ~azure.mgmt.devtestlabs.models.GalleryImageReference
     :ivar icon: The icon of the gallery image.
     :vartype icon: str
     :ivar enabled: Indicates whether this gallery image is enabled.
@@ -2247,108 +4207,6 @@ class GalleryImage(Resource):  # pylint: disable=too-many-instance-attributes
     :ivar is_plan_authorized: Indicates if the plan has been authorized for programmatic
      deployment.
     :vartype is_plan_authorized: bool
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "created_date": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "location": {"key": "location", "type": "str"},
-        "tags": {"key": "tags", "type": "{str}"},
-        "author": {"key": "properties.author", "type": "str"},
-        "created_date": {"key": "properties.createdDate", "type": "iso-8601"},
-        "description": {"key": "properties.description", "type": "str"},
-        "image_reference": {"key": "properties.imageReference", "type": "GalleryImageReference"},
-        "icon": {"key": "properties.icon", "type": "str"},
-        "enabled": {"key": "properties.enabled", "type": "bool"},
-        "plan_id": {"key": "properties.planId", "type": "str"},
-        "is_plan_authorized": {"key": "properties.isPlanAuthorized", "type": "bool"},
-    }
-
-    def __init__(
-        self,
-        *,
-        location: Optional[str] = None,
-        tags: Optional[Dict[str, str]] = None,
-        author: Optional[str] = None,
-        description: Optional[str] = None,
-        image_reference: Optional["_models.GalleryImageReference"] = None,
-        icon: Optional[str] = None,
-        enabled: Optional[bool] = None,
-        plan_id: Optional[str] = None,
-        is_plan_authorized: Optional[bool] = None,
-        **kwargs
-    ):
-        """
-        :keyword location: The location of the resource.
-        :paramtype location: str
-        :keyword tags: The tags of the resource.
-        :paramtype tags: dict[str, str]
-        :keyword author: The author of the gallery image.
-        :paramtype author: str
-        :keyword description: The description of the gallery image.
-        :paramtype description: str
-        :keyword image_reference: The image reference of the gallery image.
-        :paramtype image_reference: ~azure.mgmt.devtestlabs.models.GalleryImageReference
-        :keyword icon: The icon of the gallery image.
-        :paramtype icon: str
-        :keyword enabled: Indicates whether this gallery image is enabled.
-        :paramtype enabled: bool
-        :keyword plan_id: The third party plan that applies to this image.
-        :paramtype plan_id: str
-        :keyword is_plan_authorized: Indicates if the plan has been authorized for programmatic
-         deployment.
-        :paramtype is_plan_authorized: bool
-        """
-        super().__init__(location=location, tags=tags, **kwargs)
-        self.author = author
-        self.created_date = None
-        self.description = description
-        self.image_reference = image_reference
-        self.icon = icon
-        self.enabled = enabled
-        self.plan_id = plan_id
-        self.is_plan_authorized = is_plan_authorized
-
-
-class GalleryImageList(_serialization.Model):
-    """The response of a list operation.
-
-    :ivar value: Results of the list operation.
-    :vartype value: list[~azure.mgmt.devtestlabs.models.GalleryImage]
-    :ivar next_link: Link for next set of results.
-    :vartype next_link: str
-    """
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[GalleryImage]"},
-        "next_link": {"key": "nextLink", "type": "str"},
-    }
-
-    def __init__(
-        self, *, value: Optional[List["_models.GalleryImage"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
-        """
-        :keyword value: Results of the list operation.
-        :paramtype value: list[~azure.mgmt.devtestlabs.models.GalleryImage]
-        :keyword next_link: Link for next set of results.
-        :paramtype next_link: str
-        """
-        super().__init__(**kwargs)
-        self.value = value
-        self.next_link = next_link
-
-
-class GalleryImageReference(_serialization.Model):
-    """The reference information for an Azure Marketplace image.
-
     :ivar offer: The offer of the gallery image.
     :vartype offer: str
     :ivar publisher: The publisher of the gallery image.
@@ -2361,25 +4219,72 @@ class GalleryImageReference(_serialization.Model):
     :vartype version: str
     """
 
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "location": {"required": True},
+        "system_data": {"readonly": True},
+        "created_date": {"readonly": True},
+    }
+
     _attribute_map = {
-        "offer": {"key": "offer", "type": "str"},
-        "publisher": {"key": "publisher", "type": "str"},
-        "sku": {"key": "sku", "type": "str"},
-        "os_type": {"key": "osType", "type": "str"},
-        "version": {"key": "version", "type": "str"},
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "author": {"key": "properties.author", "type": "str"},
+        "created_date": {"key": "properties.createdDate", "type": "iso-8601"},
+        "description": {"key": "properties.description", "type": "str"},
+        "icon": {"key": "properties.icon", "type": "str"},
+        "enabled": {"key": "properties.enabled", "type": "bool"},
+        "plan_id": {"key": "properties.planId", "type": "str"},
+        "is_plan_authorized": {"key": "properties.isPlanAuthorized", "type": "bool"},
+        "offer": {"key": "properties.imageReference.offer", "type": "str"},
+        "publisher": {"key": "properties.imageReference.publisher", "type": "str"},
+        "sku": {"key": "properties.imageReference.sku", "type": "str"},
+        "os_type": {"key": "properties.imageReference.osType", "type": "str"},
+        "version": {"key": "properties.imageReference.version", "type": "str"},
     }
 
     def __init__(
         self,
         *,
+        location: str,
+        tags: Optional[Dict[str, str]] = None,
+        author: Optional[str] = None,
+        description: Optional[str] = None,
+        icon: Optional[str] = None,
+        enabled: Optional[bool] = None,
+        plan_id: Optional[str] = None,
+        is_plan_authorized: Optional[bool] = None,
         offer: Optional[str] = None,
         publisher: Optional[str] = None,
         sku: Optional[str] = None,
         os_type: Optional[str] = None,
         version: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
+        :keyword author: The author of the gallery image.
+        :paramtype author: str
+        :keyword description: The description of the gallery image.
+        :paramtype description: str
+        :keyword icon: The icon of the gallery image.
+        :paramtype icon: str
+        :keyword enabled: Indicates whether this gallery image is enabled.
+        :paramtype enabled: bool
+        :keyword plan_id: The third party plan that applies to this image.
+        :paramtype plan_id: str
+        :keyword is_plan_authorized: Indicates if the plan has been authorized for programmatic
+         deployment.
+        :paramtype is_plan_authorized: bool
         :keyword offer: The offer of the gallery image.
         :paramtype offer: str
         :keyword publisher: The publisher of the gallery image.
@@ -2391,12 +4296,48 @@ class GalleryImageReference(_serialization.Model):
         :keyword version: The version of the gallery image.
         :paramtype version: str
         """
-        super().__init__(**kwargs)
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.system_data = None
+        self.author = author
+        self.created_date = None
+        self.description = description
+        self.icon = icon
+        self.enabled = enabled
+        self.plan_id = plan_id
+        self.is_plan_authorized = is_plan_authorized
         self.offer = offer
         self.publisher = publisher
         self.sku = sku
         self.os_type = os_type
         self.version = version
+
+
+class GalleryImageList(_serialization.Model):
+    """Contains a list of galleryImages and their properties.
+
+    :ivar value: List of galleryImages and their properties.
+    :vartype value: list[~azure.mgmt.devtestlabs.models.GalleryImage]
+    :ivar next_link: URL to get the next set of operation list results if there are any.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[GalleryImage]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: Optional[List["_models.GalleryImage"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: List of galleryImages and their properties.
+        :paramtype value: list[~azure.mgmt.devtestlabs.models.GalleryImage]
+        :keyword next_link: URL to get the next set of operation list results if there are any.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
 
 
 class GenerateArmTemplateRequest(_serialization.Model):
@@ -2428,8 +4369,8 @@ class GenerateArmTemplateRequest(_serialization.Model):
         parameters: Optional[List["_models.ParameterInfo"]] = None,
         location: Optional[str] = None,
         file_upload_options: Optional[Union[str, "_models.FileUploadOptions"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword virtual_machine_name: The resource name of the virtual machine.
         :paramtype virtual_machine_name: str
@@ -2460,7 +4401,7 @@ class GenerateUploadUriParameter(_serialization.Model):
         "blob_name": {"key": "blobName", "type": "str"},
     }
 
-    def __init__(self, *, blob_name: Optional[str] = None, **kwargs):
+    def __init__(self, *, blob_name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword blob_name: The blob name of the upload URI.
         :paramtype blob_name: str
@@ -2480,7 +4421,7 @@ class GenerateUploadUriResponse(_serialization.Model):
         "upload_uri": {"key": "uploadUri", "type": "str"},
     }
 
-    def __init__(self, *, upload_uri: Optional[str] = None, **kwargs):
+    def __init__(self, *, upload_uri: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword upload_uri: The upload URI for the VHD.
         :paramtype upload_uri: str
@@ -2489,31 +4430,11 @@ class GenerateUploadUriResponse(_serialization.Model):
         self.upload_uri = upload_uri
 
 
-class HourDetails(_serialization.Model):
-    """Properties of an hourly schedule.
-
-    :ivar minute: Minutes of the hour the schedule will run.
-    :vartype minute: int
-    """
-
-    _attribute_map = {
-        "minute": {"key": "minute", "type": "int"},
-    }
-
-    def __init__(self, *, minute: Optional[int] = None, **kwargs):
-        """
-        :keyword minute: Minutes of the hour the schedule will run.
-        :paramtype minute: int
-        """
-        super().__init__(**kwargs)
-        self.minute = minute
-
-
 class IdentityProperties(_serialization.Model):
     """Properties of a managed identity.
 
-    :ivar type: Managed identity. Known values are: "None", "SystemAssigned", "UserAssigned", and
-     "SystemAssigned,UserAssigned".
+    :ivar type: Type of identity (SystemAssigned, UserAssigned, None). Known values are: "None",
+     "SystemAssigned", "UserAssigned", and "SystemAssigned,UserAssigned".
     :vartype type: str or ~azure.mgmt.devtestlabs.models.ManagedIdentityType
     :ivar principal_id: The principal id of resource identity.
     :vartype principal_id: str
@@ -2521,6 +4442,8 @@ class IdentityProperties(_serialization.Model):
     :vartype tenant_id: str
     :ivar client_secret_url: The client secret URL of the identity.
     :vartype client_secret_url: str
+    :ivar user_assigned_identities: If Type is 'UserAssigned': List of user assigned identities.
+    :vartype user_assigned_identities: dict[str, JSON]
     """
 
     _attribute_map = {
@@ -2528,6 +4451,7 @@ class IdentityProperties(_serialization.Model):
         "principal_id": {"key": "principalId", "type": "str"},
         "tenant_id": {"key": "tenantId", "type": "str"},
         "client_secret_url": {"key": "clientSecretUrl", "type": "str"},
+        "user_assigned_identities": {"key": "userAssignedIdentities", "type": "{object}"},
     }
 
     def __init__(
@@ -2537,11 +4461,12 @@ class IdentityProperties(_serialization.Model):
         principal_id: Optional[str] = None,
         tenant_id: Optional[str] = None,
         client_secret_url: Optional[str] = None,
-        **kwargs
-    ):
+        user_assigned_identities: Optional[Dict[str, JSON]] = None,
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword type: Managed identity. Known values are: "None", "SystemAssigned", "UserAssigned",
-         and "SystemAssigned,UserAssigned".
+        :keyword type: Type of identity (SystemAssigned, UserAssigned, None). Known values are: "None",
+         "SystemAssigned", "UserAssigned", and "SystemAssigned,UserAssigned".
         :paramtype type: str or ~azure.mgmt.devtestlabs.models.ManagedIdentityType
         :keyword principal_id: The principal id of resource identity.
         :paramtype principal_id: str
@@ -2549,16 +4474,40 @@ class IdentityProperties(_serialization.Model):
         :paramtype tenant_id: str
         :keyword client_secret_url: The client secret URL of the identity.
         :paramtype client_secret_url: str
+        :keyword user_assigned_identities: If Type is 'UserAssigned': List of user assigned identities.
+        :paramtype user_assigned_identities: dict[str, JSON]
         """
         super().__init__(**kwargs)
         self.type = type
         self.principal_id = principal_id
         self.tenant_id = tenant_id
         self.client_secret_url = client_secret_url
+        self.user_assigned_identities = user_assigned_identities
+
+
+class ImageVersionProperties(_serialization.Model):
+    """Properties for a shared image version.
+
+    :ivar name: Image version name.
+    :vartype name: str
+    """
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+    }
+
+    def __init__(self, *, name: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword name: Image version name.
+        :paramtype name: str
+        """
+        super().__init__(**kwargs)
+        self.name = name
 
 
 class ImportLabVirtualMachineRequest(_serialization.Model):
-    """This represents the payload required to import a virtual machine from a different lab into the current one.
+    """This represents the payload required to import a virtual machine from a different lab into the
+    current one.
 
     :ivar source_virtual_machine_resource_id: The full resource ID of the virtual machine to be
      imported.
@@ -2577,8 +4526,8 @@ class ImportLabVirtualMachineRequest(_serialization.Model):
         *,
         source_virtual_machine_resource_id: Optional[str] = None,
         destination_virtual_machine_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword source_virtual_machine_resource_id: The full resource ID of the virtual machine to be
          imported.
@@ -2593,7 +4542,8 @@ class ImportLabVirtualMachineRequest(_serialization.Model):
 
 
 class InboundNatRule(_serialization.Model):
-    """A rule for NAT - exposing a VM's port (backendPort) on the public IP address using a load balancer.
+    """A rule for NAT - exposing a VM's port (backendPort) on the public IP address using a load
+    balancer.
 
     :ivar transport_protocol: The transport protocol for the endpoint. Known values are: "Tcp" and
      "Udp".
@@ -2617,8 +4567,8 @@ class InboundNatRule(_serialization.Model):
         transport_protocol: Optional[Union[str, "_models.TransportProtocol"]] = None,
         frontend_port: Optional[int] = None,
         backend_port: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword transport_protocol: The transport protocol for the endpoint. Known values are: "Tcp"
          and "Udp".
@@ -2640,16 +4590,33 @@ class Lab(Resource):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: The identifier of the resource.
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar location: The location of the resource.
-    :vartype location: str
-    :ivar tags: The tags of the resource.
+    :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar system_data: The system metadata relating to this resource.
+    :vartype system_data: ~azure.mgmt.devtestlabs.models.SystemData
+    :ivar type_identity_type: Type of identity (SystemAssigned, UserAssigned, None). Known values
+     are: "None", "SystemAssigned", "UserAssigned", and "SystemAssigned,UserAssigned".
+    :vartype type_identity_type: str or ~azure.mgmt.devtestlabs.models.ManagedIdentityType
+    :ivar principal_id: The principal id of resource identity.
+    :vartype principal_id: str
+    :ivar tenant_id: The tenant identifier of resource.
+    :vartype tenant_id: str
+    :ivar client_secret_url: The client secret URL of the identity.
+    :vartype client_secret_url: str
+    :ivar user_assigned_identities: If Type is 'UserAssigned': List of user assigned identities.
+    :vartype user_assigned_identities: dict[str, JSON]
     :ivar default_storage_account: The lab's default storage account.
     :vartype default_storage_account: str
     :ivar default_premium_storage_account: The lab's default premium storage account.
@@ -2681,12 +4648,9 @@ class Lab(Resource):  # pylint: disable=too-many-instance-attributes
     :ivar environment_permission: The access rights to be granted to the user when provisioning an
      environment. Known values are: "Reader" and "Contributor".
     :vartype environment_permission: str or ~azure.mgmt.devtestlabs.models.EnvironmentPermission
-    :ivar announcement: The properties of any lab announcement associated with this lab.
-    :vartype announcement: ~azure.mgmt.devtestlabs.models.LabAnnouncementProperties
-    :ivar support: The properties of any lab support message associated with this lab.
-    :vartype support: ~azure.mgmt.devtestlabs.models.LabSupportProperties
-    :ivar vm_creation_resource_group: The resource group in which all new lab virtual machines will
-     be created. To let DevTest Labs manage resource group creation, set this value to null.
+    :ivar vm_creation_resource_group: The resource group ID in which all new lab virtual machines
+     will be created. Ex: /subscriptions/subId/resourceGroups/rgName To let DevTest Labs manage
+     resource group creation, set this value to null.
     :vartype vm_creation_resource_group: str
     :ivar public_ip_id: The public IP address for the lab's load balancer.
     :vartype public_ip_id: str
@@ -2697,16 +4661,65 @@ class Lab(Resource):  # pylint: disable=too-many-instance-attributes
     :vartype network_security_group_id: str
     :ivar extended_properties: Extended properties of the lab used for experimental features.
     :vartype extended_properties: dict[str, str]
-    :ivar provisioning_state: The provisioning status of the resource.
-    :vartype provisioning_state: str
-    :ivar unique_identifier: The unique immutable identifier of a resource (Guid).
-    :vartype unique_identifier: str
+    :ivar browser_connect: Is browser connect enabled for the lab. Known values are: "Enabled" and
+     "Disabled".
+    :vartype browser_connect: str or ~azure.mgmt.devtestlabs.models.EnableStatus
+    :ivar disable_auto_upgrade_cse_minor_version: Is auto upgrade of CSE disabled for the lab?.
+    :vartype disable_auto_upgrade_cse_minor_version: bool
+    :ivar management_identities: List of identities which can be used for management of resources.
+    :vartype management_identities: dict[str, JSON]
+    :ivar isolate_lab_resources: Indicates whether to create Lab resources (e.g. Storage accounts
+     and Key Vaults) in network isolation. Known values are: "Enabled" and "Disabled".
+    :vartype isolate_lab_resources: str or ~azure.mgmt.devtestlabs.models.EnableStatus
+    :ivar default_secret_name: Default secret for creating virtual machines.
+    :vartype default_secret_name: str
+    :ivar provisioning_state_properties_provisioning_state: The provisioning status of the
+     resource.
+    :vartype provisioning_state_properties_provisioning_state: str
+    :ivar unique_identifier_properties_unique_identifier: The unique immutable identifier of a
+     resource (Guid).
+    :vartype unique_identifier_properties_unique_identifier: str
+    :ivar disk_encryption_set_id: Gets or sets resourceId of the disk encryption set to use for
+     enabling encryption at rest.
+    :vartype disk_encryption_set_id: str
+    :ivar type_properties_encryption_type: Gets or sets the type of key used to encrypt the data of
+     the disk. Possible values include: 'EncryptionAtRestWithPlatformKey',
+     'EncryptionAtRestWithCustomerKey'. Known values are: "EncryptionAtRestWithPlatformKey" and
+     "EncryptionAtRestWithCustomerKey".
+    :vartype type_properties_encryption_type: str or ~azure.mgmt.devtestlabs.models.EncryptionType
+    :ivar enabled_properties_support_enabled: Is the lab support banner active/enabled at this
+     time?. Known values are: "Enabled" and "Disabled".
+    :vartype enabled_properties_support_enabled: str or ~azure.mgmt.devtestlabs.models.EnableStatus
+    :ivar markdown_properties_support_markdown: The markdown text (if any) that this lab displays
+     in the UI. If left empty/null, nothing will be shown.
+    :vartype markdown_properties_support_markdown: str
+    :ivar title: The plain text title for the lab announcement.
+    :vartype title: str
+    :ivar markdown_properties_announcement_markdown: The markdown text (if any) that this lab
+     displays in the UI. If left empty/null, nothing will be shown.
+    :vartype markdown_properties_announcement_markdown: str
+    :ivar enabled_properties_announcement_enabled: Is the lab announcement active/enabled at this
+     time?. Known values are: "Enabled" and "Disabled".
+    :vartype enabled_properties_announcement_enabled: str or
+     ~azure.mgmt.devtestlabs.models.EnableStatus
+    :ivar expiration_date: The time at which the announcement expires (null for never).
+    :vartype expiration_date: ~datetime.datetime
+    :ivar expired: Has this announcement expired?.
+    :vartype expired: bool
+    :ivar provisioning_state_properties_announcement_provisioning_state: The provisioning status of
+     the resource.
+    :vartype provisioning_state_properties_announcement_provisioning_state: str
+    :ivar unique_identifier_properties_announcement_unique_identifier: The unique immutable
+     identifier of a resource (Guid).
+    :vartype unique_identifier_properties_announcement_unique_identifier: str
     """
 
     _validation = {
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "location": {"required": True},
+        "system_data": {"readonly": True},
         "default_storage_account": {"readonly": True},
         "default_premium_storage_account": {"readonly": True},
         "artifacts_storage_account": {"readonly": True},
@@ -2717,16 +4730,24 @@ class Lab(Resource):  # pylint: disable=too-many-instance-attributes
         "public_ip_id": {"readonly": True},
         "load_balancer_id": {"readonly": True},
         "network_security_group_id": {"readonly": True},
-        "provisioning_state": {"readonly": True},
-        "unique_identifier": {"readonly": True},
+        "provisioning_state_properties_provisioning_state": {"readonly": True},
+        "unique_identifier_properties_unique_identifier": {"readonly": True},
+        "provisioning_state_properties_announcement_provisioning_state": {"readonly": True},
+        "unique_identifier_properties_announcement_unique_identifier": {"readonly": True},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "location": {"key": "location", "type": "str"},
         "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "type_identity_type": {"key": "identity.type", "type": "str"},
+        "principal_id": {"key": "identity.principalId", "type": "str"},
+        "tenant_id": {"key": "identity.tenantId", "type": "str"},
+        "client_secret_url": {"key": "identity.clientSecretUrl", "type": "str"},
+        "user_assigned_identities": {"key": "identity.userAssignedIdentities", "type": "{object}"},
         "default_storage_account": {"key": "properties.defaultStorageAccount", "type": "str"},
         "default_premium_storage_account": {"key": "properties.defaultPremiumStorageAccount", "type": "str"},
         "artifacts_storage_account": {"key": "properties.artifactsStorageAccount", "type": "str"},
@@ -2744,37 +4765,88 @@ class Lab(Resource):  # pylint: disable=too-many-instance-attributes
         "created_date": {"key": "properties.createdDate", "type": "iso-8601"},
         "premium_data_disks": {"key": "properties.premiumDataDisks", "type": "str"},
         "environment_permission": {"key": "properties.environmentPermission", "type": "str"},
-        "announcement": {"key": "properties.announcement", "type": "LabAnnouncementProperties"},
-        "support": {"key": "properties.support", "type": "LabSupportProperties"},
         "vm_creation_resource_group": {"key": "properties.vmCreationResourceGroup", "type": "str"},
         "public_ip_id": {"key": "properties.publicIpId", "type": "str"},
         "load_balancer_id": {"key": "properties.loadBalancerId", "type": "str"},
         "network_security_group_id": {"key": "properties.networkSecurityGroupId", "type": "str"},
         "extended_properties": {"key": "properties.extendedProperties", "type": "{str}"},
-        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
-        "unique_identifier": {"key": "properties.uniqueIdentifier", "type": "str"},
+        "browser_connect": {"key": "properties.browserConnect", "type": "str"},
+        "disable_auto_upgrade_cse_minor_version": {
+            "key": "properties.disableAutoUpgradeCseMinorVersion",
+            "type": "bool",
+        },
+        "management_identities": {"key": "properties.managementIdentities", "type": "{object}"},
+        "isolate_lab_resources": {"key": "properties.isolateLabResources", "type": "str"},
+        "default_secret_name": {"key": "properties.defaultSecretName", "type": "str"},
+        "provisioning_state_properties_provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "unique_identifier_properties_unique_identifier": {"key": "properties.uniqueIdentifier", "type": "str"},
+        "disk_encryption_set_id": {"key": "properties.encryption.diskEncryptionSetId", "type": "str"},
+        "type_properties_encryption_type": {"key": "properties.encryption.type", "type": "str"},
+        "enabled_properties_support_enabled": {"key": "properties.support.enabled", "type": "str"},
+        "markdown_properties_support_markdown": {"key": "properties.support.markdown", "type": "str"},
+        "title": {"key": "properties.announcement.title", "type": "str"},
+        "markdown_properties_announcement_markdown": {"key": "properties.announcement.markdown", "type": "str"},
+        "enabled_properties_announcement_enabled": {"key": "properties.announcement.enabled", "type": "str"},
+        "expiration_date": {"key": "properties.announcement.expirationDate", "type": "iso-8601"},
+        "expired": {"key": "properties.announcement.expired", "type": "bool"},
+        "provisioning_state_properties_announcement_provisioning_state": {
+            "key": "properties.announcement.provisioningState",
+            "type": "str",
+        },
+        "unique_identifier_properties_announcement_unique_identifier": {
+            "key": "properties.announcement.uniqueIdentifier",
+            "type": "str",
+        },
     }
 
     def __init__(  # pylint: disable=too-many-locals
         self,
         *,
-        location: Optional[str] = None,
+        location: str,
         tags: Optional[Dict[str, str]] = None,
+        type_identity_type: Optional[Union[str, "_models.ManagedIdentityType"]] = None,
+        principal_id: Optional[str] = None,
+        tenant_id: Optional[str] = None,
+        client_secret_url: Optional[str] = None,
+        user_assigned_identities: Optional[Dict[str, JSON]] = None,
         lab_storage_type: Optional[Union[str, "_models.StorageType"]] = None,
         mandatory_artifacts_resource_ids_linux: Optional[List[str]] = None,
         mandatory_artifacts_resource_ids_windows: Optional[List[str]] = None,
         premium_data_disks: Optional[Union[str, "_models.PremiumDataDisk"]] = None,
         environment_permission: Optional[Union[str, "_models.EnvironmentPermission"]] = None,
-        announcement: Optional["_models.LabAnnouncementProperties"] = None,
-        support: Optional["_models.LabSupportProperties"] = None,
         extended_properties: Optional[Dict[str, str]] = None,
-        **kwargs
-    ):
+        browser_connect: Optional[Union[str, "_models.EnableStatus"]] = None,
+        disable_auto_upgrade_cse_minor_version: Optional[bool] = None,
+        management_identities: Optional[Dict[str, JSON]] = None,
+        isolate_lab_resources: Optional[Union[str, "_models.EnableStatus"]] = None,
+        default_secret_name: Optional[str] = None,
+        disk_encryption_set_id: Optional[str] = None,
+        type_properties_encryption_type: Optional[Union[str, "_models.EncryptionType"]] = None,
+        enabled_properties_support_enabled: Optional[Union[str, "_models.EnableStatus"]] = None,
+        markdown_properties_support_markdown: Optional[str] = None,
+        title: Optional[str] = None,
+        markdown_properties_announcement_markdown: Optional[str] = None,
+        enabled_properties_announcement_enabled: Optional[Union[str, "_models.EnableStatus"]] = None,
+        expiration_date: Optional[datetime.datetime] = None,
+        expired: Optional[bool] = None,
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword location: The location of the resource.
-        :paramtype location: str
-        :keyword tags: The tags of the resource.
+        :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
+        :keyword type_identity_type: Type of identity (SystemAssigned, UserAssigned, None). Known
+         values are: "None", "SystemAssigned", "UserAssigned", and "SystemAssigned,UserAssigned".
+        :paramtype type_identity_type: str or ~azure.mgmt.devtestlabs.models.ManagedIdentityType
+        :keyword principal_id: The principal id of resource identity.
+        :paramtype principal_id: str
+        :keyword tenant_id: The tenant identifier of resource.
+        :paramtype tenant_id: str
+        :keyword client_secret_url: The client secret URL of the identity.
+        :paramtype client_secret_url: str
+        :keyword user_assigned_identities: If Type is 'UserAssigned': List of user assigned identities.
+        :paramtype user_assigned_identities: dict[str, JSON]
         :keyword lab_storage_type: Type of storage used by the lab. It can be either Premium or
          Standard. Default is Premium. Known values are: "Standard", "Premium", and "StandardSSD".
         :paramtype lab_storage_type: str or ~azure.mgmt.devtestlabs.models.StorageType
@@ -2794,14 +4866,58 @@ class Lab(Resource):  # pylint: disable=too-many-instance-attributes
         :keyword environment_permission: The access rights to be granted to the user when provisioning
          an environment. Known values are: "Reader" and "Contributor".
         :paramtype environment_permission: str or ~azure.mgmt.devtestlabs.models.EnvironmentPermission
-        :keyword announcement: The properties of any lab announcement associated with this lab.
-        :paramtype announcement: ~azure.mgmt.devtestlabs.models.LabAnnouncementProperties
-        :keyword support: The properties of any lab support message associated with this lab.
-        :paramtype support: ~azure.mgmt.devtestlabs.models.LabSupportProperties
         :keyword extended_properties: Extended properties of the lab used for experimental features.
         :paramtype extended_properties: dict[str, str]
+        :keyword browser_connect: Is browser connect enabled for the lab. Known values are: "Enabled"
+         and "Disabled".
+        :paramtype browser_connect: str or ~azure.mgmt.devtestlabs.models.EnableStatus
+        :keyword disable_auto_upgrade_cse_minor_version: Is auto upgrade of CSE disabled for the lab?.
+        :paramtype disable_auto_upgrade_cse_minor_version: bool
+        :keyword management_identities: List of identities which can be used for management of
+         resources.
+        :paramtype management_identities: dict[str, JSON]
+        :keyword isolate_lab_resources: Indicates whether to create Lab resources (e.g. Storage
+         accounts and Key Vaults) in network isolation. Known values are: "Enabled" and "Disabled".
+        :paramtype isolate_lab_resources: str or ~azure.mgmt.devtestlabs.models.EnableStatus
+        :keyword default_secret_name: Default secret for creating virtual machines.
+        :paramtype default_secret_name: str
+        :keyword disk_encryption_set_id: Gets or sets resourceId of the disk encryption set to use for
+         enabling encryption at rest.
+        :paramtype disk_encryption_set_id: str
+        :keyword type_properties_encryption_type: Gets or sets the type of key used to encrypt the data
+         of the disk. Possible values include: 'EncryptionAtRestWithPlatformKey',
+         'EncryptionAtRestWithCustomerKey'. Known values are: "EncryptionAtRestWithPlatformKey" and
+         "EncryptionAtRestWithCustomerKey".
+        :paramtype type_properties_encryption_type: str or
+         ~azure.mgmt.devtestlabs.models.EncryptionType
+        :keyword enabled_properties_support_enabled: Is the lab support banner active/enabled at this
+         time?. Known values are: "Enabled" and "Disabled".
+        :paramtype enabled_properties_support_enabled: str or
+         ~azure.mgmt.devtestlabs.models.EnableStatus
+        :keyword markdown_properties_support_markdown: The markdown text (if any) that this lab
+         displays in the UI. If left empty/null, nothing will be shown.
+        :paramtype markdown_properties_support_markdown: str
+        :keyword title: The plain text title for the lab announcement.
+        :paramtype title: str
+        :keyword markdown_properties_announcement_markdown: The markdown text (if any) that this lab
+         displays in the UI. If left empty/null, nothing will be shown.
+        :paramtype markdown_properties_announcement_markdown: str
+        :keyword enabled_properties_announcement_enabled: Is the lab announcement active/enabled at
+         this time?. Known values are: "Enabled" and "Disabled".
+        :paramtype enabled_properties_announcement_enabled: str or
+         ~azure.mgmt.devtestlabs.models.EnableStatus
+        :keyword expiration_date: The time at which the announcement expires (null for never).
+        :paramtype expiration_date: ~datetime.datetime
+        :keyword expired: Has this announcement expired?.
+        :paramtype expired: bool
         """
-        super().__init__(location=location, tags=tags, **kwargs)
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.system_data = None
+        self.type_identity_type = type_identity_type
+        self.principal_id = principal_id
+        self.tenant_id = tenant_id
+        self.client_secret_url = client_secret_url
+        self.user_assigned_identities = user_assigned_identities
         self.default_storage_account = None
         self.default_premium_storage_account = None
         self.artifacts_storage_account = None
@@ -2813,120 +4929,120 @@ class Lab(Resource):  # pylint: disable=too-many-instance-attributes
         self.created_date = None
         self.premium_data_disks = premium_data_disks
         self.environment_permission = environment_permission
-        self.announcement = announcement
-        self.support = support
         self.vm_creation_resource_group = None
         self.public_ip_id = None
         self.load_balancer_id = None
         self.network_security_group_id = None
         self.extended_properties = extended_properties
-        self.provisioning_state = None
-        self.unique_identifier = None
+        self.browser_connect = browser_connect
+        self.disable_auto_upgrade_cse_minor_version = disable_auto_upgrade_cse_minor_version
+        self.management_identities = management_identities
+        self.isolate_lab_resources = isolate_lab_resources
+        self.default_secret_name = default_secret_name
+        self.provisioning_state_properties_provisioning_state = None
+        self.unique_identifier_properties_unique_identifier = None
+        self.disk_encryption_set_id = disk_encryption_set_id
+        self.type_properties_encryption_type = type_properties_encryption_type
+        self.enabled_properties_support_enabled = enabled_properties_support_enabled
+        self.markdown_properties_support_markdown = markdown_properties_support_markdown
+        self.title = title
+        self.markdown_properties_announcement_markdown = markdown_properties_announcement_markdown
+        self.enabled_properties_announcement_enabled = enabled_properties_announcement_enabled
+        self.expiration_date = expiration_date
+        self.expired = expired
+        self.provisioning_state_properties_announcement_provisioning_state = None
+        self.unique_identifier_properties_announcement_unique_identifier = None
 
 
-class LabAnnouncementProperties(_serialization.Model):
-    """Properties of a lab's announcement banner.
+class LabFragment(UpdateResource):
+    """Patch.
 
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar title: The plain text title for the lab announcement.
-    :vartype title: str
-    :ivar markdown: The markdown text (if any) that this lab displays in the UI. If left
-     empty/null, nothing will be shown.
-    :vartype markdown: str
-    :ivar enabled: Is the lab announcement active/enabled at this time?. Known values are:
-     "Enabled" and "Disabled".
-    :vartype enabled: str or ~azure.mgmt.devtestlabs.models.EnableStatus
-    :ivar expiration_date: The time at which the announcement expires (null for never).
-    :vartype expiration_date: ~datetime.datetime
-    :ivar expired: Has this announcement expired?.
-    :vartype expired: bool
-    :ivar provisioning_state: The provisioning status of the resource.
-    :vartype provisioning_state: str
-    :ivar unique_identifier: The unique immutable identifier of a resource (Guid).
-    :vartype unique_identifier: str
+    :ivar tags: The tags of the resource.
+    :vartype tags: dict[str, str]
+    :ivar identity: The identity of the resource.
+    :vartype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
     """
 
-    _validation = {
-        "provisioning_state": {"readonly": True},
-        "unique_identifier": {"readonly": True},
-    }
-
     _attribute_map = {
-        "title": {"key": "title", "type": "str"},
-        "markdown": {"key": "markdown", "type": "str"},
-        "enabled": {"key": "enabled", "type": "str"},
-        "expiration_date": {"key": "expirationDate", "type": "iso-8601"},
-        "expired": {"key": "expired", "type": "bool"},
-        "provisioning_state": {"key": "provisioningState", "type": "str"},
-        "unique_identifier": {"key": "uniqueIdentifier", "type": "str"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "identity": {"key": "identity", "type": "IdentityProperties"},
     }
 
     def __init__(
         self,
         *,
-        title: Optional[str] = None,
-        markdown: Optional[str] = None,
-        enabled: Optional[Union[str, "_models.EnableStatus"]] = None,
-        expiration_date: Optional[datetime.datetime] = None,
-        expired: Optional[bool] = None,
-        **kwargs
-    ):
+        tags: Optional[Dict[str, str]] = None,
+        identity: Optional["_models.IdentityProperties"] = None,
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword title: The plain text title for the lab announcement.
-        :paramtype title: str
-        :keyword markdown: The markdown text (if any) that this lab displays in the UI. If left
-         empty/null, nothing will be shown.
-        :paramtype markdown: str
-        :keyword enabled: Is the lab announcement active/enabled at this time?. Known values are:
-         "Enabled" and "Disabled".
-        :paramtype enabled: str or ~azure.mgmt.devtestlabs.models.EnableStatus
-        :keyword expiration_date: The time at which the announcement expires (null for never).
-        :paramtype expiration_date: ~datetime.datetime
-        :keyword expired: Has this announcement expired?.
-        :paramtype expired: bool
+        :keyword tags: The tags of the resource.
+        :paramtype tags: dict[str, str]
+        :keyword identity: The identity of the resource.
+        :paramtype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
+        """
+        super().__init__(tags=tags, identity=identity, **kwargs)
+
+
+class LabList(_serialization.Model):
+    """Contains a list of labs and their properties.
+
+    :ivar value: List of labs and their properties.
+    :vartype value: list[~azure.mgmt.devtestlabs.models.Lab]
+    :ivar next_link: URL to get the next set of operation list results if there are any.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[Lab]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: Optional[List["_models.Lab"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: List of labs and their properties.
+        :paramtype value: list[~azure.mgmt.devtestlabs.models.Lab]
+        :keyword next_link: URL to get the next set of operation list results if there are any.
+        :paramtype next_link: str
         """
         super().__init__(**kwargs)
-        self.title = title
-        self.markdown = markdown
-        self.enabled = enabled
-        self.expiration_date = expiration_date
-        self.expired = expired
-        self.provisioning_state = None
-        self.unique_identifier = None
+        self.value = value
+        self.next_link = next_link
 
 
-class LabCost(Resource):  # pylint: disable=too-many-instance-attributes
-    """A cost item.
+class LabSecret(Resource):  # pylint: disable=too-many-instance-attributes
+    """A shared secret in a lab.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: The identifier of the resource.
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar location: The location of the resource.
-    :vartype location: str
-    :ivar tags: The tags of the resource.
+    :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
-    :ivar target_cost: The target cost properties.
-    :vartype target_cost: ~azure.mgmt.devtestlabs.models.TargetCostProperties
-    :ivar lab_cost_summary: The lab cost summary component of the cost data.
-    :vartype lab_cost_summary: ~azure.mgmt.devtestlabs.models.LabCostSummaryProperties
-    :ivar lab_cost_details: The lab cost details component of the cost data.
-    :vartype lab_cost_details: list[~azure.mgmt.devtestlabs.models.LabCostDetailsProperties]
-    :ivar resource_costs: The resource cost component of the cost data.
-    :vartype resource_costs: list[~azure.mgmt.devtestlabs.models.LabResourceCostProperties]
-    :ivar currency_code: The currency code of the cost.
-    :vartype currency_code: str
-    :ivar start_date_time: The start time of the cost data.
-    :vartype start_date_time: ~datetime.datetime
-    :ivar end_date_time: The end time of the cost data.
-    :vartype end_date_time: ~datetime.datetime
-    :ivar created_date: The creation date of the cost.
-    :vartype created_date: ~datetime.datetime
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar system_data: The system metadata relating to this resource.
+    :vartype system_data: ~azure.mgmt.devtestlabs.models.SystemData
+    :ivar value: The value of the secret for secret creation.
+    :vartype value: str
+    :ivar key_vault_entry: The name of the entry in the lab KeyVault.
+    :vartype key_vault_entry: str
+    :ivar enabled_for_artifacts: Is the secret enabled for use with artifacts?.
+    :vartype enabled_for_artifacts: bool
+    :ivar enabled_for_vm_creation: Is the secret enabled for use with creation of VMs?.
+    :vartype enabled_for_vm_creation: bool
+    :ivar enabled_for_arm_environments: Is the secret enabled for use with ARM environments?.
+    :vartype enabled_for_arm_environments: bool
     :ivar provisioning_state: The provisioning status of the resource.
     :vartype provisioning_state: str
     :ivar unique_identifier: The unique immutable identifier of a resource (Guid).
@@ -2937,9 +5053,9 @@ class LabCost(Resource):  # pylint: disable=too-many-instance-attributes
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
-        "lab_cost_summary": {"readonly": True},
-        "lab_cost_details": {"readonly": True},
-        "resource_costs": {"readonly": True},
+        "location": {"required": True},
+        "system_data": {"readonly": True},
+        "key_vault_entry": {"readonly": True},
         "provisioning_state": {"readonly": True},
         "unique_identifier": {"readonly": True},
     }
@@ -2948,16 +5064,14 @@ class LabCost(Resource):  # pylint: disable=too-many-instance-attributes
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "location": {"key": "location", "type": "str"},
         "tags": {"key": "tags", "type": "{str}"},
-        "target_cost": {"key": "properties.targetCost", "type": "TargetCostProperties"},
-        "lab_cost_summary": {"key": "properties.labCostSummary", "type": "LabCostSummaryProperties"},
-        "lab_cost_details": {"key": "properties.labCostDetails", "type": "[LabCostDetailsProperties]"},
-        "resource_costs": {"key": "properties.resourceCosts", "type": "[LabResourceCostProperties]"},
-        "currency_code": {"key": "properties.currencyCode", "type": "str"},
-        "start_date_time": {"key": "properties.startDateTime", "type": "iso-8601"},
-        "end_date_time": {"key": "properties.endDateTime", "type": "iso-8601"},
-        "created_date": {"key": "properties.createdDate", "type": "iso-8601"},
+        "location": {"key": "location", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "value": {"key": "properties.value", "type": "str"},
+        "key_vault_entry": {"key": "properties.keyVaultEntry", "type": "str"},
+        "enabled_for_artifacts": {"key": "properties.enabledForArtifacts", "type": "bool"},
+        "enabled_for_vm_creation": {"key": "properties.enabledForVmCreation", "type": "bool"},
+        "enabled_for_arm_environments": {"key": "properties.enabledForArmEnvironments", "type": "bool"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "unique_identifier": {"key": "properties.uniqueIdentifier", "type": "str"},
     }
@@ -2965,261 +5079,95 @@ class LabCost(Resource):  # pylint: disable=too-many-instance-attributes
     def __init__(
         self,
         *,
-        location: Optional[str] = None,
+        location: str,
         tags: Optional[Dict[str, str]] = None,
-        target_cost: Optional["_models.TargetCostProperties"] = None,
-        currency_code: Optional[str] = None,
-        start_date_time: Optional[datetime.datetime] = None,
-        end_date_time: Optional[datetime.datetime] = None,
-        created_date: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        value: Optional[str] = None,
+        enabled_for_artifacts: Optional[bool] = None,
+        enabled_for_vm_creation: Optional[bool] = None,
+        enabled_for_arm_environments: Optional[bool] = None,
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword location: The location of the resource.
-        :paramtype location: str
-        :keyword tags: The tags of the resource.
+        :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
-        :keyword target_cost: The target cost properties.
-        :paramtype target_cost: ~azure.mgmt.devtestlabs.models.TargetCostProperties
-        :keyword currency_code: The currency code of the cost.
-        :paramtype currency_code: str
-        :keyword start_date_time: The start time of the cost data.
-        :paramtype start_date_time: ~datetime.datetime
-        :keyword end_date_time: The end time of the cost data.
-        :paramtype end_date_time: ~datetime.datetime
-        :keyword created_date: The creation date of the cost.
-        :paramtype created_date: ~datetime.datetime
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
+        :keyword value: The value of the secret for secret creation.
+        :paramtype value: str
+        :keyword enabled_for_artifacts: Is the secret enabled for use with artifacts?.
+        :paramtype enabled_for_artifacts: bool
+        :keyword enabled_for_vm_creation: Is the secret enabled for use with creation of VMs?.
+        :paramtype enabled_for_vm_creation: bool
+        :keyword enabled_for_arm_environments: Is the secret enabled for use with ARM environments?.
+        :paramtype enabled_for_arm_environments: bool
         """
-        super().__init__(location=location, tags=tags, **kwargs)
-        self.target_cost = target_cost
-        self.lab_cost_summary = None
-        self.lab_cost_details = None
-        self.resource_costs = None
-        self.currency_code = currency_code
-        self.start_date_time = start_date_time
-        self.end_date_time = end_date_time
-        self.created_date = created_date
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.system_data = None
+        self.value = value
+        self.key_vault_entry = None
+        self.enabled_for_artifacts = enabled_for_artifacts
+        self.enabled_for_vm_creation = enabled_for_vm_creation
+        self.enabled_for_arm_environments = enabled_for_arm_environments
         self.provisioning_state = None
         self.unique_identifier = None
 
 
-class LabCostDetailsProperties(_serialization.Model):
-    """The properties of a lab cost item.
+class LabSecretFragment(UpdateResource):
+    """Patch.
 
-    :ivar date: The date of the cost item.
-    :vartype date: ~datetime.datetime
-    :ivar cost: The cost component of the cost item.
-    :vartype cost: float
-    :ivar cost_type: The type of the cost. Known values are: "Unavailable", "Reported", and
-     "Projected".
-    :vartype cost_type: str or ~azure.mgmt.devtestlabs.models.CostType
+    :ivar tags: The tags of the resource.
+    :vartype tags: dict[str, str]
+    :ivar identity: The identity of the resource.
+    :vartype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
     """
 
     _attribute_map = {
-        "date": {"key": "date", "type": "iso-8601"},
-        "cost": {"key": "cost", "type": "float"},
-        "cost_type": {"key": "costType", "type": "str"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "identity": {"key": "identity", "type": "IdentityProperties"},
     }
 
     def __init__(
         self,
         *,
-        date: Optional[datetime.datetime] = None,
-        cost: Optional[float] = None,
-        cost_type: Optional[Union[str, "_models.CostType"]] = None,
-        **kwargs
-    ):
-        """
-        :keyword date: The date of the cost item.
-        :paramtype date: ~datetime.datetime
-        :keyword cost: The cost component of the cost item.
-        :paramtype cost: float
-        :keyword cost_type: The type of the cost. Known values are: "Unavailable", "Reported", and
-         "Projected".
-        :paramtype cost_type: str or ~azure.mgmt.devtestlabs.models.CostType
-        """
-        super().__init__(**kwargs)
-        self.date = date
-        self.cost = cost
-        self.cost_type = cost_type
-
-
-class LabCostSummaryProperties(_serialization.Model):
-    """The properties of the cost summary.
-
-    :ivar estimated_lab_cost: The cost component of the cost item.
-    :vartype estimated_lab_cost: float
-    """
-
-    _attribute_map = {
-        "estimated_lab_cost": {"key": "estimatedLabCost", "type": "float"},
-    }
-
-    def __init__(self, *, estimated_lab_cost: Optional[float] = None, **kwargs):
-        """
-        :keyword estimated_lab_cost: The cost component of the cost item.
-        :paramtype estimated_lab_cost: float
-        """
-        super().__init__(**kwargs)
-        self.estimated_lab_cost = estimated_lab_cost
-
-
-class LabFragment(UpdateResource):
-    """A lab.
-
-    :ivar tags: The tags of the resource.
-    :vartype tags: dict[str, str]
-    """
-
-    _attribute_map = {
-        "tags": {"key": "tags", "type": "{str}"},
-    }
-
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs):
+        tags: Optional[Dict[str, str]] = None,
+        identity: Optional["_models.IdentityProperties"] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: The tags of the resource.
         :paramtype tags: dict[str, str]
+        :keyword identity: The identity of the resource.
+        :paramtype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
         """
-        super().__init__(tags=tags, **kwargs)
+        super().__init__(tags=tags, identity=identity, **kwargs)
 
 
-class LabList(_serialization.Model):
-    """The response of a list operation.
+class LabSecretList(_serialization.Model):
+    """Contains a list of secrets and their properties.
 
-    :ivar value: Results of the list operation.
-    :vartype value: list[~azure.mgmt.devtestlabs.models.Lab]
-    :ivar next_link: Link for next set of results.
+    :ivar value: List of secrets and their properties.
+    :vartype value: list[~azure.mgmt.devtestlabs.models.LabSecret]
+    :ivar next_link: URL to get the next set of operation list results if there are any.
     :vartype next_link: str
     """
 
     _attribute_map = {
-        "value": {"key": "value", "type": "[Lab]"},
+        "value": {"key": "value", "type": "[LabSecret]"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Lab"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.LabSecret"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
-        :keyword value: Results of the list operation.
-        :paramtype value: list[~azure.mgmt.devtestlabs.models.Lab]
-        :keyword next_link: Link for next set of results.
+        :keyword value: List of secrets and their properties.
+        :paramtype value: list[~azure.mgmt.devtestlabs.models.LabSecret]
+        :keyword next_link: URL to get the next set of operation list results if there are any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
         self.next_link = next_link
-
-
-class LabResourceCostProperties(_serialization.Model):
-    """The properties of a resource cost item.
-
-    :ivar resourcename: The name of the resource.
-    :vartype resourcename: str
-    :ivar resource_u_id: The unique identifier of the resource.
-    :vartype resource_u_id: str
-    :ivar resource_cost: The cost component of the resource cost item.
-    :vartype resource_cost: float
-    :ivar resource_type: The logical resource type (ex. virtualmachine, storageaccount).
-    :vartype resource_type: str
-    :ivar resource_owner: The owner of the resource (ex. janedoe@microsoft.com).
-    :vartype resource_owner: str
-    :ivar resource_pricing_tier: The category of the resource (ex. Premium_LRS, Standard_DS1).
-    :vartype resource_pricing_tier: str
-    :ivar resource_status: The status of the resource (ex. Active).
-    :vartype resource_status: str
-    :ivar resource_id: The ID of the resource.
-    :vartype resource_id: str
-    :ivar external_resource_id: The ID of the external resource.
-    :vartype external_resource_id: str
-    """
-
-    _attribute_map = {
-        "resourcename": {"key": "resourcename", "type": "str"},
-        "resource_u_id": {"key": "resourceUId", "type": "str"},
-        "resource_cost": {"key": "resourceCost", "type": "float"},
-        "resource_type": {"key": "resourceType", "type": "str"},
-        "resource_owner": {"key": "resourceOwner", "type": "str"},
-        "resource_pricing_tier": {"key": "resourcePricingTier", "type": "str"},
-        "resource_status": {"key": "resourceStatus", "type": "str"},
-        "resource_id": {"key": "resourceId", "type": "str"},
-        "external_resource_id": {"key": "externalResourceId", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        resourcename: Optional[str] = None,
-        resource_u_id: Optional[str] = None,
-        resource_cost: Optional[float] = None,
-        resource_type: Optional[str] = None,
-        resource_owner: Optional[str] = None,
-        resource_pricing_tier: Optional[str] = None,
-        resource_status: Optional[str] = None,
-        resource_id: Optional[str] = None,
-        external_resource_id: Optional[str] = None,
-        **kwargs
-    ):
-        """
-        :keyword resourcename: The name of the resource.
-        :paramtype resourcename: str
-        :keyword resource_u_id: The unique identifier of the resource.
-        :paramtype resource_u_id: str
-        :keyword resource_cost: The cost component of the resource cost item.
-        :paramtype resource_cost: float
-        :keyword resource_type: The logical resource type (ex. virtualmachine, storageaccount).
-        :paramtype resource_type: str
-        :keyword resource_owner: The owner of the resource (ex. janedoe@microsoft.com).
-        :paramtype resource_owner: str
-        :keyword resource_pricing_tier: The category of the resource (ex. Premium_LRS, Standard_DS1).
-        :paramtype resource_pricing_tier: str
-        :keyword resource_status: The status of the resource (ex. Active).
-        :paramtype resource_status: str
-        :keyword resource_id: The ID of the resource.
-        :paramtype resource_id: str
-        :keyword external_resource_id: The ID of the external resource.
-        :paramtype external_resource_id: str
-        """
-        super().__init__(**kwargs)
-        self.resourcename = resourcename
-        self.resource_u_id = resource_u_id
-        self.resource_cost = resource_cost
-        self.resource_type = resource_type
-        self.resource_owner = resource_owner
-        self.resource_pricing_tier = resource_pricing_tier
-        self.resource_status = resource_status
-        self.resource_id = resource_id
-        self.external_resource_id = external_resource_id
-
-
-class LabSupportProperties(_serialization.Model):
-    """Properties of a lab's support banner.
-
-    :ivar enabled: Is the lab support banner active/enabled at this time?. Known values are:
-     "Enabled" and "Disabled".
-    :vartype enabled: str or ~azure.mgmt.devtestlabs.models.EnableStatus
-    :ivar markdown: The markdown text (if any) that this lab displays in the UI. If left
-     empty/null, nothing will be shown.
-    :vartype markdown: str
-    """
-
-    _attribute_map = {
-        "enabled": {"key": "enabled", "type": "str"},
-        "markdown": {"key": "markdown", "type": "str"},
-    }
-
-    def __init__(
-        self, *, enabled: Optional[Union[str, "_models.EnableStatus"]] = None, markdown: Optional[str] = None, **kwargs
-    ):
-        """
-        :keyword enabled: Is the lab support banner active/enabled at this time?. Known values are:
-         "Enabled" and "Disabled".
-        :paramtype enabled: str or ~azure.mgmt.devtestlabs.models.EnableStatus
-        :keyword markdown: The markdown text (if any) that this lab displays in the UI. If left
-         empty/null, nothing will be shown.
-        :paramtype markdown: str
-        """
-        super().__init__(**kwargs)
-        self.enabled = enabled
-        self.markdown = markdown
 
 
 class LabVhd(_serialization.Model):
@@ -3233,7 +5181,7 @@ class LabVhd(_serialization.Model):
         "id": {"key": "id", "type": "str"},
     }
 
-    def __init__(self, *, id: Optional[str] = None, **kwargs):  # pylint: disable=redefined-builtin
+    def __init__(self, *, id: Optional[str] = None, **kwargs: Any) -> None:  # pylint: disable=redefined-builtin
         """
         :keyword id: The URI to the VHD.
         :paramtype id: str
@@ -3243,11 +5191,11 @@ class LabVhd(_serialization.Model):
 
 
 class LabVhdList(_serialization.Model):
-    """The response of a list operation.
+    """Contains a list of Lab Vhd and their properties.
 
-    :ivar value: Results of the list operation.
+    :ivar value: List of Lab Vhd and their properties.
     :vartype value: list[~azure.mgmt.devtestlabs.models.LabVhd]
-    :ivar next_link: Link for next set of results.
+    :ivar next_link: URL to get the next set of operation list results if there are any.
     :vartype next_link: str
     """
 
@@ -3256,11 +5204,13 @@ class LabVhdList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.LabVhd"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.LabVhd"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
-        :keyword value: Results of the list operation.
+        :keyword value: List of Lab Vhd and their properties.
         :paramtype value: list[~azure.mgmt.devtestlabs.models.LabVhd]
-        :keyword next_link: Link for next set of results.
+        :keyword next_link: URL to get the next set of operation list results if there are any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
@@ -3273,16 +5223,22 @@ class LabVirtualMachine(Resource):  # pylint: disable=too-many-instance-attribut
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: The identifier of the resource.
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar location: The location of the resource.
-    :vartype location: str
-    :ivar tags: The tags of the resource.
+    :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar system_data: The system metadata relating to this resource.
+    :vartype system_data: ~azure.mgmt.devtestlabs.models.SystemData
     :ivar notes: The notes of the virtual machine.
     :vartype notes: str
     :ivar owner_object_id: The object identifier of the owner of the virtual machine.
@@ -3293,14 +5249,22 @@ class LabVirtualMachine(Resource):  # pylint: disable=too-many-instance-attribut
     :vartype created_by_user_id: str
     :ivar created_by_user: The email address of creator of the virtual machine.
     :vartype created_by_user: str
-    :ivar created_date: The creation date of the virtual machine.
-    :vartype created_date: ~datetime.datetime
+    :ivar created_date_properties_created_date: The creation date of the virtual machine.
+    :vartype created_date_properties_created_date: ~datetime.datetime
     :ivar compute_id: The resource identifier (Microsoft.Compute) of the virtual machine.
     :vartype compute_id: str
     :ivar custom_image_id: The custom image identifier of the virtual machine.
     :vartype custom_image_id: str
-    :ivar os_type: The OS type of the virtual machine.
-    :vartype os_type: str
+    :ivar gallery_image_version_id: The shared gallery image version resource identifier of the
+     virtual machine.
+    :vartype gallery_image_version_id: str
+    :ivar shared_image_id: The shared image resource identifier of the virtual machine.
+    :vartype shared_image_id: str
+    :ivar shared_image_version: The shared image version for the specified shared image Id. Will
+     use latest if not specified.
+    :vartype shared_image_version: str
+    :ivar os_type_properties_os_type: The OS type of the virtual machine.
+    :vartype os_type_properties_os_type: str
     :ivar size: The size of the virtual machine.
     :vartype size: str
     :ivar user_name: The user name of the virtual machine.
@@ -3323,26 +5287,18 @@ class LabVirtualMachine(Resource):  # pylint: disable=too-many-instance-attribut
     :vartype disallow_public_ip_address: bool
     :ivar artifacts: The artifacts to be installed on the virtual machine.
     :vartype artifacts: list[~azure.mgmt.devtestlabs.models.ArtifactInstallProperties]
-    :ivar artifact_deployment_status: The artifact deployment status for the virtual machine.
-    :vartype artifact_deployment_status:
-     ~azure.mgmt.devtestlabs.models.ArtifactDeploymentStatusProperties
-    :ivar gallery_image_reference: The Microsoft Azure Marketplace image reference of the virtual
-     machine.
-    :vartype gallery_image_reference: ~azure.mgmt.devtestlabs.models.GalleryImageReference
     :ivar plan_id: The id of the plan associated with the virtual machine image.
     :vartype plan_id: str
-    :ivar compute_vm: The compute virtual machine properties.
-    :vartype compute_vm: ~azure.mgmt.devtestlabs.models.ComputeVmProperties
-    :ivar network_interface: The network interface properties.
-    :vartype network_interface: ~azure.mgmt.devtestlabs.models.NetworkInterfaceProperties
-    :ivar applicable_schedule: The applicable schedule for the virtual machine.
-    :vartype applicable_schedule: ~azure.mgmt.devtestlabs.models.ApplicableSchedule
+    :ivar os_disk_size_gb: Specifies the size of an empty data disk in gigabytes. This element can
+     be used to overwrite the size of the disk in a virtual machine image.
+    :vartype os_disk_size_gb: int
     :ivar expiration_date: The expiration date for VM.
     :vartype expiration_date: ~datetime.datetime
     :ivar allow_claim: Indicates whether another user can take ownership of the virtual machine.
     :vartype allow_claim: bool
-    :ivar storage_type: Storage type to use for virtual machine (i.e. Standard, Premium).
-    :vartype storage_type: str
+    :ivar storage_type: Storage type to use for virtual machine (i.e. Standard, Premium,
+     StandardSSD). Known values are: "Standard", "Premium", and "StandardSSD".
+    :vartype storage_type: str or ~azure.mgmt.devtestlabs.models.StorageTypes
     :ivar virtual_machine_creation_source: Tells source of creation of lab virtual machine. Output
      property only. Known values are: "FromCustomImage", "FromGalleryImage", and
      "FromSharedGalleryImage".
@@ -3358,492 +5314,261 @@ class LabVirtualMachine(Resource):  # pylint: disable=too-many-instance-attribut
     :vartype schedule_parameters: list[~azure.mgmt.devtestlabs.models.ScheduleCreationParameter]
     :ivar last_known_power_state: Last known compute power state captured in DTL.
     :vartype last_known_power_state: str
-    :ivar provisioning_state: The provisioning status of the resource.
-    :vartype provisioning_state: str
-    :ivar unique_identifier: The unique immutable identifier of a resource (Guid).
-    :vartype unique_identifier: str
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "created_by_user_id": {"readonly": True},
-        "created_by_user": {"readonly": True},
-        "compute_id": {"readonly": True},
-        "os_type": {"readonly": True},
-        "fqdn": {"readonly": True},
-        "artifact_deployment_status": {"readonly": True},
-        "compute_vm": {"readonly": True},
-        "applicable_schedule": {"readonly": True},
-        "virtual_machine_creation_source": {"readonly": True},
-        "last_known_power_state": {"readonly": True},
-        "provisioning_state": {"readonly": True},
-        "unique_identifier": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "location": {"key": "location", "type": "str"},
-        "tags": {"key": "tags", "type": "{str}"},
-        "notes": {"key": "properties.notes", "type": "str"},
-        "owner_object_id": {"key": "properties.ownerObjectId", "type": "str"},
-        "owner_user_principal_name": {"key": "properties.ownerUserPrincipalName", "type": "str"},
-        "created_by_user_id": {"key": "properties.createdByUserId", "type": "str"},
-        "created_by_user": {"key": "properties.createdByUser", "type": "str"},
-        "created_date": {"key": "properties.createdDate", "type": "iso-8601"},
-        "compute_id": {"key": "properties.computeId", "type": "str"},
-        "custom_image_id": {"key": "properties.customImageId", "type": "str"},
-        "os_type": {"key": "properties.osType", "type": "str"},
-        "size": {"key": "properties.size", "type": "str"},
-        "user_name": {"key": "properties.userName", "type": "str"},
-        "password": {"key": "properties.password", "type": "str"},
-        "ssh_key": {"key": "properties.sshKey", "type": "str"},
-        "is_authentication_with_ssh_key": {"key": "properties.isAuthenticationWithSshKey", "type": "bool"},
-        "fqdn": {"key": "properties.fqdn", "type": "str"},
-        "lab_subnet_name": {"key": "properties.labSubnetName", "type": "str"},
-        "lab_virtual_network_id": {"key": "properties.labVirtualNetworkId", "type": "str"},
-        "disallow_public_ip_address": {"key": "properties.disallowPublicIpAddress", "type": "bool"},
-        "artifacts": {"key": "properties.artifacts", "type": "[ArtifactInstallProperties]"},
-        "artifact_deployment_status": {
-            "key": "properties.artifactDeploymentStatus",
-            "type": "ArtifactDeploymentStatusProperties",
-        },
-        "gallery_image_reference": {"key": "properties.galleryImageReference", "type": "GalleryImageReference"},
-        "plan_id": {"key": "properties.planId", "type": "str"},
-        "compute_vm": {"key": "properties.computeVm", "type": "ComputeVmProperties"},
-        "network_interface": {"key": "properties.networkInterface", "type": "NetworkInterfaceProperties"},
-        "applicable_schedule": {"key": "properties.applicableSchedule", "type": "ApplicableSchedule"},
-        "expiration_date": {"key": "properties.expirationDate", "type": "iso-8601"},
-        "allow_claim": {"key": "properties.allowClaim", "type": "bool"},
-        "storage_type": {"key": "properties.storageType", "type": "str"},
-        "virtual_machine_creation_source": {"key": "properties.virtualMachineCreationSource", "type": "str"},
-        "environment_id": {"key": "properties.environmentId", "type": "str"},
-        "data_disk_parameters": {"key": "properties.dataDiskParameters", "type": "[DataDiskProperties]"},
-        "schedule_parameters": {"key": "properties.scheduleParameters", "type": "[ScheduleCreationParameter]"},
-        "last_known_power_state": {"key": "properties.lastKnownPowerState", "type": "str"},
-        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
-        "unique_identifier": {"key": "properties.uniqueIdentifier", "type": "str"},
-    }
-
-    def __init__(  # pylint: disable=too-many-locals
-        self,
-        *,
-        location: Optional[str] = None,
-        tags: Optional[Dict[str, str]] = None,
-        notes: Optional[str] = None,
-        owner_object_id: str = "dynamicValue",
-        owner_user_principal_name: Optional[str] = None,
-        created_date: Optional[datetime.datetime] = None,
-        custom_image_id: Optional[str] = None,
-        size: Optional[str] = None,
-        user_name: Optional[str] = None,
-        password: Optional[str] = None,
-        ssh_key: Optional[str] = None,
-        is_authentication_with_ssh_key: Optional[bool] = None,
-        lab_subnet_name: Optional[str] = None,
-        lab_virtual_network_id: Optional[str] = None,
-        disallow_public_ip_address: bool = False,
-        artifacts: Optional[List["_models.ArtifactInstallProperties"]] = None,
-        gallery_image_reference: Optional["_models.GalleryImageReference"] = None,
-        plan_id: Optional[str] = None,
-        network_interface: Optional["_models.NetworkInterfaceProperties"] = None,
-        expiration_date: Optional[datetime.datetime] = None,
-        allow_claim: bool = False,
-        storage_type: str = "labStorageType",
-        environment_id: Optional[str] = None,
-        data_disk_parameters: Optional[List["_models.DataDiskProperties"]] = None,
-        schedule_parameters: Optional[List["_models.ScheduleCreationParameter"]] = None,
-        **kwargs
-    ):
-        """
-        :keyword location: The location of the resource.
-        :paramtype location: str
-        :keyword tags: The tags of the resource.
-        :paramtype tags: dict[str, str]
-        :keyword notes: The notes of the virtual machine.
-        :paramtype notes: str
-        :keyword owner_object_id: The object identifier of the owner of the virtual machine.
-        :paramtype owner_object_id: str
-        :keyword owner_user_principal_name: The user principal name of the virtual machine owner.
-        :paramtype owner_user_principal_name: str
-        :keyword created_date: The creation date of the virtual machine.
-        :paramtype created_date: ~datetime.datetime
-        :keyword custom_image_id: The custom image identifier of the virtual machine.
-        :paramtype custom_image_id: str
-        :keyword size: The size of the virtual machine.
-        :paramtype size: str
-        :keyword user_name: The user name of the virtual machine.
-        :paramtype user_name: str
-        :keyword password: The password of the virtual machine administrator.
-        :paramtype password: str
-        :keyword ssh_key: The SSH key of the virtual machine administrator.
-        :paramtype ssh_key: str
-        :keyword is_authentication_with_ssh_key: Indicates whether this virtual machine uses an SSH key
-         for authentication.
-        :paramtype is_authentication_with_ssh_key: bool
-        :keyword lab_subnet_name: The lab subnet name of the virtual machine.
-        :paramtype lab_subnet_name: str
-        :keyword lab_virtual_network_id: The lab virtual network identifier of the virtual machine.
-        :paramtype lab_virtual_network_id: str
-        :keyword disallow_public_ip_address: Indicates whether the virtual machine is to be created
-         without a public IP address.
-        :paramtype disallow_public_ip_address: bool
-        :keyword artifacts: The artifacts to be installed on the virtual machine.
-        :paramtype artifacts: list[~azure.mgmt.devtestlabs.models.ArtifactInstallProperties]
-        :keyword gallery_image_reference: The Microsoft Azure Marketplace image reference of the
-         virtual machine.
-        :paramtype gallery_image_reference: ~azure.mgmt.devtestlabs.models.GalleryImageReference
-        :keyword plan_id: The id of the plan associated with the virtual machine image.
-        :paramtype plan_id: str
-        :keyword network_interface: The network interface properties.
-        :paramtype network_interface: ~azure.mgmt.devtestlabs.models.NetworkInterfaceProperties
-        :keyword expiration_date: The expiration date for VM.
-        :paramtype expiration_date: ~datetime.datetime
-        :keyword allow_claim: Indicates whether another user can take ownership of the virtual machine.
-        :paramtype allow_claim: bool
-        :keyword storage_type: Storage type to use for virtual machine (i.e. Standard, Premium).
-        :paramtype storage_type: str
-        :keyword environment_id: The resource ID of the environment that contains this virtual machine,
-         if any.
-        :paramtype environment_id: str
-        :keyword data_disk_parameters: New or existing data disks to attach to the virtual machine
-         after creation.
-        :paramtype data_disk_parameters: list[~azure.mgmt.devtestlabs.models.DataDiskProperties]
-        :keyword schedule_parameters: Virtual Machine schedules to be created.
-        :paramtype schedule_parameters: list[~azure.mgmt.devtestlabs.models.ScheduleCreationParameter]
-        """
-        super().__init__(location=location, tags=tags, **kwargs)
-        self.notes = notes
-        self.owner_object_id = owner_object_id
-        self.owner_user_principal_name = owner_user_principal_name
-        self.created_by_user_id = None
-        self.created_by_user = None
-        self.created_date = created_date
-        self.compute_id = None
-        self.custom_image_id = custom_image_id
-        self.os_type = None
-        self.size = size
-        self.user_name = user_name
-        self.password = password
-        self.ssh_key = ssh_key
-        self.is_authentication_with_ssh_key = is_authentication_with_ssh_key
-        self.fqdn = None
-        self.lab_subnet_name = lab_subnet_name
-        self.lab_virtual_network_id = lab_virtual_network_id
-        self.disallow_public_ip_address = disallow_public_ip_address
-        self.artifacts = artifacts
-        self.artifact_deployment_status = None
-        self.gallery_image_reference = gallery_image_reference
-        self.plan_id = plan_id
-        self.compute_vm = None
-        self.network_interface = network_interface
-        self.applicable_schedule = None
-        self.expiration_date = expiration_date
-        self.allow_claim = allow_claim
-        self.storage_type = storage_type
-        self.virtual_machine_creation_source = None
-        self.environment_id = environment_id
-        self.data_disk_parameters = data_disk_parameters
-        self.schedule_parameters = schedule_parameters
-        self.last_known_power_state = None
-        self.provisioning_state = None
-        self.unique_identifier = None
-
-
-class LabVirtualMachineCreationParameter(_serialization.Model):  # pylint: disable=too-many-instance-attributes
-    """Properties for creating a virtual machine.
-
-    :ivar name: The name of the virtual machine or environment.
-    :vartype name: str
-    :ivar location: The location of the new virtual machine or environment.
-    :vartype location: str
-    :ivar tags: The tags of the resource.
-    :vartype tags: dict[str, str]
-    :ivar bulk_creation_parameters: The number of virtual machine instances to create.
-    :vartype bulk_creation_parameters: ~azure.mgmt.devtestlabs.models.BulkCreationParameters
-    :ivar notes: The notes of the virtual machine.
-    :vartype notes: str
-    :ivar owner_object_id: The object identifier of the owner of the virtual machine.
-    :vartype owner_object_id: str
-    :ivar owner_user_principal_name: The user principal name of the virtual machine owner.
-    :vartype owner_user_principal_name: str
-    :ivar created_date: The creation date of the virtual machine.
-    :vartype created_date: ~datetime.datetime
-    :ivar custom_image_id: The custom image identifier of the virtual machine.
-    :vartype custom_image_id: str
-    :ivar size: The size of the virtual machine.
-    :vartype size: str
-    :ivar user_name: The user name of the virtual machine.
-    :vartype user_name: str
-    :ivar password: The password of the virtual machine administrator.
-    :vartype password: str
-    :ivar ssh_key: The SSH key of the virtual machine administrator.
-    :vartype ssh_key: str
-    :ivar is_authentication_with_ssh_key: Indicates whether this virtual machine uses an SSH key
-     for authentication.
-    :vartype is_authentication_with_ssh_key: bool
-    :ivar lab_subnet_name: The lab subnet name of the virtual machine.
-    :vartype lab_subnet_name: str
-    :ivar lab_virtual_network_id: The lab virtual network identifier of the virtual machine.
-    :vartype lab_virtual_network_id: str
-    :ivar disallow_public_ip_address: Indicates whether the virtual machine is to be created
-     without a public IP address.
-    :vartype disallow_public_ip_address: bool
-    :ivar artifacts: The artifacts to be installed on the virtual machine.
-    :vartype artifacts: list[~azure.mgmt.devtestlabs.models.ArtifactInstallProperties]
-    :ivar gallery_image_reference: The Microsoft Azure Marketplace image reference of the virtual
-     machine.
-    :vartype gallery_image_reference: ~azure.mgmt.devtestlabs.models.GalleryImageReference
-    :ivar plan_id: The id of the plan associated with the virtual machine image.
-    :vartype plan_id: str
-    :ivar network_interface: The network interface properties.
-    :vartype network_interface: ~azure.mgmt.devtestlabs.models.NetworkInterfaceProperties
-    :ivar expiration_date: The expiration date for VM.
-    :vartype expiration_date: ~datetime.datetime
-    :ivar allow_claim: Indicates whether another user can take ownership of the virtual machine.
-    :vartype allow_claim: bool
-    :ivar storage_type: Storage type to use for virtual machine (i.e. Standard, Premium).
-    :vartype storage_type: str
-    :ivar environment_id: The resource ID of the environment that contains this virtual machine, if
-     any.
-    :vartype environment_id: str
-    :ivar data_disk_parameters: New or existing data disks to attach to the virtual machine after
-     creation.
-    :vartype data_disk_parameters: list[~azure.mgmt.devtestlabs.models.DataDiskProperties]
-    :ivar schedule_parameters: Virtual Machine schedules to be created.
-    :vartype schedule_parameters: list[~azure.mgmt.devtestlabs.models.ScheduleCreationParameter]
-    """
-
-    _attribute_map = {
-        "name": {"key": "name", "type": "str"},
-        "location": {"key": "location", "type": "str"},
-        "tags": {"key": "tags", "type": "{str}"},
-        "bulk_creation_parameters": {"key": "properties.bulkCreationParameters", "type": "BulkCreationParameters"},
-        "notes": {"key": "properties.notes", "type": "str"},
-        "owner_object_id": {"key": "properties.ownerObjectId", "type": "str"},
-        "owner_user_principal_name": {"key": "properties.ownerUserPrincipalName", "type": "str"},
-        "created_date": {"key": "properties.createdDate", "type": "iso-8601"},
-        "custom_image_id": {"key": "properties.customImageId", "type": "str"},
-        "size": {"key": "properties.size", "type": "str"},
-        "user_name": {"key": "properties.userName", "type": "str"},
-        "password": {"key": "properties.password", "type": "str"},
-        "ssh_key": {"key": "properties.sshKey", "type": "str"},
-        "is_authentication_with_ssh_key": {"key": "properties.isAuthenticationWithSshKey", "type": "bool"},
-        "lab_subnet_name": {"key": "properties.labSubnetName", "type": "str"},
-        "lab_virtual_network_id": {"key": "properties.labVirtualNetworkId", "type": "str"},
-        "disallow_public_ip_address": {"key": "properties.disallowPublicIpAddress", "type": "bool"},
-        "artifacts": {"key": "properties.artifacts", "type": "[ArtifactInstallProperties]"},
-        "gallery_image_reference": {"key": "properties.galleryImageReference", "type": "GalleryImageReference"},
-        "plan_id": {"key": "properties.planId", "type": "str"},
-        "network_interface": {"key": "properties.networkInterface", "type": "NetworkInterfaceProperties"},
-        "expiration_date": {"key": "properties.expirationDate", "type": "iso-8601"},
-        "allow_claim": {"key": "properties.allowClaim", "type": "bool"},
-        "storage_type": {"key": "properties.storageType", "type": "str"},
-        "environment_id": {"key": "properties.environmentId", "type": "str"},
-        "data_disk_parameters": {"key": "properties.dataDiskParameters", "type": "[DataDiskProperties]"},
-        "schedule_parameters": {"key": "properties.scheduleParameters", "type": "[ScheduleCreationParameter]"},
-    }
-
-    def __init__(  # pylint: disable=too-many-locals
-        self,
-        *,
-        name: Optional[str] = None,
-        location: Optional[str] = None,
-        tags: Optional[Dict[str, str]] = None,
-        bulk_creation_parameters: Optional["_models.BulkCreationParameters"] = None,
-        notes: Optional[str] = None,
-        owner_object_id: str = "dynamicValue",
-        owner_user_principal_name: Optional[str] = None,
-        created_date: Optional[datetime.datetime] = None,
-        custom_image_id: Optional[str] = None,
-        size: Optional[str] = None,
-        user_name: Optional[str] = None,
-        password: Optional[str] = None,
-        ssh_key: Optional[str] = None,
-        is_authentication_with_ssh_key: Optional[bool] = None,
-        lab_subnet_name: Optional[str] = None,
-        lab_virtual_network_id: Optional[str] = None,
-        disallow_public_ip_address: bool = False,
-        artifacts: Optional[List["_models.ArtifactInstallProperties"]] = None,
-        gallery_image_reference: Optional["_models.GalleryImageReference"] = None,
-        plan_id: Optional[str] = None,
-        network_interface: Optional["_models.NetworkInterfaceProperties"] = None,
-        expiration_date: Optional[datetime.datetime] = None,
-        allow_claim: bool = False,
-        storage_type: str = "labStorageType",
-        environment_id: Optional[str] = None,
-        data_disk_parameters: Optional[List["_models.DataDiskProperties"]] = None,
-        schedule_parameters: Optional[List["_models.ScheduleCreationParameter"]] = None,
-        **kwargs
-    ):
-        """
-        :keyword name: The name of the virtual machine or environment.
-        :paramtype name: str
-        :keyword location: The location of the new virtual machine or environment.
-        :paramtype location: str
-        :keyword tags: The tags of the resource.
-        :paramtype tags: dict[str, str]
-        :keyword bulk_creation_parameters: The number of virtual machine instances to create.
-        :paramtype bulk_creation_parameters: ~azure.mgmt.devtestlabs.models.BulkCreationParameters
-        :keyword notes: The notes of the virtual machine.
-        :paramtype notes: str
-        :keyword owner_object_id: The object identifier of the owner of the virtual machine.
-        :paramtype owner_object_id: str
-        :keyword owner_user_principal_name: The user principal name of the virtual machine owner.
-        :paramtype owner_user_principal_name: str
-        :keyword created_date: The creation date of the virtual machine.
-        :paramtype created_date: ~datetime.datetime
-        :keyword custom_image_id: The custom image identifier of the virtual machine.
-        :paramtype custom_image_id: str
-        :keyword size: The size of the virtual machine.
-        :paramtype size: str
-        :keyword user_name: The user name of the virtual machine.
-        :paramtype user_name: str
-        :keyword password: The password of the virtual machine administrator.
-        :paramtype password: str
-        :keyword ssh_key: The SSH key of the virtual machine administrator.
-        :paramtype ssh_key: str
-        :keyword is_authentication_with_ssh_key: Indicates whether this virtual machine uses an SSH key
-         for authentication.
-        :paramtype is_authentication_with_ssh_key: bool
-        :keyword lab_subnet_name: The lab subnet name of the virtual machine.
-        :paramtype lab_subnet_name: str
-        :keyword lab_virtual_network_id: The lab virtual network identifier of the virtual machine.
-        :paramtype lab_virtual_network_id: str
-        :keyword disallow_public_ip_address: Indicates whether the virtual machine is to be created
-         without a public IP address.
-        :paramtype disallow_public_ip_address: bool
-        :keyword artifacts: The artifacts to be installed on the virtual machine.
-        :paramtype artifacts: list[~azure.mgmt.devtestlabs.models.ArtifactInstallProperties]
-        :keyword gallery_image_reference: The Microsoft Azure Marketplace image reference of the
-         virtual machine.
-        :paramtype gallery_image_reference: ~azure.mgmt.devtestlabs.models.GalleryImageReference
-        :keyword plan_id: The id of the plan associated with the virtual machine image.
-        :paramtype plan_id: str
-        :keyword network_interface: The network interface properties.
-        :paramtype network_interface: ~azure.mgmt.devtestlabs.models.NetworkInterfaceProperties
-        :keyword expiration_date: The expiration date for VM.
-        :paramtype expiration_date: ~datetime.datetime
-        :keyword allow_claim: Indicates whether another user can take ownership of the virtual machine.
-        :paramtype allow_claim: bool
-        :keyword storage_type: Storage type to use for virtual machine (i.e. Standard, Premium).
-        :paramtype storage_type: str
-        :keyword environment_id: The resource ID of the environment that contains this virtual machine,
-         if any.
-        :paramtype environment_id: str
-        :keyword data_disk_parameters: New or existing data disks to attach to the virtual machine
-         after creation.
-        :paramtype data_disk_parameters: list[~azure.mgmt.devtestlabs.models.DataDiskProperties]
-        :keyword schedule_parameters: Virtual Machine schedules to be created.
-        :paramtype schedule_parameters: list[~azure.mgmt.devtestlabs.models.ScheduleCreationParameter]
-        """
-        super().__init__(**kwargs)
-        self.name = name
-        self.location = location
-        self.tags = tags
-        self.bulk_creation_parameters = bulk_creation_parameters
-        self.notes = notes
-        self.owner_object_id = owner_object_id
-        self.owner_user_principal_name = owner_user_principal_name
-        self.created_date = created_date
-        self.custom_image_id = custom_image_id
-        self.size = size
-        self.user_name = user_name
-        self.password = password
-        self.ssh_key = ssh_key
-        self.is_authentication_with_ssh_key = is_authentication_with_ssh_key
-        self.lab_subnet_name = lab_subnet_name
-        self.lab_virtual_network_id = lab_virtual_network_id
-        self.disallow_public_ip_address = disallow_public_ip_address
-        self.artifacts = artifacts
-        self.gallery_image_reference = gallery_image_reference
-        self.plan_id = plan_id
-        self.network_interface = network_interface
-        self.expiration_date = expiration_date
-        self.allow_claim = allow_claim
-        self.storage_type = storage_type
-        self.environment_id = environment_id
-        self.data_disk_parameters = data_disk_parameters
-        self.schedule_parameters = schedule_parameters
-
-
-class LabVirtualMachineFragment(UpdateResource):
-    """A virtual machine.
-
-    :ivar tags: The tags of the resource.
-    :vartype tags: dict[str, str]
-    """
-
-    _attribute_map = {
-        "tags": {"key": "tags", "type": "{str}"},
-    }
-
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs):
-        """
-        :keyword tags: The tags of the resource.
-        :paramtype tags: dict[str, str]
-        """
-        super().__init__(tags=tags, **kwargs)
-
-
-class LabVirtualMachineList(_serialization.Model):
-    """The response of a list operation.
-
-    :ivar value: Results of the list operation.
-    :vartype value: list[~azure.mgmt.devtestlabs.models.LabVirtualMachine]
-    :ivar next_link: Link for next set of results.
-    :vartype next_link: str
-    """
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[LabVirtualMachine]"},
-        "next_link": {"key": "nextLink", "type": "str"},
-    }
-
-    def __init__(
-        self, *, value: Optional[List["_models.LabVirtualMachine"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
-        """
-        :keyword value: Results of the list operation.
-        :paramtype value: list[~azure.mgmt.devtestlabs.models.LabVirtualMachine]
-        :keyword next_link: Link for next set of results.
-        :paramtype next_link: str
-        """
-        super().__init__(**kwargs)
-        self.value = value
-        self.next_link = next_link
-
-
-class LinuxOsInfo(_serialization.Model):
-    """Information about a Linux OS.
-
-    :ivar linux_os_state: The state of the Linux OS (i.e. NonDeprovisioned, DeprovisionRequested,
-     DeprovisionApplied). Known values are: "NonDeprovisioned", "DeprovisionRequested", and
-     "DeprovisionApplied".
-    :vartype linux_os_state: str or ~azure.mgmt.devtestlabs.models.LinuxOsState
-    """
-
-    _attribute_map = {
-        "linux_os_state": {"key": "linuxOsState", "type": "str"},
-    }
-
-    def __init__(self, *, linux_os_state: Optional[Union[str, "_models.LinuxOsState"]] = None, **kwargs):
-        """
-        :keyword linux_os_state: The state of the Linux OS (i.e. NonDeprovisioned,
-         DeprovisionRequested, DeprovisionApplied). Known values are: "NonDeprovisioned",
-         "DeprovisionRequested", and "DeprovisionApplied".
-        :paramtype linux_os_state: str or ~azure.mgmt.devtestlabs.models.LinuxOsState
-        """
-        super().__init__(**kwargs)
-        self.linux_os_state = linux_os_state
-
-
-class NetworkInterfaceProperties(_serialization.Model):
-    """Properties of a network interface.
-
+    :ivar can_apply_artifacts: Flag to determine if apply artifacts can be triggered at the time of
+     fetching the document.
+    :vartype can_apply_artifacts: bool
+    :ivar security_profile: Option to apply more security protection for VMs.
+    :vartype security_profile: ~azure.mgmt.devtestlabs.models.SecurityProfile
+    :ivar provisioning_state_properties_provisioning_state: The provisioning status of the
+     resource.
+    :vartype provisioning_state_properties_provisioning_state: str
+    :ivar unique_identifier_properties_unique_identifier: The unique immutable identifier of a
+     resource (Guid).
+    :vartype unique_identifier_properties_unique_identifier: str
+    :ivar id_properties_applicable_schedule_id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id_properties_applicable_schedule_id: str
+    :ivar name_properties_applicable_schedule_name: The name of the resource.
+    :vartype name_properties_applicable_schedule_name: str
+    :ivar type_properties_applicable_schedule_type: The type of the resource. E.g.
+     "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+    :vartype type_properties_applicable_schedule_type: str
+    :ivar tags_properties_applicable_schedule_tags: Resource tags.
+    :vartype tags_properties_applicable_schedule_tags: dict[str, str]
+    :ivar location_properties_applicable_schedule_location: The geo-location where the resource
+     lives.
+    :vartype location_properties_applicable_schedule_location: str
+    :ivar system_data_properties_applicable_schedule_system_data: The system metadata relating to
+     this resource.
+    :vartype system_data_properties_applicable_schedule_system_data:
+     ~azure.mgmt.devtestlabs.models.SystemData
+    :ivar id_properties_applicable_schedule_properties_lab_vms_startup_id: Fully qualified resource
+     ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id_properties_applicable_schedule_properties_lab_vms_startup_id: str
+    :ivar name_properties_applicable_schedule_properties_lab_vms_startup_name: The name of the
+     resource.
+    :vartype name_properties_applicable_schedule_properties_lab_vms_startup_name: str
+    :ivar type_properties_applicable_schedule_properties_lab_vms_startup_type: The type of the
+     resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+    :vartype type_properties_applicable_schedule_properties_lab_vms_startup_type: str
+    :ivar tags_properties_applicable_schedule_properties_lab_vms_startup_tags: Resource tags.
+    :vartype tags_properties_applicable_schedule_properties_lab_vms_startup_tags: dict[str, str]
+    :ivar location_properties_applicable_schedule_properties_lab_vms_startup_location: The
+     geo-location where the resource lives.
+    :vartype location_properties_applicable_schedule_properties_lab_vms_startup_location: str
+    :ivar system_data_properties_applicable_schedule_properties_lab_vms_startup_system_data: The
+     system metadata relating to this resource.
+    :vartype system_data_properties_applicable_schedule_properties_lab_vms_startup_system_data:
+     ~azure.mgmt.devtestlabs.models.SystemData
+    :ivar status_properties_applicable_schedule_properties_lab_vms_startup_properties_status: The
+     status of the schedule (i.e. Enabled, Disabled). Known values are: "Enabled" and "Disabled".
+    :vartype status_properties_applicable_schedule_properties_lab_vms_startup_properties_status:
+     str or ~azure.mgmt.devtestlabs.models.EnableStatus
+    :ivar task_type_properties_applicable_schedule_properties_lab_vms_startup_properties_task_type:
+     The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
+    :vartype
+     task_type_properties_applicable_schedule_properties_lab_vms_startup_properties_task_type: str
+    :ivar
+     time_zone_id_properties_applicable_schedule_properties_lab_vms_startup_properties_time_zone_id:
+     The time zone ID (e.g. Pacific Standard time).
+    :vartype
+     time_zone_id_properties_applicable_schedule_properties_lab_vms_startup_properties_time_zone_id:
+     str
+    :ivar
+     created_date_properties_applicable_schedule_properties_lab_vms_startup_properties_created_date:
+     The creation date of the schedule.
+    :vartype
+     created_date_properties_applicable_schedule_properties_lab_vms_startup_properties_created_date:
+     ~datetime.datetime
+    :ivar
+     target_resource_id_properties_applicable_schedule_properties_lab_vms_startup_properties_target_resource_id:
+     The resource ID to which the schedule belongs.
+    :vartype
+     target_resource_id_properties_applicable_schedule_properties_lab_vms_startup_properties_target_resource_id:
+     str
+    :ivar
+     provisioning_state_properties_applicable_schedule_properties_lab_vms_startup_properties_provisioning_state:
+     The provisioning status of the resource.
+    :vartype
+     provisioning_state_properties_applicable_schedule_properties_lab_vms_startup_properties_provisioning_state:
+     str
+    :ivar
+     unique_identifier_properties_applicable_schedule_properties_lab_vms_startup_properties_unique_identifier:
+     The unique immutable identifier of a resource (Guid).
+    :vartype
+     unique_identifier_properties_applicable_schedule_properties_lab_vms_startup_properties_unique_identifier:
+     str
+    :ivar
+     status_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_status:
+     If notifications are enabled for this schedule (i.e. Enabled, Disabled). Known values are:
+     "Enabled" and "Disabled".
+    :vartype
+     status_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_status:
+     str or ~azure.mgmt.devtestlabs.models.EnableStatus
+    :ivar
+     time_in_minutes_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_time_in_minutes:
+     Time in minutes before event at which notification will be sent.
+    :vartype
+     time_in_minutes_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_time_in_minutes:
+     int
+    :ivar
+     webhook_url_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_webhook_url:
+     The webhook URL to which the notification will be sent.
+    :vartype
+     webhook_url_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_webhook_url:
+     str
+    :ivar
+     email_recipient_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_email_recipient:
+     The email recipient to send notifications to (can be a list of semi-colon separated email
+     addresses).
+    :vartype
+     email_recipient_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_email_recipient:
+     str
+    :ivar
+     notification_locale_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_notification_locale:
+     The locale to use when sending a notification (fallback for unsupported languages is EN).
+    :vartype
+     notification_locale_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_notification_locale:
+     str
+    :ivar
+     minute_properties_applicable_schedule_properties_lab_vms_startup_properties_hourly_recurrence_minute:
+     Minutes of the hour the schedule will run.
+    :vartype
+     minute_properties_applicable_schedule_properties_lab_vms_startup_properties_hourly_recurrence_minute:
+     int
+    :ivar
+     time_properties_applicable_schedule_properties_lab_vms_startup_properties_daily_recurrence_time:
+     The time of day the schedule will occur.
+    :vartype
+     time_properties_applicable_schedule_properties_lab_vms_startup_properties_daily_recurrence_time:
+     str
+    :ivar
+     weekdays_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_weekdays:
+     The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
+    :vartype
+     weekdays_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_weekdays:
+     list[str]
+    :ivar
+     time_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_time:
+     The time of the day the schedule will occur.
+    :vartype
+     time_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_time:
+     str
+    :ivar id_properties_applicable_schedule_properties_lab_vms_shutdown_id: Fully qualified
+     resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id_properties_applicable_schedule_properties_lab_vms_shutdown_id: str
+    :ivar name_properties_applicable_schedule_properties_lab_vms_shutdown_name: The name of the
+     resource.
+    :vartype name_properties_applicable_schedule_properties_lab_vms_shutdown_name: str
+    :ivar type_properties_applicable_schedule_properties_lab_vms_shutdown_type: The type of the
+     resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+    :vartype type_properties_applicable_schedule_properties_lab_vms_shutdown_type: str
+    :ivar tags_properties_applicable_schedule_properties_lab_vms_shutdown_tags: Resource tags.
+    :vartype tags_properties_applicable_schedule_properties_lab_vms_shutdown_tags: dict[str, str]
+    :ivar location_properties_applicable_schedule_properties_lab_vms_shutdown_location: The
+     geo-location where the resource lives.
+    :vartype location_properties_applicable_schedule_properties_lab_vms_shutdown_location: str
+    :ivar system_data_properties_applicable_schedule_properties_lab_vms_shutdown_system_data: The
+     system metadata relating to this resource.
+    :vartype system_data_properties_applicable_schedule_properties_lab_vms_shutdown_system_data:
+     ~azure.mgmt.devtestlabs.models.SystemData
+    :ivar status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_status: The
+     status of the schedule (i.e. Enabled, Disabled). Known values are: "Enabled" and "Disabled".
+    :vartype status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_status:
+     str or ~azure.mgmt.devtestlabs.models.EnableStatus
+    :ivar
+     task_type_properties_applicable_schedule_properties_lab_vms_shutdown_properties_task_type: The
+     task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
+    :vartype
+     task_type_properties_applicable_schedule_properties_lab_vms_shutdown_properties_task_type: str
+    :ivar
+     time_zone_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_time_zone_id:
+     The time zone ID (e.g. Pacific Standard time).
+    :vartype
+     time_zone_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_time_zone_id:
+     str
+    :ivar
+     created_date_properties_applicable_schedule_properties_lab_vms_shutdown_properties_created_date:
+     The creation date of the schedule.
+    :vartype
+     created_date_properties_applicable_schedule_properties_lab_vms_shutdown_properties_created_date:
+     ~datetime.datetime
+    :ivar
+     target_resource_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_target_resource_id:
+     The resource ID to which the schedule belongs.
+    :vartype
+     target_resource_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_target_resource_id:
+     str
+    :ivar
+     provisioning_state_properties_applicable_schedule_properties_lab_vms_shutdown_properties_provisioning_state:
+     The provisioning status of the resource.
+    :vartype
+     provisioning_state_properties_applicable_schedule_properties_lab_vms_shutdown_properties_provisioning_state:
+     str
+    :ivar
+     unique_identifier_properties_applicable_schedule_properties_lab_vms_shutdown_properties_unique_identifier:
+     The unique immutable identifier of a resource (Guid).
+    :vartype
+     unique_identifier_properties_applicable_schedule_properties_lab_vms_shutdown_properties_unique_identifier:
+     str
+    :ivar
+     status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_status:
+     If notifications are enabled for this schedule (i.e. Enabled, Disabled). Known values are:
+     "Enabled" and "Disabled".
+    :vartype
+     status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_status:
+     str or ~azure.mgmt.devtestlabs.models.EnableStatus
+    :ivar
+     time_in_minutes_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes:
+     Time in minutes before event at which notification will be sent.
+    :vartype
+     time_in_minutes_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes:
+     int
+    :ivar
+     webhook_url_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_webhook_url:
+     The webhook URL to which the notification will be sent.
+    :vartype
+     webhook_url_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_webhook_url:
+     str
+    :ivar
+     email_recipient_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_email_recipient:
+     The email recipient to send notifications to (can be a list of semi-colon separated email
+     addresses).
+    :vartype
+     email_recipient_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_email_recipient:
+     str
+    :ivar
+     notification_locale_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_notification_locale:
+     The locale to use when sending a notification (fallback for unsupported languages is EN).
+    :vartype
+     notification_locale_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_notification_locale:
+     str
+    :ivar
+     minute_properties_applicable_schedule_properties_lab_vms_shutdown_properties_hourly_recurrence_minute:
+     Minutes of the hour the schedule will run.
+    :vartype
+     minute_properties_applicable_schedule_properties_lab_vms_shutdown_properties_hourly_recurrence_minute:
+     int
+    :ivar
+     time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_daily_recurrence_time:
+     The time of day the schedule will occur.
+    :vartype
+     time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_daily_recurrence_time:
+     str
+    :ivar
+     weekdays_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays:
+     The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
+    :vartype
+     weekdays_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays:
+     list[str]
+    :ivar
+     time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_time:
+     The time of the day the schedule will occur.
+    :vartype
+     time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_time:
+     str
     :ivar virtual_network_id: The resource ID of the virtual network.
     :vartype virtual_network_id: str
     :ivar subnet_id: The resource ID of the sub net.
@@ -3862,30 +5587,462 @@ class NetworkInterfaceProperties(_serialization.Model):
     :ivar ssh_authority: The SshAuthority property is a server DNS host name or IP address followed
      by the service port number for SSH.
     :vartype ssh_authority: str
-    :ivar shared_public_ip_address_configuration: The configuration for sharing a public IP address
-     across multiple virtual machines.
-    :vartype shared_public_ip_address_configuration:
-     ~azure.mgmt.devtestlabs.models.SharedPublicIpAddressConfiguration
+    :ivar inbound_nat_rules: The incoming NAT rules.
+    :vartype inbound_nat_rules: list[~azure.mgmt.devtestlabs.models.InboundNatRule]
+    :ivar statuses: Gets the statuses of the virtual machine.
+    :vartype statuses: list[~azure.mgmt.devtestlabs.models.ComputeVmInstanceViewStatus]
+    :ivar os_type_properties_compute_vm_os_type: Gets the OS type of the virtual machine.
+    :vartype os_type_properties_compute_vm_os_type: str
+    :ivar vm_size: Gets the size of the virtual machine.
+    :vartype vm_size: str
+    :ivar network_interface_id: Gets the network interface ID of the virtual machine.
+    :vartype network_interface_id: str
+    :ivar os_disk_id: Gets OS disk blob uri for the virtual machine.
+    :vartype os_disk_id: str
+    :ivar data_disk_ids: Gets data disks blob uri for the virtual machine.
+    :vartype data_disk_ids: list[str]
+    :ivar data_disks: Gets all data disks attached to the virtual machine.
+    :vartype data_disks: list[~azure.mgmt.devtestlabs.models.ComputeDataDisk]
+    :ivar offer: The offer of the gallery image.
+    :vartype offer: str
+    :ivar publisher: The publisher of the gallery image.
+    :vartype publisher: str
+    :ivar sku: The SKU of the gallery image.
+    :vartype sku: str
+    :ivar os_type_properties_gallery_image_reference_os_type: The OS type of the gallery image.
+    :vartype os_type_properties_gallery_image_reference_os_type: str
+    :ivar version: The version of the gallery image.
+    :vartype version: str
+    :ivar deployment_status: The deployment status of the artifact.
+    :vartype deployment_status: str
+    :ivar artifacts_applied: The total count of the artifacts that were successfully applied.
+    :vartype artifacts_applied: int
+    :ivar total_artifacts: The total count of the artifacts that were tentatively applied.
+    :vartype total_artifacts: int
     """
 
-    _attribute_map = {
-        "virtual_network_id": {"key": "virtualNetworkId", "type": "str"},
-        "subnet_id": {"key": "subnetId", "type": "str"},
-        "public_ip_address_id": {"key": "publicIpAddressId", "type": "str"},
-        "public_ip_address": {"key": "publicIpAddress", "type": "str"},
-        "private_ip_address": {"key": "privateIpAddress", "type": "str"},
-        "dns_name": {"key": "dnsName", "type": "str"},
-        "rdp_authority": {"key": "rdpAuthority", "type": "str"},
-        "ssh_authority": {"key": "sshAuthority", "type": "str"},
-        "shared_public_ip_address_configuration": {
-            "key": "sharedPublicIpAddressConfiguration",
-            "type": "SharedPublicIpAddressConfiguration",
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "location": {"required": True},
+        "system_data": {"readonly": True},
+        "created_by_user_id": {"readonly": True},
+        "created_by_user": {"readonly": True},
+        "compute_id": {"readonly": True},
+        "os_type_properties_os_type": {"readonly": True},
+        "fqdn": {"readonly": True},
+        "virtual_machine_creation_source": {"readonly": True},
+        "last_known_power_state": {"readonly": True},
+        "can_apply_artifacts": {"readonly": True},
+        "provisioning_state_properties_provisioning_state": {"readonly": True},
+        "unique_identifier_properties_unique_identifier": {"readonly": True},
+        "id_properties_applicable_schedule_id": {"readonly": True},
+        "name_properties_applicable_schedule_name": {"readonly": True},
+        "type_properties_applicable_schedule_type": {"readonly": True},
+        "system_data_properties_applicable_schedule_system_data": {"readonly": True},
+        "id_properties_applicable_schedule_properties_lab_vms_startup_id": {"readonly": True},
+        "name_properties_applicable_schedule_properties_lab_vms_startup_name": {"readonly": True},
+        "type_properties_applicable_schedule_properties_lab_vms_startup_type": {"readonly": True},
+        "system_data_properties_applicable_schedule_properties_lab_vms_startup_system_data": {"readonly": True},
+        "created_date_properties_applicable_schedule_properties_lab_vms_startup_properties_created_date": {
+            "readonly": True
+        },
+        "provisioning_state_properties_applicable_schedule_properties_lab_vms_startup_properties_provisioning_state": {
+            "readonly": True
+        },
+        "unique_identifier_properties_applicable_schedule_properties_lab_vms_startup_properties_unique_identifier": {
+            "readonly": True
+        },
+        "id_properties_applicable_schedule_properties_lab_vms_shutdown_id": {"readonly": True},
+        "name_properties_applicable_schedule_properties_lab_vms_shutdown_name": {"readonly": True},
+        "type_properties_applicable_schedule_properties_lab_vms_shutdown_type": {"readonly": True},
+        "system_data_properties_applicable_schedule_properties_lab_vms_shutdown_system_data": {"readonly": True},
+        "created_date_properties_applicable_schedule_properties_lab_vms_shutdown_properties_created_date": {
+            "readonly": True
+        },
+        "provisioning_state_properties_applicable_schedule_properties_lab_vms_shutdown_properties_provisioning_state": {
+            "readonly": True
+        },
+        "unique_identifier_properties_applicable_schedule_properties_lab_vms_shutdown_properties_unique_identifier": {
+            "readonly": True
         },
     }
 
-    def __init__(
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "notes": {"key": "properties.notes", "type": "str"},
+        "owner_object_id": {"key": "properties.ownerObjectId", "type": "str"},
+        "owner_user_principal_name": {"key": "properties.ownerUserPrincipalName", "type": "str"},
+        "created_by_user_id": {"key": "properties.createdByUserId", "type": "str"},
+        "created_by_user": {"key": "properties.createdByUser", "type": "str"},
+        "created_date_properties_created_date": {"key": "properties.createdDate", "type": "iso-8601"},
+        "compute_id": {"key": "properties.computeId", "type": "str"},
+        "custom_image_id": {"key": "properties.customImageId", "type": "str"},
+        "gallery_image_version_id": {"key": "properties.galleryImageVersionId", "type": "str"},
+        "shared_image_id": {"key": "properties.sharedImageId", "type": "str"},
+        "shared_image_version": {"key": "properties.sharedImageVersion", "type": "str"},
+        "os_type_properties_os_type": {"key": "properties.osType", "type": "str"},
+        "size": {"key": "properties.size", "type": "str"},
+        "user_name": {"key": "properties.userName", "type": "str"},
+        "password": {"key": "properties.password", "type": "str"},
+        "ssh_key": {"key": "properties.sshKey", "type": "str"},
+        "is_authentication_with_ssh_key": {"key": "properties.isAuthenticationWithSshKey", "type": "bool"},
+        "fqdn": {"key": "properties.fqdn", "type": "str"},
+        "lab_subnet_name": {"key": "properties.labSubnetName", "type": "str"},
+        "lab_virtual_network_id": {"key": "properties.labVirtualNetworkId", "type": "str"},
+        "disallow_public_ip_address": {"key": "properties.disallowPublicIpAddress", "type": "bool"},
+        "artifacts": {"key": "properties.artifacts", "type": "[ArtifactInstallProperties]"},
+        "plan_id": {"key": "properties.planId", "type": "str"},
+        "os_disk_size_gb": {"key": "properties.osDiskSizeGb", "type": "int"},
+        "expiration_date": {"key": "properties.expirationDate", "type": "iso-8601"},
+        "allow_claim": {"key": "properties.allowClaim", "type": "bool"},
+        "storage_type": {"key": "properties.storageType", "type": "str"},
+        "virtual_machine_creation_source": {"key": "properties.virtualMachineCreationSource", "type": "str"},
+        "environment_id": {"key": "properties.environmentId", "type": "str"},
+        "data_disk_parameters": {"key": "properties.dataDiskParameters", "type": "[DataDiskProperties]"},
+        "schedule_parameters": {"key": "properties.scheduleParameters", "type": "[ScheduleCreationParameter]"},
+        "last_known_power_state": {"key": "properties.lastKnownPowerState", "type": "str"},
+        "can_apply_artifacts": {"key": "properties.canApplyArtifacts", "type": "bool"},
+        "security_profile": {"key": "properties.securityProfile", "type": "SecurityProfile"},
+        "provisioning_state_properties_provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "unique_identifier_properties_unique_identifier": {"key": "properties.uniqueIdentifier", "type": "str"},
+        "id_properties_applicable_schedule_id": {"key": "properties.applicableSchedule.id", "type": "str"},
+        "name_properties_applicable_schedule_name": {"key": "properties.applicableSchedule.name", "type": "str"},
+        "type_properties_applicable_schedule_type": {"key": "properties.applicableSchedule.type", "type": "str"},
+        "tags_properties_applicable_schedule_tags": {"key": "properties.applicableSchedule.tags", "type": "{str}"},
+        "location_properties_applicable_schedule_location": {
+            "key": "properties.applicableSchedule.location",
+            "type": "str",
+        },
+        "system_data_properties_applicable_schedule_system_data": {
+            "key": "properties.applicableSchedule.systemData",
+            "type": "SystemData",
+        },
+        "id_properties_applicable_schedule_properties_lab_vms_startup_id": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.id",
+            "type": "str",
+        },
+        "name_properties_applicable_schedule_properties_lab_vms_startup_name": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.name",
+            "type": "str",
+        },
+        "type_properties_applicable_schedule_properties_lab_vms_startup_type": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.type",
+            "type": "str",
+        },
+        "tags_properties_applicable_schedule_properties_lab_vms_startup_tags": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.tags",
+            "type": "{str}",
+        },
+        "location_properties_applicable_schedule_properties_lab_vms_startup_location": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.location",
+            "type": "str",
+        },
+        "system_data_properties_applicable_schedule_properties_lab_vms_startup_system_data": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.systemData",
+            "type": "SystemData",
+        },
+        "status_properties_applicable_schedule_properties_lab_vms_startup_properties_status": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.status",
+            "type": "str",
+        },
+        "task_type_properties_applicable_schedule_properties_lab_vms_startup_properties_task_type": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.taskType",
+            "type": "str",
+        },
+        "time_zone_id_properties_applicable_schedule_properties_lab_vms_startup_properties_time_zone_id": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.timeZoneId",
+            "type": "str",
+        },
+        "created_date_properties_applicable_schedule_properties_lab_vms_startup_properties_created_date": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.createdDate",
+            "type": "iso-8601",
+        },
+        "target_resource_id_properties_applicable_schedule_properties_lab_vms_startup_properties_target_resource_id": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.targetResourceId",
+            "type": "str",
+        },
+        "provisioning_state_properties_applicable_schedule_properties_lab_vms_startup_properties_provisioning_state": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.provisioningState",
+            "type": "str",
+        },
+        "unique_identifier_properties_applicable_schedule_properties_lab_vms_startup_properties_unique_identifier": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.uniqueIdentifier",
+            "type": "str",
+        },
+        "status_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_status": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.status",
+            "type": "str",
+        },
+        "time_in_minutes_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_time_in_minutes": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.timeInMinutes",
+            "type": "int",
+        },
+        "webhook_url_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_webhook_url": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.webhookUrl",
+            "type": "str",
+        },
+        "email_recipient_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_email_recipient": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.emailRecipient",
+            "type": "str",
+        },
+        "notification_locale_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_notification_locale": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.notificationLocale",
+            "type": "str",
+        },
+        "minute_properties_applicable_schedule_properties_lab_vms_startup_properties_hourly_recurrence_minute": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.hourlyRecurrence.minute",
+            "type": "int",
+        },
+        "time_properties_applicable_schedule_properties_lab_vms_startup_properties_daily_recurrence_time": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.dailyRecurrence.time",
+            "type": "str",
+        },
+        "weekdays_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_weekdays": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.weeklyRecurrence.weekdays",
+            "type": "[str]",
+        },
+        "time_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_time": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.weeklyRecurrence.time",
+            "type": "str",
+        },
+        "id_properties_applicable_schedule_properties_lab_vms_shutdown_id": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.id",
+            "type": "str",
+        },
+        "name_properties_applicable_schedule_properties_lab_vms_shutdown_name": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.name",
+            "type": "str",
+        },
+        "type_properties_applicable_schedule_properties_lab_vms_shutdown_type": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.type",
+            "type": "str",
+        },
+        "tags_properties_applicable_schedule_properties_lab_vms_shutdown_tags": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.tags",
+            "type": "{str}",
+        },
+        "location_properties_applicable_schedule_properties_lab_vms_shutdown_location": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.location",
+            "type": "str",
+        },
+        "system_data_properties_applicable_schedule_properties_lab_vms_shutdown_system_data": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.systemData",
+            "type": "SystemData",
+        },
+        "status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_status": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.status",
+            "type": "str",
+        },
+        "task_type_properties_applicable_schedule_properties_lab_vms_shutdown_properties_task_type": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.taskType",
+            "type": "str",
+        },
+        "time_zone_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_time_zone_id": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.timeZoneId",
+            "type": "str",
+        },
+        "created_date_properties_applicable_schedule_properties_lab_vms_shutdown_properties_created_date": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.createdDate",
+            "type": "iso-8601",
+        },
+        "target_resource_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_target_resource_id": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.targetResourceId",
+            "type": "str",
+        },
+        "provisioning_state_properties_applicable_schedule_properties_lab_vms_shutdown_properties_provisioning_state": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.provisioningState",
+            "type": "str",
+        },
+        "unique_identifier_properties_applicable_schedule_properties_lab_vms_shutdown_properties_unique_identifier": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.uniqueIdentifier",
+            "type": "str",
+        },
+        "status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_status": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.status",
+            "type": "str",
+        },
+        "time_in_minutes_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.timeInMinutes",
+            "type": "int",
+        },
+        "webhook_url_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_webhook_url": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.webhookUrl",
+            "type": "str",
+        },
+        "email_recipient_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_email_recipient": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.emailRecipient",
+            "type": "str",
+        },
+        "notification_locale_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_notification_locale": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.notificationLocale",
+            "type": "str",
+        },
+        "minute_properties_applicable_schedule_properties_lab_vms_shutdown_properties_hourly_recurrence_minute": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.hourlyRecurrence.minute",
+            "type": "int",
+        },
+        "time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_daily_recurrence_time": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.dailyRecurrence.time",
+            "type": "str",
+        },
+        "weekdays_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.weeklyRecurrence.weekdays",
+            "type": "[str]",
+        },
+        "time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_time": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.weeklyRecurrence.time",
+            "type": "str",
+        },
+        "virtual_network_id": {"key": "properties.networkInterface.virtualNetworkId", "type": "str"},
+        "subnet_id": {"key": "properties.networkInterface.subnetId", "type": "str"},
+        "public_ip_address_id": {"key": "properties.networkInterface.publicIpAddressId", "type": "str"},
+        "public_ip_address": {"key": "properties.networkInterface.publicIpAddress", "type": "str"},
+        "private_ip_address": {"key": "properties.networkInterface.privateIpAddress", "type": "str"},
+        "dns_name": {"key": "properties.networkInterface.dnsName", "type": "str"},
+        "rdp_authority": {"key": "properties.networkInterface.rdpAuthority", "type": "str"},
+        "ssh_authority": {"key": "properties.networkInterface.sshAuthority", "type": "str"},
+        "inbound_nat_rules": {
+            "key": "properties.networkInterface.sharedPublicIpAddressConfiguration.inboundNatRules",
+            "type": "[InboundNatRule]",
+        },
+        "statuses": {"key": "properties.computeVm.statuses", "type": "[ComputeVmInstanceViewStatus]"},
+        "os_type_properties_compute_vm_os_type": {"key": "properties.computeVm.osType", "type": "str"},
+        "vm_size": {"key": "properties.computeVm.vmSize", "type": "str"},
+        "network_interface_id": {"key": "properties.computeVm.networkInterfaceId", "type": "str"},
+        "os_disk_id": {"key": "properties.computeVm.osDiskId", "type": "str"},
+        "data_disk_ids": {"key": "properties.computeVm.dataDiskIds", "type": "[str]"},
+        "data_disks": {"key": "properties.computeVm.dataDisks", "type": "[ComputeDataDisk]"},
+        "offer": {"key": "properties.galleryImageReference.offer", "type": "str"},
+        "publisher": {"key": "properties.galleryImageReference.publisher", "type": "str"},
+        "sku": {"key": "properties.galleryImageReference.sku", "type": "str"},
+        "os_type_properties_gallery_image_reference_os_type": {
+            "key": "properties.galleryImageReference.osType",
+            "type": "str",
+        },
+        "version": {"key": "properties.galleryImageReference.version", "type": "str"},
+        "deployment_status": {"key": "properties.artifactDeploymentStatus.deploymentStatus", "type": "str"},
+        "artifacts_applied": {"key": "properties.artifactDeploymentStatus.artifactsApplied", "type": "int"},
+        "total_artifacts": {"key": "properties.artifactDeploymentStatus.totalArtifacts", "type": "int"},
+    }
+
+    def __init__(  # pylint: disable=too-many-locals
         self,
         *,
+        location: str,
+        tags: Optional[Dict[str, str]] = None,
+        notes: Optional[str] = None,
+        owner_object_id: str = "dynamicValue",
+        owner_user_principal_name: Optional[str] = None,
+        created_date_properties_created_date: Optional[datetime.datetime] = None,
+        custom_image_id: Optional[str] = None,
+        gallery_image_version_id: Optional[str] = None,
+        shared_image_id: Optional[str] = None,
+        shared_image_version: Optional[str] = None,
+        size: Optional[str] = None,
+        user_name: Optional[str] = None,
+        password: Optional[str] = None,
+        ssh_key: Optional[str] = None,
+        is_authentication_with_ssh_key: Optional[bool] = None,
+        lab_subnet_name: Optional[str] = None,
+        lab_virtual_network_id: Optional[str] = None,
+        disallow_public_ip_address: bool = False,
+        artifacts: Optional[List["_models.ArtifactInstallProperties"]] = None,
+        plan_id: Optional[str] = None,
+        os_disk_size_gb: Optional[int] = None,
+        expiration_date: Optional[datetime.datetime] = None,
+        allow_claim: bool = False,
+        storage_type: Union[str, "_models.StorageTypes"] = "Standard",
+        environment_id: Optional[str] = None,
+        data_disk_parameters: Optional[List["_models.DataDiskProperties"]] = None,
+        schedule_parameters: Optional[List["_models.ScheduleCreationParameter"]] = None,
+        security_profile: Optional["_models.SecurityProfile"] = None,
+        tags_properties_applicable_schedule_tags: Optional[Dict[str, str]] = None,
+        location_properties_applicable_schedule_location: Optional[str] = None,
+        tags_properties_applicable_schedule_properties_lab_vms_startup_tags: Optional[Dict[str, str]] = None,
+        location_properties_applicable_schedule_properties_lab_vms_startup_location: Optional[str] = None,
+        status_properties_applicable_schedule_properties_lab_vms_startup_properties_status: Optional[
+            Union[str, "_models.EnableStatus"]
+        ] = None,
+        task_type_properties_applicable_schedule_properties_lab_vms_startup_properties_task_type: Optional[str] = None,
+        time_zone_id_properties_applicable_schedule_properties_lab_vms_startup_properties_time_zone_id: Optional[
+            str
+        ] = None,
+        target_resource_id_properties_applicable_schedule_properties_lab_vms_startup_properties_target_resource_id: Optional[
+            str
+        ] = None,
+        status_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_status: Optional[
+            Union[str, "_models.EnableStatus"]
+        ] = None,
+        time_in_minutes_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_time_in_minutes: Optional[
+            int
+        ] = None,
+        webhook_url_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_webhook_url: Optional[
+            str
+        ] = None,
+        email_recipient_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_email_recipient: Optional[
+            str
+        ] = None,
+        notification_locale_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_notification_locale: Optional[
+            str
+        ] = None,
+        minute_properties_applicable_schedule_properties_lab_vms_startup_properties_hourly_recurrence_minute: Optional[
+            int
+        ] = None,
+        time_properties_applicable_schedule_properties_lab_vms_startup_properties_daily_recurrence_time: Optional[
+            str
+        ] = None,
+        weekdays_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_weekdays: Optional[
+            List[str]
+        ] = None,
+        time_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_time: Optional[
+            str
+        ] = None,
+        tags_properties_applicable_schedule_properties_lab_vms_shutdown_tags: Optional[Dict[str, str]] = None,
+        location_properties_applicable_schedule_properties_lab_vms_shutdown_location: Optional[str] = None,
+        status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_status: Optional[
+            Union[str, "_models.EnableStatus"]
+        ] = None,
+        task_type_properties_applicable_schedule_properties_lab_vms_shutdown_properties_task_type: Optional[str] = None,
+        time_zone_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_time_zone_id: Optional[
+            str
+        ] = None,
+        target_resource_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_target_resource_id: Optional[
+            str
+        ] = None,
+        status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_status: Optional[
+            Union[str, "_models.EnableStatus"]
+        ] = None,
+        time_in_minutes_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes: Optional[
+            int
+        ] = None,
+        webhook_url_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_webhook_url: Optional[
+            str
+        ] = None,
+        email_recipient_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_email_recipient: Optional[
+            str
+        ] = None,
+        notification_locale_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_notification_locale: Optional[
+            str
+        ] = None,
+        minute_properties_applicable_schedule_properties_lab_vms_shutdown_properties_hourly_recurrence_minute: Optional[
+            int
+        ] = None,
+        time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_daily_recurrence_time: Optional[
+            str
+        ] = None,
+        weekdays_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays: Optional[
+            List[str]
+        ] = None,
+        time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_time: Optional[
+            str
+        ] = None,
         virtual_network_id: Optional[str] = None,
         subnet_id: Optional[str] = None,
         public_ip_address_id: Optional[str] = None,
@@ -3894,10 +6051,260 @@ class NetworkInterfaceProperties(_serialization.Model):
         dns_name: Optional[str] = None,
         rdp_authority: Optional[str] = None,
         ssh_authority: Optional[str] = None,
-        shared_public_ip_address_configuration: Optional["_models.SharedPublicIpAddressConfiguration"] = None,
-        **kwargs
-    ):
+        inbound_nat_rules: Optional[List["_models.InboundNatRule"]] = None,
+        statuses: Optional[List["_models.ComputeVmInstanceViewStatus"]] = None,
+        os_type_properties_compute_vm_os_type: Optional[str] = None,
+        vm_size: Optional[str] = None,
+        network_interface_id: Optional[str] = None,
+        os_disk_id: Optional[str] = None,
+        data_disk_ids: Optional[List[str]] = None,
+        data_disks: Optional[List["_models.ComputeDataDisk"]] = None,
+        offer: Optional[str] = None,
+        publisher: Optional[str] = None,
+        sku: Optional[str] = None,
+        os_type_properties_gallery_image_reference_os_type: Optional[str] = None,
+        version: Optional[str] = None,
+        deployment_status: Optional[str] = None,
+        artifacts_applied: Optional[int] = None,
+        total_artifacts: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
         """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
+        :keyword notes: The notes of the virtual machine.
+        :paramtype notes: str
+        :keyword owner_object_id: The object identifier of the owner of the virtual machine.
+        :paramtype owner_object_id: str
+        :keyword owner_user_principal_name: The user principal name of the virtual machine owner.
+        :paramtype owner_user_principal_name: str
+        :keyword created_date_properties_created_date: The creation date of the virtual machine.
+        :paramtype created_date_properties_created_date: ~datetime.datetime
+        :keyword custom_image_id: The custom image identifier of the virtual machine.
+        :paramtype custom_image_id: str
+        :keyword gallery_image_version_id: The shared gallery image version resource identifier of the
+         virtual machine.
+        :paramtype gallery_image_version_id: str
+        :keyword shared_image_id: The shared image resource identifier of the virtual machine.
+        :paramtype shared_image_id: str
+        :keyword shared_image_version: The shared image version for the specified shared image Id. Will
+         use latest if not specified.
+        :paramtype shared_image_version: str
+        :keyword size: The size of the virtual machine.
+        :paramtype size: str
+        :keyword user_name: The user name of the virtual machine.
+        :paramtype user_name: str
+        :keyword password: The password of the virtual machine administrator.
+        :paramtype password: str
+        :keyword ssh_key: The SSH key of the virtual machine administrator.
+        :paramtype ssh_key: str
+        :keyword is_authentication_with_ssh_key: Indicates whether this virtual machine uses an SSH key
+         for authentication.
+        :paramtype is_authentication_with_ssh_key: bool
+        :keyword lab_subnet_name: The lab subnet name of the virtual machine.
+        :paramtype lab_subnet_name: str
+        :keyword lab_virtual_network_id: The lab virtual network identifier of the virtual machine.
+        :paramtype lab_virtual_network_id: str
+        :keyword disallow_public_ip_address: Indicates whether the virtual machine is to be created
+         without a public IP address.
+        :paramtype disallow_public_ip_address: bool
+        :keyword artifacts: The artifacts to be installed on the virtual machine.
+        :paramtype artifacts: list[~azure.mgmt.devtestlabs.models.ArtifactInstallProperties]
+        :keyword plan_id: The id of the plan associated with the virtual machine image.
+        :paramtype plan_id: str
+        :keyword os_disk_size_gb: Specifies the size of an empty data disk in gigabytes. This element
+         can be used to overwrite the size of the disk in a virtual machine image.
+        :paramtype os_disk_size_gb: int
+        :keyword expiration_date: The expiration date for VM.
+        :paramtype expiration_date: ~datetime.datetime
+        :keyword allow_claim: Indicates whether another user can take ownership of the virtual machine.
+        :paramtype allow_claim: bool
+        :keyword storage_type: Storage type to use for virtual machine (i.e. Standard, Premium,
+         StandardSSD). Known values are: "Standard", "Premium", and "StandardSSD".
+        :paramtype storage_type: str or ~azure.mgmt.devtestlabs.models.StorageTypes
+        :keyword environment_id: The resource ID of the environment that contains this virtual machine,
+         if any.
+        :paramtype environment_id: str
+        :keyword data_disk_parameters: New or existing data disks to attach to the virtual machine
+         after creation.
+        :paramtype data_disk_parameters: list[~azure.mgmt.devtestlabs.models.DataDiskProperties]
+        :keyword schedule_parameters: Virtual Machine schedules to be created.
+        :paramtype schedule_parameters: list[~azure.mgmt.devtestlabs.models.ScheduleCreationParameter]
+        :keyword security_profile: Option to apply more security protection for VMs.
+        :paramtype security_profile: ~azure.mgmt.devtestlabs.models.SecurityProfile
+        :keyword tags_properties_applicable_schedule_tags: Resource tags.
+        :paramtype tags_properties_applicable_schedule_tags: dict[str, str]
+        :keyword location_properties_applicable_schedule_location: The geo-location where the resource
+         lives.
+        :paramtype location_properties_applicable_schedule_location: str
+        :keyword tags_properties_applicable_schedule_properties_lab_vms_startup_tags: Resource tags.
+        :paramtype tags_properties_applicable_schedule_properties_lab_vms_startup_tags: dict[str, str]
+        :keyword location_properties_applicable_schedule_properties_lab_vms_startup_location: The
+         geo-location where the resource lives.
+        :paramtype location_properties_applicable_schedule_properties_lab_vms_startup_location: str
+        :keyword status_properties_applicable_schedule_properties_lab_vms_startup_properties_status:
+         The status of the schedule (i.e. Enabled, Disabled). Known values are: "Enabled" and
+         "Disabled".
+        :paramtype status_properties_applicable_schedule_properties_lab_vms_startup_properties_status:
+         str or ~azure.mgmt.devtestlabs.models.EnableStatus
+        :keyword
+         task_type_properties_applicable_schedule_properties_lab_vms_startup_properties_task_type: The
+         task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
+        :paramtype
+         task_type_properties_applicable_schedule_properties_lab_vms_startup_properties_task_type: str
+        :keyword
+         time_zone_id_properties_applicable_schedule_properties_lab_vms_startup_properties_time_zone_id:
+         The time zone ID (e.g. Pacific Standard time).
+        :paramtype
+         time_zone_id_properties_applicable_schedule_properties_lab_vms_startup_properties_time_zone_id:
+         str
+        :keyword
+         target_resource_id_properties_applicable_schedule_properties_lab_vms_startup_properties_target_resource_id:
+         The resource ID to which the schedule belongs.
+        :paramtype
+         target_resource_id_properties_applicable_schedule_properties_lab_vms_startup_properties_target_resource_id:
+         str
+        :keyword
+         status_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_status:
+         If notifications are enabled for this schedule (i.e. Enabled, Disabled). Known values are:
+         "Enabled" and "Disabled".
+        :paramtype
+         status_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_status:
+         str or ~azure.mgmt.devtestlabs.models.EnableStatus
+        :keyword
+         time_in_minutes_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_time_in_minutes:
+         Time in minutes before event at which notification will be sent.
+        :paramtype
+         time_in_minutes_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_time_in_minutes:
+         int
+        :keyword
+         webhook_url_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_webhook_url:
+         The webhook URL to which the notification will be sent.
+        :paramtype
+         webhook_url_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_webhook_url:
+         str
+        :keyword
+         email_recipient_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_email_recipient:
+         The email recipient to send notifications to (can be a list of semi-colon separated email
+         addresses).
+        :paramtype
+         email_recipient_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_email_recipient:
+         str
+        :keyword
+         notification_locale_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_notification_locale:
+         The locale to use when sending a notification (fallback for unsupported languages is EN).
+        :paramtype
+         notification_locale_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_notification_locale:
+         str
+        :keyword
+         minute_properties_applicable_schedule_properties_lab_vms_startup_properties_hourly_recurrence_minute:
+         Minutes of the hour the schedule will run.
+        :paramtype
+         minute_properties_applicable_schedule_properties_lab_vms_startup_properties_hourly_recurrence_minute:
+         int
+        :keyword
+         time_properties_applicable_schedule_properties_lab_vms_startup_properties_daily_recurrence_time:
+         The time of day the schedule will occur.
+        :paramtype
+         time_properties_applicable_schedule_properties_lab_vms_startup_properties_daily_recurrence_time:
+         str
+        :keyword
+         weekdays_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_weekdays:
+         The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
+        :paramtype
+         weekdays_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_weekdays:
+         list[str]
+        :keyword
+         time_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_time:
+         The time of the day the schedule will occur.
+        :paramtype
+         time_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_time:
+         str
+        :keyword tags_properties_applicable_schedule_properties_lab_vms_shutdown_tags: Resource tags.
+        :paramtype tags_properties_applicable_schedule_properties_lab_vms_shutdown_tags: dict[str, str]
+        :keyword location_properties_applicable_schedule_properties_lab_vms_shutdown_location: The
+         geo-location where the resource lives.
+        :paramtype location_properties_applicable_schedule_properties_lab_vms_shutdown_location: str
+        :keyword status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_status:
+         The status of the schedule (i.e. Enabled, Disabled). Known values are: "Enabled" and
+         "Disabled".
+        :paramtype status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_status:
+         str or ~azure.mgmt.devtestlabs.models.EnableStatus
+        :keyword
+         task_type_properties_applicable_schedule_properties_lab_vms_shutdown_properties_task_type: The
+         task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
+        :paramtype
+         task_type_properties_applicable_schedule_properties_lab_vms_shutdown_properties_task_type: str
+        :keyword
+         time_zone_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_time_zone_id:
+         The time zone ID (e.g. Pacific Standard time).
+        :paramtype
+         time_zone_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_time_zone_id:
+         str
+        :keyword
+         target_resource_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_target_resource_id:
+         The resource ID to which the schedule belongs.
+        :paramtype
+         target_resource_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_target_resource_id:
+         str
+        :keyword
+         status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_status:
+         If notifications are enabled for this schedule (i.e. Enabled, Disabled). Known values are:
+         "Enabled" and "Disabled".
+        :paramtype
+         status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_status:
+         str or ~azure.mgmt.devtestlabs.models.EnableStatus
+        :keyword
+         time_in_minutes_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes:
+         Time in minutes before event at which notification will be sent.
+        :paramtype
+         time_in_minutes_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes:
+         int
+        :keyword
+         webhook_url_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_webhook_url:
+         The webhook URL to which the notification will be sent.
+        :paramtype
+         webhook_url_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_webhook_url:
+         str
+        :keyword
+         email_recipient_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_email_recipient:
+         The email recipient to send notifications to (can be a list of semi-colon separated email
+         addresses).
+        :paramtype
+         email_recipient_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_email_recipient:
+         str
+        :keyword
+         notification_locale_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_notification_locale:
+         The locale to use when sending a notification (fallback for unsupported languages is EN).
+        :paramtype
+         notification_locale_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_notification_locale:
+         str
+        :keyword
+         minute_properties_applicable_schedule_properties_lab_vms_shutdown_properties_hourly_recurrence_minute:
+         Minutes of the hour the schedule will run.
+        :paramtype
+         minute_properties_applicable_schedule_properties_lab_vms_shutdown_properties_hourly_recurrence_minute:
+         int
+        :keyword
+         time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_daily_recurrence_time:
+         The time of day the schedule will occur.
+        :paramtype
+         time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_daily_recurrence_time:
+         str
+        :keyword
+         weekdays_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays:
+         The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
+        :paramtype
+         weekdays_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays:
+         list[str]
+        :keyword
+         time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_time:
+         The time of the day the schedule will occur.
+        :paramtype
+         time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_time:
+         str
         :keyword virtual_network_id: The resource ID of the virtual network.
         :paramtype virtual_network_id: str
         :keyword subnet_id: The resource ID of the sub net.
@@ -3916,12 +6323,179 @@ class NetworkInterfaceProperties(_serialization.Model):
         :keyword ssh_authority: The SshAuthority property is a server DNS host name or IP address
          followed by the service port number for SSH.
         :paramtype ssh_authority: str
-        :keyword shared_public_ip_address_configuration: The configuration for sharing a public IP
-         address across multiple virtual machines.
-        :paramtype shared_public_ip_address_configuration:
-         ~azure.mgmt.devtestlabs.models.SharedPublicIpAddressConfiguration
+        :keyword inbound_nat_rules: The incoming NAT rules.
+        :paramtype inbound_nat_rules: list[~azure.mgmt.devtestlabs.models.InboundNatRule]
+        :keyword statuses: Gets the statuses of the virtual machine.
+        :paramtype statuses: list[~azure.mgmt.devtestlabs.models.ComputeVmInstanceViewStatus]
+        :keyword os_type_properties_compute_vm_os_type: Gets the OS type of the virtual machine.
+        :paramtype os_type_properties_compute_vm_os_type: str
+        :keyword vm_size: Gets the size of the virtual machine.
+        :paramtype vm_size: str
+        :keyword network_interface_id: Gets the network interface ID of the virtual machine.
+        :paramtype network_interface_id: str
+        :keyword os_disk_id: Gets OS disk blob uri for the virtual machine.
+        :paramtype os_disk_id: str
+        :keyword data_disk_ids: Gets data disks blob uri for the virtual machine.
+        :paramtype data_disk_ids: list[str]
+        :keyword data_disks: Gets all data disks attached to the virtual machine.
+        :paramtype data_disks: list[~azure.mgmt.devtestlabs.models.ComputeDataDisk]
+        :keyword offer: The offer of the gallery image.
+        :paramtype offer: str
+        :keyword publisher: The publisher of the gallery image.
+        :paramtype publisher: str
+        :keyword sku: The SKU of the gallery image.
+        :paramtype sku: str
+        :keyword os_type_properties_gallery_image_reference_os_type: The OS type of the gallery image.
+        :paramtype os_type_properties_gallery_image_reference_os_type: str
+        :keyword version: The version of the gallery image.
+        :paramtype version: str
+        :keyword deployment_status: The deployment status of the artifact.
+        :paramtype deployment_status: str
+        :keyword artifacts_applied: The total count of the artifacts that were successfully applied.
+        :paramtype artifacts_applied: int
+        :keyword total_artifacts: The total count of the artifacts that were tentatively applied.
+        :paramtype total_artifacts: int
         """
-        super().__init__(**kwargs)
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.system_data = None
+        self.notes = notes
+        self.owner_object_id = owner_object_id
+        self.owner_user_principal_name = owner_user_principal_name
+        self.created_by_user_id = None
+        self.created_by_user = None
+        self.created_date_properties_created_date = created_date_properties_created_date
+        self.compute_id = None
+        self.custom_image_id = custom_image_id
+        self.gallery_image_version_id = gallery_image_version_id
+        self.shared_image_id = shared_image_id
+        self.shared_image_version = shared_image_version
+        self.os_type_properties_os_type = None
+        self.size = size
+        self.user_name = user_name
+        self.password = password
+        self.ssh_key = ssh_key
+        self.is_authentication_with_ssh_key = is_authentication_with_ssh_key
+        self.fqdn = None
+        self.lab_subnet_name = lab_subnet_name
+        self.lab_virtual_network_id = lab_virtual_network_id
+        self.disallow_public_ip_address = disallow_public_ip_address
+        self.artifacts = artifacts
+        self.plan_id = plan_id
+        self.os_disk_size_gb = os_disk_size_gb
+        self.expiration_date = expiration_date
+        self.allow_claim = allow_claim
+        self.storage_type = storage_type
+        self.virtual_machine_creation_source = None
+        self.environment_id = environment_id
+        self.data_disk_parameters = data_disk_parameters
+        self.schedule_parameters = schedule_parameters
+        self.last_known_power_state = None
+        self.can_apply_artifacts = None
+        self.security_profile = security_profile
+        self.provisioning_state_properties_provisioning_state = None
+        self.unique_identifier_properties_unique_identifier = None
+        self.id_properties_applicable_schedule_id = None
+        self.name_properties_applicable_schedule_name = None
+        self.type_properties_applicable_schedule_type = None
+        self.tags_properties_applicable_schedule_tags = tags_properties_applicable_schedule_tags
+        self.location_properties_applicable_schedule_location = location_properties_applicable_schedule_location
+        self.system_data_properties_applicable_schedule_system_data = None
+        self.id_properties_applicable_schedule_properties_lab_vms_startup_id = None
+        self.name_properties_applicable_schedule_properties_lab_vms_startup_name = None
+        self.type_properties_applicable_schedule_properties_lab_vms_startup_type = None
+        self.tags_properties_applicable_schedule_properties_lab_vms_startup_tags = (
+            tags_properties_applicable_schedule_properties_lab_vms_startup_tags
+        )
+        self.location_properties_applicable_schedule_properties_lab_vms_startup_location = (
+            location_properties_applicable_schedule_properties_lab_vms_startup_location
+        )
+        self.system_data_properties_applicable_schedule_properties_lab_vms_startup_system_data = None
+        self.status_properties_applicable_schedule_properties_lab_vms_startup_properties_status = (
+            status_properties_applicable_schedule_properties_lab_vms_startup_properties_status
+        )
+        self.task_type_properties_applicable_schedule_properties_lab_vms_startup_properties_task_type = (
+            task_type_properties_applicable_schedule_properties_lab_vms_startup_properties_task_type
+        )
+        self.time_zone_id_properties_applicable_schedule_properties_lab_vms_startup_properties_time_zone_id = (
+            time_zone_id_properties_applicable_schedule_properties_lab_vms_startup_properties_time_zone_id
+        )
+        self.created_date_properties_applicable_schedule_properties_lab_vms_startup_properties_created_date = None
+        self.target_resource_id_properties_applicable_schedule_properties_lab_vms_startup_properties_target_resource_id = (
+            target_resource_id_properties_applicable_schedule_properties_lab_vms_startup_properties_target_resource_id
+        )
+        self.provisioning_state_properties_applicable_schedule_properties_lab_vms_startup_properties_provisioning_state = (
+            None
+        )
+        self.unique_identifier_properties_applicable_schedule_properties_lab_vms_startup_properties_unique_identifier = (
+            None
+        )
+        self.status_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_status = (
+            status_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_status
+        )
+        self.time_in_minutes_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_time_in_minutes = time_in_minutes_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_time_in_minutes
+        self.webhook_url_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_webhook_url = webhook_url_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_webhook_url
+        self.email_recipient_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_email_recipient = email_recipient_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_email_recipient
+        self.notification_locale_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_notification_locale = notification_locale_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_notification_locale
+        self.minute_properties_applicable_schedule_properties_lab_vms_startup_properties_hourly_recurrence_minute = (
+            minute_properties_applicable_schedule_properties_lab_vms_startup_properties_hourly_recurrence_minute
+        )
+        self.time_properties_applicable_schedule_properties_lab_vms_startup_properties_daily_recurrence_time = (
+            time_properties_applicable_schedule_properties_lab_vms_startup_properties_daily_recurrence_time
+        )
+        self.weekdays_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_weekdays = (
+            weekdays_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_weekdays
+        )
+        self.time_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_time = (
+            time_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_time
+        )
+        self.id_properties_applicable_schedule_properties_lab_vms_shutdown_id = None
+        self.name_properties_applicable_schedule_properties_lab_vms_shutdown_name = None
+        self.type_properties_applicable_schedule_properties_lab_vms_shutdown_type = None
+        self.tags_properties_applicable_schedule_properties_lab_vms_shutdown_tags = (
+            tags_properties_applicable_schedule_properties_lab_vms_shutdown_tags
+        )
+        self.location_properties_applicable_schedule_properties_lab_vms_shutdown_location = (
+            location_properties_applicable_schedule_properties_lab_vms_shutdown_location
+        )
+        self.system_data_properties_applicable_schedule_properties_lab_vms_shutdown_system_data = None
+        self.status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_status = (
+            status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_status
+        )
+        self.task_type_properties_applicable_schedule_properties_lab_vms_shutdown_properties_task_type = (
+            task_type_properties_applicable_schedule_properties_lab_vms_shutdown_properties_task_type
+        )
+        self.time_zone_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_time_zone_id = (
+            time_zone_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_time_zone_id
+        )
+        self.created_date_properties_applicable_schedule_properties_lab_vms_shutdown_properties_created_date = None
+        self.target_resource_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_target_resource_id = (
+            target_resource_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_target_resource_id
+        )
+        self.provisioning_state_properties_applicable_schedule_properties_lab_vms_shutdown_properties_provisioning_state = (
+            None
+        )
+        self.unique_identifier_properties_applicable_schedule_properties_lab_vms_shutdown_properties_unique_identifier = (
+            None
+        )
+        self.status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_status = (
+            status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_status
+        )
+        self.time_in_minutes_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes = time_in_minutes_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes
+        self.webhook_url_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_webhook_url = webhook_url_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_webhook_url
+        self.email_recipient_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_email_recipient = email_recipient_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_email_recipient
+        self.notification_locale_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_notification_locale = notification_locale_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_notification_locale
+        self.minute_properties_applicable_schedule_properties_lab_vms_shutdown_properties_hourly_recurrence_minute = (
+            minute_properties_applicable_schedule_properties_lab_vms_shutdown_properties_hourly_recurrence_minute
+        )
+        self.time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_daily_recurrence_time = (
+            time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_daily_recurrence_time
+        )
+        self.weekdays_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays = (
+            weekdays_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays
+        )
+        self.time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_time = (
+            time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_time
+        )
         self.virtual_network_id = virtual_network_id
         self.subnet_id = subnet_id
         self.public_ip_address_id = public_ip_address_id
@@ -3930,7 +6504,1382 @@ class NetworkInterfaceProperties(_serialization.Model):
         self.dns_name = dns_name
         self.rdp_authority = rdp_authority
         self.ssh_authority = ssh_authority
-        self.shared_public_ip_address_configuration = shared_public_ip_address_configuration
+        self.inbound_nat_rules = inbound_nat_rules
+        self.statuses = statuses
+        self.os_type_properties_compute_vm_os_type = os_type_properties_compute_vm_os_type
+        self.vm_size = vm_size
+        self.network_interface_id = network_interface_id
+        self.os_disk_id = os_disk_id
+        self.data_disk_ids = data_disk_ids
+        self.data_disks = data_disks
+        self.offer = offer
+        self.publisher = publisher
+        self.sku = sku
+        self.os_type_properties_gallery_image_reference_os_type = os_type_properties_gallery_image_reference_os_type
+        self.version = version
+        self.deployment_status = deployment_status
+        self.artifacts_applied = artifacts_applied
+        self.total_artifacts = total_artifacts
+
+
+class LabVirtualMachineCreationParameter(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+    """Properties for creating a virtual machine.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar name: The name of the virtual machine or environment.
+    :vartype name: str
+    :ivar location: The location of the new virtual machine or environment.
+    :vartype location: str
+    :ivar tags: The tags of the resource.
+    :vartype tags: dict[str, str]
+    :ivar notes: The notes of the virtual machine.
+    :vartype notes: str
+    :ivar owner_object_id: The object identifier of the owner of the virtual machine.
+    :vartype owner_object_id: str
+    :ivar owner_user_principal_name: The user principal name of the virtual machine owner.
+    :vartype owner_user_principal_name: str
+    :ivar created_by_user_id: The object identifier of the creator of the virtual machine.
+    :vartype created_by_user_id: str
+    :ivar created_by_user: The email address of creator of the virtual machine.
+    :vartype created_by_user: str
+    :ivar created_date_properties_created_date: The creation date of the virtual machine.
+    :vartype created_date_properties_created_date: ~datetime.datetime
+    :ivar compute_id: The resource identifier (Microsoft.Compute) of the virtual machine.
+    :vartype compute_id: str
+    :ivar custom_image_id: The custom image identifier of the virtual machine.
+    :vartype custom_image_id: str
+    :ivar gallery_image_version_id: The shared gallery image version resource identifier of the
+     virtual machine.
+    :vartype gallery_image_version_id: str
+    :ivar shared_image_id: The shared image resource identifier of the virtual machine.
+    :vartype shared_image_id: str
+    :ivar shared_image_version: The shared image version for the specified shared image Id. Will
+     use latest if not specified.
+    :vartype shared_image_version: str
+    :ivar os_type_properties_os_type: The OS type of the virtual machine.
+    :vartype os_type_properties_os_type: str
+    :ivar size: The size of the virtual machine.
+    :vartype size: str
+    :ivar user_name: The user name of the virtual machine.
+    :vartype user_name: str
+    :ivar password: The password of the virtual machine administrator.
+    :vartype password: str
+    :ivar ssh_key: The SSH key of the virtual machine administrator.
+    :vartype ssh_key: str
+    :ivar is_authentication_with_ssh_key: Indicates whether this virtual machine uses an SSH key
+     for authentication.
+    :vartype is_authentication_with_ssh_key: bool
+    :ivar fqdn: The fully-qualified domain name of the virtual machine.
+    :vartype fqdn: str
+    :ivar lab_subnet_name: The lab subnet name of the virtual machine.
+    :vartype lab_subnet_name: str
+    :ivar lab_virtual_network_id: The lab virtual network identifier of the virtual machine.
+    :vartype lab_virtual_network_id: str
+    :ivar disallow_public_ip_address: Indicates whether the virtual machine is to be created
+     without a public IP address.
+    :vartype disallow_public_ip_address: bool
+    :ivar artifacts: The artifacts to be installed on the virtual machine.
+    :vartype artifacts: list[~azure.mgmt.devtestlabs.models.ArtifactInstallProperties]
+    :ivar plan_id: The id of the plan associated with the virtual machine image.
+    :vartype plan_id: str
+    :ivar os_disk_size_gb: Specifies the size of an empty data disk in gigabytes. This element can
+     be used to overwrite the size of the disk in a virtual machine image.
+    :vartype os_disk_size_gb: int
+    :ivar expiration_date: The expiration date for VM.
+    :vartype expiration_date: ~datetime.datetime
+    :ivar allow_claim: Indicates whether another user can take ownership of the virtual machine.
+    :vartype allow_claim: bool
+    :ivar storage_type: Storage type to use for virtual machine (i.e. Standard, Premium,
+     StandardSSD). Known values are: "Standard", "Premium", and "StandardSSD".
+    :vartype storage_type: str or ~azure.mgmt.devtestlabs.models.StorageType
+    :ivar virtual_machine_creation_source: Tells source of creation of lab virtual machine. Output
+     property only. Known values are: "FromCustomImage", "FromGalleryImage", and
+     "FromSharedGalleryImage".
+    :vartype virtual_machine_creation_source: str or
+     ~azure.mgmt.devtestlabs.models.VirtualMachineCreationSource
+    :ivar environment_id: The resource ID of the environment that contains this virtual machine, if
+     any.
+    :vartype environment_id: str
+    :ivar data_disk_parameters: New or existing data disks to attach to the virtual machine after
+     creation.
+    :vartype data_disk_parameters: list[~azure.mgmt.devtestlabs.models.DataDiskProperties]
+    :ivar schedule_parameters: Virtual Machine schedules to be created.
+    :vartype schedule_parameters: list[~azure.mgmt.devtestlabs.models.ScheduleCreationParameter]
+    :ivar last_known_power_state: Last known compute power state captured in DTL.
+    :vartype last_known_power_state: str
+    :ivar can_apply_artifacts: Flag to determine if apply artifacts can be triggered at the time of
+     fetching the document.
+    :vartype can_apply_artifacts: bool
+    :ivar provisioning_state_properties_provisioning_state: The provisioning status of the
+     resource.
+    :vartype provisioning_state_properties_provisioning_state: str
+    :ivar unique_identifier_properties_unique_identifier: The unique immutable identifier of a
+     resource (Guid).
+    :vartype unique_identifier_properties_unique_identifier: str
+    :ivar security_profile: Option to apply more security protection for VMs.
+    :vartype security_profile: ~azure.mgmt.devtestlabs.models.SecurityProfile
+    :ivar id_properties_applicable_schedule_id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id_properties_applicable_schedule_id: str
+    :ivar name_properties_applicable_schedule_name: The name of the resource.
+    :vartype name_properties_applicable_schedule_name: str
+    :ivar type_properties_applicable_schedule_type: The type of the resource. E.g.
+     "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+    :vartype type_properties_applicable_schedule_type: str
+    :ivar tags_properties_applicable_schedule_tags: Resource tags.
+    :vartype tags_properties_applicable_schedule_tags: dict[str, str]
+    :ivar location_properties_applicable_schedule_location: The geo-location where the resource
+     lives.
+    :vartype location_properties_applicable_schedule_location: str
+    :ivar system_data_properties_applicable_schedule_system_data: The system metadata relating to
+     this resource.
+    :vartype system_data_properties_applicable_schedule_system_data:
+     ~azure.mgmt.devtestlabs.models.SystemData
+    :ivar id_properties_applicable_schedule_properties_lab_vms_startup_id: Fully qualified resource
+     ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id_properties_applicable_schedule_properties_lab_vms_startup_id: str
+    :ivar name_properties_applicable_schedule_properties_lab_vms_startup_name: The name of the
+     resource.
+    :vartype name_properties_applicable_schedule_properties_lab_vms_startup_name: str
+    :ivar type_properties_applicable_schedule_properties_lab_vms_startup_type: The type of the
+     resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+    :vartype type_properties_applicable_schedule_properties_lab_vms_startup_type: str
+    :ivar tags_properties_applicable_schedule_properties_lab_vms_startup_tags: Resource tags.
+    :vartype tags_properties_applicable_schedule_properties_lab_vms_startup_tags: dict[str, str]
+    :ivar location_properties_applicable_schedule_properties_lab_vms_startup_location: The
+     geo-location where the resource lives.
+    :vartype location_properties_applicable_schedule_properties_lab_vms_startup_location: str
+    :ivar system_data_properties_applicable_schedule_properties_lab_vms_startup_system_data: The
+     system metadata relating to this resource.
+    :vartype system_data_properties_applicable_schedule_properties_lab_vms_startup_system_data:
+     ~azure.mgmt.devtestlabs.models.SystemData
+    :ivar status_properties_applicable_schedule_properties_lab_vms_startup_properties_status: The
+     status of the schedule (i.e. Enabled, Disabled). Known values are: "Enabled" and "Disabled".
+    :vartype status_properties_applicable_schedule_properties_lab_vms_startup_properties_status:
+     str or ~azure.mgmt.devtestlabs.models.EnableStatus
+    :ivar task_type_properties_applicable_schedule_properties_lab_vms_startup_properties_task_type:
+     The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
+    :vartype
+     task_type_properties_applicable_schedule_properties_lab_vms_startup_properties_task_type: str
+    :ivar
+     time_zone_id_properties_applicable_schedule_properties_lab_vms_startup_properties_time_zone_id:
+     The time zone ID (e.g. Pacific Standard time).
+    :vartype
+     time_zone_id_properties_applicable_schedule_properties_lab_vms_startup_properties_time_zone_id:
+     str
+    :ivar
+     created_date_properties_applicable_schedule_properties_lab_vms_startup_properties_created_date:
+     The creation date of the schedule.
+    :vartype
+     created_date_properties_applicable_schedule_properties_lab_vms_startup_properties_created_date:
+     ~datetime.datetime
+    :ivar
+     target_resource_id_properties_applicable_schedule_properties_lab_vms_startup_properties_target_resource_id:
+     The resource ID to which the schedule belongs.
+    :vartype
+     target_resource_id_properties_applicable_schedule_properties_lab_vms_startup_properties_target_resource_id:
+     str
+    :ivar
+     provisioning_state_properties_applicable_schedule_properties_lab_vms_startup_properties_provisioning_state:
+     The provisioning status of the resource.
+    :vartype
+     provisioning_state_properties_applicable_schedule_properties_lab_vms_startup_properties_provisioning_state:
+     str
+    :ivar
+     unique_identifier_properties_applicable_schedule_properties_lab_vms_startup_properties_unique_identifier:
+     The unique immutable identifier of a resource (Guid).
+    :vartype
+     unique_identifier_properties_applicable_schedule_properties_lab_vms_startup_properties_unique_identifier:
+     str
+    :ivar
+     status_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_status:
+     If notifications are enabled for this schedule (i.e. Enabled, Disabled). Known values are:
+     "Enabled" and "Disabled".
+    :vartype
+     status_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_status:
+     str or ~azure.mgmt.devtestlabs.models.EnableStatus
+    :ivar
+     time_in_minutes_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_time_in_minutes:
+     Time in minutes before event at which notification will be sent.
+    :vartype
+     time_in_minutes_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_time_in_minutes:
+     int
+    :ivar
+     webhook_url_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_webhook_url:
+     The webhook URL to which the notification will be sent.
+    :vartype
+     webhook_url_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_webhook_url:
+     str
+    :ivar
+     email_recipient_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_email_recipient:
+     The email recipient to send notifications to (can be a list of semi-colon separated email
+     addresses).
+    :vartype
+     email_recipient_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_email_recipient:
+     str
+    :ivar
+     notification_locale_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_notification_locale:
+     The locale to use when sending a notification (fallback for unsupported languages is EN).
+    :vartype
+     notification_locale_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_notification_locale:
+     str
+    :ivar
+     minute_properties_applicable_schedule_properties_lab_vms_startup_properties_hourly_recurrence_minute:
+     Minutes of the hour the schedule will run.
+    :vartype
+     minute_properties_applicable_schedule_properties_lab_vms_startup_properties_hourly_recurrence_minute:
+     int
+    :ivar
+     time_properties_applicable_schedule_properties_lab_vms_startup_properties_daily_recurrence_time:
+     The time of day the schedule will occur.
+    :vartype
+     time_properties_applicable_schedule_properties_lab_vms_startup_properties_daily_recurrence_time:
+     str
+    :ivar
+     weekdays_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_weekdays:
+     The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
+    :vartype
+     weekdays_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_weekdays:
+     list[str]
+    :ivar
+     time_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_time:
+     The time of the day the schedule will occur.
+    :vartype
+     time_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_time:
+     str
+    :ivar id_properties_applicable_schedule_properties_lab_vms_shutdown_id: Fully qualified
+     resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id_properties_applicable_schedule_properties_lab_vms_shutdown_id: str
+    :ivar name_properties_applicable_schedule_properties_lab_vms_shutdown_name: The name of the
+     resource.
+    :vartype name_properties_applicable_schedule_properties_lab_vms_shutdown_name: str
+    :ivar type_properties_applicable_schedule_properties_lab_vms_shutdown_type: The type of the
+     resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+    :vartype type_properties_applicable_schedule_properties_lab_vms_shutdown_type: str
+    :ivar tags_properties_applicable_schedule_properties_lab_vms_shutdown_tags: Resource tags.
+    :vartype tags_properties_applicable_schedule_properties_lab_vms_shutdown_tags: dict[str, str]
+    :ivar location_properties_applicable_schedule_properties_lab_vms_shutdown_location: The
+     geo-location where the resource lives.
+    :vartype location_properties_applicable_schedule_properties_lab_vms_shutdown_location: str
+    :ivar system_data_properties_applicable_schedule_properties_lab_vms_shutdown_system_data: The
+     system metadata relating to this resource.
+    :vartype system_data_properties_applicable_schedule_properties_lab_vms_shutdown_system_data:
+     ~azure.mgmt.devtestlabs.models.SystemData
+    :ivar status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_status: The
+     status of the schedule (i.e. Enabled, Disabled). Known values are: "Enabled" and "Disabled".
+    :vartype status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_status:
+     str or ~azure.mgmt.devtestlabs.models.EnableStatus
+    :ivar
+     task_type_properties_applicable_schedule_properties_lab_vms_shutdown_properties_task_type: The
+     task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
+    :vartype
+     task_type_properties_applicable_schedule_properties_lab_vms_shutdown_properties_task_type: str
+    :ivar
+     time_zone_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_time_zone_id:
+     The time zone ID (e.g. Pacific Standard time).
+    :vartype
+     time_zone_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_time_zone_id:
+     str
+    :ivar
+     created_date_properties_applicable_schedule_properties_lab_vms_shutdown_properties_created_date:
+     The creation date of the schedule.
+    :vartype
+     created_date_properties_applicable_schedule_properties_lab_vms_shutdown_properties_created_date:
+     ~datetime.datetime
+    :ivar
+     target_resource_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_target_resource_id:
+     The resource ID to which the schedule belongs.
+    :vartype
+     target_resource_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_target_resource_id:
+     str
+    :ivar
+     provisioning_state_properties_applicable_schedule_properties_lab_vms_shutdown_properties_provisioning_state:
+     The provisioning status of the resource.
+    :vartype
+     provisioning_state_properties_applicable_schedule_properties_lab_vms_shutdown_properties_provisioning_state:
+     str
+    :ivar
+     unique_identifier_properties_applicable_schedule_properties_lab_vms_shutdown_properties_unique_identifier:
+     The unique immutable identifier of a resource (Guid).
+    :vartype
+     unique_identifier_properties_applicable_schedule_properties_lab_vms_shutdown_properties_unique_identifier:
+     str
+    :ivar
+     status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_status:
+     If notifications are enabled for this schedule (i.e. Enabled, Disabled). Known values are:
+     "Enabled" and "Disabled".
+    :vartype
+     status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_status:
+     str or ~azure.mgmt.devtestlabs.models.EnableStatus
+    :ivar
+     time_in_minutes_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes:
+     Time in minutes before event at which notification will be sent.
+    :vartype
+     time_in_minutes_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes:
+     int
+    :ivar
+     webhook_url_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_webhook_url:
+     The webhook URL to which the notification will be sent.
+    :vartype
+     webhook_url_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_webhook_url:
+     str
+    :ivar
+     email_recipient_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_email_recipient:
+     The email recipient to send notifications to (can be a list of semi-colon separated email
+     addresses).
+    :vartype
+     email_recipient_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_email_recipient:
+     str
+    :ivar
+     notification_locale_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_notification_locale:
+     The locale to use when sending a notification (fallback for unsupported languages is EN).
+    :vartype
+     notification_locale_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_notification_locale:
+     str
+    :ivar
+     minute_properties_applicable_schedule_properties_lab_vms_shutdown_properties_hourly_recurrence_minute:
+     Minutes of the hour the schedule will run.
+    :vartype
+     minute_properties_applicable_schedule_properties_lab_vms_shutdown_properties_hourly_recurrence_minute:
+     int
+    :ivar
+     time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_daily_recurrence_time:
+     The time of day the schedule will occur.
+    :vartype
+     time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_daily_recurrence_time:
+     str
+    :ivar
+     weekdays_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays:
+     The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
+    :vartype
+     weekdays_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays:
+     list[str]
+    :ivar
+     time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_time:
+     The time of the day the schedule will occur.
+    :vartype
+     time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_time:
+     str
+    :ivar virtual_network_id: The resource ID of the virtual network.
+    :vartype virtual_network_id: str
+    :ivar subnet_id: The resource ID of the sub net.
+    :vartype subnet_id: str
+    :ivar public_ip_address_id: The resource ID of the public IP address.
+    :vartype public_ip_address_id: str
+    :ivar public_ip_address: The public IP address.
+    :vartype public_ip_address: str
+    :ivar private_ip_address: The private IP address.
+    :vartype private_ip_address: str
+    :ivar dns_name: The DNS name.
+    :vartype dns_name: str
+    :ivar rdp_authority: The RdpAuthority property is a server DNS host name or IP address followed
+     by the service port number for RDP (Remote Desktop Protocol).
+    :vartype rdp_authority: str
+    :ivar ssh_authority: The SshAuthority property is a server DNS host name or IP address followed
+     by the service port number for SSH.
+    :vartype ssh_authority: str
+    :ivar inbound_nat_rules: The incoming NAT rules.
+    :vartype inbound_nat_rules: list[~azure.mgmt.devtestlabs.models.InboundNatRule]
+    :ivar statuses: Gets the statuses of the virtual machine.
+    :vartype statuses: list[~azure.mgmt.devtestlabs.models.ComputeVmInstanceViewStatus]
+    :ivar os_type_properties_compute_vm_os_type: Gets the OS type of the virtual machine.
+    :vartype os_type_properties_compute_vm_os_type: str
+    :ivar vm_size: Gets the size of the virtual machine.
+    :vartype vm_size: str
+    :ivar network_interface_id: Gets the network interface ID of the virtual machine.
+    :vartype network_interface_id: str
+    :ivar os_disk_id: Gets OS disk blob uri for the virtual machine.
+    :vartype os_disk_id: str
+    :ivar data_disk_ids: Gets data disks blob uri for the virtual machine.
+    :vartype data_disk_ids: list[str]
+    :ivar data_disks: Gets all data disks attached to the virtual machine.
+    :vartype data_disks: list[~azure.mgmt.devtestlabs.models.ComputeDataDisk]
+    :ivar offer: The offer of the gallery image.
+    :vartype offer: str
+    :ivar publisher: The publisher of the gallery image.
+    :vartype publisher: str
+    :ivar sku: The SKU of the gallery image.
+    :vartype sku: str
+    :ivar os_type_properties_gallery_image_reference_os_type: The OS type of the gallery image.
+    :vartype os_type_properties_gallery_image_reference_os_type: str
+    :ivar version: The version of the gallery image.
+    :vartype version: str
+    :ivar deployment_status: The deployment status of the artifact.
+    :vartype deployment_status: str
+    :ivar artifacts_applied: The total count of the artifacts that were successfully applied.
+    :vartype artifacts_applied: int
+    :ivar total_artifacts: The total count of the artifacts that were tentatively applied.
+    :vartype total_artifacts: int
+    :ivar instance_count: The number of virtual machine instances to create.
+    :vartype instance_count: int
+    """
+
+    _validation = {
+        "created_by_user_id": {"readonly": True},
+        "created_by_user": {"readonly": True},
+        "compute_id": {"readonly": True},
+        "os_type_properties_os_type": {"readonly": True},
+        "fqdn": {"readonly": True},
+        "virtual_machine_creation_source": {"readonly": True},
+        "last_known_power_state": {"readonly": True},
+        "can_apply_artifacts": {"readonly": True},
+        "provisioning_state_properties_provisioning_state": {"readonly": True},
+        "unique_identifier_properties_unique_identifier": {"readonly": True},
+        "id_properties_applicable_schedule_id": {"readonly": True},
+        "name_properties_applicable_schedule_name": {"readonly": True},
+        "type_properties_applicable_schedule_type": {"readonly": True},
+        "system_data_properties_applicable_schedule_system_data": {"readonly": True},
+        "id_properties_applicable_schedule_properties_lab_vms_startup_id": {"readonly": True},
+        "name_properties_applicable_schedule_properties_lab_vms_startup_name": {"readonly": True},
+        "type_properties_applicable_schedule_properties_lab_vms_startup_type": {"readonly": True},
+        "system_data_properties_applicable_schedule_properties_lab_vms_startup_system_data": {"readonly": True},
+        "created_date_properties_applicable_schedule_properties_lab_vms_startup_properties_created_date": {
+            "readonly": True
+        },
+        "provisioning_state_properties_applicable_schedule_properties_lab_vms_startup_properties_provisioning_state": {
+            "readonly": True
+        },
+        "unique_identifier_properties_applicable_schedule_properties_lab_vms_startup_properties_unique_identifier": {
+            "readonly": True
+        },
+        "id_properties_applicable_schedule_properties_lab_vms_shutdown_id": {"readonly": True},
+        "name_properties_applicable_schedule_properties_lab_vms_shutdown_name": {"readonly": True},
+        "type_properties_applicable_schedule_properties_lab_vms_shutdown_type": {"readonly": True},
+        "system_data_properties_applicable_schedule_properties_lab_vms_shutdown_system_data": {"readonly": True},
+        "created_date_properties_applicable_schedule_properties_lab_vms_shutdown_properties_created_date": {
+            "readonly": True
+        },
+        "provisioning_state_properties_applicable_schedule_properties_lab_vms_shutdown_properties_provisioning_state": {
+            "readonly": True
+        },
+        "unique_identifier_properties_applicable_schedule_properties_lab_vms_shutdown_properties_unique_identifier": {
+            "readonly": True
+        },
+    }
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "location": {"key": "location", "type": "str"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "notes": {"key": "properties.notes", "type": "str"},
+        "owner_object_id": {"key": "properties.ownerObjectId", "type": "str"},
+        "owner_user_principal_name": {"key": "properties.ownerUserPrincipalName", "type": "str"},
+        "created_by_user_id": {"key": "properties.createdByUserId", "type": "str"},
+        "created_by_user": {"key": "properties.createdByUser", "type": "str"},
+        "created_date_properties_created_date": {"key": "properties.createdDate", "type": "iso-8601"},
+        "compute_id": {"key": "properties.computeId", "type": "str"},
+        "custom_image_id": {"key": "properties.customImageId", "type": "str"},
+        "gallery_image_version_id": {"key": "properties.galleryImageVersionId", "type": "str"},
+        "shared_image_id": {"key": "properties.sharedImageId", "type": "str"},
+        "shared_image_version": {"key": "properties.sharedImageVersion", "type": "str"},
+        "os_type_properties_os_type": {"key": "properties.osType", "type": "str"},
+        "size": {"key": "properties.size", "type": "str"},
+        "user_name": {"key": "properties.userName", "type": "str"},
+        "password": {"key": "properties.password", "type": "str"},
+        "ssh_key": {"key": "properties.sshKey", "type": "str"},
+        "is_authentication_with_ssh_key": {"key": "properties.isAuthenticationWithSshKey", "type": "bool"},
+        "fqdn": {"key": "properties.fqdn", "type": "str"},
+        "lab_subnet_name": {"key": "properties.labSubnetName", "type": "str"},
+        "lab_virtual_network_id": {"key": "properties.labVirtualNetworkId", "type": "str"},
+        "disallow_public_ip_address": {"key": "properties.disallowPublicIpAddress", "type": "bool"},
+        "artifacts": {"key": "properties.artifacts", "type": "[ArtifactInstallProperties]"},
+        "plan_id": {"key": "properties.planId", "type": "str"},
+        "os_disk_size_gb": {"key": "properties.osDiskSizeGb", "type": "int"},
+        "expiration_date": {"key": "properties.expirationDate", "type": "iso-8601"},
+        "allow_claim": {"key": "properties.allowClaim", "type": "bool"},
+        "storage_type": {"key": "properties.storageType", "type": "str"},
+        "virtual_machine_creation_source": {"key": "properties.virtualMachineCreationSource", "type": "str"},
+        "environment_id": {"key": "properties.environmentId", "type": "str"},
+        "data_disk_parameters": {"key": "properties.dataDiskParameters", "type": "[DataDiskProperties]"},
+        "schedule_parameters": {"key": "properties.scheduleParameters", "type": "[ScheduleCreationParameter]"},
+        "last_known_power_state": {"key": "properties.lastKnownPowerState", "type": "str"},
+        "can_apply_artifacts": {"key": "properties.canApplyArtifacts", "type": "bool"},
+        "provisioning_state_properties_provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "unique_identifier_properties_unique_identifier": {"key": "properties.uniqueIdentifier", "type": "str"},
+        "security_profile": {"key": "properties.securityProfile", "type": "SecurityProfile"},
+        "id_properties_applicable_schedule_id": {"key": "properties.applicableSchedule.id", "type": "str"},
+        "name_properties_applicable_schedule_name": {"key": "properties.applicableSchedule.name", "type": "str"},
+        "type_properties_applicable_schedule_type": {"key": "properties.applicableSchedule.type", "type": "str"},
+        "tags_properties_applicable_schedule_tags": {"key": "properties.applicableSchedule.tags", "type": "{str}"},
+        "location_properties_applicable_schedule_location": {
+            "key": "properties.applicableSchedule.location",
+            "type": "str",
+        },
+        "system_data_properties_applicable_schedule_system_data": {
+            "key": "properties.applicableSchedule.systemData",
+            "type": "SystemData",
+        },
+        "id_properties_applicable_schedule_properties_lab_vms_startup_id": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.id",
+            "type": "str",
+        },
+        "name_properties_applicable_schedule_properties_lab_vms_startup_name": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.name",
+            "type": "str",
+        },
+        "type_properties_applicable_schedule_properties_lab_vms_startup_type": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.type",
+            "type": "str",
+        },
+        "tags_properties_applicable_schedule_properties_lab_vms_startup_tags": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.tags",
+            "type": "{str}",
+        },
+        "location_properties_applicable_schedule_properties_lab_vms_startup_location": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.location",
+            "type": "str",
+        },
+        "system_data_properties_applicable_schedule_properties_lab_vms_startup_system_data": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.systemData",
+            "type": "SystemData",
+        },
+        "status_properties_applicable_schedule_properties_lab_vms_startup_properties_status": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.status",
+            "type": "str",
+        },
+        "task_type_properties_applicable_schedule_properties_lab_vms_startup_properties_task_type": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.taskType",
+            "type": "str",
+        },
+        "time_zone_id_properties_applicable_schedule_properties_lab_vms_startup_properties_time_zone_id": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.timeZoneId",
+            "type": "str",
+        },
+        "created_date_properties_applicable_schedule_properties_lab_vms_startup_properties_created_date": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.createdDate",
+            "type": "iso-8601",
+        },
+        "target_resource_id_properties_applicable_schedule_properties_lab_vms_startup_properties_target_resource_id": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.targetResourceId",
+            "type": "str",
+        },
+        "provisioning_state_properties_applicable_schedule_properties_lab_vms_startup_properties_provisioning_state": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.provisioningState",
+            "type": "str",
+        },
+        "unique_identifier_properties_applicable_schedule_properties_lab_vms_startup_properties_unique_identifier": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.uniqueIdentifier",
+            "type": "str",
+        },
+        "status_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_status": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.status",
+            "type": "str",
+        },
+        "time_in_minutes_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_time_in_minutes": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.timeInMinutes",
+            "type": "int",
+        },
+        "webhook_url_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_webhook_url": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.webhookUrl",
+            "type": "str",
+        },
+        "email_recipient_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_email_recipient": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.emailRecipient",
+            "type": "str",
+        },
+        "notification_locale_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_notification_locale": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.notificationLocale",
+            "type": "str",
+        },
+        "minute_properties_applicable_schedule_properties_lab_vms_startup_properties_hourly_recurrence_minute": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.hourlyRecurrence.minute",
+            "type": "int",
+        },
+        "time_properties_applicable_schedule_properties_lab_vms_startup_properties_daily_recurrence_time": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.dailyRecurrence.time",
+            "type": "str",
+        },
+        "weekdays_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_weekdays": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.weeklyRecurrence.weekdays",
+            "type": "[str]",
+        },
+        "time_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_time": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.weeklyRecurrence.time",
+            "type": "str",
+        },
+        "id_properties_applicable_schedule_properties_lab_vms_shutdown_id": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.id",
+            "type": "str",
+        },
+        "name_properties_applicable_schedule_properties_lab_vms_shutdown_name": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.name",
+            "type": "str",
+        },
+        "type_properties_applicable_schedule_properties_lab_vms_shutdown_type": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.type",
+            "type": "str",
+        },
+        "tags_properties_applicable_schedule_properties_lab_vms_shutdown_tags": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.tags",
+            "type": "{str}",
+        },
+        "location_properties_applicable_schedule_properties_lab_vms_shutdown_location": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.location",
+            "type": "str",
+        },
+        "system_data_properties_applicable_schedule_properties_lab_vms_shutdown_system_data": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.systemData",
+            "type": "SystemData",
+        },
+        "status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_status": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.status",
+            "type": "str",
+        },
+        "task_type_properties_applicable_schedule_properties_lab_vms_shutdown_properties_task_type": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.taskType",
+            "type": "str",
+        },
+        "time_zone_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_time_zone_id": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.timeZoneId",
+            "type": "str",
+        },
+        "created_date_properties_applicable_schedule_properties_lab_vms_shutdown_properties_created_date": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.createdDate",
+            "type": "iso-8601",
+        },
+        "target_resource_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_target_resource_id": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.targetResourceId",
+            "type": "str",
+        },
+        "provisioning_state_properties_applicable_schedule_properties_lab_vms_shutdown_properties_provisioning_state": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.provisioningState",
+            "type": "str",
+        },
+        "unique_identifier_properties_applicable_schedule_properties_lab_vms_shutdown_properties_unique_identifier": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.uniqueIdentifier",
+            "type": "str",
+        },
+        "status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_status": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.status",
+            "type": "str",
+        },
+        "time_in_minutes_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.timeInMinutes",
+            "type": "int",
+        },
+        "webhook_url_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_webhook_url": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.webhookUrl",
+            "type": "str",
+        },
+        "email_recipient_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_email_recipient": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.emailRecipient",
+            "type": "str",
+        },
+        "notification_locale_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_notification_locale": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.notificationLocale",
+            "type": "str",
+        },
+        "minute_properties_applicable_schedule_properties_lab_vms_shutdown_properties_hourly_recurrence_minute": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.hourlyRecurrence.minute",
+            "type": "int",
+        },
+        "time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_daily_recurrence_time": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.dailyRecurrence.time",
+            "type": "str",
+        },
+        "weekdays_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.weeklyRecurrence.weekdays",
+            "type": "[str]",
+        },
+        "time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_time": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.weeklyRecurrence.time",
+            "type": "str",
+        },
+        "virtual_network_id": {"key": "properties.networkInterface.virtualNetworkId", "type": "str"},
+        "subnet_id": {"key": "properties.networkInterface.subnetId", "type": "str"},
+        "public_ip_address_id": {"key": "properties.networkInterface.publicIpAddressId", "type": "str"},
+        "public_ip_address": {"key": "properties.networkInterface.publicIpAddress", "type": "str"},
+        "private_ip_address": {"key": "properties.networkInterface.privateIpAddress", "type": "str"},
+        "dns_name": {"key": "properties.networkInterface.dnsName", "type": "str"},
+        "rdp_authority": {"key": "properties.networkInterface.rdpAuthority", "type": "str"},
+        "ssh_authority": {"key": "properties.networkInterface.sshAuthority", "type": "str"},
+        "inbound_nat_rules": {
+            "key": "properties.networkInterface.sharedPublicIpAddressConfiguration.inboundNatRules",
+            "type": "[InboundNatRule]",
+        },
+        "statuses": {"key": "properties.computeVm.statuses", "type": "[ComputeVmInstanceViewStatus]"},
+        "os_type_properties_compute_vm_os_type": {"key": "properties.computeVm.osType", "type": "str"},
+        "vm_size": {"key": "properties.computeVm.vmSize", "type": "str"},
+        "network_interface_id": {"key": "properties.computeVm.networkInterfaceId", "type": "str"},
+        "os_disk_id": {"key": "properties.computeVm.osDiskId", "type": "str"},
+        "data_disk_ids": {"key": "properties.computeVm.dataDiskIds", "type": "[str]"},
+        "data_disks": {"key": "properties.computeVm.dataDisks", "type": "[ComputeDataDisk]"},
+        "offer": {"key": "properties.galleryImageReference.offer", "type": "str"},
+        "publisher": {"key": "properties.galleryImageReference.publisher", "type": "str"},
+        "sku": {"key": "properties.galleryImageReference.sku", "type": "str"},
+        "os_type_properties_gallery_image_reference_os_type": {
+            "key": "properties.galleryImageReference.osType",
+            "type": "str",
+        },
+        "version": {"key": "properties.galleryImageReference.version", "type": "str"},
+        "deployment_status": {"key": "properties.artifactDeploymentStatus.deploymentStatus", "type": "str"},
+        "artifacts_applied": {"key": "properties.artifactDeploymentStatus.artifactsApplied", "type": "int"},
+        "total_artifacts": {"key": "properties.artifactDeploymentStatus.totalArtifacts", "type": "int"},
+        "instance_count": {"key": "properties.bulkCreationParameters.instanceCount", "type": "int"},
+    }
+
+    def __init__(  # pylint: disable=too-many-locals
+        self,
+        *,
+        name: Optional[str] = None,
+        location: Optional[str] = None,
+        tags: Optional[Dict[str, str]] = None,
+        notes: Optional[str] = None,
+        owner_object_id: str = "dynamicValue",
+        owner_user_principal_name: Optional[str] = None,
+        created_date_properties_created_date: Optional[datetime.datetime] = None,
+        custom_image_id: Optional[str] = None,
+        gallery_image_version_id: Optional[str] = None,
+        shared_image_id: Optional[str] = None,
+        shared_image_version: Optional[str] = None,
+        size: Optional[str] = None,
+        user_name: Optional[str] = None,
+        password: Optional[str] = None,
+        ssh_key: Optional[str] = None,
+        is_authentication_with_ssh_key: Optional[bool] = None,
+        lab_subnet_name: Optional[str] = None,
+        lab_virtual_network_id: Optional[str] = None,
+        disallow_public_ip_address: bool = False,
+        artifacts: Optional[List["_models.ArtifactInstallProperties"]] = None,
+        plan_id: Optional[str] = None,
+        os_disk_size_gb: Optional[int] = None,
+        expiration_date: Optional[datetime.datetime] = None,
+        allow_claim: bool = False,
+        storage_type: Optional[Union[str, "_models.StorageType"]] = None,
+        environment_id: Optional[str] = None,
+        data_disk_parameters: Optional[List["_models.DataDiskProperties"]] = None,
+        schedule_parameters: Optional[List["_models.ScheduleCreationParameter"]] = None,
+        security_profile: Optional["_models.SecurityProfile"] = None,
+        tags_properties_applicable_schedule_tags: Optional[Dict[str, str]] = None,
+        location_properties_applicable_schedule_location: Optional[str] = None,
+        tags_properties_applicable_schedule_properties_lab_vms_startup_tags: Optional[Dict[str, str]] = None,
+        location_properties_applicable_schedule_properties_lab_vms_startup_location: Optional[str] = None,
+        status_properties_applicable_schedule_properties_lab_vms_startup_properties_status: Optional[
+            Union[str, "_models.EnableStatus"]
+        ] = None,
+        task_type_properties_applicable_schedule_properties_lab_vms_startup_properties_task_type: Optional[str] = None,
+        time_zone_id_properties_applicable_schedule_properties_lab_vms_startup_properties_time_zone_id: Optional[
+            str
+        ] = None,
+        target_resource_id_properties_applicable_schedule_properties_lab_vms_startup_properties_target_resource_id: Optional[
+            str
+        ] = None,
+        status_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_status: Optional[
+            Union[str, "_models.EnableStatus"]
+        ] = None,
+        time_in_minutes_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_time_in_minutes: Optional[
+            int
+        ] = None,
+        webhook_url_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_webhook_url: Optional[
+            str
+        ] = None,
+        email_recipient_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_email_recipient: Optional[
+            str
+        ] = None,
+        notification_locale_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_notification_locale: Optional[
+            str
+        ] = None,
+        minute_properties_applicable_schedule_properties_lab_vms_startup_properties_hourly_recurrence_minute: Optional[
+            int
+        ] = None,
+        time_properties_applicable_schedule_properties_lab_vms_startup_properties_daily_recurrence_time: Optional[
+            str
+        ] = None,
+        weekdays_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_weekdays: Optional[
+            List[str]
+        ] = None,
+        time_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_time: Optional[
+            str
+        ] = None,
+        tags_properties_applicable_schedule_properties_lab_vms_shutdown_tags: Optional[Dict[str, str]] = None,
+        location_properties_applicable_schedule_properties_lab_vms_shutdown_location: Optional[str] = None,
+        status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_status: Optional[
+            Union[str, "_models.EnableStatus"]
+        ] = None,
+        task_type_properties_applicable_schedule_properties_lab_vms_shutdown_properties_task_type: Optional[str] = None,
+        time_zone_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_time_zone_id: Optional[
+            str
+        ] = None,
+        target_resource_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_target_resource_id: Optional[
+            str
+        ] = None,
+        status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_status: Optional[
+            Union[str, "_models.EnableStatus"]
+        ] = None,
+        time_in_minutes_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes: Optional[
+            int
+        ] = None,
+        webhook_url_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_webhook_url: Optional[
+            str
+        ] = None,
+        email_recipient_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_email_recipient: Optional[
+            str
+        ] = None,
+        notification_locale_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_notification_locale: Optional[
+            str
+        ] = None,
+        minute_properties_applicable_schedule_properties_lab_vms_shutdown_properties_hourly_recurrence_minute: Optional[
+            int
+        ] = None,
+        time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_daily_recurrence_time: Optional[
+            str
+        ] = None,
+        weekdays_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays: Optional[
+            List[str]
+        ] = None,
+        time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_time: Optional[
+            str
+        ] = None,
+        virtual_network_id: Optional[str] = None,
+        subnet_id: Optional[str] = None,
+        public_ip_address_id: Optional[str] = None,
+        public_ip_address: Optional[str] = None,
+        private_ip_address: Optional[str] = None,
+        dns_name: Optional[str] = None,
+        rdp_authority: Optional[str] = None,
+        ssh_authority: Optional[str] = None,
+        inbound_nat_rules: Optional[List["_models.InboundNatRule"]] = None,
+        statuses: Optional[List["_models.ComputeVmInstanceViewStatus"]] = None,
+        os_type_properties_compute_vm_os_type: Optional[str] = None,
+        vm_size: Optional[str] = None,
+        network_interface_id: Optional[str] = None,
+        os_disk_id: Optional[str] = None,
+        data_disk_ids: Optional[List[str]] = None,
+        data_disks: Optional[List["_models.ComputeDataDisk"]] = None,
+        offer: Optional[str] = None,
+        publisher: Optional[str] = None,
+        sku: Optional[str] = None,
+        os_type_properties_gallery_image_reference_os_type: Optional[str] = None,
+        version: Optional[str] = None,
+        deployment_status: Optional[str] = None,
+        artifacts_applied: Optional[int] = None,
+        total_artifacts: Optional[int] = None,
+        instance_count: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword name: The name of the virtual machine or environment.
+        :paramtype name: str
+        :keyword location: The location of the new virtual machine or environment.
+        :paramtype location: str
+        :keyword tags: The tags of the resource.
+        :paramtype tags: dict[str, str]
+        :keyword notes: The notes of the virtual machine.
+        :paramtype notes: str
+        :keyword owner_object_id: The object identifier of the owner of the virtual machine.
+        :paramtype owner_object_id: str
+        :keyword owner_user_principal_name: The user principal name of the virtual machine owner.
+        :paramtype owner_user_principal_name: str
+        :keyword created_date_properties_created_date: The creation date of the virtual machine.
+        :paramtype created_date_properties_created_date: ~datetime.datetime
+        :keyword custom_image_id: The custom image identifier of the virtual machine.
+        :paramtype custom_image_id: str
+        :keyword gallery_image_version_id: The shared gallery image version resource identifier of the
+         virtual machine.
+        :paramtype gallery_image_version_id: str
+        :keyword shared_image_id: The shared image resource identifier of the virtual machine.
+        :paramtype shared_image_id: str
+        :keyword shared_image_version: The shared image version for the specified shared image Id. Will
+         use latest if not specified.
+        :paramtype shared_image_version: str
+        :keyword size: The size of the virtual machine.
+        :paramtype size: str
+        :keyword user_name: The user name of the virtual machine.
+        :paramtype user_name: str
+        :keyword password: The password of the virtual machine administrator.
+        :paramtype password: str
+        :keyword ssh_key: The SSH key of the virtual machine administrator.
+        :paramtype ssh_key: str
+        :keyword is_authentication_with_ssh_key: Indicates whether this virtual machine uses an SSH key
+         for authentication.
+        :paramtype is_authentication_with_ssh_key: bool
+        :keyword lab_subnet_name: The lab subnet name of the virtual machine.
+        :paramtype lab_subnet_name: str
+        :keyword lab_virtual_network_id: The lab virtual network identifier of the virtual machine.
+        :paramtype lab_virtual_network_id: str
+        :keyword disallow_public_ip_address: Indicates whether the virtual machine is to be created
+         without a public IP address.
+        :paramtype disallow_public_ip_address: bool
+        :keyword artifacts: The artifacts to be installed on the virtual machine.
+        :paramtype artifacts: list[~azure.mgmt.devtestlabs.models.ArtifactInstallProperties]
+        :keyword plan_id: The id of the plan associated with the virtual machine image.
+        :paramtype plan_id: str
+        :keyword os_disk_size_gb: Specifies the size of an empty data disk in gigabytes. This element
+         can be used to overwrite the size of the disk in a virtual machine image.
+        :paramtype os_disk_size_gb: int
+        :keyword expiration_date: The expiration date for VM.
+        :paramtype expiration_date: ~datetime.datetime
+        :keyword allow_claim: Indicates whether another user can take ownership of the virtual machine.
+        :paramtype allow_claim: bool
+        :keyword storage_type: Storage type to use for virtual machine (i.e. Standard, Premium,
+         StandardSSD). Known values are: "Standard", "Premium", and "StandardSSD".
+        :paramtype storage_type: str or ~azure.mgmt.devtestlabs.models.StorageType
+        :keyword environment_id: The resource ID of the environment that contains this virtual machine,
+         if any.
+        :paramtype environment_id: str
+        :keyword data_disk_parameters: New or existing data disks to attach to the virtual machine
+         after creation.
+        :paramtype data_disk_parameters: list[~azure.mgmt.devtestlabs.models.DataDiskProperties]
+        :keyword schedule_parameters: Virtual Machine schedules to be created.
+        :paramtype schedule_parameters: list[~azure.mgmt.devtestlabs.models.ScheduleCreationParameter]
+        :keyword security_profile: Option to apply more security protection for VMs.
+        :paramtype security_profile: ~azure.mgmt.devtestlabs.models.SecurityProfile
+        :keyword tags_properties_applicable_schedule_tags: Resource tags.
+        :paramtype tags_properties_applicable_schedule_tags: dict[str, str]
+        :keyword location_properties_applicable_schedule_location: The geo-location where the resource
+         lives.
+        :paramtype location_properties_applicable_schedule_location: str
+        :keyword tags_properties_applicable_schedule_properties_lab_vms_startup_tags: Resource tags.
+        :paramtype tags_properties_applicable_schedule_properties_lab_vms_startup_tags: dict[str, str]
+        :keyword location_properties_applicable_schedule_properties_lab_vms_startup_location: The
+         geo-location where the resource lives.
+        :paramtype location_properties_applicable_schedule_properties_lab_vms_startup_location: str
+        :keyword status_properties_applicable_schedule_properties_lab_vms_startup_properties_status:
+         The status of the schedule (i.e. Enabled, Disabled). Known values are: "Enabled" and
+         "Disabled".
+        :paramtype status_properties_applicable_schedule_properties_lab_vms_startup_properties_status:
+         str or ~azure.mgmt.devtestlabs.models.EnableStatus
+        :keyword
+         task_type_properties_applicable_schedule_properties_lab_vms_startup_properties_task_type: The
+         task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
+        :paramtype
+         task_type_properties_applicable_schedule_properties_lab_vms_startup_properties_task_type: str
+        :keyword
+         time_zone_id_properties_applicable_schedule_properties_lab_vms_startup_properties_time_zone_id:
+         The time zone ID (e.g. Pacific Standard time).
+        :paramtype
+         time_zone_id_properties_applicable_schedule_properties_lab_vms_startup_properties_time_zone_id:
+         str
+        :keyword
+         target_resource_id_properties_applicable_schedule_properties_lab_vms_startup_properties_target_resource_id:
+         The resource ID to which the schedule belongs.
+        :paramtype
+         target_resource_id_properties_applicable_schedule_properties_lab_vms_startup_properties_target_resource_id:
+         str
+        :keyword
+         status_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_status:
+         If notifications are enabled for this schedule (i.e. Enabled, Disabled). Known values are:
+         "Enabled" and "Disabled".
+        :paramtype
+         status_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_status:
+         str or ~azure.mgmt.devtestlabs.models.EnableStatus
+        :keyword
+         time_in_minutes_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_time_in_minutes:
+         Time in minutes before event at which notification will be sent.
+        :paramtype
+         time_in_minutes_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_time_in_minutes:
+         int
+        :keyword
+         webhook_url_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_webhook_url:
+         The webhook URL to which the notification will be sent.
+        :paramtype
+         webhook_url_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_webhook_url:
+         str
+        :keyword
+         email_recipient_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_email_recipient:
+         The email recipient to send notifications to (can be a list of semi-colon separated email
+         addresses).
+        :paramtype
+         email_recipient_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_email_recipient:
+         str
+        :keyword
+         notification_locale_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_notification_locale:
+         The locale to use when sending a notification (fallback for unsupported languages is EN).
+        :paramtype
+         notification_locale_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_notification_locale:
+         str
+        :keyword
+         minute_properties_applicable_schedule_properties_lab_vms_startup_properties_hourly_recurrence_minute:
+         Minutes of the hour the schedule will run.
+        :paramtype
+         minute_properties_applicable_schedule_properties_lab_vms_startup_properties_hourly_recurrence_minute:
+         int
+        :keyword
+         time_properties_applicable_schedule_properties_lab_vms_startup_properties_daily_recurrence_time:
+         The time of day the schedule will occur.
+        :paramtype
+         time_properties_applicable_schedule_properties_lab_vms_startup_properties_daily_recurrence_time:
+         str
+        :keyword
+         weekdays_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_weekdays:
+         The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
+        :paramtype
+         weekdays_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_weekdays:
+         list[str]
+        :keyword
+         time_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_time:
+         The time of the day the schedule will occur.
+        :paramtype
+         time_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_time:
+         str
+        :keyword tags_properties_applicable_schedule_properties_lab_vms_shutdown_tags: Resource tags.
+        :paramtype tags_properties_applicable_schedule_properties_lab_vms_shutdown_tags: dict[str, str]
+        :keyword location_properties_applicable_schedule_properties_lab_vms_shutdown_location: The
+         geo-location where the resource lives.
+        :paramtype location_properties_applicable_schedule_properties_lab_vms_shutdown_location: str
+        :keyword status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_status:
+         The status of the schedule (i.e. Enabled, Disabled). Known values are: "Enabled" and
+         "Disabled".
+        :paramtype status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_status:
+         str or ~azure.mgmt.devtestlabs.models.EnableStatus
+        :keyword
+         task_type_properties_applicable_schedule_properties_lab_vms_shutdown_properties_task_type: The
+         task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
+        :paramtype
+         task_type_properties_applicable_schedule_properties_lab_vms_shutdown_properties_task_type: str
+        :keyword
+         time_zone_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_time_zone_id:
+         The time zone ID (e.g. Pacific Standard time).
+        :paramtype
+         time_zone_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_time_zone_id:
+         str
+        :keyword
+         target_resource_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_target_resource_id:
+         The resource ID to which the schedule belongs.
+        :paramtype
+         target_resource_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_target_resource_id:
+         str
+        :keyword
+         status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_status:
+         If notifications are enabled for this schedule (i.e. Enabled, Disabled). Known values are:
+         "Enabled" and "Disabled".
+        :paramtype
+         status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_status:
+         str or ~azure.mgmt.devtestlabs.models.EnableStatus
+        :keyword
+         time_in_minutes_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes:
+         Time in minutes before event at which notification will be sent.
+        :paramtype
+         time_in_minutes_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes:
+         int
+        :keyword
+         webhook_url_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_webhook_url:
+         The webhook URL to which the notification will be sent.
+        :paramtype
+         webhook_url_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_webhook_url:
+         str
+        :keyword
+         email_recipient_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_email_recipient:
+         The email recipient to send notifications to (can be a list of semi-colon separated email
+         addresses).
+        :paramtype
+         email_recipient_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_email_recipient:
+         str
+        :keyword
+         notification_locale_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_notification_locale:
+         The locale to use when sending a notification (fallback for unsupported languages is EN).
+        :paramtype
+         notification_locale_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_notification_locale:
+         str
+        :keyword
+         minute_properties_applicable_schedule_properties_lab_vms_shutdown_properties_hourly_recurrence_minute:
+         Minutes of the hour the schedule will run.
+        :paramtype
+         minute_properties_applicable_schedule_properties_lab_vms_shutdown_properties_hourly_recurrence_minute:
+         int
+        :keyword
+         time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_daily_recurrence_time:
+         The time of day the schedule will occur.
+        :paramtype
+         time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_daily_recurrence_time:
+         str
+        :keyword
+         weekdays_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays:
+         The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
+        :paramtype
+         weekdays_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays:
+         list[str]
+        :keyword
+         time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_time:
+         The time of the day the schedule will occur.
+        :paramtype
+         time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_time:
+         str
+        :keyword virtual_network_id: The resource ID of the virtual network.
+        :paramtype virtual_network_id: str
+        :keyword subnet_id: The resource ID of the sub net.
+        :paramtype subnet_id: str
+        :keyword public_ip_address_id: The resource ID of the public IP address.
+        :paramtype public_ip_address_id: str
+        :keyword public_ip_address: The public IP address.
+        :paramtype public_ip_address: str
+        :keyword private_ip_address: The private IP address.
+        :paramtype private_ip_address: str
+        :keyword dns_name: The DNS name.
+        :paramtype dns_name: str
+        :keyword rdp_authority: The RdpAuthority property is a server DNS host name or IP address
+         followed by the service port number for RDP (Remote Desktop Protocol).
+        :paramtype rdp_authority: str
+        :keyword ssh_authority: The SshAuthority property is a server DNS host name or IP address
+         followed by the service port number for SSH.
+        :paramtype ssh_authority: str
+        :keyword inbound_nat_rules: The incoming NAT rules.
+        :paramtype inbound_nat_rules: list[~azure.mgmt.devtestlabs.models.InboundNatRule]
+        :keyword statuses: Gets the statuses of the virtual machine.
+        :paramtype statuses: list[~azure.mgmt.devtestlabs.models.ComputeVmInstanceViewStatus]
+        :keyword os_type_properties_compute_vm_os_type: Gets the OS type of the virtual machine.
+        :paramtype os_type_properties_compute_vm_os_type: str
+        :keyword vm_size: Gets the size of the virtual machine.
+        :paramtype vm_size: str
+        :keyword network_interface_id: Gets the network interface ID of the virtual machine.
+        :paramtype network_interface_id: str
+        :keyword os_disk_id: Gets OS disk blob uri for the virtual machine.
+        :paramtype os_disk_id: str
+        :keyword data_disk_ids: Gets data disks blob uri for the virtual machine.
+        :paramtype data_disk_ids: list[str]
+        :keyword data_disks: Gets all data disks attached to the virtual machine.
+        :paramtype data_disks: list[~azure.mgmt.devtestlabs.models.ComputeDataDisk]
+        :keyword offer: The offer of the gallery image.
+        :paramtype offer: str
+        :keyword publisher: The publisher of the gallery image.
+        :paramtype publisher: str
+        :keyword sku: The SKU of the gallery image.
+        :paramtype sku: str
+        :keyword os_type_properties_gallery_image_reference_os_type: The OS type of the gallery image.
+        :paramtype os_type_properties_gallery_image_reference_os_type: str
+        :keyword version: The version of the gallery image.
+        :paramtype version: str
+        :keyword deployment_status: The deployment status of the artifact.
+        :paramtype deployment_status: str
+        :keyword artifacts_applied: The total count of the artifacts that were successfully applied.
+        :paramtype artifacts_applied: int
+        :keyword total_artifacts: The total count of the artifacts that were tentatively applied.
+        :paramtype total_artifacts: int
+        :keyword instance_count: The number of virtual machine instances to create.
+        :paramtype instance_count: int
+        """
+        super().__init__(**kwargs)
+        self.name = name
+        self.location = location
+        self.tags = tags
+        self.notes = notes
+        self.owner_object_id = owner_object_id
+        self.owner_user_principal_name = owner_user_principal_name
+        self.created_by_user_id = None
+        self.created_by_user = None
+        self.created_date_properties_created_date = created_date_properties_created_date
+        self.compute_id = None
+        self.custom_image_id = custom_image_id
+        self.gallery_image_version_id = gallery_image_version_id
+        self.shared_image_id = shared_image_id
+        self.shared_image_version = shared_image_version
+        self.os_type_properties_os_type = None
+        self.size = size
+        self.user_name = user_name
+        self.password = password
+        self.ssh_key = ssh_key
+        self.is_authentication_with_ssh_key = is_authentication_with_ssh_key
+        self.fqdn = None
+        self.lab_subnet_name = lab_subnet_name
+        self.lab_virtual_network_id = lab_virtual_network_id
+        self.disallow_public_ip_address = disallow_public_ip_address
+        self.artifacts = artifacts
+        self.plan_id = plan_id
+        self.os_disk_size_gb = os_disk_size_gb
+        self.expiration_date = expiration_date
+        self.allow_claim = allow_claim
+        self.storage_type = storage_type
+        self.virtual_machine_creation_source = None
+        self.environment_id = environment_id
+        self.data_disk_parameters = data_disk_parameters
+        self.schedule_parameters = schedule_parameters
+        self.last_known_power_state = None
+        self.can_apply_artifacts = None
+        self.provisioning_state_properties_provisioning_state = None
+        self.unique_identifier_properties_unique_identifier = None
+        self.security_profile = security_profile
+        self.id_properties_applicable_schedule_id = None
+        self.name_properties_applicable_schedule_name = None
+        self.type_properties_applicable_schedule_type = None
+        self.tags_properties_applicable_schedule_tags = tags_properties_applicable_schedule_tags
+        self.location_properties_applicable_schedule_location = location_properties_applicable_schedule_location
+        self.system_data_properties_applicable_schedule_system_data = None
+        self.id_properties_applicable_schedule_properties_lab_vms_startup_id = None
+        self.name_properties_applicable_schedule_properties_lab_vms_startup_name = None
+        self.type_properties_applicable_schedule_properties_lab_vms_startup_type = None
+        self.tags_properties_applicable_schedule_properties_lab_vms_startup_tags = (
+            tags_properties_applicable_schedule_properties_lab_vms_startup_tags
+        )
+        self.location_properties_applicable_schedule_properties_lab_vms_startup_location = (
+            location_properties_applicable_schedule_properties_lab_vms_startup_location
+        )
+        self.system_data_properties_applicable_schedule_properties_lab_vms_startup_system_data = None
+        self.status_properties_applicable_schedule_properties_lab_vms_startup_properties_status = (
+            status_properties_applicable_schedule_properties_lab_vms_startup_properties_status
+        )
+        self.task_type_properties_applicable_schedule_properties_lab_vms_startup_properties_task_type = (
+            task_type_properties_applicable_schedule_properties_lab_vms_startup_properties_task_type
+        )
+        self.time_zone_id_properties_applicable_schedule_properties_lab_vms_startup_properties_time_zone_id = (
+            time_zone_id_properties_applicable_schedule_properties_lab_vms_startup_properties_time_zone_id
+        )
+        self.created_date_properties_applicable_schedule_properties_lab_vms_startup_properties_created_date = None
+        self.target_resource_id_properties_applicable_schedule_properties_lab_vms_startup_properties_target_resource_id = (
+            target_resource_id_properties_applicable_schedule_properties_lab_vms_startup_properties_target_resource_id
+        )
+        self.provisioning_state_properties_applicable_schedule_properties_lab_vms_startup_properties_provisioning_state = (
+            None
+        )
+        self.unique_identifier_properties_applicable_schedule_properties_lab_vms_startup_properties_unique_identifier = (
+            None
+        )
+        self.status_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_status = (
+            status_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_status
+        )
+        self.time_in_minutes_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_time_in_minutes = time_in_minutes_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_time_in_minutes
+        self.webhook_url_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_webhook_url = webhook_url_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_webhook_url
+        self.email_recipient_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_email_recipient = email_recipient_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_email_recipient
+        self.notification_locale_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_notification_locale = notification_locale_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_notification_locale
+        self.minute_properties_applicable_schedule_properties_lab_vms_startup_properties_hourly_recurrence_minute = (
+            minute_properties_applicable_schedule_properties_lab_vms_startup_properties_hourly_recurrence_minute
+        )
+        self.time_properties_applicable_schedule_properties_lab_vms_startup_properties_daily_recurrence_time = (
+            time_properties_applicable_schedule_properties_lab_vms_startup_properties_daily_recurrence_time
+        )
+        self.weekdays_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_weekdays = (
+            weekdays_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_weekdays
+        )
+        self.time_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_time = (
+            time_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_time
+        )
+        self.id_properties_applicable_schedule_properties_lab_vms_shutdown_id = None
+        self.name_properties_applicable_schedule_properties_lab_vms_shutdown_name = None
+        self.type_properties_applicable_schedule_properties_lab_vms_shutdown_type = None
+        self.tags_properties_applicable_schedule_properties_lab_vms_shutdown_tags = (
+            tags_properties_applicable_schedule_properties_lab_vms_shutdown_tags
+        )
+        self.location_properties_applicable_schedule_properties_lab_vms_shutdown_location = (
+            location_properties_applicable_schedule_properties_lab_vms_shutdown_location
+        )
+        self.system_data_properties_applicable_schedule_properties_lab_vms_shutdown_system_data = None
+        self.status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_status = (
+            status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_status
+        )
+        self.task_type_properties_applicable_schedule_properties_lab_vms_shutdown_properties_task_type = (
+            task_type_properties_applicable_schedule_properties_lab_vms_shutdown_properties_task_type
+        )
+        self.time_zone_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_time_zone_id = (
+            time_zone_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_time_zone_id
+        )
+        self.created_date_properties_applicable_schedule_properties_lab_vms_shutdown_properties_created_date = None
+        self.target_resource_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_target_resource_id = (
+            target_resource_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_target_resource_id
+        )
+        self.provisioning_state_properties_applicable_schedule_properties_lab_vms_shutdown_properties_provisioning_state = (
+            None
+        )
+        self.unique_identifier_properties_applicable_schedule_properties_lab_vms_shutdown_properties_unique_identifier = (
+            None
+        )
+        self.status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_status = (
+            status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_status
+        )
+        self.time_in_minutes_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes = time_in_minutes_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes
+        self.webhook_url_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_webhook_url = webhook_url_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_webhook_url
+        self.email_recipient_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_email_recipient = email_recipient_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_email_recipient
+        self.notification_locale_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_notification_locale = notification_locale_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_notification_locale
+        self.minute_properties_applicable_schedule_properties_lab_vms_shutdown_properties_hourly_recurrence_minute = (
+            minute_properties_applicable_schedule_properties_lab_vms_shutdown_properties_hourly_recurrence_minute
+        )
+        self.time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_daily_recurrence_time = (
+            time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_daily_recurrence_time
+        )
+        self.weekdays_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays = (
+            weekdays_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays
+        )
+        self.time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_time = (
+            time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_time
+        )
+        self.virtual_network_id = virtual_network_id
+        self.subnet_id = subnet_id
+        self.public_ip_address_id = public_ip_address_id
+        self.public_ip_address = public_ip_address
+        self.private_ip_address = private_ip_address
+        self.dns_name = dns_name
+        self.rdp_authority = rdp_authority
+        self.ssh_authority = ssh_authority
+        self.inbound_nat_rules = inbound_nat_rules
+        self.statuses = statuses
+        self.os_type_properties_compute_vm_os_type = os_type_properties_compute_vm_os_type
+        self.vm_size = vm_size
+        self.network_interface_id = network_interface_id
+        self.os_disk_id = os_disk_id
+        self.data_disk_ids = data_disk_ids
+        self.data_disks = data_disks
+        self.offer = offer
+        self.publisher = publisher
+        self.sku = sku
+        self.os_type_properties_gallery_image_reference_os_type = os_type_properties_gallery_image_reference_os_type
+        self.version = version
+        self.deployment_status = deployment_status
+        self.artifacts_applied = artifacts_applied
+        self.total_artifacts = total_artifacts
+        self.instance_count = instance_count
+
+
+class LabVirtualMachineFragment(UpdateResource):
+    """Patch.
+
+    :ivar tags: The tags of the resource.
+    :vartype tags: dict[str, str]
+    :ivar identity: The identity of the resource.
+    :vartype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
+    """
+
+    _attribute_map = {
+        "tags": {"key": "tags", "type": "{str}"},
+        "identity": {"key": "identity", "type": "IdentityProperties"},
+    }
+
+    def __init__(
+        self,
+        *,
+        tags: Optional[Dict[str, str]] = None,
+        identity: Optional["_models.IdentityProperties"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword tags: The tags of the resource.
+        :paramtype tags: dict[str, str]
+        :keyword identity: The identity of the resource.
+        :paramtype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
+        """
+        super().__init__(tags=tags, identity=identity, **kwargs)
+
+
+class LabVirtualMachineList(_serialization.Model):
+    """Contains a list of virtualMachines and their properties.
+
+    :ivar value: List of virtualMachines and their properties.
+    :vartype value: list[~azure.mgmt.devtestlabs.models.LabVirtualMachine]
+    :ivar next_link: URL to get the next set of operation list results if there are any.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[LabVirtualMachine]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        value: Optional[List["_models.LabVirtualMachine"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: List of virtualMachines and their properties.
+        :paramtype value: list[~azure.mgmt.devtestlabs.models.LabVirtualMachine]
+        :keyword next_link: URL to get the next set of operation list results if there are any.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
 
 
 class NotificationChannel(Resource):  # pylint: disable=too-many-instance-attributes
@@ -3938,16 +7887,22 @@ class NotificationChannel(Resource):  # pylint: disable=too-many-instance-attrib
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: The identifier of the resource.
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar location: The location of the resource.
-    :vartype location: str
-    :ivar tags: The tags of the resource.
+    :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar system_data: The system metadata relating to this resource.
+    :vartype system_data: ~azure.mgmt.devtestlabs.models.SystemData
     :ivar web_hook_url: The webhook URL to send notifications to.
     :vartype web_hook_url: str
     :ivar email_recipient: The email recipient to send notifications to (can be a list of
@@ -3972,6 +7927,8 @@ class NotificationChannel(Resource):  # pylint: disable=too-many-instance-attrib
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "location": {"required": True},
+        "system_data": {"readonly": True},
         "created_date": {"readonly": True},
         "provisioning_state": {"readonly": True},
         "unique_identifier": {"readonly": True},
@@ -3981,8 +7938,9 @@ class NotificationChannel(Resource):  # pylint: disable=too-many-instance-attrib
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "location": {"key": "location", "type": "str"},
         "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "web_hook_url": {"key": "properties.webHookUrl", "type": "str"},
         "email_recipient": {"key": "properties.emailRecipient", "type": "str"},
         "notification_locale": {"key": "properties.notificationLocale", "type": "str"},
@@ -3996,20 +7954,20 @@ class NotificationChannel(Resource):  # pylint: disable=too-many-instance-attrib
     def __init__(
         self,
         *,
-        location: Optional[str] = None,
+        location: str,
         tags: Optional[Dict[str, str]] = None,
         web_hook_url: Optional[str] = None,
         email_recipient: Optional[str] = None,
         notification_locale: Optional[str] = None,
         description: Optional[str] = None,
         events: Optional[List["_models.Event"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword location: The location of the resource.
-        :paramtype location: str
-        :keyword tags: The tags of the resource.
+        :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
         :keyword web_hook_url: The webhook URL to send notifications to.
         :paramtype web_hook_url: str
         :keyword email_recipient: The email recipient to send notifications to (can be a list of
@@ -4023,7 +7981,8 @@ class NotificationChannel(Resource):  # pylint: disable=too-many-instance-attrib
         :keyword events: The list of event for which this notification is enabled.
         :paramtype events: list[~azure.mgmt.devtestlabs.models.Event]
         """
-        super().__init__(location=location, tags=tags, **kwargs)
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.system_data = None
         self.web_hook_url = web_hook_url
         self.email_recipient = email_recipient
         self.notification_locale = notification_locale
@@ -4035,30 +7994,41 @@ class NotificationChannel(Resource):  # pylint: disable=too-many-instance-attrib
 
 
 class NotificationChannelFragment(UpdateResource):
-    """A notification.
+    """Patch.
 
     :ivar tags: The tags of the resource.
     :vartype tags: dict[str, str]
+    :ivar identity: The identity of the resource.
+    :vartype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
     """
 
     _attribute_map = {
         "tags": {"key": "tags", "type": "{str}"},
+        "identity": {"key": "identity", "type": "IdentityProperties"},
     }
 
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(
+        self,
+        *,
+        tags: Optional[Dict[str, str]] = None,
+        identity: Optional["_models.IdentityProperties"] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: The tags of the resource.
         :paramtype tags: dict[str, str]
+        :keyword identity: The identity of the resource.
+        :paramtype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
         """
-        super().__init__(tags=tags, **kwargs)
+        super().__init__(tags=tags, identity=identity, **kwargs)
 
 
 class NotificationChannelList(_serialization.Model):
-    """The response of a list operation.
+    """Contains a list of notificationChannels and their properties.
 
-    :ivar value: Results of the list operation.
+    :ivar value: List of notificationChannels and their properties.
     :vartype value: list[~azure.mgmt.devtestlabs.models.NotificationChannel]
-    :ivar next_link: Link for next set of results.
+    :ivar next_link: URL to get the next set of operation list results if there are any.
     :vartype next_link: str
     """
 
@@ -4068,12 +8038,16 @@ class NotificationChannelList(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.NotificationChannel"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self,
+        *,
+        value: Optional[List["_models.NotificationChannel"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword value: Results of the list operation.
+        :keyword value: List of notificationChannels and their properties.
         :paramtype value: list[~azure.mgmt.devtestlabs.models.NotificationChannel]
-        :keyword next_link: Link for next set of results.
+        :keyword next_link: URL to get the next set of operation list results if there are any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
@@ -4081,70 +8055,10 @@ class NotificationChannelList(_serialization.Model):
         self.next_link = next_link
 
 
-class NotificationSettings(_serialization.Model):
-    """Notification settings for a schedule.
-
-    :ivar status: If notifications are enabled for this schedule (i.e. Enabled, Disabled). Known
-     values are: "Enabled" and "Disabled".
-    :vartype status: str or ~azure.mgmt.devtestlabs.models.EnableStatus
-    :ivar time_in_minutes: Time in minutes before event at which notification will be sent.
-    :vartype time_in_minutes: int
-    :ivar webhook_url: The webhook URL to which the notification will be sent.
-    :vartype webhook_url: str
-    :ivar email_recipient: The email recipient to send notifications to (can be a list of
-     semi-colon separated email addresses).
-    :vartype email_recipient: str
-    :ivar notification_locale: The locale to use when sending a notification (fallback for
-     unsupported languages is EN).
-    :vartype notification_locale: str
-    """
-
-    _attribute_map = {
-        "status": {"key": "status", "type": "str"},
-        "time_in_minutes": {"key": "timeInMinutes", "type": "int"},
-        "webhook_url": {"key": "webhookUrl", "type": "str"},
-        "email_recipient": {"key": "emailRecipient", "type": "str"},
-        "notification_locale": {"key": "notificationLocale", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        status: Optional[Union[str, "_models.EnableStatus"]] = None,
-        time_in_minutes: Optional[int] = None,
-        webhook_url: Optional[str] = None,
-        email_recipient: Optional[str] = None,
-        notification_locale: Optional[str] = None,
-        **kwargs
-    ):
-        """
-        :keyword status: If notifications are enabled for this schedule (i.e. Enabled, Disabled). Known
-         values are: "Enabled" and "Disabled".
-        :paramtype status: str or ~azure.mgmt.devtestlabs.models.EnableStatus
-        :keyword time_in_minutes: Time in minutes before event at which notification will be sent.
-        :paramtype time_in_minutes: int
-        :keyword webhook_url: The webhook URL to which the notification will be sent.
-        :paramtype webhook_url: str
-        :keyword email_recipient: The email recipient to send notifications to (can be a list of
-         semi-colon separated email addresses).
-        :paramtype email_recipient: str
-        :keyword notification_locale: The locale to use when sending a notification (fallback for
-         unsupported languages is EN).
-        :paramtype notification_locale: str
-        """
-        super().__init__(**kwargs)
-        self.status = status
-        self.time_in_minutes = time_in_minutes
-        self.webhook_url = webhook_url
-        self.email_recipient = email_recipient
-        self.notification_locale = notification_locale
-
-
 class NotifyParameters(_serialization.Model):
     """Properties for generating a Notification.
 
-    :ivar event_name: The type of event (i.e. AutoShutdown, Cost). Known values are: "AutoShutdown"
-     and "Cost".
+    :ivar event_name: The type of event (i.e. AutoShutdown). "AutoShutdown"
     :vartype event_name: str or ~azure.mgmt.devtestlabs.models.NotificationChannelEventType
     :ivar json_payload: Properties for the notification in json format.
     :vartype json_payload: str
@@ -4160,11 +8074,10 @@ class NotifyParameters(_serialization.Model):
         *,
         event_name: Optional[Union[str, "_models.NotificationChannelEventType"]] = None,
         json_payload: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword event_name: The type of event (i.e. AutoShutdown, Cost). Known values are:
-         "AutoShutdown" and "Cost".
+        :keyword event_name: The type of event (i.e. AutoShutdown). "AutoShutdown"
         :paramtype event_name: str or ~azure.mgmt.devtestlabs.models.NotificationChannelEventType
         :keyword json_payload: Properties for the notification in json format.
         :paramtype json_payload: str
@@ -4172,32 +8085,6 @@ class NotifyParameters(_serialization.Model):
         super().__init__(**kwargs)
         self.event_name = event_name
         self.json_payload = json_payload
-
-
-class OperationError(_serialization.Model):
-    """Error details for the operation in case of a failure.
-
-    :ivar code: The error code of the operation error.
-    :vartype code: str
-    :ivar message: The error message of the operation error.
-    :vartype message: str
-    """
-
-    _attribute_map = {
-        "code": {"key": "code", "type": "str"},
-        "message": {"key": "message", "type": "str"},
-    }
-
-    def __init__(self, *, code: Optional[str] = None, message: Optional[str] = None, **kwargs):
-        """
-        :keyword code: The error code of the operation error.
-        :paramtype code: str
-        :keyword message: The error message of the operation error.
-        :paramtype message: str
-        """
-        super().__init__(**kwargs)
-        self.code = code
-        self.message = message
 
 
 class OperationMetadata(_serialization.Model):
@@ -4215,8 +8102,8 @@ class OperationMetadata(_serialization.Model):
     }
 
     def __init__(
-        self, *, name: Optional[str] = None, display: Optional["_models.OperationMetadataDisplay"] = None, **kwargs
-    ):
+        self, *, name: Optional[str] = None, display: Optional["_models.OperationMetadataDisplay"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword name: Operation name: {provider}/{resource}/{operation}.
         :paramtype name: str
@@ -4255,8 +8142,8 @@ class OperationMetadataDisplay(_serialization.Model):
         resource: Optional[str] = None,
         operation: Optional[str] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword provider: Friendly name of the resource provider.
         :paramtype provider: str
@@ -4280,25 +8167,32 @@ class OperationResult(_serialization.Model):
     :ivar status: The operation status.
     :vartype status: str
     :ivar status_code: The status code for the operation. Known values are: "Continue",
-     "SwitchingProtocols", "OK", "Created", "Accepted", "NonAuthoritativeInformation", "NoContent",
-     "ResetContent", "PartialContent", "MultipleChoices", "Ambiguous", "MovedPermanently", "Moved",
+     "SwitchingProtocols", "Processing", "EarlyHints", "OK", "Created", "Accepted",
+     "NonAuthoritativeInformation", "NoContent", "ResetContent", "PartialContent", "MultiStatus",
+     "AlreadyReported", "IMUsed", "MultipleChoices", "Ambiguous", "MovedPermanently", "Moved",
      "Found", "Redirect", "SeeOther", "RedirectMethod", "NotModified", "UseProxy", "Unused",
-     "TemporaryRedirect", "RedirectKeepVerb", "BadRequest", "Unauthorized", "PaymentRequired",
-     "Forbidden", "NotFound", "MethodNotAllowed", "NotAcceptable", "ProxyAuthenticationRequired",
-     "RequestTimeout", "Conflict", "Gone", "LengthRequired", "PreconditionFailed",
-     "RequestEntityTooLarge", "RequestUriTooLong", "UnsupportedMediaType",
-     "RequestedRangeNotSatisfiable", "ExpectationFailed", "UpgradeRequired", "InternalServerError",
-     "NotImplemented", "BadGateway", "ServiceUnavailable", "GatewayTimeout", and
-     "HttpVersionNotSupported".
+     "TemporaryRedirect", "RedirectKeepVerb", "PermanentRedirect", "BadRequest", "Unauthorized",
+     "PaymentRequired", "Forbidden", "NotFound", "MethodNotAllowed", "NotAcceptable",
+     "ProxyAuthenticationRequired", "RequestTimeout", "Conflict", "Gone", "LengthRequired",
+     "PreconditionFailed", "RequestEntityTooLarge", "RequestUriTooLong", "UnsupportedMediaType",
+     "RequestedRangeNotSatisfiable", "ExpectationFailed", "MisdirectedRequest",
+     "UnprocessableEntity", "Locked", "FailedDependency", "UpgradeRequired", "PreconditionRequired",
+     "TooManyRequests", "RequestHeaderFieldsTooLarge", "UnavailableForLegalReasons",
+     "InternalServerError", "NotImplemented", "BadGateway", "ServiceUnavailable", "GatewayTimeout",
+     "HttpVersionNotSupported", "VariantAlsoNegotiates", "InsufficientStorage", "LoopDetected",
+     "NotExtended", "NetworkAuthenticationRequired", and "Continue".
     :vartype status_code: str or ~azure.mgmt.devtestlabs.models.HttpStatusCode
-    :ivar error: Error details for the operation in case of a failure.
-    :vartype error: ~azure.mgmt.devtestlabs.models.OperationError
+    :ivar code: The error code of the operation error.
+    :vartype code: str
+    :ivar message: The error message of the operation error.
+    :vartype message: str
     """
 
     _attribute_map = {
         "status": {"key": "status", "type": "str"},
         "status_code": {"key": "statusCode", "type": "str"},
-        "error": {"key": "error", "type": "OperationError"},
+        "code": {"key": "error.code", "type": "str"},
+        "message": {"key": "error.message", "type": "str"},
     }
 
     def __init__(
@@ -4306,31 +8200,39 @@ class OperationResult(_serialization.Model):
         *,
         status: Optional[str] = None,
         status_code: Optional[Union[str, "_models.HttpStatusCode"]] = None,
-        error: Optional["_models.OperationError"] = None,
-        **kwargs
-    ):
+        code: Optional[str] = None,
+        message: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword status: The operation status.
         :paramtype status: str
         :keyword status_code: The status code for the operation. Known values are: "Continue",
-         "SwitchingProtocols", "OK", "Created", "Accepted", "NonAuthoritativeInformation", "NoContent",
-         "ResetContent", "PartialContent", "MultipleChoices", "Ambiguous", "MovedPermanently", "Moved",
+         "SwitchingProtocols", "Processing", "EarlyHints", "OK", "Created", "Accepted",
+         "NonAuthoritativeInformation", "NoContent", "ResetContent", "PartialContent", "MultiStatus",
+         "AlreadyReported", "IMUsed", "MultipleChoices", "Ambiguous", "MovedPermanently", "Moved",
          "Found", "Redirect", "SeeOther", "RedirectMethod", "NotModified", "UseProxy", "Unused",
-         "TemporaryRedirect", "RedirectKeepVerb", "BadRequest", "Unauthorized", "PaymentRequired",
-         "Forbidden", "NotFound", "MethodNotAllowed", "NotAcceptable", "ProxyAuthenticationRequired",
-         "RequestTimeout", "Conflict", "Gone", "LengthRequired", "PreconditionFailed",
-         "RequestEntityTooLarge", "RequestUriTooLong", "UnsupportedMediaType",
-         "RequestedRangeNotSatisfiable", "ExpectationFailed", "UpgradeRequired", "InternalServerError",
-         "NotImplemented", "BadGateway", "ServiceUnavailable", "GatewayTimeout", and
-         "HttpVersionNotSupported".
+         "TemporaryRedirect", "RedirectKeepVerb", "PermanentRedirect", "BadRequest", "Unauthorized",
+         "PaymentRequired", "Forbidden", "NotFound", "MethodNotAllowed", "NotAcceptable",
+         "ProxyAuthenticationRequired", "RequestTimeout", "Conflict", "Gone", "LengthRequired",
+         "PreconditionFailed", "RequestEntityTooLarge", "RequestUriTooLong", "UnsupportedMediaType",
+         "RequestedRangeNotSatisfiable", "ExpectationFailed", "MisdirectedRequest",
+         "UnprocessableEntity", "Locked", "FailedDependency", "UpgradeRequired", "PreconditionRequired",
+         "TooManyRequests", "RequestHeaderFieldsTooLarge", "UnavailableForLegalReasons",
+         "InternalServerError", "NotImplemented", "BadGateway", "ServiceUnavailable", "GatewayTimeout",
+         "HttpVersionNotSupported", "VariantAlsoNegotiates", "InsufficientStorage", "LoopDetected",
+         "NotExtended", "NetworkAuthenticationRequired", and "Continue".
         :paramtype status_code: str or ~azure.mgmt.devtestlabs.models.HttpStatusCode
-        :keyword error: Error details for the operation in case of a failure.
-        :paramtype error: ~azure.mgmt.devtestlabs.models.OperationError
+        :keyword code: The error code of the operation error.
+        :paramtype code: str
+        :keyword message: The error message of the operation error.
+        :paramtype message: str
         """
         super().__init__(**kwargs)
         self.status = status
         self.status_code = status_code
-        self.error = error
+        self.code = code
+        self.message = message
 
 
 class ParameterInfo(_serialization.Model):
@@ -4347,7 +8249,7 @@ class ParameterInfo(_serialization.Model):
         "value": {"key": "value", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, value: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, value: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: The name of the artifact parameter.
         :paramtype name: str
@@ -4373,7 +8275,9 @@ class ParametersValueFileInfo(_serialization.Model):
         "parameters_value_info": {"key": "parametersValueInfo", "type": "object"},
     }
 
-    def __init__(self, *, file_name: Optional[str] = None, parameters_value_info: Optional[JSON] = None, **kwargs):
+    def __init__(
+        self, *, file_name: Optional[str] = None, parameters_value_info: Optional[JSON] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword file_name: File name.
         :paramtype file_name: str
@@ -4385,41 +8289,27 @@ class ParametersValueFileInfo(_serialization.Model):
         self.parameters_value_info = parameters_value_info
 
 
-class PercentageCostThresholdProperties(_serialization.Model):
-    """Properties of a percentage cost threshold.
-
-    :ivar threshold_value: The cost threshold value.
-    :vartype threshold_value: float
-    """
-
-    _attribute_map = {
-        "threshold_value": {"key": "thresholdValue", "type": "float"},
-    }
-
-    def __init__(self, *, threshold_value: Optional[float] = None, **kwargs):
-        """
-        :keyword threshold_value: The cost threshold value.
-        :paramtype threshold_value: float
-        """
-        super().__init__(**kwargs)
-        self.threshold_value = threshold_value
-
-
 class Policy(Resource):  # pylint: disable=too-many-instance-attributes
     """A Policy.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: The identifier of the resource.
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar location: The location of the resource.
-    :vartype location: str
-    :ivar tags: The tags of the resource.
+    :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar system_data: The system metadata relating to this resource.
+    :vartype system_data: ~azure.mgmt.devtestlabs.models.SystemData
     :ivar description: The description of the policy.
     :vartype description: str
     :ivar status: The status of the policy. Known values are: "Enabled" and "Disabled".
@@ -4427,7 +8317,7 @@ class Policy(Resource):  # pylint: disable=too-many-instance-attributes
     :ivar fact_name: The fact name of the policy (e.g. LabVmCount, LabVmSize, MaxVmsAllowedPerLab,
      etc. Known values are: "UserOwnedLabVmCount", "UserOwnedLabPremiumVmCount", "LabVmCount",
      "LabPremiumVmCount", "LabVmSize", "GalleryImage", "UserOwnedLabVmCountInSubnet",
-     "LabTargetCost", "EnvironmentTemplate", and "ScheduleEditPermission".
+     "EnvironmentTemplate", and "ScheduleEditPermission".
     :vartype fact_name: str or ~azure.mgmt.devtestlabs.models.PolicyFactName
     :ivar fact_data: The fact data of the policy.
     :vartype fact_data: str
@@ -4449,6 +8339,8 @@ class Policy(Resource):  # pylint: disable=too-many-instance-attributes
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "location": {"required": True},
+        "system_data": {"readonly": True},
         "created_date": {"readonly": True},
         "provisioning_state": {"readonly": True},
         "unique_identifier": {"readonly": True},
@@ -4458,8 +8350,9 @@ class Policy(Resource):  # pylint: disable=too-many-instance-attributes
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "location": {"key": "location", "type": "str"},
         "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "description": {"key": "properties.description", "type": "str"},
         "status": {"key": "properties.status", "type": "str"},
         "fact_name": {"key": "properties.factName", "type": "str"},
@@ -4474,7 +8367,7 @@ class Policy(Resource):  # pylint: disable=too-many-instance-attributes
     def __init__(
         self,
         *,
-        location: Optional[str] = None,
+        location: str,
         tags: Optional[Dict[str, str]] = None,
         description: Optional[str] = None,
         status: Optional[Union[str, "_models.PolicyStatus"]] = None,
@@ -4482,13 +8375,13 @@ class Policy(Resource):  # pylint: disable=too-many-instance-attributes
         fact_data: Optional[str] = None,
         threshold: Optional[str] = None,
         evaluator_type: Optional[Union[str, "_models.PolicyEvaluatorType"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword location: The location of the resource.
-        :paramtype location: str
-        :keyword tags: The tags of the resource.
+        :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
         :keyword description: The description of the policy.
         :paramtype description: str
         :keyword status: The status of the policy. Known values are: "Enabled" and "Disabled".
@@ -4496,8 +8389,7 @@ class Policy(Resource):  # pylint: disable=too-many-instance-attributes
         :keyword fact_name: The fact name of the policy (e.g. LabVmCount, LabVmSize,
          MaxVmsAllowedPerLab, etc. Known values are: "UserOwnedLabVmCount",
          "UserOwnedLabPremiumVmCount", "LabVmCount", "LabPremiumVmCount", "LabVmSize", "GalleryImage",
-         "UserOwnedLabVmCountInSubnet", "LabTargetCost", "EnvironmentTemplate", and
-         "ScheduleEditPermission".
+         "UserOwnedLabVmCountInSubnet", "EnvironmentTemplate", and "ScheduleEditPermission".
         :paramtype fact_name: str or ~azure.mgmt.devtestlabs.models.PolicyFactName
         :keyword fact_data: The fact data of the policy.
         :paramtype fact_data: str
@@ -4508,7 +8400,8 @@ class Policy(Resource):  # pylint: disable=too-many-instance-attributes
          MaxValuePolicy). Known values are: "AllowedValuesPolicy" and "MaxValuePolicy".
         :paramtype evaluator_type: str or ~azure.mgmt.devtestlabs.models.PolicyEvaluatorType
         """
-        super().__init__(location=location, tags=tags, **kwargs)
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.system_data = None
         self.description = description
         self.status = status
         self.fact_name = fact_name
@@ -4521,30 +8414,41 @@ class Policy(Resource):  # pylint: disable=too-many-instance-attributes
 
 
 class PolicyFragment(UpdateResource):
-    """A Policy.
+    """Patch.
 
     :ivar tags: The tags of the resource.
     :vartype tags: dict[str, str]
+    :ivar identity: The identity of the resource.
+    :vartype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
     """
 
     _attribute_map = {
         "tags": {"key": "tags", "type": "{str}"},
+        "identity": {"key": "identity", "type": "IdentityProperties"},
     }
 
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(
+        self,
+        *,
+        tags: Optional[Dict[str, str]] = None,
+        identity: Optional["_models.IdentityProperties"] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: The tags of the resource.
         :paramtype tags: dict[str, str]
+        :keyword identity: The identity of the resource.
+        :paramtype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
         """
-        super().__init__(tags=tags, **kwargs)
+        super().__init__(tags=tags, identity=identity, **kwargs)
 
 
 class PolicyList(_serialization.Model):
-    """The response of a list operation.
+    """Contains a list of policies and their properties.
 
-    :ivar value: Results of the list operation.
+    :ivar value: List of policies and their properties.
     :vartype value: list[~azure.mgmt.devtestlabs.models.Policy]
-    :ivar next_link: Link for next set of results.
+    :ivar next_link: URL to get the next set of operation list results if there are any.
     :vartype next_link: str
     """
 
@@ -4553,15 +8457,108 @@ class PolicyList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Policy"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.Policy"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
-        :keyword value: Results of the list operation.
+        :keyword value: List of policies and their properties.
         :paramtype value: list[~azure.mgmt.devtestlabs.models.Policy]
-        :keyword next_link: Link for next set of results.
+        :keyword next_link: URL to get the next set of operation list results if there are any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
+        self.next_link = next_link
+
+
+class PolicySet(Resource):
+    """A PolicySet.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar system_data: The system metadata relating to this resource.
+    :vartype system_data: ~azure.mgmt.devtestlabs.models.SystemData
+    :ivar provisioning_state: The provisioning status of the resource.
+    :vartype provisioning_state: str
+    :ivar unique_identifier: The unique immutable identifier of a resource (Guid).
+    :vartype unique_identifier: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "location": {"required": True},
+        "system_data": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+        "unique_identifier": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "unique_identifier": {"key": "properties.uniqueIdentifier", "type": "str"},
+    }
+
+    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
+        """
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.system_data = None
+        self.provisioning_state = None
+        self.unique_identifier = None
+
+
+class PolicySetList(_serialization.Model):
+    """Contains a list of policySets and their properties.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar value: List of policySets and their properties.
+    :vartype value: list[~azure.mgmt.devtestlabs.models.PolicySet]
+    :ivar next_link: URL to get the next set of operation list results if there are any.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[PolicySet]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, *, next_link: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword next_link: URL to get the next set of operation list results if there are any.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = None
         self.next_link = next_link
 
 
@@ -4585,8 +8582,8 @@ class PolicySetResult(_serialization.Model):
         *,
         has_error: Optional[bool] = None,
         policy_violations: Optional[List["_models.PolicyViolation"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword has_error: A value indicating whether this policy set evaluation has discovered
          violations.
@@ -4613,7 +8610,7 @@ class PolicyViolation(_serialization.Model):
         "message": {"key": "message", "type": "str"},
     }
 
-    def __init__(self, *, code: Optional[str] = None, message: Optional[str] = None, **kwargs):
+    def __init__(self, *, code: Optional[str] = None, message: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword code: The code of the policy violation.
         :paramtype code: str
@@ -4644,8 +8641,8 @@ class Port(_serialization.Model):
         *,
         transport_protocol: Optional[Union[str, "_models.TransportProtocol"]] = None,
         backend_port: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword transport_protocol: Protocol type of the port. Known values are: "Tcp" and "Udp".
         :paramtype transport_protocol: str or ~azure.mgmt.devtestlabs.models.TransportProtocol
@@ -4677,7 +8674,7 @@ class ProviderOperationResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.OperationMetadata"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.OperationMetadata"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: List of operations supported by the resource provider.
         :paramtype value: list[~azure.mgmt.devtestlabs.models.OperationMetadata]
@@ -4698,7 +8695,7 @@ class RdpConnection(_serialization.Model):
         "contents": {"key": "contents", "type": "str"},
     }
 
-    def __init__(self, *, contents: Optional[str] = None, **kwargs):
+    def __init__(self, *, contents: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword contents: The contents of the .rdp file.
         :paramtype contents: str
@@ -4718,7 +8715,7 @@ class ResizeLabVirtualMachineProperties(_serialization.Model):
         "size": {"key": "size", "type": "str"},
     }
 
-    def __init__(self, *, size: Optional[str] = None, **kwargs):
+    def __init__(self, *, size: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword size: Specifies the size of the virtual machine.
         :paramtype size: str
@@ -4744,8 +8741,8 @@ class RetargetScheduleProperties(_serialization.Model):
     }
 
     def __init__(
-        self, *, current_resource_id: Optional[str] = None, target_resource_id: Optional[str] = None, **kwargs
-    ):
+        self, *, current_resource_id: Optional[str] = None, target_resource_id: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword current_resource_id: The resource Id of the virtual machine on which the schedule
          operates.
@@ -4764,34 +8761,29 @@ class Schedule(Resource):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: The identifier of the resource.
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar location: The location of the resource.
-    :vartype location: str
-    :ivar tags: The tags of the resource.
+    :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
-    :ivar status: The status of the schedule (i.e. Enabled, Disabled). Known values are: "Enabled"
-     and "Disabled".
-    :vartype status: str or ~azure.mgmt.devtestlabs.models.EnableStatus
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar system_data: The system metadata relating to this resource.
+    :vartype system_data: ~azure.mgmt.devtestlabs.models.SystemData
+    :ivar status_properties_status: The status of the schedule (i.e. Enabled, Disabled). Known
+     values are: "Enabled" and "Disabled".
+    :vartype status_properties_status: str or ~azure.mgmt.devtestlabs.models.EnableStatus
     :ivar task_type: The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
     :vartype task_type: str
-    :ivar weekly_recurrence: If the schedule will occur only some days of the week, specify the
-     weekly recurrence.
-    :vartype weekly_recurrence: ~azure.mgmt.devtestlabs.models.WeekDetails
-    :ivar daily_recurrence: If the schedule will occur once each day of the week, specify the daily
-     recurrence.
-    :vartype daily_recurrence: ~azure.mgmt.devtestlabs.models.DayDetails
-    :ivar hourly_recurrence: If the schedule will occur multiple times a day, specify the hourly
-     recurrence.
-    :vartype hourly_recurrence: ~azure.mgmt.devtestlabs.models.HourDetails
     :ivar time_zone_id: The time zone ID (e.g. Pacific Standard time).
     :vartype time_zone_id: str
-    :ivar notification_settings: Notification settings.
-    :vartype notification_settings: ~azure.mgmt.devtestlabs.models.NotificationSettings
     :ivar created_date: The creation date of the schedule.
     :vartype created_date: ~datetime.datetime
     :ivar target_resource_id: The resource ID to which the schedule belongs.
@@ -4800,12 +8792,37 @@ class Schedule(Resource):  # pylint: disable=too-many-instance-attributes
     :vartype provisioning_state: str
     :ivar unique_identifier: The unique immutable identifier of a resource (Guid).
     :vartype unique_identifier: str
+    :ivar status_properties_notification_settings_status: If notifications are enabled for this
+     schedule (i.e. Enabled, Disabled). Known values are: "Enabled" and "Disabled".
+    :vartype status_properties_notification_settings_status: str or
+     ~azure.mgmt.devtestlabs.models.EnableStatus
+    :ivar time_in_minutes: Time in minutes before event at which notification will be sent.
+    :vartype time_in_minutes: int
+    :ivar webhook_url: The webhook URL to which the notification will be sent.
+    :vartype webhook_url: str
+    :ivar email_recipient: The email recipient to send notifications to (can be a list of
+     semi-colon separated email addresses).
+    :vartype email_recipient: str
+    :ivar notification_locale: The locale to use when sending a notification (fallback for
+     unsupported languages is EN).
+    :vartype notification_locale: str
+    :ivar minute: Minutes of the hour the schedule will run.
+    :vartype minute: int
+    :ivar time_properties_daily_recurrence_time: The time of day the schedule will occur.
+    :vartype time_properties_daily_recurrence_time: str
+    :ivar weekdays: The days of the week for which the schedule is set (e.g. Sunday, Monday,
+     Tuesday, etc.).
+    :vartype weekdays: list[str]
+    :ivar time_properties_weekly_recurrence_time: The time of the day the schedule will occur.
+    :vartype time_properties_weekly_recurrence_time: str
     """
 
     _validation = {
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "location": {"required": True},
+        "system_data": {"readonly": True},
         "created_date": {"readonly": True},
         "provisioning_state": {"readonly": True},
         "unique_identifier": {"readonly": True},
@@ -4815,74 +8832,106 @@ class Schedule(Resource):  # pylint: disable=too-many-instance-attributes
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "location": {"key": "location", "type": "str"},
         "tags": {"key": "tags", "type": "{str}"},
-        "status": {"key": "properties.status", "type": "str"},
+        "location": {"key": "location", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "status_properties_status": {"key": "properties.status", "type": "str"},
         "task_type": {"key": "properties.taskType", "type": "str"},
-        "weekly_recurrence": {"key": "properties.weeklyRecurrence", "type": "WeekDetails"},
-        "daily_recurrence": {"key": "properties.dailyRecurrence", "type": "DayDetails"},
-        "hourly_recurrence": {"key": "properties.hourlyRecurrence", "type": "HourDetails"},
         "time_zone_id": {"key": "properties.timeZoneId", "type": "str"},
-        "notification_settings": {"key": "properties.notificationSettings", "type": "NotificationSettings"},
         "created_date": {"key": "properties.createdDate", "type": "iso-8601"},
         "target_resource_id": {"key": "properties.targetResourceId", "type": "str"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "unique_identifier": {"key": "properties.uniqueIdentifier", "type": "str"},
+        "status_properties_notification_settings_status": {
+            "key": "properties.notificationSettings.status",
+            "type": "str",
+        },
+        "time_in_minutes": {"key": "properties.notificationSettings.timeInMinutes", "type": "int"},
+        "webhook_url": {"key": "properties.notificationSettings.webhookUrl", "type": "str"},
+        "email_recipient": {"key": "properties.notificationSettings.emailRecipient", "type": "str"},
+        "notification_locale": {"key": "properties.notificationSettings.notificationLocale", "type": "str"},
+        "minute": {"key": "properties.hourlyRecurrence.minute", "type": "int"},
+        "time_properties_daily_recurrence_time": {"key": "properties.dailyRecurrence.time", "type": "str"},
+        "weekdays": {"key": "properties.weeklyRecurrence.weekdays", "type": "[str]"},
+        "time_properties_weekly_recurrence_time": {"key": "properties.weeklyRecurrence.time", "type": "str"},
     }
 
     def __init__(
         self,
         *,
-        location: Optional[str] = None,
+        location: str,
         tags: Optional[Dict[str, str]] = None,
-        status: Optional[Union[str, "_models.EnableStatus"]] = None,
+        status_properties_status: Optional[Union[str, "_models.EnableStatus"]] = None,
         task_type: Optional[str] = None,
-        weekly_recurrence: Optional["_models.WeekDetails"] = None,
-        daily_recurrence: Optional["_models.DayDetails"] = None,
-        hourly_recurrence: Optional["_models.HourDetails"] = None,
         time_zone_id: Optional[str] = None,
-        notification_settings: Optional["_models.NotificationSettings"] = None,
         target_resource_id: Optional[str] = None,
-        **kwargs
-    ):
+        status_properties_notification_settings_status: Optional[Union[str, "_models.EnableStatus"]] = None,
+        time_in_minutes: Optional[int] = None,
+        webhook_url: Optional[str] = None,
+        email_recipient: Optional[str] = None,
+        notification_locale: Optional[str] = None,
+        minute: Optional[int] = None,
+        time_properties_daily_recurrence_time: Optional[str] = None,
+        weekdays: Optional[List[str]] = None,
+        time_properties_weekly_recurrence_time: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword location: The location of the resource.
-        :paramtype location: str
-        :keyword tags: The tags of the resource.
+        :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
-        :keyword status: The status of the schedule (i.e. Enabled, Disabled). Known values are:
-         "Enabled" and "Disabled".
-        :paramtype status: str or ~azure.mgmt.devtestlabs.models.EnableStatus
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
+        :keyword status_properties_status: The status of the schedule (i.e. Enabled, Disabled). Known
+         values are: "Enabled" and "Disabled".
+        :paramtype status_properties_status: str or ~azure.mgmt.devtestlabs.models.EnableStatus
         :keyword task_type: The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
         :paramtype task_type: str
-        :keyword weekly_recurrence: If the schedule will occur only some days of the week, specify the
-         weekly recurrence.
-        :paramtype weekly_recurrence: ~azure.mgmt.devtestlabs.models.WeekDetails
-        :keyword daily_recurrence: If the schedule will occur once each day of the week, specify the
-         daily recurrence.
-        :paramtype daily_recurrence: ~azure.mgmt.devtestlabs.models.DayDetails
-        :keyword hourly_recurrence: If the schedule will occur multiple times a day, specify the hourly
-         recurrence.
-        :paramtype hourly_recurrence: ~azure.mgmt.devtestlabs.models.HourDetails
         :keyword time_zone_id: The time zone ID (e.g. Pacific Standard time).
         :paramtype time_zone_id: str
-        :keyword notification_settings: Notification settings.
-        :paramtype notification_settings: ~azure.mgmt.devtestlabs.models.NotificationSettings
         :keyword target_resource_id: The resource ID to which the schedule belongs.
         :paramtype target_resource_id: str
+        :keyword status_properties_notification_settings_status: If notifications are enabled for this
+         schedule (i.e. Enabled, Disabled). Known values are: "Enabled" and "Disabled".
+        :paramtype status_properties_notification_settings_status: str or
+         ~azure.mgmt.devtestlabs.models.EnableStatus
+        :keyword time_in_minutes: Time in minutes before event at which notification will be sent.
+        :paramtype time_in_minutes: int
+        :keyword webhook_url: The webhook URL to which the notification will be sent.
+        :paramtype webhook_url: str
+        :keyword email_recipient: The email recipient to send notifications to (can be a list of
+         semi-colon separated email addresses).
+        :paramtype email_recipient: str
+        :keyword notification_locale: The locale to use when sending a notification (fallback for
+         unsupported languages is EN).
+        :paramtype notification_locale: str
+        :keyword minute: Minutes of the hour the schedule will run.
+        :paramtype minute: int
+        :keyword time_properties_daily_recurrence_time: The time of day the schedule will occur.
+        :paramtype time_properties_daily_recurrence_time: str
+        :keyword weekdays: The days of the week for which the schedule is set (e.g. Sunday, Monday,
+         Tuesday, etc.).
+        :paramtype weekdays: list[str]
+        :keyword time_properties_weekly_recurrence_time: The time of the day the schedule will occur.
+        :paramtype time_properties_weekly_recurrence_time: str
         """
-        super().__init__(location=location, tags=tags, **kwargs)
-        self.status = status
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.system_data = None
+        self.status_properties_status = status_properties_status
         self.task_type = task_type
-        self.weekly_recurrence = weekly_recurrence
-        self.daily_recurrence = daily_recurrence
-        self.hourly_recurrence = hourly_recurrence
         self.time_zone_id = time_zone_id
-        self.notification_settings = notification_settings
         self.created_date = None
         self.target_resource_id = target_resource_id
         self.provisioning_state = None
         self.unique_identifier = None
+        self.status_properties_notification_settings_status = status_properties_notification_settings_status
+        self.time_in_minutes = time_in_minutes
+        self.webhook_url = webhook_url
+        self.email_recipient = email_recipient
+        self.notification_locale = notification_locale
+        self.minute = minute
+        self.time_properties_daily_recurrence_time = time_properties_daily_recurrence_time
+        self.weekdays = weekdays
+        self.time_properties_weekly_recurrence_time = time_properties_weekly_recurrence_time
 
 
 class ScheduleCreationParameter(_serialization.Model):  # pylint: disable=too-many-instance-attributes
@@ -4896,44 +8945,76 @@ class ScheduleCreationParameter(_serialization.Model):  # pylint: disable=too-ma
     :vartype location: str
     :ivar tags: The tags of the resource.
     :vartype tags: dict[str, str]
-    :ivar status: The status of the schedule (i.e. Enabled, Disabled). Known values are: "Enabled"
-     and "Disabled".
-    :vartype status: str or ~azure.mgmt.devtestlabs.models.EnableStatus
+    :ivar status_properties_status: The status of the schedule (i.e. Enabled, Disabled). Known
+     values are: "Enabled" and "Disabled".
+    :vartype status_properties_status: str or ~azure.mgmt.devtestlabs.models.EnableStatus
     :ivar task_type: The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
     :vartype task_type: str
-    :ivar weekly_recurrence: If the schedule will occur only some days of the week, specify the
-     weekly recurrence.
-    :vartype weekly_recurrence: ~azure.mgmt.devtestlabs.models.WeekDetails
-    :ivar daily_recurrence: If the schedule will occur once each day of the week, specify the daily
-     recurrence.
-    :vartype daily_recurrence: ~azure.mgmt.devtestlabs.models.DayDetails
-    :ivar hourly_recurrence: If the schedule will occur multiple times a day, specify the hourly
-     recurrence.
-    :vartype hourly_recurrence: ~azure.mgmt.devtestlabs.models.HourDetails
     :ivar time_zone_id: The time zone ID (e.g. Pacific Standard time).
     :vartype time_zone_id: str
-    :ivar notification_settings: Notification settings.
-    :vartype notification_settings: ~azure.mgmt.devtestlabs.models.NotificationSettings
+    :ivar created_date: The creation date of the schedule.
+    :vartype created_date: ~datetime.datetime
     :ivar target_resource_id: The resource ID to which the schedule belongs.
     :vartype target_resource_id: str
+    :ivar provisioning_state: The provisioning status of the resource.
+    :vartype provisioning_state: str
+    :ivar unique_identifier: The unique immutable identifier of a resource (Guid).
+    :vartype unique_identifier: str
+    :ivar status_properties_notification_settings_status: If notifications are enabled for this
+     schedule (i.e. Enabled, Disabled). Known values are: "Enabled" and "Disabled".
+    :vartype status_properties_notification_settings_status: str or
+     ~azure.mgmt.devtestlabs.models.EnableStatus
+    :ivar time_in_minutes: Time in minutes before event at which notification will be sent.
+    :vartype time_in_minutes: int
+    :ivar webhook_url: The webhook URL to which the notification will be sent.
+    :vartype webhook_url: str
+    :ivar email_recipient: The email recipient to send notifications to (can be a list of
+     semi-colon separated email addresses).
+    :vartype email_recipient: str
+    :ivar notification_locale: The locale to use when sending a notification (fallback for
+     unsupported languages is EN).
+    :vartype notification_locale: str
+    :ivar minute: Minutes of the hour the schedule will run.
+    :vartype minute: int
+    :ivar time_properties_daily_recurrence_time: The time of day the schedule will occur.
+    :vartype time_properties_daily_recurrence_time: str
+    :ivar weekdays: The days of the week for which the schedule is set (e.g. Sunday, Monday,
+     Tuesday, etc.).
+    :vartype weekdays: list[str]
+    :ivar time_properties_weekly_recurrence_time: The time of the day the schedule will occur.
+    :vartype time_properties_weekly_recurrence_time: str
     """
 
     _validation = {
         "location": {"readonly": True},
+        "created_date": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+        "unique_identifier": {"readonly": True},
     }
 
     _attribute_map = {
         "name": {"key": "name", "type": "str"},
         "location": {"key": "location", "type": "str"},
         "tags": {"key": "tags", "type": "{str}"},
-        "status": {"key": "properties.status", "type": "str"},
+        "status_properties_status": {"key": "properties.status", "type": "str"},
         "task_type": {"key": "properties.taskType", "type": "str"},
-        "weekly_recurrence": {"key": "properties.weeklyRecurrence", "type": "WeekDetails"},
-        "daily_recurrence": {"key": "properties.dailyRecurrence", "type": "DayDetails"},
-        "hourly_recurrence": {"key": "properties.hourlyRecurrence", "type": "HourDetails"},
         "time_zone_id": {"key": "properties.timeZoneId", "type": "str"},
-        "notification_settings": {"key": "properties.notificationSettings", "type": "NotificationSettings"},
+        "created_date": {"key": "properties.createdDate", "type": "iso-8601"},
         "target_resource_id": {"key": "properties.targetResourceId", "type": "str"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "unique_identifier": {"key": "properties.uniqueIdentifier", "type": "str"},
+        "status_properties_notification_settings_status": {
+            "key": "properties.notificationSettings.status",
+            "type": "str",
+        },
+        "time_in_minutes": {"key": "properties.notificationSettings.timeInMinutes", "type": "int"},
+        "webhook_url": {"key": "properties.notificationSettings.webhookUrl", "type": "str"},
+        "email_recipient": {"key": "properties.notificationSettings.emailRecipient", "type": "str"},
+        "notification_locale": {"key": "properties.notificationSettings.notificationLocale", "type": "str"},
+        "minute": {"key": "properties.hourlyRecurrence.minute", "type": "int"},
+        "time_properties_daily_recurrence_time": {"key": "properties.dailyRecurrence.time", "type": "str"},
+        "weekdays": {"key": "properties.weeklyRecurrence.weekdays", "type": "[str]"},
+        "time_properties_weekly_recurrence_time": {"key": "properties.weeklyRecurrence.time", "type": "str"},
     }
 
     def __init__(
@@ -4941,81 +9022,117 @@ class ScheduleCreationParameter(_serialization.Model):  # pylint: disable=too-ma
         *,
         name: Optional[str] = None,
         tags: Optional[Dict[str, str]] = None,
-        status: Optional[Union[str, "_models.EnableStatus"]] = None,
+        status_properties_status: Optional[Union[str, "_models.EnableStatus"]] = None,
         task_type: Optional[str] = None,
-        weekly_recurrence: Optional["_models.WeekDetails"] = None,
-        daily_recurrence: Optional["_models.DayDetails"] = None,
-        hourly_recurrence: Optional["_models.HourDetails"] = None,
         time_zone_id: Optional[str] = None,
-        notification_settings: Optional["_models.NotificationSettings"] = None,
         target_resource_id: Optional[str] = None,
-        **kwargs
-    ):
+        status_properties_notification_settings_status: Optional[Union[str, "_models.EnableStatus"]] = None,
+        time_in_minutes: Optional[int] = None,
+        webhook_url: Optional[str] = None,
+        email_recipient: Optional[str] = None,
+        notification_locale: Optional[str] = None,
+        minute: Optional[int] = None,
+        time_properties_daily_recurrence_time: Optional[str] = None,
+        weekdays: Optional[List[str]] = None,
+        time_properties_weekly_recurrence_time: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: The name of the virtual machine or environment.
         :paramtype name: str
         :keyword tags: The tags of the resource.
         :paramtype tags: dict[str, str]
-        :keyword status: The status of the schedule (i.e. Enabled, Disabled). Known values are:
-         "Enabled" and "Disabled".
-        :paramtype status: str or ~azure.mgmt.devtestlabs.models.EnableStatus
+        :keyword status_properties_status: The status of the schedule (i.e. Enabled, Disabled). Known
+         values are: "Enabled" and "Disabled".
+        :paramtype status_properties_status: str or ~azure.mgmt.devtestlabs.models.EnableStatus
         :keyword task_type: The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
         :paramtype task_type: str
-        :keyword weekly_recurrence: If the schedule will occur only some days of the week, specify the
-         weekly recurrence.
-        :paramtype weekly_recurrence: ~azure.mgmt.devtestlabs.models.WeekDetails
-        :keyword daily_recurrence: If the schedule will occur once each day of the week, specify the
-         daily recurrence.
-        :paramtype daily_recurrence: ~azure.mgmt.devtestlabs.models.DayDetails
-        :keyword hourly_recurrence: If the schedule will occur multiple times a day, specify the hourly
-         recurrence.
-        :paramtype hourly_recurrence: ~azure.mgmt.devtestlabs.models.HourDetails
         :keyword time_zone_id: The time zone ID (e.g. Pacific Standard time).
         :paramtype time_zone_id: str
-        :keyword notification_settings: Notification settings.
-        :paramtype notification_settings: ~azure.mgmt.devtestlabs.models.NotificationSettings
         :keyword target_resource_id: The resource ID to which the schedule belongs.
         :paramtype target_resource_id: str
+        :keyword status_properties_notification_settings_status: If notifications are enabled for this
+         schedule (i.e. Enabled, Disabled). Known values are: "Enabled" and "Disabled".
+        :paramtype status_properties_notification_settings_status: str or
+         ~azure.mgmt.devtestlabs.models.EnableStatus
+        :keyword time_in_minutes: Time in minutes before event at which notification will be sent.
+        :paramtype time_in_minutes: int
+        :keyword webhook_url: The webhook URL to which the notification will be sent.
+        :paramtype webhook_url: str
+        :keyword email_recipient: The email recipient to send notifications to (can be a list of
+         semi-colon separated email addresses).
+        :paramtype email_recipient: str
+        :keyword notification_locale: The locale to use when sending a notification (fallback for
+         unsupported languages is EN).
+        :paramtype notification_locale: str
+        :keyword minute: Minutes of the hour the schedule will run.
+        :paramtype minute: int
+        :keyword time_properties_daily_recurrence_time: The time of day the schedule will occur.
+        :paramtype time_properties_daily_recurrence_time: str
+        :keyword weekdays: The days of the week for which the schedule is set (e.g. Sunday, Monday,
+         Tuesday, etc.).
+        :paramtype weekdays: list[str]
+        :keyword time_properties_weekly_recurrence_time: The time of the day the schedule will occur.
+        :paramtype time_properties_weekly_recurrence_time: str
         """
         super().__init__(**kwargs)
         self.name = name
         self.location = None
         self.tags = tags
-        self.status = status
+        self.status_properties_status = status_properties_status
         self.task_type = task_type
-        self.weekly_recurrence = weekly_recurrence
-        self.daily_recurrence = daily_recurrence
-        self.hourly_recurrence = hourly_recurrence
         self.time_zone_id = time_zone_id
-        self.notification_settings = notification_settings
+        self.created_date = None
         self.target_resource_id = target_resource_id
+        self.provisioning_state = None
+        self.unique_identifier = None
+        self.status_properties_notification_settings_status = status_properties_notification_settings_status
+        self.time_in_minutes = time_in_minutes
+        self.webhook_url = webhook_url
+        self.email_recipient = email_recipient
+        self.notification_locale = notification_locale
+        self.minute = minute
+        self.time_properties_daily_recurrence_time = time_properties_daily_recurrence_time
+        self.weekdays = weekdays
+        self.time_properties_weekly_recurrence_time = time_properties_weekly_recurrence_time
 
 
 class ScheduleFragment(UpdateResource):
-    """A schedule.
+    """Patch.
 
     :ivar tags: The tags of the resource.
     :vartype tags: dict[str, str]
+    :ivar identity: The identity of the resource.
+    :vartype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
     """
 
     _attribute_map = {
         "tags": {"key": "tags", "type": "{str}"},
+        "identity": {"key": "identity", "type": "IdentityProperties"},
     }
 
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(
+        self,
+        *,
+        tags: Optional[Dict[str, str]] = None,
+        identity: Optional["_models.IdentityProperties"] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: The tags of the resource.
         :paramtype tags: dict[str, str]
+        :keyword identity: The identity of the resource.
+        :paramtype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
         """
-        super().__init__(tags=tags, **kwargs)
+        super().__init__(tags=tags, identity=identity, **kwargs)
 
 
 class ScheduleList(_serialization.Model):
-    """The response of a list operation.
+    """Contains a list of schedules and their properties.
 
-    :ivar value: Results of the list operation.
+    :ivar value: List of schedules and their properties.
     :vartype value: list[~azure.mgmt.devtestlabs.models.Schedule]
-    :ivar next_link: Link for next set of results.
+    :ivar next_link: URL to get the next set of operation list results if there are any.
     :vartype next_link: str
     """
 
@@ -5024,11 +9141,13 @@ class ScheduleList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Schedule"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.Schedule"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
-        :keyword value: Results of the list operation.
+        :keyword value: List of schedules and their properties.
         :paramtype value: list[~azure.mgmt.devtestlabs.models.Schedule]
-        :keyword next_link: Link for next set of results.
+        :keyword next_link: URL to get the next set of operation list results if there are any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
@@ -5041,16 +9160,22 @@ class Secret(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: The identifier of the resource.
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar location: The location of the resource.
-    :vartype location: str
-    :ivar tags: The tags of the resource.
+    :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar system_data: The system metadata relating to this resource.
+    :vartype system_data: ~azure.mgmt.devtestlabs.models.SystemData
     :ivar value: The value of the secret for secret creation.
     :vartype value: str
     :ivar provisioning_state: The provisioning status of the resource.
@@ -5063,6 +9188,8 @@ class Secret(Resource):
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "location": {"required": True},
+        "system_data": {"readonly": True},
         "provisioning_state": {"readonly": True},
         "unique_identifier": {"readonly": True},
     }
@@ -5071,60 +9198,68 @@ class Secret(Resource):
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "location": {"key": "location", "type": "str"},
         "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "value": {"key": "properties.value", "type": "str"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "unique_identifier": {"key": "properties.uniqueIdentifier", "type": "str"},
     }
 
     def __init__(
-        self,
-        *,
-        location: Optional[str] = None,
-        tags: Optional[Dict[str, str]] = None,
-        value: Optional[str] = None,
-        **kwargs
-    ):
+        self, *, location: str, tags: Optional[Dict[str, str]] = None, value: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
-        :keyword location: The location of the resource.
-        :paramtype location: str
-        :keyword tags: The tags of the resource.
+        :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
         :keyword value: The value of the secret for secret creation.
         :paramtype value: str
         """
-        super().__init__(location=location, tags=tags, **kwargs)
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.system_data = None
         self.value = value
         self.provisioning_state = None
         self.unique_identifier = None
 
 
 class SecretFragment(UpdateResource):
-    """A secret.
+    """Patch.
 
     :ivar tags: The tags of the resource.
     :vartype tags: dict[str, str]
+    :ivar identity: The identity of the resource.
+    :vartype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
     """
 
     _attribute_map = {
         "tags": {"key": "tags", "type": "{str}"},
+        "identity": {"key": "identity", "type": "IdentityProperties"},
     }
 
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(
+        self,
+        *,
+        tags: Optional[Dict[str, str]] = None,
+        identity: Optional["_models.IdentityProperties"] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: The tags of the resource.
         :paramtype tags: dict[str, str]
+        :keyword identity: The identity of the resource.
+        :paramtype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
         """
-        super().__init__(tags=tags, **kwargs)
+        super().__init__(tags=tags, identity=identity, **kwargs)
 
 
 class SecretList(_serialization.Model):
-    """The response of a list operation.
+    """Contains a list of secrets and their properties.
 
-    :ivar value: Results of the list operation.
+    :ivar value: List of secrets and their properties.
     :vartype value: list[~azure.mgmt.devtestlabs.models.Secret]
-    :ivar next_link: Link for next set of results.
+    :ivar next_link: URL to get the next set of operation list results if there are any.
     :vartype next_link: str
     """
 
@@ -5133,11 +9268,13 @@ class SecretList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Secret"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.Secret"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
-        :keyword value: Results of the list operation.
+        :keyword value: List of secrets and their properties.
         :paramtype value: list[~azure.mgmt.devtestlabs.models.Secret]
-        :keyword next_link: Link for next set of results.
+        :keyword next_link: URL to get the next set of operation list results if there are any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
@@ -5145,109 +9282,981 @@ class SecretList(_serialization.Model):
         self.next_link = next_link
 
 
-class ServiceFabric(Resource):
+class SecurityProfile(_serialization.Model):
+    """The security profile settings for a virtual machine.
+
+    :ivar security_type: Specifies the SecurityType of the virtual machine. It has to be set to any
+     specified value to enable UefiSettings. :code:`<br>`:code:`<br>` Default: UefiSettings will not
+     be enabled unless this property is set. Known values are: "TrustedLaunch" and "ConfidentialVM".
+    :vartype security_type: str or ~azure.mgmt.devtestlabs.models.SecurityTypes
+    :ivar uefi_settings: Security settings like secure boot and vTPM. Structure must be null if
+     SecurityType string is null.
+    :vartype uefi_settings: ~azure.mgmt.devtestlabs.models.UefiSettings
+    """
+
+    _attribute_map = {
+        "security_type": {"key": "securityType", "type": "str"},
+        "uefi_settings": {"key": "uefiSettings", "type": "UefiSettings"},
+    }
+
+    def __init__(
+        self,
+        *,
+        security_type: Optional[Union[str, "_models.SecurityTypes"]] = None,
+        uefi_settings: Optional["_models.UefiSettings"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword security_type: Specifies the SecurityType of the virtual machine. It has to be set to
+         any specified value to enable UefiSettings. :code:`<br>`:code:`<br>` Default: UefiSettings will
+         not be enabled unless this property is set. Known values are: "TrustedLaunch" and
+         "ConfidentialVM".
+        :paramtype security_type: str or ~azure.mgmt.devtestlabs.models.SecurityTypes
+        :keyword uefi_settings: Security settings like secure boot and vTPM. Structure must be null if
+         SecurityType string is null.
+        :paramtype uefi_settings: ~azure.mgmt.devtestlabs.models.UefiSettings
+        """
+        super().__init__(**kwargs)
+        self.security_type = security_type
+        self.uefi_settings = uefi_settings
+
+
+class ServiceFabric(Resource):  # pylint: disable=too-many-instance-attributes
     """A Service Fabric.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: The identifier of the resource.
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar location: The location of the resource.
-    :vartype location: str
-    :ivar tags: The tags of the resource.
+    :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar system_data: The system metadata relating to this resource.
+    :vartype system_data: ~azure.mgmt.devtestlabs.models.SystemData
     :ivar external_service_fabric_id: The backing service fabric resource's id.
     :vartype external_service_fabric_id: str
     :ivar environment_id: The resource id of the environment under which the service fabric
      resource is present.
     :vartype environment_id: str
-    :ivar applicable_schedule: The applicable schedule for the virtual machine.
-    :vartype applicable_schedule: ~azure.mgmt.devtestlabs.models.ApplicableSchedule
-    :ivar provisioning_state: The provisioning status of the resource.
-    :vartype provisioning_state: str
-    :ivar unique_identifier: The unique immutable identifier of a resource (Guid).
-    :vartype unique_identifier: str
+    :ivar provisioning_state_properties_provisioning_state: The provisioning status of the
+     resource.
+    :vartype provisioning_state_properties_provisioning_state: str
+    :ivar unique_identifier_properties_unique_identifier: The unique immutable identifier of a
+     resource (Guid).
+    :vartype unique_identifier_properties_unique_identifier: str
+    :ivar id_properties_applicable_schedule_id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id_properties_applicable_schedule_id: str
+    :ivar name_properties_applicable_schedule_name: The name of the resource.
+    :vartype name_properties_applicable_schedule_name: str
+    :ivar type_properties_applicable_schedule_type: The type of the resource. E.g.
+     "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+    :vartype type_properties_applicable_schedule_type: str
+    :ivar tags_properties_applicable_schedule_tags: Resource tags.
+    :vartype tags_properties_applicable_schedule_tags: dict[str, str]
+    :ivar location_properties_applicable_schedule_location: The geo-location where the resource
+     lives.
+    :vartype location_properties_applicable_schedule_location: str
+    :ivar system_data_properties_applicable_schedule_system_data: The system metadata relating to
+     this resource.
+    :vartype system_data_properties_applicable_schedule_system_data:
+     ~azure.mgmt.devtestlabs.models.SystemData
+    :ivar id_properties_applicable_schedule_properties_lab_vms_startup_id: Fully qualified resource
+     ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id_properties_applicable_schedule_properties_lab_vms_startup_id: str
+    :ivar name_properties_applicable_schedule_properties_lab_vms_startup_name: The name of the
+     resource.
+    :vartype name_properties_applicable_schedule_properties_lab_vms_startup_name: str
+    :ivar type_properties_applicable_schedule_properties_lab_vms_startup_type: The type of the
+     resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+    :vartype type_properties_applicable_schedule_properties_lab_vms_startup_type: str
+    :ivar tags_properties_applicable_schedule_properties_lab_vms_startup_tags: Resource tags.
+    :vartype tags_properties_applicable_schedule_properties_lab_vms_startup_tags: dict[str, str]
+    :ivar location_properties_applicable_schedule_properties_lab_vms_startup_location: The
+     geo-location where the resource lives.
+    :vartype location_properties_applicable_schedule_properties_lab_vms_startup_location: str
+    :ivar system_data_properties_applicable_schedule_properties_lab_vms_startup_system_data: The
+     system metadata relating to this resource.
+    :vartype system_data_properties_applicable_schedule_properties_lab_vms_startup_system_data:
+     ~azure.mgmt.devtestlabs.models.SystemData
+    :ivar status_properties_applicable_schedule_properties_lab_vms_startup_properties_status: The
+     status of the schedule (i.e. Enabled, Disabled). Known values are: "Enabled" and "Disabled".
+    :vartype status_properties_applicable_schedule_properties_lab_vms_startup_properties_status:
+     str or ~azure.mgmt.devtestlabs.models.EnableStatus
+    :ivar task_type_properties_applicable_schedule_properties_lab_vms_startup_properties_task_type:
+     The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
+    :vartype
+     task_type_properties_applicable_schedule_properties_lab_vms_startup_properties_task_type: str
+    :ivar
+     time_zone_id_properties_applicable_schedule_properties_lab_vms_startup_properties_time_zone_id:
+     The time zone ID (e.g. Pacific Standard time).
+    :vartype
+     time_zone_id_properties_applicable_schedule_properties_lab_vms_startup_properties_time_zone_id:
+     str
+    :ivar
+     created_date_properties_applicable_schedule_properties_lab_vms_startup_properties_created_date:
+     The creation date of the schedule.
+    :vartype
+     created_date_properties_applicable_schedule_properties_lab_vms_startup_properties_created_date:
+     ~datetime.datetime
+    :ivar
+     target_resource_id_properties_applicable_schedule_properties_lab_vms_startup_properties_target_resource_id:
+     The resource ID to which the schedule belongs.
+    :vartype
+     target_resource_id_properties_applicable_schedule_properties_lab_vms_startup_properties_target_resource_id:
+     str
+    :ivar
+     provisioning_state_properties_applicable_schedule_properties_lab_vms_startup_properties_provisioning_state:
+     The provisioning status of the resource.
+    :vartype
+     provisioning_state_properties_applicable_schedule_properties_lab_vms_startup_properties_provisioning_state:
+     str
+    :ivar
+     unique_identifier_properties_applicable_schedule_properties_lab_vms_startup_properties_unique_identifier:
+     The unique immutable identifier of a resource (Guid).
+    :vartype
+     unique_identifier_properties_applicable_schedule_properties_lab_vms_startup_properties_unique_identifier:
+     str
+    :ivar
+     status_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_status:
+     If notifications are enabled for this schedule (i.e. Enabled, Disabled). Known values are:
+     "Enabled" and "Disabled".
+    :vartype
+     status_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_status:
+     str or ~azure.mgmt.devtestlabs.models.EnableStatus
+    :ivar
+     time_in_minutes_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_time_in_minutes:
+     Time in minutes before event at which notification will be sent.
+    :vartype
+     time_in_minutes_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_time_in_minutes:
+     int
+    :ivar
+     webhook_url_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_webhook_url:
+     The webhook URL to which the notification will be sent.
+    :vartype
+     webhook_url_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_webhook_url:
+     str
+    :ivar
+     email_recipient_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_email_recipient:
+     The email recipient to send notifications to (can be a list of semi-colon separated email
+     addresses).
+    :vartype
+     email_recipient_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_email_recipient:
+     str
+    :ivar
+     notification_locale_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_notification_locale:
+     The locale to use when sending a notification (fallback for unsupported languages is EN).
+    :vartype
+     notification_locale_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_notification_locale:
+     str
+    :ivar
+     minute_properties_applicable_schedule_properties_lab_vms_startup_properties_hourly_recurrence_minute:
+     Minutes of the hour the schedule will run.
+    :vartype
+     minute_properties_applicable_schedule_properties_lab_vms_startup_properties_hourly_recurrence_minute:
+     int
+    :ivar
+     time_properties_applicable_schedule_properties_lab_vms_startup_properties_daily_recurrence_time:
+     The time of day the schedule will occur.
+    :vartype
+     time_properties_applicable_schedule_properties_lab_vms_startup_properties_daily_recurrence_time:
+     str
+    :ivar
+     weekdays_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_weekdays:
+     The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
+    :vartype
+     weekdays_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_weekdays:
+     list[str]
+    :ivar
+     time_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_time:
+     The time of the day the schedule will occur.
+    :vartype
+     time_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_time:
+     str
+    :ivar id_properties_applicable_schedule_properties_lab_vms_shutdown_id: Fully qualified
+     resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id_properties_applicable_schedule_properties_lab_vms_shutdown_id: str
+    :ivar name_properties_applicable_schedule_properties_lab_vms_shutdown_name: The name of the
+     resource.
+    :vartype name_properties_applicable_schedule_properties_lab_vms_shutdown_name: str
+    :ivar type_properties_applicable_schedule_properties_lab_vms_shutdown_type: The type of the
+     resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
+    :vartype type_properties_applicable_schedule_properties_lab_vms_shutdown_type: str
+    :ivar tags_properties_applicable_schedule_properties_lab_vms_shutdown_tags: Resource tags.
+    :vartype tags_properties_applicable_schedule_properties_lab_vms_shutdown_tags: dict[str, str]
+    :ivar location_properties_applicable_schedule_properties_lab_vms_shutdown_location: The
+     geo-location where the resource lives.
+    :vartype location_properties_applicable_schedule_properties_lab_vms_shutdown_location: str
+    :ivar system_data_properties_applicable_schedule_properties_lab_vms_shutdown_system_data: The
+     system metadata relating to this resource.
+    :vartype system_data_properties_applicable_schedule_properties_lab_vms_shutdown_system_data:
+     ~azure.mgmt.devtestlabs.models.SystemData
+    :ivar status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_status: The
+     status of the schedule (i.e. Enabled, Disabled). Known values are: "Enabled" and "Disabled".
+    :vartype status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_status:
+     str or ~azure.mgmt.devtestlabs.models.EnableStatus
+    :ivar
+     task_type_properties_applicable_schedule_properties_lab_vms_shutdown_properties_task_type: The
+     task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
+    :vartype
+     task_type_properties_applicable_schedule_properties_lab_vms_shutdown_properties_task_type: str
+    :ivar
+     time_zone_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_time_zone_id:
+     The time zone ID (e.g. Pacific Standard time).
+    :vartype
+     time_zone_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_time_zone_id:
+     str
+    :ivar
+     created_date_properties_applicable_schedule_properties_lab_vms_shutdown_properties_created_date:
+     The creation date of the schedule.
+    :vartype
+     created_date_properties_applicable_schedule_properties_lab_vms_shutdown_properties_created_date:
+     ~datetime.datetime
+    :ivar
+     target_resource_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_target_resource_id:
+     The resource ID to which the schedule belongs.
+    :vartype
+     target_resource_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_target_resource_id:
+     str
+    :ivar
+     provisioning_state_properties_applicable_schedule_properties_lab_vms_shutdown_properties_provisioning_state:
+     The provisioning status of the resource.
+    :vartype
+     provisioning_state_properties_applicable_schedule_properties_lab_vms_shutdown_properties_provisioning_state:
+     str
+    :ivar
+     unique_identifier_properties_applicable_schedule_properties_lab_vms_shutdown_properties_unique_identifier:
+     The unique immutable identifier of a resource (Guid).
+    :vartype
+     unique_identifier_properties_applicable_schedule_properties_lab_vms_shutdown_properties_unique_identifier:
+     str
+    :ivar
+     status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_status:
+     If notifications are enabled for this schedule (i.e. Enabled, Disabled). Known values are:
+     "Enabled" and "Disabled".
+    :vartype
+     status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_status:
+     str or ~azure.mgmt.devtestlabs.models.EnableStatus
+    :ivar
+     time_in_minutes_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes:
+     Time in minutes before event at which notification will be sent.
+    :vartype
+     time_in_minutes_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes:
+     int
+    :ivar
+     webhook_url_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_webhook_url:
+     The webhook URL to which the notification will be sent.
+    :vartype
+     webhook_url_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_webhook_url:
+     str
+    :ivar
+     email_recipient_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_email_recipient:
+     The email recipient to send notifications to (can be a list of semi-colon separated email
+     addresses).
+    :vartype
+     email_recipient_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_email_recipient:
+     str
+    :ivar
+     notification_locale_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_notification_locale:
+     The locale to use when sending a notification (fallback for unsupported languages is EN).
+    :vartype
+     notification_locale_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_notification_locale:
+     str
+    :ivar
+     minute_properties_applicable_schedule_properties_lab_vms_shutdown_properties_hourly_recurrence_minute:
+     Minutes of the hour the schedule will run.
+    :vartype
+     minute_properties_applicable_schedule_properties_lab_vms_shutdown_properties_hourly_recurrence_minute:
+     int
+    :ivar
+     time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_daily_recurrence_time:
+     The time of day the schedule will occur.
+    :vartype
+     time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_daily_recurrence_time:
+     str
+    :ivar
+     weekdays_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays:
+     The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
+    :vartype
+     weekdays_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays:
+     list[str]
+    :ivar
+     time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_time:
+     The time of the day the schedule will occur.
+    :vartype
+     time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_time:
+     str
     """
 
     _validation = {
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
-        "applicable_schedule": {"readonly": True},
-        "provisioning_state": {"readonly": True},
-        "unique_identifier": {"readonly": True},
+        "location": {"required": True},
+        "system_data": {"readonly": True},
+        "provisioning_state_properties_provisioning_state": {"readonly": True},
+        "unique_identifier_properties_unique_identifier": {"readonly": True},
+        "id_properties_applicable_schedule_id": {"readonly": True},
+        "name_properties_applicable_schedule_name": {"readonly": True},
+        "type_properties_applicable_schedule_type": {"readonly": True},
+        "system_data_properties_applicable_schedule_system_data": {"readonly": True},
+        "id_properties_applicable_schedule_properties_lab_vms_startup_id": {"readonly": True},
+        "name_properties_applicable_schedule_properties_lab_vms_startup_name": {"readonly": True},
+        "type_properties_applicable_schedule_properties_lab_vms_startup_type": {"readonly": True},
+        "system_data_properties_applicable_schedule_properties_lab_vms_startup_system_data": {"readonly": True},
+        "created_date_properties_applicable_schedule_properties_lab_vms_startup_properties_created_date": {
+            "readonly": True
+        },
+        "provisioning_state_properties_applicable_schedule_properties_lab_vms_startup_properties_provisioning_state": {
+            "readonly": True
+        },
+        "unique_identifier_properties_applicable_schedule_properties_lab_vms_startup_properties_unique_identifier": {
+            "readonly": True
+        },
+        "id_properties_applicable_schedule_properties_lab_vms_shutdown_id": {"readonly": True},
+        "name_properties_applicable_schedule_properties_lab_vms_shutdown_name": {"readonly": True},
+        "type_properties_applicable_schedule_properties_lab_vms_shutdown_type": {"readonly": True},
+        "system_data_properties_applicable_schedule_properties_lab_vms_shutdown_system_data": {"readonly": True},
+        "created_date_properties_applicable_schedule_properties_lab_vms_shutdown_properties_created_date": {
+            "readonly": True
+        },
+        "provisioning_state_properties_applicable_schedule_properties_lab_vms_shutdown_properties_provisioning_state": {
+            "readonly": True
+        },
+        "unique_identifier_properties_applicable_schedule_properties_lab_vms_shutdown_properties_unique_identifier": {
+            "readonly": True
+        },
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "location": {"key": "location", "type": "str"},
         "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "external_service_fabric_id": {"key": "properties.externalServiceFabricId", "type": "str"},
         "environment_id": {"key": "properties.environmentId", "type": "str"},
-        "applicable_schedule": {"key": "properties.applicableSchedule", "type": "ApplicableSchedule"},
-        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
-        "unique_identifier": {"key": "properties.uniqueIdentifier", "type": "str"},
+        "provisioning_state_properties_provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "unique_identifier_properties_unique_identifier": {"key": "properties.uniqueIdentifier", "type": "str"},
+        "id_properties_applicable_schedule_id": {"key": "properties.applicableSchedule.id", "type": "str"},
+        "name_properties_applicable_schedule_name": {"key": "properties.applicableSchedule.name", "type": "str"},
+        "type_properties_applicable_schedule_type": {"key": "properties.applicableSchedule.type", "type": "str"},
+        "tags_properties_applicable_schedule_tags": {"key": "properties.applicableSchedule.tags", "type": "{str}"},
+        "location_properties_applicable_schedule_location": {
+            "key": "properties.applicableSchedule.location",
+            "type": "str",
+        },
+        "system_data_properties_applicable_schedule_system_data": {
+            "key": "properties.applicableSchedule.systemData",
+            "type": "SystemData",
+        },
+        "id_properties_applicable_schedule_properties_lab_vms_startup_id": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.id",
+            "type": "str",
+        },
+        "name_properties_applicable_schedule_properties_lab_vms_startup_name": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.name",
+            "type": "str",
+        },
+        "type_properties_applicable_schedule_properties_lab_vms_startup_type": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.type",
+            "type": "str",
+        },
+        "tags_properties_applicable_schedule_properties_lab_vms_startup_tags": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.tags",
+            "type": "{str}",
+        },
+        "location_properties_applicable_schedule_properties_lab_vms_startup_location": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.location",
+            "type": "str",
+        },
+        "system_data_properties_applicable_schedule_properties_lab_vms_startup_system_data": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.systemData",
+            "type": "SystemData",
+        },
+        "status_properties_applicable_schedule_properties_lab_vms_startup_properties_status": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.status",
+            "type": "str",
+        },
+        "task_type_properties_applicable_schedule_properties_lab_vms_startup_properties_task_type": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.taskType",
+            "type": "str",
+        },
+        "time_zone_id_properties_applicable_schedule_properties_lab_vms_startup_properties_time_zone_id": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.timeZoneId",
+            "type": "str",
+        },
+        "created_date_properties_applicable_schedule_properties_lab_vms_startup_properties_created_date": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.createdDate",
+            "type": "iso-8601",
+        },
+        "target_resource_id_properties_applicable_schedule_properties_lab_vms_startup_properties_target_resource_id": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.targetResourceId",
+            "type": "str",
+        },
+        "provisioning_state_properties_applicable_schedule_properties_lab_vms_startup_properties_provisioning_state": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.provisioningState",
+            "type": "str",
+        },
+        "unique_identifier_properties_applicable_schedule_properties_lab_vms_startup_properties_unique_identifier": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.uniqueIdentifier",
+            "type": "str",
+        },
+        "status_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_status": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.status",
+            "type": "str",
+        },
+        "time_in_minutes_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_time_in_minutes": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.timeInMinutes",
+            "type": "int",
+        },
+        "webhook_url_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_webhook_url": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.webhookUrl",
+            "type": "str",
+        },
+        "email_recipient_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_email_recipient": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.emailRecipient",
+            "type": "str",
+        },
+        "notification_locale_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_notification_locale": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.notificationLocale",
+            "type": "str",
+        },
+        "minute_properties_applicable_schedule_properties_lab_vms_startup_properties_hourly_recurrence_minute": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.hourlyRecurrence.minute",
+            "type": "int",
+        },
+        "time_properties_applicable_schedule_properties_lab_vms_startup_properties_daily_recurrence_time": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.dailyRecurrence.time",
+            "type": "str",
+        },
+        "weekdays_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_weekdays": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.weeklyRecurrence.weekdays",
+            "type": "[str]",
+        },
+        "time_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_time": {
+            "key": "properties.applicableSchedule.properties.labVmsStartup.properties.weeklyRecurrence.time",
+            "type": "str",
+        },
+        "id_properties_applicable_schedule_properties_lab_vms_shutdown_id": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.id",
+            "type": "str",
+        },
+        "name_properties_applicable_schedule_properties_lab_vms_shutdown_name": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.name",
+            "type": "str",
+        },
+        "type_properties_applicable_schedule_properties_lab_vms_shutdown_type": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.type",
+            "type": "str",
+        },
+        "tags_properties_applicable_schedule_properties_lab_vms_shutdown_tags": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.tags",
+            "type": "{str}",
+        },
+        "location_properties_applicable_schedule_properties_lab_vms_shutdown_location": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.location",
+            "type": "str",
+        },
+        "system_data_properties_applicable_schedule_properties_lab_vms_shutdown_system_data": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.systemData",
+            "type": "SystemData",
+        },
+        "status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_status": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.status",
+            "type": "str",
+        },
+        "task_type_properties_applicable_schedule_properties_lab_vms_shutdown_properties_task_type": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.taskType",
+            "type": "str",
+        },
+        "time_zone_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_time_zone_id": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.timeZoneId",
+            "type": "str",
+        },
+        "created_date_properties_applicable_schedule_properties_lab_vms_shutdown_properties_created_date": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.createdDate",
+            "type": "iso-8601",
+        },
+        "target_resource_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_target_resource_id": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.targetResourceId",
+            "type": "str",
+        },
+        "provisioning_state_properties_applicable_schedule_properties_lab_vms_shutdown_properties_provisioning_state": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.provisioningState",
+            "type": "str",
+        },
+        "unique_identifier_properties_applicable_schedule_properties_lab_vms_shutdown_properties_unique_identifier": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.uniqueIdentifier",
+            "type": "str",
+        },
+        "status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_status": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.status",
+            "type": "str",
+        },
+        "time_in_minutes_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.timeInMinutes",
+            "type": "int",
+        },
+        "webhook_url_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_webhook_url": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.webhookUrl",
+            "type": "str",
+        },
+        "email_recipient_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_email_recipient": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.emailRecipient",
+            "type": "str",
+        },
+        "notification_locale_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_notification_locale": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.notificationLocale",
+            "type": "str",
+        },
+        "minute_properties_applicable_schedule_properties_lab_vms_shutdown_properties_hourly_recurrence_minute": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.hourlyRecurrence.minute",
+            "type": "int",
+        },
+        "time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_daily_recurrence_time": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.dailyRecurrence.time",
+            "type": "str",
+        },
+        "weekdays_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.weeklyRecurrence.weekdays",
+            "type": "[str]",
+        },
+        "time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_time": {
+            "key": "properties.applicableSchedule.properties.labVmsShutdown.properties.weeklyRecurrence.time",
+            "type": "str",
+        },
     }
 
-    def __init__(
+    def __init__(  # pylint: disable=too-many-locals
         self,
         *,
-        location: Optional[str] = None,
+        location: str,
         tags: Optional[Dict[str, str]] = None,
         external_service_fabric_id: Optional[str] = None,
         environment_id: Optional[str] = None,
-        **kwargs
-    ):
+        tags_properties_applicable_schedule_tags: Optional[Dict[str, str]] = None,
+        location_properties_applicable_schedule_location: Optional[str] = None,
+        tags_properties_applicable_schedule_properties_lab_vms_startup_tags: Optional[Dict[str, str]] = None,
+        location_properties_applicable_schedule_properties_lab_vms_startup_location: Optional[str] = None,
+        status_properties_applicable_schedule_properties_lab_vms_startup_properties_status: Optional[
+            Union[str, "_models.EnableStatus"]
+        ] = None,
+        task_type_properties_applicable_schedule_properties_lab_vms_startup_properties_task_type: Optional[str] = None,
+        time_zone_id_properties_applicable_schedule_properties_lab_vms_startup_properties_time_zone_id: Optional[
+            str
+        ] = None,
+        target_resource_id_properties_applicable_schedule_properties_lab_vms_startup_properties_target_resource_id: Optional[
+            str
+        ] = None,
+        status_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_status: Optional[
+            Union[str, "_models.EnableStatus"]
+        ] = None,
+        time_in_minutes_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_time_in_minutes: Optional[
+            int
+        ] = None,
+        webhook_url_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_webhook_url: Optional[
+            str
+        ] = None,
+        email_recipient_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_email_recipient: Optional[
+            str
+        ] = None,
+        notification_locale_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_notification_locale: Optional[
+            str
+        ] = None,
+        minute_properties_applicable_schedule_properties_lab_vms_startup_properties_hourly_recurrence_minute: Optional[
+            int
+        ] = None,
+        time_properties_applicable_schedule_properties_lab_vms_startup_properties_daily_recurrence_time: Optional[
+            str
+        ] = None,
+        weekdays_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_weekdays: Optional[
+            List[str]
+        ] = None,
+        time_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_time: Optional[
+            str
+        ] = None,
+        tags_properties_applicable_schedule_properties_lab_vms_shutdown_tags: Optional[Dict[str, str]] = None,
+        location_properties_applicable_schedule_properties_lab_vms_shutdown_location: Optional[str] = None,
+        status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_status: Optional[
+            Union[str, "_models.EnableStatus"]
+        ] = None,
+        task_type_properties_applicable_schedule_properties_lab_vms_shutdown_properties_task_type: Optional[str] = None,
+        time_zone_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_time_zone_id: Optional[
+            str
+        ] = None,
+        target_resource_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_target_resource_id: Optional[
+            str
+        ] = None,
+        status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_status: Optional[
+            Union[str, "_models.EnableStatus"]
+        ] = None,
+        time_in_minutes_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes: Optional[
+            int
+        ] = None,
+        webhook_url_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_webhook_url: Optional[
+            str
+        ] = None,
+        email_recipient_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_email_recipient: Optional[
+            str
+        ] = None,
+        notification_locale_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_notification_locale: Optional[
+            str
+        ] = None,
+        minute_properties_applicable_schedule_properties_lab_vms_shutdown_properties_hourly_recurrence_minute: Optional[
+            int
+        ] = None,
+        time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_daily_recurrence_time: Optional[
+            str
+        ] = None,
+        weekdays_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays: Optional[
+            List[str]
+        ] = None,
+        time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_time: Optional[
+            str
+        ] = None,
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword location: The location of the resource.
-        :paramtype location: str
-        :keyword tags: The tags of the resource.
+        :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
         :keyword external_service_fabric_id: The backing service fabric resource's id.
         :paramtype external_service_fabric_id: str
         :keyword environment_id: The resource id of the environment under which the service fabric
          resource is present.
         :paramtype environment_id: str
+        :keyword tags_properties_applicable_schedule_tags: Resource tags.
+        :paramtype tags_properties_applicable_schedule_tags: dict[str, str]
+        :keyword location_properties_applicable_schedule_location: The geo-location where the resource
+         lives.
+        :paramtype location_properties_applicable_schedule_location: str
+        :keyword tags_properties_applicable_schedule_properties_lab_vms_startup_tags: Resource tags.
+        :paramtype tags_properties_applicable_schedule_properties_lab_vms_startup_tags: dict[str, str]
+        :keyword location_properties_applicable_schedule_properties_lab_vms_startup_location: The
+         geo-location where the resource lives.
+        :paramtype location_properties_applicable_schedule_properties_lab_vms_startup_location: str
+        :keyword status_properties_applicable_schedule_properties_lab_vms_startup_properties_status:
+         The status of the schedule (i.e. Enabled, Disabled). Known values are: "Enabled" and
+         "Disabled".
+        :paramtype status_properties_applicable_schedule_properties_lab_vms_startup_properties_status:
+         str or ~azure.mgmt.devtestlabs.models.EnableStatus
+        :keyword
+         task_type_properties_applicable_schedule_properties_lab_vms_startup_properties_task_type: The
+         task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
+        :paramtype
+         task_type_properties_applicable_schedule_properties_lab_vms_startup_properties_task_type: str
+        :keyword
+         time_zone_id_properties_applicable_schedule_properties_lab_vms_startup_properties_time_zone_id:
+         The time zone ID (e.g. Pacific Standard time).
+        :paramtype
+         time_zone_id_properties_applicable_schedule_properties_lab_vms_startup_properties_time_zone_id:
+         str
+        :keyword
+         target_resource_id_properties_applicable_schedule_properties_lab_vms_startup_properties_target_resource_id:
+         The resource ID to which the schedule belongs.
+        :paramtype
+         target_resource_id_properties_applicable_schedule_properties_lab_vms_startup_properties_target_resource_id:
+         str
+        :keyword
+         status_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_status:
+         If notifications are enabled for this schedule (i.e. Enabled, Disabled). Known values are:
+         "Enabled" and "Disabled".
+        :paramtype
+         status_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_status:
+         str or ~azure.mgmt.devtestlabs.models.EnableStatus
+        :keyword
+         time_in_minutes_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_time_in_minutes:
+         Time in minutes before event at which notification will be sent.
+        :paramtype
+         time_in_minutes_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_time_in_minutes:
+         int
+        :keyword
+         webhook_url_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_webhook_url:
+         The webhook URL to which the notification will be sent.
+        :paramtype
+         webhook_url_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_webhook_url:
+         str
+        :keyword
+         email_recipient_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_email_recipient:
+         The email recipient to send notifications to (can be a list of semi-colon separated email
+         addresses).
+        :paramtype
+         email_recipient_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_email_recipient:
+         str
+        :keyword
+         notification_locale_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_notification_locale:
+         The locale to use when sending a notification (fallback for unsupported languages is EN).
+        :paramtype
+         notification_locale_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_notification_locale:
+         str
+        :keyword
+         minute_properties_applicable_schedule_properties_lab_vms_startup_properties_hourly_recurrence_minute:
+         Minutes of the hour the schedule will run.
+        :paramtype
+         minute_properties_applicable_schedule_properties_lab_vms_startup_properties_hourly_recurrence_minute:
+         int
+        :keyword
+         time_properties_applicable_schedule_properties_lab_vms_startup_properties_daily_recurrence_time:
+         The time of day the schedule will occur.
+        :paramtype
+         time_properties_applicable_schedule_properties_lab_vms_startup_properties_daily_recurrence_time:
+         str
+        :keyword
+         weekdays_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_weekdays:
+         The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
+        :paramtype
+         weekdays_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_weekdays:
+         list[str]
+        :keyword
+         time_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_time:
+         The time of the day the schedule will occur.
+        :paramtype
+         time_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_time:
+         str
+        :keyword tags_properties_applicable_schedule_properties_lab_vms_shutdown_tags: Resource tags.
+        :paramtype tags_properties_applicable_schedule_properties_lab_vms_shutdown_tags: dict[str, str]
+        :keyword location_properties_applicable_schedule_properties_lab_vms_shutdown_location: The
+         geo-location where the resource lives.
+        :paramtype location_properties_applicable_schedule_properties_lab_vms_shutdown_location: str
+        :keyword status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_status:
+         The status of the schedule (i.e. Enabled, Disabled). Known values are: "Enabled" and
+         "Disabled".
+        :paramtype status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_status:
+         str or ~azure.mgmt.devtestlabs.models.EnableStatus
+        :keyword
+         task_type_properties_applicable_schedule_properties_lab_vms_shutdown_properties_task_type: The
+         task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
+        :paramtype
+         task_type_properties_applicable_schedule_properties_lab_vms_shutdown_properties_task_type: str
+        :keyword
+         time_zone_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_time_zone_id:
+         The time zone ID (e.g. Pacific Standard time).
+        :paramtype
+         time_zone_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_time_zone_id:
+         str
+        :keyword
+         target_resource_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_target_resource_id:
+         The resource ID to which the schedule belongs.
+        :paramtype
+         target_resource_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_target_resource_id:
+         str
+        :keyword
+         status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_status:
+         If notifications are enabled for this schedule (i.e. Enabled, Disabled). Known values are:
+         "Enabled" and "Disabled".
+        :paramtype
+         status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_status:
+         str or ~azure.mgmt.devtestlabs.models.EnableStatus
+        :keyword
+         time_in_minutes_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes:
+         Time in minutes before event at which notification will be sent.
+        :paramtype
+         time_in_minutes_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes:
+         int
+        :keyword
+         webhook_url_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_webhook_url:
+         The webhook URL to which the notification will be sent.
+        :paramtype
+         webhook_url_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_webhook_url:
+         str
+        :keyword
+         email_recipient_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_email_recipient:
+         The email recipient to send notifications to (can be a list of semi-colon separated email
+         addresses).
+        :paramtype
+         email_recipient_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_email_recipient:
+         str
+        :keyword
+         notification_locale_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_notification_locale:
+         The locale to use when sending a notification (fallback for unsupported languages is EN).
+        :paramtype
+         notification_locale_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_notification_locale:
+         str
+        :keyword
+         minute_properties_applicable_schedule_properties_lab_vms_shutdown_properties_hourly_recurrence_minute:
+         Minutes of the hour the schedule will run.
+        :paramtype
+         minute_properties_applicable_schedule_properties_lab_vms_shutdown_properties_hourly_recurrence_minute:
+         int
+        :keyword
+         time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_daily_recurrence_time:
+         The time of day the schedule will occur.
+        :paramtype
+         time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_daily_recurrence_time:
+         str
+        :keyword
+         weekdays_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays:
+         The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
+        :paramtype
+         weekdays_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays:
+         list[str]
+        :keyword
+         time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_time:
+         The time of the day the schedule will occur.
+        :paramtype
+         time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_time:
+         str
         """
-        super().__init__(location=location, tags=tags, **kwargs)
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.system_data = None
         self.external_service_fabric_id = external_service_fabric_id
         self.environment_id = environment_id
-        self.applicable_schedule = None
-        self.provisioning_state = None
-        self.unique_identifier = None
+        self.provisioning_state_properties_provisioning_state = None
+        self.unique_identifier_properties_unique_identifier = None
+        self.id_properties_applicable_schedule_id = None
+        self.name_properties_applicable_schedule_name = None
+        self.type_properties_applicable_schedule_type = None
+        self.tags_properties_applicable_schedule_tags = tags_properties_applicable_schedule_tags
+        self.location_properties_applicable_schedule_location = location_properties_applicable_schedule_location
+        self.system_data_properties_applicable_schedule_system_data = None
+        self.id_properties_applicable_schedule_properties_lab_vms_startup_id = None
+        self.name_properties_applicable_schedule_properties_lab_vms_startup_name = None
+        self.type_properties_applicable_schedule_properties_lab_vms_startup_type = None
+        self.tags_properties_applicable_schedule_properties_lab_vms_startup_tags = (
+            tags_properties_applicable_schedule_properties_lab_vms_startup_tags
+        )
+        self.location_properties_applicable_schedule_properties_lab_vms_startup_location = (
+            location_properties_applicable_schedule_properties_lab_vms_startup_location
+        )
+        self.system_data_properties_applicable_schedule_properties_lab_vms_startup_system_data = None
+        self.status_properties_applicable_schedule_properties_lab_vms_startup_properties_status = (
+            status_properties_applicable_schedule_properties_lab_vms_startup_properties_status
+        )
+        self.task_type_properties_applicable_schedule_properties_lab_vms_startup_properties_task_type = (
+            task_type_properties_applicable_schedule_properties_lab_vms_startup_properties_task_type
+        )
+        self.time_zone_id_properties_applicable_schedule_properties_lab_vms_startup_properties_time_zone_id = (
+            time_zone_id_properties_applicable_schedule_properties_lab_vms_startup_properties_time_zone_id
+        )
+        self.created_date_properties_applicable_schedule_properties_lab_vms_startup_properties_created_date = None
+        self.target_resource_id_properties_applicable_schedule_properties_lab_vms_startup_properties_target_resource_id = (
+            target_resource_id_properties_applicable_schedule_properties_lab_vms_startup_properties_target_resource_id
+        )
+        self.provisioning_state_properties_applicable_schedule_properties_lab_vms_startup_properties_provisioning_state = (
+            None
+        )
+        self.unique_identifier_properties_applicable_schedule_properties_lab_vms_startup_properties_unique_identifier = (
+            None
+        )
+        self.status_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_status = (
+            status_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_status
+        )
+        self.time_in_minutes_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_time_in_minutes = time_in_minutes_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_time_in_minutes
+        self.webhook_url_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_webhook_url = webhook_url_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_webhook_url
+        self.email_recipient_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_email_recipient = email_recipient_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_email_recipient
+        self.notification_locale_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_notification_locale = notification_locale_properties_applicable_schedule_properties_lab_vms_startup_properties_notification_settings_notification_locale
+        self.minute_properties_applicable_schedule_properties_lab_vms_startup_properties_hourly_recurrence_minute = (
+            minute_properties_applicable_schedule_properties_lab_vms_startup_properties_hourly_recurrence_minute
+        )
+        self.time_properties_applicable_schedule_properties_lab_vms_startup_properties_daily_recurrence_time = (
+            time_properties_applicable_schedule_properties_lab_vms_startup_properties_daily_recurrence_time
+        )
+        self.weekdays_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_weekdays = (
+            weekdays_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_weekdays
+        )
+        self.time_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_time = (
+            time_properties_applicable_schedule_properties_lab_vms_startup_properties_weekly_recurrence_time
+        )
+        self.id_properties_applicable_schedule_properties_lab_vms_shutdown_id = None
+        self.name_properties_applicable_schedule_properties_lab_vms_shutdown_name = None
+        self.type_properties_applicable_schedule_properties_lab_vms_shutdown_type = None
+        self.tags_properties_applicable_schedule_properties_lab_vms_shutdown_tags = (
+            tags_properties_applicable_schedule_properties_lab_vms_shutdown_tags
+        )
+        self.location_properties_applicable_schedule_properties_lab_vms_shutdown_location = (
+            location_properties_applicable_schedule_properties_lab_vms_shutdown_location
+        )
+        self.system_data_properties_applicable_schedule_properties_lab_vms_shutdown_system_data = None
+        self.status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_status = (
+            status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_status
+        )
+        self.task_type_properties_applicable_schedule_properties_lab_vms_shutdown_properties_task_type = (
+            task_type_properties_applicable_schedule_properties_lab_vms_shutdown_properties_task_type
+        )
+        self.time_zone_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_time_zone_id = (
+            time_zone_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_time_zone_id
+        )
+        self.created_date_properties_applicable_schedule_properties_lab_vms_shutdown_properties_created_date = None
+        self.target_resource_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_target_resource_id = (
+            target_resource_id_properties_applicable_schedule_properties_lab_vms_shutdown_properties_target_resource_id
+        )
+        self.provisioning_state_properties_applicable_schedule_properties_lab_vms_shutdown_properties_provisioning_state = (
+            None
+        )
+        self.unique_identifier_properties_applicable_schedule_properties_lab_vms_shutdown_properties_unique_identifier = (
+            None
+        )
+        self.status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_status = (
+            status_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_status
+        )
+        self.time_in_minutes_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes = time_in_minutes_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_time_in_minutes
+        self.webhook_url_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_webhook_url = webhook_url_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_webhook_url
+        self.email_recipient_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_email_recipient = email_recipient_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_email_recipient
+        self.notification_locale_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_notification_locale = notification_locale_properties_applicable_schedule_properties_lab_vms_shutdown_properties_notification_settings_notification_locale
+        self.minute_properties_applicable_schedule_properties_lab_vms_shutdown_properties_hourly_recurrence_minute = (
+            minute_properties_applicable_schedule_properties_lab_vms_shutdown_properties_hourly_recurrence_minute
+        )
+        self.time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_daily_recurrence_time = (
+            time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_daily_recurrence_time
+        )
+        self.weekdays_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays = (
+            weekdays_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_weekdays
+        )
+        self.time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_time = (
+            time_properties_applicable_schedule_properties_lab_vms_shutdown_properties_weekly_recurrence_time
+        )
 
 
 class ServiceFabricFragment(UpdateResource):
-    """A Service Fabric.
+    """Patch.
 
     :ivar tags: The tags of the resource.
     :vartype tags: dict[str, str]
+    :ivar identity: The identity of the resource.
+    :vartype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
     """
 
     _attribute_map = {
         "tags": {"key": "tags", "type": "{str}"},
+        "identity": {"key": "identity", "type": "IdentityProperties"},
     }
 
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(
+        self,
+        *,
+        tags: Optional[Dict[str, str]] = None,
+        identity: Optional["_models.IdentityProperties"] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: The tags of the resource.
         :paramtype tags: dict[str, str]
+        :keyword identity: The identity of the resource.
+        :paramtype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
         """
-        super().__init__(tags=tags, **kwargs)
+        super().__init__(tags=tags, identity=identity, **kwargs)
 
 
 class ServiceFabricList(_serialization.Model):
-    """The response of a list operation.
+    """Contains a list of serviceFabrics and their properties.
 
-    :ivar value: Results of the list operation.
+    :ivar value: List of serviceFabrics and their properties.
     :vartype value: list[~azure.mgmt.devtestlabs.models.ServiceFabric]
-    :ivar next_link: Link for next set of results.
+    :ivar next_link: URL to get the next set of operation list results if there are any.
     :vartype next_link: str
     """
 
@@ -5257,12 +10266,12 @@ class ServiceFabricList(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.ServiceFabric"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.ServiceFabric"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
-        :keyword value: Results of the list operation.
+        :keyword value: List of serviceFabrics and their properties.
         :paramtype value: list[~azure.mgmt.devtestlabs.models.ServiceFabric]
-        :keyword next_link: Link for next set of results.
+        :keyword next_link: URL to get the next set of operation list results if there are any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
@@ -5275,61 +10284,90 @@ class ServiceRunner(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: The identifier of the resource.
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar location: The location of the resource.
-    :vartype location: str
-    :ivar tags: The tags of the resource.
+    :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
     :ivar identity: The identity of the resource.
     :vartype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
+    :ivar system_data: The system metadata relating to this resource.
+    :vartype system_data: ~azure.mgmt.devtestlabs.models.SystemData
+    :ivar identity_usage_type: The purpose of bringing the identity to the lab. Ex: To use during
+     Environment creation or to deploy on the VMs.
+    :vartype identity_usage_type: str
+    :ivar provisioning_state: The provisioning status of the resource.
+    :vartype provisioning_state: str
+    :ivar unique_identifier: The unique immutable identifier of a resource (Guid).
+    :vartype unique_identifier: str
     """
 
     _validation = {
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "location": {"required": True},
+        "system_data": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+        "unique_identifier": {"readonly": True},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "location": {"key": "location", "type": "str"},
         "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
         "identity": {"key": "identity", "type": "IdentityProperties"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "identity_usage_type": {"key": "properties.identityUsageType", "type": "str"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "unique_identifier": {"key": "properties.uniqueIdentifier", "type": "str"},
     }
 
     def __init__(
         self,
         *,
-        location: Optional[str] = None,
+        location: str,
         tags: Optional[Dict[str, str]] = None,
         identity: Optional["_models.IdentityProperties"] = None,
-        **kwargs
-    ):
+        identity_usage_type: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword location: The location of the resource.
-        :paramtype location: str
-        :keyword tags: The tags of the resource.
+        :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
         :keyword identity: The identity of the resource.
         :paramtype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
+        :keyword identity_usage_type: The purpose of bringing the identity to the lab. Ex: To use
+         during Environment creation or to deploy on the VMs.
+        :paramtype identity_usage_type: str
         """
-        super().__init__(location=location, tags=tags, **kwargs)
+        super().__init__(tags=tags, location=location, **kwargs)
         self.identity = identity
+        self.system_data = None
+        self.identity_usage_type = identity_usage_type
+        self.provisioning_state = None
+        self.unique_identifier = None
 
 
 class ServiceRunnerList(_serialization.Model):
-    """The response of a list operation.
+    """Contains a list of serviceRunners and their properties.
 
-    :ivar value: Results of the list operation.
+    :ivar value: List of serviceRunners and their properties.
     :vartype value: list[~azure.mgmt.devtestlabs.models.ServiceRunner]
-    :ivar next_link: Link for next set of results.
+    :ivar next_link: URL to get the next set of operation list results if there are any.
     :vartype next_link: str
     """
 
@@ -5339,12 +10377,12 @@ class ServiceRunnerList(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.ServiceRunner"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.ServiceRunner"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
-        :keyword value: Results of the list operation.
+        :keyword value: List of serviceRunners and their properties.
         :paramtype value: list[~azure.mgmt.devtestlabs.models.ServiceRunner]
-        :keyword next_link: Link for next set of results.
+        :keyword next_link: URL to get the next set of operation list results if there are any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
@@ -5352,133 +10390,318 @@ class ServiceRunnerList(_serialization.Model):
         self.next_link = next_link
 
 
-class SharedPublicIpAddressConfiguration(_serialization.Model):
-    """Properties of a virtual machine that determine how it is connected to a load balancer.
+class SharedGallery(Resource):
+    """Properties of a shared gallery.
 
-    :ivar inbound_nat_rules: The incoming NAT rules.
-    :vartype inbound_nat_rules: list[~azure.mgmt.devtestlabs.models.InboundNatRule]
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar system_data: The system metadata relating to this resource.
+    :vartype system_data: ~azure.mgmt.devtestlabs.models.SystemData
+    :ivar gallery_id: The shared image gallery resource Id.
+    :vartype gallery_id: str
+    :ivar allow_all_images: Enables all images in the gallery to be available in the lab for VM
+     creation. This will override the EnableState on shared images. Known values are: "Disabled" and
+     "Enabled".
+    :vartype allow_all_images: str or ~azure.mgmt.devtestlabs.models.EnableState
+    :ivar provisioning_state: The provisioning status of the resource.
+    :vartype provisioning_state: str
+    :ivar unique_identifier: The unique immutable identifier of a resource (Guid).
+    :vartype unique_identifier: str
     """
 
-    _attribute_map = {
-        "inbound_nat_rules": {"key": "inboundNatRules", "type": "[InboundNatRule]"},
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "location": {"required": True},
+        "system_data": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+        "unique_identifier": {"readonly": True},
     }
 
-    def __init__(self, *, inbound_nat_rules: Optional[List["_models.InboundNatRule"]] = None, **kwargs):
-        """
-        :keyword inbound_nat_rules: The incoming NAT rules.
-        :paramtype inbound_nat_rules: list[~azure.mgmt.devtestlabs.models.InboundNatRule]
-        """
-        super().__init__(**kwargs)
-        self.inbound_nat_rules = inbound_nat_rules
-
-
-class ShutdownNotificationContent(_serialization.Model):  # pylint: disable=too-many-instance-attributes
-    """The contents of a shutdown notification. Webhooks can use this type to deserialize the request body when they get notified of an imminent shutdown.
-
-    :ivar skip_url: The URL to skip auto-shutdown.
-    :vartype skip_url: str
-    :ivar delay_url60: The URL to delay shutdown by 60 minutes.
-    :vartype delay_url60: str
-    :ivar delay_url120: The URL to delay shutdown by 2 hours.
-    :vartype delay_url120: str
-    :ivar vm_name: The virtual machine to be shut down.
-    :vartype vm_name: str
-    :ivar guid: The GUID for the virtual machine to be shut down.
-    :vartype guid: str
-    :ivar owner: The owner of the virtual machine.
-    :vartype owner: str
-    :ivar vm_url: The URL of the virtual machine.
-    :vartype vm_url: str
-    :ivar minutes_until_shutdown: Minutes remaining until shutdown.
-    :vartype minutes_until_shutdown: str
-    :ivar event_type: The event for which a notification will be sent.
-    :vartype event_type: str
-    :ivar text: The text for the notification.
-    :vartype text: str
-    :ivar subscription_id: The subscription ID for the schedule.
-    :vartype subscription_id: str
-    :ivar resource_group_name: The resource group name for the schedule.
-    :vartype resource_group_name: str
-    :ivar lab_name: The lab for the schedule.
-    :vartype lab_name: str
-    """
-
     _attribute_map = {
-        "skip_url": {"key": "skipUrl", "type": "str"},
-        "delay_url60": {"key": "delayUrl60", "type": "str"},
-        "delay_url120": {"key": "delayUrl120", "type": "str"},
-        "vm_name": {"key": "vmName", "type": "str"},
-        "guid": {"key": "guid", "type": "str"},
-        "owner": {"key": "owner", "type": "str"},
-        "vm_url": {"key": "vmUrl", "type": "str"},
-        "minutes_until_shutdown": {"key": "minutesUntilShutdown", "type": "str"},
-        "event_type": {"key": "eventType", "type": "str"},
-        "text": {"key": "text", "type": "str"},
-        "subscription_id": {"key": "subscriptionId", "type": "str"},
-        "resource_group_name": {"key": "resourceGroupName", "type": "str"},
-        "lab_name": {"key": "labName", "type": "str"},
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "gallery_id": {"key": "properties.galleryId", "type": "str"},
+        "allow_all_images": {"key": "properties.allowAllImages", "type": "str"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "unique_identifier": {"key": "properties.uniqueIdentifier", "type": "str"},
     }
 
     def __init__(
         self,
         *,
-        skip_url: Optional[str] = None,
-        delay_url60: Optional[str] = None,
-        delay_url120: Optional[str] = None,
-        vm_name: Optional[str] = None,
-        guid: Optional[str] = None,
-        owner: Optional[str] = None,
-        vm_url: Optional[str] = None,
-        minutes_until_shutdown: Optional[str] = None,
-        event_type: Optional[str] = None,
-        text: Optional[str] = None,
-        subscription_id: Optional[str] = None,
-        resource_group_name: Optional[str] = None,
-        lab_name: Optional[str] = None,
-        **kwargs
-    ):
+        location: str,
+        tags: Optional[Dict[str, str]] = None,
+        gallery_id: Optional[str] = None,
+        allow_all_images: Optional[Union[str, "_models.EnableState"]] = None,
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword skip_url: The URL to skip auto-shutdown.
-        :paramtype skip_url: str
-        :keyword delay_url60: The URL to delay shutdown by 60 minutes.
-        :paramtype delay_url60: str
-        :keyword delay_url120: The URL to delay shutdown by 2 hours.
-        :paramtype delay_url120: str
-        :keyword vm_name: The virtual machine to be shut down.
-        :paramtype vm_name: str
-        :keyword guid: The GUID for the virtual machine to be shut down.
-        :paramtype guid: str
-        :keyword owner: The owner of the virtual machine.
-        :paramtype owner: str
-        :keyword vm_url: The URL of the virtual machine.
-        :paramtype vm_url: str
-        :keyword minutes_until_shutdown: Minutes remaining until shutdown.
-        :paramtype minutes_until_shutdown: str
-        :keyword event_type: The event for which a notification will be sent.
-        :paramtype event_type: str
-        :keyword text: The text for the notification.
-        :paramtype text: str
-        :keyword subscription_id: The subscription ID for the schedule.
-        :paramtype subscription_id: str
-        :keyword resource_group_name: The resource group name for the schedule.
-        :paramtype resource_group_name: str
-        :keyword lab_name: The lab for the schedule.
-        :paramtype lab_name: str
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
+        :keyword gallery_id: The shared image gallery resource Id.
+        :paramtype gallery_id: str
+        :keyword allow_all_images: Enables all images in the gallery to be available in the lab for VM
+         creation. This will override the EnableState on shared images. Known values are: "Disabled" and
+         "Enabled".
+        :paramtype allow_all_images: str or ~azure.mgmt.devtestlabs.models.EnableState
+        """
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.system_data = None
+        self.gallery_id = gallery_id
+        self.allow_all_images = allow_all_images
+        self.provisioning_state = None
+        self.unique_identifier = None
+
+
+class SharedGalleryFragment(UpdateResource):
+    """Patch.
+
+    :ivar tags: The tags of the resource.
+    :vartype tags: dict[str, str]
+    :ivar identity: The identity of the resource.
+    :vartype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
+    """
+
+    _attribute_map = {
+        "tags": {"key": "tags", "type": "{str}"},
+        "identity": {"key": "identity", "type": "IdentityProperties"},
+    }
+
+    def __init__(
+        self,
+        *,
+        tags: Optional[Dict[str, str]] = None,
+        identity: Optional["_models.IdentityProperties"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword tags: The tags of the resource.
+        :paramtype tags: dict[str, str]
+        :keyword identity: The identity of the resource.
+        :paramtype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
+        """
+        super().__init__(tags=tags, identity=identity, **kwargs)
+
+
+class SharedGalleryList(_serialization.Model):
+    """Contains a list of sharedGalleries and their properties.
+
+    :ivar value: List of sharedGalleries and their properties.
+    :vartype value: list[~azure.mgmt.devtestlabs.models.SharedGallery]
+    :ivar next_link: URL to get the next set of operation list results if there are any.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[SharedGallery]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: Optional[List["_models.SharedGallery"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: List of sharedGalleries and their properties.
+        :paramtype value: list[~azure.mgmt.devtestlabs.models.SharedGallery]
+        :keyword next_link: URL to get the next set of operation list results if there are any.
+        :paramtype next_link: str
         """
         super().__init__(**kwargs)
-        self.skip_url = skip_url
-        self.delay_url60 = delay_url60
-        self.delay_url120 = delay_url120
-        self.vm_name = vm_name
-        self.guid = guid
-        self.owner = owner
-        self.vm_url = vm_url
-        self.minutes_until_shutdown = minutes_until_shutdown
-        self.event_type = event_type
-        self.text = text
-        self.subscription_id = subscription_id
-        self.resource_group_name = resource_group_name
-        self.lab_name = lab_name
+        self.value = value
+        self.next_link = next_link
+
+
+class SharedImage(Resource):  # pylint: disable=too-many-instance-attributes
+    """Properties of a shared image.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar system_data: The system metadata relating to this resource.
+    :vartype system_data: ~azure.mgmt.devtestlabs.models.SystemData
+    :ivar definition_name: Shared Image definition name in shared image gallery.
+    :vartype definition_name: str
+    :ivar os_type: The operating system of the image. Known values are: "Windows" and "Linux".
+    :vartype os_type: str or ~azure.mgmt.devtestlabs.models.OsType
+    :ivar image_type: The type of image in the gallery (generalized or specialized). Known values
+     are: "Generalized" and "Specialized".
+    :vartype image_type: str or ~azure.mgmt.devtestlabs.models.ImageType
+    :ivar enable_state: Whether or not the image is enabled. Known values are: "Disabled" and
+     "Enabled".
+    :vartype enable_state: str or ~azure.mgmt.devtestlabs.models.EnableState
+    :ivar display_name: Display name of the image.
+    :vartype display_name: str
+    :ivar versions: List of image versions in definition.
+    :vartype versions: list[~azure.mgmt.devtestlabs.models.ImageVersionProperties]
+    :ivar provisioning_state: The provisioning status of the resource.
+    :vartype provisioning_state: str
+    :ivar unique_identifier: The unique immutable identifier of a resource (Guid).
+    :vartype unique_identifier: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "location": {"required": True},
+        "system_data": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+        "unique_identifier": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "definition_name": {"key": "properties.definitionName", "type": "str"},
+        "os_type": {"key": "properties.osType", "type": "str"},
+        "image_type": {"key": "properties.imageType", "type": "str"},
+        "enable_state": {"key": "properties.enableState", "type": "str"},
+        "display_name": {"key": "properties.displayName", "type": "str"},
+        "versions": {"key": "properties.versions", "type": "[ImageVersionProperties]"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "unique_identifier": {"key": "properties.uniqueIdentifier", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        location: str,
+        tags: Optional[Dict[str, str]] = None,
+        definition_name: Optional[str] = None,
+        os_type: Optional[Union[str, "_models.OsType"]] = None,
+        image_type: Optional[Union[str, "_models.ImageType"]] = None,
+        enable_state: Optional[Union[str, "_models.EnableState"]] = None,
+        display_name: Optional[str] = None,
+        versions: Optional[List["_models.ImageVersionProperties"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
+        :keyword definition_name: Shared Image definition name in shared image gallery.
+        :paramtype definition_name: str
+        :keyword os_type: The operating system of the image. Known values are: "Windows" and "Linux".
+        :paramtype os_type: str or ~azure.mgmt.devtestlabs.models.OsType
+        :keyword image_type: The type of image in the gallery (generalized or specialized). Known
+         values are: "Generalized" and "Specialized".
+        :paramtype image_type: str or ~azure.mgmt.devtestlabs.models.ImageType
+        :keyword enable_state: Whether or not the image is enabled. Known values are: "Disabled" and
+         "Enabled".
+        :paramtype enable_state: str or ~azure.mgmt.devtestlabs.models.EnableState
+        :keyword display_name: Display name of the image.
+        :paramtype display_name: str
+        :keyword versions: List of image versions in definition.
+        :paramtype versions: list[~azure.mgmt.devtestlabs.models.ImageVersionProperties]
+        """
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.system_data = None
+        self.definition_name = definition_name
+        self.os_type = os_type
+        self.image_type = image_type
+        self.enable_state = enable_state
+        self.display_name = display_name
+        self.versions = versions
+        self.provisioning_state = None
+        self.unique_identifier = None
+
+
+class SharedImageFragment(UpdateResource):
+    """Patch.
+
+    :ivar tags: The tags of the resource.
+    :vartype tags: dict[str, str]
+    :ivar identity: The identity of the resource.
+    :vartype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
+    """
+
+    _attribute_map = {
+        "tags": {"key": "tags", "type": "{str}"},
+        "identity": {"key": "identity", "type": "IdentityProperties"},
+    }
+
+    def __init__(
+        self,
+        *,
+        tags: Optional[Dict[str, str]] = None,
+        identity: Optional["_models.IdentityProperties"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword tags: The tags of the resource.
+        :paramtype tags: dict[str, str]
+        :keyword identity: The identity of the resource.
+        :paramtype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
+        """
+        super().__init__(tags=tags, identity=identity, **kwargs)
+
+
+class SharedImageList(_serialization.Model):
+    """Contains a list of sharedImages and their properties.
+
+    :ivar value: List of sharedImages and their properties.
+    :vartype value: list[~azure.mgmt.devtestlabs.models.SharedImage]
+    :ivar next_link: URL to get the next set of operation list results if there are any.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[SharedImage]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: Optional[List["_models.SharedImage"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: List of sharedImages and their properties.
+        :paramtype value: list[~azure.mgmt.devtestlabs.models.SharedImage]
+        :keyword next_link: URL to get the next set of operation list results if there are any.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
 
 
 class Subnet(_serialization.Model):
@@ -5505,8 +10728,8 @@ class Subnet(_serialization.Model):
         resource_id: Optional[str] = None,
         lab_subnet_name: Optional[str] = None,
         allow_public_ip: Optional[Union[str, "_models.UsagePermissionType"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword resource_id: The resource ID of the subnet.
         :paramtype resource_id: str
@@ -5538,12 +10761,10 @@ class SubnetOverride(_serialization.Model):
      "Allow".
     :vartype use_public_ip_address_permission: str or
      ~azure.mgmt.devtestlabs.models.UsagePermissionType
-    :ivar shared_public_ip_address_configuration: Properties that virtual machines on this subnet
-     will share.
-    :vartype shared_public_ip_address_configuration:
-     ~azure.mgmt.devtestlabs.models.SubnetSharedPublicIpAddressConfiguration
     :ivar virtual_network_pool_name: The virtual network pool associated with this subnet.
     :vartype virtual_network_pool_name: str
+    :ivar allowed_ports: Backend ports that virtual machines on this subnet are allowed to expose.
+    :vartype allowed_ports: list[~azure.mgmt.devtestlabs.models.Port]
     """
 
     _attribute_map = {
@@ -5551,11 +10772,8 @@ class SubnetOverride(_serialization.Model):
         "lab_subnet_name": {"key": "labSubnetName", "type": "str"},
         "use_in_vm_creation_permission": {"key": "useInVmCreationPermission", "type": "str"},
         "use_public_ip_address_permission": {"key": "usePublicIpAddressPermission", "type": "str"},
-        "shared_public_ip_address_configuration": {
-            "key": "sharedPublicIpAddressConfiguration",
-            "type": "SubnetSharedPublicIpAddressConfiguration",
-        },
         "virtual_network_pool_name": {"key": "virtualNetworkPoolName", "type": "str"},
+        "allowed_ports": {"key": "sharedPublicIpAddressConfiguration.allowedPorts", "type": "[Port]"},
     }
 
     def __init__(
@@ -5565,10 +10783,10 @@ class SubnetOverride(_serialization.Model):
         lab_subnet_name: Optional[str] = None,
         use_in_vm_creation_permission: Optional[Union[str, "_models.UsagePermissionType"]] = None,
         use_public_ip_address_permission: Optional[Union[str, "_models.UsagePermissionType"]] = None,
-        shared_public_ip_address_configuration: Optional["_models.SubnetSharedPublicIpAddressConfiguration"] = None,
         virtual_network_pool_name: Optional[str] = None,
-        **kwargs
-    ):
+        allowed_ports: Optional[List["_models.Port"]] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword resource_id: The resource ID of the subnet.
         :paramtype resource_id: str
@@ -5583,201 +10801,144 @@ class SubnetOverride(_serialization.Model):
          "Deny", and "Allow".
         :paramtype use_public_ip_address_permission: str or
          ~azure.mgmt.devtestlabs.models.UsagePermissionType
-        :keyword shared_public_ip_address_configuration: Properties that virtual machines on this
-         subnet will share.
-        :paramtype shared_public_ip_address_configuration:
-         ~azure.mgmt.devtestlabs.models.SubnetSharedPublicIpAddressConfiguration
         :keyword virtual_network_pool_name: The virtual network pool associated with this subnet.
         :paramtype virtual_network_pool_name: str
+        :keyword allowed_ports: Backend ports that virtual machines on this subnet are allowed to
+         expose.
+        :paramtype allowed_ports: list[~azure.mgmt.devtestlabs.models.Port]
         """
         super().__init__(**kwargs)
         self.resource_id = resource_id
         self.lab_subnet_name = lab_subnet_name
         self.use_in_vm_creation_permission = use_in_vm_creation_permission
         self.use_public_ip_address_permission = use_public_ip_address_permission
-        self.shared_public_ip_address_configuration = shared_public_ip_address_configuration
         self.virtual_network_pool_name = virtual_network_pool_name
-
-
-class SubnetSharedPublicIpAddressConfiguration(_serialization.Model):
-    """Configuration for public IP address sharing.
-
-    :ivar allowed_ports: Backend ports that virtual machines on this subnet are allowed to expose.
-    :vartype allowed_ports: list[~azure.mgmt.devtestlabs.models.Port]
-    """
-
-    _attribute_map = {
-        "allowed_ports": {"key": "allowedPorts", "type": "[Port]"},
-    }
-
-    def __init__(self, *, allowed_ports: Optional[List["_models.Port"]] = None, **kwargs):
-        """
-        :keyword allowed_ports: Backend ports that virtual machines on this subnet are allowed to
-         expose.
-        :paramtype allowed_ports: list[~azure.mgmt.devtestlabs.models.Port]
-        """
-        super().__init__(**kwargs)
         self.allowed_ports = allowed_ports
 
 
-class TargetCostProperties(_serialization.Model):
-    """Properties of a cost target.
+class SystemData(_serialization.Model):
+    """Metadata pertaining to creation and last modification of the resource.
 
-    :ivar status: Target cost status. Known values are: "Enabled" and "Disabled".
-    :vartype status: str or ~azure.mgmt.devtestlabs.models.TargetCostStatus
-    :ivar target: Lab target cost.
-    :vartype target: int
-    :ivar cost_thresholds: Cost thresholds.
-    :vartype cost_thresholds: list[~azure.mgmt.devtestlabs.models.CostThresholdProperties]
-    :ivar cycle_start_date_time: Reporting cycle start date.
-    :vartype cycle_start_date_time: ~datetime.datetime
-    :ivar cycle_end_date_time: Reporting cycle end date.
-    :vartype cycle_end_date_time: ~datetime.datetime
-    :ivar cycle_type: Reporting cycle type. Known values are: "CalendarMonth" and "Custom".
-    :vartype cycle_type: str or ~azure.mgmt.devtestlabs.models.ReportingCycleType
+    :ivar created_by: The identity that created the resource.
+    :vartype created_by: str
+    :ivar created_by_type: The type of identity that created the resource. Known values are:
+     "User", "Application", "ManagedIdentity", and "Key".
+    :vartype created_by_type: str or ~azure.mgmt.devtestlabs.models.CreatedByType
+    :ivar created_at: The timestamp of resource creation (UTC).
+    :vartype created_at: ~datetime.datetime
+    :ivar last_modified_by: The identity that last modified the resource.
+    :vartype last_modified_by: str
+    :ivar last_modified_by_type: The type of identity that last modified the resource. Known values
+     are: "User", "Application", "ManagedIdentity", and "Key".
+    :vartype last_modified_by_type: str or ~azure.mgmt.devtestlabs.models.CreatedByType
+    :ivar last_modified_at: The timestamp of resource last modification (UTC).
+    :vartype last_modified_at: ~datetime.datetime
     """
 
     _attribute_map = {
-        "status": {"key": "status", "type": "str"},
-        "target": {"key": "target", "type": "int"},
-        "cost_thresholds": {"key": "costThresholds", "type": "[CostThresholdProperties]"},
-        "cycle_start_date_time": {"key": "cycleStartDateTime", "type": "iso-8601"},
-        "cycle_end_date_time": {"key": "cycleEndDateTime", "type": "iso-8601"},
-        "cycle_type": {"key": "cycleType", "type": "str"},
+        "created_by": {"key": "createdBy", "type": "str"},
+        "created_by_type": {"key": "createdByType", "type": "str"},
+        "created_at": {"key": "createdAt", "type": "iso-8601"},
+        "last_modified_by": {"key": "lastModifiedBy", "type": "str"},
+        "last_modified_by_type": {"key": "lastModifiedByType", "type": "str"},
+        "last_modified_at": {"key": "lastModifiedAt", "type": "iso-8601"},
     }
 
     def __init__(
         self,
         *,
-        status: Optional[Union[str, "_models.TargetCostStatus"]] = None,
-        target: Optional[int] = None,
-        cost_thresholds: Optional[List["_models.CostThresholdProperties"]] = None,
-        cycle_start_date_time: Optional[datetime.datetime] = None,
-        cycle_end_date_time: Optional[datetime.datetime] = None,
-        cycle_type: Optional[Union[str, "_models.ReportingCycleType"]] = None,
-        **kwargs
-    ):
+        created_by: Optional[str] = None,
+        created_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
+        created_at: Optional[datetime.datetime] = None,
+        last_modified_by: Optional[str] = None,
+        last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
+        last_modified_at: Optional[datetime.datetime] = None,
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword status: Target cost status. Known values are: "Enabled" and "Disabled".
-        :paramtype status: str or ~azure.mgmt.devtestlabs.models.TargetCostStatus
-        :keyword target: Lab target cost.
-        :paramtype target: int
-        :keyword cost_thresholds: Cost thresholds.
-        :paramtype cost_thresholds: list[~azure.mgmt.devtestlabs.models.CostThresholdProperties]
-        :keyword cycle_start_date_time: Reporting cycle start date.
-        :paramtype cycle_start_date_time: ~datetime.datetime
-        :keyword cycle_end_date_time: Reporting cycle end date.
-        :paramtype cycle_end_date_time: ~datetime.datetime
-        :keyword cycle_type: Reporting cycle type. Known values are: "CalendarMonth" and "Custom".
-        :paramtype cycle_type: str or ~azure.mgmt.devtestlabs.models.ReportingCycleType
+        :keyword created_by: The identity that created the resource.
+        :paramtype created_by: str
+        :keyword created_by_type: The type of identity that created the resource. Known values are:
+         "User", "Application", "ManagedIdentity", and "Key".
+        :paramtype created_by_type: str or ~azure.mgmt.devtestlabs.models.CreatedByType
+        :keyword created_at: The timestamp of resource creation (UTC).
+        :paramtype created_at: ~datetime.datetime
+        :keyword last_modified_by: The identity that last modified the resource.
+        :paramtype last_modified_by: str
+        :keyword last_modified_by_type: The type of identity that last modified the resource. Known
+         values are: "User", "Application", "ManagedIdentity", and "Key".
+        :paramtype last_modified_by_type: str or ~azure.mgmt.devtestlabs.models.CreatedByType
+        :keyword last_modified_at: The timestamp of resource last modification (UTC).
+        :paramtype last_modified_at: ~datetime.datetime
         """
         super().__init__(**kwargs)
-        self.status = status
-        self.target = target
-        self.cost_thresholds = cost_thresholds
-        self.cycle_start_date_time = cycle_start_date_time
-        self.cycle_end_date_time = cycle_end_date_time
-        self.cycle_type = cycle_type
+        self.created_by = created_by
+        self.created_by_type = created_by_type
+        self.created_at = created_at
+        self.last_modified_by = last_modified_by
+        self.last_modified_by_type = last_modified_by_type
+        self.last_modified_at = last_modified_at
 
 
-class User(Resource):
+class UefiSettings(_serialization.Model):
+    """Security settings like secure boot and vTPM.
+
+    :ivar secure_boot_enabled: Flag to enable or disable secure boot.
+    :vartype secure_boot_enabled: bool
+    :ivar v_tpm_enabled: Flag to enable or disable vTPM (virtual Trusted Platform Module).
+    :vartype v_tpm_enabled: bool
+    """
+
+    _attribute_map = {
+        "secure_boot_enabled": {"key": "secureBootEnabled", "type": "bool"},
+        "v_tpm_enabled": {"key": "vTpmEnabled", "type": "bool"},
+    }
+
+    def __init__(
+        self, *, secure_boot_enabled: Optional[bool] = None, v_tpm_enabled: Optional[bool] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword secure_boot_enabled: Flag to enable or disable secure boot.
+        :paramtype secure_boot_enabled: bool
+        :keyword v_tpm_enabled: Flag to enable or disable vTPM (virtual Trusted Platform Module).
+        :paramtype v_tpm_enabled: bool
+        """
+        super().__init__(**kwargs)
+        self.secure_boot_enabled = secure_boot_enabled
+        self.v_tpm_enabled = v_tpm_enabled
+
+
+class User(Resource):  # pylint: disable=too-many-instance-attributes
     """Profile of a lab user.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: The identifier of the resource.
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar location: The location of the resource.
-    :vartype location: str
-    :ivar tags: The tags of the resource.
+    :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
-    :ivar identity: The identity of the user.
-    :vartype identity: ~azure.mgmt.devtestlabs.models.UserIdentity
-    :ivar secret_store: The secret store of the user.
-    :vartype secret_store: ~azure.mgmt.devtestlabs.models.UserSecretStore
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar system_data: The system metadata relating to this resource.
+    :vartype system_data: ~azure.mgmt.devtestlabs.models.SystemData
     :ivar created_date: The creation date of the user profile.
     :vartype created_date: ~datetime.datetime
     :ivar provisioning_state: The provisioning status of the resource.
     :vartype provisioning_state: str
     :ivar unique_identifier: The unique immutable identifier of a resource (Guid).
     :vartype unique_identifier: str
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "created_date": {"readonly": True},
-        "provisioning_state": {"readonly": True},
-        "unique_identifier": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "location": {"key": "location", "type": "str"},
-        "tags": {"key": "tags", "type": "{str}"},
-        "identity": {"key": "properties.identity", "type": "UserIdentity"},
-        "secret_store": {"key": "properties.secretStore", "type": "UserSecretStore"},
-        "created_date": {"key": "properties.createdDate", "type": "iso-8601"},
-        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
-        "unique_identifier": {"key": "properties.uniqueIdentifier", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        location: Optional[str] = None,
-        tags: Optional[Dict[str, str]] = None,
-        identity: Optional["_models.UserIdentity"] = None,
-        secret_store: Optional["_models.UserSecretStore"] = None,
-        **kwargs
-    ):
-        """
-        :keyword location: The location of the resource.
-        :paramtype location: str
-        :keyword tags: The tags of the resource.
-        :paramtype tags: dict[str, str]
-        :keyword identity: The identity of the user.
-        :paramtype identity: ~azure.mgmt.devtestlabs.models.UserIdentity
-        :keyword secret_store: The secret store of the user.
-        :paramtype secret_store: ~azure.mgmt.devtestlabs.models.UserSecretStore
-        """
-        super().__init__(location=location, tags=tags, **kwargs)
-        self.identity = identity
-        self.secret_store = secret_store
-        self.created_date = None
-        self.provisioning_state = None
-        self.unique_identifier = None
-
-
-class UserFragment(UpdateResource):
-    """Profile of a lab user.
-
-    :ivar tags: The tags of the resource.
-    :vartype tags: dict[str, str]
-    """
-
-    _attribute_map = {
-        "tags": {"key": "tags", "type": "{str}"},
-    }
-
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs):
-        """
-        :keyword tags: The tags of the resource.
-        :paramtype tags: dict[str, str]
-        """
-        super().__init__(tags=tags, **kwargs)
-
-
-class UserIdentity(_serialization.Model):
-    """Identity attributes of a lab user.
-
+    :ivar key_vault_uri: The URI of the user's Key vault.
+    :vartype key_vault_uri: str
+    :ivar key_vault_id: The ID of the user's Key vault.
+    :vartype key_vault_id: str
     :ivar principal_name: Set to the principal name / UPN of the client JWT making the request.
     :vartype principal_name: str
     :ivar principal_id: Set to the principal Id of the client JWT making the request. Service
@@ -5792,25 +10953,59 @@ class UserIdentity(_serialization.Model):
     :vartype app_id: str
     """
 
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "location": {"required": True},
+        "system_data": {"readonly": True},
+        "created_date": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+        "unique_identifier": {"readonly": True},
+    }
+
     _attribute_map = {
-        "principal_name": {"key": "principalName", "type": "str"},
-        "principal_id": {"key": "principalId", "type": "str"},
-        "tenant_id": {"key": "tenantId", "type": "str"},
-        "object_id": {"key": "objectId", "type": "str"},
-        "app_id": {"key": "appId", "type": "str"},
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "created_date": {"key": "properties.createdDate", "type": "iso-8601"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "unique_identifier": {"key": "properties.uniqueIdentifier", "type": "str"},
+        "key_vault_uri": {"key": "properties.secretStore.keyVaultUri", "type": "str"},
+        "key_vault_id": {"key": "properties.secretStore.keyVaultId", "type": "str"},
+        "principal_name": {"key": "properties.identity.principalName", "type": "str"},
+        "principal_id": {"key": "properties.identity.principalId", "type": "str"},
+        "tenant_id": {"key": "properties.identity.tenantId", "type": "str"},
+        "object_id": {"key": "properties.identity.objectId", "type": "str"},
+        "app_id": {"key": "properties.identity.appId", "type": "str"},
     }
 
     def __init__(
         self,
         *,
+        location: str,
+        tags: Optional[Dict[str, str]] = None,
+        key_vault_uri: Optional[str] = None,
+        key_vault_id: Optional[str] = None,
         principal_name: Optional[str] = None,
         principal_id: Optional[str] = None,
         tenant_id: Optional[str] = None,
         object_id: Optional[str] = None,
         app_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
+        :keyword key_vault_uri: The URI of the user's Key vault.
+        :paramtype key_vault_uri: str
+        :keyword key_vault_id: The ID of the user's Key vault.
+        :paramtype key_vault_id: str
         :keyword principal_name: Set to the principal name / UPN of the client JWT making the request.
         :paramtype principal_name: str
         :keyword principal_id: Set to the principal Id of the client JWT making the request. Service
@@ -5824,7 +11019,13 @@ class UserIdentity(_serialization.Model):
         :keyword app_id: Set to the app Id of the client JWT making the request.
         :paramtype app_id: str
         """
-        super().__init__(**kwargs)
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.system_data = None
+        self.created_date = None
+        self.provisioning_state = None
+        self.unique_identifier = None
+        self.key_vault_uri = key_vault_uri
+        self.key_vault_id = key_vault_id
         self.principal_name = principal_name
         self.principal_id = principal_id
         self.tenant_id = tenant_id
@@ -5832,12 +11033,42 @@ class UserIdentity(_serialization.Model):
         self.app_id = app_id
 
 
-class UserList(_serialization.Model):
-    """The response of a list operation.
+class UserFragment(UpdateResource):
+    """Patch.
 
-    :ivar value: Results of the list operation.
+    :ivar tags: The tags of the resource.
+    :vartype tags: dict[str, str]
+    :ivar identity: The identity of the resource.
+    :vartype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
+    """
+
+    _attribute_map = {
+        "tags": {"key": "tags", "type": "{str}"},
+        "identity": {"key": "identity", "type": "IdentityProperties"},
+    }
+
+    def __init__(
+        self,
+        *,
+        tags: Optional[Dict[str, str]] = None,
+        identity: Optional["_models.IdentityProperties"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword tags: The tags of the resource.
+        :paramtype tags: dict[str, str]
+        :keyword identity: The identity of the resource.
+        :paramtype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
+        """
+        super().__init__(tags=tags, identity=identity, **kwargs)
+
+
+class UserList(_serialization.Model):
+    """Contains a list of users and their properties.
+
+    :ivar value: List of users and their properties.
     :vartype value: list[~azure.mgmt.devtestlabs.models.User]
-    :ivar next_link: Link for next set of results.
+    :ivar next_link: URL to get the next set of operation list results if there are any.
     :vartype next_link: str
     """
 
@@ -5846,11 +11077,13 @@ class UserList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.User"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.User"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
-        :keyword value: Results of the list operation.
+        :keyword value: List of users and their properties.
         :paramtype value: list[~azure.mgmt.devtestlabs.models.User]
-        :keyword next_link: Link for next set of results.
+        :keyword next_link: URL to get the next set of operation list results if there are any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
@@ -5858,47 +11091,27 @@ class UserList(_serialization.Model):
         self.next_link = next_link
 
 
-class UserSecretStore(_serialization.Model):
-    """Properties of a user's secret store.
-
-    :ivar key_vault_uri: The URI of the user's Key vault.
-    :vartype key_vault_uri: str
-    :ivar key_vault_id: The ID of the user's Key vault.
-    :vartype key_vault_id: str
-    """
-
-    _attribute_map = {
-        "key_vault_uri": {"key": "keyVaultUri", "type": "str"},
-        "key_vault_id": {"key": "keyVaultId", "type": "str"},
-    }
-
-    def __init__(self, *, key_vault_uri: Optional[str] = None, key_vault_id: Optional[str] = None, **kwargs):
-        """
-        :keyword key_vault_uri: The URI of the user's Key vault.
-        :paramtype key_vault_uri: str
-        :keyword key_vault_id: The ID of the user's Key vault.
-        :paramtype key_vault_id: str
-        """
-        super().__init__(**kwargs)
-        self.key_vault_uri = key_vault_uri
-        self.key_vault_id = key_vault_id
-
-
 class VirtualNetwork(Resource):  # pylint: disable=too-many-instance-attributes
     """A virtual network.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: The identifier of the resource.
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar location: The location of the resource.
-    :vartype location: str
-    :ivar tags: The tags of the resource.
+    :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar system_data: The system metadata relating to this resource.
+    :vartype system_data: ~azure.mgmt.devtestlabs.models.SystemData
     :ivar allowed_subnets: The allowed subnets of the virtual network.
     :vartype allowed_subnets: list[~azure.mgmt.devtestlabs.models.Subnet]
     :ivar description: The description of the virtual network.
@@ -5922,6 +11135,8 @@ class VirtualNetwork(Resource):  # pylint: disable=too-many-instance-attributes
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "location": {"required": True},
+        "system_data": {"readonly": True},
         "external_subnets": {"readonly": True},
         "created_date": {"readonly": True},
         "provisioning_state": {"readonly": True},
@@ -5932,8 +11147,9 @@ class VirtualNetwork(Resource):  # pylint: disable=too-many-instance-attributes
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "location": {"key": "location", "type": "str"},
         "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "allowed_subnets": {"key": "properties.allowedSubnets", "type": "[Subnet]"},
         "description": {"key": "properties.description", "type": "str"},
         "external_provider_resource_id": {"key": "properties.externalProviderResourceId", "type": "str"},
@@ -5947,19 +11163,19 @@ class VirtualNetwork(Resource):  # pylint: disable=too-many-instance-attributes
     def __init__(
         self,
         *,
-        location: Optional[str] = None,
+        location: str,
         tags: Optional[Dict[str, str]] = None,
         allowed_subnets: Optional[List["_models.Subnet"]] = None,
         description: Optional[str] = None,
         external_provider_resource_id: Optional[str] = None,
         subnet_overrides: Optional[List["_models.SubnetOverride"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword location: The location of the resource.
-        :paramtype location: str
-        :keyword tags: The tags of the resource.
+        :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
         :keyword allowed_subnets: The allowed subnets of the virtual network.
         :paramtype allowed_subnets: list[~azure.mgmt.devtestlabs.models.Subnet]
         :keyword description: The description of the virtual network.
@@ -5970,7 +11186,8 @@ class VirtualNetwork(Resource):  # pylint: disable=too-many-instance-attributes
         :keyword subnet_overrides: The subnet overrides of the virtual network.
         :paramtype subnet_overrides: list[~azure.mgmt.devtestlabs.models.SubnetOverride]
         """
-        super().__init__(location=location, tags=tags, **kwargs)
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.system_data = None
         self.allowed_subnets = allowed_subnets
         self.description = description
         self.external_provider_resource_id = external_provider_resource_id
@@ -5982,30 +11199,41 @@ class VirtualNetwork(Resource):  # pylint: disable=too-many-instance-attributes
 
 
 class VirtualNetworkFragment(UpdateResource):
-    """A virtual network.
+    """Patch.
 
     :ivar tags: The tags of the resource.
     :vartype tags: dict[str, str]
+    :ivar identity: The identity of the resource.
+    :vartype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
     """
 
     _attribute_map = {
         "tags": {"key": "tags", "type": "{str}"},
+        "identity": {"key": "identity", "type": "IdentityProperties"},
     }
 
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(
+        self,
+        *,
+        tags: Optional[Dict[str, str]] = None,
+        identity: Optional["_models.IdentityProperties"] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: The tags of the resource.
         :paramtype tags: dict[str, str]
+        :keyword identity: The identity of the resource.
+        :paramtype identity: ~azure.mgmt.devtestlabs.models.IdentityProperties
         """
-        super().__init__(tags=tags, **kwargs)
+        super().__init__(tags=tags, identity=identity, **kwargs)
 
 
 class VirtualNetworkList(_serialization.Model):
-    """The response of a list operation.
+    """Contains a list of virtualNetworks and their properties.
 
-    :ivar value: Results of the list operation.
+    :ivar value: List of virtualNetworks and their properties.
     :vartype value: list[~azure.mgmt.devtestlabs.models.VirtualNetwork]
-    :ivar next_link: Link for next set of results.
+    :ivar next_link: URL to get the next set of operation list results if there are any.
     :vartype next_link: str
     """
 
@@ -6015,12 +11243,12 @@ class VirtualNetworkList(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.VirtualNetwork"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.VirtualNetwork"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
-        :keyword value: Results of the list operation.
+        :keyword value: List of virtualNetworks and their properties.
         :paramtype value: list[~azure.mgmt.devtestlabs.models.VirtualNetwork]
-        :keyword next_link: Link for next set of results.
+        :keyword next_link: URL to get the next set of operation list results if there are any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
@@ -6028,7 +11256,7 @@ class VirtualNetworkList(_serialization.Model):
         self.next_link = next_link
 
 
-class WeekDetails(_serialization.Model):
+class WeekDetailsFragment(_serialization.Model):
     """Properties of a weekly schedule.
 
     :ivar weekdays: The days of the week for which the schedule is set (e.g. Sunday, Monday,
@@ -6043,7 +11271,7 @@ class WeekDetails(_serialization.Model):
         "time": {"key": "time", "type": "str"},
     }
 
-    def __init__(self, *, weekdays: Optional[List[str]] = None, time: Optional[str] = None, **kwargs):
+    def __init__(self, *, weekdays: Optional[List[str]] = None, time: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword weekdays: The days of the week for which the schedule is set (e.g. Sunday, Monday,
          Tuesday, etc.).
@@ -6054,25 +11282,3 @@ class WeekDetails(_serialization.Model):
         super().__init__(**kwargs)
         self.weekdays = weekdays
         self.time = time
-
-
-class WindowsOsInfo(_serialization.Model):
-    """Information about a Windows OS.
-
-    :ivar windows_os_state: The state of the Windows OS (i.e. NonSysprepped, SysprepRequested,
-     SysprepApplied). Known values are: "NonSysprepped", "SysprepRequested", and "SysprepApplied".
-    :vartype windows_os_state: str or ~azure.mgmt.devtestlabs.models.WindowsOsState
-    """
-
-    _attribute_map = {
-        "windows_os_state": {"key": "windowsOsState", "type": "str"},
-    }
-
-    def __init__(self, *, windows_os_state: Optional[Union[str, "_models.WindowsOsState"]] = None, **kwargs):
-        """
-        :keyword windows_os_state: The state of the Windows OS (i.e. NonSysprepped, SysprepRequested,
-         SysprepApplied). Known values are: "NonSysprepped", "SysprepRequested", and "SysprepApplied".
-        :paramtype windows_os_state: str or ~azure.mgmt.devtestlabs.models.WindowsOsState
-        """
-        super().__init__(**kwargs)
-        self.windows_os_state = windows_os_state

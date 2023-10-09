@@ -26,26 +26,27 @@ from azure.mgmt.devtestlabs import DevTestLabsClient
 def main():
     client = DevTestLabsClient(
         credential=DefaultAzureCredential(),
-        subscription_id="{subscriptionId}",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
     response = client.environments.begin_create_or_update(
         resource_group_name="resourceGroupName",
-        lab_name="{labName}",
+        lab_name="myLabName",
         user_name="@me",
         name="{environmentName}",
         dtl_environment={
+            "location": "southeastasia",
             "properties": {
                 "deploymentProperties": {
-                    "armTemplateId": "/subscriptions/{subscriptionId}/resourceGroups/resourceGroupName/providers/Microsoft.DevTestLab/labs/{labName}/artifactSources/{artifactSourceName}/armTemplates/{armTemplateName}",
+                    "armTemplateId": "/subscriptions/{subscriptionId}/resourceGroups/resourceGroupName/providers/Microsoft.DevTestLab/labs/myLabName/artifactSources/myArtifactSource/armTemplates/{armTemplateName}",
                     "parameters": [],
                 }
-            }
+            },
         },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2018-09-15/examples/Environments_CreateOrUpdate.json
+# x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2021-09-01/examples/Environments_CreateOrUpdate.json
 if __name__ == "__main__":
     main()

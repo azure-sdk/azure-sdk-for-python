@@ -26,12 +26,12 @@ from azure.mgmt.devtestlabs import DevTestLabsClient
 def main():
     client = DevTestLabsClient(
         credential=DefaultAzureCredential(),
-        subscription_id="{subscriptionId}",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
     response = client.formulas.begin_create_or_update(
         resource_group_name="resourceGroupName",
-        lab_name="{labName}",
+        lab_name="myLabName",
         name="{formulaName}",
         formula={
             "location": "{location}",
@@ -43,7 +43,7 @@ def main():
                         "allowClaim": False,
                         "artifacts": [
                             {
-                                "artifactId": "/artifactsources/{artifactSourceName}/artifacts/linux-install-nodejs",
+                                "artifactId": "/artifactsources/myArtifactSource/artifacts/linux-install-nodejs",
                                 "parameters": [],
                             }
                         ],
@@ -56,8 +56,8 @@ def main():
                             "version": "latest",
                         },
                         "isAuthenticationWithSshKey": False,
-                        "labSubnetName": "Dtl{labName}Subnet",
-                        "labVirtualNetworkId": "/virtualnetworks/dtl{labName}",
+                        "labSubnetName": "DtlmyLabNameSubnet",
+                        "labVirtualNetworkId": "/virtualnetworks/dtlmyLabName",
                         "networkInterface": {
                             "sharedPublicIpAddressConfiguration": {
                                 "inboundNatRules": [{"backendPort": 22, "transportProtocol": "Tcp"}]
@@ -75,6 +75,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2018-09-15/examples/Formulas_CreateOrUpdate.json
+# x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2021-09-01/examples/Formulas_CreateOrUpdate.json
 if __name__ == "__main__":
     main()

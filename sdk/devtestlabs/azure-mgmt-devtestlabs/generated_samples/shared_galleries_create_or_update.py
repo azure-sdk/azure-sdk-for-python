@@ -14,7 +14,7 @@ from azure.mgmt.devtestlabs import DevTestLabsClient
     pip install azure-identity
     pip install azure-mgmt-devtestlabs
 # USAGE
-    python costs_get.py
+    python shared_galleries_create_or_update.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,17 +26,25 @@ from azure.mgmt.devtestlabs import DevTestLabsClient
 def main():
     client = DevTestLabsClient(
         credential=DefaultAzureCredential(),
-        subscription_id="{subscriptionId}",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.costs.get(
+    response = client.shared_galleries.create_or_update(
         resource_group_name="resourceGroupName",
-        lab_name="{labName}",
-        name="targetCost",
+        lab_name="myLabName",
+        name="{sharedGalleryName}",
+        shared_gallery={
+            "location": "{location}",
+            "properties": {
+                "allowAllImages": "{Enabled|Disabled}",
+                "galleryId": "/subscriptions/{subscriptionId}/resourcegroups/resourceGroupName/providers/microsoft.compute/galleries/{sharedGalleryName}",
+            },
+            "tags": {"tagName1": "tagValue1"},
+        },
     )
     print(response)
 
 
-# x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2018-09-15/examples/Costs_Get.json
+# x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2021-09-01/examples/SharedGalleries_CreateOrUpdate.json
 if __name__ == "__main__":
     main()

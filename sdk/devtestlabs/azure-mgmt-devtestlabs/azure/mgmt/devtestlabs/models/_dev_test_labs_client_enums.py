@@ -10,19 +10,13 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
-class CostThresholdStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Indicates whether this threshold will be displayed on cost charts."""
+class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of identity that created the resource."""
 
-    ENABLED = "Enabled"
-    DISABLED = "Disabled"
-
-
-class CostType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The type of the cost."""
-
-    UNAVAILABLE = "Unavailable"
-    REPORTED = "Reported"
-    PROJECTED = "Projected"
+    USER = "User"
+    APPLICATION = "Application"
+    MANAGED_IDENTITY = "ManagedIdentity"
+    KEY = "Key"
 
 
 class CustomImageOsType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -33,11 +27,29 @@ class CustomImageOsType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     NONE = "None"
 
 
+class EnableState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Enables all images in the gallery to be available in the lab for VM creation. This will
+    override the EnableState on shared images.
+    """
+
+    DISABLED = "Disabled"
+    ENABLED = "Enabled"
+
+
 class EnableStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Indicates if the artifact source is enabled (values: Enabled, Disabled)."""
 
     ENABLED = "Enabled"
     DISABLED = "Disabled"
+
+
+class EncryptionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Gets or sets the type of key used to encrypt the data of the disk. Possible values include:
+    'EncryptionAtRestWithPlatformKey', 'EncryptionAtRestWithCustomerKey'.
+    """
+
+    ENCRYPTION_AT_REST_WITH_PLATFORM_KEY = "EncryptionAtRestWithPlatformKey"
+    ENCRYPTION_AT_REST_WITH_CUSTOMER_KEY = "EncryptionAtRestWithCustomerKey"
 
 
 class EnvironmentPermission(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -69,6 +81,8 @@ class HttpStatusCode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     CONTINUE = "Continue"
     SWITCHING_PROTOCOLS = "SwitchingProtocols"
+    PROCESSING = "Processing"
+    EARLY_HINTS = "EarlyHints"
     OK = "OK"
     CREATED = "Created"
     ACCEPTED = "Accepted"
@@ -76,6 +90,9 @@ class HttpStatusCode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     NO_CONTENT = "NoContent"
     RESET_CONTENT = "ResetContent"
     PARTIAL_CONTENT = "PartialContent"
+    MULTI_STATUS = "MultiStatus"
+    ALREADY_REPORTED = "AlreadyReported"
+    IM_USED = "IMUsed"
     MULTIPLE_CHOICES = "MultipleChoices"
     AMBIGUOUS = "Ambiguous"
     MOVED_PERMANENTLY = "MovedPermanently"
@@ -89,6 +106,7 @@ class HttpStatusCode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     UNUSED = "Unused"
     TEMPORARY_REDIRECT = "TemporaryRedirect"
     REDIRECT_KEEP_VERB = "RedirectKeepVerb"
+    PERMANENT_REDIRECT = "PermanentRedirect"
     BAD_REQUEST = "BadRequest"
     UNAUTHORIZED = "Unauthorized"
     PAYMENT_REQUIRED = "PaymentRequired"
@@ -107,13 +125,34 @@ class HttpStatusCode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     UNSUPPORTED_MEDIA_TYPE = "UnsupportedMediaType"
     REQUESTED_RANGE_NOT_SATISFIABLE = "RequestedRangeNotSatisfiable"
     EXPECTATION_FAILED = "ExpectationFailed"
+    MISDIRECTED_REQUEST = "MisdirectedRequest"
+    UNPROCESSABLE_ENTITY = "UnprocessableEntity"
+    LOCKED = "Locked"
+    FAILED_DEPENDENCY = "FailedDependency"
     UPGRADE_REQUIRED = "UpgradeRequired"
+    PRECONDITION_REQUIRED = "PreconditionRequired"
+    TOO_MANY_REQUESTS = "TooManyRequests"
+    REQUEST_HEADER_FIELDS_TOO_LARGE = "RequestHeaderFieldsTooLarge"
+    UNAVAILABLE_FOR_LEGAL_REASONS = "UnavailableForLegalReasons"
     INTERNAL_SERVER_ERROR = "InternalServerError"
     NOT_IMPLEMENTED = "NotImplemented"
     BAD_GATEWAY = "BadGateway"
     SERVICE_UNAVAILABLE = "ServiceUnavailable"
     GATEWAY_TIMEOUT = "GatewayTimeout"
     HTTP_VERSION_NOT_SUPPORTED = "HttpVersionNotSupported"
+    VARIANT_ALSO_NEGOTIATES = "VariantAlsoNegotiates"
+    INSUFFICIENT_STORAGE = "InsufficientStorage"
+    LOOP_DETECTED = "LoopDetected"
+    NOT_EXTENDED = "NotExtended"
+    NETWORK_AUTHENTICATION_REQUIRED = "NetworkAuthenticationRequired"
+    CONTINUE_ENUM = "Continue"
+
+
+class ImageType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of image in the gallery (generalized or specialized)."""
+
+    GENERALIZED = "Generalized"
+    SPECIALIZED = "Specialized"
 
 
 class LinuxOsState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -125,7 +164,7 @@ class LinuxOsState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class ManagedIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Managed identity."""
+    """Type of identity (SystemAssigned, UserAssigned, None)."""
 
     NONE = "None"
     SYSTEM_ASSIGNED = "SystemAssigned"
@@ -134,10 +173,16 @@ class ManagedIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class NotificationChannelEventType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The event type for which this notification is enabled (i.e. AutoShutdown, Cost)."""
+    """The event type for which this notification is enabled (i.e. AutoShutdown)."""
 
     AUTO_SHUTDOWN = "AutoShutdown"
-    COST = "Cost"
+
+
+class OsType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The operating system of the image."""
+
+    WINDOWS = "Windows"
+    LINUX = "Linux"
 
 
 class PolicyEvaluatorType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -157,7 +202,6 @@ class PolicyFactName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     LAB_VM_SIZE = "LabVmSize"
     GALLERY_IMAGE = "GalleryImage"
     USER_OWNED_LAB_VM_COUNT_IN_SUBNET = "UserOwnedLabVmCountInSubnet"
-    LAB_TARGET_COST = "LabTargetCost"
     ENVIRONMENT_TEMPLATE = "EnvironmentTemplate"
     SCHEDULE_EDIT_PERMISSION = "ScheduleEditPermission"
 
@@ -179,11 +223,14 @@ class PremiumDataDisk(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ENABLED = "Enabled"
 
 
-class ReportingCycleType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Reporting cycle type."""
+class SecurityTypes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Specifies the SecurityType of the virtual machine. It has to be set to any specified value to
+    enable UefiSettings. :code:`<br>`:code:`<br>` Default: UefiSettings will not be enabled unless
+    this property is set.
+    """
 
-    CALENDAR_MONTH = "CalendarMonth"
-    CUSTOM = "Custom"
+    TRUSTED_LAUNCH = "TrustedLaunch"
+    CONFIDENTIAL_VM = "ConfidentialVM"
 
 
 class SourceControlType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -202,11 +249,12 @@ class StorageType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     STANDARD_SSD = "StandardSSD"
 
 
-class TargetCostStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Target cost status."""
+class StorageTypes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Storage type to use for virtual machine (i.e. Standard, Premium, StandardSSD)."""
 
-    ENABLED = "Enabled"
-    DISABLED = "Disabled"
+    STANDARD = "Standard"
+    PREMIUM = "Premium"
+    STANDARD_SSD = "StandardSSD"
 
 
 class TransportProtocol(str, Enum, metaclass=CaseInsensitiveEnumMeta):

@@ -26,12 +26,12 @@ from azure.mgmt.devtestlabs import DevTestLabsClient
 def main():
     client = DevTestLabsClient(
         credential=DefaultAzureCredential(),
-        subscription_id="{subscriptionId}",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
     response = client.virtual_machines.begin_create_or_update(
         resource_group_name="resourceGroupName",
-        lab_name="{labName}",
+        lab_name="myLabName",
         name="{vmName}",
         lab_virtual_machine={
             "location": "{location}",
@@ -42,11 +42,11 @@ def main():
                     "offer": "UbuntuServer",
                     "osType": "Linux",
                     "publisher": "Canonical",
-                    "sku": "16.04-LTS",
+                    "sku": "18.04-LTS",
                     "version": "Latest",
                 },
                 "labSubnetName": "{virtualNetworkName}Subnet",
-                "labVirtualNetworkId": "/subscriptions/{subscriptionId}/resourcegroups/resourceGroupName/providers/microsoft.devtestlab/labs/{labName}/virtualnetworks/{virtualNetworkName}",
+                "labVirtualNetworkId": "/subscriptions/{subscriptionId}/resourcegroups/resourceGroupName/providers/microsoft.devtestlab/labs/myLabName/virtualnetworks/{virtualNetworkName}",
                 "password": "{userPassword}",
                 "size": "Standard_A2_v2",
                 "storageType": "Standard",
@@ -58,6 +58,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2018-09-15/examples/VirtualMachines_CreateOrUpdate.json
+# x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2021-09-01/examples/VirtualMachines_CreateOrUpdate.json
 if __name__ == "__main__":
     main()

@@ -12,20 +12,21 @@ from typing import Any, Awaitable, TYPE_CHECKING
 from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.mgmt.core import AsyncARMPipelineClient
 
-from .. import models
+from .. import models as _models
 from .._serialization import Deserializer, Serializer
 from ._configuration import DevTestLabsClientConfiguration
 from .operations import (
     ArmTemplatesOperations,
     ArtifactSourcesOperations,
     ArtifactsOperations,
-    CostsOperations,
+    BastionHostsOperations,
     CustomImagesOperations,
     DisksOperations,
     EnvironmentsOperations,
     FormulasOperations,
     GalleryImagesOperations,
     GlobalSchedulesOperations,
+    LabSecretsOperations,
     LabsOperations,
     NotificationChannelsOperations,
     Operations,
@@ -37,6 +38,8 @@ from .operations import (
     ServiceFabricSchedulesOperations,
     ServiceFabricsOperations,
     ServiceRunnersOperations,
+    SharedGalleriesOperations,
+    SharedImagesOperations,
     UsersOperations,
     VirtualMachineSchedulesOperations,
     VirtualMachinesOperations,
@@ -66,8 +69,6 @@ class DevTestLabsClient:  # pylint: disable=client-accepts-api-version-keyword,t
     :vartype arm_templates: azure.mgmt.devtestlabs.aio.operations.ArmTemplatesOperations
     :ivar artifacts: ArtifactsOperations operations
     :vartype artifacts: azure.mgmt.devtestlabs.aio.operations.ArtifactsOperations
-    :ivar costs: CostsOperations operations
-    :vartype costs: azure.mgmt.devtestlabs.aio.operations.CostsOperations
     :ivar custom_images: CustomImagesOperations operations
     :vartype custom_images: azure.mgmt.devtestlabs.aio.operations.CustomImagesOperations
     :ivar formulas: FormulasOperations operations
@@ -83,8 +84,14 @@ class DevTestLabsClient:  # pylint: disable=client-accepts-api-version-keyword,t
     :vartype policies: azure.mgmt.devtestlabs.aio.operations.PoliciesOperations
     :ivar schedules: SchedulesOperations operations
     :vartype schedules: azure.mgmt.devtestlabs.aio.operations.SchedulesOperations
+    :ivar lab_secrets: LabSecretsOperations operations
+    :vartype lab_secrets: azure.mgmt.devtestlabs.aio.operations.LabSecretsOperations
     :ivar service_runners: ServiceRunnersOperations operations
     :vartype service_runners: azure.mgmt.devtestlabs.aio.operations.ServiceRunnersOperations
+    :ivar shared_galleries: SharedGalleriesOperations operations
+    :vartype shared_galleries: azure.mgmt.devtestlabs.aio.operations.SharedGalleriesOperations
+    :ivar shared_images: SharedImagesOperations operations
+    :vartype shared_images: azure.mgmt.devtestlabs.aio.operations.SharedImagesOperations
     :ivar users: UsersOperations operations
     :vartype users: azure.mgmt.devtestlabs.aio.operations.UsersOperations
     :ivar disks: DisksOperations operations
@@ -105,13 +112,15 @@ class DevTestLabsClient:  # pylint: disable=client-accepts-api-version-keyword,t
      azure.mgmt.devtestlabs.aio.operations.VirtualMachineSchedulesOperations
     :ivar virtual_networks: VirtualNetworksOperations operations
     :vartype virtual_networks: azure.mgmt.devtestlabs.aio.operations.VirtualNetworksOperations
+    :ivar bastion_hosts: BastionHostsOperations operations
+    :vartype bastion_hosts: azure.mgmt.devtestlabs.aio.operations.BastionHostsOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
-    :param subscription_id: The subscription ID. Required.
+    :param subscription_id: The ID of the target subscription. The value must be an UUID. Required.
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2018-09-15". Note that overriding this
+    :keyword api_version: Api Version. Default value is "2021-09-01". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -126,9 +135,9 @@ class DevTestLabsClient:  # pylint: disable=client-accepts-api-version-keyword,t
         **kwargs: Any
     ) -> None:
         self._config = DevTestLabsClientConfiguration(credential=credential, subscription_id=subscription_id, **kwargs)
-        self._client = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
-        client_models = {k: v for k, v in models.__dict__.items() if isinstance(v, type)}
+        client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
@@ -145,7 +154,6 @@ class DevTestLabsClient:  # pylint: disable=client-accepts-api-version-keyword,t
         )
         self.arm_templates = ArmTemplatesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.artifacts = ArtifactsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.costs = CostsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.custom_images = CustomImagesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.formulas = FormulasOperations(self._client, self._config, self._serialize, self._deserialize)
         self.gallery_images = GalleryImagesOperations(self._client, self._config, self._serialize, self._deserialize)
@@ -155,7 +163,12 @@ class DevTestLabsClient:  # pylint: disable=client-accepts-api-version-keyword,t
         self.policy_sets = PolicySetsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.policies = PoliciesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.schedules = SchedulesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.lab_secrets = LabSecretsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.service_runners = ServiceRunnersOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.shared_galleries = SharedGalleriesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.shared_images = SharedImagesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.users = UsersOperations(self._client, self._config, self._serialize, self._deserialize)
         self.disks = DisksOperations(self._client, self._config, self._serialize, self._deserialize)
         self.environments = EnvironmentsOperations(self._client, self._config, self._serialize, self._deserialize)
@@ -173,6 +186,7 @@ class DevTestLabsClient:  # pylint: disable=client-accepts-api-version-keyword,t
         self.virtual_networks = VirtualNetworksOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.bastion_hosts = BastionHostsOperations(self._client, self._config, self._serialize, self._deserialize)
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> Awaitable[AsyncHttpResponse]:
         """Runs the network request through the client's chained policies.
@@ -203,5 +217,5 @@ class DevTestLabsClient:  # pylint: disable=client-accepts-api-version-keyword,t
         await self._client.__aenter__()
         return self
 
-    async def __aexit__(self, *exc_details) -> None:
+    async def __aexit__(self, *exc_details: Any) -> None:
         await self._client.__aexit__(*exc_details)

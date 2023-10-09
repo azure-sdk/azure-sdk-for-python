@@ -26,26 +26,27 @@ from azure.mgmt.devtestlabs import DevTestLabsClient
 def main():
     client = DevTestLabsClient(
         credential=DefaultAzureCredential(),
-        subscription_id="{subscriptionId}",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
     response = client.notification_channels.create_or_update(
         resource_group_name="resourceGroupName",
-        lab_name="{labName}",
+        lab_name="myLabName",
         name="{notificationChannelName}",
         notification_channel={
+            "location": "{location}",
             "properties": {
                 "description": "Integration configured for auto-shutdown",
                 "emailRecipient": "{email}",
                 "events": [{"eventName": "AutoShutdown"}],
                 "notificationLocale": "en",
                 "webHookUrl": "{webhookUrl}",
-            }
+            },
         },
     )
     print(response)
 
 
-# x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2018-09-15/examples/NotificationChannels_CreateOrUpdate.json
+# x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2021-09-01/examples/NotificationChannels_CreateOrUpdate.json
 if __name__ == "__main__":
     main()

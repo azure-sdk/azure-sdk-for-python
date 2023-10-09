@@ -26,18 +26,18 @@ from azure.mgmt.devtestlabs import DevTestLabsClient
 def main():
     client = DevTestLabsClient(
         credential=DefaultAzureCredential(),
-        subscription_id="{subscriptionId}",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
     response = client.virtual_machine_schedules.update(
         resource_group_name="resourceGroupName",
-        lab_name="{labName}",
-        virtual_machine_name="{vmName}",
+        lab_name="myLabName",
+        virtual_machine_name="vmName",
         name="LabVmsShutdown",
     )
     print(response)
 
 
-# x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2018-09-15/examples/VirtualMachineSchedules_Update.json
+# x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2021-09-01/examples/VirtualMachineSchedules_Update.json
 if __name__ == "__main__":
     main()

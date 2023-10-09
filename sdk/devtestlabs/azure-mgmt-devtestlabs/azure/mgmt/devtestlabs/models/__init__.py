@@ -7,14 +7,12 @@
 # --------------------------------------------------------------------------
 
 from ._models_py3 import ApplicableSchedule
-from ._models_py3 import ApplicableScheduleFragment
 from ._models_py3 import ApplyArtifactsRequest
 from ._models_py3 import ArmTemplate
 from ._models_py3 import ArmTemplateInfo
 from ._models_py3 import ArmTemplateList
 from ._models_py3 import ArmTemplateParameterProperties
 from ._models_py3 import Artifact
-from ._models_py3 import ArtifactDeploymentStatusProperties
 from ._models_py3 import ArtifactInstallProperties
 from ._models_py3 import ArtifactList
 from ._models_py3 import ArtifactParameterProperties
@@ -22,22 +20,18 @@ from ._models_py3 import ArtifactSource
 from ._models_py3 import ArtifactSourceFragment
 from ._models_py3 import ArtifactSourceList
 from ._models_py3 import AttachDiskProperties
-from ._models_py3 import AttachNewDataDiskOptions
-from ._models_py3 import BulkCreationParameters
+from ._models_py3 import BastionHost
+from ._models_py3 import BastionHostFragment
+from ._models_py3 import BastionHostList
 from ._models_py3 import CloudErrorBody
 from ._models_py3 import ComputeDataDisk
 from ._models_py3 import ComputeVmInstanceViewStatus
-from ._models_py3 import ComputeVmProperties
-from ._models_py3 import CostThresholdProperties
 from ._models_py3 import CustomImage
 from ._models_py3 import CustomImageFragment
 from ._models_py3 import CustomImageList
-from ._models_py3 import CustomImagePropertiesCustom
-from ._models_py3 import CustomImagePropertiesFromPlan
-from ._models_py3 import CustomImagePropertiesFromVm
+from ._models_py3 import CustomImagePropertiesFromPlanFragment
 from ._models_py3 import DataDiskProperties
 from ._models_py3 import DataDiskStorageTypeInfo
-from ._models_py3 import DayDetails
 from ._models_py3 import DetachDataDiskProperties
 from ._models_py3 import DetachDiskProperties
 from ._models_py3 import Disk
@@ -46,7 +40,6 @@ from ._models_py3 import DiskList
 from ._models_py3 import DtlEnvironment
 from ._models_py3 import DtlEnvironmentFragment
 from ._models_py3 import DtlEnvironmentList
-from ._models_py3 import EnvironmentDeploymentProperties
 from ._models_py3 import EvaluatePoliciesProperties
 from ._models_py3 import EvaluatePoliciesRequest
 from ._models_py3 import EvaluatePoliciesResponse
@@ -56,49 +49,41 @@ from ._models_py3 import ExternalSubnet
 from ._models_py3 import Formula
 from ._models_py3 import FormulaFragment
 from ._models_py3 import FormulaList
-from ._models_py3 import FormulaPropertiesFromVm
 from ._models_py3 import GalleryImage
 from ._models_py3 import GalleryImageList
-from ._models_py3 import GalleryImageReference
 from ._models_py3 import GenerateArmTemplateRequest
 from ._models_py3 import GenerateUploadUriParameter
 from ._models_py3 import GenerateUploadUriResponse
-from ._models_py3 import HourDetails
 from ._models_py3 import IdentityProperties
+from ._models_py3 import ImageVersionProperties
 from ._models_py3 import ImportLabVirtualMachineRequest
 from ._models_py3 import InboundNatRule
 from ._models_py3 import Lab
-from ._models_py3 import LabAnnouncementProperties
-from ._models_py3 import LabCost
-from ._models_py3 import LabCostDetailsProperties
-from ._models_py3 import LabCostSummaryProperties
 from ._models_py3 import LabFragment
 from ._models_py3 import LabList
-from ._models_py3 import LabResourceCostProperties
-from ._models_py3 import LabSupportProperties
+from ._models_py3 import LabSecret
+from ._models_py3 import LabSecretFragment
+from ._models_py3 import LabSecretList
 from ._models_py3 import LabVhd
 from ._models_py3 import LabVhdList
 from ._models_py3 import LabVirtualMachine
 from ._models_py3 import LabVirtualMachineCreationParameter
 from ._models_py3 import LabVirtualMachineFragment
 from ._models_py3 import LabVirtualMachineList
-from ._models_py3 import LinuxOsInfo
-from ._models_py3 import NetworkInterfaceProperties
 from ._models_py3 import NotificationChannel
 from ._models_py3 import NotificationChannelFragment
 from ._models_py3 import NotificationChannelList
-from ._models_py3 import NotificationSettings
 from ._models_py3 import NotifyParameters
-from ._models_py3 import OperationError
 from ._models_py3 import OperationMetadata
 from ._models_py3 import OperationMetadataDisplay
 from ._models_py3 import OperationResult
 from ._models_py3 import ParameterInfo
 from ._models_py3 import ParametersValueFileInfo
-from ._models_py3 import PercentageCostThresholdProperties
 from ._models_py3 import Policy
 from ._models_py3 import PolicyFragment
 from ._models_py3 import PolicyList
+from ._models_py3 import PolicySet
+from ._models_py3 import PolicySetList
 from ._models_py3 import PolicySetResult
 from ._models_py3 import PolicyViolation
 from ._models_py3 import Port
@@ -114,66 +99,69 @@ from ._models_py3 import ScheduleList
 from ._models_py3 import Secret
 from ._models_py3 import SecretFragment
 from ._models_py3 import SecretList
+from ._models_py3 import SecurityProfile
 from ._models_py3 import ServiceFabric
 from ._models_py3 import ServiceFabricFragment
 from ._models_py3 import ServiceFabricList
 from ._models_py3 import ServiceRunner
 from ._models_py3 import ServiceRunnerList
-from ._models_py3 import SharedPublicIpAddressConfiguration
-from ._models_py3 import ShutdownNotificationContent
+from ._models_py3 import SharedGallery
+from ._models_py3 import SharedGalleryFragment
+from ._models_py3 import SharedGalleryList
+from ._models_py3 import SharedImage
+from ._models_py3 import SharedImageFragment
+from ._models_py3 import SharedImageList
 from ._models_py3 import Subnet
 from ._models_py3 import SubnetOverride
-from ._models_py3 import SubnetSharedPublicIpAddressConfiguration
-from ._models_py3 import TargetCostProperties
+from ._models_py3 import SystemData
+from ._models_py3 import UefiSettings
 from ._models_py3 import UpdateResource
 from ._models_py3 import User
 from ._models_py3 import UserFragment
-from ._models_py3 import UserIdentity
 from ._models_py3 import UserList
-from ._models_py3 import UserSecretStore
 from ._models_py3 import VirtualNetwork
 from ._models_py3 import VirtualNetworkFragment
 from ._models_py3 import VirtualNetworkList
-from ._models_py3 import WeekDetails
-from ._models_py3 import WindowsOsInfo
+from ._models_py3 import WeekDetailsFragment
 
-from ._dev_test_labs_client_enums import CostThresholdStatus
-from ._dev_test_labs_client_enums import CostType
+from ._dev_test_labs_client_enums import CreatedByType
 from ._dev_test_labs_client_enums import CustomImageOsType
+from ._dev_test_labs_client_enums import EnableState
 from ._dev_test_labs_client_enums import EnableStatus
+from ._dev_test_labs_client_enums import EncryptionType
 from ._dev_test_labs_client_enums import EnvironmentPermission
 from ._dev_test_labs_client_enums import FileUploadOptions
 from ._dev_test_labs_client_enums import HostCachingOptions
 from ._dev_test_labs_client_enums import HttpStatusCode
+from ._dev_test_labs_client_enums import ImageType
 from ._dev_test_labs_client_enums import LinuxOsState
 from ._dev_test_labs_client_enums import ManagedIdentityType
 from ._dev_test_labs_client_enums import NotificationChannelEventType
+from ._dev_test_labs_client_enums import OsType
 from ._dev_test_labs_client_enums import PolicyEvaluatorType
 from ._dev_test_labs_client_enums import PolicyFactName
 from ._dev_test_labs_client_enums import PolicyStatus
 from ._dev_test_labs_client_enums import PremiumDataDisk
-from ._dev_test_labs_client_enums import ReportingCycleType
+from ._dev_test_labs_client_enums import SecurityTypes
 from ._dev_test_labs_client_enums import SourceControlType
 from ._dev_test_labs_client_enums import StorageType
-from ._dev_test_labs_client_enums import TargetCostStatus
+from ._dev_test_labs_client_enums import StorageTypes
 from ._dev_test_labs_client_enums import TransportProtocol
 from ._dev_test_labs_client_enums import UsagePermissionType
 from ._dev_test_labs_client_enums import VirtualMachineCreationSource
 from ._dev_test_labs_client_enums import WindowsOsState
 from ._patch import __all__ as _patch_all
-from ._patch import *  # type: ignore # pylint: disable=unused-wildcard-import
+from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
     "ApplicableSchedule",
-    "ApplicableScheduleFragment",
     "ApplyArtifactsRequest",
     "ArmTemplate",
     "ArmTemplateInfo",
     "ArmTemplateList",
     "ArmTemplateParameterProperties",
     "Artifact",
-    "ArtifactDeploymentStatusProperties",
     "ArtifactInstallProperties",
     "ArtifactList",
     "ArtifactParameterProperties",
@@ -181,22 +169,18 @@ __all__ = [
     "ArtifactSourceFragment",
     "ArtifactSourceList",
     "AttachDiskProperties",
-    "AttachNewDataDiskOptions",
-    "BulkCreationParameters",
+    "BastionHost",
+    "BastionHostFragment",
+    "BastionHostList",
     "CloudErrorBody",
     "ComputeDataDisk",
     "ComputeVmInstanceViewStatus",
-    "ComputeVmProperties",
-    "CostThresholdProperties",
     "CustomImage",
     "CustomImageFragment",
     "CustomImageList",
-    "CustomImagePropertiesCustom",
-    "CustomImagePropertiesFromPlan",
-    "CustomImagePropertiesFromVm",
+    "CustomImagePropertiesFromPlanFragment",
     "DataDiskProperties",
     "DataDiskStorageTypeInfo",
-    "DayDetails",
     "DetachDataDiskProperties",
     "DetachDiskProperties",
     "Disk",
@@ -205,7 +189,6 @@ __all__ = [
     "DtlEnvironment",
     "DtlEnvironmentFragment",
     "DtlEnvironmentList",
-    "EnvironmentDeploymentProperties",
     "EvaluatePoliciesProperties",
     "EvaluatePoliciesRequest",
     "EvaluatePoliciesResponse",
@@ -215,49 +198,41 @@ __all__ = [
     "Formula",
     "FormulaFragment",
     "FormulaList",
-    "FormulaPropertiesFromVm",
     "GalleryImage",
     "GalleryImageList",
-    "GalleryImageReference",
     "GenerateArmTemplateRequest",
     "GenerateUploadUriParameter",
     "GenerateUploadUriResponse",
-    "HourDetails",
     "IdentityProperties",
+    "ImageVersionProperties",
     "ImportLabVirtualMachineRequest",
     "InboundNatRule",
     "Lab",
-    "LabAnnouncementProperties",
-    "LabCost",
-    "LabCostDetailsProperties",
-    "LabCostSummaryProperties",
     "LabFragment",
     "LabList",
-    "LabResourceCostProperties",
-    "LabSupportProperties",
+    "LabSecret",
+    "LabSecretFragment",
+    "LabSecretList",
     "LabVhd",
     "LabVhdList",
     "LabVirtualMachine",
     "LabVirtualMachineCreationParameter",
     "LabVirtualMachineFragment",
     "LabVirtualMachineList",
-    "LinuxOsInfo",
-    "NetworkInterfaceProperties",
     "NotificationChannel",
     "NotificationChannelFragment",
     "NotificationChannelList",
-    "NotificationSettings",
     "NotifyParameters",
-    "OperationError",
     "OperationMetadata",
     "OperationMetadataDisplay",
     "OperationResult",
     "ParameterInfo",
     "ParametersValueFileInfo",
-    "PercentageCostThresholdProperties",
     "Policy",
     "PolicyFragment",
     "PolicyList",
+    "PolicySet",
+    "PolicySetList",
     "PolicySetResult",
     "PolicyViolation",
     "Port",
@@ -273,47 +248,52 @@ __all__ = [
     "Secret",
     "SecretFragment",
     "SecretList",
+    "SecurityProfile",
     "ServiceFabric",
     "ServiceFabricFragment",
     "ServiceFabricList",
     "ServiceRunner",
     "ServiceRunnerList",
-    "SharedPublicIpAddressConfiguration",
-    "ShutdownNotificationContent",
+    "SharedGallery",
+    "SharedGalleryFragment",
+    "SharedGalleryList",
+    "SharedImage",
+    "SharedImageFragment",
+    "SharedImageList",
     "Subnet",
     "SubnetOverride",
-    "SubnetSharedPublicIpAddressConfiguration",
-    "TargetCostProperties",
+    "SystemData",
+    "UefiSettings",
     "UpdateResource",
     "User",
     "UserFragment",
-    "UserIdentity",
     "UserList",
-    "UserSecretStore",
     "VirtualNetwork",
     "VirtualNetworkFragment",
     "VirtualNetworkList",
-    "WeekDetails",
-    "WindowsOsInfo",
-    "CostThresholdStatus",
-    "CostType",
+    "WeekDetailsFragment",
+    "CreatedByType",
     "CustomImageOsType",
+    "EnableState",
     "EnableStatus",
+    "EncryptionType",
     "EnvironmentPermission",
     "FileUploadOptions",
     "HostCachingOptions",
     "HttpStatusCode",
+    "ImageType",
     "LinuxOsState",
     "ManagedIdentityType",
     "NotificationChannelEventType",
+    "OsType",
     "PolicyEvaluatorType",
     "PolicyFactName",
     "PolicyStatus",
     "PremiumDataDisk",
-    "ReportingCycleType",
+    "SecurityTypes",
     "SourceControlType",
     "StorageType",
-    "TargetCostStatus",
+    "StorageTypes",
     "TransportProtocol",
     "UsagePermissionType",
     "VirtualMachineCreationSource",

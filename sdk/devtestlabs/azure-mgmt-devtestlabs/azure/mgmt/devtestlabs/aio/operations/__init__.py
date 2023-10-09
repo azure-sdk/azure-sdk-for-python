@@ -13,7 +13,6 @@ from ._global_schedules_operations import GlobalSchedulesOperations
 from ._artifact_sources_operations import ArtifactSourcesOperations
 from ._arm_templates_operations import ArmTemplatesOperations
 from ._artifacts_operations import ArtifactsOperations
-from ._costs_operations import CostsOperations
 from ._custom_images_operations import CustomImagesOperations
 from ._formulas_operations import FormulasOperations
 from ._gallery_images_operations import GalleryImagesOperations
@@ -21,7 +20,10 @@ from ._notification_channels_operations import NotificationChannelsOperations
 from ._policy_sets_operations import PolicySetsOperations
 from ._policies_operations import PoliciesOperations
 from ._schedules_operations import SchedulesOperations
+from ._lab_secrets_operations import LabSecretsOperations
 from ._service_runners_operations import ServiceRunnersOperations
+from ._shared_galleries_operations import SharedGalleriesOperations
+from ._shared_images_operations import SharedImagesOperations
 from ._users_operations import UsersOperations
 from ._disks_operations import DisksOperations
 from ._environments_operations import EnvironmentsOperations
@@ -31,9 +33,10 @@ from ._service_fabric_schedules_operations import ServiceFabricSchedulesOperatio
 from ._virtual_machines_operations import VirtualMachinesOperations
 from ._virtual_machine_schedules_operations import VirtualMachineSchedulesOperations
 from ._virtual_networks_operations import VirtualNetworksOperations
+from ._bastion_hosts_operations import BastionHostsOperations
 
 from ._patch import __all__ as _patch_all
-from ._patch import *  # type: ignore # pylint: disable=unused-wildcard-import
+from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
@@ -44,7 +47,6 @@ __all__ = [
     "ArtifactSourcesOperations",
     "ArmTemplatesOperations",
     "ArtifactsOperations",
-    "CostsOperations",
     "CustomImagesOperations",
     "FormulasOperations",
     "GalleryImagesOperations",
@@ -52,7 +54,10 @@ __all__ = [
     "PolicySetsOperations",
     "PoliciesOperations",
     "SchedulesOperations",
+    "LabSecretsOperations",
     "ServiceRunnersOperations",
+    "SharedGalleriesOperations",
+    "SharedImagesOperations",
     "UsersOperations",
     "DisksOperations",
     "EnvironmentsOperations",
@@ -62,6 +67,7 @@ __all__ = [
     "VirtualMachinesOperations",
     "VirtualMachineSchedulesOperations",
     "VirtualNetworksOperations",
+    "BastionHostsOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
