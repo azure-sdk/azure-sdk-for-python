@@ -14,7 +14,7 @@ from azure.mgmt.automation import AutomationClient
     pip install azure-identity
     pip install azure-mgmt-automation
 # USAGE
-    python delete_source_control.py
+    python delete_software_update_configuration.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,17 +26,16 @@ from azure.mgmt.automation import AutomationClient
 def main():
     client = AutomationClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subid",
+        subscription_id="51766542-3ed7-4a72-a187-0c8ab644ddab",
     )
 
-    response = client.source_control.delete(
-        resource_group_name="rg",
-        automation_account_name="sampleAccount9",
-        source_control_name="sampleSourceControl",
+    client.software_update_configurations.delete(
+        resource_group_name="mygroup",
+        automation_account_name="myaccount",
+        software_update_configuration_name="mypatch",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2022-08-08/examples/sourceControl/deleteSourceControl.json
+# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2019-06-01/examples/softwareUpdateConfiguration/deleteSoftwareUpdateConfiguration.json
 if __name__ == "__main__":
     main()

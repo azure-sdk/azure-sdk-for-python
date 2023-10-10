@@ -29,12 +29,11 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.variable.delete(
+    client.variable.delete(
         resource_group_name="rg",
         automation_account_name="sampleAccount9",
         variable_name="sampleVariable",
     )
-    print(response)
 
 
 # x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2022-08-08/examples/deleteVariable.json
