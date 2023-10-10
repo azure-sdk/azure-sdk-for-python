@@ -18,6 +18,7 @@ class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     LOG = "Log"
     REDIRECT = "Redirect"
     ANOMALY_SCORING = "AnomalyScoring"
+    JS_CHALLENGE = "JSChallenge"
 
 
 class AggregationInterval(str, Enum, metaclass=CaseInsensitiveEnumMeta):

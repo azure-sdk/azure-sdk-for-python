@@ -670,7 +670,7 @@ class CustomRule(_serialization.Model):
     :ivar match_conditions: List of match conditions. Required.
     :vartype match_conditions: list[~azure.mgmt.frontdoor.models.MatchCondition]
     :ivar action: Describes what action to be applied when rule matches. Required. Known values
-     are: "Allow", "Block", "Log", "Redirect", and "AnomalyScoring".
+     are: "Allow", "Block", "Log", "Redirect", "AnomalyScoring", and "JSChallenge".
     :vartype action: str or ~azure.mgmt.frontdoor.models.ActionType
     """
 
@@ -728,7 +728,7 @@ class CustomRule(_serialization.Model):
         :keyword match_conditions: List of match conditions. Required.
         :paramtype match_conditions: list[~azure.mgmt.frontdoor.models.MatchCondition]
         :keyword action: Describes what action to be applied when rule matches. Required. Known values
-         are: "Allow", "Block", "Log", "Redirect", and "AnomalyScoring".
+         are: "Allow", "Block", "Log", "Redirect", "AnomalyScoring", and "JSChallenge".
         :paramtype action: str or ~azure.mgmt.frontdoor.models.ActionType
         """
         super().__init__(**kwargs)
@@ -2665,7 +2665,7 @@ class ManagedRuleDefinition(_serialization.Model):
      "Disabled" and "Enabled".
     :vartype default_state: str or ~azure.mgmt.frontdoor.models.ManagedRuleEnabledState
     :ivar default_action: Describes the default action to be applied when the managed rule matches.
-     Known values are: "Allow", "Block", "Log", "Redirect", and "AnomalyScoring".
+     Known values are: "Allow", "Block", "Log", "Redirect", "AnomalyScoring", and "JSChallenge".
     :vartype default_action: str or ~azure.mgmt.frontdoor.models.ActionType
     :ivar description: Describes the functionality of the managed rule.
     :vartype description: str
@@ -2845,7 +2845,7 @@ class ManagedRuleOverride(_serialization.Model):
      Disabled if not specified. Known values are: "Disabled" and "Enabled".
     :vartype enabled_state: str or ~azure.mgmt.frontdoor.models.ManagedRuleEnabledState
     :ivar action: Describes the override action to be applied when rule matches. Known values are:
-     "Allow", "Block", "Log", "Redirect", and "AnomalyScoring".
+     "Allow", "Block", "Log", "Redirect", "AnomalyScoring", and "JSChallenge".
     :vartype action: str or ~azure.mgmt.frontdoor.models.ActionType
     :ivar exclusions: Describes the exclusions that are applied to this specific rule.
     :vartype exclusions: list[~azure.mgmt.frontdoor.models.ManagedRuleExclusion]
@@ -2878,7 +2878,7 @@ class ManagedRuleOverride(_serialization.Model):
          to Disabled if not specified. Known values are: "Disabled" and "Enabled".
         :paramtype enabled_state: str or ~azure.mgmt.frontdoor.models.ManagedRuleEnabledState
         :keyword action: Describes the override action to be applied when rule matches. Known values
-         are: "Allow", "Block", "Log", "Redirect", and "AnomalyScoring".
+         are: "Allow", "Block", "Log", "Redirect", "AnomalyScoring", and "JSChallenge".
         :paramtype action: str or ~azure.mgmt.frontdoor.models.ActionType
         :keyword exclusions: Describes the exclusions that are applied to this specific rule.
         :paramtype exclusions: list[~azure.mgmt.frontdoor.models.ManagedRuleExclusion]

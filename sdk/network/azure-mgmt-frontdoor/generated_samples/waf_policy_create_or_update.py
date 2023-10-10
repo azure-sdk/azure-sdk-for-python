@@ -33,6 +33,7 @@ def main():
         resource_group_name="rg1",
         policy_name="Policy1",
         parameters={
+            "location": "WestUs",
             "properties": {
                 "customRules": {
                     "rules": [
@@ -113,7 +114,7 @@ def main():
                 },
                 "policySettings": {
                     "customBlockResponseBody": "PGh0bWw+CjxoZWFkZXI+PHRpdGxlPkhlbGxvPC90aXRsZT48L2hlYWRlcj4KPGJvZHk+CkhlbGxvIHdvcmxkCjwvYm9keT4KPC9odG1sPg==",
-                    "customBlockResponseStatusCode": 499,
+                    "customBlockResponseStatusCode": 429,
                     "enabledState": "Enabled",
                     "mode": "Prevention",
                     "redirectUrl": "http://www.bing.com",
