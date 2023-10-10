@@ -24,6 +24,7 @@ class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ALLOW = "Allow"
     BLOCK = "Block"
     LOG = "Log"
+    JS_CHALLENGE = "JSChallenge"
 
 
 class AddressPrefixType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -1823,6 +1824,7 @@ class WebApplicationFirewallAction(str, Enum, metaclass=CaseInsensitiveEnumMeta)
     ALLOW = "Allow"
     BLOCK = "Block"
     LOG = "Log"
+    JS_CHALLENGE = "JSChallenge"
 
 
 class WebApplicationFirewallEnabledState(str, Enum, metaclass=CaseInsensitiveEnumMeta):

@@ -21603,7 +21603,7 @@ class ManagedRuleOverride(_serialization.Model):
      are: "Disabled" and "Enabled".
     :vartype state: str or ~azure.mgmt.network.v2023_04_01.models.ManagedRuleEnabledState
     :ivar action: Describes the override action to be applied when rule matches. Known values are:
-     "AnomalyScoring", "Allow", "Block", and "Log".
+     "AnomalyScoring", "Allow", "Block", "Log", and "JSChallenge".
     :vartype action: str or ~azure.mgmt.network.v2023_04_01.models.ActionType
     """
 
@@ -21632,7 +21632,7 @@ class ManagedRuleOverride(_serialization.Model):
          values are: "Disabled" and "Enabled".
         :paramtype state: str or ~azure.mgmt.network.v2023_04_01.models.ManagedRuleEnabledState
         :keyword action: Describes the override action to be applied when rule matches. Known values
-         are: "AnomalyScoring", "Allow", "Block", and "Log".
+         are: "AnomalyScoring", "Allow", "Block", "Log", and "JSChallenge".
         :paramtype action: str or ~azure.mgmt.network.v2023_04_01.models.ActionType
         """
         super().__init__(**kwargs)
@@ -38665,7 +38665,8 @@ class WebApplicationFirewallCustomRule(_serialization.Model):
     :vartype match_conditions: list[~azure.mgmt.network.v2023_04_01.models.MatchCondition]
     :ivar group_by_user_session: List of user session identifier group by clauses.
     :vartype group_by_user_session: list[~azure.mgmt.network.v2023_04_01.models.GroupByUserSession]
-    :ivar action: Type of Actions. Required. Known values are: "Allow", "Block", and "Log".
+    :ivar action: Type of Actions. Required. Known values are: "Allow", "Block", "Log", and
+     "JSChallenge".
     :vartype action: str or ~azure.mgmt.network.v2023_04_01.models.WebApplicationFirewallAction
     """
 
@@ -38731,7 +38732,8 @@ class WebApplicationFirewallCustomRule(_serialization.Model):
         :keyword group_by_user_session: List of user session identifier group by clauses.
         :paramtype group_by_user_session:
          list[~azure.mgmt.network.v2023_04_01.models.GroupByUserSession]
-        :keyword action: Type of Actions. Required. Known values are: "Allow", "Block", and "Log".
+        :keyword action: Type of Actions. Required. Known values are: "Allow", "Block", "Log", and
+         "JSChallenge".
         :paramtype action: str or ~azure.mgmt.network.v2023_04_01.models.WebApplicationFirewallAction
         """
         super().__init__(**kwargs)
