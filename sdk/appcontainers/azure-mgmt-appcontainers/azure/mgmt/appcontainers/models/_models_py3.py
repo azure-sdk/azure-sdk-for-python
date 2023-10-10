@@ -78,6 +78,26 @@ class AllowedPrincipals(_serialization.Model):
         self.identities = identities
 
 
+class AppInsightsConfiguration(_serialization.Model):
+    """Configuration of Application Insights.
+
+    :ivar connection_string: Application Insights connection string.
+    :vartype connection_string: str
+    """
+
+    _attribute_map = {
+        "connection_string": {"key": "connectionString", "type": "str"},
+    }
+
+    def __init__(self, *, connection_string: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword connection_string: Application Insights connection string.
+        :paramtype connection_string: str
+        """
+        super().__init__(**kwargs)
+        self.connection_string = connection_string
+
+
 class Apple(_serialization.Model):
     """The configuration settings of the Apple provider.
 
@@ -323,6 +343,9 @@ class AuthConfig(ProxyResource):
     :ivar http_settings: The configuration settings of the HTTP requests for authentication and
      authorization requests made against ContainerApp Service Authentication/Authorization.
     :vartype http_settings: ~azure.mgmt.appcontainers.models.HttpSettings
+    :ivar encryption_settings: The configuration settings of the secrets references of encryption
+     key and signing key for ContainerApp Service Authentication/Authorization.
+    :vartype encryption_settings: ~azure.mgmt.appcontainers.models.EncryptionSettings
     """
 
     _validation = {
@@ -342,6 +365,7 @@ class AuthConfig(ProxyResource):
         "identity_providers": {"key": "properties.identityProviders", "type": "IdentityProviders"},
         "login": {"key": "properties.login", "type": "Login"},
         "http_settings": {"key": "properties.httpSettings", "type": "HttpSettings"},
+        "encryption_settings": {"key": "properties.encryptionSettings", "type": "EncryptionSettings"},
     }
 
     def __init__(
@@ -352,6 +376,7 @@ class AuthConfig(ProxyResource):
         identity_providers: Optional["_models.IdentityProviders"] = None,
         login: Optional["_models.Login"] = None,
         http_settings: Optional["_models.HttpSettings"] = None,
+        encryption_settings: Optional["_models.EncryptionSettings"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -370,6 +395,9 @@ class AuthConfig(ProxyResource):
         :keyword http_settings: The configuration settings of the HTTP requests for authentication and
          authorization requests made against ContainerApp Service Authentication/Authorization.
         :paramtype http_settings: ~azure.mgmt.appcontainers.models.HttpSettings
+        :keyword encryption_settings: The configuration settings of the secrets references of
+         encryption key and signing key for ContainerApp Service Authentication/Authorization.
+        :paramtype encryption_settings: ~azure.mgmt.appcontainers.models.EncryptionSettings
         """
         super().__init__(**kwargs)
         self.platform = platform
@@ -377,6 +405,7 @@ class AuthConfig(ProxyResource):
         self.identity_providers = identity_providers
         self.login = login
         self.http_settings = http_settings
+        self.encryption_settings = encryption_settings
 
 
 class AuthConfigCollection(_serialization.Model):
@@ -545,6 +574,8 @@ class AvailableWorkloadProfileProperties(_serialization.Model):
     :vartype cores: int
     :ivar memory_gi_b: Memory in GiB.
     :vartype memory_gi_b: int
+    :ivar gpus: Number of GPUs.
+    :vartype gpus: int
     :ivar display_name: The everyday name of the workload profile.
     :vartype display_name: str
     """
@@ -554,6 +585,7 @@ class AvailableWorkloadProfileProperties(_serialization.Model):
         "applicability": {"key": "applicability", "type": "str"},
         "cores": {"key": "cores", "type": "int"},
         "memory_gi_b": {"key": "memoryGiB", "type": "int"},
+        "gpus": {"key": "gpus", "type": "int"},
         "display_name": {"key": "displayName", "type": "str"},
     }
 
@@ -564,6 +596,7 @@ class AvailableWorkloadProfileProperties(_serialization.Model):
         applicability: Optional[Union[str, "_models.Applicability"]] = None,
         cores: Optional[int] = None,
         memory_gi_b: Optional[int] = None,
+        gpus: Optional[int] = None,
         display_name: Optional[str] = None,
         **kwargs: Any
     ) -> None:
@@ -577,6 +610,8 @@ class AvailableWorkloadProfileProperties(_serialization.Model):
         :paramtype cores: int
         :keyword memory_gi_b: Memory in GiB.
         :paramtype memory_gi_b: int
+        :keyword gpus: Number of GPUs.
+        :paramtype gpus: int
         :keyword display_name: The everyday name of the workload profile.
         :paramtype display_name: str
         """
@@ -585,6 +620,7 @@ class AvailableWorkloadProfileProperties(_serialization.Model):
         self.applicability = applicability
         self.cores = cores
         self.memory_gi_b = memory_gi_b
+        self.gpus = gpus
         self.display_name = display_name
 
 
@@ -1212,6 +1248,155 @@ class BillingMeterProperties(_serialization.Model):
         self.display_name = display_name
 
 
+class BlobStorageTokenStore(_serialization.Model):
+    """The configuration settings of the storage of the tokens if blob storage is used.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar sas_url_setting_name: The name of the app secrets containing the SAS URL of the blob
+     storage containing the tokens. Required.
+    :vartype sas_url_setting_name: str
+    """
+
+    _validation = {
+        "sas_url_setting_name": {"required": True},
+    }
+
+    _attribute_map = {
+        "sas_url_setting_name": {"key": "sasUrlSettingName", "type": "str"},
+    }
+
+    def __init__(self, *, sas_url_setting_name: str, **kwargs: Any) -> None:
+        """
+        :keyword sas_url_setting_name: The name of the app secrets containing the SAS URL of the blob
+         storage containing the tokens. Required.
+        :paramtype sas_url_setting_name: str
+        """
+        super().__init__(**kwargs)
+        self.sas_url_setting_name = sas_url_setting_name
+
+
+class BuildCollection(_serialization.Model):
+    """The response of a BuildResource list operation.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar value: The BuildResource items on this page. Required.
+    :vartype value: list[~azure.mgmt.appcontainers.models.BuildResource]
+    :ivar next_link: The link to the next page of items.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[BuildResource]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, *, value: List["_models.BuildResource"], next_link: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword value: The BuildResource items on this page. Required.
+        :paramtype value: list[~azure.mgmt.appcontainers.models.BuildResource]
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class BuildConfiguration(_serialization.Model):
+    """Configuration of the build.
+
+    :ivar base_os: Base OS used to build and run the app.
+    :vartype base_os: str
+    :ivar platform: Platform to be used to build and run the app.
+    :vartype platform: str
+    :ivar platform_version: Platform version to be used to build and run the app.
+    :vartype platform_version: str
+    :ivar environment_variables: List of environment variables to be passed to the build and
+     application runtime.
+    :vartype environment_variables: list[~azure.mgmt.appcontainers.models.EnvironmentVariable]
+    :ivar pre_build_steps: List of steps to perform before the build.
+    :vartype pre_build_steps: list[~azure.mgmt.appcontainers.models.PreBuildStep]
+    """
+
+    _attribute_map = {
+        "base_os": {"key": "baseOs", "type": "str"},
+        "platform": {"key": "platform", "type": "str"},
+        "platform_version": {"key": "platformVersion", "type": "str"},
+        "environment_variables": {"key": "environmentVariables", "type": "[EnvironmentVariable]"},
+        "pre_build_steps": {"key": "preBuildSteps", "type": "[PreBuildStep]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        base_os: Optional[str] = None,
+        platform: Optional[str] = None,
+        platform_version: Optional[str] = None,
+        environment_variables: Optional[List["_models.EnvironmentVariable"]] = None,
+        pre_build_steps: Optional[List["_models.PreBuildStep"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword base_os: Base OS used to build and run the app.
+        :paramtype base_os: str
+        :keyword platform: Platform to be used to build and run the app.
+        :paramtype platform: str
+        :keyword platform_version: Platform version to be used to build and run the app.
+        :paramtype platform_version: str
+        :keyword environment_variables: List of environment variables to be passed to the build and
+         application runtime.
+        :paramtype environment_variables: list[~azure.mgmt.appcontainers.models.EnvironmentVariable]
+        :keyword pre_build_steps: List of steps to perform before the build.
+        :paramtype pre_build_steps: list[~azure.mgmt.appcontainers.models.PreBuildStep]
+        """
+        super().__init__(**kwargs)
+        self.base_os = base_os
+        self.platform = platform
+        self.platform_version = platform_version
+        self.environment_variables = environment_variables
+        self.pre_build_steps = pre_build_steps
+
+
+class BuilderCollection(_serialization.Model):
+    """The response of a BuilderResource list operation.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar value: The BuilderResource items on this page. Required.
+    :vartype value: list[~azure.mgmt.appcontainers.models.BuilderResource]
+    :ivar next_link: The link to the next page of items.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[BuilderResource]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: List["_models.BuilderResource"], next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: The BuilderResource items on this page. Required.
+        :paramtype value: list[~azure.mgmt.appcontainers.models.BuilderResource]
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
 class TrackedResource(Resource):
     """The resource model definition for an Azure Resource Manager tracked top level resource which
     has 'tags' and a 'location'.
@@ -1264,6 +1449,254 @@ class TrackedResource(Resource):
         super().__init__(**kwargs)
         self.tags = tags
         self.location = location
+
+
+class BuilderResource(TrackedResource):
+    """Information about the SourceToCloud builder resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.appcontainers.models.SystemData
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar identity: The managed service identities assigned to this resource.
+    :vartype identity: ~azure.mgmt.appcontainers.models.ManagedServiceIdentity
+    :ivar provisioning_state: Provisioning state of a builder resource. Known values are:
+     "Succeeded", "Failed", "Canceled", "Creating", "Updating", and "Deleting".
+    :vartype provisioning_state: str or ~azure.mgmt.appcontainers.models.BuilderProvisioningState
+    :ivar environment_id: Resource ID of the container apps environment that the builder is
+     associated with.
+    :vartype environment_id: str
+    :ivar container_registries: List of mappings of container registries and the managed identity
+     used to connect to it.
+    :vartype container_registries: list[~azure.mgmt.appcontainers.models.ContainerRegistry]
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "location": {"required": True},
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "environment_id": {"key": "properties.environmentId", "type": "str"},
+        "container_registries": {"key": "properties.containerRegistries", "type": "[ContainerRegistry]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        location: str,
+        tags: Optional[Dict[str, str]] = None,
+        identity: Optional["_models.ManagedServiceIdentity"] = None,
+        environment_id: Optional[str] = None,
+        container_registries: Optional[List["_models.ContainerRegistry"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
+        :keyword identity: The managed service identities assigned to this resource.
+        :paramtype identity: ~azure.mgmt.appcontainers.models.ManagedServiceIdentity
+        :keyword environment_id: Resource ID of the container apps environment that the builder is
+         associated with.
+        :paramtype environment_id: str
+        :keyword container_registries: List of mappings of container registries and the managed
+         identity used to connect to it.
+        :paramtype container_registries: list[~azure.mgmt.appcontainers.models.ContainerRegistry]
+        """
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.identity = identity
+        self.provisioning_state = None
+        self.environment_id = environment_id
+        self.container_registries = container_registries
+
+
+class BuilderResourceUpdate(_serialization.Model):
+    """The type used for update operations of the BuilderResource.
+
+    :ivar identity: The managed service identities assigned to this resource.
+    :vartype identity: ~azure.mgmt.appcontainers.models.ManagedServiceIdentity
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar environment_id: Resource ID of the container apps environment that the builder is
+     associated with.
+    :vartype environment_id: str
+    """
+
+    _attribute_map = {
+        "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "environment_id": {"key": "properties.environmentId", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        identity: Optional["_models.ManagedServiceIdentity"] = None,
+        tags: Optional[Dict[str, str]] = None,
+        environment_id: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword identity: The managed service identities assigned to this resource.
+        :paramtype identity: ~azure.mgmt.appcontainers.models.ManagedServiceIdentity
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword environment_id: Resource ID of the container apps environment that the builder is
+         associated with.
+        :paramtype environment_id: str
+        """
+        super().__init__(**kwargs)
+        self.identity = identity
+        self.tags = tags
+        self.environment_id = environment_id
+
+
+class BuildResource(ProxyResource):  # pylint: disable=too-many-instance-attributes
+    """Information pertaining to an individual build.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.appcontainers.models.SystemData
+    :ivar provisioning_state: Build provisioning state. Known values are: "Succeeded", "Failed",
+     "Canceled", "Creating", "Updating", and "Deleting".
+    :vartype provisioning_state: str or ~azure.mgmt.appcontainers.models.BuildProvisioningState
+    :ivar build_status: Status of the build once it has been provisioned. Known values are:
+     "NotStarted", "InProgress", "Succeeded", "Canceled", and "Failed".
+    :vartype build_status: str or ~azure.mgmt.appcontainers.models.BuildStatus
+    :ivar destination_container_registry: Container registry that the final image will be uploaded
+     to.
+    :vartype destination_container_registry:
+     ~azure.mgmt.appcontainers.models.ContainerRegistryWithCustomImage
+    :ivar configuration: Configuration of the build.
+    :vartype configuration: ~azure.mgmt.appcontainers.models.BuildConfiguration
+    :ivar upload_endpoint: Endpoint to which the source code should be uploaded.
+    :vartype upload_endpoint: str
+    :ivar log_stream_endpoint: Endpoint from which the build logs can be streamed.
+    :vartype log_stream_endpoint: str
+    :ivar token_endpoint: Endpoint to use to retrieve an authentication token for log streaming and
+     uploading source code.
+    :vartype token_endpoint: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+        "build_status": {"readonly": True},
+        "upload_endpoint": {"readonly": True},
+        "log_stream_endpoint": {"readonly": True},
+        "token_endpoint": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "build_status": {"key": "properties.buildStatus", "type": "str"},
+        "destination_container_registry": {
+            "key": "properties.destinationContainerRegistry",
+            "type": "ContainerRegistryWithCustomImage",
+        },
+        "configuration": {"key": "properties.configuration", "type": "BuildConfiguration"},
+        "upload_endpoint": {"key": "properties.uploadEndpoint", "type": "str"},
+        "log_stream_endpoint": {"key": "properties.logStreamEndpoint", "type": "str"},
+        "token_endpoint": {"key": "properties.tokenEndpoint", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        destination_container_registry: Optional["_models.ContainerRegistryWithCustomImage"] = None,
+        configuration: Optional["_models.BuildConfiguration"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword destination_container_registry: Container registry that the final image will be
+         uploaded to.
+        :paramtype destination_container_registry:
+         ~azure.mgmt.appcontainers.models.ContainerRegistryWithCustomImage
+        :keyword configuration: Configuration of the build.
+        :paramtype configuration: ~azure.mgmt.appcontainers.models.BuildConfiguration
+        """
+        super().__init__(**kwargs)
+        self.provisioning_state = None
+        self.build_status = None
+        self.destination_container_registry = destination_container_registry
+        self.configuration = configuration
+        self.upload_endpoint = None
+        self.log_stream_endpoint = None
+        self.token_endpoint = None
+
+
+class BuildToken(_serialization.Model):
+    """Build Auth Token.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar token: Authentication token.
+    :vartype token: str
+    :ivar expires: Token expiration date.
+    :vartype expires: ~datetime.datetime
+    """
+
+    _validation = {
+        "token": {"readonly": True},
+        "expires": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "token": {"key": "token", "type": "str"},
+        "expires": {"key": "expires", "type": "iso-8601"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.token = None
+        self.expires = None
 
 
 class Certificate(TrackedResource):
@@ -1412,6 +1845,9 @@ class CertificateProperties(_serialization.Model):  # pylint: disable=too-many-i
     :vartype valid: bool
     :ivar public_key_hash: Public key hash.
     :vartype public_key_hash: str
+    :ivar type: The type of the certificate. Allowed values are ``ServerSSLCertificate`` and
+     ``ImagePullTrustedCA``. Known values are: "ServerSSLCertificate" and "ImagePullTrustedCA".
+    :vartype type: str or ~azure.mgmt.appcontainers.models.CertificateType
     """
 
     _validation = {
@@ -1438,14 +1874,25 @@ class CertificateProperties(_serialization.Model):  # pylint: disable=too-many-i
         "thumbprint": {"key": "thumbprint", "type": "str"},
         "valid": {"key": "valid", "type": "bool"},
         "public_key_hash": {"key": "publicKeyHash", "type": "str"},
+        "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, *, password: Optional[str] = None, value: Optional[bytes] = None, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        *,
+        password: Optional[str] = None,
+        value: Optional[bytes] = None,
+        type: Optional[Union[str, "_models.CertificateType"]] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword password: Certificate password.
         :paramtype password: str
         :keyword value: PFX or PEM blob.
         :paramtype value: bytes
+        :keyword type: The type of the certificate. Allowed values are ``ServerSSLCertificate`` and
+         ``ImagePullTrustedCA``. Known values are: "ServerSSLCertificate" and "ImagePullTrustedCA".
+        :paramtype type: str or ~azure.mgmt.appcontainers.models.CertificateType
         """
         super().__init__(**kwargs)
         self.provisioning_state = None
@@ -1459,6 +1906,7 @@ class CertificateProperties(_serialization.Model):  # pylint: disable=too-many-i
         self.thumbprint = None
         self.valid = None
         self.public_key_hash = None
+        self.type = type
 
 
 class CheckNameAvailabilityRequest(_serialization.Model):
@@ -2523,6 +2971,77 @@ class ContainerAppSecret(_serialization.Model):
         self.key_vault_url = None
 
 
+class ContainerRegistry(_serialization.Model):
+    """Model representing a mapping from a container registry to the identity used to connect to it.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar container_registry_server: Login server of the container registry. Required.
+    :vartype container_registry_server: str
+    :ivar identity_resource_id: Resource ID of the managed identity. Required.
+    :vartype identity_resource_id: str
+    """
+
+    _validation = {
+        "container_registry_server": {"required": True},
+        "identity_resource_id": {"required": True},
+    }
+
+    _attribute_map = {
+        "container_registry_server": {"key": "containerRegistryServer", "type": "str"},
+        "identity_resource_id": {"key": "identityResourceId", "type": "str"},
+    }
+
+    def __init__(self, *, container_registry_server: str, identity_resource_id: str, **kwargs: Any) -> None:
+        """
+        :keyword container_registry_server: Login server of the container registry. Required.
+        :paramtype container_registry_server: str
+        :keyword identity_resource_id: Resource ID of the managed identity. Required.
+        :paramtype identity_resource_id: str
+        """
+        super().__init__(**kwargs)
+        self.container_registry_server = container_registry_server
+        self.identity_resource_id = identity_resource_id
+
+
+class ContainerRegistryWithCustomImage(_serialization.Model):
+    """Container registry that the final image will be uploaded to.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar server: Login server of the container registry that the final image should be uploaded
+     to. Builder resource needs to have this container registry defined along with an identity to
+     use to access it. Required.
+    :vartype server: str
+    :ivar image: Full name that the final image should be uploaded as, including both image name
+     and tag.
+    :vartype image: str
+    """
+
+    _validation = {
+        "server": {"required": True},
+    }
+
+    _attribute_map = {
+        "server": {"key": "server", "type": "str"},
+        "image": {"key": "image", "type": "str"},
+    }
+
+    def __init__(self, *, server: str, image: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword server: Login server of the container registry that the final image should be uploaded
+         to. Builder resource needs to have this container registry defined along with an identity to
+         use to access it. Required.
+        :paramtype server: str
+        :keyword image: Full name that the final image should be uploaded as, including both image name
+         and tag.
+        :paramtype image: str
+        """
+        super().__init__(**kwargs)
+        self.server = server
+        self.image = image
+
+
 class ContainerResources(_serialization.Model):
     """Container App container resource requirements.
 
@@ -3165,6 +3684,10 @@ class DaprComponent(ProxyResource):  # pylint: disable=too-many-instance-attribu
     :vartype metadata: list[~azure.mgmt.appcontainers.models.DaprMetadata]
     :ivar scopes: Names of container apps that can use this Dapr component.
     :vartype scopes: list[str]
+    :ivar service_component_bind: List of container app services that are bound to the Dapr
+     component.
+    :vartype service_component_bind:
+     list[~azure.mgmt.appcontainers.models.DaprComponentServiceBinding]
     """
 
     _validation = {
@@ -3187,6 +3710,7 @@ class DaprComponent(ProxyResource):  # pylint: disable=too-many-instance-attribu
         "secret_store_component": {"key": "properties.secretStoreComponent", "type": "str"},
         "metadata": {"key": "properties.metadata", "type": "[DaprMetadata]"},
         "scopes": {"key": "properties.scopes", "type": "[str]"},
+        "service_component_bind": {"key": "properties.serviceComponentBind", "type": "[DaprComponentServiceBinding]"},
     }
 
     def __init__(
@@ -3200,6 +3724,7 @@ class DaprComponent(ProxyResource):  # pylint: disable=too-many-instance-attribu
         secret_store_component: Optional[str] = None,
         metadata: Optional[List["_models.DaprMetadata"]] = None,
         scopes: Optional[List[str]] = None,
+        service_component_bind: Optional[List["_models.DaprComponentServiceBinding"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -3219,6 +3744,10 @@ class DaprComponent(ProxyResource):  # pylint: disable=too-many-instance-attribu
         :paramtype metadata: list[~azure.mgmt.appcontainers.models.DaprMetadata]
         :keyword scopes: Names of container apps that can use this Dapr component.
         :paramtype scopes: list[str]
+        :keyword service_component_bind: List of container app services that are bound to the Dapr
+         component.
+        :paramtype service_component_bind:
+         list[~azure.mgmt.appcontainers.models.DaprComponentServiceBinding]
         """
         super().__init__(**kwargs)
         self.component_type = component_type
@@ -3229,6 +3758,229 @@ class DaprComponent(ProxyResource):  # pylint: disable=too-many-instance-attribu
         self.secret_store_component = secret_store_component
         self.metadata = metadata
         self.scopes = scopes
+        self.service_component_bind = service_component_bind
+
+
+class DaprComponentResiliencyPoliciesCollection(_serialization.Model):
+    """Dapr Component Resiliency Policies ARM resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar value: Collection of resources. Required.
+    :vartype value: list[~azure.mgmt.appcontainers.models.DaprComponentResiliencyPolicy]
+    :ivar next_link: Link to next page of resources.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[DaprComponentResiliencyPolicy]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, *, value: List["_models.DaprComponentResiliencyPolicy"], **kwargs: Any) -> None:
+        """
+        :keyword value: Collection of resources. Required.
+        :paramtype value: list[~azure.mgmt.appcontainers.models.DaprComponentResiliencyPolicy]
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = None
+
+
+class DaprComponentResiliencyPolicy(ProxyResource):
+    """Dapr Component Resiliency Policy.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.appcontainers.models.SystemData
+    :ivar inbound_policy: The optional inbound component resiliency policy configuration.
+    :vartype inbound_policy:
+     ~azure.mgmt.appcontainers.models.DaprComponentResiliencyPolicyConfiguration
+    :ivar outbound_policy: The optional outbound component resiliency policy configuration.
+    :vartype outbound_policy:
+     ~azure.mgmt.appcontainers.models.DaprComponentResiliencyPolicyConfiguration
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "inbound_policy": {"key": "properties.inboundPolicy", "type": "DaprComponentResiliencyPolicyConfiguration"},
+        "outbound_policy": {"key": "properties.outboundPolicy", "type": "DaprComponentResiliencyPolicyConfiguration"},
+    }
+
+    def __init__(
+        self,
+        *,
+        inbound_policy: Optional["_models.DaprComponentResiliencyPolicyConfiguration"] = None,
+        outbound_policy: Optional["_models.DaprComponentResiliencyPolicyConfiguration"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword inbound_policy: The optional inbound component resiliency policy configuration.
+        :paramtype inbound_policy:
+         ~azure.mgmt.appcontainers.models.DaprComponentResiliencyPolicyConfiguration
+        :keyword outbound_policy: The optional outbound component resiliency policy configuration.
+        :paramtype outbound_policy:
+         ~azure.mgmt.appcontainers.models.DaprComponentResiliencyPolicyConfiguration
+        """
+        super().__init__(**kwargs)
+        self.inbound_policy = inbound_policy
+        self.outbound_policy = outbound_policy
+
+
+class DaprComponentResiliencyPolicyConfiguration(_serialization.Model):
+    """Dapr Component Resiliency Policy Configuration.
+
+    :ivar http_retry_policy: The optional HTTP retry policy configuration.
+    :vartype http_retry_policy:
+     ~azure.mgmt.appcontainers.models.DaprComponentResiliencyPolicyHttpRetryPolicyConfiguration
+    :ivar timeout_policy: The optional timeout policy configuration.
+    :vartype timeout_policy:
+     ~azure.mgmt.appcontainers.models.DaprComponentResiliencyPolicyTimeoutPolicyConfiguration
+    """
+
+    _attribute_map = {
+        "http_retry_policy": {
+            "key": "httpRetryPolicy",
+            "type": "DaprComponentResiliencyPolicyHttpRetryPolicyConfiguration",
+        },
+        "timeout_policy": {"key": "timeoutPolicy", "type": "DaprComponentResiliencyPolicyTimeoutPolicyConfiguration"},
+    }
+
+    def __init__(
+        self,
+        *,
+        http_retry_policy: Optional["_models.DaprComponentResiliencyPolicyHttpRetryPolicyConfiguration"] = None,
+        timeout_policy: Optional["_models.DaprComponentResiliencyPolicyTimeoutPolicyConfiguration"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword http_retry_policy: The optional HTTP retry policy configuration.
+        :paramtype http_retry_policy:
+         ~azure.mgmt.appcontainers.models.DaprComponentResiliencyPolicyHttpRetryPolicyConfiguration
+        :keyword timeout_policy: The optional timeout policy configuration.
+        :paramtype timeout_policy:
+         ~azure.mgmt.appcontainers.models.DaprComponentResiliencyPolicyTimeoutPolicyConfiguration
+        """
+        super().__init__(**kwargs)
+        self.http_retry_policy = http_retry_policy
+        self.timeout_policy = timeout_policy
+
+
+class DaprComponentResiliencyPolicyHttpRetryBackOffConfiguration(_serialization.Model):
+    """Dapr Component Resiliency Policy HTTP Retry Backoff Configuration.
+
+    :ivar initial_delay_in_milliseconds: The optional initial delay in milliseconds before an
+     operation is retried.
+    :vartype initial_delay_in_milliseconds: int
+    :ivar max_interval_in_milliseconds: The optional maximum time interval in milliseconds between
+     retry attempts.
+    :vartype max_interval_in_milliseconds: int
+    """
+
+    _attribute_map = {
+        "initial_delay_in_milliseconds": {"key": "initialDelayInMilliseconds", "type": "int"},
+        "max_interval_in_milliseconds": {"key": "maxIntervalInMilliseconds", "type": "int"},
+    }
+
+    def __init__(
+        self,
+        *,
+        initial_delay_in_milliseconds: Optional[int] = None,
+        max_interval_in_milliseconds: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword initial_delay_in_milliseconds: The optional initial delay in milliseconds before an
+         operation is retried.
+        :paramtype initial_delay_in_milliseconds: int
+        :keyword max_interval_in_milliseconds: The optional maximum time interval in milliseconds
+         between retry attempts.
+        :paramtype max_interval_in_milliseconds: int
+        """
+        super().__init__(**kwargs)
+        self.initial_delay_in_milliseconds = initial_delay_in_milliseconds
+        self.max_interval_in_milliseconds = max_interval_in_milliseconds
+
+
+class DaprComponentResiliencyPolicyHttpRetryPolicyConfiguration(_serialization.Model):
+    """Dapr Component Resiliency Policy HTTP Retry Policy Configuration.
+
+    :ivar max_retries: The optional maximum number of retries.
+    :vartype max_retries: int
+    :ivar retry_back_off: The optional retry backoff configuration.
+    :vartype retry_back_off:
+     ~azure.mgmt.appcontainers.models.DaprComponentResiliencyPolicyHttpRetryBackOffConfiguration
+    """
+
+    _attribute_map = {
+        "max_retries": {"key": "maxRetries", "type": "int"},
+        "retry_back_off": {"key": "retryBackOff", "type": "DaprComponentResiliencyPolicyHttpRetryBackOffConfiguration"},
+    }
+
+    def __init__(
+        self,
+        *,
+        max_retries: Optional[int] = None,
+        retry_back_off: Optional["_models.DaprComponentResiliencyPolicyHttpRetryBackOffConfiguration"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword max_retries: The optional maximum number of retries.
+        :paramtype max_retries: int
+        :keyword retry_back_off: The optional retry backoff configuration.
+        :paramtype retry_back_off:
+         ~azure.mgmt.appcontainers.models.DaprComponentResiliencyPolicyHttpRetryBackOffConfiguration
+        """
+        super().__init__(**kwargs)
+        self.max_retries = max_retries
+        self.retry_back_off = retry_back_off
+
+
+class DaprComponentResiliencyPolicyTimeoutPolicyConfiguration(_serialization.Model):
+    """Dapr Component Resiliency Policy Timeout Policy Configuration.
+
+    :ivar response_timeout_in_seconds: The optional response timeout in seconds.
+    :vartype response_timeout_in_seconds: int
+    """
+
+    _attribute_map = {
+        "response_timeout_in_seconds": {"key": "responseTimeoutInSeconds", "type": "int"},
+    }
+
+    def __init__(self, *, response_timeout_in_seconds: Optional[int] = None, **kwargs: Any) -> None:
+        """
+        :keyword response_timeout_in_seconds: The optional response timeout in seconds.
+        :paramtype response_timeout_in_seconds: int
+        """
+        super().__init__(**kwargs)
+        self.response_timeout_in_seconds = response_timeout_in_seconds
 
 
 class DaprComponentsCollection(_serialization.Model):
@@ -3262,6 +4014,45 @@ class DaprComponentsCollection(_serialization.Model):
         super().__init__(**kwargs)
         self.value = value
         self.next_link = None
+
+
+class DaprComponentServiceBinding(_serialization.Model):
+    """Configuration to bind a Dapr Component to a dev ContainerApp Service.
+
+    :ivar name: Name of the service bind.
+    :vartype name: str
+    :ivar service_id: Resource id of the target service.
+    :vartype service_id: str
+    :ivar metadata: Service bind metadata.
+    :vartype metadata: ~azure.mgmt.appcontainers.models.DaprServiceBindMetadata
+    """
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "service_id": {"key": "serviceId", "type": "str"},
+        "metadata": {"key": "metadata", "type": "DaprServiceBindMetadata"},
+    }
+
+    def __init__(
+        self,
+        *,
+        name: Optional[str] = None,
+        service_id: Optional[str] = None,
+        metadata: Optional["_models.DaprServiceBindMetadata"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword name: Name of the service bind.
+        :paramtype name: str
+        :keyword service_id: Resource id of the target service.
+        :paramtype service_id: str
+        :keyword metadata: Service bind metadata.
+        :paramtype metadata: ~azure.mgmt.appcontainers.models.DaprServiceBindMetadata
+        """
+        super().__init__(**kwargs)
+        self.name = name
+        self.service_id = service_id
+        self.metadata = metadata
 
 
 class DaprConfiguration(_serialization.Model):
@@ -3380,6 +4171,289 @@ class DaprSecretsCollection(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
+
+
+class DaprServiceBindMetadata(_serialization.Model):
+    """Dapr component metadata.
+
+    :ivar name: Service bind metadata property name.
+    :vartype name: str
+    :ivar value: Service bind metadata property value.
+    :vartype value: str
+    """
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "value": {"key": "value", "type": "str"},
+    }
+
+    def __init__(self, *, name: Optional[str] = None, value: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword name: Service bind metadata property name.
+        :paramtype name: str
+        :keyword value: Service bind metadata property value.
+        :paramtype value: str
+        """
+        super().__init__(**kwargs)
+        self.name = name
+        self.value = value
+
+
+class DaprSubscription(ProxyResource):  # pylint: disable=too-many-instance-attributes
+    """Dapr PubSub Event Subscription.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.appcontainers.models.SystemData
+    :ivar pubsub_name: Dapr PubSub component name.
+    :vartype pubsub_name: str
+    :ivar topic: Topic name.
+    :vartype topic: str
+    :ivar dead_letter_topic: Deadletter topic name.
+    :vartype dead_letter_topic: str
+    :ivar routes: Subscription routes.
+    :vartype routes: ~azure.mgmt.appcontainers.models.DaprSubscriptionRoutes
+    :ivar scopes: Application scopes to restrict the subscription to specific apps.
+    :vartype scopes: list[str]
+    :ivar metadata: Subscription metadata.
+    :vartype metadata: dict[str, str]
+    :ivar bulk_subscribe: Bulk subscription options.
+    :vartype bulk_subscribe: ~azure.mgmt.appcontainers.models.DaprSubscriptionBulkSubscribeOptions
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "pubsub_name": {"key": "properties.pubsubName", "type": "str"},
+        "topic": {"key": "properties.topic", "type": "str"},
+        "dead_letter_topic": {"key": "properties.deadLetterTopic", "type": "str"},
+        "routes": {"key": "properties.routes", "type": "DaprSubscriptionRoutes"},
+        "scopes": {"key": "properties.scopes", "type": "[str]"},
+        "metadata": {"key": "properties.metadata", "type": "{str}"},
+        "bulk_subscribe": {"key": "properties.bulkSubscribe", "type": "DaprSubscriptionBulkSubscribeOptions"},
+    }
+
+    def __init__(
+        self,
+        *,
+        pubsub_name: Optional[str] = None,
+        topic: Optional[str] = None,
+        dead_letter_topic: Optional[str] = None,
+        routes: Optional["_models.DaprSubscriptionRoutes"] = None,
+        scopes: Optional[List[str]] = None,
+        metadata: Optional[Dict[str, str]] = None,
+        bulk_subscribe: Optional["_models.DaprSubscriptionBulkSubscribeOptions"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword pubsub_name: Dapr PubSub component name.
+        :paramtype pubsub_name: str
+        :keyword topic: Topic name.
+        :paramtype topic: str
+        :keyword dead_letter_topic: Deadletter topic name.
+        :paramtype dead_letter_topic: str
+        :keyword routes: Subscription routes.
+        :paramtype routes: ~azure.mgmt.appcontainers.models.DaprSubscriptionRoutes
+        :keyword scopes: Application scopes to restrict the subscription to specific apps.
+        :paramtype scopes: list[str]
+        :keyword metadata: Subscription metadata.
+        :paramtype metadata: dict[str, str]
+        :keyword bulk_subscribe: Bulk subscription options.
+        :paramtype bulk_subscribe:
+         ~azure.mgmt.appcontainers.models.DaprSubscriptionBulkSubscribeOptions
+        """
+        super().__init__(**kwargs)
+        self.pubsub_name = pubsub_name
+        self.topic = topic
+        self.dead_letter_topic = dead_letter_topic
+        self.routes = routes
+        self.scopes = scopes
+        self.metadata = metadata
+        self.bulk_subscribe = bulk_subscribe
+
+
+class DaprSubscriptionBulkSubscribeOptions(_serialization.Model):
+    """Dapr PubSub Bulk Subscription Options.
+
+    :ivar enabled: Enable bulk subscription.
+    :vartype enabled: bool
+    :ivar max_messages_count: Maximum number of messages to deliver in a bulk message.
+    :vartype max_messages_count: int
+    :ivar max_await_duration_ms: Maximum duration in milliseconds to wait before a bulk message is
+     sent to the app.
+    :vartype max_await_duration_ms: int
+    """
+
+    _attribute_map = {
+        "enabled": {"key": "enabled", "type": "bool"},
+        "max_messages_count": {"key": "maxMessagesCount", "type": "int"},
+        "max_await_duration_ms": {"key": "maxAwaitDurationMs", "type": "int"},
+    }
+
+    def __init__(
+        self,
+        *,
+        enabled: bool = False,
+        max_messages_count: Optional[int] = None,
+        max_await_duration_ms: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword enabled: Enable bulk subscription.
+        :paramtype enabled: bool
+        :keyword max_messages_count: Maximum number of messages to deliver in a bulk message.
+        :paramtype max_messages_count: int
+        :keyword max_await_duration_ms: Maximum duration in milliseconds to wait before a bulk message
+         is sent to the app.
+        :paramtype max_await_duration_ms: int
+        """
+        super().__init__(**kwargs)
+        self.enabled = enabled
+        self.max_messages_count = max_messages_count
+        self.max_await_duration_ms = max_await_duration_ms
+
+
+class DaprSubscriptionRouteRule(_serialization.Model):
+    """Dapr Pubsub Event Subscription Route Rule is used to specify the condition for sending a
+    message to a specific path.
+
+    :ivar match: The optional CEL expression used to match the event. If the match is not
+     specified, then the route is considered the default. The rules are tested in the order
+     specified, so they should be define from most-to-least specific. The default route should
+     appear last in the list.
+    :vartype match: str
+    :ivar path: The path for events that match this rule.
+    :vartype path: str
+    """
+
+    _attribute_map = {
+        "match": {"key": "match", "type": "str"},
+        "path": {"key": "path", "type": "str"},
+    }
+
+    def __init__(self, *, match: Optional[str] = None, path: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword match: The optional CEL expression used to match the event. If the match is not
+         specified, then the route is considered the default. The rules are tested in the order
+         specified, so they should be define from most-to-least specific. The default route should
+         appear last in the list.
+        :paramtype match: str
+        :keyword path: The path for events that match this rule.
+        :paramtype path: str
+        """
+        super().__init__(**kwargs)
+        self.match = match
+        self.path = path
+
+
+class DaprSubscriptionRoutes(_serialization.Model):
+    """Dapr PubSub Event Subscription Routes configuration.
+
+    :ivar rules: The list of Dapr PubSub Event Subscription Route Rules.
+    :vartype rules: list[~azure.mgmt.appcontainers.models.DaprSubscriptionRouteRule]
+    :ivar default: The default path to deliver events that do not match any of the rules.
+    :vartype default: str
+    """
+
+    _attribute_map = {
+        "rules": {"key": "rules", "type": "[DaprSubscriptionRouteRule]"},
+        "default": {"key": "default", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        rules: Optional[List["_models.DaprSubscriptionRouteRule"]] = None,
+        default: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword rules: The list of Dapr PubSub Event Subscription Route Rules.
+        :paramtype rules: list[~azure.mgmt.appcontainers.models.DaprSubscriptionRouteRule]
+        :keyword default: The default path to deliver events that do not match any of the rules.
+        :paramtype default: str
+        """
+        super().__init__(**kwargs)
+        self.rules = rules
+        self.default = default
+
+
+class DaprSubscriptionsCollection(_serialization.Model):
+    """Dapr Subscriptions ARM resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar value: Collection of resources. Required.
+    :vartype value: list[~azure.mgmt.appcontainers.models.DaprSubscription]
+    :ivar next_link: Link to next page of resources.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[DaprSubscription]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, *, value: List["_models.DaprSubscription"], **kwargs: Any) -> None:
+        """
+        :keyword value: Collection of resources. Required.
+        :paramtype value: list[~azure.mgmt.appcontainers.models.DaprSubscription]
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = None
+
+
+class DataDogConfiguration(_serialization.Model):
+    """Configuration of datadog.
+
+    :ivar site: The data dog site.
+    :vartype site: str
+    :ivar key: The data dog api key.
+    :vartype key: str
+    """
+
+    _attribute_map = {
+        "site": {"key": "site", "type": "str"},
+        "key": {"key": "key", "type": "str"},
+    }
+
+    def __init__(self, *, site: Optional[str] = None, key: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword site: The data dog site.
+        :paramtype site: str
+        :keyword key: The data dog api key.
+        :paramtype key: str
+        """
+        super().__init__(**kwargs)
+        self.site = site
+        self.key = key
 
 
 class DefaultAuthorizationPolicy(_serialization.Model):
@@ -3519,6 +4593,28 @@ class DefaultErrorResponseErrorDetailsItem(_serialization.Model):
         self.code = None
         self.message = None
         self.target = None
+
+
+class DestinationsConfiguration(_serialization.Model):
+    """Configuration of Open Telemetry destinations.
+
+    :ivar data_dog_configuration: Open telemetry datadog destination configuration.
+    :vartype data_dog_configuration: ~azure.mgmt.appcontainers.models.DataDogConfiguration
+    """
+
+    _attribute_map = {
+        "data_dog_configuration": {"key": "dataDogConfiguration", "type": "DataDogConfiguration"},
+    }
+
+    def __init__(
+        self, *, data_dog_configuration: Optional["_models.DataDogConfiguration"] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword data_dog_configuration: Open telemetry datadog destination configuration.
+        :paramtype data_dog_configuration: ~azure.mgmt.appcontainers.models.DataDogConfiguration
+        """
+        super().__init__(**kwargs)
+        self.data_dog_configuration = data_dog_configuration
 
 
 class DiagnosticDataProviderMetadata(_serialization.Model):
@@ -3988,6 +5084,43 @@ class DiagnosticSupportTopic(_serialization.Model):
         self.pes_id = None
 
 
+class EncryptionSettings(_serialization.Model):
+    """The configuration settings of the secrets references of encryption key and signing key for
+    ContainerApp Service Authentication/Authorization.
+
+    :ivar container_app_auth_encryption_secret_name: The secret name which is referenced for
+     EncryptionKey.
+    :vartype container_app_auth_encryption_secret_name: str
+    :ivar container_app_auth_signing_secret_name: The secret name which is referenced for
+     SigningKey.
+    :vartype container_app_auth_signing_secret_name: str
+    """
+
+    _attribute_map = {
+        "container_app_auth_encryption_secret_name": {"key": "containerAppAuthEncryptionSecretName", "type": "str"},
+        "container_app_auth_signing_secret_name": {"key": "containerAppAuthSigningSecretName", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        container_app_auth_encryption_secret_name: Optional[str] = None,
+        container_app_auth_signing_secret_name: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword container_app_auth_encryption_secret_name: The secret name which is referenced for
+         EncryptionKey.
+        :paramtype container_app_auth_encryption_secret_name: str
+        :keyword container_app_auth_signing_secret_name: The secret name which is referenced for
+         SigningKey.
+        :paramtype container_app_auth_signing_secret_name: str
+        """
+        super().__init__(**kwargs)
+        self.container_app_auth_encryption_secret_name = container_app_auth_encryption_secret_name
+        self.container_app_auth_signing_secret_name = container_app_auth_signing_secret_name
+
+
 class EnvironmentAuthToken(TrackedResource):
     """Environment Auth Token.
 
@@ -4088,6 +5221,39 @@ class EnvironmentVar(_serialization.Model):
         self.name = name
         self.value = value
         self.secret_ref = secret_ref
+
+
+class EnvironmentVariable(_serialization.Model):
+    """Model representing an environment variable.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar name: Environment variable name. Required.
+    :vartype name: str
+    :ivar value: Environment variable value. Required.
+    :vartype value: str
+    """
+
+    _validation = {
+        "name": {"required": True},
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "value": {"key": "value", "type": "str"},
+    }
+
+    def __init__(self, *, name: str, value: str, **kwargs: Any) -> None:
+        """
+        :keyword name: Environment variable name. Required.
+        :paramtype name: str
+        :keyword value: Environment variable value. Required.
+        :paramtype value: str
+        """
+        super().__init__(**kwargs)
+        self.name = name
+        self.value = value
 
 
 class ErrorAdditionalInfo(_serialization.Model):
@@ -4535,6 +5701,46 @@ class Google(_serialization.Model):
         self.validation = validation
 
 
+class HttpGet(_serialization.Model):
+    """Model representing a http get request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar url: URL to make HTTP GET request against. Required.
+    :vartype url: str
+    :ivar file_name: Name of the file that the request should be saved to.
+    :vartype file_name: str
+    :ivar headers: List of headers to send with the request.
+    :vartype headers: list[str]
+    """
+
+    _validation = {
+        "url": {"required": True},
+    }
+
+    _attribute_map = {
+        "url": {"key": "url", "type": "str"},
+        "file_name": {"key": "fileName", "type": "str"},
+        "headers": {"key": "headers", "type": "[str]"},
+    }
+
+    def __init__(
+        self, *, url: str, file_name: Optional[str] = None, headers: Optional[List[str]] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword url: URL to make HTTP GET request against. Required.
+        :paramtype url: str
+        :keyword file_name: Name of the file that the request should be saved to.
+        :paramtype file_name: str
+        :keyword headers: List of headers to send with the request.
+        :paramtype headers: list[str]
+        """
+        super().__init__(**kwargs)
+        self.url = url
+        self.file_name = file_name
+        self.headers = headers
+
+
 class HttpScaleRule(_serialization.Model):
     """Container App container Http scaling rule.
 
@@ -4753,6 +5959,8 @@ class Ingress(_serialization.Model):  # pylint: disable=too-many-instance-attrib
      ~azure.mgmt.appcontainers.models.IngressClientCertificateMode
     :ivar cors_policy: CORS policy for container app.
     :vartype cors_policy: ~azure.mgmt.appcontainers.models.CorsPolicy
+    :ivar additional_port_mappings: Settings to expose additional ports on container app.
+    :vartype additional_port_mappings: list[~azure.mgmt.appcontainers.models.IngressPortMapping]
     """
 
     _validation = {
@@ -4772,6 +5980,7 @@ class Ingress(_serialization.Model):  # pylint: disable=too-many-instance-attrib
         "sticky_sessions": {"key": "stickySessions", "type": "IngressStickySessions"},
         "client_certificate_mode": {"key": "clientCertificateMode", "type": "str"},
         "cors_policy": {"key": "corsPolicy", "type": "CorsPolicy"},
+        "additional_port_mappings": {"key": "additionalPortMappings", "type": "[IngressPortMapping]"},
     }
 
     def __init__(
@@ -4788,6 +5997,7 @@ class Ingress(_serialization.Model):  # pylint: disable=too-many-instance-attrib
         sticky_sessions: Optional["_models.IngressStickySessions"] = None,
         client_certificate_mode: Optional[Union[str, "_models.IngressClientCertificateMode"]] = None,
         cors_policy: Optional["_models.CorsPolicy"] = None,
+        additional_port_mappings: Optional[List["_models.IngressPortMapping"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -4820,6 +6030,8 @@ class Ingress(_serialization.Model):  # pylint: disable=too-many-instance-attrib
          ~azure.mgmt.appcontainers.models.IngressClientCertificateMode
         :keyword cors_policy: CORS policy for container app.
         :paramtype cors_policy: ~azure.mgmt.appcontainers.models.CorsPolicy
+        :keyword additional_port_mappings: Settings to expose additional ports on container app.
+        :paramtype additional_port_mappings: list[~azure.mgmt.appcontainers.models.IngressPortMapping]
         """
         super().__init__(**kwargs)
         self.fqdn = None
@@ -4834,6 +6046,50 @@ class Ingress(_serialization.Model):  # pylint: disable=too-many-instance-attrib
         self.sticky_sessions = sticky_sessions
         self.client_certificate_mode = client_certificate_mode
         self.cors_policy = cors_policy
+        self.additional_port_mappings = additional_port_mappings
+
+
+class IngressPortMapping(_serialization.Model):
+    """Port mappings of container app ingress.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar external: Specifies whether the app port is accessible outside of the environment.
+     Required.
+    :vartype external: bool
+    :ivar target_port: Specifies the port user's container listens on. Required.
+    :vartype target_port: int
+    :ivar exposed_port: Specifies the exposed port for the target port. If not specified, it
+     defaults to target port.
+    :vartype exposed_port: int
+    """
+
+    _validation = {
+        "external": {"required": True},
+        "target_port": {"required": True},
+    }
+
+    _attribute_map = {
+        "external": {"key": "external", "type": "bool"},
+        "target_port": {"key": "targetPort", "type": "int"},
+        "exposed_port": {"key": "exposedPort", "type": "int"},
+    }
+
+    def __init__(self, *, external: bool, target_port: int, exposed_port: Optional[int] = None, **kwargs: Any) -> None:
+        """
+        :keyword external: Specifies whether the app port is accessible outside of the environment.
+         Required.
+        :paramtype external: bool
+        :keyword target_port: Specifies the port user's container listens on. Required.
+        :paramtype target_port: int
+        :keyword exposed_port: Specifies the exposed port for the target port. If not specified, it
+         defaults to target port.
+        :paramtype exposed_port: int
+        """
+        super().__init__(**kwargs)
+        self.external = external
+        self.target_port = target_port
+        self.exposed_port = exposed_port
 
 
 class IngressStickySessions(_serialization.Model):
@@ -5877,6 +7133,36 @@ class KedaConfiguration(_serialization.Model):
         self.version = None
 
 
+class ListUsagesResult(_serialization.Model):
+    """ListUsagesResult.
+
+    :ivar value: The list of compute resource usages.
+    :vartype value: list[~azure.mgmt.appcontainers.models.Usage]
+    :ivar next_link: The URI to fetch the next page of compute resource usage information. Call
+     ListNext() with this to fetch the next page of compute resource usage information.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[Usage]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: Optional[List["_models.Usage"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: The list of compute resource usages.
+        :paramtype value: list[~azure.mgmt.appcontainers.models.Usage]
+        :keyword next_link: The URI to fetch the next page of compute resource usage information. Call
+         ListNext() with this to fetch the next page of compute resource usage information.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
 class LogAnalyticsConfiguration(_serialization.Model):
     """Log Analytics configuration, must only be provided when destination is configured as
     'log-analytics'.
@@ -5910,6 +7196,8 @@ class Login(_serialization.Model):
 
     :ivar routes: The routes that specify the endpoints used for login and logout requests.
     :vartype routes: ~azure.mgmt.appcontainers.models.LoginRoutes
+    :ivar token_store: The configuration settings of the token store.
+    :vartype token_store: ~azure.mgmt.appcontainers.models.TokenStore
     :ivar preserve_url_fragments_for_logins: :code:`<code>true</code>` if the fragments from the
      request are preserved after the login request is made; otherwise, :code:`<code>false</code>`.
     :vartype preserve_url_fragments_for_logins: bool
@@ -5926,6 +7214,7 @@ class Login(_serialization.Model):
 
     _attribute_map = {
         "routes": {"key": "routes", "type": "LoginRoutes"},
+        "token_store": {"key": "tokenStore", "type": "TokenStore"},
         "preserve_url_fragments_for_logins": {"key": "preserveUrlFragmentsForLogins", "type": "bool"},
         "allowed_external_redirect_urls": {"key": "allowedExternalRedirectUrls", "type": "[str]"},
         "cookie_expiration": {"key": "cookieExpiration", "type": "CookieExpiration"},
@@ -5936,6 +7225,7 @@ class Login(_serialization.Model):
         self,
         *,
         routes: Optional["_models.LoginRoutes"] = None,
+        token_store: Optional["_models.TokenStore"] = None,
         preserve_url_fragments_for_logins: Optional[bool] = None,
         allowed_external_redirect_urls: Optional[List[str]] = None,
         cookie_expiration: Optional["_models.CookieExpiration"] = None,
@@ -5945,6 +7235,8 @@ class Login(_serialization.Model):
         """
         :keyword routes: The routes that specify the endpoints used for login and logout requests.
         :paramtype routes: ~azure.mgmt.appcontainers.models.LoginRoutes
+        :keyword token_store: The configuration settings of the token store.
+        :paramtype token_store: ~azure.mgmt.appcontainers.models.TokenStore
         :keyword preserve_url_fragments_for_logins: :code:`<code>true</code>` if the fragments from the
          request are preserved after the login request is made; otherwise, :code:`<code>false</code>`.
         :paramtype preserve_url_fragments_for_logins: bool
@@ -5960,6 +7252,7 @@ class Login(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.routes = routes
+        self.token_store = token_store
         self.preserve_url_fragments_for_logins = preserve_url_fragments_for_logins
         self.allowed_external_redirect_urls = allowed_external_redirect_urls
         self.cookie_expiration = cookie_expiration
@@ -6004,6 +7297,26 @@ class LoginScopes(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.scopes = scopes
+
+
+class LogsConfiguration(_serialization.Model):
+    """Configuration of Open Telemetry logs.
+
+    :ivar destinations: Open telemetry logs destinations.
+    :vartype destinations: list[str]
+    """
+
+    _attribute_map = {
+        "destinations": {"key": "destinations", "type": "[str]"},
+    }
+
+    def __init__(self, *, destinations: Optional[List[str]] = None, **kwargs: Any) -> None:
+        """
+        :keyword destinations: Open telemetry logs destinations.
+        :paramtype destinations: list[str]
+        """
+        super().__init__(**kwargs)
+        self.destinations = destinations
 
 
 class ManagedCertificate(TrackedResource):
@@ -6230,6 +7543,11 @@ class ManagedEnvironment(TrackedResource):  # pylint: disable=too-many-instance-
      app logs to a destination. Currently only "log-analytics" is
      supported.
     :vartype app_logs_configuration: ~azure.mgmt.appcontainers.models.AppLogsConfiguration
+    :ivar app_insights_configuration: Environment level Application Insights configuration.
+    :vartype app_insights_configuration: ~azure.mgmt.appcontainers.models.AppInsightsConfiguration
+    :ivar open_telemetry_configuration: Environment Open Telemetry configuration.
+    :vartype open_telemetry_configuration:
+     ~azure.mgmt.appcontainers.models.OpenTelemetryConfiguration
     :ivar zone_redundant: Whether or not this Managed Environment is zone-redundant.
     :vartype zone_redundant: bool
     :ivar custom_domain_configuration: Custom domain configuration for the environment.
@@ -6281,6 +7599,14 @@ class ManagedEnvironment(TrackedResource):  # pylint: disable=too-many-instance-
         "default_domain": {"key": "properties.defaultDomain", "type": "str"},
         "static_ip": {"key": "properties.staticIp", "type": "str"},
         "app_logs_configuration": {"key": "properties.appLogsConfiguration", "type": "AppLogsConfiguration"},
+        "app_insights_configuration": {
+            "key": "properties.appInsightsConfiguration",
+            "type": "AppInsightsConfiguration",
+        },
+        "open_telemetry_configuration": {
+            "key": "properties.openTelemetryConfiguration",
+            "type": "OpenTelemetryConfiguration",
+        },
         "zone_redundant": {"key": "properties.zoneRedundant", "type": "bool"},
         "custom_domain_configuration": {
             "key": "properties.customDomainConfiguration",
@@ -6297,7 +7623,7 @@ class ManagedEnvironment(TrackedResource):  # pylint: disable=too-many-instance-
         },
     }
 
-    def __init__(
+    def __init__(  # pylint: disable=too-many-locals
         self,
         *,
         location: str,
@@ -6307,6 +7633,8 @@ class ManagedEnvironment(TrackedResource):  # pylint: disable=too-many-instance-
         dapr_ai_connection_string: Optional[str] = None,
         vnet_configuration: Optional["_models.VnetConfiguration"] = None,
         app_logs_configuration: Optional["_models.AppLogsConfiguration"] = None,
+        app_insights_configuration: Optional["_models.AppInsightsConfiguration"] = None,
+        open_telemetry_configuration: Optional["_models.OpenTelemetryConfiguration"] = None,
         zone_redundant: Optional[bool] = None,
         custom_domain_configuration: Optional["_models.CustomDomainConfiguration"] = None,
         workload_profiles: Optional[List["_models.WorkloadProfile"]] = None,
@@ -6335,6 +7663,12 @@ class ManagedEnvironment(TrackedResource):  # pylint: disable=too-many-instance-
          app logs to a destination. Currently only "log-analytics" is
          supported.
         :paramtype app_logs_configuration: ~azure.mgmt.appcontainers.models.AppLogsConfiguration
+        :keyword app_insights_configuration: Environment level Application Insights configuration.
+        :paramtype app_insights_configuration:
+         ~azure.mgmt.appcontainers.models.AppInsightsConfiguration
+        :keyword open_telemetry_configuration: Environment Open Telemetry configuration.
+        :paramtype open_telemetry_configuration:
+         ~azure.mgmt.appcontainers.models.OpenTelemetryConfiguration
         :keyword zone_redundant: Whether or not this Managed Environment is zone-redundant.
         :paramtype zone_redundant: bool
         :keyword custom_domain_configuration: Custom domain configuration for the environment.
@@ -6364,6 +7698,8 @@ class ManagedEnvironment(TrackedResource):  # pylint: disable=too-many-instance-
         self.default_domain = None
         self.static_ip = None
         self.app_logs_configuration = app_logs_configuration
+        self.app_insights_configuration = app_insights_configuration
+        self.open_telemetry_configuration = open_telemetry_configuration
         self.zone_redundant = zone_redundant
         self.custom_domain_configuration = custom_domain_configuration
         self.event_stream_endpoint = None
@@ -6583,6 +7919,26 @@ class ManagedServiceIdentity(_serialization.Model):
         self.user_assigned_identities = user_assigned_identities
 
 
+class MetricsConfiguration(_serialization.Model):
+    """Configuration of Open Telemetry metrics.
+
+    :ivar destinations: Open telemetry metrics destinations.
+    :vartype destinations: list[str]
+    """
+
+    _attribute_map = {
+        "destinations": {"key": "destinations", "type": "[str]"},
+    }
+
+    def __init__(self, *, destinations: Optional[List[str]] = None, **kwargs: Any) -> None:
+        """
+        :keyword destinations: Open telemetry metrics destinations.
+        :paramtype destinations: list[str]
+        """
+        super().__init__(**kwargs)
+        self.destinations = destinations
+
+
 class Mtls(_serialization.Model):
     """Configuration properties for mutual TLS authentication.
 
@@ -6797,6 +8153,53 @@ class OpenIdConnectRegistration(_serialization.Model):
         self.open_id_connect_configuration = open_id_connect_configuration
 
 
+class OpenTelemetryConfiguration(_serialization.Model):
+    """Configuration of Open Telemetry.
+
+    :ivar destinations_configuration: Open telemetry destinations configuration.
+    :vartype destinations_configuration: ~azure.mgmt.appcontainers.models.DestinationsConfiguration
+    :ivar traces_configuration: Open telemetry trace configuration.
+    :vartype traces_configuration: ~azure.mgmt.appcontainers.models.TracesConfiguration
+    :ivar logs_configuration: Open telemetry logs configuration.
+    :vartype logs_configuration: ~azure.mgmt.appcontainers.models.LogsConfiguration
+    :ivar metrics_configuration: Open telemetry metrics configuration.
+    :vartype metrics_configuration: ~azure.mgmt.appcontainers.models.MetricsConfiguration
+    """
+
+    _attribute_map = {
+        "destinations_configuration": {"key": "destinationsConfiguration", "type": "DestinationsConfiguration"},
+        "traces_configuration": {"key": "tracesConfiguration", "type": "TracesConfiguration"},
+        "logs_configuration": {"key": "logsConfiguration", "type": "LogsConfiguration"},
+        "metrics_configuration": {"key": "metricsConfiguration", "type": "MetricsConfiguration"},
+    }
+
+    def __init__(
+        self,
+        *,
+        destinations_configuration: Optional["_models.DestinationsConfiguration"] = None,
+        traces_configuration: Optional["_models.TracesConfiguration"] = None,
+        logs_configuration: Optional["_models.LogsConfiguration"] = None,
+        metrics_configuration: Optional["_models.MetricsConfiguration"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword destinations_configuration: Open telemetry destinations configuration.
+        :paramtype destinations_configuration:
+         ~azure.mgmt.appcontainers.models.DestinationsConfiguration
+        :keyword traces_configuration: Open telemetry trace configuration.
+        :paramtype traces_configuration: ~azure.mgmt.appcontainers.models.TracesConfiguration
+        :keyword logs_configuration: Open telemetry logs configuration.
+        :paramtype logs_configuration: ~azure.mgmt.appcontainers.models.LogsConfiguration
+        :keyword metrics_configuration: Open telemetry metrics configuration.
+        :paramtype metrics_configuration: ~azure.mgmt.appcontainers.models.MetricsConfiguration
+        """
+        super().__init__(**kwargs)
+        self.destinations_configuration = destinations_configuration
+        self.traces_configuration = traces_configuration
+        self.logs_configuration = logs_configuration
+        self.metrics_configuration = metrics_configuration
+
+
 class OperationDetail(_serialization.Model):
     """Operation detail payload.
 
@@ -6887,6 +8290,336 @@ class OperationDisplay(_serialization.Model):
         self.resource = resource
         self.operation = operation
         self.description = description
+
+
+class PatchCollection(_serialization.Model):
+    """Container App SourceToCloud patch collection.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar value: Collection of patch resources. Required.
+    :vartype value: list[~azure.mgmt.appcontainers.models.PatchResource]
+    :ivar next_link: the link to the next page of items.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[PatchResource]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, *, value: List["_models.PatchResource"], next_link: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword value: Collection of patch resources. Required.
+        :paramtype value: list[~azure.mgmt.appcontainers.models.PatchResource]
+        :keyword next_link: the link to the next page of items.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class PatchDetails(_serialization.Model):
+    """The detailed info of patch operation performing when applying a patch.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar target_container_name: The name of the target container for the patch. Required.
+    :vartype target_container_name: str
+    :ivar target_image: The name of the target image for the patch. Required.
+    :vartype target_image: str
+    :ivar last_detection_time: The UTC timestamp that describes the latest detection was done.
+     Required.
+    :vartype last_detection_time: ~datetime.datetime
+    :ivar detection_status: The status of the patch detection. Required. Known values are:
+     "Succeeded", "RegistryLoginFailed", and "Failed".
+    :vartype detection_status: str or ~azure.mgmt.appcontainers.models.DetectionStatus
+    :ivar new_image_name: The name of the new image created by the patch.
+    :vartype new_image_name: str
+    :ivar new_layer: New layer update details in the target image.
+    :vartype new_layer: ~azure.mgmt.appcontainers.models.PatchDetailsNewLayer
+    :ivar old_layer: The old layer details in the target image.
+    :vartype old_layer: ~azure.mgmt.appcontainers.models.PatchDetailsOldLayer
+    :ivar patch_type: The type for the patch. Known values are: "FrameworkSecurity", "OSSecurity",
+     "FrameworkAndOSSecurity", and "Other".
+    :vartype patch_type: str or ~azure.mgmt.appcontainers.models.PatchType
+    """
+
+    _validation = {
+        "target_container_name": {"required": True, "readonly": True},
+        "target_image": {"required": True, "readonly": True},
+        "last_detection_time": {"required": True, "readonly": True},
+        "detection_status": {"required": True, "readonly": True},
+        "new_image_name": {"readonly": True},
+        "new_layer": {"readonly": True},
+        "old_layer": {"readonly": True},
+        "patch_type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "target_container_name": {"key": "targetContainerName", "type": "str"},
+        "target_image": {"key": "targetImage", "type": "str"},
+        "last_detection_time": {"key": "lastDetectionTime", "type": "iso-8601"},
+        "detection_status": {"key": "detectionStatus", "type": "str"},
+        "new_image_name": {"key": "newImageName", "type": "str"},
+        "new_layer": {"key": "newLayer", "type": "PatchDetailsNewLayer"},
+        "old_layer": {"key": "oldLayer", "type": "PatchDetailsOldLayer"},
+        "patch_type": {"key": "patchType", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.target_container_name = None
+        self.target_image = None
+        self.last_detection_time = None
+        self.detection_status = None
+        self.new_image_name = None
+        self.new_layer = None
+        self.old_layer = None
+        self.patch_type = None
+
+
+class PatchDetailsNewLayer(_serialization.Model):
+    """New layer update details in the target image.
+
+    :ivar name: The details of the new layer for the target image.
+    :vartype name: str
+    :ivar framework_and_version: The framework and its version in the new run image for the target
+     image.
+    :vartype framework_and_version: str
+    :ivar os_and_version: The OS name and its version in the new run image for the target image.
+    :vartype os_and_version: str
+    """
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "framework_and_version": {"key": "frameworkAndVersion", "type": "str"},
+        "os_and_version": {"key": "osAndVersion", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        name: Optional[str] = None,
+        framework_and_version: Optional[str] = None,
+        os_and_version: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword name: The details of the new layer for the target image.
+        :paramtype name: str
+        :keyword framework_and_version: The framework and its version in the new run image for the
+         target image.
+        :paramtype framework_and_version: str
+        :keyword os_and_version: The OS name and its version in the new run image for the target image.
+        :paramtype os_and_version: str
+        """
+        super().__init__(**kwargs)
+        self.name = name
+        self.framework_and_version = framework_and_version
+        self.os_and_version = os_and_version
+
+
+class PatchDetailsOldLayer(_serialization.Model):
+    """The old layer details in the target image.
+
+    :ivar name: The details of the old layer for the target image.
+    :vartype name: str
+    :ivar framework_and_version: The framework and its version in the old run image for the target
+     image.
+    :vartype framework_and_version: str
+    :ivar os_and_version: The OS name and its version in the old run image for the target image.
+    :vartype os_and_version: str
+    """
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "framework_and_version": {"key": "frameworkAndVersion", "type": "str"},
+        "os_and_version": {"key": "osAndVersion", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        name: Optional[str] = None,
+        framework_and_version: Optional[str] = None,
+        os_and_version: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword name: The details of the old layer for the target image.
+        :paramtype name: str
+        :keyword framework_and_version: The framework and its version in the old run image for the
+         target image.
+        :paramtype framework_and_version: str
+        :keyword os_and_version: The OS name and its version in the old run image for the target image.
+        :paramtype os_and_version: str
+        """
+        super().__init__(**kwargs)
+        self.name = name
+        self.framework_and_version = framework_and_version
+        self.os_and_version = os_and_version
+
+
+class PatchProperties(_serialization.Model):
+    """PatchProperties.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar target_environment_id: The id of the target environment for the patch.
+    :vartype target_environment_id: str
+    :ivar target_container_app_id: The id of the target container app for the patch.
+    :vartype target_container_app_id: str
+    :ivar target_revision_id: The id of the target revision for the patch.
+    :vartype target_revision_id: str
+    :ivar provisioning_state: Patch provisioning state. Known values are: "Succeeded", "Failed",
+     and "Canceled".
+    :vartype provisioning_state: str or ~azure.mgmt.appcontainers.models.PatchProvisioningState
+    :ivar patch_apply_status: The status of the patch operation once it has been provisioned. Known
+     values are: "NotStarted", "RebaseInProgress", "CreatingRevision", "Succeeded", "Canceled",
+     "RebaseFailed", "RevisionCreationFailed", "ImagePushPullFailed", and "ManuallySkipped".
+    :vartype patch_apply_status: str or ~azure.mgmt.appcontainers.models.PatchApplyStatus
+    :ivar created_time: The UTC timestamp that describes when the patch object was created.
+    :vartype created_time: ~datetime.datetime
+    :ivar updated_time: The UTC timestamp that describes when the patch object was last updated.
+    :vartype updated_time: ~datetime.datetime
+    :ivar patch_details: Detailed info describes the patch operation for the target container app.
+    :vartype patch_details: list[~azure.mgmt.appcontainers.models.PatchDetails]
+    """
+
+    _validation = {
+        "provisioning_state": {"readonly": True},
+        "patch_apply_status": {"readonly": True},
+        "created_time": {"readonly": True},
+        "updated_time": {"readonly": True},
+        "patch_details": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "target_environment_id": {"key": "targetEnvironmentId", "type": "str"},
+        "target_container_app_id": {"key": "targetContainerAppId", "type": "str"},
+        "target_revision_id": {"key": "targetRevisionId", "type": "str"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+        "patch_apply_status": {"key": "patchApplyStatus", "type": "str"},
+        "created_time": {"key": "createdTime", "type": "iso-8601"},
+        "updated_time": {"key": "updatedTime", "type": "iso-8601"},
+        "patch_details": {"key": "patchDetails", "type": "[PatchDetails]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        target_environment_id: Optional[str] = None,
+        target_container_app_id: Optional[str] = None,
+        target_revision_id: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword target_environment_id: The id of the target environment for the patch.
+        :paramtype target_environment_id: str
+        :keyword target_container_app_id: The id of the target container app for the patch.
+        :paramtype target_container_app_id: str
+        :keyword target_revision_id: The id of the target revision for the patch.
+        :paramtype target_revision_id: str
+        """
+        super().__init__(**kwargs)
+        self.target_environment_id = target_environment_id
+        self.target_container_app_id = target_container_app_id
+        self.target_revision_id = target_revision_id
+        self.provisioning_state = None
+        self.patch_apply_status = None
+        self.created_time = None
+        self.updated_time = None
+        self.patch_details = None
+
+
+class PatchResource(ProxyResource):
+    """Container App Patch.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.appcontainers.models.SystemData
+    :ivar properties: Properties that describes current states of the patch resource.
+    :vartype properties: ~azure.mgmt.appcontainers.models.PatchProperties
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "properties": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "properties": {"key": "properties", "type": "PatchProperties"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.properties = None
+
+
+class PreBuildStep(_serialization.Model):
+    """Model representing a pre-build step.
+
+    :ivar description: Description of the pre-build step.
+    :vartype description: str
+    :ivar scripts: List of custom commands to run.
+    :vartype scripts: list[str]
+    :ivar http_get: Http get request to send before the build.
+    :vartype http_get: ~azure.mgmt.appcontainers.models.HttpGet
+    """
+
+    _attribute_map = {
+        "description": {"key": "description", "type": "str"},
+        "scripts": {"key": "scripts", "type": "[str]"},
+        "http_get": {"key": "httpGet", "type": "HttpGet"},
+    }
+
+    def __init__(
+        self,
+        *,
+        description: Optional[str] = None,
+        scripts: Optional[List[str]] = None,
+        http_get: Optional["_models.HttpGet"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword description: Description of the pre-build step.
+        :paramtype description: str
+        :keyword scripts: List of custom commands to run.
+        :paramtype scripts: list[str]
+        :keyword http_get: Http get request to send before the build.
+        :paramtype http_get: ~azure.mgmt.appcontainers.models.HttpGet
+        """
+        super().__init__(**kwargs)
+        self.description = description
+        self.scripts = scripts
+        self.http_get = http_get
 
 
 class QueueScaleRule(_serialization.Model):
@@ -7890,6 +9623,75 @@ class Template(_serialization.Model):
         self.service_binds = service_binds
 
 
+class TokenStore(_serialization.Model):
+    """The configuration settings of the token store.
+
+    :ivar enabled: :code:`<code>true</code>` to durably store platform-specific security tokens
+     that are obtained during login flows; otherwise, :code:`<code>false</code>`.
+      The default is :code:`<code>false</code>`.
+    :vartype enabled: bool
+    :ivar token_refresh_extension_hours: The number of hours after session token expiration that a
+     session token can be used to
+     call the token refresh API. The default is 72 hours.
+    :vartype token_refresh_extension_hours: float
+    :ivar azure_blob_storage: The configuration settings of the storage of the tokens if blob
+     storage is used.
+    :vartype azure_blob_storage: ~azure.mgmt.appcontainers.models.BlobStorageTokenStore
+    """
+
+    _attribute_map = {
+        "enabled": {"key": "enabled", "type": "bool"},
+        "token_refresh_extension_hours": {"key": "tokenRefreshExtensionHours", "type": "float"},
+        "azure_blob_storage": {"key": "azureBlobStorage", "type": "BlobStorageTokenStore"},
+    }
+
+    def __init__(
+        self,
+        *,
+        enabled: Optional[bool] = None,
+        token_refresh_extension_hours: Optional[float] = None,
+        azure_blob_storage: Optional["_models.BlobStorageTokenStore"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword enabled: :code:`<code>true</code>` to durably store platform-specific security tokens
+         that are obtained during login flows; otherwise, :code:`<code>false</code>`.
+          The default is :code:`<code>false</code>`.
+        :paramtype enabled: bool
+        :keyword token_refresh_extension_hours: The number of hours after session token expiration that
+         a session token can be used to
+         call the token refresh API. The default is 72 hours.
+        :paramtype token_refresh_extension_hours: float
+        :keyword azure_blob_storage: The configuration settings of the storage of the tokens if blob
+         storage is used.
+        :paramtype azure_blob_storage: ~azure.mgmt.appcontainers.models.BlobStorageTokenStore
+        """
+        super().__init__(**kwargs)
+        self.enabled = enabled
+        self.token_refresh_extension_hours = token_refresh_extension_hours
+        self.azure_blob_storage = azure_blob_storage
+
+
+class TracesConfiguration(_serialization.Model):
+    """Configuration of Open Telemetry traces.
+
+    :ivar destinations: Open telemetry traces destinations.
+    :vartype destinations: list[str]
+    """
+
+    _attribute_map = {
+        "destinations": {"key": "destinations", "type": "[str]"},
+    }
+
+    def __init__(self, *, destinations: Optional[List[str]] = None, **kwargs: Any) -> None:
+        """
+        :keyword destinations: Open telemetry traces destinations.
+        :paramtype destinations: list[str]
+        """
+        super().__init__(**kwargs)
+        self.destinations = destinations
+
+
 class TrafficWeight(_serialization.Model):
     """Traffic weight assigned to a revision.
 
@@ -8007,6 +9809,81 @@ class TwitterRegistration(_serialization.Model):
         super().__init__(**kwargs)
         self.consumer_key = consumer_key
         self.consumer_secret_setting_name = consumer_secret_setting_name
+
+
+class Usage(_serialization.Model):
+    """Describes Compute Resource Usage.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar unit: An enum describing the unit of usage measurement. Required. Default value is
+     "Count".
+    :vartype unit: str
+    :ivar current_value: The current usage of the resource. Required.
+    :vartype current_value: int
+    :ivar limit: The maximum permitted usage of the resource. Required.
+    :vartype limit: int
+    :ivar name: The name of the type of usage. Required.
+    :vartype name: ~azure.mgmt.appcontainers.models.UsageName
+    """
+
+    _validation = {
+        "unit": {"required": True, "constant": True},
+        "current_value": {"required": True},
+        "limit": {"required": True},
+        "name": {"required": True},
+    }
+
+    _attribute_map = {
+        "unit": {"key": "unit", "type": "str"},
+        "current_value": {"key": "currentValue", "type": "int"},
+        "limit": {"key": "limit", "type": "int"},
+        "name": {"key": "name", "type": "UsageName"},
+    }
+
+    unit = "Count"
+
+    def __init__(self, *, current_value: int, limit: int, name: "_models.UsageName", **kwargs: Any) -> None:
+        """
+        :keyword current_value: The current usage of the resource. Required.
+        :paramtype current_value: int
+        :keyword limit: The maximum permitted usage of the resource. Required.
+        :paramtype limit: int
+        :keyword name: The name of the type of usage. Required.
+        :paramtype name: ~azure.mgmt.appcontainers.models.UsageName
+        """
+        super().__init__(**kwargs)
+        self.current_value = current_value
+        self.limit = limit
+        self.name = name
+
+
+class UsageName(_serialization.Model):
+    """The Usage Names.
+
+    :ivar value: The name of the resource.
+    :vartype value: str
+    :ivar localized_value: The localized name of the resource.
+    :vartype localized_value: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "str"},
+        "localized_value": {"key": "localizedValue", "type": "str"},
+    }
+
+    def __init__(self, *, value: Optional[str] = None, localized_value: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword value: The name of the resource.
+        :paramtype value: str
+        :keyword localized_value: The localized name of the resource.
+        :paramtype localized_value: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.localized_value = localized_value
 
 
 class UserAssignedIdentity(_serialization.Model):

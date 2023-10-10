@@ -18,6 +18,8 @@ from ._serialization import Deserializer, Serializer
 from .operations import (
     AvailableWorkloadProfilesOperations,
     BillingMetersOperations,
+    BuildersOperations,
+    BuildsOperations,
     CertificatesOperations,
     ConnectedEnvironmentsCertificatesOperations,
     ConnectedEnvironmentsDaprComponentsOperations,
@@ -30,16 +32,21 @@ from .operations import (
     ContainerAppsRevisionReplicasOperations,
     ContainerAppsRevisionsOperations,
     ContainerAppsSourceControlsOperations,
+    DaprComponentResiliencyPoliciesOperations,
     DaprComponentsOperations,
+    DaprSubscriptionsOperations,
     JobsExecutionsOperations,
     JobsOperations,
     ManagedCertificatesOperations,
     ManagedEnvironmentDiagnosticsOperations,
+    ManagedEnvironmentUsagesOperations,
     ManagedEnvironmentsDiagnosticsOperations,
     ManagedEnvironmentsOperations,
     ManagedEnvironmentsStoragesOperations,
     NamespacesOperations,
     Operations,
+    PatchesOperations,
+    UsagesOperations,
 )
 
 if TYPE_CHECKING:
@@ -60,6 +67,10 @@ class ContainerAppsAPIClient(
      azure.mgmt.appcontainers.operations.AvailableWorkloadProfilesOperations
     :ivar billing_meters: BillingMetersOperations operations
     :vartype billing_meters: azure.mgmt.appcontainers.operations.BillingMetersOperations
+    :ivar builders: BuildersOperations operations
+    :vartype builders: azure.mgmt.appcontainers.operations.BuildersOperations
+    :ivar builds: BuildsOperations operations
+    :vartype builds: azure.mgmt.appcontainers.operations.BuildsOperations
     :ivar connected_environments: ConnectedEnvironmentsOperations operations
     :vartype connected_environments:
      azure.mgmt.appcontainers.operations.ConnectedEnvironmentsOperations
@@ -109,20 +120,32 @@ class ContainerAppsAPIClient(
     :vartype namespaces: azure.mgmt.appcontainers.operations.NamespacesOperations
     :ivar dapr_components: DaprComponentsOperations operations
     :vartype dapr_components: azure.mgmt.appcontainers.operations.DaprComponentsOperations
+    :ivar dapr_component_resiliency_policies: DaprComponentResiliencyPoliciesOperations operations
+    :vartype dapr_component_resiliency_policies:
+     azure.mgmt.appcontainers.operations.DaprComponentResiliencyPoliciesOperations
+    :ivar dapr_subscriptions: DaprSubscriptionsOperations operations
+    :vartype dapr_subscriptions: azure.mgmt.appcontainers.operations.DaprSubscriptionsOperations
     :ivar managed_environments_storages: ManagedEnvironmentsStoragesOperations operations
     :vartype managed_environments_storages:
      azure.mgmt.appcontainers.operations.ManagedEnvironmentsStoragesOperations
+    :ivar patches: PatchesOperations operations
+    :vartype patches: azure.mgmt.appcontainers.operations.PatchesOperations
     :ivar container_apps_source_controls: ContainerAppsSourceControlsOperations operations
     :vartype container_apps_source_controls:
      azure.mgmt.appcontainers.operations.ContainerAppsSourceControlsOperations
+    :ivar usages: UsagesOperations operations
+    :vartype usages: azure.mgmt.appcontainers.operations.UsagesOperations
+    :ivar managed_environment_usages: ManagedEnvironmentUsagesOperations operations
+    :vartype managed_environment_usages:
+     azure.mgmt.appcontainers.operations.ManagedEnvironmentUsagesOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
     :param subscription_id: The ID of the target subscription. Required.
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2023-05-01". Note that overriding this
-     default value may result in unsupported behavior.
+    :keyword api_version: Api Version. Default value is "2023-08-01-preview". Note that overriding
+     this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
      Retry-After header is present.
@@ -151,6 +174,8 @@ class ContainerAppsAPIClient(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.billing_meters = BillingMetersOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.builders = BuildersOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.builds = BuildsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.connected_environments = ConnectedEnvironmentsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
@@ -191,10 +216,21 @@ class ContainerAppsAPIClient(
         )
         self.namespaces = NamespacesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.dapr_components = DaprComponentsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.dapr_component_resiliency_policies = DaprComponentResiliencyPoliciesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.dapr_subscriptions = DaprSubscriptionsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.managed_environments_storages = ManagedEnvironmentsStoragesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.patches = PatchesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.container_apps_source_controls = ContainerAppsSourceControlsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.usages = UsagesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.managed_environment_usages = ManagedEnvironmentUsagesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
 
