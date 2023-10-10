@@ -10,6 +10,14 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
+class AccessMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Access Mode of the resource association."""
+
+    ENFORCED = "Enforced"
+    LEARNING = "Learning"
+    AUDIT = "Audit"
+
+
 class ChannelName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """ChannelName."""
 
@@ -37,10 +45,10 @@ class ChannelName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 class EmailChannelAuthMethod(float, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Email channel auth method. 0 Password (Default); 1 Graph."""
 
-    #: Basic authentication.
     PASSWORD = 0
-    #: Modern authentication.
+    """Basic authentication."""
     GRAPH = 1
+    """Modern authentication."""
 
 
 class Key(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -66,6 +74,13 @@ class MsaAppType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     USER_ASSIGNED_MSI = "UserAssignedMSI"
     SINGLE_TENANT = "SingleTenant"
     MULTI_TENANT = "MultiTenant"
+
+
+class NspAccessRuleDirection(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Direction of Access Rule."""
+
+    INBOUND = "Inbound"
+    OUTBOUND = "Outbound"
 
 
 class OperationResultStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -95,11 +110,23 @@ class PrivateEndpointServiceConnectionStatus(str, Enum, metaclass=CaseInsensitiv
     REJECTED = "Rejected"
 
 
+class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """ProvisioningState."""
+
+    CREATING = "Creating"
+    UPDATING = "Updating"
+    ACCEPTED = "Accepted"
+    SUCCEEDED = "Succeeded"
+    FAILED = "Failed"
+    DELETING = "Deleting"
+
+
 class PublicNetworkAccess(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Whether the bot is in an isolated network."""
 
     ENABLED = "Enabled"
     DISABLED = "Disabled"
+    SECURED_BY_PERIMETER = "SecuredByPerimeter"
 
 
 class RegenerateKeysChannelName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -107,6 +134,13 @@ class RegenerateKeysChannelName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     WEB_CHAT_CHANNEL = "WebChatChannel"
     DIRECT_LINE_CHANNEL = "DirectLineChannel"
+
+
+class Severity(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Provisioning state of Network Security Perimeter configuration propagation."""
+
+    WARNING = "Warning"
+    ERROR = "Error"
 
 
 class SkuName(str, Enum, metaclass=CaseInsensitiveEnumMeta):

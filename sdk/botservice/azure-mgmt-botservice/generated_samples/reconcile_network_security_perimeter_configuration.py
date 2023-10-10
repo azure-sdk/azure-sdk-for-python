@@ -14,7 +14,7 @@ from azure.mgmt.botservice import AzureBotService
     pip install azure-identity
     pip install azure-mgmt-botservice
 # USAGE
-    python delete_connection.py
+    python reconcile_network_security_perimeter_configuration.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,16 +26,17 @@ from azure.mgmt.botservice import AzureBotService
 def main():
     client = AzureBotService(
         credential=DefaultAzureCredential(),
-        subscription_id="subscription-id",
+        subscription_id="subId",
     )
 
-    client.bot_connection.delete(
-        resource_group_name="OneResourceGroupName",
-        resource_name="samplebotname",
-        connection_name="sampleConnection",
-    )
+    response = client.network_security_perimeter_configurations.begin_reconcile(
+        resource_group_name="rgName",
+        resource_name="botId",
+        network_security_perimeter_configuration_name="00000000-0000-0000-0000-000000000000.associationName",
+    ).result()
+    print(response)
 
 
-# x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/preview/2023-09-15-preview/examples/DeleteConnection.json
+# x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/preview/2023-09-15-preview/examples/ReconcileNetworkSecurityPerimeterConfiguration.json
 if __name__ == "__main__":
     main()
