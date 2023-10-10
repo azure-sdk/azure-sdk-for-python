@@ -46,7 +46,9 @@ class ApplicationInsightsManagementClient:  # pylint: disable=client-accepts-api
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
-        self.live_token = LiveTokenOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.live_token = LiveTokenOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2021-10-14"
+        )
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> HttpResponse:
         """Runs the network request through the client's chained policies.
