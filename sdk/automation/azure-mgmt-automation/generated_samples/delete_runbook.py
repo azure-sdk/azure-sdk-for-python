@@ -29,12 +29,11 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.runbook.delete(
+    client.runbook.delete(
         resource_group_name="rg",
         automation_account_name="ContoseAutomationAccount",
         runbook_name="Get-AzureVMTutorial",
     )
-    print(response)
 
 
 # x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2022-08-08/examples/deleteRunbook.json

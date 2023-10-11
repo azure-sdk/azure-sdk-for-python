@@ -76,8 +76,8 @@ class Activity(_serialization.Model):
         creation_time: Optional[datetime.datetime] = None,
         last_modified_time: Optional[datetime.datetime] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: Gets or sets the id of the resource.
         :paramtype id: str
@@ -119,7 +119,9 @@ class ActivityListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Activity"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.Activity"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets a list of activities.
         :paramtype value: list[~azure.mgmt.automation.models.Activity]
@@ -145,7 +147,7 @@ class ActivityOutputType(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, type: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, type: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Gets or sets the name of the activity output type.
         :paramtype name: str
@@ -218,8 +220,8 @@ class ActivityParameter(_serialization.Model):
         value_from_remaining_arguments: Optional[bool] = None,
         description: Optional[str] = None,
         validation_set: Optional[List["_models.ActivityParameterValidationSet"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the activity parameter.
         :paramtype name: str
@@ -281,8 +283,12 @@ class ActivityParameterSet(_serialization.Model):
     }
 
     def __init__(
-        self, *, name: Optional[str] = None, parameters: Optional[List["_models.ActivityParameter"]] = None, **kwargs
-    ):
+        self,
+        *,
+        name: Optional[str] = None,
+        parameters: Optional[List["_models.ActivityParameter"]] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the activity parameter set.
         :paramtype name: str
@@ -305,7 +311,7 @@ class ActivityParameterValidationSet(_serialization.Model):
         "member_value": {"key": "memberValue", "type": "str"},
     }
 
-    def __init__(self, *, member_value: Optional[str] = None, **kwargs):
+    def __init__(self, *, member_value: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword member_value: Gets or sets the name of the activity parameter validation set member.
         :paramtype member_value: str
@@ -338,8 +344,8 @@ class AdvancedSchedule(_serialization.Model):
         week_days: Optional[List[str]] = None,
         month_days: Optional[List[int]] = None,
         monthly_occurrences: Optional[List["_models.AdvancedScheduleMonthlyOccurrence"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword week_days: Days of the week that the job should execute on.
         :paramtype week_days: list[str]
@@ -373,8 +379,12 @@ class AdvancedScheduleMonthlyOccurrence(_serialization.Model):
     }
 
     def __init__(
-        self, *, occurrence: Optional[int] = None, day: Optional[Union[str, "_models.ScheduleDay"]] = None, **kwargs
-    ):
+        self,
+        *,
+        occurrence: Optional[int] = None,
+        day: Optional[Union[str, "_models.ScheduleDay"]] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword occurrence: Occurrence of the week within the month. Must be between 1 and 5.
         :paramtype occurrence: int
@@ -415,8 +425,8 @@ class AgentRegistration(_serialization.Model):
         endpoint: Optional[str] = None,
         keys: Optional["_models.AgentRegistrationKeys"] = None,
         id: Optional[str] = None,  # pylint: disable=redefined-builtin
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword dsc_meta_configuration: Gets or sets the dsc meta configuration.
         :paramtype dsc_meta_configuration: str
@@ -448,7 +458,7 @@ class AgentRegistrationKeys(_serialization.Model):
         "secondary": {"key": "secondary", "type": "str"},
     }
 
-    def __init__(self, *, primary: Optional[str] = None, secondary: Optional[str] = None, **kwargs):
+    def __init__(self, *, primary: Optional[str] = None, secondary: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword primary: Gets or sets the primary key.
         :paramtype primary: str
@@ -478,7 +488,7 @@ class AgentRegistrationRegenerateKeyParameter(_serialization.Model):
         "key_name": {"key": "keyName", "type": "str"},
     }
 
-    def __init__(self, *, key_name: Union[str, "_models.AgentRegistrationKeyName"], **kwargs):
+    def __init__(self, *, key_name: Union[str, "_models.AgentRegistrationKeyName"], **kwargs: Any) -> None:
         """
         :keyword key_name: Gets or sets the agent registration key name - primary or secondary.
          Required. Known values are: "primary" and "secondary".
@@ -513,7 +523,7 @@ class Resource(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -552,7 +562,7 @@ class TrackedResource(Resource):
         "location": {"key": "location", "type": "str"},
     }
 
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, location: Optional[str] = None, **kwargs):
+    def __init__(self, *, tags: Optional[Dict[str, str]] = None, location: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -663,8 +673,8 @@ class AutomationAccount(TrackedResource):  # pylint: disable=too-many-instance-a
         public_network_access: Optional[bool] = None,
         disable_local_auth: Optional[bool] = None,
         automation_hybrid_service_url: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -757,8 +767,8 @@ class AutomationAccountCreateOrUpdateParameters(_serialization.Model):
         encryption: Optional["_models.EncryptionProperties"] = None,
         public_network_access: Optional[bool] = None,
         disable_local_auth: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets name of the resource.
         :paramtype name: str
@@ -805,8 +815,12 @@ class AutomationAccountListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.AutomationAccount"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self,
+        *,
+        value: Optional[List["_models.AutomationAccount"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets list of accounts.
         :paramtype value: list[~azure.mgmt.automation.models.AutomationAccount]
@@ -862,8 +876,8 @@ class AutomationAccountUpdateParameters(_serialization.Model):
         encryption: Optional["_models.EncryptionProperties"] = None,
         public_network_access: Optional[bool] = None,
         disable_local_auth: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the resource.
         :paramtype name: str
@@ -918,8 +932,8 @@ class AzureQueryProperties(_serialization.Model):
         scope: Optional[List[str]] = None,
         locations: Optional[List[str]] = None,
         tag_settings: Optional["_models.TagSettingsProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword scope: List of Subscription or Resource Group ARM Ids.
         :paramtype scope: list[str]
@@ -959,7 +973,7 @@ class ProxyResource(Resource):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
 
@@ -1012,7 +1026,7 @@ class Certificate(ProxyResource):
         "description": {"key": "properties.description", "type": "str"},
     }
 
-    def __init__(self, *, description: Optional[str] = None, **kwargs):
+    def __init__(self, *, description: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword description: Gets or sets the description.
         :paramtype description: str
@@ -1064,8 +1078,8 @@ class CertificateCreateOrUpdateParameters(_serialization.Model):
         description: Optional[str] = None,
         thumbprint: Optional[str] = None,
         is_exportable: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the certificate. Required.
         :paramtype name: str
@@ -1101,8 +1115,8 @@ class CertificateListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.Certificate"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.Certificate"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets a list of certificates.
         :paramtype value: list[~azure.mgmt.automation.models.Certificate]
@@ -1128,7 +1142,7 @@ class CertificateUpdateParameters(_serialization.Model):
         "description": {"key": "properties.description", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, description: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, description: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Gets or sets the name of the certificate.
         :paramtype name: str
@@ -1188,8 +1202,8 @@ class Connection(ProxyResource):
         *,
         connection_type: Optional["_models.ConnectionTypeAssociationProperty"] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword connection_type: Gets or sets the connectionType of the connection.
         :paramtype connection_type: ~azure.mgmt.automation.models.ConnectionTypeAssociationProperty
@@ -1238,8 +1252,8 @@ class ConnectionCreateOrUpdateParameters(_serialization.Model):
         connection_type: "_models.ConnectionTypeAssociationProperty",
         description: Optional[str] = None,
         field_definition_values: Optional[Dict[str, str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the connection. Required.
         :paramtype name: str
@@ -1273,8 +1287,8 @@ class ConnectionListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.Connection"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.Connection"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets a list of connection.
         :paramtype value: list[~azure.mgmt.automation.models.Connection]
@@ -1334,8 +1348,8 @@ class ConnectionType(_serialization.Model):
         is_global: Optional[bool] = None,
         last_modified_time: Optional[datetime.datetime] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword is_global: Gets or sets a Boolean value to indicate if the connection type is global.
         :paramtype is_global: bool
@@ -1366,7 +1380,7 @@ class ConnectionTypeAssociationProperty(_serialization.Model):
         "name": {"key": "name", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Gets or sets the name of the connection type.
         :paramtype name: str
@@ -1405,8 +1419,8 @@ class ConnectionTypeCreateOrUpdateParameters(_serialization.Model):
         name: str,
         field_definitions: Dict[str, "_models.FieldDefinition"],
         is_global: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the connection type. Required.
         :paramtype name: str
@@ -1437,8 +1451,8 @@ class ConnectionTypeListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.ConnectionType"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.ConnectionType"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets a list of connection types.
         :paramtype value: list[~azure.mgmt.automation.models.ConnectionType]
@@ -1473,8 +1487,8 @@ class ConnectionUpdateParameters(_serialization.Model):
         name: Optional[str] = None,
         description: Optional[str] = None,
         field_definition_values: Optional[Dict[str, str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the connection.
         :paramtype name: str
@@ -1510,7 +1524,7 @@ class ContentHash(_serialization.Model):
         "value": {"key": "value", "type": "str"},
     }
 
-    def __init__(self, *, algorithm: str, value: str, **kwargs):
+    def __init__(self, *, algorithm: str, value: str, **kwargs: Any) -> None:
         """
         :keyword algorithm: Gets or sets the content hash algorithm used to hash the content. Required.
         :paramtype algorithm: str
@@ -1545,8 +1559,8 @@ class ContentLink(_serialization.Model):
         uri: Optional[str] = None,
         content_hash: Optional["_models.ContentHash"] = None,
         version: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword uri: Gets or sets the uri of the runbook content.
         :paramtype uri: str
@@ -1589,8 +1603,8 @@ class ContentSource(_serialization.Model):
         type: Optional[Union[str, "_models.ContentSourceType"]] = None,
         value: Optional[str] = None,
         version: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword hash: Gets or sets the hash.
         :paramtype hash: ~azure.mgmt.automation.models.ContentHash
@@ -1650,7 +1664,7 @@ class Credential(ProxyResource):
         "description": {"key": "properties.description", "type": "str"},
     }
 
-    def __init__(self, *, description: Optional[str] = None, **kwargs):
+    def __init__(self, *, description: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword description: Gets or sets the description.
         :paramtype description: str
@@ -1690,7 +1704,9 @@ class CredentialCreateOrUpdateParameters(_serialization.Model):
         "description": {"key": "properties.description", "type": "str"},
     }
 
-    def __init__(self, *, name: str, user_name: str, password: str, description: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, name: str, user_name: str, password: str, description: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the credential. Required.
         :paramtype name: str
@@ -1723,8 +1739,8 @@ class CredentialListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.Credential"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.Credential"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets a list of credentials.
         :paramtype value: list[~azure.mgmt.automation.models.Credential]
@@ -1763,8 +1779,8 @@ class CredentialUpdateParameters(_serialization.Model):
         user_name: Optional[str] = None,
         password: Optional[str] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the credential.
         :paramtype name: str
@@ -1830,8 +1846,8 @@ class DeletedAutomationAccount(_serialization.Model):
         automation_account_resource_id: Optional[str] = None,
         automation_account_id: Optional[str] = None,
         location_properties_location: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: The resource id.
         :paramtype id: str
@@ -1870,7 +1886,7 @@ class DeletedAutomationAccountListResult(_serialization.Model):
         "value": {"key": "value", "type": "[DeletedAutomationAccount]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.DeletedAutomationAccount"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.DeletedAutomationAccount"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Gets or sets the list of deleted automation accounts.
         :paramtype value: list[~azure.mgmt.automation.models.DeletedAutomationAccount]
@@ -1893,7 +1909,7 @@ class Dimension(_serialization.Model):
         "display_name": {"key": "displayName", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, display_name: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, display_name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: The name of the dimension.
         :paramtype name: str
@@ -1993,8 +2009,8 @@ class DscCompilationJob(ProxyResource):  # pylint: disable=too-many-instance-att
         status: Optional[Union[str, "_models.JobStatus"]] = None,
         status_details: Optional[str] = None,
         parameters: Optional[Dict[str, str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword configuration: Gets or sets the configuration.
         :paramtype configuration: ~azure.mgmt.automation.models.DscConfigurationAssociationProperty
@@ -2072,8 +2088,8 @@ class DscCompilationJobCreateParameters(_serialization.Model):
         tags: Optional[Dict[str, str]] = None,
         parameters: Optional[Dict[str, str]] = None,
         increment_node_configuration_build: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets name of the resource.
         :paramtype name: str
@@ -2113,8 +2129,12 @@ class DscCompilationJobListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.DscCompilationJob"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self,
+        *,
+        value: Optional[List["_models.DscCompilationJob"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets a list of Dsc Compilation jobs.
         :paramtype value: list[~azure.mgmt.automation.models.DscCompilationJob]
@@ -2208,8 +2228,8 @@ class DscConfiguration(TrackedResource):  # pylint: disable=too-many-instance-at
         last_modified_time: Optional[datetime.datetime] = None,
         node_configuration_count: Optional[int] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -2265,7 +2285,7 @@ class DscConfigurationAssociationProperty(_serialization.Model):
         "name": {"key": "name", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Gets or sets the name of the Dsc configuration.
         :paramtype name: str
@@ -2323,8 +2343,8 @@ class DscConfigurationCreateOrUpdateParameters(_serialization.Model):
         log_progress: Optional[bool] = None,
         parameters: Optional[Dict[str, "_models.DscConfigurationParameter"]] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets name of the resource.
         :paramtype name: str
@@ -2377,8 +2397,8 @@ class DscConfigurationListResult(_serialization.Model):
         value: Optional[List["_models.DscConfiguration"]] = None,
         next_link: Optional[str] = None,
         total_count: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets a list of configurations.
         :paramtype value: list[~azure.mgmt.automation.models.DscConfiguration]
@@ -2421,8 +2441,8 @@ class DscConfigurationParameter(_serialization.Model):
         is_mandatory: Optional[bool] = None,
         position: Optional[int] = None,
         default_value: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword type: Gets or sets the type of the parameter.
         :paramtype type: str
@@ -2480,8 +2500,8 @@ class DscConfigurationUpdateParameters(_serialization.Model):
         source: Optional["_models.ContentSource"] = None,
         parameters: Optional[Dict[str, "_models.DscConfigurationParameter"]] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets name of the resource.
         :paramtype name: str
@@ -2551,8 +2571,8 @@ class DscMetaConfiguration(_serialization.Model):
         certificate_id: Optional[str] = None,
         refresh_frequency_mins: Optional[int] = None,
         allow_module_overwrite: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword configuration_mode_frequency_mins: Gets or sets the ConfigurationModeFrequencyMins
          value of the meta configuration.
@@ -2658,8 +2678,8 @@ class DscNode(ProxyResource):  # pylint: disable=too-many-instance-attributes
         total_count: Optional[int] = None,
         extension_handler: Optional[List["_models.DscNodeExtensionHandlerAssociationProperty"]] = None,
         name_properties_node_configuration_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword last_seen: Gets or sets the last seen time of the node.
         :paramtype last_seen: ~datetime.datetime
@@ -2750,8 +2770,8 @@ class DscNodeConfiguration(ProxyResource):
         source: Optional[str] = None,
         node_count: Optional[int] = None,
         increment_node_configuration_build: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword last_modified_time: Gets or sets the last modified time.
         :paramtype last_modified_time: ~datetime.datetime
@@ -2808,8 +2828,8 @@ class DscNodeConfigurationCreateOrUpdateParameters(_serialization.Model):
         source: Optional["_models.ContentSource"] = None,
         configuration: Optional["_models.DscConfigurationAssociationProperty"] = None,
         increment_node_configuration_build: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Name of the node configuration.
         :paramtype name: str
@@ -2854,8 +2874,8 @@ class DscNodeConfigurationListResult(_serialization.Model):
         value: Optional[List["_models.DscNodeConfiguration"]] = None,
         next_link: Optional[str] = None,
         total_count: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets a list of Dsc node configurations.
         :paramtype value: list[~azure.mgmt.automation.models.DscNodeConfiguration]
@@ -2884,7 +2904,7 @@ class DscNodeExtensionHandlerAssociationProperty(_serialization.Model):
         "version": {"key": "version", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, version: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, version: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Gets or sets the name of the extension handler.
         :paramtype name: str
@@ -2919,8 +2939,8 @@ class DscNodeListResult(_serialization.Model):
         value: Optional[List["_models.DscNode"]] = None,
         next_link: Optional[str] = None,
         total_count: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets a list of dsc nodes.
         :paramtype value: list[~azure.mgmt.automation.models.DscNode]
@@ -3023,8 +3043,8 @@ class DscNodeReport(_serialization.Model):  # pylint: disable=too-many-instance-
         i_pv6_addresses: Optional[List[str]] = None,
         number_of_resources: Optional[int] = None,
         raw_errors: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword end_time: Gets or sets the end time of the node report.
         :paramtype end_time: ~datetime.datetime
@@ -3103,8 +3123,8 @@ class DscNodeReportListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.DscNodeReport"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.DscNodeReport"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets a list of dsc node reports.
         :paramtype value: list[~azure.mgmt.automation.models.DscNodeReport]
@@ -3135,8 +3155,8 @@ class DscNodeUpdateParameters(_serialization.Model):
         *,
         node_id: Optional[str] = None,
         properties: Optional["_models.DscNodeUpdateParametersProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword node_id: Gets or sets the id of the dsc node.
         :paramtype node_id: str
@@ -3159,7 +3179,7 @@ class DscNodeUpdateParametersProperties(_serialization.Model):
         "name": {"key": "nodeConfiguration.name", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Gets or sets the name of the dsc node configuration.
         :paramtype name: str
@@ -3203,8 +3223,8 @@ class DscReportError(_serialization.Model):
         error_message: Optional[str] = None,
         locale: Optional[str] = None,
         error_details: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword error_source: Gets or sets the source of the error.
         :paramtype error_source: str
@@ -3280,8 +3300,8 @@ class DscReportResource(_serialization.Model):
         status: Optional[str] = None,
         duration_in_seconds: Optional[float] = None,
         start_date: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword resource_id: Gets or sets the ID of the resource.
         :paramtype resource_id: str
@@ -3329,7 +3349,7 @@ class DscReportResourceNavigation(_serialization.Model):
         "resource_id": {"key": "resourceId", "type": "str"},
     }
 
-    def __init__(self, *, resource_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, resource_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword resource_id: Gets or sets the ID of the resource to navigate to.
         :paramtype resource_id: str
@@ -3362,8 +3382,8 @@ class EncryptionProperties(_serialization.Model):
         key_vault_properties: Optional["_models.KeyVaultProperties"] = None,
         key_source: Optional[Union[str, "_models.EncryptionKeySourceType"]] = None,
         identity: Optional["_models.EncryptionPropertiesIdentity"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword key_vault_properties: Key vault properties.
         :paramtype key_vault_properties: ~azure.mgmt.automation.models.KeyVaultProperties
@@ -3392,7 +3412,7 @@ class EncryptionPropertiesIdentity(_serialization.Model):
         "user_assigned_identity": {"key": "userAssignedIdentity", "type": "object"},
     }
 
-    def __init__(self, *, user_assigned_identity: Optional[JSON] = None, **kwargs):
+    def __init__(self, *, user_assigned_identity: Optional[JSON] = None, **kwargs: Any) -> None:
         """
         :keyword user_assigned_identity: The user identity used for CMK. It will be an ARM resource id
          in the form:
@@ -3417,7 +3437,7 @@ class ErrorResponse(_serialization.Model):
         "message": {"key": "message", "type": "str"},
     }
 
-    def __init__(self, *, code: Optional[str] = None, message: Optional[str] = None, **kwargs):
+    def __init__(self, *, code: Optional[str] = None, message: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword code: Error code.
         :paramtype code: str
@@ -3452,7 +3472,9 @@ class FieldDefinition(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, *, type: str, is_encrypted: Optional[bool] = None, is_optional: Optional[bool] = None, **kwargs):
+    def __init__(
+        self, *, type: str, is_encrypted: Optional[bool] = None, is_optional: Optional[bool] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword is_encrypted: Gets or sets the isEncrypted flag of the connection field definition.
         :paramtype is_encrypted: bool
@@ -3486,8 +3508,8 @@ class GraphicalRunbookContent(_serialization.Model):
         *,
         raw_content: Optional["_models.RawGraphicalRunbookContent"] = None,
         graph_runbook_json: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword raw_content: Raw graphical Runbook content.
         :paramtype raw_content: ~azure.mgmt.automation.models.RawGraphicalRunbookContent
@@ -3555,8 +3577,8 @@ class HybridRunbookWorker(Resource):
         vm_resource_id: Optional[str] = None,
         worker_type: Optional[Union[str, "_models.WorkerType"]] = None,
         worker_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword ip: Gets or sets the assigned machine IP address.
         :paramtype ip: str
@@ -3595,7 +3617,7 @@ class HybridRunbookWorkerCreateParameters(_serialization.Model):
         "vm_resource_id": {"key": "properties.vmResourceId", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, vm_resource_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, vm_resource_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Gets or sets the name of the resource.
         :paramtype name: str
@@ -3647,8 +3669,8 @@ class HybridRunbookWorkerGroup(Resource):
         *,
         group_type: Optional[Union[str, "_models.GroupTypeEnum"]] = None,
         credential: Optional["_models.RunAsCredentialAssociationProperty"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword group_type: Type of the HybridWorkerGroup. Known values are: "User" and "System".
         :paramtype group_type: str or ~azure.mgmt.automation.models.GroupTypeEnum
@@ -3680,8 +3702,8 @@ class HybridRunbookWorkerGroupCreateOrUpdateParameters(_serialization.Model):
         *,
         name: Optional[str] = None,
         credential: Optional["_models.RunAsCredentialAssociationProperty"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the resource.
         :paramtype name: str
@@ -3712,8 +3734,8 @@ class HybridRunbookWorkerGroupsListResult(_serialization.Model):
         *,
         value: Optional[List["_models.HybridRunbookWorkerGroup"]] = None,
         next_link: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets a list of hybrid runbook worker groups.
         :paramtype value: list[~azure.mgmt.automation.models.HybridRunbookWorkerGroup]
@@ -3736,7 +3758,7 @@ class HybridRunbookWorkerMoveParameters(_serialization.Model):
         "hybrid_runbook_worker_group_name": {"key": "hybridRunbookWorkerGroupName", "type": "str"},
     }
 
-    def __init__(self, *, hybrid_runbook_worker_group_name: Optional[str] = None, **kwargs):
+    def __init__(self, *, hybrid_runbook_worker_group_name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword hybrid_runbook_worker_group_name: Gets or sets the target hybrid runbook worker group.
         :paramtype hybrid_runbook_worker_group_name: str
@@ -3760,8 +3782,12 @@ class HybridRunbookWorkersListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.HybridRunbookWorker"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self,
+        *,
+        value: Optional[List["_models.HybridRunbookWorker"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets a list of hybrid runbook workers.
         :paramtype value: list[~azure.mgmt.automation.models.HybridRunbookWorker]
@@ -3809,8 +3835,8 @@ class Identity(_serialization.Model):
         *,
         type: Optional[Union[str, "_models.ResourceIdentityType"]] = None,
         user_assigned_identities: Optional[Dict[str, "_models.UserAssignedIdentitiesProperties"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword type: The identity type. Known values are: "SystemAssigned", "UserAssigned",
          "SystemAssigned, UserAssigned", and "None".
@@ -3916,8 +3942,8 @@ class Job(ProxyResource):  # pylint: disable=too-many-instance-attributes
         last_status_modified_time: Optional[datetime.datetime] = None,
         parameters: Optional[Dict[str, str]] = None,
         provisioning_state: Optional[Union[str, "_models.JobProvisioningState"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword runbook: Gets or sets the runbook.
         :paramtype runbook: ~azure.mgmt.automation.models.RunbookAssociationProperty
@@ -4031,7 +4057,7 @@ class JobCollectionItem(ProxyResource):  # pylint: disable=too-many-instance-att
         "run_on": {"key": "properties.runOn", "type": "str"},
     }
 
-    def __init__(self, *, run_on: Optional[str] = None, **kwargs):
+    def __init__(self, *, run_on: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword run_on: Specifies the runOn group name where the job was executed.
         :paramtype run_on: str
@@ -4072,8 +4098,8 @@ class JobCreateParameters(_serialization.Model):
         runbook: Optional["_models.RunbookAssociationProperty"] = None,
         parameters: Optional[Dict[str, str]] = None,
         run_on: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword runbook: Gets or sets the runbook.
         :paramtype runbook: ~azure.mgmt.automation.models.RunbookAssociationProperty
@@ -4109,7 +4135,7 @@ class JobListResultV2(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.JobCollectionItem"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.JobCollectionItem"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: List of jobs.
         :paramtype value: list[~azure.mgmt.automation.models.JobCollectionItem]
@@ -4136,7 +4162,7 @@ class JobNavigation(_serialization.Model):
         "id": {"key": "id", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -4190,8 +4216,8 @@ class JobSchedule(_serialization.Model):
         runbook: Optional["_models.RunbookAssociationProperty"] = None,
         run_on: Optional[str] = None,
         parameters: Optional[Dict[str, str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword job_schedule_id: Gets or sets the id of job schedule.
         :paramtype job_schedule_id: str
@@ -4249,8 +4275,8 @@ class JobScheduleCreateParameters(_serialization.Model):
         runbook: "_models.RunbookAssociationProperty",
         run_on: Optional[str] = None,
         parameters: Optional[Dict[str, str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword schedule: Gets or sets the schedule. Required.
         :paramtype schedule: ~azure.mgmt.automation.models.ScheduleAssociationProperty
@@ -4283,8 +4309,8 @@ class JobScheduleListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.JobSchedule"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.JobSchedule"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets a list of job schedules.
         :paramtype value: list[~azure.mgmt.automation.models.JobSchedule]
@@ -4336,8 +4362,8 @@ class JobStream(_serialization.Model):
         stream_text: Optional[str] = None,
         summary: Optional[str] = None,
         value: Optional[Dict[str, JSON]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: Gets or sets the id of the resource.
         :paramtype id: str
@@ -4379,7 +4405,9 @@ class JobStreamListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.JobStream"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.JobStream"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: A list of job streams.
         :paramtype value: list[~azure.mgmt.automation.models.JobStream]
@@ -4416,7 +4444,7 @@ class Key(_serialization.Model):
         "value": {"key": "Value", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.key_name = None
@@ -4435,7 +4463,7 @@ class KeyListResult(_serialization.Model):
         "keys": {"key": "keys", "type": "[Key]"},
     }
 
-    def __init__(self, *, keys: Optional[List["_models.Key"]] = None, **kwargs):
+    def __init__(self, *, keys: Optional[List["_models.Key"]] = None, **kwargs: Any) -> None:
         """
         :keyword keys: Lists the automation keys.
         :paramtype keys: list[~azure.mgmt.automation.models.Key]
@@ -4467,8 +4495,8 @@ class KeyVaultProperties(_serialization.Model):
         keyvault_uri: Optional[str] = None,
         key_name: Optional[str] = None,
         key_version: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword keyvault_uri: The URI of the key vault key used to encrypt data.
         :paramtype keyvault_uri: str
@@ -4500,7 +4528,7 @@ class LinkedWorkspace(_serialization.Model):
         "id": {"key": "id", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -4535,8 +4563,8 @@ class LinuxProperties(_serialization.Model):
         excluded_package_name_masks: Optional[List[str]] = None,
         included_package_name_masks: Optional[List[str]] = None,
         reboot_setting: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword included_package_classifications: Update classifications included in the software
          update configuration. Known values are: "Unclassified", "Critical", "Security", and "Other".
@@ -4579,8 +4607,8 @@ class LogSpecification(_serialization.Model):
         name: Optional[str] = None,
         display_name: Optional[str] = None,
         blob_duration: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: The name of the specification.
         :paramtype name: str
@@ -4630,8 +4658,8 @@ class MetricSpecification(_serialization.Model):
         unit: Optional[str] = None,
         aggregation_type: Optional[str] = None,
         dimensions: Optional[List["_models.Dimension"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: The name of the metric.
         :paramtype name: str
@@ -4743,8 +4771,8 @@ class Module(TrackedResource):  # pylint: disable=too-many-instance-attributes
         last_modified_time: Optional[datetime.datetime] = None,
         description: Optional[str] = None,
         is_composite: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -4827,8 +4855,8 @@ class ModuleCreateOrUpdateParameters(_serialization.Model):
         name: Optional[str] = None,
         location: Optional[str] = None,
         tags: Optional[Dict[str, str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets name of the resource.
         :paramtype name: str
@@ -4860,7 +4888,7 @@ class ModuleErrorInfo(_serialization.Model):
         "message": {"key": "message", "type": "str"},
     }
 
-    def __init__(self, *, code: Optional[str] = None, message: Optional[str] = None, **kwargs):
+    def __init__(self, *, code: Optional[str] = None, message: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword code: Gets or sets the error code.
         :paramtype code: str
@@ -4886,7 +4914,9 @@ class ModuleListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Module"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.Module"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets a list of modules.
         :paramtype value: list[~azure.mgmt.automation.models.Module]
@@ -4925,8 +4955,8 @@ class ModuleUpdateParameters(_serialization.Model):
         location: Optional[str] = None,
         tags: Optional[Dict[str, str]] = None,
         content_link: Optional["_models.ContentLink"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets name of the resource.
         :paramtype name: str
@@ -4959,8 +4989,8 @@ class NodeCount(_serialization.Model):
     }
 
     def __init__(
-        self, *, name: Optional[str] = None, properties: Optional["_models.NodeCountProperties"] = None, **kwargs
-    ):
+        self, *, name: Optional[str] = None, properties: Optional["_models.NodeCountProperties"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets the name of a count type.
         :paramtype name: str
@@ -4983,7 +5013,7 @@ class NodeCountProperties(_serialization.Model):
         "count": {"key": "count", "type": "int"},
     }
 
-    def __init__(self, *, count: Optional[int] = None, **kwargs):
+    def __init__(self, *, count: Optional[int] = None, **kwargs: Any) -> None:
         """
         :keyword count: Gets the count for the name.
         :paramtype count: int
@@ -5007,8 +5037,8 @@ class NodeCounts(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.NodeCount"]] = None, total_count: Optional[int] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.NodeCount"]] = None, total_count: Optional[int] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets an array of counts.
         :paramtype value: list[~azure.mgmt.automation.models.NodeCount]
@@ -5034,7 +5064,9 @@ class NonAzureQueryProperties(_serialization.Model):
         "workspace_id": {"key": "workspaceId", "type": "str"},
     }
 
-    def __init__(self, *, function_alias: Optional[str] = None, workspace_id: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, function_alias: Optional[str] = None, workspace_id: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword function_alias: Log Analytics Saved Search name.
         :paramtype function_alias: str
@@ -5077,8 +5109,8 @@ class Operation(_serialization.Model):
         display: Optional["_models.OperationDisplay"] = None,
         origin: Optional[str] = None,
         service_specification: Optional["_models.OperationPropertiesFormatServiceSpecification"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Operation name: {provider}/{resource}/{operation}.
         :paramtype name: str
@@ -5124,8 +5156,8 @@ class OperationDisplay(_serialization.Model):
         resource: Optional[str] = None,
         operation: Optional[str] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword provider: Service provider: Microsoft.Automation.
         :paramtype provider: str
@@ -5154,7 +5186,7 @@ class OperationListResult(_serialization.Model):
         "value": {"key": "value", "type": "[Operation]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Operation"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.Operation"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: List of Automation operations supported by the Automation resource provider.
         :paramtype value: list[~azure.mgmt.automation.models.Operation]
@@ -5182,8 +5214,8 @@ class OperationPropertiesFormatServiceSpecification(_serialization.Model):
         *,
         metric_specifications: Optional[List["_models.MetricSpecification"]] = None,
         log_specifications: Optional[List["_models.LogSpecification"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword metric_specifications: Operation service specification.
         :paramtype metric_specifications: list[~azure.mgmt.automation.models.MetricSpecification]
@@ -5240,8 +5272,8 @@ class PrivateEndpointConnection(ProxyResource):
         private_endpoint: Optional["_models.PrivateEndpointProperty"] = None,
         group_ids: Optional[List[str]] = None,
         private_link_service_connection_state: Optional["_models.PrivateLinkServiceConnectionStateProperty"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword private_endpoint: Private endpoint which the connection belongs to.
         :paramtype private_endpoint: ~azure.mgmt.automation.models.PrivateEndpointProperty
@@ -5269,7 +5301,7 @@ class PrivateEndpointConnectionListResult(_serialization.Model):
         "value": {"key": "value", "type": "[PrivateEndpointConnection]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.PrivateEndpointConnection"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.PrivateEndpointConnection"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Array of private endpoint connections.
         :paramtype value: list[~azure.mgmt.automation.models.PrivateEndpointConnection]
@@ -5289,7 +5321,7 @@ class PrivateEndpointProperty(_serialization.Model):
         "id": {"key": "id", "type": "str"},
     }
 
-    def __init__(self, *, id: Optional[str] = None, **kwargs):  # pylint: disable=redefined-builtin
+    def __init__(self, *, id: Optional[str] = None, **kwargs: Any) -> None:  # pylint: disable=redefined-builtin
         """
         :keyword id: Resource id of the private endpoint.
         :paramtype id: str
@@ -5331,7 +5363,7 @@ class PrivateLinkResource(ProxyResource):
         "required_members": {"key": "properties.requiredMembers", "type": "[str]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.group_id = None
@@ -5349,7 +5381,7 @@ class PrivateLinkResourceListResult(_serialization.Model):
         "value": {"key": "value", "type": "[PrivateLinkResource]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.PrivateLinkResource"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.PrivateLinkResource"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Array of private link resources.
         :paramtype value: list[~azure.mgmt.automation.models.PrivateLinkResource]
@@ -5382,7 +5414,7 @@ class PrivateLinkServiceConnectionStateProperty(_serialization.Model):
         "actions_required": {"key": "actionsRequired", "type": "str"},
     }
 
-    def __init__(self, *, status: Optional[str] = None, description: Optional[str] = None, **kwargs):
+    def __init__(self, *, status: Optional[str] = None, description: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword status: The private link service connection status.
         :paramtype status: str
@@ -5415,7 +5447,9 @@ class PythonPackageCreateParameters(_serialization.Model):
         "content_link": {"key": "properties.contentLink", "type": "ContentLink"},
     }
 
-    def __init__(self, *, content_link: "_models.ContentLink", tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(
+        self, *, content_link: "_models.ContentLink", tags: Optional[Dict[str, str]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Gets or sets the tags attached to the resource.
         :paramtype tags: dict[str, str]
@@ -5438,7 +5472,7 @@ class PythonPackageUpdateParameters(_serialization.Model):
         "tags": {"key": "tags", "type": "{str}"},
     }
 
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword tags: Gets or sets the tags attached to the resource.
         :paramtype tags: dict[str, str]
@@ -5471,8 +5505,8 @@ class RawGraphicalRunbookContent(_serialization.Model):
         schema_version: Optional[str] = None,
         runbook_definition: Optional[str] = None,
         runbook_type: Optional[Union[str, "_models.GraphRunbookType"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword schema_version: Schema version of the serializer.
         :paramtype schema_version: str
@@ -5499,7 +5533,7 @@ class RunAsCredentialAssociationProperty(_serialization.Model):
         "name": {"key": "name", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Gets or sets the name of the credential.
         :paramtype name: str
@@ -5612,8 +5646,8 @@ class Runbook(TrackedResource):  # pylint: disable=too-many-instance-attributes
         creation_time: Optional[datetime.datetime] = None,
         last_modified_time: Optional[datetime.datetime] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -5686,7 +5720,7 @@ class RunbookAssociationProperty(_serialization.Model):
         "name": {"key": "name", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Gets or sets the name of the runbook.
         :paramtype name: str
@@ -5712,7 +5746,7 @@ class RunbookCreateOrUpdateDraftParameters(_serialization.Model):
         "runbook_content": {"key": "runbookContent", "type": "str"},
     }
 
-    def __init__(self, *, runbook_content: str, **kwargs):
+    def __init__(self, *, runbook_content: str, **kwargs: Any) -> None:
         """
         :keyword runbook_content: Content of the Runbook. Required.
         :paramtype runbook_content: str
@@ -5765,8 +5799,8 @@ class RunbookCreateOrUpdateDraftProperties(_serialization.Model):
         log_progress: Optional[bool] = None,
         description: Optional[str] = None,
         log_activity_trace: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword log_verbose: Gets or sets verbose log option.
         :paramtype log_verbose: bool
@@ -5851,8 +5885,8 @@ class RunbookCreateOrUpdateParameters(_serialization.Model):
         publish_content_link: Optional["_models.ContentLink"] = None,
         description: Optional[str] = None,
         log_activity_trace: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the resource.
         :paramtype name: str
@@ -5925,8 +5959,8 @@ class RunbookDraft(_serialization.Model):
         last_modified_time: Optional[datetime.datetime] = None,
         parameters: Optional[Dict[str, "_models.RunbookParameter"]] = None,
         output_types: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword in_edit: Gets or sets whether runbook is in edit mode.
         :paramtype in_edit: bool
@@ -5962,7 +5996,7 @@ class RunbookDraftUndoEditResult(_serialization.Model):
      "LengthRequired", "PreconditionFailed", "RequestEntityTooLarge", "RequestUriTooLong",
      "UnsupportedMediaType", "RequestedRangeNotSatisfiable", "ExpectationFailed", "UpgradeRequired",
      "InternalServerError", "NotImplemented", "BadGateway", "ServiceUnavailable", "GatewayTimeout",
-     and "HttpVersionNotSupported".
+     "HttpVersionNotSupported", and "Continue".
     :vartype status_code: str or ~azure.mgmt.automation.models.HttpStatusCode
     :ivar request_id:
     :vartype request_id: str
@@ -5978,8 +6012,8 @@ class RunbookDraftUndoEditResult(_serialization.Model):
         *,
         status_code: Optional[Union[str, "_models.HttpStatusCode"]] = None,
         request_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword status_code: Known values are: "Continue", "SwitchingProtocols", "OK", "Created",
          "Accepted", "NonAuthoritativeInformation", "NoContent", "ResetContent", "PartialContent",
@@ -5990,7 +6024,7 @@ class RunbookDraftUndoEditResult(_serialization.Model):
          "LengthRequired", "PreconditionFailed", "RequestEntityTooLarge", "RequestUriTooLong",
          "UnsupportedMediaType", "RequestedRangeNotSatisfiable", "ExpectationFailed", "UpgradeRequired",
          "InternalServerError", "NotImplemented", "BadGateway", "ServiceUnavailable", "GatewayTimeout",
-         and "HttpVersionNotSupported".
+         "HttpVersionNotSupported", and "Continue".
         :paramtype status_code: str or ~azure.mgmt.automation.models.HttpStatusCode
         :keyword request_id:
         :paramtype request_id: str
@@ -6014,7 +6048,9 @@ class RunbookListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Runbook"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.Runbook"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets a list of runbooks.
         :paramtype value: list[~azure.mgmt.automation.models.Runbook]
@@ -6054,8 +6090,8 @@ class RunbookParameter(_serialization.Model):
         is_mandatory: Optional[bool] = None,
         position: Optional[int] = None,
         default_value: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword type: Gets or sets the type of the parameter.
         :paramtype type: str
@@ -6113,8 +6149,8 @@ class RunbookUpdateParameters(_serialization.Model):
         log_verbose: Optional[bool] = None,
         log_progress: Optional[bool] = None,
         log_activity_trace: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the resource.
         :paramtype name: str
@@ -6226,8 +6262,8 @@ class Schedule(ProxyResource):  # pylint: disable=too-many-instance-attributes
         creation_time: Optional[datetime.datetime] = None,
         last_modified_time: Optional[datetime.datetime] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword start_time: Gets or sets the start time of the schedule.
         :paramtype start_time: ~datetime.datetime
@@ -6285,7 +6321,7 @@ class ScheduleAssociationProperty(_serialization.Model):
         "name": {"key": "name", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Gets or sets the name of the Schedule.
         :paramtype name: str
@@ -6346,8 +6382,8 @@ class ScheduleCreateOrUpdateParameters(_serialization.Model):
         interval: Optional[Any] = None,
         time_zone: Optional[str] = None,
         advanced_schedule: Optional["_models.AdvancedSchedule"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the Schedule. Required.
         :paramtype name: str
@@ -6392,7 +6428,9 @@ class ScheduleListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Schedule"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.Schedule"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets a list of schedules.
         :paramtype value: list[~azure.mgmt.automation.models.Schedule]
@@ -6427,8 +6465,8 @@ class ScheduleUpdateParameters(_serialization.Model):
         name: Optional[str] = None,
         description: Optional[str] = None,
         is_enabled: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the Schedule.
         :paramtype name: str
@@ -6473,8 +6511,8 @@ class Sku(_serialization.Model):
         name: Union[str, "_models.SkuNameEnum"],
         family: Optional[str] = None,
         capacity: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the SKU name of the account. Required. Known values are: "Free" and
          "Basic".
@@ -6560,8 +6598,8 @@ class SoftwareUpdateConfiguration(_serialization.Model):  # pylint: disable=too-
         schedule_info: "_models.SUCScheduleProperties",
         error: Optional["_models.ErrorResponse"] = None,
         tasks: Optional["_models.SoftwareUpdateConfigurationTasks"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword update_configuration: update specific properties for the Software update
          configuration. Required.
@@ -6648,8 +6686,8 @@ class SoftwareUpdateConfigurationCollectionItem(_serialization.Model):
         frequency: Optional[Union[str, "_models.ScheduleFrequency"]] = None,
         start_time: Optional[datetime.datetime] = None,
         next_run: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword update_configuration: Update specific properties of the software update configuration.
         :paramtype update_configuration: ~azure.mgmt.automation.models.UpdateConfiguration
@@ -6687,7 +6725,9 @@ class SoftwareUpdateConfigurationListResult(_serialization.Model):
         "value": {"key": "value", "type": "[SoftwareUpdateConfigurationCollectionItem]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.SoftwareUpdateConfigurationCollectionItem"]] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.SoftwareUpdateConfigurationCollectionItem"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: outer object returned when listing all software update configurations.
         :paramtype value: list[~azure.mgmt.automation.models.SoftwareUpdateConfigurationCollectionItem]
@@ -6788,8 +6828,8 @@ class SoftwareUpdateConfigurationMachineRun(_serialization.Model):  # pylint: di
         software_update_configuration: Optional["_models.UpdateConfigurationNavigation"] = None,
         job: Optional["_models.JobNavigation"] = None,
         error: Optional["_models.ErrorResponse"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword software_update_configuration: software update configuration triggered this run.
         :paramtype software_update_configuration:
@@ -6839,8 +6879,8 @@ class SoftwareUpdateConfigurationMachineRunListResult(_serialization.Model):
         *,
         value: Optional[List["_models.SoftwareUpdateConfigurationMachineRun"]] = None,
         next_link: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: outer object returned when listing all software update configuration machine
          runs.
@@ -6933,8 +6973,8 @@ class SoftwareUpdateConfigurationRun(_serialization.Model):  # pylint: disable=t
         *,
         software_update_configuration: Optional["_models.UpdateConfigurationNavigation"] = None,
         tasks: Optional["_models.SoftwareUpdateConfigurationRunTasks"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword software_update_configuration: software update configuration triggered this run.
         :paramtype software_update_configuration:
@@ -6979,8 +7019,8 @@ class SoftwareUpdateConfigurationRunListResult(_serialization.Model):
         *,
         value: Optional[List["_models.SoftwareUpdateConfigurationRun"]] = None,
         next_link: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: outer object returned when listing all software update configuration runs.
         :paramtype value: list[~azure.mgmt.automation.models.SoftwareUpdateConfigurationRun]
@@ -7010,8 +7050,8 @@ class SoftwareUpdateConfigurationRunTaskProperties(_serialization.Model):
     }
 
     def __init__(
-        self, *, status: Optional[str] = None, source: Optional[str] = None, job_id: Optional[str] = None, **kwargs
-    ):
+        self, *, status: Optional[str] = None, source: Optional[str] = None, job_id: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword status: The status of the task.
         :paramtype status: str
@@ -7045,8 +7085,8 @@ class SoftwareUpdateConfigurationRunTasks(_serialization.Model):
         *,
         pre_task: Optional["_models.SoftwareUpdateConfigurationRunTaskProperties"] = None,
         post_task: Optional["_models.SoftwareUpdateConfigurationRunTaskProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword pre_task: Pre task properties.
         :paramtype pre_task: ~azure.mgmt.automation.models.SoftwareUpdateConfigurationRunTaskProperties
@@ -7078,8 +7118,8 @@ class SoftwareUpdateConfigurationTasks(_serialization.Model):
         *,
         pre_task: Optional["_models.TaskProperties"] = None,
         post_task: Optional["_models.TaskProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword pre_task: Pre task properties.
         :paramtype pre_task: ~azure.mgmt.automation.models.TaskProperties
@@ -7157,8 +7197,8 @@ class SourceControl(ProxyResource):  # pylint: disable=too-many-instance-attribu
         description: Optional[str] = None,
         creation_time: Optional[datetime.datetime] = None,
         last_modified_time: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword repo_url: The repo url of the source control.
         :paramtype repo_url: str
@@ -7245,8 +7285,8 @@ class SourceControlCreateOrUpdateParameters(_serialization.Model):
         source_type: Optional[Union[str, "_models.SourceType"]] = None,
         security_token: Optional["_models.SourceControlSecurityTokenProperties"] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword repo_url: The repo url of the source control.
         :paramtype repo_url: str
@@ -7293,8 +7333,8 @@ class SourceControlListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.SourceControl"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.SourceControl"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: The list of source controls.
         :paramtype value: list[~azure.mgmt.automation.models.SourceControl]
@@ -7335,8 +7375,8 @@ class SourceControlSecurityTokenProperties(_serialization.Model):
         access_token: Optional[str] = None,
         refresh_token: Optional[str] = None,
         token_type: Optional[Union[str, "_models.TokenType"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword access_token: The access token.
         :paramtype access_token: str
@@ -7405,8 +7445,8 @@ class SourceControlSyncJob(_serialization.Model):
         source_control_sync_job_id: Optional[str] = None,
         provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None,
         sync_type: Optional[Union[str, "_models.SyncType"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword source_control_sync_job_id: The source control sync job id.
         :paramtype source_control_sync_job_id: str
@@ -7477,8 +7517,8 @@ class SourceControlSyncJobById(_serialization.Model):
         provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None,
         sync_type: Optional[Union[str, "_models.SyncType"]] = None,
         exception: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: The id of the job.
         :paramtype id: str
@@ -7521,7 +7561,7 @@ class SourceControlSyncJobCreateParameters(_serialization.Model):
         "commit_id": {"key": "properties.commitId", "type": "str"},
     }
 
-    def __init__(self, *, commit_id: str, **kwargs):
+    def __init__(self, *, commit_id: str, **kwargs: Any) -> None:
         """
         :keyword commit_id: The commit id of the source control sync job. If not syncing to a commitId,
          enter an empty string. Required.
@@ -7546,8 +7586,12 @@ class SourceControlSyncJobListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.SourceControlSyncJob"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self,
+        *,
+        value: Optional[List["_models.SourceControlSyncJob"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: The list of source control sync jobs.
         :paramtype value: list[~azure.mgmt.automation.models.SourceControlSyncJob]
@@ -7595,8 +7639,8 @@ class SourceControlSyncJobStream(_serialization.Model):
         source_control_sync_job_stream_id: Optional[str] = None,
         summary: Optional[str] = None,
         stream_type: Optional[Union[str, "_models.StreamType"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword source_control_sync_job_stream_id: The sync job stream id.
         :paramtype source_control_sync_job_stream_id: str
@@ -7657,8 +7701,8 @@ class SourceControlSyncJobStreamById(_serialization.Model):
         stream_type: Optional[Union[str, "_models.StreamType"]] = None,
         stream_text: Optional[str] = None,
         value: Optional[Dict[str, JSON]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword source_control_sync_job_stream_id: The sync job stream id.
         :paramtype source_control_sync_job_stream_id: str
@@ -7701,7 +7745,7 @@ class SourceControlSyncJobStreamsListBySyncJob(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.SourceControlSyncJobStream"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.SourceControlSyncJobStream"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The list of source control sync job streams.
         :paramtype value: list[~azure.mgmt.automation.models.SourceControlSyncJobStream]
@@ -7746,8 +7790,8 @@ class SourceControlUpdateParameters(_serialization.Model):
         publish_runbook: Optional[bool] = None,
         security_token: Optional["_models.SourceControlSecurityTokenProperties"] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword branch: The repo branch of the source control.
         :paramtype branch: str
@@ -7804,7 +7848,7 @@ class Statistics(_serialization.Model):
         "id": {"key": "id", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.counter_property = None
@@ -7825,7 +7869,7 @@ class StatisticsListResult(_serialization.Model):
         "value": {"key": "value", "type": "[Statistics]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Statistics"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.Statistics"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Gets or sets a list of statistics.
         :paramtype value: list[~azure.mgmt.automation.models.Statistics]
@@ -7907,8 +7951,8 @@ class SUCScheduleProperties(_serialization.Model):  # pylint: disable=too-many-i
         creation_time: Optional[datetime.datetime] = None,
         last_modified_time: Optional[datetime.datetime] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword start_time: Gets or sets the start time of the schedule.
         :paramtype start_time: ~datetime.datetime
@@ -7992,8 +8036,8 @@ class SystemData(_serialization.Model):
         last_modified_by: Optional[str] = None,
         last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
         last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword created_by: The identity that created the resource.
         :paramtype created_by: str
@@ -8039,8 +8083,8 @@ class TagSettingsProperties(_serialization.Model):
         *,
         tags: Optional[Dict[str, List[str]]] = None,
         filter_operator: Optional[Union[str, "_models.TagOperators"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Dictionary of tags with its list of values.
         :paramtype tags: dict[str, list[str]]
@@ -8072,8 +8116,8 @@ class TargetProperties(_serialization.Model):
         *,
         azure_queries: Optional[List["_models.AzureQueryProperties"]] = None,
         non_azure_queries: Optional[List["_models.NonAzureQueryProperties"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword azure_queries: List of Azure queries in the software update configuration.
         :paramtype azure_queries: list[~azure.mgmt.automation.models.AzureQueryProperties]
@@ -8099,7 +8143,9 @@ class TaskProperties(_serialization.Model):
         "source": {"key": "source", "type": "str"},
     }
 
-    def __init__(self, *, parameters: Optional[Dict[str, str]] = None, source: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, parameters: Optional[Dict[str, str]] = None, source: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword parameters: Gets or sets the parameters of the task.
         :paramtype parameters: dict[str, str]
@@ -8167,8 +8213,8 @@ class TestJob(_serialization.Model):  # pylint: disable=too-many-instance-attrib
         last_status_modified_time: Optional[datetime.datetime] = None,
         parameters: Optional[Dict[str, str]] = None,
         log_activity_trace: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword creation_time: Gets or sets the creation time of the test job.
         :paramtype creation_time: ~datetime.datetime
@@ -8223,7 +8269,9 @@ class TestJobCreateParameters(_serialization.Model):
         "run_on": {"key": "runOn", "type": "str"},
     }
 
-    def __init__(self, *, parameters: Optional[Dict[str, str]] = None, run_on: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, parameters: Optional[Dict[str, str]] = None, run_on: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword parameters: Gets or sets the parameters of the test job.
         :paramtype parameters: dict[str, str]
@@ -8250,7 +8298,7 @@ class TypeField(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, type: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, type: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Gets or sets the name of the field.
         :paramtype name: str
@@ -8273,7 +8321,7 @@ class TypeFieldListResult(_serialization.Model):
         "value": {"key": "value", "type": "[TypeField]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.TypeField"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.TypeField"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Gets or sets a list of fields.
         :paramtype value: list[~azure.mgmt.automation.models.TypeField]
@@ -8331,8 +8379,8 @@ class UpdateConfiguration(_serialization.Model):
         azure_virtual_machines: Optional[List[str]] = None,
         non_azure_computer_names: Optional[List[str]] = None,
         targets: Optional["_models.TargetProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword operating_system: operating system of target machines. Required. Known values are:
          "Windows" and "Linux".
@@ -8381,7 +8429,7 @@ class UpdateConfigurationNavigation(_serialization.Model):
         "name": {"key": "name", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.name = None
@@ -8422,8 +8470,8 @@ class Usage(_serialization.Model):
         current_value: Optional[float] = None,
         limit: Optional[int] = None,
         throttle_status: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: Gets or sets the id of the resource.
         :paramtype id: str
@@ -8461,7 +8509,7 @@ class UsageCounterName(_serialization.Model):
         "localized_value": {"key": "localizedValue", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[str] = None, localized_value: Optional[str] = None, **kwargs):
+    def __init__(self, *, value: Optional[str] = None, localized_value: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword value: Gets or sets the usage counter name.
         :paramtype value: str
@@ -8484,7 +8532,7 @@ class UsageListResult(_serialization.Model):
         "value": {"key": "value", "type": "[Usage]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Usage"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.Usage"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Gets or sets usage.
         :paramtype value: list[~azure.mgmt.automation.models.Usage]
@@ -8514,7 +8562,7 @@ class UserAssignedIdentitiesProperties(_serialization.Model):
         "client_id": {"key": "clientId", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.principal_id = None
@@ -8569,8 +8617,8 @@ class Variable(ProxyResource):
         creation_time: Optional[datetime.datetime] = None,
         last_modified_time: Optional[datetime.datetime] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets the value of the variable.
         :paramtype value: str
@@ -8624,8 +8672,8 @@ class VariableCreateOrUpdateParameters(_serialization.Model):
         value: Optional[str] = None,
         description: Optional[str] = None,
         is_encrypted: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the variable. Required.
         :paramtype name: str
@@ -8657,7 +8705,9 @@ class VariableListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Variable"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.Variable"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets a list of variables.
         :paramtype value: list[~azure.mgmt.automation.models.Variable]
@@ -8687,8 +8737,13 @@ class VariableUpdateParameters(_serialization.Model):
     }
 
     def __init__(
-        self, *, name: Optional[str] = None, value: Optional[str] = None, description: Optional[str] = None, **kwargs
-    ):
+        self,
+        *,
+        name: Optional[str] = None,
+        value: Optional[str] = None,
+        description: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the variable.
         :paramtype name: str
@@ -8781,8 +8836,8 @@ class Watcher(Resource):  # pylint: disable=too-many-instance-attributes
         script_parameters: Optional[Dict[str, str]] = None,
         script_run_on: Optional[str] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Gets or sets the etag of the resource.
         :paramtype etag: str
@@ -8833,7 +8888,9 @@ class WatcherListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Watcher"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.Watcher"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets a list of watchers.
         :paramtype value: list[~azure.mgmt.automation.models.Watcher]
@@ -8860,7 +8917,9 @@ class WatcherUpdateParameters(_serialization.Model):
         "execution_frequency_in_seconds": {"key": "properties.executionFrequencyInSeconds", "type": "int"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, execution_frequency_in_seconds: Optional[int] = None, **kwargs):
+    def __init__(
+        self, *, name: Optional[str] = None, execution_frequency_in_seconds: Optional[int] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the resource.
         :paramtype name: str
@@ -8946,8 +9005,8 @@ class Webhook(ProxyResource):  # pylint: disable=too-many-instance-attributes
         last_modified_time: Optional[datetime.datetime] = None,
         last_modified_by: Optional[str] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword is_enabled: Gets or sets the value of the enabled flag of the webhook.
         :paramtype is_enabled: bool
@@ -9032,8 +9091,8 @@ class WebhookCreateOrUpdateParameters(_serialization.Model):
         parameters: Optional[Dict[str, str]] = None,
         runbook: Optional["_models.RunbookAssociationProperty"] = None,
         run_on: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the webhook. Required.
         :paramtype name: str
@@ -9074,7 +9133,9 @@ class WebhookListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Webhook"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.Webhook"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets a list of webhooks.
         :paramtype value: list[~azure.mgmt.automation.models.Webhook]
@@ -9117,8 +9178,8 @@ class WebhookUpdateParameters(_serialization.Model):
         run_on: Optional[str] = None,
         parameters: Optional[Dict[str, str]] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the webhook.
         :paramtype name: str
@@ -9170,8 +9231,8 @@ class WindowsProperties(_serialization.Model):
         excluded_kb_numbers: Optional[List[str]] = None,
         included_kb_numbers: Optional[List[str]] = None,
         reboot_setting: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword included_update_classifications: Update classification included in the software update
          configuration. A comma separated string with required values. Known values are: "Unclassified",

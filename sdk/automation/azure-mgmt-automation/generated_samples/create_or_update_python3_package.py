@@ -29,7 +29,7 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.python3_package.create_or_update(
+    response = client.python3_package.begin_create_or_update(
         resource_group_name="rg",
         automation_account_name="myAutomationAccount33",
         package_name="OmsCompositeResources",
@@ -46,7 +46,7 @@ def main():
             },
             "tags": {},
         },
-    )
+    ).result()
     print(response)
 
 
