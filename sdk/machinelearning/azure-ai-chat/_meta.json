@@ -1,0 +1,6 @@
+{
+  "commit": "7fba01a1788345c09c02e0db1533d6134d696c1a",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/machinelearning/Azure.AI.Chat",
+  "@azure-tools/typespec-python": "0.15.0"
+}
