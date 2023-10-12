@@ -53,6 +53,7 @@ from ._models_py3 import Column
 from ._models_py3 import CommandOutput
 from ._models_py3 import CommandPostBody
 from ._models_py3 import CompositePath
+from ._models_py3 import ComputedProperty
 from ._models_py3 import ConflictResolutionPolicy
 from ._models_py3 import ConnectionError
 from ._models_py3 import ConsistencyPolicy
@@ -177,6 +178,7 @@ from ._models_py3 import ProxyResource
 from ._models_py3 import RegionForOnlineOffline
 from ._models_py3 import RegionalServiceResource
 from ._models_py3 import Resource
+from ._models_py3 import ResourceRestoreParameters
 from ._models_py3 import RestorableDatabaseAccountGetResult
 from ._models_py3 import RestorableDatabaseAccountsListResult
 from ._models_py3 import RestorableGremlinDatabaseGetResult
@@ -212,6 +214,7 @@ from ._models_py3 import RestorableTableResourcesGetResult
 from ._models_py3 import RestorableTableResourcesListResult
 from ._models_py3 import RestorableTablesListResult
 from ._models_py3 import RestoreParameters
+from ._models_py3 import RestoreParametersBase
 from ._models_py3 import Role
 from ._models_py3 import SeedNode
 from ._models_py3 import ServiceResource
@@ -371,6 +374,7 @@ __all__ = [
     "CommandOutput",
     "CommandPostBody",
     "CompositePath",
+    "ComputedProperty",
     "ConflictResolutionPolicy",
     "ConnectionError",
     "ConsistencyPolicy",
@@ -495,6 +499,7 @@ __all__ = [
     "RegionForOnlineOffline",
     "RegionalServiceResource",
     "Resource",
+    "ResourceRestoreParameters",
     "RestorableDatabaseAccountGetResult",
     "RestorableDatabaseAccountsListResult",
     "RestorableGremlinDatabaseGetResult",
@@ -530,6 +535,7 @@ __all__ = [
     "RestorableTableResourcesListResult",
     "RestorableTablesListResult",
     "RestoreParameters",
+    "RestoreParametersBase",
     "Role",
     "SeedNode",
     "ServiceResource",

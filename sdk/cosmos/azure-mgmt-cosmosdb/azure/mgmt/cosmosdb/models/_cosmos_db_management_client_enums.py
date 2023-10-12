@@ -271,6 +271,7 @@ class OperationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     CREATE = "Create"
     REPLACE = "Replace"
     DELETE = "Delete"
+    RECREATE = "Recreate"
     SYSTEM_OPERATION = "SystemOperation"
 
 
