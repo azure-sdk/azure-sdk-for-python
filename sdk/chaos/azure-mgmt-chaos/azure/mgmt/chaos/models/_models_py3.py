@@ -53,55 +53,6 @@ class Action(_serialization.Model):
         self.name = name
 
 
-class ActionStatus(_serialization.Model):
-    """Model that represents the an action and its status.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar action_name: The name of the action status.
-    :vartype action_name: str
-    :ivar action_id: The id of the action status.
-    :vartype action_id: str
-    :ivar status: The status of the action.
-    :vartype status: str
-    :ivar start_time: String that represents the start time of the action.
-    :vartype start_time: ~datetime.datetime
-    :ivar end_time: String that represents the end time of the action.
-    :vartype end_time: ~datetime.datetime
-    :ivar targets: The array of targets.
-    :vartype targets:
-     list[~azure.mgmt.chaos.models.ExperimentExecutionActionTargetDetailsProperties]
-    """
-
-    _validation = {
-        "action_name": {"readonly": True},
-        "action_id": {"readonly": True},
-        "status": {"readonly": True},
-        "start_time": {"readonly": True},
-        "end_time": {"readonly": True},
-        "targets": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "action_name": {"key": "actionName", "type": "str"},
-        "action_id": {"key": "actionId", "type": "str"},
-        "status": {"key": "status", "type": "str"},
-        "start_time": {"key": "startTime", "type": "iso-8601"},
-        "end_time": {"key": "endTime", "type": "iso-8601"},
-        "targets": {"key": "targets", "type": "[ExperimentExecutionActionTargetDetailsProperties]"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-        self.action_name = None
-        self.action_id = None
-        self.status = None
-        self.start_time = None
-        self.end_time = None
-        self.targets = None
-
-
 class Branch(_serialization.Model):
     """Model that represents a branch in the step.
 
@@ -133,44 +84,6 @@ class Branch(_serialization.Model):
         super().__init__(**kwargs)
         self.name = name
         self.actions = actions
-
-
-class BranchStatus(_serialization.Model):
-    """Model that represents the a list of actions and action statuses.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar branch_name: The name of the branch status.
-    :vartype branch_name: str
-    :ivar branch_id: The id of the branch status.
-    :vartype branch_id: str
-    :ivar status: The status of the branch.
-    :vartype status: str
-    :ivar actions: The array of actions.
-    :vartype actions: list[~azure.mgmt.chaos.models.ActionStatus]
-    """
-
-    _validation = {
-        "branch_name": {"readonly": True},
-        "branch_id": {"readonly": True},
-        "status": {"readonly": True},
-        "actions": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "branch_name": {"key": "branchName", "type": "str"},
-        "branch_id": {"key": "branchId", "type": "str"},
-        "status": {"key": "status", "type": "str"},
-        "actions": {"key": "actions", "type": "[ActionStatus]"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-        self.branch_name = None
-        self.branch_id = None
-        self.status = None
-        self.actions = None
 
 
 class Resource(_serialization.Model):
@@ -762,13 +675,13 @@ class Experiment(TrackedResource):
     :vartype system_data: ~azure.mgmt.chaos.models.SystemData
     :ivar identity: The identity of the experiment resource.
     :vartype identity: ~azure.mgmt.chaos.models.ResourceIdentity
+    :ivar provisioning_state: Most recent provisioning state for the given experiment resource.
+     Known values are: "Succeeded", "Failed", "Canceled", "Creating", "Updating", and "Deleting".
+    :vartype provisioning_state: str or ~azure.mgmt.chaos.models.ProvisioningState
     :ivar steps: List of steps. Required.
     :vartype steps: list[~azure.mgmt.chaos.models.Step]
     :ivar selectors: List of selectors. Required.
     :vartype selectors: list[~azure.mgmt.chaos.models.Selector]
-    :ivar start_on_creation: A boolean value that indicates if experiment should be started on
-     creation or not.
-    :vartype start_on_creation: bool
     """
 
     _validation = {
@@ -777,6 +690,7 @@ class Experiment(TrackedResource):
         "type": {"readonly": True},
         "location": {"required": True},
         "system_data": {"readonly": True},
+        "provisioning_state": {"readonly": True},
         "steps": {"required": True, "min_items": 1},
         "selectors": {"required": True, "min_items": 1},
     }
@@ -789,9 +703,9 @@ class Experiment(TrackedResource):
         "location": {"key": "location", "type": "str"},
         "system_data": {"key": "systemData", "type": "SystemData"},
         "identity": {"key": "identity", "type": "ResourceIdentity"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
         "steps": {"key": "properties.steps", "type": "[Step]"},
         "selectors": {"key": "properties.selectors", "type": "[Selector]"},
-        "start_on_creation": {"key": "properties.startOnCreation", "type": "bool"},
     }
 
     def __init__(
@@ -802,7 +716,6 @@ class Experiment(TrackedResource):
         selectors: List["_models.Selector"],
         tags: Optional[Dict[str, str]] = None,
         identity: Optional["_models.ResourceIdentity"] = None,
-        start_on_creation: Optional[bool] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -816,119 +729,17 @@ class Experiment(TrackedResource):
         :paramtype steps: list[~azure.mgmt.chaos.models.Step]
         :keyword selectors: List of selectors. Required.
         :paramtype selectors: list[~azure.mgmt.chaos.models.Selector]
-        :keyword start_on_creation: A boolean value that indicates if experiment should be started on
-         creation or not.
-        :paramtype start_on_creation: bool
         """
         super().__init__(tags=tags, location=location, **kwargs)
         self.system_data = None
         self.identity = identity
+        self.provisioning_state = None
         self.steps = steps
         self.selectors = selectors
-        self.start_on_creation = start_on_creation
 
 
-class ExperimentCancelOperationResult(_serialization.Model):
-    """Model that represents the result of a cancel Experiment operation.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar name: String of the Experiment name.
-    :vartype name: str
-    :ivar status_url: URL to retrieve the Experiment status.
-    :vartype status_url: str
-    """
-
-    _validation = {
-        "name": {"readonly": True},
-        "status_url": {"readonly": True, "max_length": 2048},
-    }
-
-    _attribute_map = {
-        "name": {"key": "name", "type": "str"},
-        "status_url": {"key": "statusUrl", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-        self.name = None
-        self.status_url = None
-
-
-class ExperimentExecutionActionTargetDetailsError(_serialization.Model):
-    """Model that represents the Experiment action target details error model.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar code: The error code.
-    :vartype code: str
-    :ivar message: The error message.
-    :vartype message: str
-    """
-
-    _validation = {
-        "code": {"readonly": True},
-        "message": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "code": {"key": "code", "type": "str"},
-        "message": {"key": "message", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-
-
-class ExperimentExecutionActionTargetDetailsProperties(_serialization.Model):
-    """Model that represents the Experiment action target details properties model.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar status: The status of the execution.
-    :vartype status: str
-    :ivar target: The target for the action.
-    :vartype target: str
-    :ivar target_failed_time: String that represents the failed date time.
-    :vartype target_failed_time: ~datetime.datetime
-    :ivar target_completed_time: String that represents the completed date time.
-    :vartype target_completed_time: ~datetime.datetime
-    :ivar error: The error of the action.
-    :vartype error: ~azure.mgmt.chaos.models.ExperimentExecutionActionTargetDetailsError
-    """
-
-    _validation = {
-        "status": {"readonly": True},
-        "target": {"readonly": True},
-        "target_failed_time": {"readonly": True},
-        "target_completed_time": {"readonly": True},
-        "error": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "status": {"key": "status", "type": "str"},
-        "target": {"key": "target", "type": "str"},
-        "target_failed_time": {"key": "targetFailedTime", "type": "iso-8601"},
-        "target_completed_time": {"key": "targetCompletedTime", "type": "iso-8601"},
-        "error": {"key": "error", "type": "ExperimentExecutionActionTargetDetailsError"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-        self.status = None
-        self.target = None
-        self.target_failed_time = None
-        self.target_completed_time = None
-        self.error = None
-
-
-class ExperimentExecutionDetails(_serialization.Model):  # pylint: disable=too-many-instance-attributes
-    """Model that represents the execution details of a Experiment.
+class ExperimentExecution(_serialization.Model):
+    """Model that represents the execution of a Experiment.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -940,21 +751,12 @@ class ExperimentExecutionDetails(_serialization.Model):  # pylint: disable=too-m
     :vartype name: str
     :ivar experiment_id: The id of the experiment.
     :vartype experiment_id: str
-    :ivar status: The value of the status of the experiment execution.
+    :ivar status: The status of the execution.
     :vartype status: str
-    :ivar failure_reason: The reason why the execution failed.
-    :vartype failure_reason: str
-    :ivar created_date_time: String that represents the created date time.
-    :vartype created_date_time: ~datetime.datetime
-    :ivar last_action_date_time: String that represents the last action date time.
-    :vartype last_action_date_time: ~datetime.datetime
-    :ivar start_date_time: String that represents the start date time.
-    :vartype start_date_time: ~datetime.datetime
-    :ivar stop_date_time: String that represents the stop date time.
-    :vartype stop_date_time: ~datetime.datetime
-    :ivar run_information: The information of the experiment run.
-    :vartype run_information:
-     ~azure.mgmt.chaos.models.ExperimentExecutionDetailsPropertiesRunInformation
+    :ivar started_at: String that represents the start date time.
+    :vartype started_at: ~datetime.datetime
+    :ivar stopped_at: String that represents the stop date time.
+    :vartype stopped_at: ~datetime.datetime
     """
 
     _validation = {
@@ -963,12 +765,8 @@ class ExperimentExecutionDetails(_serialization.Model):  # pylint: disable=too-m
         "name": {"readonly": True},
         "experiment_id": {"readonly": True},
         "status": {"readonly": True},
-        "failure_reason": {"readonly": True},
-        "created_date_time": {"readonly": True},
-        "last_action_date_time": {"readonly": True},
-        "start_date_time": {"readonly": True},
-        "stop_date_time": {"readonly": True},
-        "run_information": {"readonly": True},
+        "started_at": {"readonly": True},
+        "stopped_at": {"readonly": True},
     }
 
     _attribute_map = {
@@ -977,15 +775,8 @@ class ExperimentExecutionDetails(_serialization.Model):  # pylint: disable=too-m
         "name": {"key": "name", "type": "str"},
         "experiment_id": {"key": "properties.experimentId", "type": "str"},
         "status": {"key": "properties.status", "type": "str"},
-        "failure_reason": {"key": "properties.failureReason", "type": "str"},
-        "created_date_time": {"key": "properties.createdDateTime", "type": "iso-8601"},
-        "last_action_date_time": {"key": "properties.lastActionDateTime", "type": "iso-8601"},
-        "start_date_time": {"key": "properties.startDateTime", "type": "iso-8601"},
-        "stop_date_time": {"key": "properties.stopDateTime", "type": "iso-8601"},
-        "run_information": {
-            "key": "properties.runInformation",
-            "type": "ExperimentExecutionDetailsPropertiesRunInformation",
-        },
+        "started_at": {"key": "properties.startedAt", "type": "iso-8601"},
+        "stopped_at": {"key": "properties.stoppedAt", "type": "iso-8601"},
     }
 
     def __init__(self, **kwargs: Any) -> None:
@@ -996,22 +787,18 @@ class ExperimentExecutionDetails(_serialization.Model):  # pylint: disable=too-m
         self.name = None
         self.experiment_id = None
         self.status = None
-        self.failure_reason = None
-        self.created_date_time = None
-        self.last_action_date_time = None
-        self.start_date_time = None
-        self.stop_date_time = None
-        self.run_information = None
+        self.started_at = None
+        self.stopped_at = None
 
 
-class ExperimentExecutionDetailsListResult(_serialization.Model):
-    """Model that represents a list of Experiment execution details and a link for pagination.
+class ExperimentExecutionListResult(_serialization.Model):
+    """Model that represents a list of Experiment executions and a link for pagination.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar value: List of Experiment execution details.
-    :vartype value: list[~azure.mgmt.chaos.models.ExperimentExecutionDetails]
-    :ivar next_link: URL to retrieve the next page of Experiment execution details.
+    :ivar value: List of Experiment executions.
+    :vartype value: list[~azure.mgmt.chaos.models.ExperimentExecution]
+    :ivar next_link: URL to retrieve the next page of Experiment executions.
     :vartype next_link: str
     """
 
@@ -1021,7 +808,7 @@ class ExperimentExecutionDetailsListResult(_serialization.Model):
     }
 
     _attribute_map = {
-        "value": {"key": "value", "type": "[ExperimentExecutionDetails]"},
+        "value": {"key": "value", "type": "[ExperimentExecution]"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
@@ -1030,29 +817,6 @@ class ExperimentExecutionDetailsListResult(_serialization.Model):
         super().__init__(**kwargs)
         self.value = None
         self.next_link = None
-
-
-class ExperimentExecutionDetailsPropertiesRunInformation(_serialization.Model):
-    """The information of the experiment run.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar steps: The steps of the experiment run.
-    :vartype steps: list[~azure.mgmt.chaos.models.StepStatus]
-    """
-
-    _validation = {
-        "steps": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "steps": {"key": "steps", "type": "[StepStatus]"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-        self.steps = None
 
 
 class ExperimentListResult(_serialization.Model):
@@ -1073,110 +837,6 @@ class ExperimentListResult(_serialization.Model):
 
     _attribute_map = {
         "value": {"key": "value", "type": "[Experiment]"},
-        "next_link": {"key": "nextLink", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
-
-
-class ExperimentStartOperationResult(_serialization.Model):
-    """Model that represents the result of a start Experiment operation.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar name: String of the Experiment name.
-    :vartype name: str
-    :ivar status_url: URL to retrieve the Experiment status.
-    :vartype status_url: str
-    """
-
-    _validation = {
-        "name": {"readonly": True},
-        "status_url": {"readonly": True, "max_length": 2048},
-    }
-
-    _attribute_map = {
-        "name": {"key": "name", "type": "str"},
-        "status_url": {"key": "statusUrl", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-        self.name = None
-        self.status_url = None
-
-
-class ExperimentStatus(_serialization.Model):
-    """Model that represents the status of a Experiment.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar type: String of the resource type.
-    :vartype type: str
-    :ivar id: String of the fully qualified resource ID.
-    :vartype id: str
-    :ivar name: String of the resource name.
-    :vartype name: str
-    :ivar status: String that represents the status of a Experiment.
-    :vartype status: str
-    :ivar created_date_utc: String that represents the created date time of a Experiment.
-    :vartype created_date_utc: ~datetime.datetime
-    :ivar end_date_utc: String that represents the end date time of a Experiment.
-    :vartype end_date_utc: ~datetime.datetime
-    """
-
-    _validation = {
-        "type": {"readonly": True},
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "status": {"readonly": True},
-        "created_date_utc": {"readonly": True},
-        "end_date_utc": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "type": {"key": "type", "type": "str"},
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "status": {"key": "properties.status", "type": "str"},
-        "created_date_utc": {"key": "properties.createdDateUtc", "type": "iso-8601"},
-        "end_date_utc": {"key": "properties.endDateUtc", "type": "iso-8601"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-        self.type = None
-        self.id = None
-        self.name = None
-        self.status = None
-        self.created_date_utc = None
-        self.end_date_utc = None
-
-
-class ExperimentStatusListResult(_serialization.Model):
-    """Model that represents a list of Experiment statuses and a link for pagination.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar value: List of Experiment statuses.
-    :vartype value: list[~azure.mgmt.chaos.models.ExperimentStatus]
-    :ivar next_link: URL to retrieve the next page of Experiment statuses.
-    :vartype next_link: str
-    """
-
-    _validation = {
-        "value": {"readonly": True},
-        "next_link": {"readonly": True, "max_length": 2048},
-    }
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[ExperimentStatus]"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
@@ -1508,6 +1168,66 @@ class OperationListResult(_serialization.Model):
         self.next_link = None
 
 
+class OperationStatus(_serialization.Model):
+    """The status of operation.
+
+    :ivar id: The operation Id.
+    :vartype id: str
+    :ivar name: The operation name.
+    :vartype name: str
+    :ivar start_time: The start time of the operation.
+    :vartype start_time: str
+    :ivar end_time: The end time of the operation.
+    :vartype end_time: str
+    :ivar status: The status of the operation.
+    :vartype status: str
+    :ivar error: The error detail of the operation if any.
+    :vartype error: ~azure.mgmt.chaos.models.ErrorResponse
+    """
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "start_time": {"key": "startTime", "type": "str"},
+        "end_time": {"key": "endTime", "type": "str"},
+        "status": {"key": "status", "type": "str"},
+        "error": {"key": "error", "type": "ErrorResponse"},
+    }
+
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        name: Optional[str] = None,
+        start_time: Optional[str] = None,
+        end_time: Optional[str] = None,
+        status: Optional[str] = None,
+        error: Optional["_models.ErrorResponse"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword id: The operation Id.
+        :paramtype id: str
+        :keyword name: The operation name.
+        :paramtype name: str
+        :keyword start_time: The start time of the operation.
+        :paramtype start_time: str
+        :keyword end_time: The end time of the operation.
+        :paramtype end_time: str
+        :keyword status: The status of the operation.
+        :paramtype status: str
+        :keyword error: The error detail of the operation if any.
+        :paramtype error: ~azure.mgmt.chaos.models.ErrorResponse
+        """
+        super().__init__(**kwargs)
+        self.id = id
+        self.name = name
+        self.start_time = start_time
+        self.end_time = end_time
+        self.status = status
+        self.error = error
+
+
 class QuerySelector(Selector):
     """Model that represents a query selector.
 
@@ -1721,44 +1441,6 @@ class Step(_serialization.Model):
         super().__init__(**kwargs)
         self.name = name
         self.branches = branches
-
-
-class StepStatus(_serialization.Model):
-    """Model that represents the a list of branches and branch statuses.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar step_name: The name of the step.
-    :vartype step_name: str
-    :ivar step_id: The id of the step.
-    :vartype step_id: str
-    :ivar status: The value of the status of the step.
-    :vartype status: str
-    :ivar branches: The array of branches.
-    :vartype branches: list[~azure.mgmt.chaos.models.BranchStatus]
-    """
-
-    _validation = {
-        "step_name": {"readonly": True},
-        "step_id": {"readonly": True},
-        "status": {"readonly": True},
-        "branches": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "step_name": {"key": "stepName", "type": "str"},
-        "step_id": {"key": "stepId", "type": "str"},
-        "status": {"key": "status", "type": "str"},
-        "branches": {"key": "branches", "type": "[BranchStatus]"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-        self.step_name = None
-        self.step_id = None
-        self.status = None
-        self.branches = None
 
 
 class SystemData(_serialization.Model):

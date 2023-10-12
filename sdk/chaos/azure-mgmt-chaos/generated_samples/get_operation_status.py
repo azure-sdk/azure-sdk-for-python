@@ -14,7 +14,7 @@ from azure.mgmt.chaos import ChaosManagementClient
     pip install azure-identity
     pip install azure-mgmt-chaos
 # USAGE
-    python create_or_update_acapability.py
+    python get_operation_status.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,21 +26,16 @@ from azure.mgmt.chaos import ChaosManagementClient
 def main():
     client = ChaosManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="6b052e15-03d3-4f17-b2e1-be7f07588291",
+        subscription_id="613192d7-503f-477a-9cfe-4efc3ee2bd60",
     )
 
-    response = client.capabilities.create_or_update(
-        resource_group_name="exampleRG",
-        parent_provider_namespace="Microsoft.Compute",
-        parent_resource_type="virtualMachines",
-        parent_resource_name="exampleVM",
-        target_name="Microsoft-VirtualMachine",
-        capability_name="Shutdown-1.0",
-        capability={"properties": {}},
+    response = client.operation_statuses.get(
+        location="West US",
+        async_operation_id="713192d7-503f-477a-9cfe-4efc3ee2bd11",
     )
     print(response)
 
 
-# x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2023-04-15-preview/examples/CreateOrUpdateACapability.json
+# x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2023-11-01/examples/GetOperationStatus.json
 if __name__ == "__main__":
     main()

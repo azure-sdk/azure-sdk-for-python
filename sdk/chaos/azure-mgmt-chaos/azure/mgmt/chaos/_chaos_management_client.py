@@ -7,7 +7,7 @@
 # --------------------------------------------------------------------------
 
 from copy import deepcopy
-from typing import Any, TYPE_CHECKING
+from typing import Any, Optional, TYPE_CHECKING
 
 from azure.core.rest import HttpRequest, HttpResponse
 from azure.mgmt.core import ARMPipelineClient
@@ -19,6 +19,7 @@ from .operations import (
     CapabilitiesOperations,
     CapabilityTypesOperations,
     ExperimentsOperations,
+    OperationStatusesOperations,
     Operations,
     TargetTypesOperations,
     TargetsOperations,
@@ -29,7 +30,7 @@ if TYPE_CHECKING:
     from azure.core.credentials import TokenCredential
 
 
-class ChaosManagementClient:  # pylint: disable=client-accepts-api-version-keyword
+class ChaosManagementClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
     """Chaos Management Client.
 
     :ivar capabilities: CapabilitiesOperations operations
@@ -38,6 +39,8 @@ class ChaosManagementClient:  # pylint: disable=client-accepts-api-version-keywo
     :vartype capability_types: azure.mgmt.chaos.operations.CapabilityTypesOperations
     :ivar experiments: ExperimentsOperations operations
     :vartype experiments: azure.mgmt.chaos.operations.ExperimentsOperations
+    :ivar operation_statuses: OperationStatusesOperations operations
+    :vartype operation_statuses: azure.mgmt.chaos.operations.OperationStatusesOperations
     :ivar operations: Operations operations
     :vartype operations: azure.mgmt.chaos.operations.Operations
     :ivar target_types: TargetTypesOperations operations
@@ -48,22 +51,27 @@ class ChaosManagementClient:  # pylint: disable=client-accepts-api-version-keywo
     :type credential: ~azure.core.credentials.TokenCredential
     :param subscription_id: GUID that represents an Azure subscription ID. Required.
     :type subscription_id: str
+    :param expand: The expand expression to apply on the operation. Default value is None.
+    :type expand: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2023-04-15-preview". Note that overriding
-     this default value may result in unsupported behavior.
+    :keyword api_version: Api Version. Default value is "2023-11-01". Note that overriding this
+     default value may result in unsupported behavior.
     :paramtype api_version: str
+    :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
+     Retry-After header is present.
     """
 
     def __init__(
         self,
         credential: "TokenCredential",
         subscription_id: str,
+        expand: Optional[str] = None,
         base_url: str = "https://management.azure.com",
         **kwargs: Any
     ) -> None:
         self._config = ChaosManagementClientConfiguration(
-            credential=credential, subscription_id=subscription_id, **kwargs
+            credential=credential, subscription_id=subscription_id, expand=expand, **kwargs
         )
         self._client: ARMPipelineClient = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
@@ -76,6 +84,9 @@ class ChaosManagementClient:  # pylint: disable=client-accepts-api-version-keywo
             self._client, self._config, self._serialize, self._deserialize
         )
         self.experiments = ExperimentsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.operation_statuses = OperationStatusesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
         self.target_types = TargetTypesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.targets = TargetsOperations(self._client, self._config, self._serialize, self._deserialize)

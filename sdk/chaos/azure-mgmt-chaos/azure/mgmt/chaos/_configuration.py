@@ -6,7 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Any, TYPE_CHECKING
+from typing import Any, Optional, TYPE_CHECKING
 
 from azure.core.configuration import Configuration
 from azure.core.pipeline import policies
@@ -29,14 +29,18 @@ class ChaosManagementClientConfiguration(Configuration):  # pylint: disable=too-
     :type credential: ~azure.core.credentials.TokenCredential
     :param subscription_id: GUID that represents an Azure subscription ID. Required.
     :type subscription_id: str
-    :keyword api_version: Api Version. Default value is "2023-04-15-preview". Note that overriding
-     this default value may result in unsupported behavior.
+    :param expand: The expand expression to apply on the operation. Default value is None.
+    :type expand: str
+    :keyword api_version: Api Version. Default value is "2023-11-01". Note that overriding this
+     default value may result in unsupported behavior.
     :paramtype api_version: str
     """
 
-    def __init__(self, credential: "TokenCredential", subscription_id: str, **kwargs: Any) -> None:
+    def __init__(
+        self, credential: "TokenCredential", subscription_id: str, expand: Optional[str] = None, **kwargs: Any
+    ) -> None:
         super(ChaosManagementClientConfiguration, self).__init__(**kwargs)
-        api_version: str = kwargs.pop("api_version", "2023-04-15-preview")
+        api_version: str = kwargs.pop("api_version", "2023-11-01")
 
         if credential is None:
             raise ValueError("Parameter 'credential' must not be None.")
@@ -45,6 +49,7 @@ class ChaosManagementClientConfiguration(Configuration):  # pylint: disable=too-
 
         self.credential = credential
         self.subscription_id = subscription_id
+        self.expand = expand
         self.api_version = api_version
         self.credential_scopes = kwargs.pop("credential_scopes", ["https://management.azure.com/.default"])
         kwargs.setdefault("sdk_moniker", "mgmt-chaos/{}".format(VERSION))

@@ -7,9 +7,7 @@
 # --------------------------------------------------------------------------
 
 from ._models_py3 import Action
-from ._models_py3 import ActionStatus
 from ._models_py3 import Branch
-from ._models_py3 import BranchStatus
 from ._models_py3 import Capability
 from ._models_py3 import CapabilityListResult
 from ._models_py3 import CapabilityType
@@ -22,16 +20,9 @@ from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorDetail
 from ._models_py3 import ErrorResponse
 from ._models_py3 import Experiment
-from ._models_py3 import ExperimentCancelOperationResult
-from ._models_py3 import ExperimentExecutionActionTargetDetailsError
-from ._models_py3 import ExperimentExecutionActionTargetDetailsProperties
-from ._models_py3 import ExperimentExecutionDetails
-from ._models_py3 import ExperimentExecutionDetailsListResult
-from ._models_py3 import ExperimentExecutionDetailsPropertiesRunInformation
+from ._models_py3 import ExperimentExecution
+from ._models_py3 import ExperimentExecutionListResult
 from ._models_py3 import ExperimentListResult
-from ._models_py3 import ExperimentStartOperationResult
-from ._models_py3 import ExperimentStatus
-from ._models_py3 import ExperimentStatusListResult
 from ._models_py3 import ExperimentUpdate
 from ._models_py3 import Filter
 from ._models_py3 import KeyValuePair
@@ -39,6 +30,7 @@ from ._models_py3 import ListSelector
 from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
 from ._models_py3 import OperationListResult
+from ._models_py3 import OperationStatus
 from ._models_py3 import QuerySelector
 from ._models_py3 import Resource
 from ._models_py3 import ResourceIdentity
@@ -46,7 +38,6 @@ from ._models_py3 import Selector
 from ._models_py3 import SimpleFilter
 from ._models_py3 import SimpleFilterParameters
 from ._models_py3 import Step
-from ._models_py3 import StepStatus
 from ._models_py3 import SystemData
 from ._models_py3 import Target
 from ._models_py3 import TargetListResult
@@ -60,6 +51,7 @@ from ._chaos_management_client_enums import ActionType
 from ._chaos_management_client_enums import CreatedByType
 from ._chaos_management_client_enums import FilterType
 from ._chaos_management_client_enums import Origin
+from ._chaos_management_client_enums import ProvisioningState
 from ._chaos_management_client_enums import ResourceIdentityType
 from ._chaos_management_client_enums import SelectorType
 from ._chaos_management_client_enums import TargetReferenceType
@@ -69,9 +61,7 @@ from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
     "Action",
-    "ActionStatus",
     "Branch",
-    "BranchStatus",
     "Capability",
     "CapabilityListResult",
     "CapabilityType",
@@ -84,16 +74,9 @@ __all__ = [
     "ErrorDetail",
     "ErrorResponse",
     "Experiment",
-    "ExperimentCancelOperationResult",
-    "ExperimentExecutionActionTargetDetailsError",
-    "ExperimentExecutionActionTargetDetailsProperties",
-    "ExperimentExecutionDetails",
-    "ExperimentExecutionDetailsListResult",
-    "ExperimentExecutionDetailsPropertiesRunInformation",
+    "ExperimentExecution",
+    "ExperimentExecutionListResult",
     "ExperimentListResult",
-    "ExperimentStartOperationResult",
-    "ExperimentStatus",
-    "ExperimentStatusListResult",
     "ExperimentUpdate",
     "Filter",
     "KeyValuePair",
@@ -101,6 +84,7 @@ __all__ = [
     "Operation",
     "OperationDisplay",
     "OperationListResult",
+    "OperationStatus",
     "QuerySelector",
     "Resource",
     "ResourceIdentity",
@@ -108,7 +92,6 @@ __all__ = [
     "SimpleFilter",
     "SimpleFilterParameters",
     "Step",
-    "StepStatus",
     "SystemData",
     "Target",
     "TargetListResult",
@@ -121,6 +104,7 @@ __all__ = [
     "CreatedByType",
     "FilterType",
     "Origin",
+    "ProvisioningState",
     "ResourceIdentityType",
     "SelectorType",
     "TargetReferenceType",
