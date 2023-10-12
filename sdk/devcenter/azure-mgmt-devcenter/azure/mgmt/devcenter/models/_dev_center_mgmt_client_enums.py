@@ -16,6 +16,22 @@ class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     INTERNAL = "Internal"
 
 
+class CatalogConnectionState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The connection state of the catalog."""
+
+    CONNECTED = "Connected"
+    DISCONNECTED = "Disconnected"
+
+
+class CatalogResourceValidationStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Catalog resource validation status."""
+
+    UNKNOWN = "Unknown"
+    PENDING = "Pending"
+    SUCCEEDED = "Succeeded"
+    FAILED = "Failed"
+
+
 class CatalogSyncState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The synchronization state of the catalog."""
 
@@ -39,6 +55,14 @@ class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     APPLICATION = "Application"
     MANAGED_IDENTITY = "ManagedIdentity"
     KEY = "Key"
+
+
+class CustomizationTaskInputType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of the input."""
+
+    STRING = "string"
+    NUMBER = "number"
+    BOOLEAN = "boolean"
 
 
 class DomainJoinType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -83,6 +107,14 @@ class HibernateSupport(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ENABLED = "Enabled"
 
 
+class IdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Values can be systemAssignedIdentity or userAssignedIdentity."""
+
+    SYSTEM_ASSIGNED_IDENTITY = "systemAssignedIdentity"
+    USER_ASSIGNED_IDENTITY = "userAssignedIdentity"
+    DELEGATED_RESOURCE_IDENTITY = "delegatedResourceIdentity"
+
+
 class ImageValidationStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Image validation status."""
 
@@ -100,7 +132,9 @@ class LicenseType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class LocalAdminStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """LocalAdminStatus."""
+    """Local Administrator enable or disable status. Indicates whether owners of Dev Boxes are added
+    as local administrators on the Dev Box.
+    """
 
     DISABLED = "Disabled"
     ENABLED = "Enabled"
@@ -125,6 +159,23 @@ class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     USER = "user"
     SYSTEM = "system"
     USER_SYSTEM = "user,system"
+
+
+class ParameterType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of data a parameter accepts."""
+
+    ARRAY = "array"
+    """The parameter accepts an array of values."""
+    BOOLEAN = "boolean"
+    """The parameter accepts a boolean value."""
+    INTEGER = "integer"
+    """The parameter accepts an integer value."""
+    NUMBER = "number"
+    """The parameter accepts a number value."""
+    OBJECT = "object"
+    """The parameter accepts an object value."""
+    STRING = "string"
+    """The parameter accepts a string value."""
 
 
 class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -167,6 +218,15 @@ class ScheduleEnableStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     ENABLED = "Enabled"
     DISABLED = "Disabled"
+
+
+class SingleSignOnStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """SingleSignOn (SSO) enable or disable status. Indicates whether Dev Boxes in the Pool will have
+    SSO enabled or disabled.
+    """
+
+    DISABLED = "Disabled"
+    ENABLED = "Enabled"
 
 
 class SkuTier(str, Enum, metaclass=CaseInsensitiveEnumMeta):
