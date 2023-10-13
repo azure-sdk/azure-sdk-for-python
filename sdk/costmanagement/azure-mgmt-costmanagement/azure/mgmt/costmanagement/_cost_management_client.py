@@ -19,9 +19,12 @@ from .operations import (
     AlertsOperations,
     BenefitRecommendationsOperations,
     BenefitUtilizationSummariesOperations,
+    BudgetsOperations,
+    CostAllocationRulesOperations,
     DimensionsOperations,
     ExportsOperations,
     ForecastOperations,
+    GenerateBenefitUtilizationSummariesReportOperations,
     GenerateCostDetailsReportOperations,
     GenerateDetailedCostReportOperationResultsOperations,
     GenerateDetailedCostReportOperationStatusOperations,
@@ -31,6 +34,7 @@ from .operations import (
     PriceSheetOperations,
     QueryOperations,
     ScheduledActionsOperations,
+    SettingsOperations,
     ViewsOperations,
 )
 
@@ -45,20 +49,21 @@ class CostManagementClient:  # pylint: disable=client-accepts-api-version-keywor
 
     :ivar operations: Operations operations
     :vartype operations: azure.mgmt.costmanagement.operations.Operations
-    :ivar views: ViewsOperations operations
-    :vartype views: azure.mgmt.costmanagement.operations.ViewsOperations
-    :ivar alerts: AlertsOperations operations
-    :vartype alerts: azure.mgmt.costmanagement.operations.AlertsOperations
-    :ivar forecast: ForecastOperations operations
-    :vartype forecast: azure.mgmt.costmanagement.operations.ForecastOperations
-    :ivar dimensions: DimensionsOperations operations
-    :vartype dimensions: azure.mgmt.costmanagement.operations.DimensionsOperations
-    :ivar query: QueryOperations operations
-    :vartype query: azure.mgmt.costmanagement.operations.QueryOperations
-    :ivar generate_reservation_details_report: GenerateReservationDetailsReportOperations
-     operations
-    :vartype generate_reservation_details_report:
-     azure.mgmt.costmanagement.operations.GenerateReservationDetailsReportOperations
+    :ivar cost_allocation_rules: CostAllocationRulesOperations operations
+    :vartype cost_allocation_rules:
+     azure.mgmt.costmanagement.operations.CostAllocationRulesOperations
+    :ivar benefit_recommendations: BenefitRecommendationsOperations operations
+    :vartype benefit_recommendations:
+     azure.mgmt.costmanagement.operations.BenefitRecommendationsOperations
+    :ivar benefit_utilization_summaries: BenefitUtilizationSummariesOperations operations
+    :vartype benefit_utilization_summaries:
+     azure.mgmt.costmanagement.operations.BenefitUtilizationSummariesOperations
+    :ivar generate_benefit_utilization_summaries_report:
+     GenerateBenefitUtilizationSummariesReportOperations operations
+    :vartype generate_benefit_utilization_summaries_report:
+     azure.mgmt.costmanagement.operations.GenerateBenefitUtilizationSummariesReportOperations
+    :ivar budgets: BudgetsOperations operations
+    :vartype budgets: azure.mgmt.costmanagement.operations.BudgetsOperations
     :ivar exports: ExportsOperations operations
     :vartype exports: azure.mgmt.costmanagement.operations.ExportsOperations
     :ivar generate_cost_details_report: GenerateCostDetailsReportOperations operations
@@ -75,21 +80,31 @@ class CostManagementClient:  # pylint: disable=client-accepts-api-version-keywor
      GenerateDetailedCostReportOperationStatusOperations operations
     :vartype generate_detailed_cost_report_operation_status:
      azure.mgmt.costmanagement.operations.GenerateDetailedCostReportOperationStatusOperations
+    :ivar views: ViewsOperations operations
+    :vartype views: azure.mgmt.costmanagement.operations.ViewsOperations
+    :ivar alerts: AlertsOperations operations
+    :vartype alerts: azure.mgmt.costmanagement.operations.AlertsOperations
+    :ivar forecast: ForecastOperations operations
+    :vartype forecast: azure.mgmt.costmanagement.operations.ForecastOperations
+    :ivar dimensions: DimensionsOperations operations
+    :vartype dimensions: azure.mgmt.costmanagement.operations.DimensionsOperations
+    :ivar query: QueryOperations operations
+    :vartype query: azure.mgmt.costmanagement.operations.QueryOperations
+    :ivar generate_reservation_details_report: GenerateReservationDetailsReportOperations
+     operations
+    :vartype generate_reservation_details_report:
+     azure.mgmt.costmanagement.operations.GenerateReservationDetailsReportOperations
     :ivar price_sheet: PriceSheetOperations operations
     :vartype price_sheet: azure.mgmt.costmanagement.operations.PriceSheetOperations
     :ivar scheduled_actions: ScheduledActionsOperations operations
     :vartype scheduled_actions: azure.mgmt.costmanagement.operations.ScheduledActionsOperations
-    :ivar benefit_recommendations: BenefitRecommendationsOperations operations
-    :vartype benefit_recommendations:
-     azure.mgmt.costmanagement.operations.BenefitRecommendationsOperations
-    :ivar benefit_utilization_summaries: BenefitUtilizationSummariesOperations operations
-    :vartype benefit_utilization_summaries:
-     azure.mgmt.costmanagement.operations.BenefitUtilizationSummariesOperations
+    :ivar settings: SettingsOperations operations
+    :vartype settings: azure.mgmt.costmanagement.operations.SettingsOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2022-10-01". Note that overriding this
+    :keyword api_version: Api Version. Default value is "2023-09-01". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -107,14 +122,19 @@ class CostManagementClient:  # pylint: disable=client-accepts-api-version-keywor
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
-        self.views = ViewsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.alerts = AlertsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.forecast = ForecastOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.dimensions = DimensionsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.query = QueryOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.generate_reservation_details_report = GenerateReservationDetailsReportOperations(
+        self.cost_allocation_rules = CostAllocationRulesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.benefit_recommendations = BenefitRecommendationsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.benefit_utilization_summaries = BenefitUtilizationSummariesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.generate_benefit_utilization_summaries_report = GenerateBenefitUtilizationSummariesReportOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.budgets = BudgetsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.exports = ExportsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.generate_cost_details_report = GenerateCostDetailsReportOperations(
             self._client, self._config, self._serialize, self._deserialize
@@ -128,16 +148,19 @@ class CostManagementClient:  # pylint: disable=client-accepts-api-version-keywor
         self.generate_detailed_cost_report_operation_status = GenerateDetailedCostReportOperationStatusOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.views = ViewsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.alerts = AlertsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.forecast = ForecastOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.dimensions = DimensionsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.query = QueryOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.generate_reservation_details_report = GenerateReservationDetailsReportOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.price_sheet = PriceSheetOperations(self._client, self._config, self._serialize, self._deserialize)
         self.scheduled_actions = ScheduledActionsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
-        self.benefit_recommendations = BenefitRecommendationsOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.benefit_utilization_summaries = BenefitUtilizationSummariesOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
+        self.settings = SettingsOperations(self._client, self._config, self._serialize, self._deserialize)
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> HttpResponse:
         """Runs the network request through the client's chained policies.

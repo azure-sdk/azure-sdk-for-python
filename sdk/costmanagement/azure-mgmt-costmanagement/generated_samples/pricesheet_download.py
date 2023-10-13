@@ -28,7 +28,7 @@ def main():
         credential=DefaultAzureCredential(),
     )
 
-    response = client.price_sheet.begin_download(
+    response = client.price_sheet.begin_download_by_invoice(
         billing_account_name="7c05a543-80ff-571e-9f98-1063b3b53cf2:99ad03ad-2d1b-4889-a452-090ad407d25f_2019-05-31",
         billing_profile_name="2USN-TPCD-BG7-TGB",
         invoice_name="T000940677",
@@ -36,6 +36,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/PricesheetDownload.json
+# x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2023-09-01/examples/PricesheetDownload.json
 if __name__ == "__main__":
     main()

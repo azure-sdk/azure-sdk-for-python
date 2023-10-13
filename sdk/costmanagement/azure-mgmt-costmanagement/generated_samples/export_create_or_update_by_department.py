@@ -32,6 +32,8 @@ def main():
         scope="providers/Microsoft.Billing/billingAccounts/12/departments/1234",
         export_name="TestExport",
         parameters={
+            "identity": {"type": "SystemAssigned"},
+            "location": "centralus",
             "properties": {
                 "definition": {
                     "dataSet": {
@@ -54,12 +56,12 @@ def main():
                     "recurrencePeriod": {"from": "2020-06-01T00:00:00Z", "to": "2020-10-31T00:00:00Z"},
                     "status": "Active",
                 },
-            }
+            },
         },
     )
     print(response)
 
 
-# x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportCreateOrUpdateByDepartment.json
+# x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2023-09-01/examples/ExportCreateOrUpdateByDepartment.json
 if __name__ == "__main__":
     main()
