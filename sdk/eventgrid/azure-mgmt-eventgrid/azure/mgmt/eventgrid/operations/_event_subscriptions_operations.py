@@ -30,7 +30,7 @@ from azure.mgmt.core.polling.arm_polling import ARMPolling
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import _convert_request, _format_url_section
+from .._vendor import _convert_request
 
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
@@ -56,7 +56,7 @@ def build_get_delivery_attributes_request(scope: str, event_subscription_name: s
         "eventSubscriptionName": _SERIALIZER.url("event_subscription_name", event_subscription_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -83,7 +83,7 @@ def build_get_request(scope: str, event_subscription_name: str, **kwargs: Any) -
         "eventSubscriptionName": _SERIALIZER.url("event_subscription_name", event_subscription_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -111,7 +111,7 @@ def build_create_or_update_request(scope: str, event_subscription_name: str, **k
         "eventSubscriptionName": _SERIALIZER.url("event_subscription_name", event_subscription_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -137,7 +137,7 @@ def build_delete_request(scope: str, event_subscription_name: str, **kwargs: Any
         "eventSubscriptionName": _SERIALIZER.url("event_subscription_name", event_subscription_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -162,7 +162,7 @@ def build_update_request(scope: str, event_subscription_name: str, **kwargs: Any
         "eventSubscriptionName": _SERIALIZER.url("event_subscription_name", event_subscription_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -191,7 +191,7 @@ def build_get_full_url_request(scope: str, event_subscription_name: str, **kwarg
         "eventSubscriptionName": _SERIALIZER.url("event_subscription_name", event_subscription_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -219,7 +219,7 @@ def build_list_global_by_subscription_request(
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -258,7 +258,7 @@ def build_list_global_by_subscription_for_topic_type_request(
         "topicTypeName": _SERIALIZER.url("topic_type_name", topic_type_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -297,7 +297,7 @@ def build_list_global_by_resource_group_request(
         "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -338,7 +338,7 @@ def build_list_global_by_resource_group_for_topic_type_request(
         "topicTypeName": _SERIALIZER.url("topic_type_name", topic_type_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -372,7 +372,7 @@ def build_list_regional_by_subscription_request(
         "location": _SERIALIZER.url("location", location, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -413,7 +413,7 @@ def build_list_regional_by_resource_group_request(
         "location": _SERIALIZER.url("location", location, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -454,7 +454,7 @@ def build_list_regional_by_subscription_for_topic_type_request(
         "topicTypeName": _SERIALIZER.url("topic_type_name", topic_type_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -497,7 +497,7 @@ def build_list_regional_by_resource_group_for_topic_type_request(
         "topicTypeName": _SERIALIZER.url("topic_type_name", topic_type_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -542,7 +542,7 @@ def build_list_by_resource_request(
         "resourceName": _SERIALIZER.url("resource_name", resource_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -585,7 +585,7 @@ def build_list_by_domain_topic_request(
         "topicName": _SERIALIZER.url("topic_name", topic_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
