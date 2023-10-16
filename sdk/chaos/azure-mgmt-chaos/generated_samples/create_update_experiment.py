@@ -14,7 +14,7 @@ from azure.mgmt.chaos import ChaosManagementClient
     pip install azure-identity
     pip install azure-mgmt-chaos
 # USAGE
-    python create_or_update_aexperiment.py
+    python create_update_experiment.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,13 +29,17 @@ def main():
         subscription_id="6b052e15-03d3-4f17-b2e1-be7f07588291",
     )
 
-    response = client.experiments.create_or_update(
+    response = client.experiments.begin_create_or_update(
         resource_group_name="exampleRG",
         experiment_name="exampleExperiment",
         experiment={
             "identity": {"type": "SystemAssigned"},
             "location": "eastus2euap",
             "properties": {
+                "customerDataStorage": {
+                    "blobContainerName": "azurechaosstudioexperiments",
+                    "storageAccountResourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/exampleRG/providers/Microsoft.Storage/storageAccounts/exampleStorage",
+                },
                 "selectors": [
                     {
                         "id": "selector1",
@@ -69,10 +73,10 @@ def main():
                 ],
             },
         },
-    )
+    ).result()
     print(response)
 
 
-# x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2023-04-15-preview/examples/CreateOrUpdateAExperiment.json
+# x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2023-10-27-preview/examples/CreateUpdateExperiment.json
 if __name__ == "__main__":
     main()
