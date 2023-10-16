@@ -26,7 +26,7 @@ from azure.mgmt.containerservice import ContainerServiceClient
 def main():
     client = ContainerServiceClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subid1",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
     response = client.managed_clusters.begin_create_or_update(
@@ -58,8 +58,7 @@ def main():
                     "defender": {
                         "logAnalyticsWorkspaceResourceId": "/subscriptions/SUB_ID/resourcegroups/RG_NAME/providers/microsoft.operationalinsights/workspaces/WORKSPACE_NAME",
                         "securityMonitoring": {"enabled": True},
-                    },
-                    "workloadIdentity": {"enabled": True},
+                    }
                 },
             },
             "sku": {"name": "Basic", "tier": "Free"},
@@ -69,6 +68,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-07-01/examples/ManagedClustersCreate_SecurityProfile.json
+# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-09-02-preview/examples/ManagedClustersCreate_SecurityProfile.json
 if __name__ == "__main__":
     main()
