@@ -59,6 +59,15 @@ class CrossSubscriptionRestoreState(str, Enum, metaclass=CaseInsensitiveEnumMeta
     PERMANENTLY_DISABLED = "PermanentlyDisabled"
 
 
+class EnhancedSecurityState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """EnhancedSecurityState."""
+
+    INVALID = "Invalid"
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+    ALWAYS_ON = "AlwaysON"
+
+
 class ImmutabilityState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """ImmutabilityState."""
 

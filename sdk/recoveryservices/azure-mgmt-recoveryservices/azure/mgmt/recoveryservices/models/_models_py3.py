@@ -2027,11 +2027,16 @@ class SoftDeleteSettings(_serialization.Model):
     :vartype soft_delete_state: str or ~azure.mgmt.recoveryservices.models.SoftDeleteState
     :ivar soft_delete_retention_period_in_days: Soft delete retention period in days.
     :vartype soft_delete_retention_period_in_days: int
+    :ivar enhanced_security_state: Known values are: "Invalid", "Enabled", "Disabled", and
+     "AlwaysON".
+    :vartype enhanced_security_state: str or
+     ~azure.mgmt.recoveryservices.models.EnhancedSecurityState
     """
 
     _attribute_map = {
         "soft_delete_state": {"key": "softDeleteState", "type": "str"},
         "soft_delete_retention_period_in_days": {"key": "softDeleteRetentionPeriodInDays", "type": "int"},
+        "enhanced_security_state": {"key": "enhancedSecurityState", "type": "str"},
     }
 
     def __init__(
@@ -2039,6 +2044,7 @@ class SoftDeleteSettings(_serialization.Model):
         *,
         soft_delete_state: Optional[Union[str, "_models.SoftDeleteState"]] = None,
         soft_delete_retention_period_in_days: Optional[int] = None,
+        enhanced_security_state: Optional[Union[str, "_models.EnhancedSecurityState"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -2046,10 +2052,15 @@ class SoftDeleteSettings(_serialization.Model):
         :paramtype soft_delete_state: str or ~azure.mgmt.recoveryservices.models.SoftDeleteState
         :keyword soft_delete_retention_period_in_days: Soft delete retention period in days.
         :paramtype soft_delete_retention_period_in_days: int
+        :keyword enhanced_security_state: Known values are: "Invalid", "Enabled", "Disabled", and
+         "AlwaysON".
+        :paramtype enhanced_security_state: str or
+         ~azure.mgmt.recoveryservices.models.EnhancedSecurityState
         """
         super().__init__(**kwargs)
         self.soft_delete_state = soft_delete_state
         self.soft_delete_retention_period_in_days = soft_delete_retention_period_in_days
+        self.enhanced_security_state = enhanced_security_state
 
 
 class SystemData(_serialization.Model):
@@ -2535,6 +2546,9 @@ class VaultProperties(_serialization.Model):  # pylint: disable=too-many-instanc
     :ivar secure_score: Secure Score of Recovery Services Vault. Known values are: "None",
      "Minimum", "Adequate", and "Maximum".
     :vartype secure_score: str or ~azure.mgmt.recoveryservices.models.SecureScoreLevel
+    :ivar resource_guard_operation_requests: ResourceGuardOperationRequests on which LAC check will
+     be performed.
+    :vartype resource_guard_operation_requests: list[str]
     """
 
     _validation = {
@@ -2566,6 +2580,7 @@ class VaultProperties(_serialization.Model):  # pylint: disable=too-many-instanc
         "redundancy_settings": {"key": "redundancySettings", "type": "VaultPropertiesRedundancySettings"},
         "security_settings": {"key": "securitySettings", "type": "SecuritySettings"},
         "secure_score": {"key": "secureScore", "type": "str"},
+        "resource_guard_operation_requests": {"key": "resourceGuardOperationRequests", "type": "[str]"},
     }
 
     def __init__(
@@ -2579,6 +2594,7 @@ class VaultProperties(_serialization.Model):  # pylint: disable=too-many-instanc
         restore_settings: Optional["_models.RestoreSettings"] = None,
         redundancy_settings: Optional["_models.VaultPropertiesRedundancySettings"] = None,
         security_settings: Optional["_models.SecuritySettings"] = None,
+        resource_guard_operation_requests: Optional[List[str]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -2602,6 +2618,9 @@ class VaultProperties(_serialization.Model):  # pylint: disable=too-many-instanc
          ~azure.mgmt.recoveryservices.models.VaultPropertiesRedundancySettings
         :keyword security_settings: Security Settings of the vault.
         :paramtype security_settings: ~azure.mgmt.recoveryservices.models.SecuritySettings
+        :keyword resource_guard_operation_requests: ResourceGuardOperationRequests on which LAC check
+         will be performed.
+        :paramtype resource_guard_operation_requests: list[str]
         """
         super().__init__(**kwargs)
         self.provisioning_state = None
@@ -2619,6 +2638,7 @@ class VaultProperties(_serialization.Model):  # pylint: disable=too-many-instanc
         self.redundancy_settings = redundancy_settings
         self.security_settings = security_settings
         self.secure_score = None
+        self.resource_guard_operation_requests = resource_guard_operation_requests
 
 
 class VaultPropertiesEncryption(_serialization.Model):
