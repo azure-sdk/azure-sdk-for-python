@@ -15,12 +15,7 @@ from azure.mgmt.core import ARMPipelineClient
 from . import models as _models
 from .._serialization import Deserializer, Serializer
 from ._configuration import MonitorManagementClientConfiguration
-from .operations import (
-    AlertRulesOperations,
-    MetricDefinitionsOperations,
-    Operations,
-    ServiceDiagnosticSettingsOperations,
-)
+from .operations import MetricDefinitionsOperations, Operations, ServiceDiagnosticSettingsOperations
 
 if TYPE_CHECKING:
     # pylint: disable=unused-import,ungrouped-imports
@@ -36,28 +31,21 @@ class MonitorManagementClient:  # pylint: disable=client-accepts-api-version-key
     :ivar metric_definitions: MetricDefinitionsOperations operations
     :vartype metric_definitions:
      azure.mgmt.monitor.v2015_07_01.operations.MetricDefinitionsOperations
-    :ivar alert_rules: AlertRulesOperations operations
-    :vartype alert_rules: azure.mgmt.monitor.v2015_07_01.operations.AlertRulesOperations
     :ivar operations: Operations operations
     :vartype operations: azure.mgmt.monitor.v2015_07_01.operations.Operations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
-    :param subscription_id: The ID of the target subscription. Required.
-    :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
+    :keyword api_version: Api Version. Default value is "2015-07-01". Note that overriding this
+     default value may result in unsupported behavior.
+    :paramtype api_version: str
     """
 
     def __init__(
-        self,
-        credential: "TokenCredential",
-        subscription_id: str,
-        base_url: str = "https://management.azure.com",
-        **kwargs: Any
+        self, credential: "TokenCredential", base_url: str = "https://management.azure.com", **kwargs: Any
     ) -> None:
-        self._config = MonitorManagementClientConfiguration(
-            credential=credential, subscription_id=subscription_id, **kwargs
-        )
+        self._config = MonitorManagementClientConfiguration(credential=credential, **kwargs)
         self._client: ARMPipelineClient = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
@@ -65,13 +53,12 @@ class MonitorManagementClient:  # pylint: disable=client-accepts-api-version-key
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
         self.service_diagnostic_settings = ServiceDiagnosticSettingsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2015-07-01"
         )
         self.metric_definitions = MetricDefinitionsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2015-07-01"
         )
-        self.alert_rules = AlertRulesOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
+        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize, "2015-07-01")
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> HttpResponse:
         """Runs the network request through the client's chained policies.
