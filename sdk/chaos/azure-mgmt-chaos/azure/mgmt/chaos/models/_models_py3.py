@@ -18,7 +18,7 @@ if TYPE_CHECKING:
 
 
 class Action(_serialization.Model):
-    """Model that represents the base action model.
+    """Model that represents the base action model. 9 total per experiment.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     ContinuousAction, DelayAction, DiscreteAction
@@ -103,7 +103,7 @@ class ActionStatus(_serialization.Model):
 
 
 class Branch(_serialization.Model):
-    """Model that represents a branch in the step.
+    """Model that represents a branch in the step. 9 total per experiment.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -115,7 +115,7 @@ class Branch(_serialization.Model):
 
     _validation = {
         "name": {"required": True, "min_length": 1},
-        "actions": {"required": True, "min_items": 1},
+        "actions": {"required": True, "max_items": 9, "min_items": 1},
     }
 
     _attribute_map = {
@@ -762,13 +762,13 @@ class Experiment(TrackedResource):
     :vartype system_data: ~azure.mgmt.chaos.models.SystemData
     :ivar identity: The identity of the experiment resource.
     :vartype identity: ~azure.mgmt.chaos.models.ResourceIdentity
+    :ivar provisioning_state: Most recent provisioning state for the given experiment resource.
+     Known values are: "Succeeded", "Failed", "Canceled", "Creating", "Updating", and "Deleting".
+    :vartype provisioning_state: str or ~azure.mgmt.chaos.models.ProvisioningState
     :ivar steps: List of steps. Required.
     :vartype steps: list[~azure.mgmt.chaos.models.Step]
     :ivar selectors: List of selectors. Required.
     :vartype selectors: list[~azure.mgmt.chaos.models.Selector]
-    :ivar start_on_creation: A boolean value that indicates if experiment should be started on
-     creation or not.
-    :vartype start_on_creation: bool
     """
 
     _validation = {
@@ -777,7 +777,8 @@ class Experiment(TrackedResource):
         "type": {"readonly": True},
         "location": {"required": True},
         "system_data": {"readonly": True},
-        "steps": {"required": True, "min_items": 1},
+        "provisioning_state": {"readonly": True},
+        "steps": {"required": True, "max_items": 4, "min_items": 1},
         "selectors": {"required": True, "min_items": 1},
     }
 
@@ -789,9 +790,9 @@ class Experiment(TrackedResource):
         "location": {"key": "location", "type": "str"},
         "system_data": {"key": "systemData", "type": "SystemData"},
         "identity": {"key": "identity", "type": "ResourceIdentity"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "steps": {"key": "properties.steps", "type": "[Step]"},
         "selectors": {"key": "properties.selectors", "type": "[Selector]"},
-        "start_on_creation": {"key": "properties.startOnCreation", "type": "bool"},
     }
 
     def __init__(
@@ -802,7 +803,6 @@ class Experiment(TrackedResource):
         selectors: List["_models.Selector"],
         tags: Optional[Dict[str, str]] = None,
         identity: Optional["_models.ResourceIdentity"] = None,
-        start_on_creation: Optional[bool] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -816,44 +816,13 @@ class Experiment(TrackedResource):
         :paramtype steps: list[~azure.mgmt.chaos.models.Step]
         :keyword selectors: List of selectors. Required.
         :paramtype selectors: list[~azure.mgmt.chaos.models.Selector]
-        :keyword start_on_creation: A boolean value that indicates if experiment should be started on
-         creation or not.
-        :paramtype start_on_creation: bool
         """
         super().__init__(tags=tags, location=location, **kwargs)
         self.system_data = None
         self.identity = identity
+        self.provisioning_state = None
         self.steps = steps
         self.selectors = selectors
-        self.start_on_creation = start_on_creation
-
-
-class ExperimentCancelOperationResult(_serialization.Model):
-    """Model that represents the result of a cancel Experiment operation.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar name: String of the Experiment name.
-    :vartype name: str
-    :ivar status_url: URL to retrieve the Experiment status.
-    :vartype status_url: str
-    """
-
-    _validation = {
-        "name": {"readonly": True},
-        "status_url": {"readonly": True, "max_length": 2048},
-    }
-
-    _attribute_map = {
-        "name": {"key": "name", "type": "str"},
-        "status_url": {"key": "statusUrl", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-        self.name = None
-        self.status_url = None
 
 
 class ExperimentExecutionActionTargetDetailsError(_serialization.Model):
@@ -1081,34 +1050,6 @@ class ExperimentListResult(_serialization.Model):
         super().__init__(**kwargs)
         self.value = None
         self.next_link = None
-
-
-class ExperimentStartOperationResult(_serialization.Model):
-    """Model that represents the result of a start Experiment operation.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar name: String of the Experiment name.
-    :vartype name: str
-    :ivar status_url: URL to retrieve the Experiment status.
-    :vartype status_url: str
-    """
-
-    _validation = {
-        "name": {"readonly": True},
-        "status_url": {"readonly": True, "max_length": 2048},
-    }
-
-    _attribute_map = {
-        "name": {"key": "name", "type": "str"},
-        "status_url": {"key": "statusUrl", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-        self.name = None
-        self.status_url = None
 
 
 class ExperimentStatus(_serialization.Model):
@@ -1350,7 +1291,7 @@ class ListSelector(Selector):
     _validation = {
         "type": {"required": True},
         "id": {"required": True, "min_length": 1},
-        "targets": {"required": True, "min_items": 1},
+        "targets": {"required": True, "max_items": 50, "min_items": 1},
     }
 
     _attribute_map = {
@@ -1506,6 +1447,66 @@ class OperationListResult(_serialization.Model):
         super().__init__(**kwargs)
         self.value = None
         self.next_link = None
+
+
+class OperationStatus(_serialization.Model):
+    """The status of operation.
+
+    :ivar id: The operation Id.
+    :vartype id: str
+    :ivar name: The operation name.
+    :vartype name: str
+    :ivar start_time: The start time of the operation.
+    :vartype start_time: str
+    :ivar end_time: The end time of the operation.
+    :vartype end_time: str
+    :ivar status: The status of the operation.
+    :vartype status: str
+    :ivar error: The error detail of the operation if any.
+    :vartype error: ~azure.mgmt.chaos.models.ErrorResponse
+    """
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "start_time": {"key": "startTime", "type": "str"},
+        "end_time": {"key": "endTime", "type": "str"},
+        "status": {"key": "status", "type": "str"},
+        "error": {"key": "error", "type": "ErrorResponse"},
+    }
+
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        name: Optional[str] = None,
+        start_time: Optional[str] = None,
+        end_time: Optional[str] = None,
+        status: Optional[str] = None,
+        error: Optional["_models.ErrorResponse"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword id: The operation Id.
+        :paramtype id: str
+        :keyword name: The operation name.
+        :paramtype name: str
+        :keyword start_time: The start time of the operation.
+        :paramtype start_time: str
+        :keyword end_time: The end time of the operation.
+        :paramtype end_time: str
+        :keyword status: The status of the operation.
+        :paramtype status: str
+        :keyword error: The error detail of the operation if any.
+        :paramtype error: ~azure.mgmt.chaos.models.ErrorResponse
+        """
+        super().__init__(**kwargs)
+        self.id = id
+        self.name = name
+        self.start_time = start_time
+        self.end_time = end_time
+        self.status = status
+        self.error = error
 
 
 class QuerySelector(Selector):
@@ -1703,7 +1704,7 @@ class Step(_serialization.Model):
 
     _validation = {
         "name": {"required": True, "min_length": 1},
-        "branches": {"required": True, "min_items": 1},
+        "branches": {"required": True, "max_items": 9, "min_items": 1},
     }
 
     _attribute_map = {
