@@ -1,0 +1,5 @@
+additionalDirectories: []
+commit: fc008bfe55989013a1caa064eac5d9dfe8e7a309
+repo: Azure/azure-rest-api-specs
+directory: specification/securitycopilot/TypeSpec
+
