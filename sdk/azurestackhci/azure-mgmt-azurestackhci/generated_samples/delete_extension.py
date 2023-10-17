@@ -29,15 +29,14 @@ def main():
         subscription_id="fd3c3665-1729-4b7b-9a38-238e83b0f98b",
     )
 
-    response = client.extensions.begin_delete(
+    client.extensions.begin_delete(
         resource_group_name="test-rg",
         cluster_name="myCluster",
         arc_setting_name="default",
         extension_name="MicrosoftMonitoringAgent",
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/preview/2021-09-01-preview/examples/DeleteExtension.json
+# x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/preview/2023-08-01-preview/examples/DeleteExtension.json
 if __name__ == "__main__":
     main()
