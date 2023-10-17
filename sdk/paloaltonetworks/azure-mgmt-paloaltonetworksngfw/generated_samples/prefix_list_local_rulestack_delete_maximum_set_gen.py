@@ -36,6 +36,6 @@ def main():
     ).result()
 
 
-# x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/PrefixListLocalRulestack_Delete_MaximumSet_Gen.json
+# x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/preview/2023-10-10-preview/examples/PrefixListLocalRulestack_Delete_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()

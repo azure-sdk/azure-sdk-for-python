@@ -61,6 +61,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/GlobalRulestack_Update_MaximumSet_Gen.json
+# x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/preview/2023-10-10-preview/examples/GlobalRulestack_Update_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()
