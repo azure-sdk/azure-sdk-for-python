@@ -352,6 +352,7 @@ from ._models_py3 import InboundNatRuleListResult
 from ._models_py3 import InboundNatRulePortMapping
 from ._models_py3 import InboundSecurityRule
 from ._models_py3 import InboundSecurityRules
+from ._models_py3 import InternetIngressPublicIpsProperties
 from ._models_py3 import IpAllocation
 from ._models_py3 import IpAllocationListResult
 from ._models_py3 import IpGroup
@@ -1272,6 +1273,7 @@ __all__ = [
     "InboundNatRulePortMapping",
     "InboundSecurityRule",
     "InboundSecurityRules",
+    "InternetIngressPublicIpsProperties",
     "IpAllocation",
     "IpAllocationListResult",
     "IpGroup",

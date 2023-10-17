@@ -19451,6 +19451,26 @@ class InboundSecurityRules(_serialization.Model):
         self.destination_port_range = destination_port_range
 
 
+class InternetIngressPublicIpsProperties(_serialization.Model):
+    """Resource Uri of Public Ip for Standard Load Balancer Frontend End.
+
+    :ivar id: Resource Uri of Public Ip.
+    :vartype id: str
+    """
+
+    _attribute_map = {
+        "id": {"key": "Id", "type": "str"},
+    }
+
+    def __init__(self, *, id: Optional[str] = None, **kwargs: Any) -> None:  # pylint: disable=redefined-builtin
+        """
+        :keyword id: Resource Uri of Public Ip.
+        :paramtype id: str
+        """
+        super().__init__(**kwargs)
+        self.id = id
+
+
 class IPAddressAvailabilityResult(_serialization.Model):
     """Response for CheckIPAddressAvailability API service call.
 
@@ -24561,6 +24581,10 @@ class NetworkVirtualAppliance(Resource):  # pylint: disable=too-many-instance-at
     :ivar additional_nics: Details required for Additional Network Interface.
     :vartype additional_nics:
      list[~azure.mgmt.network.v2023_05_01.models.VirtualApplianceAdditionalNicProperties]
+    :ivar internet_ingress_public_ips: List of Resource Uri of Public IPs for Internet Ingress
+     Scenario.
+    :vartype internet_ingress_public_ips:
+     list[~azure.mgmt.network.v2023_05_01.models.InternetIngressPublicIpsProperties]
     :ivar virtual_appliance_sites: List of references to VirtualApplianceSite.
     :vartype virtual_appliance_sites: list[~azure.mgmt.network.v2023_05_01.models.SubResource]
     :ivar virtual_appliance_connections: List of references to VirtualApplianceConnections.
@@ -24612,6 +24636,10 @@ class NetworkVirtualAppliance(Resource):  # pylint: disable=too-many-instance-at
         "ssh_public_key": {"key": "properties.sshPublicKey", "type": "str"},
         "virtual_appliance_nics": {"key": "properties.virtualApplianceNics", "type": "[VirtualApplianceNicProperties]"},
         "additional_nics": {"key": "properties.additionalNics", "type": "[VirtualApplianceAdditionalNicProperties]"},
+        "internet_ingress_public_ips": {
+            "key": "properties.internetIngressPublicIps",
+            "type": "[InternetIngressPublicIpsProperties]",
+        },
         "virtual_appliance_sites": {"key": "properties.virtualApplianceSites", "type": "[SubResource]"},
         "virtual_appliance_connections": {"key": "properties.virtualApplianceConnections", "type": "[SubResource]"},
         "inbound_security_rules": {"key": "properties.inboundSecurityRules", "type": "[SubResource]"},
@@ -24639,6 +24667,7 @@ class NetworkVirtualAppliance(Resource):  # pylint: disable=too-many-instance-at
         virtual_appliance_asn: Optional[int] = None,
         ssh_public_key: Optional[str] = None,
         additional_nics: Optional[List["_models.VirtualApplianceAdditionalNicProperties"]] = None,
+        internet_ingress_public_ips: Optional[List["_models.InternetIngressPublicIpsProperties"]] = None,
         delegation: Optional["_models.DelegationProperties"] = None,
         partner_managed_resource: Optional["_models.PartnerManagedResourceProperties"] = None,
         **kwargs: Any
@@ -24670,6 +24699,10 @@ class NetworkVirtualAppliance(Resource):  # pylint: disable=too-many-instance-at
         :keyword additional_nics: Details required for Additional Network Interface.
         :paramtype additional_nics:
          list[~azure.mgmt.network.v2023_05_01.models.VirtualApplianceAdditionalNicProperties]
+        :keyword internet_ingress_public_ips: List of Resource Uri of Public IPs for Internet Ingress
+         Scenario.
+        :paramtype internet_ingress_public_ips:
+         list[~azure.mgmt.network.v2023_05_01.models.InternetIngressPublicIpsProperties]
         :keyword delegation: The delegation for the Virtual Appliance.
         :paramtype delegation: ~azure.mgmt.network.v2023_05_01.models.DelegationProperties
         :keyword partner_managed_resource: The delegation for the Virtual Appliance.
@@ -24689,6 +24722,7 @@ class NetworkVirtualAppliance(Resource):  # pylint: disable=too-many-instance-at
         self.ssh_public_key = ssh_public_key
         self.virtual_appliance_nics = None
         self.additional_nics = additional_nics
+        self.internet_ingress_public_ips = internet_ingress_public_ips
         self.virtual_appliance_sites = None
         self.virtual_appliance_connections = None
         self.inbound_security_rules = None

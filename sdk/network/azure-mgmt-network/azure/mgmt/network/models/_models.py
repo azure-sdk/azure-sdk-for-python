@@ -28260,6 +28260,10 @@ class NetworkVirtualAppliance(Resource):  # pylint: disable=too-many-instance-at
     :ivar additional_nics: Details required for Additional Network Interface.
     :vartype additional_nics:
      list[~azure.mgmt.network.models.VirtualApplianceAdditionalNicProperties]
+    :ivar internet_ingress_public_ips: List of Resource Uri of Public IPs for Internet Ingress
+     Scenario.
+    :vartype internet_ingress_public_ips:
+     list[~azure.mgmt.network.models.InternetIngressPublicIpsProperties]
     :ivar virtual_appliance_sites: List of references to VirtualApplianceSite.
     :vartype virtual_appliance_sites: list[~azure.mgmt.network.models.SubResource]
     :ivar virtual_appliance_connections: List of references to VirtualApplianceConnections.
@@ -28311,6 +28315,10 @@ class NetworkVirtualAppliance(Resource):  # pylint: disable=too-many-instance-at
         "ssh_public_key": {"key": "properties.sshPublicKey", "type": "str"},
         "virtual_appliance_nics": {"key": "properties.virtualApplianceNics", "type": "[VirtualApplianceNicProperties]"},
         "additional_nics": {"key": "properties.additionalNics", "type": "[VirtualApplianceAdditionalNicProperties]"},
+        "internet_ingress_public_ips": {
+            "key": "properties.internetIngressPublicIps",
+            "type": "[InternetIngressPublicIpsProperties]",
+        },
         "virtual_appliance_sites": {"key": "properties.virtualApplianceSites", "type": "[SubResource]"},
         "virtual_appliance_connections": {"key": "properties.virtualApplianceConnections", "type": "[SubResource]"},
         "inbound_security_rules": {"key": "properties.inboundSecurityRules", "type": "[SubResource]"},
@@ -28338,6 +28346,7 @@ class NetworkVirtualAppliance(Resource):  # pylint: disable=too-many-instance-at
         virtual_appliance_asn: Optional[int] = None,
         ssh_public_key: Optional[str] = None,
         additional_nics: Optional[List["_models.VirtualApplianceAdditionalNicProperties"]] = None,
+        internet_ingress_public_ips: Optional[List["_models.InternetIngressPublicIpsProperties"]] = None,
         delegation: Optional["_models.DelegationProperties"] = None,
         partner_managed_resource: Optional["_models.PartnerManagedResourceProperties"] = None,
         **kwargs: Any
@@ -28369,6 +28378,10 @@ class NetworkVirtualAppliance(Resource):  # pylint: disable=too-many-instance-at
         :keyword additional_nics: Details required for Additional Network Interface.
         :paramtype additional_nics:
          list[~azure.mgmt.network.models.VirtualApplianceAdditionalNicProperties]
+        :keyword internet_ingress_public_ips: List of Resource Uri of Public IPs for Internet Ingress
+         Scenario.
+        :paramtype internet_ingress_public_ips:
+         list[~azure.mgmt.network.models.InternetIngressPublicIpsProperties]
         :keyword delegation: The delegation for the Virtual Appliance.
         :paramtype delegation: ~azure.mgmt.network.models.DelegationProperties
         :keyword partner_managed_resource: The delegation for the Virtual Appliance.
@@ -28388,6 +28401,7 @@ class NetworkVirtualAppliance(Resource):  # pylint: disable=too-many-instance-at
         self.ssh_public_key = ssh_public_key
         self.virtual_appliance_nics = None
         self.additional_nics = additional_nics
+        self.internet_ingress_public_ips = internet_ingress_public_ips
         self.virtual_appliance_sites = None
         self.virtual_appliance_connections = None
         self.inbound_security_rules = None
@@ -37468,6 +37482,35 @@ class SystemData(_serialization.Model):
         self.last_modified_by_type = last_modified_by_type
         self.last_modified_at = last_modified_at
 
+class UpdateTagsRequest(_serialization.Model):
+    """Update tags request.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Network security perimeter identifier.
+    :vartype id: str
+    :ivar tags: List of tags for Network Security Perimeter.
+    :vartype tags: dict[str, str]
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "tags": {"key": "tags", "type": "{str}"},
+    }
+
+    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
+        """
+        :keyword tags: List of tags for Network Security Perimeter.
+        :paramtype tags: dict[str, str]
+        """
+        super().__init__(**kwargs)
+        self.id = None
+        self.tags = tags
+
 class UserRule(BaseUserRule):  # pylint: disable=too-many-instance-attributes
     """Network security user rule.
 
@@ -41814,6 +41857,25 @@ class IPRule(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.address_prefix = address_prefix
+
+class InternetIngressPublicIpsProperties(_serialization.Model):
+    """Resource Uri of Public Ip for Standard Load Balancer Frontend End.
+
+    :ivar id: Resource Uri of Public Ip.
+    :vartype id: str
+    """
+
+    _attribute_map = {
+        "id": {"key": "Id", "type": "str"},
+    }
+
+    def __init__(self, *, id: Optional[str] = None, **kwargs: Any) -> None:  # pylint: disable=redefined-builtin
+        """
+        :keyword id: Resource Uri of Public Ip.
+        :paramtype id: str
+        """
+        super().__init__(**kwargs)
+        self.id = id
 
 class VirtualNetworkGatewayAutoScaleBounds(_serialization.Model):
     """VirtualNetworkGatewayAutoScaleBounds.
