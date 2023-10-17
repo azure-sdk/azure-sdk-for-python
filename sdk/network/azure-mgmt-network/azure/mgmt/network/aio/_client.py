@@ -170,7 +170,6 @@ from .operations import (
     FirewallPolicyIdpsSignaturesOperations,
     FirewallPolicyIdpsSignaturesOverridesOperations,
     ManagementGroupNetworkManagerConnectionsOperations,
-    NetworkVirtualApplianceConnectionsOperations,
     RouteMapsOperations,
     RoutingIntentOperations,
     ScopeConnectionsOperations,
@@ -178,6 +177,7 @@ from .operations import (
     StaticMembersOperations,
     SubscriptionNetworkManagerConnectionsOperations,
     VipSwapOperations,
+    NetworkVirtualApplianceConnectionsOperations,
     NetworkManagementClientOperationsMixin,
 )
 from .._validation import api_version_validation
@@ -2305,20 +2305,6 @@ class NetworkManagementClient(NetworkManagementClientOperationsMixin, MultiApiCl
     @api_version_validation(
         method_valid_on=['2023-02-01', '2023-04-01', '2023-05-01']
     )
-    def network_virtual_appliance_connections(self):
-        api_version = self._get_api_version("network_virtual_appliance_connections")
-        return NetworkVirtualApplianceConnectionsOperations(
-            self._client,
-            self._config,
-            Serializer(self._models_dict()),
-            Deserializer(self._models_dict()),
-            api_version=api_version,
-        )
-
-    @property
-    @api_version_validation(
-        method_valid_on=['2023-02-01', '2023-04-01', '2023-05-01']
-    )
     def route_maps(self):
         api_version = self._get_api_version("route_maps")
         return RouteMapsOperations(
@@ -2406,6 +2392,20 @@ class NetworkManagementClient(NetworkManagementClientOperationsMixin, MultiApiCl
     def vip_swap(self):
         api_version = self._get_api_version("vip_swap")
         return VipSwapOperations(
+            self._client,
+            self._config,
+            Serializer(self._models_dict()),
+            Deserializer(self._models_dict()),
+            api_version=api_version,
+        )
+
+    @property
+    @api_version_validation(
+        method_valid_on=['2023-05-01']
+    )
+    def network_virtual_appliance_connections(self):
+        api_version = self._get_api_version("network_virtual_appliance_connections")
+        return NetworkVirtualApplianceConnectionsOperations(
             self._client,
             self._config,
             Serializer(self._models_dict()),
