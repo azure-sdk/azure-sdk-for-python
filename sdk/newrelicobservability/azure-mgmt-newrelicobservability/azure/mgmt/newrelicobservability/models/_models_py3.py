@@ -24,7 +24,7 @@ class AccountInfo(_serialization.Model):
     :vartype account_id: str
     :ivar ingestion_key: ingestion key of account.
     :vartype ingestion_key: str
-    :ivar region: NewRelic account region.
+    :ivar region: Region where New Relic account is present.
     :vartype region: str
     """
 
@@ -47,7 +47,7 @@ class AccountInfo(_serialization.Model):
         :paramtype account_id: str
         :keyword ingestion_key: ingestion key of account.
         :paramtype ingestion_key: str
-        :keyword region: NewRelic account region.
+        :keyword region: Region where New Relic account is present.
         :paramtype region: str
         """
         super().__init__(**kwargs)
@@ -157,7 +157,7 @@ class AccountResource(ProxyResource):
     :vartype account_id: str
     :ivar account_name: account name.
     :vartype account_name: str
-    :ivar region: region.
+    :ivar region: Region where New Relic account is present.
     :vartype region: str
     """
 
@@ -195,7 +195,7 @@ class AccountResource(ProxyResource):
         :paramtype account_id: str
         :keyword account_name: account name.
         :paramtype account_name: str
-        :keyword region: region.
+        :keyword region: Region where New Relic account is present.
         :paramtype region: str
         """
         super().__init__(**kwargs)
@@ -363,6 +363,143 @@ class AppServicesListResponse(_serialization.Model):
         :keyword value: The AppServiceInfo items on this page. Required.
         :paramtype value: list[~azure.mgmt.newrelicobservability.models.AppServiceInfo]
         :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class BillingInfoResponse(_serialization.Model):
+    """Marketplace Subscription and Organization details to which resource gets billed into.
+
+    :ivar marketplace_saas_info: Marketplace Subscription details.
+    :vartype marketplace_saas_info: ~azure.mgmt.newrelicobservability.models.MarketplaceSaaSInfo
+    :ivar partner_billing_entity: Partner Billing Entity details: Organization Info.
+    :vartype partner_billing_entity: ~azure.mgmt.newrelicobservability.models.PartnerBillingEntity
+    """
+
+    _attribute_map = {
+        "marketplace_saas_info": {"key": "marketplaceSaasInfo", "type": "MarketplaceSaaSInfo"},
+        "partner_billing_entity": {"key": "partnerBillingEntity", "type": "PartnerBillingEntity"},
+    }
+
+    def __init__(
+        self,
+        *,
+        marketplace_saas_info: Optional["_models.MarketplaceSaaSInfo"] = None,
+        partner_billing_entity: Optional["_models.PartnerBillingEntity"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword marketplace_saas_info: Marketplace Subscription details.
+        :paramtype marketplace_saas_info: ~azure.mgmt.newrelicobservability.models.MarketplaceSaaSInfo
+        :keyword partner_billing_entity: Partner Billing Entity details: Organization Info.
+        :paramtype partner_billing_entity:
+         ~azure.mgmt.newrelicobservability.models.PartnerBillingEntity
+        """
+        super().__init__(**kwargs)
+        self.marketplace_saas_info = marketplace_saas_info
+        self.partner_billing_entity = partner_billing_entity
+
+
+class ConnectedPartnerResourceProperties(_serialization.Model):
+    """Connected Partner Resource Properties.
+
+    :ivar account_name: NewRelic account name.
+    :vartype account_name: str
+    :ivar account_id: NewRelic Account Id.
+    :vartype account_id: str
+    :ivar azure_resource_id: The azure resource Id of the deployment.
+    :vartype azure_resource_id: str
+    :ivar location: The location of the deployment.
+    :vartype location: str
+    """
+
+    _attribute_map = {
+        "account_name": {"key": "accountName", "type": "str"},
+        "account_id": {"key": "accountId", "type": "str"},
+        "azure_resource_id": {"key": "azureResourceId", "type": "str"},
+        "location": {"key": "location", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        account_name: Optional[str] = None,
+        account_id: Optional[str] = None,
+        azure_resource_id: Optional[str] = None,
+        location: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword account_name: NewRelic account name.
+        :paramtype account_name: str
+        :keyword account_id: NewRelic Account Id.
+        :paramtype account_id: str
+        :keyword azure_resource_id: The azure resource Id of the deployment.
+        :paramtype azure_resource_id: str
+        :keyword location: The location of the deployment.
+        :paramtype location: str
+        """
+        super().__init__(**kwargs)
+        self.account_name = account_name
+        self.account_id = account_id
+        self.azure_resource_id = azure_resource_id
+        self.location = location
+
+
+class ConnectedPartnerResourcesListFormat(_serialization.Model):
+    """Connected Partner Resources List Format.
+
+    :ivar properties: Connected Partner Resource Properties.
+    :vartype properties:
+     ~azure.mgmt.newrelicobservability.models.ConnectedPartnerResourceProperties
+    """
+
+    _attribute_map = {
+        "properties": {"key": "properties", "type": "ConnectedPartnerResourceProperties"},
+    }
+
+    def __init__(
+        self, *, properties: Optional["_models.ConnectedPartnerResourceProperties"] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword properties: Connected Partner Resource Properties.
+        :paramtype properties:
+         ~azure.mgmt.newrelicobservability.models.ConnectedPartnerResourceProperties
+        """
+        super().__init__(**kwargs)
+        self.properties = properties
+
+
+class ConnectedPartnerResourcesListResponse(_serialization.Model):
+    """List of all active newrelic deployments.
+
+    :ivar value: Results of a list operation.
+    :vartype value:
+     list[~azure.mgmt.newrelicobservability.models.ConnectedPartnerResourcesListFormat]
+    :ivar next_link: Link to the next set of results, if any.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[ConnectedPartnerResourcesListFormat]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        value: Optional[List["_models.ConnectedPartnerResourcesListFormat"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: Results of a list operation.
+        :paramtype value:
+         list[~azure.mgmt.newrelicobservability.models.ConnectedPartnerResourcesListFormat]
+        :keyword next_link: Link to the next set of results, if any.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
@@ -688,6 +825,63 @@ class ManagedServiceIdentity(_serialization.Model):
         self.tenant_id = None
         self.type = type
         self.user_assigned_identities = user_assigned_identities
+
+
+class MarketplaceSaaSInfo(_serialization.Model):
+    """Marketplace SAAS Info of the resource.
+
+    :ivar marketplace_subscription_id: Marketplace Subscription Id. This is a GUID-formatted
+     string.
+    :vartype marketplace_subscription_id: str
+    :ivar marketplace_subscription_name: Marketplace Subscription Details: SAAS Name.
+    :vartype marketplace_subscription_name: str
+    :ivar marketplace_resource_id: Marketplace Subscription Details: Resource URI.
+    :vartype marketplace_resource_id: str
+    :ivar marketplace_status: Marketplace Subscription Details: SaaS Subscription Status.
+    :vartype marketplace_status: str
+    :ivar billed_azure_subscription_id: The Azure Subscription ID to which the Marketplace
+     Subscription belongs and gets billed into.
+    :vartype billed_azure_subscription_id: str
+    """
+
+    _attribute_map = {
+        "marketplace_subscription_id": {"key": "marketplaceSubscriptionId", "type": "str"},
+        "marketplace_subscription_name": {"key": "marketplaceSubscriptionName", "type": "str"},
+        "marketplace_resource_id": {"key": "marketplaceResourceId", "type": "str"},
+        "marketplace_status": {"key": "marketplaceStatus", "type": "str"},
+        "billed_azure_subscription_id": {"key": "billedAzureSubscriptionId", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        marketplace_subscription_id: Optional[str] = None,
+        marketplace_subscription_name: Optional[str] = None,
+        marketplace_resource_id: Optional[str] = None,
+        marketplace_status: Optional[str] = None,
+        billed_azure_subscription_id: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword marketplace_subscription_id: Marketplace Subscription Id. This is a GUID-formatted
+         string.
+        :paramtype marketplace_subscription_id: str
+        :keyword marketplace_subscription_name: Marketplace Subscription Details: SAAS Name.
+        :paramtype marketplace_subscription_name: str
+        :keyword marketplace_resource_id: Marketplace Subscription Details: Resource URI.
+        :paramtype marketplace_resource_id: str
+        :keyword marketplace_status: Marketplace Subscription Details: SaaS Subscription Status.
+        :paramtype marketplace_status: str
+        :keyword billed_azure_subscription_id: The Azure Subscription ID to which the Marketplace
+         Subscription belongs and gets billed into.
+        :paramtype billed_azure_subscription_id: str
+        """
+        super().__init__(**kwargs)
+        self.marketplace_subscription_id = marketplace_subscription_id
+        self.marketplace_subscription_name = marketplace_subscription_name
+        self.marketplace_resource_id = marketplace_resource_id
+        self.marketplace_status = marketplace_status
+        self.billed_azure_subscription_id = billed_azure_subscription_id
 
 
 class MetricRules(_serialization.Model):
@@ -1609,6 +1803,34 @@ class OrganizationsListResponse(_serialization.Model):
         super().__init__(**kwargs)
         self.value = value
         self.next_link = next_link
+
+
+class PartnerBillingEntity(_serialization.Model):
+    """Partner Billing details associated with the resource.
+
+    :ivar organization_id: The New Relic Organization Id.
+    :vartype organization_id: str
+    :ivar organization_name: The New Relic Organization Name.
+    :vartype organization_name: str
+    """
+
+    _attribute_map = {
+        "organization_id": {"key": "organizationId", "type": "str"},
+        "organization_name": {"key": "organizationName", "type": "str"},
+    }
+
+    def __init__(
+        self, *, organization_id: Optional[str] = None, organization_name: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword organization_id: The New Relic Organization Id.
+        :paramtype organization_id: str
+        :keyword organization_name: The New Relic Organization Name.
+        :paramtype organization_name: str
+        """
+        super().__init__(**kwargs)
+        self.organization_id = organization_id
+        self.organization_name = organization_name
 
 
 class PlanData(_serialization.Model):

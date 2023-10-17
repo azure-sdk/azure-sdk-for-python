@@ -13,6 +13,10 @@ from ._models_py3 import AppServiceInfo
 from ._models_py3 import AppServicesGetParameter
 from ._models_py3 import AppServicesGetRequest
 from ._models_py3 import AppServicesListResponse
+from ._models_py3 import BillingInfoResponse
+from ._models_py3 import ConnectedPartnerResourceProperties
+from ._models_py3 import ConnectedPartnerResourcesListFormat
+from ._models_py3 import ConnectedPartnerResourcesListResponse
 from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorDetail
 from ._models_py3 import ErrorResponse
@@ -21,6 +25,7 @@ from ._models_py3 import HostsGetParameter
 from ._models_py3 import HostsGetRequest
 from ._models_py3 import LogRules
 from ._models_py3 import ManagedServiceIdentity
+from ._models_py3 import MarketplaceSaaSInfo
 from ._models_py3 import MetricRules
 from ._models_py3 import MetricsRequest
 from ._models_py3 import MetricsRequestParameter
@@ -40,6 +45,7 @@ from ._models_py3 import OperationListResult
 from ._models_py3 import OrganizationInfo
 from ._models_py3 import OrganizationResource
 from ._models_py3 import OrganizationsListResponse
+from ._models_py3 import PartnerBillingEntity
 from ._models_py3 import PlanData
 from ._models_py3 import PlanDataListResponse
 from ._models_py3 import PlanDataResource
@@ -91,6 +97,10 @@ __all__ = [
     "AppServicesGetParameter",
     "AppServicesGetRequest",
     "AppServicesListResponse",
+    "BillingInfoResponse",
+    "ConnectedPartnerResourceProperties",
+    "ConnectedPartnerResourcesListFormat",
+    "ConnectedPartnerResourcesListResponse",
     "ErrorAdditionalInfo",
     "ErrorDetail",
     "ErrorResponse",
@@ -99,6 +109,7 @@ __all__ = [
     "HostsGetRequest",
     "LogRules",
     "ManagedServiceIdentity",
+    "MarketplaceSaaSInfo",
     "MetricRules",
     "MetricsRequest",
     "MetricsRequestParameter",
@@ -118,6 +129,7 @@ __all__ = [
     "OrganizationInfo",
     "OrganizationResource",
     "OrganizationsListResponse",
+    "PartnerBillingEntity",
     "PlanData",
     "PlanDataListResponse",
     "PlanDataResource",

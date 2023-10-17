@@ -11,6 +11,8 @@ from ._accounts_operations import AccountsOperations
 from ._monitors_operations import MonitorsOperations
 from ._organizations_operations import OrganizationsOperations
 from ._plans_operations import PlansOperations
+from ._billing_info_operations import BillingInfoOperations
+from ._connected_partner_resources_operations import ConnectedPartnerResourcesOperations
 from ._tag_rules_operations import TagRulesOperations
 
 from ._patch import __all__ as _patch_all
@@ -23,6 +25,8 @@ __all__ = [
     "MonitorsOperations",
     "OrganizationsOperations",
     "PlansOperations",
+    "BillingInfoOperations",
+    "ConnectedPartnerResourcesOperations",
     "TagRulesOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])

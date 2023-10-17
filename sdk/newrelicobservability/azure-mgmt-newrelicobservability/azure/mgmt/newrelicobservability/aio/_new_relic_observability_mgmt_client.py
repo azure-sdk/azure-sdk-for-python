@@ -17,6 +17,8 @@ from .._serialization import Deserializer, Serializer
 from ._configuration import NewRelicObservabilityMgmtClientConfiguration
 from .operations import (
     AccountsOperations,
+    BillingInfoOperations,
+    ConnectedPartnerResourcesOperations,
     MonitorsOperations,
     Operations,
     OrganizationsOperations,
@@ -29,7 +31,7 @@ if TYPE_CHECKING:
     from azure.core.credentials_async import AsyncTokenCredential
 
 
-class NewRelicObservabilityMgmtClient:  # pylint: disable=client-accepts-api-version-keyword
+class NewRelicObservabilityMgmtClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
     """NewRelicObservabilityMgmtClient.
 
     :ivar operations: Operations operations
@@ -42,6 +44,11 @@ class NewRelicObservabilityMgmtClient:  # pylint: disable=client-accepts-api-ver
     :vartype organizations: azure.mgmt.newrelicobservability.aio.operations.OrganizationsOperations
     :ivar plans: PlansOperations operations
     :vartype plans: azure.mgmt.newrelicobservability.aio.operations.PlansOperations
+    :ivar billing_info: BillingInfoOperations operations
+    :vartype billing_info: azure.mgmt.newrelicobservability.aio.operations.BillingInfoOperations
+    :ivar connected_partner_resources: ConnectedPartnerResourcesOperations operations
+    :vartype connected_partner_resources:
+     azure.mgmt.newrelicobservability.aio.operations.ConnectedPartnerResourcesOperations
     :ivar tag_rules: TagRulesOperations operations
     :vartype tag_rules: azure.mgmt.newrelicobservability.aio.operations.TagRulesOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
@@ -50,8 +57,8 @@ class NewRelicObservabilityMgmtClient:  # pylint: disable=client-accepts-api-ver
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2022-07-01". Note that overriding this
-     default value may result in unsupported behavior.
+    :keyword api_version: Api Version. Default value is "2023-10-01-preview". Note that overriding
+     this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
      Retry-After header is present.
@@ -78,6 +85,10 @@ class NewRelicObservabilityMgmtClient:  # pylint: disable=client-accepts-api-ver
         self.monitors = MonitorsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.organizations = OrganizationsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.plans = PlansOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.billing_info = BillingInfoOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.connected_partner_resources = ConnectedPartnerResourcesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.tag_rules = TagRulesOperations(self._client, self._config, self._serialize, self._deserialize)
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> Awaitable[AsyncHttpResponse]:
