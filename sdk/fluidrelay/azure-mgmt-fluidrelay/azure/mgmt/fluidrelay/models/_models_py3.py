@@ -8,7 +8,7 @@
 # --------------------------------------------------------------------------
 
 import datetime
-from typing import Dict, List, Optional, TYPE_CHECKING, Union
+from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
 from .. import _serialization
 
@@ -48,8 +48,8 @@ class CustomerManagedKeyEncryptionProperties(_serialization.Model):
             "_models.CustomerManagedKeyEncryptionPropertiesKeyEncryptionKeyIdentity"
         ] = None,
         key_encryption_key_url: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword key_encryption_key_identity: All identity configuration for Customer-managed key
          settings defining which identity should be used to auth to Key Vault.
@@ -69,7 +69,8 @@ class CustomerManagedKeyEncryptionProperties(_serialization.Model):
 
 
 class CustomerManagedKeyEncryptionPropertiesKeyEncryptionKeyIdentity(_serialization.Model):
-    """All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault.
+    """All identity configuration for Customer-managed key settings defining which identity should be
+    used to auth to Key Vault.
 
     :ivar identity_type: Values can be SystemAssigned or UserAssigned. Known values are:
      "SystemAssigned" and "UserAssigned".
@@ -92,8 +93,8 @@ class CustomerManagedKeyEncryptionPropertiesKeyEncryptionKeyIdentity(_serializat
         *,
         identity_type: Optional[Union[str, "_models.CmkIdentityType"]] = None,
         user_assigned_identity_resource_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword identity_type: Values can be SystemAssigned or UserAssigned. Known values are:
          "SystemAssigned" and "UserAssigned".
@@ -130,8 +131,8 @@ class EncryptionProperties(_serialization.Model):
         self,
         *,
         customer_managed_key_encryption: Optional["_models.CustomerManagedKeyEncryptionProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword customer_managed_key_encryption: All Customer-managed key encryption properties for
          the resource.
@@ -163,7 +164,7 @@ class ErrorAdditionalInfo(_serialization.Model):
         "info": {"key": "info", "type": "object"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.type = None
@@ -203,7 +204,7 @@ class ErrorDetail(_serialization.Model):
         "additional_info": {"key": "additionalInfo", "type": "[ErrorAdditionalInfo]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.code = None
@@ -214,7 +215,8 @@ class ErrorDetail(_serialization.Model):
 
 
 class ErrorResponse(_serialization.Model):
-    """Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.).
+    """Common error response for all Azure Resource Manager APIs to return error details for failed
+    operations. (This also follows the OData error response format.).
 
     :ivar error: The error object.
     :vartype error: ~azure.mgmt.fluidrelay.models.ErrorDetail
@@ -224,7 +226,7 @@ class ErrorResponse(_serialization.Model):
         "error": {"key": "error", "type": "ErrorDetail"},
     }
 
-    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs):
+    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs: Any) -> None:
         """
         :keyword error: The error object.
         :paramtype error: ~azure.mgmt.fluidrelay.models.ErrorDetail
@@ -260,7 +262,7 @@ class Resource(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -269,7 +271,8 @@ class Resource(_serialization.Model):
 
 
 class ProxyResource(Resource):
-    """The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location.
+    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
+    tags and a location.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -295,7 +298,7 @@ class ProxyResource(Resource):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
 
@@ -353,7 +356,7 @@ class FluidRelayContainer(ProxyResource):
         "last_access_time": {"key": "properties.lastAccessTime", "type": "iso-8601"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.system_data = None
@@ -384,7 +387,7 @@ class FluidRelayContainerList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.FluidRelayContainer"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.FluidRelayContainer"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: A sequence of FluidRelay containers.
         :paramtype value: list[~azure.mgmt.fluidrelay.models.FluidRelayContainer]
@@ -419,7 +422,7 @@ class FluidRelayEndpoints(_serialization.Model):
         "service_endpoints": {"key": "serviceEndpoints", "type": "[str]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.orderer_endpoints = None
@@ -428,7 +431,8 @@ class FluidRelayEndpoints(_serialization.Model):
 
 
 class TrackedResource(Resource):
-    """The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'.
+    """The resource model definition for an Azure Resource Manager tracked top level resource which
+    has 'tags' and a 'location'.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -463,7 +467,7 @@ class TrackedResource(Resource):
         "location": {"key": "location", "type": "str"},
     }
 
-    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -547,8 +551,8 @@ class FluidRelayServer(TrackedResource):  # pylint: disable=too-many-instance-at
         provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None,
         encryption: Optional["_models.EncryptionProperties"] = None,
         storagesku: Optional[Union[str, "_models.StorageSKU"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -596,7 +600,7 @@ class FluidRelayServerKeys(_serialization.Model):
         "key2": {"key": "key2", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.key1 = None
@@ -623,7 +627,9 @@ class FluidRelayServerList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: List["_models.FluidRelayServer"], next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: List["_models.FluidRelayServer"], next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: A sequence of FluidRelay servers. Required.
         :paramtype value: list[~azure.mgmt.fluidrelay.models.FluidRelayServer]
@@ -662,8 +668,8 @@ class FluidRelayServerUpdate(_serialization.Model):
         identity: Optional["_models.Identity"] = None,
         location: Optional[str] = None,
         encryption: Optional["_models.EncryptionProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -715,8 +721,8 @@ class Identity(_serialization.Model):
         *,
         type: Optional[Union[str, "_models.ResourceIdentityType"]] = None,
         user_assigned_identities: Optional[Dict[str, "_models.UserAssignedIdentitiesValue"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword type: The identity type. Known values are: "SystemAssigned", "UserAssigned",
          "SystemAssigned, UserAssigned", and "None".
@@ -759,8 +765,8 @@ class OperationDisplay(_serialization.Model):
         resource: Optional[str] = None,
         operation: Optional[str] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword provider: Service provider: Microsoft.FluidRelay.
         :paramtype provider: str
@@ -793,8 +799,8 @@ class OperationListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.OperationResult"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.OperationResult"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: List of FluidRelay operations supported by the Microsoft.FluidRelay provider.
         :paramtype value: list[~azure.mgmt.fluidrelay.models.OperationResult]
@@ -829,8 +835,8 @@ class OperationResult(_serialization.Model):
         name: Optional[str] = None,
         display: Optional["_models.OperationDisplay"] = None,
         is_data_action: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Operation name: {provider}/{resource}/{operation}.
         :paramtype name: str
@@ -862,7 +868,7 @@ class RegenerateKeyRequest(_serialization.Model):
         "key_name": {"key": "keyName", "type": "str"},
     }
 
-    def __init__(self, *, key_name: Union[str, "_models.KeyName"], **kwargs):
+    def __init__(self, *, key_name: Union[str, "_models.KeyName"], **kwargs: Any) -> None:
         """
         :keyword key_name: The key to regenerate. Required. Known values are: "key1" and "key2".
         :paramtype key_name: str or ~azure.mgmt.fluidrelay.models.KeyName
@@ -908,8 +914,8 @@ class SystemData(_serialization.Model):
         last_modified_by: Optional[str] = None,
         last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
         last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword created_by: The identity that created the resource.
         :paramtype created_by: str
@@ -956,7 +962,7 @@ class UserAssignedIdentitiesValue(_serialization.Model):
         "client_id": {"key": "clientId", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.principal_id = None
