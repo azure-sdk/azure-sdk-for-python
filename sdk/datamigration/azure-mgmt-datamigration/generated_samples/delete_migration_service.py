@@ -29,11 +29,10 @@ def main():
         subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.sql_migration_services.begin_delete(
+    client.sql_migration_services.begin_delete(
         resource_group_name="testrg",
         sql_migration_service_name="service1",
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2022-03-30-preview/examples/DeleteMigrationService.json
