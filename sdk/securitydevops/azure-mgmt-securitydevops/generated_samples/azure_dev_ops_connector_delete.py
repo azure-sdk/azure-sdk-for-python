@@ -29,11 +29,10 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.azure_dev_ops_connector.begin_delete(
+    client.azure_dev_ops_connector.begin_delete(
         resource_group_name="westusrg",
         azure_dev_ops_connector_name="testconnector",
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/securitydevops/resource-manager/Microsoft.SecurityDevOps/preview/2022-09-01-preview/examples/AzureDevOpsConnectorDelete.json
