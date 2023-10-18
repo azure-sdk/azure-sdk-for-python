@@ -1,6 +1,6 @@
 {
     "chosen_version": "2015-04-01",
-    "total_api_version_list": ["2014-04-01", "2015-04-01"],
+    "total_api_version_list": ["2015-04-01"],
     "client": {
         "name": "MonitorManagementClient",
         "filename": "_monitor_management_client",
@@ -109,7 +109,6 @@
         "autoscale_settings": "AutoscaleSettingsOperations",
         "event_categories": "EventCategoriesOperations",
         "operations": "Operations",
-        "tenant_activity_logs": "TenantActivityLogsOperations",
-        "alert_rules": "AlertRulesOperations"
+        "tenant_activity_logs": "TenantActivityLogsOperations"
     }
 }
