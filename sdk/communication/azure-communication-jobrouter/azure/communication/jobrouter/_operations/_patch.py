@@ -33,7 +33,9 @@ else:
     from typing_extensions import Literal  # type: ignore  # pylint: disable=ungrouped-imports
 
 
-class JobRouterAdministrationClientOperationsMixin(JobRouterAdministrationClientOperationsMixinGenerated):  # pylint:disable=too-many-lines,line-too-long,name-too-long
+class JobRouterAdministrationClientOperationsMixin(
+    JobRouterAdministrationClientOperationsMixinGenerated
+):  # pylint:disable=too-many-lines,line-too-long,name-too-long
     # region ExceptionPolicy
     @distributed_trace
     def create_exception_policy(
@@ -80,11 +82,11 @@ class JobRouterAdministrationClientOperationsMixin(JobRouterAdministrationClient
             raise ValueError("id cannot be None.")
 
         return super().upsert_exception_policy(
-            id = id,
-            resource = exception_policy,
-            if_unmodified_since = if_unmodified_since,
-            etag = etag,
-            match_condition = match_condition,
+            id=id,
+            resource=exception_policy,
+            if_unmodified_since=if_unmodified_since,
+            etag=etag,
+            match_condition=match_condition,
             **kwargs
         )
 
@@ -210,25 +212,22 @@ class JobRouterAdministrationClientOperationsMixin(JobRouterAdministrationClient
             exception_rules=kwargs.pop("exception_rules", exception_policy.exception_rules),
         )
 
-        if_unmodified_since = kwargs.pop('if_unmodified_since', None)
-        etag = kwargs.pop('etag', None)
-        match_condition = kwargs.pop('match_condition', None)
+        if_unmodified_since = kwargs.pop("if_unmodified_since", None)
+        etag = kwargs.pop("etag", None)
+        match_condition = kwargs.pop("match_condition", None)
 
         return super().upsert_exception_policy(
             id=id,
             resource=patch,
-            if_unmodified_since = if_unmodified_since,
-            etag = etag,
-            match_condition = match_condition,
+            if_unmodified_since=if_unmodified_since,
+            etag=etag,
+            match_condition=match_condition,
             **kwargs
         )
 
     @distributed_trace
     def list_exception_policies(
-            self,
-            *,
-            results_per_page: Optional[int] = None,
-            **kwargs: Any
+        self, *, results_per_page: Optional[int] = None, **kwargs: Any
     ) -> Iterable[_models.ExceptionPolicyItem]:
         """Retrieves existing exception policies.
 
@@ -256,10 +255,7 @@ class JobRouterAdministrationClientOperationsMixin(JobRouterAdministrationClient
                 :dedent: 8
                 :caption: Using a JobRouterAdministrationClient to list exception policies in batches
         """
-        return super().list_exception_policies(
-            maxpagesize = results_per_page,
-            **kwargs
-        )
+        return super().list_exception_policies(maxpagesize=results_per_page, **kwargs)
 
     # endregion ExceptionPolicy
 
@@ -311,9 +307,9 @@ class JobRouterAdministrationClientOperationsMixin(JobRouterAdministrationClient
         return super().upsert_distribution_policy(
             id=id,
             resource=distribution_policy,
-            if_unmodified_since = if_unmodified_since,
-            etag = etag,
-            match_condition = match_condition,
+            if_unmodified_since=if_unmodified_since,
+            etag=etag,
+            match_condition=match_condition,
             **kwargs
         )
 
@@ -450,25 +446,22 @@ class JobRouterAdministrationClientOperationsMixin(JobRouterAdministrationClient
             mode=kwargs.pop("mode", distribution_policy.mode),
         )
 
-        if_unmodified_since = kwargs.pop('if_unmodified_since', None)
-        etag = kwargs.pop('etag', None)
-        match_condition = kwargs.pop('match_condition', None)
+        if_unmodified_since = kwargs.pop("if_unmodified_since", None)
+        etag = kwargs.pop("etag", None)
+        match_condition = kwargs.pop("match_condition", None)
 
         return super().upsert_distribution_policy(
             id=id,
             resource=patch,
-            if_unmodified_since = if_unmodified_since,
-            etag = etag,
-            match_condition = match_condition,
+            if_unmodified_since=if_unmodified_since,
+            etag=etag,
+            match_condition=match_condition,
             **kwargs
         )
 
     @distributed_trace
     def list_distribution_policies(
-            self,
-            *,
-            results_per_page: Optional[int] = None,
-            **kwargs: Any
+        self, *, results_per_page: Optional[int] = None, **kwargs: Any
     ) -> Iterable[_models.DistributionPolicyItem]:
         """Retrieves existing distribution policies.
 
@@ -496,10 +489,7 @@ class JobRouterAdministrationClientOperationsMixin(JobRouterAdministrationClient
                 :dedent: 8
                 :caption: Use a JobRouterAdministrationClient to list distribution policies in batches
         """
-        return super().list_distribution_policies(
-            maxpagesize = results_per_page,
-            **kwargs
-        )
+        return super().list_distribution_policies(maxpagesize=results_per_page, **kwargs)
 
     # endregion DistributionPolicy
 
@@ -551,9 +541,9 @@ class JobRouterAdministrationClientOperationsMixin(JobRouterAdministrationClient
         return super().upsert_queue(
             id=id,
             resource=queue,
-            if_unmodified_since = if_unmodified_since,
-            etag = etag,
-            match_condition = match_condition,
+            if_unmodified_since=if_unmodified_since,
+            etag=etag,
+            match_condition=match_condition,
             **kwargs
         )
 
@@ -692,25 +682,22 @@ class JobRouterAdministrationClientOperationsMixin(JobRouterAdministrationClient
             exception_policy_id=kwargs.pop("exception_policy_id", queue.exception_policy_id),
         )
 
-        if_unmodified_since = kwargs.pop('if_unmodified_since', None)
-        etag = kwargs.pop('etag', None)
-        match_condition = kwargs.pop('match_condition', None)
+        if_unmodified_since = kwargs.pop("if_unmodified_since", None)
+        etag = kwargs.pop("etag", None)
+        match_condition = kwargs.pop("match_condition", None)
 
         return super().upsert_queue(
             id=id,
             resource=patch,
-            if_unmodified_since = if_unmodified_since,
-            etag = etag,
-            match_condition = match_condition,
+            if_unmodified_since=if_unmodified_since,
+            etag=etag,
+            match_condition=match_condition,
             **kwargs
         )
 
     @distributed_trace
     def list_queues(
-            self,
-            *,
-            results_per_page: Optional[int] = None,
-            **kwargs: Any
+        self, *, results_per_page: Optional[int] = None, **kwargs: Any
     ) -> Iterable[_models.RouterQueueItem]:
         """Retrieves existing queues.
 
@@ -738,10 +725,7 @@ class JobRouterAdministrationClientOperationsMixin(JobRouterAdministrationClient
                 :dedent: 8
                 :caption: Use a JobRouterAdministrationClient to list queues in batches
         """
-        return super().list_queues(
-            maxpagesize = results_per_page,
-            **kwargs
-        )
+        return super().list_queues(maxpagesize=results_per_page, **kwargs)
 
     # endregion Queue
 
@@ -793,9 +777,9 @@ class JobRouterAdministrationClientOperationsMixin(JobRouterAdministrationClient
         return super().upsert_classification_policy(
             id=id,
             resource=classification_policy,
-            if_unmodified_since = if_unmodified_since,
-            etag = etag,
-            match_condition = match_condition,
+            if_unmodified_since=if_unmodified_since,
+            etag=etag,
+            match_condition=match_condition,
             **kwargs
         )
 
@@ -993,25 +977,22 @@ class JobRouterAdministrationClientOperationsMixin(JobRouterAdministrationClient
             worker_selectors=kwargs.pop("worker_selectors", classification_policy.worker_selectors),
         )
 
-        if_unmodified_since = kwargs.pop('if_unmodified_since', None)
-        etag = kwargs.pop('etag', None)
-        match_condition = kwargs.pop('match_condition', None)
+        if_unmodified_since = kwargs.pop("if_unmodified_since", None)
+        etag = kwargs.pop("etag", None)
+        match_condition = kwargs.pop("match_condition", None)
 
         return super().upsert_classification_policy(
             id=id,
             resource=patch,
-            if_unmodified_since = if_unmodified_since,
-            etag = etag,
-            match_condition = match_condition,
+            if_unmodified_since=if_unmodified_since,
+            etag=etag,
+            match_condition=match_condition,
             **kwargs
         )
 
     @distributed_trace
     def list_classification_policies(
-            self,
-            *,
-            results_per_page: Optional[int] = None,
-            **kwargs: Any
+        self, *, results_per_page: Optional[int] = None, **kwargs: Any
     ) -> Iterable[_models.ClassificationPolicyItem]:
         """Retrieves existing classification policies.
 
@@ -1039,9 +1020,7 @@ class JobRouterAdministrationClientOperationsMixin(JobRouterAdministrationClient
                 :dedent: 8
                 :caption: Use a JobRouterAdministrationClient to list classification policies in batches
         """
-        return super().list_classification_policies(
-            maxpagesize = results_per_page,
-            **kwargs)
+        return super().list_classification_policies(maxpagesize=results_per_page, **kwargs)
 
     # endregion ClassificationPolicy
 
@@ -1095,9 +1074,9 @@ class JobRouterClientOperationsMixin(JobRouterClientOperationsMixinGenerated):
         return super().upsert_worker(
             worker_id=worker_id,
             resource=router_worker,
-            if_unmodified_since = if_unmodified_since,
-            etag = etag,
-            match_condition = match_condition,
+            if_unmodified_since=if_unmodified_since,
+            etag=etag,
+            match_condition=match_condition,
             **kwargs
         )
 
@@ -1278,29 +1257,29 @@ class JobRouterClientOperationsMixin(JobRouterClientOperationsMixinGenerated):
             available_for_offers=kwargs.pop("available_for_offers", router_worker.available_for_offers),
         )
 
-        if_unmodified_since = kwargs.pop('if_unmodified_since', None)
-        etag = kwargs.pop('etag', None)
-        match_condition = kwargs.pop('match_condition', None)
+        if_unmodified_since = kwargs.pop("if_unmodified_since", None)
+        etag = kwargs.pop("etag", None)
+        match_condition = kwargs.pop("match_condition", None)
 
         return super().upsert_worker(
             worker_id=worker_id,
             resource=patch,
-            if_unmodified_since = if_unmodified_since,
-            etag = etag,
-            match_condition = match_condition,
+            if_unmodified_since=if_unmodified_since,
+            etag=etag,
+            match_condition=match_condition,
             **kwargs
         )
 
     @distributed_trace
     def list_workers(
-            self,
-            *,
-            state: Optional[Union[str, _models.RouterWorkerState, Literal["all"]]] = "all",
-            channel_id: Optional[str] = None,
-            queue_id: Optional[str] = None,
-            has_capacity: Optional[bool] = None,
-            results_per_page: Optional[int] = None,
-            **kwargs: Any
+        self,
+        *,
+        state: Optional[Union[str, _models.RouterWorkerState, Literal["all"]]] = "all",
+        channel_id: Optional[str] = None,
+        queue_id: Optional[str] = None,
+        has_capacity: Optional[bool] = None,
+        results_per_page: Optional[int] = None,
+        **kwargs: Any
     ) -> Iterable[_models.RouterWorkerItem]:
         """Retrieves existing workers.
 
@@ -1345,11 +1324,11 @@ class JobRouterClientOperationsMixin(JobRouterClientOperationsMixinGenerated):
                 :caption: Use a JobRouterClient to retrieve workers in batches
         """
         return super().list_workers(
-            maxpagesize = results_per_page,
-            state = state,
-            channel_id = channel_id,
-            queue_id = queue_id,
-            has_capacity = has_capacity,
+            maxpagesize=results_per_page,
+            state=state,
+            channel_id=channel_id,
+            queue_id=queue_id,
+            has_capacity=has_capacity,
             **kwargs
         )
 
@@ -1359,12 +1338,7 @@ class JobRouterClientOperationsMixin(JobRouterClientOperationsMixinGenerated):
 
     @distributed_trace
     def decline_job_offer(  # pylint: disable=arguments-differ,arguments-renamed
-            self,
-            worker_id: str,
-            offer_id: str,
-            *,
-            retry_offer_at: Optional[datetime.datetime] = None,
-            **kwargs: Any
+        self, worker_id: str, offer_id: str, *, retry_offer_at: Optional[datetime.datetime] = None, **kwargs: Any
     ) -> None:
         """Declines an offer to work on a job.
 
@@ -1398,15 +1372,10 @@ class JobRouterClientOperationsMixin(JobRouterClientOperationsMixinGenerated):
         if not offer_id:
             raise ValueError("offer_id cannot be None.")
 
-        decline_job_offer_request = _models.DeclineJobOfferRequest(
-            retry_offer_at = retry_offer_at
-        )
+        decline_job_offer_request = _models.DeclineJobOfferRequest(retry_offer_at=retry_offer_at)
 
         super().decline_job_offer(
-            worker_id = worker_id,
-            offer_id = offer_id,
-            decline_job_offer_request = decline_job_offer_request,
-            **kwargs
+            worker_id=worker_id, offer_id=offer_id, decline_job_offer_request=decline_job_offer_request, **kwargs
         )
 
     # endregion Offer
@@ -1459,9 +1428,9 @@ class JobRouterClientOperationsMixin(JobRouterClientOperationsMixinGenerated):
         return super().upsert_job(
             id=id,
             resource=router_job,
-            if_unmodified_since = if_unmodified_since,
-            etag = etag,
-            match_condition = match_condition,
+            if_unmodified_since=if_unmodified_since,
+            etag=etag,
+            match_condition=match_condition,
             **kwargs
         )
 
@@ -1664,31 +1633,31 @@ class JobRouterClientOperationsMixin(JobRouterClientOperationsMixinGenerated):
             matching_mode=kwargs.pop("matching_mode", router_job.matching_mode),
         )
 
-        if_unmodified_since = kwargs.pop('if_unmodified_since', None)
-        etag = kwargs.pop('etag', None)
-        match_condition = kwargs.pop('match_condition', None)
+        if_unmodified_since = kwargs.pop("if_unmodified_since", None)
+        etag = kwargs.pop("etag", None)
+        match_condition = kwargs.pop("match_condition", None)
 
         return super().upsert_job(
             id=id,
             resource=patch,
-            if_unmodified_since = if_unmodified_since,
-            etag = etag,
-            match_condition = match_condition,
+            if_unmodified_since=if_unmodified_since,
+            etag=etag,
+            match_condition=match_condition,
             **kwargs
         )
 
     @distributed_trace
     def list_jobs(
-            self,
-            *,
-            status: Optional[Union[str, _models.RouterJobStatus, Literal["all", "active"]]] = "all",
-            channel_id: Optional[str] = None,
-            queue_id: Optional[str] = None,
-            classification_policy_id: Optional[str] = None,
-            scheduled_before: Optional[Union[str, datetime.datetime]] = None,
-            scheduled_after: Optional[Union[str, datetime.datetime]] = None,
-            results_per_page: Optional[int] = None,
-            **kwargs: Any
+        self,
+        *,
+        status: Optional[Union[str, _models.RouterJobStatus, Literal["all", "active"]]] = "all",
+        channel_id: Optional[str] = None,
+        queue_id: Optional[str] = None,
+        classification_policy_id: Optional[str] = None,
+        scheduled_before: Optional[Union[str, datetime.datetime]] = None,
+        scheduled_after: Optional[Union[str, datetime.datetime]] = None,
+        results_per_page: Optional[int] = None,
+        **kwargs: Any
     ) -> Iterable[_models.RouterJobItem]:
         """Retrieves list of jobs based on filter parameters.
 
@@ -1756,13 +1725,13 @@ class JobRouterClientOperationsMixin(JobRouterClientOperationsMixinGenerated):
             scheduled_after = _convert_str_to_datetime(scheduled_after)
 
         return super().list_jobs(
-            maxpagesize = results_per_page,
-            status = status,
-            channel_id = channel_id,
-            queue_id = queue_id,
-            classification_policy_id = classification_policy_id,
-            scheduled_before = scheduled_before,
-            scheduled_after = scheduled_after,
+            maxpagesize=results_per_page,
+            status=status,
+            channel_id=channel_id,
+            queue_id=queue_id,
+            classification_policy_id=classification_policy_id,
+            scheduled_before=scheduled_before,
+            scheduled_after=scheduled_after,
             **kwargs
         )
 
@@ -1823,12 +1792,7 @@ class JobRouterClientOperationsMixin(JobRouterClientOperationsMixinGenerated):
 
     @distributed_trace
     def complete_job(  # pylint: disable=arguments-differ,arguments-renamed
-        self,
-        id: str,
-        assignment_id: str,
-        *,
-        note: Optional[str] = None,
-        **kwargs: Any
+        self, id: str, assignment_id: str, *, note: Optional[str] = None, **kwargs: Any
     ) -> None:
         """Completes an assigned job.
 
@@ -1865,12 +1829,7 @@ class JobRouterClientOperationsMixin(JobRouterClientOperationsMixinGenerated):
 
     @distributed_trace
     def cancel_job(  # pylint: disable=arguments-differ,arguments-renamed
-        self,
-        id: str,
-        *,
-        disposition_code: Optional[str] = None,
-        note: Optional[str] = None,
-        **kwargs: Any
+        self, id: str, *, disposition_code: Optional[str] = None, note: Optional[str] = None, **kwargs: Any
     ) -> None:
         """Submits request to cancel an existing job by Id while supplying free-form cancellation reason.
 
@@ -1902,23 +1861,12 @@ class JobRouterClientOperationsMixin(JobRouterClientOperationsMixinGenerated):
         if not id:
             raise ValueError("id cannot be None.")
 
-        cancel_job_request = _models.CancelJobRequest(
-            note = note,
-            disposition_code = disposition_code
-        )
+        cancel_job_request = _models.CancelJobRequest(note=note, disposition_code=disposition_code)
 
-        super().cancel_job(
-            id = id,
-            cancel_job_request = cancel_job_request,
-            **kwargs
-        )
+        super().cancel_job(id=id, cancel_job_request=cancel_job_request, **kwargs)
 
     @distributed_trace
-    def reclassify_job(  # pylint: disable=arguments-differ,arguments-renamed
-        self,
-        id: str,
-        **kwargs: Any
-    ) -> None:
+    def reclassify_job(self, id: str, **kwargs: Any) -> None:  # pylint: disable=arguments-differ,arguments-renamed
         """Reclassify a job.
 
         :param str id: Id of the job.
@@ -1939,20 +1887,11 @@ class JobRouterClientOperationsMixin(JobRouterClientOperationsMixinGenerated):
         if not id:
             raise ValueError("identifier cannot be None.")
 
-        super().reclassify_job(
-            id = id,
-            reclassify_job_request = {},
-            **kwargs
-        )
+        super().reclassify_job(id=id, reclassify_job_request={}, **kwargs)
 
     @distributed_trace
     def unassign_job(  # pylint: disable=arguments-differ,arguments-renamed
-        self,
-        id: str,
-        assignment_id: str,
-        *,
-        suspend_matching: Optional[bool] = None,
-        **kwargs: Any
+        self, id: str, assignment_id: str, *, suspend_matching: Optional[bool] = None, **kwargs: Any
     ) -> _models.UnassignJobResult:
         """Unassign a job.
 
@@ -1982,15 +1921,10 @@ class JobRouterClientOperationsMixin(JobRouterClientOperationsMixinGenerated):
         if not assignment_id:
             raise ValueError("assignment_id cannot be None.")
 
-        unassign_job_request = _models.UnassignJobRequest(
-            suspend_matching = suspend_matching
-        )
+        unassign_job_request = _models.UnassignJobRequest(suspend_matching=suspend_matching)
 
         return super().unassign_job(
-            id = id,
-            assignment_id = assignment_id,
-            unassign_job_request = unassign_job_request,
-            **kwargs
+            id=id, assignment_id=assignment_id, unassign_job_request=unassign_job_request, **kwargs
         )
 
     # endregion Job

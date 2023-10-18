@@ -1,5 +1,5 @@
 # coding=utf-8
-# pylint: disable=too-many-lines,trailing-whitespace,anomalous-backslash-in-string,name-too-long
+# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -111,23 +111,6 @@ class DistributionMode(_model_base.Model):
     kind: Literal[None] = rest_discriminator(name="kind")
     """Required. Default value is None."""
 
-    @overload
-    def __init__(
-        self,
-        *,
-        min_concurrent_offers: Optional[int] = None,
-        max_concurrent_offers: Optional[int] = None,
-        bypass_selectors: Optional[bool] = None,
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
         self.kind: Literal[None] = None
@@ -176,7 +159,7 @@ class BestWorkerMode(DistributionMode, discriminator="best-worker"):
     :vartype kind: str
     """
 
-    scoring_rule: Optional["_models.RouterRule"] = rest_field(name="scoringRule")
+    scoring_rule: Optional["_models._models.RouterRule"] = rest_field(name="scoringRule")
     """A rule of one of the following types:
      
      StaticRule:  A rule
@@ -190,31 +173,12 @@ class BestWorkerMode(DistributionMode, discriminator="best-worker"):
      Function.
      WebhookRule: A rule providing a binding to a webserver following
      OAuth2.0 authentication protocol."""
-    scoring_rule_options: Optional["_models.ScoringRuleOptions"] = rest_field(name="scoringRuleOptions")
+    scoring_rule_options: Optional["_models._models.ScoringRuleOptions"] = rest_field(name="scoringRuleOptions")
     """Encapsulates all options that can be passed as parameters for scoring rule with
      BestWorkerMode."""
     kind: Literal["best-worker"] = rest_discriminator(name="kind")  # type: ignore
     """The type discriminator describing a sub-type of Mode. Required. Default value is
      \"best-worker\"."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        min_concurrent_offers: Optional[int] = None,
-        max_concurrent_offers: Optional[int] = None,
-        bypass_selectors: Optional[bool] = None,
-        scoring_rule: Optional["_models.RouterRule"] = None,
-        scoring_rule_options: Optional["_models.ScoringRuleOptions"] = None,
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
@@ -268,22 +232,6 @@ class CancelExceptionAction(ExceptionAction, discriminator="cancel"):
     kind: Literal["cancel"] = rest_discriminator(name="kind")  # type: ignore
     """The type discriminator describing a sub-type of ExceptionAction. Required. Default value is
      \"cancel\"."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        note: Optional[str] = None,
-        disposition_code: Optional[str] = None,
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
@@ -351,25 +299,6 @@ class ChannelConfiguration(_model_base.Model):
     max_number_of_jobs: Optional[int] = rest_field(name="maxNumberOfJobs")
     """The maximum number of jobs that can be supported concurrently for this channel."""
 
-    @overload
-    def __init__(
-        self,
-        *,
-        capacity_cost_per_job: int,
-        max_number_of_jobs: Optional[int] = None,
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, **kwargs)
-
 
 class ClassificationPolicy(_model_base.Model):
     """A container for the rules that govern how jobs are classified.
@@ -411,9 +340,9 @@ class ClassificationPolicy(_model_base.Model):
     """Friendly name of this policy."""
     fallback_queue_id: Optional[str] = rest_field(name="fallbackQueueId")
     """The fallback queue to select if the queue selector doesn't find a match."""
-    queue_selectors: Optional[List["_models.QueueSelectorAttachment"]] = rest_field(name="queueSelectors")
+    queue_selectors: Optional[List["_models._models.QueueSelectorAttachment"]] = rest_field(name="queueSelectors")
     """The queue selectors to resolve a queue for a given job."""
-    prioritization_rule: Optional["_models.RouterRule"] = rest_field(name="prioritizationRule")
+    prioritization_rule: Optional["_models._models.RouterRule"] = rest_field(name="prioritizationRule")
     """A rule of one of the following types:
      
      StaticRule:  A rule
@@ -427,7 +356,7 @@ class ClassificationPolicy(_model_base.Model):
      Function.
      WebhookRule: A rule providing a binding to a webserver following
      OAuth2.0 authentication protocol."""
-    worker_selectors: Optional[List["_models.WorkerSelectorAttachment"]] = rest_field(name="workerSelectors")
+    worker_selectors: Optional[List["_models._models.WorkerSelectorAttachment"]] = rest_field(name="workerSelectors")
     """The worker label selectors to attach to a given job."""
 
     @overload
@@ -436,9 +365,9 @@ class ClassificationPolicy(_model_base.Model):
         *,
         name: Optional[str] = None,
         fallback_queue_id: Optional[str] = None,
-        queue_selectors: Optional[List["_models.QueueSelectorAttachment"]] = None,
-        prioritization_rule: Optional["_models.RouterRule"] = None,
-        worker_selectors: Optional[List["_models.WorkerSelectorAttachment"]] = None,
+        queue_selectors: Optional[List["_models._models.QueueSelectorAttachment"]] = None,
+        prioritization_rule: Optional["_models._models.RouterRule"] = None,
+        worker_selectors: Optional[List["_models._models.WorkerSelectorAttachment"]] = None,
     ):
         ...
 
@@ -636,7 +565,7 @@ class ConditionalQueueSelectorAttachment(QueueSelectorAttachment, discriminator=
     :vartype kind: str
     """
 
-    condition: "_models.RouterRule" = rest_field()
+    condition: "_models._models.RouterRule" = rest_field()
     """A rule of one of the following types:
      
      StaticRule:  A rule
@@ -650,27 +579,11 @@ class ConditionalQueueSelectorAttachment(QueueSelectorAttachment, discriminator=
      Function.
      WebhookRule: A rule providing a binding to a webserver following
      OAuth2.0 authentication protocol. Required."""
-    queue_selectors: List["_models.RouterQueueSelector"] = rest_field(name="queueSelectors")
+    queue_selectors: List["_models._models.RouterQueueSelector"] = rest_field(name="queueSelectors")
     """The queue selectors to attach. Required."""
     kind: Literal["conditional"] = rest_discriminator(name="kind")  # type: ignore
     """The type discriminator describing the type of queue selector attachment. Required. Default
      value is \"conditional\"."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        condition: "_models.RouterRule",
-        queue_selectors: List["_models.RouterQueueSelector"],
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
@@ -727,7 +640,7 @@ class ConditionalWorkerSelectorAttachment(WorkerSelectorAttachment, discriminato
     :vartype kind: str
     """
 
-    condition: "_models.RouterRule" = rest_field()
+    condition: "_models._models.RouterRule" = rest_field()
     """A rule of one of the following types:
      
      StaticRule:  A rule
@@ -741,27 +654,11 @@ class ConditionalWorkerSelectorAttachment(WorkerSelectorAttachment, discriminato
      Function.
      WebhookRule: A rule providing a binding to a webserver following
      OAuth2.0 authentication protocol. Required."""
-    worker_selectors: List["_models.RouterWorkerSelector"] = rest_field(name="workerSelectors")
+    worker_selectors: List["_models._models.RouterWorkerSelector"] = rest_field(name="workerSelectors")
     """The worker selectors to attach. Required."""
     kind: Literal["conditional"] = rest_discriminator(name="kind")  # type: ignore
     """The type discriminator describing the type of worker selector attachment. Required. Default
      value is \"conditional\"."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        condition: "_models.RouterRule",
-        worker_selectors: List["_models.RouterWorkerSelector"],
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
@@ -889,7 +786,7 @@ class DistributionPolicy(_model_base.Model):
     offer_expires_after_seconds: Optional[float] = rest_field(name="offerExpiresAfterSeconds")
     """The number of seconds after which any offers created under this policy will be
      expired."""
-    mode: Optional["_models.DistributionMode"] = rest_field()
+    mode: Optional["_models._models.DistributionMode"] = rest_field()
     """Abstract base class for defining a distribution mode."""
 
     @overload
@@ -898,7 +795,7 @@ class DistributionPolicy(_model_base.Model):
         *,
         name: Optional[str] = None,
         offer_expires_after_seconds: Optional[float] = None,
-        mode: Optional["_models.DistributionMode"] = None,
+        mode: Optional["_models._models.DistributionMode"] = None,
     ):
         ...
 
@@ -970,7 +867,7 @@ class ExceptionPolicy(_model_base.Model):
     """The Id of the exception policy. Required."""
     name: Optional[str] = rest_field()
     """(Optional) The name of the exception policy."""
-    exception_rules: Optional[Dict[str, "_models.ExceptionRule"]] = rest_field(name="exceptionRules")
+    exception_rules: Optional[Dict[str, "_models._models.ExceptionRule"]] = rest_field(name="exceptionRules")
     """(Optional) A dictionary collection of exception rules on the exception policy.
      Key is the Id of each exception rule."""
 
@@ -979,7 +876,7 @@ class ExceptionPolicy(_model_base.Model):
         self,
         *,
         name: Optional[str] = None,
-        exception_rules: Optional[Dict[str, "_models.ExceptionRule"]] = None,
+        exception_rules: Optional[Dict[str, "_models._models.ExceptionRule"]] = None,
     ):
         ...
 
@@ -1043,30 +940,11 @@ class ExceptionRule(_model_base.Model):
     :vartype actions: dict[str, ~azure.communication.jobrouter.models.ExceptionAction]
     """
 
-    trigger: "_models.ExceptionTrigger" = rest_field()
+    trigger: "_models._models.ExceptionTrigger" = rest_field()
     """The trigger for this exception rule. Required."""
-    actions: Dict[str, "_models.ExceptionAction"] = rest_field()
+    actions: Dict[str, "_models._models.ExceptionAction"] = rest_field()
     """A dictionary collection of actions to perform once the exception is triggered.
      Key is the Id of each exception action. Required."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        trigger: "_models.ExceptionTrigger",
-        actions: Dict[str, "_models.ExceptionAction"],
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, **kwargs)
 
 
 class ExceptionTrigger(_model_base.Model):
@@ -1114,22 +992,6 @@ class ExpressionRouterRule(RouterRule, discriminator="expression-rule"):
     """The type discriminator describing a sub-type of Rule. Required. Default value is
      \"expression-rule\"."""
 
-    @overload
-    def __init__(
-        self,
-        *,
-        expression: str,
-        language: Optional[Union[str, "_models.ExpressionRouterRuleLanguage"]] = None,
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
         self.kind: Literal["expression-rule"] = "expression-rule"
@@ -1151,27 +1013,11 @@ class FunctionRouterRule(RouterRule, discriminator="azure-function-rule"):
 
     function_uri: str = rest_field(name="functionUri")
     """URL for Azure Function. Required."""
-    credential: Optional["_models.FunctionRouterRuleCredential"] = rest_field()
+    credential: Optional["_models._models.FunctionRouterRuleCredential"] = rest_field()
     """Credentials used to access Azure function rule."""
     kind: Literal["azure-function-rule"] = rest_discriminator(name="kind")  # type: ignore
     """The type discriminator describing a sub-type of Rule. Required. Default value is
      \"azure-function-rule\"."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        function_uri: str,
-        credential: Optional["_models.FunctionRouterRuleCredential"] = None,
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
@@ -1203,26 +1049,6 @@ class FunctionRouterRuleCredential(_model_base.Model):
     """(Optional) Client id, when AppKey is provided
      In context of Azure function,
      this is usually the name of the key."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        function_key: Optional[str] = None,
-        app_key: Optional[str] = None,
-        client_id: Optional[str] = None,
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, **kwargs)
 
 
 class JobMatchingMode(_model_base.Model):
@@ -1285,23 +1111,6 @@ class LongestIdleMode(DistributionMode, discriminator="longest-idle"):
     """The type discriminator describing a sub-type of Mode. Required. Default value is
      \"longest-idle\"."""
 
-    @overload
-    def __init__(
-        self,
-        *,
-        min_concurrent_offers: Optional[int] = None,
-        max_concurrent_offers: Optional[int] = None,
-        bypass_selectors: Optional[bool] = None,
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
         self.kind: Literal["longest-idle"] = "longest-idle"
@@ -1328,28 +1137,11 @@ class ManualReclassifyExceptionAction(ExceptionAction, discriminator="manual-rec
     """Updated QueueId."""
     priority: Optional[int] = rest_field()
     """Updated Priority."""
-    worker_selectors: Optional[List["_models.RouterWorkerSelector"]] = rest_field(name="workerSelectors")
+    worker_selectors: Optional[List["_models._models.RouterWorkerSelector"]] = rest_field(name="workerSelectors")
     """Updated WorkerSelectors."""
     kind: Literal["manual-reclassify"] = rest_discriminator(name="kind")  # type: ignore
     """The type discriminator describing a sub-type of ExceptionAction. Required. Default value is
      \"manual-reclassify\"."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        queue_id: Optional[str] = None,
-        priority: Optional[int] = None,
-        worker_selectors: Optional[List["_models.RouterWorkerSelector"]] = None,
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
@@ -1371,25 +1163,6 @@ class Oauth2ClientCredential(_model_base.Model):
     """ClientId for Contoso Authorization server."""
     client_secret: Optional[str] = rest_field(name="clientSecret")
     """Client secret for Contoso Authorization server."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        client_id: Optional[str] = None,
-        client_secret: Optional[str] = None,
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, **kwargs)
 
 
 class PassThroughQueueSelectorAttachment(QueueSelectorAttachment, discriminator="pass-through"):
@@ -1418,22 +1191,6 @@ class PassThroughQueueSelectorAttachment(QueueSelectorAttachment, discriminator=
     kind: Literal["pass-through"] = rest_discriminator(name="kind")  # type: ignore
     """The type discriminator describing the type of queue selector attachment. Required. Default
      value is \"pass-through\"."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        key: str,
-        label_operator: Union[str, "_models.LabelOperator"],
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
@@ -1471,23 +1228,6 @@ class PassThroughWorkerSelectorAttachment(WorkerSelectorAttachment, discriminato
     kind: Literal["pass-through"] = rest_discriminator(name="kind")  # type: ignore
     """The type discriminator describing the type of worker selector attachment. Required. Default
      value is \"pass-through\"."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        key: str,
-        label_operator: Union[str, "_models.LabelOperator"],
-        expires_after_seconds: Optional[float] = None,
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
@@ -1533,21 +1273,6 @@ class QueueLengthExceptionTrigger(ExceptionTrigger, discriminator="queue-length"
     """The type discriminator describing a sub-type of ExceptionTrigger. Required. Default value is
      \"queue-length\"."""
 
-    @overload
-    def __init__(
-        self,
-        *,
-        threshold: int,
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
         self.kind: Literal["queue-length"] = "queue-length"
@@ -1569,28 +1294,9 @@ class QueueWeightedAllocation(_model_base.Model):
 
     weight: float = rest_field()
     """The percentage of this weight, expressed as a fraction of 1. Required."""
-    queue_selectors: List["_models.RouterQueueSelector"] = rest_field(name="queueSelectors")
+    queue_selectors: List["_models._models.RouterQueueSelector"] = rest_field(name="queueSelectors")
     """A collection of queue selectors that will be applied if this allocation is
      selected. Required."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        weight: float,
-        queue_selectors: List["_models.RouterQueueSelector"],
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, **kwargs)
 
 
 class ReclassifyExceptionAction(ExceptionAction, discriminator="reclassify"):
@@ -1620,22 +1326,6 @@ class ReclassifyExceptionAction(ExceptionAction, discriminator="reclassify"):
     kind: Literal["reclassify"] = rest_discriminator(name="kind")  # type: ignore
     """The type discriminator describing a sub-type of ExceptionAction. Required. Default value is
      \"reclassify\"."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        classification_policy_id: Optional[str] = None,
-        labels_to_upsert: Optional[Dict[str, Any]] = None,
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
@@ -1675,23 +1365,6 @@ class RoundRobinMode(DistributionMode, discriminator="round-robin"):
     kind: Literal["round-robin"] = rest_discriminator(name="kind")  # type: ignore
     """The type discriminator describing a sub-type of Mode. Required. Default value is
      \"round-robin\"."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        min_concurrent_offers: Optional[int] = None,
-        max_concurrent_offers: Optional[int] = None,
-        bypass_selectors: Optional[bool] = None,
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
@@ -1781,12 +1454,12 @@ class RouterJob(_model_base.Model):  # pylint: disable=too-many-instance-attribu
     """The priority of this job."""
     disposition_code: Optional[str] = rest_field(name="dispositionCode")
     """Reason code for cancelled or closed jobs."""
-    requested_worker_selectors: Optional[List["_models.RouterWorkerSelector"]] = rest_field(
+    requested_worker_selectors: Optional[List["_models._models.RouterWorkerSelector"]] = rest_field(
         name="requestedWorkerSelectors"
     )
     """A collection of manually specified label selectors, which a worker must satisfy
      in order to process this job."""
-    attached_worker_selectors: Optional[List["_models.RouterWorkerSelector"]] = rest_field(
+    attached_worker_selectors: Optional[List["_models._models.RouterWorkerSelector"]] = rest_field(
         name="attachedWorkerSelectors", visibility=["read"]
     )
     """A collection of label selectors attached by a classification policy, which a
@@ -1794,7 +1467,7 @@ class RouterJob(_model_base.Model):  # pylint: disable=too-many-instance-attribu
     labels: Optional[Dict[str, Any]] = rest_field()
     """A set of key/value pairs that are identifying attributes used by the rules
      engines to make decisions."""
-    assignments: Optional[Dict[str, "_models.RouterJobAssignment"]] = rest_field(visibility=["read"])
+    assignments: Optional[Dict[str, "_models._models.RouterJobAssignment"]] = rest_field(visibility=["read"])
     """A collection of the assignments of the job.
      Key is AssignmentId."""
     tags: Optional[Dict[str, Any]] = rest_field()
@@ -1803,7 +1476,7 @@ class RouterJob(_model_base.Model):  # pylint: disable=too-many-instance-attribu
     """Notes attached to a job, sorted by timestamp."""
     scheduled_at: Optional[datetime.datetime] = rest_field(name="scheduledAt", visibility=["read"], format="rfc3339")
     """If set, job will be scheduled to be enqueued at a given time."""
-    matching_mode: Optional["_models.JobMatchingMode"] = rest_field(name="matchingMode")
+    matching_mode: Optional["_models._models.JobMatchingMode"] = rest_field(name="matchingMode")
     """The matching mode to be applied to this job.
      
      Supported types:
@@ -1826,11 +1499,11 @@ class RouterJob(_model_base.Model):  # pylint: disable=too-many-instance-attribu
         queue_id: Optional[str] = None,
         priority: Optional[int] = None,
         disposition_code: Optional[str] = None,
-        requested_worker_selectors: Optional[List["_models.RouterWorkerSelector"]] = None,
+        requested_worker_selectors: Optional[List["_models._models.RouterWorkerSelector"]] = None,
         labels: Optional[Dict[str, Any]] = None,
         tags: Optional[Dict[str, Any]] = None,
         notes: Optional[Dict[str, str]] = None,
-        matching_mode: Optional["_models.JobMatchingMode"] = None,
+        matching_mode: Optional["_models._models.JobMatchingMode"] = None,
     ):
         ...
 
@@ -1872,28 +1545,6 @@ class RouterJobAssignment(_model_base.Model):
     """The time the job was marked as completed after being assigned in UTC."""
     closed_at: Optional[datetime.datetime] = rest_field(name="closedAt", format="rfc3339")
     """The time the job was marked as closed after being completed in UTC."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        assignment_id: str,
-        assigned_at: datetime.datetime,
-        worker_id: Optional[str] = None,
-        completed_at: Optional[datetime.datetime] = None,
-        closed_at: Optional[datetime.datetime] = None,
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, **kwargs)
 
 
 class RouterJobItem(_model_base.Model):
@@ -1959,28 +1610,6 @@ class RouterJobOffer(_model_base.Model):
     """The time the offer was created in UTC."""
     expires_at: Optional[datetime.datetime] = rest_field(name="expiresAt", format="rfc3339")
     """The time that the offer will expire in UTC."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        offer_id: str,
-        job_id: str,
-        capacity_cost: int,
-        offered_at: Optional[datetime.datetime] = None,
-        expires_at: Optional[datetime.datetime] = None,
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, **kwargs)
 
 
 class RouterJobPositionDetails(_model_base.Model):
@@ -2161,26 +1790,6 @@ class RouterQueueSelector(_model_base.Model):
     value: Optional[Any] = rest_field()
     """The value to compare against the actual label value with the given operator."""
 
-    @overload
-    def __init__(
-        self,
-        *,
-        key: str,
-        label_operator: Union[str, "_models.LabelOperator"],
-        value: Optional[Any] = None,
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, **kwargs)
-
 
 class RouterQueueStatistics(_model_base.Model):
     """Statistics for the queue.
@@ -2274,7 +1883,9 @@ class RouterWorker(_model_base.Model):  # pylint: disable=too-many-instance-attr
     """Id of the worker. Required."""
     state: Optional[Union[str, "_models.RouterWorkerState"]] = rest_field(visibility=["read"])
     """The current state of the worker. Known values are: \"active\", \"draining\", and \"inactive\"."""
-    queue_assignments: Optional[Dict[str, "_models.RouterQueueAssignment"]] = rest_field(name="queueAssignments")
+    queue_assignments: Optional[Dict[str, "_models._models.RouterQueueAssignment"]] = rest_field(
+        name="queueAssignments"
+    )
     """The queue(s) that this worker can receive work from."""
     total_capacity: Optional[int] = rest_field(name="totalCapacity")
     """The total capacity score this worker has to manage multiple concurrent jobs."""
@@ -2283,13 +1894,13 @@ class RouterWorker(_model_base.Model):  # pylint: disable=too-many-instance-attr
      engines to make decisions."""
     tags: Optional[Dict[str, Any]] = rest_field()
     """A set of non-identifying attributes attached to this worker."""
-    channel_configurations: Optional[Dict[str, "_models.ChannelConfiguration"]] = rest_field(
+    channel_configurations: Optional[Dict[str, "_models._models.ChannelConfiguration"]] = rest_field(
         name="channelConfigurations"
     )
     """The channel(s) this worker can handle and their impact on the workers capacity."""
-    offers: Optional[List["_models.RouterJobOffer"]] = rest_field(visibility=["read"])
+    offers: Optional[List["_models._models.RouterJobOffer"]] = rest_field(visibility=["read"])
     """A list of active offers issued to this worker."""
-    assigned_jobs: Optional[List["_models.RouterWorkerAssignment"]] = rest_field(
+    assigned_jobs: Optional[List["_models._models.RouterWorkerAssignment"]] = rest_field(
         name="assignedJobs", visibility=["read"]
     )
     """A list of assigned jobs attached to this worker."""
@@ -2303,11 +1914,11 @@ class RouterWorker(_model_base.Model):  # pylint: disable=too-many-instance-attr
     def __init__(
         self,
         *,
-        queue_assignments: Optional[Dict[str, "_models.RouterQueueAssignment"]] = None,
+        queue_assignments: Optional[Dict[str, "_models._models.RouterQueueAssignment"]] = None,
         total_capacity: Optional[int] = None,
         labels: Optional[Dict[str, Any]] = None,
         tags: Optional[Dict[str, Any]] = None,
-        channel_configurations: Optional[Dict[str, "_models.ChannelConfiguration"]] = None,
+        channel_configurations: Optional[Dict[str, "_models._models.ChannelConfiguration"]] = None,
         available_for_offers: Optional[bool] = None,
     ):
         ...
@@ -2347,27 +1958,6 @@ class RouterWorkerAssignment(_model_base.Model):
     """The amount of capacity this assignment has consumed on the worker. Required."""
     assigned_at: datetime.datetime = rest_field(name="assignedAt", format="rfc3339")
     """The assignment time of the job in UTC. Required."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        assignment_id: str,
-        job_id: str,
-        capacity_cost: int,
-        assigned_at: datetime.datetime,
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, **kwargs)
 
 
 class RouterWorkerItem(_model_base.Model):
@@ -2450,28 +2040,6 @@ class RouterWorkerSelector(_model_base.Model):
     expires_at: Optional[datetime.datetime] = rest_field(name="expiresAt", visibility=["read"], format="rfc3339")
     """The time at which this worker selector expires in UTC."""
 
-    @overload
-    def __init__(
-        self,
-        *,
-        key: str,
-        label_operator: Union[str, "_models.LabelOperator"],
-        value: Optional[Any] = None,
-        expires_after_seconds: Optional[float] = None,
-        expedite: Optional[bool] = None,
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, **kwargs)
-
 
 class RuleEngineQueueSelectorAttachment(QueueSelectorAttachment, discriminator="rule-engine"):
     """Attaches queue selectors to a job when the RouterRule is resolved.
@@ -2497,7 +2065,7 @@ class RuleEngineQueueSelectorAttachment(QueueSelectorAttachment, discriminator="
     :vartype kind: str
     """
 
-    rule: "_models.RouterRule" = rest_field()
+    rule: "_models._models.RouterRule" = rest_field()
     """A rule of one of the following types:
      
      StaticRule:  A rule
@@ -2514,21 +2082,6 @@ class RuleEngineQueueSelectorAttachment(QueueSelectorAttachment, discriminator="
     kind: Literal["rule-engine"] = rest_discriminator(name="kind")  # type: ignore
     """The type discriminator describing the type of queue selector attachment. Required. Default
      value is \"rule-engine\"."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        rule: "_models.RouterRule",
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
@@ -2559,7 +2112,7 @@ class RuleEngineWorkerSelectorAttachment(WorkerSelectorAttachment, discriminator
     :vartype kind: str
     """
 
-    rule: "_models.RouterRule" = rest_field()
+    rule: "_models._models.RouterRule" = rest_field()
     """A rule of one of the following types:
      
      StaticRule:  A rule
@@ -2576,21 +2129,6 @@ class RuleEngineWorkerSelectorAttachment(WorkerSelectorAttachment, discriminator
     kind: Literal["rule-engine"] = rest_discriminator(name="kind")  # type: ignore
     """The type discriminator describing the type of worker selector attachment. Required. Default
      value is \"rule-engine\"."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        rule: "_models.RouterRule",
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
@@ -2617,21 +2155,6 @@ class ScheduleAndSuspendMode(JobMatchingMode, discriminator="schedule-and-suspen
     kind: Literal["schedule-and-suspend"] = rest_discriminator(name="kind")  # type: ignore
     """The type discriminator describing ScheduleAndSuspendMode. Required. Default value is
      \"schedule-and-suspend\"."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        schedule_at: datetime.datetime,
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
@@ -2697,27 +2220,6 @@ class ScoringRuleOptions(_model_base.Model):
      If false, will sort scores by ascending order. By default, set to
      true."""
 
-    @overload
-    def __init__(
-        self,
-        *,
-        batch_size: Optional[int] = None,
-        scoring_parameters: Optional[List[Union[str, "_models.ScoringRuleParameterSelector"]]] = None,
-        allow_scoring_batch_of_workers: Optional[bool] = None,
-        descending_order: Optional[bool] = None,
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, **kwargs)
-
 
 class StaticQueueSelectorAttachment(QueueSelectorAttachment, discriminator="static"):
     """Describes a queue selector that will be attached to the job.
@@ -2732,27 +2234,12 @@ class StaticQueueSelectorAttachment(QueueSelectorAttachment, discriminator="stat
     :vartype kind: str
     """
 
-    queue_selector: "_models.RouterQueueSelector" = rest_field(name="queueSelector")
+    queue_selector: "_models._models.RouterQueueSelector" = rest_field(name="queueSelector")
     """Describes a condition that must be met against a set of labels for queue
      selection. Required."""
     kind: Literal["static"] = rest_discriminator(name="kind")  # type: ignore
     """The type discriminator describing the type of queue selector attachment. Required. Default
      value is \"static\"."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        queue_selector: "_models.RouterQueueSelector",
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
@@ -2778,21 +2265,6 @@ class StaticRouterRule(RouterRule, discriminator="static-rule"):
     """The type discriminator describing a sub-type of Rule. Required. Default value is
      \"static-rule\"."""
 
-    @overload
-    def __init__(
-        self,
-        *,
-        value: Optional[Any] = None,
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
         self.kind: Literal["static-rule"] = "static-rule"
@@ -2812,27 +2284,12 @@ class StaticWorkerSelectorAttachment(WorkerSelectorAttachment, discriminator="st
     :vartype kind: str
     """
 
-    worker_selector: "_models.RouterWorkerSelector" = rest_field(name="workerSelector")
+    worker_selector: "_models._models.RouterWorkerSelector" = rest_field(name="workerSelector")
     """Describes a condition that must be met against a set of labels for worker
      selection. Required."""
     kind: Literal["static"] = rest_discriminator(name="kind")  # type: ignore
     """The type discriminator describing the type of worker selector attachment. Required. Default
      value is \"static\"."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        worker_selector: "_models.RouterWorkerSelector",
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
@@ -2943,21 +2400,6 @@ class WaitTimeExceptionTrigger(ExceptionTrigger, discriminator="wait-time"):
     """The type discriminator describing a sub-type of ExceptionTrigger. Required. Default value is
      \"wait-time\"."""
 
-    @overload
-    def __init__(
-        self,
-        *,
-        threshold_seconds: float,
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
         self.kind: Literal["wait-time"] = "wait-time"
@@ -2983,7 +2425,7 @@ class WebhookRouterRule(RouterRule, discriminator="webhook-rule"):
 
     authorization_server_uri: Optional[str] = rest_field(name="authorizationServerUri")
     """Uri for Authorization Server."""
-    client_credential: Optional["_models.Oauth2ClientCredential"] = rest_field(name="clientCredential")
+    client_credential: Optional["_models._models.Oauth2ClientCredential"] = rest_field(name="clientCredential")
     """OAuth2.0 Credentials used to Contoso's Authorization server.
      Reference:
      https://www.oauth.com/oauth2-servers/access-tokens/client-credentials/."""
@@ -2992,23 +2434,6 @@ class WebhookRouterRule(RouterRule, discriminator="webhook-rule"):
     kind: Literal["webhook-rule"] = rest_discriminator(name="kind")  # type: ignore
     """The type discriminator describing a sub-type of Rule. Required. Default value is
      \"webhook-rule\"."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        authorization_server_uri: Optional[str] = None,
-        client_credential: Optional["_models.Oauth2ClientCredential"] = None,
-        webhook_uri: Optional[str] = None,
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
@@ -3030,26 +2455,11 @@ class WeightedAllocationQueueSelectorAttachment(
     :vartype kind: str
     """
 
-    allocations: List["_models.QueueWeightedAllocation"] = rest_field()
+    allocations: List["_models._models.QueueWeightedAllocation"] = rest_field()
     """A collection of percentage based weighted allocations. Required."""
     kind: Literal["weighted-allocation-queue-selector"] = rest_discriminator(name="kind")  # type: ignore
     """The type discriminator describing the type of queue selector attachment. Required. Default
      value is \"weighted-allocation-queue-selector\"."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        allocations: List["_models.QueueWeightedAllocation"],
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
@@ -3071,26 +2481,11 @@ class WeightedAllocationWorkerSelectorAttachment(
     :vartype kind: str
     """
 
-    allocations: List["_models.WorkerWeightedAllocation"] = rest_field()
+    allocations: List["_models._models.WorkerWeightedAllocation"] = rest_field()
     """A collection of percentage based weighted allocations. Required."""
     kind: Literal["weighted-allocation-worker-selector"] = rest_discriminator(name="kind")  # type: ignore
     """The type discriminator describing the type of worker selector attachment. Required. Default
      value is \"weighted-allocation-worker-selector\"."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        allocations: List["_models.WorkerWeightedAllocation"],
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
@@ -3113,25 +2508,6 @@ class WorkerWeightedAllocation(_model_base.Model):
 
     weight: float = rest_field()
     """The percentage of this weight, expressed as a fraction of 1. Required."""
-    worker_selectors: List["_models.RouterWorkerSelector"] = rest_field(name="workerSelectors")
+    worker_selectors: List["_models._models.RouterWorkerSelector"] = rest_field(name="workerSelectors")
     """A collection of worker selectors that will be applied if this allocation is
      selected. Required."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        weight: float,
-        worker_selectors: List["_models.RouterWorkerSelector"],
-    ):
-        ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]):
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, **kwargs)

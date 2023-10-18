@@ -55,10 +55,8 @@ queue_selectors = [
         queue_selectors=[RouterQueueSelector(key="test_key", label_operator=LabelOperator.EQUAL, value="test_value")],
     ),
     RuleEngineQueueSelectorAttachment(
-        rule = StaticRouterRule(value = [
-            RouterQueueSelector(
-                key = "test_key", label_operator = LabelOperator.EQUAL, value = "test_value"
-            )]
+        rule=StaticRouterRule(
+            value=[RouterQueueSelector(key="test_key", label_operator=LabelOperator.EQUAL, value="test_value")]
         )
     ),
     PassThroughQueueSelectorAttachment(key="testKey", label_operator=LabelOperator.EQUAL),
@@ -106,14 +104,16 @@ worker_selectors = [
         ],
     ),
     RuleEngineWorkerSelectorAttachment(
-        rule = StaticRouterRule(value = [
-            RouterWorkerSelector(
-                key = "test_key",
-                label_operator = LabelOperator.EQUAL,
-                value = "test_value",
-                expires_after_seconds = 10.0,
-                expedite = False
-            )]
+        rule=StaticRouterRule(
+            value=[
+                RouterWorkerSelector(
+                    key="test_key",
+                    label_operator=LabelOperator.EQUAL,
+                    value="test_value",
+                    expires_after_seconds=10.0,
+                    expedite=False,
+                )
+            ]
         )
     ),
     PassThroughWorkerSelectorAttachment(key="testKey", label_operator=LabelOperator.EQUAL),
@@ -171,9 +171,7 @@ class TestClassificationPolicy(RouterRecordedTestCase):
             name=distribution_policy_id,
         )
 
-        distribution_policy = client.create_distribution_policy(
-            id=distribution_policy_id, distribution_policy=policy
-        )
+        distribution_policy = client.create_distribution_policy(id=distribution_policy_id, distribution_policy=policy)
 
         # add for cleanup later
         if self._testMethodName in self.distribution_policy_ids:
@@ -376,9 +374,7 @@ class TestClassificationPolicy(RouterRecordedTestCase):
                 worker_selectors=worker_selectors,
             )
 
-            queried_classification_policy = router_client.get_classification_policy(
-                id=cp_identifier
-            )
+            queried_classification_policy = router_client.get_classification_policy(id=cp_identifier)
 
             ClassificationPolicyValidator.validate_classification_policy(
                 queried_classification_policy,

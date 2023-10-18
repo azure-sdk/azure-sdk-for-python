@@ -45,7 +45,7 @@ from azure.communication.jobrouter.models import (
     StaticRouterRule,
     RouterQueueSelector,
     ExpressionRouterRule,
-    LabelOperator
+    LabelOperator,
 )
 
 
@@ -423,8 +423,7 @@ class LabelOperatorValidator(object):
         try:
             assert actual == expected
         except AssertionError:
-            assert LabelOperator._value2member_map_[actual] == LabelOperator.__getattr__(
-                expected.split('.', 1)[1])
+            assert LabelOperator._value2member_map_[actual] == LabelOperator.__getattr__(expected.split(".", 1)[1])
 
 
 class ExceptionPolicyValidator(object):

@@ -86,9 +86,7 @@ class TestExceptionPolicy(RouterRecordedTestCase):
             name=distribution_policy_id,
         )
 
-        distribution_policy = client.create_distribution_policy(
-            id=distribution_policy_id, distribution_policy=policy
-        )
+        distribution_policy = client.create_distribution_policy(id=distribution_policy_id, distribution_policy=policy)
 
         # add for cleanup later
         if self._testMethodName in self.distribution_policy_ids:

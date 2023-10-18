@@ -972,7 +972,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
     JobRouterAdministrationClientMixinABC
 ):
     @overload
-    def upsert_distribution_policy(
+    def _upsert_distribution_policy(
         self,
         id: str,
         resource: _models.DistributionPolicy,
@@ -983,34 +983,10 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
         match_condition: Optional[MatchConditions] = None,
         **kwargs: Any
     ) -> _models.DistributionPolicy:
-        """Creates or updates a distribution policy.
-
-        Creates or updates a distribution policy.
-
-        :param id: The unique identifier of the policy. Required.
-        :type id: str
-        :param resource: The resource instance. Required.
-        :type resource: ~azure.communication.jobrouter.models.DistributionPolicy
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/merge-patch+json".
-        :paramtype content_type: str
-        :keyword if_unmodified_since: The request should only proceed if the entity was not modified
-         after this time. Default value is None.
-        :paramtype if_unmodified_since: ~datetime.datetime
-        :keyword etag: check if resource is changed. Set None to skip checking etag. Default value is
-         None.
-        :paramtype etag: str
-        :keyword match_condition: The match condition to use upon the etag. Default value is None.
-        :paramtype match_condition: ~azure.core.MatchConditions
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
-        :return: DistributionPolicy. The DistributionPolicy is compatible with MutableMapping
-        :rtype: ~azure.communication.jobrouter.models.DistributionPolicy
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
+        ...
 
     @overload
-    def upsert_distribution_policy(
+    def _upsert_distribution_policy(
         self,
         id: str,
         resource: JSON,
@@ -1021,34 +997,10 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
         match_condition: Optional[MatchConditions] = None,
         **kwargs: Any
     ) -> _models.DistributionPolicy:
-        """Creates or updates a distribution policy.
-
-        Creates or updates a distribution policy.
-
-        :param id: The unique identifier of the policy. Required.
-        :type id: str
-        :param resource: The resource instance. Required.
-        :type resource: JSON
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/merge-patch+json".
-        :paramtype content_type: str
-        :keyword if_unmodified_since: The request should only proceed if the entity was not modified
-         after this time. Default value is None.
-        :paramtype if_unmodified_since: ~datetime.datetime
-        :keyword etag: check if resource is changed. Set None to skip checking etag. Default value is
-         None.
-        :paramtype etag: str
-        :keyword match_condition: The match condition to use upon the etag. Default value is None.
-        :paramtype match_condition: ~azure.core.MatchConditions
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
-        :return: DistributionPolicy. The DistributionPolicy is compatible with MutableMapping
-        :rtype: ~azure.communication.jobrouter.models.DistributionPolicy
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
+        ...
 
     @overload
-    def upsert_distribution_policy(
+    def _upsert_distribution_policy(
         self,
         id: str,
         resource: IO,
@@ -1059,34 +1011,10 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
         match_condition: Optional[MatchConditions] = None,
         **kwargs: Any
     ) -> _models.DistributionPolicy:
-        """Creates or updates a distribution policy.
-
-        Creates or updates a distribution policy.
-
-        :param id: The unique identifier of the policy. Required.
-        :type id: str
-        :param resource: The resource instance. Required.
-        :type resource: IO
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/merge-patch+json".
-        :paramtype content_type: str
-        :keyword if_unmodified_since: The request should only proceed if the entity was not modified
-         after this time. Default value is None.
-        :paramtype if_unmodified_since: ~datetime.datetime
-        :keyword etag: check if resource is changed. Set None to skip checking etag. Default value is
-         None.
-        :paramtype etag: str
-        :keyword match_condition: The match condition to use upon the etag. Default value is None.
-        :paramtype match_condition: ~azure.core.MatchConditions
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
-        :return: DistributionPolicy. The DistributionPolicy is compatible with MutableMapping
-        :rtype: ~azure.communication.jobrouter.models.DistributionPolicy
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
+        ...
 
     @distributed_trace
-    def upsert_distribution_policy(
+    def _upsert_distribution_policy(
         self,
         id: str,
         resource: Union[_models.DistributionPolicy, JSON, IO],
@@ -1412,7 +1340,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
             return cls(pipeline_response, None, {})
 
     @overload
-    def upsert_classification_policy(
+    def _upsert_classification_policy(
         self,
         id: str,
         resource: _models.ClassificationPolicy,
@@ -1423,34 +1351,10 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
         match_condition: Optional[MatchConditions] = None,
         **kwargs: Any
     ) -> _models.ClassificationPolicy:
-        """Creates or updates a classification policy.
-
-        Creates or updates a classification policy.
-
-        :param id: Unique identifier of this policy. Required.
-        :type id: str
-        :param resource: The resource instance. Required.
-        :type resource: ~azure.communication.jobrouter.models.ClassificationPolicy
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/merge-patch+json".
-        :paramtype content_type: str
-        :keyword if_unmodified_since: The request should only proceed if the entity was not modified
-         after this time. Default value is None.
-        :paramtype if_unmodified_since: ~datetime.datetime
-        :keyword etag: check if resource is changed. Set None to skip checking etag. Default value is
-         None.
-        :paramtype etag: str
-        :keyword match_condition: The match condition to use upon the etag. Default value is None.
-        :paramtype match_condition: ~azure.core.MatchConditions
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
-        :return: ClassificationPolicy. The ClassificationPolicy is compatible with MutableMapping
-        :rtype: ~azure.communication.jobrouter.models.ClassificationPolicy
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
+        ...
 
     @overload
-    def upsert_classification_policy(
+    def _upsert_classification_policy(
         self,
         id: str,
         resource: JSON,
@@ -1461,34 +1365,10 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
         match_condition: Optional[MatchConditions] = None,
         **kwargs: Any
     ) -> _models.ClassificationPolicy:
-        """Creates or updates a classification policy.
-
-        Creates or updates a classification policy.
-
-        :param id: Unique identifier of this policy. Required.
-        :type id: str
-        :param resource: The resource instance. Required.
-        :type resource: JSON
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/merge-patch+json".
-        :paramtype content_type: str
-        :keyword if_unmodified_since: The request should only proceed if the entity was not modified
-         after this time. Default value is None.
-        :paramtype if_unmodified_since: ~datetime.datetime
-        :keyword etag: check if resource is changed. Set None to skip checking etag. Default value is
-         None.
-        :paramtype etag: str
-        :keyword match_condition: The match condition to use upon the etag. Default value is None.
-        :paramtype match_condition: ~azure.core.MatchConditions
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
-        :return: ClassificationPolicy. The ClassificationPolicy is compatible with MutableMapping
-        :rtype: ~azure.communication.jobrouter.models.ClassificationPolicy
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
+        ...
 
     @overload
-    def upsert_classification_policy(
+    def _upsert_classification_policy(
         self,
         id: str,
         resource: IO,
@@ -1499,34 +1379,10 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
         match_condition: Optional[MatchConditions] = None,
         **kwargs: Any
     ) -> _models.ClassificationPolicy:
-        """Creates or updates a classification policy.
-
-        Creates or updates a classification policy.
-
-        :param id: Unique identifier of this policy. Required.
-        :type id: str
-        :param resource: The resource instance. Required.
-        :type resource: IO
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/merge-patch+json".
-        :paramtype content_type: str
-        :keyword if_unmodified_since: The request should only proceed if the entity was not modified
-         after this time. Default value is None.
-        :paramtype if_unmodified_since: ~datetime.datetime
-        :keyword etag: check if resource is changed. Set None to skip checking etag. Default value is
-         None.
-        :paramtype etag: str
-        :keyword match_condition: The match condition to use upon the etag. Default value is None.
-        :paramtype match_condition: ~azure.core.MatchConditions
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
-        :return: ClassificationPolicy. The ClassificationPolicy is compatible with MutableMapping
-        :rtype: ~azure.communication.jobrouter.models.ClassificationPolicy
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
+        ...
 
     @distributed_trace
-    def upsert_classification_policy(
+    def _upsert_classification_policy(
         self,
         id: str,
         resource: Union[_models.ClassificationPolicy, JSON, IO],
@@ -1852,7 +1708,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
             return cls(pipeline_response, None, {})
 
     @overload
-    def upsert_exception_policy(
+    def _upsert_exception_policy(
         self,
         id: str,
         resource: _models.ExceptionPolicy,
@@ -1863,34 +1719,10 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
         match_condition: Optional[MatchConditions] = None,
         **kwargs: Any
     ) -> _models.ExceptionPolicy:
-        """Creates or updates a exception policy.
-
-        Creates or updates a exception policy.
-
-        :param id: The Id of the exception policy. Required.
-        :type id: str
-        :param resource: The resource instance. Required.
-        :type resource: ~azure.communication.jobrouter.models.ExceptionPolicy
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/merge-patch+json".
-        :paramtype content_type: str
-        :keyword if_unmodified_since: The request should only proceed if the entity was not modified
-         after this time. Default value is None.
-        :paramtype if_unmodified_since: ~datetime.datetime
-        :keyword etag: check if resource is changed. Set None to skip checking etag. Default value is
-         None.
-        :paramtype etag: str
-        :keyword match_condition: The match condition to use upon the etag. Default value is None.
-        :paramtype match_condition: ~azure.core.MatchConditions
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
-        :return: ExceptionPolicy. The ExceptionPolicy is compatible with MutableMapping
-        :rtype: ~azure.communication.jobrouter.models.ExceptionPolicy
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
+        ...
 
     @overload
-    def upsert_exception_policy(
+    def _upsert_exception_policy(
         self,
         id: str,
         resource: JSON,
@@ -1901,34 +1733,10 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
         match_condition: Optional[MatchConditions] = None,
         **kwargs: Any
     ) -> _models.ExceptionPolicy:
-        """Creates or updates a exception policy.
-
-        Creates or updates a exception policy.
-
-        :param id: The Id of the exception policy. Required.
-        :type id: str
-        :param resource: The resource instance. Required.
-        :type resource: JSON
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/merge-patch+json".
-        :paramtype content_type: str
-        :keyword if_unmodified_since: The request should only proceed if the entity was not modified
-         after this time. Default value is None.
-        :paramtype if_unmodified_since: ~datetime.datetime
-        :keyword etag: check if resource is changed. Set None to skip checking etag. Default value is
-         None.
-        :paramtype etag: str
-        :keyword match_condition: The match condition to use upon the etag. Default value is None.
-        :paramtype match_condition: ~azure.core.MatchConditions
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
-        :return: ExceptionPolicy. The ExceptionPolicy is compatible with MutableMapping
-        :rtype: ~azure.communication.jobrouter.models.ExceptionPolicy
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
+        ...
 
     @overload
-    def upsert_exception_policy(
+    def _upsert_exception_policy(
         self,
         id: str,
         resource: IO,
@@ -1939,34 +1747,10 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
         match_condition: Optional[MatchConditions] = None,
         **kwargs: Any
     ) -> _models.ExceptionPolicy:
-        """Creates or updates a exception policy.
-
-        Creates or updates a exception policy.
-
-        :param id: The Id of the exception policy. Required.
-        :type id: str
-        :param resource: The resource instance. Required.
-        :type resource: IO
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/merge-patch+json".
-        :paramtype content_type: str
-        :keyword if_unmodified_since: The request should only proceed if the entity was not modified
-         after this time. Default value is None.
-        :paramtype if_unmodified_since: ~datetime.datetime
-        :keyword etag: check if resource is changed. Set None to skip checking etag. Default value is
-         None.
-        :paramtype etag: str
-        :keyword match_condition: The match condition to use upon the etag. Default value is None.
-        :paramtype match_condition: ~azure.core.MatchConditions
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
-        :return: ExceptionPolicy. The ExceptionPolicy is compatible with MutableMapping
-        :rtype: ~azure.communication.jobrouter.models.ExceptionPolicy
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
+        ...
 
     @distributed_trace
-    def upsert_exception_policy(
+    def _upsert_exception_policy(
         self,
         id: str,
         resource: Union[_models.ExceptionPolicy, JSON, IO],
@@ -2289,7 +2073,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
             return cls(pipeline_response, None, {})
 
     @overload
-    def upsert_queue(
+    def _upsert_queue(
         self,
         id: str,
         resource: _models.RouterQueue,
@@ -2300,34 +2084,10 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
         match_condition: Optional[MatchConditions] = None,
         **kwargs: Any
     ) -> _models.RouterQueue:
-        """Creates or updates a queue.
-
-        Creates or updates a queue.
-
-        :param id: The Id of this queue. Required.
-        :type id: str
-        :param resource: The resource instance. Required.
-        :type resource: ~azure.communication.jobrouter.models.RouterQueue
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/merge-patch+json".
-        :paramtype content_type: str
-        :keyword if_unmodified_since: The request should only proceed if the entity was not modified
-         after this time. Default value is None.
-        :paramtype if_unmodified_since: ~datetime.datetime
-        :keyword etag: check if resource is changed. Set None to skip checking etag. Default value is
-         None.
-        :paramtype etag: str
-        :keyword match_condition: The match condition to use upon the etag. Default value is None.
-        :paramtype match_condition: ~azure.core.MatchConditions
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
-        :return: RouterQueue. The RouterQueue is compatible with MutableMapping
-        :rtype: ~azure.communication.jobrouter.models.RouterQueue
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
+        ...
 
     @overload
-    def upsert_queue(
+    def _upsert_queue(
         self,
         id: str,
         resource: JSON,
@@ -2338,34 +2098,10 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
         match_condition: Optional[MatchConditions] = None,
         **kwargs: Any
     ) -> _models.RouterQueue:
-        """Creates or updates a queue.
-
-        Creates or updates a queue.
-
-        :param id: The Id of this queue. Required.
-        :type id: str
-        :param resource: The resource instance. Required.
-        :type resource: JSON
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/merge-patch+json".
-        :paramtype content_type: str
-        :keyword if_unmodified_since: The request should only proceed if the entity was not modified
-         after this time. Default value is None.
-        :paramtype if_unmodified_since: ~datetime.datetime
-        :keyword etag: check if resource is changed. Set None to skip checking etag. Default value is
-         None.
-        :paramtype etag: str
-        :keyword match_condition: The match condition to use upon the etag. Default value is None.
-        :paramtype match_condition: ~azure.core.MatchConditions
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
-        :return: RouterQueue. The RouterQueue is compatible with MutableMapping
-        :rtype: ~azure.communication.jobrouter.models.RouterQueue
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
+        ...
 
     @overload
-    def upsert_queue(
+    def _upsert_queue(
         self,
         id: str,
         resource: IO,
@@ -2376,34 +2112,10 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
         match_condition: Optional[MatchConditions] = None,
         **kwargs: Any
     ) -> _models.RouterQueue:
-        """Creates or updates a queue.
-
-        Creates or updates a queue.
-
-        :param id: The Id of this queue. Required.
-        :type id: str
-        :param resource: The resource instance. Required.
-        :type resource: IO
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/merge-patch+json".
-        :paramtype content_type: str
-        :keyword if_unmodified_since: The request should only proceed if the entity was not modified
-         after this time. Default value is None.
-        :paramtype if_unmodified_since: ~datetime.datetime
-        :keyword etag: check if resource is changed. Set None to skip checking etag. Default value is
-         None.
-        :paramtype etag: str
-        :keyword match_condition: The match condition to use upon the etag. Default value is None.
-        :paramtype match_condition: ~azure.core.MatchConditions
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
-        :return: RouterQueue. The RouterQueue is compatible with MutableMapping
-        :rtype: ~azure.communication.jobrouter.models.RouterQueue
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
+        ...
 
     @distributed_trace
-    def upsert_queue(
+    def _upsert_queue(
         self,
         id: str,
         resource: Union[_models.RouterQueue, JSON, IO],
@@ -2728,7 +2440,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
 
 class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
     @overload
-    def upsert_job(
+    def _upsert_job(
         self,
         id: str,
         resource: _models.RouterJob,
@@ -2739,34 +2451,10 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         match_condition: Optional[MatchConditions] = None,
         **kwargs: Any
     ) -> _models.RouterJob:
-        """Creates or updates a router job.
-
-        Creates or updates a router job.
-
-        :param id: The id of the job. Required.
-        :type id: str
-        :param resource: The resource instance. Required.
-        :type resource: ~azure.communication.jobrouter.models.RouterJob
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/merge-patch+json".
-        :paramtype content_type: str
-        :keyword if_unmodified_since: The request should only proceed if the entity was not modified
-         after this time. Default value is None.
-        :paramtype if_unmodified_since: ~datetime.datetime
-        :keyword etag: check if resource is changed. Set None to skip checking etag. Default value is
-         None.
-        :paramtype etag: str
-        :keyword match_condition: The match condition to use upon the etag. Default value is None.
-        :paramtype match_condition: ~azure.core.MatchConditions
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
-        :return: RouterJob. The RouterJob is compatible with MutableMapping
-        :rtype: ~azure.communication.jobrouter.models.RouterJob
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
+        ...
 
     @overload
-    def upsert_job(
+    def _upsert_job(
         self,
         id: str,
         resource: JSON,
@@ -2777,34 +2465,10 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         match_condition: Optional[MatchConditions] = None,
         **kwargs: Any
     ) -> _models.RouterJob:
-        """Creates or updates a router job.
-
-        Creates or updates a router job.
-
-        :param id: The id of the job. Required.
-        :type id: str
-        :param resource: The resource instance. Required.
-        :type resource: JSON
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/merge-patch+json".
-        :paramtype content_type: str
-        :keyword if_unmodified_since: The request should only proceed if the entity was not modified
-         after this time. Default value is None.
-        :paramtype if_unmodified_since: ~datetime.datetime
-        :keyword etag: check if resource is changed. Set None to skip checking etag. Default value is
-         None.
-        :paramtype etag: str
-        :keyword match_condition: The match condition to use upon the etag. Default value is None.
-        :paramtype match_condition: ~azure.core.MatchConditions
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
-        :return: RouterJob. The RouterJob is compatible with MutableMapping
-        :rtype: ~azure.communication.jobrouter.models.RouterJob
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
+        ...
 
     @overload
-    def upsert_job(
+    def _upsert_job(
         self,
         id: str,
         resource: IO,
@@ -2815,34 +2479,10 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         match_condition: Optional[MatchConditions] = None,
         **kwargs: Any
     ) -> _models.RouterJob:
-        """Creates or updates a router job.
-
-        Creates or updates a router job.
-
-        :param id: The id of the job. Required.
-        :type id: str
-        :param resource: The resource instance. Required.
-        :type resource: IO
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/merge-patch+json".
-        :paramtype content_type: str
-        :keyword if_unmodified_since: The request should only proceed if the entity was not modified
-         after this time. Default value is None.
-        :paramtype if_unmodified_since: ~datetime.datetime
-        :keyword etag: check if resource is changed. Set None to skip checking etag. Default value is
-         None.
-        :paramtype etag: str
-        :keyword match_condition: The match condition to use upon the etag. Default value is None.
-        :paramtype match_condition: ~azure.core.MatchConditions
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
-        :return: RouterJob. The RouterJob is compatible with MutableMapping
-        :rtype: ~azure.communication.jobrouter.models.RouterJob
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
+        ...
 
     @distributed_trace
-    def upsert_job(
+    def _upsert_job(
         self,
         id: str,
         resource: Union[_models.RouterJob, JSON, IO],
@@ -3077,34 +2717,18 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
             return cls(pipeline_response, None, {})
 
     @overload
-    def reclassify_job(  # pylint: disable=inconsistent-return-statements
+    def _reclassify_job(  # pylint: disable=inconsistent-return-statements,protected-access
         self,
         id: str,
-        reclassify_job_request: Optional[_models.ReclassifyJobRequest] = None,
+        reclassify_job_request: Optional[_models._models.ReclassifyJobRequest] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
     ) -> None:
-        """Reclassify a job.
-
-        Reclassify a job.
-
-        :param id: Id of the job. Required.
-        :type id: str
-        :param reclassify_job_request: Request object for reclassifying a job. Default value is None.
-        :type reclassify_job_request: ~azure.communication.jobrouter.models.ReclassifyJobRequest
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
-        :return: None
-        :rtype: None
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
+        ...
 
     @overload
-    def reclassify_job(  # pylint: disable=inconsistent-return-statements
+    def _reclassify_job(  # pylint: disable=inconsistent-return-statements
         self,
         id: str,
         reclassify_job_request: Optional[JSON] = None,
@@ -3112,26 +2736,10 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         content_type: str = "application/json",
         **kwargs: Any
     ) -> None:
-        """Reclassify a job.
-
-        Reclassify a job.
-
-        :param id: Id of the job. Required.
-        :type id: str
-        :param reclassify_job_request: Request object for reclassifying a job. Default value is None.
-        :type reclassify_job_request: JSON
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
-        :return: None
-        :rtype: None
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
+        ...
 
     @overload
-    def reclassify_job(  # pylint: disable=inconsistent-return-statements
+    def _reclassify_job(  # pylint: disable=inconsistent-return-statements
         self,
         id: str,
         reclassify_job_request: Optional[IO] = None,
@@ -3139,29 +2747,13 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         content_type: str = "application/json",
         **kwargs: Any
     ) -> None:
-        """Reclassify a job.
-
-        Reclassify a job.
-
-        :param id: Id of the job. Required.
-        :type id: str
-        :param reclassify_job_request: Request object for reclassifying a job. Default value is None.
-        :type reclassify_job_request: IO
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
-        :return: None
-        :rtype: None
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
+        ...
 
     @distributed_trace
-    def reclassify_job(  # pylint: disable=inconsistent-return-statements
+    def _reclassify_job(  # pylint: disable=inconsistent-return-statements
         self,
         id: str,
-        reclassify_job_request: Optional[Union[_models.ReclassifyJobRequest, JSON, IO]] = None,
+        reclassify_job_request: Optional[Union[_models._models.ReclassifyJobRequest, JSON, IO]] = None,
         **kwargs: Any
     ) -> None:
         """Reclassify a job.
@@ -3203,7 +2795,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
             _content = reclassify_job_request
         else:
             if reclassify_job_request is not None:
-                _content = json.dumps(reclassify_job_request, cls=AzureJSONEncoder, exclude_readonly=True)  # type: ignore # pylint: disable=line-too-long
+                _content = json.dumps(reclassify_job_request, cls=AzureJSONEncoder, exclude_readonly=True)  # type: ignore
             else:
                 _content = None
 
@@ -4253,7 +3845,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
             _content = decline_job_offer_request
         else:
             if decline_job_offer_request is not None:
-                _content = json.dumps(decline_job_offer_request, cls=AzureJSONEncoder, exclude_readonly=True)  # type: ignore  # pylint: disable=line-too-long
+                _content = json.dumps(decline_job_offer_request, cls=AzureJSONEncoder, exclude_readonly=True)  # type: ignore
             else:
                 _content = None
 
@@ -4349,7 +3941,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         return deserialized  # type: ignore
 
     @overload
-    def upsert_worker(
+    def _upsert_worker(
         self,
         worker_id: str,
         resource: _models.RouterWorker,
@@ -4360,34 +3952,10 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         match_condition: Optional[MatchConditions] = None,
         **kwargs: Any
     ) -> _models.RouterWorker:
-        """Creates or updates a worker.
-
-        Creates or updates a worker.
-
-        :param worker_id: Id of the worker. Required.
-        :type worker_id: str
-        :param resource: The resource instance. Required.
-        :type resource: ~azure.communication.jobrouter.models.RouterWorker
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/merge-patch+json".
-        :paramtype content_type: str
-        :keyword if_unmodified_since: The request should only proceed if the entity was not modified
-         after this time. Default value is None.
-        :paramtype if_unmodified_since: ~datetime.datetime
-        :keyword etag: check if resource is changed. Set None to skip checking etag. Default value is
-         None.
-        :paramtype etag: str
-        :keyword match_condition: The match condition to use upon the etag. Default value is None.
-        :paramtype match_condition: ~azure.core.MatchConditions
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
-        :return: RouterWorker. The RouterWorker is compatible with MutableMapping
-        :rtype: ~azure.communication.jobrouter.models.RouterWorker
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
+        ...
 
     @overload
-    def upsert_worker(
+    def _upsert_worker(
         self,
         worker_id: str,
         resource: JSON,
@@ -4398,34 +3966,10 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         match_condition: Optional[MatchConditions] = None,
         **kwargs: Any
     ) -> _models.RouterWorker:
-        """Creates or updates a worker.
-
-        Creates or updates a worker.
-
-        :param worker_id: Id of the worker. Required.
-        :type worker_id: str
-        :param resource: The resource instance. Required.
-        :type resource: JSON
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/merge-patch+json".
-        :paramtype content_type: str
-        :keyword if_unmodified_since: The request should only proceed if the entity was not modified
-         after this time. Default value is None.
-        :paramtype if_unmodified_since: ~datetime.datetime
-        :keyword etag: check if resource is changed. Set None to skip checking etag. Default value is
-         None.
-        :paramtype etag: str
-        :keyword match_condition: The match condition to use upon the etag. Default value is None.
-        :paramtype match_condition: ~azure.core.MatchConditions
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
-        :return: RouterWorker. The RouterWorker is compatible with MutableMapping
-        :rtype: ~azure.communication.jobrouter.models.RouterWorker
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
+        ...
 
     @overload
-    def upsert_worker(
+    def _upsert_worker(
         self,
         worker_id: str,
         resource: IO,
@@ -4436,34 +3980,10 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         match_condition: Optional[MatchConditions] = None,
         **kwargs: Any
     ) -> _models.RouterWorker:
-        """Creates or updates a worker.
-
-        Creates or updates a worker.
-
-        :param worker_id: Id of the worker. Required.
-        :type worker_id: str
-        :param resource: The resource instance. Required.
-        :type resource: IO
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/merge-patch+json".
-        :paramtype content_type: str
-        :keyword if_unmodified_since: The request should only proceed if the entity was not modified
-         after this time. Default value is None.
-        :paramtype if_unmodified_since: ~datetime.datetime
-        :keyword etag: check if resource is changed. Set None to skip checking etag. Default value is
-         None.
-        :paramtype etag: str
-        :keyword match_condition: The match condition to use upon the etag. Default value is None.
-        :paramtype match_condition: ~azure.core.MatchConditions
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
-        :return: RouterWorker. The RouterWorker is compatible with MutableMapping
-        :rtype: ~azure.communication.jobrouter.models.RouterWorker
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
+        ...
 
     @distributed_trace
-    def upsert_worker(
+    def _upsert_worker(
         self,
         worker_id: str,
         resource: Union[_models.RouterWorker, JSON, IO],
