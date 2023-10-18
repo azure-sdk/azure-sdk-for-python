@@ -14,7 +14,7 @@ from azure.mgmt.timeseriesinsights import TimeSeriesInsightsClient
     pip install azure-identity
     pip install azure-mgmt-timeseriesinsights
 # USAGE
-    python list_event_sources_by_environment.py
+    python event_sources_list_by_environment.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,

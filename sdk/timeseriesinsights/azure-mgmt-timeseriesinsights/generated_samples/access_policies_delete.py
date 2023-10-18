@@ -29,12 +29,11 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.access_policies.delete(
+    client.access_policies.delete(
         resource_group_name="rg1",
         environment_name="env1",
         access_policy_name="ap1",
     )
-    print(response)
 
 
 # x-ms-original-file: specification/timeseriesinsights/resource-manager/Microsoft.TimeSeriesInsights/preview/2021-03-31-preview/examples/AccessPoliciesDelete.json

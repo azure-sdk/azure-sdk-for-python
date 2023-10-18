@@ -14,7 +14,7 @@ from azure.mgmt.timeseriesinsights import TimeSeriesInsightsClient
     pip install azure-identity
     pip install azure-mgmt-timeseriesinsights
 # USAGE
-    python access_policies_update.py
+    python environments_list_by_subscription.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,15 +29,10 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.access_policies.update(
-        resource_group_name="rg1",
-        environment_name="env1",
-        access_policy_name="ap1",
-        access_policy_update_parameters={"properties": {"roles": ["Reader", "Contributor"]}},
-    )
+    response = client.environments.list_by_subscription()
     print(response)
 
 
-# x-ms-original-file: specification/timeseriesinsights/resource-manager/Microsoft.TimeSeriesInsights/preview/2021-03-31-preview/examples/AccessPoliciesPatchRoles.json
+# x-ms-original-file: specification/timeseriesinsights/resource-manager/Microsoft.TimeSeriesInsights/preview/2021-03-31-preview/examples/EnvironmentsListBySubscription.json
 if __name__ == "__main__":
     main()

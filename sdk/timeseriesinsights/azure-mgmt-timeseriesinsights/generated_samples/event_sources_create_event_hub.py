@@ -14,7 +14,7 @@ from azure.mgmt.timeseriesinsights import TimeSeriesInsightsClient
     pip install azure-identity
     pip install azure-mgmt-timeseriesinsights
 # USAGE
-    python create_event_hub_event_source.py
+    python event_sources_create_event_hub.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,

@@ -8,7 +8,7 @@
 # --------------------------------------------------------------------------
 
 import datetime
-from typing import Dict, List, Optional, TYPE_CHECKING, Union
+from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
 from .. import _serialization
 
@@ -40,8 +40,8 @@ class AccessPolicyCreateOrUpdateParameters(_serialization.Model):
         principal_object_id: Optional[str] = None,
         description: Optional[str] = None,
         roles: Optional[List[Union[str, "_models.AccessPolicyRole"]]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword principal_object_id: The objectId of the principal in Azure Active Directory.
         :paramtype principal_object_id: str
@@ -67,7 +67,7 @@ class AccessPolicyListResponse(_serialization.Model):
         "value": {"key": "value", "type": "[AccessPolicyResource]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.AccessPolicyResource"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.AccessPolicyResource"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Result of the List access policies operation.
         :paramtype value: list[~azure.mgmt.timeseriesinsights.models.AccessPolicyResource]
@@ -103,7 +103,7 @@ class Resource(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -112,7 +112,9 @@ class Resource(_serialization.Model):
 
 
 class AccessPolicyResource(Resource):
-    """An access policy is used to grant users and applications access to the environment. Roles are assigned to service principals in Azure Active Directory. These roles define the actions the principal can perform through the Time Series Insights data plane APIs.
+    """An access policy is used to grant users and applications access to the environment. Roles are
+    assigned to service principals in Azure Active Directory. These roles define the actions the
+    principal can perform through the Time Series Insights data plane APIs.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -153,8 +155,8 @@ class AccessPolicyResource(Resource):
         principal_object_id: Optional[str] = None,
         description: Optional[str] = None,
         roles: Optional[List[Union[str, "_models.AccessPolicyRole"]]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword principal_object_id: The objectId of the principal in Azure Active Directory.
         :paramtype principal_object_id: str
@@ -188,8 +190,8 @@ class AccessPolicyUpdateParameters(_serialization.Model):
         *,
         description: Optional[str] = None,
         roles: Optional[List[Union[str, "_models.AccessPolicyRole"]]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword description: An description of the access policy.
         :paramtype description: str
@@ -223,7 +225,7 @@ class ResourceProperties(_serialization.Model):
         "creation_time": {"key": "creationTime", "type": "iso-8601"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.provisioning_state = None
@@ -279,8 +281,8 @@ class EventSourceCommonProperties(ResourceProperties):
         local_timestamp: Optional["_models.LocalTimestamp"] = None,
         type: Optional[Union[str, "_models.IngressStartAtType"]] = None,
         time: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword timestamp_property_name: The event property that will be used as the event source's
          timestamp. If a value isn't specified for timestampPropertyName, or if null or empty-string is
@@ -363,8 +365,8 @@ class AzureEventSourceProperties(EventSourceCommonProperties):
         local_timestamp: Optional["_models.LocalTimestamp"] = None,
         type: Optional[Union[str, "_models.IngressStartAtType"]] = None,
         time: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword timestamp_property_name: The event property that will be used as the event source's
          timestamp. If a value isn't specified for timestampPropertyName, or if null or empty-string is
@@ -425,8 +427,8 @@ class CloudErrorBody(_serialization.Model):
         message: Optional[str] = None,
         target: Optional[str] = None,
         details: Optional[List["_models.CloudErrorBody"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword code: An error code that describes the error condition more precisely than an HTTP
          status code. Can be used to programmatically handle specific error cases.
@@ -467,7 +469,7 @@ class CreateOrUpdateTrackedResourceProperties(_serialization.Model):
         "tags": {"key": "tags", "type": "{str}"},
     }
 
-    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword location: The location of the resource. Required.
         :paramtype location: str
@@ -493,7 +495,7 @@ class Dimension(_serialization.Model):
         "display_name": {"key": "displayName", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, display_name: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, display_name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Display name of dimension.
         :paramtype name: str
@@ -542,7 +544,9 @@ class EnvironmentCreateOrUpdateParameters(CreateOrUpdateTrackedResourcePropertie
         "kind": {"Gen1": "Gen1EnvironmentCreateOrUpdateParameters", "Gen2": "Gen2EnvironmentCreateOrUpdateParameters"}
     }
 
-    def __init__(self, *, location: str, sku: "_models.Sku", tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(
+        self, *, location: str, sku: "_models.Sku", tags: Optional[Dict[str, str]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword location: The location of the resource. Required.
         :paramtype location: str
@@ -554,7 +558,7 @@ class EnvironmentCreateOrUpdateParameters(CreateOrUpdateTrackedResourcePropertie
         :paramtype sku: ~azure.mgmt.timeseriesinsights.models.Sku
         """
         super().__init__(location=location, tags=tags, **kwargs)
-        self.kind = None  # type: Optional[str]
+        self.kind: Optional[str] = None
         self.sku = sku
 
 
@@ -569,7 +573,7 @@ class EnvironmentListResponse(_serialization.Model):
         "value": {"key": "value", "type": "[EnvironmentResource]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.EnvironmentResource"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.EnvironmentResource"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Result of the List Environments operation.
         :paramtype value: list[~azure.mgmt.timeseriesinsights.models.EnvironmentResource]
@@ -614,7 +618,7 @@ class TrackedResource(Resource):
         "tags": {"key": "tags", "type": "{str}"},
     }
 
-    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword location: Resource location. Required.
         :paramtype location: str
@@ -627,7 +631,8 @@ class TrackedResource(Resource):
 
 
 class EnvironmentResource(TrackedResource):
-    """An environment is a set of time-series data available for query, and is the top level Azure Time Series Insights resource.
+    """An environment is a set of time-series data available for query, and is the top level Azure
+    Time Series Insights resource.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     Gen1EnvironmentResource, Gen2EnvironmentResource
@@ -677,7 +682,9 @@ class EnvironmentResource(TrackedResource):
 
     _subtype_map = {"kind": {"Gen1": "Gen1EnvironmentResource", "Gen2": "Gen2EnvironmentResource"}}
 
-    def __init__(self, *, location: str, sku: "_models.Sku", tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(
+        self, *, location: str, sku: "_models.Sku", tags: Optional[Dict[str, str]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword location: Resource location. Required.
         :paramtype location: str
@@ -690,7 +697,7 @@ class EnvironmentResource(TrackedResource):
         """
         super().__init__(location=location, tags=tags, **kwargs)
         self.sku = sku
-        self.kind = None  # type: Optional[str]
+        self.kind: Optional[str] = None
 
 
 class EnvironmentResourceProperties(ResourceProperties):
@@ -730,7 +737,7 @@ class EnvironmentResourceProperties(ResourceProperties):
         "status": {"key": "status", "type": "EnvironmentStatus"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.data_access_id = None
@@ -753,7 +760,7 @@ class EnvironmentStateDetails(_serialization.Model):
         "message": {"key": "message", "type": "str"},
     }
 
-    def __init__(self, *, code: Optional[str] = None, message: Optional[str] = None, **kwargs):
+    def __init__(self, *, code: Optional[str] = None, message: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword code: Contains the code that represents the reason of an environment being in a
          particular state. Can be used to programmatically handle specific cases.
@@ -767,7 +774,8 @@ class EnvironmentStateDetails(_serialization.Model):
 
 
 class EnvironmentStatus(_serialization.Model):
-    """An object that represents the status of the environment, and its internal state in the Time Series Insights service.
+    """An object that represents the status of the environment, and its internal state in the Time
+    Series Insights service.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -787,7 +795,7 @@ class EnvironmentStatus(_serialization.Model):
         "warm_storage": {"key": "warmStorage", "type": "WarmStorageEnvironmentStatus"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.ingress = None
@@ -819,13 +827,13 @@ class EnvironmentUpdateParameters(_serialization.Model):
 
     _subtype_map = {"kind": {"Gen1": "Gen1EnvironmentUpdateParameters", "Gen2": "Gen2EnvironmentUpdateParameters"}}
 
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword tags: Key-value pairs of additional properties for the environment.
         :paramtype tags: dict[str, str]
         """
         super().__init__(**kwargs)
-        self.kind = None  # type: Optional[str]
+        self.kind: Optional[str] = None
         self.tags = tags
 
 
@@ -909,8 +917,8 @@ class EventHubEventSourceCommonProperties(AzureEventSourceProperties):  # pylint
         local_timestamp: Optional["_models.LocalTimestamp"] = None,
         type: Optional[Union[str, "_models.IngressStartAtType"]] = None,
         time: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword timestamp_property_name: The event property that will be used as the event source's
          timestamp. If a value isn't specified for timestampPropertyName, or if null or empty-string is
@@ -1005,8 +1013,8 @@ class EventSourceCreateOrUpdateParameters(CreateOrUpdateTrackedResourcePropertie
         location: str,
         tags: Optional[Dict[str, str]] = None,
         local_timestamp: Optional["_models.LocalTimestamp"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: The location of the resource. Required.
         :paramtype location: str
@@ -1019,14 +1027,15 @@ class EventSourceCreateOrUpdateParameters(CreateOrUpdateTrackedResourcePropertie
         :paramtype local_timestamp: ~azure.mgmt.timeseriesinsights.models.LocalTimestamp
         """
         super().__init__(location=location, tags=tags, **kwargs)
-        self.kind = None  # type: Optional[str]
+        self.kind: Optional[str] = None
         self.local_timestamp = local_timestamp
 
 
 class EventHubEventSourceCreateOrUpdateParameters(
     EventSourceCreateOrUpdateParameters
 ):  # pylint: disable=too-many-instance-attributes
-    """Parameters supplied to the Create or Update Event Source operation for an EventHub event source.
+    """Parameters supplied to the Create or Update Event Source operation for an EventHub event
+    source.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -1134,8 +1143,8 @@ class EventHubEventSourceCreateOrUpdateParameters(
         local_timestamp_properties_local_timestamp: Optional["_models.LocalTimestamp"] = None,
         type: Optional[Union[str, "_models.IngressStartAtType"]] = None,
         time: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: The location of the resource. Required.
         :paramtype location: str
@@ -1184,7 +1193,7 @@ class EventHubEventSourceCreateOrUpdateParameters(
         :paramtype shared_access_key: str
         """
         super().__init__(location=location, tags=tags, local_timestamp=local_timestamp, **kwargs)
-        self.kind = "Microsoft.EventHub"  # type: str
+        self.kind: str = "Microsoft.EventHub"
         self.provisioning_state = None
         self.creation_time = None
         self.timestamp_property_name = timestamp_property_name
@@ -1288,8 +1297,8 @@ class EventHubEventSourceCreationProperties(
         local_timestamp: Optional["_models.LocalTimestamp"] = None,
         type: Optional[Union[str, "_models.IngressStartAtType"]] = None,
         time: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword timestamp_property_name: The event property that will be used as the event source's
          timestamp. If a value isn't specified for timestampPropertyName, or if null or empty-string is
@@ -1355,7 +1364,7 @@ class EventSourceMutableProperties(_serialization.Model):
         "timestamp_property_name": {"key": "timestampPropertyName", "type": "str"},
     }
 
-    def __init__(self, *, timestamp_property_name: Optional[str] = None, **kwargs):
+    def __init__(self, *, timestamp_property_name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword timestamp_property_name: The event property that will be used as the event source's
          timestamp. If a value isn't specified for timestampPropertyName, or if null or empty-string is
@@ -1385,8 +1394,8 @@ class EventHubEventSourceMutableProperties(EventSourceMutableProperties):
     }
 
     def __init__(
-        self, *, timestamp_property_name: Optional[str] = None, shared_access_key: Optional[str] = None, **kwargs
-    ):
+        self, *, timestamp_property_name: Optional[str] = None, shared_access_key: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword timestamp_property_name: The event property that will be used as the event source's
          timestamp. If a value isn't specified for timestampPropertyName, or if null or empty-string is
@@ -1402,7 +1411,9 @@ class EventHubEventSourceMutableProperties(EventSourceMutableProperties):
 
 
 class EventSourceResource(TrackedResource):
-    """An environment receives data from one or more event sources. Each event source has associated connection info that allows the Time Series Insights ingress pipeline to connect to and pull data from the event source.
+    """An environment receives data from one or more event sources. Each event source has associated
+    connection info that allows the Time Series Insights ingress pipeline to connect to and pull
+    data from the event source.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     EventHubEventSourceResource, IoTHubEventSourceResource
@@ -1449,7 +1460,7 @@ class EventSourceResource(TrackedResource):
         "kind": {"Microsoft.EventHub": "EventHubEventSourceResource", "Microsoft.IoTHub": "IoTHubEventSourceResource"}
     }
 
-    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword location: Resource location. Required.
         :paramtype location: str
@@ -1457,7 +1468,7 @@ class EventSourceResource(TrackedResource):
         :paramtype tags: dict[str, str]
         """
         super().__init__(location=location, tags=tags, **kwargs)
-        self.kind = None  # type: Optional[str]
+        self.kind: Optional[str] = None
 
 
 class EventHubEventSourceResource(EventSourceResource):  # pylint: disable=too-many-instance-attributes
@@ -1569,8 +1580,8 @@ class EventHubEventSourceResource(EventSourceResource):  # pylint: disable=too-m
         local_timestamp: Optional["_models.LocalTimestamp"] = None,
         type_properties_ingress_start_at_type: Optional[Union[str, "_models.IngressStartAtType"]] = None,
         time: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Resource location. Required.
         :paramtype location: str
@@ -1610,7 +1621,7 @@ class EventHubEventSourceResource(EventSourceResource):  # pylint: disable=too-m
         :paramtype key_name: str
         """
         super().__init__(location=location, tags=tags, **kwargs)
-        self.kind = "Microsoft.EventHub"  # type: str
+        self.kind: str = "Microsoft.EventHub"
         self.provisioning_state = None
         self.creation_time = None
         self.timestamp_property_name = timestamp_property_name
@@ -1706,8 +1717,8 @@ class EventHubEventSourceResourceProperties(
         local_timestamp: Optional["_models.LocalTimestamp"] = None,
         type: Optional[Union[str, "_models.IngressStartAtType"]] = None,
         time: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword timestamp_property_name: The event property that will be used as the event source's
          timestamp. If a value isn't specified for timestampPropertyName, or if null or empty-string is
@@ -1786,13 +1797,13 @@ class EventSourceUpdateParameters(_serialization.Model):
         }
     }
 
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword tags: Key-value pairs of additional properties for the event source.
         :paramtype tags: dict[str, str]
         """
         super().__init__(**kwargs)
-        self.kind = None  # type: Optional[str]
+        self.kind: Optional[str] = None
         self.tags = tags
 
 
@@ -1833,8 +1844,8 @@ class EventHubEventSourceUpdateParameters(EventSourceUpdateParameters):
         tags: Optional[Dict[str, str]] = None,
         timestamp_property_name: Optional[str] = None,
         shared_access_key: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Key-value pairs of additional properties for the event source.
         :paramtype tags: dict[str, str]
@@ -1848,7 +1859,7 @@ class EventHubEventSourceUpdateParameters(EventSourceUpdateParameters):
         :paramtype shared_access_key: str
         """
         super().__init__(tags=tags, **kwargs)
-        self.kind = "Microsoft.EventHub"  # type: str
+        self.kind: str = "Microsoft.EventHub"
         self.timestamp_property_name = timestamp_property_name
         self.shared_access_key = shared_access_key
 
@@ -1864,7 +1875,7 @@ class EventSourceListResponse(_serialization.Model):
         "value": {"key": "value", "type": "[EventSourceResource]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.EventSourceResource"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.EventSourceResource"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Result of the List EventSources operation.
         :paramtype value: list[~azure.mgmt.timeseriesinsights.models.EventSourceResource]
@@ -1930,8 +1941,8 @@ class Gen1EnvironmentCreateOrUpdateParameters(EnvironmentCreateOrUpdateParameter
         tags: Optional[Dict[str, str]] = None,
         storage_limit_exceeded_behavior: Optional[Union[str, "_models.StorageLimitExceededBehavior"]] = None,
         partition_key_properties: Optional[List["_models.TimeSeriesIdProperty"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: The location of the resource. Required.
         :paramtype location: str
@@ -1957,7 +1968,7 @@ class Gen1EnvironmentCreateOrUpdateParameters(EnvironmentCreateOrUpdateParameter
          list[~azure.mgmt.timeseriesinsights.models.TimeSeriesIdProperty]
         """
         super().__init__(location=location, tags=tags, sku=sku, **kwargs)
-        self.kind = "Gen1"  # type: str
+        self.kind: str = "Gen1"
         self.data_retention_time = data_retention_time
         self.storage_limit_exceeded_behavior = storage_limit_exceeded_behavior
         self.partition_key_properties = partition_key_properties
@@ -2000,8 +2011,8 @@ class Gen1EnvironmentCreationProperties(_serialization.Model):
         data_retention_time: datetime.timedelta,
         storage_limit_exceeded_behavior: Optional[Union[str, "_models.StorageLimitExceededBehavior"]] = None,
         partition_key_properties: Optional[List["_models.TimeSeriesIdProperty"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword data_retention_time: ISO8601 timespan specifying the minimum number of days the
          environment's events will be available for query. Required.
@@ -2025,7 +2036,8 @@ class Gen1EnvironmentCreationProperties(_serialization.Model):
 
 
 class Gen1EnvironmentResource(EnvironmentResource):  # pylint: disable=too-many-instance-attributes
-    """An environment is a set of time-series data available for query, and is the top level Azure Time Series Insights resource. Gen1 environments have data retention limits.
+    """An environment is a set of time-series data available for query, and is the top level Azure
+    Time Series Insights resource. Gen1 environments have data retention limits.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -2121,8 +2133,8 @@ class Gen1EnvironmentResource(EnvironmentResource):  # pylint: disable=too-many-
         tags: Optional[Dict[str, str]] = None,
         storage_limit_exceeded_behavior: Optional[Union[str, "_models.StorageLimitExceededBehavior"]] = None,
         partition_key_properties: Optional[List["_models.TimeSeriesIdProperty"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Resource location. Required.
         :paramtype location: str
@@ -2148,7 +2160,7 @@ class Gen1EnvironmentResource(EnvironmentResource):  # pylint: disable=too-many-
          list[~azure.mgmt.timeseriesinsights.models.TimeSeriesIdProperty]
         """
         super().__init__(location=location, tags=tags, sku=sku, **kwargs)
-        self.kind = "Gen1"  # type: str
+        self.kind: str = "Gen1"
         self.data_retention_time = data_retention_time
         self.storage_limit_exceeded_behavior = storage_limit_exceeded_behavior
         self.partition_key_properties = partition_key_properties
@@ -2222,8 +2234,8 @@ class Gen1EnvironmentResourceProperties(Gen1EnvironmentCreationProperties, Envir
         data_retention_time: datetime.timedelta,
         storage_limit_exceeded_behavior: Optional[Union[str, "_models.StorageLimitExceededBehavior"]] = None,
         partition_key_properties: Optional[List["_models.TimeSeriesIdProperty"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword data_retention_time: ISO8601 timespan specifying the minimum number of days the
          environment's events will be available for query. Required.
@@ -2298,8 +2310,8 @@ class Gen1EnvironmentUpdateParameters(EnvironmentUpdateParameters):
         sku: Optional["_models.Sku"] = None,
         data_retention_time: Optional[datetime.timedelta] = None,
         storage_limit_exceeded_behavior: Optional[Union[str, "_models.StorageLimitExceededBehavior"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Key-value pairs of additional properties for the environment.
         :paramtype tags: dict[str, str]
@@ -2317,7 +2329,7 @@ class Gen1EnvironmentUpdateParameters(EnvironmentUpdateParameters):
          ~azure.mgmt.timeseriesinsights.models.StorageLimitExceededBehavior
         """
         super().__init__(tags=tags, **kwargs)
-        self.kind = "Gen1"  # type: str
+        self.kind: str = "Gen1"
         self.sku = sku
         self.data_retention_time = data_retention_time
         self.storage_limit_exceeded_behavior = storage_limit_exceeded_behavior
@@ -2402,8 +2414,8 @@ class Gen2EnvironmentCreateOrUpdateParameters(EnvironmentCreateOrUpdateParameter
         tags: Optional[Dict[str, str]] = None,
         warm_store_configuration: Optional["_models.WarmStoreConfigurationProperties"] = None,
         public_network_access: Optional[Union[str, "_models.PublicNetworkAccess"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: The location of the resource. Required.
         :paramtype location: str
@@ -2435,7 +2447,7 @@ class Gen2EnvironmentCreateOrUpdateParameters(EnvironmentCreateOrUpdateParameter
          ~azure.mgmt.timeseriesinsights.models.PublicNetworkAccess
         """
         super().__init__(location=location, tags=tags, sku=sku, **kwargs)
-        self.kind = "Gen2"  # type: str
+        self.kind: str = "Gen2"
         self.time_series_id_properties = time_series_id_properties
         self.storage_configuration = storage_configuration
         self.warm_store_configuration = warm_store_configuration
@@ -2444,7 +2456,8 @@ class Gen2EnvironmentCreateOrUpdateParameters(EnvironmentCreateOrUpdateParameter
 
 
 class Gen2EnvironmentResource(EnvironmentResource):  # pylint: disable=too-many-instance-attributes
-    """An environment is a set of time-series data available for query, and is the top level Azure Time Series Insights resource. Gen2 environments do not have set data retention limits.
+    """An environment is a set of time-series data available for query, and is the top level Azure
+    Time Series Insights resource. Gen2 environments do not have set data retention limits.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -2559,8 +2572,8 @@ class Gen2EnvironmentResource(EnvironmentResource):  # pylint: disable=too-many-
         tags: Optional[Dict[str, str]] = None,
         warm_store_configuration: Optional["_models.WarmStoreConfigurationProperties"] = None,
         public_network_access: Optional[Union[str, "_models.PublicNetworkAccess"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Resource location. Required.
         :paramtype location: str
@@ -2591,7 +2604,7 @@ class Gen2EnvironmentResource(EnvironmentResource):  # pylint: disable=too-many-
          ~azure.mgmt.timeseriesinsights.models.PublicNetworkAccess
         """
         super().__init__(location=location, tags=tags, sku=sku, **kwargs)
-        self.kind = "Gen2"  # type: str
+        self.kind: str = "Gen2"
         self.provisioning_state = None
         self.creation_time = None
         self.data_access_id = None
@@ -2680,8 +2693,8 @@ class Gen2EnvironmentResourceProperties(EnvironmentResourceProperties):
         storage_configuration: "_models.Gen2StorageConfigurationOutput",
         warm_store_configuration: Optional["_models.WarmStoreConfigurationProperties"] = None,
         public_network_access: Optional[Union[str, "_models.PublicNetworkAccess"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword time_series_id_properties: The list of event properties which will be used to define
          the environment's time series id. Required.
@@ -2754,8 +2767,8 @@ class Gen2EnvironmentUpdateParameters(EnvironmentUpdateParameters):
         tags: Optional[Dict[str, str]] = None,
         storage_configuration: Optional["_models.Gen2StorageConfigurationMutableProperties"] = None,
         warm_store_configuration: Optional["_models.WarmStoreConfigurationProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Key-value pairs of additional properties for the environment.
         :paramtype tags: dict[str, str]
@@ -2771,13 +2784,15 @@ class Gen2EnvironmentUpdateParameters(EnvironmentUpdateParameters):
          ~azure.mgmt.timeseriesinsights.models.WarmStoreConfigurationProperties
         """
         super().__init__(tags=tags, **kwargs)
-        self.kind = "Gen2"  # type: str
+        self.kind: str = "Gen2"
         self.storage_configuration = storage_configuration
         self.warm_store_configuration = warm_store_configuration
 
 
 class Gen2StorageConfigurationInput(_serialization.Model):
-    """The storage configuration provides the connection details that allows the Time Series Insights service to connect to the customer storage account that is used to store the environment's data.
+    """The storage configuration provides the connection details that allows the Time Series Insights
+    service to connect to the customer storage account that is used to store the environment's
+    data.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -2800,7 +2815,7 @@ class Gen2StorageConfigurationInput(_serialization.Model):
         "management_key": {"key": "managementKey", "type": "str"},
     }
 
-    def __init__(self, *, account_name: str, management_key: str, **kwargs):
+    def __init__(self, *, account_name: str, management_key: str, **kwargs: Any) -> None:
         """
         :keyword account_name: The name of the storage account that will hold the environment's Gen2
          data. Required.
@@ -2816,7 +2831,9 @@ class Gen2StorageConfigurationInput(_serialization.Model):
 
 
 class Gen2StorageConfigurationMutableProperties(_serialization.Model):
-    """The storage configuration provides the connection details that allows the Time Series Insights service to connect to the customer storage account that is used to store the environment's data.
+    """The storage configuration provides the connection details that allows the Time Series Insights
+    service to connect to the customer storage account that is used to store the environment's
+    data.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -2834,7 +2851,7 @@ class Gen2StorageConfigurationMutableProperties(_serialization.Model):
         "management_key": {"key": "managementKey", "type": "str"},
     }
 
-    def __init__(self, *, management_key: str, **kwargs):
+    def __init__(self, *, management_key: str, **kwargs: Any) -> None:
         """
         :keyword management_key: The value of the management key that grants the Time Series Insights
          service write access to the storage account. This property is not shown in environment
@@ -2846,7 +2863,8 @@ class Gen2StorageConfigurationMutableProperties(_serialization.Model):
 
 
 class Gen2StorageConfigurationOutput(_serialization.Model):
-    """The storage configuration provides the non-secret connection details about the customer storage account that is used to store the environment's data.
+    """The storage configuration provides the non-secret connection details about the customer storage
+    account that is used to store the environment's data.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -2863,7 +2881,7 @@ class Gen2StorageConfigurationOutput(_serialization.Model):
         "account_name": {"key": "accountName", "type": "str"},
     }
 
-    def __init__(self, *, account_name: str, **kwargs):
+    def __init__(self, *, account_name: str, **kwargs: Any) -> None:
         """
         :keyword account_name: The name of the storage account that will hold the environment's Gen2
          data. Required.
@@ -2895,7 +2913,7 @@ class IngressEnvironmentStatus(_serialization.Model):
         "state_details": {"key": "stateDetails", "type": "EnvironmentStateDetails"},
     }
 
-    def __init__(self, *, state: Optional[Union[str, "_models.IngressState"]] = None, **kwargs):
+    def __init__(self, *, state: Optional[Union[str, "_models.IngressState"]] = None, **kwargs: Any) -> None:
         """
         :keyword state: This string represents the state of ingress operations on an environment. It
          can be "Disabled", "Ready", "Running", "Paused" or "Unknown". Known values are: "Disabled",
@@ -2982,8 +3000,8 @@ class IoTHubEventSourceCommonProperties(AzureEventSourceProperties):
         local_timestamp: Optional["_models.LocalTimestamp"] = None,
         type: Optional[Union[str, "_models.IngressStartAtType"]] = None,
         time: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword timestamp_property_name: The event property that will be used as the event source's
          timestamp. If a value isn't specified for timestampPropertyName, or if null or empty-string is
@@ -3133,8 +3151,8 @@ class IoTHubEventSourceCreateOrUpdateParameters(
         local_timestamp_properties_local_timestamp: Optional["_models.LocalTimestamp"] = None,
         type: Optional[Union[str, "_models.IngressStartAtType"]] = None,
         time: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: The location of the resource. Required.
         :paramtype location: str
@@ -3180,7 +3198,7 @@ class IoTHubEventSourceCreateOrUpdateParameters(
         :paramtype shared_access_key: str
         """
         super().__init__(location=location, tags=tags, local_timestamp=local_timestamp, **kwargs)
-        self.kind = "Microsoft.IoTHub"  # type: str
+        self.kind: str = "Microsoft.IoTHub"
         self.provisioning_state = None
         self.creation_time = None
         self.timestamp_property_name = timestamp_property_name
@@ -3278,8 +3296,8 @@ class IoTHubEventSourceCreationProperties(
         local_timestamp: Optional["_models.LocalTimestamp"] = None,
         type: Optional[Union[str, "_models.IngressStartAtType"]] = None,
         time: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword timestamp_property_name: The event property that will be used as the event source's
          timestamp. If a value isn't specified for timestampPropertyName, or if null or empty-string is
@@ -3347,8 +3365,8 @@ class IoTHubEventSourceMutableProperties(EventSourceMutableProperties):
     }
 
     def __init__(
-        self, *, timestamp_property_name: Optional[str] = None, shared_access_key: Optional[str] = None, **kwargs
-    ):
+        self, *, timestamp_property_name: Optional[str] = None, shared_access_key: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword timestamp_property_name: The event property that will be used as the event source's
          timestamp. If a value isn't specified for timestampPropertyName, or if null or empty-string is
@@ -3467,8 +3485,8 @@ class IoTHubEventSourceResource(EventSourceResource):  # pylint: disable=too-man
         local_timestamp: Optional["_models.LocalTimestamp"] = None,
         type_properties_ingress_start_at_type: Optional[Union[str, "_models.IngressStartAtType"]] = None,
         time: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Resource location. Required.
         :paramtype location: str
@@ -3505,7 +3523,7 @@ class IoTHubEventSourceResource(EventSourceResource):  # pylint: disable=too-man
         :paramtype key_name: str
         """
         super().__init__(location=location, tags=tags, **kwargs)
-        self.kind = "Microsoft.IoTHub"  # type: str
+        self.kind: str = "Microsoft.IoTHub"
         self.provisioning_state = None
         self.creation_time = None
         self.timestamp_property_name = timestamp_property_name
@@ -3593,8 +3611,8 @@ class IoTHubEventSourceResourceProperties(IoTHubEventSourceCommonProperties):
         local_timestamp: Optional["_models.LocalTimestamp"] = None,
         type: Optional[Union[str, "_models.IngressStartAtType"]] = None,
         time: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword timestamp_property_name: The event property that will be used as the event source's
          timestamp. If a value isn't specified for timestampPropertyName, or if null or empty-string is
@@ -3675,8 +3693,8 @@ class IoTHubEventSourceUpdateParameters(EventSourceUpdateParameters):
         tags: Optional[Dict[str, str]] = None,
         timestamp_property_name: Optional[str] = None,
         shared_access_key: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Key-value pairs of additional properties for the event source.
         :paramtype tags: dict[str, str]
@@ -3690,13 +3708,16 @@ class IoTHubEventSourceUpdateParameters(EventSourceUpdateParameters):
         :paramtype shared_access_key: str
         """
         super().__init__(tags=tags, **kwargs)
-        self.kind = "Microsoft.IoTHub"  # type: str
+        self.kind: str = "Microsoft.IoTHub"
         self.timestamp_property_name = timestamp_property_name
         self.shared_access_key = shared_access_key
 
 
 class LocalTimestamp(_serialization.Model):
-    """An object that represents the local timestamp property. It contains the format of local timestamp that needs to be used and the corresponding timezone offset information. If a value isn't specified for localTimestamp, or if null, then the local timestamp will not be ingressed with the events.
+    """An object that represents the local timestamp property. It contains the format of local
+    timestamp that needs to be used and the corresponding timezone offset information. If a value
+    isn't specified for localTimestamp, or if null, then the local timestamp will not be ingressed
+    with the events.
 
     :ivar format: An enum that represents the format of the local timestamp property that needs to
      be set. "Embedded"
@@ -3716,8 +3737,8 @@ class LocalTimestamp(_serialization.Model):
         *,
         format: Optional[Union[str, "_models.LocalTimestampFormat"]] = None,
         time_zone_offset: Optional["_models.LocalTimestampTimeZoneOffset"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword format: An enum that represents the format of the local timestamp property that needs
          to be set. "Embedded"
@@ -3732,7 +3753,8 @@ class LocalTimestamp(_serialization.Model):
 
 
 class LocalTimestampTimeZoneOffset(_serialization.Model):
-    """An object that represents the offset information for the local timestamp format specified. Should not be specified for LocalTimestampFormat - Embedded.
+    """An object that represents the offset information for the local timestamp format specified.
+    Should not be specified for LocalTimestampFormat - Embedded.
 
     :ivar property_name: The event property that will be contain the offset information to
      calculate the local timestamp. When the LocalTimestampFormat is Iana, the property name will
@@ -3746,7 +3768,7 @@ class LocalTimestampTimeZoneOffset(_serialization.Model):
         "property_name": {"key": "propertyName", "type": "str"},
     }
 
-    def __init__(self, *, property_name: Optional[str] = None, **kwargs):
+    def __init__(self, *, property_name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword property_name: The event property that will be contain the offset information to
          calculate the local timestamp. When the LocalTimestampFormat is Iana, the property name will
@@ -3773,7 +3795,7 @@ class LogSpecification(_serialization.Model):
         "display_name": {"key": "displayName", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, display_name: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, display_name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Log name.
         :paramtype name: str
@@ -3799,7 +3821,7 @@ class MetricAvailability(_serialization.Model):
         "blob_duration": {"key": "blobDuration", "type": "str"},
     }
 
-    def __init__(self, *, time_grain: Optional[str] = None, blob_duration: Optional[str] = None, **kwargs):
+    def __init__(self, *, time_grain: Optional[str] = None, blob_duration: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword time_grain:
         :paramtype time_grain: str
@@ -3858,8 +3880,8 @@ class MetricSpecification(_serialization.Model):
         availabilities: Optional[List["_models.MetricAvailability"]] = None,
         category: Optional[str] = None,
         resource_id_dimension_name_override: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Name of metric specification.
         :paramtype name: str
@@ -3925,8 +3947,8 @@ class Operation(_serialization.Model):
         *,
         origin: Optional[str] = None,
         service_specification: Optional["_models.ServiceSpecification"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword origin: The intended executor of the operation.
         :paramtype origin: str
@@ -3970,7 +3992,7 @@ class OperationDisplay(_serialization.Model):
         "description": {"key": "description", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.provider = None
@@ -3980,7 +4002,8 @@ class OperationDisplay(_serialization.Model):
 
 
 class OperationListResult(_serialization.Model):
-    """Result of the request to list Time Series Insights operations. It contains a list of operations and a URL link to get the next set of results.
+    """Result of the request to list Time Series Insights operations. It contains a list of operations
+    and a URL link to get the next set of results.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -4001,7 +4024,7 @@ class OperationListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -4025,7 +4048,7 @@ class PrivateEndpoint(_serialization.Model):
         "id": {"key": "id", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -4084,8 +4107,8 @@ class PrivateEndpointConnection(Resource):
         private_endpoint: Optional["_models.PrivateEndpoint"] = None,
         group_ids: Optional[List[str]] = None,
         private_link_service_connection_state: Optional["_models.PrivateLinkServiceConnectionState"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword private_endpoint: The resource of private end point.
         :paramtype private_endpoint: ~azure.mgmt.timeseriesinsights.models.PrivateEndpoint
@@ -4114,7 +4137,7 @@ class PrivateEndpointConnectionListResult(_serialization.Model):
         "value": {"key": "value", "type": "[PrivateEndpointConnection]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.PrivateEndpointConnection"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.PrivateEndpointConnection"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Array of private endpoint connections.
         :paramtype value: list[~azure.mgmt.timeseriesinsights.models.PrivateEndpointConnection]
@@ -4161,7 +4184,7 @@ class PrivateLinkResource(Resource):
         "required_zone_names": {"key": "properties.requiredZoneNames", "type": "[str]"},
     }
 
-    def __init__(self, *, required_zone_names: Optional[List[str]] = None, **kwargs):
+    def __init__(self, *, required_zone_names: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
         :keyword required_zone_names: The private link resource Private link DNS zone name.
         :paramtype required_zone_names: list[str]
@@ -4183,7 +4206,7 @@ class PrivateLinkResourceListResult(_serialization.Model):
         "value": {"key": "value", "type": "[PrivateLinkResource]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.PrivateLinkResource"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.PrivateLinkResource"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Array of private link resources.
         :paramtype value: list[~azure.mgmt.timeseriesinsights.models.PrivateLinkResource]
@@ -4193,7 +4216,8 @@ class PrivateLinkResourceListResult(_serialization.Model):
 
 
 class PrivateLinkServiceConnectionState(_serialization.Model):
-    """A collection of information about the state of the connection between service consumer and provider.
+    """A collection of information about the state of the connection between service consumer and
+    provider.
 
     :ivar status: Indicates whether the connection has been Approved/Rejected/Removed by the owner
      of the service. Known values are: "Pending", "Approved", and "Rejected".
@@ -4218,8 +4242,8 @@ class PrivateLinkServiceConnectionState(_serialization.Model):
         status: Optional[Union[str, "_models.PrivateEndpointServiceConnectionStatus"]] = None,
         description: Optional[str] = None,
         actions_required: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword status: Indicates whether the connection has been Approved/Rejected/Removed by the
          owner of the service. Known values are: "Pending", "Approved", and "Rejected".
@@ -4277,8 +4301,8 @@ class ReferenceDataSetCreateOrUpdateParameters(CreateOrUpdateTrackedResourceProp
         key_properties: List["_models.ReferenceDataSetKeyProperty"],
         tags: Optional[Dict[str, str]] = None,
         data_string_comparison_behavior: Optional[Union[str, "_models.DataStringComparisonBehavior"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: The location of the resource. Required.
         :paramtype location: str
@@ -4331,8 +4355,8 @@ class ReferenceDataSetCreationProperties(_serialization.Model):
         *,
         key_properties: List["_models.ReferenceDataSetKeyProperty"],
         data_string_comparison_behavior: Optional[Union[str, "_models.DataStringComparisonBehavior"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword key_properties: The list of key properties for the reference data set. Required.
         :paramtype key_properties:
@@ -4351,7 +4375,8 @@ class ReferenceDataSetCreationProperties(_serialization.Model):
 
 
 class ReferenceDataSetKeyProperty(_serialization.Model):
-    """A key property for the reference data set. A reference data set can have multiple key properties.
+    """A key property for the reference data set. A reference data set can have multiple key
+    properties.
 
     :ivar name: The name of the key property.
     :vartype name: str
@@ -4370,8 +4395,8 @@ class ReferenceDataSetKeyProperty(_serialization.Model):
         *,
         name: Optional[str] = None,
         type: Optional[Union[str, "_models.ReferenceDataKeyPropertyType"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: The name of the key property.
         :paramtype name: str
@@ -4395,7 +4420,7 @@ class ReferenceDataSetListResponse(_serialization.Model):
         "value": {"key": "value", "type": "[ReferenceDataSetResource]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.ReferenceDataSetResource"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.ReferenceDataSetResource"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Result of the List Reference Data Sets operation.
         :paramtype value: list[~azure.mgmt.timeseriesinsights.models.ReferenceDataSetResource]
@@ -4405,7 +4430,10 @@ class ReferenceDataSetListResponse(_serialization.Model):
 
 
 class ReferenceDataSetResource(TrackedResource):
-    """A reference data set provides metadata about the events in an environment. Metadata in the reference data set will be joined with events as they are read from event sources. The metadata that makes up the reference data set is uploaded or modified through the Time Series Insights data plane APIs.
+    """A reference data set provides metadata about the events in an environment. Metadata in the
+    reference data set will be joined with events as they are read from event sources. The metadata
+    that makes up the reference data set is uploaded or modified through the Time Series Insights
+    data plane APIs.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -4468,8 +4496,8 @@ class ReferenceDataSetResource(TrackedResource):
         tags: Optional[Dict[str, str]] = None,
         key_properties: Optional[List["_models.ReferenceDataSetKeyProperty"]] = None,
         data_string_comparison_behavior: Optional[Union[str, "_models.DataStringComparisonBehavior"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: Resource location. Required.
         :paramtype location: str
@@ -4535,8 +4563,8 @@ class ReferenceDataSetResourceProperties(ReferenceDataSetCreationProperties, Res
         *,
         key_properties: List["_models.ReferenceDataSetKeyProperty"],
         data_string_comparison_behavior: Optional[Union[str, "_models.DataStringComparisonBehavior"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword key_properties: The list of key properties for the reference data set. Required.
         :paramtype key_properties:
@@ -4569,7 +4597,7 @@ class ReferenceDataSetUpdateParameters(_serialization.Model):
         "tags": {"key": "tags", "type": "{str}"},
     }
 
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword tags: Key-value pairs of additional properties for the reference data set.
         :paramtype tags: dict[str, str]
@@ -4597,8 +4625,8 @@ class ServiceSpecification(_serialization.Model):
         *,
         metric_specifications: Optional[List["_models.MetricSpecification"]] = None,
         log_specifications: Optional[List["_models.LogSpecification"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword metric_specifications: Metric specifications of operation.
         :paramtype metric_specifications:
@@ -4612,7 +4640,9 @@ class ServiceSpecification(_serialization.Model):
 
 
 class Sku(_serialization.Model):
-    """The sku determines the type of environment, either Gen1 (S1 or S2) or Gen2 (L1). For Gen1 environments the sku determines the capacity of the environment, the ingress rate, and the billing rate.
+    """The sku determines the type of environment, either Gen1 (S1 or S2) or Gen2 (L1). For Gen1
+    environments the sku determines the capacity of the environment, the ingress rate, and the
+    billing rate.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -4633,7 +4663,7 @@ class Sku(_serialization.Model):
         "capacity": {"key": "capacity", "type": "int"},
     }
 
-    def __init__(self, *, name: Union[str, "_models.SkuName"], capacity: int, **kwargs):
+    def __init__(self, *, name: Union[str, "_models.SkuName"], capacity: int, **kwargs: Any) -> None:
         """
         :keyword name: The name of this SKU. Required. Known values are: "S1", "S2", "P1", and "L1".
         :paramtype name: str or ~azure.mgmt.timeseriesinsights.models.SkuName
@@ -4647,7 +4677,8 @@ class Sku(_serialization.Model):
 
 
 class TimeSeriesIdProperty(_serialization.Model):
-    """The structure of the property that a time series id can have. An environment can have multiple such properties.
+    """The structure of the property that a time series id can have. An environment can have multiple
+    such properties.
 
     :ivar name: The name of the property.
     :vartype name: str
@@ -4661,8 +4692,8 @@ class TimeSeriesIdProperty(_serialization.Model):
     }
 
     def __init__(
-        self, *, name: Optional[str] = None, type: Optional[Union[str, "_models.PropertyType"]] = None, **kwargs
-    ):
+        self, *, name: Optional[str] = None, type: Optional[Union[str, "_models.PropertyType"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword name: The name of the property.
         :paramtype name: str
@@ -4705,8 +4736,8 @@ class WarmStorageEnvironmentStatus(_serialization.Model):
         state: Optional[Union[str, "_models.WarmStoragePropertiesState"]] = None,
         current_count: Optional[int] = None,
         max_count: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword state: This string represents the state of warm storage properties usage. It can be
          "Ok", "Error", "Unknown". Known values are: "Ok", "Error", and "Unknown".
@@ -4726,7 +4757,8 @@ class WarmStorageEnvironmentStatus(_serialization.Model):
 
 
 class WarmStoreConfigurationProperties(_serialization.Model):
-    """The warm store configuration provides the details to create a warm store cache that will retain a copy of the environment's data available for faster query.
+    """The warm store configuration provides the details to create a warm store cache that will retain
+    a copy of the environment's data available for faster query.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -4743,7 +4775,7 @@ class WarmStoreConfigurationProperties(_serialization.Model):
         "data_retention": {"key": "dataRetention", "type": "duration"},
     }
 
-    def __init__(self, *, data_retention: datetime.timedelta, **kwargs):
+    def __init__(self, *, data_retention: datetime.timedelta, **kwargs: Any) -> None:
         """
         :keyword data_retention: ISO8601 timespan specifying the number of days the environment's
          events will be available for query from the warm store. Required.
