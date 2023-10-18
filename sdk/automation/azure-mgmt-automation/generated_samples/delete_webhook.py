@@ -29,14 +29,13 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.webhook.delete(
+    client.webhook.delete(
         resource_group_name="rg",
         automation_account_name="myAutomationAccount33",
         webhook_name="TestWebhook",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2015-10-31/examples/deleteWebhook.json
+# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2023-05-15-preview/examples/deleteWebhook.json
 if __name__ == "__main__":
     main()

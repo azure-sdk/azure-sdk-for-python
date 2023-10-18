@@ -29,14 +29,13 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.schedule.delete(
+    client.schedule.delete(
         resource_group_name="rg",
         automation_account_name="myAutomationAccount33",
         schedule_name="mySchedule",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2022-08-08/examples/deleteSchedule.json
+# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2023-05-15-preview/examples/deleteSchedule.json
 if __name__ == "__main__":
     main()

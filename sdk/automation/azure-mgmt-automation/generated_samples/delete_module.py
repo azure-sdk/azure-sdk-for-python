@@ -29,14 +29,13 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.module.delete(
+    client.module.delete(
         resource_group_name="rg",
         automation_account_name="myAutomationAccount33",
         module_name="OmsCompositeResources",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2022-08-08/examples/deleteModule.json
+# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2023-05-15-preview/examples/deleteModule.json
 if __name__ == "__main__":
     main()

@@ -50,6 +50,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2022-08-08/examples/createOrUpdatePython2Package.json
+# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2023-05-15-preview/examples/createOrUpdatePython2Package.json
 if __name__ == "__main__":
     main()
