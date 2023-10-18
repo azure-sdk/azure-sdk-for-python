@@ -141,6 +141,9 @@ class AccessControlList(TrackedResource):  # pylint: disable=too-many-instance-a
     :vartype configuration_type: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationType
     :ivar acls_url: Access Control List file URL.
     :vartype acls_url: str
+    :ivar default_action: Default action that needs to be applied when no condition is matched.
+     Example: Permit | Deny. Known values are: "Permit" and "Deny".
+    :vartype default_action: str or ~azure.mgmt.managednetworkfabric.models.CommunityActionTypes
     :ivar match_configurations: List of match configurations.
     :vartype match_configurations:
      list[~azure.mgmt.managednetworkfabric.models.AccessControlListMatchConfiguration]
@@ -187,6 +190,7 @@ class AccessControlList(TrackedResource):  # pylint: disable=too-many-instance-a
         "annotation": {"key": "properties.annotation", "type": "str"},
         "configuration_type": {"key": "properties.configurationType", "type": "str"},
         "acls_url": {"key": "properties.aclsUrl", "type": "str"},
+        "default_action": {"key": "properties.defaultAction", "type": "str"},
         "match_configurations": {
             "key": "properties.matchConfigurations",
             "type": "[AccessControlListMatchConfiguration]",
@@ -209,6 +213,7 @@ class AccessControlList(TrackedResource):  # pylint: disable=too-many-instance-a
         annotation: Optional[str] = None,
         configuration_type: Optional[Union[str, "_models.ConfigurationType"]] = None,
         acls_url: Optional[str] = None,
+        default_action: Optional[Union[str, "_models.CommunityActionTypes"]] = None,
         match_configurations: Optional[List["_models.AccessControlListMatchConfiguration"]] = None,
         dynamic_match_configurations: Optional[List["_models.CommonDynamicMatchConfiguration"]] = None,
         **kwargs: Any
@@ -225,6 +230,9 @@ class AccessControlList(TrackedResource):  # pylint: disable=too-many-instance-a
         :paramtype configuration_type: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationType
         :keyword acls_url: Access Control List file URL.
         :paramtype acls_url: str
+        :keyword default_action: Default action that needs to be applied when no condition is matched.
+         Example: Permit | Deny. Known values are: "Permit" and "Deny".
+        :paramtype default_action: str or ~azure.mgmt.managednetworkfabric.models.CommunityActionTypes
         :keyword match_configurations: List of match configurations.
         :paramtype match_configurations:
          list[~azure.mgmt.managednetworkfabric.models.AccessControlListMatchConfiguration]
@@ -236,6 +244,7 @@ class AccessControlList(TrackedResource):  # pylint: disable=too-many-instance-a
         self.annotation = annotation
         self.configuration_type = configuration_type
         self.acls_url = acls_url
+        self.default_action = default_action
         self.match_configurations = match_configurations
         self.dynamic_match_configurations = dynamic_match_configurations
         self.last_synced_time = None
@@ -334,15 +343,15 @@ class AccessControlListMatchCondition(CommonMatchConditions):
     :vartype vlan_match_condition: ~azure.mgmt.managednetworkfabric.models.VlanMatchCondition
     :ivar ip_condition: IP condition that needs to be matched.
     :vartype ip_condition: ~azure.mgmt.managednetworkfabric.models.IpMatchCondition
-    :ivar ether_types: List of ether type values that needs to be matched.
+    :ivar ether_types: List of ether type values that need to be matched.
     :vartype ether_types: list[str]
-    :ivar fragments: List of IP fragment packets that needs to be matched.
+    :ivar fragments: List of IP fragment packets that need to be matched.
     :vartype fragments: list[str]
-    :ivar ip_lengths: List of IP Lengths that needs to be matched.
+    :ivar ip_lengths: List of IP Lengths that need to be matched.
     :vartype ip_lengths: list[str]
-    :ivar ttl_values: List of TTL [Time To Live] values that needs to be matched.
+    :ivar ttl_values: List of TTL [Time To Live] values that need to be matched.
     :vartype ttl_values: list[str]
-    :ivar dscp_markings: List of DSCP Markings that needs to be matched.
+    :ivar dscp_markings: List of DSCP Markings that need to be matched.
     :vartype dscp_markings: list[str]
     :ivar port_condition: Defines the port condition that needs to be matched.
     :vartype port_condition: ~azure.mgmt.managednetworkfabric.models.AccessControlListPortCondition
@@ -390,15 +399,15 @@ class AccessControlListMatchCondition(CommonMatchConditions):
         :paramtype vlan_match_condition: ~azure.mgmt.managednetworkfabric.models.VlanMatchCondition
         :keyword ip_condition: IP condition that needs to be matched.
         :paramtype ip_condition: ~azure.mgmt.managednetworkfabric.models.IpMatchCondition
-        :keyword ether_types: List of ether type values that needs to be matched.
+        :keyword ether_types: List of ether type values that need to be matched.
         :paramtype ether_types: list[str]
-        :keyword fragments: List of IP fragment packets that needs to be matched.
+        :keyword fragments: List of IP fragment packets that need to be matched.
         :paramtype fragments: list[str]
-        :keyword ip_lengths: List of IP Lengths that needs to be matched.
+        :keyword ip_lengths: List of IP Lengths that need to be matched.
         :paramtype ip_lengths: list[str]
-        :keyword ttl_values: List of TTL [Time To Live] values that needs to be matched.
+        :keyword ttl_values: List of TTL [Time To Live] values that need to be matched.
         :paramtype ttl_values: list[str]
-        :keyword dscp_markings: List of DSCP Markings that needs to be matched.
+        :keyword dscp_markings: List of DSCP Markings that need to be matched.
         :paramtype dscp_markings: list[str]
         :keyword port_condition: Defines the port condition that needs to be matched.
         :paramtype port_condition:
@@ -511,6 +520,9 @@ class AccessControlListPatch(TagsUpdate):
     :vartype configuration_type: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationType
     :ivar acls_url: Access Control List file URL.
     :vartype acls_url: str
+    :ivar default_action: Default action that needs to be applied when no condition is matched.
+     Example: Permit | Deny. Known values are: "Permit" and "Deny".
+    :vartype default_action: str or ~azure.mgmt.managednetworkfabric.models.CommunityActionTypes
     :ivar match_configurations: List of match configurations.
     :vartype match_configurations:
      list[~azure.mgmt.managednetworkfabric.models.AccessControlListMatchConfiguration]
@@ -531,6 +543,7 @@ class AccessControlListPatch(TagsUpdate):
         "tags": {"key": "tags", "type": "{str}"},
         "configuration_type": {"key": "properties.configurationType", "type": "str"},
         "acls_url": {"key": "properties.aclsUrl", "type": "str"},
+        "default_action": {"key": "properties.defaultAction", "type": "str"},
         "match_configurations": {
             "key": "properties.matchConfigurations",
             "type": "[AccessControlListMatchConfiguration]",
@@ -548,6 +561,7 @@ class AccessControlListPatch(TagsUpdate):
         tags: Optional[Dict[str, str]] = None,
         configuration_type: Optional[Union[str, "_models.ConfigurationType"]] = None,
         acls_url: Optional[str] = None,
+        default_action: Optional[Union[str, "_models.CommunityActionTypes"]] = None,
         match_configurations: Optional[List["_models.AccessControlListMatchConfiguration"]] = None,
         dynamic_match_configurations: Optional[List["_models.CommonDynamicMatchConfiguration"]] = None,
         annotation: Optional[str] = None,
@@ -561,6 +575,9 @@ class AccessControlListPatch(TagsUpdate):
         :paramtype configuration_type: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationType
         :keyword acls_url: Access Control List file URL.
         :paramtype acls_url: str
+        :keyword default_action: Default action that needs to be applied when no condition is matched.
+         Example: Permit | Deny. Known values are: "Permit" and "Deny".
+        :paramtype default_action: str or ~azure.mgmt.managednetworkfabric.models.CommunityActionTypes
         :keyword match_configurations: List of match configurations.
         :paramtype match_configurations:
          list[~azure.mgmt.managednetworkfabric.models.AccessControlListMatchConfiguration]
@@ -573,6 +590,7 @@ class AccessControlListPatch(TagsUpdate):
         super().__init__(tags=tags, **kwargs)
         self.configuration_type = configuration_type
         self.acls_url = acls_url
+        self.default_action = default_action
         self.match_configurations = match_configurations
         self.dynamic_match_configurations = dynamic_match_configurations
         self.annotation = annotation
@@ -586,6 +604,9 @@ class AccessControlListPatchableProperties(_serialization.Model):
     :vartype configuration_type: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationType
     :ivar acls_url: Access Control List file URL.
     :vartype acls_url: str
+    :ivar default_action: Default action that needs to be applied when no condition is matched.
+     Example: Permit | Deny. Known values are: "Permit" and "Deny".
+    :vartype default_action: str or ~azure.mgmt.managednetworkfabric.models.CommunityActionTypes
     :ivar match_configurations: List of match configurations.
     :vartype match_configurations:
      list[~azure.mgmt.managednetworkfabric.models.AccessControlListMatchConfiguration]
@@ -603,6 +624,7 @@ class AccessControlListPatchableProperties(_serialization.Model):
     _attribute_map = {
         "configuration_type": {"key": "configurationType", "type": "str"},
         "acls_url": {"key": "aclsUrl", "type": "str"},
+        "default_action": {"key": "defaultAction", "type": "str"},
         "match_configurations": {"key": "matchConfigurations", "type": "[AccessControlListMatchConfiguration]"},
         "dynamic_match_configurations": {
             "key": "dynamicMatchConfigurations",
@@ -615,6 +637,7 @@ class AccessControlListPatchableProperties(_serialization.Model):
         *,
         configuration_type: Optional[Union[str, "_models.ConfigurationType"]] = None,
         acls_url: Optional[str] = None,
+        default_action: Optional[Union[str, "_models.CommunityActionTypes"]] = None,
         match_configurations: Optional[List["_models.AccessControlListMatchConfiguration"]] = None,
         dynamic_match_configurations: Optional[List["_models.CommonDynamicMatchConfiguration"]] = None,
         **kwargs: Any
@@ -625,6 +648,9 @@ class AccessControlListPatchableProperties(_serialization.Model):
         :paramtype configuration_type: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationType
         :keyword acls_url: Access Control List file URL.
         :paramtype acls_url: str
+        :keyword default_action: Default action that needs to be applied when no condition is matched.
+         Example: Permit | Deny. Known values are: "Permit" and "Deny".
+        :paramtype default_action: str or ~azure.mgmt.managednetworkfabric.models.CommunityActionTypes
         :keyword match_configurations: List of match configurations.
         :paramtype match_configurations:
          list[~azure.mgmt.managednetworkfabric.models.AccessControlListMatchConfiguration]
@@ -635,6 +661,7 @@ class AccessControlListPatchableProperties(_serialization.Model):
         super().__init__(**kwargs)
         self.configuration_type = configuration_type
         self.acls_url = acls_url
+        self.default_action = default_action
         self.match_configurations = match_configurations
         self.dynamic_match_configurations = dynamic_match_configurations
 
@@ -669,6 +696,9 @@ class AccessControlListPatchProperties(AccessControlListPatchableProperties, Ann
     :vartype configuration_type: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationType
     :ivar acls_url: Access Control List file URL.
     :vartype acls_url: str
+    :ivar default_action: Default action that needs to be applied when no condition is matched.
+     Example: Permit | Deny. Known values are: "Permit" and "Deny".
+    :vartype default_action: str or ~azure.mgmt.managednetworkfabric.models.CommunityActionTypes
     :ivar match_configurations: List of match configurations.
     :vartype match_configurations:
      list[~azure.mgmt.managednetworkfabric.models.AccessControlListMatchConfiguration]
@@ -687,6 +717,7 @@ class AccessControlListPatchProperties(AccessControlListPatchableProperties, Ann
         "annotation": {"key": "annotation", "type": "str"},
         "configuration_type": {"key": "configurationType", "type": "str"},
         "acls_url": {"key": "aclsUrl", "type": "str"},
+        "default_action": {"key": "defaultAction", "type": "str"},
         "match_configurations": {"key": "matchConfigurations", "type": "[AccessControlListMatchConfiguration]"},
         "dynamic_match_configurations": {
             "key": "dynamicMatchConfigurations",
@@ -700,6 +731,7 @@ class AccessControlListPatchProperties(AccessControlListPatchableProperties, Ann
         annotation: Optional[str] = None,
         configuration_type: Optional[Union[str, "_models.ConfigurationType"]] = None,
         acls_url: Optional[str] = None,
+        default_action: Optional[Union[str, "_models.CommunityActionTypes"]] = None,
         match_configurations: Optional[List["_models.AccessControlListMatchConfiguration"]] = None,
         dynamic_match_configurations: Optional[List["_models.CommonDynamicMatchConfiguration"]] = None,
         **kwargs: Any
@@ -712,6 +744,9 @@ class AccessControlListPatchProperties(AccessControlListPatchableProperties, Ann
         :paramtype configuration_type: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationType
         :keyword acls_url: Access Control List file URL.
         :paramtype acls_url: str
+        :keyword default_action: Default action that needs to be applied when no condition is matched.
+         Example: Permit | Deny. Known values are: "Permit" and "Deny".
+        :paramtype default_action: str or ~azure.mgmt.managednetworkfabric.models.CommunityActionTypes
         :keyword match_configurations: List of match configurations.
         :paramtype match_configurations:
          list[~azure.mgmt.managednetworkfabric.models.AccessControlListMatchConfiguration]
@@ -722,6 +757,7 @@ class AccessControlListPatchProperties(AccessControlListPatchableProperties, Ann
         super().__init__(
             configuration_type=configuration_type,
             acls_url=acls_url,
+            default_action=default_action,
             match_configurations=match_configurations,
             dynamic_match_configurations=dynamic_match_configurations,
             annotation=annotation,
@@ -730,6 +766,7 @@ class AccessControlListPatchProperties(AccessControlListPatchableProperties, Ann
         self.annotation = annotation
         self.configuration_type = configuration_type
         self.acls_url = acls_url
+        self.default_action = default_action
         self.match_configurations = match_configurations
         self.dynamic_match_configurations = dynamic_match_configurations
 
@@ -747,7 +784,7 @@ class PortCondition(_serialization.Model):
     :vartype layer4_protocol: str or ~azure.mgmt.managednetworkfabric.models.Layer4Protocol
     :ivar ports: List of the Ports that need to be matched.
     :vartype ports: list[str]
-    :ivar port_group_names: List of the port Group Names that to be matched.
+    :ivar port_group_names: List of the port Group Names that need to be matched.
     :vartype port_group_names: list[str]
     """
 
@@ -782,7 +819,7 @@ class PortCondition(_serialization.Model):
         :paramtype layer4_protocol: str or ~azure.mgmt.managednetworkfabric.models.Layer4Protocol
         :keyword ports: List of the Ports that need to be matched.
         :paramtype ports: list[str]
-        :keyword port_group_names: List of the port Group Names that to be matched.
+        :keyword port_group_names: List of the port Group Names that need to be matched.
         :paramtype port_group_names: list[str]
         """
         super().__init__(**kwargs)
@@ -805,9 +842,9 @@ class AccessControlListPortCondition(PortCondition):
     :vartype layer4_protocol: str or ~azure.mgmt.managednetworkfabric.models.Layer4Protocol
     :ivar ports: List of the Ports that need to be matched.
     :vartype ports: list[str]
-    :ivar port_group_names: List of the port Group Names that to be matched.
+    :ivar port_group_names: List of the port Group Names that need to be matched.
     :vartype port_group_names: list[str]
-    :ivar flags: List of protocol flags that needs to be matched.
+    :ivar flags: List of protocol flags that need to be matched.
     :vartype flags: list[str]
     """
 
@@ -844,9 +881,9 @@ class AccessControlListPortCondition(PortCondition):
         :paramtype layer4_protocol: str or ~azure.mgmt.managednetworkfabric.models.Layer4Protocol
         :keyword ports: List of the Ports that need to be matched.
         :paramtype ports: list[str]
-        :keyword port_group_names: List of the port Group Names that to be matched.
+        :keyword port_group_names: List of the port Group Names that need to be matched.
         :paramtype port_group_names: list[str]
-        :keyword flags: List of protocol flags that needs to be matched.
+        :keyword flags: List of protocol flags that need to be matched.
         :paramtype flags: list[str]
         """
         super().__init__(
@@ -869,6 +906,9 @@ class AccessControlListProperties(AnnotationResource, AccessControlListPatchable
     :vartype configuration_type: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationType
     :ivar acls_url: Access Control List file URL.
     :vartype acls_url: str
+    :ivar default_action: Default action that needs to be applied when no condition is matched.
+     Example: Permit | Deny. Known values are: "Permit" and "Deny".
+    :vartype default_action: str or ~azure.mgmt.managednetworkfabric.models.CommunityActionTypes
     :ivar match_configurations: List of match configurations.
     :vartype match_configurations:
      list[~azure.mgmt.managednetworkfabric.models.AccessControlListMatchConfiguration]
@@ -905,6 +945,7 @@ class AccessControlListProperties(AnnotationResource, AccessControlListPatchable
     _attribute_map = {
         "configuration_type": {"key": "configurationType", "type": "str"},
         "acls_url": {"key": "aclsUrl", "type": "str"},
+        "default_action": {"key": "defaultAction", "type": "str"},
         "match_configurations": {"key": "matchConfigurations", "type": "[AccessControlListMatchConfiguration]"},
         "dynamic_match_configurations": {
             "key": "dynamicMatchConfigurations",
@@ -922,6 +963,7 @@ class AccessControlListProperties(AnnotationResource, AccessControlListPatchable
         *,
         configuration_type: Optional[Union[str, "_models.ConfigurationType"]] = None,
         acls_url: Optional[str] = None,
+        default_action: Optional[Union[str, "_models.CommunityActionTypes"]] = None,
         match_configurations: Optional[List["_models.AccessControlListMatchConfiguration"]] = None,
         dynamic_match_configurations: Optional[List["_models.CommonDynamicMatchConfiguration"]] = None,
         annotation: Optional[str] = None,
@@ -933,6 +975,9 @@ class AccessControlListProperties(AnnotationResource, AccessControlListPatchable
         :paramtype configuration_type: str or ~azure.mgmt.managednetworkfabric.models.ConfigurationType
         :keyword acls_url: Access Control List file URL.
         :paramtype acls_url: str
+        :keyword default_action: Default action that needs to be applied when no condition is matched.
+         Example: Permit | Deny. Known values are: "Permit" and "Deny".
+        :paramtype default_action: str or ~azure.mgmt.managednetworkfabric.models.CommunityActionTypes
         :keyword match_configurations: List of match configurations.
         :paramtype match_configurations:
          list[~azure.mgmt.managednetworkfabric.models.AccessControlListMatchConfiguration]
@@ -946,12 +991,14 @@ class AccessControlListProperties(AnnotationResource, AccessControlListPatchable
             annotation=annotation,
             configuration_type=configuration_type,
             acls_url=acls_url,
+            default_action=default_action,
             match_configurations=match_configurations,
             dynamic_match_configurations=dynamic_match_configurations,
             **kwargs
         )
         self.configuration_type = configuration_type
         self.acls_url = acls_url
+        self.default_action = default_action
         self.match_configurations = match_configurations
         self.dynamic_match_configurations = dynamic_match_configurations
         self.last_synced_time = None
@@ -1414,7 +1461,7 @@ class CommonDynamicMatchConfiguration(_serialization.Model):
     :vartype ip_groups: list[~azure.mgmt.managednetworkfabric.models.IpGroupProperties]
     :ivar vlan_groups: List of vlan groups.
     :vartype vlan_groups: list[~azure.mgmt.managednetworkfabric.models.VlanGroupProperties]
-    :ivar port_groups: List of the port group.
+    :ivar port_groups: List of the port groups.
     :vartype port_groups: list[~azure.mgmt.managednetworkfabric.models.PortGroupProperties]
     """
 
@@ -1443,7 +1490,7 @@ class CommonDynamicMatchConfiguration(_serialization.Model):
         :paramtype ip_groups: list[~azure.mgmt.managednetworkfabric.models.IpGroupProperties]
         :keyword vlan_groups: List of vlan groups.
         :paramtype vlan_groups: list[~azure.mgmt.managednetworkfabric.models.VlanGroupProperties]
-        :keyword port_groups: List of the port group.
+        :keyword port_groups: List of the port groups.
         :paramtype port_groups: list[~azure.mgmt.managednetworkfabric.models.PortGroupProperties]
         """
         super().__init__(**kwargs)
@@ -5146,11 +5193,13 @@ class IpGroupProperties(_serialization.Model):
 class IpMatchCondition(_serialization.Model):
     """Defines the condition that can be filtered using the selected IPs.
 
-    :ivar type: IP Address type. Known values are: "SourceIP" and "DestinationIP".
+    :ivar type: IP Address type that needs to be matched. Known values are: "SourceIP" and
+     "DestinationIP".
     :vartype type: str or ~azure.mgmt.managednetworkfabric.models.SourceDestinationType
-    :ivar prefix_type: IP Prefix Type. Known values are: "Prefix" and "LongestPrefix".
+    :ivar prefix_type: IP Prefix Type that needs to be matched. Known values are: "Prefix" and
+     "LongestPrefix".
     :vartype prefix_type: str or ~azure.mgmt.managednetworkfabric.models.PrefixType
-    :ivar ip_prefix_values: The list of IP Prefixes.
+    :ivar ip_prefix_values: The list of IP Prefixes that need to be matched.
     :vartype ip_prefix_values: list[str]
     :ivar ip_group_names: The List of IP Group Names that need to be matched.
     :vartype ip_group_names: list[str]
@@ -5178,11 +5227,13 @@ class IpMatchCondition(_serialization.Model):
         **kwargs: Any
     ) -> None:
         """
-        :keyword type: IP Address type. Known values are: "SourceIP" and "DestinationIP".
+        :keyword type: IP Address type that needs to be matched. Known values are: "SourceIP" and
+         "DestinationIP".
         :paramtype type: str or ~azure.mgmt.managednetworkfabric.models.SourceDestinationType
-        :keyword prefix_type: IP Prefix Type. Known values are: "Prefix" and "LongestPrefix".
+        :keyword prefix_type: IP Prefix Type that needs to be matched. Known values are: "Prefix" and
+         "LongestPrefix".
         :paramtype prefix_type: str or ~azure.mgmt.managednetworkfabric.models.PrefixType
-        :keyword ip_prefix_values: The list of IP Prefixes.
+        :keyword ip_prefix_values: The list of IP Prefixes that need to be matched.
         :paramtype ip_prefix_values: list[str]
         :keyword ip_group_names: The List of IP Group Names that need to be matched.
         :paramtype ip_group_names: list[str]
@@ -9989,7 +10040,8 @@ class NetworkTapRuleMatchCondition(CommonMatchConditions):
     :vartype vlan_match_condition: ~azure.mgmt.managednetworkfabric.models.VlanMatchCondition
     :ivar ip_condition: IP condition that needs to be matched.
     :vartype ip_condition: ~azure.mgmt.managednetworkfabric.models.IpMatchCondition
-    :ivar encapsulation_type: Encapsulation Type. Known values are: "None" and "GTPv1".
+    :ivar encapsulation_type: Encapsulation Type that needs to be matched. Known values are: "None"
+     and "GTPv1".
     :vartype encapsulation_type: str or ~azure.mgmt.managednetworkfabric.models.EncapsulationType
     :ivar port_condition: Defines the port condition that needs to be matched.
     :vartype port_condition: ~azure.mgmt.managednetworkfabric.models.PortCondition
@@ -10024,7 +10076,8 @@ class NetworkTapRuleMatchCondition(CommonMatchConditions):
         :paramtype vlan_match_condition: ~azure.mgmt.managednetworkfabric.models.VlanMatchCondition
         :keyword ip_condition: IP condition that needs to be matched.
         :paramtype ip_condition: ~azure.mgmt.managednetworkfabric.models.IpMatchCondition
-        :keyword encapsulation_type: Encapsulation Type. Known values are: "None" and "GTPv1".
+        :keyword encapsulation_type: Encapsulation Type that needs to be matched. Known values are:
+         "None" and "GTPv1".
         :paramtype encapsulation_type: str or ~azure.mgmt.managednetworkfabric.models.EncapsulationType
         :keyword port_condition: Defines the port condition that needs to be matched.
         :paramtype port_condition: ~azure.mgmt.managednetworkfabric.models.PortCondition
@@ -11192,7 +11245,7 @@ class PortGroupProperties(_serialization.Model):
 
     :ivar name: The name of the port group.
     :vartype name: str
-    :ivar ports: List of the ports that needs to be matched.
+    :ivar ports: List of the ports that need to be matched.
     :vartype ports: list[str]
     """
 
@@ -11210,7 +11263,7 @@ class PortGroupProperties(_serialization.Model):
         """
         :keyword name: The name of the port group.
         :paramtype name: str
-        :keyword ports: List of the ports that needs to be matched.
+        :keyword ports: List of the ports that need to be matched.
         :paramtype ports: list[str]
         """
         super().__init__(**kwargs)
@@ -11294,6 +11347,9 @@ class RoutePolicy(TrackedResource):  # pylint: disable=too-many-instance-attribu
     :vartype location: str
     :ivar annotation: Switch configuration description.
     :vartype annotation: str
+    :ivar default_action: Default action that needs to be applied when no condition is matched.
+     Example: Permit | Deny. Known values are: "Permit" and "Deny".
+    :vartype default_action: str or ~azure.mgmt.managednetworkfabric.models.CommunityActionTypes
     :ivar statements: Route Policy statements.
     :vartype statements:
      list[~azure.mgmt.managednetworkfabric.models.RoutePolicyStatementProperties]
@@ -11335,6 +11391,7 @@ class RoutePolicy(TrackedResource):  # pylint: disable=too-many-instance-attribu
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
         "annotation": {"key": "properties.annotation", "type": "str"},
+        "default_action": {"key": "properties.defaultAction", "type": "str"},
         "statements": {"key": "properties.statements", "type": "[RoutePolicyStatementProperties]"},
         "network_fabric_id": {"key": "properties.networkFabricId", "type": "str"},
         "address_family_type": {"key": "properties.addressFamilyType", "type": "str"},
@@ -11350,6 +11407,7 @@ class RoutePolicy(TrackedResource):  # pylint: disable=too-many-instance-attribu
         network_fabric_id: str,
         tags: Optional[Dict[str, str]] = None,
         annotation: Optional[str] = None,
+        default_action: Optional[Union[str, "_models.CommunityActionTypes"]] = None,
         statements: Optional[List["_models.RoutePolicyStatementProperties"]] = None,
         address_family_type: Union[str, "_models.AddressFamilyType"] = "IPv4",
         **kwargs: Any
@@ -11361,6 +11419,9 @@ class RoutePolicy(TrackedResource):  # pylint: disable=too-many-instance-attribu
         :paramtype location: str
         :keyword annotation: Switch configuration description.
         :paramtype annotation: str
+        :keyword default_action: Default action that needs to be applied when no condition is matched.
+         Example: Permit | Deny. Known values are: "Permit" and "Deny".
+        :paramtype default_action: str or ~azure.mgmt.managednetworkfabric.models.CommunityActionTypes
         :keyword statements: Route Policy statements.
         :paramtype statements:
          list[~azure.mgmt.managednetworkfabric.models.RoutePolicyStatementProperties]
@@ -11373,6 +11434,7 @@ class RoutePolicy(TrackedResource):  # pylint: disable=too-many-instance-attribu
         """
         super().__init__(tags=tags, location=location, **kwargs)
         self.annotation = annotation
+        self.default_action = default_action
         self.statements = statements
         self.network_fabric_id = network_fabric_id
         self.address_family_type = address_family_type
@@ -11386,6 +11448,9 @@ class RoutePolicyPatch(TagsUpdate):
 
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
+    :ivar default_action: Default action that needs to be applied when no condition is matched.
+     Example: Permit | Deny. Known values are: "Permit" and "Deny".
+    :vartype default_action: str or ~azure.mgmt.managednetworkfabric.models.CommunityActionTypes
     :ivar statements: Route Policy statements.
     :vartype statements:
      list[~azure.mgmt.managednetworkfabric.models.RoutePolicyStatementProperties]
@@ -11393,6 +11458,7 @@ class RoutePolicyPatch(TagsUpdate):
 
     _attribute_map = {
         "tags": {"key": "tags", "type": "{str}"},
+        "default_action": {"key": "properties.defaultAction", "type": "str"},
         "statements": {"key": "properties.statements", "type": "[RoutePolicyStatementProperties]"},
     }
 
@@ -11400,41 +11466,58 @@ class RoutePolicyPatch(TagsUpdate):
         self,
         *,
         tags: Optional[Dict[str, str]] = None,
+        default_action: Optional[Union[str, "_models.CommunityActionTypes"]] = None,
         statements: Optional[List["_models.RoutePolicyStatementProperties"]] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
+        :keyword default_action: Default action that needs to be applied when no condition is matched.
+         Example: Permit | Deny. Known values are: "Permit" and "Deny".
+        :paramtype default_action: str or ~azure.mgmt.managednetworkfabric.models.CommunityActionTypes
         :keyword statements: Route Policy statements.
         :paramtype statements:
          list[~azure.mgmt.managednetworkfabric.models.RoutePolicyStatementProperties]
         """
         super().__init__(tags=tags, **kwargs)
+        self.default_action = default_action
         self.statements = statements
 
 
 class RoutePolicyPatchableProperties(_serialization.Model):
     """Route Policy patchable properties.
 
+    :ivar default_action: Default action that needs to be applied when no condition is matched.
+     Example: Permit | Deny. Known values are: "Permit" and "Deny".
+    :vartype default_action: str or ~azure.mgmt.managednetworkfabric.models.CommunityActionTypes
     :ivar statements: Route Policy statements.
     :vartype statements:
      list[~azure.mgmt.managednetworkfabric.models.RoutePolicyStatementProperties]
     """
 
     _attribute_map = {
+        "default_action": {"key": "defaultAction", "type": "str"},
         "statements": {"key": "statements", "type": "[RoutePolicyStatementProperties]"},
     }
 
     def __init__(
-        self, *, statements: Optional[List["_models.RoutePolicyStatementProperties"]] = None, **kwargs: Any
+        self,
+        *,
+        default_action: Optional[Union[str, "_models.CommunityActionTypes"]] = None,
+        statements: Optional[List["_models.RoutePolicyStatementProperties"]] = None,
+        **kwargs: Any
     ) -> None:
         """
+        :keyword default_action: Default action that needs to be applied when no condition is matched.
+         Example: Permit | Deny. Known values are: "Permit" and "Deny".
+        :paramtype default_action: str or ~azure.mgmt.managednetworkfabric.models.CommunityActionTypes
         :keyword statements: Route Policy statements.
         :paramtype statements:
          list[~azure.mgmt.managednetworkfabric.models.RoutePolicyStatementProperties]
         """
         super().__init__(**kwargs)
+        self.default_action = default_action
         self.statements = statements
 
 
@@ -11445,6 +11528,9 @@ class RoutePolicyProperties(AnnotationResource, RoutePolicyPatchableProperties):
 
     All required parameters must be populated in order to send to Azure.
 
+    :ivar default_action: Default action that needs to be applied when no condition is matched.
+     Example: Permit | Deny. Known values are: "Permit" and "Deny".
+    :vartype default_action: str or ~azure.mgmt.managednetworkfabric.models.CommunityActionTypes
     :ivar statements: Route Policy statements.
     :vartype statements:
      list[~azure.mgmt.managednetworkfabric.models.RoutePolicyStatementProperties]
@@ -11476,6 +11562,7 @@ class RoutePolicyProperties(AnnotationResource, RoutePolicyPatchableProperties):
     }
 
     _attribute_map = {
+        "default_action": {"key": "defaultAction", "type": "str"},
         "statements": {"key": "statements", "type": "[RoutePolicyStatementProperties]"},
         "annotation": {"key": "annotation", "type": "str"},
         "network_fabric_id": {"key": "networkFabricId", "type": "str"},
@@ -11489,12 +11576,16 @@ class RoutePolicyProperties(AnnotationResource, RoutePolicyPatchableProperties):
         self,
         *,
         network_fabric_id: str,
+        default_action: Optional[Union[str, "_models.CommunityActionTypes"]] = None,
         statements: Optional[List["_models.RoutePolicyStatementProperties"]] = None,
         annotation: Optional[str] = None,
         address_family_type: Union[str, "_models.AddressFamilyType"] = "IPv4",
         **kwargs: Any
     ) -> None:
         """
+        :keyword default_action: Default action that needs to be applied when no condition is matched.
+         Example: Permit | Deny. Known values are: "Permit" and "Deny".
+        :paramtype default_action: str or ~azure.mgmt.managednetworkfabric.models.CommunityActionTypes
         :keyword statements: Route Policy statements.
         :paramtype statements:
          list[~azure.mgmt.managednetworkfabric.models.RoutePolicyStatementProperties]
@@ -11507,7 +11598,8 @@ class RoutePolicyProperties(AnnotationResource, RoutePolicyPatchableProperties):
         :paramtype address_family_type: str or
          ~azure.mgmt.managednetworkfabric.models.AddressFamilyType
         """
-        super().__init__(annotation=annotation, statements=statements, **kwargs)
+        super().__init__(annotation=annotation, default_action=default_action, statements=statements, **kwargs)
+        self.default_action = default_action
         self.statements = statements
         self.network_fabric_id = network_fabric_id
         self.address_family_type = address_family_type
@@ -12207,13 +12299,13 @@ class VlanGroupProperties(_serialization.Model):
 
 
 class VlanMatchCondition(_serialization.Model):
-    """The vlan match conditions that needs to be matched.
+    """The vlan match conditions that need to be matched.
 
-    :ivar vlans: List of vlans that needs to be matched.
+    :ivar vlans: List of vlans that need to be matched.
     :vartype vlans: list[str]
-    :ivar inner_vlans: List of inner vlans that needs to be matched.
+    :ivar inner_vlans: List of inner vlans that need to be matched.
     :vartype inner_vlans: list[str]
-    :ivar vlan_group_names: List of vlan group names that to be matched.
+    :ivar vlan_group_names: List of vlan group names that need to be matched.
     :vartype vlan_group_names: list[str]
     """
 
@@ -12238,11 +12330,11 @@ class VlanMatchCondition(_serialization.Model):
         **kwargs: Any
     ) -> None:
         """
-        :keyword vlans: List of vlans that needs to be matched.
+        :keyword vlans: List of vlans that need to be matched.
         :paramtype vlans: list[str]
-        :keyword inner_vlans: List of inner vlans that needs to be matched.
+        :keyword inner_vlans: List of inner vlans that need to be matched.
         :paramtype inner_vlans: list[str]
-        :keyword vlan_group_names: List of vlan group names that to be matched.
+        :keyword vlan_group_names: List of vlan group names that need to be matched.
         :paramtype vlan_group_names: list[str]
         """
         super().__init__(**kwargs)
