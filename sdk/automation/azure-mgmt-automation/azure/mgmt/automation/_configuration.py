@@ -30,17 +30,22 @@ class AutomationClientConfiguration(Configuration):  # pylint: disable=too-many-
     :param subscription_id: Gets subscription credentials which uniquely identify Microsoft Azure
      subscription. The subscription ID forms part of the URI for every service call. Required.
     :type subscription_id: str
+    :param module_name: The name of module. Required.
+    :type module_name: str
     """
 
-    def __init__(self, credential: "TokenCredential", subscription_id: str, **kwargs: Any) -> None:
+    def __init__(self, credential: "TokenCredential", subscription_id: str, module_name: str, **kwargs: Any) -> None:
         super(AutomationClientConfiguration, self).__init__(**kwargs)
         if credential is None:
             raise ValueError("Parameter 'credential' must not be None.")
         if subscription_id is None:
             raise ValueError("Parameter 'subscription_id' must not be None.")
+        if module_name is None:
+            raise ValueError("Parameter 'module_name' must not be None.")
 
         self.credential = credential
         self.subscription_id = subscription_id
+        self.module_name = module_name
         self.credential_scopes = kwargs.pop("credential_scopes", ["https://management.azure.com/.default"])
         kwargs.setdefault("sdk_moniker", "mgmt-automation/{}".format(VERSION))
         self._configure(**kwargs)

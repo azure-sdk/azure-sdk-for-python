@@ -27,6 +27,7 @@ def main():
     client = AutomationClient(
         credential=DefaultAzureCredential(),
         subscription_id="subid",
+        module_name="MODULE_NAME",
     )
 
     response = client.job_schedule.list_by_automation_account(
@@ -37,6 +38,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2022-08-08/examples/listAllJobSchedulesByAutomationAccount.json
+# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2023-11-01/examples/listAllJobSchedulesByAutomationAccount.json
 if __name__ == "__main__":
     main()

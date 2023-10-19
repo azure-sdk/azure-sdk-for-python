@@ -27,6 +27,7 @@ def main():
     client = AutomationClient(
         credential=DefaultAzureCredential(),
         subscription_id="subid",
+        module_name="MODULE_NAME",
     )
 
     response = client.automation_account.list_by_resource_group(
@@ -36,6 +37,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2022-08-08/examples/listAutomationAccountsByResourceGroup.json
+# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2023-11-01/examples/listAutomationAccountsByResourceGroup.json
 if __name__ == "__main__":
     main()

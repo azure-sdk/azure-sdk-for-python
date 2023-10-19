@@ -27,6 +27,7 @@ def main():
     client = AutomationClient(
         credential=DefaultAzureCredential(),
         subscription_id="00000000-1111-2222-3333-444444444444",
+        module_name="MODULE_NAME",
     )
 
     response = client.private_endpoint_connections.get(

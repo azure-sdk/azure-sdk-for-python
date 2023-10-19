@@ -43,6 +43,7 @@ from .operations import (
     NodeReportsOperations,
     ObjectDataTypesOperations,
     Operations,
+    PowerShell72ModuleOperations,
     PrivateEndpointConnectionsOperations,
     PrivateLinkResourcesOperations,
     Python2PackageOperations,
@@ -149,6 +150,9 @@ class AutomationClient(
     :vartype object_data_types: azure.mgmt.automation.aio.operations.ObjectDataTypesOperations
     :ivar fields: FieldsOperations operations
     :vartype fields: azure.mgmt.automation.aio.operations.FieldsOperations
+    :ivar power_shell72_module: PowerShell72ModuleOperations operations
+    :vartype power_shell72_module:
+     azure.mgmt.automation.aio.operations.PowerShell72ModuleOperations
     :ivar operations: Operations operations
     :vartype operations: azure.mgmt.automation.aio.operations.Operations
     :ivar python2_package: Python2PackageOperations operations
@@ -187,6 +191,8 @@ class AutomationClient(
     :param subscription_id: Gets subscription credentials which uniquely identify Microsoft Azure
      subscription. The subscription ID forms part of the URI for every service call. Required.
     :type subscription_id: str
+    :param module_name: The name of module. Required.
+    :type module_name: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -197,11 +203,14 @@ class AutomationClient(
         self,
         credential: "AsyncTokenCredential",
         subscription_id: str,
+        module_name: str,
         base_url: str = "https://management.azure.com",
         **kwargs: Any
     ) -> None:
-        self._config = AutomationClientConfiguration(credential=credential, subscription_id=subscription_id, **kwargs)
-        self._client = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        self._config = AutomationClientConfiguration(
+            credential=credential, subscription_id=subscription_id, module_name=module_name, **kwargs
+        )
+        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
@@ -269,6 +278,9 @@ class AutomationClient(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.fields = FieldsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.power_shell72_module = PowerShell72ModuleOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
         self.python2_package = Python2PackageOperations(self._client, self._config, self._serialize, self._deserialize)
         self.python3_package = Python3PackageOperations(self._client, self._config, self._serialize, self._deserialize)
@@ -321,5 +333,5 @@ class AutomationClient(
         await self._client.__aenter__()
         return self
 
-    async def __aexit__(self, *exc_details) -> None:
+    async def __aexit__(self, *exc_details: Any) -> None:
         await self._client.__aexit__(*exc_details)

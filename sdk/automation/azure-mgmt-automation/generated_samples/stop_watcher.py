@@ -27,14 +27,14 @@ def main():
     client = AutomationClient(
         credential=DefaultAzureCredential(),
         subscription_id="subid",
+        module_name="MODULE_NAME",
     )
 
-    response = client.watcher.stop(
+    client.watcher.stop(
         resource_group_name="rg",
         automation_account_name="MyTestAutomationAccount",
         watcher_name="MyTestWatcher",
     )
-    print(response)
 
 
 # x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/stopWatcher.json

@@ -141,6 +141,7 @@ class HttpStatusCode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SERVICE_UNAVAILABLE = "ServiceUnavailable"
     GATEWAY_TIMEOUT = "GatewayTimeout"
     HTTP_VERSION_NOT_SUPPORTED = "HttpVersionNotSupported"
+    CONTINUE_ENUM = "Continue"
 
 
 class JobProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -210,6 +211,7 @@ class ModuleProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     FAILED = "Failed"
     CANCELLED = "Cancelled"
     UPDATING = "Updating"
+    CANCELED = "Canceled"
 
 
 class OperatingSystemType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -255,6 +257,7 @@ class RunbookTypeEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     GRAPH_POWER_SHELL = "GraphPowerShell"
     PYTHON2 = "Python2"
     PYTHON3 = "Python3"
+    POWER_SHELL72 = "PowerShell72"
 
 
 class ScheduleDay(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -279,8 +282,8 @@ class ScheduleFrequency(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     HOUR = "Hour"
     WEEK = "Week"
     MONTH = "Month"
-    #: The minimum allowed interval for Minute schedules is 15 minutes.
     MINUTE = "Minute"
+    """The minimum allowed interval for Minute schedules is 15 minutes."""
 
 
 class SkuNameEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):

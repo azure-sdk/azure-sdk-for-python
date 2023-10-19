@@ -27,16 +27,16 @@ def main():
     client = AutomationClient(
         credential=DefaultAzureCredential(),
         subscription_id="subid",
+        module_name="MODULE_NAME",
     )
 
-    response = client.credential.delete(
+    client.credential.delete(
         resource_group_name="rg",
         automation_account_name="myAutomationAccount20",
         credential_name="myCredential",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2022-08-08/examples/deleteCredentialExisting.json
+# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2023-11-01/examples/deleteCredentialExisting.json
 if __name__ == "__main__":
     main()

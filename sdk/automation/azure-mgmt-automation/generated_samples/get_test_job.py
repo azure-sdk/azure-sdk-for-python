@@ -27,6 +27,7 @@ def main():
     client = AutomationClient(
         credential=DefaultAzureCredential(),
         subscription_id="51766542-3ed7-4a72-a187-0c8ab644ddab",
+        module_name="MODULE_NAME",
     )
 
     response = client.test_job.get(
@@ -37,6 +38,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2022-08-08/examples/getTestJob.json
+# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2023-11-01/examples/getTestJob.json
 if __name__ == "__main__":
     main()

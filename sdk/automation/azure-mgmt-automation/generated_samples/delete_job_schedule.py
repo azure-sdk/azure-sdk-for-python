@@ -27,16 +27,16 @@ def main():
     client = AutomationClient(
         credential=DefaultAzureCredential(),
         subscription_id="subid",
+        module_name="MODULE_NAME",
     )
 
-    response = client.job_schedule.delete(
+    client.job_schedule.delete(
         resource_group_name="rg",
         automation_account_name="ContoseAutomationAccount",
         job_schedule_id="0fa462ba-3aa2-4138-83ca-9ebc3bc55cdc",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2022-08-08/examples/deleteJobSchedule.json
+# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2023-11-01/examples/deleteJobSchedule.json
 if __name__ == "__main__":
     main()

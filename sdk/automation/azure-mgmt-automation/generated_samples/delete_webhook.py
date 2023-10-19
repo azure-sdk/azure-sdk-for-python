@@ -27,14 +27,14 @@ def main():
     client = AutomationClient(
         credential=DefaultAzureCredential(),
         subscription_id="subid",
+        module_name="MODULE_NAME",
     )
 
-    response = client.webhook.delete(
+    client.webhook.delete(
         resource_group_name="rg",
         automation_account_name="myAutomationAccount33",
         webhook_name="TestWebhook",
     )
-    print(response)
 
 
 # x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2015-10-31/examples/deleteWebhook.json

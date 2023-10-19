@@ -27,14 +27,14 @@ def main():
     client = AutomationClient(
         credential=DefaultAzureCredential(),
         subscription_id="subid",
+        module_name="MODULE_NAME",
     )
 
-    response = client.dsc_node.delete(
+    client.dsc_node.delete(
         resource_group_name="rg",
         automation_account_name="myAutomationAccount9",
         node_id="e1243a76-a9bd-432f-bde3-ad8f317ee786",
     )
-    print(response)
 
 
 # x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/deleteDscNode.json
