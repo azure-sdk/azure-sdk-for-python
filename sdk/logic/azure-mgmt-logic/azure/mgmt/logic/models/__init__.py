@@ -43,6 +43,7 @@ from ._models_py3 import BatchConfigurationProperties
 from ._models_py3 import BatchReleaseCriteria
 from ._models_py3 import BusinessIdentity
 from ._models_py3 import CallbackUrl
+from ._models_py3 import ConnectionExportValidity
 from ._models_py3 import ContentHash
 from ._models_py3 import ContentLink
 from ._models_py3 import Correlation
@@ -63,6 +64,7 @@ from ._models_py3 import EdifactValidationSettings
 from ._models_py3 import ErrorInfo
 from ._models_py3 import ErrorProperties
 from ._models_py3 import ErrorResponse
+from ._models_py3 import ExportDetail
 from ._models_py3 import Expression
 from ._models_py3 import ExpressionRoot
 from ._models_py3 import ExpressionTraces
@@ -145,6 +147,7 @@ from ._models_py3 import RequestHistory
 from ._models_py3 import RequestHistoryListResult
 from ._models_py3 import RequestHistoryProperties
 from ._models_py3 import Resource
+from ._models_py3 import ResourceExportValidity
 from ._models_py3 import ResourceReference
 from ._models_py3 import Response
 from ._models_py3 import RetryHistory
@@ -168,6 +171,10 @@ from ._models_py3 import TrackingEventErrorInfo
 from ._models_py3 import TrackingEventsDefinition
 from ._models_py3 import UserAssignedIdentity
 from ._models_py3 import Workflow
+from ._models_py3 import WorkflowExportRequest
+from ._models_py3 import WorkflowExportResult
+from ._models_py3 import WorkflowExportValidity
+from ._models_py3 import WorkflowExportValidityResult
 from ._models_py3 import WorkflowFilter
 from ._models_py3 import WorkflowListResult
 from ._models_py3 import WorkflowOutputParameter
@@ -224,6 +231,8 @@ from ._logic_management_client_enums import EdifactDecimalIndicator
 from ._logic_management_client_enums import EncryptionAlgorithm
 from ._logic_management_client_enums import ErrorResponseCode
 from ._logic_management_client_enums import EventLevel
+from ._logic_management_client_enums import ExportDetailCategory
+from ._logic_management_client_enums import ExportDetailCode
 from ._logic_management_client_enums import HashingAlgorithm
 from ._logic_management_client_enums import IntegrationAccountSkuName
 from ._logic_management_client_enums import IntegrationServiceEnvironmentAccessEndpointType
@@ -250,6 +259,8 @@ from ._logic_management_client_enums import TrackEventsOperationOptions
 from ._logic_management_client_enums import TrackingRecordType
 from ._logic_management_client_enums import TrailingSeparatorPolicy
 from ._logic_management_client_enums import UsageIndicator
+from ._logic_management_client_enums import ValidationState
+from ._logic_management_client_enums import WorkflowExportOptions
 from ._logic_management_client_enums import WorkflowProvisioningState
 from ._logic_management_client_enums import WorkflowState
 from ._logic_management_client_enums import WorkflowStatus
@@ -259,7 +270,7 @@ from ._logic_management_client_enums import X12CharacterSet
 from ._logic_management_client_enums import X12DateFormat
 from ._logic_management_client_enums import X12TimeFormat
 from ._patch import __all__ as _patch_all
-from ._patch import *  # type: ignore # pylint: disable=unused-wildcard-import
+from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
@@ -300,6 +311,7 @@ __all__ = [
     "BatchReleaseCriteria",
     "BusinessIdentity",
     "CallbackUrl",
+    "ConnectionExportValidity",
     "ContentHash",
     "ContentLink",
     "Correlation",
@@ -320,6 +332,7 @@ __all__ = [
     "ErrorInfo",
     "ErrorProperties",
     "ErrorResponse",
+    "ExportDetail",
     "Expression",
     "ExpressionRoot",
     "ExpressionTraces",
@@ -402,6 +415,7 @@ __all__ = [
     "RequestHistoryListResult",
     "RequestHistoryProperties",
     "Resource",
+    "ResourceExportValidity",
     "ResourceReference",
     "Response",
     "RetryHistory",
@@ -425,6 +439,10 @@ __all__ = [
     "TrackingEventsDefinition",
     "UserAssignedIdentity",
     "Workflow",
+    "WorkflowExportRequest",
+    "WorkflowExportResult",
+    "WorkflowExportValidity",
+    "WorkflowExportValidityResult",
     "WorkflowFilter",
     "WorkflowListResult",
     "WorkflowOutputParameter",
@@ -480,6 +498,8 @@ __all__ = [
     "EncryptionAlgorithm",
     "ErrorResponseCode",
     "EventLevel",
+    "ExportDetailCategory",
+    "ExportDetailCode",
     "HashingAlgorithm",
     "IntegrationAccountSkuName",
     "IntegrationServiceEnvironmentAccessEndpointType",
@@ -506,6 +526,8 @@ __all__ = [
     "TrackingRecordType",
     "TrailingSeparatorPolicy",
     "UsageIndicator",
+    "ValidationState",
+    "WorkflowExportOptions",
     "WorkflowProvisioningState",
     "WorkflowState",
     "WorkflowStatus",

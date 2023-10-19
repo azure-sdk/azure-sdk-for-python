@@ -137,6 +137,21 @@ class EventLevel(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     VERBOSE = "Verbose"
 
 
+class ExportDetailCategory(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The export detail category."""
+
+    NOT_SPECIFIED = "NotSpecified"
+    INFORMATION = "Information"
+    REQUIRED_STEP = "RequiredStep"
+
+
+class ExportDetailCode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The export detail code."""
+
+    NOT_SPECIFIED = "NotSpecified"
+    CONNECTION_CLONING_UNSUPPORTED = "ConnectionCloningUnsupported"
+
+
 class HashingAlgorithm(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The signing or hashing algorithm."""
 
@@ -397,6 +412,25 @@ class UsageIndicator(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     TEST = "Test"
     INFORMATION = "Information"
     PRODUCTION = "Production"
+
+
+class ValidationState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The validation state."""
+
+    NOT_SPECIFIED = "NotSpecified"
+    FAILED = "Failed"
+    SUCCEEDED_WITH_WARNING = "SucceededWithWarning"
+    SUCCEEDED = "Succeeded"
+
+
+class WorkflowExportOptions(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The workflow export options flags. Possible options are: CloneConnections,
+    GenerateInfrastructureTemplates.
+    """
+
+    CLONE_CONNECTIONS = "CloneConnections"
+    GENERATE_INFRASTRUCTURE_TEMPLATES = "GenerateInfrastructureTemplates"
+    CLONE_CONNECTIONS_GENERATE_INFRASTRUCTURE_TEMPLATES = "CloneConnections,GenerateInfrastructureTemplates"
 
 
 class WorkflowProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
