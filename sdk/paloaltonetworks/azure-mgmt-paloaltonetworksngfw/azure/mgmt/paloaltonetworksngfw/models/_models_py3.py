@@ -3010,6 +3010,11 @@ class NetworkProfile(_serialization.Model):
     :vartype enable_egress_nat: str or ~azure.mgmt.paloaltonetworksngfw.models.EgressNat
     :ivar egress_nat_ip: Egress nat IP to use.
     :vartype egress_nat_ip: list[~azure.mgmt.paloaltonetworksngfw.models.IPAddress]
+    :ivar trusted_ranges: Non-RFC 1918 address.
+    :vartype trusted_ranges: list[str]
+    :ivar private_source_nat_rules_destination: Array of ipv4 destination address for which source
+     NAT is to be performed.
+    :vartype private_source_nat_rules_destination: list[str]
     """
 
     _validation = {
@@ -3025,6 +3030,8 @@ class NetworkProfile(_serialization.Model):
         "public_ips": {"key": "publicIps", "type": "[IPAddress]"},
         "enable_egress_nat": {"key": "enableEgressNat", "type": "str"},
         "egress_nat_ip": {"key": "egressNatIp", "type": "[IPAddress]"},
+        "trusted_ranges": {"key": "trustedRanges", "type": "[str]"},
+        "private_source_nat_rules_destination": {"key": "privateSourceNatRulesDestination", "type": "[str]"},
     }
 
     def __init__(
@@ -3036,6 +3043,8 @@ class NetworkProfile(_serialization.Model):
         vnet_configuration: Optional["_models.VnetConfiguration"] = None,
         vwan_configuration: Optional["_models.VwanConfiguration"] = None,
         egress_nat_ip: Optional[List["_models.IPAddress"]] = None,
+        trusted_ranges: Optional[List[str]] = None,
+        private_source_nat_rules_destination: Optional[List[str]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -3053,6 +3062,11 @@ class NetworkProfile(_serialization.Model):
         :paramtype enable_egress_nat: str or ~azure.mgmt.paloaltonetworksngfw.models.EgressNat
         :keyword egress_nat_ip: Egress nat IP to use.
         :paramtype egress_nat_ip: list[~azure.mgmt.paloaltonetworksngfw.models.IPAddress]
+        :keyword trusted_ranges: Non-RFC 1918 address.
+        :paramtype trusted_ranges: list[str]
+        :keyword private_source_nat_rules_destination: Array of ipv4 destination address for which
+         source NAT is to be performed.
+        :paramtype private_source_nat_rules_destination: list[str]
         """
         super().__init__(**kwargs)
         self.vnet_configuration = vnet_configuration
@@ -3061,6 +3075,8 @@ class NetworkProfile(_serialization.Model):
         self.public_ips = public_ips
         self.enable_egress_nat = enable_egress_nat
         self.egress_nat_ip = egress_nat_ip
+        self.trusted_ranges = trusted_ranges
+        self.private_source_nat_rules_destination = private_source_nat_rules_destination
 
 
 class Operation(_serialization.Model):
