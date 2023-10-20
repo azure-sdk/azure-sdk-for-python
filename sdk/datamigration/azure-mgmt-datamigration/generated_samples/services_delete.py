@@ -29,11 +29,10 @@ def main():
         subscription_id="fc04246f-04c5-437e-ac5e-206a19e7193f",
     )
 
-    response = client.services.begin_delete(
+    client.services.begin_delete(
         group_name="DmsSdkRg",
         service_name="DmsSdkService",
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2022-03-30-preview/examples/Services_Delete.json
