@@ -198,6 +198,12 @@ class ResourceMoveState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     MOVE_SUCCEEDED = "MoveSucceeded"
 
 
+class ResourcePropertiesObjectType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of the specific object - used for deserializing."""
+
+    DEFAULT_RESOURCE_PROPERTIES = "DefaultResourceProperties"
+
+
 class RestoreSourceDataStoreType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Gets or sets the type of the source data store."""
 

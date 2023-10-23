@@ -2617,10 +2617,14 @@ class BaseBackupPolicyResourceList(DppResourceList):
 class BaseResourceProperties(_serialization.Model):
     """Properties which are specific to datasource/datasourceSets.
 
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    DefaultResourceProperties
+
     All required parameters must be populated in order to send to Azure.
 
     :ivar object_type: Type of the specific object - used for deserializing. Required.
-    :vartype object_type: str
+     "DefaultResourceProperties"
+    :vartype object_type: str or ~azure.mgmt.dataprotection.models.ResourcePropertiesObjectType
     """
 
     _validation = {
@@ -2630,6 +2634,8 @@ class BaseResourceProperties(_serialization.Model):
     _attribute_map = {
         "object_type": {"key": "objectType", "type": "str"},
     }
+
+    _subtype_map = {"object_type": {"DefaultResourceProperties": "DefaultResourceProperties"}}
 
     def __init__(self, **kwargs: Any) -> None:
         """ """
@@ -3313,6 +3319,30 @@ class Day(_serialization.Model):
         super().__init__(**kwargs)
         self.date = date
         self.is_last = is_last
+
+
+class DefaultResourceProperties(BaseResourceProperties):
+    """Default source properties.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar object_type: Type of the specific object - used for deserializing. Required.
+     "DefaultResourceProperties"
+    :vartype object_type: str or ~azure.mgmt.dataprotection.models.ResourcePropertiesObjectType
+    """
+
+    _validation = {
+        "object_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "object_type": {"key": "objectType", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.object_type: str = "DefaultResourceProperties"
 
 
 class DeletedBackupInstance(BackupInstance):  # pylint: disable=too-many-instance-attributes
