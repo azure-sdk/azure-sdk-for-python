@@ -11041,6 +11041,9 @@ class VirtualMachineScaleSet(Resource):  # pylint: disable=too-many-instance-att
     :vartype zones: list[str]
     :ivar extended_location: The extended location of the Virtual Machine Scale Set.
     :vartype extended_location: ~azure.mgmt.compute.v2023_03_01.models.ExtendedLocation
+    :ivar etag: Etag is property returned in Create/Update/Get response of the VMSS, so that
+     customer can supply it in the header to ensure optimistic updates.
+    :vartype etag: str
     :ivar upgrade_policy: The upgrade policy.
     :vartype upgrade_policy: ~azure.mgmt.compute.v2023_03_01.models.UpgradePolicy
     :ivar automatic_repairs_policy: Policy for automatic repairs.
@@ -11106,6 +11109,7 @@ class VirtualMachineScaleSet(Resource):  # pylint: disable=too-many-instance-att
         "name": {"readonly": True},
         "type": {"readonly": True},
         "location": {"required": True},
+        "etag": {"readonly": True},
         "provisioning_state": {"readonly": True},
         "unique_id": {"readonly": True},
         "time_created": {"readonly": True},
@@ -11122,6 +11126,7 @@ class VirtualMachineScaleSet(Resource):  # pylint: disable=too-many-instance-att
         "identity": {"key": "identity", "type": "VirtualMachineScaleSetIdentity"},
         "zones": {"key": "zones", "type": "[str]"},
         "extended_location": {"key": "extendedLocation", "type": "ExtendedLocation"},
+        "etag": {"key": "etag", "type": "str"},
         "upgrade_policy": {"key": "properties.upgradePolicy", "type": "UpgradePolicy"},
         "automatic_repairs_policy": {"key": "properties.automaticRepairsPolicy", "type": "AutomaticRepairsPolicy"},
         "virtual_machine_profile": {
@@ -11257,6 +11262,7 @@ class VirtualMachineScaleSet(Resource):  # pylint: disable=too-many-instance-att
         self.identity = identity
         self.zones = zones
         self.extended_location = extended_location
+        self.etag = None
         self.upgrade_policy = upgrade_policy
         self.automatic_repairs_policy = automatic_repairs_policy
         self.virtual_machine_profile = virtual_machine_profile
@@ -13120,6 +13126,8 @@ class VirtualMachineScaleSetStorageProfile(_serialization.Model):
 class VirtualMachineScaleSetUpdate(UpdateResource):  # pylint: disable=too-many-instance-attributes
     """Describes a Virtual Machine Scale Set.
 
+    Variables are only populated by the server, and will be ignored when sending a request.
+
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar sku: The virtual machine scale set sku.
@@ -13129,6 +13137,9 @@ class VirtualMachineScaleSetUpdate(UpdateResource):  # pylint: disable=too-many-
     :vartype plan: ~azure.mgmt.compute.v2023_03_01.models.Plan
     :ivar identity: The identity of the virtual machine scale set, if configured.
     :vartype identity: ~azure.mgmt.compute.v2023_03_01.models.VirtualMachineScaleSetIdentity
+    :ivar etag: Etag is property returned in Create/Update/Get response of the VMSS, so that
+     customer can supply it in the header to ensure optimistic updates.
+    :vartype etag: str
     :ivar upgrade_policy: The upgrade policy.
     :vartype upgrade_policy: ~azure.mgmt.compute.v2023_03_01.models.UpgradePolicy
     :ivar automatic_repairs_policy: Policy for automatic repairs.
@@ -13167,11 +13178,16 @@ class VirtualMachineScaleSetUpdate(UpdateResource):  # pylint: disable=too-many-
     :vartype spot_restore_policy: ~azure.mgmt.compute.v2023_03_01.models.SpotRestorePolicy
     """
 
+    _validation = {
+        "etag": {"readonly": True},
+    }
+
     _attribute_map = {
         "tags": {"key": "tags", "type": "{str}"},
         "sku": {"key": "sku", "type": "Sku"},
         "plan": {"key": "plan", "type": "Plan"},
         "identity": {"key": "identity", "type": "VirtualMachineScaleSetIdentity"},
+        "etag": {"key": "etag", "type": "str"},
         "upgrade_policy": {"key": "properties.upgradePolicy", "type": "UpgradePolicy"},
         "automatic_repairs_policy": {"key": "properties.automaticRepairsPolicy", "type": "AutomaticRepairsPolicy"},
         "virtual_machine_profile": {
@@ -13264,6 +13280,7 @@ class VirtualMachineScaleSetUpdate(UpdateResource):  # pylint: disable=too-many-
         self.sku = sku
         self.plan = plan
         self.identity = identity
+        self.etag = None
         self.upgrade_policy = upgrade_policy
         self.automatic_repairs_policy = automatic_repairs_policy
         self.virtual_machine_profile = virtual_machine_profile
@@ -13943,6 +13960,9 @@ class VirtualMachineScaleSetVM(Resource):  # pylint: disable=too-many-instance-a
     :vartype zones: list[str]
     :ivar identity: The identity of the virtual machine, if configured.
     :vartype identity: ~azure.mgmt.compute.v2023_03_01.models.VirtualMachineIdentity
+    :ivar etag: Etag is property returned in Create/Update/Get response of the VMSS VM, so that
+     customer can supply it in the header to ensure optimistic updates.
+    :vartype etag: str
     :ivar latest_model_applied: Specifies whether the latest model has been applied to the virtual
      machine.
     :vartype latest_model_applied: bool
@@ -14016,6 +14036,7 @@ class VirtualMachineScaleSetVM(Resource):  # pylint: disable=too-many-instance-a
         "sku": {"readonly": True},
         "resources": {"readonly": True},
         "zones": {"readonly": True},
+        "etag": {"readonly": True},
         "latest_model_applied": {"readonly": True},
         "vm_id": {"readonly": True},
         "instance_view": {"readonly": True},
@@ -14035,6 +14056,7 @@ class VirtualMachineScaleSetVM(Resource):  # pylint: disable=too-many-instance-a
         "resources": {"key": "resources", "type": "[VirtualMachineExtension]"},
         "zones": {"key": "zones", "type": "[str]"},
         "identity": {"key": "identity", "type": "VirtualMachineIdentity"},
+        "etag": {"key": "etag", "type": "str"},
         "latest_model_applied": {"key": "properties.latestModelApplied", "type": "bool"},
         "vm_id": {"key": "properties.vmId", "type": "str"},
         "instance_view": {"key": "properties.instanceView", "type": "VirtualMachineScaleSetVMInstanceView"},
@@ -14149,6 +14171,7 @@ class VirtualMachineScaleSetVM(Resource):  # pylint: disable=too-many-instance-a
         self.resources = None
         self.zones = None
         self.identity = identity
+        self.etag = None
         self.latest_model_applied = None
         self.vm_id = None
         self.instance_view = None
