@@ -24,6 +24,7 @@ from ._models_py3 import FhirServiceCorsConfiguration
 from ._models_py3 import FhirServiceExportConfiguration
 from ._models_py3 import FhirServiceImportConfiguration
 from ._models_py3 import FhirServicePatchResource
+from ._models_py3 import ImplementationGuidesConfiguration
 from ._models_py3 import IotConnector
 from ._models_py3 import IotConnectorCollection
 from ._models_py3 import IotConnectorPatchResource
@@ -119,6 +120,7 @@ __all__ = [
     "FhirServiceExportConfiguration",
     "FhirServiceImportConfiguration",
     "FhirServicePatchResource",
+    "ImplementationGuidesConfiguration",
     "IotConnector",
     "IotConnectorCollection",
     "IotConnectorPatchResource",
