@@ -48,9 +48,9 @@ class LocalizableString(_serialization.Model):
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar value: the invariant value. Required.
+    :ivar value: The invariant value. Required.
     :vartype value: str
-    :ivar localized_value: the locale specific value.
+    :ivar localized_value: The display name.
     :vartype localized_value: str
     """
 
@@ -65,9 +65,9 @@ class LocalizableString(_serialization.Model):
 
     def __init__(self, *, value: str, localized_value: Optional[str] = None, **kwargs: Any) -> None:
         """
-        :keyword value: the invariant value. Required.
+        :keyword value: The invariant value. Required.
         :paramtype value: str
-        :keyword localized_value: the locale specific value.
+        :keyword localized_value: The display name.
         :paramtype localized_value: str
         """
         super().__init__(**kwargs)
@@ -78,9 +78,9 @@ class LocalizableString(_serialization.Model):
 class MetadataValue(_serialization.Model):
     """Represents a metric metadata value.
 
-    :ivar name: the name of the metadata.
+    :ivar name: The name of the metadata.
     :vartype name: ~azure.mgmt.monitor.v2018_01_01.models.LocalizableString
-    :ivar value: the value of the metadata.
+    :ivar value: The value of the metadata.
     :vartype value: str
     """
 
@@ -93,9 +93,9 @@ class MetadataValue(_serialization.Model):
         self, *, name: Optional["_models.LocalizableString"] = None, value: Optional[str] = None, **kwargs: Any
     ) -> None:
         """
-        :keyword name: the name of the metadata.
+        :keyword name: The name of the metadata.
         :paramtype name: ~azure.mgmt.monitor.v2018_01_01.models.LocalizableString
-        :keyword value: the value of the metadata.
+        :keyword value: The value of the metadata.
         :paramtype value: str
         """
         super().__init__(**kwargs)
@@ -389,17 +389,17 @@ class MetricValue(_serialization.Model):
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar time_stamp: the timestamp for the metric value in ISO 8601 format. Required.
+    :ivar time_stamp: The timestamp for the metric value in ISO 8601 format. Required.
     :vartype time_stamp: ~datetime.datetime
-    :ivar average: the average value in the time range.
+    :ivar average: The average value in the time range.
     :vartype average: float
-    :ivar minimum: the least value in the time range.
+    :ivar minimum: The least value in the time range.
     :vartype minimum: float
-    :ivar maximum: the greatest value in the time range.
+    :ivar maximum: The greatest value in the time range.
     :vartype maximum: float
-    :ivar total: the sum of all of the values in the time range.
+    :ivar total: The sum of all of the values in the time range.
     :vartype total: float
-    :ivar count: the number of samples in the time range. Can be used to determine the number of
+    :ivar count: The number of samples in the time range. Can be used to determine the number of
      values that contributed to the average value.
     :vartype count: float
     """
@@ -429,17 +429,17 @@ class MetricValue(_serialization.Model):
         **kwargs: Any
     ) -> None:
         """
-        :keyword time_stamp: the timestamp for the metric value in ISO 8601 format. Required.
+        :keyword time_stamp: The timestamp for the metric value in ISO 8601 format. Required.
         :paramtype time_stamp: ~datetime.datetime
-        :keyword average: the average value in the time range.
+        :keyword average: The average value in the time range.
         :paramtype average: float
-        :keyword minimum: the least value in the time range.
+        :keyword minimum: The least value in the time range.
         :paramtype minimum: float
-        :keyword maximum: the greatest value in the time range.
+        :keyword maximum: The greatest value in the time range.
         :paramtype maximum: float
-        :keyword total: the sum of all of the values in the time range.
+        :keyword total: The sum of all of the values in the time range.
         :paramtype total: float
-        :keyword count: the number of samples in the time range. Can be used to determine the number of
+        :keyword count: The number of samples in the time range. Can be used to determine the number of
          values that contributed to the average value.
         :paramtype count: float
         """

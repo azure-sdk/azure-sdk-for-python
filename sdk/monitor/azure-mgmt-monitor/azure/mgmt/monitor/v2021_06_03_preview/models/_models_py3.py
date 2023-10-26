@@ -18,15 +18,15 @@ if TYPE_CHECKING:
 
 
 class AzureMonitorWorkspace(_serialization.Model):
-    """Properties of an Azure Monitor workspace.
+    """Properties of an Azure Monitor Workspace.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar account_id: The immutable ID of the Azure Monitor workspace. This property is read-only.
+    :ivar account_id: The immutable Id of the Azure Monitor Workspace. This property is read-only.
     :vartype account_id: str
-    :ivar metrics: Information about metrics for the Azure Monitor workspace.
+    :ivar metrics: Properties related to the metrics container in the Azure Monitor Workspace.
     :vartype metrics: ~azure.mgmt.monitor.v2021_06_03_preview.models.AzureMonitorWorkspaceMetrics
-    :ivar provisioning_state: The provisioning state of the Azure Monitor workspace. Set to
+    :ivar provisioning_state: The provisioning state of the Azure Monitor Workspace. Set to
      Succeeded if everything is healthy. Known values are: "Creating", "Succeeded", "Deleting",
      "Failed", and "Canceled".
     :vartype provisioning_state: str or
@@ -69,10 +69,10 @@ class IngestionSettings(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar data_collection_rule_resource_id: The Azure resource Id of the default data collection
-     rule for this workspace.
+     rule for this Azure Monitor Workspace.
     :vartype data_collection_rule_resource_id: str
     :ivar data_collection_endpoint_resource_id: The Azure resource Id of the default data
-     collection endpoint for this workspace.
+     collection endpoint for this Azure Monitor Workspace.
     :vartype data_collection_endpoint_resource_id: str
     """
 
@@ -99,10 +99,10 @@ class AzureMonitorWorkspaceDefaultIngestionSettings(IngestionSettings):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar data_collection_rule_resource_id: The Azure resource Id of the default data collection
-     rule for this workspace.
+     rule for this Azure Monitor Workspace.
     :vartype data_collection_rule_resource_id: str
     :ivar data_collection_endpoint_resource_id: The Azure resource Id of the default data
-     collection endpoint for this workspace.
+     collection endpoint for this Azure Monitor Workspace.
     :vartype data_collection_endpoint_resource_id: str
     """
 
@@ -122,11 +122,11 @@ class AzureMonitorWorkspaceDefaultIngestionSettings(IngestionSettings):
 
 
 class Metrics(_serialization.Model):
-    """Information about metrics for the workspace.
+    """Properties related to the metrics container in the Azure Monitor Workspace.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar prometheus_query_endpoint: The Prometheus query endpoint for the workspace.
+    :ivar prometheus_query_endpoint: The Prometheus query endpoint for the Azure Monitor Workspace.
     :vartype prometheus_query_endpoint: str
     :ivar internal_id: An internal identifier for the metrics container. Only to be used by the
      system.
@@ -151,11 +151,11 @@ class Metrics(_serialization.Model):
 
 
 class AzureMonitorWorkspaceMetrics(Metrics):
-    """Information about metrics for the Azure Monitor workspace.
+    """Properties related to the metrics container in the Azure Monitor Workspace.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar prometheus_query_endpoint: The Prometheus query endpoint for the workspace.
+    :ivar prometheus_query_endpoint: The Prometheus query endpoint for the Azure Monitor Workspace.
     :vartype prometheus_query_endpoint: str
     :ivar internal_id: An internal identifier for the metrics container. Only to be used by the
      system.
@@ -296,11 +296,11 @@ class AzureMonitorWorkspaceResource(TrackedResource):  # pylint: disable=too-man
     :vartype location: str
     :ivar etag: Resource entity tag (ETag).
     :vartype etag: str
-    :ivar account_id: The immutable ID of the Azure Monitor workspace. This property is read-only.
+    :ivar account_id: The immutable Id of the Azure Monitor Workspace. This property is read-only.
     :vartype account_id: str
-    :ivar metrics: Information about metrics for the Azure Monitor workspace.
+    :ivar metrics: Properties related to the metrics container in the Azure Monitor Workspace.
     :vartype metrics: ~azure.mgmt.monitor.v2021_06_03_preview.models.AzureMonitorWorkspaceMetrics
-    :ivar provisioning_state: The provisioning state of the Azure Monitor workspace. Set to
+    :ivar provisioning_state: The provisioning state of the Azure Monitor Workspace. Set to
      Succeeded if everything is healthy. Known values are: "Creating", "Succeeded", "Deleting",
      "Failed", and "Canceled".
     :vartype provisioning_state: str or
@@ -357,7 +357,7 @@ class AzureMonitorWorkspaceResource(TrackedResource):  # pylint: disable=too-man
 
 
 class AzureMonitorWorkspaceResourceForUpdate(_serialization.Model):
-    """Definition of ARM tracked top level resource properties for update operation.
+    """Definition of ARM tracked top level resource properties for the Update operation.
 
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
@@ -417,11 +417,11 @@ class AzureMonitorWorkspaceResourceProperties(AzureMonitorWorkspace):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar account_id: The immutable ID of the Azure Monitor workspace. This property is read-only.
+    :ivar account_id: The immutable Id of the Azure Monitor Workspace. This property is read-only.
     :vartype account_id: str
-    :ivar metrics: Information about metrics for the Azure Monitor workspace.
+    :ivar metrics: Properties related to the metrics container in the Azure Monitor Workspace.
     :vartype metrics: ~azure.mgmt.monitor.v2021_06_03_preview.models.AzureMonitorWorkspaceMetrics
-    :ivar provisioning_state: The provisioning state of the Azure Monitor workspace. Set to
+    :ivar provisioning_state: The provisioning state of the Azure Monitor Workspace. Set to
      Succeeded if everything is healthy. Known values are: "Creating", "Succeeded", "Deleting",
      "Failed", and "Canceled".
     :vartype provisioning_state: str or
