@@ -29,7 +29,7 @@ def main():
         subscription_id="0000000-0000-0000-0000-000000000001",
     )
 
-    client.managed_ccf.begin_update(
+    response = client.managed_ccf.begin_update(
         resource_group_name="DummyResourceGroupName",
         app_name="DummyMccfAppName",
         managed_ccf={
@@ -43,8 +43,9 @@ def main():
             "tags": {"additionalProps1": "additional properties"},
         },
     ).result()
+    print(response)
 
 
-# x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-01-26-preview/examples/ManagedCCF_Update.json
+# x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-06-28-preview/examples/ManagedCCF_Update.json
 if __name__ == "__main__":
     main()
