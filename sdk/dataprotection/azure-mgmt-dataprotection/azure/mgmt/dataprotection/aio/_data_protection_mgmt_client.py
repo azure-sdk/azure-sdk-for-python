@@ -20,6 +20,8 @@ from .operations import (
     BackupPoliciesOperations,
     BackupVaultOperationResultsOperations,
     BackupVaultsOperations,
+    CrossRegionRestoreJobOperations,
+    CrossRegionRestoreJobsOperations,
     DataProtectionOperations,
     DataProtectionOperationsOperations,
     DeletedBackupInstancesOperations,
@@ -34,6 +36,7 @@ from .operations import (
     RecoveryPointsOperations,
     ResourceGuardsOperations,
     RestorableTimeRangesOperations,
+    SecondaryRPsOperations,
 )
 
 if TYPE_CHECKING:
@@ -72,6 +75,14 @@ class DataProtectionMgmtClient:  # pylint: disable=client-accepts-api-version-ke
     :vartype backup_instances: azure.mgmt.dataprotection.aio.operations.BackupInstancesOperations
     :ivar recovery_points: RecoveryPointsOperations operations
     :vartype recovery_points: azure.mgmt.dataprotection.aio.operations.RecoveryPointsOperations
+    :ivar secondary_rps: SecondaryRPsOperations operations
+    :vartype secondary_rps: azure.mgmt.dataprotection.aio.operations.SecondaryRPsOperations
+    :ivar cross_region_restore_job: CrossRegionRestoreJobOperations operations
+    :vartype cross_region_restore_job:
+     azure.mgmt.dataprotection.aio.operations.CrossRegionRestoreJobOperations
+    :ivar cross_region_restore_jobs: CrossRegionRestoreJobsOperations operations
+    :vartype cross_region_restore_jobs:
+     azure.mgmt.dataprotection.aio.operations.CrossRegionRestoreJobsOperations
     :ivar jobs: JobsOperations operations
     :vartype jobs: azure.mgmt.dataprotection.aio.operations.JobsOperations
     :ivar restorable_time_ranges: RestorableTimeRangesOperations operations
@@ -96,7 +107,7 @@ class DataProtectionMgmtClient:  # pylint: disable=client-accepts-api-version-ke
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2023-05-01". Note that overriding this
+    :keyword api_version: Api Version. Default value is "2023-11-01". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -144,6 +155,13 @@ class DataProtectionMgmtClient:  # pylint: disable=client-accepts-api-version-ke
             self._client, self._config, self._serialize, self._deserialize
         )
         self.recovery_points = RecoveryPointsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.secondary_rps = SecondaryRPsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.cross_region_restore_job = CrossRegionRestoreJobOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.cross_region_restore_jobs = CrossRegionRestoreJobsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.jobs = JobsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.restorable_time_ranges = RestorableTimeRangesOperations(
             self._client, self._config, self._serialize, self._deserialize
