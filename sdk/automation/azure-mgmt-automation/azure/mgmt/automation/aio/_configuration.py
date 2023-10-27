@@ -30,10 +30,15 @@ class AutomationClientConfiguration(Configuration):  # pylint: disable=too-many-
     :param subscription_id: Gets subscription credentials which uniquely identify Microsoft Azure
      subscription. The subscription ID forms part of the URI for every service call. Required.
     :type subscription_id: str
+    :keyword api_version: Api Version. Default value is "2023-05-15-preview". Note that overriding
+     this default value may result in unsupported behavior.
+    :paramtype api_version: str
     """
 
     def __init__(self, credential: "AsyncTokenCredential", subscription_id: str, **kwargs: Any) -> None:
         super(AutomationClientConfiguration, self).__init__(**kwargs)
+        api_version: str = kwargs.pop("api_version", "2023-05-15-preview")
+
         if credential is None:
             raise ValueError("Parameter 'credential' must not be None.")
         if subscription_id is None:
@@ -41,6 +46,7 @@ class AutomationClientConfiguration(Configuration):  # pylint: disable=too-many-
 
         self.credential = credential
         self.subscription_id = subscription_id
+        self.api_version = api_version
         self.credential_scopes = kwargs.pop("credential_scopes", ["https://management.azure.com/.default"])
         kwargs.setdefault("sdk_moniker", "mgmt-automation/{}".format(VERSION))
         self._configure(**kwargs)

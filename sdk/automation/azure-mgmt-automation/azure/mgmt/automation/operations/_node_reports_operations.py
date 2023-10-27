@@ -8,6 +8,7 @@
 # --------------------------------------------------------------------------
 import sys
 from typing import Any, Callable, Dict, Iterable, Optional, TypeVar
+import urllib.parse
 
 from azure.core.exceptions import (
     ClientAuthenticationError,
@@ -27,16 +28,12 @@ from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import AutomationClientMixinABC, _convert_request, _format_url_section
+from .._vendor import AutomationClientMixinABC, _convert_request
 
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
     from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
-if sys.version_info >= (3, 8):
-    from typing import Literal  # pylint: disable=no-name-in-module, ungrouped-imports
-else:
-    from typing_extensions import Literal  # type: ignore  # pylint: disable=ungrouped-imports
 JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
@@ -57,9 +54,7 @@ def build_list_by_node_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2020-01-13-preview"] = kwargs.pop(
-        "api_version", _params.pop("api-version", "2020-01-13-preview")
-    )
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-15-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -76,7 +71,7 @@ def build_list_by_node_request(
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     if filter is not None:
@@ -100,9 +95,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2020-01-13-preview"] = kwargs.pop(
-        "api_version", _params.pop("api-version", "2020-01-13-preview")
-    )
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-15-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -120,7 +113,7 @@ def build_get_request(
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -142,9 +135,7 @@ def build_get_content_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: Literal["2020-01-13-preview"] = kwargs.pop(
-        "api_version", _params.pop("api-version", "2020-01-13-preview")
-    )
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-15-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -162,7 +153,7 @@ def build_get_content_request(
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -203,6 +194,9 @@ class NodeReportsOperations:
     ) -> Iterable["_models.DscNodeReport"]:
         """Retrieve the Dsc node report list by node id.
 
+        .. seealso::
+           - http://aka.ms/azureautomationsdk/dscnodereportoperations
+
         :param resource_group_name: Name of an Azure Resource group. Required.
         :type resource_group_name: str
         :param automation_account_name: The name of the automation account. Required.
@@ -219,9 +213,7 @@ class NodeReportsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2020-01-13-preview"] = kwargs.pop(
-            "api_version", _params.pop("api-version", "2020-01-13-preview")
-        )
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.DscNodeReportListResult] = kwargs.pop("cls", None)
 
         error_map = {
@@ -250,7 +242,18 @@ class NodeReportsOperations:
                 request.url = self._client.format_url(request.url)
 
             else:
-                request = HttpRequest("GET", next_link)
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._config.api_version
+                request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
                 request = _convert_request(request)
                 request.url = self._client.format_url(request.url)
                 request.method = "GET"
@@ -266,8 +269,9 @@ class NodeReportsOperations:
         def get_next(next_link=None):
             request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -289,6 +293,9 @@ class NodeReportsOperations:
         self, resource_group_name: str, automation_account_name: str, node_id: str, report_id: str, **kwargs: Any
     ) -> _models.DscNodeReport:
         """Retrieve the Dsc node report data by node id and report id.
+
+        .. seealso::
+           - http://aka.ms/azureautomationsdk/dscnodereportoperations
 
         :param resource_group_name: Name of an Azure Resource group. Required.
         :type resource_group_name: str
@@ -314,9 +321,7 @@ class NodeReportsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2020-01-13-preview"] = kwargs.pop(
-            "api_version", _params.pop("api-version", "2020-01-13-preview")
-        )
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.DscNodeReport] = kwargs.pop("cls", None)
 
         request = build_get_request(
@@ -333,8 +338,9 @@ class NodeReportsOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -361,6 +367,9 @@ class NodeReportsOperations:
     ) -> JSON:
         """Retrieve the Dsc node reports by node id and report id.
 
+        .. seealso::
+           - http://aka.ms/azureautomationsdk/dscnodereportoperations
+
         :param resource_group_name: Name of an Azure Resource group. Required.
         :type resource_group_name: str
         :param automation_account_name: The name of the automation account. Required.
@@ -385,9 +394,7 @@ class NodeReportsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2020-01-13-preview"] = kwargs.pop(
-            "api_version", _params.pop("api-version", "2020-01-13-preview")
-        )
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[JSON] = kwargs.pop("cls", None)
 
         request = build_get_content_request(
@@ -404,8 +411,9 @@ class NodeReportsOperations:
         request = _convert_request(request)
         request.url = self._client.format_url(request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response

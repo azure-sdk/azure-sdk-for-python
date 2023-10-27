@@ -37,6 +37,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2022-08-08/examples/listCredentialsByAutomationAccount_next100_using_nextLink.json
+# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2023-05-15-preview/examples/listCredentialsByAutomationAccount_next100_using_nextLink.json
 if __name__ == "__main__":
     main()

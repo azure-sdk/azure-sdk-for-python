@@ -141,6 +141,7 @@ class HttpStatusCode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SERVICE_UNAVAILABLE = "ServiceUnavailable"
     GATEWAY_TIMEOUT = "GatewayTimeout"
     HTTP_VERSION_NOT_SUPPORTED = "HttpVersionNotSupported"
+    CONTINUE_ENUM = "Continue"
 
 
 class JobProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -219,6 +220,27 @@ class OperatingSystemType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     LINUX = "Linux"
 
 
+class PackageProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Gets or sets the provisioning state of the Package."""
+
+    CREATED = "Created"
+    CREATING = "Creating"
+    STARTING_IMPORT_MODULE_RUNBOOK = "StartingImportModuleRunbook"
+    RUNNING_IMPORT_MODULE_RUNBOOK = "RunningImportModuleRunbook"
+    CONTENT_RETRIEVED = "ContentRetrieved"
+    CONTENT_DOWNLOADED = "ContentDownloaded"
+    CONTENT_VALIDATED = "ContentValidated"
+    CONNECTION_TYPE_IMPORTED = "ConnectionTypeImported"
+    CONTENT_STORED = "ContentStored"
+    MODULE_DATA_STORED = "ModuleDataStored"
+    ACTIVITIES_STORED = "ActivitiesStored"
+    MODULE_IMPORT_RUNBOOK_COMPLETE = "ModuleImportRunbookComplete"
+    SUCCEEDED = "Succeeded"
+    FAILED = "Failed"
+    CANCELED = "Canceled"
+    UPDATING = "Updating"
+
+
 class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The provisioning state of the job."""
 
@@ -255,6 +277,7 @@ class RunbookTypeEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     GRAPH_POWER_SHELL = "GraphPowerShell"
     PYTHON2 = "Python2"
     PYTHON3 = "Python3"
+    PYTHON = "Python"
 
 
 class ScheduleDay(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -279,8 +302,8 @@ class ScheduleFrequency(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     HOUR = "Hour"
     WEEK = "Week"
     MONTH = "Month"
-    #: The minimum allowed interval for Minute schedules is 15 minutes.
     MINUTE = "Minute"
+    """The minimum allowed interval for Minute schedules is 15 minutes."""
 
 
 class SkuNameEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):

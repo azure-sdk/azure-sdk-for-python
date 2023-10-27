@@ -29,14 +29,13 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.watcher.delete(
+    client.watcher.delete(
         resource_group_name="rg",
         automation_account_name="MyTestAutomationAccount",
         watcher_name="MyTestWatcher",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/deleteWatcher.json
+# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2023-05-15-preview/examples/deleteWatcher.json
 if __name__ == "__main__":
     main()

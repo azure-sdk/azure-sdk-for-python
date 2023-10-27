@@ -43,6 +43,8 @@ from ._models_py3 import CredentialListResult
 from ._models_py3 import CredentialUpdateParameters
 from ._models_py3 import DeletedAutomationAccount
 from ._models_py3 import DeletedAutomationAccountListResult
+from ._models_py3 import DeletedRunbook
+from ._models_py3 import DeletedRunbookListResult
 from ._models_py3 import Dimension
 from ._models_py3 import DscCompilationJob
 from ._models_py3 import DscCompilationJobCreateParameters
@@ -85,6 +87,7 @@ from ._models_py3 import JobCollectionItem
 from ._models_py3 import JobCreateParameters
 from ._models_py3 import JobListResultV2
 from ._models_py3 import JobNavigation
+from ._models_py3 import JobRuntimeEnvironment
 from ._models_py3 import JobSchedule
 from ._models_py3 import JobScheduleCreateParameters
 from ._models_py3 import JobScheduleListResult
@@ -110,6 +113,11 @@ from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
 from ._models_py3 import OperationListResult
 from ._models_py3 import OperationPropertiesFormatServiceSpecification
+from ._models_py3 import Package
+from ._models_py3 import PackageCreateOrUpdateParameters
+from ._models_py3 import PackageErrorInfo
+from ._models_py3 import PackageListResult
+from ._models_py3 import PackageUpdateParameters
 from ._models_py3 import PrivateEndpointConnection
 from ._models_py3 import PrivateEndpointConnectionListResult
 from ._models_py3 import PrivateEndpointProperty
@@ -132,6 +140,9 @@ from ._models_py3 import RunbookDraftUndoEditResult
 from ._models_py3 import RunbookListResult
 from ._models_py3 import RunbookParameter
 from ._models_py3 import RunbookUpdateParameters
+from ._models_py3 import RuntimeEnvironment
+from ._models_py3 import RuntimeEnvironmentListResult
+from ._models_py3 import RuntimeEnvironmentUpdateParameters
 from ._models_py3 import SUCScheduleProperties
 from ._models_py3 import Schedule
 from ._models_py3 import ScheduleAssociationProperty
@@ -209,6 +220,7 @@ from ._automation_client_enums import JobStreamType
 from ._automation_client_enums import LinuxUpdateClasses
 from ._automation_client_enums import ModuleProvisioningState
 from ._automation_client_enums import OperatingSystemType
+from ._automation_client_enums import PackageProvisioningState
 from ._automation_client_enums import ProvisioningState
 from ._automation_client_enums import ResourceIdentityType
 from ._automation_client_enums import RunbookState
@@ -265,6 +277,8 @@ __all__ = [
     "CredentialUpdateParameters",
     "DeletedAutomationAccount",
     "DeletedAutomationAccountListResult",
+    "DeletedRunbook",
+    "DeletedRunbookListResult",
     "Dimension",
     "DscCompilationJob",
     "DscCompilationJobCreateParameters",
@@ -307,6 +321,7 @@ __all__ = [
     "JobCreateParameters",
     "JobListResultV2",
     "JobNavigation",
+    "JobRuntimeEnvironment",
     "JobSchedule",
     "JobScheduleCreateParameters",
     "JobScheduleListResult",
@@ -332,6 +347,11 @@ __all__ = [
     "OperationDisplay",
     "OperationListResult",
     "OperationPropertiesFormatServiceSpecification",
+    "Package",
+    "PackageCreateOrUpdateParameters",
+    "PackageErrorInfo",
+    "PackageListResult",
+    "PackageUpdateParameters",
     "PrivateEndpointConnection",
     "PrivateEndpointConnectionListResult",
     "PrivateEndpointProperty",
@@ -354,6 +374,9 @@ __all__ = [
     "RunbookListResult",
     "RunbookParameter",
     "RunbookUpdateParameters",
+    "RuntimeEnvironment",
+    "RuntimeEnvironmentListResult",
+    "RuntimeEnvironmentUpdateParameters",
     "SUCScheduleProperties",
     "Schedule",
     "ScheduleAssociationProperty",
@@ -430,6 +453,7 @@ __all__ = [
     "LinuxUpdateClasses",
     "ModuleProvisioningState",
     "OperatingSystemType",
+    "PackageProvisioningState",
     "ProvisioningState",
     "ResourceIdentityType",
     "RunbookState",
