@@ -278,7 +278,7 @@ class Kind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class LargeFileSharesState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled."""
+    """Allow large file shares if set to Enabled. It cannot be disabled once it is enabled."""
 
     DISABLED = "Disabled"
     ENABLED = "Enabled"

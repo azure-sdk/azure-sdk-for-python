@@ -5149,19 +5149,19 @@ class StorageAccount(TrackedResource):  # pylint: disable=too-many-instance-attr
      settings for Azure Files.
     :vartype azure_files_identity_based_authentication:
      ~azure.mgmt.storage.v2021_01_01.models.AzureFilesIdentityBasedAuthentication
-    :ivar enable_https_traffic_only: Allows https traffic only to storage service if sets to true.
+    :ivar enable_https_traffic_only: Allows https traffic only to storage service if set to true.
     :vartype enable_https_traffic_only: bool
     :ivar network_rule_set: Network rule set.
     :vartype network_rule_set: ~azure.mgmt.storage.v2021_01_01.models.NetworkRuleSet
-    :ivar is_hns_enabled: Account HierarchicalNamespace enabled if sets to true.
+    :ivar is_hns_enabled: Account HierarchicalNamespace enabled if set to true.
     :vartype is_hns_enabled: bool
     :ivar geo_replication_stats: Geo Replication Stats.
     :vartype geo_replication_stats: ~azure.mgmt.storage.v2021_01_01.models.GeoReplicationStats
     :ivar failover_in_progress: If the failover is in progress, the value will be true, otherwise,
      it will be null.
     :vartype failover_in_progress: bool
-    :ivar large_file_shares_state: Allow large file shares if sets to Enabled. It cannot be
-     disabled once it is enabled. Known values are: "Disabled" and "Enabled".
+    :ivar large_file_shares_state: Allow large file shares if set to Enabled. It cannot be disabled
+     once it is enabled. Known values are: "Disabled" and "Enabled".
     :vartype large_file_shares_state: str or
      ~azure.mgmt.storage.v2021_01_01.models.LargeFileSharesState
     :ivar private_endpoint_connections: List of private endpoint connection associated with the
@@ -5183,7 +5183,7 @@ class StorageAccount(TrackedResource):  # pylint: disable=too-many-instance-attr
     :ivar allow_shared_key_access: Indicates whether the storage account permits requests to be
      authorized with the account access key via Shared Key. If false, then all requests, including
      shared access signatures, must be authorized with Azure Active Directory (Azure AD). The
-     default value is null, which is equivalent to true.
+     default value is null, which is equivalent to false.
     :vartype allow_shared_key_access: bool
     :ivar enable_nfs_v3: NFS 3.0 protocol support enabled if set to true.
     :vartype enable_nfs_v3: bool
@@ -5290,12 +5290,12 @@ class StorageAccount(TrackedResource):  # pylint: disable=too-many-instance-attr
          settings for Azure Files.
         :paramtype azure_files_identity_based_authentication:
          ~azure.mgmt.storage.v2021_01_01.models.AzureFilesIdentityBasedAuthentication
-        :keyword enable_https_traffic_only: Allows https traffic only to storage service if sets to
+        :keyword enable_https_traffic_only: Allows https traffic only to storage service if set to
          true.
         :paramtype enable_https_traffic_only: bool
-        :keyword is_hns_enabled: Account HierarchicalNamespace enabled if sets to true.
+        :keyword is_hns_enabled: Account HierarchicalNamespace enabled if set to true.
         :paramtype is_hns_enabled: bool
-        :keyword large_file_shares_state: Allow large file shares if sets to Enabled. It cannot be
+        :keyword large_file_shares_state: Allow large file shares if set to Enabled. It cannot be
          disabled once it is enabled. Known values are: "Disabled" and "Enabled".
         :paramtype large_file_shares_state: str or
          ~azure.mgmt.storage.v2021_01_01.models.LargeFileSharesState
@@ -5312,7 +5312,7 @@ class StorageAccount(TrackedResource):  # pylint: disable=too-many-instance-attr
         :keyword allow_shared_key_access: Indicates whether the storage account permits requests to be
          authorized with the account access key via Shared Key. If false, then all requests, including
          shared access signatures, must be authorized with Azure Active Directory (Azure AD). The
-         default value is null, which is equivalent to true.
+         default value is null, which is equivalent to false.
         :paramtype allow_shared_key_access: bool
         :keyword enable_nfs_v3: NFS 3.0 protocol support enabled if set to true.
         :paramtype enable_nfs_v3: bool
@@ -5427,13 +5427,13 @@ class StorageAccountCreateParameters(_serialization.Model):  # pylint: disable=t
      settings for Azure Files.
     :vartype azure_files_identity_based_authentication:
      ~azure.mgmt.storage.v2021_01_01.models.AzureFilesIdentityBasedAuthentication
-    :ivar enable_https_traffic_only: Allows https traffic only to storage service if sets to true.
+    :ivar enable_https_traffic_only: Allows https traffic only to storage service if set to true.
      The default value is true since API version 2019-04-01.
     :vartype enable_https_traffic_only: bool
-    :ivar is_hns_enabled: Account HierarchicalNamespace enabled if sets to true.
+    :ivar is_hns_enabled: Account HierarchicalNamespace enabled if set to true.
     :vartype is_hns_enabled: bool
-    :ivar large_file_shares_state: Allow large file shares if sets to Enabled. It cannot be
-     disabled once it is enabled. Known values are: "Disabled" and "Enabled".
+    :ivar large_file_shares_state: Allow large file shares if set to Enabled. It cannot be disabled
+     once it is enabled. Known values are: "Disabled" and "Enabled".
     :vartype large_file_shares_state: str or
      ~azure.mgmt.storage.v2021_01_01.models.LargeFileSharesState
     :ivar routing_preference: Maintains information about the network routing choice opted by the
@@ -5449,7 +5449,7 @@ class StorageAccountCreateParameters(_serialization.Model):  # pylint: disable=t
     :ivar allow_shared_key_access: Indicates whether the storage account permits requests to be
      authorized with the account access key via Shared Key. If false, then all requests, including
      shared access signatures, must be authorized with Azure Active Directory (Azure AD). The
-     default value is null, which is equivalent to true.
+     default value is null, which is equivalent to false.
     :vartype allow_shared_key_access: bool
     :ivar enable_nfs_v3: NFS 3.0 protocol support enabled if set to true.
     :vartype enable_nfs_v3: bool
@@ -5548,12 +5548,12 @@ class StorageAccountCreateParameters(_serialization.Model):  # pylint: disable=t
          settings for Azure Files.
         :paramtype azure_files_identity_based_authentication:
          ~azure.mgmt.storage.v2021_01_01.models.AzureFilesIdentityBasedAuthentication
-        :keyword enable_https_traffic_only: Allows https traffic only to storage service if sets to
+        :keyword enable_https_traffic_only: Allows https traffic only to storage service if set to
          true. The default value is true since API version 2019-04-01.
         :paramtype enable_https_traffic_only: bool
-        :keyword is_hns_enabled: Account HierarchicalNamespace enabled if sets to true.
+        :keyword is_hns_enabled: Account HierarchicalNamespace enabled if set to true.
         :paramtype is_hns_enabled: bool
-        :keyword large_file_shares_state: Allow large file shares if sets to Enabled. It cannot be
+        :keyword large_file_shares_state: Allow large file shares if set to Enabled. It cannot be
          disabled once it is enabled. Known values are: "Disabled" and "Enabled".
         :paramtype large_file_shares_state: str or
          ~azure.mgmt.storage.v2021_01_01.models.LargeFileSharesState
@@ -5570,7 +5570,7 @@ class StorageAccountCreateParameters(_serialization.Model):  # pylint: disable=t
         :keyword allow_shared_key_access: Indicates whether the storage account permits requests to be
          authorized with the account access key via Shared Key. If false, then all requests, including
          shared access signatures, must be authorized with Azure Active Directory (Azure AD). The
-         default value is null, which is equivalent to true.
+         default value is null, which is equivalent to false.
         :paramtype allow_shared_key_access: bool
         :keyword enable_nfs_v3: NFS 3.0 protocol support enabled if set to true.
         :paramtype enable_nfs_v3: bool
@@ -5831,12 +5831,12 @@ class StorageAccountUpdateParameters(_serialization.Model):  # pylint: disable=t
      settings for Azure Files.
     :vartype azure_files_identity_based_authentication:
      ~azure.mgmt.storage.v2021_01_01.models.AzureFilesIdentityBasedAuthentication
-    :ivar enable_https_traffic_only: Allows https traffic only to storage service if sets to true.
+    :ivar enable_https_traffic_only: Allows https traffic only to storage service if set to true.
     :vartype enable_https_traffic_only: bool
     :ivar network_rule_set: Network rule set.
     :vartype network_rule_set: ~azure.mgmt.storage.v2021_01_01.models.NetworkRuleSet
-    :ivar large_file_shares_state: Allow large file shares if sets to Enabled. It cannot be
-     disabled once it is enabled. Known values are: "Disabled" and "Enabled".
+    :ivar large_file_shares_state: Allow large file shares if set to Enabled. It cannot be disabled
+     once it is enabled. Known values are: "Disabled" and "Enabled".
     :vartype large_file_shares_state: str or
      ~azure.mgmt.storage.v2021_01_01.models.LargeFileSharesState
     :ivar routing_preference: Maintains information about the network routing choice opted by the
@@ -5852,7 +5852,7 @@ class StorageAccountUpdateParameters(_serialization.Model):  # pylint: disable=t
     :ivar allow_shared_key_access: Indicates whether the storage account permits requests to be
      authorized with the account access key via Shared Key. If false, then all requests, including
      shared access signatures, must be authorized with Azure Active Directory (Azure AD). The
-     default value is null, which is equivalent to true.
+     default value is null, which is equivalent to false.
     :vartype allow_shared_key_access: bool
     """
 
@@ -5927,12 +5927,12 @@ class StorageAccountUpdateParameters(_serialization.Model):  # pylint: disable=t
          settings for Azure Files.
         :paramtype azure_files_identity_based_authentication:
          ~azure.mgmt.storage.v2021_01_01.models.AzureFilesIdentityBasedAuthentication
-        :keyword enable_https_traffic_only: Allows https traffic only to storage service if sets to
+        :keyword enable_https_traffic_only: Allows https traffic only to storage service if set to
          true.
         :paramtype enable_https_traffic_only: bool
         :keyword network_rule_set: Network rule set.
         :paramtype network_rule_set: ~azure.mgmt.storage.v2021_01_01.models.NetworkRuleSet
-        :keyword large_file_shares_state: Allow large file shares if sets to Enabled. It cannot be
+        :keyword large_file_shares_state: Allow large file shares if set to Enabled. It cannot be
          disabled once it is enabled. Known values are: "Disabled" and "Enabled".
         :paramtype large_file_shares_state: str or
          ~azure.mgmt.storage.v2021_01_01.models.LargeFileSharesState
@@ -5949,7 +5949,7 @@ class StorageAccountUpdateParameters(_serialization.Model):  # pylint: disable=t
         :keyword allow_shared_key_access: Indicates whether the storage account permits requests to be
          authorized with the account access key via Shared Key. If false, then all requests, including
          shared access signatures, must be authorized with Azure Active Directory (Azure AD). The
-         default value is null, which is equivalent to true.
+         default value is null, which is equivalent to false.
         :paramtype allow_shared_key_access: bool
         """
         super().__init__(**kwargs)
