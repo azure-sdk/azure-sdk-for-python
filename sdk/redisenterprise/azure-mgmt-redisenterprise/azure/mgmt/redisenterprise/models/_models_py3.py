@@ -45,30 +45,39 @@ class AccessKeys(_serialization.Model):
         self.secondary_key = None
 
 
-class Capability(_serialization.Model):
-    """Information about the features the location supports.
+class CheckNameAvailabilityParameters(_serialization.Model):
+    """Parameters body to pass for resource name availability check.
 
-    :ivar name: Feature name.
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar name: Resource name. Required.
     :vartype name: str
-    :ivar value: Indicates whether feature is supported or not.
-    :vartype value: bool
+    :ivar type: Resource type. The only legal value of this property for checking redis enterprise
+     cache name availability is 'Microsoft.Cache/redisenterprise'. Required.
+    :vartype type: str
     """
+
+    _validation = {
+        "name": {"required": True},
+        "type": {"required": True},
+    }
 
     _attribute_map = {
         "name": {"key": "name", "type": "str"},
-        "value": {"key": "value", "type": "bool"},
+        "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, value: Optional[bool] = None, **kwargs: Any) -> None:
+    def __init__(self, *, name: str, type: str, **kwargs: Any) -> None:
         """
-        :keyword name: Feature name.
+        :keyword name: Resource name. Required.
         :paramtype name: str
-        :keyword value: Indicates whether feature is supported or not.
-        :paramtype value: bool
+        :keyword type: Resource type. The only legal value of this property for checking redis
+         enterprise cache name availability is 'Microsoft.Cache/redisenterprise'. Required.
+        :paramtype type: str
         """
         super().__init__(**kwargs)
         self.name = name
-        self.value = value
+        self.type = type
 
 
 class Resource(_serialization.Model):
@@ -206,7 +215,7 @@ class Cluster(TrackedResource):  # pylint: disable=too-many-instance-attributes
     :vartype provisioning_state: str or ~azure.mgmt.redisenterprise.models.ProvisioningState
     :ivar resource_state: Current resource status of the cluster. Known values are: "Running",
      "Creating", "CreateFailed", "Updating", "UpdateFailed", "Deleting", "DeleteFailed", "Enabling",
-     "EnableFailed", "Disabling", "DisableFailed", and "Disabled".
+     "EnableFailed", "Disabling", "DisableFailed", "Disabled", "Scaling", and "ScalingFailed".
     :vartype resource_state: str or ~azure.mgmt.redisenterprise.models.ResourceState
     :ivar redis_version: Version of redis the cluster supports, e.g. '6'.
     :vartype redis_version: str
@@ -466,7 +475,7 @@ class ClusterUpdate(_serialization.Model):
     :vartype provisioning_state: str or ~azure.mgmt.redisenterprise.models.ProvisioningState
     :ivar resource_state: Current resource status of the cluster. Known values are: "Running",
      "Creating", "CreateFailed", "Updating", "UpdateFailed", "Deleting", "DeleteFailed", "Enabling",
-     "EnableFailed", "Disabling", "DisableFailed", and "Disabled".
+     "EnableFailed", "Disabling", "DisableFailed", "Disabled", "Scaling", and "ScalingFailed".
     :vartype resource_state: str or ~azure.mgmt.redisenterprise.models.ResourceState
     :ivar redis_version: Version of redis the cluster supports, e.g. '6'.
     :vartype redis_version: str
@@ -602,7 +611,7 @@ class Database(ProxyResource):  # pylint: disable=too-many-instance-attributes
     :vartype provisioning_state: str or ~azure.mgmt.redisenterprise.models.ProvisioningState
     :ivar resource_state: Current resource status of the database. Known values are: "Running",
      "Creating", "CreateFailed", "Updating", "UpdateFailed", "Deleting", "DeleteFailed", "Enabling",
-     "EnableFailed", "Disabling", "DisableFailed", and "Disabled".
+     "EnableFailed", "Disabling", "DisableFailed", "Disabled", "Scaling", and "ScalingFailed".
     :vartype resource_state: str or ~azure.mgmt.redisenterprise.models.ResourceState
     :ivar clustering_policy: Clustering policy - default is OSSCluster. Specified at create time.
      Known values are: "EnterpriseCluster" and "OSSCluster".
@@ -773,7 +782,7 @@ class DatabaseUpdate(_serialization.Model):
     :vartype provisioning_state: str or ~azure.mgmt.redisenterprise.models.ProvisioningState
     :ivar resource_state: Current resource status of the database. Known values are: "Running",
      "Creating", "CreateFailed", "Updating", "UpdateFailed", "Deleting", "DeleteFailed", "Enabling",
-     "EnableFailed", "Disabling", "DisableFailed", and "Disabled".
+     "EnableFailed", "Disabling", "DisableFailed", "Disabled", "Scaling", and "ScalingFailed".
     :vartype resource_state: str or ~azure.mgmt.redisenterprise.models.ResourceState
     :ivar clustering_policy: Clustering policy - default is OSSCluster. Specified at create time.
      Known values are: "EnterpriseCluster" and "OSSCluster".
@@ -978,8 +987,8 @@ class ExportClusterParameters(_serialization.Model):
 class FlushParameters(_serialization.Model):
     """Parameters for a Redis Enterprise active geo-replication flush operation.
 
-    :ivar ids: The resource identifiers of all the other database resources in the georeplication
-     group to be flushed.
+    :ivar ids: The identifiers of all the other database resources in the georeplication group to
+     be flushed.
     :vartype ids: list[str]
     """
 
@@ -989,8 +998,8 @@ class FlushParameters(_serialization.Model):
 
     def __init__(self, *, ids: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
-        :keyword ids: The resource identifiers of all the other database resources in the
-         georeplication group to be flushed.
+        :keyword ids: The identifiers of all the other database resources in the georeplication group
+         to be flushed.
         :paramtype ids: list[str]
         """
         super().__init__(**kwargs)
@@ -1078,38 +1087,6 @@ class LinkedDatabase(_serialization.Model):
         super().__init__(**kwargs)
         self.id = id
         self.state = None
-
-
-class LocationInfo(_serialization.Model):
-    """Information about location (for example: features that it supports).
-
-    :ivar location: Location name.
-    :vartype location: str
-    :ivar capabilities: List of capabilities.
-    :vartype capabilities: list[~azure.mgmt.redisenterprise.models.Capability]
-    """
-
-    _attribute_map = {
-        "location": {"key": "location", "type": "str"},
-        "capabilities": {"key": "capabilities", "type": "[Capability]"},
-    }
-
-    def __init__(
-        self,
-        *,
-        location: Optional[str] = None,
-        capabilities: Optional[List["_models.Capability"]] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword location: Location name.
-        :paramtype location: str
-        :keyword capabilities: List of capabilities.
-        :paramtype capabilities: list[~azure.mgmt.redisenterprise.models.Capability]
-        """
-        super().__init__(**kwargs)
-        self.location = location
-        self.capabilities = capabilities
 
 
 class ManagedServiceIdentity(_serialization.Model):
@@ -1709,75 +1686,15 @@ class RegenerateKeyParameters(_serialization.Model):
         self.key_type = key_type
 
 
-class RegionSkuDetail(_serialization.Model):
-    """Details about the location requested and the available skus in the location.
-
-    :ivar resource_type: Resource type which has the SKU, such as Microsoft.Cache/redisEnterprise.
-    :vartype resource_type: str
-    :ivar location_info: Details about location and its capabilities.
-    :vartype location_info: ~azure.mgmt.redisenterprise.models.LocationInfo
-    :ivar sku_details: Details about available skus.
-    :vartype sku_details: ~azure.mgmt.redisenterprise.models.SkuDetail
-    """
-
-    _attribute_map = {
-        "resource_type": {"key": "resourceType", "type": "str"},
-        "location_info": {"key": "locationInfo", "type": "LocationInfo"},
-        "sku_details": {"key": "skuDetails", "type": "SkuDetail"},
-    }
-
-    def __init__(
-        self,
-        *,
-        resource_type: Optional[str] = None,
-        location_info: Optional["_models.LocationInfo"] = None,
-        sku_details: Optional["_models.SkuDetail"] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword resource_type: Resource type which has the SKU, such as
-         Microsoft.Cache/redisEnterprise.
-        :paramtype resource_type: str
-        :keyword location_info: Details about location and its capabilities.
-        :paramtype location_info: ~azure.mgmt.redisenterprise.models.LocationInfo
-        :keyword sku_details: Details about available skus.
-        :paramtype sku_details: ~azure.mgmt.redisenterprise.models.SkuDetail
-        """
-        super().__init__(**kwargs)
-        self.resource_type = resource_type
-        self.location_info = location_info
-        self.sku_details = sku_details
-
-
-class RegionSkuDetails(_serialization.Model):
-    """List of details about all the available SKUs.
-
-    :ivar value: List of Sku Detail.
-    :vartype value: list[~azure.mgmt.redisenterprise.models.RegionSkuDetail]
-    """
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[RegionSkuDetail]"},
-    }
-
-    def __init__(self, *, value: Optional[List["_models.RegionSkuDetail"]] = None, **kwargs: Any) -> None:
-        """
-        :keyword value: List of Sku Detail.
-        :paramtype value: list[~azure.mgmt.redisenterprise.models.RegionSkuDetail]
-        """
-        super().__init__(**kwargs)
-        self.value = value
-
-
 class Sku(_serialization.Model):
     """SKU parameters supplied to the create RedisEnterprise operation.
 
     All required parameters must be populated in order to send to Azure.
 
     :ivar name: The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10,
-     EnterpriseFlash_F300 etc.). Required. Known values are: "Enterprise_E10", "Enterprise_E20",
-     "Enterprise_E50", "Enterprise_E100", "EnterpriseFlash_F300", "EnterpriseFlash_F700", and
-     "EnterpriseFlash_F1500".
+     EnterpriseFlash_F300 etc.). Required. Known values are: "Enterprise_E5", "Enterprise_E10",
+     "Enterprise_E20", "Enterprise_E50", "Enterprise_E100", "Enterprise_E200", "Enterprise_E400",
+     "EnterpriseFlash_F300", "EnterpriseFlash_F700", and "EnterpriseFlash_F1500".
     :vartype name: str or ~azure.mgmt.redisenterprise.models.SkuName
     :ivar capacity: The size of the RedisEnterprise cluster. Defaults to 2 or 3 depending on SKU.
      Valid values are (2, 4, 6, ...) for Enterprise SKUs and (3, 9, 15, ...) for Flash SKUs.
@@ -1796,9 +1713,9 @@ class Sku(_serialization.Model):
     def __init__(self, *, name: Union[str, "_models.SkuName"], capacity: Optional[int] = None, **kwargs: Any) -> None:
         """
         :keyword name: The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10,
-         EnterpriseFlash_F300 etc.). Required. Known values are: "Enterprise_E10", "Enterprise_E20",
-         "Enterprise_E50", "Enterprise_E100", "EnterpriseFlash_F300", "EnterpriseFlash_F700", and
-         "EnterpriseFlash_F1500".
+         EnterpriseFlash_F300 etc.). Required. Known values are: "Enterprise_E5", "Enterprise_E10",
+         "Enterprise_E20", "Enterprise_E50", "Enterprise_E100", "Enterprise_E200", "Enterprise_E400",
+         "EnterpriseFlash_F300", "EnterpriseFlash_F700", and "EnterpriseFlash_F1500".
         :paramtype name: str or ~azure.mgmt.redisenterprise.models.SkuName
         :keyword capacity: The size of the RedisEnterprise cluster. Defaults to 2 or 3 depending on
          SKU. Valid values are (2, 4, 6, ...) for Enterprise SKUs and (3, 9, 15, ...) for Flash SKUs.
@@ -1807,32 +1724,6 @@ class Sku(_serialization.Model):
         super().__init__(**kwargs)
         self.name = name
         self.capacity = capacity
-
-
-class SkuDetail(_serialization.Model):
-    """Information about Sku.
-
-    :ivar name: The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10,
-     EnterpriseFlash_F300 etc.). Known values are: "Enterprise_E10", "Enterprise_E20",
-     "Enterprise_E50", "Enterprise_E100", "EnterpriseFlash_F300", "EnterpriseFlash_F700", and
-     "EnterpriseFlash_F1500".
-    :vartype name: str or ~azure.mgmt.redisenterprise.models.SkuName
-    """
-
-    _attribute_map = {
-        "name": {"key": "name", "type": "str"},
-    }
-
-    def __init__(self, *, name: Optional[Union[str, "_models.SkuName"]] = None, **kwargs: Any) -> None:
-        """
-        :keyword name: The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10,
-         EnterpriseFlash_F300 etc.). Known values are: "Enterprise_E10", "Enterprise_E20",
-         "Enterprise_E50", "Enterprise_E100", "EnterpriseFlash_F300", "EnterpriseFlash_F700", and
-         "EnterpriseFlash_F1500".
-        :paramtype name: str or ~azure.mgmt.redisenterprise.models.SkuName
-        """
-        super().__init__(**kwargs)
-        self.name = name
 
 
 class SystemData(_serialization.Model):

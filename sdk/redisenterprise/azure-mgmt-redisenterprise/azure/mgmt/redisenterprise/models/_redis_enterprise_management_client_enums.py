@@ -159,15 +159,20 @@ class ResourceState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DISABLING = "Disabling"
     DISABLE_FAILED = "DisableFailed"
     DISABLED = "Disabled"
+    SCALING = "Scaling"
+    SCALING_FAILED = "ScalingFailed"
 
 
 class SkuName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """SkuName."""
 
+    ENTERPRISE_E5 = "Enterprise_E5"
     ENTERPRISE_E10 = "Enterprise_E10"
     ENTERPRISE_E20 = "Enterprise_E20"
     ENTERPRISE_E50 = "Enterprise_E50"
     ENTERPRISE_E100 = "Enterprise_E100"
+    ENTERPRISE_E200 = "Enterprise_E200"
+    ENTERPRISE_E400 = "Enterprise_E400"
     ENTERPRISE_FLASH_F300 = "EnterpriseFlash_F300"
     ENTERPRISE_FLASH_F700 = "EnterpriseFlash_F700"
     ENTERPRISE_FLASH_F1500 = "EnterpriseFlash_F1500"

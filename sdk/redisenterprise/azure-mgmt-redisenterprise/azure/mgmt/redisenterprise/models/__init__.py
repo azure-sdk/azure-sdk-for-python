@@ -7,7 +7,7 @@
 # --------------------------------------------------------------------------
 
 from ._models_py3 import AccessKeys
-from ._models_py3 import Capability
+from ._models_py3 import CheckNameAvailabilityParameters
 from ._models_py3 import Cluster
 from ._models_py3 import ClusterList
 from ._models_py3 import ClusterPropertiesEncryption
@@ -26,7 +26,6 @@ from ._models_py3 import FlushParameters
 from ._models_py3 import ForceUnlinkParameters
 from ._models_py3 import ImportClusterParameters
 from ._models_py3 import LinkedDatabase
-from ._models_py3 import LocationInfo
 from ._models_py3 import ManagedServiceIdentity
 from ._models_py3 import Module
 from ._models_py3 import Operation
@@ -42,11 +41,8 @@ from ._models_py3 import PrivateLinkResourceListResult
 from ._models_py3 import PrivateLinkServiceConnectionState
 from ._models_py3 import ProxyResource
 from ._models_py3 import RegenerateKeyParameters
-from ._models_py3 import RegionSkuDetail
-from ._models_py3 import RegionSkuDetails
 from ._models_py3 import Resource
 from ._models_py3 import Sku
-from ._models_py3 import SkuDetail
 from ._models_py3 import SystemData
 from ._models_py3 import TrackedResource
 from ._models_py3 import UserAssignedIdentity
@@ -75,7 +71,7 @@ from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
     "AccessKeys",
-    "Capability",
+    "CheckNameAvailabilityParameters",
     "Cluster",
     "ClusterList",
     "ClusterPropertiesEncryption",
@@ -94,7 +90,6 @@ __all__ = [
     "ForceUnlinkParameters",
     "ImportClusterParameters",
     "LinkedDatabase",
-    "LocationInfo",
     "ManagedServiceIdentity",
     "Module",
     "Operation",
@@ -110,11 +105,8 @@ __all__ = [
     "PrivateLinkServiceConnectionState",
     "ProxyResource",
     "RegenerateKeyParameters",
-    "RegionSkuDetail",
-    "RegionSkuDetails",
     "Resource",
     "Sku",
-    "SkuDetail",
     "SystemData",
     "TrackedResource",
     "UserAssignedIdentity",
