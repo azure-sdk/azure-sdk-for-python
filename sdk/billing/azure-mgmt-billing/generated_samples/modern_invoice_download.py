@@ -14,7 +14,7 @@ from azure.mgmt.billing import BillingManagementClient
     pip install azure-identity
     pip install azure-mgmt-billing
 # USAGE
-    python billing_profile_invoice_download.py
+    python modern_invoice_download.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,17 +29,14 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.invoices.begin_download_multiple_billing_profile_invoices(
+    response = client.invoices.begin_download_invoice(
         billing_account_name="{billingAccountName}",
-        download_urls=[
-            "https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/invoices/{invoiceName}/download?downloadToken={downloadToken}&useCache=True&api-version=2020-05-01",
-            "https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/invoices/{invoiceName}/download?downloadToken={downloadToken}&useCache=True&api-version=2020-05-01",
-            "https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/invoices/{invoiceName}/download?downloadToken={downloadToken}&useCache=True&api-version=2020-05-01",
-        ],
+        invoice_name="{invoiceName}",
+        download_token="DRS_12345",
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2020-05-01/examples/MultipleModernInvoiceDownload.json
+# x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2020-05-01/examples/ModernInvoiceDownload.json
 if __name__ == "__main__":
     main()

@@ -29,14 +29,14 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.billing_permissions.list_by_customer(
+    response = client.billing_permissions.list_by_billing_profile(
         billing_account_name="{billingAccountName}",
-        customer_name="{customerName}",
+        billing_profile_name="{billingProfileName}",
     )
     for item in response:
         print(item)
 
 
-# x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2020-05-01/examples/CustomerPermissionsList.json
+# x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2020-05-01/examples/BillingProfilePermissionsList.json
 if __name__ == "__main__":
     main()

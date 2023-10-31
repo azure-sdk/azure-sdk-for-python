@@ -13,9 +13,13 @@ from azure.core import CaseInsensitiveEnumMeta
 class AcceptanceMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The mode of acceptance for an agreement."""
 
+    OTHER = "Other"
     CLICK_TO_ACCEPT = "ClickToAccept"
     E_SIGN_EMBEDDED = "ESignEmbedded"
     E_SIGN_OFFLINE = "ESignOffline"
+    PHYSICAL_SIGN = "PhysicalSign"
+    OFFLINE = "Offline"
+    IMPLICIT = "Implicit"
 
 
 class AccountStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):

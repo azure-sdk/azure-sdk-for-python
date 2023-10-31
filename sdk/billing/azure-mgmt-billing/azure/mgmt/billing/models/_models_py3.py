@@ -8,7 +8,7 @@
 # --------------------------------------------------------------------------
 
 import datetime
-from typing import Dict, List, Optional, TYPE_CHECKING, Union
+from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
 from .. import _serialization
 
@@ -91,8 +91,8 @@ class AddressDetails(_serialization.Model):  # pylint: disable=too-many-instance
         postal_code: Optional[str] = None,
         email: Optional[str] = None,
         phone_number: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword first_name: First name.
         :paramtype first_name: str
@@ -165,7 +165,7 @@ class Resource(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -189,8 +189,8 @@ class Agreement(Resource):  # pylint: disable=too-many-instance-attributes
     :ivar category: The category of the agreement signed by a customer. Known values are:
      "MicrosoftCustomerAgreement", "AffiliatePurchaseTerms", and "Other".
     :vartype category: str or ~azure.mgmt.billing.models.Category
-    :ivar acceptance_mode: The mode of acceptance for an agreement. Known values are:
-     "ClickToAccept", "ESignEmbedded", and "ESignOffline".
+    :ivar acceptance_mode: The mode of acceptance for an agreement. Known values are: "Other",
+     "ClickToAccept", "ESignEmbedded", "ESignOffline", "PhysicalSign", "Offline", and "Implicit".
     :vartype acceptance_mode: str or ~azure.mgmt.billing.models.AcceptanceMode
     :ivar billing_profile_info: The list of billing profiles associated with agreement and present
      only for specific agreements.
@@ -232,7 +232,7 @@ class Agreement(Resource):  # pylint: disable=too-many-instance-attributes
         "status": {"key": "properties.status", "type": "str"},
     }
 
-    def __init__(self, *, participants: Optional[List["_models.Participants"]] = None, **kwargs):
+    def __init__(self, *, participants: Optional[List["_models.Participants"]] = None, **kwargs: Any) -> None:
         """
         :keyword participants: The list of participants that participates in acceptance of an
          agreement.
@@ -270,7 +270,7 @@ class AgreementListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -297,7 +297,7 @@ class Amount(_serialization.Model):
         "value": {"key": "value", "type": "float"},
     }
 
-    def __init__(self, *, value: Optional[float] = None, **kwargs):
+    def __init__(self, *, value: Optional[float] = None, **kwargs: Any) -> None:
         """
         :keyword value: Amount value.
         :paramtype value: float
@@ -336,7 +336,7 @@ class AvailableBalance(Resource):
         "amount": {"key": "properties.amount", "type": "Amount"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.amount = None
@@ -362,7 +362,7 @@ class AzurePlan(_serialization.Model):
         "sku_description": {"key": "skuDescription", "type": "str"},
     }
 
-    def __init__(self, *, sku_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, sku_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword sku_id: The sku id.
         :paramtype sku_id: str
@@ -450,8 +450,8 @@ class BillingAccount(Resource):  # pylint: disable=too-many-instance-attributes
         departments: Optional[List["_models.Department"]] = None,
         enrollment_accounts: Optional[List["_models.EnrollmentAccount"]] = None,
         notification_email_address: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword display_name: The billing account name.
         :paramtype display_name: str
@@ -503,7 +503,7 @@ class BillingAccountListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -576,8 +576,8 @@ class BillingAccountUpdateRequest(_serialization.Model):  # pylint: disable=too-
         departments: Optional[List["_models.Department"]] = None,
         enrollment_accounts: Optional[List["_models.EnrollmentAccount"]] = None,
         notification_email_address: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword display_name: The billing account name.
         :paramtype display_name: str
@@ -645,7 +645,7 @@ class BillingPeriod(Resource):
         "invoice_ids": {"key": "properties.invoiceIds", "type": "[str]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.billing_period_start_date = None
@@ -654,7 +654,8 @@ class BillingPeriod(Resource):
 
 
 class BillingPeriodsListResult(_serialization.Model):
-    """Result of listing billing periods. It contains a list of available billing periods in reverse chronological order.
+    """Result of listing billing periods. It contains a list of available billing periods in reverse
+    chronological order.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -674,7 +675,7 @@ class BillingPeriodsListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -702,7 +703,7 @@ class BillingPermissionsListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -730,7 +731,7 @@ class BillingPermissionsProperties(_serialization.Model):
         "not_actions": {"key": "notActions", "type": "[str]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.actions = None
@@ -845,8 +846,8 @@ class BillingProfile(Resource):  # pylint: disable=too-many-instance-attributes
         enabled_azure_plans: Optional[List["_models.AzurePlan"]] = None,
         invoice_sections: Optional["_models.InvoiceSectionsOnExpand"] = None,
         tags: Optional[Dict[str, str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword display_name: The name of the billing profile.
         :paramtype display_name: str
@@ -920,8 +921,8 @@ class BillingProfileCreationRequest(_serialization.Model):
         bill_to: Optional["_models.AddressDetails"] = None,
         invoice_email_opt_in: Optional[bool] = None,
         enabled_azure_plans: Optional[List["_models.AzurePlan"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword display_name: The name of the billing profile.
         :paramtype display_name: str
@@ -946,7 +947,8 @@ class BillingProfileCreationRequest(_serialization.Model):
 
 
 class BillingProfileInfo(_serialization.Model):
-    """Details about billing profile associated with agreement and available only for specific agreements.
+    """Details about billing profile associated with agreement and available only for specific
+    agreements.
 
     :ivar billing_profile_id: The unique identifier for the billing profile.
     :vartype billing_profile_id: str
@@ -969,8 +971,8 @@ class BillingProfileInfo(_serialization.Model):
         billing_profile_id: Optional[str] = None,
         billing_profile_display_name: Optional[str] = None,
         indirect_relationship_organization_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword billing_profile_id: The unique identifier for the billing profile.
         :paramtype billing_profile_id: str
@@ -1011,7 +1013,7 @@ class BillingProfileListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -1020,7 +1022,8 @@ class BillingProfileListResult(_serialization.Model):
 
 
 class BillingProfilesOnExpand(_serialization.Model):
-    """The billing profiles associated with the billing account. By default this is not populated, unless it's specified in $expand.
+    """The billing profiles associated with the billing account. By default this is not populated,
+    unless it's specified in $expand.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -1041,7 +1044,7 @@ class BillingProfilesOnExpand(_serialization.Model):
         "value": {"key": "value", "type": "[BillingProfile]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.BillingProfile"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.BillingProfile"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The billing profiles associated with the billing account.
         :paramtype value: list[~azure.mgmt.billing.models.BillingProfile]
@@ -1155,7 +1158,7 @@ class BillingProperty(Resource):  # pylint: disable=too-many-instance-attributes
         "sku_description": {"key": "properties.skuDescription", "type": "str"},
     }
 
-    def __init__(self, *, cost_center: Optional[str] = None, **kwargs):
+    def __init__(self, *, cost_center: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword cost_center: The cost center applied to the subscription.
         :paramtype cost_center: str
@@ -1250,8 +1253,8 @@ class BillingRoleAssignment(Resource):  # pylint: disable=too-many-instance-attr
         role_definition_id: Optional[str] = None,
         user_authentication_type: Optional[str] = None,
         user_email_address: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword principal_id: The principal id of the user to whom the role was assigned.
         :paramtype principal_id: str
@@ -1299,7 +1302,7 @@ class BillingRoleAssignmentListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -1342,7 +1345,9 @@ class BillingRoleDefinition(Resource):
         "role_name": {"key": "properties.roleName", "type": "str"},
     }
 
-    def __init__(self, *, permissions: Optional[List["_models.BillingPermissionsProperties"]] = None, **kwargs):
+    def __init__(
+        self, *, permissions: Optional[List["_models.BillingPermissionsProperties"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword permissions: The billingPermissions the role has.
         :paramtype permissions: list[~azure.mgmt.billing.models.BillingPermissionsProperties]
@@ -1374,7 +1379,7 @@ class BillingRoleDefinitionListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -1480,8 +1485,8 @@ class BillingSubscription(Resource):  # pylint: disable=too-many-instance-attrib
         subscription_billing_status: Optional[Union[str, "_models.BillingSubscriptionStatusType"]] = None,
         cost_center: Optional[str] = None,
         sku_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword subscription_billing_status: The current billing status of the subscription. Known
          values are: "Active", "Inactive", "Abandoned", "Deleted", and "Warning".
@@ -1536,7 +1541,7 @@ class BillingSubscriptionsListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -1592,8 +1597,8 @@ class Customer(Resource):
         display_name: Optional[str] = None,
         enabled_azure_plans: Optional[List["_models.AzurePlan"]] = None,
         resellers: Optional[List["_models.Reseller"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword display_name: The name of the customer.
         :paramtype display_name: str
@@ -1635,7 +1640,7 @@ class CustomerListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -1672,7 +1677,7 @@ class CustomerPolicy(Resource):
         "view_charges": {"key": "properties.viewCharges", "type": "str"},
     }
 
-    def __init__(self, *, view_charges: Optional[Union[str, "_models.ViewCharges"]] = None, **kwargs):
+    def __init__(self, *, view_charges: Optional[Union[str, "_models.ViewCharges"]] = None, **kwargs: Any) -> None:
         """
         :keyword view_charges: The policy that controls whether the users in customer's organization
          can view charges at pay-as-you-go prices. Known values are: "Allowed" and "NotAllowed".
@@ -1727,8 +1732,8 @@ class Department(Resource):
         cost_center: Optional[str] = None,
         status: Optional[str] = None,
         enrollment_accounts: Optional[List["_models.EnrollmentAccount"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword department_name: The name of the department.
         :paramtype department_name: str
@@ -1774,7 +1779,7 @@ class Document(_serialization.Model):
         "source": {"key": "source", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.kind = None
@@ -1803,7 +1808,7 @@ class DownloadUrl(_serialization.Model):
         "url": {"key": "url", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.expiry_time = None
@@ -1858,8 +1863,12 @@ class Enrollment(_serialization.Model):
     }
 
     def __init__(
-        self, *, start_date: Optional[datetime.datetime] = None, end_date: Optional[datetime.datetime] = None, **kwargs
-    ):
+        self,
+        *,
+        start_date: Optional[datetime.datetime] = None,
+        end_date: Optional[datetime.datetime] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword start_date: The start date of the enrollment.
         :paramtype start_date: ~datetime.datetime
@@ -1939,8 +1948,8 @@ class EnrollmentAccount(Resource):  # pylint: disable=too-many-instance-attribut
         start_date: Optional[datetime.datetime] = None,
         end_date: Optional[datetime.datetime] = None,
         department: Optional["_models.Department"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword account_name: The name of the enrollment account.
         :paramtype account_name: str
@@ -1998,8 +2007,8 @@ class EnrollmentAccountContext(_serialization.Model):
         start_date: Optional[datetime.datetime] = None,
         end_date: Optional[datetime.datetime] = None,
         enrollment_account_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword cost_center: The cost center associated with the enrollment account.
         :paramtype cost_center: str
@@ -2038,7 +2047,7 @@ class EnrollmentAccountListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -2074,7 +2083,7 @@ class EnrollmentAccountSummary(Resource):
         "principal_name": {"key": "properties.principalName", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.principal_name = None
@@ -2113,7 +2122,7 @@ class EnrollmentPolicies(_serialization.Model):
         "reserved_instances_enabled": {"key": "reservedInstancesEnabled", "type": "bool"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.account_owner_view_charges = None
@@ -2151,7 +2160,7 @@ class ErrorDetails(_serialization.Model):
         "details": {"key": "details", "type": "[ErrorSubDetailsItem]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.code = None
@@ -2161,7 +2170,8 @@ class ErrorDetails(_serialization.Model):
 
 
 class ErrorResponse(_serialization.Model):
-    """Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+    """Error response indicates that the service is not able to process the incoming request. The
+    reason is provided in the error message.
 
     :ivar error: The details of the error.
     :vartype error: ~azure.mgmt.billing.models.ErrorDetails
@@ -2171,7 +2181,7 @@ class ErrorResponse(_serialization.Model):
         "error": {"key": "error", "type": "ErrorDetails"},
     }
 
-    def __init__(self, *, error: Optional["_models.ErrorDetails"] = None, **kwargs):
+    def __init__(self, *, error: Optional["_models.ErrorDetails"] = None, **kwargs: Any) -> None:
         """
         :keyword error: The details of the error.
         :paramtype error: ~azure.mgmt.billing.models.ErrorDetails
@@ -2205,7 +2215,7 @@ class ErrorSubDetailsItem(_serialization.Model):
         "target": {"key": "target", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.code = None
@@ -2238,8 +2248,8 @@ class IndirectRelationshipInfo(_serialization.Model):
         billing_account_name: Optional[str] = None,
         billing_profile_name: Optional[str] = None,
         display_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword billing_account_name: The billing account name of the partner or the customer for an
          indirect motion.
@@ -2300,8 +2310,8 @@ class Instruction(Resource):
         start_date: Optional[datetime.datetime] = None,
         end_date: Optional[datetime.datetime] = None,
         creation_date: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword amount: The amount budgeted for this billing instruction.
         :paramtype amount: float
@@ -2340,7 +2350,7 @@ class InstructionListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -2488,7 +2498,7 @@ class Invoice(Resource):  # pylint: disable=too-many-instance-attributes
         "subscription_id": {"key": "properties.subscriptionId", "type": "str"},
     }
 
-    def __init__(self, **kwargs):  # pylint: disable=too-many-locals
+    def __init__(self, **kwargs: Any) -> None:  # pylint: disable=too-many-locals
         """ """
         super().__init__(**kwargs)
         self.due_date = None
@@ -2543,7 +2553,7 @@ class InvoiceListResult(_serialization.Model):
         "total_count": {"key": "totalCount", "type": "int"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -2608,8 +2618,8 @@ class InvoiceSection(Resource):
         display_name: Optional[str] = None,
         labels: Optional[Dict[str, str]] = None,
         tags: Optional[Dict[str, str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword display_name: The name of the invoice section.
         :paramtype display_name: str
@@ -2640,7 +2650,7 @@ class InvoiceSectionCreationRequest(_serialization.Model):
         "display_name": {"key": "displayName", "type": "str"},
     }
 
-    def __init__(self, *, display_name: Optional[str] = None, **kwargs):
+    def __init__(self, *, display_name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword display_name: The name of the invoice section.
         :paramtype display_name: str
@@ -2674,7 +2684,7 @@ class InvoiceSectionListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -2702,7 +2712,9 @@ class InvoiceSectionListWithCreateSubPermissionResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.InvoiceSectionWithCreateSubPermission"]] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.InvoiceSectionWithCreateSubPermission"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: The list of invoice section properties with create subscription permission.
         :paramtype value: list[~azure.mgmt.billing.models.InvoiceSectionWithCreateSubPermission]
@@ -2713,7 +2725,8 @@ class InvoiceSectionListWithCreateSubPermissionResult(_serialization.Model):
 
 
 class InvoiceSectionsOnExpand(_serialization.Model):
-    """The invoice sections associated to the billing profile. By default this is not populated, unless it's specified in $expand.
+    """The invoice sections associated to the billing profile. By default this is not populated,
+    unless it's specified in $expand.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -2734,7 +2747,7 @@ class InvoiceSectionsOnExpand(_serialization.Model):
         "value": {"key": "value", "type": "[InvoiceSection]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.InvoiceSection"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.InvoiceSection"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The invoice sections associated to the billing profile.
         :paramtype value: list[~azure.mgmt.billing.models.InvoiceSection]
@@ -2801,7 +2814,7 @@ class InvoiceSectionWithCreateSubPermission(_serialization.Model):
         "enabled_azure_plans": {"key": "enabledAzurePlans", "type": "[AzurePlan]"},
     }
 
-    def __init__(self, *, enabled_azure_plans: Optional[List["_models.AzurePlan"]] = None, **kwargs):
+    def __init__(self, *, enabled_azure_plans: Optional[List["_models.AzurePlan"]] = None, **kwargs: Any) -> None:
         """
         :keyword enabled_azure_plans: Enabled azure plans for the associated billing profile.
         :paramtype enabled_azure_plans: list[~azure.mgmt.billing.models.AzurePlan]
@@ -2843,7 +2856,7 @@ class Operation(_serialization.Model):
         "display": {"key": "display", "type": "OperationDisplay"},
     }
 
-    def __init__(self, *, display: Optional["_models.OperationDisplay"] = None, **kwargs):
+    def __init__(self, *, display: Optional["_models.OperationDisplay"] = None, **kwargs: Any) -> None:
         """
         :keyword display: The object that represents the operation.
         :paramtype display: ~azure.mgmt.billing.models.OperationDisplay
@@ -2884,7 +2897,7 @@ class OperationDisplay(_serialization.Model):
         "description": {"key": "description", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.provider = None
@@ -2915,7 +2928,7 @@ class OperationListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -2947,7 +2960,7 @@ class OperationsErrorDetails(_serialization.Model):
         "target": {"key": "target", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.code = None
@@ -2956,7 +2969,8 @@ class OperationsErrorDetails(_serialization.Model):
 
 
 class OperationsErrorResponse(_serialization.Model):
-    """Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+    """Error response indicates that the service is not able to process the incoming request. The
+    reason is provided in the error message.
 
     :ivar error: The details of the error.
     :vartype error: ~azure.mgmt.billing.models.OperationsErrorDetails
@@ -2966,7 +2980,7 @@ class OperationsErrorResponse(_serialization.Model):
         "error": {"key": "error", "type": "OperationsErrorDetails"},
     }
 
-    def __init__(self, *, error: Optional["_models.OperationsErrorDetails"] = None, **kwargs):
+    def __init__(self, *, error: Optional["_models.OperationsErrorDetails"] = None, **kwargs: Any) -> None:
         """
         :keyword error: The details of the error.
         :paramtype error: ~azure.mgmt.billing.models.OperationsErrorDetails
@@ -3000,7 +3014,7 @@ class Participants(_serialization.Model):
         "email": {"key": "email", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.status = None
@@ -3041,7 +3055,9 @@ class PaymentProperties(_serialization.Model):
         "payment_method_type": {"key": "paymentMethodType", "type": "str"},
     }
 
-    def __init__(self, *, payment_method_family: Optional[Union[str, "_models.PaymentMethodFamily"]] = None, **kwargs):
+    def __init__(
+        self, *, payment_method_family: Optional[Union[str, "_models.PaymentMethodFamily"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword payment_method_family: The family of payment method. Known values are: "Credits",
          "CheckWire", "CreditCard", and "None".
@@ -3099,8 +3115,8 @@ class Policy(Resource):
         marketplace_purchases: Optional[Union[str, "_models.MarketplacePurchasesPolicy"]] = None,
         reservation_purchases: Optional[Union[str, "_models.ReservationPurchasesPolicy"]] = None,
         view_charges: Optional[Union[str, "_models.ViewChargesPolicy"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword marketplace_purchases: The policy that controls whether Azure marketplace purchases
          are allowed for a billing profile. Known values are: "AllAllowed", "OnlyFreeAllowed", and
@@ -3242,8 +3258,8 @@ class Product(Resource):  # pylint: disable=too-many-instance-attributes
         auto_renew: Optional[Union[str, "_models.AutoRenew"]] = None,
         status: Optional[Union[str, "_models.ProductStatusType"]] = None,
         billing_frequency: Optional[Union[str, "_models.BillingFrequency"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword auto_renew: Indicates whether auto renewal is turned on or off for a product. Known
          values are: "Off" and "On".
@@ -3281,7 +3297,8 @@ class Product(Resource):  # pylint: disable=too-many-instance-attributes
 
 
 class ProductsListResult(_serialization.Model):
-    """The list of products. It contains a list of available product summaries in reverse chronological order by purchase date.
+    """The list of products. It contains a list of available product summaries in reverse
+    chronological order by purchase date.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -3305,7 +3322,7 @@ class ProductsListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -3338,7 +3355,7 @@ class RebillDetails(_serialization.Model):
         "rebill_details": {"key": "rebillDetails", "type": "{RebillDetails}"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.credit_note_document_id = None
@@ -3367,7 +3384,7 @@ class Reseller(_serialization.Model):
         "description": {"key": "description", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.reseller_id = None
@@ -3482,8 +3499,8 @@ class Reservation(_serialization.Model):  # pylint: disable=too-many-instance-at
         *,
         sku: Optional["_models.ReservationSkuProperty"] = None,
         applied_scopes: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword sku: The sku information associated to this reservation.
         :paramtype sku: ~azure.mgmt.billing.models.ReservationSkuProperty
@@ -3536,7 +3553,9 @@ class ReservationPropertyUtilization(_serialization.Model):
         "aggregates": {"key": "aggregates", "type": "[ReservationUtilizationAggregates]"},
     }
 
-    def __init__(self, *, aggregates: Optional[List["_models.ReservationUtilizationAggregates"]] = None, **kwargs):
+    def __init__(
+        self, *, aggregates: Optional[List["_models.ReservationUtilizationAggregates"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword aggregates: The array of aggregates of a reservation's utilization.
         :paramtype aggregates: list[~azure.mgmt.billing.models.ReservationUtilizationAggregates]
@@ -3563,7 +3582,7 @@ class ReservationSkuProperty(_serialization.Model):
         "name": {"key": "name", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.name = None
@@ -3593,7 +3612,7 @@ class ReservationsListResult(_serialization.Model):
         "summary": {"key": "summary", "type": "ReservationSummary"},
     }
 
-    def __init__(self, *, summary: Optional["_models.ReservationSummary"] = None, **kwargs):
+    def __init__(self, *, summary: Optional["_models.ReservationSummary"] = None, **kwargs: Any) -> None:
         """
         :keyword summary: The roll out count summary of the reservations.
         :paramtype summary: ~azure.mgmt.billing.models.ReservationSummary
@@ -3641,7 +3660,7 @@ class ReservationSummary(_serialization.Model):
         "cancelled_count": {"key": "cancelledCount", "type": "float"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.succeeded_count = None
@@ -3681,7 +3700,7 @@ class ReservationUtilizationAggregates(_serialization.Model):
         "value_unit": {"key": "valueUnit", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.grain = None
@@ -3881,8 +3900,8 @@ class Transaction(Resource):  # pylint: disable=too-many-instance-attributes
         *,
         kind: Optional[Union[str, "_models.TransactionTypeKind"]] = None,
         transaction_type: Optional[Union[str, "_models.ReservationType"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword kind: The kind of transaction. Options are all or reservation. Known values are: "all"
          and "reservation".
@@ -3955,7 +3974,7 @@ class TransactionListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -3980,7 +3999,7 @@ class TransferBillingSubscriptionRequestProperties(_serialization.Model):
         "destination_invoice_section_id": {"key": "destinationInvoiceSectionId", "type": "str"},
     }
 
-    def __init__(self, *, destination_invoice_section_id: str, **kwargs):
+    def __init__(self, *, destination_invoice_section_id: str, **kwargs: Any) -> None:
         """
         :keyword destination_invoice_section_id: The destination invoice section id. Required.
         :paramtype destination_invoice_section_id: str
@@ -4000,7 +4019,7 @@ class TransferProductRequestProperties(_serialization.Model):
         "destination_invoice_section_id": {"key": "destinationInvoiceSectionId", "type": "str"},
     }
 
-    def __init__(self, *, destination_invoice_section_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, destination_invoice_section_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword destination_invoice_section_id: The destination invoice section id.
         :paramtype destination_invoice_section_id: str
@@ -4032,8 +4051,8 @@ class ValidateAddressResponse(_serialization.Model):
         status: Optional[Union[str, "_models.AddressValidationStatus"]] = None,
         suggested_addresses: Optional[List["_models.AddressDetails"]] = None,
         validation_message: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword status: status of the address validation. Known values are: "Valid" and "Invalid".
         :paramtype status: str or ~azure.mgmt.billing.models.AddressValidationStatus
@@ -4074,8 +4093,8 @@ class ValidateProductTransferEligibilityError(_serialization.Model):
         code: Optional[Union[str, "_models.ProductTransferValidationErrorCode"]] = None,
         message: Optional[str] = None,
         details: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword code: Error code for the product transfer validation. Known values are:
          "InvalidSource", "ProductNotActive", "InsufficientPermissionOnSource",
@@ -4114,7 +4133,9 @@ class ValidateProductTransferEligibilityResult(_serialization.Model):
         "error_details": {"key": "errorDetails", "type": "ValidateProductTransferEligibilityError"},
     }
 
-    def __init__(self, *, error_details: Optional["_models.ValidateProductTransferEligibilityError"] = None, **kwargs):
+    def __init__(
+        self, *, error_details: Optional["_models.ValidateProductTransferEligibilityError"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword error_details: Validation error details.
         :paramtype error_details: ~azure.mgmt.billing.models.ValidateProductTransferEligibilityError
@@ -4154,8 +4175,8 @@ class ValidateSubscriptionTransferEligibilityError(_serialization.Model):
         code: Optional[Union[str, "_models.SubscriptionTransferValidationErrorCode"]] = None,
         message: Optional[str] = None,
         details: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword code: Error code for the product transfer validation. Known values are:
          "BillingAccountInactive", "CrossBillingAccountNotAllowed", "DestinationBillingProfileInactive",
@@ -4198,8 +4219,8 @@ class ValidateSubscriptionTransferEligibilityResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, error_details: Optional["_models.ValidateSubscriptionTransferEligibilityError"] = None, **kwargs
-    ):
+        self, *, error_details: Optional["_models.ValidateSubscriptionTransferEligibilityError"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword error_details: Validation error details.
         :paramtype error_details:

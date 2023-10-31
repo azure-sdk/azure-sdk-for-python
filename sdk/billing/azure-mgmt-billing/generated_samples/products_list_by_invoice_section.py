@@ -29,14 +29,15 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.products.list_by_customer(
+    response = client.products.list_by_invoice_section(
         billing_account_name="{billingAccountName}",
-        customer_name="{customerName}",
+        billing_profile_name="{billingProfileName}",
+        invoice_section_name="{invoiceSectionName}",
     )
     for item in response:
         print(item)
 
 
-# x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2020-05-01/examples/ProductsListByCustomer.json
+# x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2020-05-01/examples/ProductsListByInvoiceSection.json
 if __name__ == "__main__":
     main()

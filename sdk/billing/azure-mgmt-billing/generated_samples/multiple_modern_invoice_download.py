@@ -14,7 +14,7 @@ from azure.mgmt.billing import BillingManagementClient
     pip install azure-identity
     pip install azure-mgmt-billing
 # USAGE
-    python update_billing_property.py
+    python multiple_modern_invoice_download.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,15 +26,20 @@ from azure.mgmt.billing import BillingManagementClient
 def main():
     client = BillingManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="{subscriptionId}",
+        subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.billing_property.update(
-        parameters={"properties": {"costCenter": "1010"}},
-    )
+    response = client.invoices.begin_download_multiple_billing_profile_invoices(
+        billing_account_name="{billingAccountName}",
+        download_urls=[
+            "https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/invoices/{invoiceName}/download?downloadToken={downloadToken}&useCache=True&api-version=2020-05-01",
+            "https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/invoices/{invoiceName}/download?downloadToken={downloadToken}&useCache=True&api-version=2020-05-01",
+            "https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/invoices/{invoiceName}/download?downloadToken={downloadToken}&useCache=True&api-version=2020-05-01",
+        ],
+    ).result()
     print(response)
 
 
-# x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2020-05-01/examples/UpdateBillingProperty.json
+# x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2020-05-01/examples/MultipleModernInvoiceDownload.json
 if __name__ == "__main__":
     main()
