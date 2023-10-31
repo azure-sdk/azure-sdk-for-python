@@ -10,6 +10,18 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
+class AppAttachPackageArchitectures(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Possible device architectures that an app attach package can be configured for."""
+
+    ARM = "ARM"
+    ARM64 = "ARM64"
+    X86 = "x86"
+    X64 = "x64"
+    NEUTRAL = "Neutral"
+    X86_A64 = "x86a64"
+    ALL = "ALL"
+
+
 class ApplicationGroupType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Resource Type of ApplicationGroup."""
 
@@ -54,6 +66,14 @@ class DayOfWeek(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     FRIDAY = "Friday"
     SATURDAY = "Saturday"
     SUNDAY = "Sunday"
+
+
+class FailHealthCheckOnStagingFailure(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Parameter indicating how the health check should behave if this package fails staging."""
+
+    UNHEALTHY = "Unhealthy"
+    NEEDS_ASSISTANCE = "NeedsAssistance"
+    DO_NOT_FAIL = "DoNotFail"
 
 
 class HealthCheckName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -159,6 +179,13 @@ class LoadBalancerType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     PERSISTENT = "Persistent"
 
 
+class PackageTimestamped(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Is package timestamped so it can ignore the certificate expiry date."""
+
+    TIMESTAMPED = "Timestamped"
+    NOT_TIMESTAMPED = "NotTimestamped"
+
+
 class PersonalDesktopAssignmentType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """PersonalDesktopAssignment type for HostPool."""
 
@@ -189,6 +216,15 @@ class PrivateEndpointServiceConnectionStatus(str, Enum, metaclass=CaseInsensitiv
     PENDING = "Pending"
     APPROVED = "Approved"
     REJECTED = "Rejected"
+
+
+class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The current provisioning state."""
+
+    SUCCEEDED = "Succeeded"
+    PROVISIONING = "Provisioning"
+    FAILED = "Failed"
+    CANCELED = "Canceled"
 
 
 class PublicNetworkAccess(str, Enum, metaclass=CaseInsensitiveEnumMeta):

@@ -133,6 +133,414 @@ class AgentUpdateProperties(_serialization.Model):
         self.maintenance_windows = maintenance_windows
 
 
+class ResourceModelWithAllowedPropertySet(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+    """The resource model definition containing the full set of allowed properties for a resource.
+    Except properties bag, there cannot be a top level property outside of this set.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar location: The geo-location where the resource lives.
+    :vartype location: str
+    :ivar managed_by: The fully qualified resource ID of the resource that manages this resource.
+     Indicates if this resource is managed by another Azure resource. If this is present, complete
+     mode deployment will not delete the resource if it is removed from the template since it is
+     managed by another resource.
+    :vartype managed_by: str
+    :ivar kind: Metadata used by portal/tooling/etc to render different UX experiences for
+     resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type.  If supported,
+     the resource provider must validate and persist this value.
+    :vartype kind: str
+    :ivar etag: The etag field is *not* required. If it is provided in the response body, it must
+     also be provided as a header per the normal etag convention.  Entity tags are used for
+     comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in
+     the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range
+     (section 14.27) header fields.
+    :vartype etag: str
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar identity:
+    :vartype identity:
+     ~azure.mgmt.desktopvirtualization.models.ResourceModelWithAllowedPropertySetIdentity
+    :ivar sku:
+    :vartype sku: ~azure.mgmt.desktopvirtualization.models.ResourceModelWithAllowedPropertySetSku
+    :ivar plan:
+    :vartype plan: ~azure.mgmt.desktopvirtualization.models.ResourceModelWithAllowedPropertySetPlan
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "kind": {"pattern": r"^[-\w\._,\(\)]+$"},
+        "etag": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "location": {"key": "location", "type": "str"},
+        "managed_by": {"key": "managedBy", "type": "str"},
+        "kind": {"key": "kind", "type": "str"},
+        "etag": {"key": "etag", "type": "str"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "identity": {"key": "identity", "type": "ResourceModelWithAllowedPropertySetIdentity"},
+        "sku": {"key": "sku", "type": "ResourceModelWithAllowedPropertySetSku"},
+        "plan": {"key": "plan", "type": "ResourceModelWithAllowedPropertySetPlan"},
+    }
+
+    def __init__(
+        self,
+        *,
+        location: Optional[str] = None,
+        managed_by: Optional[str] = None,
+        kind: Optional[str] = None,
+        tags: Optional[Dict[str, str]] = None,
+        identity: Optional["_models.ResourceModelWithAllowedPropertySetIdentity"] = None,
+        sku: Optional["_models.ResourceModelWithAllowedPropertySetSku"] = None,
+        plan: Optional["_models.ResourceModelWithAllowedPropertySetPlan"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword location: The geo-location where the resource lives.
+        :paramtype location: str
+        :keyword managed_by: The fully qualified resource ID of the resource that manages this
+         resource. Indicates if this resource is managed by another Azure resource. If this is present,
+         complete mode deployment will not delete the resource if it is removed from the template since
+         it is managed by another resource.
+        :paramtype managed_by: str
+        :keyword kind: Metadata used by portal/tooling/etc to render different UX experiences for
+         resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type.  If supported,
+         the resource provider must validate and persist this value.
+        :paramtype kind: str
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword identity:
+        :paramtype identity:
+         ~azure.mgmt.desktopvirtualization.models.ResourceModelWithAllowedPropertySetIdentity
+        :keyword sku:
+        :paramtype sku: ~azure.mgmt.desktopvirtualization.models.ResourceModelWithAllowedPropertySetSku
+        :keyword plan:
+        :paramtype plan:
+         ~azure.mgmt.desktopvirtualization.models.ResourceModelWithAllowedPropertySetPlan
+        """
+        super().__init__(**kwargs)
+        self.id = None
+        self.name = None
+        self.type = None
+        self.location = location
+        self.managed_by = managed_by
+        self.kind = kind
+        self.etag = None
+        self.tags = tags
+        self.identity = identity
+        self.sku = sku
+        self.plan = plan
+
+
+class AppAttachPackage(ResourceModelWithAllowedPropertySet):  # pylint: disable=too-many-instance-attributes
+    """Schema for App Attach Package properties.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar location: The geo-location where the resource lives.
+    :vartype location: str
+    :ivar managed_by: The fully qualified resource ID of the resource that manages this resource.
+     Indicates if this resource is managed by another Azure resource. If this is present, complete
+     mode deployment will not delete the resource if it is removed from the template since it is
+     managed by another resource.
+    :vartype managed_by: str
+    :ivar kind: Metadata used by portal/tooling/etc to render different UX experiences for
+     resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type.  If supported,
+     the resource provider must validate and persist this value.
+    :vartype kind: str
+    :ivar etag: The etag field is *not* required. If it is provided in the response body, it must
+     also be provided as a header per the normal etag convention.  Entity tags are used for
+     comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in
+     the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range
+     (section 14.27) header fields.
+    :vartype etag: str
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar identity:
+    :vartype identity:
+     ~azure.mgmt.desktopvirtualization.models.ResourceModelWithAllowedPropertySetIdentity
+    :ivar sku:
+    :vartype sku: ~azure.mgmt.desktopvirtualization.models.ResourceModelWithAllowedPropertySetSku
+    :ivar plan:
+    :vartype plan: ~azure.mgmt.desktopvirtualization.models.ResourceModelWithAllowedPropertySetPlan
+    :ivar system_data: Metadata pertaining to creation and last modification of the resource.
+    :vartype system_data: ~azure.mgmt.desktopvirtualization.models.SystemData
+    :ivar properties: Detailed properties for App Attach Package. Required.
+    :vartype properties: ~azure.mgmt.desktopvirtualization.models.AppAttachPackageProperties
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "kind": {"pattern": r"^[-\w\._,\(\)]+$"},
+        "etag": {"readonly": True},
+        "system_data": {"readonly": True},
+        "properties": {"required": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "location": {"key": "location", "type": "str"},
+        "managed_by": {"key": "managedBy", "type": "str"},
+        "kind": {"key": "kind", "type": "str"},
+        "etag": {"key": "etag", "type": "str"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "identity": {"key": "identity", "type": "ResourceModelWithAllowedPropertySetIdentity"},
+        "sku": {"key": "sku", "type": "ResourceModelWithAllowedPropertySetSku"},
+        "plan": {"key": "plan", "type": "ResourceModelWithAllowedPropertySetPlan"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "properties": {"key": "properties", "type": "AppAttachPackageProperties"},
+    }
+
+    def __init__(
+        self,
+        *,
+        properties: "_models.AppAttachPackageProperties",
+        location: Optional[str] = None,
+        managed_by: Optional[str] = None,
+        kind: Optional[str] = None,
+        tags: Optional[Dict[str, str]] = None,
+        identity: Optional["_models.ResourceModelWithAllowedPropertySetIdentity"] = None,
+        sku: Optional["_models.ResourceModelWithAllowedPropertySetSku"] = None,
+        plan: Optional["_models.ResourceModelWithAllowedPropertySetPlan"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword location: The geo-location where the resource lives.
+        :paramtype location: str
+        :keyword managed_by: The fully qualified resource ID of the resource that manages this
+         resource. Indicates if this resource is managed by another Azure resource. If this is present,
+         complete mode deployment will not delete the resource if it is removed from the template since
+         it is managed by another resource.
+        :paramtype managed_by: str
+        :keyword kind: Metadata used by portal/tooling/etc to render different UX experiences for
+         resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type.  If supported,
+         the resource provider must validate and persist this value.
+        :paramtype kind: str
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword identity:
+        :paramtype identity:
+         ~azure.mgmt.desktopvirtualization.models.ResourceModelWithAllowedPropertySetIdentity
+        :keyword sku:
+        :paramtype sku: ~azure.mgmt.desktopvirtualization.models.ResourceModelWithAllowedPropertySetSku
+        :keyword plan:
+        :paramtype plan:
+         ~azure.mgmt.desktopvirtualization.models.ResourceModelWithAllowedPropertySetPlan
+        :keyword properties: Detailed properties for App Attach Package. Required.
+        :paramtype properties: ~azure.mgmt.desktopvirtualization.models.AppAttachPackageProperties
+        """
+        super().__init__(
+            location=location,
+            managed_by=managed_by,
+            kind=kind,
+            tags=tags,
+            identity=identity,
+            sku=sku,
+            plan=plan,
+            **kwargs
+        )
+        self.system_data = None
+        self.properties = properties
+
+
+class AppAttachPackageInfoProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+    """Schema for Import Package Information properties.
+
+    :ivar package_alias: Alias of App Attach Package. Assigned at import time.
+    :vartype package_alias: str
+    :ivar image_path: VHD/CIM image path on Network Share.
+    :vartype image_path: str
+    :ivar package_name: Package Name from appxmanifest.xml.
+    :vartype package_name: str
+    :ivar package_family_name: Package Family Name from appxmanifest.xml. Contains Package Name and
+     Publisher name.
+    :vartype package_family_name: str
+    :ivar package_full_name: Package Full Name from appxmanifest.xml.
+    :vartype package_full_name: str
+    :ivar display_name: User friendly Name to be displayed in the portal.
+    :vartype display_name: str
+    :ivar package_relative_path: Relative Path to the package inside the image.
+    :vartype package_relative_path: str
+    :ivar is_regular_registration: Specifies how to register Package in feed.
+    :vartype is_regular_registration: bool
+    :ivar is_active: Make this version of the package the active one across the hostpool.
+    :vartype is_active: bool
+    :ivar package_dependencies: List of package dependencies.
+    :vartype package_dependencies:
+     list[~azure.mgmt.desktopvirtualization.models.MsixPackageDependencies]
+    :ivar version: Package Version found in the appxmanifest.xml.
+    :vartype version: str
+    :ivar last_updated: Date Package was last updated, found in the appxmanifest.xml.
+    :vartype last_updated: ~datetime.datetime
+    :ivar package_applications: List of package applications.
+    :vartype package_applications:
+     list[~azure.mgmt.desktopvirtualization.models.MsixPackageApplications]
+    :ivar certificate_name: Certificate name found in the appxmanifest.xml.
+    :vartype certificate_name: str
+    :ivar certificate_expiry: Date certificate expires, found in the appxmanifest.xml.
+    :vartype certificate_expiry: ~datetime.datetime
+    :ivar is_package_timestamped: Is package timestamped so it can ignore the certificate expiry
+     date. Known values are: "Timestamped" and "NotTimestamped".
+    :vartype is_package_timestamped: str or
+     ~azure.mgmt.desktopvirtualization.models.PackageTimestamped
+    """
+
+    _attribute_map = {
+        "package_alias": {"key": "packageAlias", "type": "str"},
+        "image_path": {"key": "imagePath", "type": "str"},
+        "package_name": {"key": "packageName", "type": "str"},
+        "package_family_name": {"key": "packageFamilyName", "type": "str"},
+        "package_full_name": {"key": "packageFullName", "type": "str"},
+        "display_name": {"key": "displayName", "type": "str"},
+        "package_relative_path": {"key": "packageRelativePath", "type": "str"},
+        "is_regular_registration": {"key": "isRegularRegistration", "type": "bool"},
+        "is_active": {"key": "isActive", "type": "bool"},
+        "package_dependencies": {"key": "packageDependencies", "type": "[MsixPackageDependencies]"},
+        "version": {"key": "version", "type": "str"},
+        "last_updated": {"key": "lastUpdated", "type": "iso-8601"},
+        "package_applications": {"key": "packageApplications", "type": "[MsixPackageApplications]"},
+        "certificate_name": {"key": "certificateName", "type": "str"},
+        "certificate_expiry": {"key": "certificateExpiry", "type": "iso-8601"},
+        "is_package_timestamped": {"key": "isPackageTimestamped", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        package_alias: Optional[str] = None,
+        image_path: Optional[str] = None,
+        package_name: Optional[str] = None,
+        package_family_name: Optional[str] = None,
+        package_full_name: Optional[str] = None,
+        display_name: Optional[str] = None,
+        package_relative_path: Optional[str] = None,
+        is_regular_registration: Optional[bool] = None,
+        is_active: Optional[bool] = None,
+        package_dependencies: Optional[List["_models.MsixPackageDependencies"]] = None,
+        version: Optional[str] = None,
+        last_updated: Optional[datetime.datetime] = None,
+        package_applications: Optional[List["_models.MsixPackageApplications"]] = None,
+        certificate_name: Optional[str] = None,
+        certificate_expiry: Optional[datetime.datetime] = None,
+        is_package_timestamped: Optional[Union[str, "_models.PackageTimestamped"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword package_alias: Alias of App Attach Package. Assigned at import time.
+        :paramtype package_alias: str
+        :keyword image_path: VHD/CIM image path on Network Share.
+        :paramtype image_path: str
+        :keyword package_name: Package Name from appxmanifest.xml.
+        :paramtype package_name: str
+        :keyword package_family_name: Package Family Name from appxmanifest.xml. Contains Package Name
+         and Publisher name.
+        :paramtype package_family_name: str
+        :keyword package_full_name: Package Full Name from appxmanifest.xml.
+        :paramtype package_full_name: str
+        :keyword display_name: User friendly Name to be displayed in the portal.
+        :paramtype display_name: str
+        :keyword package_relative_path: Relative Path to the package inside the image.
+        :paramtype package_relative_path: str
+        :keyword is_regular_registration: Specifies how to register Package in feed.
+        :paramtype is_regular_registration: bool
+        :keyword is_active: Make this version of the package the active one across the hostpool.
+        :paramtype is_active: bool
+        :keyword package_dependencies: List of package dependencies.
+        :paramtype package_dependencies:
+         list[~azure.mgmt.desktopvirtualization.models.MsixPackageDependencies]
+        :keyword version: Package Version found in the appxmanifest.xml.
+        :paramtype version: str
+        :keyword last_updated: Date Package was last updated, found in the appxmanifest.xml.
+        :paramtype last_updated: ~datetime.datetime
+        :keyword package_applications: List of package applications.
+        :paramtype package_applications:
+         list[~azure.mgmt.desktopvirtualization.models.MsixPackageApplications]
+        :keyword certificate_name: Certificate name found in the appxmanifest.xml.
+        :paramtype certificate_name: str
+        :keyword certificate_expiry: Date certificate expires, found in the appxmanifest.xml.
+        :paramtype certificate_expiry: ~datetime.datetime
+        :keyword is_package_timestamped: Is package timestamped so it can ignore the certificate expiry
+         date. Known values are: "Timestamped" and "NotTimestamped".
+        :paramtype is_package_timestamped: str or
+         ~azure.mgmt.desktopvirtualization.models.PackageTimestamped
+        """
+        super().__init__(**kwargs)
+        self.package_alias = package_alias
+        self.image_path = image_path
+        self.package_name = package_name
+        self.package_family_name = package_family_name
+        self.package_full_name = package_full_name
+        self.display_name = display_name
+        self.package_relative_path = package_relative_path
+        self.is_regular_registration = is_regular_registration
+        self.is_active = is_active
+        self.package_dependencies = package_dependencies
+        self.version = version
+        self.last_updated = last_updated
+        self.package_applications = package_applications
+        self.certificate_name = certificate_name
+        self.certificate_expiry = certificate_expiry
+        self.is_package_timestamped = is_package_timestamped
+
+
+class AppAttachPackageList(_serialization.Model):
+    """List of App Attach Package definitions.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar value: List of App Attach Package definitions.
+    :vartype value: list[~azure.mgmt.desktopvirtualization.models.AppAttachPackage]
+    :ivar next_link: Link to the next page of results.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[AppAttachPackage]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, *, value: Optional[List["_models.AppAttachPackage"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword value: List of App Attach Package definitions.
+        :paramtype value: list[~azure.mgmt.desktopvirtualization.models.AppAttachPackage]
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = None
+
+
 class Resource(_serialization.Model):
     """Common fields that are returned in the response for all Azure Resource Manager resources.
 
@@ -166,6 +574,172 @@ class Resource(_serialization.Model):
         self.id = None
         self.name = None
         self.type = None
+
+
+class AppAttachPackagePatch(Resource):
+    """Schema for patchable App Attach Package properties.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar tags: tags to be updated.
+    :vartype tags: dict[str, str]
+    :ivar properties: Detailed properties for App Attach Package.
+    :vartype properties: ~azure.mgmt.desktopvirtualization.models.AppAttachPackagePatchProperties
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "properties": {"key": "properties", "type": "AppAttachPackagePatchProperties"},
+    }
+
+    def __init__(
+        self,
+        *,
+        tags: Optional[Dict[str, str]] = None,
+        properties: Optional["_models.AppAttachPackagePatchProperties"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword tags: tags to be updated.
+        :paramtype tags: dict[str, str]
+        :keyword properties: Detailed properties for App Attach Package.
+        :paramtype properties: ~azure.mgmt.desktopvirtualization.models.AppAttachPackagePatchProperties
+        """
+        super().__init__(**kwargs)
+        self.tags = tags
+        self.properties = properties
+
+
+class AppAttachPackagePatchProperties(_serialization.Model):
+    """Schema for patchable fields on an App Attach Package.
+
+    :ivar image: Detailed properties for App Attach Package.
+    :vartype image: ~azure.mgmt.desktopvirtualization.models.AppAttachPackageInfoProperties
+    :ivar host_pool_references: List of Hostpool resource Ids.
+    :vartype host_pool_references: list[str]
+    :ivar key_vault_url: URL of keyvault location to store certificate.
+    :vartype key_vault_url: str
+    :ivar fail_health_check_on_staging_failure: Parameter indicating how the health check should
+     behave if this package fails staging. Known values are: "Unhealthy", "NeedsAssistance", and
+     "DoNotFail".
+    :vartype fail_health_check_on_staging_failure: str or
+     ~azure.mgmt.desktopvirtualization.models.FailHealthCheckOnStagingFailure
+    """
+
+    _attribute_map = {
+        "image": {"key": "image", "type": "AppAttachPackageInfoProperties"},
+        "host_pool_references": {"key": "hostPoolReferences", "type": "[str]"},
+        "key_vault_url": {"key": "keyVaultURL", "type": "str"},
+        "fail_health_check_on_staging_failure": {"key": "failHealthCheckOnStagingFailure", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        image: Optional["_models.AppAttachPackageInfoProperties"] = None,
+        host_pool_references: Optional[List[str]] = None,
+        key_vault_url: Optional[str] = None,
+        fail_health_check_on_staging_failure: Optional[Union[str, "_models.FailHealthCheckOnStagingFailure"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword image: Detailed properties for App Attach Package.
+        :paramtype image: ~azure.mgmt.desktopvirtualization.models.AppAttachPackageInfoProperties
+        :keyword host_pool_references: List of Hostpool resource Ids.
+        :paramtype host_pool_references: list[str]
+        :keyword key_vault_url: URL of keyvault location to store certificate.
+        :paramtype key_vault_url: str
+        :keyword fail_health_check_on_staging_failure: Parameter indicating how the health check should
+         behave if this package fails staging. Known values are: "Unhealthy", "NeedsAssistance", and
+         "DoNotFail".
+        :paramtype fail_health_check_on_staging_failure: str or
+         ~azure.mgmt.desktopvirtualization.models.FailHealthCheckOnStagingFailure
+        """
+        super().__init__(**kwargs)
+        self.image = image
+        self.host_pool_references = host_pool_references
+        self.key_vault_url = key_vault_url
+        self.fail_health_check_on_staging_failure = fail_health_check_on_staging_failure
+
+
+class AppAttachPackageProperties(_serialization.Model):
+    """Schema for App Attach Package properties.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar provisioning_state: The provisioning state of the App Attach Package. Known values are:
+     "Succeeded", "Provisioning", "Failed", and "Canceled".
+    :vartype provisioning_state: str or ~azure.mgmt.desktopvirtualization.models.ProvisioningState
+    :ivar image: Detailed properties for App Attach Package.
+    :vartype image: ~azure.mgmt.desktopvirtualization.models.AppAttachPackageInfoProperties
+    :ivar host_pool_references: List of Hostpool resource Ids.
+    :vartype host_pool_references: list[str]
+    :ivar key_vault_url: URL of keyvault location to store certificate.
+    :vartype key_vault_url: str
+    :ivar fail_health_check_on_staging_failure: Parameter indicating how the health check should
+     behave if this package fails staging. Known values are: "Unhealthy", "NeedsAssistance", and
+     "DoNotFail".
+    :vartype fail_health_check_on_staging_failure: str or
+     ~azure.mgmt.desktopvirtualization.models.FailHealthCheckOnStagingFailure
+    """
+
+    _validation = {
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+        "image": {"key": "image", "type": "AppAttachPackageInfoProperties"},
+        "host_pool_references": {"key": "hostPoolReferences", "type": "[str]"},
+        "key_vault_url": {"key": "keyVaultURL", "type": "str"},
+        "fail_health_check_on_staging_failure": {"key": "failHealthCheckOnStagingFailure", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        image: Optional["_models.AppAttachPackageInfoProperties"] = None,
+        host_pool_references: Optional[List[str]] = None,
+        key_vault_url: Optional[str] = None,
+        fail_health_check_on_staging_failure: Optional[Union[str, "_models.FailHealthCheckOnStagingFailure"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword image: Detailed properties for App Attach Package.
+        :paramtype image: ~azure.mgmt.desktopvirtualization.models.AppAttachPackageInfoProperties
+        :keyword host_pool_references: List of Hostpool resource Ids.
+        :paramtype host_pool_references: list[str]
+        :keyword key_vault_url: URL of keyvault location to store certificate.
+        :paramtype key_vault_url: str
+        :keyword fail_health_check_on_staging_failure: Parameter indicating how the health check should
+         behave if this package fails staging. Known values are: "Unhealthy", "NeedsAssistance", and
+         "DoNotFail".
+        :paramtype fail_health_check_on_staging_failure: str or
+         ~azure.mgmt.desktopvirtualization.models.FailHealthCheckOnStagingFailure
+        """
+        super().__init__(**kwargs)
+        self.provisioning_state = None
+        self.image = image
+        self.host_pool_references = host_pool_references
+        self.key_vault_url = key_vault_url
+        self.fail_health_check_on_staging_failure = fail_health_check_on_staging_failure
 
 
 class Application(Resource):  # pylint: disable=too-many-instance-attributes
@@ -318,119 +892,6 @@ class Application(Resource):  # pylint: disable=too-many-instance-attributes
         self.icon_index = icon_index
         self.icon_hash = None
         self.icon_content = None
-
-
-class ResourceModelWithAllowedPropertySet(_serialization.Model):  # pylint: disable=too-many-instance-attributes
-    """The resource model definition containing the full set of allowed properties for a resource.
-    Except properties bag, there cannot be a top level property outside of this set.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-    :vartype id: str
-    :ivar name: The name of the resource.
-    :vartype name: str
-    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-     "Microsoft.Storage/storageAccounts".
-    :vartype type: str
-    :ivar location: The geo-location where the resource lives.
-    :vartype location: str
-    :ivar managed_by: The fully qualified resource ID of the resource that manages this resource.
-     Indicates if this resource is managed by another Azure resource. If this is present, complete
-     mode deployment will not delete the resource if it is removed from the template since it is
-     managed by another resource.
-    :vartype managed_by: str
-    :ivar kind: Metadata used by portal/tooling/etc to render different UX experiences for
-     resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type.  If supported,
-     the resource provider must validate and persist this value.
-    :vartype kind: str
-    :ivar etag: The etag field is *not* required. If it is provided in the response body, it must
-     also be provided as a header per the normal etag convention.  Entity tags are used for
-     comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in
-     the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range
-     (section 14.27) header fields.
-    :vartype etag: str
-    :ivar tags: Resource tags.
-    :vartype tags: dict[str, str]
-    :ivar identity:
-    :vartype identity:
-     ~azure.mgmt.desktopvirtualization.models.ResourceModelWithAllowedPropertySetIdentity
-    :ivar sku:
-    :vartype sku: ~azure.mgmt.desktopvirtualization.models.ResourceModelWithAllowedPropertySetSku
-    :ivar plan:
-    :vartype plan: ~azure.mgmt.desktopvirtualization.models.ResourceModelWithAllowedPropertySetPlan
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "kind": {"pattern": r"^[-\w\._,\(\)]+$"},
-        "etag": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "location": {"key": "location", "type": "str"},
-        "managed_by": {"key": "managedBy", "type": "str"},
-        "kind": {"key": "kind", "type": "str"},
-        "etag": {"key": "etag", "type": "str"},
-        "tags": {"key": "tags", "type": "{str}"},
-        "identity": {"key": "identity", "type": "ResourceModelWithAllowedPropertySetIdentity"},
-        "sku": {"key": "sku", "type": "ResourceModelWithAllowedPropertySetSku"},
-        "plan": {"key": "plan", "type": "ResourceModelWithAllowedPropertySetPlan"},
-    }
-
-    def __init__(
-        self,
-        *,
-        location: Optional[str] = None,
-        managed_by: Optional[str] = None,
-        kind: Optional[str] = None,
-        tags: Optional[Dict[str, str]] = None,
-        identity: Optional["_models.ResourceModelWithAllowedPropertySetIdentity"] = None,
-        sku: Optional["_models.ResourceModelWithAllowedPropertySetSku"] = None,
-        plan: Optional["_models.ResourceModelWithAllowedPropertySetPlan"] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword location: The geo-location where the resource lives.
-        :paramtype location: str
-        :keyword managed_by: The fully qualified resource ID of the resource that manages this
-         resource. Indicates if this resource is managed by another Azure resource. If this is present,
-         complete mode deployment will not delete the resource if it is removed from the template since
-         it is managed by another resource.
-        :paramtype managed_by: str
-        :keyword kind: Metadata used by portal/tooling/etc to render different UX experiences for
-         resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type.  If supported,
-         the resource provider must validate and persist this value.
-        :paramtype kind: str
-        :keyword tags: Resource tags.
-        :paramtype tags: dict[str, str]
-        :keyword identity:
-        :paramtype identity:
-         ~azure.mgmt.desktopvirtualization.models.ResourceModelWithAllowedPropertySetIdentity
-        :keyword sku:
-        :paramtype sku: ~azure.mgmt.desktopvirtualization.models.ResourceModelWithAllowedPropertySetSku
-        :keyword plan:
-        :paramtype plan:
-         ~azure.mgmt.desktopvirtualization.models.ResourceModelWithAllowedPropertySetPlan
-        """
-        super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.location = location
-        self.managed_by = managed_by
-        self.kind = kind
-        self.etag = None
-        self.tags = tags
-        self.identity = identity
-        self.sku = sku
-        self.plan = plan
 
 
 class ApplicationGroup(ResourceModelWithAllowedPropertySet):  # pylint: disable=too-many-instance-attributes
@@ -1010,6 +1471,98 @@ class DesktopPatch(_serialization.Model):
         self.friendly_name = friendly_name
 
 
+class ErrorAdditionalInfo(_serialization.Model):
+    """The resource management error additional info.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar type: The additional info type.
+    :vartype type: str
+    :ivar info: The additional info.
+    :vartype info: JSON
+    """
+
+    _validation = {
+        "type": {"readonly": True},
+        "info": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "type": {"key": "type", "type": "str"},
+        "info": {"key": "info", "type": "object"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.type = None
+        self.info = None
+
+
+class ErrorDetail(_serialization.Model):
+    """The error detail.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar code: The error code.
+    :vartype code: str
+    :ivar message: The error message.
+    :vartype message: str
+    :ivar target: The error target.
+    :vartype target: str
+    :ivar details: The error details.
+    :vartype details: list[~azure.mgmt.desktopvirtualization.models.ErrorDetail]
+    :ivar additional_info: The error additional info.
+    :vartype additional_info: list[~azure.mgmt.desktopvirtualization.models.ErrorAdditionalInfo]
+    """
+
+    _validation = {
+        "code": {"readonly": True},
+        "message": {"readonly": True},
+        "target": {"readonly": True},
+        "details": {"readonly": True},
+        "additional_info": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "code": {"key": "code", "type": "str"},
+        "message": {"key": "message", "type": "str"},
+        "target": {"key": "target", "type": "str"},
+        "details": {"key": "details", "type": "[ErrorDetail]"},
+        "additional_info": {"key": "additionalInfo", "type": "[ErrorAdditionalInfo]"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.code = None
+        self.message = None
+        self.target = None
+        self.details = None
+        self.additional_info = None
+
+
+class ErrorResponse(_serialization.Model):
+    """Common error response for all Azure Resource Manager APIs to return error details for failed
+    operations. (This also follows the OData error response format.).
+
+    :ivar error: The error object.
+    :vartype error: ~azure.mgmt.desktopvirtualization.models.ErrorDetail
+    """
+
+    _attribute_map = {
+        "error": {"key": "error", "type": "ErrorDetail"},
+    }
+
+    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs: Any) -> None:
+        """
+        :keyword error: The error object.
+        :paramtype error: ~azure.mgmt.desktopvirtualization.models.ErrorDetail
+        """
+        super().__init__(**kwargs)
+        self.error = error
+
+
 class ExpandMsixImage(Resource):  # pylint: disable=too-many-instance-attributes
     """Represents the definition of contents retrieved after expanding the MSIX Image.
 
@@ -1052,6 +1605,10 @@ class ExpandMsixImage(Resource):  # pylint: disable=too-many-instance-attributes
     :ivar package_applications: List of package applications.
     :vartype package_applications:
      list[~azure.mgmt.desktopvirtualization.models.MsixPackageApplications]
+    :ivar certificate_name: Certificate name found in the appxmanifest.xml.
+    :vartype certificate_name: str
+    :ivar certificate_expiry: Date certificate expires, found in the appxmanifest.xml.
+    :vartype certificate_expiry: ~datetime.datetime
     """
 
     _validation = {
@@ -1077,6 +1634,8 @@ class ExpandMsixImage(Resource):  # pylint: disable=too-many-instance-attributes
         "version": {"key": "properties.version", "type": "str"},
         "last_updated": {"key": "properties.lastUpdated", "type": "iso-8601"},
         "package_applications": {"key": "properties.packageApplications", "type": "[MsixPackageApplications]"},
+        "certificate_name": {"key": "properties.certificateName", "type": "str"},
+        "certificate_expiry": {"key": "properties.certificateExpiry", "type": "iso-8601"},
     }
 
     def __init__(
@@ -1095,6 +1654,8 @@ class ExpandMsixImage(Resource):  # pylint: disable=too-many-instance-attributes
         version: Optional[str] = None,
         last_updated: Optional[datetime.datetime] = None,
         package_applications: Optional[List["_models.MsixPackageApplications"]] = None,
+        certificate_name: Optional[str] = None,
+        certificate_expiry: Optional[datetime.datetime] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -1127,6 +1688,10 @@ class ExpandMsixImage(Resource):  # pylint: disable=too-many-instance-attributes
         :keyword package_applications: List of package applications.
         :paramtype package_applications:
          list[~azure.mgmt.desktopvirtualization.models.MsixPackageApplications]
+        :keyword certificate_name: Certificate name found in the appxmanifest.xml.
+        :paramtype certificate_name: str
+        :keyword certificate_expiry: Date certificate expires, found in the appxmanifest.xml.
+        :paramtype certificate_expiry: ~datetime.datetime
         """
         super().__init__(**kwargs)
         self.package_alias = package_alias
@@ -1142,6 +1707,8 @@ class ExpandMsixImage(Resource):  # pylint: disable=too-many-instance-attributes
         self.version = version
         self.last_updated = last_updated
         self.package_applications = package_applications
+        self.certificate_name = certificate_name
+        self.certificate_expiry = certificate_expiry
 
 
 class ExpandMsixImageList(_serialization.Model):
@@ -1247,6 +1814,8 @@ class HostPool(ResourceModelWithAllowedPropertySet):  # pylint: disable=too-many
     :vartype vm_template: str
     :ivar application_group_references: List of applicationGroup links.
     :vartype application_group_references: list[str]
+    :ivar app_attach_package_references: List of App Attach Package links.
+    :vartype app_attach_package_references: list[str]
     :ivar ssoadfs_authority: URL to customer ADFS server for signing WVD SSO certificates.
     :vartype ssoadfs_authority: str
     :ivar sso_client_id: ClientId for the registered Relying Party used to issue WVD SSO
@@ -1293,6 +1862,7 @@ class HostPool(ResourceModelWithAllowedPropertySet):  # pylint: disable=too-many
         "host_pool_type": {"required": True},
         "load_balancer_type": {"required": True},
         "application_group_references": {"readonly": True},
+        "app_attach_package_references": {"readonly": True},
         "preferred_app_group_type": {"required": True},
         "cloud_pc_resource": {"readonly": True},
         "private_endpoint_connections": {"readonly": True},
@@ -1324,6 +1894,7 @@ class HostPool(ResourceModelWithAllowedPropertySet):  # pylint: disable=too-many
         "registration_info": {"key": "properties.registrationInfo", "type": "RegistrationInfo"},
         "vm_template": {"key": "properties.vmTemplate", "type": "str"},
         "application_group_references": {"key": "properties.applicationGroupReferences", "type": "[str]"},
+        "app_attach_package_references": {"key": "properties.appAttachPackageReferences", "type": "[str]"},
         "ssoadfs_authority": {"key": "properties.ssoadfsAuthority", "type": "str"},
         "sso_client_id": {"key": "properties.ssoClientId", "type": "str"},
         "sso_client_secret_key_vault_path": {"key": "properties.ssoClientSecretKeyVaultPath", "type": "str"},
@@ -1470,6 +2041,7 @@ class HostPool(ResourceModelWithAllowedPropertySet):  # pylint: disable=too-many
         self.registration_info = registration_info
         self.vm_template = vm_template
         self.application_group_references = None
+        self.app_attach_package_references = None
         self.ssoadfs_authority = ssoadfs_authority
         self.sso_client_id = sso_client_id
         self.sso_client_secret_key_vault_path = sso_client_secret_key_vault_path
@@ -1739,6 +2311,42 @@ class Identity(_serialization.Model):
         self.principal_id = None
         self.tenant_id = None
         self.type = type
+
+
+class ImportPackageInfoRequest(_serialization.Model):
+    """Information to import app attach package.
+
+    :ivar path: URI to Image.
+    :vartype path: str
+    :ivar package_architecture: Possible device architectures that an app attach package can be
+     configured for. Known values are: "ARM", "ARM64", "x86", "x64", "Neutral", "x86a64", and "ALL".
+    :vartype package_architecture: str or
+     ~azure.mgmt.desktopvirtualization.models.AppAttachPackageArchitectures
+    """
+
+    _attribute_map = {
+        "path": {"key": "path", "type": "str"},
+        "package_architecture": {"key": "packageArchitecture", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        path: Optional[str] = None,
+        package_architecture: Optional[Union[str, "_models.AppAttachPackageArchitectures"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword path: URI to Image.
+        :paramtype path: str
+        :keyword package_architecture: Possible device architectures that an app attach package can be
+         configured for. Known values are: "ARM", "ARM64", "x86", "x64", "Neutral", "x86a64", and "ALL".
+        :paramtype package_architecture: str or
+         ~azure.mgmt.desktopvirtualization.models.AppAttachPackageArchitectures
+        """
+        super().__init__(**kwargs)
+        self.path = path
+        self.package_architecture = package_architecture
 
 
 class LogSpecification(_serialization.Model):

@@ -16,6 +16,8 @@ from .. import models as _models
 from .._serialization import Deserializer, Serializer
 from ._configuration import DesktopVirtualizationMgmtClientConfiguration
 from .operations import (
+    AppAttachPackageInfoOperations,
+    AppAttachPackageOperations,
     ApplicationGroupsOperations,
     ApplicationsOperations,
     DesktopsOperations,
@@ -78,16 +80,22 @@ class DesktopVirtualizationMgmtClient:  # pylint: disable=client-accepts-api-ver
     :vartype session_hosts: azure.mgmt.desktopvirtualization.aio.operations.SessionHostsOperations
     :ivar msix_packages: MSIXPackagesOperations operations
     :vartype msix_packages: azure.mgmt.desktopvirtualization.aio.operations.MSIXPackagesOperations
+    :ivar app_attach_package_info: AppAttachPackageInfoOperations operations
+    :vartype app_attach_package_info:
+     azure.mgmt.desktopvirtualization.aio.operations.AppAttachPackageInfoOperations
     :ivar msix_images: MsixImagesOperations operations
     :vartype msix_images: azure.mgmt.desktopvirtualization.aio.operations.MsixImagesOperations
+    :ivar app_attach_package: AppAttachPackageOperations operations
+    :vartype app_attach_package:
+     azure.mgmt.desktopvirtualization.aio.operations.AppAttachPackageOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
     :param subscription_id: The ID of the target subscription. Required.
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2023-09-05". Note that overriding this
-     default value may result in unsupported behavior.
+    :keyword api_version: Api Version. Default value is "2023-10-04-preview". Note that overriding
+     this default value may result in unsupported behavior.
     :paramtype api_version: str
     """
 
@@ -132,7 +140,13 @@ class DesktopVirtualizationMgmtClient:  # pylint: disable=client-accepts-api-ver
         self.user_sessions = UserSessionsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.session_hosts = SessionHostsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.msix_packages = MSIXPackagesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.app_attach_package_info = AppAttachPackageInfoOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.msix_images = MsixImagesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.app_attach_package = AppAttachPackageOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> Awaitable[AsyncHttpResponse]:
         """Runs the network request through the client's chained policies.

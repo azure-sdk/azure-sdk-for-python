@@ -37,6 +37,6 @@ def main():
     )
 
 
-# x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/UserSession_SendMessage_Post.json
+# x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/preview/2023-10-04-preview/examples/UserSession_SendMessage_Post.json
 if __name__ == "__main__":
     main()
