@@ -14,7 +14,7 @@ from azure.mgmt.hybridkubernetes import ConnectedKubernetesClient
     pip install azure-identity
     pip install azure-mgmt-hybridkubernetes
 # USAGE
-    python get_cluster_example.py
+    python connected_clusters_list_cluster_credential_result_cspaad.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,13 +29,14 @@ def main():
         subscription_id="1bfbb5d0-917e-4346-9026-1d3b344417f5",
     )
 
-    response = client.connected_cluster.get(
+    response = client.connected_cluster.list_cluster_user_credential(
         resource_group_name="k8sc-rg",
         cluster_name="testCluster",
+        properties={"authenticationMethod": "AAD", "clientProxy": True},
     )
     print(response)
 
 
-# x-ms-original-file: specification/hybridkubernetes/resource-manager/Microsoft.Kubernetes/preview/2023-11-01-preview/examples/GetClusterExample.json
+# x-ms-original-file: specification/hybridkubernetes/resource-manager/Microsoft.Kubernetes/preview/2023-11-01-preview/examples/ConnectedClustersListClusterCredentialResultCSPAAD.json
 if __name__ == "__main__":
     main()

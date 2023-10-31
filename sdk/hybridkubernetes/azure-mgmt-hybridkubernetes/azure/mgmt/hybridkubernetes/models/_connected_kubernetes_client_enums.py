@@ -17,6 +17,29 @@ class AuthenticationMethod(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     AAD = "AAD"
 
 
+class AutoUpgradeOptions(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Indicates whether the Arc agents on the be upgraded automatically to the latest version.
+    Defaults to Enabled.
+    """
+
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+
+
+class AzureHybridBenefit(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Indicates whether Azure Hybrid Benefit is opted in."""
+
+    TRUE = "True"
+    FALSE = "False"
+    NOT_APPLICABLE = "NotApplicable"
+
+
+class ConnectedClusterKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Indicates the kind of Arc connected cluster based on host infrastructure."""
+
+    PROVISIONED_CLUSTER = "ProvisionedCluster"
+
+
 class ConnectivityStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Represents the connectivity status of the connected cluster."""
 
@@ -42,6 +65,13 @@ class LastModifiedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     APPLICATION = "Application"
     MANAGED_IDENTITY = "ManagedIdentity"
     KEY = "Key"
+
+
+class PrivateLinkState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Property which describes the state of private link on a connected cluster resource."""
+
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
 
 
 class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
