@@ -72,16 +72,16 @@ class ApplicationInsightsManagementClient:  # pylint: disable=client-accepts-api
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
         self.ea_subscription_migrate_to_new_pricing_model = EASubscriptionMigrateToNewPricingModelOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2017-10-01"
         )
         self.ea_subscription_rollback_to_legacy_pricing_model = EASubscriptionRollbackToLegacyPricingModelOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2017-10-01"
         )
         self.ea_subscription_list_migration_date = EASubscriptionListMigrationDateOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2017-10-01"
         )
         self.component_current_pricing_plan = ComponentCurrentPricingPlanOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2017-10-01"
         )
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> HttpResponse:
