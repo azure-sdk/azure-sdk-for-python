@@ -38,6 +38,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/stable/2023-06-01/examples/UpdateMapsCreator.json
+# x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/preview/2023-08-01-preview/examples/UpdateMapsCreator.json
 if __name__ == "__main__":
     main()

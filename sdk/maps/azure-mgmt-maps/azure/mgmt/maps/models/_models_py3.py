@@ -363,6 +363,12 @@ class CreatorProperties(_serialization.Model):
     :ivar storage_units: The storage units to be allocated. Integer values from 1 to 100,
      inclusive. Required.
     :vartype storage_units: int
+    :ivar total_storage_unit_size_in_bytes: The total allocated storage unit size in bytes for the
+     creator resource.
+    :vartype total_storage_unit_size_in_bytes: int
+    :ivar consumed_storage_unit_size_in_bytes: The consumed storage unit size in bytes for the
+     creator resource.
+    :vartype consumed_storage_unit_size_in_bytes: int
     """
 
     _validation = {
@@ -373,17 +379,34 @@ class CreatorProperties(_serialization.Model):
     _attribute_map = {
         "provisioning_state": {"key": "provisioningState", "type": "str"},
         "storage_units": {"key": "storageUnits", "type": "int"},
+        "total_storage_unit_size_in_bytes": {"key": "totalStorageUnitSizeInBytes", "type": "int"},
+        "consumed_storage_unit_size_in_bytes": {"key": "consumedStorageUnitSizeInBytes", "type": "int"},
     }
 
-    def __init__(self, *, storage_units: int, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        *,
+        storage_units: int,
+        total_storage_unit_size_in_bytes: Optional[int] = None,
+        consumed_storage_unit_size_in_bytes: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword storage_units: The storage units to be allocated. Integer values from 1 to 100,
          inclusive. Required.
         :paramtype storage_units: int
+        :keyword total_storage_unit_size_in_bytes: The total allocated storage unit size in bytes for
+         the creator resource.
+        :paramtype total_storage_unit_size_in_bytes: int
+        :keyword consumed_storage_unit_size_in_bytes: The consumed storage unit size in bytes for the
+         creator resource.
+        :paramtype consumed_storage_unit_size_in_bytes: int
         """
         super().__init__(**kwargs)
         self.provisioning_state = None
         self.storage_units = storage_units
+        self.total_storage_unit_size_in_bytes = total_storage_unit_size_in_bytes
+        self.consumed_storage_unit_size_in_bytes = consumed_storage_unit_size_in_bytes
 
 
 class CreatorUpdateParameters(_serialization.Model):
@@ -402,6 +425,12 @@ class CreatorUpdateParameters(_serialization.Model):
     :ivar storage_units: The storage units to be allocated. Integer values from 1 to 100,
      inclusive.
     :vartype storage_units: int
+    :ivar total_storage_unit_size_in_bytes: The total allocated storage unit size in bytes for the
+     creator resource.
+    :vartype total_storage_unit_size_in_bytes: int
+    :ivar consumed_storage_unit_size_in_bytes: The consumed storage unit size in bytes for the
+     creator resource.
+    :vartype consumed_storage_unit_size_in_bytes: int
     """
 
     _validation = {
@@ -413,10 +442,18 @@ class CreatorUpdateParameters(_serialization.Model):
         "tags": {"key": "tags", "type": "{str}"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "storage_units": {"key": "properties.storageUnits", "type": "int"},
+        "total_storage_unit_size_in_bytes": {"key": "properties.totalStorageUnitSizeInBytes", "type": "int"},
+        "consumed_storage_unit_size_in_bytes": {"key": "properties.consumedStorageUnitSizeInBytes", "type": "int"},
     }
 
     def __init__(
-        self, *, tags: Optional[Dict[str, str]] = None, storage_units: Optional[int] = None, **kwargs: Any
+        self,
+        *,
+        tags: Optional[Dict[str, str]] = None,
+        storage_units: Optional[int] = None,
+        total_storage_unit_size_in_bytes: Optional[int] = None,
+        consumed_storage_unit_size_in_bytes: Optional[int] = None,
+        **kwargs: Any
     ) -> None:
         """
         :keyword tags: Gets or sets a list of key value pairs that describe the resource. These tags
@@ -427,11 +464,19 @@ class CreatorUpdateParameters(_serialization.Model):
         :keyword storage_units: The storage units to be allocated. Integer values from 1 to 100,
          inclusive.
         :paramtype storage_units: int
+        :keyword total_storage_unit_size_in_bytes: The total allocated storage unit size in bytes for
+         the creator resource.
+        :paramtype total_storage_unit_size_in_bytes: int
+        :keyword consumed_storage_unit_size_in_bytes: The consumed storage unit size in bytes for the
+         creator resource.
+        :paramtype consumed_storage_unit_size_in_bytes: int
         """
         super().__init__(**kwargs)
         self.tags = tags
         self.provisioning_state = None
         self.storage_units = storage_units
+        self.total_storage_unit_size_in_bytes = total_storage_unit_size_in_bytes
+        self.consumed_storage_unit_size_in_bytes = consumed_storage_unit_size_in_bytes
 
 
 class CustomerManagedKeyEncryption(_serialization.Model):
