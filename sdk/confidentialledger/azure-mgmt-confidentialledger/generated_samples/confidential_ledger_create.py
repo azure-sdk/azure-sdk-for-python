@@ -48,6 +48,7 @@ def main():
                         "ledgerRoleName": "Reader",
                     }
                 ],
+                "ledgerSku": "Standard",
                 "ledgerType": "Public",
             },
             "tags": {"additionalProps1": "additional properties"},
@@ -56,6 +57,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-01-26-preview/examples/ConfidentialLedger_Create.json
+# x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-06-28-preview/examples/ConfidentialLedger_Create.json
 if __name__ == "__main__":
     main()
