@@ -59,7 +59,7 @@ class AdminKeysOperations:
         search_management_request_options: Optional[_models.SearchManagementRequestOptions] = None,
         **kwargs: Any
     ) -> _models.AdminKeyResult:
-        """Gets the primary and secondary admin API keys for the specified Azure Cognitive Search service.
+        """Gets the primary and secondary admin API keys for the specified search service.
 
         .. seealso::
            - https://aka.ms/search-manage
@@ -67,8 +67,8 @@ class AdminKeysOperations:
         :param resource_group_name: The name of the resource group within the current subscription. You
          can obtain this value from the Azure Resource Manager API or the portal. Required.
         :type resource_group_name: str
-        :param search_service_name: The name of the Azure Cognitive Search service associated with the
-         specified resource group. Required.
+        :param search_service_name: The name of the search service associated with the specified
+         resource group. Required.
         :type search_service_name: str
         :param search_management_request_options: Parameter group. Default value is None.
         :type search_management_request_options:
@@ -149,8 +149,8 @@ class AdminKeysOperations:
         :param resource_group_name: The name of the resource group within the current subscription. You
          can obtain this value from the Azure Resource Manager API or the portal. Required.
         :type resource_group_name: str
-        :param search_service_name: The name of the Azure Cognitive Search service associated with the
-         specified resource group. Required.
+        :param search_service_name: The name of the search service associated with the specified
+         resource group. Required.
         :type search_service_name: str
         :param key_kind: Specifies which key to regenerate. Valid values include 'primary' and
          'secondary'. Known values are: "primary" and "secondary". Required.

@@ -35,7 +35,7 @@ if TYPE_CHECKING:
 class SearchManagementClient(
     SearchManagementClientOperationsMixin
 ):  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
-    """Client that can be used to manage Azure Cognitive Search services and API keys.
+    """Client that can be used to manage search services and API keys.
 
     :ivar operations: Operations operations
     :vartype operations: azure.mgmt.search.operations.Operations
@@ -58,7 +58,8 @@ class SearchManagementClient(
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
     :param subscription_id: The unique identifier for a Microsoft Azure subscription. You can
-     obtain this value from the Azure Resource Manager API or the portal. Required.
+     obtain this value from the Azure Resource Manager API, command line tools, or the portal.
+     Required.
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str

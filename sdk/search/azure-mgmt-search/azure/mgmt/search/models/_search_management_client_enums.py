@@ -11,7 +11,7 @@ from azure.core import CaseInsensitiveEnumMeta
 
 
 class AadAuthFailureMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Describes what response the data plane API of a Search service would send for requests that
+    """Describes what response the data plane API of a search service would send for requests that
     failed authentication.
     """
 
@@ -53,8 +53,8 @@ class IdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class PrivateLinkServiceConnectionProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The provisioning state of the private link service connection. Can be Updating, Deleting,
-    Failed, Succeeded, or Incomplete.
+    """The provisioning state of the private link service connection. Valid values are Updating,
+    Deleting, Failed, Succeeded, or Incomplete.
     """
 
     UPDATING = "Updating"
@@ -74,8 +74,8 @@ class PrivateLinkServiceConnectionProvisioningState(str, Enum, metaclass=CaseIns
 
 
 class PrivateLinkServiceConnectionStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Status of the the private link service connection. Can be Pending, Approved, Rejected, or
-    Disconnected.
+    """Status of the the private link service connection. Valid values are Pending, Approved,
+    Rejected, or Disconnected.
     """
 
     PENDING = "Pending"
@@ -117,27 +117,27 @@ class PublicNetworkAccess(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class SearchEncryptionComplianceStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Describes whether the search service is compliant or not with respect to having non customer
-    encrypted resources. If a service has more than one non customer encrypted resource and
-    'Enforcement' is 'enabled' then the service will be marked as 'nonCompliant'.
+    """Describes whether the search service is compliant or not with respect to having
+    non-customer-encrypted resources. If a service has more than one non-customer-encrypted
+    resource and 'Enforcement' is 'enabled' then the service will be marked as 'nonCompliant'.
     """
 
     COMPLIANT = "Compliant"
-    """Indicates that the search service is compliant, either because number of non customer encrypted
+    """Indicates that the search service is compliant, either because number of non-customer-encrypted
     #: resources is zero or enforcement is disabled."""
     NON_COMPLIANT = "NonCompliant"
-    """Indicates that the search service has more than 1 non customer encrypted resources."""
+    """Indicates that the search service has more than one non-customer-encrypted resources."""
 
 
 class SearchEncryptionWithCmk(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Describes how a search service should enforce having one or more non customer encrypted
+    """Describes how a search service should enforce having one or more non-customer-encrypted
     resources.
     """
 
     DISABLED = "Disabled"
-    """No enforcement will be made and the search service can have non customer encrypted resources."""
+    """No enforcement will be made and the search service can have non-customer-encrypted resources."""
     ENABLED = "Enabled"
-    """Search service will be marked as non-compliant if there are one or more non customer encrypted
+    """Search service will be marked as non-compliant if there are one or more non-customer-encrypted
     #: resources."""
     UNSPECIFIED = "Unspecified"
     """Enforcement policy is not explicitly specified, with the behavior being the same as if it were
@@ -145,19 +145,19 @@ class SearchEncryptionWithCmk(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class SearchSemanticSearch(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Sets options that control the availability of semantic search. This configuration is only
-    possible for certain Azure Cognitive Search SKUs in certain locations.
+    """Sets options that control the availability of semantic ranking. This configuration is only
+    possible for certain search SKUs in certain locations.
     """
 
     DISABLED = "disabled"
-    """Indicates that semantic search is disabled for the search service."""
+    """Indicates that semantic ranking is disabled for the search service."""
     FREE = "free"
-    """Enables semantic search on a search service and indicates that it is to be used within the
-    #: limits of the free tier. This would cap the volume of semantic search requests and is offered
+    """Enables semantic ranking on a search service and indicates that it is to be used within the
+    #: limits of the free tier. This would cap the volume of semantic ranking requests and is offered
     #: at no extra charge. This is the default for newly provisioned search services."""
     STANDARD = "standard"
-    """Enables semantic search on a search service as a billable feature, with higher throughput and
-    #: volume of semantic search queries."""
+    """Enables semantic ranking on a search service as a billable feature, with higher throughput and
+    #: volume of semantic ranking requests."""
 
 
 class SearchServiceStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -168,9 +168,9 @@ class SearchServiceStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     not healthy. The search service is most likely operational, but performance might be slow and
     some requests might be dropped. 'disabled': The search service is disabled. In this state, the
     service will reject all API requests. 'error': The search service is in an error state. If your
-    service is in the degraded, disabled, or error states, it means the Azure Cognitive Search team
-    is actively investigating the underlying issue. Dedicated services in these states are still
-    chargeable based on the number of search units provisioned.
+    service is in the degraded, disabled, or error states, Microsoft is actively investigating the
+    underlying issue. Dedicated services in these states are still chargeable based on the number
+    of search units provisioned.
     """
 
     RUNNING = "running"
@@ -197,8 +197,8 @@ class SharedPrivateLinkResourceAsyncOperationResult(str, Enum, metaclass=CaseIns
 
 
 class SharedPrivateLinkResourceProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The provisioning state of the shared private link resource. Can be Updating, Deleting, Failed,
-    Succeeded or Incomplete.
+    """The provisioning state of the shared private link resource. Valid values are Updating,
+    Deleting, Failed, Succeeded or Incomplete.
     """
 
     UPDATING = "Updating"
@@ -209,7 +209,9 @@ class SharedPrivateLinkResourceProvisioningState(str, Enum, metaclass=CaseInsens
 
 
 class SharedPrivateLinkResourceStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Status of the shared private link resource. Can be Pending, Approved, Rejected or Disconnected."""
+    """Status of the shared private link resource. Valid values are Pending, Approved, Rejected or
+    Disconnected.
+    """
 
     PENDING = "Pending"
     APPROVED = "Approved"
@@ -228,20 +230,20 @@ class SkuName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """
 
     FREE = "free"
-    """Free tier, with no SLA guarantees and a subset of features offered to paid tiers."""
+    """Free tier, with no SLA guarantees and a subset of the features offered on billable tiers."""
     BASIC = "basic"
-    """Paid tier dedicated service with up to 3 replicas."""
+    """Billable tier for a dedicated service having up to 3 replicas."""
     STANDARD = "standard"
-    """Paid tier dedicated service with up to 12 partitions and 12 replicas."""
+    """Billable tier for a dedicated service having up to 12 partitions and 12 replicas."""
     STANDARD2 = "standard2"
     """Similar to 'standard', but with more capacity per search unit."""
     STANDARD3 = "standard3"
     """The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions
     #: with more indexes if you also set the hostingMode property to 'highDensity')."""
     STORAGE_OPTIMIZED_L1 = "storage_optimized_l1"
-    """Paid tier dedicated service that supports 1TB per partition, up to 12 partitions."""
+    """Billable tier for a dedicated service that supports 1TB per partition, up to 12 partitions."""
     STORAGE_OPTIMIZED_L2 = "storage_optimized_l2"
-    """Paid tier dedicated service that supports 2TB per partition, up to 12 partitions."""
+    """Billable tier for a dedicated service that supports 2TB per partition, up to 12 partitions."""
 
 
 class UnavailableNameReason(str, Enum, metaclass=CaseInsensitiveEnumMeta):

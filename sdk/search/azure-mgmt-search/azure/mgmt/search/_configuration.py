@@ -28,7 +28,8 @@ class SearchManagementClientConfiguration(Configuration):  # pylint: disable=too
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
     :param subscription_id: The unique identifier for a Microsoft Azure subscription. You can
-     obtain this value from the Azure Resource Manager API or the portal. Required.
+     obtain this value from the Azure Resource Manager API, command line tools, or the portal.
+     Required.
     :type subscription_id: str
     :keyword api_version: Api Version. Default value is "2023-11-01". Note that overriding this
      default value may result in unsupported behavior.
