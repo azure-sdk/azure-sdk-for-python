@@ -111,43 +111,47 @@ class SecurityCenter:  # pylint: disable=client-accepts-api-version-keyword,too-
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
         self.server_vulnerability_assessment = ServerVulnerabilityAssessmentOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2020-01-01"
         )
         self.assessments_metadata = AssessmentsMetadataOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2020-01-01"
         )
-        self.assessments = AssessmentsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.assessments = AssessmentsOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2020-01-01"
+        )
         self.adaptive_application_controls = AdaptiveApplicationControlsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2020-01-01"
         )
         self.adaptive_network_hardenings = AdaptiveNetworkHardeningsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2020-01-01"
         )
         self.allowed_connections = AllowedConnectionsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2020-01-01"
         )
-        self.topology = TopologyOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.topology = TopologyOperations(self._client, self._config, self._serialize, self._deserialize, "2020-01-01")
         self.jit_network_access_policies = JitNetworkAccessPoliciesOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2020-01-01"
         )
         self.discovered_security_solutions = DiscoveredSecuritySolutionsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2020-01-01"
         )
         self.security_solutions_reference_data = SecuritySolutionsReferenceDataOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2020-01-01"
         )
         self.external_security_solutions = ExternalSecuritySolutionsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2020-01-01"
         )
-        self.secure_scores = SecureScoresOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.secure_scores = SecureScoresOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2020-01-01"
+        )
         self.secure_score_controls = SecureScoreControlsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2020-01-01"
         )
         self.secure_score_control_definitions = SecureScoreControlDefinitionsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2020-01-01"
         )
         self.security_solutions = SecuritySolutionsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2020-01-01"
         )
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> HttpResponse:
