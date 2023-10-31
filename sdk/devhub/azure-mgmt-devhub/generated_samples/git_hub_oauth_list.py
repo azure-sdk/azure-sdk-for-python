@@ -35,6 +35,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/GitHubOAuth_List.json
+# x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/stable/2023-08-01/examples/GitHubOAuth_List.json
 if __name__ == "__main__":
     main()
