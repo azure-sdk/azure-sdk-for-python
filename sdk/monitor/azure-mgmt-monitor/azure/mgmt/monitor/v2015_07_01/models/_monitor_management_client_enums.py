@@ -21,25 +21,6 @@ class AggregationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     TOTAL = "Total"
 
 
-class ConditionOperator(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Operators allowed in the rule condition."""
-
-    GREATER_THAN = "GreaterThan"
-    GREATER_THAN_OR_EQUAL = "GreaterThanOrEqual"
-    LESS_THAN = "LessThan"
-    LESS_THAN_OR_EQUAL = "LessThanOrEqual"
-
-
-class TimeAggregationOperator(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Aggregation operators allowed in a rule."""
-
-    AVERAGE = "Average"
-    MINIMUM = "Minimum"
-    MAXIMUM = "Maximum"
-    TOTAL = "Total"
-    LAST = "Last"
-
-
 class Unit(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """the unit of the metric."""
 
