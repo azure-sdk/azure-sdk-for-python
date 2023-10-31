@@ -6,73 +6,80 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._models_py3 import ACSSBackupConnection
+from ._models_py3 import ACSSBackupConnectionList
 from ._models_py3 import ApplicationServerConfiguration
 from ._models_py3 import ApplicationServerFullResourceNames
 from ._models_py3 import ApplicationServerVmDetails
+from ._models_py3 import AzureIaaSVMProtectionPolicy
+from ._models_py3 import AzureVmWorkloadProtectionPolicy
+from ._models_py3 import BackupData
 from ._models_py3 import CentralServerConfiguration
 from ._models_py3 import CentralServerFullResourceNames
 from ._models_py3 import CentralServerVmDetails
+from ._models_py3 import Connector
+from ._models_py3 import ConnectorErrorDefinition
+from ._models_py3 import ConnectorList
 from ._models_py3 import CreateAndMountFileShareConfiguration
-from ._models_py3 import DB2ProviderInstanceProperties
+from ._models_py3 import DBBackupPolicyProperties
+from ._models_py3 import DailyRetentionFormat
+from ._models_py3 import DailyRetentionSchedule
+from ._models_py3 import DailySchedule
 from ._models_py3 import DatabaseConfiguration
 from ._models_py3 import DatabaseServerFullResourceNames
 from ._models_py3 import DatabaseVmDetails
+from ._models_py3 import Day
 from ._models_py3 import DeployerVmPackages
 from ._models_py3 import DeploymentConfiguration
 from ._models_py3 import DeploymentWithOSConfiguration
 from ._models_py3 import DiscoveryConfiguration
 from ._models_py3 import DiskConfiguration
 from ._models_py3 import DiskDetails
+from ._models_py3 import DiskExclusionProperties
 from ._models_py3 import DiskSku
 from ._models_py3 import DiskVolumeConfiguration
 from ._models_py3 import EnqueueReplicationServerProperties
 from ._models_py3 import EnqueueServerProperties
-from ._models_py3 import Error
 from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorDefinition
 from ._models_py3 import ErrorDetail
-from ._models_py3 import ErrorInnerError
 from ._models_py3 import ErrorResponse
+from ._models_py3 import ExistingRecoveryServicesVault
 from ._models_py3 import ExternalInstallationSoftwareConfiguration
 from ._models_py3 import FileShareConfiguration
 from ._models_py3 import GatewayServerProperties
-from ._models_py3 import HanaDbProviderInstanceProperties
+from ._models_py3 import HanaBackupData
 from ._models_py3 import HighAvailabilityConfiguration
 from ._models_py3 import HighAvailabilitySoftwareConfiguration
+from ._models_py3 import HourlySchedule
 from ._models_py3 import ImageReference
 from ._models_py3 import InfrastructureConfiguration
+from ._models_py3 import InstantRPAdditionalDetails
 from ._models_py3 import LinuxConfiguration
 from ._models_py3 import LoadBalancerDetails
 from ._models_py3 import LoadBalancerResourceNames
+from ._models_py3 import LogSchedulePolicy
+from ._models_py3 import LongTermRetentionPolicy
+from ._models_py3 import LongTermSchedulePolicy
 from ._models_py3 import ManagedRGConfiguration
 from ._models_py3 import MessageServerProperties
-from ._models_py3 import Monitor
-from ._models_py3 import MonitorListResult
-from ._models_py3 import MonitorPropertiesErrors
+from ._models_py3 import MonthlyRetentionSchedule
 from ._models_py3 import MountFileShareConfiguration
-from ._models_py3 import MsSqlServerProviderInstanceProperties
 from ._models_py3 import NetworkConfiguration
 from ._models_py3 import NetworkInterfaceResourceNames
+from ._models_py3 import NewRecoveryServicesVault
 from ._models_py3 import OSConfiguration
 from ._models_py3 import OSProfile
 from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
 from ._models_py3 import OperationListResult
 from ._models_py3 import OperationStatusResult
-from ._models_py3 import OperationsContent
-from ._models_py3 import OperationsDefinition
-from ._models_py3 import OperationsDefinitionArrayResponseWithContinuation
-from ._models_py3 import OperationsDefinitionDisplay
-from ._models_py3 import OperationsDisplayDefinition
 from ._models_py3 import OsSapConfiguration
-from ._models_py3 import PrometheusHaClusterProviderInstanceProperties
-from ._models_py3 import PrometheusOSProviderInstanceProperties
-from ._models_py3 import ProviderInstance
-from ._models_py3 import ProviderInstanceListResult
-from ._models_py3 import ProviderInstancePropertiesErrors
-from ._models_py3 import ProviderSpecificProperties
-from ._models_py3 import ProxyResource
+from ._models_py3 import ProtectionPolicy
+from ._models_py3 import RecoveryServicesVaultProperties
 from ._models_py3 import Resource
+from ._models_py3 import RetentionDuration
+from ._models_py3 import RetentionPolicy
 from ._models_py3 import SAPApplicationServerInstance
 from ._models_py3 import SAPApplicationServerInstanceList
 from ._models_py3 import SAPAvailabilityZoneDetailsRequest
@@ -95,57 +102,78 @@ from ._models_py3 import SAPSupportedSkusRequest
 from ._models_py3 import SAPVirtualInstance
 from ._models_py3 import SAPVirtualInstanceError
 from ._models_py3 import SAPVirtualInstanceList
-from ._models_py3 import SapLandscapeMonitor
-from ._models_py3 import SapLandscapeMonitorListResult
-from ._models_py3 import SapLandscapeMonitorMetricThresholds
-from ._models_py3 import SapLandscapeMonitorPropertiesGrouping
-from ._models_py3 import SapLandscapeMonitorSidMapping
-from ._models_py3 import SapNetWeaverProviderInstanceProperties
+from ._models_py3 import SSLConfiguration
+from ._models_py3 import SchedulePolicy
 from ._models_py3 import ServiceInitiatedSoftwareConfiguration
+from ._models_py3 import Settings
 from ._models_py3 import SharedStorageResourceNames
+from ._models_py3 import SimpleRetentionPolicy
+from ._models_py3 import SimpleSchedulePolicy
+from ._models_py3 import SimpleSchedulePolicyV2
 from ._models_py3 import SingleServerConfiguration
 from ._models_py3 import SingleServerCustomResourceNames
 from ._models_py3 import SingleServerFullResourceNames
 from ._models_py3 import SingleServerRecommendationResult
 from ._models_py3 import SkipFileShareConfiguration
+from ._models_py3 import SnapshotBackupAdditionalDetails
 from ._models_py3 import SoftwareConfiguration
+from ._models_py3 import SqlBackupData
 from ._models_py3 import SshConfiguration
 from ._models_py3 import SshKeyPair
 from ._models_py3 import SshPublicKey
+from ._models_py3 import StartRequest
 from ._models_py3 import StopRequest
 from ._models_py3 import StorageConfiguration
 from ._models_py3 import StorageInformation
+from ._models_py3 import SubProtectionPolicy
 from ._models_py3 import SystemData
-from ._models_py3 import Tags
 from ._models_py3 import ThreeTierConfiguration
 from ._models_py3 import ThreeTierCustomResourceNames
 from ._models_py3 import ThreeTierFullResourceNames
 from ._models_py3 import ThreeTierRecommendationResult
+from ._models_py3 import TieringPolicy
 from ._models_py3 import TrackedResource
-from ._models_py3 import UpdateMonitorRequest
+from ._models_py3 import UpdateACSSBackupConnectionRequest
+from ._models_py3 import UpdateConnectorRequest
 from ._models_py3 import UpdateSAPApplicationInstanceRequest
 from ._models_py3 import UpdateSAPCentralInstanceRequest
 from ._models_py3 import UpdateSAPDatabaseInstanceRequest
+from ._models_py3 import UpdateSAPVirtualInstanceProperties
 from ._models_py3 import UpdateSAPVirtualInstanceRequest
 from ._models_py3 import UserAssignedIdentity
+from ._models_py3 import UserAssignedIdentityProperties
+from ._models_py3 import UserAssignedManagedIdentityDetails
 from ._models_py3 import UserAssignedServiceIdentity
+from ._models_py3 import VMBackupData
+from ._models_py3 import VMBackupPolicyProperties
 from ._models_py3 import VirtualMachineConfiguration
 from ._models_py3 import VirtualMachineResourceNames
+from ._models_py3 import WeeklyRetentionFormat
+from ._models_py3 import WeeklyRetentionSchedule
+from ._models_py3 import WeeklySchedule
 from ._models_py3 import WindowsConfiguration
+from ._models_py3 import YearlyRetentionSchedule
 
 from ._workloads_mgmt_client_enums import ActionType
 from ._workloads_mgmt_client_enums import ApplicationServerVirtualMachineType
+from ._workloads_mgmt_client_enums import BackupType
 from ._workloads_mgmt_client_enums import CentralServerVirtualMachineType
 from ._workloads_mgmt_client_enums import ConfigurationType
+from ._workloads_mgmt_client_enums import ConnectorProvisioningState
 from ._workloads_mgmt_client_enums import CreatedByType
+from ._workloads_mgmt_client_enums import DayOfWeek
 from ._workloads_mgmt_client_enums import DiskSkuName
 from ._workloads_mgmt_client_enums import EnqueueReplicationServerType
+from ._workloads_mgmt_client_enums import IAASVMPolicyType
+from ._workloads_mgmt_client_enums import ManagedResourcesNetworkAccessType
 from ._workloads_mgmt_client_enums import ManagedServiceIdentityType
+from ._workloads_mgmt_client_enums import MonthOfYear
 from ._workloads_mgmt_client_enums import NamingPatternType
 from ._workloads_mgmt_client_enums import OSType
-from ._workloads_mgmt_client_enums import OperationProperties
 from ._workloads_mgmt_client_enums import Origin
-from ._workloads_mgmt_client_enums import RoutingPreference
+from ._workloads_mgmt_client_enums import PolicyType
+from ._workloads_mgmt_client_enums import RetentionDurationType
+from ._workloads_mgmt_client_enums import RetentionScheduleFormat
 from ._workloads_mgmt_client_enums import SAPConfigurationType
 from ._workloads_mgmt_client_enums import SAPDatabaseScaleMethod
 from ._workloads_mgmt_client_enums import SAPDatabaseType
@@ -157,83 +185,92 @@ from ._workloads_mgmt_client_enums import SAPProductType
 from ._workloads_mgmt_client_enums import SAPSoftwareInstallationType
 from ._workloads_mgmt_client_enums import SAPVirtualInstanceState
 from ._workloads_mgmt_client_enums import SAPVirtualInstanceStatus
-from ._workloads_mgmt_client_enums import SapLandscapeMonitorProvisioningState
 from ._workloads_mgmt_client_enums import SapVirtualInstanceProvisioningState
-from ._workloads_mgmt_client_enums import SslPreference
-from ._workloads_mgmt_client_enums import WorkloadMonitorActionType
-from ._workloads_mgmt_client_enums import WorkloadMonitorProvisioningState
+from ._workloads_mgmt_client_enums import ScheduleRunType
+from ._workloads_mgmt_client_enums import SslCryptoProvider
+from ._workloads_mgmt_client_enums import TieringMode
+from ._workloads_mgmt_client_enums import VaultType
+from ._workloads_mgmt_client_enums import WeekOfMonth
+from ._workloads_mgmt_client_enums import WorkloadType
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "ACSSBackupConnection",
+    "ACSSBackupConnectionList",
     "ApplicationServerConfiguration",
     "ApplicationServerFullResourceNames",
     "ApplicationServerVmDetails",
+    "AzureIaaSVMProtectionPolicy",
+    "AzureVmWorkloadProtectionPolicy",
+    "BackupData",
     "CentralServerConfiguration",
     "CentralServerFullResourceNames",
     "CentralServerVmDetails",
+    "Connector",
+    "ConnectorErrorDefinition",
+    "ConnectorList",
     "CreateAndMountFileShareConfiguration",
-    "DB2ProviderInstanceProperties",
+    "DBBackupPolicyProperties",
+    "DailyRetentionFormat",
+    "DailyRetentionSchedule",
+    "DailySchedule",
     "DatabaseConfiguration",
     "DatabaseServerFullResourceNames",
     "DatabaseVmDetails",
+    "Day",
     "DeployerVmPackages",
     "DeploymentConfiguration",
     "DeploymentWithOSConfiguration",
     "DiscoveryConfiguration",
     "DiskConfiguration",
     "DiskDetails",
+    "DiskExclusionProperties",
     "DiskSku",
     "DiskVolumeConfiguration",
     "EnqueueReplicationServerProperties",
     "EnqueueServerProperties",
-    "Error",
     "ErrorAdditionalInfo",
     "ErrorDefinition",
     "ErrorDetail",
-    "ErrorInnerError",
     "ErrorResponse",
+    "ExistingRecoveryServicesVault",
     "ExternalInstallationSoftwareConfiguration",
     "FileShareConfiguration",
     "GatewayServerProperties",
-    "HanaDbProviderInstanceProperties",
+    "HanaBackupData",
     "HighAvailabilityConfiguration",
     "HighAvailabilitySoftwareConfiguration",
+    "HourlySchedule",
     "ImageReference",
     "InfrastructureConfiguration",
+    "InstantRPAdditionalDetails",
     "LinuxConfiguration",
     "LoadBalancerDetails",
     "LoadBalancerResourceNames",
+    "LogSchedulePolicy",
+    "LongTermRetentionPolicy",
+    "LongTermSchedulePolicy",
     "ManagedRGConfiguration",
     "MessageServerProperties",
-    "Monitor",
-    "MonitorListResult",
-    "MonitorPropertiesErrors",
+    "MonthlyRetentionSchedule",
     "MountFileShareConfiguration",
-    "MsSqlServerProviderInstanceProperties",
     "NetworkConfiguration",
     "NetworkInterfaceResourceNames",
+    "NewRecoveryServicesVault",
     "OSConfiguration",
     "OSProfile",
     "Operation",
     "OperationDisplay",
     "OperationListResult",
     "OperationStatusResult",
-    "OperationsContent",
-    "OperationsDefinition",
-    "OperationsDefinitionArrayResponseWithContinuation",
-    "OperationsDefinitionDisplay",
-    "OperationsDisplayDefinition",
     "OsSapConfiguration",
-    "PrometheusHaClusterProviderInstanceProperties",
-    "PrometheusOSProviderInstanceProperties",
-    "ProviderInstance",
-    "ProviderInstanceListResult",
-    "ProviderInstancePropertiesErrors",
-    "ProviderSpecificProperties",
-    "ProxyResource",
+    "ProtectionPolicy",
+    "RecoveryServicesVaultProperties",
     "Resource",
+    "RetentionDuration",
+    "RetentionPolicy",
     "SAPApplicationServerInstance",
     "SAPApplicationServerInstanceList",
     "SAPAvailabilityZoneDetailsRequest",
@@ -256,56 +293,77 @@ __all__ = [
     "SAPVirtualInstance",
     "SAPVirtualInstanceError",
     "SAPVirtualInstanceList",
-    "SapLandscapeMonitor",
-    "SapLandscapeMonitorListResult",
-    "SapLandscapeMonitorMetricThresholds",
-    "SapLandscapeMonitorPropertiesGrouping",
-    "SapLandscapeMonitorSidMapping",
-    "SapNetWeaverProviderInstanceProperties",
+    "SSLConfiguration",
+    "SchedulePolicy",
     "ServiceInitiatedSoftwareConfiguration",
+    "Settings",
     "SharedStorageResourceNames",
+    "SimpleRetentionPolicy",
+    "SimpleSchedulePolicy",
+    "SimpleSchedulePolicyV2",
     "SingleServerConfiguration",
     "SingleServerCustomResourceNames",
     "SingleServerFullResourceNames",
     "SingleServerRecommendationResult",
     "SkipFileShareConfiguration",
+    "SnapshotBackupAdditionalDetails",
     "SoftwareConfiguration",
+    "SqlBackupData",
     "SshConfiguration",
     "SshKeyPair",
     "SshPublicKey",
+    "StartRequest",
     "StopRequest",
     "StorageConfiguration",
     "StorageInformation",
+    "SubProtectionPolicy",
     "SystemData",
-    "Tags",
     "ThreeTierConfiguration",
     "ThreeTierCustomResourceNames",
     "ThreeTierFullResourceNames",
     "ThreeTierRecommendationResult",
+    "TieringPolicy",
     "TrackedResource",
-    "UpdateMonitorRequest",
+    "UpdateACSSBackupConnectionRequest",
+    "UpdateConnectorRequest",
     "UpdateSAPApplicationInstanceRequest",
     "UpdateSAPCentralInstanceRequest",
     "UpdateSAPDatabaseInstanceRequest",
+    "UpdateSAPVirtualInstanceProperties",
     "UpdateSAPVirtualInstanceRequest",
     "UserAssignedIdentity",
+    "UserAssignedIdentityProperties",
+    "UserAssignedManagedIdentityDetails",
     "UserAssignedServiceIdentity",
+    "VMBackupData",
+    "VMBackupPolicyProperties",
     "VirtualMachineConfiguration",
     "VirtualMachineResourceNames",
+    "WeeklyRetentionFormat",
+    "WeeklyRetentionSchedule",
+    "WeeklySchedule",
     "WindowsConfiguration",
+    "YearlyRetentionSchedule",
     "ActionType",
     "ApplicationServerVirtualMachineType",
+    "BackupType",
     "CentralServerVirtualMachineType",
     "ConfigurationType",
+    "ConnectorProvisioningState",
     "CreatedByType",
+    "DayOfWeek",
     "DiskSkuName",
     "EnqueueReplicationServerType",
+    "IAASVMPolicyType",
+    "ManagedResourcesNetworkAccessType",
     "ManagedServiceIdentityType",
+    "MonthOfYear",
     "NamingPatternType",
     "OSType",
-    "OperationProperties",
     "Origin",
-    "RoutingPreference",
+    "PolicyType",
+    "RetentionDurationType",
+    "RetentionScheduleFormat",
     "SAPConfigurationType",
     "SAPDatabaseScaleMethod",
     "SAPDatabaseType",
@@ -317,11 +375,13 @@ __all__ = [
     "SAPSoftwareInstallationType",
     "SAPVirtualInstanceState",
     "SAPVirtualInstanceStatus",
-    "SapLandscapeMonitorProvisioningState",
     "SapVirtualInstanceProvisioningState",
-    "SslPreference",
-    "WorkloadMonitorActionType",
-    "WorkloadMonitorProvisioningState",
+    "ScheduleRunType",
+    "SslCryptoProvider",
+    "TieringMode",
+    "VaultType",
+    "WeekOfMonth",
+    "WorkloadType",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()

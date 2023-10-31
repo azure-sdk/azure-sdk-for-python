@@ -17,6 +17,215 @@ if TYPE_CHECKING:
     from .. import models as _models
 
 
+class Resource(_serialization.Model):
+    """Common fields that are returned in the response for all Azure Resource Manager resources.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.workloads.models.SystemData
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.id = None
+        self.name = None
+        self.type = None
+        self.system_data = None
+
+
+class TrackedResource(Resource):
+    """The resource model definition for an Azure Resource Manager tracked top level resource which
+    has 'tags' and a 'location'.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.workloads.models.SystemData
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "location": {"required": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+    }
+
+    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
+        """
+        super().__init__(**kwargs)
+        self.tags = tags
+        self.location = location
+
+
+class ACSSBackupConnection(TrackedResource):
+    """Define the backup connection resource of virtual instance for SAP..
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.workloads.models.SystemData
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar backup_data: Information about the recovery services vault and backup policy used for
+     backup.
+    :vartype backup_data: ~azure.mgmt.workloads.models.BackupData
+    :ivar provisioning_state: Defines the provisioning states. Known values are: "Succeeded",
+     "Updating", "Creating", "Failed", "Deleting", and "Canceled".
+    :vartype provisioning_state: str or ~azure.mgmt.workloads.models.ConnectorProvisioningState
+    :ivar errors: Defines the errors related to backup connection resource of virtual instance for
+     SAP.
+    :vartype errors: ~azure.mgmt.workloads.models.ConnectorErrorDefinition
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "location": {"required": True},
+        "provisioning_state": {"readonly": True},
+        "errors": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "backup_data": {"key": "properties.backupData", "type": "BackupData"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "errors": {"key": "properties.errors", "type": "ConnectorErrorDefinition"},
+    }
+
+    def __init__(
+        self,
+        *,
+        location: str,
+        tags: Optional[Dict[str, str]] = None,
+        backup_data: Optional["_models.BackupData"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
+        :keyword backup_data: Information about the recovery services vault and backup policy used for
+         backup.
+        :paramtype backup_data: ~azure.mgmt.workloads.models.BackupData
+        """
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.backup_data = backup_data
+        self.provisioning_state = None
+        self.errors = None
+
+
+class ACSSBackupConnectionList(_serialization.Model):
+    """Defines the collection of backup connection resources of virtual instances for SAP.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar value: Gets the list of backup connection resources of virtual instances for SAP.
+     Required.
+    :vartype value: list[~azure.mgmt.workloads.models.ACSSBackupConnection]
+    :ivar next_link: Gets the value of next link.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[ACSSBackupConnection]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: List["_models.ACSSBackupConnection"], next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: Gets the list of backup connection resources of virtual instances for SAP.
+         Required.
+        :paramtype value: list[~azure.mgmt.workloads.models.ACSSBackupConnection]
+        :keyword next_link: Gets the value of next link.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
 class ApplicationServerConfiguration(_serialization.Model):
     """Gets or sets the application server configuration.
 
@@ -135,6 +344,278 @@ class ApplicationServerVmDetails(_serialization.Model):
         self.type = None
         self.virtual_machine_id = None
         self.storage_details = None
+
+
+class ProtectionPolicy(_serialization.Model):
+    """Base class for backup policy. Workload-specific backup policies are derived from this class.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    AzureIaaSVMProtectionPolicy, AzureVmWorkloadProtectionPolicy
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar protected_items_count: Number of items associated with this policy.
+    :vartype protected_items_count: int
+    :ivar backup_management_type: This property will be used as the discriminator for deciding the
+     specific types in the polymorphic chain of types. Required.
+    :vartype backup_management_type: str
+    :ivar resource_guard_operation_requests: ResourceGuard Operation Requests.
+    :vartype resource_guard_operation_requests: list[str]
+    """
+
+    _validation = {
+        "backup_management_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "protected_items_count": {"key": "protectedItemsCount", "type": "int"},
+        "backup_management_type": {"key": "backupManagementType", "type": "str"},
+        "resource_guard_operation_requests": {"key": "resourceGuardOperationRequests", "type": "[str]"},
+    }
+
+    _subtype_map = {
+        "backup_management_type": {
+            "AzureIaasVM": "AzureIaaSVMProtectionPolicy",
+            "AzureWorkload": "AzureVmWorkloadProtectionPolicy",
+        }
+    }
+
+    def __init__(
+        self,
+        *,
+        protected_items_count: Optional[int] = None,
+        resource_guard_operation_requests: Optional[List[str]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword protected_items_count: Number of items associated with this policy.
+        :paramtype protected_items_count: int
+        :keyword resource_guard_operation_requests: ResourceGuard Operation Requests.
+        :paramtype resource_guard_operation_requests: list[str]
+        """
+        super().__init__(**kwargs)
+        self.protected_items_count = protected_items_count
+        self.backup_management_type: Optional[str] = None
+        self.resource_guard_operation_requests = resource_guard_operation_requests
+
+
+class AzureIaaSVMProtectionPolicy(ProtectionPolicy):
+    """IaaS VM workload-specific backup policy.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar protected_items_count: Number of items associated with this policy.
+    :vartype protected_items_count: int
+    :ivar backup_management_type: This property will be used as the discriminator for deciding the
+     specific types in the polymorphic chain of types. Required.
+    :vartype backup_management_type: str
+    :ivar resource_guard_operation_requests: ResourceGuard Operation Requests.
+    :vartype resource_guard_operation_requests: list[str]
+    :ivar instant_rp_details: Instant recovery point additional details.
+    :vartype instant_rp_details: ~azure.mgmt.workloads.models.InstantRPAdditionalDetails
+    :ivar schedule_policy: Backup schedule specified as part of backup policy.
+    :vartype schedule_policy: ~azure.mgmt.workloads.models.SchedulePolicy
+    :ivar retention_policy: Retention policy with the details on backup copy retention ranges.
+    :vartype retention_policy: ~azure.mgmt.workloads.models.RetentionPolicy
+    :ivar tiering_policy: Tiering policy to automatically move RPs to another tier
+     Key is Target Tier, defined in RecoveryPointTierType enum.
+     Tiering policy specifies the criteria to move RP to the target tier.
+    :vartype tiering_policy: dict[str, ~azure.mgmt.workloads.models.TieringPolicy]
+    :ivar instant_rp_retention_range_in_days: Instant RP retention policy range in days.
+    :vartype instant_rp_retention_range_in_days: int
+    :ivar time_zone: Time zone optional input as string. For example: "Pacific Standard Time".
+    :vartype time_zone: str
+    :ivar policy_type: The policy type. Known values are: "Invalid", "V1", and "V2".
+    :vartype policy_type: str or ~azure.mgmt.workloads.models.IAASVMPolicyType
+    """
+
+    _validation = {
+        "backup_management_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "protected_items_count": {"key": "protectedItemsCount", "type": "int"},
+        "backup_management_type": {"key": "backupManagementType", "type": "str"},
+        "resource_guard_operation_requests": {"key": "resourceGuardOperationRequests", "type": "[str]"},
+        "instant_rp_details": {"key": "instantRPDetails", "type": "InstantRPAdditionalDetails"},
+        "schedule_policy": {"key": "schedulePolicy", "type": "SchedulePolicy"},
+        "retention_policy": {"key": "retentionPolicy", "type": "RetentionPolicy"},
+        "tiering_policy": {"key": "tieringPolicy", "type": "{TieringPolicy}"},
+        "instant_rp_retention_range_in_days": {"key": "instantRpRetentionRangeInDays", "type": "int"},
+        "time_zone": {"key": "timeZone", "type": "str"},
+        "policy_type": {"key": "policyType", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        protected_items_count: Optional[int] = None,
+        resource_guard_operation_requests: Optional[List[str]] = None,
+        instant_rp_details: Optional["_models.InstantRPAdditionalDetails"] = None,
+        schedule_policy: Optional["_models.SchedulePolicy"] = None,
+        retention_policy: Optional["_models.RetentionPolicy"] = None,
+        tiering_policy: Optional[Dict[str, "_models.TieringPolicy"]] = None,
+        instant_rp_retention_range_in_days: Optional[int] = None,
+        time_zone: Optional[str] = None,
+        policy_type: Optional[Union[str, "_models.IAASVMPolicyType"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword protected_items_count: Number of items associated with this policy.
+        :paramtype protected_items_count: int
+        :keyword resource_guard_operation_requests: ResourceGuard Operation Requests.
+        :paramtype resource_guard_operation_requests: list[str]
+        :keyword instant_rp_details: Instant recovery point additional details.
+        :paramtype instant_rp_details: ~azure.mgmt.workloads.models.InstantRPAdditionalDetails
+        :keyword schedule_policy: Backup schedule specified as part of backup policy.
+        :paramtype schedule_policy: ~azure.mgmt.workloads.models.SchedulePolicy
+        :keyword retention_policy: Retention policy with the details on backup copy retention ranges.
+        :paramtype retention_policy: ~azure.mgmt.workloads.models.RetentionPolicy
+        :keyword tiering_policy: Tiering policy to automatically move RPs to another tier
+         Key is Target Tier, defined in RecoveryPointTierType enum.
+         Tiering policy specifies the criteria to move RP to the target tier.
+        :paramtype tiering_policy: dict[str, ~azure.mgmt.workloads.models.TieringPolicy]
+        :keyword instant_rp_retention_range_in_days: Instant RP retention policy range in days.
+        :paramtype instant_rp_retention_range_in_days: int
+        :keyword time_zone: Time zone optional input as string. For example: "Pacific Standard Time".
+        :paramtype time_zone: str
+        :keyword policy_type: The policy type. Known values are: "Invalid", "V1", and "V2".
+        :paramtype policy_type: str or ~azure.mgmt.workloads.models.IAASVMPolicyType
+        """
+        super().__init__(
+            protected_items_count=protected_items_count,
+            resource_guard_operation_requests=resource_guard_operation_requests,
+            **kwargs
+        )
+        self.backup_management_type: str = "AzureIaasVM"
+        self.instant_rp_details = instant_rp_details
+        self.schedule_policy = schedule_policy
+        self.retention_policy = retention_policy
+        self.tiering_policy = tiering_policy
+        self.instant_rp_retention_range_in_days = instant_rp_retention_range_in_days
+        self.time_zone = time_zone
+        self.policy_type = policy_type
+
+
+class AzureVmWorkloadProtectionPolicy(ProtectionPolicy):
+    """Azure VM (Mercury) workload-specific backup policy.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar protected_items_count: Number of items associated with this policy.
+    :vartype protected_items_count: int
+    :ivar backup_management_type: This property will be used as the discriminator for deciding the
+     specific types in the polymorphic chain of types. Required.
+    :vartype backup_management_type: str
+    :ivar resource_guard_operation_requests: ResourceGuard Operation Requests.
+    :vartype resource_guard_operation_requests: list[str]
+    :ivar work_load_type: Type of workload for the backup management. Known values are: "Invalid",
+     "VM", "FileFolder", "AzureSqlDb", "SQLDB", "Exchange", "Sharepoint", "VMwareVM", "SystemState",
+     "Client", "GenericDataSource", "SQLDataBase", "AzureFileShare", "SAPHanaDatabase",
+     "SAPAseDatabase", and "SAPHanaDBInstance".
+    :vartype work_load_type: str or ~azure.mgmt.workloads.models.WorkloadType
+    :ivar settings: Common settings for the backup management.
+    :vartype settings: ~azure.mgmt.workloads.models.Settings
+    :ivar sub_protection_policy: List of sub-protection policies which includes schedule and
+     retention.
+    :vartype sub_protection_policy: list[~azure.mgmt.workloads.models.SubProtectionPolicy]
+    :ivar make_policy_consistent: Fix the policy inconsistency.
+    :vartype make_policy_consistent: bool
+    """
+
+    _validation = {
+        "backup_management_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "protected_items_count": {"key": "protectedItemsCount", "type": "int"},
+        "backup_management_type": {"key": "backupManagementType", "type": "str"},
+        "resource_guard_operation_requests": {"key": "resourceGuardOperationRequests", "type": "[str]"},
+        "work_load_type": {"key": "workLoadType", "type": "str"},
+        "settings": {"key": "settings", "type": "Settings"},
+        "sub_protection_policy": {"key": "subProtectionPolicy", "type": "[SubProtectionPolicy]"},
+        "make_policy_consistent": {"key": "makePolicyConsistent", "type": "bool"},
+    }
+
+    def __init__(
+        self,
+        *,
+        protected_items_count: Optional[int] = None,
+        resource_guard_operation_requests: Optional[List[str]] = None,
+        work_load_type: Optional[Union[str, "_models.WorkloadType"]] = None,
+        settings: Optional["_models.Settings"] = None,
+        sub_protection_policy: Optional[List["_models.SubProtectionPolicy"]] = None,
+        make_policy_consistent: Optional[bool] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword protected_items_count: Number of items associated with this policy.
+        :paramtype protected_items_count: int
+        :keyword resource_guard_operation_requests: ResourceGuard Operation Requests.
+        :paramtype resource_guard_operation_requests: list[str]
+        :keyword work_load_type: Type of workload for the backup management. Known values are:
+         "Invalid", "VM", "FileFolder", "AzureSqlDb", "SQLDB", "Exchange", "Sharepoint", "VMwareVM",
+         "SystemState", "Client", "GenericDataSource", "SQLDataBase", "AzureFileShare",
+         "SAPHanaDatabase", "SAPAseDatabase", and "SAPHanaDBInstance".
+        :paramtype work_load_type: str or ~azure.mgmt.workloads.models.WorkloadType
+        :keyword settings: Common settings for the backup management.
+        :paramtype settings: ~azure.mgmt.workloads.models.Settings
+        :keyword sub_protection_policy: List of sub-protection policies which includes schedule and
+         retention.
+        :paramtype sub_protection_policy: list[~azure.mgmt.workloads.models.SubProtectionPolicy]
+        :keyword make_policy_consistent: Fix the policy inconsistency.
+        :paramtype make_policy_consistent: bool
+        """
+        super().__init__(
+            protected_items_count=protected_items_count,
+            resource_guard_operation_requests=resource_guard_operation_requests,
+            **kwargs
+        )
+        self.backup_management_type: str = "AzureWorkload"
+        self.work_load_type = work_load_type
+        self.settings = settings
+        self.sub_protection_policy = sub_protection_policy
+        self.make_policy_consistent = make_policy_consistent
+
+
+class BackupData(_serialization.Model):
+    """Information about the recovery services vault and backup policy used for backup.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    HanaBackupData, SqlBackupData, VMBackupData
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar backup_type: The type of backup, VM, SQL or HANA. Required. Known values are: "VM",
+     "SQL", and "HANA".
+    :vartype backup_type: str or ~azure.mgmt.workloads.models.BackupType
+    :ivar recovery_services_vault: The properties of the recovery services vault used for backup.
+     Required.
+    :vartype recovery_services_vault: ~azure.mgmt.workloads.models.RecoveryServicesVaultProperties
+    """
+
+    _validation = {
+        "backup_type": {"required": True},
+        "recovery_services_vault": {"required": True},
+    }
+
+    _attribute_map = {
+        "backup_type": {"key": "backupType", "type": "str"},
+        "recovery_services_vault": {"key": "recoveryServicesVault", "type": "RecoveryServicesVaultProperties"},
+    }
+
+    _subtype_map = {"backup_type": {"HANA": "HanaBackupData", "SQL": "SqlBackupData", "VM": "VMBackupData"}}
+
+    def __init__(self, *, recovery_services_vault: "_models.RecoveryServicesVaultProperties", **kwargs: Any) -> None:
+        """
+        :keyword recovery_services_vault: The properties of the recovery services vault used for
+         backup. Required.
+        :paramtype recovery_services_vault:
+         ~azure.mgmt.workloads.models.RecoveryServicesVaultProperties
+        """
+        super().__init__(**kwargs)
+        self.backup_type: Optional[str] = None
+        self.recovery_services_vault = recovery_services_vault
 
 
 class CentralServerConfiguration(_serialization.Model):
@@ -271,6 +752,166 @@ class CentralServerVmDetails(_serialization.Model):
         self.storage_details = None
 
 
+class Connector(TrackedResource):  # pylint: disable=too-many-instance-attributes
+    """Define the connector resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.workloads.models.SystemData
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar identity: Managed service identity (user assigned identities).
+    :vartype identity: ~azure.mgmt.workloads.models.UserAssignedServiceIdentity
+    :ivar source_resource_id: Defines the ID of the connector's source resource. Required.
+    :vartype source_resource_id: str
+    :ivar provisioning_state: Defines the provisioning states. Known values are: "Succeeded",
+     "Updating", "Creating", "Failed", "Deleting", and "Canceled".
+    :vartype provisioning_state: str or ~azure.mgmt.workloads.models.ConnectorProvisioningState
+    :ivar errors: Indicates any errors on the connector resource.
+    :vartype errors: ~azure.mgmt.workloads.models.ConnectorErrorDefinition
+    :ivar managed_resource_group_configuration: Managed resource group configuration.
+    :vartype managed_resource_group_configuration:
+     ~azure.mgmt.workloads.models.ManagedRGConfiguration
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "location": {"required": True},
+        "source_resource_id": {"required": True},
+        "provisioning_state": {"readonly": True},
+        "errors": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "identity": {"key": "identity", "type": "UserAssignedServiceIdentity"},
+        "source_resource_id": {"key": "properties.sourceResourceId", "type": "str"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "errors": {"key": "properties.errors", "type": "ConnectorErrorDefinition"},
+        "managed_resource_group_configuration": {
+            "key": "properties.managedResourceGroupConfiguration",
+            "type": "ManagedRGConfiguration",
+        },
+    }
+
+    def __init__(
+        self,
+        *,
+        location: str,
+        source_resource_id: str,
+        tags: Optional[Dict[str, str]] = None,
+        identity: Optional["_models.UserAssignedServiceIdentity"] = None,
+        managed_resource_group_configuration: Optional["_models.ManagedRGConfiguration"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
+        :keyword identity: Managed service identity (user assigned identities).
+        :paramtype identity: ~azure.mgmt.workloads.models.UserAssignedServiceIdentity
+        :keyword source_resource_id: Defines the ID of the connector's source resource. Required.
+        :paramtype source_resource_id: str
+        :keyword managed_resource_group_configuration: Managed resource group configuration.
+        :paramtype managed_resource_group_configuration:
+         ~azure.mgmt.workloads.models.ManagedRGConfiguration
+        """
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.identity = identity
+        self.source_resource_id = source_resource_id
+        self.provisioning_state = None
+        self.errors = None
+        self.managed_resource_group_configuration = managed_resource_group_configuration
+
+
+class ConnectorErrorDefinition(_serialization.Model):
+    """Error definition.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar code: Service specific error code which serves as the substatus for the HTTP error code.
+    :vartype code: str
+    :ivar message: Description of the error.
+    :vartype message: str
+    :ivar details: Internal error details.
+    :vartype details: list[~azure.mgmt.workloads.models.ConnectorErrorDefinition]
+    """
+
+    _validation = {
+        "code": {"readonly": True},
+        "message": {"readonly": True},
+        "details": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "code": {"key": "code", "type": "str"},
+        "message": {"key": "message", "type": "str"},
+        "details": {"key": "details", "type": "[ConnectorErrorDefinition]"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.code = None
+        self.message = None
+        self.details = None
+
+
+class ConnectorList(_serialization.Model):
+    """Defines the collection of connector resources.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar value: Gets the list of connector resources. Required.
+    :vartype value: list[~azure.mgmt.workloads.models.Connector]
+    :ivar next_link: Gets the value of next link.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[Connector]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, *, value: List["_models.Connector"], next_link: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword value: Gets the list of connector resources. Required.
+        :paramtype value: list[~azure.mgmt.workloads.models.Connector]
+        :keyword next_link: Gets the value of next link.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
 class FileShareConfiguration(_serialization.Model):
     """File Share configuration details, populated with information on storage configuration mounted
     on the VIS. The createAndMount option is selected in case of missing input.
@@ -311,7 +952,7 @@ class CreateAndMountFileShareConfiguration(FileShareConfiguration):
     """Gets or sets the file share configuration where the transport directory fileshare is created
     and mounted as a part of the create infra flow. Please pre-create the resource group you intend
     to place the transport directory in. The storage account and fileshare will be auto-created by
-    the ACSS and doesn’t need to pre-created.
+    the ACSS and doesn't need to be pre-created.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -351,6 +992,78 @@ class CreateAndMountFileShareConfiguration(FileShareConfiguration):
         self.configuration_type: str = "CreateAndMount"
         self.resource_group = resource_group
         self.storage_account_name = storage_account_name
+
+
+class DailyRetentionFormat(_serialization.Model):
+    """Daily retention format.
+
+    :ivar days_of_the_month: List of days of the month.
+    :vartype days_of_the_month: list[~azure.mgmt.workloads.models.Day]
+    """
+
+    _attribute_map = {
+        "days_of_the_month": {"key": "daysOfTheMonth", "type": "[Day]"},
+    }
+
+    def __init__(self, *, days_of_the_month: Optional[List["_models.Day"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword days_of_the_month: List of days of the month.
+        :paramtype days_of_the_month: list[~azure.mgmt.workloads.models.Day]
+        """
+        super().__init__(**kwargs)
+        self.days_of_the_month = days_of_the_month
+
+
+class DailyRetentionSchedule(_serialization.Model):
+    """Daily retention schedule.
+
+    :ivar retention_times: Retention times of retention policy.
+    :vartype retention_times: list[~datetime.datetime]
+    :ivar retention_duration: Retention duration of retention Policy.
+    :vartype retention_duration: ~azure.mgmt.workloads.models.RetentionDuration
+    """
+
+    _attribute_map = {
+        "retention_times": {"key": "retentionTimes", "type": "[iso-8601]"},
+        "retention_duration": {"key": "retentionDuration", "type": "RetentionDuration"},
+    }
+
+    def __init__(
+        self,
+        *,
+        retention_times: Optional[List[datetime.datetime]] = None,
+        retention_duration: Optional["_models.RetentionDuration"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword retention_times: Retention times of retention policy.
+        :paramtype retention_times: list[~datetime.datetime]
+        :keyword retention_duration: Retention duration of retention Policy.
+        :paramtype retention_duration: ~azure.mgmt.workloads.models.RetentionDuration
+        """
+        super().__init__(**kwargs)
+        self.retention_times = retention_times
+        self.retention_duration = retention_duration
+
+
+class DailySchedule(_serialization.Model):
+    """Daily schedule.
+
+    :ivar schedule_run_times: List of times of day this schedule has to be run.
+    :vartype schedule_run_times: list[~datetime.datetime]
+    """
+
+    _attribute_map = {
+        "schedule_run_times": {"key": "scheduleRunTimes", "type": "[iso-8601]"},
+    }
+
+    def __init__(self, *, schedule_run_times: Optional[List[datetime.datetime]] = None, **kwargs: Any) -> None:
+        """
+        :keyword schedule_run_times: List of times of day this schedule has to be run.
+        :paramtype schedule_run_times: list[~datetime.datetime]
+        """
+        super().__init__(**kwargs)
+        self.schedule_run_times = schedule_run_times
 
 
 class DatabaseConfiguration(_serialization.Model):
@@ -498,137 +1211,116 @@ class DatabaseVmDetails(_serialization.Model):
         self.storage_details = None
 
 
-class ProviderSpecificProperties(_serialization.Model):
-    """Gets or sets the provider specific properties.
+class Day(_serialization.Model):
+    """Day of the week.
 
-    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
-    DB2ProviderInstanceProperties, MsSqlServerProviderInstanceProperties,
-    PrometheusHaClusterProviderInstanceProperties, PrometheusOSProviderInstanceProperties,
-    HanaDbProviderInstanceProperties, SapNetWeaverProviderInstanceProperties
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar provider_type: The provider type. For example, the value can be SapHana. Required.
-    :vartype provider_type: str
+    :ivar date: Date of the month.
+    :vartype date: int
+    :ivar is_last: Whether Date is last date of month.
+    :vartype is_last: bool
     """
 
-    _validation = {
-        "provider_type": {"required": True},
-    }
-
     _attribute_map = {
-        "provider_type": {"key": "providerType", "type": "str"},
+        "date": {"key": "date", "type": "int"},
+        "is_last": {"key": "isLast", "type": "bool"},
     }
 
-    _subtype_map = {
-        "provider_type": {
-            "Db2": "DB2ProviderInstanceProperties",
-            "MsSqlServer": "MsSqlServerProviderInstanceProperties",
-            "PrometheusHaCluster": "PrometheusHaClusterProviderInstanceProperties",
-            "PrometheusOS": "PrometheusOSProviderInstanceProperties",
-            "SapHana": "HanaDbProviderInstanceProperties",
-            "SapNetWeaver": "SapNetWeaverProviderInstanceProperties",
-        }
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
+    def __init__(self, *, date: Optional[int] = None, is_last: Optional[bool] = None, **kwargs: Any) -> None:
+        """
+        :keyword date: Date of the month.
+        :paramtype date: int
+        :keyword is_last: Whether Date is last date of month.
+        :paramtype is_last: bool
+        """
         super().__init__(**kwargs)
-        self.provider_type: Optional[str] = None
+        self.date = date
+        self.is_last = is_last
 
 
-class DB2ProviderInstanceProperties(ProviderSpecificProperties):
-    """Gets or sets the DB2 provider properties.
+class DBBackupPolicyProperties(_serialization.Model):
+    """Defines the policy properties for database backup.
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar provider_type: The provider type. For example, the value can be SapHana. Required.
-    :vartype provider_type: str
-    :ivar hostname: Gets or sets the target virtual machine name.
-    :vartype hostname: str
-    :ivar db_name: Gets or sets the db2 database name.
-    :vartype db_name: str
-    :ivar db_port: Gets or sets the db2 database sql port.
-    :vartype db_port: str
-    :ivar db_username: Gets or sets the db2 database user name.
-    :vartype db_username: str
-    :ivar db_password: Gets or sets the db2 database password.
-    :vartype db_password: str
-    :ivar db_password_uri: Gets or sets the key vault URI to secret with the database password.
-    :vartype db_password_uri: str
-    :ivar sap_sid: Gets or sets the SAP System Identifier.
-    :vartype sap_sid: str
-    :ivar ssl_preference: Gets or sets certificate preference if secure communication is enabled.
-     Known values are: "Disabled", "RootCertificate", and "ServerCertificate".
-    :vartype ssl_preference: str or ~azure.mgmt.workloads.models.SslPreference
-    :ivar ssl_certificate_uri: Gets or sets the blob URI to SSL certificate for the DB2 Database.
-    :vartype ssl_certificate_uri: str
+    :ivar name: The name of the DB backup policy. Required.
+    :vartype name: str
+    :ivar protected_items_count: Number of items associated with this policy.
+    :vartype protected_items_count: int
+    :ivar backup_management_type: This property will be used as the discriminator for deciding the
+     specific types in the polymorphic chain of types.
+    :vartype backup_management_type: str
+    :ivar resource_guard_operation_requests: ResourceGuard Operation Requests.
+    :vartype resource_guard_operation_requests: list[str]
+    :ivar work_load_type: Type of workload for the backup management. Known values are: "Invalid",
+     "VM", "FileFolder", "AzureSqlDb", "SQLDB", "Exchange", "Sharepoint", "VMwareVM", "SystemState",
+     "Client", "GenericDataSource", "SQLDataBase", "AzureFileShare", "SAPHanaDatabase",
+     "SAPAseDatabase", and "SAPHanaDBInstance".
+    :vartype work_load_type: str or ~azure.mgmt.workloads.models.WorkloadType
+    :ivar settings: Common settings for the backup management.
+    :vartype settings: ~azure.mgmt.workloads.models.Settings
+    :ivar sub_protection_policy: List of sub-protection policies which includes schedule and
+     retention.
+    :vartype sub_protection_policy: list[~azure.mgmt.workloads.models.SubProtectionPolicy]
+    :ivar make_policy_consistent: Fix the policy inconsistency.
+    :vartype make_policy_consistent: bool
     """
 
     _validation = {
-        "provider_type": {"required": True},
+        "name": {"required": True},
     }
 
     _attribute_map = {
-        "provider_type": {"key": "providerType", "type": "str"},
-        "hostname": {"key": "hostname", "type": "str"},
-        "db_name": {"key": "dbName", "type": "str"},
-        "db_port": {"key": "dbPort", "type": "str"},
-        "db_username": {"key": "dbUsername", "type": "str"},
-        "db_password": {"key": "dbPassword", "type": "str"},
-        "db_password_uri": {"key": "dbPasswordUri", "type": "str"},
-        "sap_sid": {"key": "sapSid", "type": "str"},
-        "ssl_preference": {"key": "sslPreference", "type": "str"},
-        "ssl_certificate_uri": {"key": "sslCertificateUri", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "protected_items_count": {"key": "properties.protectedItemsCount", "type": "int"},
+        "backup_management_type": {"key": "properties.backupManagementType", "type": "str"},
+        "resource_guard_operation_requests": {"key": "properties.resourceGuardOperationRequests", "type": "[str]"},
+        "work_load_type": {"key": "properties.workLoadType", "type": "str"},
+        "settings": {"key": "properties.settings", "type": "Settings"},
+        "sub_protection_policy": {"key": "properties.subProtectionPolicy", "type": "[SubProtectionPolicy]"},
+        "make_policy_consistent": {"key": "properties.makePolicyConsistent", "type": "bool"},
     }
 
     def __init__(
         self,
         *,
-        hostname: Optional[str] = None,
-        db_name: Optional[str] = None,
-        db_port: Optional[str] = None,
-        db_username: Optional[str] = None,
-        db_password: Optional[str] = None,
-        db_password_uri: Optional[str] = None,
-        sap_sid: Optional[str] = None,
-        ssl_preference: Optional[Union[str, "_models.SslPreference"]] = None,
-        ssl_certificate_uri: Optional[str] = None,
+        name: str,
+        protected_items_count: Optional[int] = None,
+        resource_guard_operation_requests: Optional[List[str]] = None,
+        work_load_type: Optional[Union[str, "_models.WorkloadType"]] = None,
+        settings: Optional["_models.Settings"] = None,
+        sub_protection_policy: Optional[List["_models.SubProtectionPolicy"]] = None,
+        make_policy_consistent: Optional[bool] = None,
         **kwargs: Any
     ) -> None:
         """
-        :keyword hostname: Gets or sets the target virtual machine name.
-        :paramtype hostname: str
-        :keyword db_name: Gets or sets the db2 database name.
-        :paramtype db_name: str
-        :keyword db_port: Gets or sets the db2 database sql port.
-        :paramtype db_port: str
-        :keyword db_username: Gets or sets the db2 database user name.
-        :paramtype db_username: str
-        :keyword db_password: Gets or sets the db2 database password.
-        :paramtype db_password: str
-        :keyword db_password_uri: Gets or sets the key vault URI to secret with the database password.
-        :paramtype db_password_uri: str
-        :keyword sap_sid: Gets or sets the SAP System Identifier.
-        :paramtype sap_sid: str
-        :keyword ssl_preference: Gets or sets certificate preference if secure communication is
-         enabled. Known values are: "Disabled", "RootCertificate", and "ServerCertificate".
-        :paramtype ssl_preference: str or ~azure.mgmt.workloads.models.SslPreference
-        :keyword ssl_certificate_uri: Gets or sets the blob URI to SSL certificate for the DB2
-         Database.
-        :paramtype ssl_certificate_uri: str
+        :keyword name: The name of the DB backup policy. Required.
+        :paramtype name: str
+        :keyword protected_items_count: Number of items associated with this policy.
+        :paramtype protected_items_count: int
+        :keyword resource_guard_operation_requests: ResourceGuard Operation Requests.
+        :paramtype resource_guard_operation_requests: list[str]
+        :keyword work_load_type: Type of workload for the backup management. Known values are:
+         "Invalid", "VM", "FileFolder", "AzureSqlDb", "SQLDB", "Exchange", "Sharepoint", "VMwareVM",
+         "SystemState", "Client", "GenericDataSource", "SQLDataBase", "AzureFileShare",
+         "SAPHanaDatabase", "SAPAseDatabase", and "SAPHanaDBInstance".
+        :paramtype work_load_type: str or ~azure.mgmt.workloads.models.WorkloadType
+        :keyword settings: Common settings for the backup management.
+        :paramtype settings: ~azure.mgmt.workloads.models.Settings
+        :keyword sub_protection_policy: List of sub-protection policies which includes schedule and
+         retention.
+        :paramtype sub_protection_policy: list[~azure.mgmt.workloads.models.SubProtectionPolicy]
+        :keyword make_policy_consistent: Fix the policy inconsistency.
+        :paramtype make_policy_consistent: bool
         """
         super().__init__(**kwargs)
-        self.provider_type: str = "Db2"
-        self.hostname = hostname
-        self.db_name = db_name
-        self.db_port = db_port
-        self.db_username = db_username
-        self.db_password = db_password
-        self.db_password_uri = db_password_uri
-        self.sap_sid = sap_sid
-        self.ssl_preference = ssl_preference
-        self.ssl_certificate_uri = ssl_certificate_uri
+        self.name = name
+        self.protected_items_count = protected_items_count
+        self.backup_management_type: Optional[str] = None
+        self.resource_guard_operation_requests = resource_guard_operation_requests
+        self.work_load_type = work_load_type
+        self.settings = settings
+        self.sub_protection_policy = sub_protection_policy
+        self.make_policy_consistent = make_policy_consistent
 
 
 class DeployerVmPackages(_serialization.Model):
@@ -960,6 +1652,43 @@ class DiskDetails(_serialization.Model):
         self.disk_tier = disk_tier
 
 
+class DiskExclusionProperties(_serialization.Model):
+    """Defines the disk exclusion properties for virtual machine backup.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar disk_lun_list: List of Disks' Logical Unit Numbers (LUN) to be used for VM Protection.
+     Required.
+    :vartype disk_lun_list: list[int]
+    :ivar is_inclusion_list: Flag to indicate whether DiskLunList is to be included/ excluded from
+     backup. Required.
+    :vartype is_inclusion_list: bool
+    """
+
+    _validation = {
+        "disk_lun_list": {"required": True},
+        "is_inclusion_list": {"required": True},
+    }
+
+    _attribute_map = {
+        "disk_lun_list": {"key": "diskLunList", "type": "[int]"},
+        "is_inclusion_list": {"key": "isInclusionList", "type": "bool"},
+    }
+
+    def __init__(self, *, disk_lun_list: List[int], is_inclusion_list: bool, **kwargs: Any) -> None:
+        """
+        :keyword disk_lun_list: List of Disks' Logical Unit Numbers (LUN) to be used for VM Protection.
+         Required.
+        :paramtype disk_lun_list: list[int]
+        :keyword is_inclusion_list: Flag to indicate whether DiskLunList is to be included/ excluded
+         from backup. Required.
+        :paramtype is_inclusion_list: bool
+        """
+        super().__init__(**kwargs)
+        self.disk_lun_list = disk_lun_list
+        self.is_inclusion_list = is_inclusion_list
+
+
 class DiskSku(_serialization.Model):
     """The type of disk sku. For example, Standard_LRS, Standard_ZRS, Premium_LRS, Premium_ZRS.
 
@@ -1115,50 +1844,6 @@ class EnqueueServerProperties(_serialization.Model):
         self.health = None
 
 
-class Error(_serialization.Model):
-    """Standard error object.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar code: Server-defined set of error codes.
-    :vartype code: str
-    :ivar message: Human-readable representation of the error.
-    :vartype message: str
-    :ivar target: Target of the error.
-    :vartype target: str
-    :ivar details: Array of details about specific errors that led to this reported error.
-    :vartype details: list[~azure.mgmt.workloads.models.Error]
-    :ivar inner_error: Object containing more specific information than  the current object about
-     the error.
-    :vartype inner_error: ~azure.mgmt.workloads.models.ErrorInnerError
-    """
-
-    _validation = {
-        "code": {"readonly": True},
-        "message": {"readonly": True},
-        "target": {"readonly": True},
-        "details": {"readonly": True},
-        "inner_error": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "code": {"key": "code", "type": "str"},
-        "message": {"key": "message", "type": "str"},
-        "target": {"key": "target", "type": "str"},
-        "details": {"key": "details", "type": "[Error]"},
-        "inner_error": {"key": "innerError", "type": "ErrorInnerError"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
-        self.details = None
-        self.inner_error = None
-
-
 class ErrorAdditionalInfo(_serialization.Model):
     """The resource management error additional info.
 
@@ -1263,26 +1948,6 @@ class ErrorDetail(_serialization.Model):
         self.additional_info = None
 
 
-class ErrorInnerError(_serialization.Model):
-    """Object containing more specific information than  the current object about the error.
-
-    :ivar inner_error: Standard error object.
-    :vartype inner_error: ~azure.mgmt.workloads.models.Error
-    """
-
-    _attribute_map = {
-        "inner_error": {"key": "innerError", "type": "Error"},
-    }
-
-    def __init__(self, *, inner_error: Optional["_models.Error"] = None, **kwargs: Any) -> None:
-        """
-        :keyword inner_error: Standard error object.
-        :paramtype inner_error: ~azure.mgmt.workloads.models.Error
-        """
-        super().__init__(**kwargs)
-        self.inner_error = inner_error
-
-
 class ErrorResponse(_serialization.Model):
     """Common error response for all Azure Resource Manager APIs to return error details for failed
     operations. (This also follows the OData error response format.).
@@ -1302,6 +1967,67 @@ class ErrorResponse(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.error = error
+
+
+class RecoveryServicesVaultProperties(_serialization.Model):
+    """The properties of the recovery services vault used for backup.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    ExistingRecoveryServicesVault, NewRecoveryServicesVault
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar vault_type: The vault type, whether it is existing or has to be created. Required. Known
+     values are: "Existing" and "New".
+    :vartype vault_type: str or ~azure.mgmt.workloads.models.VaultType
+    """
+
+    _validation = {
+        "vault_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "vault_type": {"key": "vaultType", "type": "str"},
+    }
+
+    _subtype_map = {"vault_type": {"Existing": "ExistingRecoveryServicesVault", "New": "NewRecoveryServicesVault"}}
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.vault_type: Optional[str] = None
+
+
+class ExistingRecoveryServicesVault(RecoveryServicesVaultProperties):
+    """Existing recovery services vault.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar vault_type: The vault type, whether it is existing or has to be created. Required. Known
+     values are: "Existing" and "New".
+    :vartype vault_type: str or ~azure.mgmt.workloads.models.VaultType
+    :ivar id: The resource ID of the recovery services vault that has been created. Required.
+    :vartype id: str
+    """
+
+    _validation = {
+        "vault_type": {"required": True},
+        "id": {"required": True},
+    }
+
+    _attribute_map = {
+        "vault_type": {"key": "vaultType", "type": "str"},
+        "id": {"key": "id", "type": "str"},
+    }
+
+    def __init__(self, *, id: str, **kwargs: Any) -> None:  # pylint: disable=redefined-builtin
+        """
+        :keyword id: The resource ID of the recovery services vault that has been created. Required.
+        :paramtype id: str
+        """
+        super().__init__(**kwargs)
+        self.vault_type: str = "Existing"
+        self.id = id
 
 
 class SoftwareConfiguration(_serialization.Model):
@@ -1405,111 +2131,85 @@ class GatewayServerProperties(_serialization.Model):
         self.health = None
 
 
-class HanaDbProviderInstanceProperties(ProviderSpecificProperties):  # pylint: disable=too-many-instance-attributes
-    """Gets or sets the provider properties.
+class HanaBackupData(BackupData):
+    """Defines the HANA Backup data for a virtual instance for SAP.
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar provider_type: The provider type. For example, the value can be SapHana. Required.
-    :vartype provider_type: str
-    :ivar hostname: Gets or sets the target virtual machine size.
-    :vartype hostname: str
-    :ivar db_name: Gets or sets the hana database name.
-    :vartype db_name: str
-    :ivar sql_port: Gets or sets the database sql port.
-    :vartype sql_port: str
+    :ivar backup_type: The type of backup, VM, SQL or HANA. Required. Known values are: "VM",
+     "SQL", and "HANA".
+    :vartype backup_type: str or ~azure.mgmt.workloads.models.BackupType
+    :ivar recovery_services_vault: The properties of the recovery services vault used for backup.
+     Required.
+    :vartype recovery_services_vault: ~azure.mgmt.workloads.models.RecoveryServicesVaultProperties
+    :ivar ssl_configuration: Path of the SSL key store.
+    :vartype ssl_configuration: ~azure.mgmt.workloads.models.SSLConfiguration
+    :ivar backup_policy: Defines the policy properties for database backup. Required.
+    :vartype backup_policy: ~azure.mgmt.workloads.models.DBBackupPolicyProperties
+    :ivar hdbuserstore_key_name: Name of the HANA Database User Store Key. Required.
+    :vartype hdbuserstore_key_name: str
     :ivar instance_number: Gets or sets the database instance number.
     :vartype instance_number: str
-    :ivar db_username: Gets or sets the database user name.
-    :vartype db_username: str
-    :ivar db_password: Gets or sets the database password.
-    :vartype db_password: str
-    :ivar db_password_uri: Gets or sets the key vault URI to secret with the database password.
-    :vartype db_password_uri: str
-    :ivar ssl_certificate_uri: Gets or sets the blob URI to SSL certificate for the DB.
-    :vartype ssl_certificate_uri: str
-    :ivar ssl_host_name_in_certificate: Gets or sets the hostname(s) in the SSL certificate.
-    :vartype ssl_host_name_in_certificate: str
-    :ivar ssl_preference: Gets or sets certificate preference if secure communication is enabled.
-     Known values are: "Disabled", "RootCertificate", and "ServerCertificate".
-    :vartype ssl_preference: str or ~azure.mgmt.workloads.models.SslPreference
-    :ivar sap_sid: Gets or sets the SAP System Identifier.
-    :vartype sap_sid: str
+    :ivar db_instance_snapshot_backup_policy: Defines the policy properties for database backup.
+    :vartype db_instance_snapshot_backup_policy:
+     ~azure.mgmt.workloads.models.DBBackupPolicyProperties
     """
 
     _validation = {
-        "provider_type": {"required": True},
+        "backup_type": {"required": True},
+        "recovery_services_vault": {"required": True},
+        "backup_policy": {"required": True},
+        "hdbuserstore_key_name": {"required": True},
     }
 
     _attribute_map = {
-        "provider_type": {"key": "providerType", "type": "str"},
-        "hostname": {"key": "hostname", "type": "str"},
-        "db_name": {"key": "dbName", "type": "str"},
-        "sql_port": {"key": "sqlPort", "type": "str"},
+        "backup_type": {"key": "backupType", "type": "str"},
+        "recovery_services_vault": {"key": "recoveryServicesVault", "type": "RecoveryServicesVaultProperties"},
+        "ssl_configuration": {"key": "sslConfiguration", "type": "SSLConfiguration"},
+        "backup_policy": {"key": "backupPolicy", "type": "DBBackupPolicyProperties"},
+        "hdbuserstore_key_name": {"key": "hdbuserstoreKeyName", "type": "str"},
         "instance_number": {"key": "instanceNumber", "type": "str"},
-        "db_username": {"key": "dbUsername", "type": "str"},
-        "db_password": {"key": "dbPassword", "type": "str"},
-        "db_password_uri": {"key": "dbPasswordUri", "type": "str"},
-        "ssl_certificate_uri": {"key": "sslCertificateUri", "type": "str"},
-        "ssl_host_name_in_certificate": {"key": "sslHostNameInCertificate", "type": "str"},
-        "ssl_preference": {"key": "sslPreference", "type": "str"},
-        "sap_sid": {"key": "sapSid", "type": "str"},
+        "db_instance_snapshot_backup_policy": {
+            "key": "dbInstanceSnapshotBackupPolicy",
+            "type": "DBBackupPolicyProperties",
+        },
     }
 
     def __init__(
         self,
         *,
-        hostname: Optional[str] = None,
-        db_name: Optional[str] = None,
-        sql_port: Optional[str] = None,
+        recovery_services_vault: "_models.RecoveryServicesVaultProperties",
+        backup_policy: "_models.DBBackupPolicyProperties",
+        hdbuserstore_key_name: str,
+        ssl_configuration: Optional["_models.SSLConfiguration"] = None,
         instance_number: Optional[str] = None,
-        db_username: Optional[str] = None,
-        db_password: Optional[str] = None,
-        db_password_uri: Optional[str] = None,
-        ssl_certificate_uri: Optional[str] = None,
-        ssl_host_name_in_certificate: Optional[str] = None,
-        ssl_preference: Optional[Union[str, "_models.SslPreference"]] = None,
-        sap_sid: Optional[str] = None,
+        db_instance_snapshot_backup_policy: Optional["_models.DBBackupPolicyProperties"] = None,
         **kwargs: Any
     ) -> None:
         """
-        :keyword hostname: Gets or sets the target virtual machine size.
-        :paramtype hostname: str
-        :keyword db_name: Gets or sets the hana database name.
-        :paramtype db_name: str
-        :keyword sql_port: Gets or sets the database sql port.
-        :paramtype sql_port: str
+        :keyword recovery_services_vault: The properties of the recovery services vault used for
+         backup. Required.
+        :paramtype recovery_services_vault:
+         ~azure.mgmt.workloads.models.RecoveryServicesVaultProperties
+        :keyword ssl_configuration: Path of the SSL key store.
+        :paramtype ssl_configuration: ~azure.mgmt.workloads.models.SSLConfiguration
+        :keyword backup_policy: Defines the policy properties for database backup. Required.
+        :paramtype backup_policy: ~azure.mgmt.workloads.models.DBBackupPolicyProperties
+        :keyword hdbuserstore_key_name: Name of the HANA Database User Store Key. Required.
+        :paramtype hdbuserstore_key_name: str
         :keyword instance_number: Gets or sets the database instance number.
         :paramtype instance_number: str
-        :keyword db_username: Gets or sets the database user name.
-        :paramtype db_username: str
-        :keyword db_password: Gets or sets the database password.
-        :paramtype db_password: str
-        :keyword db_password_uri: Gets or sets the key vault URI to secret with the database password.
-        :paramtype db_password_uri: str
-        :keyword ssl_certificate_uri: Gets or sets the blob URI to SSL certificate for the DB.
-        :paramtype ssl_certificate_uri: str
-        :keyword ssl_host_name_in_certificate: Gets or sets the hostname(s) in the SSL certificate.
-        :paramtype ssl_host_name_in_certificate: str
-        :keyword ssl_preference: Gets or sets certificate preference if secure communication is
-         enabled. Known values are: "Disabled", "RootCertificate", and "ServerCertificate".
-        :paramtype ssl_preference: str or ~azure.mgmt.workloads.models.SslPreference
-        :keyword sap_sid: Gets or sets the SAP System Identifier.
-        :paramtype sap_sid: str
+        :keyword db_instance_snapshot_backup_policy: Defines the policy properties for database backup.
+        :paramtype db_instance_snapshot_backup_policy:
+         ~azure.mgmt.workloads.models.DBBackupPolicyProperties
         """
-        super().__init__(**kwargs)
-        self.provider_type: str = "SapHana"
-        self.hostname = hostname
-        self.db_name = db_name
-        self.sql_port = sql_port
+        super().__init__(recovery_services_vault=recovery_services_vault, **kwargs)
+        self.backup_type: str = "HANA"
+        self.ssl_configuration = ssl_configuration
+        self.backup_policy = backup_policy
+        self.hdbuserstore_key_name = hdbuserstore_key_name
         self.instance_number = instance_number
-        self.db_username = db_username
-        self.db_password = db_password
-        self.db_password_uri = db_password_uri
-        self.ssl_certificate_uri = ssl_certificate_uri
-        self.ssl_host_name_in_certificate = ssl_host_name_in_certificate
-        self.ssl_preference = ssl_preference
-        self.sap_sid = sap_sid
+        self.db_instance_snapshot_backup_policy = db_instance_snapshot_backup_policy
 
 
 class HighAvailabilityConfiguration(_serialization.Model):
@@ -1575,6 +2275,47 @@ class HighAvailabilitySoftwareConfiguration(_serialization.Model):
         self.fencing_client_password = fencing_client_password
 
 
+class HourlySchedule(_serialization.Model):
+    """Hourly schedule.
+
+    :ivar interval: Interval at which backup needs to be triggered. For hourly the value
+      can be 4/6/8/12.
+    :vartype interval: int
+    :ivar schedule_window_start_time: To specify start time of the backup window.
+    :vartype schedule_window_start_time: ~datetime.datetime
+    :ivar schedule_window_duration: To specify duration of the backup window.
+    :vartype schedule_window_duration: int
+    """
+
+    _attribute_map = {
+        "interval": {"key": "interval", "type": "int"},
+        "schedule_window_start_time": {"key": "scheduleWindowStartTime", "type": "iso-8601"},
+        "schedule_window_duration": {"key": "scheduleWindowDuration", "type": "int"},
+    }
+
+    def __init__(
+        self,
+        *,
+        interval: Optional[int] = None,
+        schedule_window_start_time: Optional[datetime.datetime] = None,
+        schedule_window_duration: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword interval: Interval at which backup needs to be triggered. For hourly the value
+          can be 4/6/8/12.
+        :paramtype interval: int
+        :keyword schedule_window_start_time: To specify start time of the backup window.
+        :paramtype schedule_window_start_time: ~datetime.datetime
+        :keyword schedule_window_duration: To specify duration of the backup window.
+        :paramtype schedule_window_duration: int
+        """
+        super().__init__(**kwargs)
+        self.interval = interval
+        self.schedule_window_start_time = schedule_window_start_time
+        self.schedule_window_duration = schedule_window_duration
+
+
 class ImageReference(_serialization.Model):
     """Specifies information about the image to use. You can specify information about platform
     images, marketplace images, or virtual machine images. This element is required when you want
@@ -1595,6 +2336,10 @@ class ImageReference(_serialization.Model):
      deploy time. Even if you use 'latest', the VM image will not automatically update after deploy
      time even if a new version becomes available.
     :vartype version: str
+    :ivar id: Specifies the ARM resource ID of the Azure Compute Gallery image version used for
+     creating ACSS VMs. You will need to provide this input when you choose to deploy virtual
+     machines in ACSS with OS image from the Azure Compute gallery.
+    :vartype id: str
     """
 
     _attribute_map = {
@@ -1602,6 +2347,7 @@ class ImageReference(_serialization.Model):
         "offer": {"key": "offer", "type": "str"},
         "sku": {"key": "sku", "type": "str"},
         "version": {"key": "version", "type": "str"},
+        "id": {"key": "id", "type": "str"},
     }
 
     def __init__(
@@ -1611,6 +2357,7 @@ class ImageReference(_serialization.Model):
         offer: Optional[str] = None,
         sku: Optional[str] = None,
         version: Optional[str] = None,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
         **kwargs: Any
     ) -> None:
         """
@@ -1627,12 +2374,17 @@ class ImageReference(_serialization.Model):
          available at deploy time. Even if you use 'latest', the VM image will not automatically update
          after deploy time even if a new version becomes available.
         :paramtype version: str
+        :keyword id: Specifies the ARM resource ID of the Azure Compute Gallery image version used for
+         creating ACSS VMs. You will need to provide this input when you choose to deploy virtual
+         machines in ACSS with OS image from the Azure Compute gallery.
+        :paramtype id: str
         """
         super().__init__(**kwargs)
         self.publisher = publisher
         self.offer = offer
         self.sku = sku
         self.version = version
+        self.id = id
 
 
 class InfrastructureConfiguration(_serialization.Model):
@@ -1674,6 +2426,38 @@ class InfrastructureConfiguration(_serialization.Model):
         super().__init__(**kwargs)
         self.deployment_type: Optional[str] = None
         self.app_resource_group = app_resource_group
+
+
+class InstantRPAdditionalDetails(_serialization.Model):
+    """Instant recovery point additional details.
+
+    :ivar azure_backup_rg_name_prefix: Azure backup resource group name prefix.
+    :vartype azure_backup_rg_name_prefix: str
+    :ivar azure_backup_rg_name_suffix: Azure backup resource group name suffix.
+    :vartype azure_backup_rg_name_suffix: str
+    """
+
+    _attribute_map = {
+        "azure_backup_rg_name_prefix": {"key": "azureBackupRGNamePrefix", "type": "str"},
+        "azure_backup_rg_name_suffix": {"key": "azureBackupRGNameSuffix", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        azure_backup_rg_name_prefix: Optional[str] = None,
+        azure_backup_rg_name_suffix: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword azure_backup_rg_name_prefix: Azure backup resource group name prefix.
+        :paramtype azure_backup_rg_name_prefix: str
+        :keyword azure_backup_rg_name_suffix: Azure backup resource group name suffix.
+        :paramtype azure_backup_rg_name_suffix: str
+        """
+        super().__init__(**kwargs)
+        self.azure_backup_rg_name_prefix = azure_backup_rg_name_prefix
+        self.azure_backup_rg_name_suffix = azure_backup_rg_name_suffix
 
 
 class OSConfiguration(_serialization.Model):
@@ -1844,6 +2628,190 @@ class LoadBalancerResourceNames(_serialization.Model):
         self.health_probe_names = health_probe_names
 
 
+class SchedulePolicy(_serialization.Model):
+    """Base class for backup schedule.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    LogSchedulePolicy, LongTermSchedulePolicy, SimpleSchedulePolicy, SimpleSchedulePolicyV2
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar schedule_policy_type: This property will be used as the discriminator for deciding the
+     specific types in the polymorphic chain of types. Required.
+    :vartype schedule_policy_type: str
+    """
+
+    _validation = {
+        "schedule_policy_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "schedule_policy_type": {"key": "schedulePolicyType", "type": "str"},
+    }
+
+    _subtype_map = {
+        "schedule_policy_type": {
+            "LogSchedulePolicy": "LogSchedulePolicy",
+            "LongTermSchedulePolicy": "LongTermSchedulePolicy",
+            "SimpleSchedulePolicy": "SimpleSchedulePolicy",
+            "SimpleSchedulePolicyV2": "SimpleSchedulePolicyV2",
+        }
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.schedule_policy_type: Optional[str] = None
+
+
+class LogSchedulePolicy(SchedulePolicy):
+    """Log policy schedule.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar schedule_policy_type: This property will be used as the discriminator for deciding the
+     specific types in the polymorphic chain of types. Required.
+    :vartype schedule_policy_type: str
+    :ivar schedule_frequency_in_mins: Frequency of the log schedule operation of this policy in
+     minutes.
+    :vartype schedule_frequency_in_mins: int
+    """
+
+    _validation = {
+        "schedule_policy_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "schedule_policy_type": {"key": "schedulePolicyType", "type": "str"},
+        "schedule_frequency_in_mins": {"key": "scheduleFrequencyInMins", "type": "int"},
+    }
+
+    def __init__(self, *, schedule_frequency_in_mins: Optional[int] = None, **kwargs: Any) -> None:
+        """
+        :keyword schedule_frequency_in_mins: Frequency of the log schedule operation of this policy in
+         minutes.
+        :paramtype schedule_frequency_in_mins: int
+        """
+        super().__init__(**kwargs)
+        self.schedule_policy_type: str = "LogSchedulePolicy"
+        self.schedule_frequency_in_mins = schedule_frequency_in_mins
+
+
+class RetentionPolicy(_serialization.Model):
+    """Base class for retention policy.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    LongTermRetentionPolicy, SimpleRetentionPolicy
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar retention_policy_type: This property will be used as the discriminator for deciding the
+     specific types in the polymorphic chain of types. Required.
+    :vartype retention_policy_type: str
+    """
+
+    _validation = {
+        "retention_policy_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "retention_policy_type": {"key": "retentionPolicyType", "type": "str"},
+    }
+
+    _subtype_map = {
+        "retention_policy_type": {
+            "LongTermRetentionPolicy": "LongTermRetentionPolicy",
+            "SimpleRetentionPolicy": "SimpleRetentionPolicy",
+        }
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.retention_policy_type: Optional[str] = None
+
+
+class LongTermRetentionPolicy(RetentionPolicy):
+    """Long term retention policy.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar retention_policy_type: This property will be used as the discriminator for deciding the
+     specific types in the polymorphic chain of types. Required.
+    :vartype retention_policy_type: str
+    :ivar daily_schedule: Daily retention schedule of the protection policy.
+    :vartype daily_schedule: ~azure.mgmt.workloads.models.DailyRetentionSchedule
+    :ivar weekly_schedule: Weekly retention schedule of the protection policy.
+    :vartype weekly_schedule: ~azure.mgmt.workloads.models.WeeklyRetentionSchedule
+    :ivar monthly_schedule: Monthly retention schedule of the protection policy.
+    :vartype monthly_schedule: ~azure.mgmt.workloads.models.MonthlyRetentionSchedule
+    :ivar yearly_schedule: Yearly retention schedule of the protection policy.
+    :vartype yearly_schedule: ~azure.mgmt.workloads.models.YearlyRetentionSchedule
+    """
+
+    _validation = {
+        "retention_policy_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "retention_policy_type": {"key": "retentionPolicyType", "type": "str"},
+        "daily_schedule": {"key": "dailySchedule", "type": "DailyRetentionSchedule"},
+        "weekly_schedule": {"key": "weeklySchedule", "type": "WeeklyRetentionSchedule"},
+        "monthly_schedule": {"key": "monthlySchedule", "type": "MonthlyRetentionSchedule"},
+        "yearly_schedule": {"key": "yearlySchedule", "type": "YearlyRetentionSchedule"},
+    }
+
+    def __init__(
+        self,
+        *,
+        daily_schedule: Optional["_models.DailyRetentionSchedule"] = None,
+        weekly_schedule: Optional["_models.WeeklyRetentionSchedule"] = None,
+        monthly_schedule: Optional["_models.MonthlyRetentionSchedule"] = None,
+        yearly_schedule: Optional["_models.YearlyRetentionSchedule"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword daily_schedule: Daily retention schedule of the protection policy.
+        :paramtype daily_schedule: ~azure.mgmt.workloads.models.DailyRetentionSchedule
+        :keyword weekly_schedule: Weekly retention schedule of the protection policy.
+        :paramtype weekly_schedule: ~azure.mgmt.workloads.models.WeeklyRetentionSchedule
+        :keyword monthly_schedule: Monthly retention schedule of the protection policy.
+        :paramtype monthly_schedule: ~azure.mgmt.workloads.models.MonthlyRetentionSchedule
+        :keyword yearly_schedule: Yearly retention schedule of the protection policy.
+        :paramtype yearly_schedule: ~azure.mgmt.workloads.models.YearlyRetentionSchedule
+        """
+        super().__init__(**kwargs)
+        self.retention_policy_type: str = "LongTermRetentionPolicy"
+        self.daily_schedule = daily_schedule
+        self.weekly_schedule = weekly_schedule
+        self.monthly_schedule = monthly_schedule
+        self.yearly_schedule = yearly_schedule
+
+
+class LongTermSchedulePolicy(SchedulePolicy):
+    """Long term policy schedule.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar schedule_policy_type: This property will be used as the discriminator for deciding the
+     specific types in the polymorphic chain of types. Required.
+    :vartype schedule_policy_type: str
+    """
+
+    _validation = {
+        "schedule_policy_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "schedule_policy_type": {"key": "schedulePolicyType", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.schedule_policy_type: str = "LongTermSchedulePolicy"
+
+
 class ManagedRGConfiguration(_serialization.Model):
     """Managed resource group configuration.
 
@@ -1865,21 +2833,21 @@ class ManagedRGConfiguration(_serialization.Model):
 
 
 class MessageServerProperties(_serialization.Model):
-    """Defines the SAP Message Server properties.
+    """Defines the SAP message server properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar ms_port: Message Server port.
+    :ivar ms_port: message server port.
     :vartype ms_port: int
-    :ivar internal_ms_port: Message Server internal MS port.
+    :ivar internal_ms_port: message server internal MS port.
     :vartype internal_ms_port: int
-    :ivar http_port: Message Server HTTP Port.
+    :ivar http_port: message server HTTP Port.
     :vartype http_port: int
-    :ivar https_port: Message Server HTTPS Port.
+    :ivar https_port: message server HTTPS Port.
     :vartype https_port: int
-    :ivar hostname: Message Server SAP Hostname.
+    :ivar hostname: message server SAP Hostname.
     :vartype hostname: str
-    :ivar ip_address: Message server IP Address.
+    :ivar ip_address: message server IP Address.
     :vartype ip_address: str
     :ivar health: Defines the health of SAP Instances. Known values are: "Unknown", "Healthy",
      "Unhealthy", and "Degraded".
@@ -1918,308 +2886,61 @@ class MessageServerProperties(_serialization.Model):
         self.health = None
 
 
-class Resource(_serialization.Model):
-    """Common fields that are returned in the response for all Azure Resource Manager resources.
+class MonthlyRetentionSchedule(_serialization.Model):
+    """Monthly retention schedule.
 
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-    :vartype id: str
-    :ivar name: The name of the resource.
-    :vartype name: str
-    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-     "Microsoft.Storage/storageAccounts".
-    :vartype type: str
-    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
-     information.
-    :vartype system_data: ~azure.mgmt.workloads.models.SystemData
+    :ivar retention_schedule_format_type: Retention schedule format type for monthly retention
+     policy. Known values are: "Invalid", "Daily", and "Weekly".
+    :vartype retention_schedule_format_type: str or
+     ~azure.mgmt.workloads.models.RetentionScheduleFormat
+    :ivar retention_schedule_daily: Daily retention format for monthly retention policy.
+    :vartype retention_schedule_daily: ~azure.mgmt.workloads.models.DailyRetentionFormat
+    :ivar retention_schedule_weekly: Weekly retention format for monthly retention policy.
+    :vartype retention_schedule_weekly: ~azure.mgmt.workloads.models.WeeklyRetentionFormat
+    :ivar retention_times: Retention times of retention policy.
+    :vartype retention_times: list[~datetime.datetime]
+    :ivar retention_duration: Retention duration of retention Policy.
+    :vartype retention_duration: ~azure.mgmt.workloads.models.RetentionDuration
     """
 
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-    }
-
     _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.system_data = None
-
-
-class TrackedResource(Resource):
-    """The resource model definition for an Azure Resource Manager tracked top level resource which
-    has 'tags' and a 'location'.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-    :vartype id: str
-    :ivar name: The name of the resource.
-    :vartype name: str
-    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-     "Microsoft.Storage/storageAccounts".
-    :vartype type: str
-    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
-     information.
-    :vartype system_data: ~azure.mgmt.workloads.models.SystemData
-    :ivar tags: Resource tags.
-    :vartype tags: dict[str, str]
-    :ivar location: The geo-location where the resource lives. Required.
-    :vartype location: str
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-        "location": {"required": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-        "tags": {"key": "tags", "type": "{str}"},
-        "location": {"key": "location", "type": "str"},
-    }
-
-    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
-        """
-        :keyword tags: Resource tags.
-        :paramtype tags: dict[str, str]
-        :keyword location: The geo-location where the resource lives. Required.
-        :paramtype location: str
-        """
-        super().__init__(**kwargs)
-        self.tags = tags
-        self.location = location
-
-
-class Monitor(TrackedResource):  # pylint: disable=too-many-instance-attributes
-    """SAP monitor info on Azure (ARM properties and SAP monitor properties).
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-    :vartype id: str
-    :ivar name: The name of the resource.
-    :vartype name: str
-    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-     "Microsoft.Storage/storageAccounts".
-    :vartype type: str
-    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
-     information.
-    :vartype system_data: ~azure.mgmt.workloads.models.SystemData
-    :ivar tags: Resource tags.
-    :vartype tags: dict[str, str]
-    :ivar location: The geo-location where the resource lives. Required.
-    :vartype location: str
-    :ivar identity: [currently not in use] Managed service identity(user assigned identities).
-    :vartype identity: ~azure.mgmt.workloads.models.UserAssignedServiceIdentity
-    :ivar provisioning_state: State of provisioning of the SAP monitor. Known values are:
-     "Accepted", "Creating", "Updating", "Failed", "Succeeded", "Deleting", and "Migrating".
-    :vartype provisioning_state: str or
-     ~azure.mgmt.workloads.models.WorkloadMonitorProvisioningState
-    :ivar errors: Defines the SAP monitor errors.
-    :vartype errors: ~azure.mgmt.workloads.models.MonitorPropertiesErrors
-    :ivar app_location: The SAP monitor resources will be deployed in the SAP monitoring region.
-     The subnet region should be same as the SAP monitoring region.
-    :vartype app_location: str
-    :ivar routing_preference: Sets the routing preference of the SAP monitor. By default only
-     RFC1918 traffic is routed to the customer VNET. Known values are: "Default" and "RouteAll".
-    :vartype routing_preference: str or ~azure.mgmt.workloads.models.RoutingPreference
-    :ivar zone_redundancy_preference: Sets the preference for zone redundancy on resources created
-     for the SAP monitor. By default resources will be created which do not support zone redundancy.
-    :vartype zone_redundancy_preference: str
-    :ivar managed_resource_group_configuration: Managed resource group configuration.
-    :vartype managed_resource_group_configuration:
-     ~azure.mgmt.workloads.models.ManagedRGConfiguration
-    :ivar log_analytics_workspace_arm_id: The ARM ID of the Log Analytics Workspace that is used
-     for SAP monitoring.
-    :vartype log_analytics_workspace_arm_id: str
-    :ivar monitor_subnet: The subnet which the SAP monitor will be deployed in.
-    :vartype monitor_subnet: str
-    :ivar msi_arm_id: The ARM ID of the MSI used for SAP monitoring.
-    :vartype msi_arm_id: str
-    :ivar storage_account_arm_id: The ARM ID of the Storage account used for SAP monitoring.
-    :vartype storage_account_arm_id: str
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-        "location": {"required": True},
-        "provisioning_state": {"readonly": True},
-        "errors": {"readonly": True},
-        "msi_arm_id": {"readonly": True},
-        "storage_account_arm_id": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-        "tags": {"key": "tags", "type": "{str}"},
-        "location": {"key": "location", "type": "str"},
-        "identity": {"key": "identity", "type": "UserAssignedServiceIdentity"},
-        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
-        "errors": {"key": "properties.errors", "type": "MonitorPropertiesErrors"},
-        "app_location": {"key": "properties.appLocation", "type": "str"},
-        "routing_preference": {"key": "properties.routingPreference", "type": "str"},
-        "zone_redundancy_preference": {"key": "properties.zoneRedundancyPreference", "type": "str"},
-        "managed_resource_group_configuration": {
-            "key": "properties.managedResourceGroupConfiguration",
-            "type": "ManagedRGConfiguration",
-        },
-        "log_analytics_workspace_arm_id": {"key": "properties.logAnalyticsWorkspaceArmId", "type": "str"},
-        "monitor_subnet": {"key": "properties.monitorSubnet", "type": "str"},
-        "msi_arm_id": {"key": "properties.msiArmId", "type": "str"},
-        "storage_account_arm_id": {"key": "properties.storageAccountArmId", "type": "str"},
+        "retention_schedule_format_type": {"key": "retentionScheduleFormatType", "type": "str"},
+        "retention_schedule_daily": {"key": "retentionScheduleDaily", "type": "DailyRetentionFormat"},
+        "retention_schedule_weekly": {"key": "retentionScheduleWeekly", "type": "WeeklyRetentionFormat"},
+        "retention_times": {"key": "retentionTimes", "type": "[iso-8601]"},
+        "retention_duration": {"key": "retentionDuration", "type": "RetentionDuration"},
     }
 
     def __init__(
         self,
         *,
-        location: str,
-        tags: Optional[Dict[str, str]] = None,
-        identity: Optional["_models.UserAssignedServiceIdentity"] = None,
-        app_location: Optional[str] = None,
-        routing_preference: Optional[Union[str, "_models.RoutingPreference"]] = None,
-        zone_redundancy_preference: Optional[str] = None,
-        managed_resource_group_configuration: Optional["_models.ManagedRGConfiguration"] = None,
-        log_analytics_workspace_arm_id: Optional[str] = None,
-        monitor_subnet: Optional[str] = None,
+        retention_schedule_format_type: Optional[Union[str, "_models.RetentionScheduleFormat"]] = None,
+        retention_schedule_daily: Optional["_models.DailyRetentionFormat"] = None,
+        retention_schedule_weekly: Optional["_models.WeeklyRetentionFormat"] = None,
+        retention_times: Optional[List[datetime.datetime]] = None,
+        retention_duration: Optional["_models.RetentionDuration"] = None,
         **kwargs: Any
     ) -> None:
         """
-        :keyword tags: Resource tags.
-        :paramtype tags: dict[str, str]
-        :keyword location: The geo-location where the resource lives. Required.
-        :paramtype location: str
-        :keyword identity: [currently not in use] Managed service identity(user assigned identities).
-        :paramtype identity: ~azure.mgmt.workloads.models.UserAssignedServiceIdentity
-        :keyword app_location: The SAP monitor resources will be deployed in the SAP monitoring region.
-         The subnet region should be same as the SAP monitoring region.
-        :paramtype app_location: str
-        :keyword routing_preference: Sets the routing preference of the SAP monitor. By default only
-         RFC1918 traffic is routed to the customer VNET. Known values are: "Default" and "RouteAll".
-        :paramtype routing_preference: str or ~azure.mgmt.workloads.models.RoutingPreference
-        :keyword zone_redundancy_preference: Sets the preference for zone redundancy on resources
-         created for the SAP monitor. By default resources will be created which do not support zone
-         redundancy.
-        :paramtype zone_redundancy_preference: str
-        :keyword managed_resource_group_configuration: Managed resource group configuration.
-        :paramtype managed_resource_group_configuration:
-         ~azure.mgmt.workloads.models.ManagedRGConfiguration
-        :keyword log_analytics_workspace_arm_id: The ARM ID of the Log Analytics Workspace that is used
-         for SAP monitoring.
-        :paramtype log_analytics_workspace_arm_id: str
-        :keyword monitor_subnet: The subnet which the SAP monitor will be deployed in.
-        :paramtype monitor_subnet: str
-        """
-        super().__init__(tags=tags, location=location, **kwargs)
-        self.identity = identity
-        self.provisioning_state = None
-        self.errors = None
-        self.app_location = app_location
-        self.routing_preference = routing_preference
-        self.zone_redundancy_preference = zone_redundancy_preference
-        self.managed_resource_group_configuration = managed_resource_group_configuration
-        self.log_analytics_workspace_arm_id = log_analytics_workspace_arm_id
-        self.monitor_subnet = monitor_subnet
-        self.msi_arm_id = None
-        self.storage_account_arm_id = None
-
-
-class MonitorListResult(_serialization.Model):
-    """The response from the List SAP monitors operation.
-
-    :ivar value: The list of SAP monitors.
-    :vartype value: list[~azure.mgmt.workloads.models.Monitor]
-    :ivar next_link: The URL to get the next set of SAP monitors.
-    :vartype next_link: str
-    """
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[Monitor]"},
-        "next_link": {"key": "nextLink", "type": "str"},
-    }
-
-    def __init__(
-        self, *, value: Optional[List["_models.Monitor"]] = None, next_link: Optional[str] = None, **kwargs: Any
-    ) -> None:
-        """
-        :keyword value: The list of SAP monitors.
-        :paramtype value: list[~azure.mgmt.workloads.models.Monitor]
-        :keyword next_link: The URL to get the next set of SAP monitors.
-        :paramtype next_link: str
+        :keyword retention_schedule_format_type: Retention schedule format type for monthly retention
+         policy. Known values are: "Invalid", "Daily", and "Weekly".
+        :paramtype retention_schedule_format_type: str or
+         ~azure.mgmt.workloads.models.RetentionScheduleFormat
+        :keyword retention_schedule_daily: Daily retention format for monthly retention policy.
+        :paramtype retention_schedule_daily: ~azure.mgmt.workloads.models.DailyRetentionFormat
+        :keyword retention_schedule_weekly: Weekly retention format for monthly retention policy.
+        :paramtype retention_schedule_weekly: ~azure.mgmt.workloads.models.WeeklyRetentionFormat
+        :keyword retention_times: Retention times of retention policy.
+        :paramtype retention_times: list[~datetime.datetime]
+        :keyword retention_duration: Retention duration of retention Policy.
+        :paramtype retention_duration: ~azure.mgmt.workloads.models.RetentionDuration
         """
         super().__init__(**kwargs)
-        self.value = value
-        self.next_link = next_link
-
-
-class MonitorPropertiesErrors(Error):
-    """Defines the SAP monitor errors.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar code: Server-defined set of error codes.
-    :vartype code: str
-    :ivar message: Human-readable representation of the error.
-    :vartype message: str
-    :ivar target: Target of the error.
-    :vartype target: str
-    :ivar details: Array of details about specific errors that led to this reported error.
-    :vartype details: list[~azure.mgmt.workloads.models.Error]
-    :ivar inner_error: Object containing more specific information than  the current object about
-     the error.
-    :vartype inner_error: ~azure.mgmt.workloads.models.ErrorInnerError
-    """
-
-    _validation = {
-        "code": {"readonly": True},
-        "message": {"readonly": True},
-        "target": {"readonly": True},
-        "details": {"readonly": True},
-        "inner_error": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "code": {"key": "code", "type": "str"},
-        "message": {"key": "message", "type": "str"},
-        "target": {"key": "target", "type": "str"},
-        "details": {"key": "details", "type": "[Error]"},
-        "inner_error": {"key": "innerError", "type": "ErrorInnerError"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
+        self.retention_schedule_format_type = retention_schedule_format_type
+        self.retention_schedule_daily = retention_schedule_daily
+        self.retention_schedule_weekly = retention_schedule_weekly
+        self.retention_times = retention_times
+        self.retention_duration = retention_duration
 
 
 class MountFileShareConfiguration(FileShareConfiguration):
@@ -2262,93 +2983,6 @@ class MountFileShareConfiguration(FileShareConfiguration):
         self.configuration_type: str = "Mount"
         self.id = id
         self.private_endpoint_id = private_endpoint_id
-
-
-class MsSqlServerProviderInstanceProperties(ProviderSpecificProperties):
-    """Gets or sets the SQL server provider properties.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar provider_type: The provider type. For example, the value can be SapHana. Required.
-    :vartype provider_type: str
-    :ivar hostname: Gets or sets the SQL server host name.
-    :vartype hostname: str
-    :ivar db_port: Gets or sets the database sql port.
-    :vartype db_port: str
-    :ivar db_username: Gets or sets the database user name.
-    :vartype db_username: str
-    :ivar db_password: Gets or sets the database password.
-    :vartype db_password: str
-    :ivar db_password_uri: Gets or sets the key vault URI to secret with the database password.
-    :vartype db_password_uri: str
-    :ivar sap_sid: Gets or sets the SAP System Identifier.
-    :vartype sap_sid: str
-    :ivar ssl_preference: Gets or sets certificate preference if secure communication is enabled.
-     Known values are: "Disabled", "RootCertificate", and "ServerCertificate".
-    :vartype ssl_preference: str or ~azure.mgmt.workloads.models.SslPreference
-    :ivar ssl_certificate_uri: Gets or sets the blob URI to SSL certificate for the SQL Database.
-    :vartype ssl_certificate_uri: str
-    """
-
-    _validation = {
-        "provider_type": {"required": True},
-    }
-
-    _attribute_map = {
-        "provider_type": {"key": "providerType", "type": "str"},
-        "hostname": {"key": "hostname", "type": "str"},
-        "db_port": {"key": "dbPort", "type": "str"},
-        "db_username": {"key": "dbUsername", "type": "str"},
-        "db_password": {"key": "dbPassword", "type": "str"},
-        "db_password_uri": {"key": "dbPasswordUri", "type": "str"},
-        "sap_sid": {"key": "sapSid", "type": "str"},
-        "ssl_preference": {"key": "sslPreference", "type": "str"},
-        "ssl_certificate_uri": {"key": "sslCertificateUri", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        hostname: Optional[str] = None,
-        db_port: Optional[str] = None,
-        db_username: Optional[str] = None,
-        db_password: Optional[str] = None,
-        db_password_uri: Optional[str] = None,
-        sap_sid: Optional[str] = None,
-        ssl_preference: Optional[Union[str, "_models.SslPreference"]] = None,
-        ssl_certificate_uri: Optional[str] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword hostname: Gets or sets the SQL server host name.
-        :paramtype hostname: str
-        :keyword db_port: Gets or sets the database sql port.
-        :paramtype db_port: str
-        :keyword db_username: Gets or sets the database user name.
-        :paramtype db_username: str
-        :keyword db_password: Gets or sets the database password.
-        :paramtype db_password: str
-        :keyword db_password_uri: Gets or sets the key vault URI to secret with the database password.
-        :paramtype db_password_uri: str
-        :keyword sap_sid: Gets or sets the SAP System Identifier.
-        :paramtype sap_sid: str
-        :keyword ssl_preference: Gets or sets certificate preference if secure communication is
-         enabled. Known values are: "Disabled", "RootCertificate", and "ServerCertificate".
-        :paramtype ssl_preference: str or ~azure.mgmt.workloads.models.SslPreference
-        :keyword ssl_certificate_uri: Gets or sets the blob URI to SSL certificate for the SQL
-         Database.
-        :paramtype ssl_certificate_uri: str
-        """
-        super().__init__(**kwargs)
-        self.provider_type: str = "MsSqlServer"
-        self.hostname = hostname
-        self.db_port = db_port
-        self.db_username = db_username
-        self.db_password = db_password
-        self.db_password_uri = db_password_uri
-        self.sap_sid = sap_sid
-        self.ssl_preference = ssl_preference
-        self.ssl_certificate_uri = ssl_certificate_uri
 
 
 class NetworkConfiguration(_serialization.Model):
@@ -2401,6 +3035,47 @@ class NetworkInterfaceResourceNames(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.network_interface_name = network_interface_name
+
+
+class NewRecoveryServicesVault(RecoveryServicesVaultProperties):
+    """New recovery services vault.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar vault_type: The vault type, whether it is existing or has to be created. Required. Known
+     values are: "Existing" and "New".
+    :vartype vault_type: str or ~azure.mgmt.workloads.models.VaultType
+    :ivar name: The name of the recovery services vault has to be created. Required.
+    :vartype name: str
+    :ivar resource_group: The name of the resource group where the recovery services vault has to
+     be created. Required.
+    :vartype resource_group: str
+    """
+
+    _validation = {
+        "vault_type": {"required": True},
+        "name": {"required": True},
+        "resource_group": {"required": True},
+    }
+
+    _attribute_map = {
+        "vault_type": {"key": "vaultType", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "resource_group": {"key": "resourceGroup", "type": "str"},
+    }
+
+    def __init__(self, *, name: str, resource_group: str, **kwargs: Any) -> None:
+        """
+        :keyword name: The name of the recovery services vault has to be created. Required.
+        :paramtype name: str
+        :keyword resource_group: The name of the resource group where the recovery services vault has
+         to be created. Required.
+        :paramtype resource_group: str
+        """
+        super().__init__(**kwargs)
+        self.vault_type: str = "New"
+        self.name = name
+        self.resource_group = resource_group
 
 
 class Operation(_serialization.Model):
@@ -2522,287 +3197,6 @@ class OperationListResult(_serialization.Model):
         super().__init__(**kwargs)
         self.value = None
         self.next_link = None
-
-
-class OperationsContent(Resource):
-    """Defines the workload operation content.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-    :vartype id: str
-    :ivar name: The name of the resource.
-    :vartype name: str
-    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-     "Microsoft.Storage/storageAccounts".
-    :vartype type: str
-    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
-     information.
-    :vartype system_data: ~azure.mgmt.workloads.models.SystemData
-    :ivar name_properties_name: Name of the operation.
-    :vartype name_properties_name: str
-    :ivar is_data_action: Indicates whether the operation applies to data-plane.
-    :vartype is_data_action: bool
-    :ivar origin: Defines the workload operation origin. Known values are: "NotSpecified", "User",
-     and "System".
-    :vartype origin: str or ~azure.mgmt.workloads.models.OperationProperties
-    :ivar display: Display information of the operation.
-    :vartype display: ~azure.mgmt.workloads.models.OperationsDefinitionDisplay
-    :ivar action_type: Defines the action type of workload operation. Known values are:
-     "NotSpecified" and "Internal".
-    :vartype action_type: str or ~azure.mgmt.workloads.models.WorkloadMonitorActionType
-    :ivar properties: Defines the workload operation properties.
-    :vartype properties: any
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-        "name_properties_name": {"key": "properties.name", "type": "str"},
-        "is_data_action": {"key": "properties.isDataAction", "type": "bool"},
-        "origin": {"key": "properties.origin", "type": "str"},
-        "display": {"key": "properties.display", "type": "OperationsDefinitionDisplay"},
-        "action_type": {"key": "properties.actionType", "type": "str"},
-        "properties": {"key": "properties.properties", "type": "object"},
-    }
-
-    def __init__(
-        self,
-        *,
-        name_properties_name: Optional[str] = None,
-        is_data_action: Optional[bool] = None,
-        origin: Optional[Union[str, "_models.OperationProperties"]] = None,
-        display: Optional["_models.OperationsDefinitionDisplay"] = None,
-        action_type: Optional[Union[str, "_models.WorkloadMonitorActionType"]] = None,
-        properties: Optional[Any] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword name_properties_name: Name of the operation.
-        :paramtype name_properties_name: str
-        :keyword is_data_action: Indicates whether the operation applies to data-plane.
-        :paramtype is_data_action: bool
-        :keyword origin: Defines the workload operation origin. Known values are: "NotSpecified",
-         "User", and "System".
-        :paramtype origin: str or ~azure.mgmt.workloads.models.OperationProperties
-        :keyword display: Display information of the operation.
-        :paramtype display: ~azure.mgmt.workloads.models.OperationsDefinitionDisplay
-        :keyword action_type: Defines the action type of workload operation. Known values are:
-         "NotSpecified" and "Internal".
-        :paramtype action_type: str or ~azure.mgmt.workloads.models.WorkloadMonitorActionType
-        :keyword properties: Defines the workload operation properties.
-        :paramtype properties: any
-        """
-        super().__init__(**kwargs)
-        self.name_properties_name = name_properties_name
-        self.is_data_action = is_data_action
-        self.origin = origin
-        self.display = display
-        self.action_type = action_type
-        self.properties = properties
-
-
-class OperationsDefinition(_serialization.Model):
-    """Properties of an Operation.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar name: Name of the operation. Required.
-    :vartype name: str
-    :ivar is_data_action: Indicates whether the operation applies to data-plane.
-    :vartype is_data_action: bool
-    :ivar origin: Defines the workload operation origin. Known values are: "NotSpecified", "User",
-     and "System".
-    :vartype origin: str or ~azure.mgmt.workloads.models.OperationProperties
-    :ivar display: Display information of the operation. Required.
-    :vartype display: ~azure.mgmt.workloads.models.OperationsDefinitionDisplay
-    :ivar action_type: Defines the action type of workload operation. Known values are:
-     "NotSpecified" and "Internal".
-    :vartype action_type: str or ~azure.mgmt.workloads.models.WorkloadMonitorActionType
-    :ivar properties: Defines the workload operation properties.
-    :vartype properties: any
-    """
-
-    _validation = {
-        "name": {"required": True},
-        "display": {"required": True},
-    }
-
-    _attribute_map = {
-        "name": {"key": "name", "type": "str"},
-        "is_data_action": {"key": "isDataAction", "type": "bool"},
-        "origin": {"key": "origin", "type": "str"},
-        "display": {"key": "display", "type": "OperationsDefinitionDisplay"},
-        "action_type": {"key": "actionType", "type": "str"},
-        "properties": {"key": "properties", "type": "object"},
-    }
-
-    def __init__(
-        self,
-        *,
-        name: str,
-        display: "_models.OperationsDefinitionDisplay",
-        is_data_action: Optional[bool] = None,
-        origin: Optional[Union[str, "_models.OperationProperties"]] = None,
-        action_type: Optional[Union[str, "_models.WorkloadMonitorActionType"]] = None,
-        properties: Optional[Any] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword name: Name of the operation. Required.
-        :paramtype name: str
-        :keyword is_data_action: Indicates whether the operation applies to data-plane.
-        :paramtype is_data_action: bool
-        :keyword origin: Defines the workload operation origin. Known values are: "NotSpecified",
-         "User", and "System".
-        :paramtype origin: str or ~azure.mgmt.workloads.models.OperationProperties
-        :keyword display: Display information of the operation. Required.
-        :paramtype display: ~azure.mgmt.workloads.models.OperationsDefinitionDisplay
-        :keyword action_type: Defines the action type of workload operation. Known values are:
-         "NotSpecified" and "Internal".
-        :paramtype action_type: str or ~azure.mgmt.workloads.models.WorkloadMonitorActionType
-        :keyword properties: Defines the workload operation properties.
-        :paramtype properties: any
-        """
-        super().__init__(**kwargs)
-        self.name = name
-        self.is_data_action = is_data_action
-        self.origin = origin
-        self.display = display
-        self.action_type = action_type
-        self.properties = properties
-
-
-class OperationsDefinitionArrayResponseWithContinuation(_serialization.Model):
-    """Defines the workload operation definition response.
-
-    :ivar value: Defines the workload operation definition response properties.
-    :vartype value: list[~azure.mgmt.workloads.models.OperationsDefinition]
-    :ivar next_link: The URL to get to the next set of results, if there are any.
-    :vartype next_link: str
-    """
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[OperationsDefinition]"},
-        "next_link": {"key": "nextLink", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        value: Optional[List["_models.OperationsDefinition"]] = None,
-        next_link: Optional[str] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword value: Defines the workload operation definition response properties.
-        :paramtype value: list[~azure.mgmt.workloads.models.OperationsDefinition]
-        :keyword next_link: The URL to get to the next set of results, if there are any.
-        :paramtype next_link: str
-        """
-        super().__init__(**kwargs)
-        self.value = value
-        self.next_link = next_link
-
-
-class OperationsDisplayDefinition(_serialization.Model):
-    """Defines the workload operation.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar provider: Defines the workload provider. Required.
-    :vartype provider: str
-    :ivar resource: Defines the workload resource. Required.
-    :vartype resource: str
-    :ivar operation: Defines the workload operation. Required.
-    :vartype operation: str
-    :ivar description: Describes the workload operation. Required.
-    :vartype description: str
-    """
-
-    _validation = {
-        "provider": {"required": True},
-        "resource": {"required": True},
-        "operation": {"required": True},
-        "description": {"required": True},
-    }
-
-    _attribute_map = {
-        "provider": {"key": "provider", "type": "str"},
-        "resource": {"key": "resource", "type": "str"},
-        "operation": {"key": "operation", "type": "str"},
-        "description": {"key": "description", "type": "str"},
-    }
-
-    def __init__(self, *, provider: str, resource: str, operation: str, description: str, **kwargs: Any) -> None:
-        """
-        :keyword provider: Defines the workload provider. Required.
-        :paramtype provider: str
-        :keyword resource: Defines the workload resource. Required.
-        :paramtype resource: str
-        :keyword operation: Defines the workload operation. Required.
-        :paramtype operation: str
-        :keyword description: Describes the workload operation. Required.
-        :paramtype description: str
-        """
-        super().__init__(**kwargs)
-        self.provider = provider
-        self.resource = resource
-        self.operation = operation
-        self.description = description
-
-
-class OperationsDefinitionDisplay(OperationsDisplayDefinition):
-    """Display information of the operation.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar provider: Defines the workload provider. Required.
-    :vartype provider: str
-    :ivar resource: Defines the workload resource. Required.
-    :vartype resource: str
-    :ivar operation: Defines the workload operation. Required.
-    :vartype operation: str
-    :ivar description: Describes the workload operation. Required.
-    :vartype description: str
-    """
-
-    _validation = {
-        "provider": {"required": True},
-        "resource": {"required": True},
-        "operation": {"required": True},
-        "description": {"required": True},
-    }
-
-    _attribute_map = {
-        "provider": {"key": "provider", "type": "str"},
-        "resource": {"key": "resource", "type": "str"},
-        "operation": {"key": "operation", "type": "str"},
-        "description": {"key": "description", "type": "str"},
-    }
-
-    def __init__(self, *, provider: str, resource: str, operation: str, description: str, **kwargs: Any) -> None:
-        """
-        :keyword provider: Defines the workload provider. Required.
-        :paramtype provider: str
-        :keyword resource: Defines the workload resource. Required.
-        :paramtype resource: str
-        :keyword operation: Defines the workload operation. Required.
-        :paramtype operation: str
-        :keyword description: Describes the workload operation. Required.
-        :paramtype description: str
-        """
-        super().__init__(provider=provider, resource=resource, operation=operation, description=description, **kwargs)
 
 
 class OperationStatusResult(_serialization.Model):
@@ -3003,315 +3397,42 @@ class OsSapConfiguration(_serialization.Model):
         self.sap_fqdn = sap_fqdn
 
 
-class PrometheusHaClusterProviderInstanceProperties(ProviderSpecificProperties):
-    """Gets or sets the PrometheusHaCluster provider properties.
+class RetentionDuration(_serialization.Model):
+    """Retention duration.
 
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar provider_type: The provider type. For example, the value can be SapHana. Required.
-    :vartype provider_type: str
-    :ivar prometheus_url: URL of the Node Exporter endpoint.
-    :vartype prometheus_url: str
-    :ivar hostname: Gets or sets the target machine name.
-    :vartype hostname: str
-    :ivar sid: Gets or sets the cluster sid.
-    :vartype sid: str
-    :ivar cluster_name: Gets or sets the clusterName.
-    :vartype cluster_name: str
-    :ivar ssl_preference: Gets or sets certificate preference if secure communication is enabled.
-     Known values are: "Disabled", "RootCertificate", and "ServerCertificate".
-    :vartype ssl_preference: str or ~azure.mgmt.workloads.models.SslPreference
-    :ivar ssl_certificate_uri: Gets or sets the blob URI to SSL certificate for the HA cluster
-     exporter.
-    :vartype ssl_certificate_uri: str
+    :ivar count: Count of duration types. Retention duration is obtained by the counting the
+     duration type Count times.
+     For example, when Count = 3 and DurationType = Weeks, retention duration will be three weeks.
+    :vartype count: int
+    :ivar duration_type: Retention duration type of retention policy. Known values are: "Invalid",
+     "Days", "Weeks", "Months", and "Years".
+    :vartype duration_type: str or ~azure.mgmt.workloads.models.RetentionDurationType
     """
 
-    _validation = {
-        "provider_type": {"required": True},
-    }
-
     _attribute_map = {
-        "provider_type": {"key": "providerType", "type": "str"},
-        "prometheus_url": {"key": "prometheusUrl", "type": "str"},
-        "hostname": {"key": "hostname", "type": "str"},
-        "sid": {"key": "sid", "type": "str"},
-        "cluster_name": {"key": "clusterName", "type": "str"},
-        "ssl_preference": {"key": "sslPreference", "type": "str"},
-        "ssl_certificate_uri": {"key": "sslCertificateUri", "type": "str"},
+        "count": {"key": "count", "type": "int"},
+        "duration_type": {"key": "durationType", "type": "str"},
     }
 
     def __init__(
         self,
         *,
-        prometheus_url: Optional[str] = None,
-        hostname: Optional[str] = None,
-        sid: Optional[str] = None,
-        cluster_name: Optional[str] = None,
-        ssl_preference: Optional[Union[str, "_models.SslPreference"]] = None,
-        ssl_certificate_uri: Optional[str] = None,
+        count: Optional[int] = None,
+        duration_type: Optional[Union[str, "_models.RetentionDurationType"]] = None,
         **kwargs: Any
     ) -> None:
         """
-        :keyword prometheus_url: URL of the Node Exporter endpoint.
-        :paramtype prometheus_url: str
-        :keyword hostname: Gets or sets the target machine name.
-        :paramtype hostname: str
-        :keyword sid: Gets or sets the cluster sid.
-        :paramtype sid: str
-        :keyword cluster_name: Gets or sets the clusterName.
-        :paramtype cluster_name: str
-        :keyword ssl_preference: Gets or sets certificate preference if secure communication is
-         enabled. Known values are: "Disabled", "RootCertificate", and "ServerCertificate".
-        :paramtype ssl_preference: str or ~azure.mgmt.workloads.models.SslPreference
-        :keyword ssl_certificate_uri: Gets or sets the blob URI to SSL certificate for the HA cluster
-         exporter.
-        :paramtype ssl_certificate_uri: str
+        :keyword count: Count of duration types. Retention duration is obtained by the counting the
+         duration type Count times.
+         For example, when Count = 3 and DurationType = Weeks, retention duration will be three weeks.
+        :paramtype count: int
+        :keyword duration_type: Retention duration type of retention policy. Known values are:
+         "Invalid", "Days", "Weeks", "Months", and "Years".
+        :paramtype duration_type: str or ~azure.mgmt.workloads.models.RetentionDurationType
         """
         super().__init__(**kwargs)
-        self.provider_type: str = "PrometheusHaCluster"
-        self.prometheus_url = prometheus_url
-        self.hostname = hostname
-        self.sid = sid
-        self.cluster_name = cluster_name
-        self.ssl_preference = ssl_preference
-        self.ssl_certificate_uri = ssl_certificate_uri
-
-
-class PrometheusOSProviderInstanceProperties(ProviderSpecificProperties):
-    """Gets or sets the PrometheusOS provider properties.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar provider_type: The provider type. For example, the value can be SapHana. Required.
-    :vartype provider_type: str
-    :ivar prometheus_url: URL of the Node Exporter endpoint.
-    :vartype prometheus_url: str
-    :ivar ssl_preference: Gets or sets certificate preference if secure communication is enabled.
-     Known values are: "Disabled", "RootCertificate", and "ServerCertificate".
-    :vartype ssl_preference: str or ~azure.mgmt.workloads.models.SslPreference
-    :ivar ssl_certificate_uri: Gets or sets the blob URI to SSL certificate for the prometheus node
-     exporter.
-    :vartype ssl_certificate_uri: str
-    :ivar sap_sid: Gets or sets the SAP System Identifier.
-    :vartype sap_sid: str
-    """
-
-    _validation = {
-        "provider_type": {"required": True},
-    }
-
-    _attribute_map = {
-        "provider_type": {"key": "providerType", "type": "str"},
-        "prometheus_url": {"key": "prometheusUrl", "type": "str"},
-        "ssl_preference": {"key": "sslPreference", "type": "str"},
-        "ssl_certificate_uri": {"key": "sslCertificateUri", "type": "str"},
-        "sap_sid": {"key": "sapSid", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        prometheus_url: Optional[str] = None,
-        ssl_preference: Optional[Union[str, "_models.SslPreference"]] = None,
-        ssl_certificate_uri: Optional[str] = None,
-        sap_sid: Optional[str] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword prometheus_url: URL of the Node Exporter endpoint.
-        :paramtype prometheus_url: str
-        :keyword ssl_preference: Gets or sets certificate preference if secure communication is
-         enabled. Known values are: "Disabled", "RootCertificate", and "ServerCertificate".
-        :paramtype ssl_preference: str or ~azure.mgmt.workloads.models.SslPreference
-        :keyword ssl_certificate_uri: Gets or sets the blob URI to SSL certificate for the prometheus
-         node exporter.
-        :paramtype ssl_certificate_uri: str
-        :keyword sap_sid: Gets or sets the SAP System Identifier.
-        :paramtype sap_sid: str
-        """
-        super().__init__(**kwargs)
-        self.provider_type: str = "PrometheusOS"
-        self.prometheus_url = prometheus_url
-        self.ssl_preference = ssl_preference
-        self.ssl_certificate_uri = ssl_certificate_uri
-        self.sap_sid = sap_sid
-
-
-class ProxyResource(Resource):
-    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
-    tags and a location.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-    :vartype id: str
-    :ivar name: The name of the resource.
-    :vartype name: str
-    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-     "Microsoft.Storage/storageAccounts".
-    :vartype type: str
-    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
-     information.
-    :vartype system_data: ~azure.mgmt.workloads.models.SystemData
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
-
-class ProviderInstance(ProxyResource):
-    """A provider instance associated with SAP monitor.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-    :vartype id: str
-    :ivar name: The name of the resource.
-    :vartype name: str
-    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-     "Microsoft.Storage/storageAccounts".
-    :vartype type: str
-    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
-     information.
-    :vartype system_data: ~azure.mgmt.workloads.models.SystemData
-    :ivar identity: [currently not in use] Managed service identity(user assigned identities).
-    :vartype identity: ~azure.mgmt.workloads.models.UserAssignedServiceIdentity
-    :ivar provisioning_state: State of provisioning of the provider instance. Known values are:
-     "Accepted", "Creating", "Updating", "Failed", "Succeeded", "Deleting", and "Migrating".
-    :vartype provisioning_state: str or
-     ~azure.mgmt.workloads.models.WorkloadMonitorProvisioningState
-    :ivar errors: Defines the provider instance errors.
-    :vartype errors: ~azure.mgmt.workloads.models.ProviderInstancePropertiesErrors
-    :ivar provider_settings: Defines the provider specific properties.
-    :vartype provider_settings: ~azure.mgmt.workloads.models.ProviderSpecificProperties
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-        "provisioning_state": {"readonly": True},
-        "errors": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-        "identity": {"key": "identity", "type": "UserAssignedServiceIdentity"},
-        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
-        "errors": {"key": "properties.errors", "type": "ProviderInstancePropertiesErrors"},
-        "provider_settings": {"key": "properties.providerSettings", "type": "ProviderSpecificProperties"},
-    }
-
-    def __init__(
-        self,
-        *,
-        identity: Optional["_models.UserAssignedServiceIdentity"] = None,
-        provider_settings: Optional["_models.ProviderSpecificProperties"] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword identity: [currently not in use] Managed service identity(user assigned identities).
-        :paramtype identity: ~azure.mgmt.workloads.models.UserAssignedServiceIdentity
-        :keyword provider_settings: Defines the provider specific properties.
-        :paramtype provider_settings: ~azure.mgmt.workloads.models.ProviderSpecificProperties
-        """
-        super().__init__(**kwargs)
-        self.identity = identity
-        self.provisioning_state = None
-        self.errors = None
-        self.provider_settings = provider_settings
-
-
-class ProviderInstanceListResult(_serialization.Model):
-    """The response from the List provider instances operation.
-
-    :ivar value: The list of provider instances.
-    :vartype value: list[~azure.mgmt.workloads.models.ProviderInstance]
-    :ivar next_link: The URL to get the next set of provider instances.
-    :vartype next_link: str
-    """
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[ProviderInstance]"},
-        "next_link": {"key": "nextLink", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        value: Optional[List["_models.ProviderInstance"]] = None,
-        next_link: Optional[str] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword value: The list of provider instances.
-        :paramtype value: list[~azure.mgmt.workloads.models.ProviderInstance]
-        :keyword next_link: The URL to get the next set of provider instances.
-        :paramtype next_link: str
-        """
-        super().__init__(**kwargs)
-        self.value = value
-        self.next_link = next_link
-
-
-class ProviderInstancePropertiesErrors(Error):
-    """Defines the provider instance errors.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar code: Server-defined set of error codes.
-    :vartype code: str
-    :ivar message: Human-readable representation of the error.
-    :vartype message: str
-    :ivar target: Target of the error.
-    :vartype target: str
-    :ivar details: Array of details about specific errors that led to this reported error.
-    :vartype details: list[~azure.mgmt.workloads.models.Error]
-    :ivar inner_error: Object containing more specific information than  the current object about
-     the error.
-    :vartype inner_error: ~azure.mgmt.workloads.models.ErrorInnerError
-    """
-
-    _validation = {
-        "code": {"readonly": True},
-        "message": {"readonly": True},
-        "target": {"readonly": True},
-        "details": {"readonly": True},
-        "inner_error": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "code": {"key": "code", "type": "str"},
-        "message": {"key": "message", "type": "str"},
-        "target": {"key": "target", "type": "str"},
-        "details": {"key": "details", "type": "[Error]"},
-        "inner_error": {"key": "innerError", "type": "ErrorInnerError"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
+        self.count = count
+        self.duration_type = duration_type
 
 
 class SAPApplicationServerInstance(TrackedResource):  # pylint: disable=too-many-instance-attributes
@@ -3354,6 +3475,8 @@ class SAPApplicationServerInstance(TrackedResource):  # pylint: disable=too-many
     :vartype icm_http_port: int
     :ivar icm_https_port: Application server instance ICM HTTPS Port.
     :vartype icm_https_port: int
+    :ivar dispatcher_status: Application server instance dispatcher status.
+    :vartype dispatcher_status: str
     :ivar load_balancer_details: The Load Balancer details such as LoadBalancer ID attached to
      Application Server Virtual Machines.
     :vartype load_balancer_details: ~azure.mgmt.workloads.models.LoadBalancerDetails
@@ -3366,7 +3489,7 @@ class SAPApplicationServerInstance(TrackedResource):  # pylint: disable=too-many
      "Unhealthy", and "Degraded".
     :vartype health: str or ~azure.mgmt.workloads.models.SAPHealthState
     :ivar provisioning_state: Defines the provisioning states. Known values are: "Succeeded",
-     "Updating", "Creating", "Failed", and "Deleting".
+     "Updating", "Creating", "Failed", "Deleting", and "Canceled".
     :vartype provisioning_state: str or
      ~azure.mgmt.workloads.models.SapVirtualInstanceProvisioningState
     :ivar errors: Defines the Application Instance errors.
@@ -3388,6 +3511,7 @@ class SAPApplicationServerInstance(TrackedResource):  # pylint: disable=too-many
         "gateway_port": {"readonly": True},
         "icm_http_port": {"readonly": True},
         "icm_https_port": {"readonly": True},
+        "dispatcher_status": {"readonly": True},
         "load_balancer_details": {"readonly": True},
         "vm_details": {"readonly": True},
         "status": {"readonly": True},
@@ -3412,6 +3536,7 @@ class SAPApplicationServerInstance(TrackedResource):  # pylint: disable=too-many
         "gateway_port": {"key": "properties.gatewayPort", "type": "int"},
         "icm_http_port": {"key": "properties.icmHttpPort", "type": "int"},
         "icm_https_port": {"key": "properties.icmHttpsPort", "type": "int"},
+        "dispatcher_status": {"key": "properties.dispatcherStatus", "type": "str"},
         "load_balancer_details": {"key": "properties.loadBalancerDetails", "type": "LoadBalancerDetails"},
         "vm_details": {"key": "properties.vmDetails", "type": "[ApplicationServerVmDetails]"},
         "status": {"key": "properties.status", "type": "str"},
@@ -3437,6 +3562,7 @@ class SAPApplicationServerInstance(TrackedResource):  # pylint: disable=too-many
         self.gateway_port = None
         self.icm_http_port = None
         self.icm_https_port = None
+        self.dispatcher_status = None
         self.load_balancer_details = None
         self.vm_details = None
         self.status = None
@@ -3634,7 +3760,7 @@ class SAPCentralServerInstance(TrackedResource):  # pylint: disable=too-many-ins
     :vartype instance_no: str
     :ivar subnet: The central services instance subnet.
     :vartype subnet: str
-    :ivar message_server_properties: Defines the SAP Message Server properties.
+    :ivar message_server_properties: Defines the SAP message server properties.
     :vartype message_server_properties: ~azure.mgmt.workloads.models.MessageServerProperties
     :ivar enqueue_server_properties: Defines the SAP Enqueue Server properties.
     :vartype enqueue_server_properties: ~azure.mgmt.workloads.models.EnqueueServerProperties
@@ -3660,7 +3786,7 @@ class SAPCentralServerInstance(TrackedResource):  # pylint: disable=too-many-ins
      "Unhealthy", and "Degraded".
     :vartype health: str or ~azure.mgmt.workloads.models.SAPHealthState
     :ivar provisioning_state: Defines the provisioning states. Known values are: "Succeeded",
-     "Updating", "Creating", "Failed", and "Deleting".
+     "Updating", "Creating", "Failed", "Deleting", and "Canceled".
     :vartype provisioning_state: str or
      ~azure.mgmt.workloads.models.SapVirtualInstanceProvisioningState
     :ivar errors: Defines the errors related to SAP Central Services Instance resource.
@@ -3727,7 +3853,7 @@ class SAPCentralServerInstance(TrackedResource):  # pylint: disable=too-many-ins
         :paramtype tags: dict[str, str]
         :keyword location: The geo-location where the resource lives. Required.
         :paramtype location: str
-        :keyword message_server_properties: Defines the SAP Message Server properties.
+        :keyword message_server_properties: Defines the SAP message server properties.
         :paramtype message_server_properties: ~azure.mgmt.workloads.models.MessageServerProperties
         :keyword enqueue_server_properties: Defines the SAP Enqueue Server properties.
         :paramtype enqueue_server_properties: ~azure.mgmt.workloads.models.EnqueueServerProperties
@@ -3795,7 +3921,7 @@ class SAPDatabaseInstance(TrackedResource):  # pylint: disable=too-many-instance
      "Stopping", "Offline", "PartiallyRunning", "Unavailable", and "SoftShutdown".
     :vartype status: str or ~azure.mgmt.workloads.models.SAPVirtualInstanceStatus
     :ivar provisioning_state: Defines the provisioning states. Known values are: "Succeeded",
-     "Updating", "Creating", "Failed", and "Deleting".
+     "Updating", "Creating", "Failed", "Deleting", and "Canceled".
     :vartype provisioning_state: str or
      ~azure.mgmt.workloads.models.SapVirtualInstanceProvisioningState
     :ivar errors: Defines the errors related to Database resource.
@@ -4091,321 +4217,6 @@ class SAPInstallWithoutOSConfigSoftwareConfiguration(SoftwareConfiguration):
         self.sap_bits_storage_account_id = sap_bits_storage_account_id
         self.software_version = software_version
         self.high_availability_software_configuration = high_availability_software_configuration
-
-
-class SapLandscapeMonitor(ProxyResource):
-    """configuration associated with SAP Landscape Monitor Dashboard.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-    :vartype id: str
-    :ivar name: The name of the resource.
-    :vartype name: str
-    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-     "Microsoft.Storage/storageAccounts".
-    :vartype type: str
-    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
-     information.
-    :vartype system_data: ~azure.mgmt.workloads.models.SystemData
-    :ivar provisioning_state: State of provisioning of the SAP monitor. Known values are:
-     "Accepted", "Created", "Failed", "Succeeded", and "Canceled".
-    :vartype provisioning_state: str or
-     ~azure.mgmt.workloads.models.SapLandscapeMonitorProvisioningState
-    :ivar grouping: Gets or sets the SID groupings by landscape and Environment.
-    :vartype grouping: ~azure.mgmt.workloads.models.SapLandscapeMonitorPropertiesGrouping
-    :ivar top_metrics_thresholds: Gets or sets the list Top Metric Thresholds for SAP Landscape
-     Monitor Dashboard.
-    :vartype top_metrics_thresholds:
-     list[~azure.mgmt.workloads.models.SapLandscapeMonitorMetricThresholds]
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-        "provisioning_state": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
-        "grouping": {"key": "properties.grouping", "type": "SapLandscapeMonitorPropertiesGrouping"},
-        "top_metrics_thresholds": {
-            "key": "properties.topMetricsThresholds",
-            "type": "[SapLandscapeMonitorMetricThresholds]",
-        },
-    }
-
-    def __init__(
-        self,
-        *,
-        grouping: Optional["_models.SapLandscapeMonitorPropertiesGrouping"] = None,
-        top_metrics_thresholds: Optional[List["_models.SapLandscapeMonitorMetricThresholds"]] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword grouping: Gets or sets the SID groupings by landscape and Environment.
-        :paramtype grouping: ~azure.mgmt.workloads.models.SapLandscapeMonitorPropertiesGrouping
-        :keyword top_metrics_thresholds: Gets or sets the list Top Metric Thresholds for SAP Landscape
-         Monitor Dashboard.
-        :paramtype top_metrics_thresholds:
-         list[~azure.mgmt.workloads.models.SapLandscapeMonitorMetricThresholds]
-        """
-        super().__init__(**kwargs)
-        self.provisioning_state = None
-        self.grouping = grouping
-        self.top_metrics_thresholds = top_metrics_thresholds
-
-
-class SapLandscapeMonitorListResult(_serialization.Model):
-    """The response from the List SAP Landscape Monitor Dashboard operation.
-
-    :ivar value: The list of Sap Landscape Monitor configuration.
-    :vartype value: list[~azure.mgmt.workloads.models.SapLandscapeMonitor]
-    :ivar next_link: The URL to get the next set of SAP Landscape Monitor Dashboard.
-    :vartype next_link: str
-    """
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[SapLandscapeMonitor]"},
-        "next_link": {"key": "nextLink", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        value: Optional[List["_models.SapLandscapeMonitor"]] = None,
-        next_link: Optional[str] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword value: The list of Sap Landscape Monitor configuration.
-        :paramtype value: list[~azure.mgmt.workloads.models.SapLandscapeMonitor]
-        :keyword next_link: The URL to get the next set of SAP Landscape Monitor Dashboard.
-        :paramtype next_link: str
-        """
-        super().__init__(**kwargs)
-        self.value = value
-        self.next_link = next_link
-
-
-class SapLandscapeMonitorMetricThresholds(_serialization.Model):
-    """Gets or sets the Threshold Values for Top Metrics Health.
-
-    :ivar name: Gets or sets the name of the threshold.
-    :vartype name: str
-    :ivar green: Gets or sets the threshold value for Green.
-    :vartype green: float
-    :ivar yellow: Gets or sets the threshold value for Yellow.
-    :vartype yellow: float
-    :ivar red: Gets or sets the threshold value for Red.
-    :vartype red: float
-    """
-
-    _attribute_map = {
-        "name": {"key": "name", "type": "str"},
-        "green": {"key": "green", "type": "float"},
-        "yellow": {"key": "yellow", "type": "float"},
-        "red": {"key": "red", "type": "float"},
-    }
-
-    def __init__(
-        self,
-        *,
-        name: Optional[str] = None,
-        green: Optional[float] = None,
-        yellow: Optional[float] = None,
-        red: Optional[float] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword name: Gets or sets the name of the threshold.
-        :paramtype name: str
-        :keyword green: Gets or sets the threshold value for Green.
-        :paramtype green: float
-        :keyword yellow: Gets or sets the threshold value for Yellow.
-        :paramtype yellow: float
-        :keyword red: Gets or sets the threshold value for Red.
-        :paramtype red: float
-        """
-        super().__init__(**kwargs)
-        self.name = name
-        self.green = green
-        self.yellow = yellow
-        self.red = red
-
-
-class SapLandscapeMonitorPropertiesGrouping(_serialization.Model):
-    """Gets or sets the SID groupings by landscape and Environment.
-
-    :ivar landscape: Gets or sets the list of landscape to SID mappings.
-    :vartype landscape: list[~azure.mgmt.workloads.models.SapLandscapeMonitorSidMapping]
-    :ivar sap_application: Gets or sets the list of Sap Applications to SID mappings.
-    :vartype sap_application: list[~azure.mgmt.workloads.models.SapLandscapeMonitorSidMapping]
-    """
-
-    _attribute_map = {
-        "landscape": {"key": "landscape", "type": "[SapLandscapeMonitorSidMapping]"},
-        "sap_application": {"key": "sapApplication", "type": "[SapLandscapeMonitorSidMapping]"},
-    }
-
-    def __init__(
-        self,
-        *,
-        landscape: Optional[List["_models.SapLandscapeMonitorSidMapping"]] = None,
-        sap_application: Optional[List["_models.SapLandscapeMonitorSidMapping"]] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword landscape: Gets or sets the list of landscape to SID mappings.
-        :paramtype landscape: list[~azure.mgmt.workloads.models.SapLandscapeMonitorSidMapping]
-        :keyword sap_application: Gets or sets the list of Sap Applications to SID mappings.
-        :paramtype sap_application: list[~azure.mgmt.workloads.models.SapLandscapeMonitorSidMapping]
-        """
-        super().__init__(**kwargs)
-        self.landscape = landscape
-        self.sap_application = sap_application
-
-
-class SapLandscapeMonitorSidMapping(_serialization.Model):
-    """Gets or sets the mapping for SID to Environment/Applications.
-
-    :ivar name: Gets or sets the name of the grouping.
-    :vartype name: str
-    :ivar top_sid: Gets or sets the list of SID's.
-    :vartype top_sid: list[str]
-    """
-
-    _attribute_map = {
-        "name": {"key": "name", "type": "str"},
-        "top_sid": {"key": "topSid", "type": "[str]"},
-    }
-
-    def __init__(self, *, name: Optional[str] = None, top_sid: Optional[List[str]] = None, **kwargs: Any) -> None:
-        """
-        :keyword name: Gets or sets the name of the grouping.
-        :paramtype name: str
-        :keyword top_sid: Gets or sets the list of SID's.
-        :paramtype top_sid: list[str]
-        """
-        super().__init__(**kwargs)
-        self.name = name
-        self.top_sid = top_sid
-
-
-class SapNetWeaverProviderInstanceProperties(
-    ProviderSpecificProperties
-):  # pylint: disable=too-many-instance-attributes
-    """Gets or sets the provider properties.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar provider_type: The provider type. For example, the value can be SapHana. Required.
-    :vartype provider_type: str
-    :ivar sap_sid: Gets or sets the SAP System Identifier.
-    :vartype sap_sid: str
-    :ivar sap_hostname: Gets or sets the target virtual machine IP Address/FQDN.
-    :vartype sap_hostname: str
-    :ivar sap_instance_nr: Gets or sets the instance number of SAP NetWeaver.
-    :vartype sap_instance_nr: str
-    :ivar sap_host_file_entries: Gets or sets the list of HostFile Entries.
-    :vartype sap_host_file_entries: list[str]
-    :ivar sap_username: Gets or sets the SAP user name.
-    :vartype sap_username: str
-    :ivar sap_password: Sets the SAP password.
-    :vartype sap_password: str
-    :ivar sap_password_uri: Gets or sets the key vault URI to secret with the SAP password.
-    :vartype sap_password_uri: str
-    :ivar sap_client_id: Gets or sets the SAP Client ID.
-    :vartype sap_client_id: str
-    :ivar sap_port_number: Gets or sets the SAP HTTP port number.
-    :vartype sap_port_number: str
-    :ivar ssl_certificate_uri: Gets or sets the blob URI to SSL certificate for the SAP system.
-    :vartype ssl_certificate_uri: str
-    :ivar ssl_preference: Gets or sets certificate preference if secure communication is enabled.
-     Known values are: "Disabled", "RootCertificate", and "ServerCertificate".
-    :vartype ssl_preference: str or ~azure.mgmt.workloads.models.SslPreference
-    """
-
-    _validation = {
-        "provider_type": {"required": True},
-    }
-
-    _attribute_map = {
-        "provider_type": {"key": "providerType", "type": "str"},
-        "sap_sid": {"key": "sapSid", "type": "str"},
-        "sap_hostname": {"key": "sapHostname", "type": "str"},
-        "sap_instance_nr": {"key": "sapInstanceNr", "type": "str"},
-        "sap_host_file_entries": {"key": "sapHostFileEntries", "type": "[str]"},
-        "sap_username": {"key": "sapUsername", "type": "str"},
-        "sap_password": {"key": "sapPassword", "type": "str"},
-        "sap_password_uri": {"key": "sapPasswordUri", "type": "str"},
-        "sap_client_id": {"key": "sapClientId", "type": "str"},
-        "sap_port_number": {"key": "sapPortNumber", "type": "str"},
-        "ssl_certificate_uri": {"key": "sslCertificateUri", "type": "str"},
-        "ssl_preference": {"key": "sslPreference", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        sap_sid: Optional[str] = None,
-        sap_hostname: Optional[str] = None,
-        sap_instance_nr: Optional[str] = None,
-        sap_host_file_entries: Optional[List[str]] = None,
-        sap_username: Optional[str] = None,
-        sap_password: Optional[str] = None,
-        sap_password_uri: Optional[str] = None,
-        sap_client_id: Optional[str] = None,
-        sap_port_number: Optional[str] = None,
-        ssl_certificate_uri: Optional[str] = None,
-        ssl_preference: Optional[Union[str, "_models.SslPreference"]] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword sap_sid: Gets or sets the SAP System Identifier.
-        :paramtype sap_sid: str
-        :keyword sap_hostname: Gets or sets the target virtual machine IP Address/FQDN.
-        :paramtype sap_hostname: str
-        :keyword sap_instance_nr: Gets or sets the instance number of SAP NetWeaver.
-        :paramtype sap_instance_nr: str
-        :keyword sap_host_file_entries: Gets or sets the list of HostFile Entries.
-        :paramtype sap_host_file_entries: list[str]
-        :keyword sap_username: Gets or sets the SAP user name.
-        :paramtype sap_username: str
-        :keyword sap_password: Sets the SAP password.
-        :paramtype sap_password: str
-        :keyword sap_password_uri: Gets or sets the key vault URI to secret with the SAP password.
-        :paramtype sap_password_uri: str
-        :keyword sap_client_id: Gets or sets the SAP Client ID.
-        :paramtype sap_client_id: str
-        :keyword sap_port_number: Gets or sets the SAP HTTP port number.
-        :paramtype sap_port_number: str
-        :keyword ssl_certificate_uri: Gets or sets the blob URI to SSL certificate for the SAP system.
-        :paramtype ssl_certificate_uri: str
-        :keyword ssl_preference: Gets or sets certificate preference if secure communication is
-         enabled. Known values are: "Disabled", "RootCertificate", and "ServerCertificate".
-        :paramtype ssl_preference: str or ~azure.mgmt.workloads.models.SslPreference
-        """
-        super().__init__(**kwargs)
-        self.provider_type: str = "SapNetWeaver"
-        self.sap_sid = sap_sid
-        self.sap_hostname = sap_hostname
-        self.sap_instance_nr = sap_instance_nr
-        self.sap_host_file_entries = sap_host_file_entries
-        self.sap_username = sap_username
-        self.sap_password = sap_password
-        self.sap_password_uri = sap_password_uri
-        self.sap_client_id = sap_client_id
-        self.sap_port_number = sap_port_number
-        self.ssl_certificate_uri = ssl_certificate_uri
-        self.ssl_preference = ssl_preference
 
 
 class SAPSizingRecommendationRequest(_serialization.Model):
@@ -4707,8 +4518,7 @@ class SAPVirtualInstance(TrackedResource):  # pylint: disable=too-many-instance-
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
-    :ivar identity: A pre-created user assigned identity with appropriate roles assigned. To learn
-     more on identity and roles required, visit the ACSS how-to-guide.
+    :ivar identity: Managed service identity (user assigned identities).
     :vartype identity: ~azure.mgmt.workloads.models.UserAssignedServiceIdentity
     :ivar environment: Defines the environment type - Production/Non Production. Required. Known
      values are: "NonProd" and "Prod".
@@ -4716,6 +4526,15 @@ class SAPVirtualInstance(TrackedResource):  # pylint: disable=too-many-instance-
     :ivar sap_product: Defines the SAP Product type. Required. Known values are: "ECC", "S4HANA",
      and "Other".
     :vartype sap_product: str or ~azure.mgmt.workloads.models.SAPProductType
+    :ivar managed_resources_network_access_type: Specifies the network access configuration for the
+     resources that will be deployed in the Managed Resource Group. The options to choose from are
+     Public and Private. If 'Private' is chosen, the Storage Account service tag should be enabled
+     on the subnets in which the SAP VMs exist. This is required for establishing connectivity
+     between VM extensions and the managed resource group storage account. This setting is currently
+     applicable only to Storage Account. Learn more here
+     https://go.microsoft.com/fwlink/?linkid=2247228. Known values are: "Public" and "Private".
+    :vartype managed_resources_network_access_type: str or
+     ~azure.mgmt.workloads.models.ManagedResourcesNetworkAccessType
     :ivar configuration: Defines if the SAP system is being created using Azure Center for SAP
      solutions (ACSS) or if an existing SAP system is being registered with ACSS. Required.
     :vartype configuration: ~azure.mgmt.workloads.models.SAPConfiguration
@@ -4732,11 +4551,11 @@ class SAPVirtualInstance(TrackedResource):  # pylint: disable=too-many-instance-
      "InfrastructureDeploymentPending", "InfrastructureDeploymentInProgress",
      "InfrastructureDeploymentFailed", "SoftwareInstallationPending",
      "SoftwareInstallationInProgress", "SoftwareInstallationFailed", "SoftwareDetectionInProgress",
-     "SoftwareDetectionFailed", "DiscoveryPending", "DiscoveryInProgress", "DiscoveryFailed", and
-     "RegistrationComplete".
+     "SoftwareDetectionFailed", "DiscoveryPending", "DiscoveryInProgress", "DiscoveryFailed",
+     "RegistrationComplete", and "ACSSInstallationBlocked".
     :vartype state: str or ~azure.mgmt.workloads.models.SAPVirtualInstanceState
     :ivar provisioning_state: Defines the provisioning states. Known values are: "Succeeded",
-     "Updating", "Creating", "Failed", and "Deleting".
+     "Updating", "Creating", "Failed", "Deleting", and "Canceled".
     :vartype provisioning_state: str or
      ~azure.mgmt.workloads.models.SapVirtualInstanceProvisioningState
     :ivar errors: Indicates any errors on the Virtual Instance for SAP solutions resource.
@@ -4769,6 +4588,7 @@ class SAPVirtualInstance(TrackedResource):  # pylint: disable=too-many-instance-
         "identity": {"key": "identity", "type": "UserAssignedServiceIdentity"},
         "environment": {"key": "properties.environment", "type": "str"},
         "sap_product": {"key": "properties.sapProduct", "type": "str"},
+        "managed_resources_network_access_type": {"key": "properties.managedResourcesNetworkAccessType", "type": "str"},
         "configuration": {"key": "properties.configuration", "type": "SAPConfiguration"},
         "managed_resource_group_configuration": {
             "key": "properties.managedResourceGroupConfiguration",
@@ -4790,6 +4610,7 @@ class SAPVirtualInstance(TrackedResource):  # pylint: disable=too-many-instance-
         configuration: "_models.SAPConfiguration",
         tags: Optional[Dict[str, str]] = None,
         identity: Optional["_models.UserAssignedServiceIdentity"] = None,
+        managed_resources_network_access_type: Optional[Union[str, "_models.ManagedResourcesNetworkAccessType"]] = None,
         managed_resource_group_configuration: Optional["_models.ManagedRGConfiguration"] = None,
         **kwargs: Any
     ) -> None:
@@ -4798,8 +4619,7 @@ class SAPVirtualInstance(TrackedResource):  # pylint: disable=too-many-instance-
         :paramtype tags: dict[str, str]
         :keyword location: The geo-location where the resource lives. Required.
         :paramtype location: str
-        :keyword identity: A pre-created user assigned identity with appropriate roles assigned. To
-         learn more on identity and roles required, visit the ACSS how-to-guide.
+        :keyword identity: Managed service identity (user assigned identities).
         :paramtype identity: ~azure.mgmt.workloads.models.UserAssignedServiceIdentity
         :keyword environment: Defines the environment type - Production/Non Production. Required. Known
          values are: "NonProd" and "Prod".
@@ -4807,6 +4627,15 @@ class SAPVirtualInstance(TrackedResource):  # pylint: disable=too-many-instance-
         :keyword sap_product: Defines the SAP Product type. Required. Known values are: "ECC",
          "S4HANA", and "Other".
         :paramtype sap_product: str or ~azure.mgmt.workloads.models.SAPProductType
+        :keyword managed_resources_network_access_type: Specifies the network access configuration for
+         the resources that will be deployed in the Managed Resource Group. The options to choose from
+         are Public and Private. If 'Private' is chosen, the Storage Account service tag should be
+         enabled on the subnets in which the SAP VMs exist. This is required for establishing
+         connectivity between VM extensions and the managed resource group storage account. This setting
+         is currently applicable only to Storage Account. Learn more here
+         https://go.microsoft.com/fwlink/?linkid=2247228. Known values are: "Public" and "Private".
+        :paramtype managed_resources_network_access_type: str or
+         ~azure.mgmt.workloads.models.ManagedResourcesNetworkAccessType
         :keyword configuration: Defines if the SAP system is being created using Azure Center for SAP
          solutions (ACSS) or if an existing SAP system is being registered with ACSS. Required.
         :paramtype configuration: ~azure.mgmt.workloads.models.SAPConfiguration
@@ -4818,6 +4647,7 @@ class SAPVirtualInstance(TrackedResource):  # pylint: disable=too-many-instance-
         self.identity = identity
         self.environment = environment
         self.sap_product = sap_product
+        self.managed_resources_network_access_type = managed_resources_network_access_type
         self.configuration = configuration
         self.managed_resource_group_configuration = managed_resource_group_configuration
         self.status = None
@@ -4961,6 +4791,50 @@ class ServiceInitiatedSoftwareConfiguration(SoftwareConfiguration):
         self.high_availability_software_configuration = high_availability_software_configuration
 
 
+class Settings(_serialization.Model):
+    """Common settings field for backup management.
+
+    :ivar time_zone: TimeZone optional input as string. For example: TimeZone = "Pacific Standard
+     Time".
+    :vartype time_zone: str
+    :ivar issqlcompression: SQL compression flag.
+    :vartype issqlcompression: bool
+    :ivar is_compression: Workload compression flag. This has been added so that 'isSqlCompression'
+     will be deprecated once clients upgrade to consider this flag.
+    :vartype is_compression: bool
+    """
+
+    _attribute_map = {
+        "time_zone": {"key": "timeZone", "type": "str"},
+        "issqlcompression": {"key": "issqlcompression", "type": "bool"},
+        "is_compression": {"key": "isCompression", "type": "bool"},
+    }
+
+    def __init__(
+        self,
+        *,
+        time_zone: Optional[str] = None,
+        issqlcompression: Optional[bool] = None,
+        is_compression: Optional[bool] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword time_zone: TimeZone optional input as string. For example: TimeZone = "Pacific
+         Standard Time".
+        :paramtype time_zone: str
+        :keyword issqlcompression: SQL compression flag.
+        :paramtype issqlcompression: bool
+        :keyword is_compression: Workload compression flag. This has been added so that
+         'isSqlCompression'
+         will be deprecated once clients upgrade to consider this flag.
+        :paramtype is_compression: bool
+        """
+        super().__init__(**kwargs)
+        self.time_zone = time_zone
+        self.issqlcompression = issqlcompression
+        self.is_compression = is_compression
+
+
 class SharedStorageResourceNames(_serialization.Model):
     """The resource names object for shared storage.
 
@@ -4999,6 +4873,162 @@ class SharedStorageResourceNames(_serialization.Model):
         super().__init__(**kwargs)
         self.shared_storage_account_name = shared_storage_account_name
         self.shared_storage_account_private_end_point_name = shared_storage_account_private_end_point_name
+
+
+class SimpleRetentionPolicy(RetentionPolicy):
+    """Simple policy retention.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar retention_policy_type: This property will be used as the discriminator for deciding the
+     specific types in the polymorphic chain of types. Required.
+    :vartype retention_policy_type: str
+    :ivar retention_duration: Retention duration of the protection policy.
+    :vartype retention_duration: ~azure.mgmt.workloads.models.RetentionDuration
+    """
+
+    _validation = {
+        "retention_policy_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "retention_policy_type": {"key": "retentionPolicyType", "type": "str"},
+        "retention_duration": {"key": "retentionDuration", "type": "RetentionDuration"},
+    }
+
+    def __init__(self, *, retention_duration: Optional["_models.RetentionDuration"] = None, **kwargs: Any) -> None:
+        """
+        :keyword retention_duration: Retention duration of the protection policy.
+        :paramtype retention_duration: ~azure.mgmt.workloads.models.RetentionDuration
+        """
+        super().__init__(**kwargs)
+        self.retention_policy_type: str = "SimpleRetentionPolicy"
+        self.retention_duration = retention_duration
+
+
+class SimpleSchedulePolicy(SchedulePolicy):
+    """Simple policy schedule.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar schedule_policy_type: This property will be used as the discriminator for deciding the
+     specific types in the polymorphic chain of types. Required.
+    :vartype schedule_policy_type: str
+    :ivar schedule_run_frequency: Frequency of the schedule operation of this policy. Known values
+     are: "Invalid", "Daily", "Weekly", and "Hourly".
+    :vartype schedule_run_frequency: str or ~azure.mgmt.workloads.models.ScheduleRunType
+    :ivar schedule_run_days: List of days of week this schedule has to be run.
+    :vartype schedule_run_days: list[str or ~azure.mgmt.workloads.models.DayOfWeek]
+    :ivar schedule_run_times: List of times of day this schedule has to be run.
+    :vartype schedule_run_times: list[~datetime.datetime]
+    :ivar hourly_schedule: Hourly Schedule of this Policy.
+    :vartype hourly_schedule: ~azure.mgmt.workloads.models.HourlySchedule
+    :ivar schedule_weekly_frequency: At every number weeks this schedule has to be run.
+    :vartype schedule_weekly_frequency: int
+    """
+
+    _validation = {
+        "schedule_policy_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "schedule_policy_type": {"key": "schedulePolicyType", "type": "str"},
+        "schedule_run_frequency": {"key": "scheduleRunFrequency", "type": "str"},
+        "schedule_run_days": {"key": "scheduleRunDays", "type": "[str]"},
+        "schedule_run_times": {"key": "scheduleRunTimes", "type": "[iso-8601]"},
+        "hourly_schedule": {"key": "hourlySchedule", "type": "HourlySchedule"},
+        "schedule_weekly_frequency": {"key": "scheduleWeeklyFrequency", "type": "int"},
+    }
+
+    def __init__(
+        self,
+        *,
+        schedule_run_frequency: Optional[Union[str, "_models.ScheduleRunType"]] = None,
+        schedule_run_days: Optional[List[Union[str, "_models.DayOfWeek"]]] = None,
+        schedule_run_times: Optional[List[datetime.datetime]] = None,
+        hourly_schedule: Optional["_models.HourlySchedule"] = None,
+        schedule_weekly_frequency: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword schedule_run_frequency: Frequency of the schedule operation of this policy. Known
+         values are: "Invalid", "Daily", "Weekly", and "Hourly".
+        :paramtype schedule_run_frequency: str or ~azure.mgmt.workloads.models.ScheduleRunType
+        :keyword schedule_run_days: List of days of week this schedule has to be run.
+        :paramtype schedule_run_days: list[str or ~azure.mgmt.workloads.models.DayOfWeek]
+        :keyword schedule_run_times: List of times of day this schedule has to be run.
+        :paramtype schedule_run_times: list[~datetime.datetime]
+        :keyword hourly_schedule: Hourly Schedule of this Policy.
+        :paramtype hourly_schedule: ~azure.mgmt.workloads.models.HourlySchedule
+        :keyword schedule_weekly_frequency: At every number weeks this schedule has to be run.
+        :paramtype schedule_weekly_frequency: int
+        """
+        super().__init__(**kwargs)
+        self.schedule_policy_type: str = "SimpleSchedulePolicy"
+        self.schedule_run_frequency = schedule_run_frequency
+        self.schedule_run_days = schedule_run_days
+        self.schedule_run_times = schedule_run_times
+        self.hourly_schedule = hourly_schedule
+        self.schedule_weekly_frequency = schedule_weekly_frequency
+
+
+class SimpleSchedulePolicyV2(SchedulePolicy):
+    """The V2 policy schedule for IaaS that supports hourly backups.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar schedule_policy_type: This property will be used as the discriminator for deciding the
+     specific types in the polymorphic chain of types. Required.
+    :vartype schedule_policy_type: str
+    :ivar schedule_run_frequency: Frequency of the schedule operation of this policy. Known values
+     are: "Invalid", "Daily", "Weekly", and "Hourly".
+    :vartype schedule_run_frequency: str or ~azure.mgmt.workloads.models.ScheduleRunType
+    :ivar hourly_schedule: hourly schedule of this policy.
+    :vartype hourly_schedule: ~azure.mgmt.workloads.models.HourlySchedule
+    :ivar daily_schedule: Daily schedule of this policy.
+    :vartype daily_schedule: ~azure.mgmt.workloads.models.DailySchedule
+    :ivar weekly_schedule: Weekly schedule of this policy.
+    :vartype weekly_schedule: ~azure.mgmt.workloads.models.WeeklySchedule
+    """
+
+    _validation = {
+        "schedule_policy_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "schedule_policy_type": {"key": "schedulePolicyType", "type": "str"},
+        "schedule_run_frequency": {"key": "scheduleRunFrequency", "type": "str"},
+        "hourly_schedule": {"key": "hourlySchedule", "type": "HourlySchedule"},
+        "daily_schedule": {"key": "dailySchedule", "type": "DailySchedule"},
+        "weekly_schedule": {"key": "weeklySchedule", "type": "WeeklySchedule"},
+    }
+
+    def __init__(
+        self,
+        *,
+        schedule_run_frequency: Optional[Union[str, "_models.ScheduleRunType"]] = None,
+        hourly_schedule: Optional["_models.HourlySchedule"] = None,
+        daily_schedule: Optional["_models.DailySchedule"] = None,
+        weekly_schedule: Optional["_models.WeeklySchedule"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword schedule_run_frequency: Frequency of the schedule operation of this policy. Known
+         values are: "Invalid", "Daily", "Weekly", and "Hourly".
+        :paramtype schedule_run_frequency: str or ~azure.mgmt.workloads.models.ScheduleRunType
+        :keyword hourly_schedule: hourly schedule of this policy.
+        :paramtype hourly_schedule: ~azure.mgmt.workloads.models.HourlySchedule
+        :keyword daily_schedule: Daily schedule of this policy.
+        :paramtype daily_schedule: ~azure.mgmt.workloads.models.DailySchedule
+        :keyword weekly_schedule: Weekly schedule of this policy.
+        :paramtype weekly_schedule: ~azure.mgmt.workloads.models.WeeklySchedule
+        """
+        super().__init__(**kwargs)
+        self.schedule_policy_type: str = "SimpleSchedulePolicyV2"
+        self.schedule_run_frequency = schedule_run_frequency
+        self.hourly_schedule = hourly_schedule
+        self.daily_schedule = daily_schedule
+        self.weekly_schedule = weekly_schedule
 
 
 class SingleServerConfiguration(InfrastructureConfiguration):
@@ -5210,6 +5240,99 @@ class SkipFileShareConfiguration(FileShareConfiguration):
         self.configuration_type: str = "Skip"
 
 
+class SnapshotBackupAdditionalDetails(_serialization.Model):
+    """Snapshot Backup related fields for WorkloadType SAP Hana system.
+
+    :ivar instant_rp_retention_range_in_days: Retention range for instant Rp in days.
+    :vartype instant_rp_retention_range_in_days: int
+    :ivar instant_rp_details: Instant RP details for the snapshot.
+    :vartype instant_rp_details: str
+    :ivar user_assigned_managed_identity_details: User Assigned managed identity details used for
+     snapshot policy.
+    :vartype user_assigned_managed_identity_details:
+     ~azure.mgmt.workloads.models.UserAssignedManagedIdentityDetails
+    """
+
+    _attribute_map = {
+        "instant_rp_retention_range_in_days": {"key": "instantRpRetentionRangeInDays", "type": "int"},
+        "instant_rp_details": {"key": "instantRPDetails", "type": "str"},
+        "user_assigned_managed_identity_details": {
+            "key": "userAssignedManagedIdentityDetails",
+            "type": "UserAssignedManagedIdentityDetails",
+        },
+    }
+
+    def __init__(
+        self,
+        *,
+        instant_rp_retention_range_in_days: Optional[int] = None,
+        instant_rp_details: Optional[str] = None,
+        user_assigned_managed_identity_details: Optional["_models.UserAssignedManagedIdentityDetails"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword instant_rp_retention_range_in_days: Retention range for instant Rp in days.
+        :paramtype instant_rp_retention_range_in_days: int
+        :keyword instant_rp_details: Instant RP details for the snapshot.
+        :paramtype instant_rp_details: str
+        :keyword user_assigned_managed_identity_details: User Assigned managed identity details used
+         for snapshot policy.
+        :paramtype user_assigned_managed_identity_details:
+         ~azure.mgmt.workloads.models.UserAssignedManagedIdentityDetails
+        """
+        super().__init__(**kwargs)
+        self.instant_rp_retention_range_in_days = instant_rp_retention_range_in_days
+        self.instant_rp_details = instant_rp_details
+        self.user_assigned_managed_identity_details = user_assigned_managed_identity_details
+
+
+class SqlBackupData(BackupData):
+    """Defines the SQL Backup data for a virtual instance for SAP.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar backup_type: The type of backup, VM, SQL or HANA. Required. Known values are: "VM",
+     "SQL", and "HANA".
+    :vartype backup_type: str or ~azure.mgmt.workloads.models.BackupType
+    :ivar recovery_services_vault: The properties of the recovery services vault used for backup.
+     Required.
+    :vartype recovery_services_vault: ~azure.mgmt.workloads.models.RecoveryServicesVaultProperties
+    :ivar backup_policy: Defines the policy properties for database backup. Required.
+    :vartype backup_policy: ~azure.mgmt.workloads.models.DBBackupPolicyProperties
+    """
+
+    _validation = {
+        "backup_type": {"required": True},
+        "recovery_services_vault": {"required": True},
+        "backup_policy": {"required": True},
+    }
+
+    _attribute_map = {
+        "backup_type": {"key": "backupType", "type": "str"},
+        "recovery_services_vault": {"key": "recoveryServicesVault", "type": "RecoveryServicesVaultProperties"},
+        "backup_policy": {"key": "backupPolicy", "type": "DBBackupPolicyProperties"},
+    }
+
+    def __init__(
+        self,
+        *,
+        recovery_services_vault: "_models.RecoveryServicesVaultProperties",
+        backup_policy: "_models.DBBackupPolicyProperties",
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword recovery_services_vault: The properties of the recovery services vault used for
+         backup. Required.
+        :paramtype recovery_services_vault:
+         ~azure.mgmt.workloads.models.RecoveryServicesVaultProperties
+        :keyword backup_policy: Defines the policy properties for database backup. Required.
+        :paramtype backup_policy: ~azure.mgmt.workloads.models.DBBackupPolicyProperties
+        """
+        super().__init__(recovery_services_vault=recovery_services_vault, **kwargs)
+        self.backup_type: str = "SQL"
+        self.backup_policy = backup_policy
+
+
 class SshConfiguration(_serialization.Model):
     """SSH configuration for Linux based VMs running on Azure.
 
@@ -5286,6 +5409,96 @@ class SshPublicKey(_serialization.Model):
         self.key_data = key_data
 
 
+class SSLConfiguration(_serialization.Model):
+    """Specify the HANA database TLS/SSL properties which will be used for enabling Azure Backup for
+    this database. You need to specify these details if you have enabled secure communication for
+    your HANA database.
+
+    :ivar ssl_key_store: Specify the name of the keystore file that contains the client's identity
+     (eg. sapsrv.pse). The script will search for the file in the appropriate directory depending on
+     the crypto provider mentioned. If this argument is not provided, it is automatically determined
+     by searching in the configuration files.
+    :vartype ssl_key_store: str
+    :ivar ssl_trust_store: Specify the name of the trust store file that contains the server’s
+     public certificates (eg. sapsrv.pse). The script will search for the file in the appropriate
+     directory depending on the crypto provider mentioned. If this argument is not provided, it is
+     automatically determined by searching in the configuration files.
+    :vartype ssl_trust_store: str
+    :ivar ssl_host_name_in_certificate: Specify the hostname as mentioned in the SSL certificate.
+     If this argument is not provided, it is automatically determined by searching in the SSL
+     certificate.
+    :vartype ssl_host_name_in_certificate: str
+    :ivar ssl_crypto_provider: Specify the crypto provider being used (commoncrypto/openssl). If
+     this argument is not provided, it is automatically determined by searching in the configuration
+     files. Known values are: "commoncrypto" and "openssl".
+    :vartype ssl_crypto_provider: str or ~azure.mgmt.workloads.models.SslCryptoProvider
+    """
+
+    _attribute_map = {
+        "ssl_key_store": {"key": "sslKeyStore", "type": "str"},
+        "ssl_trust_store": {"key": "sslTrustStore", "type": "str"},
+        "ssl_host_name_in_certificate": {"key": "sslHostNameInCertificate", "type": "str"},
+        "ssl_crypto_provider": {"key": "sslCryptoProvider", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        ssl_key_store: Optional[str] = None,
+        ssl_trust_store: Optional[str] = None,
+        ssl_host_name_in_certificate: Optional[str] = None,
+        ssl_crypto_provider: Optional[Union[str, "_models.SslCryptoProvider"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword ssl_key_store: Specify the name of the keystore file that contains the client's
+         identity (eg. sapsrv.pse). The script will search for the file in the appropriate directory
+         depending on the crypto provider mentioned. If this argument is not provided, it is
+         automatically determined by searching in the configuration files.
+        :paramtype ssl_key_store: str
+        :keyword ssl_trust_store: Specify the name of the trust store file that contains the server’s
+         public certificates (eg. sapsrv.pse). The script will search for the file in the appropriate
+         directory depending on the crypto provider mentioned. If this argument is not provided, it is
+         automatically determined by searching in the configuration files.
+        :paramtype ssl_trust_store: str
+        :keyword ssl_host_name_in_certificate: Specify the hostname as mentioned in the SSL
+         certificate. If this argument is not provided, it is automatically determined by searching in
+         the SSL certificate.
+        :paramtype ssl_host_name_in_certificate: str
+        :keyword ssl_crypto_provider: Specify the crypto provider being used (commoncrypto/openssl). If
+         this argument is not provided, it is automatically determined by searching in the configuration
+         files. Known values are: "commoncrypto" and "openssl".
+        :paramtype ssl_crypto_provider: str or ~azure.mgmt.workloads.models.SslCryptoProvider
+        """
+        super().__init__(**kwargs)
+        self.ssl_key_store = ssl_key_store
+        self.ssl_trust_store = ssl_trust_store
+        self.ssl_host_name_in_certificate = ssl_host_name_in_certificate
+        self.ssl_crypto_provider = ssl_crypto_provider
+
+
+class StartRequest(_serialization.Model):
+    """Start SAP instance(s) request body.
+
+    :ivar start_vm: The boolean value indicates whether to start the virtual machines before
+     starting the SAP instances.
+    :vartype start_vm: bool
+    """
+
+    _attribute_map = {
+        "start_vm": {"key": "startVm", "type": "bool"},
+    }
+
+    def __init__(self, *, start_vm: bool = False, **kwargs: Any) -> None:
+        """
+        :keyword start_vm: The boolean value indicates whether to start the virtual machines before
+         starting the SAP instances.
+        :paramtype start_vm: bool
+        """
+        super().__init__(**kwargs)
+        self.start_vm = start_vm
+
+
 class StopRequest(_serialization.Model):
     """Stop SAP instance(s) request body.
 
@@ -5294,22 +5507,30 @@ class StopRequest(_serialization.Model):
      Value 0 means that the kernel does not wait, but goes directly into the next shutdown state,
      i.e. hard stop.
     :vartype soft_stop_timeout_seconds: int
+    :ivar deallocate_vm: The boolean value indicates whether to Stop and deallocate the virtual
+     machines along with the SAP instances.
+    :vartype deallocate_vm: bool
     """
 
     _attribute_map = {
         "soft_stop_timeout_seconds": {"key": "softStopTimeoutSeconds", "type": "int"},
+        "deallocate_vm": {"key": "deallocateVm", "type": "bool"},
     }
 
-    def __init__(self, *, soft_stop_timeout_seconds: int = 0, **kwargs: Any) -> None:
+    def __init__(self, *, soft_stop_timeout_seconds: int = 0, deallocate_vm: bool = False, **kwargs: Any) -> None:
         """
         :keyword soft_stop_timeout_seconds: This parameter defines how long (in seconds) the soft
          shutdown waits until the RFC/HTTP clients no longer consider the server for calls with load
          balancing. Value 0 means that the kernel does not wait, but goes directly into the next
          shutdown state, i.e. hard stop.
         :paramtype soft_stop_timeout_seconds: int
+        :keyword deallocate_vm: The boolean value indicates whether to Stop and deallocate the virtual
+         machines along with the SAP instances.
+        :paramtype deallocate_vm: bool
         """
         super().__init__(**kwargs)
         self.soft_stop_timeout_seconds = soft_stop_timeout_seconds
+        self.deallocate_vm = deallocate_vm
 
 
 class StorageConfiguration(_serialization.Model):
@@ -5365,6 +5586,73 @@ class StorageInformation(_serialization.Model):
         """ """
         super().__init__(**kwargs)
         self.id = None
+
+
+class SubProtectionPolicy(_serialization.Model):
+    """Sub-protection policy which includes schedule and retention.
+
+    :ivar policy_type: Type of backup policy type. Known values are: "Invalid", "Full",
+     "Differential", "Log", "CopyOnlyFull", "Incremental", "SnapshotFull", and
+     "SnapshotCopyOnlyFull".
+    :vartype policy_type: str or ~azure.mgmt.workloads.models.PolicyType
+    :ivar schedule_policy: Backup schedule specified as part of backup policy.
+    :vartype schedule_policy: ~azure.mgmt.workloads.models.SchedulePolicy
+    :ivar retention_policy: Retention policy with the details on backup copy retention ranges.
+    :vartype retention_policy: ~azure.mgmt.workloads.models.RetentionPolicy
+    :ivar tiering_policy: Tiering policy to automatically move RPs to another tier.
+     Key is Target Tier, defined in RecoveryPointTierType enum.
+     Tiering policy specifies the criteria to move RP to the target tier.
+    :vartype tiering_policy: dict[str, ~azure.mgmt.workloads.models.TieringPolicy]
+    :ivar snapshot_backup_additional_details: Hana DB instance snapshot backup additional details.
+    :vartype snapshot_backup_additional_details:
+     ~azure.mgmt.workloads.models.SnapshotBackupAdditionalDetails
+    """
+
+    _attribute_map = {
+        "policy_type": {"key": "policyType", "type": "str"},
+        "schedule_policy": {"key": "schedulePolicy", "type": "SchedulePolicy"},
+        "retention_policy": {"key": "retentionPolicy", "type": "RetentionPolicy"},
+        "tiering_policy": {"key": "tieringPolicy", "type": "{TieringPolicy}"},
+        "snapshot_backup_additional_details": {
+            "key": "snapshotBackupAdditionalDetails",
+            "type": "SnapshotBackupAdditionalDetails",
+        },
+    }
+
+    def __init__(
+        self,
+        *,
+        policy_type: Optional[Union[str, "_models.PolicyType"]] = None,
+        schedule_policy: Optional["_models.SchedulePolicy"] = None,
+        retention_policy: Optional["_models.RetentionPolicy"] = None,
+        tiering_policy: Optional[Dict[str, "_models.TieringPolicy"]] = None,
+        snapshot_backup_additional_details: Optional["_models.SnapshotBackupAdditionalDetails"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword policy_type: Type of backup policy type. Known values are: "Invalid", "Full",
+         "Differential", "Log", "CopyOnlyFull", "Incremental", "SnapshotFull", and
+         "SnapshotCopyOnlyFull".
+        :paramtype policy_type: str or ~azure.mgmt.workloads.models.PolicyType
+        :keyword schedule_policy: Backup schedule specified as part of backup policy.
+        :paramtype schedule_policy: ~azure.mgmt.workloads.models.SchedulePolicy
+        :keyword retention_policy: Retention policy with the details on backup copy retention ranges.
+        :paramtype retention_policy: ~azure.mgmt.workloads.models.RetentionPolicy
+        :keyword tiering_policy: Tiering policy to automatically move RPs to another tier.
+         Key is Target Tier, defined in RecoveryPointTierType enum.
+         Tiering policy specifies the criteria to move RP to the target tier.
+        :paramtype tiering_policy: dict[str, ~azure.mgmt.workloads.models.TieringPolicy]
+        :keyword snapshot_backup_additional_details: Hana DB instance snapshot backup additional
+         details.
+        :paramtype snapshot_backup_additional_details:
+         ~azure.mgmt.workloads.models.SnapshotBackupAdditionalDetails
+        """
+        super().__init__(**kwargs)
+        self.policy_type = policy_type
+        self.schedule_policy = schedule_policy
+        self.retention_policy = retention_policy
+        self.tiering_policy = tiering_policy
+        self.snapshot_backup_additional_details = snapshot_backup_additional_details
 
 
 class SystemData(_serialization.Model):
@@ -5429,26 +5717,6 @@ class SystemData(_serialization.Model):
         self.last_modified_by = last_modified_by
         self.last_modified_by_type = last_modified_by_type
         self.last_modified_at = last_modified_at
-
-
-class Tags(_serialization.Model):
-    """Tags field of the resource.
-
-    :ivar tags: Tags field of the resource.
-    :vartype tags: dict[str, str]
-    """
-
-    _attribute_map = {
-        "tags": {"key": "tags", "type": "{str}"},
-    }
-
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
-        """
-        :keyword tags: Tags field of the resource.
-        :paramtype tags: dict[str, str]
-        """
-        super().__init__(**kwargs)
-        self.tags = tags
 
 
 class ThreeTierConfiguration(InfrastructureConfiguration):
@@ -5711,12 +5979,97 @@ class ThreeTierRecommendationResult(SAPSizingRecommendationResult):
         self.application_server_instance_count = application_server_instance_count
 
 
-class UpdateMonitorRequest(_serialization.Model):
-    """Defines the request body for updating SAP monitor resource.
+class TieringPolicy(_serialization.Model):
+    """Tiering Policy for a target tier.
+    If the policy is not specified for a given target tier, service retains the existing configured
+    tiering policy for that tier.
+
+    :ivar tiering_mode: Tiering Mode to control automatic tiering of recovery points. Supported
+     values are:
+
+
+     #. TierRecommended: Tier all recovery points recommended to be tiered
+     #. TierAfter: Tier all recovery points after a fixed period, as specified in duration +
+     durationType below.
+     #. DoNotTier: Do not tier any recovery points. Known values are: "Invalid", "TierRecommended",
+     "TierAfter", and "DoNotTier".
+    :vartype tiering_mode: str or ~azure.mgmt.workloads.models.TieringMode
+    :ivar duration: Number of days/weeks/months/years to retain backups in current tier before
+     tiering.
+     Used only if TieringMode is set to TierAfter.
+    :vartype duration: int
+    :ivar duration_type: Retention duration type: days/weeks/months/years
+     Used only if TieringMode is set to TierAfter. Known values are: "Invalid", "Days", "Weeks",
+     "Months", and "Years".
+    :vartype duration_type: str or ~azure.mgmt.workloads.models.RetentionDurationType
+    """
+
+    _attribute_map = {
+        "tiering_mode": {"key": "tieringMode", "type": "str"},
+        "duration": {"key": "duration", "type": "int"},
+        "duration_type": {"key": "durationType", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        tiering_mode: Optional[Union[str, "_models.TieringMode"]] = None,
+        duration: Optional[int] = None,
+        duration_type: Optional[Union[str, "_models.RetentionDurationType"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword tiering_mode: Tiering Mode to control automatic tiering of recovery points. Supported
+         values are:
+
+
+         #. TierRecommended: Tier all recovery points recommended to be tiered
+         #. TierAfter: Tier all recovery points after a fixed period, as specified in duration +
+         durationType below.
+         #. DoNotTier: Do not tier any recovery points. Known values are: "Invalid", "TierRecommended",
+         "TierAfter", and "DoNotTier".
+        :paramtype tiering_mode: str or ~azure.mgmt.workloads.models.TieringMode
+        :keyword duration: Number of days/weeks/months/years to retain backups in current tier before
+         tiering.
+         Used only if TieringMode is set to TierAfter.
+        :paramtype duration: int
+        :keyword duration_type: Retention duration type: days/weeks/months/years
+         Used only if TieringMode is set to TierAfter. Known values are: "Invalid", "Days", "Weeks",
+         "Months", and "Years".
+        :paramtype duration_type: str or ~azure.mgmt.workloads.models.RetentionDurationType
+        """
+        super().__init__(**kwargs)
+        self.tiering_mode = tiering_mode
+        self.duration = duration
+        self.duration_type = duration_type
+
+
+class UpdateACSSBackupConnectionRequest(_serialization.Model):
+    """Defines the request body for updating backup connection resource of virtual instance for SAP.
 
     :ivar tags: Gets or sets the Resource tags.
     :vartype tags: dict[str, str]
-    :ivar identity: [currently not in use] Managed service identity(user assigned identities).
+    """
+
+    _attribute_map = {
+        "tags": {"key": "tags", "type": "{str}"},
+    }
+
+    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
+        """
+        :keyword tags: Gets or sets the Resource tags.
+        :paramtype tags: dict[str, str]
+        """
+        super().__init__(**kwargs)
+        self.tags = tags
+
+
+class UpdateConnectorRequest(_serialization.Model):
+    """Defines the request body for updating a connector.
+
+    :ivar tags: Gets or sets the resource tags.
+    :vartype tags: dict[str, str]
+    :ivar identity: Managed service identity (user assigned identities).
     :vartype identity: ~azure.mgmt.workloads.models.UserAssignedServiceIdentity
     """
 
@@ -5733,9 +6086,9 @@ class UpdateMonitorRequest(_serialization.Model):
         **kwargs: Any
     ) -> None:
         """
-        :keyword tags: Gets or sets the Resource tags.
+        :keyword tags: Gets or sets the resource tags.
         :paramtype tags: dict[str, str]
-        :keyword identity: [currently not in use] Managed service identity(user assigned identities).
+        :keyword identity: Managed service identity (user assigned identities).
         :paramtype identity: ~azure.mgmt.workloads.models.UserAssignedServiceIdentity
         """
         super().__init__(**kwargs)
@@ -5803,19 +6156,60 @@ class UpdateSAPDatabaseInstanceRequest(_serialization.Model):
         self.tags = tags
 
 
+class UpdateSAPVirtualInstanceProperties(_serialization.Model):
+    """Defines the properties to be updated for Virtual Instance for SAP.
+
+    :ivar managed_resources_network_access_type: Specifies the network access configuration for the
+     resources that will be deployed in the Managed Resource Group. The options to choose from are
+     Public and Private. If 'Private' is chosen, the Storage Account service tag should be enabled
+     on the subnets in which the SAP VMs exist. This is required for establishing connectivity
+     between VM extensions and the managed resource group storage account. This setting is currently
+     applicable only to Storage Account. Learn more here
+     https://go.microsoft.com/fwlink/?linkid=2247228. Known values are: "Public" and "Private".
+    :vartype managed_resources_network_access_type: str or
+     ~azure.mgmt.workloads.models.ManagedResourcesNetworkAccessType
+    """
+
+    _attribute_map = {
+        "managed_resources_network_access_type": {"key": "managedResourcesNetworkAccessType", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        managed_resources_network_access_type: Optional[Union[str, "_models.ManagedResourcesNetworkAccessType"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword managed_resources_network_access_type: Specifies the network access configuration for
+         the resources that will be deployed in the Managed Resource Group. The options to choose from
+         are Public and Private. If 'Private' is chosen, the Storage Account service tag should be
+         enabled on the subnets in which the SAP VMs exist. This is required for establishing
+         connectivity between VM extensions and the managed resource group storage account. This setting
+         is currently applicable only to Storage Account. Learn more here
+         https://go.microsoft.com/fwlink/?linkid=2247228. Known values are: "Public" and "Private".
+        :paramtype managed_resources_network_access_type: str or
+         ~azure.mgmt.workloads.models.ManagedResourcesNetworkAccessType
+        """
+        super().__init__(**kwargs)
+        self.managed_resources_network_access_type = managed_resources_network_access_type
+
+
 class UpdateSAPVirtualInstanceRequest(_serialization.Model):
     """Defines the request body for updating Virtual Instance for SAP.
 
     :ivar tags: Gets or sets the Resource tags.
     :vartype tags: dict[str, str]
-    :ivar identity: A pre-created user assigned identity with appropriate roles assigned. To learn
-     more on identity and roles required, visit the ACSS how-to-guide.
+    :ivar identity: Managed service identity (user assigned identities).
     :vartype identity: ~azure.mgmt.workloads.models.UserAssignedServiceIdentity
+    :ivar properties: Defines the properties to be updated for Virtual Instance for SAP.
+    :vartype properties: ~azure.mgmt.workloads.models.UpdateSAPVirtualInstanceProperties
     """
 
     _attribute_map = {
         "tags": {"key": "tags", "type": "{str}"},
         "identity": {"key": "identity", "type": "UserAssignedServiceIdentity"},
+        "properties": {"key": "properties", "type": "UpdateSAPVirtualInstanceProperties"},
     }
 
     def __init__(
@@ -5823,18 +6217,21 @@ class UpdateSAPVirtualInstanceRequest(_serialization.Model):
         *,
         tags: Optional[Dict[str, str]] = None,
         identity: Optional["_models.UserAssignedServiceIdentity"] = None,
+        properties: Optional["_models.UpdateSAPVirtualInstanceProperties"] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword tags: Gets or sets the Resource tags.
         :paramtype tags: dict[str, str]
-        :keyword identity: A pre-created user assigned identity with appropriate roles assigned. To
-         learn more on identity and roles required, visit the ACSS how-to-guide.
+        :keyword identity: Managed service identity (user assigned identities).
         :paramtype identity: ~azure.mgmt.workloads.models.UserAssignedServiceIdentity
+        :keyword properties: Defines the properties to be updated for Virtual Instance for SAP.
+        :paramtype properties: ~azure.mgmt.workloads.models.UpdateSAPVirtualInstanceProperties
         """
         super().__init__(**kwargs)
         self.tags = tags
         self.identity = identity
+        self.properties = properties
 
 
 class UserAssignedIdentity(_serialization.Model):
@@ -5865,9 +6262,78 @@ class UserAssignedIdentity(_serialization.Model):
         self.client_id = None
 
 
+class UserAssignedIdentityProperties(_serialization.Model):
+    """User assigned managed identity properties.
+
+    :ivar client_id:
+    :vartype client_id: str
+    :ivar principal_id:
+    :vartype principal_id: str
+    """
+
+    _attribute_map = {
+        "client_id": {"key": "clientId", "type": "str"},
+        "principal_id": {"key": "principalId", "type": "str"},
+    }
+
+    def __init__(self, *, client_id: Optional[str] = None, principal_id: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword client_id:
+        :paramtype client_id: str
+        :keyword principal_id:
+        :paramtype principal_id: str
+        """
+        super().__init__(**kwargs)
+        self.client_id = client_id
+        self.principal_id = principal_id
+
+
+class UserAssignedManagedIdentityDetails(_serialization.Model):
+    """User assigned managed identity details.
+
+    :ivar identity_arm_id:
+    :vartype identity_arm_id: str
+    :ivar identity_name:
+    :vartype identity_name: str
+    :ivar user_assigned_identity_properties: User assigned managed identity properties.
+    :vartype user_assigned_identity_properties:
+     ~azure.mgmt.workloads.models.UserAssignedIdentityProperties
+    """
+
+    _attribute_map = {
+        "identity_arm_id": {"key": "identityArmId", "type": "str"},
+        "identity_name": {"key": "identityName", "type": "str"},
+        "user_assigned_identity_properties": {
+            "key": "userAssignedIdentityProperties",
+            "type": "UserAssignedIdentityProperties",
+        },
+    }
+
+    def __init__(
+        self,
+        *,
+        identity_arm_id: Optional[str] = None,
+        identity_name: Optional[str] = None,
+        user_assigned_identity_properties: Optional["_models.UserAssignedIdentityProperties"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword identity_arm_id:
+        :paramtype identity_arm_id: str
+        :keyword identity_name:
+        :paramtype identity_name: str
+        :keyword user_assigned_identity_properties: User assigned managed identity properties.
+        :paramtype user_assigned_identity_properties:
+         ~azure.mgmt.workloads.models.UserAssignedIdentityProperties
+        """
+        super().__init__(**kwargs)
+        self.identity_arm_id = identity_arm_id
+        self.identity_name = identity_name
+        self.user_assigned_identity_properties = user_assigned_identity_properties
+
+
 class UserAssignedServiceIdentity(_serialization.Model):
-    """A pre-created user assigned identity with appropriate roles assigned. To learn more on identity
-    and roles required, visit the ACSS how-to-guide.
+    """Managed service identity (user assigned identities).
 
     All required parameters must be populated in order to send to Azure.
 
@@ -6030,6 +6496,268 @@ class VirtualMachineResourceNames(_serialization.Model):
         self.data_disk_names = data_disk_names
 
 
+class VMBackupData(BackupData):
+    """Defines the VM Backup data for a virtual instance for SAP.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar backup_type: The type of backup, VM, SQL or HANA. Required. Known values are: "VM",
+     "SQL", and "HANA".
+    :vartype backup_type: str or ~azure.mgmt.workloads.models.BackupType
+    :ivar recovery_services_vault: The properties of the recovery services vault used for backup.
+     Required.
+    :vartype recovery_services_vault: ~azure.mgmt.workloads.models.RecoveryServicesVaultProperties
+    :ivar backup_policy: Defines the policy properties for virtual machine backup. Required.
+    :vartype backup_policy: ~azure.mgmt.workloads.models.VMBackupPolicyProperties
+    :ivar disk_exclusion_properties: Defines the disk exclusion properties for virtual machine
+     backup.
+    :vartype disk_exclusion_properties: ~azure.mgmt.workloads.models.DiskExclusionProperties
+    """
+
+    _validation = {
+        "backup_type": {"required": True},
+        "recovery_services_vault": {"required": True},
+        "backup_policy": {"required": True},
+    }
+
+    _attribute_map = {
+        "backup_type": {"key": "backupType", "type": "str"},
+        "recovery_services_vault": {"key": "recoveryServicesVault", "type": "RecoveryServicesVaultProperties"},
+        "backup_policy": {"key": "backupPolicy", "type": "VMBackupPolicyProperties"},
+        "disk_exclusion_properties": {"key": "diskExclusionProperties", "type": "DiskExclusionProperties"},
+    }
+
+    def __init__(
+        self,
+        *,
+        recovery_services_vault: "_models.RecoveryServicesVaultProperties",
+        backup_policy: "_models.VMBackupPolicyProperties",
+        disk_exclusion_properties: Optional["_models.DiskExclusionProperties"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword recovery_services_vault: The properties of the recovery services vault used for
+         backup. Required.
+        :paramtype recovery_services_vault:
+         ~azure.mgmt.workloads.models.RecoveryServicesVaultProperties
+        :keyword backup_policy: Defines the policy properties for virtual machine backup. Required.
+        :paramtype backup_policy: ~azure.mgmt.workloads.models.VMBackupPolicyProperties
+        :keyword disk_exclusion_properties: Defines the disk exclusion properties for virtual machine
+         backup.
+        :paramtype disk_exclusion_properties: ~azure.mgmt.workloads.models.DiskExclusionProperties
+        """
+        super().__init__(recovery_services_vault=recovery_services_vault, **kwargs)
+        self.backup_type: str = "VM"
+        self.backup_policy = backup_policy
+        self.disk_exclusion_properties = disk_exclusion_properties
+
+
+class VMBackupPolicyProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+    """Defines the policy properties for virtual machine backup.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar name: The name of the VM Backup policy. Required.
+    :vartype name: str
+    :ivar protected_items_count: Number of items associated with this policy.
+    :vartype protected_items_count: int
+    :ivar backup_management_type: This property will be used as the discriminator for deciding the
+     specific types in the polymorphic chain of types.
+    :vartype backup_management_type: str
+    :ivar resource_guard_operation_requests: ResourceGuard Operation Requests.
+    :vartype resource_guard_operation_requests: list[str]
+    :ivar instant_rp_details: Instant recovery point additional details.
+    :vartype instant_rp_details: ~azure.mgmt.workloads.models.InstantRPAdditionalDetails
+    :ivar schedule_policy: Backup schedule specified as part of backup policy.
+    :vartype schedule_policy: ~azure.mgmt.workloads.models.SchedulePolicy
+    :ivar retention_policy: Retention policy with the details on backup copy retention ranges.
+    :vartype retention_policy: ~azure.mgmt.workloads.models.RetentionPolicy
+    :ivar tiering_policy: Tiering policy to automatically move RPs to another tier
+     Key is Target Tier, defined in RecoveryPointTierType enum.
+     Tiering policy specifies the criteria to move RP to the target tier.
+    :vartype tiering_policy: dict[str, ~azure.mgmt.workloads.models.TieringPolicy]
+    :ivar instant_rp_retention_range_in_days: Instant RP retention policy range in days.
+    :vartype instant_rp_retention_range_in_days: int
+    :ivar time_zone: Time zone optional input as string. For example: "Pacific Standard Time".
+    :vartype time_zone: str
+    :ivar policy_type: The policy type. Known values are: "Invalid", "V1", and "V2".
+    :vartype policy_type: str or ~azure.mgmt.workloads.models.IAASVMPolicyType
+    """
+
+    _validation = {
+        "name": {"required": True},
+    }
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "protected_items_count": {"key": "properties.protectedItemsCount", "type": "int"},
+        "backup_management_type": {"key": "properties.backupManagementType", "type": "str"},
+        "resource_guard_operation_requests": {"key": "properties.resourceGuardOperationRequests", "type": "[str]"},
+        "instant_rp_details": {"key": "properties.instantRPDetails", "type": "InstantRPAdditionalDetails"},
+        "schedule_policy": {"key": "properties.schedulePolicy", "type": "SchedulePolicy"},
+        "retention_policy": {"key": "properties.retentionPolicy", "type": "RetentionPolicy"},
+        "tiering_policy": {"key": "properties.tieringPolicy", "type": "{TieringPolicy}"},
+        "instant_rp_retention_range_in_days": {"key": "properties.instantRpRetentionRangeInDays", "type": "int"},
+        "time_zone": {"key": "properties.timeZone", "type": "str"},
+        "policy_type": {"key": "properties.policyType", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        name: str,
+        protected_items_count: Optional[int] = None,
+        resource_guard_operation_requests: Optional[List[str]] = None,
+        instant_rp_details: Optional["_models.InstantRPAdditionalDetails"] = None,
+        schedule_policy: Optional["_models.SchedulePolicy"] = None,
+        retention_policy: Optional["_models.RetentionPolicy"] = None,
+        tiering_policy: Optional[Dict[str, "_models.TieringPolicy"]] = None,
+        instant_rp_retention_range_in_days: Optional[int] = None,
+        time_zone: Optional[str] = None,
+        policy_type: Optional[Union[str, "_models.IAASVMPolicyType"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword name: The name of the VM Backup policy. Required.
+        :paramtype name: str
+        :keyword protected_items_count: Number of items associated with this policy.
+        :paramtype protected_items_count: int
+        :keyword resource_guard_operation_requests: ResourceGuard Operation Requests.
+        :paramtype resource_guard_operation_requests: list[str]
+        :keyword instant_rp_details: Instant recovery point additional details.
+        :paramtype instant_rp_details: ~azure.mgmt.workloads.models.InstantRPAdditionalDetails
+        :keyword schedule_policy: Backup schedule specified as part of backup policy.
+        :paramtype schedule_policy: ~azure.mgmt.workloads.models.SchedulePolicy
+        :keyword retention_policy: Retention policy with the details on backup copy retention ranges.
+        :paramtype retention_policy: ~azure.mgmt.workloads.models.RetentionPolicy
+        :keyword tiering_policy: Tiering policy to automatically move RPs to another tier
+         Key is Target Tier, defined in RecoveryPointTierType enum.
+         Tiering policy specifies the criteria to move RP to the target tier.
+        :paramtype tiering_policy: dict[str, ~azure.mgmt.workloads.models.TieringPolicy]
+        :keyword instant_rp_retention_range_in_days: Instant RP retention policy range in days.
+        :paramtype instant_rp_retention_range_in_days: int
+        :keyword time_zone: Time zone optional input as string. For example: "Pacific Standard Time".
+        :paramtype time_zone: str
+        :keyword policy_type: The policy type. Known values are: "Invalid", "V1", and "V2".
+        :paramtype policy_type: str or ~azure.mgmt.workloads.models.IAASVMPolicyType
+        """
+        super().__init__(**kwargs)
+        self.name = name
+        self.protected_items_count = protected_items_count
+        self.backup_management_type: Optional[str] = None
+        self.resource_guard_operation_requests = resource_guard_operation_requests
+        self.instant_rp_details = instant_rp_details
+        self.schedule_policy = schedule_policy
+        self.retention_policy = retention_policy
+        self.tiering_policy = tiering_policy
+        self.instant_rp_retention_range_in_days = instant_rp_retention_range_in_days
+        self.time_zone = time_zone
+        self.policy_type = policy_type
+
+
+class WeeklyRetentionFormat(_serialization.Model):
+    """Weekly retention format.
+
+    :ivar days_of_the_week: List of days of the week.
+    :vartype days_of_the_week: list[str or ~azure.mgmt.workloads.models.DayOfWeek]
+    :ivar weeks_of_the_month: List of weeks of month.
+    :vartype weeks_of_the_month: list[str or ~azure.mgmt.workloads.models.WeekOfMonth]
+    """
+
+    _attribute_map = {
+        "days_of_the_week": {"key": "daysOfTheWeek", "type": "[str]"},
+        "weeks_of_the_month": {"key": "weeksOfTheMonth", "type": "[str]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        days_of_the_week: Optional[List[Union[str, "_models.DayOfWeek"]]] = None,
+        weeks_of_the_month: Optional[List[Union[str, "_models.WeekOfMonth"]]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword days_of_the_week: List of days of the week.
+        :paramtype days_of_the_week: list[str or ~azure.mgmt.workloads.models.DayOfWeek]
+        :keyword weeks_of_the_month: List of weeks of month.
+        :paramtype weeks_of_the_month: list[str or ~azure.mgmt.workloads.models.WeekOfMonth]
+        """
+        super().__init__(**kwargs)
+        self.days_of_the_week = days_of_the_week
+        self.weeks_of_the_month = weeks_of_the_month
+
+
+class WeeklyRetentionSchedule(_serialization.Model):
+    """Weekly retention schedule.
+
+    :ivar days_of_the_week: List of days of week for weekly retention policy.
+    :vartype days_of_the_week: list[str or ~azure.mgmt.workloads.models.DayOfWeek]
+    :ivar retention_times: Retention times of retention policy.
+    :vartype retention_times: list[~datetime.datetime]
+    :ivar retention_duration: Retention duration of retention Policy.
+    :vartype retention_duration: ~azure.mgmt.workloads.models.RetentionDuration
+    """
+
+    _attribute_map = {
+        "days_of_the_week": {"key": "daysOfTheWeek", "type": "[str]"},
+        "retention_times": {"key": "retentionTimes", "type": "[iso-8601]"},
+        "retention_duration": {"key": "retentionDuration", "type": "RetentionDuration"},
+    }
+
+    def __init__(
+        self,
+        *,
+        days_of_the_week: Optional[List[Union[str, "_models.DayOfWeek"]]] = None,
+        retention_times: Optional[List[datetime.datetime]] = None,
+        retention_duration: Optional["_models.RetentionDuration"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword days_of_the_week: List of days of week for weekly retention policy.
+        :paramtype days_of_the_week: list[str or ~azure.mgmt.workloads.models.DayOfWeek]
+        :keyword retention_times: Retention times of retention policy.
+        :paramtype retention_times: list[~datetime.datetime]
+        :keyword retention_duration: Retention duration of retention Policy.
+        :paramtype retention_duration: ~azure.mgmt.workloads.models.RetentionDuration
+        """
+        super().__init__(**kwargs)
+        self.days_of_the_week = days_of_the_week
+        self.retention_times = retention_times
+        self.retention_duration = retention_duration
+
+
+class WeeklySchedule(_serialization.Model):
+    """Weekly schedule.
+
+    :ivar schedule_run_days: Schedule run days.
+    :vartype schedule_run_days: list[str or ~azure.mgmt.workloads.models.DayOfWeek]
+    :ivar schedule_run_times: List of times of day this schedule has to be run.
+    :vartype schedule_run_times: list[~datetime.datetime]
+    """
+
+    _attribute_map = {
+        "schedule_run_days": {"key": "scheduleRunDays", "type": "[str]"},
+        "schedule_run_times": {"key": "scheduleRunTimes", "type": "[iso-8601]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        schedule_run_days: Optional[List[Union[str, "_models.DayOfWeek"]]] = None,
+        schedule_run_times: Optional[List[datetime.datetime]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword schedule_run_days: Schedule run days.
+        :paramtype schedule_run_days: list[str or ~azure.mgmt.workloads.models.DayOfWeek]
+        :keyword schedule_run_times: List of times of day this schedule has to be run.
+        :paramtype schedule_run_times: list[~datetime.datetime]
+        """
+        super().__init__(**kwargs)
+        self.schedule_run_days = schedule_run_days
+        self.schedule_run_times = schedule_run_times
+
+
 class WindowsConfiguration(OSConfiguration):
     """Specifies Windows operating system settings on the virtual machine.
 
@@ -6051,3 +6779,67 @@ class WindowsConfiguration(OSConfiguration):
         """ """
         super().__init__(**kwargs)
         self.os_type: str = "Windows"
+
+
+class YearlyRetentionSchedule(_serialization.Model):
+    """Yearly retention schedule.
+
+    :ivar retention_schedule_format_type: Retention schedule format for yearly retention policy.
+     Known values are: "Invalid", "Daily", and "Weekly".
+    :vartype retention_schedule_format_type: str or
+     ~azure.mgmt.workloads.models.RetentionScheduleFormat
+    :ivar months_of_year: List of months of year of yearly retention policy.
+    :vartype months_of_year: list[str or ~azure.mgmt.workloads.models.MonthOfYear]
+    :ivar retention_schedule_daily: Daily retention format for yearly retention policy.
+    :vartype retention_schedule_daily: ~azure.mgmt.workloads.models.DailyRetentionFormat
+    :ivar retention_schedule_weekly: Weekly retention format for yearly retention policy.
+    :vartype retention_schedule_weekly: ~azure.mgmt.workloads.models.WeeklyRetentionFormat
+    :ivar retention_times: Retention times of retention policy.
+    :vartype retention_times: list[~datetime.datetime]
+    :ivar retention_duration: Retention duration of retention Policy.
+    :vartype retention_duration: ~azure.mgmt.workloads.models.RetentionDuration
+    """
+
+    _attribute_map = {
+        "retention_schedule_format_type": {"key": "retentionScheduleFormatType", "type": "str"},
+        "months_of_year": {"key": "monthsOfYear", "type": "[str]"},
+        "retention_schedule_daily": {"key": "retentionScheduleDaily", "type": "DailyRetentionFormat"},
+        "retention_schedule_weekly": {"key": "retentionScheduleWeekly", "type": "WeeklyRetentionFormat"},
+        "retention_times": {"key": "retentionTimes", "type": "[iso-8601]"},
+        "retention_duration": {"key": "retentionDuration", "type": "RetentionDuration"},
+    }
+
+    def __init__(
+        self,
+        *,
+        retention_schedule_format_type: Optional[Union[str, "_models.RetentionScheduleFormat"]] = None,
+        months_of_year: Optional[List[Union[str, "_models.MonthOfYear"]]] = None,
+        retention_schedule_daily: Optional["_models.DailyRetentionFormat"] = None,
+        retention_schedule_weekly: Optional["_models.WeeklyRetentionFormat"] = None,
+        retention_times: Optional[List[datetime.datetime]] = None,
+        retention_duration: Optional["_models.RetentionDuration"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword retention_schedule_format_type: Retention schedule format for yearly retention policy.
+         Known values are: "Invalid", "Daily", and "Weekly".
+        :paramtype retention_schedule_format_type: str or
+         ~azure.mgmt.workloads.models.RetentionScheduleFormat
+        :keyword months_of_year: List of months of year of yearly retention policy.
+        :paramtype months_of_year: list[str or ~azure.mgmt.workloads.models.MonthOfYear]
+        :keyword retention_schedule_daily: Daily retention format for yearly retention policy.
+        :paramtype retention_schedule_daily: ~azure.mgmt.workloads.models.DailyRetentionFormat
+        :keyword retention_schedule_weekly: Weekly retention format for yearly retention policy.
+        :paramtype retention_schedule_weekly: ~azure.mgmt.workloads.models.WeeklyRetentionFormat
+        :keyword retention_times: Retention times of retention policy.
+        :paramtype retention_times: list[~datetime.datetime]
+        :keyword retention_duration: Retention duration of retention Policy.
+        :paramtype retention_duration: ~azure.mgmt.workloads.models.RetentionDuration
+        """
+        super().__init__(**kwargs)
+        self.retention_schedule_format_type = retention_schedule_format_type
+        self.months_of_year = months_of_year
+        self.retention_schedule_daily = retention_schedule_daily
+        self.retention_schedule_weekly = retention_schedule_weekly
+        self.retention_times = retention_times
+        self.retention_duration = retention_duration

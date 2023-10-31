@@ -24,6 +24,14 @@ class ApplicationServerVirtualMachineType(str, Enum, metaclass=CaseInsensitiveEn
     UNKNOWN = "Unknown"
 
 
+class BackupType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of backup, VM, SQL or HANA."""
+
+    VM = "VM"
+    SQL = "SQL"
+    HANA = "HANA"
+
+
 class CentralServerVirtualMachineType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Defines the type of central server VM."""
 
@@ -44,6 +52,17 @@ class ConfigurationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     MOUNT = "Mount"
 
 
+class ConnectorProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Defines the provisioning states."""
+
+    SUCCEEDED = "Succeeded"
+    UPDATING = "Updating"
+    CREATING = "Creating"
+    FAILED = "Failed"
+    DELETING = "Deleting"
+    CANCELED = "Canceled"
+
+
 class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of identity that created the resource."""
 
@@ -51,6 +70,18 @@ class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     APPLICATION = "Application"
     MANAGED_IDENTITY = "ManagedIdentity"
     KEY = "Key"
+
+
+class DayOfWeek(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """DayOfWeek."""
+
+    SUNDAY = "Sunday"
+    MONDAY = "Monday"
+    TUESDAY = "Tuesday"
+    WEDNESDAY = "Wednesday"
+    THURSDAY = "Thursday"
+    FRIDAY = "Friday"
+    SATURDAY = "Saturday"
 
 
 class DiskSkuName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -72,6 +103,21 @@ class EnqueueReplicationServerType(str, Enum, metaclass=CaseInsensitiveEnumMeta)
     ENQUEUE_REPLICATOR2 = "EnqueueReplicator2"
 
 
+class IAASVMPolicyType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The policy type."""
+
+    INVALID = "Invalid"
+    V1 = "V1"
+    V2 = "V2"
+
+
+class ManagedResourcesNetworkAccessType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Defines the network access type for managed resources."""
+
+    PUBLIC = "Public"
+    PRIVATE = "Private"
+
+
 class ManagedServiceIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Type of managed service identity (only None, UserAssigned types are allowed)."""
 
@@ -79,18 +125,28 @@ class ManagedServiceIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     USER_ASSIGNED = "UserAssigned"
 
 
+class MonthOfYear(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """MonthOfYear."""
+
+    INVALID = "Invalid"
+    JANUARY = "January"
+    FEBRUARY = "February"
+    MARCH = "March"
+    APRIL = "April"
+    MAY = "May"
+    JUNE = "June"
+    JULY = "July"
+    AUGUST = "August"
+    SEPTEMBER = "September"
+    OCTOBER = "October"
+    NOVEMBER = "November"
+    DECEMBER = "December"
+
+
 class NamingPatternType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The pattern type to be used for resource naming."""
 
     FULL_RESOURCE_NAME = "FullResourceName"
-
-
-class OperationProperties(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Defines the workload operation origin."""
-
-    NOT_SPECIFIED = "NotSpecified"
-    USER = "User"
-    SYSTEM = "System"
 
 
 class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -110,13 +166,37 @@ class OSType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     WINDOWS = "Windows"
 
 
-class RoutingPreference(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Sets the routing preference of the SAP monitor. By default only RFC1918 traffic is routed to
-    the customer VNET.
+class PolicyType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of backup policy type."""
+
+    INVALID = "Invalid"
+    FULL = "Full"
+    DIFFERENTIAL = "Differential"
+    LOG = "Log"
+    COPY_ONLY_FULL = "CopyOnlyFull"
+    INCREMENTAL = "Incremental"
+    SNAPSHOT_FULL = "SnapshotFull"
+    SNAPSHOT_COPY_ONLY_FULL = "SnapshotCopyOnlyFull"
+
+
+class RetentionDurationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Retention duration type: days/weeks/months/years
+    Used only if TieringMode is set to TierAfter.
     """
 
-    DEFAULT = "Default"
-    ROUTE_ALL = "RouteAll"
+    INVALID = "Invalid"
+    DAYS = "Days"
+    WEEKS = "Weeks"
+    MONTHS = "Months"
+    YEARS = "Years"
+
+
+class RetentionScheduleFormat(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Retention schedule format type for monthly retention policy."""
+
+    INVALID = "Invalid"
+    DAILY = "Daily"
+    WEEKLY = "Weekly"
 
 
 class SAPConfigurationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -170,16 +250,6 @@ class SAPHighAvailabilityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     AVAILABILITY_ZONE = "AvailabilityZone"
 
 
-class SapLandscapeMonitorProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """State of provisioning of the SAP monitor."""
-
-    ACCEPTED = "Accepted"
-    CREATED = "Created"
-    FAILED = "Failed"
-    SUCCEEDED = "Succeeded"
-    CANCELED = "Canceled"
-
-
 class SAPProductType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Defines the SAP Product type."""
 
@@ -204,6 +274,7 @@ class SapVirtualInstanceProvisioningState(str, Enum, metaclass=CaseInsensitiveEn
     CREATING = "Creating"
     FAILED = "Failed"
     DELETING = "Deleting"
+    CANCELED = "Canceled"
 
 
 class SAPVirtualInstanceState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -221,6 +292,7 @@ class SAPVirtualInstanceState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DISCOVERY_IN_PROGRESS = "DiscoveryInProgress"
     DISCOVERY_FAILED = "DiscoveryFailed"
     REGISTRATION_COMPLETE = "RegistrationComplete"
+    ACSS_INSTALLATION_BLOCKED = "ACSSInstallationBlocked"
 
 
 class SAPVirtualInstanceStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -235,28 +307,74 @@ class SAPVirtualInstanceStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SOFT_SHUTDOWN = "SoftShutdown"
 
 
-class SslPreference(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Gets or sets certificate preference if secure communication is enabled."""
+class ScheduleRunType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Frequency of the schedule operation of this policy."""
 
-    DISABLED = "Disabled"
-    ROOT_CERTIFICATE = "RootCertificate"
-    SERVER_CERTIFICATE = "ServerCertificate"
-
-
-class WorkloadMonitorActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Defines the action type of workload operation."""
-
-    NOT_SPECIFIED = "NotSpecified"
-    INTERNAL = "Internal"
+    INVALID = "Invalid"
+    DAILY = "Daily"
+    WEEKLY = "Weekly"
+    HOURLY = "Hourly"
 
 
-class WorkloadMonitorProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """State of provisioning of the SAP monitor."""
+class SslCryptoProvider(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Specify the crypto provider being used (commoncrypto/openssl). If this argument is not
+    provided, it is automatically determined by searching in the configuration files.
+    """
 
-    ACCEPTED = "Accepted"
-    CREATING = "Creating"
-    UPDATING = "Updating"
-    FAILED = "Failed"
-    SUCCEEDED = "Succeeded"
-    DELETING = "Deleting"
-    MIGRATING = "Migrating"
+    COMMONCRYPTO = "commoncrypto"
+    OPENSSL = "openssl"
+
+
+class TieringMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Tiering Mode to control automatic tiering of recovery points. Supported values are:
+
+
+    #. TierRecommended: Tier all recovery points recommended to be tiered
+    #. TierAfter: Tier all recovery points after a fixed period, as specified in duration +
+    durationType below.
+    #. DoNotTier: Do not tier any recovery points.
+    """
+
+    INVALID = "Invalid"
+    TIER_RECOMMENDED = "TierRecommended"
+    TIER_AFTER = "TierAfter"
+    DO_NOT_TIER = "DoNotTier"
+
+
+class VaultType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The vault type, whether it is existing or has to be created."""
+
+    EXISTING = "Existing"
+    NEW = "New"
+
+
+class WeekOfMonth(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """WeekOfMonth."""
+
+    FIRST = "First"
+    SECOND = "Second"
+    THIRD = "Third"
+    FOURTH = "Fourth"
+    LAST = "Last"
+    INVALID = "Invalid"
+
+
+class WorkloadType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of workload for the backup management."""
+
+    INVALID = "Invalid"
+    VM = "VM"
+    FILE_FOLDER = "FileFolder"
+    AZURE_SQL_DB = "AzureSqlDb"
+    SQLDB = "SQLDB"
+    EXCHANGE = "Exchange"
+    SHAREPOINT = "Sharepoint"
+    V_MWARE_VM = "VMwareVM"
+    SYSTEM_STATE = "SystemState"
+    CLIENT = "Client"
+    GENERIC_DATA_SOURCE = "GenericDataSource"
+    SQL_DATA_BASE = "SQLDataBase"
+    AZURE_FILE_SHARE = "AzureFileShare"
+    SAP_HANA_DATABASE = "SAPHanaDatabase"
+    SAP_ASE_DATABASE = "SAPAseDatabase"
+    SAP_HANA_DB_INSTANCE = "SAPHanaDBInstance"

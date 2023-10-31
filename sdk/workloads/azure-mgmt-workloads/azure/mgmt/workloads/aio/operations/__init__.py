@@ -11,10 +11,9 @@ from ._sap_virtual_instances_operations import SAPVirtualInstancesOperations
 from ._sap_central_instances_operations import SAPCentralInstancesOperations
 from ._sap_database_instances_operations import SAPDatabaseInstancesOperations
 from ._sap_application_server_instances_operations import SAPApplicationServerInstancesOperations
-from ._monitors_operations import MonitorsOperations
-from ._provider_instances_operations import ProviderInstancesOperations
-from ._sap_landscape_monitor_operations import SapLandscapeMonitorOperations
 from ._operations import Operations
+from ._connectors_operations import ConnectorsOperations
+from ._acss_backup_connections_operations import ACSSBackupConnectionsOperations
 
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
@@ -26,10 +25,9 @@ __all__ = [
     "SAPCentralInstancesOperations",
     "SAPDatabaseInstancesOperations",
     "SAPApplicationServerInstancesOperations",
-    "MonitorsOperations",
-    "ProviderInstancesOperations",
-    "SapLandscapeMonitorOperations",
     "Operations",
+    "ConnectorsOperations",
+    "ACSSBackupConnectionsOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
