@@ -20,6 +20,10 @@ from ._models_py3 import ConfigurationResult
 from ._models_py3 import ConfluentBootstrapServer
 from ._models_py3 import ConfluentSchemaRegistry
 from ._models_py3 import CreateOrUpdateDryrunParameters
+from ._models_py3 import DaprConfigurationList
+from ._models_py3 import DaprConfigurationResource
+from ._models_py3 import DaprMetadata
+from ._models_py3 import DaprProperties
 from ._models_py3 import DatabaseAadAuthInfo
 from ._models_py3 import DryrunList
 from ._models_py3 import DryrunOperationPreview
@@ -68,11 +72,15 @@ from ._service_linker_management_client_enums import AuthType
 from ._service_linker_management_client_enums import AzureResourceType
 from ._service_linker_management_client_enums import ClientType
 from ._service_linker_management_client_enums import CreatedByType
+from ._service_linker_management_client_enums import DaprBindingComponentDirection
+from ._service_linker_management_client_enums import DaprMetadataRequired
 from ._service_linker_management_client_enums import DeleteOrUpdateBehavior
 from ._service_linker_management_client_enums import DryrunActionName
 from ._service_linker_management_client_enums import DryrunPrerequisiteResultType
 from ._service_linker_management_client_enums import DryrunPreviewOperationType
+from ._service_linker_management_client_enums import LinkerConfigurationType
 from ._service_linker_management_client_enums import Origin
+from ._service_linker_management_client_enums import SecretSourceType
 from ._service_linker_management_client_enums import SecretType
 from ._service_linker_management_client_enums import TargetServiceType
 from ._service_linker_management_client_enums import VNetSolutionType
@@ -96,6 +104,10 @@ __all__ = [
     "ConfluentBootstrapServer",
     "ConfluentSchemaRegistry",
     "CreateOrUpdateDryrunParameters",
+    "DaprConfigurationList",
+    "DaprConfigurationResource",
+    "DaprMetadata",
+    "DaprProperties",
     "DatabaseAadAuthInfo",
     "DryrunList",
     "DryrunOperationPreview",
@@ -143,11 +155,15 @@ __all__ = [
     "AzureResourceType",
     "ClientType",
     "CreatedByType",
+    "DaprBindingComponentDirection",
+    "DaprMetadataRequired",
     "DeleteOrUpdateBehavior",
     "DryrunActionName",
     "DryrunPrerequisiteResultType",
     "DryrunPreviewOperationType",
+    "LinkerConfigurationType",
     "Origin",
+    "SecretSourceType",
     "SecretType",
     "TargetServiceType",
     "VNetSolutionType",
