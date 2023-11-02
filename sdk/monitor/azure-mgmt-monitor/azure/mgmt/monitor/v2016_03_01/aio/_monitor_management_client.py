@@ -68,12 +68,16 @@ class MonitorManagementClient:  # pylint: disable=client-accepts-api-version-key
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
         self.alert_rule_incidents = AlertRuleIncidentsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2016-03-01"
         )
-        self.alert_rules = AlertRulesOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.log_profiles = LogProfilesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.alert_rules = AlertRulesOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2016-03-01"
+        )
+        self.log_profiles = LogProfilesOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2016-03-01"
+        )
         self.metric_definitions = MetricDefinitionsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2016-03-01"
         )
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> Awaitable[AsyncHttpResponse]:
