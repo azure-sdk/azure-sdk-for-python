@@ -33,7 +33,6 @@ from ...operations._query_keys_operations import (
     build_delete_request,
     build_list_by_search_service_request,
 )
-from .._vendor import SearchManagementClientMixinABC
 
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]

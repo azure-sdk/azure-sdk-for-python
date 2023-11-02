@@ -46,31 +46,20 @@ class HostingMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class IdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The identity type."""
-
-    NONE = "None"
-    SYSTEM_ASSIGNED = "SystemAssigned"
-
-
-class PrivateLinkServiceConnectionProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The provisioning state of the private link service connection. Can be Updating, Deleting,
-    Failed, Succeeded, or Incomplete.
+    """The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes
+    both an identity created by the system and a set of user assigned identities. The type 'None'
+    will remove all identities from the service.
     """
 
-    UPDATING = "Updating"
-    """The private link service connection is in the process of being created along with other
-    #: resources for it to be fully functional."""
-    DELETING = "Deleting"
-    """The private link service connection is in the process of being deleted."""
-    FAILED = "Failed"
-    """The private link service connection has failed to be provisioned or deleted."""
-    SUCCEEDED = "Succeeded"
-    """The private link service connection has finished provisioning and is ready for approval."""
-    INCOMPLETE = "Incomplete"
-    """Provisioning request for the private link service connection resource has been accepted but the
-    #: process of creation has not commenced yet."""
-    CANCELED = "Canceled"
-    """Provisioning request for the private link service connection resource has been canceled"""
+    NONE = "None"
+    """Indicates that any identity associated with the search service needs to be removed."""
+    SYSTEM_ASSIGNED = "SystemAssigned"
+    """Indicates that system-assigned identity for the search service will be enabled."""
+    USER_ASSIGNED = "UserAssigned"
+    """Indicates that one or more user assigned identities will be assigned to the search service."""
+    SYSTEM_ASSIGNED_USER_ASSIGNED = "SystemAssigned, UserAssigned"
+    """Indicates that system-assigned identity for the search service will be enabled along with the
+    #: assignment of one or more user assigned identities."""
 
 
 class PrivateLinkServiceConnectionStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -113,7 +102,28 @@ class PublicNetworkAccess(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """
 
     ENABLED = "enabled"
+    """The search service is accessible from traffic originating from the public internet."""
     DISABLED = "disabled"
+    """The search service is not accessible from traffic originating from the public internet. Access
+    #: is only permitted over approved private endpoint connections."""
+
+
+class SearchBypass(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Possible origins of inbound traffic that can bypass the rules defined in the 'ipRules' section."""
+
+    NONE = "None"
+    """Indicates that no origin can bypass the rules defined in the 'ipRules' section. This is the
+    #: default."""
+    AZURE_PORTAL = "AzurePortal"
+    """Indicates that requests originating from the Azure portal can bypass the rules defined in the
+    #: 'ipRules' section."""
+
+
+class SearchDisabledDataExfiltrationOption(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """A specific data exfiltration scenario that is disabled for the service."""
+
+    ALL = "All"
+    """Indicates that all data exfiltration scenarios are disabled."""
 
 
 class SearchEncryptionComplianceStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -150,11 +160,11 @@ class SearchSemanticSearch(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """
 
     DISABLED = "disabled"
-    """Indicates that semantic search is disabled for the search service."""
+    """Indicates that semantic search is disabled for the search service. This is the default."""
     FREE = "free"
     """Enables semantic search on a search service and indicates that it is to be used within the
     #: limits of the free tier. This would cap the volume of semantic search requests and is offered
-    #: at no extra charge. This is the default for newly provisioned search services."""
+    #: at no extra charge."""
     STANDARD = "standard"
     """Enables semantic search on a search service as a billable feature, with higher throughput and
     #: volume of semantic search queries."""
@@ -167,10 +177,11 @@ class SearchServiceStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     'degraded': The search service is degraded. This can occur when the underlying search units are
     not healthy. The search service is most likely operational, but performance might be slow and
     some requests might be dropped. 'disabled': The search service is disabled. In this state, the
-    service will reject all API requests. 'error': The search service is in an error state. If your
-    service is in the degraded, disabled, or error states, it means the Azure Cognitive Search team
-    is actively investigating the underlying issue. Dedicated services in these states are still
-    chargeable based on the number of search units provisioned.
+    service will reject all API requests. 'error': The search service is in an error state.
+    'stopped': The search service is in a subscription that's disabled. If your service is in the
+    degraded, disabled, or error states, it means the Azure Cognitive Search team is actively
+    investigating the underlying issue. Dedicated services in these states are still chargeable
+    based on the number of search units provisioned.
     """
 
     RUNNING = "running"
@@ -186,6 +197,8 @@ class SearchServiceStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ERROR = "error"
     """The search service is in error state, indicating either a failure to provision or to be
     #: deleted."""
+    STOPPED = "stopped"
+    """The search service is in a subscription that's disabled."""
 
 
 class SharedPrivateLinkResourceAsyncOperationResult(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -198,23 +211,36 @@ class SharedPrivateLinkResourceAsyncOperationResult(str, Enum, metaclass=CaseIns
 
 class SharedPrivateLinkResourceProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The provisioning state of the shared private link resource. Can be Updating, Deleting, Failed,
-    Succeeded or Incomplete.
+    Succeeded, Incomplete or other yet to be documented value.
     """
 
     UPDATING = "Updating"
+    """The shared private link resource is in the process of being created along with other resources
+    #: for it to be fully functional."""
     DELETING = "Deleting"
+    """The shared private link resource is in the process of being deleted."""
     FAILED = "Failed"
+    """The shared private link resource has failed to be provisioned or deleted."""
     SUCCEEDED = "Succeeded"
+    """The shared private link resource has finished provisioning and is ready for approval."""
     INCOMPLETE = "Incomplete"
+    """Provisioning request for the shared private link resource has been accepted but the process of
+    #: creation has not commenced yet."""
 
 
 class SharedPrivateLinkResourceStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Status of the shared private link resource. Can be Pending, Approved, Rejected or Disconnected."""
+    """Status of the shared private link resource. Can be Pending, Approved, Rejected, Disconnected or
+    other yet to be documented value.
+    """
 
     PENDING = "Pending"
+    """The shared private link resource has been created and is pending approval."""
     APPROVED = "Approved"
+    """The shared private link resource is approved and is ready for use."""
     REJECTED = "Rejected"
+    """The shared private link resource has been rejected and cannot be used."""
     DISCONNECTED = "Disconnected"
+    """The shared private link resource has been removed from the service."""
 
 
 class SkuName(str, Enum, metaclass=CaseInsensitiveEnumMeta):

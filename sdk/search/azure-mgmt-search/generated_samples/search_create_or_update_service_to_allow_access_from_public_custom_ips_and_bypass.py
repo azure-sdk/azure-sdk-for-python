@@ -14,7 +14,7 @@ from azure.mgmt.search import SearchManagementClient
     pip install azure-identity
     pip install azure-mgmt-search
 # USAGE
-    python list_private_endpoint_connections_by_service.py
+    python search_create_or_update_service_to_allow_access_from_public_custom_ips_and_bypass.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,14 +29,27 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.private_endpoint_connections.list_by_service(
+    response = client.services.begin_create_or_update(
         resource_group_name="rg1",
         search_service_name="mysearchservice",
-    )
-    for item in response:
-        print(item)
+        service={
+            "location": "westus",
+            "properties": {
+                "hostingMode": "default",
+                "networkRuleSet": {
+                    "bypass": "AzurePortal",
+                    "ipRules": [{"value": "123.4.5.6"}, {"value": "123.4.6.0/18"}],
+                },
+                "partitionCount": 1,
+                "replicaCount": 1,
+            },
+            "sku": {"name": "standard"},
+            "tags": {"app-name": "My e-commerce app"},
+        },
+    ).result()
+    print(response)
 
 
-# x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2021-04-01-preview/examples/ListPrivateEndpointConnectionsByService.json
+# x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2021-04-01-preview/examples/SearchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPsAndBypass.json
 if __name__ == "__main__":
     main()

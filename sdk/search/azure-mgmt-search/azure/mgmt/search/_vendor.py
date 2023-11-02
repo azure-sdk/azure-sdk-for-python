@@ -5,18 +5,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from abc import ABC
-from typing import TYPE_CHECKING
-
 from azure.core.pipeline.transport import HttpRequest
-
-from ._configuration import SearchManagementClientConfiguration
-
-if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
-    from azure.core import PipelineClient
-
-    from ._serialization import Deserializer, Serializer
 
 
 def _convert_request(request, files=None):
@@ -25,12 +14,3 @@ def _convert_request(request, files=None):
     if files:
         request.set_formdata_body(files)
     return request
-
-
-class SearchManagementClientMixinABC(ABC):
-    """DO NOT use this class. It is for internal typing use only."""
-
-    _client: "PipelineClient"
-    _config: SearchManagementClientConfiguration
-    _serialize: "Serializer"
-    _deserialize: "Deserializer"

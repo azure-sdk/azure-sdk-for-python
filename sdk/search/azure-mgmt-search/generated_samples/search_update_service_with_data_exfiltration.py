@@ -14,7 +14,7 @@ from azure.mgmt.search import SearchManagementClient
     pip install azure-identity
     pip install azure-mgmt-search
 # USAGE
-    python list_private_endpoint_connections_by_service.py
+    python search_update_service_with_data_exfiltration.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,14 +29,17 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.private_endpoint_connections.list_by_service(
+    response = client.services.update(
         resource_group_name="rg1",
         search_service_name="mysearchservice",
+        service={
+            "properties": {"disabledDataExfiltrationOptions": ["All"], "replicaCount": 2},
+            "tags": {"app-name": "My e-commerce app", "new-tag": "Adding a new tag"},
+        },
     )
-    for item in response:
-        print(item)
+    print(response)
 
 
-# x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2021-04-01-preview/examples/ListPrivateEndpointConnectionsByService.json
+# x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2021-04-01-preview/examples/SearchUpdateServiceWithDataExfiltration.json
 if __name__ == "__main__":
     main()
