@@ -14,7 +14,7 @@ from azure.mgmt.search import SearchManagementClient
     pip install azure-identity
     pip install azure-mgmt-search
 # USAGE
-    python get_quota_usage.py
+    python search_update_service_to_allow_access_from_public_custom_ips_and_bypass.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,13 +29,24 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.usage_by_subscription_sku(
-        location="westus",
-        sku_name="free",
+    response = client.services.update(
+        resource_group_name="rg1",
+        search_service_name="mysearchservice",
+        service={
+            "properties": {
+                "networkRuleSet": {
+                    "bypass": "AzurePortal",
+                    "ipRules": [{"value": "123.4.5.6"}, {"value": "123.4.6.0/18"}],
+                },
+                "partitionCount": 1,
+                "publicNetworkAccess": "enabled",
+                "replicaCount": 3,
+            }
+        },
     )
     print(response)
 
 
-# x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/GetQuotaUsage.json
+# x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2021-04-01-preview/examples/SearchUpdateServiceToAllowAccessFromPublicCustomIPsAndBypass.json
 if __name__ == "__main__":
     main()

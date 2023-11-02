@@ -19,8 +19,14 @@ from ._models_py3 import IpRule
 from ._models_py3 import ListQueryKeysResult
 from ._models_py3 import NetworkRuleSet
 from ._models_py3 import Operation
+from ._models_py3 import OperationAvailability
 from ._models_py3 import OperationDisplay
 from ._models_py3 import OperationListResult
+from ._models_py3 import OperationLogsSpecification
+from ._models_py3 import OperationMetricDimension
+from ._models_py3 import OperationMetricsSpecification
+from ._models_py3 import OperationProperties
+from ._models_py3 import OperationServiceSpecification
 from ._models_py3 import PrivateEndpointConnection
 from ._models_py3 import PrivateEndpointConnectionListResult
 from ._models_py3 import PrivateEndpointConnectionProperties
@@ -30,9 +36,6 @@ from ._models_py3 import PrivateLinkResource
 from ._models_py3 import PrivateLinkResourceProperties
 from ._models_py3 import PrivateLinkResourcesResult
 from ._models_py3 import QueryKey
-from ._models_py3 import QuotaUsageResult
-from ._models_py3 import QuotaUsageResultName
-from ._models_py3 import QuotaUsagesListResult
 from ._models_py3 import Resource
 from ._models_py3 import SearchManagementRequestOptions
 from ._models_py3 import SearchService
@@ -45,15 +48,17 @@ from ._models_py3 import SharedPrivateLinkResourceListResult
 from ._models_py3 import SharedPrivateLinkResourceProperties
 from ._models_py3 import Sku
 from ._models_py3 import TrackedResource
+from ._models_py3 import UserAssignedManagedIdentity
 
 from ._search_management_client_enums import AadAuthFailureMode
 from ._search_management_client_enums import AdminKeyKind
 from ._search_management_client_enums import HostingMode
 from ._search_management_client_enums import IdentityType
-from ._search_management_client_enums import PrivateLinkServiceConnectionProvisioningState
 from ._search_management_client_enums import PrivateLinkServiceConnectionStatus
 from ._search_management_client_enums import ProvisioningState
 from ._search_management_client_enums import PublicNetworkAccess
+from ._search_management_client_enums import SearchBypass
+from ._search_management_client_enums import SearchDisabledDataExfiltrationOption
 from ._search_management_client_enums import SearchEncryptionComplianceStatus
 from ._search_management_client_enums import SearchEncryptionWithCmk
 from ._search_management_client_enums import SearchSemanticSearch
@@ -81,8 +86,14 @@ __all__ = [
     "ListQueryKeysResult",
     "NetworkRuleSet",
     "Operation",
+    "OperationAvailability",
     "OperationDisplay",
     "OperationListResult",
+    "OperationLogsSpecification",
+    "OperationMetricDimension",
+    "OperationMetricsSpecification",
+    "OperationProperties",
+    "OperationServiceSpecification",
     "PrivateEndpointConnection",
     "PrivateEndpointConnectionListResult",
     "PrivateEndpointConnectionProperties",
@@ -92,9 +103,6 @@ __all__ = [
     "PrivateLinkResourceProperties",
     "PrivateLinkResourcesResult",
     "QueryKey",
-    "QuotaUsageResult",
-    "QuotaUsageResultName",
-    "QuotaUsagesListResult",
     "Resource",
     "SearchManagementRequestOptions",
     "SearchService",
@@ -107,14 +115,16 @@ __all__ = [
     "SharedPrivateLinkResourceProperties",
     "Sku",
     "TrackedResource",
+    "UserAssignedManagedIdentity",
     "AadAuthFailureMode",
     "AdminKeyKind",
     "HostingMode",
     "IdentityType",
-    "PrivateLinkServiceConnectionProvisioningState",
     "PrivateLinkServiceConnectionStatus",
     "ProvisioningState",
     "PublicNetworkAccess",
+    "SearchBypass",
+    "SearchDisabledDataExfiltrationOption",
     "SearchEncryptionComplianceStatus",
     "SearchEncryptionWithCmk",
     "SearchSemanticSearch",

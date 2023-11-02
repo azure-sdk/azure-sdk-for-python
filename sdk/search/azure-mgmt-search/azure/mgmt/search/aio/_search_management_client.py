@@ -21,10 +21,8 @@ from .operations import (
     PrivateEndpointConnectionsOperations,
     PrivateLinkResourcesOperations,
     QueryKeysOperations,
-    SearchManagementClientOperationsMixin,
     ServicesOperations,
     SharedPrivateLinkResourcesOperations,
-    UsagesOperations,
 )
 
 if TYPE_CHECKING:
@@ -32,9 +30,7 @@ if TYPE_CHECKING:
     from azure.core.credentials_async import AsyncTokenCredential
 
 
-class SearchManagementClient(
-    SearchManagementClientOperationsMixin
-):  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
+class SearchManagementClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
     """Client that can be used to manage Azure Cognitive Search services and API keys.
 
     :ivar operations: Operations operations
@@ -54,8 +50,6 @@ class SearchManagementClient(
     :ivar shared_private_link_resources: SharedPrivateLinkResourcesOperations operations
     :vartype shared_private_link_resources:
      azure.mgmt.search.aio.operations.SharedPrivateLinkResourcesOperations
-    :ivar usages: UsagesOperations operations
-    :vartype usages: azure.mgmt.search.aio.operations.UsagesOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
     :param subscription_id: The unique identifier for a Microsoft Azure subscription. You can
@@ -63,8 +57,8 @@ class SearchManagementClient(
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2023-11-01". Note that overriding this
-     default value may result in unsupported behavior.
+    :keyword api_version: Api Version. Default value is "2021-04-01-preview". Note that overriding
+     this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
      Retry-After header is present.
@@ -99,7 +93,6 @@ class SearchManagementClient(
         self.shared_private_link_resources = SharedPrivateLinkResourcesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
-        self.usages = UsagesOperations(self._client, self._config, self._serialize, self._deserialize)
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> Awaitable[AsyncHttpResponse]:
         """Runs the network request through the client's chained policies.

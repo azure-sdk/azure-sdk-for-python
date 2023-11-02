@@ -35,7 +35,6 @@ from ...operations._private_endpoint_connections_operations import (
     build_list_by_service_request,
     build_update_request,
 )
-from .._vendor import SearchManagementClientMixinABC
 
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]

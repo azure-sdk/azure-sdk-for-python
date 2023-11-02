@@ -41,7 +41,6 @@ from ...operations._services_operations import (
     build_list_by_subscription_request,
     build_update_request,
 )
-from .._vendor import SearchManagementClientMixinABC
 
 if sys.version_info >= (3, 8):
     from typing import Literal  # pylint: disable=no-name-in-module, ungrouped-imports
