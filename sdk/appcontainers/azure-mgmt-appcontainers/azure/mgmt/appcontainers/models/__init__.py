@@ -31,6 +31,7 @@ from ._models_py3 import BaseContainer
 from ._models_py3 import BillingMeter
 from ._models_py3 import BillingMeterCollection
 from ._models_py3 import BillingMeterProperties
+from ._models_py3 import BlobStorageTokenStore
 from ._models_py3 import Certificate
 from ._models_py3 import CertificateCollection
 from ._models_py3 import CertificatePatch
@@ -87,6 +88,7 @@ from ._models_py3 import DiagnosticsDataApiResponse
 from ._models_py3 import DiagnosticsDefinition
 from ._models_py3 import DiagnosticsProperties
 from ._models_py3 import DiagnosticsStatus
+from ._models_py3 import EncryptionSettings
 from ._models_py3 import EnvironmentAuthToken
 from ._models_py3 import EnvironmentVar
 from ._models_py3 import ErrorAdditionalInfo
@@ -104,6 +106,7 @@ from ._models_py3 import HttpSettings
 from ._models_py3 import HttpSettingsRoutes
 from ._models_py3 import IdentityProviders
 from ._models_py3 import Ingress
+from ._models_py3 import IngressPortMapping
 from ._models_py3 import IngressStickySessions
 from ._models_py3 import InitContainer
 from ._models_py3 import IpSecurityRestrictionRule
@@ -126,6 +129,7 @@ from ._models_py3 import JobTemplate
 from ._models_py3 import JobsCollection
 from ._models_py3 import JwtClaimChecks
 from ._models_py3 import KedaConfiguration
+from ._models_py3 import ListUsagesResult
 from ._models_py3 import LogAnalyticsConfiguration
 from ._models_py3 import Login
 from ._models_py3 import LoginRoutes
@@ -172,10 +176,13 @@ from ._models_py3 import SourceControlCollection
 from ._models_py3 import SystemData
 from ._models_py3 import TcpScaleRule
 from ._models_py3 import Template
+from ._models_py3 import TokenStore
 from ._models_py3 import TrackedResource
 from ._models_py3 import TrafficWeight
 from ._models_py3 import Twitter
 from ._models_py3 import TwitterRegistration
+from ._models_py3 import Usage
+from ._models_py3 import UsageName
 from ._models_py3 import UserAssignedIdentity
 from ._models_py3 import VnetConfiguration
 from ._models_py3 import Volume
@@ -250,6 +257,7 @@ __all__ = [
     "BillingMeter",
     "BillingMeterCollection",
     "BillingMeterProperties",
+    "BlobStorageTokenStore",
     "Certificate",
     "CertificateCollection",
     "CertificatePatch",
@@ -306,6 +314,7 @@ __all__ = [
     "DiagnosticsDefinition",
     "DiagnosticsProperties",
     "DiagnosticsStatus",
+    "EncryptionSettings",
     "EnvironmentAuthToken",
     "EnvironmentVar",
     "ErrorAdditionalInfo",
@@ -323,6 +332,7 @@ __all__ = [
     "HttpSettingsRoutes",
     "IdentityProviders",
     "Ingress",
+    "IngressPortMapping",
     "IngressStickySessions",
     "InitContainer",
     "IpSecurityRestrictionRule",
@@ -345,6 +355,7 @@ __all__ = [
     "JobsCollection",
     "JwtClaimChecks",
     "KedaConfiguration",
+    "ListUsagesResult",
     "LogAnalyticsConfiguration",
     "Login",
     "LoginRoutes",
@@ -391,10 +402,13 @@ __all__ = [
     "SystemData",
     "TcpScaleRule",
     "Template",
+    "TokenStore",
     "TrackedResource",
     "TrafficWeight",
     "Twitter",
     "TwitterRegistration",
+    "Usage",
+    "UsageName",
     "UserAssignedIdentity",
     "VnetConfiguration",
     "Volume",

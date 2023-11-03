@@ -35,11 +35,13 @@ from .operations import (
     JobsOperations,
     ManagedCertificatesOperations,
     ManagedEnvironmentDiagnosticsOperations,
+    ManagedEnvironmentUsagesOperations,
     ManagedEnvironmentsDiagnosticsOperations,
     ManagedEnvironmentsOperations,
     ManagedEnvironmentsStoragesOperations,
     NamespacesOperations,
     Operations,
+    UsagesOperations,
 )
 
 if TYPE_CHECKING:
@@ -115,14 +117,19 @@ class ContainerAppsAPIClient(
     :ivar container_apps_source_controls: ContainerAppsSourceControlsOperations operations
     :vartype container_apps_source_controls:
      azure.mgmt.appcontainers.operations.ContainerAppsSourceControlsOperations
+    :ivar usages: UsagesOperations operations
+    :vartype usages: azure.mgmt.appcontainers.operations.UsagesOperations
+    :ivar managed_environment_usages: ManagedEnvironmentUsagesOperations operations
+    :vartype managed_environment_usages:
+     azure.mgmt.appcontainers.operations.ManagedEnvironmentUsagesOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
     :param subscription_id: The ID of the target subscription. Required.
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2023-05-01". Note that overriding this
-     default value may result in unsupported behavior.
+    :keyword api_version: Api Version. Default value is "2023-05-02-preview". Note that overriding
+     this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
      Retry-After header is present.
@@ -195,6 +202,10 @@ class ContainerAppsAPIClient(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.container_apps_source_controls = ContainerAppsSourceControlsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.usages = UsagesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.managed_environment_usages = ManagedEnvironmentUsagesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
 

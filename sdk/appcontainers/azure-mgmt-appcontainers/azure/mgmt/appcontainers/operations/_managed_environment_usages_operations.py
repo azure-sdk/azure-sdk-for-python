@@ -37,7 +37,7 @@ _SERIALIZER.client_side_validation = False
 
 
 def build_list_request(
-    resource_group_name: str, job_name: str, subscription_id: str, *, filter: Optional[str] = None, **kwargs: Any
+    resource_group_name: str, environment_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -48,22 +48,20 @@ def build_list_request(
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/jobs/{jobName}/executions",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/usages",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
-        "jobName": _SERIALIZER.url("job_name", job_name, "str", pattern=r"^[-\w\._\(\)]+$"),
+        "environmentName": _SERIALIZER.url("environment_name", environment_name, "str", pattern=r"^[-\w\._]+$"),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-    if filter is not None:
-        _params["$filter"] = _SERIALIZER.query("filter", filter, "str")
 
     # Construct headers
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
@@ -71,14 +69,14 @@ def build_list_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-class JobsExecutionsOperations:
+class ManagedEnvironmentUsagesOperations:
     """
     .. warning::
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
         :class:`~azure.mgmt.appcontainers.ContainerAppsAPIClient`'s
-        :attr:`jobs_executions` attribute.
+        :attr:`managed_environment_usages` attribute.
     """
 
     models = _models
@@ -91,30 +89,24 @@ class JobsExecutionsOperations:
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    def list(
-        self, resource_group_name: str, job_name: str, filter: Optional[str] = None, **kwargs: Any
-    ) -> Iterable["_models.JobExecution"]:
-        """Get a Container Apps Job's executions.
-
-        Get a Container Apps Job's executions.
+    def list(self, resource_group_name: str, environment_name: str, **kwargs: Any) -> Iterable["_models.Usage"]:
+        """Gets the current usage information as well as the limits for environment.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param job_name: Job Name. Required.
-        :type job_name: str
-        :param filter: The filter to apply on the operation. Default value is None.
-        :type filter: str
+        :param environment_name: Name of the Environment. Required.
+        :type environment_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: An iterator like instance of either JobExecution or the result of cls(response)
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.appcontainers.models.JobExecution]
+        :return: An iterator like instance of either Usage or the result of cls(response)
+        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.appcontainers.models.Usage]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.ContainerAppJobExecutions] = kwargs.pop("cls", None)
+        cls: ClsType[_models.ListUsagesResult] = kwargs.pop("cls", None)
 
         error_map = {
             401: ClientAuthenticationError,
@@ -129,9 +121,8 @@ class JobsExecutionsOperations:
 
                 request = build_list_request(
                     resource_group_name=resource_group_name,
-                    job_name=job_name,
+                    environment_name=environment_name,
                     subscription_id=self._config.subscription_id,
-                    filter=filter,
                     api_version=api_version,
                     template_url=self.list.metadata["url"],
                     headers=_headers,
@@ -159,7 +150,7 @@ class JobsExecutionsOperations:
             return request
 
         def extract_data(pipeline_response):
-            deserialized = self._deserialize("ContainerAppJobExecutions", pipeline_response)
+            deserialized = self._deserialize("ListUsagesResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
@@ -184,5 +175,5 @@ class JobsExecutionsOperations:
         return ItemPaged(get_next, extract_data)
 
     list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/jobs/{jobName}/executions"
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/usages"
     }

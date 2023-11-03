@@ -14,7 +14,7 @@ from azure.mgmt.appcontainers import ContainerAppsAPIClient
     pip install azure-identity
     pip install azure-mgmt-appcontainers
 # USAGE
-    python dapr_components_list_secrets.py
+    python usages_list.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,17 +26,16 @@ from azure.mgmt.appcontainers import ContainerAppsAPIClient
 def main():
     client = ContainerAppsAPIClient(
         credential=DefaultAzureCredential(),
-        subscription_id="8efdecc5-919e-44eb-b179-915dca89ebf9",
+        subscription_id="subid",
     )
 
-    response = client.dapr_components.list_secrets(
-        resource_group_name="examplerg",
-        environment_name="myenvironment",
-        component_name="reddog",
+    response = client.usages.list(
+        location="westus",
     )
-    print(response)
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-05-02-preview/examples/DaprComponents_ListSecrets.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-05-02-preview/examples/Usages_List.json
 if __name__ == "__main__":
     main()
