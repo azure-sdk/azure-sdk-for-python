@@ -8,7 +8,7 @@
 # --------------------------------------------------------------------------
 
 import datetime
-from typing import Dict, List, Optional, TYPE_CHECKING, Union
+from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
 from .. import _serialization
 
@@ -53,14 +53,15 @@ class AuthInfoBase(_serialization.Model):
         }
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.auth_type: Optional[str] = None
 
 
 class AccessKeyInfoBase(AuthInfoBase):
-    """The access key directly from target resource properties, which target service is Azure Resource, such as Microsoft.Storage.
+    """The access key directly from target resource properties, which target service is Azure
+    Resource, such as Microsoft.Storage.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -83,7 +84,9 @@ class AccessKeyInfoBase(AuthInfoBase):
         "permissions": {"key": "permissions", "type": "[str]"},
     }
 
-    def __init__(self, *, permissions: Optional[List[Union[str, "_models.AccessKeyPermissions"]]] = None, **kwargs):
+    def __init__(
+        self, *, permissions: Optional[List[Union[str, "_models.AccessKeyPermissions"]]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword permissions: Permissions of the accessKey. ``Read`` and ``Write`` are for Azure Cosmos
          DB and Azure App Configuration, ``Listen``\ , ``Send`` and ``Manage`` are for Azure Event Hub
@@ -117,7 +120,7 @@ class AzureResourcePropertiesBase(_serialization.Model):
 
     _subtype_map = {"type": {"KeyVault": "AzureKeyVaultProperties"}}
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.type: Optional[str] = None
@@ -143,7 +146,7 @@ class AzureKeyVaultProperties(AzureResourcePropertiesBase):
         "connect_as_kubernetes_csi_driver": {"key": "connectAsKubernetesCsiDriver", "type": "bool"},
     }
 
-    def __init__(self, *, connect_as_kubernetes_csi_driver: Optional[bool] = None, **kwargs):
+    def __init__(self, *, connect_as_kubernetes_csi_driver: Optional[bool] = None, **kwargs: Any) -> None:
         """
         :keyword connect_as_kubernetes_csi_driver: True if connect via Kubernetes CSI Driver.
         :paramtype connect_as_kubernetes_csi_driver: bool
@@ -183,7 +186,7 @@ class TargetServiceBase(_serialization.Model):
         }
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.type: Optional[str] = None
@@ -218,8 +221,8 @@ class AzureResource(TargetServiceBase):
         *,
         id: Optional[str] = None,  # pylint: disable=redefined-builtin
         resource_properties: Optional["_models.AzureResourcePropertiesBase"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: The Id of azure resource.
         :paramtype id: str
@@ -260,7 +263,7 @@ class DryrunPrerequisiteResult(_serialization.Model):
         }
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.type: Optional[str] = None
@@ -290,7 +293,7 @@ class BasicErrorDryrunPrerequisiteResult(DryrunPrerequisiteResult):
         "message": {"key": "message", "type": "str"},
     }
 
-    def __init__(self, *, code: Optional[str] = None, message: Optional[str] = None, **kwargs):
+    def __init__(self, *, code: Optional[str] = None, message: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword code: The error code.
         :paramtype code: str
@@ -318,6 +321,8 @@ class ConfigurationInfo(_serialization.Model):
     :ivar customized_keys: Optional. A dictionary of default key name and customized key name
      mapping. If not specified, default key name will be used for generate configurations.
     :vartype customized_keys: dict[str, str]
+    :ivar dapr_properties: Indicates some additional properties for dapr client type.
+    :vartype dapr_properties: ~azure.mgmt.servicelinker.models.DaprProperties
     :ivar additional_configurations: A dictionary of additional configurations to be added. Service
      will auto generate a set of basic configurations and this property is to full fill more
      customized configurations.
@@ -328,6 +333,7 @@ class ConfigurationInfo(_serialization.Model):
         "delete_or_update_behavior": {"key": "deleteOrUpdateBehavior", "type": "str"},
         "action": {"key": "action", "type": "str"},
         "customized_keys": {"key": "customizedKeys", "type": "{str}"},
+        "dapr_properties": {"key": "daprProperties", "type": "DaprProperties"},
         "additional_configurations": {"key": "additionalConfigurations", "type": "{str}"},
     }
 
@@ -337,9 +343,10 @@ class ConfigurationInfo(_serialization.Model):
         delete_or_update_behavior: Optional[Union[str, "_models.DeleteOrUpdateBehavior"]] = None,
         action: Optional[Union[str, "_models.ActionType"]] = None,
         customized_keys: Optional[Dict[str, str]] = None,
+        dapr_properties: Optional["_models.DaprProperties"] = None,
         additional_configurations: Optional[Dict[str, str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword delete_or_update_behavior: Indicates whether to clean up previous operation when
          Linker is updating or deleting. Known values are: "Default" and "ForcedCleanup".
@@ -353,6 +360,8 @@ class ConfigurationInfo(_serialization.Model):
         :keyword customized_keys: Optional. A dictionary of default key name and customized key name
          mapping. If not specified, default key name will be used for generate configurations.
         :paramtype customized_keys: dict[str, str]
+        :keyword dapr_properties: Indicates some additional properties for dapr client type.
+        :paramtype dapr_properties: ~azure.mgmt.servicelinker.models.DaprProperties
         :keyword additional_configurations: A dictionary of additional configurations to be added.
          Service will auto generate a set of basic configurations and this property is to full fill more
          customized configurations.
@@ -362,6 +371,7 @@ class ConfigurationInfo(_serialization.Model):
         self.delete_or_update_behavior = delete_or_update_behavior
         self.action = action
         self.customized_keys = customized_keys
+        self.dapr_properties = dapr_properties
         self.additional_configurations = additional_configurations
 
 
@@ -372,23 +382,36 @@ class ConfigurationName(_serialization.Model):
     :vartype value: str
     :ivar description: Description for the configuration name.
     :vartype description: str
+    :ivar required: Represent the configuration is required or not.
+    :vartype required: bool
     """
 
     _attribute_map = {
         "value": {"key": "value", "type": "str"},
         "description": {"key": "description", "type": "str"},
+        "required": {"key": "required", "type": "bool"},
     }
 
-    def __init__(self, *, value: Optional[str] = None, description: Optional[str] = None, **kwargs):
+    def __init__(
+        self,
+        *,
+        value: Optional[str] = None,
+        description: Optional[str] = None,
+        required: Optional[bool] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value:
         :paramtype value: str
         :keyword description: Description for the configuration name.
         :paramtype description: str
+        :keyword required: Represent the configuration is required or not.
+        :paramtype required: bool
         """
         super().__init__(**kwargs)
         self.value = value
         self.description = description
+        self.required = required
 
 
 class ConfigurationNameItem(_serialization.Model):
@@ -397,13 +420,15 @@ class ConfigurationNameItem(_serialization.Model):
     :ivar target_service: The target service provider name and resource name.
     :vartype target_service: str
     :ivar client_type: The client type for configuration names. Known values are: "none", "dotnet",
-     "java", "python", "go", "php", "ruby", "django", "nodejs", "springBoot", and
-     "kafka-springBoot".
+     "java", "python", "go", "php", "ruby", "django", "nodejs", "springBoot", "kafka-springBoot",
+     and "dapr".
     :vartype client_type: str or ~azure.mgmt.servicelinker.models.ClientType
     :ivar auth_type: The auth type. Known values are: "systemAssignedIdentity",
      "userAssignedIdentity", "servicePrincipalSecret", "servicePrincipalCertificate", "secret",
      "accessKey", and "userAccount".
     :vartype auth_type: str or ~azure.mgmt.servicelinker.models.AuthType
+    :ivar dapr_properties: Indicates some additional properties for dapr client type.
+    :vartype dapr_properties: ~azure.mgmt.servicelinker.models.DaprProperties
     :ivar names: The configuration names to be set in compute service environment.
     :vartype names: list[~azure.mgmt.servicelinker.models.ConfigurationName]
     """
@@ -412,6 +437,7 @@ class ConfigurationNameItem(_serialization.Model):
         "target_service": {"key": "properties.targetService", "type": "str"},
         "client_type": {"key": "properties.clientType", "type": "str"},
         "auth_type": {"key": "properties.authType", "type": "str"},
+        "dapr_properties": {"key": "properties.daprProperties", "type": "DaprProperties"},
         "names": {"key": "properties.names", "type": "[ConfigurationName]"},
     }
 
@@ -421,20 +447,23 @@ class ConfigurationNameItem(_serialization.Model):
         target_service: Optional[str] = None,
         client_type: Optional[Union[str, "_models.ClientType"]] = None,
         auth_type: Optional[Union[str, "_models.AuthType"]] = None,
+        dapr_properties: Optional["_models.DaprProperties"] = None,
         names: Optional[List["_models.ConfigurationName"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword target_service: The target service provider name and resource name.
         :paramtype target_service: str
         :keyword client_type: The client type for configuration names. Known values are: "none",
-         "dotnet", "java", "python", "go", "php", "ruby", "django", "nodejs", "springBoot", and
-         "kafka-springBoot".
+         "dotnet", "java", "python", "go", "php", "ruby", "django", "nodejs", "springBoot",
+         "kafka-springBoot", and "dapr".
         :paramtype client_type: str or ~azure.mgmt.servicelinker.models.ClientType
         :keyword auth_type: The auth type. Known values are: "systemAssignedIdentity",
          "userAssignedIdentity", "servicePrincipalSecret", "servicePrincipalCertificate", "secret",
          "accessKey", and "userAccount".
         :paramtype auth_type: str or ~azure.mgmt.servicelinker.models.AuthType
+        :keyword dapr_properties: Indicates some additional properties for dapr client type.
+        :paramtype dapr_properties: ~azure.mgmt.servicelinker.models.DaprProperties
         :keyword names: The configuration names to be set in compute service environment.
         :paramtype names: list[~azure.mgmt.servicelinker.models.ConfigurationName]
         """
@@ -442,11 +471,13 @@ class ConfigurationNameItem(_serialization.Model):
         self.target_service = target_service
         self.client_type = client_type
         self.auth_type = auth_type
+        self.dapr_properties = dapr_properties
         self.names = names
 
 
 class ConfigurationNameResult(_serialization.Model):
-    """Configuration Name list which will be set based on different target resource, client type, auth type.
+    """Configuration Name list which will be set based on different target resource, client type, auth
+    type.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -465,7 +496,7 @@ class ConfigurationNameResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.ConfigurationNameItem"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.ConfigurationNameItem"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Expected configuration names for each target service.
         :paramtype value: list[~azure.mgmt.servicelinker.models.ConfigurationNameItem]
@@ -486,7 +517,7 @@ class ConfigurationResult(_serialization.Model):
         "configurations": {"key": "configurations", "type": "[SourceConfiguration]"},
     }
 
-    def __init__(self, *, configurations: Optional[List["_models.SourceConfiguration"]] = None, **kwargs):
+    def __init__(self, *, configurations: Optional[List["_models.SourceConfiguration"]] = None, **kwargs: Any) -> None:
         """
         :keyword configurations: The configuration properties for source resource.
         :paramtype configurations: list[~azure.mgmt.servicelinker.models.SourceConfiguration]
@@ -516,7 +547,7 @@ class ConfluentBootstrapServer(TargetServiceBase):
         "endpoint": {"key": "endpoint", "type": "str"},
     }
 
-    def __init__(self, *, endpoint: Optional[str] = None, **kwargs):
+    def __init__(self, *, endpoint: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword endpoint: The endpoint of service.
         :paramtype endpoint: str
@@ -547,7 +578,7 @@ class ConfluentSchemaRegistry(TargetServiceBase):
         "endpoint": {"key": "endpoint", "type": "str"},
     }
 
-    def __init__(self, *, endpoint: Optional[str] = None, **kwargs):
+    def __init__(self, *, endpoint: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword endpoint: The endpoint of service.
         :paramtype endpoint: str
@@ -567,7 +598,8 @@ class LinkerProperties(_serialization.Model):
     :ivar auth_info: The authentication type.
     :vartype auth_info: ~azure.mgmt.servicelinker.models.AuthInfoBase
     :ivar client_type: The application client type. Known values are: "none", "dotnet", "java",
-     "python", "go", "php", "ruby", "django", "nodejs", "springBoot", and "kafka-springBoot".
+     "python", "go", "php", "ruby", "django", "nodejs", "springBoot", "kafka-springBoot", and
+     "dapr".
     :vartype client_type: str or ~azure.mgmt.servicelinker.models.ClientType
     :ivar provisioning_state: The provisioning state.
     :vartype provisioning_state: str
@@ -611,15 +643,16 @@ class LinkerProperties(_serialization.Model):
         scope: Optional[str] = None,
         public_network_solution: Optional["_models.PublicNetworkSolution"] = None,
         configuration_info: Optional["_models.ConfigurationInfo"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword target_service: The target service properties.
         :paramtype target_service: ~azure.mgmt.servicelinker.models.TargetServiceBase
         :keyword auth_info: The authentication type.
         :paramtype auth_info: ~azure.mgmt.servicelinker.models.AuthInfoBase
         :keyword client_type: The application client type. Known values are: "none", "dotnet", "java",
-         "python", "go", "php", "ruby", "django", "nodejs", "springBoot", and "kafka-springBoot".
+         "python", "go", "php", "ruby", "django", "nodejs", "springBoot", "kafka-springBoot", and
+         "dapr".
         :paramtype client_type: str or ~azure.mgmt.servicelinker.models.ClientType
         :keyword v_net_solution: The VNet solution.
         :paramtype v_net_solution: ~azure.mgmt.servicelinker.models.VNetSolution
@@ -667,7 +700,7 @@ class DryrunParameters(_serialization.Model):
 
     _subtype_map = {"action_name": {"createOrUpdate": "CreateOrUpdateDryrunParameters"}}
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.action_name: Optional[str] = None
@@ -685,7 +718,8 @@ class CreateOrUpdateDryrunParameters(DryrunParameters, LinkerProperties):
     :ivar auth_info: The authentication type.
     :vartype auth_info: ~azure.mgmt.servicelinker.models.AuthInfoBase
     :ivar client_type: The application client type. Known values are: "none", "dotnet", "java",
-     "python", "go", "php", "ruby", "django", "nodejs", "springBoot", and "kafka-springBoot".
+     "python", "go", "php", "ruby", "django", "nodejs", "springBoot", "kafka-springBoot", and
+     "dapr".
     :vartype client_type: str or ~azure.mgmt.servicelinker.models.ClientType
     :ivar provisioning_state: The provisioning state.
     :vartype provisioning_state: str
@@ -733,15 +767,16 @@ class CreateOrUpdateDryrunParameters(DryrunParameters, LinkerProperties):
         scope: Optional[str] = None,
         public_network_solution: Optional["_models.PublicNetworkSolution"] = None,
         configuration_info: Optional["_models.ConfigurationInfo"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword target_service: The target service properties.
         :paramtype target_service: ~azure.mgmt.servicelinker.models.TargetServiceBase
         :keyword auth_info: The authentication type.
         :paramtype auth_info: ~azure.mgmt.servicelinker.models.AuthInfoBase
         :keyword client_type: The application client type. Known values are: "none", "dotnet", "java",
-         "python", "go", "php", "ruby", "django", "nodejs", "springBoot", and "kafka-springBoot".
+         "python", "go", "php", "ruby", "django", "nodejs", "springBoot", "kafka-springBoot", and
+         "dapr".
         :paramtype client_type: str or ~azure.mgmt.servicelinker.models.ClientType
         :keyword v_net_solution: The VNet solution.
         :paramtype v_net_solution: ~azure.mgmt.servicelinker.models.VNetSolution
@@ -778,6 +813,98 @@ class CreateOrUpdateDryrunParameters(DryrunParameters, LinkerProperties):
         self.action_name: str = "createOrUpdate"
 
 
+class DaprMetadata(_serialization.Model):
+    """The dapr component metadata.
+
+    :ivar name: Metadata property name.
+    :vartype name: str
+    :ivar value: Metadata property value.
+    :vartype value: str
+    :ivar secret_ref: The secret name where dapr could get value.
+    :vartype secret_ref: str
+    """
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "value": {"key": "value", "type": "str"},
+        "secret_ref": {"key": "secretRef", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        name: Optional[str] = None,
+        value: Optional[str] = None,
+        secret_ref: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword name: Metadata property name.
+        :paramtype name: str
+        :keyword value: Metadata property value.
+        :paramtype value: str
+        :keyword secret_ref: The secret name where dapr could get value.
+        :paramtype secret_ref: str
+        """
+        super().__init__(**kwargs)
+        self.name = name
+        self.value = value
+        self.secret_ref = secret_ref
+
+
+class DaprProperties(_serialization.Model):
+    """Indicates some additional properties for dapr client type.
+
+    :ivar version: The dapr component version.
+    :vartype version: str
+    :ivar component_type: The dapr component type.
+    :vartype component_type: str
+    :ivar secret_store_component: The name of a secret store dapr to retrieve secret.
+    :vartype secret_store_component: str
+    :ivar metadata: Additional dapr metadata.
+    :vartype metadata: list[~azure.mgmt.servicelinker.models.DaprMetadata]
+    :ivar scopes: The dapr component scopes.
+    :vartype scopes: list[str]
+    """
+
+    _attribute_map = {
+        "version": {"key": "version", "type": "str"},
+        "component_type": {"key": "componentType", "type": "str"},
+        "secret_store_component": {"key": "secretStoreComponent", "type": "str"},
+        "metadata": {"key": "metadata", "type": "[DaprMetadata]"},
+        "scopes": {"key": "scopes", "type": "[str]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        version: Optional[str] = None,
+        component_type: Optional[str] = None,
+        secret_store_component: Optional[str] = None,
+        metadata: Optional[List["_models.DaprMetadata"]] = None,
+        scopes: Optional[List[str]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword version: The dapr component version.
+        :paramtype version: str
+        :keyword component_type: The dapr component type.
+        :paramtype component_type: str
+        :keyword secret_store_component: The name of a secret store dapr to retrieve secret.
+        :paramtype secret_store_component: str
+        :keyword metadata: Additional dapr metadata.
+        :paramtype metadata: list[~azure.mgmt.servicelinker.models.DaprMetadata]
+        :keyword scopes: The dapr component scopes.
+        :paramtype scopes: list[str]
+        """
+        super().__init__(**kwargs)
+        self.version = version
+        self.component_type = component_type
+        self.secret_store_component = secret_store_component
+        self.metadata = metadata
+        self.scopes = scopes
+
+
 class DatabaseAadAuthInfo(_serialization.Model):
     """The extra auth info required by Database AAD authentication.
 
@@ -789,7 +916,7 @@ class DatabaseAadAuthInfo(_serialization.Model):
         "user_name": {"key": "userName", "type": "str"},
     }
 
-    def __init__(self, *, user_name: Optional[str] = None, **kwargs):
+    def __init__(self, *, user_name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword user_name: Username created in the database which is mapped to a user in AAD.
         :paramtype user_name: str
@@ -813,8 +940,8 @@ class DryrunList(_serialization.Model):
     }
 
     def __init__(
-        self, *, next_link: Optional[str] = None, value: Optional[List["_models.DryrunResource"]] = None, **kwargs
-    ):
+        self, *, next_link: Optional[str] = None, value: Optional[List["_models.DryrunResource"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword next_link: The link used to get the next page of dryrun list.
         :paramtype next_link: str
@@ -860,8 +987,8 @@ class DryrunOperationPreview(_serialization.Model):
         description: Optional[str] = None,
         action: Optional[str] = None,
         scope: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: The operation name.
         :paramtype name: str
@@ -913,7 +1040,7 @@ class DryrunPatch(_serialization.Model):
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
     }
 
-    def __init__(self, *, parameters: Optional["_models.DryrunParameters"] = None, **kwargs):
+    def __init__(self, *, parameters: Optional["_models.DryrunParameters"] = None, **kwargs: Any) -> None:
         """
         :keyword parameters: The parameters of the dryrun.
         :paramtype parameters: ~azure.mgmt.servicelinker.models.DryrunParameters
@@ -957,7 +1084,7 @@ class Resource(_serialization.Model):
         "system_data": {"key": "systemData", "type": "SystemData"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -967,7 +1094,8 @@ class Resource(_serialization.Model):
 
 
 class ProxyResource(Resource):
-    """The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location.
+    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
+    tags and a location.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -998,7 +1126,7 @@ class ProxyResource(Resource):
         "system_data": {"key": "systemData", "type": "SystemData"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
 
@@ -1050,7 +1178,7 @@ class DryrunResource(ProxyResource):
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
     }
 
-    def __init__(self, *, parameters: Optional["_models.DryrunParameters"] = None, **kwargs):
+    def __init__(self, *, parameters: Optional["_models.DryrunParameters"] = None, **kwargs: Any) -> None:
         """
         :keyword parameters: The parameters of the dryrun.
         :paramtype parameters: ~azure.mgmt.servicelinker.models.DryrunParameters
@@ -1083,7 +1211,7 @@ class ErrorAdditionalInfo(_serialization.Model):
         "info": {"key": "info", "type": "object"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.type = None
@@ -1123,7 +1251,7 @@ class ErrorDetail(_serialization.Model):
         "additional_info": {"key": "additionalInfo", "type": "[ErrorAdditionalInfo]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.code = None
@@ -1134,7 +1262,8 @@ class ErrorDetail(_serialization.Model):
 
 
 class ErrorResponse(_serialization.Model):
-    """Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.).
+    """Common error response for all Azure Resource Manager APIs to return error details for failed
+    operations. (This also follows the OData error response format.).
 
     :ivar error: The error object.
     :vartype error: ~azure.mgmt.servicelinker.models.ErrorDetail
@@ -1144,7 +1273,7 @@ class ErrorResponse(_serialization.Model):
         "error": {"key": "error", "type": "ErrorDetail"},
     }
 
-    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs):
+    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs: Any) -> None:
         """
         :keyword error: The error object.
         :paramtype error: ~azure.mgmt.servicelinker.models.ErrorDetail
@@ -1180,8 +1309,8 @@ class FirewallRules(_serialization.Model):
         ip_ranges: Optional[List[str]] = None,
         azure_services: Optional[Union[str, "_models.AllowType"]] = None,
         caller_client_ip: Optional[Union[str, "_models.AllowType"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword ip_ranges: This value specifies the set of IP addresses or IP address ranges in CIDR
          form to be included as the allowed list of client IPs for a given database account.
@@ -1229,14 +1358,16 @@ class SecretInfoBase(_serialization.Model):
         }
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.secret_type: Optional[str] = None
 
 
 class KeyVaultSecretReferenceSecretInfo(SecretInfoBase):
-    """The secret info when type is keyVaultSecretReference. It's for scenario that user provides a secret stored in user's keyvault and source is Azure Kubernetes. The key Vault's resource id is linked to secretStore.keyVaultId.
+    """The secret info when type is keyVaultSecretReference. It's for scenario that user provides a
+    secret stored in user's keyvault and source is Azure Kubernetes. The key Vault's resource id is
+    linked to secretStore.keyVaultId.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -1259,7 +1390,7 @@ class KeyVaultSecretReferenceSecretInfo(SecretInfoBase):
         "version": {"key": "version", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, version: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, version: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Name of the Key Vault secret.
         :paramtype name: str
@@ -1273,7 +1404,8 @@ class KeyVaultSecretReferenceSecretInfo(SecretInfoBase):
 
 
 class KeyVaultSecretUriSecretInfo(SecretInfoBase):
-    """The secret info when type is keyVaultSecretUri. It's for scenario that user provides a secret stored in user's keyvault and source is Web App, Spring Cloud or Container App.
+    """The secret info when type is keyVaultSecretUri. It's for scenario that user provides a secret
+    stored in user's keyvault and source is Web App, Spring Cloud or Container App.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -1293,7 +1425,7 @@ class KeyVaultSecretUriSecretInfo(SecretInfoBase):
         "value": {"key": "value", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[str] = None, **kwargs):
+    def __init__(self, *, value: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword value: URI to the keyvault secret.
         :paramtype value: str
@@ -1313,7 +1445,8 @@ class LinkerPatch(_serialization.Model):
     :ivar auth_info: The authentication type.
     :vartype auth_info: ~azure.mgmt.servicelinker.models.AuthInfoBase
     :ivar client_type: The application client type. Known values are: "none", "dotnet", "java",
-     "python", "go", "php", "ruby", "django", "nodejs", "springBoot", and "kafka-springBoot".
+     "python", "go", "php", "ruby", "django", "nodejs", "springBoot", "kafka-springBoot", and
+     "dapr".
     :vartype client_type: str or ~azure.mgmt.servicelinker.models.ClientType
     :ivar provisioning_state: The provisioning state.
     :vartype provisioning_state: str
@@ -1357,15 +1490,16 @@ class LinkerPatch(_serialization.Model):
         scope: Optional[str] = None,
         public_network_solution: Optional["_models.PublicNetworkSolution"] = None,
         configuration_info: Optional["_models.ConfigurationInfo"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword target_service: The target service properties.
         :paramtype target_service: ~azure.mgmt.servicelinker.models.TargetServiceBase
         :keyword auth_info: The authentication type.
         :paramtype auth_info: ~azure.mgmt.servicelinker.models.AuthInfoBase
         :keyword client_type: The application client type. Known values are: "none", "dotnet", "java",
-         "python", "go", "php", "ruby", "django", "nodejs", "springBoot", and "kafka-springBoot".
+         "python", "go", "php", "ruby", "django", "nodejs", "springBoot", "kafka-springBoot", and
+         "dapr".
         :paramtype client_type: str or ~azure.mgmt.servicelinker.models.ClientType
         :keyword v_net_solution: The VNet solution.
         :paramtype v_net_solution: ~azure.mgmt.servicelinker.models.VNetSolution
@@ -1412,7 +1546,8 @@ class LinkerResource(ProxyResource):  # pylint: disable=too-many-instance-attrib
     :ivar auth_info: The authentication type.
     :vartype auth_info: ~azure.mgmt.servicelinker.models.AuthInfoBase
     :ivar client_type: The application client type. Known values are: "none", "dotnet", "java",
-     "python", "go", "php", "ruby", "django", "nodejs", "springBoot", and "kafka-springBoot".
+     "python", "go", "php", "ruby", "django", "nodejs", "springBoot", "kafka-springBoot", and
+     "dapr".
     :vartype client_type: str or ~azure.mgmt.servicelinker.models.ClientType
     :ivar provisioning_state: The provisioning state.
     :vartype provisioning_state: str
@@ -1464,15 +1599,16 @@ class LinkerResource(ProxyResource):  # pylint: disable=too-many-instance-attrib
         scope: Optional[str] = None,
         public_network_solution: Optional["_models.PublicNetworkSolution"] = None,
         configuration_info: Optional["_models.ConfigurationInfo"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword target_service: The target service properties.
         :paramtype target_service: ~azure.mgmt.servicelinker.models.TargetServiceBase
         :keyword auth_info: The authentication type.
         :paramtype auth_info: ~azure.mgmt.servicelinker.models.AuthInfoBase
         :keyword client_type: The application client type. Known values are: "none", "dotnet", "java",
-         "python", "go", "php", "ruby", "django", "nodejs", "springBoot", and "kafka-springBoot".
+         "python", "go", "php", "ruby", "django", "nodejs", "springBoot", "kafka-springBoot", and
+         "dapr".
         :paramtype client_type: str or ~azure.mgmt.servicelinker.models.ClientType
         :keyword v_net_solution: The VNet solution.
         :paramtype v_net_solution: ~azure.mgmt.servicelinker.models.VNetSolution
@@ -1535,7 +1671,7 @@ class Operation(_serialization.Model):
         "action_type": {"key": "actionType", "type": "str"},
     }
 
-    def __init__(self, *, display: Optional["_models.OperationDisplay"] = None, **kwargs):
+    def __init__(self, *, display: Optional["_models.OperationDisplay"] = None, **kwargs: Any) -> None:
         """
         :keyword display: Localized display information for this particular operation.
         :paramtype display: ~azure.mgmt.servicelinker.models.OperationDisplay
@@ -1581,7 +1717,7 @@ class OperationDisplay(_serialization.Model):
         "description": {"key": "description", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.provider = None
@@ -1591,7 +1727,8 @@ class OperationDisplay(_serialization.Model):
 
 
 class OperationListResult(_serialization.Model):
-    """A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results.
+    """A list of REST API operations supported by an Azure Resource Provider. It contains an URL link
+    to get the next set of results.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -1611,7 +1748,7 @@ class OperationListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -1651,8 +1788,8 @@ class PermissionsMissingDryrunPrerequisiteResult(DryrunPrerequisiteResult):
         scope: Optional[str] = None,
         permissions: Optional[List[str]] = None,
         recommended_role: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword scope: The permission scope.
         :paramtype scope: str
@@ -1697,8 +1834,8 @@ class PublicNetworkSolution(_serialization.Model):
         delete_or_update_behavior: Optional[Union[str, "_models.DeleteOrUpdateBehavior"]] = None,
         action: Optional[Union[str, "_models.ActionType"]] = None,
         firewall_rules: Optional["_models.FirewallRules"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword delete_or_update_behavior: Indicates whether to clean up previous operation(such as
          firewall rules) when Linker is updating or deleting. Known values are: "Default" and
@@ -1734,8 +1871,8 @@ class ResourceList(_serialization.Model):
     }
 
     def __init__(
-        self, *, next_link: Optional[str] = None, value: Optional[List["_models.LinkerResource"]] = None, **kwargs
-    ):
+        self, *, next_link: Optional[str] = None, value: Optional[List["_models.LinkerResource"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword next_link: The Linker used to get the next page of Linker list.
         :paramtype next_link: str
@@ -1772,7 +1909,9 @@ class SecretAuthInfo(AuthInfoBase):
         "secret_info": {"key": "secretInfo", "type": "SecretInfoBase"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, secret_info: Optional["_models.SecretInfoBase"] = None, **kwargs):
+    def __init__(
+        self, *, name: Optional[str] = None, secret_info: Optional["_models.SecretInfoBase"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword name: Username or account name for secret auth.
         :paramtype name: str
@@ -1800,7 +1939,9 @@ class SecretStore(_serialization.Model):
         "key_vault_secret_name": {"key": "keyVaultSecretName", "type": "str"},
     }
 
-    def __init__(self, *, key_vault_id: Optional[str] = None, key_vault_secret_name: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, key_vault_id: Optional[str] = None, key_vault_secret_name: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword key_vault_id: The key vault id to store secret.
         :paramtype key_vault_id: str
@@ -1834,7 +1975,7 @@ class SelfHostedServer(TargetServiceBase):
         "endpoint": {"key": "endpoint", "type": "str"},
     }
 
-    def __init__(self, *, endpoint: Optional[str] = None, **kwargs):
+    def __init__(self, *, endpoint: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword endpoint: The endpoint of service.
         :paramtype endpoint: str
@@ -1891,8 +2032,8 @@ class ServicePrincipalCertificateAuthInfo(AuthInfoBase):
         certificate: str,
         delete_or_update_behavior: Optional[Union[str, "_models.DeleteOrUpdateBehavior"]] = None,
         roles: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword client_id: Application clientId for servicePrincipal auth. Required.
         :paramtype client_id: str
@@ -1967,8 +2108,8 @@ class ServicePrincipalSecretAuthInfo(AuthInfoBase, DatabaseAadAuthInfo):
         user_name: Optional[str] = None,
         delete_or_update_behavior: Optional[Union[str, "_models.DeleteOrUpdateBehavior"]] = None,
         roles: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword user_name: Username created in the database which is mapped to a user in AAD.
         :paramtype user_name: str
@@ -2009,7 +2150,7 @@ class SourceConfiguration(_serialization.Model):
         "value": {"key": "value", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, value: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, value: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: The name of setting.
         :paramtype name: str
@@ -2057,8 +2198,8 @@ class SystemAssignedIdentityAuthInfo(AuthInfoBase, DatabaseAadAuthInfo):
         user_name: Optional[str] = None,
         delete_or_update_behavior: Optional[Union[str, "_models.DeleteOrUpdateBehavior"]] = None,
         roles: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword user_name: Username created in the database which is mapped to a user in AAD.
         :paramtype user_name: str
@@ -2113,8 +2254,8 @@ class SystemData(_serialization.Model):
         last_modified_by: Optional[str] = None,
         last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
         last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword created_by: The identity that created the resource.
         :paramtype created_by: str
@@ -2180,8 +2321,8 @@ class UserAccountAuthInfo(AuthInfoBase, DatabaseAadAuthInfo):
         principal_id: Optional[str] = None,
         delete_or_update_behavior: Optional[Union[str, "_models.DeleteOrUpdateBehavior"]] = None,
         roles: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword user_name: Username created in the database which is mapped to a user in AAD.
         :paramtype user_name: str
@@ -2246,8 +2387,8 @@ class UserAssignedIdentityAuthInfo(AuthInfoBase, DatabaseAadAuthInfo):
         subscription_id: Optional[str] = None,
         delete_or_update_behavior: Optional[Union[str, "_models.DeleteOrUpdateBehavior"]] = None,
         roles: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword user_name: Username created in the database which is mapped to a user in AAD.
         :paramtype user_name: str
@@ -2325,8 +2466,8 @@ class ValidateOperationResult(_serialization.Model):
         target_id: Optional[str] = None,
         auth_type: Optional[Union[str, "_models.AuthType"]] = None,
         validation_detail: Optional[List["_models.ValidationResultItem"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword resource_id: Validated Linker id.
         :paramtype resource_id: str
@@ -2396,8 +2537,8 @@ class ValidationResultItem(_serialization.Model):
         result: Optional[Union[str, "_models.ValidationResultStatus"]] = None,
         error_message: Optional[str] = None,
         error_code: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: The validation item name.
         :paramtype name: str
@@ -2440,7 +2581,7 @@ class ValueSecretInfo(SecretInfoBase):
         "value": {"key": "value", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[str] = None, **kwargs):
+    def __init__(self, *, value: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword value: The actual value of the secret.
         :paramtype value: str
@@ -2471,8 +2612,8 @@ class VNetSolution(_serialization.Model):
         *,
         type: Optional[Union[str, "_models.VNetSolutionType"]] = None,
         delete_or_update_behavior: Optional[Union[str, "_models.DeleteOrUpdateBehavior"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword type: Type of VNet solution. Known values are: "serviceEndpoint" and "privateLink".
         :paramtype type: str or ~azure.mgmt.servicelinker.models.VNetSolutionType
