@@ -36,6 +36,6 @@ def main():
     ).result()
 
 
-# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2023-04-01/examples/Job/cancel.json
+# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2023-12-01/examples/Job/cancel.json
 if __name__ == "__main__":
     main()
