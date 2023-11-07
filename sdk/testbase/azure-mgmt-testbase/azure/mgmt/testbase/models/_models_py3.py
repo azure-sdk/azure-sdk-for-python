@@ -25,7 +25,8 @@ JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 
 
 class AnalysisResultListResult(_serialization.Model):
-    """A list of Analysis Results. It will only contain one element as all the data will be nested in a singleton object.
+    """A list of Analysis Results. It will only contain one element as all the data will be nested in
+    a singleton object.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -45,7 +46,9 @@ class AnalysisResultListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.AnalysisResultSingletonResource"]] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.AnalysisResultSingletonResource"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: The list of Analysis Results.
         :paramtype value: list[~azure.mgmt.testbase.models.AnalysisResultSingletonResource]
@@ -80,7 +83,7 @@ class Resource(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -89,7 +92,8 @@ class Resource(_serialization.Model):
 
 
 class ProxyResource(Resource):
-    """The resource model definition for an ARM proxy resource. It will have everything other than required location and tags.
+    """The resource model definition for an ARM proxy resource. It will have everything other than
+    required location and tags.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -113,7 +117,7 @@ class ProxyResource(Resource):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
 
@@ -131,8 +135,8 @@ class AnalysisResultSingletonResource(ProxyResource):
     :vartype type: str
     :ivar system_data: The system metadata relating to this resource.
     :vartype system_data: ~azure.mgmt.testbase.models.SystemData
-    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-     "Fail".
+    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", "Fail",
+     and "Pass".
     :vartype grade: str or ~azure.mgmt.testbase.models.Grade
     :ivar analysis_result_type: Type of the Analysis Result. Known values are: "ScriptExecution",
      "Reliability", "CPUUtilization", "MemoryUtilization", "CPURegression", "MemoryRegression", and
@@ -156,16 +160,16 @@ class AnalysisResultSingletonResource(ProxyResource):
         "analysis_result_type": {"key": "properties.analysisResultType", "type": "str"},
     }
 
-    def __init__(self, *, grade: Optional[Union[str, "_models.Grade"]] = None, **kwargs):
+    def __init__(self, *, grade: Optional[Union[str, "_models.Grade"]] = None, **kwargs: Any) -> None:
         """
-        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-         "Fail".
+        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass",
+         "Fail", and "Pass".
         :paramtype grade: str or ~azure.mgmt.testbase.models.Grade
         """
         super().__init__(**kwargs)
         self.system_data = None
         self.grade = grade
-        self.analysis_result_type = None  # type: Optional[str]
+        self.analysis_result_type: Optional[str] = None
 
 
 class AnalysisResultSingletonResourceProperties(_serialization.Model):
@@ -181,8 +185,8 @@ class AnalysisResultSingletonResourceProperties(_serialization.Model):
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-     "Fail".
+    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", "Fail",
+     and "Pass".
     :vartype grade: str or ~azure.mgmt.testbase.models.Grade
     :ivar analysis_result_type: Type of the Analysis Result. Required. Known values are:
      "ScriptExecution", "Reliability", "CPUUtilization", "MemoryUtilization", "CPURegression",
@@ -211,15 +215,15 @@ class AnalysisResultSingletonResourceProperties(_serialization.Model):
         }
     }
 
-    def __init__(self, *, grade: Optional[Union[str, "_models.Grade"]] = None, **kwargs):
+    def __init__(self, *, grade: Optional[Union[str, "_models.Grade"]] = None, **kwargs: Any) -> None:
         """
-        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-         "Fail".
+        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass",
+         "Fail", and "Pass".
         :paramtype grade: str or ~azure.mgmt.testbase.models.Grade
         """
         super().__init__(**kwargs)
         self.grade = grade
-        self.analysis_result_type = None  # type: Optional[str]
+        self.analysis_result_type: Optional[str] = None
 
 
 class AvailableOSListResult(_serialization.Model):
@@ -243,7 +247,7 @@ class AvailableOSListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.AvailableOSResource"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.AvailableOSResource"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The list of available OSs.
         :paramtype value: list[~azure.mgmt.testbase.models.AvailableOSResource]
@@ -309,8 +313,8 @@ class AvailableOSResource(ProxyResource):
         insider_channel: Optional[str] = None,
         os_update_type: Optional[str] = None,
         os_platform: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword os_id: The Id of an Available OS of a Test Base Account.
         :paramtype os_id: str
@@ -402,8 +406,8 @@ class BillingHubExecutionUsageDetail(_serialization.Model):  # pylint: disable=t
         used_free_hours: Optional[float] = None,
         used_billable_hours: Optional[float] = None,
         billed_charges: Optional[float] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword application_name:
         :paramtype application_name: str
@@ -478,8 +482,8 @@ class BillingHubFreeHourIncrementEntry(_serialization.Model):
         expiration_time_stamp: Optional[datetime.datetime] = None,
         incremental_free_hours: Optional[float] = None,
         remaining_free_hours: Optional[float] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword create_time_stamp:
         :paramtype create_time_stamp: ~datetime.datetime
@@ -516,8 +520,8 @@ class BillingHubGetFreeHourBalanceResponse(_serialization.Model):
         *,
         total_remaining_free_hours: Optional[float] = None,
         increment_entries: Optional[List["_models.BillingHubFreeHourIncrementEntry"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword total_remaining_free_hours:
         :paramtype total_remaining_free_hours: float
@@ -564,8 +568,8 @@ class BillingHubGetUsageRequest(_serialization.Model):
         end_time_stamp: datetime.datetime,
         page_size: Optional[int] = None,
         page_index: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword start_time_stamp: Required.
         :paramtype start_time_stamp: ~datetime.datetime
@@ -614,8 +618,8 @@ class BillingHubGetUsageResponse(_serialization.Model):
         total_charges: Optional[float] = None,
         package_usage_entries: Optional[List["_models.BillingHubPackageUsage"]] = None,
         next_request: Optional["_models.BillingHubGetUsageRequest"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword total_used_free_hours:
         :paramtype total_used_free_hours: float
@@ -679,8 +683,8 @@ class BillingHubPackageUsage(_serialization.Model):
         total_used_billable_hours: Optional[float] = None,
         total_charges: Optional[float] = None,
         usage_entries_grouped_by_update_type: Optional[List["_models.BillingHubUsageGroupedByUpdateType"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword application_name:
         :paramtype application_name: str
@@ -747,8 +751,8 @@ class BillingHubUsage(_serialization.Model):
         total_used_billable_hours: Optional[float] = None,
         total_charges: Optional[float] = None,
         usage_groups: Optional[List["_models.BillingHubUsageGroup"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword application_name:
         :paramtype application_name: str
@@ -831,8 +835,8 @@ class BillingHubUsageGroup(_serialization.Model):  # pylint: disable=too-many-in
         test_type: Optional[str] = None,
         product_family: Optional[str] = None,
         execution_usage_details: Optional[List["_models.BillingHubExecutionUsageDetail"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword total_used_free_hours:
         :paramtype total_used_free_hours: float
@@ -903,8 +907,8 @@ class BillingHubUsageGroupedByUpdateType(_serialization.Model):
         total_used_billable_hours: Optional[float] = None,
         total_charges: Optional[float] = None,
         usage_groups: Optional[List["_models.BillingHubUsageGroup"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword update_type:
         :paramtype update_type: str
@@ -952,8 +956,12 @@ class CheckNameAvailabilityResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, name_available: Optional[bool] = None, reason: Optional[Union[str, "_models.Reason"]] = None, **kwargs
-    ):
+        self,
+        *,
+        name_available: Optional[bool] = None,
+        reason: Optional[Union[str, "_models.Reason"]] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name_available: Value indicating the availability of the name: true if the name is
          available; otherwise, false.
@@ -1030,8 +1038,8 @@ class Command(_serialization.Model):
         run_as_interactive: Optional[bool] = None,
         always_run: Optional[bool] = None,
         apply_update_before: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: The name of the command. Required.
         :paramtype name: str
@@ -1074,8 +1082,8 @@ class CPURegressionResultSingletonResourceProperties(AnalysisResultSingletonReso
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-     "Fail".
+    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", "Fail",
+     and "Pass".
     :vartype grade: str or ~azure.mgmt.testbase.models.Grade
     :ivar analysis_result_type: Type of the Analysis Result. Required. Known values are:
      "ScriptExecution", "Reliability", "CPUUtilization", "MemoryUtilization", "CPURegression",
@@ -1100,17 +1108,17 @@ class CPURegressionResultSingletonResourceProperties(AnalysisResultSingletonReso
         *,
         grade: Optional[Union[str, "_models.Grade"]] = None,
         cpu_regression_results: Optional[List["_models.RegressionResult"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-         "Fail".
+        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass",
+         "Fail", and "Pass".
         :paramtype grade: str or ~azure.mgmt.testbase.models.Grade
         :keyword cpu_regression_results: The result array data.
         :paramtype cpu_regression_results: list[~azure.mgmt.testbase.models.RegressionResult]
         """
         super().__init__(grade=grade, **kwargs)
-        self.analysis_result_type = "CPURegression"  # type: str
+        self.analysis_result_type: str = "CPURegression"
         self.cpu_regression_results = cpu_regression_results
 
 
@@ -1119,8 +1127,8 @@ class CPUUtilizationResultSingletonResourceProperties(AnalysisResultSingletonRes
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-     "Fail".
+    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", "Fail",
+     and "Pass".
     :vartype grade: str or ~azure.mgmt.testbase.models.Grade
     :ivar analysis_result_type: Type of the Analysis Result. Required. Known values are:
      "ScriptExecution", "Reliability", "CPUUtilization", "MemoryUtilization", "CPURegression",
@@ -1145,17 +1153,17 @@ class CPUUtilizationResultSingletonResourceProperties(AnalysisResultSingletonRes
         *,
         grade: Optional[Union[str, "_models.Grade"]] = None,
         cpu_utilization_results: Optional[List["_models.UtilizationResult"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-         "Fail".
+        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass",
+         "Fail", and "Pass".
         :paramtype grade: str or ~azure.mgmt.testbase.models.Grade
         :keyword cpu_utilization_results: The result array data.
         :paramtype cpu_utilization_results: list[~azure.mgmt.testbase.models.UtilizationResult]
         """
         super().__init__(grade=grade, **kwargs)
-        self.analysis_result_type = "CPUUtilization"  # type: str
+        self.analysis_result_type: str = "CPUUtilization"
         self.cpu_utilization_results = cpu_utilization_results
 
 
@@ -1180,7 +1188,7 @@ class CustomerEventListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.CustomerEventResource"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.CustomerEventResource"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The list of Test Base Customer Events.
         :paramtype value: list[~azure.mgmt.testbase.models.CustomerEventResource]
@@ -1230,8 +1238,8 @@ class CustomerEventResource(ProxyResource):
         *,
         event_name: Optional[str] = None,
         receivers: Optional[List["_models.NotificationEventReceiver"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword event_name: The name of the event subscribed to.
         :paramtype event_name: str
@@ -1255,7 +1263,7 @@ class DistributionGroupListReceiverValue(_serialization.Model):
         "distribution_groups": {"key": "distributionGroups", "type": "[str]"},
     }
 
-    def __init__(self, *, distribution_groups: Optional[List[str]] = None, **kwargs):
+    def __init__(self, *, distribution_groups: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
         :keyword distribution_groups: The list of distribution groups.
         :paramtype distribution_groups: list[str]
@@ -1285,7 +1293,7 @@ class DownloadURLResponse(_serialization.Model):
         "expiration_time": {"key": "expirationTime", "type": "iso-8601"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.download_url = None
@@ -1313,7 +1321,7 @@ class EmailEventListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.EmailEventResource"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.EmailEventResource"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The list of email events.
         :paramtype value: list[~azure.mgmt.testbase.models.EmailEventResource]
@@ -1367,8 +1375,8 @@ class EmailEventResource(ProxyResource):
         event_id: Optional[str] = None,
         event_name: Optional[str] = None,
         display_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword event_id: The identifier of the email event.
         :paramtype event_id: str
@@ -1413,7 +1421,7 @@ class ErrorDefinition(_serialization.Model):
         "details": {"key": "details", "type": "[ErrorDefinition]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.code = None
@@ -1433,7 +1441,7 @@ class ErrorResponse(_serialization.Model):
         "error": {"key": "error", "type": "ErrorDefinition"},
     }
 
-    def __init__(self, *, error: Optional["_models.ErrorDefinition"] = None, **kwargs):
+    def __init__(self, *, error: Optional["_models.ErrorDefinition"] = None, **kwargs: Any) -> None:
         """
         :keyword error: The error details.
         :paramtype error: ~azure.mgmt.testbase.models.ErrorDefinition
@@ -1463,7 +1471,7 @@ class FavoriteProcessListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.FavoriteProcessResource"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.FavoriteProcessResource"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The list of favorite processes for a package.
         :paramtype value: list[~azure.mgmt.testbase.models.FavoriteProcessResource]
@@ -1507,7 +1515,7 @@ class FavoriteProcessResource(ProxyResource):
         "actual_process_name": {"key": "properties.actualProcessName", "type": "str"},
     }
 
-    def __init__(self, *, actual_process_name: Optional[str] = None, **kwargs):
+    def __init__(self, *, actual_process_name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword actual_process_name: The actual name of the favorite process. It will be equal to
          resource name except for the scenario that the process name contains characters that are not
@@ -1541,7 +1549,7 @@ class FileUploadURLResponse(_serialization.Model):
         "blob_path": {"key": "blobPath", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.upload_url = None
@@ -1569,7 +1577,7 @@ class FlightingRingListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.FlightingRingResource"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.FlightingRingResource"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The list of flighting rings.
         :paramtype value: list[~azure.mgmt.testbase.models.FlightingRingResource]
@@ -1611,7 +1619,7 @@ class FlightingRingResource(ProxyResource):
         "actual_flighting_ring_name": {"key": "properties.actualFlightingRingName", "type": "str"},
     }
 
-    def __init__(self, *, actual_flighting_ring_name: Optional[str] = None, **kwargs):
+    def __init__(self, *, actual_flighting_ring_name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword actual_flighting_ring_name: The actual name of a flighting ring of a Test Base
          Account.
@@ -1633,7 +1641,7 @@ class GetFileUploadURLParameters(_serialization.Model):
         "blob_name": {"key": "blobName", "type": "str"},
     }
 
-    def __init__(self, *, blob_name: Optional[str] = None, **kwargs):
+    def __init__(self, *, blob_name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword blob_name: The custom file name of the uploaded blob.
         :paramtype blob_name: str
@@ -1670,8 +1678,8 @@ class IdentifiedFailure(_serialization.Model):
         category: Optional[Union[str, "_models.Category"]] = None,
         error_message: Optional[str] = None,
         guidance: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword failure_id: The Failure Id.
         :paramtype failure_id: str
@@ -1695,8 +1703,8 @@ class MemoryRegressionResultSingletonResourceProperties(AnalysisResultSingletonR
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-     "Fail".
+    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", "Fail",
+     and "Pass".
     :vartype grade: str or ~azure.mgmt.testbase.models.Grade
     :ivar analysis_result_type: Type of the Analysis Result. Required. Known values are:
      "ScriptExecution", "Reliability", "CPUUtilization", "MemoryUtilization", "CPURegression",
@@ -1721,17 +1729,17 @@ class MemoryRegressionResultSingletonResourceProperties(AnalysisResultSingletonR
         *,
         grade: Optional[Union[str, "_models.Grade"]] = None,
         memory_regression_results: Optional[List["_models.RegressionResult"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-         "Fail".
+        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass",
+         "Fail", and "Pass".
         :paramtype grade: str or ~azure.mgmt.testbase.models.Grade
         :keyword memory_regression_results: The result array data.
         :paramtype memory_regression_results: list[~azure.mgmt.testbase.models.RegressionResult]
         """
         super().__init__(grade=grade, **kwargs)
-        self.analysis_result_type = "MemoryRegression"  # type: str
+        self.analysis_result_type: str = "MemoryRegression"
         self.memory_regression_results = memory_regression_results
 
 
@@ -1740,8 +1748,8 @@ class MemoryUtilizationResultSingletonResourceProperties(AnalysisResultSingleton
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-     "Fail".
+    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", "Fail",
+     and "Pass".
     :vartype grade: str or ~azure.mgmt.testbase.models.Grade
     :ivar analysis_result_type: Type of the Analysis Result. Required. Known values are:
      "ScriptExecution", "Reliability", "CPUUtilization", "MemoryUtilization", "CPURegression",
@@ -1766,17 +1774,17 @@ class MemoryUtilizationResultSingletonResourceProperties(AnalysisResultSingleton
         *,
         grade: Optional[Union[str, "_models.Grade"]] = None,
         memory_utilization_results: Optional[List["_models.UtilizationResult"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-         "Fail".
+        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass",
+         "Fail", and "Pass".
         :paramtype grade: str or ~azure.mgmt.testbase.models.Grade
         :keyword memory_utilization_results: The result array data.
         :paramtype memory_utilization_results: list[~azure.mgmt.testbase.models.UtilizationResult]
         """
         super().__init__(grade=grade, **kwargs)
-        self.analysis_result_type = "MemoryUtilization"  # type: str
+        self.analysis_result_type: str = "MemoryUtilization"
         self.memory_utilization_results = memory_utilization_results
 
 
@@ -1799,8 +1807,8 @@ class NotificationEventReceiver(_serialization.Model):
         *,
         receiver_type: Optional[str] = None,
         receiver_value: Optional["_models.NotificationReceiverValue"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword receiver_type: The type of the notification event receiver.
         :paramtype receiver_type: str
@@ -1839,8 +1847,8 @@ class NotificationReceiverValue(_serialization.Model):
         user_object_receiver_value: Optional["_models.UserObjectReceiverValue"] = None,
         subscription_receiver_value: Optional["_models.SubscriptionReceiverValue"] = None,
         distribution_group_list_receiver_value: Optional["_models.DistributionGroupListReceiverValue"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword user_object_receiver_value: The user object receiver value.
         :paramtype user_object_receiver_value: ~azure.mgmt.testbase.models.UserObjectReceiverValue
@@ -1888,8 +1896,8 @@ class Operation(_serialization.Model):
     }
 
     def __init__(
-        self, *, display: Optional["_models.OperationDisplay"] = None, properties: Optional[JSON] = None, **kwargs
-    ):
+        self, *, display: Optional["_models.OperationDisplay"] = None, properties: Optional[JSON] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword display: The object that describes the operation.
         :paramtype display: ~azure.mgmt.testbase.models.OperationDisplay
@@ -1933,7 +1941,7 @@ class OperationDisplay(_serialization.Model):
         "description": {"key": "description", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.provider = None
@@ -1962,7 +1970,7 @@ class OperationListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Operation"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.Operation"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: List of operations supported by the Test Base resource provider.
         :paramtype value: list[~azure.mgmt.testbase.models.Operation]
@@ -1993,7 +2001,7 @@ class OSUpdateListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.OSUpdateResource"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.OSUpdateResource"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The list of OS Updates.
         :paramtype value: list[~azure.mgmt.testbase.models.OSUpdateResource]
@@ -2064,8 +2072,8 @@ class OSUpdateResource(ProxyResource):  # pylint: disable=too-many-instance-attr
         build_revision: Optional[str] = None,
         type_properties_type: Optional[Union[str, "_models.Type"]] = None,
         release_version_date: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword os_name: The name of the OS.
         :paramtype os_name: str
@@ -2104,8 +2112,8 @@ class OSUpdatesTestSummary(_serialization.Model):
      "TestExecutionInProgress", "DataProcessing", "TestFailure", "UpdateFailure",
      "TestAndUpdateFailure", "InfrastructureFailure", and "Completed".
     :vartype test_status: str or ~azure.mgmt.testbase.models.TestStatus
-    :ivar grade: The grade of last test. Known values are: "None", "NotAvailable", "Pass", and
-     "Fail".
+    :ivar grade: The grade of last test. Known values are: "None", "NotAvailable", "Pass", "Fail",
+     and "Pass".
     :vartype grade: str or ~azure.mgmt.testbase.models.Grade
     :ivar test_run_time: The run time of the last test.
     :vartype test_run_time: str
@@ -2129,8 +2137,8 @@ class OSUpdatesTestSummary(_serialization.Model):
         grade: Optional[Union[str, "_models.Grade"]] = None,
         test_run_time: Optional[str] = None,
         os_update_test_summaries: Optional[List["_models.OSUpdateTestSummary"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword execution_status: The status of the last test. Known values are: "None", "InProgress",
          "Processing", "Completed", "NotExecuted", "Incomplete", "Failed", and "Succeeded".
@@ -2139,8 +2147,8 @@ class OSUpdatesTestSummary(_serialization.Model):
          "TestExecutionInProgress", "DataProcessing", "TestFailure", "UpdateFailure",
          "TestAndUpdateFailure", "InfrastructureFailure", and "Completed".
         :paramtype test_status: str or ~azure.mgmt.testbase.models.TestStatus
-        :keyword grade: The grade of last test. Known values are: "None", "NotAvailable", "Pass", and
-         "Fail".
+        :keyword grade: The grade of last test. Known values are: "None", "NotAvailable", "Pass",
+         "Fail", and "Pass".
         :paramtype grade: str or ~azure.mgmt.testbase.models.Grade
         :keyword test_run_time: The run time of the last test.
         :paramtype test_run_time: str
@@ -2178,8 +2186,8 @@ class OSUpdateTestSummary(_serialization.Model):  # pylint: disable=too-many-ins
      "DataProcessing", "TestFailure", "UpdateFailure", "TestAndUpdateFailure",
      "InfrastructureFailure", and "Completed".
     :vartype test_status: str or ~azure.mgmt.testbase.models.TestStatus
-    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-     "Fail".
+    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", "Fail",
+     and "Pass".
     :vartype grade: str or ~azure.mgmt.testbase.models.Grade
     :ivar test_run_time: The run time of the test.
     :vartype test_run_time: str
@@ -2215,8 +2223,8 @@ class OSUpdateTestSummary(_serialization.Model):  # pylint: disable=too-many-ins
         grade: Optional[Union[str, "_models.Grade"]] = None,
         test_run_time: Optional[str] = None,
         test_type: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword os_name: The operating system name. e.g. Windows 10 1809.
         :paramtype os_name: str
@@ -2238,8 +2246,8 @@ class OSUpdateTestSummary(_serialization.Model):  # pylint: disable=too-many-ins
          "TestExecutionInProgress", "DataProcessing", "TestFailure", "UpdateFailure",
          "TestAndUpdateFailure", "InfrastructureFailure", and "Completed".
         :paramtype test_status: str or ~azure.mgmt.testbase.models.TestStatus
-        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-         "Fail".
+        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass",
+         "Fail", and "Pass".
         :paramtype grade: str or ~azure.mgmt.testbase.models.Grade
         :keyword test_run_time: The run time of the test.
         :paramtype test_run_time: str
@@ -2288,7 +2296,9 @@ class PackageCheckNameAvailabilityParameters(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, *, name: str, application_name: str, version: str, type: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, name: str, application_name: str, version: str, type: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword name: Resource name to verify. Required.
         :paramtype name: str
@@ -2327,7 +2337,7 @@ class PackageListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.PackageResource"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.PackageResource"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The list of Test Base Packages.
         :paramtype value: list[~azure.mgmt.testbase.models.PackageResource]
@@ -2375,7 +2385,7 @@ class TrackedResource(Resource):
         "etag": {"key": "etag", "type": "str"},
     }
 
-    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword tags: The tags of the resource.
         :paramtype tags: dict[str, str]
@@ -2488,8 +2498,8 @@ class PackageResource(TrackedResource):  # pylint: disable=too-many-instance-att
         flighting_ring: Optional[str] = None,
         blob_path: Optional[str] = None,
         tests: Optional[List["_models.Test"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: The tags of the resource.
         :paramtype tags: dict[str, str]
@@ -2564,8 +2574,8 @@ class PackageRunTestParameters(_serialization.Model):
         os_update_type: Optional[Union[str, "_models.OsUpdateType"]] = None,
         release_name: Optional[str] = None,
         flighting_ring: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword test_type: The type of the test. Required. Known values are: "OutOfBoxTest" and
          "FunctionalTest".
@@ -2624,8 +2634,8 @@ class PackageUpdateParameters(_serialization.Model):
         is_enabled: Optional[bool] = None,
         blob_path: Optional[str] = None,
         tests: Optional[List["_models.Test"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: The tags of the Package.
         :paramtype tags: dict[str, str]
@@ -2675,7 +2685,7 @@ class PackageValidationResult(_serialization.Model):
         "errors": {"key": "errors", "type": "[str]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.validation_name = None
@@ -2688,8 +2698,8 @@ class RegressionResult(_serialization.Model):
 
     :ivar file_name: FileName of the binary being analyzed.
     :vartype file_name: str
-    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-     "Fail".
+    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", "Fail",
+     and "Pass".
     :vartype grade: str or ~azure.mgmt.testbase.models.Grade
     :ivar details: Message that facilitates debugging a particular regression, if any was inferred.
     :vartype details: str
@@ -2715,13 +2725,13 @@ class RegressionResult(_serialization.Model):
         details: Optional[str] = None,
         diff: Optional[float] = None,
         is_regressed: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword file_name: FileName of the binary being analyzed.
         :paramtype file_name: str
-        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-         "Fail".
+        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass",
+         "Fail", and "Pass".
         :paramtype grade: str or ~azure.mgmt.testbase.models.Grade
         :keyword details: Message that facilitates debugging a particular regression, if any was
          inferred.
@@ -2753,7 +2763,7 @@ class RegressionTestDetails(_serialization.Model):
         "is_regressed": {"key": "isRegressed", "type": "bool"},
     }
 
-    def __init__(self, *, diff: Optional[float] = None, is_regressed: Optional[bool] = None, **kwargs):
+    def __init__(self, *, diff: Optional[float] = None, is_regressed: Optional[bool] = None, **kwargs: Any) -> None:
         """
         :keyword diff: Difference between the two datasets being analyzed.
         :paramtype diff: float
@@ -2777,15 +2787,15 @@ class ReliabilityResult(_serialization.Model):
     :ivar hang_count: Count of number of hangs.
     :vartype hang_count: int
     :ivar regression_grade: The regression grade. Known values are: "None", "NotAvailable", "Pass",
-     and "Fail".
+     "Fail", and "Pass".
     :vartype regression_grade: str or ~azure.mgmt.testbase.models.Grade
     :ivar crash_regression_grade: The statistic regression grade for crash signal. Known values
-     are: "None", "NotAvailable", "Pass", and "Fail".
+     are: "None", "NotAvailable", "Pass", "Fail", and "Pass".
     :vartype crash_regression_grade: str or ~azure.mgmt.testbase.models.Grade
     :ivar crash_regression_test_details: Details related to the crash regression analysis.
     :vartype crash_regression_test_details: ~azure.mgmt.testbase.models.RegressionTestDetails
     :ivar hang_regression_grade: The statistic regression grade for hang signal. Known values are:
-     "None", "NotAvailable", "Pass", and "Fail".
+     "None", "NotAvailable", "Pass", "Fail", and "Pass".
     :vartype hang_regression_grade: str or ~azure.mgmt.testbase.models.Grade
     :ivar hang_regression_test_details: Details related to the hang regression analysis.
     :vartype hang_regression_test_details: ~azure.mgmt.testbase.models.RegressionTestDetails
@@ -2815,8 +2825,8 @@ class ReliabilityResult(_serialization.Model):
         crash_regression_test_details: Optional["_models.RegressionTestDetails"] = None,
         hang_regression_grade: Optional[Union[str, "_models.Grade"]] = None,
         hang_regression_test_details: Optional["_models.RegressionTestDetails"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword file_name: File name.
         :paramtype file_name: str
@@ -2827,15 +2837,15 @@ class ReliabilityResult(_serialization.Model):
         :keyword hang_count: Count of number of hangs.
         :paramtype hang_count: int
         :keyword regression_grade: The regression grade. Known values are: "None", "NotAvailable",
-         "Pass", and "Fail".
+         "Pass", "Fail", and "Pass".
         :paramtype regression_grade: str or ~azure.mgmt.testbase.models.Grade
         :keyword crash_regression_grade: The statistic regression grade for crash signal. Known values
-         are: "None", "NotAvailable", "Pass", and "Fail".
+         are: "None", "NotAvailable", "Pass", "Fail", and "Pass".
         :paramtype crash_regression_grade: str or ~azure.mgmt.testbase.models.Grade
         :keyword crash_regression_test_details: Details related to the crash regression analysis.
         :paramtype crash_regression_test_details: ~azure.mgmt.testbase.models.RegressionTestDetails
         :keyword hang_regression_grade: The statistic regression grade for hang signal. Known values
-         are: "None", "NotAvailable", "Pass", and "Fail".
+         are: "None", "NotAvailable", "Pass", "Fail", and "Pass".
         :paramtype hang_regression_grade: str or ~azure.mgmt.testbase.models.Grade
         :keyword hang_regression_test_details: Details related to the hang regression analysis.
         :paramtype hang_regression_test_details: ~azure.mgmt.testbase.models.RegressionTestDetails
@@ -2857,8 +2867,8 @@ class ReliabilityResultSingletonResourceProperties(AnalysisResultSingletonResour
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-     "Fail".
+    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", "Fail",
+     and "Pass".
     :vartype grade: str or ~azure.mgmt.testbase.models.Grade
     :ivar analysis_result_type: Type of the Analysis Result. Required. Known values are:
      "ScriptExecution", "Reliability", "CPUUtilization", "MemoryUtilization", "CPURegression",
@@ -2883,17 +2893,17 @@ class ReliabilityResultSingletonResourceProperties(AnalysisResultSingletonResour
         *,
         grade: Optional[Union[str, "_models.Grade"]] = None,
         reliability_results: Optional[List["_models.ReliabilityResult"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-         "Fail".
+        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass",
+         "Fail", and "Pass".
         :paramtype grade: str or ~azure.mgmt.testbase.models.Grade
         :keyword reliability_results: The result array data.
         :paramtype reliability_results: list[~azure.mgmt.testbase.models.ReliabilityResult]
         """
         super().__init__(grade=grade, **kwargs)
-        self.analysis_result_type = "Reliability"  # type: str
+        self.analysis_result_type: str = "Reliability"
         self.reliability_results = reliability_results
 
 
@@ -2936,8 +2946,8 @@ class ScriptExecutionResult(_serialization.Model):
         timed_out: Optional[bool] = None,
         stdout_log_file_name: Optional[str] = None,
         stderr_log_file_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword script_name: Name of script.
         :paramtype script_name: str
@@ -2969,8 +2979,8 @@ class ScriptExecutionResultSingletonResourceProperties(AnalysisResultSingletonRe
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-     "Fail".
+    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", "Fail",
+     and "Pass".
     :vartype grade: str or ~azure.mgmt.testbase.models.Grade
     :ivar analysis_result_type: Type of the Analysis Result. Required. Known values are:
      "ScriptExecution", "Reliability", "CPUUtilization", "MemoryUtilization", "CPURegression",
@@ -2995,17 +3005,17 @@ class ScriptExecutionResultSingletonResourceProperties(AnalysisResultSingletonRe
         *,
         grade: Optional[Union[str, "_models.Grade"]] = None,
         script_execution_results: Optional[List["_models.ScriptExecutionResult"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-         "Fail".
+        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass",
+         "Fail", and "Pass".
         :paramtype grade: str or ~azure.mgmt.testbase.models.Grade
         :keyword script_execution_results: The result array data.
         :paramtype script_execution_results: list[~azure.mgmt.testbase.models.ScriptExecutionResult]
         """
         super().__init__(grade=grade, **kwargs)
-        self.analysis_result_type = "ScriptExecution"  # type: str
+        self.analysis_result_type: str = "ScriptExecution"
         self.script_execution_results = script_execution_results
 
 
@@ -3032,8 +3042,8 @@ class SubscriptionReceiverValue(_serialization.Model):
         subscription_id: Optional[str] = None,
         subscription_name: Optional[str] = None,
         role: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword subscription_id: The subscription id of the notification receiver.
         :paramtype subscription_id: str
@@ -3085,8 +3095,8 @@ class SystemData(_serialization.Model):
         last_modified_by: Optional[str] = None,
         last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
         last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword created_by: The identity that created the resource.
         :paramtype created_by: str
@@ -3138,8 +3148,8 @@ class TargetOSInfo(_serialization.Model):
     }
 
     def __init__(
-        self, *, os_update_type: str, target_o_ss: List[str], baseline_o_ss: Optional[List[str]] = None, **kwargs
-    ):
+        self, *, os_update_type: str, target_o_ss: List[str], baseline_o_ss: Optional[List[str]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword os_update_type: Specifies the OS update type to test against, e.g., 'Security updates'
          or 'Feature updates'. Required.
@@ -3197,8 +3207,8 @@ class Test(_serialization.Model):
         test_type: Union[str, "_models.TestType"],
         commands: List["_models.Command"],
         is_active: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword test_type: The type of the test. Required. Known values are: "OutOfBoxTest" and
          "FunctionalTest".
@@ -3241,8 +3251,8 @@ class TestAnalysisResult(_serialization.Model):
         blob_data: Optional[str] = None,
         test_analysis_status: Optional[Union[str, "_models.TestAnalysisStatus"]] = None,
         identified_failures: Optional[List["_models.IdentifiedFailure"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword blob_data: The data to provide more failure analysis information.
         :paramtype blob_data: str
@@ -3263,8 +3273,8 @@ class TestAnalysisResultSingletonResourceProperties(AnalysisResultSingletonResou
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-     "Fail".
+    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", "Fail",
+     and "Pass".
     :vartype grade: str or ~azure.mgmt.testbase.models.Grade
     :ivar analysis_result_type: Type of the Analysis Result. Required. Known values are:
      "ScriptExecution", "Reliability", "CPUUtilization", "MemoryUtilization", "CPURegression",
@@ -3289,17 +3299,17 @@ class TestAnalysisResultSingletonResourceProperties(AnalysisResultSingletonResou
         *,
         grade: Optional[Union[str, "_models.Grade"]] = None,
         test_analysis_result: Optional["_models.TestAnalysisResult"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-         "Fail".
+        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass",
+         "Fail", and "Pass".
         :paramtype grade: str or ~azure.mgmt.testbase.models.Grade
         :keyword test_analysis_result: The result of test analysis.
         :paramtype test_analysis_result: ~azure.mgmt.testbase.models.TestAnalysisResult
         """
         super().__init__(grade=grade, **kwargs)
-        self.analysis_result_type = "TestAnalysis"  # type: str
+        self.analysis_result_type: str = "TestAnalysis"
         self.test_analysis_result = test_analysis_result
 
 
@@ -3324,7 +3334,7 @@ class TestBaseAccountListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.TestBaseAccountResource"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.TestBaseAccountResource"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The list of Test Base Accounts.
         :paramtype value: list[~azure.mgmt.testbase.models.TestBaseAccountResource]
@@ -3394,8 +3404,8 @@ class TestBaseAccountResource(TrackedResource):
         location: str,
         tags: Optional[Dict[str, str]] = None,
         sku: Optional["_models.TestBaseAccountSKU"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: The tags of the resource.
         :paramtype tags: dict[str, str]
@@ -3452,8 +3462,8 @@ class TestBaseAccountSKU(_serialization.Model):
         tier: Union[str, "_models.Tier"],
         resource_type: Optional[str] = None,
         locations: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword resource_type: The type of resource the SKU applies to.
         :paramtype resource_type: str
@@ -3494,7 +3504,7 @@ class TestBaseAccountSKUCapability(_serialization.Model):
         "value": {"key": "value", "type": "str"},
     }
 
-    def __init__(self, *, name: str, value: str, **kwargs):
+    def __init__(self, *, name: str, value: str, **kwargs: Any) -> None:
         """
         :keyword name: An invariant to describe the feature, such as 'SLA'. Required.
         :paramtype name: str
@@ -3527,7 +3537,7 @@ class TestBaseAccountSKUListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.TestBaseAccountSKU"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.TestBaseAccountSKU"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The list of Test Base Account SKUs.
         :paramtype value: list[~azure.mgmt.testbase.models.TestBaseAccountSKU]
@@ -3552,8 +3562,12 @@ class TestBaseAccountUpdateParameters(_serialization.Model):
     }
 
     def __init__(
-        self, *, tags: Optional[Dict[str, str]] = None, sku: Optional["_models.TestBaseAccountSKU"] = None, **kwargs
-    ):
+        self,
+        *,
+        tags: Optional[Dict[str, str]] = None,
+        sku: Optional["_models.TestBaseAccountSKU"] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: The tags of the Test Base Account.
         :paramtype tags: dict[str, str]
@@ -3598,8 +3612,8 @@ class TestBaseAccountUsageData(_serialization.Model):
         unit: Optional[str] = None,
         limit: Optional[int] = None,
         current_value: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: Fully qualified ARM resource id.
         :paramtype id: str
@@ -3643,7 +3657,7 @@ class TestBaseAccountUsageDataList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.TestBaseAccountUsageData"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.TestBaseAccountUsageData"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The list of Test Base Account usage data.
         :paramtype value: list[~azure.mgmt.testbase.models.TestBaseAccountUsageData]
@@ -3667,7 +3681,7 @@ class TestBaseAccountUsageName(_serialization.Model):
         "localized_value": {"key": "localizedValue", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[str] = None, localized_value: Optional[str] = None, **kwargs):
+    def __init__(self, *, value: Optional[str] = None, localized_value: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword value: The identifier of the usage.
         :paramtype value: str
@@ -3688,7 +3702,7 @@ class TestResultAnalysisSummary(_serialization.Model):
      "InProgress", "Failed", "Succeeded", "Available", and "NotAvailable".
     :vartype analysis_status: str or ~azure.mgmt.testbase.models.AnalysisStatus
     :ivar grade: The grade of the test result. Known values are: "None", "NotAvailable", "Pass",
-     and "Fail".
+     "Fail", and "Pass".
     :vartype grade: str or ~azure.mgmt.testbase.models.Grade
     """
 
@@ -3704,8 +3718,8 @@ class TestResultAnalysisSummary(_serialization.Model):
         name: Optional[str] = None,
         analysis_status: Optional[Union[str, "_models.AnalysisStatus"]] = None,
         grade: Optional[Union[str, "_models.Grade"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Metric name.
         :paramtype name: str
@@ -3713,7 +3727,7 @@ class TestResultAnalysisSummary(_serialization.Model):
          "InProgress", "Failed", "Succeeded", "Available", and "NotAvailable".
         :paramtype analysis_status: str or ~azure.mgmt.testbase.models.AnalysisStatus
         :keyword grade: The grade of the test result. Known values are: "None", "NotAvailable", "Pass",
-         and "Fail".
+         "Fail", and "Pass".
         :paramtype grade: str or ~azure.mgmt.testbase.models.Grade
         """
         super().__init__(**kwargs)
@@ -3739,7 +3753,7 @@ class TestResultConsoleLogDownloadURLParameters(_serialization.Model):
         "log_file_name": {"key": "logFileName", "type": "str"},
     }
 
-    def __init__(self, *, log_file_name: str, **kwargs):
+    def __init__(self, *, log_file_name: str, **kwargs: Any) -> None:
         """
         :keyword log_file_name: The log file name corresponding to the download URL. Required.
         :paramtype log_file_name: str
@@ -3769,7 +3783,7 @@ class TestResultListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.TestResultResource"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.TestResultResource"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The list of Test Results.
         :paramtype value: list[~azure.mgmt.testbase.models.TestResultResource]
@@ -3828,8 +3842,8 @@ class TestResultResource(ProxyResource):  # pylint: disable=too-many-instance-at
      "DataProcessing", "TestFailure", "UpdateFailure", "TestAndUpdateFailure",
      "InfrastructureFailure", and "Completed".
     :vartype test_status: str or ~azure.mgmt.testbase.models.TestStatus
-    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-     "Fail".
+    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", "Fail",
+     and "Pass".
     :vartype grade: str or ~azure.mgmt.testbase.models.Grade
     :ivar kb_number: KB number.
     :vartype kb_number: str
@@ -3904,8 +3918,8 @@ class TestResultResource(ProxyResource):  # pylint: disable=too-many-instance-at
         interop_media_version: Optional[str] = None,
         package_version: Optional[str] = None,
         analysis_summaries: Optional[List["_models.TestResultAnalysisSummary"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword baseline_test_result_id: Azure Id of the baseline test result.
         :paramtype baseline_test_result_id: str
@@ -3943,8 +3957,8 @@ class TestResultResource(ProxyResource):  # pylint: disable=too-many-instance-at
          "TestExecutionInProgress", "DataProcessing", "TestFailure", "UpdateFailure",
          "TestAndUpdateFailure", "InfrastructureFailure", and "Completed".
         :paramtype test_status: str or ~azure.mgmt.testbase.models.TestStatus
-        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-         "Fail".
+        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass",
+         "Fail", and "Pass".
         :paramtype grade: str or ~azure.mgmt.testbase.models.Grade
         :keyword kb_number: KB number.
         :paramtype kb_number: str
@@ -4004,7 +4018,7 @@ class TestSummaryListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.TestSummaryResource"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.TestSummaryResource"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The list of Test Summaries.
         :paramtype value: list[~azure.mgmt.testbase.models.TestSummaryResource]
@@ -4043,8 +4057,8 @@ class TestSummaryResource(ProxyResource):  # pylint: disable=too-many-instance-a
      "TestExecutionInProgress", "DataProcessing", "TestFailure", "UpdateFailure",
      "TestAndUpdateFailure", "InfrastructureFailure", and "Completed".
     :vartype test_status: str or ~azure.mgmt.testbase.models.TestStatus
-    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-     "Fail".
+    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", "Fail",
+     and "Pass".
     :vartype grade: str or ~azure.mgmt.testbase.models.Grade
     :ivar test_run_time: The run time of the last test.
     :vartype test_run_time: str
@@ -4098,8 +4112,8 @@ class TestSummaryResource(ProxyResource):  # pylint: disable=too-many-instance-a
         feature_updates_test_summary: Optional["_models.OSUpdatesTestSummary"] = None,
         security_updates_test_summary: Optional["_models.OSUpdatesTestSummary"] = None,
         package_tags: Optional[Dict[str, str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword test_summary_id: The Id of the current Test Summary.
         :paramtype test_summary_id: str
@@ -4117,8 +4131,8 @@ class TestSummaryResource(ProxyResource):  # pylint: disable=too-many-instance-a
          "TestExecutionInProgress", "DataProcessing", "TestFailure", "UpdateFailure",
          "TestAndUpdateFailure", "InfrastructureFailure", and "Completed".
         :paramtype test_status: str or ~azure.mgmt.testbase.models.TestStatus
-        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-         "Fail".
+        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass",
+         "Fail", and "Pass".
         :paramtype grade: str or ~azure.mgmt.testbase.models.Grade
         :keyword test_run_time: The run time of the last test.
         :paramtype test_run_time: str
@@ -4167,7 +4181,7 @@ class TestTypeListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.TestTypeResource"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.TestTypeResource"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The list of test types.
         :paramtype value: list[~azure.mgmt.testbase.models.TestTypeResource]
@@ -4209,7 +4223,7 @@ class TestTypeResource(ProxyResource):
         "actual_test_type_name": {"key": "properties.actualTestTypeName", "type": "str"},
     }
 
-    def __init__(self, *, actual_test_type_name: Optional[str] = None, **kwargs):
+    def __init__(self, *, actual_test_type_name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword actual_test_type_name: The actual name of a test type of a Test Base Account.
         :paramtype actual_test_type_name: str
@@ -4230,7 +4244,7 @@ class UserObjectReceiverValue(_serialization.Model):
         "user_object_ids": {"key": "userObjectIds", "type": "[str]"},
     }
 
-    def __init__(self, *, user_object_ids: Optional[List[str]] = None, **kwargs):
+    def __init__(self, *, user_object_ids: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
         :keyword user_object_ids: user object ids.
         :paramtype user_object_ids: list[str]
@@ -4253,7 +4267,7 @@ class UtilizationBound(_serialization.Model):
         "value": {"key": "value", "type": "float"},
     }
 
-    def __init__(self, *, percentile: Optional[float] = None, value: Optional[float] = None, **kwargs):
+    def __init__(self, *, percentile: Optional[float] = None, value: Optional[float] = None, **kwargs: Any) -> None:
         """
         :keyword percentile: The percentile of the bound.
         :paramtype percentile: float
@@ -4279,7 +4293,9 @@ class UtilizationEntry(_serialization.Model):
         "value": {"key": "value", "type": "float"},
     }
 
-    def __init__(self, *, timestamp: Optional[datetime.datetime] = None, value: Optional[float] = None, **kwargs):
+    def __init__(
+        self, *, timestamp: Optional[datetime.datetime] = None, value: Optional[float] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword timestamp: The timestamp.
         :paramtype timestamp: ~datetime.datetime
@@ -4318,8 +4334,8 @@ class UtilizationResult(_serialization.Model):
         upper_bound: Optional["_models.UtilizationBound"] = None,
         lower_bound: Optional["_models.UtilizationBound"] = None,
         utilization: Optional[List["_models.UtilizationEntry"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword process: Process name, or '_total' for all processes.
         :paramtype process: str

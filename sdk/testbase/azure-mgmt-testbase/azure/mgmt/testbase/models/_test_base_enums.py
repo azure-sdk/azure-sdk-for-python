@@ -103,6 +103,7 @@ class Grade(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     NOT_AVAILABLE = "NotAvailable"
     PASS = "Pass"
     FAIL = "Fail"
+    PASS_ENUM = "Pass"
 
 
 class OsUpdateType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
