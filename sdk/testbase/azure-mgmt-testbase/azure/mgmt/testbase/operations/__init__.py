@@ -6,11 +6,23 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._action_requests_operations import ActionRequestsOperations
+from ._chat_sessions_operations import ChatSessionsOperations
+from ._chat_session_operations import ChatSessionOperations
+from ._custom_images_operations import CustomImagesOperations
+from ._image_definitions_operations import ImageDefinitionsOperations
+from ._vhds_operations import VHDsOperations
+from ._draft_packages_operations import DraftPackagesOperations
+from ._free_hour_balances_operations import FreeHourBalancesOperations
 from ._skus_operations import SkusOperations
 from ._test_base_accounts_operations import TestBaseAccountsOperations
 from ._usage_operations import UsageOperations
 from ._available_os_operations import AvailableOSOperations
+from ._feature_update_supported_oses_operations import FeatureUpdateSupportedOsesOperations
 from ._flighting_rings_operations import FlightingRingsOperations
+from ._first_party_apps_operations import FirstPartyAppsOperations
+from ._gallery_apps_operations import GalleryAppsOperations
+from ._gallery_app_skus_operations import GalleryAppSkusOperations
 from ._test_types_operations import TestTypesOperations
 from ._packages_operations import PackagesOperations
 from ._test_summaries_operations import TestSummariesOperations
@@ -22,17 +34,32 @@ from ._email_events_operations import EmailEventsOperations
 from ._customer_events_operations import CustomerEventsOperations
 from ._operations import Operations
 from ._billing_hub_service_operations import BillingHubServiceOperations
+from ._available_inplace_upgrade_os_operations import AvailableInplaceUpgradeOSOperations
+from ._credential_operations import CredentialOperations
+from ._credentials_operations import CredentialsOperations
 
 from ._patch import __all__ as _patch_all
-from ._patch import *  # type: ignore # pylint: disable=unused-wildcard-import
+from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "ActionRequestsOperations",
+    "ChatSessionsOperations",
+    "ChatSessionOperations",
+    "CustomImagesOperations",
+    "ImageDefinitionsOperations",
+    "VHDsOperations",
+    "DraftPackagesOperations",
+    "FreeHourBalancesOperations",
     "SkusOperations",
     "TestBaseAccountsOperations",
     "UsageOperations",
     "AvailableOSOperations",
+    "FeatureUpdateSupportedOsesOperations",
     "FlightingRingsOperations",
+    "FirstPartyAppsOperations",
+    "GalleryAppsOperations",
+    "GalleryAppSkusOperations",
     "TestTypesOperations",
     "PackagesOperations",
     "TestSummariesOperations",
@@ -44,6 +71,9 @@ __all__ = [
     "CustomerEventsOperations",
     "Operations",
     "BillingHubServiceOperations",
+    "AvailableInplaceUpgradeOSOperations",
+    "CredentialOperations",
+    "CredentialsOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()

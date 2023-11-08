@@ -26,7 +26,7 @@ from azure.mgmt.testbase import TestBase
 def main():
     client = TestBase(
         credential=DefaultAzureCredential(),
-        subscription_id="subscription-id",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
     response = client.packages.begin_create(
@@ -38,6 +38,15 @@ def main():
             "properties": {
                 "applicationName": "contoso-package2",
                 "blobPath": "storageAccountPath/package.zip",
+                "firstPartyApps": [
+                    {
+                        "architecture": "x64",
+                        "channel": "Current Channel",
+                        "interopExecutionMode": "firstPartyAppWithTests",
+                        "name": "Office",
+                        "ring": "Insider",
+                    }
+                ],
                 "flightingRing": "Insider Beta Channel",
                 "targetOSList": [
                     {"osUpdateType": "Security updates", "targetOSs": ["Windows 10 2004", "Windows 10 1903"]}
@@ -51,6 +60,7 @@ def main():
                                 "applyUpdateBefore": False,
                                 "content": "app/scripts/install/job.ps1",
                                 "contentType": "Path",
+                                "install1PAppBefore": True,
                                 "maxRunTime": 1800,
                                 "name": "Install",
                                 "restartAfter": True,
@@ -63,6 +73,7 @@ def main():
                                 "applyUpdateBefore": True,
                                 "content": "app/scripts/launch/job.ps1",
                                 "contentType": "Path",
+                                "install1PAppBefore": False,
                                 "maxRunTime": 1800,
                                 "name": "Launch",
                                 "restartAfter": False,
@@ -75,6 +86,7 @@ def main():
                                 "applyUpdateBefore": False,
                                 "content": "app/scripts/close/job.ps1",
                                 "contentType": "Path",
+                                "install1PAppBefore": False,
                                 "maxRunTime": 1800,
                                 "name": "Close",
                                 "restartAfter": False,
@@ -87,6 +99,7 @@ def main():
                                 "applyUpdateBefore": False,
                                 "content": "app/scripts/uninstall/job.ps1",
                                 "contentType": "Path",
+                                "install1PAppBefore": False,
                                 "maxRunTime": 1800,
                                 "name": "Uninstall",
                                 "restartAfter": False,
@@ -106,6 +119,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/testbase/resource-manager/Microsoft.TestBase/preview/2022-04-01-preview/examples/PackageCreate.json
+# x-ms-original-file: specification/testbase/resource-manager/Microsoft.TestBase/preview/2023-11-01-preview/examples/PackageCreate.json
 if __name__ == "__main__":
     main()
