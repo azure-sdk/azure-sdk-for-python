@@ -29,11 +29,10 @@ def main():
         subscription_id="34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
     )
 
-    response = client.app_service_environments.reboot(
+    client.app_service_environments.reboot(
         resource_group_name="test-rg",
         name="test-ase",
     )
-    print(response)
 
 
 # x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/AppServiceEnvironments_Reboot.json

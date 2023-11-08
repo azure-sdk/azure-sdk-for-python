@@ -29,12 +29,11 @@ def main():
         subscription_id="34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
     )
 
-    response = client.web_apps.deploy_workflow_artifacts_slot(
+    client.web_apps.deploy_workflow_artifacts_slot(
         resource_group_name="testrg123",
         name="testsite2",
         slot="testsSlot",
     )
-    print(response)
 
 
 # x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/PostDeployWorkflowArtifactsSlot.json

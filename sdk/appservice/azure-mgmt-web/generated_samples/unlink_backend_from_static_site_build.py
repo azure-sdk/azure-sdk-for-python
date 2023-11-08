@@ -29,13 +29,12 @@ def main():
         subscription_id="34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
     )
 
-    response = client.static_sites.unlink_backend_from_build(
+    client.static_sites.unlink_backend_from_build(
         resource_group_name="rg",
         name="testStaticSite0",
         environment_name="12",
         linked_backend_name="testBackend",
     )
-    print(response)
 
 
 # x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/UnlinkBackendFromStaticSiteBuild.json
