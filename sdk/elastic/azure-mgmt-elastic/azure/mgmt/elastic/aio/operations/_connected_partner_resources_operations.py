@@ -27,20 +27,20 @@ from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from ... import models as _models
 from ..._vendor import _convert_request
-from ...operations._monitored_resources_operations import build_list_request
+from ...operations._connected_partner_resources_operations import build_list_request
 
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
 
-class MonitoredResourcesOperations:
+class ConnectedPartnerResourcesOperations:
     """
     .. warning::
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
         :class:`~azure.mgmt.elastic.aio.MicrosoftElastic`'s
-        :attr:`monitored_resources` attribute.
+        :attr:`connected_partner_resources` attribute.
     """
 
     models = _models
@@ -55,10 +55,12 @@ class MonitoredResourcesOperations:
     @distributed_trace
     def list(
         self, resource_group_name: str, monitor_name: str, **kwargs: Any
-    ) -> AsyncIterable["_models.MonitoredResource"]:
-        """List the resources currently being monitored by the Elastic monitor resource.
+    ) -> AsyncIterable["_models.ConnectedPartnerResourcesListFormat"]:
+        """List of all active deployments that are associated with the marketplace subscription linked to
+        the given monitor.
 
-        List the resources currently being monitored by the Elastic monitor resource.
+        List of all active deployments that are associated with the marketplace subscription linked to
+        the given monitor.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -66,15 +68,17 @@ class MonitoredResourcesOperations:
         :param monitor_name: Monitor resource name. Required.
         :type monitor_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: An iterator like instance of either MonitoredResource or the result of cls(response)
-        :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.elastic.models.MonitoredResource]
+        :return: An iterator like instance of either ConnectedPartnerResourcesListFormat or the result
+         of cls(response)
+        :rtype:
+         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.elastic.models.ConnectedPartnerResourcesListFormat]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.MonitoredResourceListResponse] = kwargs.pop("cls", None)
+        cls: ClsType[_models.ConnectedPartnerResourcesListResponse] = kwargs.pop("cls", None)
 
         error_map = {
             401: ClientAuthenticationError,
@@ -118,7 +122,7 @@ class MonitoredResourcesOperations:
             return request
 
         async def extract_data(pipeline_response):
-            deserialized = self._deserialize("MonitoredResourceListResponse", pipeline_response)
+            deserialized = self._deserialize("ConnectedPartnerResourcesListResponse", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
@@ -145,5 +149,5 @@ class MonitoredResourcesOperations:
         return AsyncItemPaged(get_next, extract_data)
 
     list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/listMonitoredResources"
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/listConnectedPartnerResources"
     }
