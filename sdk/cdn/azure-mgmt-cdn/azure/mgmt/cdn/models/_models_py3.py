@@ -2216,7 +2216,7 @@ class CacheExpirationActionParameters(_serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :ivar type_name: Required. "DeliveryRuleCacheExpirationActionParameters"
-    :vartype type_name: str or ~azure.mgmt.cdn.models.CacheExpirationActionParametersTypeName
+    :vartype type_name: str or ~azure.mgmt.cdn.models.CacheExpirationActionParametersType
     :ivar cache_behavior: Caching behavior for the requests. Required. Known values are:
      "BypassCache", "Override", and "SetIfMissing".
     :vartype cache_behavior: str or ~azure.mgmt.cdn.models.CacheBehavior
@@ -2243,7 +2243,7 @@ class CacheExpirationActionParameters(_serialization.Model):
     def __init__(
         self,
         *,
-        type_name: Union[str, "_models.CacheExpirationActionParametersTypeName"],
+        type_name: Union[str, "_models.CacheExpirationActionParametersType"],
         cache_behavior: Union[str, "_models.CacheBehavior"],
         cache_type: Union[str, "_models.CacheType"],
         cache_duration: Optional[str] = None,
@@ -2251,7 +2251,7 @@ class CacheExpirationActionParameters(_serialization.Model):
     ) -> None:
         """
         :keyword type_name: Required. "DeliveryRuleCacheExpirationActionParameters"
-        :paramtype type_name: str or ~azure.mgmt.cdn.models.CacheExpirationActionParametersTypeName
+        :paramtype type_name: str or ~azure.mgmt.cdn.models.CacheExpirationActionParametersType
         :keyword cache_behavior: Caching behavior for the requests. Required. Known values are:
          "BypassCache", "Override", and "SetIfMissing".
         :paramtype cache_behavior: str or ~azure.mgmt.cdn.models.CacheBehavior
@@ -2274,7 +2274,7 @@ class CacheKeyQueryStringActionParameters(_serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :ivar type_name: Required. "DeliveryRuleCacheKeyQueryStringBehaviorActionParameters"
-    :vartype type_name: str or ~azure.mgmt.cdn.models.CacheKeyQueryStringActionParametersTypeName
+    :vartype type_name: str or ~azure.mgmt.cdn.models.CacheKeyQueryStringActionParametersType
     :ivar query_string_behavior: Caching behavior for the requests. Required. Known values are:
      "Include", "IncludeAll", "Exclude", and "ExcludeAll".
     :vartype query_string_behavior: str or ~azure.mgmt.cdn.models.QueryStringBehavior
@@ -2296,14 +2296,14 @@ class CacheKeyQueryStringActionParameters(_serialization.Model):
     def __init__(
         self,
         *,
-        type_name: Union[str, "_models.CacheKeyQueryStringActionParametersTypeName"],
+        type_name: Union[str, "_models.CacheKeyQueryStringActionParametersType"],
         query_string_behavior: Union[str, "_models.QueryStringBehavior"],
         query_parameters: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword type_name: Required. "DeliveryRuleCacheKeyQueryStringBehaviorActionParameters"
-        :paramtype type_name: str or ~azure.mgmt.cdn.models.CacheKeyQueryStringActionParametersTypeName
+        :paramtype type_name: str or ~azure.mgmt.cdn.models.CacheKeyQueryStringActionParametersType
         :keyword query_string_behavior: Caching behavior for the requests. Required. Known values are:
          "Include", "IncludeAll", "Exclude", and "ExcludeAll".
         :paramtype query_string_behavior: str or ~azure.mgmt.cdn.models.QueryStringBehavior
@@ -2396,7 +2396,7 @@ class CdnCertificateSourceParameters(_serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :ivar type_name: Required. "CdnCertificateSourceParameters"
-    :vartype type_name: str or ~azure.mgmt.cdn.models.CdnCertificateSourceParametersTypeName
+    :vartype type_name: str or ~azure.mgmt.cdn.models.CdnCertificateSourceParametersType
     :ivar certificate_type: Type of certificate used. Required. Known values are: "Shared" and
      "Dedicated".
     :vartype certificate_type: str or ~azure.mgmt.cdn.models.CertificateType
@@ -2415,13 +2415,13 @@ class CdnCertificateSourceParameters(_serialization.Model):
     def __init__(
         self,
         *,
-        type_name: Union[str, "_models.CdnCertificateSourceParametersTypeName"],
+        type_name: Union[str, "_models.CdnCertificateSourceParametersType"],
         certificate_type: Union[str, "_models.CertificateType"],
         **kwargs: Any
     ) -> None:
         """
         :keyword type_name: Required. "CdnCertificateSourceParameters"
-        :paramtype type_name: str or ~azure.mgmt.cdn.models.CdnCertificateSourceParametersTypeName
+        :paramtype type_name: str or ~azure.mgmt.cdn.models.CdnCertificateSourceParametersType
         :keyword certificate_type: Type of certificate used. Required. Known values are: "Shared" and
          "Dedicated".
         :paramtype certificate_type: str or ~azure.mgmt.cdn.models.CertificateType
@@ -2968,7 +2968,7 @@ class ClientPortMatchConditionParameters(_serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :ivar type_name: Required. "DeliveryRuleClientPortConditionParameters"
-    :vartype type_name: str or ~azure.mgmt.cdn.models.ClientPortMatchConditionParametersTypeName
+    :vartype type_name: str or ~azure.mgmt.cdn.models.ClientPortMatchConditionParametersType
     :ivar operator: Describes operator to be matched. Required. Known values are: "Any", "Equal",
      "Contains", "BeginsWith", "EndsWith", "LessThan", "LessThanOrEqual", "GreaterThan",
      "GreaterThanOrEqual", and "RegEx".
@@ -2997,7 +2997,7 @@ class ClientPortMatchConditionParameters(_serialization.Model):
     def __init__(
         self,
         *,
-        type_name: Union[str, "_models.ClientPortMatchConditionParametersTypeName"],
+        type_name: Union[str, "_models.ClientPortMatchConditionParametersType"],
         operator: Union[str, "_models.ClientPortOperator"],
         negate_condition: bool = False,
         match_values: Optional[List[str]] = None,
@@ -3006,7 +3006,7 @@ class ClientPortMatchConditionParameters(_serialization.Model):
     ) -> None:
         """
         :keyword type_name: Required. "DeliveryRuleClientPortConditionParameters"
-        :paramtype type_name: str or ~azure.mgmt.cdn.models.ClientPortMatchConditionParametersTypeName
+        :paramtype type_name: str or ~azure.mgmt.cdn.models.ClientPortMatchConditionParametersType
         :keyword operator: Describes operator to be matched. Required. Known values are: "Any",
          "Equal", "Contains", "BeginsWith", "EndsWith", "LessThan", "LessThanOrEqual", "GreaterThan",
          "GreaterThanOrEqual", and "RegEx".
@@ -3253,7 +3253,7 @@ class CookiesMatchConditionParameters(_serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :ivar type_name: Required. "DeliveryRuleCookiesConditionParameters"
-    :vartype type_name: str or ~azure.mgmt.cdn.models.CookiesMatchConditionParametersTypeName
+    :vartype type_name: str or ~azure.mgmt.cdn.models.CookiesMatchConditionParametersType
     :ivar selector: Name of Cookies to be matched.
     :vartype selector: str
     :ivar operator: Describes operator to be matched. Required. Known values are: "Any", "Equal",
@@ -3285,7 +3285,7 @@ class CookiesMatchConditionParameters(_serialization.Model):
     def __init__(
         self,
         *,
-        type_name: Union[str, "_models.CookiesMatchConditionParametersTypeName"],
+        type_name: Union[str, "_models.CookiesMatchConditionParametersType"],
         operator: Union[str, "_models.CookiesOperator"],
         selector: Optional[str] = None,
         negate_condition: bool = False,
@@ -3295,7 +3295,7 @@ class CookiesMatchConditionParameters(_serialization.Model):
     ) -> None:
         """
         :keyword type_name: Required. "DeliveryRuleCookiesConditionParameters"
-        :paramtype type_name: str or ~azure.mgmt.cdn.models.CookiesMatchConditionParametersTypeName
+        :paramtype type_name: str or ~azure.mgmt.cdn.models.CookiesMatchConditionParametersType
         :keyword selector: Name of Cookies to be matched.
         :paramtype selector: str
         :keyword operator: Describes operator to be matched. Required. Known values are: "Any",
@@ -6177,7 +6177,7 @@ class HeaderActionParameters(_serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :ivar type_name: Required. "DeliveryRuleHeaderActionParameters"
-    :vartype type_name: str or ~azure.mgmt.cdn.models.HeaderActionParametersTypeName
+    :vartype type_name: str or ~azure.mgmt.cdn.models.HeaderActionParametersType
     :ivar header_action: Action to perform. Required. Known values are: "Append", "Overwrite", and
      "Delete".
     :vartype header_action: str or ~azure.mgmt.cdn.models.HeaderAction
@@ -6203,7 +6203,7 @@ class HeaderActionParameters(_serialization.Model):
     def __init__(
         self,
         *,
-        type_name: Union[str, "_models.HeaderActionParametersTypeName"],
+        type_name: Union[str, "_models.HeaderActionParametersType"],
         header_action: Union[str, "_models.HeaderAction"],
         header_name: str,
         value: Optional[str] = None,
@@ -6211,7 +6211,7 @@ class HeaderActionParameters(_serialization.Model):
     ) -> None:
         """
         :keyword type_name: Required. "DeliveryRuleHeaderActionParameters"
-        :paramtype type_name: str or ~azure.mgmt.cdn.models.HeaderActionParametersTypeName
+        :paramtype type_name: str or ~azure.mgmt.cdn.models.HeaderActionParametersType
         :keyword header_action: Action to perform. Required. Known values are: "Append", "Overwrite",
          and "Delete".
         :paramtype header_action: str or ~azure.mgmt.cdn.models.HeaderAction
@@ -6290,7 +6290,7 @@ class HostNameMatchConditionParameters(_serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :ivar type_name: Required. "DeliveryRuleHostNameConditionParameters"
-    :vartype type_name: str or ~azure.mgmt.cdn.models.HostNameMatchConditionParametersTypeName
+    :vartype type_name: str or ~azure.mgmt.cdn.models.HostNameMatchConditionParametersType
     :ivar operator: Describes operator to be matched. Required. Known values are: "Any", "Equal",
      "Contains", "BeginsWith", "EndsWith", "LessThan", "LessThanOrEqual", "GreaterThan",
      "GreaterThanOrEqual", and "RegEx".
@@ -6319,7 +6319,7 @@ class HostNameMatchConditionParameters(_serialization.Model):
     def __init__(
         self,
         *,
-        type_name: Union[str, "_models.HostNameMatchConditionParametersTypeName"],
+        type_name: Union[str, "_models.HostNameMatchConditionParametersType"],
         operator: Union[str, "_models.HostNameOperator"],
         negate_condition: bool = False,
         match_values: Optional[List[str]] = None,
@@ -6328,7 +6328,7 @@ class HostNameMatchConditionParameters(_serialization.Model):
     ) -> None:
         """
         :keyword type_name: Required. "DeliveryRuleHostNameConditionParameters"
-        :paramtype type_name: str or ~azure.mgmt.cdn.models.HostNameMatchConditionParametersTypeName
+        :paramtype type_name: str or ~azure.mgmt.cdn.models.HostNameMatchConditionParametersType
         :keyword operator: Describes operator to be matched. Required. Known values are: "Any",
          "Equal", "Contains", "BeginsWith", "EndsWith", "LessThan", "LessThanOrEqual", "GreaterThan",
          "GreaterThanOrEqual", and "RegEx".
@@ -6385,7 +6385,7 @@ class HttpVersionMatchConditionParameters(_serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :ivar type_name: Required. "DeliveryRuleHttpVersionConditionParameters"
-    :vartype type_name: str or ~azure.mgmt.cdn.models.HttpVersionMatchConditionParametersTypeName
+    :vartype type_name: str or ~azure.mgmt.cdn.models.HttpVersionMatchConditionParametersType
     :ivar operator: Describes operator to be matched. Required. "Equal"
     :vartype operator: str or ~azure.mgmt.cdn.models.HttpVersionOperator
     :ivar negate_condition: Describes if this is negate condition or not.
@@ -6412,7 +6412,7 @@ class HttpVersionMatchConditionParameters(_serialization.Model):
     def __init__(
         self,
         *,
-        type_name: Union[str, "_models.HttpVersionMatchConditionParametersTypeName"],
+        type_name: Union[str, "_models.HttpVersionMatchConditionParametersType"],
         operator: Union[str, "_models.HttpVersionOperator"],
         negate_condition: bool = False,
         match_values: Optional[List[str]] = None,
@@ -6421,7 +6421,7 @@ class HttpVersionMatchConditionParameters(_serialization.Model):
     ) -> None:
         """
         :keyword type_name: Required. "DeliveryRuleHttpVersionConditionParameters"
-        :paramtype type_name: str or ~azure.mgmt.cdn.models.HttpVersionMatchConditionParametersTypeName
+        :paramtype type_name: str or ~azure.mgmt.cdn.models.HttpVersionMatchConditionParametersType
         :keyword operator: Describes operator to be matched. Required. "Equal"
         :paramtype operator: str or ~azure.mgmt.cdn.models.HttpVersionOperator
         :keyword negate_condition: Describes if this is negate condition or not.
@@ -6484,14 +6484,13 @@ class IsDeviceMatchConditionParameters(_serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :ivar type_name: Required. "DeliveryRuleIsDeviceConditionParameters"
-    :vartype type_name: str or ~azure.mgmt.cdn.models.IsDeviceMatchConditionParametersTypeName
+    :vartype type_name: str or ~azure.mgmt.cdn.models.IsDeviceMatchConditionParametersType
     :ivar operator: Describes operator to be matched. Required. "Equal"
     :vartype operator: str or ~azure.mgmt.cdn.models.IsDeviceOperator
     :ivar negate_condition: Describes if this is negate condition or not.
     :vartype negate_condition: bool
     :ivar match_values: The match value for the condition of the delivery rule.
-    :vartype match_values: list[str or
-     ~azure.mgmt.cdn.models.IsDeviceMatchConditionParametersMatchValuesItem]
+    :vartype match_values: list[str or ~azure.mgmt.cdn.models.IsDeviceMatchValue]
     :ivar transforms: List of transforms.
     :vartype transforms: list[str or ~azure.mgmt.cdn.models.Transform]
     """
@@ -6512,23 +6511,22 @@ class IsDeviceMatchConditionParameters(_serialization.Model):
     def __init__(
         self,
         *,
-        type_name: Union[str, "_models.IsDeviceMatchConditionParametersTypeName"],
+        type_name: Union[str, "_models.IsDeviceMatchConditionParametersType"],
         operator: Union[str, "_models.IsDeviceOperator"],
         negate_condition: bool = False,
-        match_values: Optional[List[Union[str, "_models.IsDeviceMatchConditionParametersMatchValuesItem"]]] = None,
+        match_values: Optional[List[Union[str, "_models.IsDeviceMatchValue"]]] = None,
         transforms: Optional[List[Union[str, "_models.Transform"]]] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword type_name: Required. "DeliveryRuleIsDeviceConditionParameters"
-        :paramtype type_name: str or ~azure.mgmt.cdn.models.IsDeviceMatchConditionParametersTypeName
+        :paramtype type_name: str or ~azure.mgmt.cdn.models.IsDeviceMatchConditionParametersType
         :keyword operator: Describes operator to be matched. Required. "Equal"
         :paramtype operator: str or ~azure.mgmt.cdn.models.IsDeviceOperator
         :keyword negate_condition: Describes if this is negate condition or not.
         :paramtype negate_condition: bool
         :keyword match_values: The match value for the condition of the delivery rule.
-        :paramtype match_values: list[str or
-         ~azure.mgmt.cdn.models.IsDeviceMatchConditionParametersMatchValuesItem]
+        :paramtype match_values: list[str or ~azure.mgmt.cdn.models.IsDeviceMatchValue]
         :keyword transforms: List of transforms.
         :paramtype transforms: list[str or ~azure.mgmt.cdn.models.Transform]
         """
@@ -6546,7 +6544,7 @@ class KeyVaultCertificateSourceParameters(_serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :ivar type_name: Required. "KeyVaultCertificateSourceParameters"
-    :vartype type_name: str or ~azure.mgmt.cdn.models.KeyVaultCertificateSourceParametersTypeName
+    :vartype type_name: str or ~azure.mgmt.cdn.models.KeyVaultCertificateSourceParametersType
     :ivar subscription_id: Subscription Id of the user's Key Vault containing the SSL certificate.
      Required.
     :vartype subscription_id: str
@@ -6592,7 +6590,7 @@ class KeyVaultCertificateSourceParameters(_serialization.Model):
     def __init__(
         self,
         *,
-        type_name: Union[str, "_models.KeyVaultCertificateSourceParametersTypeName"],
+        type_name: Union[str, "_models.KeyVaultCertificateSourceParametersType"],
         subscription_id: str,
         resource_group_name: str,
         vault_name: str,
@@ -6604,7 +6602,7 @@ class KeyVaultCertificateSourceParameters(_serialization.Model):
     ) -> None:
         """
         :keyword type_name: Required. "KeyVaultCertificateSourceParameters"
-        :paramtype type_name: str or ~azure.mgmt.cdn.models.KeyVaultCertificateSourceParametersTypeName
+        :paramtype type_name: str or ~azure.mgmt.cdn.models.KeyVaultCertificateSourceParametersType
         :keyword subscription_id: Subscription Id of the user's Key Vault containing the SSL
          certificate. Required.
         :paramtype subscription_id: str
@@ -6642,7 +6640,7 @@ class KeyVaultSigningKeyParameters(_serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :ivar type_name: Required. "KeyVaultSigningKeyParameters"
-    :vartype type_name: str or ~azure.mgmt.cdn.models.KeyVaultSigningKeyParametersTypeName
+    :vartype type_name: str or ~azure.mgmt.cdn.models.KeyVaultSigningKeyParametersType
     :ivar subscription_id: Subscription Id of the user's Key Vault containing the secret. Required.
     :vartype subscription_id: str
     :ivar resource_group_name: Resource group of the user's Key Vault containing the secret.
@@ -6677,7 +6675,7 @@ class KeyVaultSigningKeyParameters(_serialization.Model):
     def __init__(
         self,
         *,
-        type_name: Union[str, "_models.KeyVaultSigningKeyParametersTypeName"],
+        type_name: Union[str, "_models.KeyVaultSigningKeyParametersType"],
         subscription_id: str,
         resource_group_name: str,
         vault_name: str,
@@ -6687,7 +6685,7 @@ class KeyVaultSigningKeyParameters(_serialization.Model):
     ) -> None:
         """
         :keyword type_name: Required. "KeyVaultSigningKeyParameters"
-        :paramtype type_name: str or ~azure.mgmt.cdn.models.KeyVaultSigningKeyParametersTypeName
+        :paramtype type_name: str or ~azure.mgmt.cdn.models.KeyVaultSigningKeyParametersType
         :keyword subscription_id: Subscription Id of the user's Key Vault containing the secret.
          Required.
         :paramtype subscription_id: str
@@ -8262,7 +8260,7 @@ class OriginGroupOverrideActionParameters(_serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :ivar type_name: Required. "DeliveryRuleOriginGroupOverrideActionParameters"
-    :vartype type_name: str or ~azure.mgmt.cdn.models.OriginGroupOverrideActionParametersTypeName
+    :vartype type_name: str or ~azure.mgmt.cdn.models.OriginGroupOverrideActionParametersType
     :ivar origin_group: defines the OriginGroup that would override the DefaultOriginGroup.
      Required.
     :vartype origin_group: ~azure.mgmt.cdn.models.ResourceReference
@@ -8281,13 +8279,13 @@ class OriginGroupOverrideActionParameters(_serialization.Model):
     def __init__(
         self,
         *,
-        type_name: Union[str, "_models.OriginGroupOverrideActionParametersTypeName"],
+        type_name: Union[str, "_models.OriginGroupOverrideActionParametersType"],
         origin_group: "_models.ResourceReference",
         **kwargs: Any
     ) -> None:
         """
         :keyword type_name: Required. "DeliveryRuleOriginGroupOverrideActionParameters"
-        :paramtype type_name: str or ~azure.mgmt.cdn.models.OriginGroupOverrideActionParametersTypeName
+        :paramtype type_name: str or ~azure.mgmt.cdn.models.OriginGroupOverrideActionParametersType
         :keyword origin_group: defines the OriginGroup that would override the DefaultOriginGroup.
          Required.
         :paramtype origin_group: ~azure.mgmt.cdn.models.ResourceReference
@@ -9033,7 +9031,7 @@ class PostArgsMatchConditionParameters(_serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :ivar type_name: Required. "DeliveryRulePostArgsConditionParameters"
-    :vartype type_name: str or ~azure.mgmt.cdn.models.PostArgsMatchConditionParametersTypeName
+    :vartype type_name: str or ~azure.mgmt.cdn.models.PostArgsMatchConditionParametersType
     :ivar selector: Name of PostArg to be matched.
     :vartype selector: str
     :ivar operator: Describes operator to be matched. Required. Known values are: "Any", "Equal",
@@ -9065,7 +9063,7 @@ class PostArgsMatchConditionParameters(_serialization.Model):
     def __init__(
         self,
         *,
-        type_name: Union[str, "_models.PostArgsMatchConditionParametersTypeName"],
+        type_name: Union[str, "_models.PostArgsMatchConditionParametersType"],
         operator: Union[str, "_models.PostArgsOperator"],
         selector: Optional[str] = None,
         negate_condition: bool = False,
@@ -9075,7 +9073,7 @@ class PostArgsMatchConditionParameters(_serialization.Model):
     ) -> None:
         """
         :keyword type_name: Required. "DeliveryRulePostArgsConditionParameters"
-        :paramtype type_name: str or ~azure.mgmt.cdn.models.PostArgsMatchConditionParametersTypeName
+        :paramtype type_name: str or ~azure.mgmt.cdn.models.PostArgsMatchConditionParametersType
         :keyword selector: Name of PostArg to be matched.
         :paramtype selector: str
         :keyword operator: Describes operator to be matched. Required. Known values are: "Any",
@@ -9381,7 +9379,7 @@ class QueryStringMatchConditionParameters(_serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :ivar type_name: Required. "DeliveryRuleQueryStringConditionParameters"
-    :vartype type_name: str or ~azure.mgmt.cdn.models.QueryStringMatchConditionParametersTypeName
+    :vartype type_name: str or ~azure.mgmt.cdn.models.QueryStringMatchConditionParametersType
     :ivar operator: Describes operator to be matched. Required. Known values are: "Any", "Equal",
      "Contains", "BeginsWith", "EndsWith", "LessThan", "LessThanOrEqual", "GreaterThan",
      "GreaterThanOrEqual", and "RegEx".
@@ -9410,7 +9408,7 @@ class QueryStringMatchConditionParameters(_serialization.Model):
     def __init__(
         self,
         *,
-        type_name: Union[str, "_models.QueryStringMatchConditionParametersTypeName"],
+        type_name: Union[str, "_models.QueryStringMatchConditionParametersType"],
         operator: Union[str, "_models.QueryStringOperator"],
         negate_condition: bool = False,
         match_values: Optional[List[str]] = None,
@@ -9419,7 +9417,7 @@ class QueryStringMatchConditionParameters(_serialization.Model):
     ) -> None:
         """
         :keyword type_name: Required. "DeliveryRuleQueryStringConditionParameters"
-        :paramtype type_name: str or ~azure.mgmt.cdn.models.QueryStringMatchConditionParametersTypeName
+        :paramtype type_name: str or ~azure.mgmt.cdn.models.QueryStringMatchConditionParametersType
         :keyword operator: Describes operator to be matched. Required. Known values are: "Any",
          "Equal", "Contains", "BeginsWith", "EndsWith", "LessThan", "LessThanOrEqual", "GreaterThan",
          "GreaterThanOrEqual", and "RegEx".
@@ -9696,7 +9694,7 @@ class RemoteAddressMatchConditionParameters(_serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :ivar type_name: Required. "DeliveryRuleRemoteAddressConditionParameters"
-    :vartype type_name: str or ~azure.mgmt.cdn.models.RemoteAddressMatchConditionParametersTypeName
+    :vartype type_name: str or ~azure.mgmt.cdn.models.RemoteAddressMatchConditionParametersType
     :ivar operator: Describes operator to be matched. Required. Known values are: "Any", "IPMatch",
      and "GeoMatch".
     :vartype operator: str or ~azure.mgmt.cdn.models.RemoteAddressOperator
@@ -9726,7 +9724,7 @@ class RemoteAddressMatchConditionParameters(_serialization.Model):
     def __init__(
         self,
         *,
-        type_name: Union[str, "_models.RemoteAddressMatchConditionParametersTypeName"],
+        type_name: Union[str, "_models.RemoteAddressMatchConditionParametersType"],
         operator: Union[str, "_models.RemoteAddressOperator"],
         negate_condition: bool = False,
         match_values: Optional[List[str]] = None,
@@ -9735,8 +9733,7 @@ class RemoteAddressMatchConditionParameters(_serialization.Model):
     ) -> None:
         """
         :keyword type_name: Required. "DeliveryRuleRemoteAddressConditionParameters"
-        :paramtype type_name: str or
-         ~azure.mgmt.cdn.models.RemoteAddressMatchConditionParametersTypeName
+        :paramtype type_name: str or ~azure.mgmt.cdn.models.RemoteAddressMatchConditionParametersType
         :keyword operator: Describes operator to be matched. Required. Known values are: "Any",
          "IPMatch", and "GeoMatch".
         :paramtype operator: str or ~azure.mgmt.cdn.models.RemoteAddressOperator
@@ -9763,7 +9760,7 @@ class RequestBodyMatchConditionParameters(_serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :ivar type_name: Required. "DeliveryRuleRequestBodyConditionParameters"
-    :vartype type_name: str or ~azure.mgmt.cdn.models.RequestBodyMatchConditionParametersTypeName
+    :vartype type_name: str or ~azure.mgmt.cdn.models.RequestBodyMatchConditionParametersType
     :ivar operator: Describes operator to be matched. Required. Known values are: "Any", "Equal",
      "Contains", "BeginsWith", "EndsWith", "LessThan", "LessThanOrEqual", "GreaterThan",
      "GreaterThanOrEqual", and "RegEx".
@@ -9792,7 +9789,7 @@ class RequestBodyMatchConditionParameters(_serialization.Model):
     def __init__(
         self,
         *,
-        type_name: Union[str, "_models.RequestBodyMatchConditionParametersTypeName"],
+        type_name: Union[str, "_models.RequestBodyMatchConditionParametersType"],
         operator: Union[str, "_models.RequestBodyOperator"],
         negate_condition: bool = False,
         match_values: Optional[List[str]] = None,
@@ -9801,7 +9798,7 @@ class RequestBodyMatchConditionParameters(_serialization.Model):
     ) -> None:
         """
         :keyword type_name: Required. "DeliveryRuleRequestBodyConditionParameters"
-        :paramtype type_name: str or ~azure.mgmt.cdn.models.RequestBodyMatchConditionParametersTypeName
+        :paramtype type_name: str or ~azure.mgmt.cdn.models.RequestBodyMatchConditionParametersType
         :keyword operator: Describes operator to be matched. Required. Known values are: "Any",
          "Equal", "Contains", "BeginsWith", "EndsWith", "LessThan", "LessThanOrEqual", "GreaterThan",
          "GreaterThanOrEqual", and "RegEx".
@@ -9827,7 +9824,7 @@ class RequestHeaderMatchConditionParameters(_serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :ivar type_name: Required. "DeliveryRuleRequestHeaderConditionParameters"
-    :vartype type_name: str or ~azure.mgmt.cdn.models.RequestHeaderMatchConditionParametersTypeName
+    :vartype type_name: str or ~azure.mgmt.cdn.models.RequestHeaderMatchConditionParametersType
     :ivar selector: Name of Header to be matched.
     :vartype selector: str
     :ivar operator: Describes operator to be matched. Required. Known values are: "Any", "Equal",
@@ -9859,7 +9856,7 @@ class RequestHeaderMatchConditionParameters(_serialization.Model):
     def __init__(
         self,
         *,
-        type_name: Union[str, "_models.RequestHeaderMatchConditionParametersTypeName"],
+        type_name: Union[str, "_models.RequestHeaderMatchConditionParametersType"],
         operator: Union[str, "_models.RequestHeaderOperator"],
         selector: Optional[str] = None,
         negate_condition: bool = False,
@@ -9869,8 +9866,7 @@ class RequestHeaderMatchConditionParameters(_serialization.Model):
     ) -> None:
         """
         :keyword type_name: Required. "DeliveryRuleRequestHeaderConditionParameters"
-        :paramtype type_name: str or
-         ~azure.mgmt.cdn.models.RequestHeaderMatchConditionParametersTypeName
+        :paramtype type_name: str or ~azure.mgmt.cdn.models.RequestHeaderMatchConditionParametersType
         :keyword selector: Name of Header to be matched.
         :paramtype selector: str
         :keyword operator: Describes operator to be matched. Required. Known values are: "Any",
@@ -9899,7 +9895,7 @@ class RequestMethodMatchConditionParameters(_serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :ivar type_name: Required. "DeliveryRuleRequestMethodConditionParameters"
-    :vartype type_name: str or ~azure.mgmt.cdn.models.RequestMethodMatchConditionParametersTypeName
+    :vartype type_name: str or ~azure.mgmt.cdn.models.RequestMethodMatchConditionParametersType
     :ivar operator: Describes operator to be matched. Required. "Equal"
     :vartype operator: str or ~azure.mgmt.cdn.models.RequestMethodOperator
     :ivar negate_condition: Describes if this is negate condition or not.
@@ -9907,8 +9903,7 @@ class RequestMethodMatchConditionParameters(_serialization.Model):
     :ivar transforms: List of transforms.
     :vartype transforms: list[str or ~azure.mgmt.cdn.models.Transform]
     :ivar match_values: The match value for the condition of the delivery rule.
-    :vartype match_values: list[str or
-     ~azure.mgmt.cdn.models.RequestMethodMatchConditionParametersMatchValuesItem]
+    :vartype match_values: list[str or ~azure.mgmt.cdn.models.RequestMethodMatchValue]
     """
 
     _validation = {
@@ -9927,17 +9922,16 @@ class RequestMethodMatchConditionParameters(_serialization.Model):
     def __init__(
         self,
         *,
-        type_name: Union[str, "_models.RequestMethodMatchConditionParametersTypeName"],
+        type_name: Union[str, "_models.RequestMethodMatchConditionParametersType"],
         operator: Union[str, "_models.RequestMethodOperator"],
         negate_condition: bool = False,
         transforms: Optional[List[Union[str, "_models.Transform"]]] = None,
-        match_values: Optional[List[Union[str, "_models.RequestMethodMatchConditionParametersMatchValuesItem"]]] = None,
+        match_values: Optional[List[Union[str, "_models.RequestMethodMatchValue"]]] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword type_name: Required. "DeliveryRuleRequestMethodConditionParameters"
-        :paramtype type_name: str or
-         ~azure.mgmt.cdn.models.RequestMethodMatchConditionParametersTypeName
+        :paramtype type_name: str or ~azure.mgmt.cdn.models.RequestMethodMatchConditionParametersType
         :keyword operator: Describes operator to be matched. Required. "Equal"
         :paramtype operator: str or ~azure.mgmt.cdn.models.RequestMethodOperator
         :keyword negate_condition: Describes if this is negate condition or not.
@@ -9945,8 +9939,7 @@ class RequestMethodMatchConditionParameters(_serialization.Model):
         :keyword transforms: List of transforms.
         :paramtype transforms: list[str or ~azure.mgmt.cdn.models.Transform]
         :keyword match_values: The match value for the condition of the delivery rule.
-        :paramtype match_values: list[str or
-         ~azure.mgmt.cdn.models.RequestMethodMatchConditionParametersMatchValuesItem]
+        :paramtype match_values: list[str or ~azure.mgmt.cdn.models.RequestMethodMatchValue]
         """
         super().__init__(**kwargs)
         self.type_name = type_name
@@ -9962,7 +9955,7 @@ class RequestSchemeMatchConditionParameters(_serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :ivar type_name: Required. "DeliveryRuleRequestSchemeConditionParameters"
-    :vartype type_name: str or ~azure.mgmt.cdn.models.RequestSchemeMatchConditionParametersTypeName
+    :vartype type_name: str or ~azure.mgmt.cdn.models.RequestSchemeMatchConditionParametersType
     :ivar operator: Describes operator to be matched. Required. "Equal"
     :vartype operator: str or ~azure.mgmt.cdn.models.RequestSchemeMatchConditionParametersOperator
     :ivar negate_condition: Describes if this is negate condition or not.
@@ -9970,8 +9963,7 @@ class RequestSchemeMatchConditionParameters(_serialization.Model):
     :ivar transforms: List of transforms.
     :vartype transforms: list[str or ~azure.mgmt.cdn.models.Transform]
     :ivar match_values: The match value for the condition of the delivery rule.
-    :vartype match_values: list[str or
-     ~azure.mgmt.cdn.models.RequestSchemeMatchConditionParametersMatchValuesItem]
+    :vartype match_values: list[str or ~azure.mgmt.cdn.models.RequestSchemeMatchValue]
     """
 
     _validation = {
@@ -9990,17 +9982,16 @@ class RequestSchemeMatchConditionParameters(_serialization.Model):
     def __init__(
         self,
         *,
-        type_name: Union[str, "_models.RequestSchemeMatchConditionParametersTypeName"],
+        type_name: Union[str, "_models.RequestSchemeMatchConditionParametersType"],
         operator: Union[str, "_models.RequestSchemeMatchConditionParametersOperator"],
         negate_condition: bool = False,
         transforms: Optional[List[Union[str, "_models.Transform"]]] = None,
-        match_values: Optional[List[Union[str, "_models.RequestSchemeMatchConditionParametersMatchValuesItem"]]] = None,
+        match_values: Optional[List[Union[str, "_models.RequestSchemeMatchValue"]]] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword type_name: Required. "DeliveryRuleRequestSchemeConditionParameters"
-        :paramtype type_name: str or
-         ~azure.mgmt.cdn.models.RequestSchemeMatchConditionParametersTypeName
+        :paramtype type_name: str or ~azure.mgmt.cdn.models.RequestSchemeMatchConditionParametersType
         :keyword operator: Describes operator to be matched. Required. "Equal"
         :paramtype operator: str or
          ~azure.mgmt.cdn.models.RequestSchemeMatchConditionParametersOperator
@@ -10009,8 +10000,7 @@ class RequestSchemeMatchConditionParameters(_serialization.Model):
         :keyword transforms: List of transforms.
         :paramtype transforms: list[str or ~azure.mgmt.cdn.models.Transform]
         :keyword match_values: The match value for the condition of the delivery rule.
-        :paramtype match_values: list[str or
-         ~azure.mgmt.cdn.models.RequestSchemeMatchConditionParametersMatchValuesItem]
+        :paramtype match_values: list[str or ~azure.mgmt.cdn.models.RequestSchemeMatchValue]
         """
         super().__init__(**kwargs)
         self.type_name = type_name
@@ -10026,7 +10016,7 @@ class RequestUriMatchConditionParameters(_serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :ivar type_name: Required. "DeliveryRuleRequestUriConditionParameters"
-    :vartype type_name: str or ~azure.mgmt.cdn.models.RequestUriMatchConditionParametersTypeName
+    :vartype type_name: str or ~azure.mgmt.cdn.models.RequestUriMatchConditionParametersType
     :ivar operator: Describes operator to be matched. Required. Known values are: "Any", "Equal",
      "Contains", "BeginsWith", "EndsWith", "LessThan", "LessThanOrEqual", "GreaterThan",
      "GreaterThanOrEqual", and "RegEx".
@@ -10055,7 +10045,7 @@ class RequestUriMatchConditionParameters(_serialization.Model):
     def __init__(
         self,
         *,
-        type_name: Union[str, "_models.RequestUriMatchConditionParametersTypeName"],
+        type_name: Union[str, "_models.RequestUriMatchConditionParametersType"],
         operator: Union[str, "_models.RequestUriOperator"],
         negate_condition: bool = False,
         match_values: Optional[List[str]] = None,
@@ -10064,7 +10054,7 @@ class RequestUriMatchConditionParameters(_serialization.Model):
     ) -> None:
         """
         :keyword type_name: Required. "DeliveryRuleRequestUriConditionParameters"
-        :paramtype type_name: str or ~azure.mgmt.cdn.models.RequestUriMatchConditionParametersTypeName
+        :paramtype type_name: str or ~azure.mgmt.cdn.models.RequestUriMatchConditionParametersType
         :keyword operator: Describes operator to be matched. Required. Known values are: "Any",
          "Equal", "Contains", "BeginsWith", "EndsWith", "LessThan", "LessThanOrEqual", "GreaterThan",
          "GreaterThanOrEqual", and "RegEx".
@@ -10555,7 +10545,7 @@ class RouteConfigurationOverrideActionParameters(_serialization.Model):
 
     :ivar type_name: Required. "DeliveryRuleRouteConfigurationOverrideActionParameters"
     :vartype type_name: str or
-     ~azure.mgmt.cdn.models.RouteConfigurationOverrideActionParametersTypeName
+     ~azure.mgmt.cdn.models.RouteConfigurationOverrideActionParametersType
     :ivar origin_group_override: A reference to the origin group override configuration. Leave
      empty to use the default origin group on route.
     :vartype origin_group_override: ~azure.mgmt.cdn.models.OriginGroupOverride
@@ -10577,7 +10567,7 @@ class RouteConfigurationOverrideActionParameters(_serialization.Model):
     def __init__(
         self,
         *,
-        type_name: Union[str, "_models.RouteConfigurationOverrideActionParametersTypeName"],
+        type_name: Union[str, "_models.RouteConfigurationOverrideActionParametersType"],
         origin_group_override: Optional["_models.OriginGroupOverride"] = None,
         cache_configuration: Optional["_models.CacheConfiguration"] = None,
         **kwargs: Any
@@ -10585,7 +10575,7 @@ class RouteConfigurationOverrideActionParameters(_serialization.Model):
         """
         :keyword type_name: Required. "DeliveryRuleRouteConfigurationOverrideActionParameters"
         :paramtype type_name: str or
-         ~azure.mgmt.cdn.models.RouteConfigurationOverrideActionParametersTypeName
+         ~azure.mgmt.cdn.models.RouteConfigurationOverrideActionParametersType
         :keyword origin_group_override: A reference to the origin group override configuration. Leave
          empty to use the default origin group on route.
         :paramtype origin_group_override: ~azure.mgmt.cdn.models.OriginGroupOverride
@@ -11872,7 +11862,7 @@ class ServerPortMatchConditionParameters(_serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :ivar type_name: Required. "DeliveryRuleServerPortConditionParameters"
-    :vartype type_name: str or ~azure.mgmt.cdn.models.ServerPortMatchConditionParametersTypeName
+    :vartype type_name: str or ~azure.mgmt.cdn.models.ServerPortMatchConditionParametersType
     :ivar operator: Describes operator to be matched. Required. Known values are: "Any", "Equal",
      "Contains", "BeginsWith", "EndsWith", "LessThan", "LessThanOrEqual", "GreaterThan",
      "GreaterThanOrEqual", and "RegEx".
@@ -11901,7 +11891,7 @@ class ServerPortMatchConditionParameters(_serialization.Model):
     def __init__(
         self,
         *,
-        type_name: Union[str, "_models.ServerPortMatchConditionParametersTypeName"],
+        type_name: Union[str, "_models.ServerPortMatchConditionParametersType"],
         operator: Union[str, "_models.ServerPortOperator"],
         negate_condition: bool = False,
         match_values: Optional[List[str]] = None,
@@ -11910,7 +11900,7 @@ class ServerPortMatchConditionParameters(_serialization.Model):
     ) -> None:
         """
         :keyword type_name: Required. "DeliveryRuleServerPortConditionParameters"
-        :paramtype type_name: str or ~azure.mgmt.cdn.models.ServerPortMatchConditionParametersTypeName
+        :paramtype type_name: str or ~azure.mgmt.cdn.models.ServerPortMatchConditionParametersType
         :keyword operator: Describes operator to be matched. Required. Known values are: "Any",
          "Equal", "Contains", "BeginsWith", "EndsWith", "LessThan", "LessThanOrEqual", "GreaterThan",
          "GreaterThanOrEqual", and "RegEx".
@@ -12076,7 +12066,7 @@ class SocketAddrMatchConditionParameters(_serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :ivar type_name: Required. "DeliveryRuleSocketAddrConditionParameters"
-    :vartype type_name: str or ~azure.mgmt.cdn.models.SocketAddrMatchConditionParametersTypeName
+    :vartype type_name: str or ~azure.mgmt.cdn.models.SocketAddrMatchConditionParametersType
     :ivar operator: Describes operator to be matched. Required. Known values are: "Any" and
      "IPMatch".
     :vartype operator: str or ~azure.mgmt.cdn.models.SocketAddrOperator
@@ -12104,7 +12094,7 @@ class SocketAddrMatchConditionParameters(_serialization.Model):
     def __init__(
         self,
         *,
-        type_name: Union[str, "_models.SocketAddrMatchConditionParametersTypeName"],
+        type_name: Union[str, "_models.SocketAddrMatchConditionParametersType"],
         operator: Union[str, "_models.SocketAddrOperator"],
         negate_condition: bool = False,
         match_values: Optional[List[str]] = None,
@@ -12113,7 +12103,7 @@ class SocketAddrMatchConditionParameters(_serialization.Model):
     ) -> None:
         """
         :keyword type_name: Required. "DeliveryRuleSocketAddrConditionParameters"
-        :paramtype type_name: str or ~azure.mgmt.cdn.models.SocketAddrMatchConditionParametersTypeName
+        :paramtype type_name: str or ~azure.mgmt.cdn.models.SocketAddrMatchConditionParametersType
         :keyword operator: Describes operator to be matched. Required. Known values are: "Any" and
          "IPMatch".
         :paramtype operator: str or ~azure.mgmt.cdn.models.SocketAddrOperator
@@ -12138,7 +12128,7 @@ class SslProtocolMatchConditionParameters(_serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :ivar type_name: Required. "DeliveryRuleSslProtocolConditionParameters"
-    :vartype type_name: str or ~azure.mgmt.cdn.models.SslProtocolMatchConditionParametersTypeName
+    :vartype type_name: str or ~azure.mgmt.cdn.models.SslProtocolMatchConditionParametersType
     :ivar operator: Describes operator to be matched. Required. "Equal"
     :vartype operator: str or ~azure.mgmt.cdn.models.SslProtocolOperator
     :ivar negate_condition: Describes if this is negate condition or not.
@@ -12165,7 +12155,7 @@ class SslProtocolMatchConditionParameters(_serialization.Model):
     def __init__(
         self,
         *,
-        type_name: Union[str, "_models.SslProtocolMatchConditionParametersTypeName"],
+        type_name: Union[str, "_models.SslProtocolMatchConditionParametersType"],
         operator: Union[str, "_models.SslProtocolOperator"],
         negate_condition: bool = False,
         match_values: Optional[List[Union[str, "_models.SslProtocol"]]] = None,
@@ -12174,7 +12164,7 @@ class SslProtocolMatchConditionParameters(_serialization.Model):
     ) -> None:
         """
         :keyword type_name: Required. "DeliveryRuleSslProtocolConditionParameters"
-        :paramtype type_name: str or ~azure.mgmt.cdn.models.SslProtocolMatchConditionParametersTypeName
+        :paramtype type_name: str or ~azure.mgmt.cdn.models.SslProtocolMatchConditionParametersType
         :keyword operator: Describes operator to be matched. Required. "Equal"
         :paramtype operator: str or ~azure.mgmt.cdn.models.SslProtocolOperator
         :keyword negate_condition: Describes if this is negate condition or not.
@@ -12308,8 +12298,7 @@ class UrlFileExtensionMatchConditionParameters(_serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :ivar type_name: Required. "DeliveryRuleUrlFileExtensionMatchConditionParameters"
-    :vartype type_name: str or
-     ~azure.mgmt.cdn.models.UrlFileExtensionMatchConditionParametersTypeName
+    :vartype type_name: str or ~azure.mgmt.cdn.models.UrlFileExtensionMatchConditionParametersType
     :ivar operator: Describes operator to be matched. Required. Known values are: "Any", "Equal",
      "Contains", "BeginsWith", "EndsWith", "LessThan", "LessThanOrEqual", "GreaterThan",
      "GreaterThanOrEqual", and "RegEx".
@@ -12338,7 +12327,7 @@ class UrlFileExtensionMatchConditionParameters(_serialization.Model):
     def __init__(
         self,
         *,
-        type_name: Union[str, "_models.UrlFileExtensionMatchConditionParametersTypeName"],
+        type_name: Union[str, "_models.UrlFileExtensionMatchConditionParametersType"],
         operator: Union[str, "_models.UrlFileExtensionOperator"],
         negate_condition: bool = False,
         match_values: Optional[List[str]] = None,
@@ -12348,7 +12337,7 @@ class UrlFileExtensionMatchConditionParameters(_serialization.Model):
         """
         :keyword type_name: Required. "DeliveryRuleUrlFileExtensionMatchConditionParameters"
         :paramtype type_name: str or
-         ~azure.mgmt.cdn.models.UrlFileExtensionMatchConditionParametersTypeName
+         ~azure.mgmt.cdn.models.UrlFileExtensionMatchConditionParametersType
         :keyword operator: Describes operator to be matched. Required. Known values are: "Any",
          "Equal", "Contains", "BeginsWith", "EndsWith", "LessThan", "LessThanOrEqual", "GreaterThan",
          "GreaterThanOrEqual", and "RegEx".
@@ -12374,7 +12363,7 @@ class UrlFileNameMatchConditionParameters(_serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :ivar type_name: Required. "DeliveryRuleUrlFilenameConditionParameters"
-    :vartype type_name: str or ~azure.mgmt.cdn.models.UrlFileNameMatchConditionParametersTypeName
+    :vartype type_name: str or ~azure.mgmt.cdn.models.UrlFileNameMatchConditionParametersType
     :ivar operator: Describes operator to be matched. Required. Known values are: "Any", "Equal",
      "Contains", "BeginsWith", "EndsWith", "LessThan", "LessThanOrEqual", "GreaterThan",
      "GreaterThanOrEqual", and "RegEx".
@@ -12403,7 +12392,7 @@ class UrlFileNameMatchConditionParameters(_serialization.Model):
     def __init__(
         self,
         *,
-        type_name: Union[str, "_models.UrlFileNameMatchConditionParametersTypeName"],
+        type_name: Union[str, "_models.UrlFileNameMatchConditionParametersType"],
         operator: Union[str, "_models.UrlFileNameOperator"],
         negate_condition: bool = False,
         match_values: Optional[List[str]] = None,
@@ -12412,7 +12401,7 @@ class UrlFileNameMatchConditionParameters(_serialization.Model):
     ) -> None:
         """
         :keyword type_name: Required. "DeliveryRuleUrlFilenameConditionParameters"
-        :paramtype type_name: str or ~azure.mgmt.cdn.models.UrlFileNameMatchConditionParametersTypeName
+        :paramtype type_name: str or ~azure.mgmt.cdn.models.UrlFileNameMatchConditionParametersType
         :keyword operator: Describes operator to be matched. Required. Known values are: "Any",
          "Equal", "Contains", "BeginsWith", "EndsWith", "LessThan", "LessThanOrEqual", "GreaterThan",
          "GreaterThanOrEqual", and "RegEx".
@@ -12438,7 +12427,7 @@ class UrlPathMatchConditionParameters(_serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :ivar type_name: Required. "DeliveryRuleUrlPathMatchConditionParameters"
-    :vartype type_name: str or ~azure.mgmt.cdn.models.UrlPathMatchConditionParametersTypeName
+    :vartype type_name: str or ~azure.mgmt.cdn.models.UrlPathMatchConditionParametersType
     :ivar operator: Describes operator to be matched. Required. Known values are: "Any", "Equal",
      "Contains", "BeginsWith", "EndsWith", "LessThan", "LessThanOrEqual", "GreaterThan",
      "GreaterThanOrEqual", "Wildcard", and "RegEx".
@@ -12467,7 +12456,7 @@ class UrlPathMatchConditionParameters(_serialization.Model):
     def __init__(
         self,
         *,
-        type_name: Union[str, "_models.UrlPathMatchConditionParametersTypeName"],
+        type_name: Union[str, "_models.UrlPathMatchConditionParametersType"],
         operator: Union[str, "_models.UrlPathOperator"],
         negate_condition: bool = False,
         match_values: Optional[List[str]] = None,
@@ -12476,7 +12465,7 @@ class UrlPathMatchConditionParameters(_serialization.Model):
     ) -> None:
         """
         :keyword type_name: Required. "DeliveryRuleUrlPathMatchConditionParameters"
-        :paramtype type_name: str or ~azure.mgmt.cdn.models.UrlPathMatchConditionParametersTypeName
+        :paramtype type_name: str or ~azure.mgmt.cdn.models.UrlPathMatchConditionParametersType
         :keyword operator: Describes operator to be matched. Required. Known values are: "Any",
          "Equal", "Contains", "BeginsWith", "EndsWith", "LessThan", "LessThanOrEqual", "GreaterThan",
          "GreaterThanOrEqual", "Wildcard", and "RegEx".
@@ -12536,7 +12525,7 @@ class UrlRedirectActionParameters(_serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :ivar type_name: Required. "DeliveryRuleUrlRedirectActionParameters"
-    :vartype type_name: str or ~azure.mgmt.cdn.models.UrlRedirectActionParametersTypeName
+    :vartype type_name: str or ~azure.mgmt.cdn.models.UrlRedirectActionParametersType
     :ivar redirect_type: The redirect type the rule will use when redirecting traffic. Required.
      Known values are: "Moved", "Found", "TemporaryRedirect", and "PermanentRedirect".
     :vartype redirect_type: str or ~azure.mgmt.cdn.models.RedirectType
@@ -12577,7 +12566,7 @@ class UrlRedirectActionParameters(_serialization.Model):
     def __init__(
         self,
         *,
-        type_name: Union[str, "_models.UrlRedirectActionParametersTypeName"],
+        type_name: Union[str, "_models.UrlRedirectActionParametersType"],
         redirect_type: Union[str, "_models.RedirectType"],
         destination_protocol: Optional[Union[str, "_models.DestinationProtocol"]] = None,
         custom_path: Optional[str] = None,
@@ -12588,7 +12577,7 @@ class UrlRedirectActionParameters(_serialization.Model):
     ) -> None:
         """
         :keyword type_name: Required. "DeliveryRuleUrlRedirectActionParameters"
-        :paramtype type_name: str or ~azure.mgmt.cdn.models.UrlRedirectActionParametersTypeName
+        :paramtype type_name: str or ~azure.mgmt.cdn.models.UrlRedirectActionParametersType
         :keyword redirect_type: The redirect type the rule will use when redirecting traffic. Required.
          Known values are: "Moved", "Found", "TemporaryRedirect", and "PermanentRedirect".
         :paramtype redirect_type: str or ~azure.mgmt.cdn.models.RedirectType
@@ -12660,7 +12649,7 @@ class UrlRewriteActionParameters(_serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :ivar type_name: Required. "DeliveryRuleUrlRewriteActionParameters"
-    :vartype type_name: str or ~azure.mgmt.cdn.models.UrlRewriteActionParametersTypeName
+    :vartype type_name: str or ~azure.mgmt.cdn.models.UrlRewriteActionParametersType
     :ivar source_pattern: define a request URI pattern that identifies the type of requests that
      may be rewritten. If value is blank, all strings are matched. Required.
     :vartype source_pattern: str
@@ -12687,7 +12676,7 @@ class UrlRewriteActionParameters(_serialization.Model):
     def __init__(
         self,
         *,
-        type_name: Union[str, "_models.UrlRewriteActionParametersTypeName"],
+        type_name: Union[str, "_models.UrlRewriteActionParametersType"],
         source_pattern: str,
         destination: str,
         preserve_unmatched_path: Optional[bool] = None,
@@ -12695,7 +12684,7 @@ class UrlRewriteActionParameters(_serialization.Model):
     ) -> None:
         """
         :keyword type_name: Required. "DeliveryRuleUrlRewriteActionParameters"
-        :paramtype type_name: str or ~azure.mgmt.cdn.models.UrlRewriteActionParametersTypeName
+        :paramtype type_name: str or ~azure.mgmt.cdn.models.UrlRewriteActionParametersType
         :keyword source_pattern: define a request URI pattern that identifies the type of requests that
          may be rewritten. If value is blank, all strings are matched. Required.
         :paramtype source_pattern: str
@@ -12752,7 +12741,7 @@ class UrlSigningActionParameters(_serialization.Model):
     All required parameters must be populated in order to send to Azure.
 
     :ivar type_name: Required. "DeliveryRuleUrlSigningActionParameters"
-    :vartype type_name: str or ~azure.mgmt.cdn.models.UrlSigningActionParametersTypeName
+    :vartype type_name: str or ~azure.mgmt.cdn.models.UrlSigningActionParametersType
     :ivar algorithm: Algorithm to use for URL signing. "SHA256"
     :vartype algorithm: str or ~azure.mgmt.cdn.models.Algorithm
     :ivar parameter_name_override: Defines which query string parameters in the url to be
@@ -12773,14 +12762,14 @@ class UrlSigningActionParameters(_serialization.Model):
     def __init__(
         self,
         *,
-        type_name: Union[str, "_models.UrlSigningActionParametersTypeName"],
+        type_name: Union[str, "_models.UrlSigningActionParametersType"],
         algorithm: Optional[Union[str, "_models.Algorithm"]] = None,
         parameter_name_override: Optional[List["_models.UrlSigningParamIdentifier"]] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword type_name: Required. "DeliveryRuleUrlSigningActionParameters"
-        :paramtype type_name: str or ~azure.mgmt.cdn.models.UrlSigningActionParametersTypeName
+        :paramtype type_name: str or ~azure.mgmt.cdn.models.UrlSigningActionParametersType
         :keyword algorithm: Algorithm to use for URL signing. "SHA256"
         :paramtype algorithm: str or ~azure.mgmt.cdn.models.Algorithm
         :keyword parameter_name_override: Defines which query string parameters in the url to be
