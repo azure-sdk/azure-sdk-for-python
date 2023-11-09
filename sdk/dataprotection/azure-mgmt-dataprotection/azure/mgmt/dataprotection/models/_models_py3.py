@@ -2617,10 +2617,14 @@ class BaseBackupPolicyResourceList(DppResourceList):
 class BaseResourceProperties(_serialization.Model):
     """Properties which are specific to datasource/datasourceSets.
 
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    DefaultResourceProperties
+
     All required parameters must be populated in order to send to Azure.
 
     :ivar object_type: Type of the specific object - used for deserializing. Required.
-    :vartype object_type: str
+     "DefaultResourceProperties"
+    :vartype object_type: str or ~azure.mgmt.dataprotection.models.ResourcePropertiesObjectType
     """
 
     _validation = {
@@ -2630,6 +2634,8 @@ class BaseResourceProperties(_serialization.Model):
     _attribute_map = {
         "object_type": {"key": "objectType", "type": "str"},
     }
+
+    _subtype_map = {"object_type": {"DefaultResourceProperties": "DefaultResourceProperties"}}
 
     def __init__(self, **kwargs: Any) -> None:
         """ """
@@ -3313,6 +3319,30 @@ class Day(_serialization.Model):
         super().__init__(**kwargs)
         self.date = date
         self.is_last = is_last
+
+
+class DefaultResourceProperties(BaseResourceProperties):
+    """Default source properties.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar object_type: Type of the specific object - used for deserializing. Required.
+     "DefaultResourceProperties"
+    :vartype object_type: str or ~azure.mgmt.dataprotection.models.ResourcePropertiesObjectType
+    """
+
+    _validation = {
+        "object_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "object_type": {"key": "objectType", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.object_type: str = "DefaultResourceProperties"
 
 
 class DeletedBackupInstance(BackupInstance):  # pylint: disable=too-many-instance-attributes
@@ -4100,7 +4130,8 @@ class ItemLevelRestoreCriteria(_serialization.Model):
     """Class to contain criteria for item level restore.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
-    ItemPathBasedRestoreCriteria, KubernetesClusterRestoreCriteria, KubernetesPVRestoreCriteria,
+    ItemPathBasedRestoreCriteria, KubernetesClusterRestoreCriteria,
+    KubernetesClusterVaultTierRestoreCriteria, KubernetesPVRestoreCriteria,
     KubernetesStorageClassRestoreCriteria, RangeBasedItemLevelRestoreCriteria
 
     All required parameters must be populated in order to send to Azure.
@@ -4121,6 +4152,7 @@ class ItemLevelRestoreCriteria(_serialization.Model):
         "object_type": {
             "ItemPathBasedRestoreCriteria": "ItemPathBasedRestoreCriteria",
             "KubernetesClusterRestoreCriteria": "KubernetesClusterRestoreCriteria",
+            "KubernetesClusterVaultTierRestoreCriteria": "KubernetesClusterVaultTierRestoreCriteria",
             "KubernetesPVRestoreCriteria": "KubernetesPVRestoreCriteria",
             "KubernetesStorageClassRestoreCriteria": "KubernetesStorageClassRestoreCriteria",
             "RangeBasedItemLevelRestoreCriteria": "RangeBasedItemLevelRestoreCriteria",
@@ -4661,6 +4693,153 @@ class KubernetesClusterRestoreCriteria(ItemLevelRestoreCriteria):  # pylint: dis
         self.conflict_policy = conflict_policy
         self.namespace_mappings = namespace_mappings
         self.restore_hook_references = restore_hook_references
+
+
+class KubernetesClusterVaultTierRestoreCriteria(
+    ItemLevelRestoreCriteria
+):  # pylint: disable=too-many-instance-attributes
+    """kubernetes Cluster Backup target info for restore operation from vault.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar object_type: Type of the specific object - used for deserializing. Required.
+    :vartype object_type: str
+    :ivar include_cluster_scope_resources: Gets or sets the include cluster resources property.
+     This property if enabled will include cluster scope resources during restore from vault.
+     Required.
+    :vartype include_cluster_scope_resources: bool
+    :ivar included_namespaces: Gets or sets the include namespaces property. This property sets the
+     namespaces to be included during restore from vault.
+    :vartype included_namespaces: list[str]
+    :ivar excluded_namespaces: Gets or sets the exclude namespaces property. This property sets the
+     namespaces to be excluded during restore from vault.
+    :vartype excluded_namespaces: list[str]
+    :ivar included_resource_types: Gets or sets the include resource types property. This property
+     sets the resource types to be included during restore from vault.
+    :vartype included_resource_types: list[str]
+    :ivar excluded_resource_types: Gets or sets the exclude resource types property. This property
+     sets the resource types to be excluded during restore from vault.
+    :vartype excluded_resource_types: list[str]
+    :ivar label_selectors: Gets or sets the LabelSelectors property. This property sets the
+     resource with such label selectors to be included during restore from vault.
+    :vartype label_selectors: list[str]
+    :ivar persistent_volume_restore_mode: Gets or sets the PV (Persistent Volume) Restore Mode
+     property. This property sets whether volumes needs to be restored from vault. Known values are:
+     "RestoreWithVolumeData" and "RestoreWithoutVolumeData".
+    :vartype persistent_volume_restore_mode: str or
+     ~azure.mgmt.dataprotection.models.PersistentVolumeRestoreMode
+    :ivar conflict_policy: Gets or sets the Conflict Policy property. This property sets policy
+     during conflict of resources during restore from vault. Known values are: "Skip" and "Patch".
+    :vartype conflict_policy: str or ~azure.mgmt.dataprotection.models.ExistingResourcePolicy
+    :ivar namespace_mappings: Gets or sets the Namespace Mappings property. This property sets if
+     namespace needs to be change during restore from vault.
+    :vartype namespace_mappings: dict[str, str]
+    :ivar restore_hook_references: Gets or sets the restore hook references. This property sets the
+     hook reference to be executed during restore from vault.
+    :vartype restore_hook_references:
+     list[~azure.mgmt.dataprotection.models.NamespacedNameResource]
+    :ivar staging_resource_group_id: Gets or sets the staging RG Id for creating staging disks and
+     snapshots during restore from vault.
+    :vartype staging_resource_group_id: str
+    :ivar staging_storage_account_id: Gets or sets the staging Storage Account Id for creating
+     backup extension object store data during restore from vault.
+    :vartype staging_storage_account_id: str
+    """
+
+    _validation = {
+        "object_type": {"required": True},
+        "include_cluster_scope_resources": {"required": True},
+    }
+
+    _attribute_map = {
+        "object_type": {"key": "objectType", "type": "str"},
+        "include_cluster_scope_resources": {"key": "includeClusterScopeResources", "type": "bool"},
+        "included_namespaces": {"key": "includedNamespaces", "type": "[str]"},
+        "excluded_namespaces": {"key": "excludedNamespaces", "type": "[str]"},
+        "included_resource_types": {"key": "includedResourceTypes", "type": "[str]"},
+        "excluded_resource_types": {"key": "excludedResourceTypes", "type": "[str]"},
+        "label_selectors": {"key": "labelSelectors", "type": "[str]"},
+        "persistent_volume_restore_mode": {"key": "persistentVolumeRestoreMode", "type": "str"},
+        "conflict_policy": {"key": "conflictPolicy", "type": "str"},
+        "namespace_mappings": {"key": "namespaceMappings", "type": "{str}"},
+        "restore_hook_references": {"key": "restoreHookReferences", "type": "[NamespacedNameResource]"},
+        "staging_resource_group_id": {"key": "stagingResourceGroupId", "type": "str"},
+        "staging_storage_account_id": {"key": "stagingStorageAccountId", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        include_cluster_scope_resources: bool,
+        included_namespaces: Optional[List[str]] = None,
+        excluded_namespaces: Optional[List[str]] = None,
+        included_resource_types: Optional[List[str]] = None,
+        excluded_resource_types: Optional[List[str]] = None,
+        label_selectors: Optional[List[str]] = None,
+        persistent_volume_restore_mode: Optional[Union[str, "_models.PersistentVolumeRestoreMode"]] = None,
+        conflict_policy: Optional[Union[str, "_models.ExistingResourcePolicy"]] = None,
+        namespace_mappings: Optional[Dict[str, str]] = None,
+        restore_hook_references: Optional[List["_models.NamespacedNameResource"]] = None,
+        staging_resource_group_id: Optional[str] = None,
+        staging_storage_account_id: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword include_cluster_scope_resources: Gets or sets the include cluster resources property.
+         This property if enabled will include cluster scope resources during restore from vault.
+         Required.
+        :paramtype include_cluster_scope_resources: bool
+        :keyword included_namespaces: Gets or sets the include namespaces property. This property sets
+         the namespaces to be included during restore from vault.
+        :paramtype included_namespaces: list[str]
+        :keyword excluded_namespaces: Gets or sets the exclude namespaces property. This property sets
+         the namespaces to be excluded during restore from vault.
+        :paramtype excluded_namespaces: list[str]
+        :keyword included_resource_types: Gets or sets the include resource types property. This
+         property sets the resource types to be included during restore from vault.
+        :paramtype included_resource_types: list[str]
+        :keyword excluded_resource_types: Gets or sets the exclude resource types property. This
+         property sets the resource types to be excluded during restore from vault.
+        :paramtype excluded_resource_types: list[str]
+        :keyword label_selectors: Gets or sets the LabelSelectors property. This property sets the
+         resource with such label selectors to be included during restore from vault.
+        :paramtype label_selectors: list[str]
+        :keyword persistent_volume_restore_mode: Gets or sets the PV (Persistent Volume) Restore Mode
+         property. This property sets whether volumes needs to be restored from vault. Known values are:
+         "RestoreWithVolumeData" and "RestoreWithoutVolumeData".
+        :paramtype persistent_volume_restore_mode: str or
+         ~azure.mgmt.dataprotection.models.PersistentVolumeRestoreMode
+        :keyword conflict_policy: Gets or sets the Conflict Policy property. This property sets policy
+         during conflict of resources during restore from vault. Known values are: "Skip" and "Patch".
+        :paramtype conflict_policy: str or ~azure.mgmt.dataprotection.models.ExistingResourcePolicy
+        :keyword namespace_mappings: Gets or sets the Namespace Mappings property. This property sets
+         if namespace needs to be change during restore from vault.
+        :paramtype namespace_mappings: dict[str, str]
+        :keyword restore_hook_references: Gets or sets the restore hook references. This property sets
+         the hook reference to be executed during restore from vault.
+        :paramtype restore_hook_references:
+         list[~azure.mgmt.dataprotection.models.NamespacedNameResource]
+        :keyword staging_resource_group_id: Gets or sets the staging RG Id for creating staging disks
+         and snapshots during restore from vault.
+        :paramtype staging_resource_group_id: str
+        :keyword staging_storage_account_id: Gets or sets the staging Storage Account Id for creating
+         backup extension object store data during restore from vault.
+        :paramtype staging_storage_account_id: str
+        """
+        super().__init__(**kwargs)
+        self.object_type: str = "KubernetesClusterVaultTierRestoreCriteria"
+        self.include_cluster_scope_resources = include_cluster_scope_resources
+        self.included_namespaces = included_namespaces
+        self.excluded_namespaces = excluded_namespaces
+        self.included_resource_types = included_resource_types
+        self.excluded_resource_types = excluded_resource_types
+        self.label_selectors = label_selectors
+        self.persistent_volume_restore_mode = persistent_volume_restore_mode
+        self.conflict_policy = conflict_policy
+        self.namespace_mappings = namespace_mappings
+        self.restore_hook_references = restore_hook_references
+        self.staging_resource_group_id = staging_resource_group_id
+        self.staging_storage_account_id = staging_storage_account_id
 
 
 class KubernetesPVRestoreCriteria(ItemLevelRestoreCriteria):

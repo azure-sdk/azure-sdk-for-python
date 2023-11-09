@@ -68,6 +68,7 @@ from ._models_py3 import DataStoreParameters
 from ._models_py3 import Datasource
 from ._models_py3 import DatasourceSet
 from ._models_py3 import Day
+from ._models_py3 import DefaultResourceProperties
 from ._models_py3 import DeleteOption
 from ._models_py3 import DeletedBackupInstance
 from ._models_py3 import DeletedBackupInstanceResource
@@ -102,6 +103,7 @@ from ._models_py3 import JobExtendedInfo
 from ._models_py3 import JobSubTask
 from ._models_py3 import KubernetesClusterBackupDatasourceParameters
 from ._models_py3 import KubernetesClusterRestoreCriteria
+from ._models_py3 import KubernetesClusterVaultTierRestoreCriteria
 from ._models_py3 import KubernetesPVRestoreCriteria
 from ._models_py3 import KubernetesStorageClassRestoreCriteria
 from ._models_py3 import MonitoringSettings
@@ -175,6 +177,7 @@ from ._data_protection_mgmt_client_enums import RecoveryOption
 from ._data_protection_mgmt_client_enums import RehydrationPriority
 from ._data_protection_mgmt_client_enums import RehydrationStatus
 from ._data_protection_mgmt_client_enums import ResourceMoveState
+from ._data_protection_mgmt_client_enums import ResourcePropertiesObjectType
 from ._data_protection_mgmt_client_enums import RestoreSourceDataStoreType
 from ._data_protection_mgmt_client_enums import RestoreTargetLocationType
 from ._data_protection_mgmt_client_enums import SecretStoreType
@@ -254,6 +257,7 @@ __all__ = [
     "Datasource",
     "DatasourceSet",
     "Day",
+    "DefaultResourceProperties",
     "DeleteOption",
     "DeletedBackupInstance",
     "DeletedBackupInstanceResource",
@@ -288,6 +292,7 @@ __all__ = [
     "JobSubTask",
     "KubernetesClusterBackupDatasourceParameters",
     "KubernetesClusterRestoreCriteria",
+    "KubernetesClusterVaultTierRestoreCriteria",
     "KubernetesPVRestoreCriteria",
     "KubernetesStorageClassRestoreCriteria",
     "MonitoringSettings",
@@ -360,6 +365,7 @@ __all__ = [
     "RehydrationPriority",
     "RehydrationStatus",
     "ResourceMoveState",
+    "ResourcePropertiesObjectType",
     "RestoreSourceDataStoreType",
     "RestoreTargetLocationType",
     "SecretStoreType",
