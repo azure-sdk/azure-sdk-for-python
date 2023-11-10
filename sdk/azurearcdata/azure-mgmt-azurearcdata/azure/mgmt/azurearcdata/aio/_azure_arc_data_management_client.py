@@ -18,9 +18,12 @@ from ._configuration import AzureArcDataManagementClientConfiguration
 from .operations import (
     ActiveDirectoryConnectorsOperations,
     DataControllersOperations,
+    FailoverGroupsOperations,
     Operations,
     PostgresInstancesOperations,
     SqlManagedInstancesOperations,
+    SqlServerAvailabilityGroupsOperations,
+    SqlServerDatabasesOperations,
     SqlServerInstancesOperations,
 )
 
@@ -29,7 +32,7 @@ if TYPE_CHECKING:
     from azure.core.credentials_async import AsyncTokenCredential
 
 
-class AzureArcDataManagementClient:  # pylint: disable=client-accepts-api-version-keyword
+class AzureArcDataManagementClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
     """The AzureArcData management API provides a RESTful set of web APIs to manage Azure Data
     Services on Azure Arc Resources.
 
@@ -38,6 +41,8 @@ class AzureArcDataManagementClient:  # pylint: disable=client-accepts-api-versio
     :ivar sql_managed_instances: SqlManagedInstancesOperations operations
     :vartype sql_managed_instances:
      azure.mgmt.azurearcdata.aio.operations.SqlManagedInstancesOperations
+    :ivar failover_groups: FailoverGroupsOperations operations
+    :vartype failover_groups: azure.mgmt.azurearcdata.aio.operations.FailoverGroupsOperations
     :ivar sql_server_instances: SqlServerInstancesOperations operations
     :vartype sql_server_instances:
      azure.mgmt.azurearcdata.aio.operations.SqlServerInstancesOperations
@@ -48,13 +53,19 @@ class AzureArcDataManagementClient:  # pylint: disable=client-accepts-api-versio
      azure.mgmt.azurearcdata.aio.operations.ActiveDirectoryConnectorsOperations
     :ivar postgres_instances: PostgresInstancesOperations operations
     :vartype postgres_instances: azure.mgmt.azurearcdata.aio.operations.PostgresInstancesOperations
+    :ivar sql_server_availability_groups: SqlServerAvailabilityGroupsOperations operations
+    :vartype sql_server_availability_groups:
+     azure.mgmt.azurearcdata.aio.operations.SqlServerAvailabilityGroupsOperations
+    :ivar sql_server_databases: SqlServerDatabasesOperations operations
+    :vartype sql_server_databases:
+     azure.mgmt.azurearcdata.aio.operations.SqlServerDatabasesOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
     :param subscription_id: The ID of the Azure subscription. Required.
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2022-03-01-preview". Note that overriding
+    :keyword api_version: Api Version. Default value is "2023-11-01-preview". Note that overriding
      this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -71,7 +82,7 @@ class AzureArcDataManagementClient:  # pylint: disable=client-accepts-api-versio
         self._config = AzureArcDataManagementClientConfiguration(
             credential=credential, subscription_id=subscription_id, **kwargs
         )
-        self._client = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
@@ -81,6 +92,7 @@ class AzureArcDataManagementClient:  # pylint: disable=client-accepts-api-versio
         self.sql_managed_instances = SqlManagedInstancesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.failover_groups = FailoverGroupsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.sql_server_instances = SqlServerInstancesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
@@ -91,6 +103,12 @@ class AzureArcDataManagementClient:  # pylint: disable=client-accepts-api-versio
             self._client, self._config, self._serialize, self._deserialize
         )
         self.postgres_instances = PostgresInstancesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.sql_server_availability_groups = SqlServerAvailabilityGroupsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.sql_server_databases = SqlServerDatabasesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
 
@@ -123,5 +141,5 @@ class AzureArcDataManagementClient:  # pylint: disable=client-accepts-api-versio
         await self._client.__aenter__()
         return self
 
-    async def __aexit__(self, *exc_details) -> None:
+    async def __aexit__(self, *exc_details: Any) -> None:
         await self._client.__aexit__(*exc_details)
