@@ -12,10 +12,8 @@ from ._models_py3 import CatalogUpdate
 from ._models_py3 import Certificate
 from ._models_py3 import CertificateChainResponse
 from ._models_py3 import CertificateListResult
-from ._models_py3 import CertificateProperties
 from ._models_py3 import ClaimDevicesRequest
 from ._models_py3 import CountDeviceResponse
-from ._models_py3 import CountElementsResponse
 from ._models_py3 import Deployment
 from ._models_py3 import DeploymentListResult
 from ._models_py3 import Device
@@ -71,10 +69,8 @@ __all__ = [
     "Certificate",
     "CertificateChainResponse",
     "CertificateListResult",
-    "CertificateProperties",
     "ClaimDevicesRequest",
     "CountDeviceResponse",
-    "CountElementsResponse",
     "Deployment",
     "DeploymentListResult",
     "Device",

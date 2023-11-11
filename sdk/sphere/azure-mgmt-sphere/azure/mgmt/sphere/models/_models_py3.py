@@ -388,61 +388,6 @@ class CertificateListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class CertificateProperties(_serialization.Model):
-    """The properties of certificate.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar certificate: The certificate as a UTF-8 encoded base 64 string.
-    :vartype certificate: str
-    :ivar status: The certificate status. Known values are: "Active", "Inactive", "Expired", and
-     "Revoked".
-    :vartype status: str or ~azure.mgmt.sphere.models.CertificateStatus
-    :ivar subject: The certificate subject.
-    :vartype subject: str
-    :ivar thumbprint: The certificate thumbprint.
-    :vartype thumbprint: str
-    :ivar expiry_utc: The certificate expiry date.
-    :vartype expiry_utc: ~datetime.datetime
-    :ivar not_before_utc: The certificate not before date.
-    :vartype not_before_utc: ~datetime.datetime
-    :ivar provisioning_state: The status of the last operation. Known values are: "Succeeded",
-     "Failed", "Canceled", "Provisioning", "Updating", "Deleting", and "Accepted".
-    :vartype provisioning_state: str or ~azure.mgmt.sphere.models.ProvisioningState
-    """
-
-    _validation = {
-        "certificate": {"readonly": True},
-        "status": {"readonly": True},
-        "subject": {"readonly": True},
-        "thumbprint": {"readonly": True},
-        "expiry_utc": {"readonly": True},
-        "not_before_utc": {"readonly": True},
-        "provisioning_state": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "certificate": {"key": "certificate", "type": "str"},
-        "status": {"key": "status", "type": "str"},
-        "subject": {"key": "subject", "type": "str"},
-        "thumbprint": {"key": "thumbprint", "type": "str"},
-        "expiry_utc": {"key": "expiryUtc", "type": "iso-8601"},
-        "not_before_utc": {"key": "notBeforeUtc", "type": "iso-8601"},
-        "provisioning_state": {"key": "provisioningState", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-        self.certificate = None
-        self.status = None
-        self.subject = None
-        self.thumbprint = None
-        self.expiry_utc = None
-        self.not_before_utc = None
-        self.provisioning_state = None
-
-
 class ClaimDevicesRequest(_serialization.Model):
     """Request to the action call to bulk claim devices.
 
@@ -469,8 +414,8 @@ class ClaimDevicesRequest(_serialization.Model):
         self.device_identifiers = device_identifiers
 
 
-class CountElementsResponse(_serialization.Model):
-    """Response of the count for elements.
+class CountDeviceResponse(_serialization.Model):
+    """Response to the action call for count devices in a catalog.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -493,31 +438,6 @@ class CountElementsResponse(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-
-
-class CountDeviceResponse(CountElementsResponse):
-    """Response to the action call for count devices in a catalog.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar value: Number of children resources in parent resource. Required.
-    :vartype value: int
-    """
-
-    _validation = {
-        "value": {"required": True},
-    }
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "int"},
-    }
-
-    def __init__(self, *, value: int, **kwargs: Any) -> None:
-        """
-        :keyword value: Number of children resources in parent resource. Required.
-        :paramtype value: int
-        """
-        super().__init__(value=value, **kwargs)
 
 
 class Deployment(ProxyResource):
@@ -1632,7 +1552,7 @@ class ProofOfPossessionNonceRequest(_serialization.Model):
         self.proof_of_possession_nonce = proof_of_possession_nonce
 
 
-class ProofOfPossessionNonceResponse(CertificateProperties):
+class ProofOfPossessionNonceResponse(_serialization.Model):
     """Result of the action to generate a proof of possession nonce.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1678,6 +1598,13 @@ class ProofOfPossessionNonceResponse(CertificateProperties):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
+        self.certificate = None
+        self.status = None
+        self.subject = None
+        self.thumbprint = None
+        self.expiry_utc = None
+        self.not_before_utc = None
+        self.provisioning_state = None
 
 
 class SignedCapabilityImageResponse(_serialization.Model):
