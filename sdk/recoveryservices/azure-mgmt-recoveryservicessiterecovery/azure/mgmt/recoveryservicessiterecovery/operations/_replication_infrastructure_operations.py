@@ -36,37 +36,8 @@ _SERIALIZER = Serializer()
 _SERIALIZER.client_side_validation = False
 
 
-def build_get_request(resource_name: str, resource_group_name: str, subscription_id: str, **kwargs: Any) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-01"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop(
-        "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationVaultHealth",
-    )  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "resourceName": _SERIALIZER.url("resource_name", resource_name, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_refresh_request(
-    resource_name: str, resource_group_name: str, subscription_id: str, **kwargs: Any
+def build_delete_request(
+    resource_name: str, fabric_name: str, resource_group_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -77,12 +48,17 @@ def build_refresh_request(
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationVaultHealth/default/refresh",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/removeInfra",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "resourceName": _SERIALIZER.url("resource_name", resource_name, "str"),
         "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
+        "resourceName": _SERIALIZER.url(
+            "resource_name", resource_name, "str", pattern=r"^[A-Za-z0-9][A-Za-z0-9-]*[A-Za-z0-9]$"
+        ),
+        "fabricName": _SERIALIZER.url(
+            "fabric_name", fabric_name, "str", pattern=r"^[A-Za-z0-9][A-Za-z0-9-]*[A-Za-z0-9]$"
+        ),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -96,14 +72,14 @@ def build_refresh_request(
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-class ReplicationVaultHealthOperations:
+class ReplicationInfrastructureOperations:
     """
     .. warning::
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
         :class:`~azure.mgmt.recoveryservicessiterecovery.SiteRecoveryManagementClient`'s
-        :attr:`replication_vault_health` attribute.
+        :attr:`replication_infrastructure` attribute.
     """
 
     models = _models
@@ -115,17 +91,9 @@ class ReplicationVaultHealthOperations:
         self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
-    @distributed_trace
-    def get(self, **kwargs: Any) -> _models.VaultHealthDetails:
-        """Gets the health summary for the vault.
-
-        Gets the health details of the vault.
-
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: VaultHealthDetails or the result of cls(response)
-        :rtype: ~azure.mgmt.recoveryservicessiterecovery.models.VaultHealthDetails
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
+    def _delete_initial(  # pylint: disable=inconsistent-return-statements
+        self, resource_name: str, fabric_name: str, **kwargs: Any
+    ) -> None:
         error_map = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -138,14 +106,15 @@ class ReplicationVaultHealthOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.VaultHealthDetails] = kwargs.pop("cls", None)
+        cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_get_request(
-            resource_name=self._config.resource_name,
+        request = build_delete_request(
+            resource_name=resource_name,
+            fabric_name=fabric_name,
             resource_group_name=self._config.resource_group_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
+            template_url=self._delete_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
@@ -159,78 +128,31 @@ class ReplicationVaultHealthOperations:
 
         response = pipeline_response.http_response
 
-        if response.status_code not in [200]:
+        if response.status_code not in [202]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("VaultHealthDetails", pipeline_response)
+        response_headers = {}
+        response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, None, response_headers)
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationVaultHealth"
-    }
-
-    def _refresh_initial(self, **kwargs: Any) -> Optional[_models.VaultHealthDetails]:
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[Optional[_models.VaultHealthDetails]] = kwargs.pop("cls", None)
-
-        request = build_refresh_request(
-            resource_name=self._config.resource_name,
-            resource_group_name=self._config.resource_group_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            template_url=self._refresh_initial.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200, 202]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        deserialized = None
-        if response.status_code == 200:
-            deserialized = self._deserialize("VaultHealthDetails", pipeline_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})
-
-        return deserialized
-
-    _refresh_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationVaultHealth/default/refresh"
+    _delete_initial.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/removeInfra"
     }
 
     @distributed_trace
-    def begin_refresh(self, **kwargs: Any) -> LROPoller[_models.VaultHealthDetails]:
-        """Refreshes health summary of the vault.
+    def begin_delete(self, resource_name: str, fabric_name: str, **kwargs: Any) -> LROPoller[None]:
+        """Removes the appliance's infrastructure under the fabric.
 
-        Refreshes health summary of the vault.
+        Removes the appliance's infrastructure under the fabric.
 
+        :param resource_name: Resource name. Required.
+        :type resource_name: str
+        :param fabric_name: Fabric name. Required.
+        :type fabric_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :keyword str continuation_token: A continuation token to restart a poller from a saved state.
         :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
@@ -239,31 +161,33 @@ class ReplicationVaultHealthOperations:
         :paramtype polling: bool or ~azure.core.polling.PollingMethod
         :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
          Retry-After header is present.
-        :return: An instance of LROPoller that returns either VaultHealthDetails or the result of
-         cls(response)
-        :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.recoveryservicessiterecovery.models.VaultHealthDetails]
+        :return: An instance of LROPoller that returns either None or the result of cls(response)
+        :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.VaultHealthDetails] = kwargs.pop("cls", None)
+        cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._refresh_initial(
-                api_version=api_version, cls=lambda x, y, z: x, headers=_headers, params=_params, **kwargs
+            raw_result = self._delete_initial(  # type: ignore
+                resource_name=resource_name,
+                fabric_name=fabric_name,
+                api_version=api_version,
+                cls=lambda x, y, z: x,
+                headers=_headers,
+                params=_params,
+                **kwargs
             )
         kwargs.pop("error_map", None)
 
-        def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("VaultHealthDetails", pipeline_response)
+        def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, deserialized, {})
-            return deserialized
+                return cls(pipeline_response, None, {})
 
         if polling is True:
             polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
@@ -280,6 +204,6 @@ class ReplicationVaultHealthOperations:
             )
         return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
-    begin_refresh.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationVaultHealth/default/refresh"
+    begin_delete.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/removeInfra"
     }

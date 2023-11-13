@@ -12,6 +12,7 @@ from ._replication_appliances_operations import ReplicationAppliancesOperations
 from ._replication_eligibility_results_operations import ReplicationEligibilityResultsOperations
 from ._replication_events_operations import ReplicationEventsOperations
 from ._replication_fabrics_operations import ReplicationFabricsOperations
+from ._replication_infrastructure_operations import ReplicationInfrastructureOperations
 from ._replication_logical_networks_operations import ReplicationLogicalNetworksOperations
 from ._replication_networks_operations import ReplicationNetworksOperations
 from ._replication_network_mappings_operations import ReplicationNetworkMappingsOperations
@@ -46,6 +47,7 @@ __all__ = [
     "ReplicationEligibilityResultsOperations",
     "ReplicationEventsOperations",
     "ReplicationFabricsOperations",
+    "ReplicationInfrastructureOperations",
     "ReplicationLogicalNetworksOperations",
     "ReplicationNetworksOperations",
     "ReplicationNetworkMappingsOperations",

@@ -24,6 +24,7 @@ from .operations import (
     ReplicationEligibilityResultsOperations,
     ReplicationEventsOperations,
     ReplicationFabricsOperations,
+    ReplicationInfrastructureOperations,
     ReplicationJobsOperations,
     ReplicationLogicalNetworksOperations,
     ReplicationMigrationItemsOperations,
@@ -71,6 +72,9 @@ class SiteRecoveryManagementClient:  # pylint: disable=client-accepts-api-versio
     :ivar replication_fabrics: ReplicationFabricsOperations operations
     :vartype replication_fabrics:
      azure.mgmt.recoveryservicessiterecovery.aio.operations.ReplicationFabricsOperations
+    :ivar replication_infrastructure: ReplicationInfrastructureOperations operations
+    :vartype replication_infrastructure:
+     azure.mgmt.recoveryservicessiterecovery.aio.operations.ReplicationInfrastructureOperations
     :ivar replication_logical_networks: ReplicationLogicalNetworksOperations operations
     :vartype replication_logical_networks:
      azure.mgmt.recoveryservicessiterecovery.aio.operations.ReplicationLogicalNetworksOperations
@@ -152,7 +156,7 @@ class SiteRecoveryManagementClient:  # pylint: disable=client-accepts-api-versio
     :type resource_name: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2023-06-01". Note that overriding this
+    :keyword api_version: Api Version. Default value is "2023-08-01". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -195,6 +199,9 @@ class SiteRecoveryManagementClient:  # pylint: disable=client-accepts-api-versio
             self._client, self._config, self._serialize, self._deserialize
         )
         self.replication_fabrics = ReplicationFabricsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.replication_infrastructure = ReplicationInfrastructureOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.replication_logical_networks = ReplicationLogicalNetworksOperations(
