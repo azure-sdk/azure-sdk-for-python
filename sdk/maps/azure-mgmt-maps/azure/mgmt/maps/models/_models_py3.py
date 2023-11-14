@@ -363,6 +363,12 @@ class CreatorProperties(_serialization.Model):
     :ivar storage_units: The storage units to be allocated. Integer values from 1 to 100,
      inclusive. Required.
     :vartype storage_units: int
+    :ivar total_storage_unit_size_in_bytes: The total allocated storage unit size in bytes for the
+     creator resource.
+    :vartype total_storage_unit_size_in_bytes: int
+    :ivar consumed_storage_unit_size_in_bytes: The consumed storage unit size in bytes for the
+     creator resource.
+    :vartype consumed_storage_unit_size_in_bytes: int
     """
 
     _validation = {
@@ -373,17 +379,34 @@ class CreatorProperties(_serialization.Model):
     _attribute_map = {
         "provisioning_state": {"key": "provisioningState", "type": "str"},
         "storage_units": {"key": "storageUnits", "type": "int"},
+        "total_storage_unit_size_in_bytes": {"key": "totalStorageUnitSizeInBytes", "type": "int"},
+        "consumed_storage_unit_size_in_bytes": {"key": "consumedStorageUnitSizeInBytes", "type": "int"},
     }
 
-    def __init__(self, *, storage_units: int, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        *,
+        storage_units: int,
+        total_storage_unit_size_in_bytes: Optional[int] = None,
+        consumed_storage_unit_size_in_bytes: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword storage_units: The storage units to be allocated. Integer values from 1 to 100,
          inclusive. Required.
         :paramtype storage_units: int
+        :keyword total_storage_unit_size_in_bytes: The total allocated storage unit size in bytes for
+         the creator resource.
+        :paramtype total_storage_unit_size_in_bytes: int
+        :keyword consumed_storage_unit_size_in_bytes: The consumed storage unit size in bytes for the
+         creator resource.
+        :paramtype consumed_storage_unit_size_in_bytes: int
         """
         super().__init__(**kwargs)
         self.provisioning_state = None
         self.storage_units = storage_units
+        self.total_storage_unit_size_in_bytes = total_storage_unit_size_in_bytes
+        self.consumed_storage_unit_size_in_bytes = consumed_storage_unit_size_in_bytes
 
 
 class CreatorUpdateParameters(_serialization.Model):
@@ -402,6 +425,12 @@ class CreatorUpdateParameters(_serialization.Model):
     :ivar storage_units: The storage units to be allocated. Integer values from 1 to 100,
      inclusive.
     :vartype storage_units: int
+    :ivar total_storage_unit_size_in_bytes: The total allocated storage unit size in bytes for the
+     creator resource.
+    :vartype total_storage_unit_size_in_bytes: int
+    :ivar consumed_storage_unit_size_in_bytes: The consumed storage unit size in bytes for the
+     creator resource.
+    :vartype consumed_storage_unit_size_in_bytes: int
     """
 
     _validation = {
@@ -413,10 +442,18 @@ class CreatorUpdateParameters(_serialization.Model):
         "tags": {"key": "tags", "type": "{str}"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "storage_units": {"key": "properties.storageUnits", "type": "int"},
+        "total_storage_unit_size_in_bytes": {"key": "properties.totalStorageUnitSizeInBytes", "type": "int"},
+        "consumed_storage_unit_size_in_bytes": {"key": "properties.consumedStorageUnitSizeInBytes", "type": "int"},
     }
 
     def __init__(
-        self, *, tags: Optional[Dict[str, str]] = None, storage_units: Optional[int] = None, **kwargs: Any
+        self,
+        *,
+        tags: Optional[Dict[str, str]] = None,
+        storage_units: Optional[int] = None,
+        total_storage_unit_size_in_bytes: Optional[int] = None,
+        consumed_storage_unit_size_in_bytes: Optional[int] = None,
+        **kwargs: Any
     ) -> None:
         """
         :keyword tags: Gets or sets a list of key value pairs that describe the resource. These tags
@@ -427,11 +464,19 @@ class CreatorUpdateParameters(_serialization.Model):
         :keyword storage_units: The storage units to be allocated. Integer values from 1 to 100,
          inclusive.
         :paramtype storage_units: int
+        :keyword total_storage_unit_size_in_bytes: The total allocated storage unit size in bytes for
+         the creator resource.
+        :paramtype total_storage_unit_size_in_bytes: int
+        :keyword consumed_storage_unit_size_in_bytes: The consumed storage unit size in bytes for the
+         creator resource.
+        :paramtype consumed_storage_unit_size_in_bytes: int
         """
         super().__init__(**kwargs)
         self.tags = tags
         self.provisioning_state = None
         self.storage_units = storage_units
+        self.total_storage_unit_size_in_bytes = total_storage_unit_size_in_bytes
+        self.consumed_storage_unit_size_in_bytes = consumed_storage_unit_size_in_bytes
 
 
 class CustomerManagedKeyEncryption(_serialization.Model):
@@ -767,6 +812,32 @@ class LinkedResource(_serialization.Model):
         self.id = id
 
 
+class LocationsItem(_serialization.Model):
+    """Data processing location.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar location_name: The location name. Required.
+    :vartype location_name: str
+    """
+
+    _validation = {
+        "location_name": {"required": True},
+    }
+
+    _attribute_map = {
+        "location_name": {"key": "locationName", "type": "str"},
+    }
+
+    def __init__(self, *, location_name: str, **kwargs: Any) -> None:
+        """
+        :keyword location_name: The location name. Required.
+        :paramtype location_name: str
+        """
+        super().__init__(**kwargs)
+        self.location_name = location_name
+
+
 class ManagedServiceIdentity(_serialization.Model):
     """Managed service identity (system assigned and/or user assigned identities).
 
@@ -981,6 +1052,13 @@ class MapsAccountProperties(_serialization.Model):
      it is possible to disable platform (AKA infrastructure) encryption. Azure SQL TDE is an example
      of this. Values are enabled and disabled.
     :vartype encryption: ~azure.mgmt.maps.models.Encryption
+    :ivar locations: Sets data processing locations. If no locations are defined, Azure REST APIs
+     will only enable features available in the Map account's location.
+
+     Please refer to `Azure Maps Data Processing Locations
+     <https://https://learn.microsoft.com/en-us/azure/azure-maps/>`_ for features enabled on select
+     locations.
+    :vartype locations: list[~azure.mgmt.maps.models.LocationsItem]
     """
 
     _validation = {
@@ -996,6 +1074,7 @@ class MapsAccountProperties(_serialization.Model):
         "linked_resources": {"key": "linkedResources", "type": "[LinkedResource]"},
         "cors": {"key": "cors", "type": "CorsRules"},
         "encryption": {"key": "encryption", "type": "Encryption"},
+        "locations": {"key": "locations", "type": "[LocationsItem]"},
     }
 
     def __init__(
@@ -1005,6 +1084,7 @@ class MapsAccountProperties(_serialization.Model):
         linked_resources: Optional[List["_models.LinkedResource"]] = None,
         cors: Optional["_models.CorsRules"] = None,
         encryption: Optional["_models.Encryption"] = None,
+        locations: Optional[List["_models.LocationsItem"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -1025,6 +1105,13 @@ class MapsAccountProperties(_serialization.Model):
          where it is possible to disable platform (AKA infrastructure) encryption. Azure SQL TDE is an
          example of this. Values are enabled and disabled.
         :paramtype encryption: ~azure.mgmt.maps.models.Encryption
+        :keyword locations: Sets data processing locations. If no locations are defined, Azure REST
+         APIs will only enable features available in the Map account's location.
+
+         Please refer to `Azure Maps Data Processing Locations
+         <https://https://learn.microsoft.com/en-us/azure/azure-maps/>`_ for features enabled on select
+         locations.
+        :paramtype locations: list[~azure.mgmt.maps.models.LocationsItem]
         """
         super().__init__(**kwargs)
         self.unique_id = None
@@ -1033,6 +1120,7 @@ class MapsAccountProperties(_serialization.Model):
         self.linked_resources = linked_resources
         self.cors = cors
         self.encryption = encryption
+        self.locations = locations
 
 
 class MapsAccounts(_serialization.Model):
@@ -1091,7 +1179,7 @@ class MapsAccountSasToken(_serialization.Model):
         self.account_sas_token = None
 
 
-class MapsAccountUpdateParameters(_serialization.Model):
+class MapsAccountUpdateParameters(_serialization.Model):  # pylint: disable=too-many-instance-attributes
     """Parameters used to update an existing Maps Account.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1129,6 +1217,13 @@ class MapsAccountUpdateParameters(_serialization.Model):
      it is possible to disable platform (AKA infrastructure) encryption. Azure SQL TDE is an example
      of this. Values are enabled and disabled.
     :vartype encryption: ~azure.mgmt.maps.models.Encryption
+    :ivar locations: Sets data processing locations. If no locations are defined, Azure REST APIs
+     will only enable features available in the Map account's location.
+
+     Please refer to `Azure Maps Data Processing Locations
+     <https://https://learn.microsoft.com/en-us/azure/azure-maps/>`_ for features enabled on select
+     locations.
+    :vartype locations: list[~azure.mgmt.maps.models.LocationsItem]
     """
 
     _validation = {
@@ -1148,6 +1243,7 @@ class MapsAccountUpdateParameters(_serialization.Model):
         "linked_resources": {"key": "properties.linkedResources", "type": "[LinkedResource]"},
         "cors": {"key": "properties.cors", "type": "CorsRules"},
         "encryption": {"key": "properties.encryption", "type": "Encryption"},
+        "locations": {"key": "properties.locations", "type": "[LocationsItem]"},
     }
 
     def __init__(
@@ -1161,6 +1257,7 @@ class MapsAccountUpdateParameters(_serialization.Model):
         linked_resources: Optional[List["_models.LinkedResource"]] = None,
         cors: Optional["_models.CorsRules"] = None,
         encryption: Optional["_models.Encryption"] = None,
+        locations: Optional[List["_models.LocationsItem"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -1192,6 +1289,13 @@ class MapsAccountUpdateParameters(_serialization.Model):
          where it is possible to disable platform (AKA infrastructure) encryption. Azure SQL TDE is an
          example of this. Values are enabled and disabled.
         :paramtype encryption: ~azure.mgmt.maps.models.Encryption
+        :keyword locations: Sets data processing locations. If no locations are defined, Azure REST
+         APIs will only enable features available in the Map account's location.
+
+         Please refer to `Azure Maps Data Processing Locations
+         <https://https://learn.microsoft.com/en-us/azure/azure-maps/>`_ for features enabled on select
+         locations.
+        :paramtype locations: list[~azure.mgmt.maps.models.LocationsItem]
         """
         super().__init__(**kwargs)
         self.tags = tags
@@ -1204,6 +1308,7 @@ class MapsAccountUpdateParameters(_serialization.Model):
         self.linked_resources = linked_resources
         self.cors = cors
         self.encryption = encryption
+        self.locations = locations
 
 
 class MapsKeySpecification(_serialization.Model):

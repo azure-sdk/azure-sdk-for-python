@@ -21,6 +21,7 @@ from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorDetail
 from ._models_py3 import ErrorResponse
 from ._models_py3 import LinkedResource
+from ._models_py3 import LocationsItem
 from ._models_py3 import ManagedServiceIdentity
 from ._models_py3 import MapsAccount
 from ._models_py3 import MapsAccountKeys
@@ -68,6 +69,7 @@ __all__ = [
     "ErrorDetail",
     "ErrorResponse",
     "LinkedResource",
+    "LocationsItem",
     "ManagedServiceIdentity",
     "MapsAccount",
     "MapsAccountKeys",
