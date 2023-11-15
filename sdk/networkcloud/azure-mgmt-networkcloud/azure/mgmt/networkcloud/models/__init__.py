@@ -9,6 +9,7 @@
 from ._models_py3 import AadConfiguration
 from ._models_py3 import AdministrativeCredentials
 from ._models_py3 import AdministratorConfiguration
+from ._models_py3 import AdministratorConfigurationPatch
 from ._models_py3 import AgentOptions
 from ._models_py3 import AgentPool
 from ._models_py3 import AgentPoolConfiguration
@@ -52,6 +53,9 @@ from ._models_py3 import ClusterMetricsConfiguration
 from ._models_py3 import ClusterMetricsConfigurationList
 from ._models_py3 import ClusterMetricsConfigurationPatchParameters
 from ._models_py3 import ClusterPatchParameters
+from ._models_py3 import ClusterScanRuntimeParameters
+from ._models_py3 import ClusterSecretArchive
+from ._models_py3 import ClusterUpdateStrategy
 from ._models_py3 import ClusterUpdateVersionParameters
 from ._models_py3 import Console
 from ._models_py3 import ConsoleList
@@ -95,6 +99,7 @@ from ._models_py3 import NetworkAttachment
 from ._models_py3 import NetworkConfiguration
 from ._models_py3 import NetworkInterface
 from ._models_py3 import Nic
+from ._models_py3 import NodePoolAdministratorConfigurationPatch
 from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
 from ._models_py3 import OperationListResult
@@ -107,6 +112,8 @@ from ._models_py3 import RackPatchParameters
 from ._models_py3 import RackSku
 from ._models_py3 import RackSkuList
 from ._models_py3 import Resource
+from ._models_py3 import RuntimeProtectionConfiguration
+from ._models_py3 import RuntimeProtectionStatus
 from ._models_py3 import ServiceLoadBalancerBgpPeer
 from ._models_py3 import ServicePrincipalInformation
 from ._models_py3 import SshPublicKey
@@ -169,7 +176,10 @@ from ._network_cloud_mgmt_client_enums import ClusterManagerProvisioningState
 from ._network_cloud_mgmt_client_enums import ClusterMetricsConfigurationDetailedStatus
 from ._network_cloud_mgmt_client_enums import ClusterMetricsConfigurationProvisioningState
 from ._network_cloud_mgmt_client_enums import ClusterProvisioningState
+from ._network_cloud_mgmt_client_enums import ClusterScanRuntimeParametersScanActivity
+from ._network_cloud_mgmt_client_enums import ClusterSecretArchiveEnabled
 from ._network_cloud_mgmt_client_enums import ClusterType
+from ._network_cloud_mgmt_client_enums import ClusterUpdateStrategyType
 from ._network_cloud_mgmt_client_enums import ConsoleDetailedStatus
 from ._network_cloud_mgmt_client_enums import ConsoleEnabled
 from ._network_cloud_mgmt_client_enums import ConsoleProvisioningState
@@ -205,6 +215,7 @@ from ._network_cloud_mgmt_client_enums import RackSkuProvisioningState
 from ._network_cloud_mgmt_client_enums import RackSkuType
 from ._network_cloud_mgmt_client_enums import RemoteVendorManagementFeature
 from ._network_cloud_mgmt_client_enums import RemoteVendorManagementStatus
+from ._network_cloud_mgmt_client_enums import RuntimeProtectionEnforcementLevel
 from ._network_cloud_mgmt_client_enums import SkipShutdown
 from ._network_cloud_mgmt_client_enums import StorageApplianceDetailedStatus
 from ._network_cloud_mgmt_client_enums import StorageApplianceProvisioningState
@@ -234,6 +245,7 @@ __all__ = [
     "AadConfiguration",
     "AdministrativeCredentials",
     "AdministratorConfiguration",
+    "AdministratorConfigurationPatch",
     "AgentOptions",
     "AgentPool",
     "AgentPoolConfiguration",
@@ -277,6 +289,9 @@ __all__ = [
     "ClusterMetricsConfigurationList",
     "ClusterMetricsConfigurationPatchParameters",
     "ClusterPatchParameters",
+    "ClusterScanRuntimeParameters",
+    "ClusterSecretArchive",
+    "ClusterUpdateStrategy",
     "ClusterUpdateVersionParameters",
     "Console",
     "ConsoleList",
@@ -320,6 +335,7 @@ __all__ = [
     "NetworkConfiguration",
     "NetworkInterface",
     "Nic",
+    "NodePoolAdministratorConfigurationPatch",
     "Operation",
     "OperationDisplay",
     "OperationListResult",
@@ -332,6 +348,8 @@ __all__ = [
     "RackSku",
     "RackSkuList",
     "Resource",
+    "RuntimeProtectionConfiguration",
+    "RuntimeProtectionStatus",
     "ServiceLoadBalancerBgpPeer",
     "ServicePrincipalInformation",
     "SshPublicKey",
@@ -393,7 +411,10 @@ __all__ = [
     "ClusterMetricsConfigurationDetailedStatus",
     "ClusterMetricsConfigurationProvisioningState",
     "ClusterProvisioningState",
+    "ClusterScanRuntimeParametersScanActivity",
+    "ClusterSecretArchiveEnabled",
     "ClusterType",
+    "ClusterUpdateStrategyType",
     "ConsoleDetailedStatus",
     "ConsoleEnabled",
     "ConsoleProvisioningState",
@@ -429,6 +450,7 @@ __all__ = [
     "RackSkuType",
     "RemoteVendorManagementFeature",
     "RemoteVendorManagementStatus",
+    "RuntimeProtectionEnforcementLevel",
     "SkipShutdown",
     "StorageApplianceDetailedStatus",
     "StorageApplianceProvisioningState",

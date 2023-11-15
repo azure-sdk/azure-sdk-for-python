@@ -14,7 +14,7 @@ from azure.mgmt.networkcloud import NetworkCloudMgmtClient
     pip install azure-identity
     pip install azure-mgmt-networkcloud
 # USAGE
-    python trunked_networks_delete.py
+    python clusters_patch_update_strategy.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,12 +29,13 @@ def main():
         subscription_id="123e4567-e89b-12d3-a456-426655440000",
     )
 
-    client.trunked_networks.begin_delete(
+    response = client.clusters.begin_update(
         resource_group_name="resourceGroupName",
-        trunked_network_name="trunkedNetworkName",
+        cluster_name="clusterName",
     ).result()
+    print(response)
 
 
-# x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2023-10-01-preview/examples/TrunkedNetworks_Delete.json
+# x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2023-10-01-preview/examples/Clusters_Patch_UpdateStrategy.json
 if __name__ == "__main__":
     main()

@@ -238,6 +238,7 @@ class ClusterConnectionStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The latest heartbeat status between the cluster manager and the cluster."""
 
     CONNECTED = "Connected"
+    DISCONNECTED = "Disconnected"
     TIMEOUT = "Timeout"
     UNDEFINED = "Undefined"
 
@@ -313,11 +314,31 @@ class ClusterProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     UPDATING = "Updating"
 
 
+class ClusterScanRuntimeParametersScanActivity(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The choice of if the scan operation should run the scan."""
+
+    SCAN = "Scan"
+    SKIP = "Skip"
+
+
+class ClusterSecretArchiveEnabled(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The indicator if the specified key vault should be used to archive the secrets of the cluster."""
+
+    TRUE = "True"
+    FALSE = "False"
+
+
 class ClusterType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of rack configuration for the cluster."""
 
     SINGLE_RACK = "SingleRack"
     MULTI_RACK = "MultiRack"
+
+
+class ClusterUpdateStrategyType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The mode of operation for runtime protection."""
+
+    RACK = "Rack"
 
 
 class ConsoleDetailedStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -328,7 +349,7 @@ class ConsoleDetailedStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class ConsoleEnabled(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The credentials used to login to the image repository that has access to the specified image."""
+    """The indicator of whether the console access is enabled."""
 
     TRUE = "True"
     FALSE = "False"
@@ -615,6 +636,16 @@ class RemoteVendorManagementStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta)
     ENABLED = "Enabled"
     DISABLED = "Disabled"
     UNSUPPORTED = "Unsupported"
+
+
+class RuntimeProtectionEnforcementLevel(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The mode of operation for runtime protection."""
+
+    AUDIT = "Audit"
+    DISABLED = "Disabled"
+    ON_DEMAND = "OnDemand"
+    PASSIVE = "Passive"
+    REAL_TIME = "RealTime"
 
 
 class SkipShutdown(str, Enum, metaclass=CaseInsensitiveEnumMeta):

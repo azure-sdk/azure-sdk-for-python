@@ -42,7 +42,7 @@ def main():
                 "availabilityZone": "1",
                 "rackLocation": "Rack 28",
                 "rackSerialNumber": "RACK_SERIAL_NUMBER",
-                "rackSkuId": "RACK-TYPE-1",
+                "rackSkuId": "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.NetworkCloud/rackSkus/rackSkuName",
             },
             "tags": {"key1": "myvalue1", "key2": "myvalue2"},
         },
@@ -50,6 +50,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/Racks_Create.json
+# x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2023-10-01-preview/examples/Racks_Create.json
 if __name__ == "__main__":
     main()
