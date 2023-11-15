@@ -1912,7 +1912,7 @@ class NetworkSecurityPerimeter(_serialization.Model):
         self.location = location
 
 
-class NetworkSecurityPerimeterConfiguration(Resource):
+class NetworkSecurityPerimeterConfiguration(ProxyResource):
     """Network Security Perimeter related configurations of a given namespace.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1922,9 +1922,11 @@ class NetworkSecurityPerimeterConfiguration(Resource):
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-     "Microsoft.Storage/storageAccounts".
+    :ivar type: The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or
+     "Microsoft.EventHub/Namespaces/EventHubs".
     :vartype type: str
+    :ivar location: The geo-location where the resource lives.
+    :vartype location: str
     :ivar provisioning_state: Provisioning state of NetworkSecurityPerimeter configuration
      propagation. Known values are: "Unknown", "Creating", "Updating", "Accepted",
      "InvalidResponse", "Succeeded", "SucceededWithIssues", "Failed", "Deleting", "Deleted", and
@@ -1949,6 +1951,7 @@ class NetworkSecurityPerimeterConfiguration(Resource):
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "location": {"readonly": True},
         "network_security_perimeter": {"readonly": True},
         "resource_association": {"readonly": True},
         "profile": {"readonly": True},
@@ -1958,6 +1961,7 @@ class NetworkSecurityPerimeterConfiguration(Resource):
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "location": {"key": "location", "type": "str"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "provisioning_issues": {"key": "properties.provisioningIssues", "type": "[ProvisioningIssue]"},
         "network_security_perimeter": {
@@ -2735,15 +2739,15 @@ class RetentionDescription(_serialization.Model):
     """Properties to configure retention settings for the  eventhub.
 
     :ivar cleanup_policy: Enumerates the possible values for cleanup policy. Known values are:
-     "Delete" and "Compaction".
+     "Delete" and "Compact".
     :vartype cleanup_policy: str or
      ~azure.mgmt.eventhub.v2022_10_01_preview.models.CleanupPolicyRetentionDescription
     :ivar retention_time_in_hours: Number of hours to retain the events for this Event Hub. This
-     value is only used when cleanupPolicy is Delete. If cleanupPolicy is Compaction the returned
-     value of this property is Long.MaxValue.
+     value is only used when cleanupPolicy is Delete. If cleanupPolicy is Compact the returned value
+     of this property is Long.MaxValue.
     :vartype retention_time_in_hours: int
     :ivar tombstone_retention_time_in_hours: Number of hours to retain the tombstone markers of a
-     compacted Event Hub. This value is only used when cleanupPolicy is Compaction. Consumer must
+     compacted Event Hub. This value is only used when cleanupPolicy is Compact. Consumer must
      complete reading the tombstone marker within this specified amount of time if consumer begins
      from starting offset to ensure they get a valid snapshot for the specific key described by the
      tombstone marker within the compacted Event Hub.
@@ -2766,15 +2770,15 @@ class RetentionDescription(_serialization.Model):
     ) -> None:
         """
         :keyword cleanup_policy: Enumerates the possible values for cleanup policy. Known values are:
-         "Delete" and "Compaction".
+         "Delete" and "Compact".
         :paramtype cleanup_policy: str or
          ~azure.mgmt.eventhub.v2022_10_01_preview.models.CleanupPolicyRetentionDescription
         :keyword retention_time_in_hours: Number of hours to retain the events for this Event Hub. This
-         value is only used when cleanupPolicy is Delete. If cleanupPolicy is Compaction the returned
-         value of this property is Long.MaxValue.
+         value is only used when cleanupPolicy is Delete. If cleanupPolicy is Compact the returned value
+         of this property is Long.MaxValue.
         :paramtype retention_time_in_hours: int
         :keyword tombstone_retention_time_in_hours: Number of hours to retain the tombstone markers of
-         a compacted Event Hub. This value is only used when cleanupPolicy is Compaction. Consumer must
+         a compacted Event Hub. This value is only used when cleanupPolicy is Compact. Consumer must
          complete reading the tombstone marker within this specified amount of time if consumer begins
          from starting offset to ensure they get a valid snapshot for the specific key described by the
          tombstone marker within the compacted Event Hub.
