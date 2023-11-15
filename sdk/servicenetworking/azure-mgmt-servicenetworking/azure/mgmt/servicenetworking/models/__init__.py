@@ -8,14 +8,17 @@
 
 from ._models_py3 import Association
 from ._models_py3 import AssociationListResult
+from ._models_py3 import AssociationProperties
 from ._models_py3 import AssociationSubnet
 from ._models_py3 import AssociationSubnetUpdate
 from ._models_py3 import AssociationUpdate
+from ._models_py3 import AssociationUpdateProperties
 from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorDetail
 from ._models_py3 import ErrorResponse
 from ._models_py3 import Frontend
 from ._models_py3 import FrontendListResult
+from ._models_py3 import FrontendProperties
 from ._models_py3 import FrontendUpdate
 from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
@@ -26,6 +29,7 @@ from ._models_py3 import SystemData
 from ._models_py3 import TrackedResource
 from ._models_py3 import TrafficController
 from ._models_py3 import TrafficControllerListResult
+from ._models_py3 import TrafficControllerProperties
 from ._models_py3 import TrafficControllerUpdate
 
 from ._service_networking_mgmt_client_enums import ActionType
@@ -40,14 +44,17 @@ from ._patch import patch_sdk as _patch_sdk
 __all__ = [
     "Association",
     "AssociationListResult",
+    "AssociationProperties",
     "AssociationSubnet",
     "AssociationSubnetUpdate",
     "AssociationUpdate",
+    "AssociationUpdateProperties",
     "ErrorAdditionalInfo",
     "ErrorDetail",
     "ErrorResponse",
     "Frontend",
     "FrontendListResult",
+    "FrontendProperties",
     "FrontendUpdate",
     "Operation",
     "OperationDisplay",
@@ -58,6 +65,7 @@ __all__ = [
     "TrackedResource",
     "TrafficController",
     "TrafficControllerListResult",
+    "TrafficControllerProperties",
     "TrafficControllerUpdate",
     "ActionType",
     "AssociationType",

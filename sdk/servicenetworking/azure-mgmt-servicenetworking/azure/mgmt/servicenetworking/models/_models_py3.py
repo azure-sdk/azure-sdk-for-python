@@ -134,14 +134,8 @@ class Association(TrackedResource):
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
-    :ivar association_type: Association Type. "subnets"
-    :vartype association_type: str or ~azure.mgmt.servicenetworking.models.AssociationType
-    :ivar subnet: Association Subnet.
-    :vartype subnet: ~azure.mgmt.servicenetworking.models.AssociationSubnet
-    :ivar provisioning_state: Provisioning State of Traffic Controller Association Resource. Known
-     values are: "Provisioning", "Updating", "Deleting", "Accepted", "Succeeded", "Failed", and
-     "Canceled".
-    :vartype provisioning_state: str or ~azure.mgmt.servicenetworking.models.ProvisioningState
+    :ivar properties: The resource-specific properties for this resource.
+    :vartype properties: ~azure.mgmt.servicenetworking.models.AssociationProperties
     """
 
     _validation = {
@@ -150,7 +144,6 @@ class Association(TrackedResource):
         "type": {"readonly": True},
         "system_data": {"readonly": True},
         "location": {"required": True},
-        "provisioning_state": {"readonly": True},
     }
 
     _attribute_map = {
@@ -160,9 +153,7 @@ class Association(TrackedResource):
         "system_data": {"key": "systemData", "type": "SystemData"},
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
-        "association_type": {"key": "properties.associationType", "type": "str"},
-        "subnet": {"key": "properties.subnet", "type": "AssociationSubnet"},
-        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "properties": {"key": "properties", "type": "AssociationProperties"},
     }
 
     def __init__(
@@ -170,8 +161,7 @@ class Association(TrackedResource):
         *,
         location: str,
         tags: Optional[Dict[str, str]] = None,
-        association_type: Optional[Union[str, "_models.AssociationType"]] = None,
-        subnet: Optional["_models.AssociationSubnet"] = None,
+        properties: Optional["_models.AssociationProperties"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -179,15 +169,11 @@ class Association(TrackedResource):
         :paramtype tags: dict[str, str]
         :keyword location: The geo-location where the resource lives. Required.
         :paramtype location: str
-        :keyword association_type: Association Type. "subnets"
-        :paramtype association_type: str or ~azure.mgmt.servicenetworking.models.AssociationType
-        :keyword subnet: Association Subnet.
-        :paramtype subnet: ~azure.mgmt.servicenetworking.models.AssociationSubnet
+        :keyword properties: The resource-specific properties for this resource.
+        :paramtype properties: ~azure.mgmt.servicenetworking.models.AssociationProperties
         """
         super().__init__(tags=tags, location=location, **kwargs)
-        self.association_type = association_type
-        self.subnet = subnet
-        self.provisioning_state = None
+        self.properties = properties
 
 
 class AssociationListResult(_serialization.Model):
@@ -220,6 +206,53 @@ class AssociationListResult(_serialization.Model):
         super().__init__(**kwargs)
         self.value = value
         self.next_link = next_link
+
+
+class AssociationProperties(_serialization.Model):
+    """Association Properties.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar association_type: Association Type. Required. "subnets"
+    :vartype association_type: str or ~azure.mgmt.servicenetworking.models.AssociationType
+    :ivar subnet: Association Subnet.
+    :vartype subnet: ~azure.mgmt.servicenetworking.models.AssociationSubnet
+    :ivar provisioning_state: Provisioning State of Traffic Controller Association Resource. Known
+     values are: "Provisioning", "Updating", "Deleting", "Accepted", "Succeeded", "Failed", and
+     "Canceled".
+    :vartype provisioning_state: str or ~azure.mgmt.servicenetworking.models.ProvisioningState
+    """
+
+    _validation = {
+        "association_type": {"required": True},
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "association_type": {"key": "associationType", "type": "str"},
+        "subnet": {"key": "subnet", "type": "AssociationSubnet"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        association_type: Union[str, "_models.AssociationType"],
+        subnet: Optional["_models.AssociationSubnet"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword association_type: Association Type. Required. "subnets"
+        :paramtype association_type: str or ~azure.mgmt.servicenetworking.models.AssociationType
+        :keyword subnet: Association Subnet.
+        :paramtype subnet: ~azure.mgmt.servicenetworking.models.AssociationSubnet
+        """
+        super().__init__(**kwargs)
+        self.association_type = association_type
+        self.subnet = subnet
+        self.provisioning_state = None
 
 
 class AssociationSubnet(_serialization.Model):
@@ -273,6 +306,36 @@ class AssociationUpdate(_serialization.Model):
 
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
+    :ivar properties: The updatable properties of the Association.
+    :vartype properties: ~azure.mgmt.servicenetworking.models.AssociationUpdateProperties
+    """
+
+    _attribute_map = {
+        "tags": {"key": "tags", "type": "{str}"},
+        "properties": {"key": "properties", "type": "AssociationUpdateProperties"},
+    }
+
+    def __init__(
+        self,
+        *,
+        tags: Optional[Dict[str, str]] = None,
+        properties: Optional["_models.AssociationUpdateProperties"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword properties: The updatable properties of the Association.
+        :paramtype properties: ~azure.mgmt.servicenetworking.models.AssociationUpdateProperties
+        """
+        super().__init__(**kwargs)
+        self.tags = tags
+        self.properties = properties
+
+
+class AssociationUpdateProperties(_serialization.Model):
+    """The updatable properties of the Association.
+
     :ivar association_type: Association Type. "subnets"
     :vartype association_type: str or ~azure.mgmt.servicenetworking.models.AssociationType
     :ivar subnet: Association Subnet.
@@ -280,29 +343,24 @@ class AssociationUpdate(_serialization.Model):
     """
 
     _attribute_map = {
-        "tags": {"key": "tags", "type": "{str}"},
-        "association_type": {"key": "properties.associationType", "type": "str"},
-        "subnet": {"key": "properties.subnet", "type": "AssociationSubnetUpdate"},
+        "association_type": {"key": "associationType", "type": "str"},
+        "subnet": {"key": "subnet", "type": "AssociationSubnetUpdate"},
     }
 
     def __init__(
         self,
         *,
-        tags: Optional[Dict[str, str]] = None,
         association_type: Optional[Union[str, "_models.AssociationType"]] = None,
         subnet: Optional["_models.AssociationSubnetUpdate"] = None,
         **kwargs: Any
     ) -> None:
         """
-        :keyword tags: Resource tags.
-        :paramtype tags: dict[str, str]
         :keyword association_type: Association Type. "subnets"
         :paramtype association_type: str or ~azure.mgmt.servicenetworking.models.AssociationType
         :keyword subnet: Association Subnet.
         :paramtype subnet: ~azure.mgmt.servicenetworking.models.AssociationSubnetUpdate
         """
         super().__init__(**kwargs)
-        self.tags = tags
         self.association_type = association_type
         self.subnet = subnet
 
@@ -421,13 +479,8 @@ class Frontend(TrackedResource):
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
-    :ivar fqdn: The Fully Qualified Domain Name of the DNS record associated to a Traffic
-     Controller frontend.
-    :vartype fqdn: str
-    :ivar provisioning_state: Provisioning State of Traffic Controller Frontend Resource. Known
-     values are: "Provisioning", "Updating", "Deleting", "Accepted", "Succeeded", "Failed", and
-     "Canceled".
-    :vartype provisioning_state: str or ~azure.mgmt.servicenetworking.models.ProvisioningState
+    :ivar properties: The resource-specific properties for this resource.
+    :vartype properties: ~azure.mgmt.servicenetworking.models.FrontendProperties
     """
 
     _validation = {
@@ -436,8 +489,6 @@ class Frontend(TrackedResource):
         "type": {"readonly": True},
         "system_data": {"readonly": True},
         "location": {"required": True},
-        "fqdn": {"readonly": True},
-        "provisioning_state": {"readonly": True},
     }
 
     _attribute_map = {
@@ -447,20 +498,27 @@ class Frontend(TrackedResource):
         "system_data": {"key": "systemData", "type": "SystemData"},
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
-        "fqdn": {"key": "properties.fqdn", "type": "str"},
-        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "properties": {"key": "properties", "type": "FrontendProperties"},
     }
 
-    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        *,
+        location: str,
+        tags: Optional[Dict[str, str]] = None,
+        properties: Optional["_models.FrontendProperties"] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
         :keyword location: The geo-location where the resource lives. Required.
         :paramtype location: str
+        :keyword properties: The resource-specific properties for this resource.
+        :paramtype properties: ~azure.mgmt.servicenetworking.models.FrontendProperties
         """
         super().__init__(tags=tags, location=location, **kwargs)
-        self.fqdn = None
-        self.provisioning_state = None
+        self.properties = properties
 
 
 class FrontendListResult(_serialization.Model):
@@ -493,6 +551,37 @@ class FrontendListResult(_serialization.Model):
         super().__init__(**kwargs)
         self.value = value
         self.next_link = next_link
+
+
+class FrontendProperties(_serialization.Model):
+    """Frontend Properties.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar fqdn: The Fully Qualified Domain Name of the DNS record associated to a Traffic
+     Controller frontend.
+    :vartype fqdn: str
+    :ivar provisioning_state: Provisioning State of Traffic Controller Frontend Resource. Known
+     values are: "Provisioning", "Updating", "Deleting", "Accepted", "Succeeded", "Failed", and
+     "Canceled".
+    :vartype provisioning_state: str or ~azure.mgmt.servicenetworking.models.ProvisioningState
+    """
+
+    _validation = {
+        "fqdn": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "fqdn": {"key": "fqdn", "type": "str"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.fqdn = None
+        self.provisioning_state = None
 
 
 class FrontendUpdate(_serialization.Model):
@@ -749,15 +838,8 @@ class TrafficController(TrackedResource):
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
-    :ivar configuration_endpoints: Configuration Endpoints.
-    :vartype configuration_endpoints: list[str]
-    :ivar frontends: Frontends References List.
-    :vartype frontends: list[~azure.mgmt.servicenetworking.models.ResourceId]
-    :ivar associations: Associations References List.
-    :vartype associations: list[~azure.mgmt.servicenetworking.models.ResourceId]
-    :ivar provisioning_state: The status of the last operation. Known values are: "Provisioning",
-     "Updating", "Deleting", "Accepted", "Succeeded", "Failed", and "Canceled".
-    :vartype provisioning_state: str or ~azure.mgmt.servicenetworking.models.ProvisioningState
+    :ivar properties: The resource-specific properties for this resource.
+    :vartype properties: ~azure.mgmt.servicenetworking.models.TrafficControllerProperties
     """
 
     _validation = {
@@ -766,10 +848,6 @@ class TrafficController(TrackedResource):
         "type": {"readonly": True},
         "system_data": {"readonly": True},
         "location": {"required": True},
-        "configuration_endpoints": {"readonly": True},
-        "frontends": {"readonly": True},
-        "associations": {"readonly": True},
-        "provisioning_state": {"readonly": True},
     }
 
     _attribute_map = {
@@ -779,24 +857,27 @@ class TrafficController(TrackedResource):
         "system_data": {"key": "systemData", "type": "SystemData"},
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
-        "configuration_endpoints": {"key": "properties.configurationEndpoints", "type": "[str]"},
-        "frontends": {"key": "properties.frontends", "type": "[ResourceId]"},
-        "associations": {"key": "properties.associations", "type": "[ResourceId]"},
-        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "properties": {"key": "properties", "type": "TrafficControllerProperties"},
     }
 
-    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        *,
+        location: str,
+        tags: Optional[Dict[str, str]] = None,
+        properties: Optional["_models.TrafficControllerProperties"] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
         :keyword location: The geo-location where the resource lives. Required.
         :paramtype location: str
+        :keyword properties: The resource-specific properties for this resource.
+        :paramtype properties: ~azure.mgmt.servicenetworking.models.TrafficControllerProperties
         """
         super().__init__(tags=tags, location=location, **kwargs)
-        self.configuration_endpoints = None
-        self.frontends = None
-        self.associations = None
-        self.provisioning_state = None
+        self.properties = properties
 
 
 class TrafficControllerListResult(_serialization.Model):
@@ -831,6 +912,45 @@ class TrafficControllerListResult(_serialization.Model):
         super().__init__(**kwargs)
         self.value = value
         self.next_link = next_link
+
+
+class TrafficControllerProperties(_serialization.Model):
+    """Traffic Controller Properties.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar configuration_endpoints: Configuration Endpoints.
+    :vartype configuration_endpoints: list[str]
+    :ivar frontends: Frontends References List.
+    :vartype frontends: list[~azure.mgmt.servicenetworking.models.ResourceId]
+    :ivar associations: Associations References List.
+    :vartype associations: list[~azure.mgmt.servicenetworking.models.ResourceId]
+    :ivar provisioning_state: The status of the last operation. Known values are: "Provisioning",
+     "Updating", "Deleting", "Accepted", "Succeeded", "Failed", and "Canceled".
+    :vartype provisioning_state: str or ~azure.mgmt.servicenetworking.models.ProvisioningState
+    """
+
+    _validation = {
+        "configuration_endpoints": {"readonly": True},
+        "frontends": {"readonly": True},
+        "associations": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "configuration_endpoints": {"key": "configurationEndpoints", "type": "[str]"},
+        "frontends": {"key": "frontends", "type": "[ResourceId]"},
+        "associations": {"key": "associations", "type": "[ResourceId]"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.configuration_endpoints = None
+        self.frontends = None
+        self.associations = None
+        self.provisioning_state = None
 
 
 class TrafficControllerUpdate(_serialization.Model):
