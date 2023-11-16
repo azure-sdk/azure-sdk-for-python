@@ -14,7 +14,7 @@ from azure.mgmt.hybridcontainerservice import HybridContainerServiceMgmtClient
     pip install azure-identity
     pip install azure-mgmt-hybridcontainerservice
 # USAGE
-    python list_orchestrators.py
+    python provisioned_cluster_instance_get_upgrade_profile.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,12 +29,12 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.hybrid_container_service.list_orchestrators(
-        custom_location_resource_uri="subscriptions/a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b/resourceGroups/test-arcappliance-resgrp/providers/Microsoft.ExtendedLocation/customLocations/testcustomlocation",
+    response = client.provisioned_cluster_instances.get_upgrade_profile(
+        connected_cluster_resource_uri="subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/testrg/providers/Microsoft.Kubernetes/connectedClusters/test-hybridakscluster",
     )
     print(response)
 
 
-# x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2022-09-01-preview/examples/ListOrchestrators.json
+# x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2023-11-15-preview/examples/ProvisionedClusterInstanceGetUpgradeProfile.json
 if __name__ == "__main__":
     main()

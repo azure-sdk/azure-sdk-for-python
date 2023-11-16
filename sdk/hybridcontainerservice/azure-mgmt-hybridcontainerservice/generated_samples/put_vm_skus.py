@@ -14,7 +14,7 @@ from azure.mgmt.hybridcontainerservice import HybridContainerServiceMgmtClient
     pip install azure-identity
     pip install azure-mgmt-hybridcontainerservice
 # USAGE
-    python put_storage_space.py
+    python put_vm_skus.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,30 +26,21 @@ from azure.mgmt.hybridcontainerservice import HybridContainerServiceMgmtClient
 def main():
     client = HybridContainerServiceMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b",
+        subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.storage_spaces.begin_create_or_update(
-        resource_group_name="test-arcappliance-resgrp",
-        storage_spaces_name="test-storage",
-        storage_spaces={
+    response = client.begin_put_vm_skus(
+        custom_location_resource_uri="subscriptions/a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b/resourceGroups/test-arcappliance-resgrp/providers/Microsoft.ExtendedLocation/customLocations/testcustomlocation",
+        skus={
             "extendedLocation": {
                 "name": "/subscriptions/a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b/resourcegroups/test-arcappliance-resgrp/providers/microsoft.extendedlocation/customlocations/testcustomlocation",
                 "type": "CustomLocation",
-            },
-            "location": "westus",
-            "properties": {
-                "hciStorageProfile": {
-                    "mocGroup": "target-group",
-                    "mocLocation": "MocLocation",
-                    "mocStorageContainer": "WssdStorageContainer",
-                }
-            },
+            }
         },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2022-09-01-preview/examples/PutStorageSpace.json
+# x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2023-11-15-preview/examples/PutVmSkus.json
 if __name__ == "__main__":
     main()
