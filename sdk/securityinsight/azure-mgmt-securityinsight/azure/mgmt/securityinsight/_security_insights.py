@@ -20,38 +20,18 @@ from .operations import (
     AlertRuleTemplatesOperations,
     AlertRulesOperations,
     AutomationRulesOperations,
-    BookmarkOperations,
-    BookmarkRelationsOperations,
     BookmarksOperations,
-    DataConnectorsCheckRequirementsOperations,
     DataConnectorsOperations,
-    DomainWhoisOperations,
-    EntitiesGetTimelineOperations,
-    EntitiesOperations,
-    EntitiesRelationsOperations,
-    EntityQueriesOperations,
-    EntityQueryTemplatesOperations,
-    EntityRelationsOperations,
-    FileImportsOperations,
-    GetOperations,
-    GetRecommendationsOperations,
-    IPGeodataOperations,
     IncidentCommentsOperations,
     IncidentRelationsOperations,
-    IncidentTasksOperations,
     IncidentsOperations,
     MetadataOperations,
-    OfficeConsentsOperations,
     Operations,
-    ProductSettingsOperations,
     SecurityMLAnalyticsSettingsOperations,
     SentinelOnboardingStatesOperations,
-    SourceControlOperations,
-    SourceControlsOperations,
     ThreatIntelligenceIndicatorMetricsOperations,
     ThreatIntelligenceIndicatorOperations,
     ThreatIntelligenceIndicatorsOperations,
-    UpdateOperations,
     WatchlistItemsOperations,
     WatchlistsOperations,
 )
@@ -73,63 +53,24 @@ class SecurityInsights:  # pylint: disable=client-accepts-api-version-keyword,to
      azure.mgmt.securityinsight.operations.AlertRuleTemplatesOperations
     :ivar automation_rules: AutomationRulesOperations operations
     :vartype automation_rules: azure.mgmt.securityinsight.operations.AutomationRulesOperations
-    :ivar incidents: IncidentsOperations operations
-    :vartype incidents: azure.mgmt.securityinsight.operations.IncidentsOperations
     :ivar bookmarks: BookmarksOperations operations
     :vartype bookmarks: azure.mgmt.securityinsight.operations.BookmarksOperations
-    :ivar bookmark_relations: BookmarkRelationsOperations operations
-    :vartype bookmark_relations: azure.mgmt.securityinsight.operations.BookmarkRelationsOperations
-    :ivar bookmark: BookmarkOperations operations
-    :vartype bookmark: azure.mgmt.securityinsight.operations.BookmarkOperations
-    :ivar ip_geodata: IPGeodataOperations operations
-    :vartype ip_geodata: azure.mgmt.securityinsight.operations.IPGeodataOperations
-    :ivar domain_whois: DomainWhoisOperations operations
-    :vartype domain_whois: azure.mgmt.securityinsight.operations.DomainWhoisOperations
-    :ivar entities: EntitiesOperations operations
-    :vartype entities: azure.mgmt.securityinsight.operations.EntitiesOperations
-    :ivar entities_get_timeline: EntitiesGetTimelineOperations operations
-    :vartype entities_get_timeline:
-     azure.mgmt.securityinsight.operations.EntitiesGetTimelineOperations
-    :ivar entities_relations: EntitiesRelationsOperations operations
-    :vartype entities_relations: azure.mgmt.securityinsight.operations.EntitiesRelationsOperations
-    :ivar entity_relations: EntityRelationsOperations operations
-    :vartype entity_relations: azure.mgmt.securityinsight.operations.EntityRelationsOperations
-    :ivar entity_queries: EntityQueriesOperations operations
-    :vartype entity_queries: azure.mgmt.securityinsight.operations.EntityQueriesOperations
-    :ivar entity_query_templates: EntityQueryTemplatesOperations operations
-    :vartype entity_query_templates:
-     azure.mgmt.securityinsight.operations.EntityQueryTemplatesOperations
-    :ivar file_imports: FileImportsOperations operations
-    :vartype file_imports: azure.mgmt.securityinsight.operations.FileImportsOperations
+    :ivar data_connectors: DataConnectorsOperations operations
+    :vartype data_connectors: azure.mgmt.securityinsight.operations.DataConnectorsOperations
+    :ivar incidents: IncidentsOperations operations
+    :vartype incidents: azure.mgmt.securityinsight.operations.IncidentsOperations
     :ivar incident_comments: IncidentCommentsOperations operations
     :vartype incident_comments: azure.mgmt.securityinsight.operations.IncidentCommentsOperations
     :ivar incident_relations: IncidentRelationsOperations operations
     :vartype incident_relations: azure.mgmt.securityinsight.operations.IncidentRelationsOperations
-    :ivar incident_tasks: IncidentTasksOperations operations
-    :vartype incident_tasks: azure.mgmt.securityinsight.operations.IncidentTasksOperations
     :ivar metadata: MetadataOperations operations
     :vartype metadata: azure.mgmt.securityinsight.operations.MetadataOperations
-    :ivar office_consents: OfficeConsentsOperations operations
-    :vartype office_consents: azure.mgmt.securityinsight.operations.OfficeConsentsOperations
     :ivar sentinel_onboarding_states: SentinelOnboardingStatesOperations operations
     :vartype sentinel_onboarding_states:
      azure.mgmt.securityinsight.operations.SentinelOnboardingStatesOperations
-    :ivar get_recommendations: GetRecommendationsOperations operations
-    :vartype get_recommendations:
-     azure.mgmt.securityinsight.operations.GetRecommendationsOperations
-    :ivar get: GetOperations operations
-    :vartype get: azure.mgmt.securityinsight.operations.GetOperations
-    :ivar update: UpdateOperations operations
-    :vartype update: azure.mgmt.securityinsight.operations.UpdateOperations
     :ivar security_ml_analytics_settings: SecurityMLAnalyticsSettingsOperations operations
     :vartype security_ml_analytics_settings:
      azure.mgmt.securityinsight.operations.SecurityMLAnalyticsSettingsOperations
-    :ivar product_settings: ProductSettingsOperations operations
-    :vartype product_settings: azure.mgmt.securityinsight.operations.ProductSettingsOperations
-    :ivar source_control: SourceControlOperations operations
-    :vartype source_control: azure.mgmt.securityinsight.operations.SourceControlOperations
-    :ivar source_controls: SourceControlsOperations operations
-    :vartype source_controls: azure.mgmt.securityinsight.operations.SourceControlsOperations
     :ivar threat_intelligence_indicator: ThreatIntelligenceIndicatorOperations operations
     :vartype threat_intelligence_indicator:
      azure.mgmt.securityinsight.operations.ThreatIntelligenceIndicatorOperations
@@ -144,11 +85,6 @@ class SecurityInsights:  # pylint: disable=client-accepts-api-version-keyword,to
     :vartype watchlists: azure.mgmt.securityinsight.operations.WatchlistsOperations
     :ivar watchlist_items: WatchlistItemsOperations operations
     :vartype watchlist_items: azure.mgmt.securityinsight.operations.WatchlistItemsOperations
-    :ivar data_connectors: DataConnectorsOperations operations
-    :vartype data_connectors: azure.mgmt.securityinsight.operations.DataConnectorsOperations
-    :ivar data_connectors_check_requirements: DataConnectorsCheckRequirementsOperations operations
-    :vartype data_connectors_check_requirements:
-     azure.mgmt.securityinsight.operations.DataConnectorsCheckRequirementsOperations
     :ivar operations: Operations operations
     :vartype operations: azure.mgmt.securityinsight.operations.Operations
     :param credential: Credential needed for the client to connect to Azure. Required.
@@ -157,11 +93,9 @@ class SecurityInsights:  # pylint: disable=client-accepts-api-version-keyword,to
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2022-12-01-preview". Note that overriding
-     this default value may result in unsupported behavior.
+    :keyword api_version: Api Version. Default value is "2023-11-01". Note that overriding this
+     default value may result in unsupported behavior.
     :paramtype api_version: str
-    :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-     Retry-After header is present.
     """
 
     def __init__(
@@ -172,7 +106,7 @@ class SecurityInsights:  # pylint: disable=client-accepts-api-version-keyword,to
         **kwargs: Any
     ) -> None:
         self._config = SecurityInsightsConfiguration(credential=credential, subscription_id=subscription_id, **kwargs)
-        self._client = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        self._client: ARMPipelineClient = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
@@ -186,54 +120,22 @@ class SecurityInsights:  # pylint: disable=client-accepts-api-version-keyword,to
         self.automation_rules = AutomationRulesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
-        self.incidents = IncidentsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.bookmarks = BookmarksOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.bookmark_relations = BookmarkRelationsOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.bookmark = BookmarkOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.ip_geodata = IPGeodataOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.domain_whois = DomainWhoisOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.entities = EntitiesOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.entities_get_timeline = EntitiesGetTimelineOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.entities_relations = EntitiesRelationsOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.entity_relations = EntityRelationsOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.entity_queries = EntityQueriesOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.entity_query_templates = EntityQueryTemplatesOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.file_imports = FileImportsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.data_connectors = DataConnectorsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.incidents = IncidentsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.incident_comments = IncidentCommentsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.incident_relations = IncidentRelationsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
-        self.incident_tasks = IncidentTasksOperations(self._client, self._config, self._serialize, self._deserialize)
         self.metadata = MetadataOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.office_consents = OfficeConsentsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.sentinel_onboarding_states = SentinelOnboardingStatesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
-        self.get_recommendations = GetRecommendationsOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.get = GetOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.update = UpdateOperations(self._client, self._config, self._serialize, self._deserialize)
         self.security_ml_analytics_settings = SecurityMLAnalyticsSettingsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
-        self.product_settings = ProductSettingsOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.source_control = SourceControlOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.source_controls = SourceControlsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.threat_intelligence_indicator = ThreatIntelligenceIndicatorOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
@@ -245,10 +147,6 @@ class SecurityInsights:  # pylint: disable=client-accepts-api-version-keyword,to
         )
         self.watchlists = WatchlistsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.watchlist_items = WatchlistItemsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.data_connectors = DataConnectorsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.data_connectors_check_requirements = DataConnectorsCheckRequirementsOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> HttpResponse:
@@ -280,5 +178,5 @@ class SecurityInsights:  # pylint: disable=client-accepts-api-version-keyword,to
         self._client.__enter__()
         return self
 
-    def __exit__(self, *exc_details) -> None:
+    def __exit__(self, *exc_details: Any) -> None:
         self._client.__exit__(*exc_details)
