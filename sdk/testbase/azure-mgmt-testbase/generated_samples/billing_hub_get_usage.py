@@ -26,7 +26,7 @@ from azure.mgmt.testbase import TestBase
 def main():
     client = TestBase(
         credential=DefaultAzureCredential(),
-        subscription_id="7b053408-0960-40b0-b950-99b0461aa9a8",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
     response = client.billing_hub_service.get_usage(
@@ -36,6 +36,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/testbase/resource-manager/Microsoft.TestBase/preview/2022-04-01-preview/examples/BillingHubGetUsage.json
+# x-ms-original-file: specification/testbase/resource-manager/Microsoft.TestBase/preview/2023-11-01-preview/examples/BillingHubGetUsage.json
 if __name__ == "__main__":
     main()
