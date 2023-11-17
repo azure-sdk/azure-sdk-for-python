@@ -12,17 +12,31 @@ from typing import Any, TYPE_CHECKING
 from azure.core.rest import HttpRequest, HttpResponse
 from azure.mgmt.core import ARMPipelineClient
 
-from . import models
+from . import models as _models
 from ._configuration import TestBaseConfiguration
 from ._serialization import Deserializer, Serializer
 from .operations import (
+    ActionRequestsOperations,
     AnalysisResultsOperations,
+    AvailableInplaceUpgradeOSOperations,
     AvailableOSOperations,
     BillingHubServiceOperations,
+    ChatSessionOperations,
+    ChatSessionsOperations,
+    CredentialOperations,
+    CredentialsOperations,
+    CustomImagesOperations,
     CustomerEventsOperations,
+    DraftPackagesOperations,
     EmailEventsOperations,
     FavoriteProcessesOperations,
+    FeatureUpdateSupportedOsesOperations,
+    FirstPartyAppsOperations,
     FlightingRingsOperations,
+    FreeHourBalancesOperations,
+    GalleryAppSkusOperations,
+    GalleryAppsOperations,
+    ImageDefinitionsOperations,
     OSUpdatesOperations,
     Operations,
     PackagesOperations,
@@ -32,6 +46,7 @@ from .operations import (
     TestSummariesOperations,
     TestTypesOperations,
     UsageOperations,
+    VHDsOperations,
 )
 
 if TYPE_CHECKING:
@@ -40,8 +55,24 @@ if TYPE_CHECKING:
 
 
 class TestBase:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
-    """Test Base.
+    """Restful APIs for Test Base Action Requests.
 
+    :ivar action_requests: ActionRequestsOperations operations
+    :vartype action_requests: azure.mgmt.testbase.operations.ActionRequestsOperations
+    :ivar chat_sessions: ChatSessionsOperations operations
+    :vartype chat_sessions: azure.mgmt.testbase.operations.ChatSessionsOperations
+    :ivar chat_session: ChatSessionOperations operations
+    :vartype chat_session: azure.mgmt.testbase.operations.ChatSessionOperations
+    :ivar custom_images: CustomImagesOperations operations
+    :vartype custom_images: azure.mgmt.testbase.operations.CustomImagesOperations
+    :ivar image_definitions: ImageDefinitionsOperations operations
+    :vartype image_definitions: azure.mgmt.testbase.operations.ImageDefinitionsOperations
+    :ivar vhds: VHDsOperations operations
+    :vartype vhds: azure.mgmt.testbase.operations.VHDsOperations
+    :ivar draft_packages: DraftPackagesOperations operations
+    :vartype draft_packages: azure.mgmt.testbase.operations.DraftPackagesOperations
+    :ivar free_hour_balances: FreeHourBalancesOperations operations
+    :vartype free_hour_balances: azure.mgmt.testbase.operations.FreeHourBalancesOperations
     :ivar skus: SkusOperations operations
     :vartype skus: azure.mgmt.testbase.operations.SkusOperations
     :ivar test_base_accounts: TestBaseAccountsOperations operations
@@ -50,8 +81,17 @@ class TestBase:  # pylint: disable=client-accepts-api-version-keyword,too-many-i
     :vartype usage: azure.mgmt.testbase.operations.UsageOperations
     :ivar available_os: AvailableOSOperations operations
     :vartype available_os: azure.mgmt.testbase.operations.AvailableOSOperations
+    :ivar feature_update_supported_oses: FeatureUpdateSupportedOsesOperations operations
+    :vartype feature_update_supported_oses:
+     azure.mgmt.testbase.operations.FeatureUpdateSupportedOsesOperations
     :ivar flighting_rings: FlightingRingsOperations operations
     :vartype flighting_rings: azure.mgmt.testbase.operations.FlightingRingsOperations
+    :ivar first_party_apps: FirstPartyAppsOperations operations
+    :vartype first_party_apps: azure.mgmt.testbase.operations.FirstPartyAppsOperations
+    :ivar gallery_apps: GalleryAppsOperations operations
+    :vartype gallery_apps: azure.mgmt.testbase.operations.GalleryAppsOperations
+    :ivar gallery_app_skus: GalleryAppSkusOperations operations
+    :vartype gallery_app_skus: azure.mgmt.testbase.operations.GalleryAppSkusOperations
     :ivar test_types: TestTypesOperations operations
     :vartype test_types: azure.mgmt.testbase.operations.TestTypesOperations
     :ivar packages: PackagesOperations operations
@@ -74,13 +114,20 @@ class TestBase:  # pylint: disable=client-accepts-api-version-keyword,too-many-i
     :vartype operations: azure.mgmt.testbase.operations.Operations
     :ivar billing_hub_service: BillingHubServiceOperations operations
     :vartype billing_hub_service: azure.mgmt.testbase.operations.BillingHubServiceOperations
+    :ivar available_inplace_upgrade_os: AvailableInplaceUpgradeOSOperations operations
+    :vartype available_inplace_upgrade_os:
+     azure.mgmt.testbase.operations.AvailableInplaceUpgradeOSOperations
+    :ivar credential: CredentialOperations operations
+    :vartype credential: azure.mgmt.testbase.operations.CredentialOperations
+    :ivar credentials: CredentialsOperations operations
+    :vartype credentials: azure.mgmt.testbase.operations.CredentialsOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
-    :param subscription_id: The Azure subscription ID. This is a GUID-formatted string. Required.
+    :param subscription_id: The ID of the target subscription. The value must be an UUID. Required.
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2022-04-01-preview". Note that overriding
+    :keyword api_version: Api Version. Default value is "2023-11-01-preview". Note that overriding
      this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -95,19 +142,37 @@ class TestBase:  # pylint: disable=client-accepts-api-version-keyword,too-many-i
         **kwargs: Any
     ) -> None:
         self._config = TestBaseConfiguration(credential=credential, subscription_id=subscription_id, **kwargs)
-        self._client = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        self._client: ARMPipelineClient = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
-        client_models = {k: v for k, v in models.__dict__.items() if isinstance(v, type)}
+        client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
+        self.action_requests = ActionRequestsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.chat_sessions = ChatSessionsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.chat_session = ChatSessionOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.custom_images = CustomImagesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.image_definitions = ImageDefinitionsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.vhds = VHDsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.draft_packages = DraftPackagesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.free_hour_balances = FreeHourBalancesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.skus = SkusOperations(self._client, self._config, self._serialize, self._deserialize)
         self.test_base_accounts = TestBaseAccountsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.usage = UsageOperations(self._client, self._config, self._serialize, self._deserialize)
         self.available_os = AvailableOSOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.feature_update_supported_oses = FeatureUpdateSupportedOsesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.flighting_rings = FlightingRingsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.first_party_apps = FirstPartyAppsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.gallery_apps = GalleryAppsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.gallery_app_skus = GalleryAppSkusOperations(self._client, self._config, self._serialize, self._deserialize)
         self.test_types = TestTypesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.packages = PackagesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.test_summaries = TestSummariesOperations(self._client, self._config, self._serialize, self._deserialize)
@@ -125,6 +190,11 @@ class TestBase:  # pylint: disable=client-accepts-api-version-keyword,too-many-i
         self.billing_hub_service = BillingHubServiceOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.available_inplace_upgrade_os = AvailableInplaceUpgradeOSOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.credential = CredentialOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.credentials = CredentialsOperations(self._client, self._config, self._serialize, self._deserialize)
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> HttpResponse:
         """Runs the network request through the client's chained policies.
@@ -148,15 +218,12 @@ class TestBase:  # pylint: disable=client-accepts-api-version-keyword,too-many-i
         request_copy.url = self._client.format_url(request_copy.url)
         return self._client.send_request(request_copy, **kwargs)
 
-    def close(self):
-        # type: () -> None
+    def close(self) -> None:
         self._client.close()
 
-    def __enter__(self):
-        # type: () -> TestBase
+    def __enter__(self) -> "TestBase":
         self._client.__enter__()
         return self
 
-    def __exit__(self, *exc_details):
-        # type: (Any) -> None
+    def __exit__(self, *exc_details: Any) -> None:
         self._client.__exit__(*exc_details)

@@ -8,24 +8,205 @@
 # --------------------------------------------------------------------------
 
 import datetime
-import sys
 from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
 from .. import _serialization
 
-if sys.version_info >= (3, 9):
-    from collections.abc import MutableMapping
-else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
-
 if TYPE_CHECKING:
     # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
-JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
+
+
+class Resource(_serialization.Model):
+    """Common fields that are returned in the response for all Azure Resource Manager resources.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.testbase.models.SystemData
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.id = None
+        self.name = None
+        self.type = None
+        self.system_data = None
+
+
+class ProxyResource(Resource):
+    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
+    tags and a location.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.testbase.models.SystemData
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+
+
+class ActionRequest(ProxyResource):
+    """ActionRequest.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.testbase.models.SystemData
+    :ivar provisioning_state: The provisioning state of the resource. Known values are:
+     "Succeeded", "Failed", "Cancelled", "Creating", "Deleting", and "Updating".
+    :vartype provisioning_state: str or ~azure.mgmt.testbase.models.ProvisioningState
+    :ivar request_type: "PreReleaseAccess"
+    :vartype request_type: str or ~azure.mgmt.testbase.models.RequestTypes
+    :ivar pre_release_access_request_spec:
+    :vartype pre_release_access_request_spec:
+     ~azure.mgmt.testbase.models.PreReleaseAccessRequestSpec
+    :ivar creation_date:
+    :vartype creation_date: ~datetime.datetime
+    :ivar status: Known values are: "InReview", "Approved", and "Declined".
+    :vartype status: str or ~azure.mgmt.testbase.models.RequestStatus
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+        "creation_date": {"readonly": True},
+        "status": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "request_type": {"key": "properties.requestType", "type": "str"},
+        "pre_release_access_request_spec": {
+            "key": "properties.preReleaseAccessRequestSpec",
+            "type": "PreReleaseAccessRequestSpec",
+        },
+        "creation_date": {"key": "properties.creationDate", "type": "iso-8601"},
+        "status": {"key": "properties.status", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        request_type: Optional[Union[str, "_models.RequestTypes"]] = None,
+        pre_release_access_request_spec: Optional["_models.PreReleaseAccessRequestSpec"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword request_type: "PreReleaseAccess"
+        :paramtype request_type: str or ~azure.mgmt.testbase.models.RequestTypes
+        :keyword pre_release_access_request_spec:
+        :paramtype pre_release_access_request_spec:
+         ~azure.mgmt.testbase.models.PreReleaseAccessRequestSpec
+        """
+        super().__init__(**kwargs)
+        self.provisioning_state = None
+        self.request_type = request_type
+        self.pre_release_access_request_spec = pre_release_access_request_spec
+        self.creation_date = None
+        self.status = None
+
+
+class ActionRequests(_serialization.Model):
+    """ActionRequests.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar value:
+    :vartype value: list[~azure.mgmt.testbase.models.ActionRequest]
+    :ivar next_link: Link to the next set of results. Not empty if value contains incomplete list
+     of results.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[ActionRequest]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, *, value: Optional[List["_models.ActionRequest"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword value:
+        :paramtype value: list[~azure.mgmt.testbase.models.ActionRequest]
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = None
 
 
 class AnalysisResultListResult(_serialization.Model):
-    """A list of Analysis Results. It will only contain one element as all the data will be nested in a singleton object.
+    """A list of Analysis Results. It will only contain one element as all the data will be nested in
+    a singleton object.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -45,7 +226,9 @@ class AnalysisResultListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.AnalysisResultSingletonResource"]] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.AnalysisResultSingletonResource"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: The list of Analysis Results.
         :paramtype value: list[~azure.mgmt.testbase.models.AnalysisResultSingletonResource]
@@ -55,84 +238,24 @@ class AnalysisResultListResult(_serialization.Model):
         self.next_link = None
 
 
-class Resource(_serialization.Model):
-    """The Resource definition.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar id: Resource ID.
-    :vartype id: str
-    :ivar name: Resource name.
-    :vartype name: str
-    :ivar type: Resource type.
-    :vartype type: str
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-    }
-
-    def __init__(self, **kwargs):
-        """ """
-        super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-
-
-class ProxyResource(Resource):
-    """The resource model definition for an ARM proxy resource. It will have everything other than required location and tags.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar id: Resource ID.
-    :vartype id: str
-    :ivar name: Resource name.
-    :vartype name: str
-    :ivar type: Resource type.
-    :vartype type: str
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-    }
-
-    def __init__(self, **kwargs):
-        """ """
-        super().__init__(**kwargs)
-
-
 class AnalysisResultSingletonResource(ProxyResource):
     """The Analysis Result Singleton Resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Resource ID.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
-    :ivar name: Resource name.
+    :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: Resource type.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar system_data: The system metadata relating to this resource.
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
     :vartype system_data: ~azure.mgmt.testbase.models.SystemData
-    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-     "Fail".
+    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", "Fail",
+     and "Pass".
     :vartype grade: str or ~azure.mgmt.testbase.models.Grade
     :ivar analysis_result_type: Type of the Analysis Result. Known values are: "ScriptExecution",
      "Reliability", "CPUUtilization", "MemoryUtilization", "CPURegression", "MemoryRegression", and
@@ -156,16 +279,15 @@ class AnalysisResultSingletonResource(ProxyResource):
         "analysis_result_type": {"key": "properties.analysisResultType", "type": "str"},
     }
 
-    def __init__(self, *, grade: Optional[Union[str, "_models.Grade"]] = None, **kwargs):
+    def __init__(self, *, grade: Optional[Union[str, "_models.Grade"]] = None, **kwargs: Any) -> None:
         """
-        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-         "Fail".
+        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass",
+         "Fail", and "Pass".
         :paramtype grade: str or ~azure.mgmt.testbase.models.Grade
         """
         super().__init__(**kwargs)
-        self.system_data = None
         self.grade = grade
-        self.analysis_result_type = None  # type: Optional[str]
+        self.analysis_result_type: Optional[str] = None
 
 
 class AnalysisResultSingletonResourceProperties(_serialization.Model):
@@ -181,8 +303,8 @@ class AnalysisResultSingletonResourceProperties(_serialization.Model):
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-     "Fail".
+    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", "Fail",
+     and "Pass".
     :vartype grade: str or ~azure.mgmt.testbase.models.Grade
     :ivar analysis_result_type: Type of the Analysis Result. Required. Known values are:
      "ScriptExecution", "Reliability", "CPUUtilization", "MemoryUtilization", "CPURegression",
@@ -211,15 +333,160 @@ class AnalysisResultSingletonResourceProperties(_serialization.Model):
         }
     }
 
-    def __init__(self, *, grade: Optional[Union[str, "_models.Grade"]] = None, **kwargs):
+    def __init__(self, *, grade: Optional[Union[str, "_models.Grade"]] = None, **kwargs: Any) -> None:
         """
-        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-         "Fail".
+        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass",
+         "Fail", and "Pass".
         :paramtype grade: str or ~azure.mgmt.testbase.models.Grade
         """
         super().__init__(**kwargs)
         self.grade = grade
-        self.analysis_result_type = None  # type: Optional[str]
+        self.analysis_result_type: Optional[str] = None
+
+
+class AnswerCitation(_serialization.Model):
+    """The answer citation.
+
+    :ivar title: The title of the citation.
+    :vartype title: str
+    :ivar url: The url of the citation.
+    :vartype url: str
+    :ivar chunk_index: The chunk index of the content.
+    :vartype chunk_index: int
+    """
+
+    _attribute_map = {
+        "title": {"key": "title", "type": "str"},
+        "url": {"key": "url", "type": "str"},
+        "chunk_index": {"key": "chunkIndex", "type": "int"},
+    }
+
+    def __init__(
+        self,
+        *,
+        title: Optional[str] = None,
+        url: Optional[str] = None,
+        chunk_index: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword title: The title of the citation.
+        :paramtype title: str
+        :keyword url: The url of the citation.
+        :paramtype url: str
+        :keyword chunk_index: The chunk index of the content.
+        :paramtype chunk_index: int
+        """
+        super().__init__(**kwargs)
+        self.title = title
+        self.url = url
+        self.chunk_index = chunk_index
+
+
+class AvailableInplaceUpgradeOSListResult(_serialization.Model):
+    """A list of available In-place Upgrade OSs.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar value: The list of available In-place Upgrade OS.
+    :vartype value: list[~azure.mgmt.testbase.models.AvailableInplaceUpgradeOSResource]
+    :ivar next_link: Link to the next set of results. Not empty if value contains incomplete list
+     of results.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[AvailableInplaceUpgradeOSResource]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: Optional[List["_models.AvailableInplaceUpgradeOSResource"]] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: The list of available In-place Upgrade OS.
+        :paramtype value: list[~azure.mgmt.testbase.models.AvailableInplaceUpgradeOSResource]
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = None
+
+
+class AvailableInplaceUpgradeOSResource(ProxyResource):
+    """The Available In-place Upgrade OS Map resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.testbase.models.SystemData
+    :ivar provisioning_state: The provisioning state of the resource. Known values are:
+     "Succeeded", "Failed", "Cancelled", "Creating", "Deleting", and "Updating".
+    :vartype provisioning_state: str or ~azure.mgmt.testbase.models.ProvisioningState
+    :ivar source_os_name: The name of an Available In-place Upgrade source OS of a Test Base
+     Account.
+    :vartype source_os_name: str
+    :ivar source_os_releases: The the release list of the source os.
+    :vartype source_os_releases: list[~azure.mgmt.testbase.models.ReleaseProperties]
+    :ivar supported_target_os_name_list: The list of the corresponding Available In-place Upgrade
+     target OS name of a Test Base Account.
+    :vartype supported_target_os_name_list: list[str]
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "source_os_name": {"key": "properties.sourceOsName", "type": "str"},
+        "source_os_releases": {"key": "properties.sourceOsReleases", "type": "[ReleaseProperties]"},
+        "supported_target_os_name_list": {"key": "properties.supportedTargetOsNameList", "type": "[str]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        source_os_name: Optional[str] = None,
+        source_os_releases: Optional[List["_models.ReleaseProperties"]] = None,
+        supported_target_os_name_list: Optional[List[str]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword source_os_name: The name of an Available In-place Upgrade source OS of a Test Base
+         Account.
+        :paramtype source_os_name: str
+        :keyword source_os_releases: The the release list of the source os.
+        :paramtype source_os_releases: list[~azure.mgmt.testbase.models.ReleaseProperties]
+        :keyword supported_target_os_name_list: The list of the corresponding Available In-place
+         Upgrade target OS name of a Test Base Account.
+        :paramtype supported_target_os_name_list: list[str]
+        """
+        super().__init__(**kwargs)
+        self.provisioning_state = None
+        self.source_os_name = source_os_name
+        self.source_os_releases = source_os_releases
+        self.supported_target_os_name_list = supported_target_os_name_list
 
 
 class AvailableOSListResult(_serialization.Model):
@@ -243,7 +510,7 @@ class AvailableOSListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.AvailableOSResource"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.AvailableOSResource"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The list of available OSs.
         :paramtype value: list[~azure.mgmt.testbase.models.AvailableOSResource]
@@ -258,13 +525,16 @@ class AvailableOSResource(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Resource ID.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
-    :ivar name: Resource name.
+    :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: Resource type.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar system_data: The system metadata relating to this resource.
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
     :vartype system_data: ~azure.mgmt.testbase.models.SystemData
     :ivar os_id: The Id of an Available OS of a Test Base Account.
     :vartype os_id: str
@@ -309,8 +579,8 @@ class AvailableOSResource(ProxyResource):
         insider_channel: Optional[str] = None,
         os_update_type: Optional[str] = None,
         os_platform: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword os_id: The Id of an Available OS of a Test Base Account.
         :paramtype os_id: str
@@ -326,7 +596,6 @@ class AvailableOSResource(ProxyResource):
         :paramtype os_platform: str
         """
         super().__init__(**kwargs)
-        self.system_data = None
         self.os_id = os_id
         self.os_name = os_name
         self.os_version = os_version
@@ -402,8 +671,8 @@ class BillingHubExecutionUsageDetail(_serialization.Model):  # pylint: disable=t
         used_free_hours: Optional[float] = None,
         used_billable_hours: Optional[float] = None,
         billed_charges: Optional[float] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword application_name:
         :paramtype application_name: str
@@ -454,6 +723,10 @@ class BillingHubExecutionUsageDetail(_serialization.Model):  # pylint: disable=t
 class BillingHubFreeHourIncrementEntry(_serialization.Model):
     """BillingHubFreeHourIncrementEntry.
 
+    :ivar free_hour_type: Known values are: "Permanent" and "Temporary".
+    :vartype free_hour_type: str or ~azure.mgmt.testbase.models.FreeHourType
+    :ivar free_hour_status: Known values are: "Enabled" and "Suspended".
+    :vartype free_hour_status: str or ~azure.mgmt.testbase.models.FreeHourStatus
     :ivar create_time_stamp:
     :vartype create_time_stamp: ~datetime.datetime
     :ivar expiration_time_stamp:
@@ -465,6 +738,8 @@ class BillingHubFreeHourIncrementEntry(_serialization.Model):
     """
 
     _attribute_map = {
+        "free_hour_type": {"key": "freeHourType", "type": "str"},
+        "free_hour_status": {"key": "freeHourStatus", "type": "str"},
         "create_time_stamp": {"key": "createTimeStamp", "type": "iso-8601"},
         "expiration_time_stamp": {"key": "expirationTimeStamp", "type": "iso-8601"},
         "incremental_free_hours": {"key": "incrementalFreeHours", "type": "float"},
@@ -474,13 +749,19 @@ class BillingHubFreeHourIncrementEntry(_serialization.Model):
     def __init__(
         self,
         *,
+        free_hour_type: Optional[Union[str, "_models.FreeHourType"]] = None,
+        free_hour_status: Optional[Union[str, "_models.FreeHourStatus"]] = None,
         create_time_stamp: Optional[datetime.datetime] = None,
         expiration_time_stamp: Optional[datetime.datetime] = None,
         incremental_free_hours: Optional[float] = None,
         remaining_free_hours: Optional[float] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
+        :keyword free_hour_type: Known values are: "Permanent" and "Temporary".
+        :paramtype free_hour_type: str or ~azure.mgmt.testbase.models.FreeHourType
+        :keyword free_hour_status: Known values are: "Enabled" and "Suspended".
+        :paramtype free_hour_status: str or ~azure.mgmt.testbase.models.FreeHourStatus
         :keyword create_time_stamp:
         :paramtype create_time_stamp: ~datetime.datetime
         :keyword expiration_time_stamp:
@@ -491,6 +772,8 @@ class BillingHubFreeHourIncrementEntry(_serialization.Model):
         :paramtype remaining_free_hours: float
         """
         super().__init__(**kwargs)
+        self.free_hour_type = free_hour_type
+        self.free_hour_status = free_hour_status
         self.create_time_stamp = create_time_stamp
         self.expiration_time_stamp = expiration_time_stamp
         self.incremental_free_hours = incremental_free_hours
@@ -516,8 +799,8 @@ class BillingHubGetFreeHourBalanceResponse(_serialization.Model):
         *,
         total_remaining_free_hours: Optional[float] = None,
         increment_entries: Optional[List["_models.BillingHubFreeHourIncrementEntry"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword total_remaining_free_hours:
         :paramtype total_remaining_free_hours: float
@@ -564,8 +847,8 @@ class BillingHubGetUsageRequest(_serialization.Model):
         end_time_stamp: datetime.datetime,
         page_size: Optional[int] = None,
         page_index: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword start_time_stamp: Required.
         :paramtype start_time_stamp: ~datetime.datetime
@@ -614,8 +897,8 @@ class BillingHubGetUsageResponse(_serialization.Model):
         total_charges: Optional[float] = None,
         package_usage_entries: Optional[List["_models.BillingHubPackageUsage"]] = None,
         next_request: Optional["_models.BillingHubGetUsageRequest"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword total_used_free_hours:
         :paramtype total_used_free_hours: float
@@ -679,8 +962,8 @@ class BillingHubPackageUsage(_serialization.Model):
         total_used_billable_hours: Optional[float] = None,
         total_charges: Optional[float] = None,
         usage_entries_grouped_by_update_type: Optional[List["_models.BillingHubUsageGroupedByUpdateType"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword application_name:
         :paramtype application_name: str
@@ -747,8 +1030,8 @@ class BillingHubUsage(_serialization.Model):
         total_used_billable_hours: Optional[float] = None,
         total_charges: Optional[float] = None,
         usage_groups: Optional[List["_models.BillingHubUsageGroup"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword application_name:
         :paramtype application_name: str
@@ -831,8 +1114,8 @@ class BillingHubUsageGroup(_serialization.Model):  # pylint: disable=too-many-in
         test_type: Optional[str] = None,
         product_family: Optional[str] = None,
         execution_usage_details: Optional[List["_models.BillingHubExecutionUsageDetail"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword total_used_free_hours:
         :paramtype total_used_free_hours: float
@@ -903,8 +1186,8 @@ class BillingHubUsageGroupedByUpdateType(_serialization.Model):
         total_used_billable_hours: Optional[float] = None,
         total_charges: Optional[float] = None,
         usage_groups: Optional[List["_models.BillingHubUsageGroup"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword update_type:
         :paramtype update_type: str
@@ -923,6 +1206,159 @@ class BillingHubUsageGroupedByUpdateType(_serialization.Model):
         self.total_used_billable_hours = total_used_billable_hours
         self.total_charges = total_charges
         self.usage_groups = usage_groups
+
+
+class ChatRequest(_serialization.Model):
+    """The chat request payload.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar question: The question of the chat turn. Required.
+    :vartype question: str
+    """
+
+    _validation = {
+        "question": {"required": True},
+    }
+
+    _attribute_map = {
+        "question": {"key": "question", "type": "str"},
+    }
+
+    def __init__(self, *, question: str, **kwargs: Any) -> None:
+        """
+        :keyword question: The question of the chat turn. Required.
+        :paramtype question: str
+        """
+        super().__init__(**kwargs)
+        self.question = question
+
+
+class ChatResponse(_serialization.Model):
+    """The chat response payload.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar question: The question from the request. Required.
+    :vartype question: str
+    :ivar answer: The answer from the system. Required.
+    :vartype answer: str
+    :ivar citations:
+    :vartype citations: list[~azure.mgmt.testbase.models.AnswerCitation]
+    :ivar usage: The usage of questions within the chat session. Required.
+    :vartype usage: int
+    :ivar limit: The limit of questions within the chat session. Required.
+    :vartype limit: int
+    """
+
+    _validation = {
+        "question": {"required": True},
+        "answer": {"required": True},
+        "usage": {"required": True, "readonly": True},
+        "limit": {"required": True, "readonly": True},
+    }
+
+    _attribute_map = {
+        "question": {"key": "properties.question", "type": "str"},
+        "answer": {"key": "properties.answer", "type": "str"},
+        "citations": {"key": "properties.citations", "type": "[AnswerCitation]"},
+        "usage": {"key": "properties.usage", "type": "int"},
+        "limit": {"key": "properties.limit", "type": "int"},
+    }
+
+    def __init__(
+        self, *, question: str, answer: str, citations: Optional[List["_models.AnswerCitation"]] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword question: The question from the request. Required.
+        :paramtype question: str
+        :keyword answer: The answer from the system. Required.
+        :paramtype answer: str
+        :keyword citations:
+        :paramtype citations: list[~azure.mgmt.testbase.models.AnswerCitation]
+        """
+        super().__init__(**kwargs)
+        self.question = question
+        self.answer = answer
+        self.citations = citations
+        self.usage = None
+        self.limit = None
+
+
+class ChatSessionResource(ProxyResource):
+    """The chat session resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.testbase.models.SystemData
+    :ivar provisioning_state: The provisioning state of the resource. Known values are:
+     "Succeeded", "Failed", "Cancelled", "Creating", "Deleting", and "Updating".
+    :vartype provisioning_state: str or ~azure.mgmt.testbase.models.ProvisioningState
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.provisioning_state = None
+
+
+class ChatSessionResourceListResult(_serialization.Model):
+    """A list of chat session.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar value: The list of chat session.
+    :vartype value: list[~azure.mgmt.testbase.models.ChatSessionResource]
+    :ivar next_link: Link to the next set of results. Not empty if value contains incomplete list
+     of results.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[ChatSessionResource]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, *, value: Optional[List["_models.ChatSessionResource"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword value: The list of chat session.
+        :paramtype value: list[~azure.mgmt.testbase.models.ChatSessionResource]
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = None
 
 
 class CheckNameAvailabilityResult(_serialization.Model):
@@ -952,8 +1388,12 @@ class CheckNameAvailabilityResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, name_available: Optional[bool] = None, reason: Optional[Union[str, "_models.Reason"]] = None, **kwargs
-    ):
+        self,
+        *,
+        name_available: Optional[bool] = None,
+        reason: Optional[Union[str, "_models.Reason"]] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name_available: Value indicating the availability of the name: true if the name is
          available; otherwise, false.
@@ -968,7 +1408,7 @@ class CheckNameAvailabilityResult(_serialization.Model):
         self.message = None
 
 
-class Command(_serialization.Model):
+class Command(_serialization.Model):  # pylint: disable=too-many-instance-attributes
     """The command used in the test.
 
     All required parameters must be populated in order to send to Azure.
@@ -976,7 +1416,7 @@ class Command(_serialization.Model):
     :ivar name: The name of the command. Required.
     :vartype name: str
     :ivar action: The action of the command. Required. Known values are: "Install", "Launch",
-     "Close", "Uninstall", and "Custom".
+     "Close", "Uninstall", "Custom", and "FlowDrivenCustom".
     :vartype action: str or ~azure.mgmt.testbase.models.Action
     :ivar content_type: The type of command content. Required. Known values are: "Inline", "File",
      and "Path".
@@ -995,6 +1435,17 @@ class Command(_serialization.Model):
     :vartype always_run: bool
     :ivar apply_update_before: Specifies whether to apply update before the command.
     :vartype apply_update_before: bool
+    :ivar install1_p_app_before: Specifies whether to install first party applications before
+     running the command.
+    :vartype install1_p_app_before: bool
+    :ivar pre_upgrade: Specifies whether the command is assigned to be executed before in-place
+     upgrade.
+    :vartype pre_upgrade: bool
+    :ivar post_upgrade: Specifies whether the command is assigned to be executed after in-place
+     upgrade.
+    :vartype post_upgrade: bool
+    :ivar enroll_intune_before: Specifies whether to enroll Intune before the command.
+    :vartype enroll_intune_before: bool
     """
 
     _validation = {
@@ -1015,6 +1466,10 @@ class Command(_serialization.Model):
         "run_as_interactive": {"key": "runAsInteractive", "type": "bool"},
         "always_run": {"key": "alwaysRun", "type": "bool"},
         "apply_update_before": {"key": "applyUpdateBefore", "type": "bool"},
+        "install1_p_app_before": {"key": "install1PAppBefore", "type": "bool"},
+        "pre_upgrade": {"key": "preUpgrade", "type": "bool"},
+        "post_upgrade": {"key": "postUpgrade", "type": "bool"},
+        "enroll_intune_before": {"key": "enrollIntuneBefore", "type": "bool"},
     }
 
     def __init__(
@@ -1030,13 +1485,17 @@ class Command(_serialization.Model):
         run_as_interactive: Optional[bool] = None,
         always_run: Optional[bool] = None,
         apply_update_before: Optional[bool] = None,
-        **kwargs
-    ):
+        install1_p_app_before: Optional[bool] = None,
+        pre_upgrade: Optional[bool] = None,
+        post_upgrade: Optional[bool] = None,
+        enroll_intune_before: Optional[bool] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: The name of the command. Required.
         :paramtype name: str
         :keyword action: The action of the command. Required. Known values are: "Install", "Launch",
-         "Close", "Uninstall", and "Custom".
+         "Close", "Uninstall", "Custom", and "FlowDrivenCustom".
         :paramtype action: str or ~azure.mgmt.testbase.models.Action
         :keyword content_type: The type of command content. Required. Known values are: "Inline",
          "File", and "Path".
@@ -1055,6 +1514,17 @@ class Command(_serialization.Model):
         :paramtype always_run: bool
         :keyword apply_update_before: Specifies whether to apply update before the command.
         :paramtype apply_update_before: bool
+        :keyword install1_p_app_before: Specifies whether to install first party applications before
+         running the command.
+        :paramtype install1_p_app_before: bool
+        :keyword pre_upgrade: Specifies whether the command is assigned to be executed before in-place
+         upgrade.
+        :paramtype pre_upgrade: bool
+        :keyword post_upgrade: Specifies whether the command is assigned to be executed after in-place
+         upgrade.
+        :paramtype post_upgrade: bool
+        :keyword enroll_intune_before: Specifies whether to enroll Intune before the command.
+        :paramtype enroll_intune_before: bool
         """
         super().__init__(**kwargs)
         self.name = name
@@ -1067,6 +1537,36 @@ class Command(_serialization.Model):
         self.run_as_interactive = run_as_interactive
         self.always_run = always_run
         self.apply_update_before = apply_update_before
+        self.install1_p_app_before = install1_p_app_before
+        self.pre_upgrade = pre_upgrade
+        self.post_upgrade = post_upgrade
+        self.enroll_intune_before = enroll_intune_before
+
+
+class CopyFromPackageOperationParameters(_serialization.Model):
+    """Parameters body to pass to copy-from-package operation of Draft Package.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar package_id: The id of the package to copy from. Required.
+    :vartype package_id: str
+    """
+
+    _validation = {
+        "package_id": {"required": True},
+    }
+
+    _attribute_map = {
+        "package_id": {"key": "packageId", "type": "str"},
+    }
+
+    def __init__(self, *, package_id: str, **kwargs: Any) -> None:
+        """
+        :keyword package_id: The id of the package to copy from. Required.
+        :paramtype package_id: str
+        """
+        super().__init__(**kwargs)
+        self.package_id = package_id
 
 
 class CPURegressionResultSingletonResourceProperties(AnalysisResultSingletonResourceProperties):
@@ -1074,8 +1574,8 @@ class CPURegressionResultSingletonResourceProperties(AnalysisResultSingletonReso
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-     "Fail".
+    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", "Fail",
+     and "Pass".
     :vartype grade: str or ~azure.mgmt.testbase.models.Grade
     :ivar analysis_result_type: Type of the Analysis Result. Required. Known values are:
      "ScriptExecution", "Reliability", "CPUUtilization", "MemoryUtilization", "CPURegression",
@@ -1100,17 +1600,17 @@ class CPURegressionResultSingletonResourceProperties(AnalysisResultSingletonReso
         *,
         grade: Optional[Union[str, "_models.Grade"]] = None,
         cpu_regression_results: Optional[List["_models.RegressionResult"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-         "Fail".
+        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass",
+         "Fail", and "Pass".
         :paramtype grade: str or ~azure.mgmt.testbase.models.Grade
         :keyword cpu_regression_results: The result array data.
         :paramtype cpu_regression_results: list[~azure.mgmt.testbase.models.RegressionResult]
         """
         super().__init__(grade=grade, **kwargs)
-        self.analysis_result_type = "CPURegression"  # type: str
+        self.analysis_result_type: str = "CPURegression"
         self.cpu_regression_results = cpu_regression_results
 
 
@@ -1119,8 +1619,8 @@ class CPUUtilizationResultSingletonResourceProperties(AnalysisResultSingletonRes
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-     "Fail".
+    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", "Fail",
+     and "Pass".
     :vartype grade: str or ~azure.mgmt.testbase.models.Grade
     :ivar analysis_result_type: Type of the Analysis Result. Required. Known values are:
      "ScriptExecution", "Reliability", "CPUUtilization", "MemoryUtilization", "CPURegression",
@@ -1145,18 +1645,133 @@ class CPUUtilizationResultSingletonResourceProperties(AnalysisResultSingletonRes
         *,
         grade: Optional[Union[str, "_models.Grade"]] = None,
         cpu_utilization_results: Optional[List["_models.UtilizationResult"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-         "Fail".
+        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass",
+         "Fail", and "Pass".
         :paramtype grade: str or ~azure.mgmt.testbase.models.Grade
         :keyword cpu_utilization_results: The result array data.
         :paramtype cpu_utilization_results: list[~azure.mgmt.testbase.models.UtilizationResult]
         """
         super().__init__(grade=grade, **kwargs)
-        self.analysis_result_type = "CPUUtilization"  # type: str
+        self.analysis_result_type: str = "CPUUtilization"
         self.cpu_utilization_results = cpu_utilization_results
+
+
+class CredentialListResult(_serialization.Model):
+    """A list of credential resources.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar value: The list of credential resources.
+    :vartype value: list[~azure.mgmt.testbase.models.CredentialResource]
+    :ivar next_link: Link to the next set of results. Not empty if value contains incomplete list
+     of results.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[CredentialResource]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, *, value: Optional[List["_models.CredentialResource"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword value: The list of credential resources.
+        :paramtype value: list[~azure.mgmt.testbase.models.CredentialResource]
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = None
+
+
+class CredentialProperties(_serialization.Model):
+    """The properties of test base credential.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    IntuneSingletonResourceProperties
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar credential_type: Credential type. Required. "IntuneAccount"
+    :vartype credential_type: str or ~azure.mgmt.testbase.models.CredentialType
+    :ivar display_name: Credential display name. Required.
+    :vartype display_name: str
+    """
+
+    _validation = {
+        "credential_type": {"required": True},
+        "display_name": {"required": True},
+    }
+
+    _attribute_map = {
+        "credential_type": {"key": "credentialType", "type": "str"},
+        "display_name": {"key": "displayName", "type": "str"},
+    }
+
+    _subtype_map = {"credential_type": {"IntuneAccount": "IntuneSingletonResourceProperties"}}
+
+    def __init__(self, *, display_name: str, **kwargs: Any) -> None:
+        """
+        :keyword display_name: Credential display name. Required.
+        :paramtype display_name: str
+        """
+        super().__init__(**kwargs)
+        self.credential_type: Optional[str] = None
+        self.display_name = display_name
+
+
+class CredentialResource(ProxyResource):
+    """The test base credential resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.testbase.models.SystemData
+    :ivar credential_type: Credential type. "IntuneAccount"
+    :vartype credential_type: str or ~azure.mgmt.testbase.models.CredentialType
+    :ivar display_name: Credential display name.
+    :vartype display_name: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "credential_type": {"key": "properties.credentialType", "type": "str"},
+        "display_name": {"key": "properties.displayName", "type": "str"},
+    }
+
+    def __init__(self, *, display_name: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword display_name: Credential display name.
+        :paramtype display_name: str
+        """
+        super().__init__(**kwargs)
+        self.credential_type: Optional[str] = None
+        self.display_name = display_name
 
 
 class CustomerEventListResult(_serialization.Model):
@@ -1180,7 +1795,7 @@ class CustomerEventListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.CustomerEventResource"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.CustomerEventResource"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The list of Test Base Customer Events.
         :paramtype value: list[~azure.mgmt.testbase.models.CustomerEventResource]
@@ -1195,13 +1810,16 @@ class CustomerEventResource(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Resource ID.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
-    :ivar name: Resource name.
+    :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: Resource type.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar system_data: The system metadata relating to this resource.
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
     :vartype system_data: ~azure.mgmt.testbase.models.SystemData
     :ivar event_name: The name of the event subscribed to.
     :vartype event_name: str
@@ -1230,8 +1848,8 @@ class CustomerEventResource(ProxyResource):
         *,
         event_name: Optional[str] = None,
         receivers: Optional[List["_models.NotificationEventReceiver"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword event_name: The name of the event subscribed to.
         :paramtype event_name: str
@@ -1239,9 +1857,156 @@ class CustomerEventResource(ProxyResource):
         :paramtype receivers: list[~azure.mgmt.testbase.models.NotificationEventReceiver]
         """
         super().__init__(**kwargs)
-        self.system_data = None
         self.event_name = event_name
         self.receivers = receivers
+
+
+class CustomImageListResult(_serialization.Model):
+    """A list of Test Base custom images.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar value: The list of Test Base custom images.
+    :vartype value: list[~azure.mgmt.testbase.models.CustomImageResource]
+    :ivar next_link: Link to the next set of results. Not empty if value contains incomplete list
+     of results.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[CustomImageResource]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, *, value: Optional[List["_models.CustomImageResource"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword value: The list of Test Base custom images.
+        :paramtype value: list[~azure.mgmt.testbase.models.CustomImageResource]
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = None
+
+
+class CustomImageResource(ProxyResource):  # pylint: disable=too-many-instance-attributes
+    """The test base custom image resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.testbase.models.SystemData
+    :ivar vhd_id: The Id of the associated VHD resource.
+    :vartype vhd_id: str
+    :ivar definition_name: Image definition name.
+    :vartype definition_name: str
+    :ivar version_name: Image version name.
+    :vartype version_name: str
+    :ivar source: Custom image source type. Known values are: "Unknown" and "VHD".
+    :vartype source: str or ~azure.mgmt.testbase.models.ImageSource
+    :ivar product: Product of the custom image.
+    :vartype product: str
+    :ivar release: Release of the custom image OS.
+    :vartype release: str
+    :ivar status: Status of the custom image. Known values are: "Unknown", "Ready", "Failed", and
+     "Validating".
+    :vartype status: str or ~azure.mgmt.testbase.models.ImageStatus
+    :ivar creation_time: The UTC timestamp when the custom image was published.
+    :vartype creation_time: ~datetime.datetime
+    :ivar validation_results: The validation result of the custom image.
+    :vartype validation_results: ~azure.mgmt.testbase.models.ImageValidationResults
+    :ivar os_disk_image_size_in_gb: This property indicates the size of the VHD to be created.
+    :vartype os_disk_image_size_in_gb: int
+    :ivar release_version_date: The release version date of the release of the custom image OS.
+    :vartype release_version_date: ~datetime.datetime
+    :ivar vhd_file_name: The file name of the associated VHD resource.
+    :vartype vhd_file_name: str
+    :ivar provisioning_state: The provisioning state of the resource. Known values are:
+     "Succeeded", "Failed", "Cancelled", "Creating", "Deleting", and "Updating".
+    :vartype provisioning_state: str or ~azure.mgmt.testbase.models.ProvisioningState
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "product": {"readonly": True},
+        "release": {"readonly": True},
+        "status": {"readonly": True},
+        "creation_time": {"readonly": True},
+        "validation_results": {"readonly": True},
+        "os_disk_image_size_in_gb": {"readonly": True},
+        "release_version_date": {"readonly": True},
+        "vhd_file_name": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "vhd_id": {"key": "properties.vhdId", "type": "str"},
+        "definition_name": {"key": "properties.definitionName", "type": "str"},
+        "version_name": {"key": "properties.versionName", "type": "str"},
+        "source": {"key": "properties.source", "type": "str"},
+        "product": {"key": "properties.product", "type": "str"},
+        "release": {"key": "properties.release", "type": "str"},
+        "status": {"key": "properties.status", "type": "str"},
+        "creation_time": {"key": "properties.creationTime", "type": "iso-8601"},
+        "validation_results": {"key": "properties.validationResults", "type": "ImageValidationResults"},
+        "os_disk_image_size_in_gb": {"key": "properties.osDiskImageSizeInGB", "type": "int"},
+        "release_version_date": {"key": "properties.releaseVersionDate", "type": "iso-8601"},
+        "vhd_file_name": {"key": "properties.vhdFileName", "type": "str"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        vhd_id: Optional[str] = None,
+        definition_name: Optional[str] = None,
+        version_name: Optional[str] = None,
+        source: Union[str, "_models.ImageSource"] = "VHD",
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword vhd_id: The Id of the associated VHD resource.
+        :paramtype vhd_id: str
+        :keyword definition_name: Image definition name.
+        :paramtype definition_name: str
+        :keyword version_name: Image version name.
+        :paramtype version_name: str
+        :keyword source: Custom image source type. Known values are: "Unknown" and "VHD".
+        :paramtype source: str or ~azure.mgmt.testbase.models.ImageSource
+        """
+        super().__init__(**kwargs)
+        self.vhd_id = vhd_id
+        self.definition_name = definition_name
+        self.version_name = version_name
+        self.source = source
+        self.product = None
+        self.release = None
+        self.status = None
+        self.creation_time = None
+        self.validation_results = None
+        self.os_disk_image_size_in_gb = None
+        self.release_version_date = None
+        self.vhd_file_name = None
+        self.provisioning_state = None
 
 
 class DistributionGroupListReceiverValue(_serialization.Model):
@@ -1255,7 +2020,7 @@ class DistributionGroupListReceiverValue(_serialization.Model):
         "distribution_groups": {"key": "distributionGroups", "type": "[str]"},
     }
 
-    def __init__(self, *, distribution_groups: Optional[List[str]] = None, **kwargs):
+    def __init__(self, *, distribution_groups: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
         :keyword distribution_groups: The list of distribution groups.
         :paramtype distribution_groups: list[str]
@@ -1285,11 +2050,677 @@ class DownloadURLResponse(_serialization.Model):
         "expiration_time": {"key": "expirationTime", "type": "iso-8601"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.download_url = None
         self.expiration_time = None
+
+
+class DraftPackageGetPathResponse(_serialization.Model):
+    """The response of getting a download URL.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar base_url: The base URL of the storage account.
+    :vartype base_url: str
+    :ivar draft_package_path: The relative path of the folder hosting package files.
+    :vartype draft_package_path: str
+    :ivar working_path: The relative path for a temporary folder for package creation work.
+    :vartype working_path: str
+    :ivar sas_token: A SAS token for the storage account to access workspace.
+    :vartype sas_token: str
+    :ivar expiration_time: Expiry date of the SAS token.
+    :vartype expiration_time: ~datetime.datetime
+    """
+
+    _validation = {
+        "base_url": {"readonly": True},
+        "draft_package_path": {"readonly": True},
+        "working_path": {"readonly": True},
+        "sas_token": {"readonly": True},
+        "expiration_time": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "base_url": {"key": "baseUrl", "type": "str"},
+        "draft_package_path": {"key": "draftPackagePath", "type": "str"},
+        "working_path": {"key": "workingPath", "type": "str"},
+        "sas_token": {"key": "sasToken", "type": "str"},
+        "expiration_time": {"key": "expirationTime", "type": "iso-8601"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.base_url = None
+        self.draft_package_path = None
+        self.working_path = None
+        self.sas_token = None
+        self.expiration_time = None
+
+
+class DraftPackageIntuneAppMetadata(_serialization.Model):
+    """The metadata of Intune app(s) used for generation.
+
+    :ivar intune_app: The Metadata of the Intune App through intunewin file uploading.
+    :vartype intune_app: ~azure.mgmt.testbase.models.DraftPackageIntuneAppMetadataItem
+    :ivar intune_app_dependencies: The Metadata of dependencies of the Intune App through intunewin
+     file uploading.
+    :vartype intune_app_dependencies:
+     list[~azure.mgmt.testbase.models.DraftPackageIntuneAppMetadataItem]
+    """
+
+    _attribute_map = {
+        "intune_app": {"key": "intuneApp", "type": "DraftPackageIntuneAppMetadataItem"},
+        "intune_app_dependencies": {"key": "intuneAppDependencies", "type": "[DraftPackageIntuneAppMetadataItem]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        intune_app: Optional["_models.DraftPackageIntuneAppMetadataItem"] = None,
+        intune_app_dependencies: Optional[List["_models.DraftPackageIntuneAppMetadataItem"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword intune_app: The Metadata of the Intune App through intunewin file uploading.
+        :paramtype intune_app: ~azure.mgmt.testbase.models.DraftPackageIntuneAppMetadataItem
+        :keyword intune_app_dependencies: The Metadata of dependencies of the Intune App through
+         intunewin file uploading.
+        :paramtype intune_app_dependencies:
+         list[~azure.mgmt.testbase.models.DraftPackageIntuneAppMetadataItem]
+        """
+        super().__init__(**kwargs)
+        self.intune_app = intune_app
+        self.intune_app_dependencies = intune_app_dependencies
+
+
+class DraftPackageIntuneAppMetadataItem(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+    """The Metadata of a single Intune App.
+
+    :ivar app_name: Intune app name.
+    :vartype app_name: str
+    :ivar version: Intune app version.
+    :vartype version: str
+    :ivar app_id: Intune app id.
+    :vartype app_id: str
+    :ivar publisher: Publisher of the app.
+    :vartype publisher: str
+    :ivar description: Description of the app.
+    :vartype description: str
+    :ivar owner: Owner of the app.
+    :vartype owner: str
+    :ivar create_date: Creation date of the app.
+    :vartype create_date: ~datetime.datetime
+    :ivar dependent_app_count: Count of dependency apps.
+    :vartype dependent_app_count: int
+    :ivar install_command: Install command.
+    :vartype install_command: str
+    :ivar uninstall_command: Uninstall command.
+    :vartype uninstall_command: str
+    :ivar last_processed: last processed time tickets.
+    :vartype last_processed: int
+    :ivar dependency_ids: Ids of dependency apps.
+    :vartype dependency_ids: list[str]
+    :ivar setup_file: Setup file path.
+    :vartype setup_file: str
+    :ivar minimum_supported_os: Minimum supported OS. The OS version must be greater than this
+     version to run this app.
+    :vartype minimum_supported_os: str
+    :ivar status: Extract status. Known values are: "Ready", "Uploading", "UploadFailed",
+     "ExtractFailed", and "NoDependencyApp".
+    :vartype status: str or ~azure.mgmt.testbase.models.IntuneExtractStatus
+    :ivar expected_exit_codes: Expected exit codes returned from Intune App.
+    :vartype expected_exit_codes: list[str]
+    """
+
+    _attribute_map = {
+        "app_name": {"key": "appName", "type": "str"},
+        "version": {"key": "version", "type": "str"},
+        "app_id": {"key": "appId", "type": "str"},
+        "publisher": {"key": "publisher", "type": "str"},
+        "description": {"key": "description", "type": "str"},
+        "owner": {"key": "owner", "type": "str"},
+        "create_date": {"key": "createDate", "type": "iso-8601"},
+        "dependent_app_count": {"key": "dependentAppCount", "type": "int"},
+        "install_command": {"key": "installCommand", "type": "str"},
+        "uninstall_command": {"key": "uninstallCommand", "type": "str"},
+        "last_processed": {"key": "lastProcessed", "type": "int"},
+        "dependency_ids": {"key": "dependencyIds", "type": "[str]"},
+        "setup_file": {"key": "setupFile", "type": "str"},
+        "minimum_supported_os": {"key": "minimumSupportedOS", "type": "str"},
+        "status": {"key": "status", "type": "str"},
+        "expected_exit_codes": {"key": "expectedExitCodes", "type": "[str]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        app_name: Optional[str] = None,
+        version: Optional[str] = None,
+        app_id: Optional[str] = None,
+        publisher: Optional[str] = None,
+        description: Optional[str] = None,
+        owner: Optional[str] = None,
+        create_date: Optional[datetime.datetime] = None,
+        dependent_app_count: Optional[int] = None,
+        install_command: Optional[str] = None,
+        uninstall_command: Optional[str] = None,
+        last_processed: Optional[int] = None,
+        dependency_ids: Optional[List[str]] = None,
+        setup_file: Optional[str] = None,
+        minimum_supported_os: Optional[str] = None,
+        status: Optional[Union[str, "_models.IntuneExtractStatus"]] = None,
+        expected_exit_codes: Optional[List[str]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword app_name: Intune app name.
+        :paramtype app_name: str
+        :keyword version: Intune app version.
+        :paramtype version: str
+        :keyword app_id: Intune app id.
+        :paramtype app_id: str
+        :keyword publisher: Publisher of the app.
+        :paramtype publisher: str
+        :keyword description: Description of the app.
+        :paramtype description: str
+        :keyword owner: Owner of the app.
+        :paramtype owner: str
+        :keyword create_date: Creation date of the app.
+        :paramtype create_date: ~datetime.datetime
+        :keyword dependent_app_count: Count of dependency apps.
+        :paramtype dependent_app_count: int
+        :keyword install_command: Install command.
+        :paramtype install_command: str
+        :keyword uninstall_command: Uninstall command.
+        :paramtype uninstall_command: str
+        :keyword last_processed: last processed time tickets.
+        :paramtype last_processed: int
+        :keyword dependency_ids: Ids of dependency apps.
+        :paramtype dependency_ids: list[str]
+        :keyword setup_file: Setup file path.
+        :paramtype setup_file: str
+        :keyword minimum_supported_os: Minimum supported OS. The OS version must be greater than this
+         version to run this app.
+        :paramtype minimum_supported_os: str
+        :keyword status: Extract status. Known values are: "Ready", "Uploading", "UploadFailed",
+         "ExtractFailed", and "NoDependencyApp".
+        :paramtype status: str or ~azure.mgmt.testbase.models.IntuneExtractStatus
+        :keyword expected_exit_codes: Expected exit codes returned from Intune App.
+        :paramtype expected_exit_codes: list[str]
+        """
+        super().__init__(**kwargs)
+        self.app_name = app_name
+        self.version = version
+        self.app_id = app_id
+        self.publisher = publisher
+        self.description = description
+        self.owner = owner
+        self.create_date = create_date
+        self.dependent_app_count = dependent_app_count
+        self.install_command = install_command
+        self.uninstall_command = uninstall_command
+        self.last_processed = last_processed
+        self.dependency_ids = dependency_ids
+        self.setup_file = setup_file
+        self.minimum_supported_os = minimum_supported_os
+        self.status = status
+        self.expected_exit_codes = expected_exit_codes
+
+
+class DraftPackageListResult(_serialization.Model):
+    """A list of Test Base Draft Packages.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar value: The list of Test Base Draft Packages.
+    :vartype value: list[~azure.mgmt.testbase.models.DraftPackageResource]
+    :ivar next_link: Link to the next set of results. Not empty if value contains incomplete list
+     of results.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[DraftPackageResource]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, *, value: Optional[List["_models.DraftPackageResource"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword value: The list of Test Base Draft Packages.
+        :paramtype value: list[~azure.mgmt.testbase.models.DraftPackageResource]
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = None
+
+
+class DraftPackageResource(ProxyResource):  # pylint: disable=too-many-instance-attributes
+    """The Test Base Draft Package resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.testbase.models.SystemData
+    :ivar application_name: Application name.
+    :vartype application_name: str
+    :ivar version: Application version.
+    :vartype version: str
+    :ivar draft_package_path: The relative path of the folder hosting package files.
+    :vartype draft_package_path: str
+    :ivar working_path: The relative path for a temporarily folder for package creation work.
+    :vartype working_path: str
+    :ivar app_file_name: The name of the app file.
+    :vartype app_file_name: str
+    :ivar source_type: The source type. Known values are: "Native", "IntuneWin", "TestBasePackage",
+     "GalleryApp", and "IntuneEnrollment".
+    :vartype source_type: str or ~azure.mgmt.testbase.models.DraftPackageSourceType
+    :ivar use_sample: Specifies whether a sample package should be used instead of the one uploaded
+     by the user.
+    :vartype use_sample: bool
+    :ivar comments: Comments added by user.
+    :vartype comments: str
+    :ivar intune_metadata: Metadata used to generate draft package folder and scripts.
+    :vartype intune_metadata: ~azure.mgmt.testbase.models.DraftPackageIntuneAppMetadata
+    :ivar highlighted_files: The highlight files in the package.
+    :vartype highlighted_files: list[~azure.mgmt.testbase.models.HighlightedFile]
+    :ivar package_tags: Tags of the package to be created.
+    :vartype package_tags: dict[str, str]
+    :ivar edit_package: Specifies whether this draft package is used to edit a package.
+    :vartype edit_package: bool
+    :ivar package_id: Specifies the package id from which the draft package copied.
+    :vartype package_id: str
+    :ivar use_autofill: Indicates whether user choose to enable script auto-fill.
+    :vartype use_autofill: bool
+    :ivar executable_launch_command: The executable launch command for script auto-fill. Will be
+     used to run the application.
+    :vartype executable_launch_command: str
+    :ivar process_name: The process name for script auto-fill. Will be used to identify the
+     application process.
+    :vartype process_name: str
+    :ivar tab_state: Tab state.
+    :vartype tab_state: ~azure.mgmt.testbase.models.TabState
+    :ivar test_types: OOB, functional or flow driven. Mapped to the data in 'tests' property.
+    :vartype test_types: list[str or ~azure.mgmt.testbase.models.TestType]
+    :ivar provisioning_state: The provisioning state of the resource. Known values are:
+     "Succeeded", "Failed", "Cancelled", "Creating", "Deleting", and "Updating".
+    :vartype provisioning_state: str or ~azure.mgmt.testbase.models.ProvisioningState
+    :ivar target_os_list: Specifies the target OSs of specific OS Update types.
+    :vartype target_os_list: list[~azure.mgmt.testbase.models.TargetOSInfo]
+    :ivar inplace_upgrade_os_pair: Specifies the baseline os and target os for inplace upgrade.
+    :vartype inplace_upgrade_os_pair: ~azure.mgmt.testbase.models.InplaceUpgradeOSInfo
+    :ivar last_modified_time: The UTC timestamp when the package was last modified.
+    :vartype last_modified_time: ~datetime.datetime
+    :ivar flighting_ring: The flighting ring for feature update.
+    :vartype flighting_ring: str
+    :ivar first_party_apps: The list of first party applications to test along with user
+     application.
+    :vartype first_party_apps: list[~azure.mgmt.testbase.models.FirstPartyAppDefinition]
+    :ivar gallery_apps: The list of gallery apps to test along with user application.
+    :vartype gallery_apps: list[~azure.mgmt.testbase.models.GalleryAppDefinition]
+    :ivar tests: The detailed test information.
+    :vartype tests: list[~azure.mgmt.testbase.models.Test]
+    :ivar intune_enrollment_metadata: The metadata of Intune enrollment.
+    :vartype intune_enrollment_metadata: ~azure.mgmt.testbase.models.IntuneEnrollmentMetadata
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "draft_package_path": {"readonly": True},
+        "working_path": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+        "last_modified_time": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "application_name": {"key": "properties.applicationName", "type": "str"},
+        "version": {"key": "properties.version", "type": "str"},
+        "draft_package_path": {"key": "properties.draftPackagePath", "type": "str"},
+        "working_path": {"key": "properties.workingPath", "type": "str"},
+        "app_file_name": {"key": "properties.appFileName", "type": "str"},
+        "source_type": {"key": "properties.sourceType", "type": "str"},
+        "use_sample": {"key": "properties.useSample", "type": "bool"},
+        "comments": {"key": "properties.comments", "type": "str"},
+        "intune_metadata": {"key": "properties.intuneMetadata", "type": "DraftPackageIntuneAppMetadata"},
+        "highlighted_files": {"key": "properties.highlightedFiles", "type": "[HighlightedFile]"},
+        "package_tags": {"key": "properties.packageTags", "type": "{str}"},
+        "edit_package": {"key": "properties.editPackage", "type": "bool"},
+        "package_id": {"key": "properties.packageId", "type": "str"},
+        "use_autofill": {"key": "properties.useAutofill", "type": "bool"},
+        "executable_launch_command": {"key": "properties.executableLaunchCommand", "type": "str"},
+        "process_name": {"key": "properties.processName", "type": "str"},
+        "tab_state": {"key": "properties.tabState", "type": "TabState"},
+        "test_types": {"key": "properties.testTypes", "type": "[str]"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "target_os_list": {"key": "properties.targetOSList", "type": "[TargetOSInfo]"},
+        "inplace_upgrade_os_pair": {"key": "properties.inplaceUpgradeOSPair", "type": "InplaceUpgradeOSInfo"},
+        "last_modified_time": {"key": "properties.lastModifiedTime", "type": "iso-8601"},
+        "flighting_ring": {"key": "properties.flightingRing", "type": "str"},
+        "first_party_apps": {"key": "properties.firstPartyApps", "type": "[FirstPartyAppDefinition]"},
+        "gallery_apps": {"key": "properties.galleryApps", "type": "[GalleryAppDefinition]"},
+        "tests": {"key": "properties.tests", "type": "[Test]"},
+        "intune_enrollment_metadata": {
+            "key": "properties.intuneEnrollmentMetadata",
+            "type": "IntuneEnrollmentMetadata",
+        },
+    }
+
+    def __init__(  # pylint: disable=too-many-locals
+        self,
+        *,
+        application_name: Optional[str] = None,
+        version: Optional[str] = None,
+        app_file_name: Optional[str] = None,
+        source_type: Optional[Union[str, "_models.DraftPackageSourceType"]] = None,
+        use_sample: Optional[bool] = None,
+        comments: Optional[str] = None,
+        intune_metadata: Optional["_models.DraftPackageIntuneAppMetadata"] = None,
+        highlighted_files: Optional[List["_models.HighlightedFile"]] = None,
+        package_tags: Optional[Dict[str, str]] = None,
+        edit_package: bool = False,
+        package_id: Optional[str] = None,
+        use_autofill: Optional[bool] = None,
+        executable_launch_command: Optional[str] = None,
+        process_name: Optional[str] = None,
+        tab_state: Optional["_models.TabState"] = None,
+        test_types: Optional[List[Union[str, "_models.TestType"]]] = None,
+        target_os_list: Optional[List["_models.TargetOSInfo"]] = None,
+        inplace_upgrade_os_pair: Optional["_models.InplaceUpgradeOSInfo"] = None,
+        flighting_ring: Optional[str] = None,
+        first_party_apps: Optional[List["_models.FirstPartyAppDefinition"]] = None,
+        gallery_apps: Optional[List["_models.GalleryAppDefinition"]] = None,
+        tests: Optional[List["_models.Test"]] = None,
+        intune_enrollment_metadata: Optional["_models.IntuneEnrollmentMetadata"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword application_name: Application name.
+        :paramtype application_name: str
+        :keyword version: Application version.
+        :paramtype version: str
+        :keyword app_file_name: The name of the app file.
+        :paramtype app_file_name: str
+        :keyword source_type: The source type. Known values are: "Native", "IntuneWin",
+         "TestBasePackage", "GalleryApp", and "IntuneEnrollment".
+        :paramtype source_type: str or ~azure.mgmt.testbase.models.DraftPackageSourceType
+        :keyword use_sample: Specifies whether a sample package should be used instead of the one
+         uploaded by the user.
+        :paramtype use_sample: bool
+        :keyword comments: Comments added by user.
+        :paramtype comments: str
+        :keyword intune_metadata: Metadata used to generate draft package folder and scripts.
+        :paramtype intune_metadata: ~azure.mgmt.testbase.models.DraftPackageIntuneAppMetadata
+        :keyword highlighted_files: The highlight files in the package.
+        :paramtype highlighted_files: list[~azure.mgmt.testbase.models.HighlightedFile]
+        :keyword package_tags: Tags of the package to be created.
+        :paramtype package_tags: dict[str, str]
+        :keyword edit_package: Specifies whether this draft package is used to edit a package.
+        :paramtype edit_package: bool
+        :keyword package_id: Specifies the package id from which the draft package copied.
+        :paramtype package_id: str
+        :keyword use_autofill: Indicates whether user choose to enable script auto-fill.
+        :paramtype use_autofill: bool
+        :keyword executable_launch_command: The executable launch command for script auto-fill. Will be
+         used to run the application.
+        :paramtype executable_launch_command: str
+        :keyword process_name: The process name for script auto-fill. Will be used to identify the
+         application process.
+        :paramtype process_name: str
+        :keyword tab_state: Tab state.
+        :paramtype tab_state: ~azure.mgmt.testbase.models.TabState
+        :keyword test_types: OOB, functional or flow driven. Mapped to the data in 'tests' property.
+        :paramtype test_types: list[str or ~azure.mgmt.testbase.models.TestType]
+        :keyword target_os_list: Specifies the target OSs of specific OS Update types.
+        :paramtype target_os_list: list[~azure.mgmt.testbase.models.TargetOSInfo]
+        :keyword inplace_upgrade_os_pair: Specifies the baseline os and target os for inplace upgrade.
+        :paramtype inplace_upgrade_os_pair: ~azure.mgmt.testbase.models.InplaceUpgradeOSInfo
+        :keyword flighting_ring: The flighting ring for feature update.
+        :paramtype flighting_ring: str
+        :keyword first_party_apps: The list of first party applications to test along with user
+         application.
+        :paramtype first_party_apps: list[~azure.mgmt.testbase.models.FirstPartyAppDefinition]
+        :keyword gallery_apps: The list of gallery apps to test along with user application.
+        :paramtype gallery_apps: list[~azure.mgmt.testbase.models.GalleryAppDefinition]
+        :keyword tests: The detailed test information.
+        :paramtype tests: list[~azure.mgmt.testbase.models.Test]
+        :keyword intune_enrollment_metadata: The metadata of Intune enrollment.
+        :paramtype intune_enrollment_metadata: ~azure.mgmt.testbase.models.IntuneEnrollmentMetadata
+        """
+        super().__init__(**kwargs)
+        self.application_name = application_name
+        self.version = version
+        self.draft_package_path = None
+        self.working_path = None
+        self.app_file_name = app_file_name
+        self.source_type = source_type
+        self.use_sample = use_sample
+        self.comments = comments
+        self.intune_metadata = intune_metadata
+        self.highlighted_files = highlighted_files
+        self.package_tags = package_tags
+        self.edit_package = edit_package
+        self.package_id = package_id
+        self.use_autofill = use_autofill
+        self.executable_launch_command = executable_launch_command
+        self.process_name = process_name
+        self.tab_state = tab_state
+        self.test_types = test_types
+        self.provisioning_state = None
+        self.target_os_list = target_os_list
+        self.inplace_upgrade_os_pair = inplace_upgrade_os_pair
+        self.last_modified_time = None
+        self.flighting_ring = flighting_ring
+        self.first_party_apps = first_party_apps
+        self.gallery_apps = gallery_apps
+        self.tests = tests
+        self.intune_enrollment_metadata = intune_enrollment_metadata
+
+
+class DraftPackageUpdateParameters(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+    """Parameters supplied to update a Test Base Draft Package.
+
+    :ivar application_name: Application name.
+    :vartype application_name: str
+    :ivar version: Application version.
+    :vartype version: str
+    :ivar app_file_name: The name of the app file.
+    :vartype app_file_name: str
+    :ivar source_type: The source type. Known values are: "Native", "IntuneWin", "TestBasePackage",
+     "GalleryApp", and "IntuneEnrollment".
+    :vartype source_type: str or ~azure.mgmt.testbase.models.DraftPackageSourceType
+    :ivar use_sample: Specifies whether a sample package should be used instead of the one uploaded
+     by the user.
+    :vartype use_sample: bool
+    :ivar comments: Comments added by user.
+    :vartype comments: str
+    :ivar intune_metadata: Metadata used to generate draft package folder and scripts.
+    :vartype intune_metadata: ~azure.mgmt.testbase.models.DraftPackageIntuneAppMetadata
+    :ivar highlighted_files: The highlight files in the package.
+    :vartype highlighted_files: list[~azure.mgmt.testbase.models.HighlightedFile]
+    :ivar package_tags: Tags of the package to be created.
+    :vartype package_tags: dict[str, str]
+    :ivar package_id: Specifies the package id from which the draft package copied.
+    :vartype package_id: str
+    :ivar use_autofill: Indicates whether user choose to enable script auto-fill.
+    :vartype use_autofill: bool
+    :ivar executable_launch_command: The executable launch command for script auto-fill. Will be
+     used to run the application.
+    :vartype executable_launch_command: str
+    :ivar process_name: The process name for script auto-fill. Will be used to identify the
+     application process.
+    :vartype process_name: str
+    :ivar tab_state: Tab state.
+    :vartype tab_state: ~azure.mgmt.testbase.models.TabState
+    :ivar test_types: OOB, functional or flow driven. Mapped to the data in 'tests' property.
+    :vartype test_types: list[str or ~azure.mgmt.testbase.models.TestType]
+    :ivar target_os_list: Specifies the target OSs of specific OS Update types.
+    :vartype target_os_list: list[~azure.mgmt.testbase.models.TargetOSInfo]
+    :ivar inplace_upgrade_os_pair: Specifies the baseline os and target os for in-place upgrade.
+    :vartype inplace_upgrade_os_pair: ~azure.mgmt.testbase.models.InplaceUpgradeOSInfo
+    :ivar flighting_ring: The flighting ring for feature update.
+    :vartype flighting_ring: str
+    :ivar first_party_apps: Specifies the list of first party applications to test along with user
+     application.
+    :vartype first_party_apps: list[~azure.mgmt.testbase.models.FirstPartyAppDefinition]
+    :ivar gallery_apps: The list of gallery apps to test along with user application.
+    :vartype gallery_apps: list[~azure.mgmt.testbase.models.GalleryAppDefinition]
+    :ivar tests: The detailed test information.
+    :vartype tests: list[~azure.mgmt.testbase.models.Test]
+    :ivar intune_enrollment_metadata: The metadata of Intune enrollment.
+    :vartype intune_enrollment_metadata: ~azure.mgmt.testbase.models.IntuneEnrollmentMetadata
+    """
+
+    _attribute_map = {
+        "application_name": {"key": "properties.applicationName", "type": "str"},
+        "version": {"key": "properties.version", "type": "str"},
+        "app_file_name": {"key": "properties.appFileName", "type": "str"},
+        "source_type": {"key": "properties.sourceType", "type": "str"},
+        "use_sample": {"key": "properties.useSample", "type": "bool"},
+        "comments": {"key": "properties.comments", "type": "str"},
+        "intune_metadata": {"key": "properties.intuneMetadata", "type": "DraftPackageIntuneAppMetadata"},
+        "highlighted_files": {"key": "properties.highlightedFiles", "type": "[HighlightedFile]"},
+        "package_tags": {"key": "properties.packageTags", "type": "{str}"},
+        "package_id": {"key": "properties.packageId", "type": "str"},
+        "use_autofill": {"key": "properties.useAutofill", "type": "bool"},
+        "executable_launch_command": {"key": "properties.executableLaunchCommand", "type": "str"},
+        "process_name": {"key": "properties.processName", "type": "str"},
+        "tab_state": {"key": "properties.tabState", "type": "TabState"},
+        "test_types": {"key": "properties.testTypes", "type": "[str]"},
+        "target_os_list": {"key": "properties.targetOSList", "type": "[TargetOSInfo]"},
+        "inplace_upgrade_os_pair": {"key": "properties.inplaceUpgradeOSPair", "type": "InplaceUpgradeOSInfo"},
+        "flighting_ring": {"key": "properties.flightingRing", "type": "str"},
+        "first_party_apps": {"key": "properties.firstPartyApps", "type": "[FirstPartyAppDefinition]"},
+        "gallery_apps": {"key": "properties.galleryApps", "type": "[GalleryAppDefinition]"},
+        "tests": {"key": "properties.tests", "type": "[Test]"},
+        "intune_enrollment_metadata": {
+            "key": "properties.intuneEnrollmentMetadata",
+            "type": "IntuneEnrollmentMetadata",
+        },
+    }
+
+    def __init__(
+        self,
+        *,
+        application_name: Optional[str] = None,
+        version: Optional[str] = None,
+        app_file_name: Optional[str] = None,
+        source_type: Optional[Union[str, "_models.DraftPackageSourceType"]] = None,
+        use_sample: Optional[bool] = None,
+        comments: Optional[str] = None,
+        intune_metadata: Optional["_models.DraftPackageIntuneAppMetadata"] = None,
+        highlighted_files: Optional[List["_models.HighlightedFile"]] = None,
+        package_tags: Optional[Dict[str, str]] = None,
+        package_id: Optional[str] = None,
+        use_autofill: Optional[bool] = None,
+        executable_launch_command: Optional[str] = None,
+        process_name: Optional[str] = None,
+        tab_state: Optional["_models.TabState"] = None,
+        test_types: Optional[List[Union[str, "_models.TestType"]]] = None,
+        target_os_list: Optional[List["_models.TargetOSInfo"]] = None,
+        inplace_upgrade_os_pair: Optional["_models.InplaceUpgradeOSInfo"] = None,
+        flighting_ring: Optional[str] = None,
+        first_party_apps: Optional[List["_models.FirstPartyAppDefinition"]] = None,
+        gallery_apps: Optional[List["_models.GalleryAppDefinition"]] = None,
+        tests: Optional[List["_models.Test"]] = None,
+        intune_enrollment_metadata: Optional["_models.IntuneEnrollmentMetadata"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword application_name: Application name.
+        :paramtype application_name: str
+        :keyword version: Application version.
+        :paramtype version: str
+        :keyword app_file_name: The name of the app file.
+        :paramtype app_file_name: str
+        :keyword source_type: The source type. Known values are: "Native", "IntuneWin",
+         "TestBasePackage", "GalleryApp", and "IntuneEnrollment".
+        :paramtype source_type: str or ~azure.mgmt.testbase.models.DraftPackageSourceType
+        :keyword use_sample: Specifies whether a sample package should be used instead of the one
+         uploaded by the user.
+        :paramtype use_sample: bool
+        :keyword comments: Comments added by user.
+        :paramtype comments: str
+        :keyword intune_metadata: Metadata used to generate draft package folder and scripts.
+        :paramtype intune_metadata: ~azure.mgmt.testbase.models.DraftPackageIntuneAppMetadata
+        :keyword highlighted_files: The highlight files in the package.
+        :paramtype highlighted_files: list[~azure.mgmt.testbase.models.HighlightedFile]
+        :keyword package_tags: Tags of the package to be created.
+        :paramtype package_tags: dict[str, str]
+        :keyword package_id: Specifies the package id from which the draft package copied.
+        :paramtype package_id: str
+        :keyword use_autofill: Indicates whether user choose to enable script auto-fill.
+        :paramtype use_autofill: bool
+        :keyword executable_launch_command: The executable launch command for script auto-fill. Will be
+         used to run the application.
+        :paramtype executable_launch_command: str
+        :keyword process_name: The process name for script auto-fill. Will be used to identify the
+         application process.
+        :paramtype process_name: str
+        :keyword tab_state: Tab state.
+        :paramtype tab_state: ~azure.mgmt.testbase.models.TabState
+        :keyword test_types: OOB, functional or flow driven. Mapped to the data in 'tests' property.
+        :paramtype test_types: list[str or ~azure.mgmt.testbase.models.TestType]
+        :keyword target_os_list: Specifies the target OSs of specific OS Update types.
+        :paramtype target_os_list: list[~azure.mgmt.testbase.models.TargetOSInfo]
+        :keyword inplace_upgrade_os_pair: Specifies the baseline os and target os for in-place upgrade.
+        :paramtype inplace_upgrade_os_pair: ~azure.mgmt.testbase.models.InplaceUpgradeOSInfo
+        :keyword flighting_ring: The flighting ring for feature update.
+        :paramtype flighting_ring: str
+        :keyword first_party_apps: Specifies the list of first party applications to test along with
+         user application.
+        :paramtype first_party_apps: list[~azure.mgmt.testbase.models.FirstPartyAppDefinition]
+        :keyword gallery_apps: The list of gallery apps to test along with user application.
+        :paramtype gallery_apps: list[~azure.mgmt.testbase.models.GalleryAppDefinition]
+        :keyword tests: The detailed test information.
+        :paramtype tests: list[~azure.mgmt.testbase.models.Test]
+        :keyword intune_enrollment_metadata: The metadata of Intune enrollment.
+        :paramtype intune_enrollment_metadata: ~azure.mgmt.testbase.models.IntuneEnrollmentMetadata
+        """
+        super().__init__(**kwargs)
+        self.application_name = application_name
+        self.version = version
+        self.app_file_name = app_file_name
+        self.source_type = source_type
+        self.use_sample = use_sample
+        self.comments = comments
+        self.intune_metadata = intune_metadata
+        self.highlighted_files = highlighted_files
+        self.package_tags = package_tags
+        self.package_id = package_id
+        self.use_autofill = use_autofill
+        self.executable_launch_command = executable_launch_command
+        self.process_name = process_name
+        self.tab_state = tab_state
+        self.test_types = test_types
+        self.target_os_list = target_os_list
+        self.inplace_upgrade_os_pair = inplace_upgrade_os_pair
+        self.flighting_ring = flighting_ring
+        self.first_party_apps = first_party_apps
+        self.gallery_apps = gallery_apps
+        self.tests = tests
+        self.intune_enrollment_metadata = intune_enrollment_metadata
 
 
 class EmailEventListResult(_serialization.Model):
@@ -1313,7 +2744,7 @@ class EmailEventListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.EmailEventResource"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.EmailEventResource"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The list of email events.
         :paramtype value: list[~azure.mgmt.testbase.models.EmailEventResource]
@@ -1328,13 +2759,16 @@ class EmailEventResource(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Resource ID.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
-    :ivar name: Resource name.
+    :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: Resource type.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar system_data: The system metadata relating to this resource.
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
     :vartype system_data: ~azure.mgmt.testbase.models.SystemData
     :ivar event_id: The identifier of the email event.
     :vartype event_id: str
@@ -1367,8 +2801,8 @@ class EmailEventResource(ProxyResource):
         event_id: Optional[str] = None,
         event_name: Optional[str] = None,
         display_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword event_id: The identifier of the email event.
         :paramtype event_id: str
@@ -1378,14 +2812,81 @@ class EmailEventResource(ProxyResource):
         :paramtype display_name: str
         """
         super().__init__(**kwargs)
-        self.system_data = None
         self.event_id = event_id
         self.event_name = event_name
         self.display_name = display_name
 
 
-class ErrorDefinition(_serialization.Model):
-    """Error definition.
+class EnrolledIntuneApp(_serialization.Model):
+    """Metadata of the enrolled Intune app.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar app_name: Intune app name. Required.
+    :vartype app_name: str
+    :ivar app_id: Intune app id. Required.
+    :vartype app_id: str
+    :ivar expected_installation_path: Intune app expected installation path. Required.
+    :vartype expected_installation_path: str
+    """
+
+    _validation = {
+        "app_name": {"required": True},
+        "app_id": {"required": True},
+        "expected_installation_path": {"required": True},
+    }
+
+    _attribute_map = {
+        "app_name": {"key": "appName", "type": "str"},
+        "app_id": {"key": "appId", "type": "str"},
+        "expected_installation_path": {"key": "expectedInstallationPath", "type": "str"},
+    }
+
+    def __init__(self, *, app_name: str, app_id: str, expected_installation_path: str, **kwargs: Any) -> None:
+        """
+        :keyword app_name: Intune app name. Required.
+        :paramtype app_name: str
+        :keyword app_id: Intune app id. Required.
+        :paramtype app_id: str
+        :keyword expected_installation_path: Intune app expected installation path. Required.
+        :paramtype expected_installation_path: str
+        """
+        super().__init__(**kwargs)
+        self.app_name = app_name
+        self.app_id = app_id
+        self.expected_installation_path = expected_installation_path
+
+
+class ErrorAdditionalInfo(_serialization.Model):
+    """The resource management error additional info.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar type: The additional info type.
+    :vartype type: str
+    :ivar info: The additional info.
+    :vartype info: JSON
+    """
+
+    _validation = {
+        "type": {"readonly": True},
+        "info": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "type": {"key": "type", "type": "str"},
+        "info": {"key": "info", "type": "object"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.type = None
+        self.info = None
+
+
+class ErrorDetail(_serialization.Model):
+    """The error detail.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -1393,10 +2894,12 @@ class ErrorDefinition(_serialization.Model):
     :vartype code: str
     :ivar message: The error message.
     :vartype message: str
-    :ivar target: The target of the particular error.
+    :ivar target: The error target.
     :vartype target: str
     :ivar details: The error details.
-    :vartype details: list[~azure.mgmt.testbase.models.ErrorDefinition]
+    :vartype details: list[~azure.mgmt.testbase.models.ErrorDetail]
+    :ivar additional_info: The error additional info.
+    :vartype additional_info: list[~azure.mgmt.testbase.models.ErrorAdditionalInfo]
     """
 
     _validation = {
@@ -1404,42 +2907,95 @@ class ErrorDefinition(_serialization.Model):
         "message": {"readonly": True},
         "target": {"readonly": True},
         "details": {"readonly": True},
+        "additional_info": {"readonly": True},
     }
 
     _attribute_map = {
         "code": {"key": "code", "type": "str"},
         "message": {"key": "message", "type": "str"},
         "target": {"key": "target", "type": "str"},
-        "details": {"key": "details", "type": "[ErrorDefinition]"},
+        "details": {"key": "details", "type": "[ErrorDetail]"},
+        "additional_info": {"key": "additionalInfo", "type": "[ErrorAdditionalInfo]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.code = None
         self.message = None
         self.target = None
         self.details = None
+        self.additional_info = None
 
 
 class ErrorResponse(_serialization.Model):
-    """The error response send when an operation fails.
+    """Common error response for all Azure Resource Manager APIs to return error details for failed
+    operations. (This also follows the OData error response format.).
 
-    :ivar error: The error details.
-    :vartype error: ~azure.mgmt.testbase.models.ErrorDefinition
+    :ivar error: The error object.
+    :vartype error: ~azure.mgmt.testbase.models.ErrorDetail
     """
 
     _attribute_map = {
-        "error": {"key": "error", "type": "ErrorDefinition"},
+        "error": {"key": "error", "type": "ErrorDetail"},
     }
 
-    def __init__(self, *, error: Optional["_models.ErrorDefinition"] = None, **kwargs):
+    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs: Any) -> None:
         """
-        :keyword error: The error details.
-        :paramtype error: ~azure.mgmt.testbase.models.ErrorDefinition
+        :keyword error: The error object.
+        :paramtype error: ~azure.mgmt.testbase.models.ErrorDetail
         """
         super().__init__(**kwargs)
         self.error = error
+
+
+class ExtractFileOperationParameters(_serialization.Model):
+    """Parameters body to pass to extract file operation of Draft Package.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar file_type: The type of file to extract. Known values are: "TestBasePackage" and
+     "IntuneWinPackage".
+    :vartype file_type: str or ~azure.mgmt.testbase.models.ExtractFileType
+    :ivar source_file: Relative path of the file to be extracted, the path must under working path
+     of this draft package. Required.
+    :vartype source_file: str
+    :ivar intune_app_id: Intune application id.
+    :vartype intune_app_id: str
+    """
+
+    _validation = {
+        "source_file": {"required": True},
+    }
+
+    _attribute_map = {
+        "file_type": {"key": "fileType", "type": "str"},
+        "source_file": {"key": "sourceFile", "type": "str"},
+        "intune_app_id": {"key": "intuneAppId", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        source_file: str,
+        file_type: Optional[Union[str, "_models.ExtractFileType"]] = None,
+        intune_app_id: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword file_type: The type of file to extract. Known values are: "TestBasePackage" and
+         "IntuneWinPackage".
+        :paramtype file_type: str or ~azure.mgmt.testbase.models.ExtractFileType
+        :keyword source_file: Relative path of the file to be extracted, the path must under working
+         path of this draft package. Required.
+        :paramtype source_file: str
+        :keyword intune_app_id: Intune application id.
+        :paramtype intune_app_id: str
+        """
+        super().__init__(**kwargs)
+        self.file_type = file_type
+        self.source_file = source_file
+        self.intune_app_id = intune_app_id
 
 
 class FavoriteProcessListResult(_serialization.Model):
@@ -1463,7 +3019,7 @@ class FavoriteProcessListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.FavoriteProcessResource"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.FavoriteProcessResource"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The list of favorite processes for a package.
         :paramtype value: list[~azure.mgmt.testbase.models.FavoriteProcessResource]
@@ -1478,13 +3034,16 @@ class FavoriteProcessResource(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Resource ID.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
-    :ivar name: Resource name.
+    :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: Resource type.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar system_data: The system metadata relating to this resource.
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
     :vartype system_data: ~azure.mgmt.testbase.models.SystemData
     :ivar actual_process_name: The actual name of the favorite process. It will be equal to
      resource name except for the scenario that the process name contains characters that are not
@@ -1507,7 +3066,7 @@ class FavoriteProcessResource(ProxyResource):
         "actual_process_name": {"key": "properties.actualProcessName", "type": "str"},
     }
 
-    def __init__(self, *, actual_process_name: Optional[str] = None, **kwargs):
+    def __init__(self, *, actual_process_name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword actual_process_name: The actual name of the favorite process. It will be equal to
          resource name except for the scenario that the process name contains characters that are not
@@ -1515,8 +3074,137 @@ class FavoriteProcessResource(ProxyResource):
         :paramtype actual_process_name: str
         """
         super().__init__(**kwargs)
-        self.system_data = None
         self.actual_process_name = actual_process_name
+
+
+class FeatureUpdateSupportedOsesResource(ProxyResource):  # pylint: disable=too-many-instance-attributes
+    """Feature update supported OSes proxy resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.testbase.models.SystemData
+    :ivar os_id:
+    :vartype os_id: str
+    :ivar os_name:
+    :vartype os_name: str
+    :ivar insider_channel:
+    :vartype insider_channel: str
+    :ivar version:
+    :vartype version: str
+    :ivar display_text:
+    :vartype display_text: str
+    :ivar baseline_products:
+    :vartype baseline_products: list[str]
+    :ivar start_time: Timestamp when the OS starts to be supported.
+    :vartype start_time: ~datetime.datetime
+    :ivar state: State of the OS product. Known values are: "Disabled" and "Active".
+    :vartype state: str or ~azure.mgmt.testbase.models.OsProductState
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "os_id": {"key": "properties.osId", "type": "str"},
+        "os_name": {"key": "properties.osName", "type": "str"},
+        "insider_channel": {"key": "properties.insiderChannel", "type": "str"},
+        "version": {"key": "properties.version", "type": "str"},
+        "display_text": {"key": "properties.displayText", "type": "str"},
+        "baseline_products": {"key": "properties.baselineProducts", "type": "[str]"},
+        "start_time": {"key": "properties.startTime", "type": "iso-8601"},
+        "state": {"key": "properties.state", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        os_id: Optional[str] = None,
+        os_name: Optional[str] = None,
+        insider_channel: Optional[str] = None,
+        version: Optional[str] = None,
+        display_text: Optional[str] = None,
+        baseline_products: Optional[List[str]] = None,
+        start_time: Optional[datetime.datetime] = None,
+        state: Optional[Union[str, "_models.OsProductState"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword os_id:
+        :paramtype os_id: str
+        :keyword os_name:
+        :paramtype os_name: str
+        :keyword insider_channel:
+        :paramtype insider_channel: str
+        :keyword version:
+        :paramtype version: str
+        :keyword display_text:
+        :paramtype display_text: str
+        :keyword baseline_products:
+        :paramtype baseline_products: list[str]
+        :keyword start_time: Timestamp when the OS starts to be supported.
+        :paramtype start_time: ~datetime.datetime
+        :keyword state: State of the OS product. Known values are: "Disabled" and "Active".
+        :paramtype state: str or ~azure.mgmt.testbase.models.OsProductState
+        """
+        super().__init__(**kwargs)
+        self.os_id = os_id
+        self.os_name = os_name
+        self.insider_channel = insider_channel
+        self.version = version
+        self.display_text = display_text
+        self.baseline_products = baseline_products
+        self.start_time = start_time
+        self.state = state
+
+
+class FeatureUpdateSupportedOsesResult(_serialization.Model):
+    """Response schema of feature update supported OSes list API.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar value:
+    :vartype value: list[~azure.mgmt.testbase.models.FeatureUpdateSupportedOsesResource]
+    :ivar next_link:
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[FeatureUpdateSupportedOsesResource]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: Optional[List["_models.FeatureUpdateSupportedOsesResource"]] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value:
+        :paramtype value: list[~azure.mgmt.testbase.models.FeatureUpdateSupportedOsesResource]
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = None
 
 
 class FileUploadURLResponse(_serialization.Model):
@@ -1541,11 +3229,188 @@ class FileUploadURLResponse(_serialization.Model):
         "blob_path": {"key": "blobPath", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.upload_url = None
         self.blob_path = None
+
+
+class FirstPartyAppDefinition(_serialization.Model):
+    """Properties of the definition of a first party application of the Test Base package.
+
+    :ivar name: The media name of a first party application of a Test Base Account.
+    :vartype name: str
+    :ivar architecture: The architecture of a first party application of a Test Base Account. Known
+     values are: "x86", "x64", and "arm64".
+    :vartype architecture: str or ~azure.mgmt.testbase.models.Architecture
+    :ivar channel: The channel info of a first party application of a Test Base Account.
+    :vartype channel: str
+    :ivar ring: The ring info of a first party application of a Test Base Account.
+    :vartype ring: str
+    :ivar interop_execution_mode: Specifies how the first party applications should be
+     inter-operated with user's application. Known values are: "firstPartyAppWithTests" and
+     "firstPartyApp".
+    :vartype interop_execution_mode: str or ~azure.mgmt.testbase.models.InteropExecutionMode
+    """
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "architecture": {"key": "architecture", "type": "str"},
+        "channel": {"key": "channel", "type": "str"},
+        "ring": {"key": "ring", "type": "str"},
+        "interop_execution_mode": {"key": "interopExecutionMode", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        name: Optional[str] = None,
+        architecture: Optional[Union[str, "_models.Architecture"]] = None,
+        channel: Optional[str] = None,
+        ring: Optional[str] = None,
+        interop_execution_mode: Union[str, "_models.InteropExecutionMode"] = "firstPartyAppWithTests",
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword name: The media name of a first party application of a Test Base Account.
+        :paramtype name: str
+        :keyword architecture: The architecture of a first party application of a Test Base Account.
+         Known values are: "x86", "x64", and "arm64".
+        :paramtype architecture: str or ~azure.mgmt.testbase.models.Architecture
+        :keyword channel: The channel info of a first party application of a Test Base Account.
+        :paramtype channel: str
+        :keyword ring: The ring info of a first party application of a Test Base Account.
+        :paramtype ring: str
+        :keyword interop_execution_mode: Specifies how the first party applications should be
+         inter-operated with user's application. Known values are: "firstPartyAppWithTests" and
+         "firstPartyApp".
+        :paramtype interop_execution_mode: str or ~azure.mgmt.testbase.models.InteropExecutionMode
+        """
+        super().__init__(**kwargs)
+        self.name = name
+        self.architecture = architecture
+        self.channel = channel
+        self.ring = ring
+        self.interop_execution_mode = interop_execution_mode
+
+
+class FirstPartyAppListResult(_serialization.Model):
+    """A list of currently available first party applications.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar value: The list of currently available first party applications.
+    :vartype value: list[~azure.mgmt.testbase.models.FirstPartyAppResource]
+    :ivar next_link: Link to the next set of results. Not empty if value contains incomplete list
+     of results.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[FirstPartyAppResource]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, *, value: Optional[List["_models.FirstPartyAppResource"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword value: The list of currently available first party applications.
+        :paramtype value: list[~azure.mgmt.testbase.models.FirstPartyAppResource]
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = None
+
+
+class FirstPartyAppResource(ProxyResource):
+    """The first party application resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.testbase.models.SystemData
+    :ivar provisioning_state: The provisioning state of the resource. Known values are:
+     "Succeeded", "Failed", "Cancelled", "Creating", "Deleting", and "Updating".
+    :vartype provisioning_state: str or ~azure.mgmt.testbase.models.ProvisioningState
+    :ivar media_type: The media type of a first party application of a Test Base Account.
+    :vartype media_type: str
+    :ivar architecture: The architecture of a first party application of a Test Base Account. Known
+     values are: "x86", "x64", and "arm64".
+    :vartype architecture: str or ~azure.mgmt.testbase.models.Architecture
+    :ivar channel: The channel info of a first party application of a Test Base Account.
+    :vartype channel: str
+    :ivar ring: The ring info of a first party application of a Test Base Account.
+    :vartype ring: str
+    :ivar supported_products: The supported OS products of a first party application of a Test Base
+     Account.
+    :vartype supported_products: list[str]
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "media_type": {"key": "properties.mediaType", "type": "str"},
+        "architecture": {"key": "properties.architecture", "type": "str"},
+        "channel": {"key": "properties.channel", "type": "str"},
+        "ring": {"key": "properties.ring", "type": "str"},
+        "supported_products": {"key": "properties.supportedProducts", "type": "[str]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        media_type: Optional[str] = None,
+        architecture: Optional[Union[str, "_models.Architecture"]] = None,
+        channel: Optional[str] = None,
+        ring: Optional[str] = None,
+        supported_products: Optional[List[str]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword media_type: The media type of a first party application of a Test Base Account.
+        :paramtype media_type: str
+        :keyword architecture: The architecture of a first party application of a Test Base Account.
+         Known values are: "x86", "x64", and "arm64".
+        :paramtype architecture: str or ~azure.mgmt.testbase.models.Architecture
+        :keyword channel: The channel info of a first party application of a Test Base Account.
+        :paramtype channel: str
+        :keyword ring: The ring info of a first party application of a Test Base Account.
+        :paramtype ring: str
+        :keyword supported_products: The supported OS products of a first party application of a Test
+         Base Account.
+        :paramtype supported_products: list[str]
+        """
+        super().__init__(**kwargs)
+        self.provisioning_state = None
+        self.media_type = media_type
+        self.architecture = architecture
+        self.channel = channel
+        self.ring = ring
+        self.supported_products = supported_products
 
 
 class FlightingRingListResult(_serialization.Model):
@@ -1569,7 +3434,7 @@ class FlightingRingListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.FlightingRingResource"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.FlightingRingResource"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The list of flighting rings.
         :paramtype value: list[~azure.mgmt.testbase.models.FlightingRingResource]
@@ -1584,13 +3449,16 @@ class FlightingRingResource(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Resource ID.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
-    :ivar name: Resource name.
+    :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: Resource type.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar system_data: The system metadata relating to this resource.
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
     :vartype system_data: ~azure.mgmt.testbase.models.SystemData
     :ivar actual_flighting_ring_name: The actual name of a flighting ring of a Test Base Account.
     :vartype actual_flighting_ring_name: str
@@ -1611,15 +3479,376 @@ class FlightingRingResource(ProxyResource):
         "actual_flighting_ring_name": {"key": "properties.actualFlightingRingName", "type": "str"},
     }
 
-    def __init__(self, *, actual_flighting_ring_name: Optional[str] = None, **kwargs):
+    def __init__(self, *, actual_flighting_ring_name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword actual_flighting_ring_name: The actual name of a flighting ring of a Test Base
          Account.
         :paramtype actual_flighting_ring_name: str
         """
         super().__init__(**kwargs)
-        self.system_data = None
         self.actual_flighting_ring_name = actual_flighting_ring_name
+
+
+class FreeHourBalanceResource(ProxyResource):
+    """The Free Hour Balance Resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.testbase.models.SystemData
+    :ivar total_remaining_free_hours:
+    :vartype total_remaining_free_hours: float
+    :ivar increment_entries:
+    :vartype increment_entries: list[~azure.mgmt.testbase.models.BillingHubFreeHourIncrementEntry]
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "total_remaining_free_hours": {"key": "properties.totalRemainingFreeHours", "type": "float"},
+        "increment_entries": {"key": "properties.incrementEntries", "type": "[BillingHubFreeHourIncrementEntry]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        total_remaining_free_hours: Optional[float] = None,
+        increment_entries: Optional[List["_models.BillingHubFreeHourIncrementEntry"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword total_remaining_free_hours:
+        :paramtype total_remaining_free_hours: float
+        :keyword increment_entries:
+        :paramtype increment_entries:
+         list[~azure.mgmt.testbase.models.BillingHubFreeHourIncrementEntry]
+        """
+        super().__init__(**kwargs)
+        self.total_remaining_free_hours = total_remaining_free_hours
+        self.increment_entries = increment_entries
+
+
+class FreeHourBalancesListResult(_serialization.Model):
+    """A list of Test Base Free Hour Balances. It will only contain one element as all the data will
+    be nested in a singleton object.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar value: The list of FreeHourBalances.
+    :vartype value: list[~azure.mgmt.testbase.models.FreeHourBalanceResource]
+    :ivar next_link: Link to the next set of results. Not empty if value contains incomplete list
+     of results.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[FreeHourBalanceResource]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, *, value: Optional[List["_models.FreeHourBalanceResource"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword value: The list of FreeHourBalances.
+        :paramtype value: list[~azure.mgmt.testbase.models.FreeHourBalanceResource]
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = None
+
+
+class GalleryAppDefinition(_serialization.Model):
+    """Properties of the definition of a gallery application used in Test Base package.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar sku_id: The SKU id of the gallery application. Required.
+    :vartype sku_id: str
+    :ivar is_consented: Whether the disclaimer of the gallery application is accepted.
+    :vartype is_consented: bool
+    """
+
+    _validation = {
+        "sku_id": {"required": True},
+    }
+
+    _attribute_map = {
+        "sku_id": {"key": "skuId", "type": "str"},
+        "is_consented": {"key": "isConsented", "type": "bool"},
+    }
+
+    def __init__(self, *, sku_id: str, is_consented: bool = False, **kwargs: Any) -> None:
+        """
+        :keyword sku_id: The SKU id of the gallery application. Required.
+        :paramtype sku_id: str
+        :keyword is_consented: Whether the disclaimer of the gallery application is accepted.
+        :paramtype is_consented: bool
+        """
+        super().__init__(**kwargs)
+        self.sku_id = sku_id
+        self.is_consented = is_consented
+
+
+class GalleryAppListResult(_serialization.Model):
+    """A list of currently available gallery applications.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar value: The list of currently available gallery applications.
+    :vartype value: list[~azure.mgmt.testbase.models.GalleryAppResource]
+    :ivar next_link: Link to the next set of results. Not empty if value contains incomplete list
+     of results.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[GalleryAppResource]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, *, value: Optional[List["_models.GalleryAppResource"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword value: The list of currently available gallery applications.
+        :paramtype value: list[~azure.mgmt.testbase.models.GalleryAppResource]
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = None
+
+
+class GalleryAppResource(ProxyResource):
+    """The gallery application resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.testbase.models.SystemData
+    :ivar provisioning_state: The provisioning state of the resource. Known values are:
+     "Succeeded", "Failed", "Cancelled", "Creating", "Deleting", and "Updating".
+    :vartype provisioning_state: str or ~azure.mgmt.testbase.models.ProvisioningState
+    :ivar application_type: The application type of a gallery application. "Winget"
+    :vartype application_type: str or ~azure.mgmt.testbase.models.ApplicationType
+    :ivar application_id: The id of a gallery application.
+    :vartype application_id: str
+    :ivar application_name: The name of a gallery application.
+    :vartype application_name: str
+    :ivar popularity: The number of users using a gallery application.
+    :vartype popularity: int
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "application_type": {"key": "properties.applicationType", "type": "str"},
+        "application_id": {"key": "properties.applicationId", "type": "str"},
+        "application_name": {"key": "properties.applicationName", "type": "str"},
+        "popularity": {"key": "properties.popularity", "type": "int"},
+    }
+
+    def __init__(
+        self,
+        *,
+        application_type: Optional[Union[str, "_models.ApplicationType"]] = None,
+        application_id: Optional[str] = None,
+        application_name: Optional[str] = None,
+        popularity: int = 0,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword application_type: The application type of a gallery application. "Winget"
+        :paramtype application_type: str or ~azure.mgmt.testbase.models.ApplicationType
+        :keyword application_id: The id of a gallery application.
+        :paramtype application_id: str
+        :keyword application_name: The name of a gallery application.
+        :paramtype application_name: str
+        :keyword popularity: The number of users using a gallery application.
+        :paramtype popularity: int
+        """
+        super().__init__(**kwargs)
+        self.provisioning_state = None
+        self.application_type = application_type
+        self.application_id = application_id
+        self.application_name = application_name
+        self.popularity = popularity
+
+
+class GalleryAppSkuListResult(_serialization.Model):
+    """A list of currently available SKUs of a gallery application.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar value: The list of currently available SKUs of a gallery applications.
+    :vartype value: list[~azure.mgmt.testbase.models.GalleryAppSkuResource]
+    :ivar next_link: Link to the next set of results. Not empty if value contains incomplete list
+     of results.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[GalleryAppSkuResource]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, *, value: Optional[List["_models.GalleryAppSkuResource"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword value: The list of currently available SKUs of a gallery applications.
+        :paramtype value: list[~azure.mgmt.testbase.models.GalleryAppSkuResource]
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = None
+
+
+class GalleryAppSkuProperties(_serialization.Model):
+    """Properties of a gallery application SKU.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    WingetAppSkuProperties
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar provisioning_state: The provisioning state of the resource. Known values are:
+     "Succeeded", "Failed", "Cancelled", "Creating", "Deleting", and "Updating".
+    :vartype provisioning_state: str or ~azure.mgmt.testbase.models.ProvisioningState
+    :ivar application_type: The application type of a gallery application. Required. "Winget"
+    :vartype application_type: str or ~azure.mgmt.testbase.models.ApplicationType
+    """
+
+    _validation = {
+        "provisioning_state": {"readonly": True},
+        "application_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+        "application_type": {"key": "applicationType", "type": "str"},
+    }
+
+    _subtype_map = {"application_type": {"Winget": "WingetAppSkuProperties"}}
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.provisioning_state = None
+        self.application_type: Optional[str] = None
+
+
+class GalleryAppSkuResource(ProxyResource):
+    """The gallery application resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.testbase.models.SystemData
+    :ivar provisioning_state: The provisioning state of the resource. Known values are:
+     "Succeeded", "Failed", "Cancelled", "Creating", "Deleting", and "Updating".
+    :vartype provisioning_state: str or ~azure.mgmt.testbase.models.ProvisioningState
+    :ivar application_type: The application type of a gallery application. "Winget"
+    :vartype application_type: str or ~azure.mgmt.testbase.models.ApplicationType
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "application_type": {"key": "properties.applicationType", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.provisioning_state = None
+        self.application_type: Optional[str] = None
+
+
+class GenerateOperationParameters(_serialization.Model):
+    """Parameters body to pass to generate operation of Draft Package.
+
+    :ivar force_generate: Force to generate package files even if no metadata changed.
+    :vartype force_generate: bool
+    """
+
+    _attribute_map = {
+        "force_generate": {"key": "forceGenerate", "type": "bool"},
+    }
+
+    def __init__(self, *, force_generate: bool = False, **kwargs: Any) -> None:
+        """
+        :keyword force_generate: Force to generate package files even if no metadata changed.
+        :paramtype force_generate: bool
+        """
+        super().__init__(**kwargs)
+        self.force_generate = force_generate
 
 
 class GetFileUploadURLParameters(_serialization.Model):
@@ -1627,19 +3856,92 @@ class GetFileUploadURLParameters(_serialization.Model):
 
     :ivar blob_name: The custom file name of the uploaded blob.
     :vartype blob_name: str
+    :ivar resource_type: Resource type for file uploading. Known values are: "Package" and "VHD".
+    :vartype resource_type: str or ~azure.mgmt.testbase.models.FileUploadResourceType
     """
 
     _attribute_map = {
         "blob_name": {"key": "blobName", "type": "str"},
+        "resource_type": {"key": "resourceType", "type": "str"},
     }
 
-    def __init__(self, *, blob_name: Optional[str] = None, **kwargs):
+    def __init__(
+        self,
+        *,
+        blob_name: Optional[str] = None,
+        resource_type: Optional[Union[str, "_models.FileUploadResourceType"]] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword blob_name: The custom file name of the uploaded blob.
         :paramtype blob_name: str
+        :keyword resource_type: Resource type for file uploading. Known values are: "Package" and
+         "VHD".
+        :paramtype resource_type: str or ~azure.mgmt.testbase.models.FileUploadResourceType
         """
         super().__init__(**kwargs)
         self.blob_name = blob_name
+        self.resource_type = resource_type
+
+
+class GetImageDefinitionParameters(_serialization.Model):
+    """Parameters supplied to get the test base custom image Definition operation.
+
+    :ivar definition_name: Image definition name.
+    :vartype definition_name: str
+    """
+
+    _attribute_map = {
+        "definition_name": {"key": "definitionName", "type": "str"},
+    }
+
+    def __init__(self, *, definition_name: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword definition_name: Image definition name.
+        :paramtype definition_name: str
+        """
+        super().__init__(**kwargs)
+        self.definition_name = definition_name
+
+
+class HighlightedFile(_serialization.Model):
+    """The information of a highlighted file that user should pay attention to.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar path: The path of the highlighted file. Required.
+    :vartype path: str
+    :ivar visited: A flag to save whether this file is viewed by user.
+    :vartype visited: bool
+    :ivar sections: The name of sections to highlight.
+    :vartype sections: list[str]
+    """
+
+    _validation = {
+        "path": {"required": True},
+    }
+
+    _attribute_map = {
+        "path": {"key": "path", "type": "str"},
+        "visited": {"key": "visited", "type": "bool"},
+        "sections": {"key": "sections", "type": "[str]"},
+    }
+
+    def __init__(
+        self, *, path: str, visited: bool = False, sections: Optional[List[str]] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword path: The path of the highlighted file. Required.
+        :paramtype path: str
+        :keyword visited: A flag to save whether this file is viewed by user.
+        :paramtype visited: bool
+        :keyword sections: The name of sections to highlight.
+        :paramtype sections: list[str]
+        """
+        super().__init__(**kwargs)
+        self.path = path
+        self.visited = visited
+        self.sections = sections
 
 
 class IdentifiedFailure(_serialization.Model):
@@ -1670,8 +3972,8 @@ class IdentifiedFailure(_serialization.Model):
         category: Optional[Union[str, "_models.Category"]] = None,
         error_message: Optional[str] = None,
         guidance: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword failure_id: The Failure Id.
         :paramtype failure_id: str
@@ -1690,13 +3992,404 @@ class IdentifiedFailure(_serialization.Model):
         self.guidance = guidance
 
 
+class ImageDefinitionListResult(_serialization.Model):
+    """A list of test base image definitions.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar value: The list of test base image definitions.
+    :vartype value: list[~azure.mgmt.testbase.models.ImageDefinitionResource]
+    :ivar next_link: Link to the next set of results. Not empty if value contains incomplete list
+     of results.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[ImageDefinitionResource]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, *, value: Optional[List["_models.ImageDefinitionResource"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword value: The list of test base image definitions.
+        :paramtype value: list[~azure.mgmt.testbase.models.ImageDefinitionResource]
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = None
+
+
+class ImageDefinitionResource(ProxyResource):
+    """The test base image definition resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.testbase.models.SystemData
+    :ivar architecture: Custom image architecture. "x64"
+    :vartype architecture: str or ~azure.mgmt.testbase.models.ImageArchitecture
+    :ivar os_state: Custom image OS state. Known values are: "Generalized" and "Specialized".
+    :vartype os_state: str or ~azure.mgmt.testbase.models.ImageOSState
+    :ivar security_type: Custom image security type. Known values are: "Standard" and
+     "TrustedLaunch".
+    :vartype security_type: str or ~azure.mgmt.testbase.models.ImageSecurityType
+    :ivar provisioning_state:
+    :vartype provisioning_state: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "architecture": {"key": "properties.architecture", "type": "str"},
+        "os_state": {"key": "properties.osState", "type": "str"},
+        "security_type": {"key": "properties.securityType", "type": "str"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        architecture: Optional[Union[str, "_models.ImageArchitecture"]] = None,
+        os_state: Optional[Union[str, "_models.ImageOSState"]] = None,
+        security_type: Optional[Union[str, "_models.ImageSecurityType"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword architecture: Custom image architecture. "x64"
+        :paramtype architecture: str or ~azure.mgmt.testbase.models.ImageArchitecture
+        :keyword os_state: Custom image OS state. Known values are: "Generalized" and "Specialized".
+        :paramtype os_state: str or ~azure.mgmt.testbase.models.ImageOSState
+        :keyword security_type: Custom image security type. Known values are: "Standard" and
+         "TrustedLaunch".
+        :paramtype security_type: str or ~azure.mgmt.testbase.models.ImageSecurityType
+        """
+        super().__init__(**kwargs)
+        self.architecture = architecture
+        self.os_state = os_state
+        self.security_type = security_type
+        self.provisioning_state = None
+
+
+class ImageDefinitionsListResult(_serialization.Model):
+    """The result of all available image definition under a test base account.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar value: The list of image definitions.
+    :vartype value: list[~azure.mgmt.testbase.models.ImageDefinitionResource]
+    :ivar next_link: Link to the next set of results. Not empty if value contains incomplete list
+     of results.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[ImageDefinitionResource]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, *, value: Optional[List["_models.ImageDefinitionResource"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword value: The list of image definitions.
+        :paramtype value: list[~azure.mgmt.testbase.models.ImageDefinitionResource]
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = None
+
+
+class ImageNameCheckAvailabilityParameters(_serialization.Model):
+    """Parameter body to request test base custom image availability.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar definition_name: Image definition name. Required.
+    :vartype definition_name: str
+    :ivar version_name: Image version name. Required.
+    :vartype version_name: str
+    """
+
+    _validation = {
+        "definition_name": {"required": True},
+        "version_name": {"required": True},
+    }
+
+    _attribute_map = {
+        "definition_name": {"key": "definitionName", "type": "str"},
+        "version_name": {"key": "versionName", "type": "str"},
+    }
+
+    def __init__(self, *, definition_name: str, version_name: str, **kwargs: Any) -> None:
+        """
+        :keyword definition_name: Image definition name. Required.
+        :paramtype definition_name: str
+        :keyword version_name: Image version name. Required.
+        :paramtype version_name: str
+        """
+        super().__init__(**kwargs)
+        self.definition_name = definition_name
+        self.version_name = version_name
+
+
+class ImageValidationResults(_serialization.Model):
+    """The image validation result.
+
+    :ivar results: The validation results of the image.
+    :vartype results: list[~azure.mgmt.testbase.models.VerificationResult]
+    """
+
+    _attribute_map = {
+        "results": {"key": "results", "type": "[VerificationResult]"},
+    }
+
+    def __init__(self, *, results: Optional[List["_models.VerificationResult"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword results: The validation results of the image.
+        :paramtype results: list[~azure.mgmt.testbase.models.VerificationResult]
+        """
+        super().__init__(**kwargs)
+        self.results = results
+
+
+class InplaceUpgradeOSInfo(_serialization.Model):
+    """Specifies the baseline os and target os for in-place upgrade tests.
+
+    :ivar baseline_os: Specifies the baseline os for in-place upgrade tests.
+    :vartype baseline_os: ~azure.mgmt.testbase.models.OsProperties
+    :ivar target_os: Specifies the target os for in-place upgrade tests.
+    :vartype target_os: str
+    """
+
+    _attribute_map = {
+        "baseline_os": {"key": "baselineOS", "type": "OsProperties"},
+        "target_os": {"key": "targetOS", "type": "str"},
+    }
+
+    def __init__(
+        self, *, baseline_os: Optional["_models.OsProperties"] = None, target_os: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword baseline_os: Specifies the baseline os for in-place upgrade tests.
+        :paramtype baseline_os: ~azure.mgmt.testbase.models.OsProperties
+        :keyword target_os: Specifies the target os for in-place upgrade tests.
+        :paramtype target_os: str
+        """
+        super().__init__(**kwargs)
+        self.baseline_os = baseline_os
+        self.target_os = target_os
+
+
+class InplaceUpgradeProperties(_serialization.Model):
+    """Properties for in-place upgrade test result.
+
+    :ivar upgrade_start_time: Time stamp for os upgrading start (UTC).
+    :vartype upgrade_start_time: ~datetime.datetime
+    :ivar upgrade_end_time: Time stamp for os upgrading end (UTC).
+    :vartype upgrade_end_time: ~datetime.datetime
+    :ivar custom_image_id: Specify the referenced Test Base Custom Image Id if applicable.
+    :vartype custom_image_id: str
+    :ivar custom_image_display_name: The name of the custom image resource.
+    :vartype custom_image_display_name: str
+    :ivar baseline_os_name: The name of the OS.
+    :vartype baseline_os_name: str
+    :ivar baseline_release_name: The name of the baseline OS release.
+    :vartype baseline_release_name: str
+    :ivar baseline_build_number: The build number of the baseline OS release.
+    :vartype baseline_build_number: str
+    :ivar baseline_build_revision: The build revision of the baseline OS release.
+    :vartype baseline_build_revision: str
+    :ivar baseline_kb_number: The kb number of the baseline OS release.
+    :vartype baseline_kb_number: str
+    :ivar baseline_release_version_date: The release version date of the baseline OS release.
+    :vartype baseline_release_version_date: ~datetime.datetime
+    """
+
+    _attribute_map = {
+        "upgrade_start_time": {"key": "upgradeStartTime", "type": "iso-8601"},
+        "upgrade_end_time": {"key": "upgradeEndTime", "type": "iso-8601"},
+        "custom_image_id": {"key": "customImageId", "type": "str"},
+        "custom_image_display_name": {"key": "customImageDisplayName", "type": "str"},
+        "baseline_os_name": {"key": "baselineOsName", "type": "str"},
+        "baseline_release_name": {"key": "baselineReleaseName", "type": "str"},
+        "baseline_build_number": {"key": "baselineBuildNumber", "type": "str"},
+        "baseline_build_revision": {"key": "baselineBuildRevision", "type": "str"},
+        "baseline_kb_number": {"key": "baselineKbNumber", "type": "str"},
+        "baseline_release_version_date": {"key": "baselineReleaseVersionDate", "type": "iso-8601"},
+    }
+
+    def __init__(
+        self,
+        *,
+        upgrade_start_time: Optional[datetime.datetime] = None,
+        upgrade_end_time: Optional[datetime.datetime] = None,
+        custom_image_id: Optional[str] = None,
+        custom_image_display_name: Optional[str] = None,
+        baseline_os_name: Optional[str] = None,
+        baseline_release_name: Optional[str] = None,
+        baseline_build_number: Optional[str] = None,
+        baseline_build_revision: Optional[str] = None,
+        baseline_kb_number: Optional[str] = None,
+        baseline_release_version_date: Optional[datetime.datetime] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword upgrade_start_time: Time stamp for os upgrading start (UTC).
+        :paramtype upgrade_start_time: ~datetime.datetime
+        :keyword upgrade_end_time: Time stamp for os upgrading end (UTC).
+        :paramtype upgrade_end_time: ~datetime.datetime
+        :keyword custom_image_id: Specify the referenced Test Base Custom Image Id if applicable.
+        :paramtype custom_image_id: str
+        :keyword custom_image_display_name: The name of the custom image resource.
+        :paramtype custom_image_display_name: str
+        :keyword baseline_os_name: The name of the OS.
+        :paramtype baseline_os_name: str
+        :keyword baseline_release_name: The name of the baseline OS release.
+        :paramtype baseline_release_name: str
+        :keyword baseline_build_number: The build number of the baseline OS release.
+        :paramtype baseline_build_number: str
+        :keyword baseline_build_revision: The build revision of the baseline OS release.
+        :paramtype baseline_build_revision: str
+        :keyword baseline_kb_number: The kb number of the baseline OS release.
+        :paramtype baseline_kb_number: str
+        :keyword baseline_release_version_date: The release version date of the baseline OS release.
+        :paramtype baseline_release_version_date: ~datetime.datetime
+        """
+        super().__init__(**kwargs)
+        self.upgrade_start_time = upgrade_start_time
+        self.upgrade_end_time = upgrade_end_time
+        self.custom_image_id = custom_image_id
+        self.custom_image_display_name = custom_image_display_name
+        self.baseline_os_name = baseline_os_name
+        self.baseline_release_name = baseline_release_name
+        self.baseline_build_number = baseline_build_number
+        self.baseline_build_revision = baseline_build_revision
+        self.baseline_kb_number = baseline_kb_number
+        self.baseline_release_version_date = baseline_release_version_date
+
+
+class IntuneEnrollmentMetadata(_serialization.Model):
+    """The metadata of Intune enrollment.
+
+    :ivar app_list: The enrolled Intune apps.
+    :vartype app_list: list[~azure.mgmt.testbase.models.EnrolledIntuneApp]
+    :ivar credential_id: The id of the Intune enrollment credential.
+    :vartype credential_id: str
+    :ivar expected_deployment_duration_in_minute: The expected duration of Intune applications and
+     policies deployment.
+    :vartype expected_deployment_duration_in_minute: int
+    """
+
+    _attribute_map = {
+        "app_list": {"key": "appList", "type": "[EnrolledIntuneApp]"},
+        "credential_id": {"key": "credentialId", "type": "str"},
+        "expected_deployment_duration_in_minute": {"key": "expectedDeploymentDurationInMinute", "type": "int"},
+    }
+
+    def __init__(
+        self,
+        *,
+        app_list: Optional[List["_models.EnrolledIntuneApp"]] = None,
+        credential_id: Optional[str] = None,
+        expected_deployment_duration_in_minute: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword app_list: The enrolled Intune apps.
+        :paramtype app_list: list[~azure.mgmt.testbase.models.EnrolledIntuneApp]
+        :keyword credential_id: The id of the Intune enrollment credential.
+        :paramtype credential_id: str
+        :keyword expected_deployment_duration_in_minute: The expected duration of Intune applications
+         and policies deployment.
+        :paramtype expected_deployment_duration_in_minute: int
+        """
+        super().__init__(**kwargs)
+        self.app_list = app_list
+        self.credential_id = credential_id
+        self.expected_deployment_duration_in_minute = expected_deployment_duration_in_minute
+
+
+class IntuneSingletonResourceProperties(CredentialProperties):
+    """The properties of intune credential.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar credential_type: Credential type. Required. "IntuneAccount"
+    :vartype credential_type: str or ~azure.mgmt.testbase.models.CredentialType
+    :ivar display_name: Credential display name. Required.
+    :vartype display_name: str
+    :ivar user_name_key_vault_secret_path: The key vault secret path of user name.
+    :vartype user_name_key_vault_secret_path: str
+    :ivar password_key_vault_secret_path: The key vault secret path of password.
+    :vartype password_key_vault_secret_path: str
+    """
+
+    _validation = {
+        "credential_type": {"required": True},
+        "display_name": {"required": True},
+    }
+
+    _attribute_map = {
+        "credential_type": {"key": "credentialType", "type": "str"},
+        "display_name": {"key": "displayName", "type": "str"},
+        "user_name_key_vault_secret_path": {"key": "userNameKeyVaultSecretPath", "type": "str"},
+        "password_key_vault_secret_path": {"key": "passwordKeyVaultSecretPath", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        display_name: str,
+        user_name_key_vault_secret_path: Optional[str] = None,
+        password_key_vault_secret_path: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword display_name: Credential display name. Required.
+        :paramtype display_name: str
+        :keyword user_name_key_vault_secret_path: The key vault secret path of user name.
+        :paramtype user_name_key_vault_secret_path: str
+        :keyword password_key_vault_secret_path: The key vault secret path of password.
+        :paramtype password_key_vault_secret_path: str
+        """
+        super().__init__(display_name=display_name, **kwargs)
+        self.credential_type: str = "IntuneAccount"
+        self.user_name_key_vault_secret_path = user_name_key_vault_secret_path
+        self.password_key_vault_secret_path = password_key_vault_secret_path
+
+
 class MemoryRegressionResultSingletonResourceProperties(AnalysisResultSingletonResourceProperties):
     """The properties of Memory Regression Result.
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-     "Fail".
+    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", "Fail",
+     and "Pass".
     :vartype grade: str or ~azure.mgmt.testbase.models.Grade
     :ivar analysis_result_type: Type of the Analysis Result. Required. Known values are:
      "ScriptExecution", "Reliability", "CPUUtilization", "MemoryUtilization", "CPURegression",
@@ -1721,17 +4414,17 @@ class MemoryRegressionResultSingletonResourceProperties(AnalysisResultSingletonR
         *,
         grade: Optional[Union[str, "_models.Grade"]] = None,
         memory_regression_results: Optional[List["_models.RegressionResult"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-         "Fail".
+        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass",
+         "Fail", and "Pass".
         :paramtype grade: str or ~azure.mgmt.testbase.models.Grade
         :keyword memory_regression_results: The result array data.
         :paramtype memory_regression_results: list[~azure.mgmt.testbase.models.RegressionResult]
         """
         super().__init__(grade=grade, **kwargs)
-        self.analysis_result_type = "MemoryRegression"  # type: str
+        self.analysis_result_type: str = "MemoryRegression"
         self.memory_regression_results = memory_regression_results
 
 
@@ -1740,8 +4433,8 @@ class MemoryUtilizationResultSingletonResourceProperties(AnalysisResultSingleton
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-     "Fail".
+    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", "Fail",
+     and "Pass".
     :vartype grade: str or ~azure.mgmt.testbase.models.Grade
     :ivar analysis_result_type: Type of the Analysis Result. Required. Known values are:
      "ScriptExecution", "Reliability", "CPUUtilization", "MemoryUtilization", "CPURegression",
@@ -1766,17 +4459,17 @@ class MemoryUtilizationResultSingletonResourceProperties(AnalysisResultSingleton
         *,
         grade: Optional[Union[str, "_models.Grade"]] = None,
         memory_utilization_results: Optional[List["_models.UtilizationResult"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-         "Fail".
+        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass",
+         "Fail", and "Pass".
         :paramtype grade: str or ~azure.mgmt.testbase.models.Grade
         :keyword memory_utilization_results: The result array data.
         :paramtype memory_utilization_results: list[~azure.mgmt.testbase.models.UtilizationResult]
         """
         super().__init__(grade=grade, **kwargs)
-        self.analysis_result_type = "MemoryUtilization"  # type: str
+        self.analysis_result_type: str = "MemoryUtilization"
         self.memory_utilization_results = memory_utilization_results
 
 
@@ -1799,8 +4492,8 @@ class NotificationEventReceiver(_serialization.Model):
         *,
         receiver_type: Optional[str] = None,
         receiver_value: Optional["_models.NotificationReceiverValue"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword receiver_type: The type of the notification event receiver.
         :paramtype receiver_type: str
@@ -1839,8 +4532,8 @@ class NotificationReceiverValue(_serialization.Model):
         user_object_receiver_value: Optional["_models.UserObjectReceiverValue"] = None,
         subscription_receiver_value: Optional["_models.SubscriptionReceiverValue"] = None,
         distribution_group_list_receiver_value: Optional["_models.DistributionGroupListReceiverValue"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword user_object_receiver_value: The user object receiver value.
         :paramtype user_object_receiver_value: ~azure.mgmt.testbase.models.UserObjectReceiverValue
@@ -1857,103 +4550,111 @@ class NotificationReceiverValue(_serialization.Model):
 
 
 class Operation(_serialization.Model):
-    """REST API operation.
+    """Details of a REST API operation, returned from the Resource Provider Operations API.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar name: Operation name: {provider}/{resource}/{operation}.
+    :ivar name: The name of the operation, as per Resource-Based Access Control (RBAC). Examples:
+     "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action".
     :vartype name: str
-    :ivar is_data_action: Indicates whether the operation is a data action.
+    :ivar is_data_action: Whether the operation applies to data-plane. This is "true" for
+     data-plane operations and "false" for ARM/control-plane operations.
     :vartype is_data_action: bool
-    :ivar origin: Origin of the operation.
-    :vartype origin: str
-    :ivar display: The object that describes the operation.
+    :ivar display: Localized display information for this particular operation.
     :vartype display: ~azure.mgmt.testbase.models.OperationDisplay
-    :ivar properties: Extra properties of the operation.
-    :vartype properties: JSON
+    :ivar origin: The intended executor of the operation; as in Resource Based Access Control
+     (RBAC) and audit logs UX. Default value is "user,system". Known values are: "user", "system",
+     and "user,system".
+    :vartype origin: str or ~azure.mgmt.testbase.models.Origin
+    :ivar action_type: Enum. Indicates the action type. "Internal" refers to actions that are for
+     internal only APIs. "Internal"
+    :vartype action_type: str or ~azure.mgmt.testbase.models.ActionType
     """
 
     _validation = {
         "name": {"readonly": True},
         "is_data_action": {"readonly": True},
         "origin": {"readonly": True},
+        "action_type": {"readonly": True},
     }
 
     _attribute_map = {
         "name": {"key": "name", "type": "str"},
         "is_data_action": {"key": "isDataAction", "type": "bool"},
-        "origin": {"key": "origin", "type": "str"},
         "display": {"key": "display", "type": "OperationDisplay"},
-        "properties": {"key": "properties", "type": "object"},
+        "origin": {"key": "origin", "type": "str"},
+        "action_type": {"key": "actionType", "type": "str"},
     }
 
-    def __init__(
-        self, *, display: Optional["_models.OperationDisplay"] = None, properties: Optional[JSON] = None, **kwargs
-    ):
+    def __init__(self, *, display: Optional["_models.OperationDisplay"] = None, **kwargs: Any) -> None:
         """
-        :keyword display: The object that describes the operation.
+        :keyword display: Localized display information for this particular operation.
         :paramtype display: ~azure.mgmt.testbase.models.OperationDisplay
-        :keyword properties: Extra properties of the operation.
-        :paramtype properties: JSON
         """
         super().__init__(**kwargs)
         self.name = None
         self.is_data_action = None
-        self.origin = None
         self.display = display
-        self.properties = properties
+        self.origin = None
+        self.action_type = None
 
 
 class OperationDisplay(_serialization.Model):
-    """The object that describes the operation.
+    """Localized display information for this particular operation.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar provider: The resource provider name: Microsoft.TestBase.
+    :ivar provider: The localized friendly form of the resource provider name, e.g. "Microsoft
+     Monitoring Insights" or "Microsoft Compute".
     :vartype provider: str
-    :ivar operation: Operation type: read, write, delete, listPackages, etc.
-    :vartype operation: str
-    :ivar resource: Resource type on which the operation is performed.
+    :ivar resource: The localized friendly name of the resource type related to this operation.
+     E.g. "Virtual Machines" or "Job Schedule Collections".
     :vartype resource: str
-    :ivar description: Friendly name of the operation.
+    :ivar operation: The concise, localized friendly name for the operation; suitable for
+     dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
+    :vartype operation: str
+    :ivar description: The short, localized friendly description of the operation; suitable for
+     tool tips and detailed views.
     :vartype description: str
     """
 
     _validation = {
         "provider": {"readonly": True},
-        "operation": {"readonly": True},
         "resource": {"readonly": True},
+        "operation": {"readonly": True},
         "description": {"readonly": True},
     }
 
     _attribute_map = {
         "provider": {"key": "provider", "type": "str"},
-        "operation": {"key": "operation", "type": "str"},
         "resource": {"key": "resource", "type": "str"},
+        "operation": {"key": "operation", "type": "str"},
         "description": {"key": "description", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.provider = None
-        self.operation = None
         self.resource = None
+        self.operation = None
         self.description = None
 
 
 class OperationListResult(_serialization.Model):
-    """A list of operations supported by the resource provider.
+    """A list of REST API operations supported by an Azure Resource Provider. It contains an URL link
+    to get the next set of results.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar value: List of operations supported by the Test Base resource provider.
+    :ivar value: List of operations supported by the resource provider.
     :vartype value: list[~azure.mgmt.testbase.models.Operation]
-    :ivar next_link: URL to get the next set of operation list results if there are any.
+    :ivar next_link: URL to get the next set of operation list results (if there are any).
     :vartype next_link: str
     """
 
     _validation = {
+        "value": {"readonly": True},
         "next_link": {"readonly": True},
     }
 
@@ -1962,14 +4663,60 @@ class OperationListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Operation"]] = None, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.value = None
+        self.next_link = None
+
+
+class OsProperties(_serialization.Model):
+    """The properties of an operating system.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar os_name: The name of the OS.
+    :vartype os_name: str
+    :ivar custom_image_id: Specify the referenced Test Base Custom Image Id if available.
+    :vartype custom_image_id: str
+    :ivar custom_image_display_name: The name of the custom image resource.
+    :vartype custom_image_display_name: str
+    :ivar release_properties: The properties of the OS release.
+    :vartype release_properties: ~azure.mgmt.testbase.models.ReleaseProperties
+    """
+
+    _validation = {
+        "custom_image_display_name": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "os_name": {"key": "osName", "type": "str"},
+        "custom_image_id": {"key": "customImageId", "type": "str"},
+        "custom_image_display_name": {"key": "customImageDisplayName", "type": "str"},
+        "release_properties": {"key": "releaseProperties", "type": "ReleaseProperties"},
+    }
+
+    def __init__(
+        self,
+        *,
+        os_name: Optional[str] = None,
+        custom_image_id: Optional[str] = None,
+        release_properties: Optional["_models.ReleaseProperties"] = None,
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword value: List of operations supported by the Test Base resource provider.
-        :paramtype value: list[~azure.mgmt.testbase.models.Operation]
+        :keyword os_name: The name of the OS.
+        :paramtype os_name: str
+        :keyword custom_image_id: Specify the referenced Test Base Custom Image Id if available.
+        :paramtype custom_image_id: str
+        :keyword release_properties: The properties of the OS release.
+        :paramtype release_properties: ~azure.mgmt.testbase.models.ReleaseProperties
         """
         super().__init__(**kwargs)
-        self.value = value
-        self.next_link = None
+        self.os_name = os_name
+        self.custom_image_id = custom_image_id
+        self.custom_image_display_name = None
+        self.release_properties = release_properties
 
 
 class OSUpdateListResult(_serialization.Model):
@@ -1993,7 +4740,7 @@ class OSUpdateListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.OSUpdateResource"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.OSUpdateResource"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The list of OS Updates.
         :paramtype value: list[~azure.mgmt.testbase.models.OSUpdateResource]
@@ -2008,13 +4755,16 @@ class OSUpdateResource(ProxyResource):  # pylint: disable=too-many-instance-attr
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Resource ID.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
-    :ivar name: Resource name.
+    :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: Resource type.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar system_data: The system metadata relating to this resource.
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
     :vartype system_data: ~azure.mgmt.testbase.models.SystemData
     :ivar os_name: The name of the OS.
     :vartype os_name: str
@@ -2027,10 +4777,17 @@ class OSUpdateResource(ProxyResource):  # pylint: disable=too-many-instance-attr
     :ivar build_revision: The build revision of the tested release (OS update).
     :vartype build_revision: str
     :ivar type_properties_type: The type of this release (OS update). Known values are:
-     "SecurityUpdate" and "FeatureUpdate".
+     "SecurityUpdate", "FeatureUpdate", and "InplaceUpgrade".
     :vartype type_properties_type: str or ~azure.mgmt.testbase.models.Type
     :ivar release_version_date: The release version date the tested release (OS update).
     :vartype release_version_date: ~datetime.datetime
+    :ivar inplace_upgrade_baseline_properties: The properties of baseline os for in-place upgrade
+     test.
+    :vartype inplace_upgrade_baseline_properties: ~azure.mgmt.testbase.models.OsProperties
+    :ivar custom_image_id: Specify the referenced Test Base Custom Image Id if available.
+    :vartype custom_image_id: str
+    :ivar custom_image_display_name: The name of the custom image resource.
+    :vartype custom_image_display_name: str
     """
 
     _validation = {
@@ -2052,6 +4809,12 @@ class OSUpdateResource(ProxyResource):  # pylint: disable=too-many-instance-attr
         "build_revision": {"key": "properties.buildRevision", "type": "str"},
         "type_properties_type": {"key": "properties.type", "type": "str"},
         "release_version_date": {"key": "properties.releaseVersionDate", "type": "iso-8601"},
+        "inplace_upgrade_baseline_properties": {
+            "key": "properties.inplaceUpgradeBaselineProperties",
+            "type": "OsProperties",
+        },
+        "custom_image_id": {"key": "properties.customImageId", "type": "str"},
+        "custom_image_display_name": {"key": "properties.customImageDisplayName", "type": "str"},
     }
 
     def __init__(
@@ -2064,8 +4827,11 @@ class OSUpdateResource(ProxyResource):  # pylint: disable=too-many-instance-attr
         build_revision: Optional[str] = None,
         type_properties_type: Optional[Union[str, "_models.Type"]] = None,
         release_version_date: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        inplace_upgrade_baseline_properties: Optional["_models.OsProperties"] = None,
+        custom_image_id: Optional[str] = None,
+        custom_image_display_name: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword os_name: The name of the OS.
         :paramtype os_name: str
@@ -2078,13 +4844,19 @@ class OSUpdateResource(ProxyResource):  # pylint: disable=too-many-instance-attr
         :keyword build_revision: The build revision of the tested release (OS update).
         :paramtype build_revision: str
         :keyword type_properties_type: The type of this release (OS update). Known values are:
-         "SecurityUpdate" and "FeatureUpdate".
+         "SecurityUpdate", "FeatureUpdate", and "InplaceUpgrade".
         :paramtype type_properties_type: str or ~azure.mgmt.testbase.models.Type
         :keyword release_version_date: The release version date the tested release (OS update).
         :paramtype release_version_date: ~datetime.datetime
+        :keyword inplace_upgrade_baseline_properties: The properties of baseline os for in-place
+         upgrade test.
+        :paramtype inplace_upgrade_baseline_properties: ~azure.mgmt.testbase.models.OsProperties
+        :keyword custom_image_id: Specify the referenced Test Base Custom Image Id if available.
+        :paramtype custom_image_id: str
+        :keyword custom_image_display_name: The name of the custom image resource.
+        :paramtype custom_image_display_name: str
         """
         super().__init__(**kwargs)
-        self.system_data = None
         self.os_name = os_name
         self.release = release
         self.flighting_ring = flighting_ring
@@ -2092,6 +4864,9 @@ class OSUpdateResource(ProxyResource):  # pylint: disable=too-many-instance-attr
         self.build_revision = build_revision
         self.type_properties_type = type_properties_type
         self.release_version_date = release_version_date
+        self.inplace_upgrade_baseline_properties = inplace_upgrade_baseline_properties
+        self.custom_image_id = custom_image_id
+        self.custom_image_display_name = custom_image_display_name
 
 
 class OSUpdatesTestSummary(_serialization.Model):
@@ -2104,8 +4879,8 @@ class OSUpdatesTestSummary(_serialization.Model):
      "TestExecutionInProgress", "DataProcessing", "TestFailure", "UpdateFailure",
      "TestAndUpdateFailure", "InfrastructureFailure", and "Completed".
     :vartype test_status: str or ~azure.mgmt.testbase.models.TestStatus
-    :ivar grade: The grade of last test. Known values are: "None", "NotAvailable", "Pass", and
-     "Fail".
+    :ivar grade: The grade of last test. Known values are: "None", "NotAvailable", "Pass", "Fail",
+     and "Pass".
     :vartype grade: str or ~azure.mgmt.testbase.models.Grade
     :ivar test_run_time: The run time of the last test.
     :vartype test_run_time: str
@@ -2129,8 +4904,8 @@ class OSUpdatesTestSummary(_serialization.Model):
         grade: Optional[Union[str, "_models.Grade"]] = None,
         test_run_time: Optional[str] = None,
         os_update_test_summaries: Optional[List["_models.OSUpdateTestSummary"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword execution_status: The status of the last test. Known values are: "None", "InProgress",
          "Processing", "Completed", "NotExecuted", "Incomplete", "Failed", and "Succeeded".
@@ -2139,8 +4914,8 @@ class OSUpdatesTestSummary(_serialization.Model):
          "TestExecutionInProgress", "DataProcessing", "TestFailure", "UpdateFailure",
          "TestAndUpdateFailure", "InfrastructureFailure", and "Completed".
         :paramtype test_status: str or ~azure.mgmt.testbase.models.TestStatus
-        :keyword grade: The grade of last test. Known values are: "None", "NotAvailable", "Pass", and
-         "Fail".
+        :keyword grade: The grade of last test. Known values are: "None", "NotAvailable", "Pass",
+         "Fail", and "Pass".
         :paramtype grade: str or ~azure.mgmt.testbase.models.Grade
         :keyword test_run_time: The run time of the last test.
         :paramtype test_run_time: str
@@ -2160,6 +4935,10 @@ class OSUpdateTestSummary(_serialization.Model):  # pylint: disable=too-many-ins
 
     :ivar os_name: The operating system name. e.g. Windows 10 1809.
     :vartype os_name: str
+    :ivar custom_image_id: Specify the referenced Test Base Custom Image Id if available.
+    :vartype custom_image_id: str
+    :ivar custom_image_display_name: The name of the custom image resource.
+    :vartype custom_image_display_name: str
     :ivar release_name: The name of the tested release (OS update).
     :vartype release_name: str
     :ivar build_version: The build version of the tested release (OS update).
@@ -2178,17 +4957,22 @@ class OSUpdateTestSummary(_serialization.Model):  # pylint: disable=too-many-ins
      "DataProcessing", "TestFailure", "UpdateFailure", "TestAndUpdateFailure",
      "InfrastructureFailure", and "Completed".
     :vartype test_status: str or ~azure.mgmt.testbase.models.TestStatus
-    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-     "Fail".
+    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", "Fail",
+     and "Pass".
     :vartype grade: str or ~azure.mgmt.testbase.models.Grade
     :ivar test_run_time: The run time of the test.
     :vartype test_run_time: str
     :ivar test_type: The test type of the package.
     :vartype test_type: str
+    :ivar inplace_upgrade_baseline_properties: The properties of baseline os for in-place upgrade
+     test.
+    :vartype inplace_upgrade_baseline_properties: ~azure.mgmt.testbase.models.OsProperties
     """
 
     _attribute_map = {
         "os_name": {"key": "osName", "type": "str"},
+        "custom_image_id": {"key": "customImageId", "type": "str"},
+        "custom_image_display_name": {"key": "customImageDisplayName", "type": "str"},
         "release_name": {"key": "releaseName", "type": "str"},
         "build_version": {"key": "buildVersion", "type": "str"},
         "build_revision": {"key": "buildRevision", "type": "str"},
@@ -2199,12 +4983,15 @@ class OSUpdateTestSummary(_serialization.Model):  # pylint: disable=too-many-ins
         "grade": {"key": "grade", "type": "str"},
         "test_run_time": {"key": "testRunTime", "type": "str"},
         "test_type": {"key": "testType", "type": "str"},
+        "inplace_upgrade_baseline_properties": {"key": "inplaceUpgradeBaselineProperties", "type": "OsProperties"},
     }
 
     def __init__(
         self,
         *,
         os_name: Optional[str] = None,
+        custom_image_id: Optional[str] = None,
+        custom_image_display_name: Optional[str] = None,
         release_name: Optional[str] = None,
         build_version: Optional[str] = None,
         build_revision: Optional[str] = None,
@@ -2215,11 +5002,16 @@ class OSUpdateTestSummary(_serialization.Model):  # pylint: disable=too-many-ins
         grade: Optional[Union[str, "_models.Grade"]] = None,
         test_run_time: Optional[str] = None,
         test_type: Optional[str] = None,
-        **kwargs
-    ):
+        inplace_upgrade_baseline_properties: Optional["_models.OsProperties"] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword os_name: The operating system name. e.g. Windows 10 1809.
         :paramtype os_name: str
+        :keyword custom_image_id: Specify the referenced Test Base Custom Image Id if available.
+        :paramtype custom_image_id: str
+        :keyword custom_image_display_name: The name of the custom image resource.
+        :paramtype custom_image_display_name: str
         :keyword release_name: The name of the tested release (OS update).
         :paramtype release_name: str
         :keyword build_version: The build version of the tested release (OS update).
@@ -2238,16 +5030,21 @@ class OSUpdateTestSummary(_serialization.Model):  # pylint: disable=too-many-ins
          "TestExecutionInProgress", "DataProcessing", "TestFailure", "UpdateFailure",
          "TestAndUpdateFailure", "InfrastructureFailure", and "Completed".
         :paramtype test_status: str or ~azure.mgmt.testbase.models.TestStatus
-        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-         "Fail".
+        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass",
+         "Fail", and "Pass".
         :paramtype grade: str or ~azure.mgmt.testbase.models.Grade
         :keyword test_run_time: The run time of the test.
         :paramtype test_run_time: str
         :keyword test_type: The test type of the package.
         :paramtype test_type: str
+        :keyword inplace_upgrade_baseline_properties: The properties of baseline os for in-place
+         upgrade test.
+        :paramtype inplace_upgrade_baseline_properties: ~azure.mgmt.testbase.models.OsProperties
         """
         super().__init__(**kwargs)
         self.os_name = os_name
+        self.custom_image_id = custom_image_id
+        self.custom_image_display_name = custom_image_display_name
         self.release_name = release_name
         self.build_version = build_version
         self.build_revision = build_revision
@@ -2258,6 +5055,7 @@ class OSUpdateTestSummary(_serialization.Model):  # pylint: disable=too-many-ins
         self.grade = grade
         self.test_run_time = test_run_time
         self.test_type = test_type
+        self.inplace_upgrade_baseline_properties = inplace_upgrade_baseline_properties
 
 
 class PackageCheckNameAvailabilityParameters(_serialization.Model):
@@ -2288,7 +5086,9 @@ class PackageCheckNameAvailabilityParameters(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, *, name: str, application_name: str, version: str, type: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, name: str, application_name: str, version: str, type: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword name: Resource name to verify. Required.
         :paramtype name: str
@@ -2327,7 +5127,7 @@ class PackageListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.PackageResource"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.PackageResource"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The list of Test Base Packages.
         :paramtype value: list[~azure.mgmt.testbase.models.PackageResource]
@@ -2338,46 +5138,50 @@ class PackageListResult(_serialization.Model):
 
 
 class TrackedResource(Resource):
-    """The resource model definition for an ARM tracked top level resource.
+    """The resource model definition for an Azure Resource Manager tracked top level resource which
+    has 'tags' and a 'location'.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar id: Resource ID.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
-    :ivar name: Resource name.
+    :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: Resource type.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar tags: The tags of the resource.
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.testbase.models.SystemData
+    :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
-    :ivar etag: Resource Etag.
-    :vartype etag: str
     """
 
     _validation = {
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
         "location": {"required": True},
-        "etag": {"readonly": True},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
-        "etag": {"key": "etag", "type": "str"},
     }
 
-    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
-        :keyword tags: The tags of the resource.
+        :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
         :keyword location: The geo-location where the resource lives. Required.
         :paramtype location: str
@@ -2385,7 +5189,6 @@ class TrackedResource(Resource):
         super().__init__(**kwargs)
         self.tags = tags
         self.location = location
-        self.etag = None
 
 
 class PackageResource(TrackedResource):  # pylint: disable=too-many-instance-attributes
@@ -2395,20 +5198,21 @@ class PackageResource(TrackedResource):  # pylint: disable=too-many-instance-att
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar id: Resource ID.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
-    :ivar name: Resource name.
+    :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: Resource type.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar tags: The tags of the resource.
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.testbase.models.SystemData
+    :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
-    :ivar etag: Resource Etag.
-    :vartype etag: str
-    :ivar system_data: The system metadata relating to this resource.
-    :vartype system_data: ~azure.mgmt.testbase.models.SystemData
     :ivar provisioning_state: The provisioning state of the resource. Known values are:
      "Succeeded", "Failed", "Cancelled", "Creating", "Deleting", and "Updating".
     :vartype provisioning_state: str or ~azure.mgmt.testbase.models.ProvisioningState
@@ -2416,18 +5220,13 @@ class PackageResource(TrackedResource):  # pylint: disable=too-many-instance-att
     :vartype application_name: str
     :ivar version: Application version.
     :vartype version: str
-    :ivar test_types: OOB, functional or both. Mapped to the data in 'tests' property.
-    :vartype test_types: list[str or ~azure.mgmt.testbase.models.TestType]
-    :ivar target_os_list: Specifies the target OSs of specific OS Update types.
-    :vartype target_os_list: list[~azure.mgmt.testbase.models.TargetOSInfo]
+    :ivar draft_package_id: The id of draft package. Used to create or update this package from a
+     draft package.
+    :vartype draft_package_id: str
     :ivar package_status: The status of the package. Known values are: "Unknown", "Registered",
      "Ready", "Error", "ValidatingPackage", "PreValidationCheckPass", "Deleted",
      "ValidationLongerThanUsual", and "VerifyingPackage".
     :vartype package_status: str or ~azure.mgmt.testbase.models.PackageStatus
-    :ivar last_modified_time: The UTC timestamp when the package was last modified.
-    :vartype last_modified_time: ~datetime.datetime
-    :ivar flighting_ring: The flighting ring for feature update.
-    :vartype flighting_ring: str
     :ivar is_enabled: Flag showing that whether the package is enabled. It doesn't schedule test
      for package which is not enabled.
     :vartype is_enabled: bool
@@ -2436,45 +5235,69 @@ class PackageResource(TrackedResource):  # pylint: disable=too-many-instance-att
     :ivar validation_results: The validation results. There's validation on package when it's
      created or updated.
     :vartype validation_results: list[~azure.mgmt.testbase.models.PackageValidationResult]
+    :ivar test_types: OOB, functional or flow driven. Mapped to the data in 'tests' property.
+    :vartype test_types: list[str or ~azure.mgmt.testbase.models.TestType]
+    :ivar target_os_list: Specifies the target OSs of specific OS Update types.
+    :vartype target_os_list: list[~azure.mgmt.testbase.models.TargetOSInfo]
+    :ivar inplace_upgrade_os_pair: Specifies the baseline os and target os for inplace upgrade.
+    :vartype inplace_upgrade_os_pair: ~azure.mgmt.testbase.models.InplaceUpgradeOSInfo
+    :ivar last_modified_time: The UTC timestamp when the package was last modified.
+    :vartype last_modified_time: ~datetime.datetime
+    :ivar flighting_ring: The flighting ring for feature update.
+    :vartype flighting_ring: str
+    :ivar first_party_apps: The list of first party applications to test along with user
+     application.
+    :vartype first_party_apps: list[~azure.mgmt.testbase.models.FirstPartyAppDefinition]
+    :ivar gallery_apps: The list of gallery apps to test along with user application.
+    :vartype gallery_apps: list[~azure.mgmt.testbase.models.GalleryAppDefinition]
     :ivar tests: The detailed test information.
     :vartype tests: list[~azure.mgmt.testbase.models.Test]
+    :ivar intune_enrollment_metadata: The metadata of Intune enrollment.
+    :vartype intune_enrollment_metadata: ~azure.mgmt.testbase.models.IntuneEnrollmentMetadata
     """
 
     _validation = {
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
-        "location": {"required": True},
-        "etag": {"readonly": True},
         "system_data": {"readonly": True},
+        "location": {"required": True},
         "provisioning_state": {"readonly": True},
-        "test_types": {"readonly": True},
         "package_status": {"readonly": True},
-        "last_modified_time": {"readonly": True},
         "is_enabled": {"readonly": True},
         "validation_results": {"readonly": True},
+        "test_types": {"readonly": True},
+        "last_modified_time": {"readonly": True},
+        "gallery_apps": {"readonly": True},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
-        "etag": {"key": "etag", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "application_name": {"key": "properties.applicationName", "type": "str"},
         "version": {"key": "properties.version", "type": "str"},
-        "test_types": {"key": "properties.testTypes", "type": "[str]"},
-        "target_os_list": {"key": "properties.targetOSList", "type": "[TargetOSInfo]"},
+        "draft_package_id": {"key": "properties.draftPackageId", "type": "str"},
         "package_status": {"key": "properties.packageStatus", "type": "str"},
-        "last_modified_time": {"key": "properties.lastModifiedTime", "type": "iso-8601"},
-        "flighting_ring": {"key": "properties.flightingRing", "type": "str"},
         "is_enabled": {"key": "properties.isEnabled", "type": "bool"},
         "blob_path": {"key": "properties.blobPath", "type": "str"},
         "validation_results": {"key": "properties.validationResults", "type": "[PackageValidationResult]"},
+        "test_types": {"key": "properties.testTypes", "type": "[str]"},
+        "target_os_list": {"key": "properties.targetOSList", "type": "[TargetOSInfo]"},
+        "inplace_upgrade_os_pair": {"key": "properties.inplaceUpgradeOSPair", "type": "InplaceUpgradeOSInfo"},
+        "last_modified_time": {"key": "properties.lastModifiedTime", "type": "iso-8601"},
+        "flighting_ring": {"key": "properties.flightingRing", "type": "str"},
+        "first_party_apps": {"key": "properties.firstPartyApps", "type": "[FirstPartyAppDefinition]"},
+        "gallery_apps": {"key": "properties.galleryApps", "type": "[GalleryAppDefinition]"},
         "tests": {"key": "properties.tests", "type": "[Test]"},
+        "intune_enrollment_metadata": {
+            "key": "properties.intuneEnrollmentMetadata",
+            "type": "IntuneEnrollmentMetadata",
+        },
     }
 
     def __init__(
@@ -2484,14 +5307,18 @@ class PackageResource(TrackedResource):  # pylint: disable=too-many-instance-att
         tags: Optional[Dict[str, str]] = None,
         application_name: Optional[str] = None,
         version: Optional[str] = None,
-        target_os_list: Optional[List["_models.TargetOSInfo"]] = None,
-        flighting_ring: Optional[str] = None,
+        draft_package_id: Optional[str] = None,
         blob_path: Optional[str] = None,
+        target_os_list: Optional[List["_models.TargetOSInfo"]] = None,
+        inplace_upgrade_os_pair: Optional["_models.InplaceUpgradeOSInfo"] = None,
+        flighting_ring: Optional[str] = None,
+        first_party_apps: Optional[List["_models.FirstPartyAppDefinition"]] = None,
         tests: Optional[List["_models.Test"]] = None,
-        **kwargs
-    ):
+        intune_enrollment_metadata: Optional["_models.IntuneEnrollmentMetadata"] = None,
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword tags: The tags of the resource.
+        :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
         :keyword location: The geo-location where the resource lives. Required.
         :paramtype location: str
@@ -2499,54 +5326,64 @@ class PackageResource(TrackedResource):  # pylint: disable=too-many-instance-att
         :paramtype application_name: str
         :keyword version: Application version.
         :paramtype version: str
-        :keyword target_os_list: Specifies the target OSs of specific OS Update types.
-        :paramtype target_os_list: list[~azure.mgmt.testbase.models.TargetOSInfo]
-        :keyword flighting_ring: The flighting ring for feature update.
-        :paramtype flighting_ring: str
+        :keyword draft_package_id: The id of draft package. Used to create or update this package from
+         a draft package.
+        :paramtype draft_package_id: str
         :keyword blob_path: The file path of the package.
         :paramtype blob_path: str
+        :keyword target_os_list: Specifies the target OSs of specific OS Update types.
+        :paramtype target_os_list: list[~azure.mgmt.testbase.models.TargetOSInfo]
+        :keyword inplace_upgrade_os_pair: Specifies the baseline os and target os for inplace upgrade.
+        :paramtype inplace_upgrade_os_pair: ~azure.mgmt.testbase.models.InplaceUpgradeOSInfo
+        :keyword flighting_ring: The flighting ring for feature update.
+        :paramtype flighting_ring: str
+        :keyword first_party_apps: The list of first party applications to test along with user
+         application.
+        :paramtype first_party_apps: list[~azure.mgmt.testbase.models.FirstPartyAppDefinition]
         :keyword tests: The detailed test information.
         :paramtype tests: list[~azure.mgmt.testbase.models.Test]
+        :keyword intune_enrollment_metadata: The metadata of Intune enrollment.
+        :paramtype intune_enrollment_metadata: ~azure.mgmt.testbase.models.IntuneEnrollmentMetadata
         """
         super().__init__(tags=tags, location=location, **kwargs)
-        self.system_data = None
         self.provisioning_state = None
         self.application_name = application_name
         self.version = version
-        self.test_types = None
-        self.target_os_list = target_os_list
+        self.draft_package_id = draft_package_id
         self.package_status = None
-        self.last_modified_time = None
-        self.flighting_ring = flighting_ring
         self.is_enabled = None
         self.blob_path = blob_path
         self.validation_results = None
+        self.test_types = None
+        self.target_os_list = target_os_list
+        self.inplace_upgrade_os_pair = inplace_upgrade_os_pair
+        self.last_modified_time = None
+        self.flighting_ring = flighting_ring
+        self.first_party_apps = first_party_apps
+        self.gallery_apps = None
         self.tests = tests
+        self.intune_enrollment_metadata = intune_enrollment_metadata
 
 
 class PackageRunTestParameters(_serialization.Model):
     """The parameters supplied to the Test Base Package to start a Test Run.
 
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar test_type: The type of the test. Required. Known values are: "OutOfBoxTest" and
-     "FunctionalTest".
+    :ivar test_type: The type of the test. Known values are: "OutOfBoxTest", "FunctionalTest", and
+     "FlowDrivenTest".
     :vartype test_type: str or ~azure.mgmt.testbase.models.TestType
     :ivar os_update_type: Specifies the OS update type to test against. Known values are:
-     "SecurityUpdate" and "FeatureUpdate".
+     "SecurityUpdate", "FeatureUpdate", and "InplaceUpgrade".
     :vartype os_update_type: str or ~azure.mgmt.testbase.models.OsUpdateType
-    :ivar os_name: The operating system name. e.g. Windows 10 1809. Required.
+    :ivar os_name: The operating system name. e.g. Windows 10 1809.
     :vartype os_name: str
     :ivar release_name: The name of the tested release (OS update).
     :vartype release_name: str
     :ivar flighting_ring: The flighting ring, only for release of feature updates.
     :vartype flighting_ring: str
+    :ivar custom_image_id: The tested custom image id. 'osName', 'release', 'buildVersion' and
+     'mediaPackageVersion' would be ignored when it's eligible.'.
+    :vartype custom_image_id: str
     """
-
-    _validation = {
-        "test_type": {"required": True},
-        "os_name": {"required": True},
-    }
 
     _attribute_map = {
         "test_type": {"key": "testType", "type": "str"},
@@ -2554,31 +5391,36 @@ class PackageRunTestParameters(_serialization.Model):
         "os_name": {"key": "osName", "type": "str"},
         "release_name": {"key": "releaseName", "type": "str"},
         "flighting_ring": {"key": "flightingRing", "type": "str"},
+        "custom_image_id": {"key": "customImageId", "type": "str"},
     }
 
     def __init__(
         self,
         *,
-        test_type: Union[str, "_models.TestType"],
-        os_name: str,
+        test_type: Optional[Union[str, "_models.TestType"]] = None,
         os_update_type: Optional[Union[str, "_models.OsUpdateType"]] = None,
+        os_name: Optional[str] = None,
         release_name: Optional[str] = None,
         flighting_ring: Optional[str] = None,
-        **kwargs
-    ):
+        custom_image_id: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword test_type: The type of the test. Required. Known values are: "OutOfBoxTest" and
-         "FunctionalTest".
+        :keyword test_type: The type of the test. Known values are: "OutOfBoxTest", "FunctionalTest",
+         and "FlowDrivenTest".
         :paramtype test_type: str or ~azure.mgmt.testbase.models.TestType
         :keyword os_update_type: Specifies the OS update type to test against. Known values are:
-         "SecurityUpdate" and "FeatureUpdate".
+         "SecurityUpdate", "FeatureUpdate", and "InplaceUpgrade".
         :paramtype os_update_type: str or ~azure.mgmt.testbase.models.OsUpdateType
-        :keyword os_name: The operating system name. e.g. Windows 10 1809. Required.
+        :keyword os_name: The operating system name. e.g. Windows 10 1809.
         :paramtype os_name: str
         :keyword release_name: The name of the tested release (OS update).
         :paramtype release_name: str
         :keyword flighting_ring: The flighting ring, only for release of feature updates.
         :paramtype flighting_ring: str
+        :keyword custom_image_id: The tested custom image id. 'osName', 'release', 'buildVersion' and
+         'mediaPackageVersion' would be ignored when it's eligible.'.
+        :paramtype custom_image_id: str
         """
         super().__init__(**kwargs)
         self.test_type = test_type
@@ -2586,6 +5428,7 @@ class PackageRunTestParameters(_serialization.Model):
         self.os_name = os_name
         self.release_name = release_name
         self.flighting_ring = flighting_ring
+        self.custom_image_id = custom_image_id
 
 
 class PackageUpdateParameters(_serialization.Model):
@@ -2593,61 +5436,96 @@ class PackageUpdateParameters(_serialization.Model):
 
     :ivar tags: The tags of the Package.
     :vartype tags: dict[str, str]
-    :ivar target_os_list: Specifies the target OSs of specific OS Update types.
-    :vartype target_os_list: list[~azure.mgmt.testbase.models.TargetOSInfo]
-    :ivar flighting_ring: The flighting ring for feature update.
-    :vartype flighting_ring: str
+    :ivar draft_package_id: The id of draft package. Used to create or update this package from a
+     draft package.
+    :vartype draft_package_id: str
     :ivar is_enabled: Specifies whether the package is enabled. It doesn't schedule test for
      package which is not enabled.
     :vartype is_enabled: bool
     :ivar blob_path: The file name of the package.
     :vartype blob_path: str
+    :ivar target_os_list: Specifies the target OSs of specific OS Update types.
+    :vartype target_os_list: list[~azure.mgmt.testbase.models.TargetOSInfo]
+    :ivar inplace_upgrade_os_pair: Specifies the baseline os and target os for in-place upgrade.
+    :vartype inplace_upgrade_os_pair: ~azure.mgmt.testbase.models.InplaceUpgradeOSInfo
+    :ivar flighting_ring: The flighting ring for feature update.
+    :vartype flighting_ring: str
+    :ivar first_party_apps: Specifies the list of first party applications to test along with user
+     application.
+    :vartype first_party_apps: list[~azure.mgmt.testbase.models.FirstPartyAppDefinition]
     :ivar tests: The detailed test information.
     :vartype tests: list[~azure.mgmt.testbase.models.Test]
+    :ivar intune_enrollment_metadata: The metadata of Intune enrollment.
+    :vartype intune_enrollment_metadata: ~azure.mgmt.testbase.models.IntuneEnrollmentMetadata
     """
 
     _attribute_map = {
         "tags": {"key": "tags", "type": "{str}"},
-        "target_os_list": {"key": "properties.targetOSList", "type": "[TargetOSInfo]"},
-        "flighting_ring": {"key": "properties.flightingRing", "type": "str"},
+        "draft_package_id": {"key": "properties.draftPackageId", "type": "str"},
         "is_enabled": {"key": "properties.isEnabled", "type": "bool"},
         "blob_path": {"key": "properties.blobPath", "type": "str"},
+        "target_os_list": {"key": "properties.targetOSList", "type": "[TargetOSInfo]"},
+        "inplace_upgrade_os_pair": {"key": "properties.inplaceUpgradeOSPair", "type": "InplaceUpgradeOSInfo"},
+        "flighting_ring": {"key": "properties.flightingRing", "type": "str"},
+        "first_party_apps": {"key": "properties.firstPartyApps", "type": "[FirstPartyAppDefinition]"},
         "tests": {"key": "properties.tests", "type": "[Test]"},
+        "intune_enrollment_metadata": {
+            "key": "properties.intuneEnrollmentMetadata",
+            "type": "IntuneEnrollmentMetadata",
+        },
     }
 
     def __init__(
         self,
         *,
         tags: Optional[Dict[str, str]] = None,
-        target_os_list: Optional[List["_models.TargetOSInfo"]] = None,
-        flighting_ring: Optional[str] = None,
+        draft_package_id: Optional[str] = None,
         is_enabled: Optional[bool] = None,
         blob_path: Optional[str] = None,
+        target_os_list: Optional[List["_models.TargetOSInfo"]] = None,
+        inplace_upgrade_os_pair: Optional["_models.InplaceUpgradeOSInfo"] = None,
+        flighting_ring: Optional[str] = None,
+        first_party_apps: Optional[List["_models.FirstPartyAppDefinition"]] = None,
         tests: Optional[List["_models.Test"]] = None,
-        **kwargs
-    ):
+        intune_enrollment_metadata: Optional["_models.IntuneEnrollmentMetadata"] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: The tags of the Package.
         :paramtype tags: dict[str, str]
-        :keyword target_os_list: Specifies the target OSs of specific OS Update types.
-        :paramtype target_os_list: list[~azure.mgmt.testbase.models.TargetOSInfo]
-        :keyword flighting_ring: The flighting ring for feature update.
-        :paramtype flighting_ring: str
+        :keyword draft_package_id: The id of draft package. Used to create or update this package from
+         a draft package.
+        :paramtype draft_package_id: str
         :keyword is_enabled: Specifies whether the package is enabled. It doesn't schedule test for
          package which is not enabled.
         :paramtype is_enabled: bool
         :keyword blob_path: The file name of the package.
         :paramtype blob_path: str
+        :keyword target_os_list: Specifies the target OSs of specific OS Update types.
+        :paramtype target_os_list: list[~azure.mgmt.testbase.models.TargetOSInfo]
+        :keyword inplace_upgrade_os_pair: Specifies the baseline os and target os for in-place upgrade.
+        :paramtype inplace_upgrade_os_pair: ~azure.mgmt.testbase.models.InplaceUpgradeOSInfo
+        :keyword flighting_ring: The flighting ring for feature update.
+        :paramtype flighting_ring: str
+        :keyword first_party_apps: Specifies the list of first party applications to test along with
+         user application.
+        :paramtype first_party_apps: list[~azure.mgmt.testbase.models.FirstPartyAppDefinition]
         :keyword tests: The detailed test information.
         :paramtype tests: list[~azure.mgmt.testbase.models.Test]
+        :keyword intune_enrollment_metadata: The metadata of Intune enrollment.
+        :paramtype intune_enrollment_metadata: ~azure.mgmt.testbase.models.IntuneEnrollmentMetadata
         """
         super().__init__(**kwargs)
         self.tags = tags
-        self.target_os_list = target_os_list
-        self.flighting_ring = flighting_ring
+        self.draft_package_id = draft_package_id
         self.is_enabled = is_enabled
         self.blob_path = blob_path
+        self.target_os_list = target_os_list
+        self.inplace_upgrade_os_pair = inplace_upgrade_os_pair
+        self.flighting_ring = flighting_ring
+        self.first_party_apps = first_party_apps
         self.tests = tests
+        self.intune_enrollment_metadata = intune_enrollment_metadata
 
 
 class PackageValidationResult(_serialization.Model):
@@ -2675,7 +5553,7 @@ class PackageValidationResult(_serialization.Model):
         "errors": {"key": "errors", "type": "[str]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.validation_name = None
@@ -2683,13 +5561,94 @@ class PackageValidationResult(_serialization.Model):
         self.errors = None
 
 
+class PreReleaseAccessRequestSpec(_serialization.Model):
+    """PreReleaseAccessRequestSpec.
+
+    :ivar organization_name:
+    :vartype organization_name: str
+    :ivar email:
+    :vartype email: str
+    :ivar engagements:
+    :vartype engagements: list[str or ~azure.mgmt.testbase.models.Engagements]
+    :ivar street_address:
+    :vartype street_address: str
+    :ivar city:
+    :vartype city: str
+    :ivar state_or_province:
+    :vartype state_or_province: str
+    :ivar zip_code:
+    :vartype zip_code: str
+    :ivar country_and_region:
+    :vartype country_and_region: str
+    :ivar company_website:
+    :vartype company_website: str
+    """
+
+    _attribute_map = {
+        "organization_name": {"key": "organizationName", "type": "str"},
+        "email": {"key": "email", "type": "str"},
+        "engagements": {"key": "engagements", "type": "[str]"},
+        "street_address": {"key": "streetAddress", "type": "str"},
+        "city": {"key": "city", "type": "str"},
+        "state_or_province": {"key": "stateOrProvince", "type": "str"},
+        "zip_code": {"key": "zipCode", "type": "str"},
+        "country_and_region": {"key": "countryAndRegion", "type": "str"},
+        "company_website": {"key": "companyWebsite", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        organization_name: Optional[str] = None,
+        email: Optional[str] = None,
+        engagements: Optional[List[Union[str, "_models.Engagements"]]] = None,
+        street_address: Optional[str] = None,
+        city: Optional[str] = None,
+        state_or_province: Optional[str] = None,
+        zip_code: Optional[str] = None,
+        country_and_region: Optional[str] = None,
+        company_website: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword organization_name:
+        :paramtype organization_name: str
+        :keyword email:
+        :paramtype email: str
+        :keyword engagements:
+        :paramtype engagements: list[str or ~azure.mgmt.testbase.models.Engagements]
+        :keyword street_address:
+        :paramtype street_address: str
+        :keyword city:
+        :paramtype city: str
+        :keyword state_or_province:
+        :paramtype state_or_province: str
+        :keyword zip_code:
+        :paramtype zip_code: str
+        :keyword country_and_region:
+        :paramtype country_and_region: str
+        :keyword company_website:
+        :paramtype company_website: str
+        """
+        super().__init__(**kwargs)
+        self.organization_name = organization_name
+        self.email = email
+        self.engagements = engagements
+        self.street_address = street_address
+        self.city = city
+        self.state_or_province = state_or_province
+        self.zip_code = zip_code
+        self.country_and_region = country_and_region
+        self.company_website = company_website
+
+
 class RegressionResult(_serialization.Model):
     """The regression result.
 
     :ivar file_name: FileName of the binary being analyzed.
     :vartype file_name: str
-    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-     "Fail".
+    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", "Fail",
+     and "Pass".
     :vartype grade: str or ~azure.mgmt.testbase.models.Grade
     :ivar details: Message that facilitates debugging a particular regression, if any was inferred.
     :vartype details: str
@@ -2715,13 +5674,13 @@ class RegressionResult(_serialization.Model):
         details: Optional[str] = None,
         diff: Optional[float] = None,
         is_regressed: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword file_name: FileName of the binary being analyzed.
         :paramtype file_name: str
-        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-         "Fail".
+        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass",
+         "Fail", and "Pass".
         :paramtype grade: str or ~azure.mgmt.testbase.models.Grade
         :keyword details: Message that facilitates debugging a particular regression, if any was
          inferred.
@@ -2753,7 +5712,7 @@ class RegressionTestDetails(_serialization.Model):
         "is_regressed": {"key": "isRegressed", "type": "bool"},
     }
 
-    def __init__(self, *, diff: Optional[float] = None, is_regressed: Optional[bool] = None, **kwargs):
+    def __init__(self, *, diff: Optional[float] = None, is_regressed: Optional[bool] = None, **kwargs: Any) -> None:
         """
         :keyword diff: Difference between the two datasets being analyzed.
         :paramtype diff: float
@@ -2763,6 +5722,52 @@ class RegressionTestDetails(_serialization.Model):
         super().__init__(**kwargs)
         self.diff = diff
         self.is_regressed = is_regressed
+
+
+class ReleaseProperties(_serialization.Model):
+    """The properties of an operating system release.
+
+    :ivar release_name: The name of the OS release.
+    :vartype release_name: str
+    :ivar build_number: The build number of the OS release.
+    :vartype build_number: str
+    :ivar build_revision: The build revision of the OS release.
+    :vartype build_revision: str
+    :ivar release_version_date: The release version date of the OS release.
+    :vartype release_version_date: ~datetime.datetime
+    """
+
+    _attribute_map = {
+        "release_name": {"key": "releaseName", "type": "str"},
+        "build_number": {"key": "buildNumber", "type": "str"},
+        "build_revision": {"key": "buildRevision", "type": "str"},
+        "release_version_date": {"key": "releaseVersionDate", "type": "iso-8601"},
+    }
+
+    def __init__(
+        self,
+        *,
+        release_name: Optional[str] = None,
+        build_number: Optional[str] = None,
+        build_revision: Optional[str] = None,
+        release_version_date: Optional[datetime.datetime] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword release_name: The name of the OS release.
+        :paramtype release_name: str
+        :keyword build_number: The build number of the OS release.
+        :paramtype build_number: str
+        :keyword build_revision: The build revision of the OS release.
+        :paramtype build_revision: str
+        :keyword release_version_date: The release version date of the OS release.
+        :paramtype release_version_date: ~datetime.datetime
+        """
+        super().__init__(**kwargs)
+        self.release_name = release_name
+        self.build_number = build_number
+        self.build_revision = build_revision
+        self.release_version_date = release_version_date
 
 
 class ReliabilityResult(_serialization.Model):
@@ -2777,15 +5782,15 @@ class ReliabilityResult(_serialization.Model):
     :ivar hang_count: Count of number of hangs.
     :vartype hang_count: int
     :ivar regression_grade: The regression grade. Known values are: "None", "NotAvailable", "Pass",
-     and "Fail".
+     "Fail", and "Pass".
     :vartype regression_grade: str or ~azure.mgmt.testbase.models.Grade
     :ivar crash_regression_grade: The statistic regression grade for crash signal. Known values
-     are: "None", "NotAvailable", "Pass", and "Fail".
+     are: "None", "NotAvailable", "Pass", "Fail", and "Pass".
     :vartype crash_regression_grade: str or ~azure.mgmt.testbase.models.Grade
     :ivar crash_regression_test_details: Details related to the crash regression analysis.
     :vartype crash_regression_test_details: ~azure.mgmt.testbase.models.RegressionTestDetails
     :ivar hang_regression_grade: The statistic regression grade for hang signal. Known values are:
-     "None", "NotAvailable", "Pass", and "Fail".
+     "None", "NotAvailable", "Pass", "Fail", and "Pass".
     :vartype hang_regression_grade: str or ~azure.mgmt.testbase.models.Grade
     :ivar hang_regression_test_details: Details related to the hang regression analysis.
     :vartype hang_regression_test_details: ~azure.mgmt.testbase.models.RegressionTestDetails
@@ -2815,8 +5820,8 @@ class ReliabilityResult(_serialization.Model):
         crash_regression_test_details: Optional["_models.RegressionTestDetails"] = None,
         hang_regression_grade: Optional[Union[str, "_models.Grade"]] = None,
         hang_regression_test_details: Optional["_models.RegressionTestDetails"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword file_name: File name.
         :paramtype file_name: str
@@ -2827,15 +5832,15 @@ class ReliabilityResult(_serialization.Model):
         :keyword hang_count: Count of number of hangs.
         :paramtype hang_count: int
         :keyword regression_grade: The regression grade. Known values are: "None", "NotAvailable",
-         "Pass", and "Fail".
+         "Pass", "Fail", and "Pass".
         :paramtype regression_grade: str or ~azure.mgmt.testbase.models.Grade
         :keyword crash_regression_grade: The statistic regression grade for crash signal. Known values
-         are: "None", "NotAvailable", "Pass", and "Fail".
+         are: "None", "NotAvailable", "Pass", "Fail", and "Pass".
         :paramtype crash_regression_grade: str or ~azure.mgmt.testbase.models.Grade
         :keyword crash_regression_test_details: Details related to the crash regression analysis.
         :paramtype crash_regression_test_details: ~azure.mgmt.testbase.models.RegressionTestDetails
         :keyword hang_regression_grade: The statistic regression grade for hang signal. Known values
-         are: "None", "NotAvailable", "Pass", and "Fail".
+         are: "None", "NotAvailable", "Pass", "Fail", and "Pass".
         :paramtype hang_regression_grade: str or ~azure.mgmt.testbase.models.Grade
         :keyword hang_regression_test_details: Details related to the hang regression analysis.
         :paramtype hang_regression_test_details: ~azure.mgmt.testbase.models.RegressionTestDetails
@@ -2857,8 +5862,8 @@ class ReliabilityResultSingletonResourceProperties(AnalysisResultSingletonResour
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-     "Fail".
+    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", "Fail",
+     and "Pass".
     :vartype grade: str or ~azure.mgmt.testbase.models.Grade
     :ivar analysis_result_type: Type of the Analysis Result. Required. Known values are:
      "ScriptExecution", "Reliability", "CPUUtilization", "MemoryUtilization", "CPURegression",
@@ -2866,6 +5871,10 @@ class ReliabilityResultSingletonResourceProperties(AnalysisResultSingletonResour
     :vartype analysis_result_type: str or ~azure.mgmt.testbase.models.AnalysisResultType
     :ivar reliability_results: The result array data.
     :vartype reliability_results: list[~azure.mgmt.testbase.models.ReliabilityResult]
+    :ivar inplace_upgrade_baseline_reliability_results: The result array data for target os in an
+     in-place upgrade test.
+    :vartype inplace_upgrade_baseline_reliability_results:
+     list[~azure.mgmt.testbase.models.ReliabilityResult]
     """
 
     _validation = {
@@ -2876,6 +5885,10 @@ class ReliabilityResultSingletonResourceProperties(AnalysisResultSingletonResour
         "grade": {"key": "grade", "type": "str"},
         "analysis_result_type": {"key": "analysisResultType", "type": "str"},
         "reliability_results": {"key": "reliabilityResults", "type": "[ReliabilityResult]"},
+        "inplace_upgrade_baseline_reliability_results": {
+            "key": "inplaceUpgradeBaselineReliabilityResults",
+            "type": "[ReliabilityResult]",
+        },
     }
 
     def __init__(
@@ -2883,18 +5896,24 @@ class ReliabilityResultSingletonResourceProperties(AnalysisResultSingletonResour
         *,
         grade: Optional[Union[str, "_models.Grade"]] = None,
         reliability_results: Optional[List["_models.ReliabilityResult"]] = None,
-        **kwargs
-    ):
+        inplace_upgrade_baseline_reliability_results: Optional[List["_models.ReliabilityResult"]] = None,
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-         "Fail".
+        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass",
+         "Fail", and "Pass".
         :paramtype grade: str or ~azure.mgmt.testbase.models.Grade
         :keyword reliability_results: The result array data.
         :paramtype reliability_results: list[~azure.mgmt.testbase.models.ReliabilityResult]
+        :keyword inplace_upgrade_baseline_reliability_results: The result array data for target os in
+         an in-place upgrade test.
+        :paramtype inplace_upgrade_baseline_reliability_results:
+         list[~azure.mgmt.testbase.models.ReliabilityResult]
         """
         super().__init__(grade=grade, **kwargs)
-        self.analysis_result_type = "Reliability"  # type: str
+        self.analysis_result_type: str = "Reliability"
         self.reliability_results = reliability_results
+        self.inplace_upgrade_baseline_reliability_results = inplace_upgrade_baseline_reliability_results
 
 
 class ScriptExecutionResult(_serialization.Model):
@@ -2936,8 +5955,8 @@ class ScriptExecutionResult(_serialization.Model):
         timed_out: Optional[bool] = None,
         stdout_log_file_name: Optional[str] = None,
         stderr_log_file_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword script_name: Name of script.
         :paramtype script_name: str
@@ -2969,8 +5988,8 @@ class ScriptExecutionResultSingletonResourceProperties(AnalysisResultSingletonRe
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-     "Fail".
+    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", "Fail",
+     and "Pass".
     :vartype grade: str or ~azure.mgmt.testbase.models.Grade
     :ivar analysis_result_type: Type of the Analysis Result. Required. Known values are:
      "ScriptExecution", "Reliability", "CPUUtilization", "MemoryUtilization", "CPURegression",
@@ -2995,17 +6014,17 @@ class ScriptExecutionResultSingletonResourceProperties(AnalysisResultSingletonRe
         *,
         grade: Optional[Union[str, "_models.Grade"]] = None,
         script_execution_results: Optional[List["_models.ScriptExecutionResult"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-         "Fail".
+        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass",
+         "Fail", and "Pass".
         :paramtype grade: str or ~azure.mgmt.testbase.models.Grade
         :keyword script_execution_results: The result array data.
         :paramtype script_execution_results: list[~azure.mgmt.testbase.models.ScriptExecutionResult]
         """
         super().__init__(grade=grade, **kwargs)
-        self.analysis_result_type = "ScriptExecution"  # type: str
+        self.analysis_result_type: str = "ScriptExecution"
         self.script_execution_results = script_execution_results
 
 
@@ -3032,8 +6051,8 @@ class SubscriptionReceiverValue(_serialization.Model):
         subscription_id: Optional[str] = None,
         subscription_name: Optional[str] = None,
         role: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword subscription_id: The subscription id of the notification receiver.
         :paramtype subscription_id: str
@@ -3046,6 +6065,48 @@ class SubscriptionReceiverValue(_serialization.Model):
         self.subscription_id = subscription_id
         self.subscription_name = subscription_name
         self.role = role
+
+
+class SystemAssignedServiceIdentity(_serialization.Model):
+    """Managed service identity (either system assigned, or none).
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar principal_id: The service principal ID of the system assigned identity. This property
+     will only be provided for a system assigned identity.
+    :vartype principal_id: str
+    :ivar tenant_id: The tenant ID of the system assigned identity. This property will only be
+     provided for a system assigned identity.
+    :vartype tenant_id: str
+    :ivar type: Type of managed service identity (either system assigned, or none). Required. Known
+     values are: "None" and "SystemAssigned".
+    :vartype type: str or ~azure.mgmt.testbase.models.SystemAssignedServiceIdentityType
+    """
+
+    _validation = {
+        "principal_id": {"readonly": True},
+        "tenant_id": {"readonly": True},
+        "type": {"required": True},
+    }
+
+    _attribute_map = {
+        "principal_id": {"key": "principalId", "type": "str"},
+        "tenant_id": {"key": "tenantId", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+    }
+
+    def __init__(self, *, type: Union[str, "_models.SystemAssignedServiceIdentityType"], **kwargs: Any) -> None:
+        """
+        :keyword type: Type of managed service identity (either system assigned, or none). Required.
+         Known values are: "None" and "SystemAssigned".
+        :paramtype type: str or ~azure.mgmt.testbase.models.SystemAssignedServiceIdentityType
+        """
+        super().__init__(**kwargs)
+        self.principal_id = None
+        self.tenant_id = None
+        self.type = type
 
 
 class SystemData(_serialization.Model):
@@ -3063,7 +6124,7 @@ class SystemData(_serialization.Model):
     :ivar last_modified_by_type: The type of identity that last modified the resource. Known values
      are: "User", "Application", "ManagedIdentity", and "Key".
     :vartype last_modified_by_type: str or ~azure.mgmt.testbase.models.CreatedByType
-    :ivar last_modified_at: The type of identity that last modified the resource.
+    :ivar last_modified_at: The timestamp of resource last modification (UTC).
     :vartype last_modified_at: ~datetime.datetime
     """
 
@@ -3085,8 +6146,8 @@ class SystemData(_serialization.Model):
         last_modified_by: Optional[str] = None,
         last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
         last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword created_by: The identity that created the resource.
         :paramtype created_by: str
@@ -3100,7 +6161,7 @@ class SystemData(_serialization.Model):
         :keyword last_modified_by_type: The type of identity that last modified the resource. Known
          values are: "User", "Application", "ManagedIdentity", and "Key".
         :paramtype last_modified_by_type: str or ~azure.mgmt.testbase.models.CreatedByType
-        :keyword last_modified_at: The type of identity that last modified the resource.
+        :keyword last_modified_at: The timestamp of resource last modification (UTC).
         :paramtype last_modified_at: ~datetime.datetime
         """
         super().__init__(**kwargs)
@@ -3112,6 +6173,40 @@ class SystemData(_serialization.Model):
         self.last_modified_at = last_modified_at
 
 
+class TabState(_serialization.Model):
+    """Specifies current state of tabs.
+
+    :ivar current_tab: Current tab. Known values are: "Unspecified", "BasicsTab",
+     "ConfigureTestTab", "EditPackageTab", "TestMatrixTab", "TagsTab", and "ReviewAndCreateTab".
+    :vartype current_tab: str or ~azure.mgmt.testbase.models.PackageStudioTabs
+    :ivar visited_tabs: visited tabs.
+    :vartype visited_tabs: list[str or ~azure.mgmt.testbase.models.PackageStudioTabs]
+    """
+
+    _attribute_map = {
+        "current_tab": {"key": "currentTab", "type": "str"},
+        "visited_tabs": {"key": "visitedTabs", "type": "[str]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        current_tab: Optional[Union[str, "_models.PackageStudioTabs"]] = None,
+        visited_tabs: Optional[List[Union[str, "_models.PackageStudioTabs"]]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword current_tab: Current tab. Known values are: "Unspecified", "BasicsTab",
+         "ConfigureTestTab", "EditPackageTab", "TestMatrixTab", "TagsTab", and "ReviewAndCreateTab".
+        :paramtype current_tab: str or ~azure.mgmt.testbase.models.PackageStudioTabs
+        :keyword visited_tabs: visited tabs.
+        :paramtype visited_tabs: list[str or ~azure.mgmt.testbase.models.PackageStudioTabs]
+        """
+        super().__init__(**kwargs)
+        self.current_tab = current_tab
+        self.visited_tabs = visited_tabs
+
+
 class TargetOSInfo(_serialization.Model):
     """The information of the target OS to be tested.
 
@@ -3120,39 +6215,58 @@ class TargetOSInfo(_serialization.Model):
     :ivar os_update_type: Specifies the OS update type to test against, e.g., 'Security updates' or
      'Feature updates'. Required.
     :vartype os_update_type: str
-    :ivar target_o_ss: Specifies the target OSs to be tested. Required.
+    :ivar target_o_ss: Specifies the target OSs to be tested.
     :vartype target_o_ss: list[str]
+    :ivar insider_channel_ids: Insider Channel Ids. Only used for feature update.
+    :vartype insider_channel_ids: list[str]
     :ivar baseline_o_ss: Specifies the baseline OSs to be tested.
     :vartype baseline_o_ss: list[str]
+    :ivar target_os_image_ids: Specifies the ids of the target OSs from Custom Images to be tested.
+    :vartype target_os_image_ids: list[str]
     """
 
     _validation = {
         "os_update_type": {"required": True},
-        "target_o_ss": {"required": True},
     }
 
     _attribute_map = {
         "os_update_type": {"key": "osUpdateType", "type": "str"},
         "target_o_ss": {"key": "targetOSs", "type": "[str]"},
+        "insider_channel_ids": {"key": "insiderChannelIds", "type": "[str]"},
         "baseline_o_ss": {"key": "baselineOSs", "type": "[str]"},
+        "target_os_image_ids": {"key": "targetOSImageIds", "type": "[str]"},
     }
 
     def __init__(
-        self, *, os_update_type: str, target_o_ss: List[str], baseline_o_ss: Optional[List[str]] = None, **kwargs
-    ):
+        self,
+        *,
+        os_update_type: str,
+        target_o_ss: Optional[List[str]] = None,
+        insider_channel_ids: Optional[List[str]] = None,
+        baseline_o_ss: Optional[List[str]] = None,
+        target_os_image_ids: Optional[List[str]] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword os_update_type: Specifies the OS update type to test against, e.g., 'Security updates'
          or 'Feature updates'. Required.
         :paramtype os_update_type: str
-        :keyword target_o_ss: Specifies the target OSs to be tested. Required.
+        :keyword target_o_ss: Specifies the target OSs to be tested.
         :paramtype target_o_ss: list[str]
+        :keyword insider_channel_ids: Insider Channel Ids. Only used for feature update.
+        :paramtype insider_channel_ids: list[str]
         :keyword baseline_o_ss: Specifies the baseline OSs to be tested.
         :paramtype baseline_o_ss: list[str]
+        :keyword target_os_image_ids: Specifies the ids of the target OSs from Custom Images to be
+         tested.
+        :paramtype target_os_image_ids: list[str]
         """
         super().__init__(**kwargs)
         self.os_update_type = os_update_type
         self.target_o_ss = target_o_ss
+        self.insider_channel_ids = insider_channel_ids
         self.baseline_o_ss = baseline_o_ss
+        self.target_os_image_ids = target_os_image_ids
 
 
 class Test(_serialization.Model):
@@ -3162,8 +6276,8 @@ class Test(_serialization.Model):
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar test_type: The type of the test. Required. Known values are: "OutOfBoxTest" and
-     "FunctionalTest".
+    :ivar test_type: The type of the test. Required. Known values are: "OutOfBoxTest",
+     "FunctionalTest", and "FlowDrivenTest".
     :vartype test_type: str or ~azure.mgmt.testbase.models.TestType
     :ivar validation_run_status: The status of the validation run of the package. Known values are:
      "Unknown", "Pending", "Passed", and "Failed".
@@ -3197,11 +6311,11 @@ class Test(_serialization.Model):
         test_type: Union[str, "_models.TestType"],
         commands: List["_models.Command"],
         is_active: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword test_type: The type of the test. Required. Known values are: "OutOfBoxTest" and
-         "FunctionalTest".
+        :keyword test_type: The type of the test. Required. Known values are: "OutOfBoxTest",
+         "FunctionalTest", and "FlowDrivenTest".
         :paramtype test_type: str or ~azure.mgmt.testbase.models.TestType
         :keyword is_active: Indicates if this test is active.It doesn't schedule test for not active
          Test.
@@ -3241,8 +6355,8 @@ class TestAnalysisResult(_serialization.Model):
         blob_data: Optional[str] = None,
         test_analysis_status: Optional[Union[str, "_models.TestAnalysisStatus"]] = None,
         identified_failures: Optional[List["_models.IdentifiedFailure"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword blob_data: The data to provide more failure analysis information.
         :paramtype blob_data: str
@@ -3263,8 +6377,8 @@ class TestAnalysisResultSingletonResourceProperties(AnalysisResultSingletonResou
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-     "Fail".
+    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", "Fail",
+     and "Pass".
     :vartype grade: str or ~azure.mgmt.testbase.models.Grade
     :ivar analysis_result_type: Type of the Analysis Result. Required. Known values are:
      "ScriptExecution", "Reliability", "CPUUtilization", "MemoryUtilization", "CPURegression",
@@ -3289,17 +6403,17 @@ class TestAnalysisResultSingletonResourceProperties(AnalysisResultSingletonResou
         *,
         grade: Optional[Union[str, "_models.Grade"]] = None,
         test_analysis_result: Optional["_models.TestAnalysisResult"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-         "Fail".
+        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass",
+         "Fail", and "Pass".
         :paramtype grade: str or ~azure.mgmt.testbase.models.Grade
         :keyword test_analysis_result: The result of test analysis.
         :paramtype test_analysis_result: ~azure.mgmt.testbase.models.TestAnalysisResult
         """
         super().__init__(grade=grade, **kwargs)
-        self.analysis_result_type = "TestAnalysis"  # type: str
+        self.analysis_result_type: str = "TestAnalysis"
         self.test_analysis_result = test_analysis_result
 
 
@@ -3324,7 +6438,7 @@ class TestBaseAccountListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.TestBaseAccountResource"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.TestBaseAccountResource"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The list of Test Base Accounts.
         :paramtype value: list[~azure.mgmt.testbase.models.TestBaseAccountResource]
@@ -3341,20 +6455,23 @@ class TestBaseAccountResource(TrackedResource):
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar id: Resource ID.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
-    :ivar name: Resource name.
+    :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: Resource type.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar tags: The tags of the resource.
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.testbase.models.SystemData
+    :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
-    :ivar etag: Resource Etag.
-    :vartype etag: str
-    :ivar system_data: The system metadata relating to this resource.
-    :vartype system_data: ~azure.mgmt.testbase.models.SystemData
+    :ivar identity: The identity of the testBaseAccount.
+    :vartype identity: ~azure.mgmt.testbase.models.SystemAssignedServiceIdentity
     :ivar provisioning_state: The provisioning state of the resource. Known values are:
      "Succeeded", "Failed", "Cancelled", "Creating", "Deleting", and "Updating".
     :vartype provisioning_state: str or ~azure.mgmt.testbase.models.ProvisioningState
@@ -3368,9 +6485,8 @@ class TestBaseAccountResource(TrackedResource):
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
-        "location": {"required": True},
-        "etag": {"readonly": True},
         "system_data": {"readonly": True},
+        "location": {"required": True},
         "provisioning_state": {"readonly": True},
         "access_level": {"readonly": True},
     }
@@ -3379,10 +6495,10 @@ class TestBaseAccountResource(TrackedResource):
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
-        "etag": {"key": "etag", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
+        "identity": {"key": "identity", "type": "SystemAssignedServiceIdentity"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "sku": {"key": "properties.sku", "type": "TestBaseAccountSKU"},
         "access_level": {"key": "properties.accessLevel", "type": "str"},
@@ -3393,19 +6509,22 @@ class TestBaseAccountResource(TrackedResource):
         *,
         location: str,
         tags: Optional[Dict[str, str]] = None,
+        identity: Optional["_models.SystemAssignedServiceIdentity"] = None,
         sku: Optional["_models.TestBaseAccountSKU"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword tags: The tags of the resource.
+        :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
         :keyword location: The geo-location where the resource lives. Required.
         :paramtype location: str
+        :keyword identity: The identity of the testBaseAccount.
+        :paramtype identity: ~azure.mgmt.testbase.models.SystemAssignedServiceIdentity
         :keyword sku: The SKU of the Test Base Account.
         :paramtype sku: ~azure.mgmt.testbase.models.TestBaseAccountSKU
         """
         super().__init__(tags=tags, location=location, **kwargs)
-        self.system_data = None
+        self.identity = identity
         self.provisioning_state = None
         self.sku = sku
         self.access_level = None
@@ -3452,8 +6571,8 @@ class TestBaseAccountSKU(_serialization.Model):
         tier: Union[str, "_models.Tier"],
         resource_type: Optional[str] = None,
         locations: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword resource_type: The type of resource the SKU applies to.
         :paramtype resource_type: str
@@ -3494,7 +6613,7 @@ class TestBaseAccountSKUCapability(_serialization.Model):
         "value": {"key": "value", "type": "str"},
     }
 
-    def __init__(self, *, name: str, value: str, **kwargs):
+    def __init__(self, *, name: str, value: str, **kwargs: Any) -> None:
         """
         :keyword name: An invariant to describe the feature, such as 'SLA'. Required.
         :paramtype name: str
@@ -3527,7 +6646,7 @@ class TestBaseAccountSKUListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.TestBaseAccountSKU"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.TestBaseAccountSKU"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The list of Test Base Account SKUs.
         :paramtype value: list[~azure.mgmt.testbase.models.TestBaseAccountSKU]
@@ -3540,6 +6659,8 @@ class TestBaseAccountSKUListResult(_serialization.Model):
 class TestBaseAccountUpdateParameters(_serialization.Model):
     """Parameters supplied to update a Test Base Account.
 
+    :ivar identity: The identity of the testBaseAccount.
+    :vartype identity: ~azure.mgmt.testbase.models.SystemAssignedServiceIdentity
     :ivar tags: The tags of the Test Base Account.
     :vartype tags: dict[str, str]
     :ivar sku: The SKU of the Test Base Account.
@@ -3547,20 +6668,29 @@ class TestBaseAccountUpdateParameters(_serialization.Model):
     """
 
     _attribute_map = {
+        "identity": {"key": "identity", "type": "SystemAssignedServiceIdentity"},
         "tags": {"key": "tags", "type": "{str}"},
         "sku": {"key": "properties.sku", "type": "TestBaseAccountSKU"},
     }
 
     def __init__(
-        self, *, tags: Optional[Dict[str, str]] = None, sku: Optional["_models.TestBaseAccountSKU"] = None, **kwargs
-    ):
+        self,
+        *,
+        identity: Optional["_models.SystemAssignedServiceIdentity"] = None,
+        tags: Optional[Dict[str, str]] = None,
+        sku: Optional["_models.TestBaseAccountSKU"] = None,
+        **kwargs: Any
+    ) -> None:
         """
+        :keyword identity: The identity of the testBaseAccount.
+        :paramtype identity: ~azure.mgmt.testbase.models.SystemAssignedServiceIdentity
         :keyword tags: The tags of the Test Base Account.
         :paramtype tags: dict[str, str]
         :keyword sku: The SKU of the Test Base Account.
         :paramtype sku: ~azure.mgmt.testbase.models.TestBaseAccountSKU
         """
         super().__init__(**kwargs)
+        self.identity = identity
         self.tags = tags
         self.sku = sku
 
@@ -3598,8 +6728,8 @@ class TestBaseAccountUsageData(_serialization.Model):
         unit: Optional[str] = None,
         limit: Optional[int] = None,
         current_value: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: Fully qualified ARM resource id.
         :paramtype id: str
@@ -3643,7 +6773,7 @@ class TestBaseAccountUsageDataList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.TestBaseAccountUsageData"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.TestBaseAccountUsageData"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The list of Test Base Account usage data.
         :paramtype value: list[~azure.mgmt.testbase.models.TestBaseAccountUsageData]
@@ -3667,7 +6797,7 @@ class TestBaseAccountUsageName(_serialization.Model):
         "localized_value": {"key": "localizedValue", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[str] = None, localized_value: Optional[str] = None, **kwargs):
+    def __init__(self, *, value: Optional[str] = None, localized_value: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword value: The identifier of the usage.
         :paramtype value: str
@@ -3688,7 +6818,7 @@ class TestResultAnalysisSummary(_serialization.Model):
      "InProgress", "Failed", "Succeeded", "Available", and "NotAvailable".
     :vartype analysis_status: str or ~azure.mgmt.testbase.models.AnalysisStatus
     :ivar grade: The grade of the test result. Known values are: "None", "NotAvailable", "Pass",
-     and "Fail".
+     "Fail", and "Pass".
     :vartype grade: str or ~azure.mgmt.testbase.models.Grade
     """
 
@@ -3704,8 +6834,8 @@ class TestResultAnalysisSummary(_serialization.Model):
         name: Optional[str] = None,
         analysis_status: Optional[Union[str, "_models.AnalysisStatus"]] = None,
         grade: Optional[Union[str, "_models.Grade"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Metric name.
         :paramtype name: str
@@ -3713,7 +6843,7 @@ class TestResultAnalysisSummary(_serialization.Model):
          "InProgress", "Failed", "Succeeded", "Available", and "NotAvailable".
         :paramtype analysis_status: str or ~azure.mgmt.testbase.models.AnalysisStatus
         :keyword grade: The grade of the test result. Known values are: "None", "NotAvailable", "Pass",
-         and "Fail".
+         "Fail", and "Pass".
         :paramtype grade: str or ~azure.mgmt.testbase.models.Grade
         """
         super().__init__(**kwargs)
@@ -3739,13 +6869,68 @@ class TestResultConsoleLogDownloadURLParameters(_serialization.Model):
         "log_file_name": {"key": "logFileName", "type": "str"},
     }
 
-    def __init__(self, *, log_file_name: str, **kwargs):
+    def __init__(self, *, log_file_name: str, **kwargs: Any) -> None:
         """
         :keyword log_file_name: The log file name corresponding to the download URL. Required.
         :paramtype log_file_name: str
         """
         super().__init__(**kwargs)
         self.log_file_name = log_file_name
+
+
+class TestResultFirstPartyAppDefinition(_serialization.Model):
+    """Properties of the definition of first party application in test result.
+
+    :ivar name: The media name of a first party application of a Test Base Account.
+    :vartype name: str
+    :ivar version: The media version of a first party application of a Test Base Account.
+    :vartype version: str
+    :ivar architecture: The architecture of a first party application of a Test Base Account. Known
+     values are: "x86", "x64", and "arm64".
+    :vartype architecture: str or ~azure.mgmt.testbase.models.Architecture
+    :ivar channel: The channel info of a first party application of a Test Base Account.
+    :vartype channel: str
+    :ivar ring: The ring info of a first party application of a Test Base Account.
+    :vartype ring: str
+    """
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "version": {"key": "version", "type": "str"},
+        "architecture": {"key": "architecture", "type": "str"},
+        "channel": {"key": "channel", "type": "str"},
+        "ring": {"key": "ring", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        name: Optional[str] = None,
+        version: Optional[str] = None,
+        architecture: Optional[Union[str, "_models.Architecture"]] = None,
+        channel: Optional[str] = None,
+        ring: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword name: The media name of a first party application of a Test Base Account.
+        :paramtype name: str
+        :keyword version: The media version of a first party application of a Test Base Account.
+        :paramtype version: str
+        :keyword architecture: The architecture of a first party application of a Test Base Account.
+         Known values are: "x86", "x64", and "arm64".
+        :paramtype architecture: str or ~azure.mgmt.testbase.models.Architecture
+        :keyword channel: The channel info of a first party application of a Test Base Account.
+        :paramtype channel: str
+        :keyword ring: The ring info of a first party application of a Test Base Account.
+        :paramtype ring: str
+        """
+        super().__init__(**kwargs)
+        self.name = name
+        self.version = version
+        self.architecture = architecture
+        self.channel = channel
+        self.ring = ring
 
 
 class TestResultListResult(_serialization.Model):
@@ -3769,7 +6954,7 @@ class TestResultListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.TestResultResource"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.TestResultResource"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The list of Test Results.
         :paramtype value: list[~azure.mgmt.testbase.models.TestResultResource]
@@ -3784,13 +6969,16 @@ class TestResultResource(ProxyResource):  # pylint: disable=too-many-instance-at
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Resource ID.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
-    :ivar name: Resource name.
+    :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: Resource type.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar system_data: The system metadata relating to this resource.
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
     :vartype system_data: ~azure.mgmt.testbase.models.SystemData
     :ivar baseline_test_result_id: Azure Id of the baseline test result.
     :vartype baseline_test_result_id: str
@@ -3802,6 +6990,10 @@ class TestResultResource(ProxyResource):  # pylint: disable=too-many-instance-at
     :vartype application_version: str
     :ivar os_name: The operating system name, e.g. Windows 10 1809.
     :vartype os_name: str
+    :ivar custom_image_id: Specify the referenced Test Base Custom Image Id if applicable.
+    :vartype custom_image_id: str
+    :ivar custom_image_display_name: The name of the custom image resource.
+    :vartype custom_image_display_name: str
     :ivar release_name: The name of the tested release (OS update).
     :vartype release_name: str
     :ivar release_version_date: The release version date of the tested release.
@@ -3828,8 +7020,8 @@ class TestResultResource(ProxyResource):  # pylint: disable=too-many-instance-at
      "DataProcessing", "TestFailure", "UpdateFailure", "TestAndUpdateFailure",
      "InfrastructureFailure", and "Completed".
     :vartype test_status: str or ~azure.mgmt.testbase.models.TestStatus
-    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-     "Fail".
+    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", "Fail",
+     and "Pass".
     :vartype grade: str or ~azure.mgmt.testbase.models.Grade
     :ivar kb_number: KB number.
     :vartype kb_number: str
@@ -3841,6 +7033,14 @@ class TestResultResource(ProxyResource):  # pylint: disable=too-many-instance-at
     :vartype package_version: str
     :ivar analysis_summaries: List of analysis summaries.
     :vartype analysis_summaries: list[~azure.mgmt.testbase.models.TestResultAnalysisSummary]
+    :ivar inplace_upgrade_properties: Properties for inplace upgrade test.
+    :vartype inplace_upgrade_properties: ~azure.mgmt.testbase.models.InplaceUpgradeProperties
+    :ivar test_start_time: The time when test starts.
+    :vartype test_start_time: ~datetime.datetime
+    :ivar test_end_time: The time when test ends.
+    :vartype test_end_time: ~datetime.datetime
+    :ivar first_party_apps: The list of first party applications tested along with the package.
+    :vartype first_party_apps: list[~azure.mgmt.testbase.models.TestResultFirstPartyAppDefinition]
     """
 
     _validation = {
@@ -3860,6 +7060,8 @@ class TestResultResource(ProxyResource):  # pylint: disable=too-many-instance-at
         "application_name": {"key": "properties.applicationName", "type": "str"},
         "application_version": {"key": "properties.applicationVersion", "type": "str"},
         "os_name": {"key": "properties.osName", "type": "str"},
+        "custom_image_id": {"key": "properties.customImageId", "type": "str"},
+        "custom_image_display_name": {"key": "properties.customImageDisplayName", "type": "str"},
         "release_name": {"key": "properties.releaseName", "type": "str"},
         "release_version_date": {"key": "properties.releaseVersionDate", "type": "iso-8601"},
         "flighting_ring": {"key": "properties.flightingRing", "type": "str"},
@@ -3877,6 +7079,13 @@ class TestResultResource(ProxyResource):  # pylint: disable=too-many-instance-at
         "interop_media_version": {"key": "properties.interopMediaVersion", "type": "str"},
         "package_version": {"key": "properties.packageVersion", "type": "str"},
         "analysis_summaries": {"key": "properties.analysisSummaries", "type": "[TestResultAnalysisSummary]"},
+        "inplace_upgrade_properties": {
+            "key": "properties.inplaceUpgradeProperties",
+            "type": "InplaceUpgradeProperties",
+        },
+        "test_start_time": {"key": "properties.testStartTime", "type": "iso-8601"},
+        "test_end_time": {"key": "properties.testEndTime", "type": "iso-8601"},
+        "first_party_apps": {"key": "properties.firstPartyApps", "type": "[TestResultFirstPartyAppDefinition]"},
     }
 
     def __init__(  # pylint: disable=too-many-locals
@@ -3887,6 +7096,8 @@ class TestResultResource(ProxyResource):  # pylint: disable=too-many-instance-at
         application_name: Optional[str] = None,
         application_version: Optional[str] = None,
         os_name: Optional[str] = None,
+        custom_image_id: Optional[str] = None,
+        custom_image_display_name: Optional[str] = None,
         release_name: Optional[str] = None,
         release_version_date: Optional[datetime.datetime] = None,
         flighting_ring: Optional[str] = None,
@@ -3904,8 +7115,12 @@ class TestResultResource(ProxyResource):  # pylint: disable=too-many-instance-at
         interop_media_version: Optional[str] = None,
         package_version: Optional[str] = None,
         analysis_summaries: Optional[List["_models.TestResultAnalysisSummary"]] = None,
-        **kwargs
-    ):
+        inplace_upgrade_properties: Optional["_models.InplaceUpgradeProperties"] = None,
+        test_start_time: Optional[datetime.datetime] = None,
+        test_end_time: Optional[datetime.datetime] = None,
+        first_party_apps: Optional[List["_models.TestResultFirstPartyAppDefinition"]] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword baseline_test_result_id: Azure Id of the baseline test result.
         :paramtype baseline_test_result_id: str
@@ -3917,6 +7132,10 @@ class TestResultResource(ProxyResource):  # pylint: disable=too-many-instance-at
         :paramtype application_version: str
         :keyword os_name: The operating system name, e.g. Windows 10 1809.
         :paramtype os_name: str
+        :keyword custom_image_id: Specify the referenced Test Base Custom Image Id if applicable.
+        :paramtype custom_image_id: str
+        :keyword custom_image_display_name: The name of the custom image resource.
+        :paramtype custom_image_display_name: str
         :keyword release_name: The name of the tested release (OS update).
         :paramtype release_name: str
         :keyword release_version_date: The release version date of the tested release.
@@ -3943,8 +7162,8 @@ class TestResultResource(ProxyResource):  # pylint: disable=too-many-instance-at
          "TestExecutionInProgress", "DataProcessing", "TestFailure", "UpdateFailure",
          "TestAndUpdateFailure", "InfrastructureFailure", and "Completed".
         :paramtype test_status: str or ~azure.mgmt.testbase.models.TestStatus
-        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-         "Fail".
+        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass",
+         "Fail", and "Pass".
         :paramtype grade: str or ~azure.mgmt.testbase.models.Grade
         :keyword kb_number: KB number.
         :paramtype kb_number: str
@@ -3956,14 +7175,24 @@ class TestResultResource(ProxyResource):  # pylint: disable=too-many-instance-at
         :paramtype package_version: str
         :keyword analysis_summaries: List of analysis summaries.
         :paramtype analysis_summaries: list[~azure.mgmt.testbase.models.TestResultAnalysisSummary]
+        :keyword inplace_upgrade_properties: Properties for inplace upgrade test.
+        :paramtype inplace_upgrade_properties: ~azure.mgmt.testbase.models.InplaceUpgradeProperties
+        :keyword test_start_time: The time when test starts.
+        :paramtype test_start_time: ~datetime.datetime
+        :keyword test_end_time: The time when test ends.
+        :paramtype test_end_time: ~datetime.datetime
+        :keyword first_party_apps: The list of first party applications tested along with the package.
+        :paramtype first_party_apps:
+         list[~azure.mgmt.testbase.models.TestResultFirstPartyAppDefinition]
         """
         super().__init__(**kwargs)
-        self.system_data = None
         self.baseline_test_result_id = baseline_test_result_id
         self.package_id = package_id
         self.application_name = application_name
         self.application_version = application_version
         self.os_name = os_name
+        self.custom_image_id = custom_image_id
+        self.custom_image_display_name = custom_image_display_name
         self.release_name = release_name
         self.release_version_date = release_version_date
         self.flighting_ring = flighting_ring
@@ -3981,6 +7210,10 @@ class TestResultResource(ProxyResource):  # pylint: disable=too-many-instance-at
         self.interop_media_version = interop_media_version
         self.package_version = package_version
         self.analysis_summaries = analysis_summaries
+        self.inplace_upgrade_properties = inplace_upgrade_properties
+        self.test_start_time = test_start_time
+        self.test_end_time = test_end_time
+        self.first_party_apps = first_party_apps
 
 
 class TestSummaryListResult(_serialization.Model):
@@ -4004,7 +7237,7 @@ class TestSummaryListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.TestSummaryResource"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.TestSummaryResource"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The list of Test Summaries.
         :paramtype value: list[~azure.mgmt.testbase.models.TestSummaryResource]
@@ -4019,13 +7252,16 @@ class TestSummaryResource(ProxyResource):  # pylint: disable=too-many-instance-a
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Resource ID.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
-    :ivar name: Resource name.
+    :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: Resource type.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar system_data: The system metadata relating to this resource.
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
     :vartype system_data: ~azure.mgmt.testbase.models.SystemData
     :ivar test_summary_id: The Id of the current Test Summary.
     :vartype test_summary_id: str
@@ -4043,8 +7279,8 @@ class TestSummaryResource(ProxyResource):  # pylint: disable=too-many-instance-a
      "TestExecutionInProgress", "DataProcessing", "TestFailure", "UpdateFailure",
      "TestAndUpdateFailure", "InfrastructureFailure", and "Completed".
     :vartype test_status: str or ~azure.mgmt.testbase.models.TestStatus
-    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-     "Fail".
+    :ivar grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", "Fail",
+     and "Pass".
     :vartype grade: str or ~azure.mgmt.testbase.models.Grade
     :ivar test_run_time: The run time of the last test.
     :vartype test_run_time: str
@@ -4052,6 +7288,9 @@ class TestSummaryResource(ProxyResource):  # pylint: disable=too-many-instance-a
     :vartype feature_updates_test_summary: ~azure.mgmt.testbase.models.OSUpdatesTestSummary
     :ivar security_updates_test_summary: The result summary of tests triggered by security updates.
     :vartype security_updates_test_summary: ~azure.mgmt.testbase.models.OSUpdatesTestSummary
+    :ivar inplace_upgrades_test_summary: The result summary of tests triggered by in-place
+     upgrades.
+    :vartype inplace_upgrades_test_summary: ~azure.mgmt.testbase.models.OSUpdatesTestSummary
     :ivar package_tags: The tags of Package resource that are associated with the testSummary.
     :vartype package_tags: dict[str, str]
     """
@@ -4081,6 +7320,10 @@ class TestSummaryResource(ProxyResource):  # pylint: disable=too-many-instance-a
             "key": "properties.securityUpdatesTestSummary",
             "type": "OSUpdatesTestSummary",
         },
+        "inplace_upgrades_test_summary": {
+            "key": "properties.inplaceUpgradesTestSummary",
+            "type": "OSUpdatesTestSummary",
+        },
         "package_tags": {"key": "properties.packageTags", "type": "{str}"},
     }
 
@@ -4097,9 +7340,10 @@ class TestSummaryResource(ProxyResource):  # pylint: disable=too-many-instance-a
         test_run_time: Optional[str] = None,
         feature_updates_test_summary: Optional["_models.OSUpdatesTestSummary"] = None,
         security_updates_test_summary: Optional["_models.OSUpdatesTestSummary"] = None,
+        inplace_upgrades_test_summary: Optional["_models.OSUpdatesTestSummary"] = None,
         package_tags: Optional[Dict[str, str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword test_summary_id: The Id of the current Test Summary.
         :paramtype test_summary_id: str
@@ -4117,8 +7361,8 @@ class TestSummaryResource(ProxyResource):  # pylint: disable=too-many-instance-a
          "TestExecutionInProgress", "DataProcessing", "TestFailure", "UpdateFailure",
          "TestAndUpdateFailure", "InfrastructureFailure", and "Completed".
         :paramtype test_status: str or ~azure.mgmt.testbase.models.TestStatus
-        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass", and
-         "Fail".
+        :keyword grade: The grade of the test. Known values are: "None", "NotAvailable", "Pass",
+         "Fail", and "Pass".
         :paramtype grade: str or ~azure.mgmt.testbase.models.Grade
         :keyword test_run_time: The run time of the last test.
         :paramtype test_run_time: str
@@ -4128,11 +7372,13 @@ class TestSummaryResource(ProxyResource):  # pylint: disable=too-many-instance-a
         :keyword security_updates_test_summary: The result summary of tests triggered by security
          updates.
         :paramtype security_updates_test_summary: ~azure.mgmt.testbase.models.OSUpdatesTestSummary
+        :keyword inplace_upgrades_test_summary: The result summary of tests triggered by in-place
+         upgrades.
+        :paramtype inplace_upgrades_test_summary: ~azure.mgmt.testbase.models.OSUpdatesTestSummary
         :keyword package_tags: The tags of Package resource that are associated with the testSummary.
         :paramtype package_tags: dict[str, str]
         """
         super().__init__(**kwargs)
-        self.system_data = None
         self.test_summary_id = test_summary_id
         self.package_id = package_id
         self.application_name = application_name
@@ -4143,6 +7389,7 @@ class TestSummaryResource(ProxyResource):  # pylint: disable=too-many-instance-a
         self.test_run_time = test_run_time
         self.feature_updates_test_summary = feature_updates_test_summary
         self.security_updates_test_summary = security_updates_test_summary
+        self.inplace_upgrades_test_summary = inplace_upgrades_test_summary
         self.package_tags = package_tags
 
 
@@ -4167,7 +7414,7 @@ class TestTypeListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.TestTypeResource"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.TestTypeResource"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The list of test types.
         :paramtype value: list[~azure.mgmt.testbase.models.TestTypeResource]
@@ -4182,13 +7429,16 @@ class TestTypeResource(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Resource ID.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
-    :ivar name: Resource name.
+    :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: Resource type.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar system_data: The system metadata relating to this resource.
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
     :vartype system_data: ~azure.mgmt.testbase.models.SystemData
     :ivar actual_test_type_name: The actual name of a test type of a Test Base Account.
     :vartype actual_test_type_name: str
@@ -4209,13 +7459,12 @@ class TestTypeResource(ProxyResource):
         "actual_test_type_name": {"key": "properties.actualTestTypeName", "type": "str"},
     }
 
-    def __init__(self, *, actual_test_type_name: Optional[str] = None, **kwargs):
+    def __init__(self, *, actual_test_type_name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword actual_test_type_name: The actual name of a test type of a Test Base Account.
         :paramtype actual_test_type_name: str
         """
         super().__init__(**kwargs)
-        self.system_data = None
         self.actual_test_type_name = actual_test_type_name
 
 
@@ -4230,7 +7479,7 @@ class UserObjectReceiverValue(_serialization.Model):
         "user_object_ids": {"key": "userObjectIds", "type": "[str]"},
     }
 
-    def __init__(self, *, user_object_ids: Optional[List[str]] = None, **kwargs):
+    def __init__(self, *, user_object_ids: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
         :keyword user_object_ids: user object ids.
         :paramtype user_object_ids: list[str]
@@ -4253,7 +7502,7 @@ class UtilizationBound(_serialization.Model):
         "value": {"key": "value", "type": "float"},
     }
 
-    def __init__(self, *, percentile: Optional[float] = None, value: Optional[float] = None, **kwargs):
+    def __init__(self, *, percentile: Optional[float] = None, value: Optional[float] = None, **kwargs: Any) -> None:
         """
         :keyword percentile: The percentile of the bound.
         :paramtype percentile: float
@@ -4279,7 +7528,9 @@ class UtilizationEntry(_serialization.Model):
         "value": {"key": "value", "type": "float"},
     }
 
-    def __init__(self, *, timestamp: Optional[datetime.datetime] = None, value: Optional[float] = None, **kwargs):
+    def __init__(
+        self, *, timestamp: Optional[datetime.datetime] = None, value: Optional[float] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword timestamp: The timestamp.
         :paramtype timestamp: ~datetime.datetime
@@ -4318,8 +7569,8 @@ class UtilizationResult(_serialization.Model):
         upper_bound: Optional["_models.UtilizationBound"] = None,
         lower_bound: Optional["_models.UtilizationBound"] = None,
         utilization: Optional[List["_models.UtilizationEntry"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword process: Process name, or '_total' for all processes.
         :paramtype process: str
@@ -4335,3 +7586,205 @@ class UtilizationResult(_serialization.Model):
         self.upper_bound = upper_bound
         self.lower_bound = lower_bound
         self.utilization = utilization
+
+
+class VerificationResult(_serialization.Model):
+    """The detailed result of a validation or rule checking.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar verification_name: The name of the verification rule.
+    :vartype verification_name: str
+    :ivar result: Indicates if the validation or rule checking is passed. Required. Known values
+     are: "Passed" and "Failed".
+    :vartype result: str or ~azure.mgmt.testbase.models.VerificationStatus
+    :ivar message: Message for clarification.
+    :vartype message: str
+    """
+
+    _validation = {
+        "result": {"required": True},
+    }
+
+    _attribute_map = {
+        "verification_name": {"key": "verificationName", "type": "str"},
+        "result": {"key": "result", "type": "str"},
+        "message": {"key": "message", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        result: Union[str, "_models.VerificationStatus"],
+        verification_name: Optional[str] = None,
+        message: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword verification_name: The name of the verification rule.
+        :paramtype verification_name: str
+        :keyword result: Indicates if the validation or rule checking is passed. Required. Known values
+         are: "Passed" and "Failed".
+        :paramtype result: str or ~azure.mgmt.testbase.models.VerificationStatus
+        :keyword message: Message for clarification.
+        :paramtype message: str
+        """
+        super().__init__(**kwargs)
+        self.verification_name = verification_name
+        self.result = result
+        self.message = message
+
+
+class VHDListResult(_serialization.Model):
+    """A list of VHD resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar value: The list of Test Base VHDs.
+    :vartype value: list[~azure.mgmt.testbase.models.VHDResource]
+    :ivar next_link: Link to the next set of results. Not empty if value contains incomplete list
+     of results.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[VHDResource]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, *, value: Optional[List["_models.VHDResource"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword value: The list of Test Base VHDs.
+        :paramtype value: list[~azure.mgmt.testbase.models.VHDResource]
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = None
+
+
+class VHDResource(ProxyResource):
+    """The Test Base VHD resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.testbase.models.SystemData
+    :ivar path: The relative path of the VHD file.
+    :vartype path: str
+    :ivar file_name: The VHD file name.
+    :vartype file_name: str
+    :ivar file_size: The file size in bytes of the VHD file.
+    :vartype file_size: int
+    :ivar status: The status of the VHD. Known values are: "Unknown", "Ready", "Failed",
+     "Verifying", and "Occupied".
+    :vartype status: str or ~azure.mgmt.testbase.models.VHDStatus
+    :ivar creation_time: The UTC timestamp when the VHD was created.
+    :vartype creation_time: ~datetime.datetime
+    :ivar provisioning_state:
+    :vartype provisioning_state: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "path": {"readonly": True},
+        "file_name": {"readonly": True},
+        "file_size": {"readonly": True},
+        "status": {"readonly": True},
+        "creation_time": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "path": {"key": "properties.path", "type": "str"},
+        "file_name": {"key": "properties.fileName", "type": "str"},
+        "file_size": {"key": "properties.fileSize", "type": "int"},
+        "status": {"key": "properties.status", "type": "str"},
+        "creation_time": {"key": "properties.creationTime", "type": "iso-8601"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.path = None
+        self.file_name = None
+        self.file_size = None
+        self.status = None
+        self.creation_time = None
+        self.provisioning_state = None
+
+
+class WingetAppSkuProperties(GalleryAppSkuProperties):
+    """The detailed properties of a winget gallery application SKU.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar provisioning_state: The provisioning state of the resource. Known values are:
+     "Succeeded", "Failed", "Cancelled", "Creating", "Deleting", and "Updating".
+    :vartype provisioning_state: str or ~azure.mgmt.testbase.models.ProvisioningState
+    :ivar application_type: The application type of a gallery application. Required. "Winget"
+    :vartype application_type: str or ~azure.mgmt.testbase.models.ApplicationType
+    :ivar version: The version of a winget gallery application SKU.
+    :vartype version: str
+    :ivar license: The license description of a winget gallery application SKU.
+    :vartype license: str
+    :ivar license_url: The license URL of a winget gallery application SKU.
+    :vartype license_url: str
+    """
+
+    _validation = {
+        "provisioning_state": {"readonly": True},
+        "application_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+        "application_type": {"key": "applicationType", "type": "str"},
+        "version": {"key": "version", "type": "str"},
+        "license": {"key": "license", "type": "str"},
+        "license_url": {"key": "licenseUrl", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        version: Optional[str] = None,
+        license: Optional[str] = None,
+        license_url: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword version: The version of a winget gallery application SKU.
+        :paramtype version: str
+        :keyword license: The license description of a winget gallery application SKU.
+        :paramtype license: str
+        :keyword license_url: The license URL of a winget gallery application SKU.
+        :paramtype license_url: str
+        """
+        super().__init__(**kwargs)
+        self.application_type: str = "Winget"
+        self.version = version
+        self.license = license
+        self.license_url = license_url
