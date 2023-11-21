@@ -37,6 +37,7 @@ from ...operations._jobs_operations import (
     build_delete_request,
     build_get_request,
     build_list_request,
+    build_update_request,
 )
 
 T = TypeVar("T")
@@ -71,6 +72,10 @@ class JobsOperations:
         job_type: Optional[str] = None,
         tag: Optional[str] = None,
         list_view_type: Optional[Union[str, _models.ListViewType]] = None,
+        properties: Optional[str] = None,
+        asset_name: Optional[str] = None,
+        scheduled: Optional[bool] = None,
+        schedule_id: Optional[str] = None,
         **kwargs: Any
     ) -> AsyncIterable["_models.JobBase"]:
         """Lists Jobs in the workspace.
@@ -91,6 +96,15 @@ class JobsOperations:
         :param list_view_type: View type for including/excluding (for example) archived entities. Known
          values are: "ActiveOnly", "ArchivedOnly", and "All". Default value is None.
         :type list_view_type: str or ~azure.mgmt.machinelearningservices.models.ListViewType
+        :param properties: Comma-separated list of property names (and optionally values). Example:
+         prop1,prop2=value2. Default value is None.
+        :type properties: str
+        :param asset_name: Asset name the job's named output is registered with. Default value is None.
+        :type asset_name: str
+        :param scheduled: Indicator whether the job is scheduled job. Default value is None.
+        :type scheduled: bool
+        :param schedule_id: The scheduled id for listing the job triggered from. Default value is None.
+        :type schedule_id: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either JobBase or the result of cls(response)
         :rtype:
@@ -122,6 +136,10 @@ class JobsOperations:
                     job_type=job_type,
                     tag=tag,
                     list_view_type=list_view_type,
+                    properties=properties,
+                    asset_name=asset_name,
+                    scheduled=scheduled,
+                    schedule_id=schedule_id,
                     api_version=api_version,
                     template_url=self.list.metadata["url"],
                     headers=_headers,
@@ -372,6 +390,165 @@ class JobsOperations:
         return deserialized
 
     get.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/jobs/{id}"
+    }
+
+    @overload
+    async def update(
+        self,
+        resource_group_name: str,
+        workspace_name: str,
+        id: str,
+        body: _models.PartialJobBasePartialResource,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.JobBase:
+        """Updates a Job.
+
+        Updates a Job.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param workspace_name: Name of Azure Machine Learning workspace. Required.
+        :type workspace_name: str
+        :param id: The name and identifier for the Job. This is case-sensitive. Required.
+        :type id: str
+        :param body: Job definition to apply during the operation. Required.
+        :type body: ~azure.mgmt.machinelearningservices.models.PartialJobBasePartialResource
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: JobBase or the result of cls(response)
+        :rtype: ~azure.mgmt.machinelearningservices.models.JobBase
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def update(
+        self,
+        resource_group_name: str,
+        workspace_name: str,
+        id: str,
+        body: IO,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.JobBase:
+        """Updates a Job.
+
+        Updates a Job.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param workspace_name: Name of Azure Machine Learning workspace. Required.
+        :type workspace_name: str
+        :param id: The name and identifier for the Job. This is case-sensitive. Required.
+        :type id: str
+        :param body: Job definition to apply during the operation. Required.
+        :type body: IO
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: JobBase or the result of cls(response)
+        :rtype: ~azure.mgmt.machinelearningservices.models.JobBase
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace_async
+    async def update(
+        self,
+        resource_group_name: str,
+        workspace_name: str,
+        id: str,
+        body: Union[_models.PartialJobBasePartialResource, IO],
+        **kwargs: Any
+    ) -> _models.JobBase:
+        """Updates a Job.
+
+        Updates a Job.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param workspace_name: Name of Azure Machine Learning workspace. Required.
+        :type workspace_name: str
+        :param id: The name and identifier for the Job. This is case-sensitive. Required.
+        :type id: str
+        :param body: Job definition to apply during the operation. Is either a
+         PartialJobBasePartialResource type or a IO type. Required.
+        :type body: ~azure.mgmt.machinelearningservices.models.PartialJobBasePartialResource or IO
+        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
+         Default value is None.
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: JobBase or the result of cls(response)
+        :rtype: ~azure.mgmt.machinelearningservices.models.JobBase
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.JobBase] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(body, (IOBase, bytes)):
+            _content = body
+        else:
+            _json = self._serialize.body(body, "PartialJobBasePartialResource")
+
+        request = build_update_request(
+            resource_group_name=resource_group_name,
+            workspace_name=workspace_name,
+            id=id,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
+            template_url=self.update.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("JobBase", pipeline_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})
+
+        return deserialized
+
+    update.metadata = {
         "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/jobs/{id}"
     }
 
