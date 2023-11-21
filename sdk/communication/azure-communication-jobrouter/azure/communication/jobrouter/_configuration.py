@@ -8,6 +8,7 @@
 
 from typing import Any
 
+from azure.core.credentials import AzureKeyCredential
 from azure.core.pipeline import policies
 
 from ._version import VERSION
@@ -21,18 +22,23 @@ class JobRouterAdministrationClientConfiguration:  # pylint: disable=too-many-in
 
     :param endpoint: Uri of your Communication resource. Required.
     :type endpoint: str
+    :param credential: Credential needed for the client to connect to Azure. Required.
+    :type credential: ~azure.core.credentials.AzureKeyCredential
     :keyword api_version: The API version to use for this operation. Default value is "2023-11-01".
      Note that overriding this default value may result in unsupported behavior.
     :paramtype api_version: str
     """
 
-    def __init__(self, endpoint: str, **kwargs: Any) -> None:
+    def __init__(self, endpoint: str, credential: AzureKeyCredential, **kwargs: Any) -> None:
         api_version: str = kwargs.pop("api_version", "2023-11-01")
 
         if endpoint is None:
             raise ValueError("Parameter 'endpoint' must not be None.")
+        if credential is None:
+            raise ValueError("Parameter 'credential' must not be None.")
 
         self.endpoint = endpoint
+        self.credential = credential
         self.api_version = api_version
         kwargs.setdefault("sdk_moniker", "communication-jobrouter/{}".format(VERSION))
         self.polling_interval = kwargs.get("polling_interval", 30)
@@ -48,6 +54,8 @@ class JobRouterAdministrationClientConfiguration:  # pylint: disable=too-many-in
         self.redirect_policy = kwargs.get("redirect_policy") or policies.RedirectPolicy(**kwargs)
         self.retry_policy = kwargs.get("retry_policy") or policies.RetryPolicy(**kwargs)
         self.authentication_policy = kwargs.get("authentication_policy")
+        if self.credential and not self.authentication_policy:
+            self.authentication_policy = policies.AzureKeyCredentialPolicy(self.credential, "api-key", **kwargs)
 
 
 class JobRouterClientConfiguration:  # pylint: disable=too-many-instance-attributes,name-too-long
@@ -58,18 +66,23 @@ class JobRouterClientConfiguration:  # pylint: disable=too-many-instance-attribu
 
     :param endpoint: Uri of your Communication resource. Required.
     :type endpoint: str
+    :param credential: Credential needed for the client to connect to Azure. Required.
+    :type credential: ~azure.core.credentials.AzureKeyCredential
     :keyword api_version: The API version to use for this operation. Default value is "2023-11-01".
      Note that overriding this default value may result in unsupported behavior.
     :paramtype api_version: str
     """
 
-    def __init__(self, endpoint: str, **kwargs: Any) -> None:
+    def __init__(self, endpoint: str, credential: AzureKeyCredential, **kwargs: Any) -> None:
         api_version: str = kwargs.pop("api_version", "2023-11-01")
 
         if endpoint is None:
             raise ValueError("Parameter 'endpoint' must not be None.")
+        if credential is None:
+            raise ValueError("Parameter 'credential' must not be None.")
 
         self.endpoint = endpoint
+        self.credential = credential
         self.api_version = api_version
         kwargs.setdefault("sdk_moniker", "communication-jobrouter/{}".format(VERSION))
         self.polling_interval = kwargs.get("polling_interval", 30)
@@ -85,3 +98,5 @@ class JobRouterClientConfiguration:  # pylint: disable=too-many-instance-attribu
         self.redirect_policy = kwargs.get("redirect_policy") or policies.RedirectPolicy(**kwargs)
         self.retry_policy = kwargs.get("retry_policy") or policies.RetryPolicy(**kwargs)
         self.authentication_policy = kwargs.get("authentication_policy")
+        if self.credential and not self.authentication_policy:
+            self.authentication_policy = policies.AzureKeyCredentialPolicy(self.credential, "api-key", **kwargs)

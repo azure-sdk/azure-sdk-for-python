@@ -10,6 +10,7 @@ from copy import deepcopy
 from typing import Any
 
 from azure.core import PipelineClient
+from azure.core.credentials import AzureKeyCredential
 from azure.core.pipeline import policies
 from azure.core.rest import HttpRequest, HttpResponse
 
@@ -25,16 +26,16 @@ class JobRouterAdministrationClient(
 
     :param endpoint: Uri of your Communication resource. Required.
     :type endpoint: str
+    :param credential: Credential needed for the client to connect to Azure. Required.
+    :type credential: ~azure.core.credentials.AzureKeyCredential
     :keyword api_version: The API version to use for this operation. Default value is "2023-11-01".
      Note that overriding this default value may result in unsupported behavior.
     :paramtype api_version: str
     """
 
-    def __init__(  # pylint: disable=missing-client-constructor-parameter-credential
-        self, endpoint: str, **kwargs: Any
-    ) -> None:
+    def __init__(self, endpoint: str, credential: AzureKeyCredential, **kwargs: Any) -> None:
         _endpoint = "{endpoint}"
-        self._config = JobRouterAdministrationClientConfiguration(endpoint=endpoint, **kwargs)
+        self._config = JobRouterAdministrationClientConfiguration(endpoint=endpoint, credential=credential, **kwargs)
         _policies = kwargs.pop("policies", None)
         if _policies is None:
             _policies = [
@@ -100,16 +101,16 @@ class JobRouterClient(JobRouterClientOperationsMixin):  # pylint: disable=client
 
     :param endpoint: Uri of your Communication resource. Required.
     :type endpoint: str
+    :param credential: Credential needed for the client to connect to Azure. Required.
+    :type credential: ~azure.core.credentials.AzureKeyCredential
     :keyword api_version: The API version to use for this operation. Default value is "2023-11-01".
      Note that overriding this default value may result in unsupported behavior.
     :paramtype api_version: str
     """
 
-    def __init__(  # pylint: disable=missing-client-constructor-parameter-credential
-        self, endpoint: str, **kwargs: Any
-    ) -> None:
+    def __init__(self, endpoint: str, credential: AzureKeyCredential, **kwargs: Any) -> None:
         _endpoint = "{endpoint}"
-        self._config = JobRouterClientConfiguration(endpoint=endpoint, **kwargs)
+        self._config = JobRouterClientConfiguration(endpoint=endpoint, credential=credential, **kwargs)
         _policies = kwargs.pop("policies", None)
         if _policies is None:
             _policies = [
