@@ -26,18 +26,17 @@ from azure.mgmt.testbase import TestBase
 def main():
     client = TestBase(
         credential=DefaultAzureCredential(),
-        subscription_id="subscription-id",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.favorite_processes.delete(
+    client.favorite_processes.delete(
         resource_group_name="contoso-rg1",
         test_base_account_name="contoso-testBaseAccount1",
         package_name="contoso-package2",
         favorite_process_resource_name="testAppProcess",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/testbase/resource-manager/Microsoft.TestBase/preview/2022-04-01-preview/examples/FavoriteProcessDelete.json
+# x-ms-original-file: specification/testbase/resource-manager/Microsoft.TestBase/preview/2023-11-01-preview/examples/FavoriteProcessDelete.json
 if __name__ == "__main__":
     main()

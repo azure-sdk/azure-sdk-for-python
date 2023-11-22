@@ -18,6 +18,13 @@ class Action(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     CLOSE = "Close"
     UNINSTALL = "Uninstall"
     CUSTOM = "Custom"
+    FLOW_DRIVEN_CUSTOM = "FlowDrivenCustom"
+
+
+class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs."""
+
+    INTERNAL = "Internal"
 
 
 class AnalysisResultName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -56,6 +63,20 @@ class AnalysisStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     NOT_AVAILABLE = "NotAvailable"
 
 
+class ApplicationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of a gallery application."""
+
+    WINGET = "Winget"
+
+
+class Architecture(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The architecture of an OS or a first party application."""
+
+    X86 = "x86"
+    X64 = "x64"
+    ARM64 = "arm64"
+
+
 class Category(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The category of the failure."""
 
@@ -83,6 +104,33 @@ class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     KEY = "Key"
 
 
+class CredentialType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Credential type."""
+
+    INTUNE_ACCOUNT = "IntuneAccount"
+    """Username password credential for intune enrollment."""
+
+
+class DraftPackageSourceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The source type."""
+
+    NATIVE = "Native"
+    INTUNE_WIN = "IntuneWin"
+    TEST_BASE_PACKAGE = "TestBasePackage"
+    GALLERY_APP = "GalleryApp"
+    INTUNE_ENROLLMENT = "IntuneEnrollment"
+
+
+class Engagements(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Engagements."""
+
+    MVI = "MVI"
+    MVP = "MVP"
+    SUVP = "SUVP"
+    MAPP = "MAPP"
+    OTHER = "Other"
+
+
 class ExecutionStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The execution status of a test."""
 
@@ -96,6 +144,43 @@ class ExecutionStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SUCCEEDED = "Succeeded"
 
 
+class ExtractFileType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of file to extract."""
+
+    TEST_BASE_PACKAGE = "TestBasePackage"
+    INTUNE_WIN_PACKAGE = "IntuneWinPackage"
+
+
+class FileUploadResourceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Resource type for file uploading."""
+
+    PACKAGE = "Package"
+    """Upload file for package onboarding."""
+    VHD = "VHD"
+    """Upload VHD file for image onboarding."""
+
+
+class FreeHourBalanceName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """FreeHourBalanceName."""
+
+    TENANT_LEVEL = "TenantLevel"
+    SUBSCRIPTION_LEVEL = "SubscriptionLevel"
+
+
+class FreeHourStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """FreeHourStatus."""
+
+    ENABLED = "Enabled"
+    SUSPENDED = "Suspended"
+
+
+class FreeHourType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """FreeHourType."""
+
+    PERMANENT = "Permanent"
+    TEMPORARY = "Temporary"
+
+
 class Grade(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The grade of a test."""
 
@@ -103,6 +188,98 @@ class Grade(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     NOT_AVAILABLE = "NotAvailable"
     PASS = "Pass"
     FAIL = "Fail"
+    PASS_ENUM = "Pass"
+
+
+class ImageArchitecture(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Custom image architecture."""
+
+    X64 = "x64"
+    """64-bit architecture."""
+
+
+class ImageOSState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Custom image OS state."""
+
+    GENERALIZED = "Generalized"
+    """Sysprep generalization processed."""
+    SPECIALIZED = "Specialized"
+    """Fully kept with user specified settings."""
+
+
+class ImageSecurityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Custom image security type."""
+
+    STANDARD = "Standard"
+    """Standard security type."""
+    TRUSTED_LAUNCH = "TrustedLaunch"
+    """Specify higher security level compared to Standard."""
+
+
+class ImageSource(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Custom image source type."""
+
+    UNKNOWN = "Unknown"
+    """Unknown image source type."""
+    VHD = "VHD"
+    """Specify image onboarding through VHD."""
+
+
+class ImageStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Status of the custom image."""
+
+    UNKNOWN = "Unknown"
+    """Unknown image status."""
+    READY = "Ready"
+    """Completed validation and is ready for use."""
+    FAILED = "Failed"
+    """Failed to onboard or pass validation."""
+    VALIDATING = "Validating"
+    """Succeed to onboard but is in validation process."""
+
+
+class InteropExecutionMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Specifies how the first party applications should be inter-operated with user's application."""
+
+    FIRST_PARTY_APP_WITH_TESTS = "firstPartyAppWithTests"
+    """User application will test with the first party applications. For out-of-box tests, additional
+    #: test cases for first party applications will also be run."""
+    FIRST_PARTY_APP = "firstPartyApp"
+    """User application will test with the first party applications."""
+
+
+class IntuneExtractStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Extract status."""
+
+    READY = "Ready"
+    UPLOADING = "Uploading"
+    UPLOAD_FAILED = "UploadFailed"
+    EXTRACT_FAILED = "ExtractFailed"
+    NO_DEPENDENCY_APP = "NoDependencyApp"
+
+
+class OrderBy(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """OrderBy."""
+
+    POPULARITY = "popularity"
+    RELEVANCE = "relevance"
+
+
+class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit
+    logs UX. Default value is "user,system".
+    """
+
+    USER = "user"
+    SYSTEM = "system"
+    USER_SYSTEM = "user,system"
+
+
+class OsProductState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """State of the OS product."""
+
+    DISABLED = "Disabled"
+    ACTIVE = "Active"
 
 
 class OsUpdateType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -110,6 +287,7 @@ class OsUpdateType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     SECURITY_UPDATE = "SecurityUpdate"
     FEATURE_UPDATE = "FeatureUpdate"
+    INPLACE_UPGRADE = "InplaceUpgrade"
 
 
 class PackageStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -124,6 +302,18 @@ class PackageStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DELETED = "Deleted"
     VALIDATION_LONGER_THAN_USUAL = "ValidationLongerThanUsual"
     VERIFYING_PACKAGE = "VerifyingPackage"
+
+
+class PackageStudioTabs(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Specifies the tabs when creating / cloning / editing a package."""
+
+    UNSPECIFIED = "Unspecified"
+    BASICS_TAB = "BasicsTab"
+    CONFIGURE_TEST_TAB = "ConfigureTestTab"
+    EDIT_PACKAGE_TAB = "EditPackageTab"
+    TEST_MATRIX_TAB = "TestMatrixTab"
+    TAGS_TAB = "TagsTab"
+    REVIEW_AND_CREATE_TAB = "ReviewAndCreateTab"
 
 
 class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -144,6 +334,27 @@ class Reason(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     INVALID = "Invalid"
     ALREADY_EXISTS = "AlreadyExists"
+
+
+class RequestStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """RequestStatus."""
+
+    IN_REVIEW = "InReview"
+    APPROVED = "Approved"
+    DECLINED = "Declined"
+
+
+class RequestTypes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """RequestTypes."""
+
+    PRE_RELEASE_ACCESS = "PreReleaseAccess"
+
+
+class SystemAssignedServiceIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of managed service identity (either system assigned, or none)."""
+
+    NONE = "None"
+    SYSTEM_ASSIGNED = "SystemAssigned"
 
 
 class TestAnalysisStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -173,6 +384,7 @@ class TestType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     OUT_OF_BOX_TEST = "OutOfBoxTest"
     FUNCTIONAL_TEST = "FunctionalTest"
+    FLOW_DRIVEN_TEST = "FlowDrivenTest"
 
 
 class Tier(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -186,6 +398,7 @@ class Type(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     SECURITY_UPDATE = "SecurityUpdate"
     FEATURE_UPDATE = "FeatureUpdate"
+    INPLACE_UPGRADE = "InplaceUpgrade"
 
 
 class ValidationRunStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -195,3 +408,27 @@ class ValidationRunStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     PENDING = "Pending"
     PASSED = "Passed"
     FAILED = "Failed"
+
+
+class VerificationStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Indicates if the validation or rule checking is passed."""
+
+    PASSED = "Passed"
+    """Validation or rule checking passed."""
+    FAILED = "Failed"
+    """Validation or rule checking failed."""
+
+
+class VHDStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The status of the VHD."""
+
+    UNKNOWN = "Unknown"
+    """Unknown VHD status."""
+    READY = "Ready"
+    """Succeed to be upload and pass VHD verification."""
+    FAILED = "Failed"
+    """Failed to pass VHD verification."""
+    VERIFYING = "Verifying"
+    """Processing VHD file checking and malware scanning."""
+    OCCUPIED = "Occupied"
+    """An image is onboarding with this VHD."""
