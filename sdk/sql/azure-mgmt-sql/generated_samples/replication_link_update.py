@@ -14,7 +14,7 @@ from azure.mgmt.sql import SqlManagementClient
     pip install azure-identity
     pip install azure-mgmt-sql
 # USAGE
-    python elastic_pool_activity_list.py
+    python replication_link_update.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,15 +29,16 @@ def main():
         subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.elastic_pool_activities.list_by_elastic_pool(
-        resource_group_name="sqlcrudtest-4291",
-        server_name="sqlcrudtest-6574",
-        elastic_pool_name="8749",
-    )
-    for item in response:
-        print(item)
+    response = client.replication_links.begin_update(
+        resource_group_name="Default",
+        server_name="sourcesvr",
+        database_name="gamma-db",
+        link_id="00000000-1111-2222-3333-666666666666",
+        parameters={"properties": {"linkType": "STANDBY"}},
+    ).result()
+    print(response)
 
 
-# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/stable/2014-04-01-legacy/examples/ElasticPoolActivityList.json
+# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-08-01-preview/examples/ReplicationLinkUpdate.json
 if __name__ == "__main__":
     main()
