@@ -29,7 +29,7 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.monitors.list_user_roles(
+    response = client.monitor.list_vm_host_update(
         resource_group_name="myResourceGroup",
         monitor_name="myMonitor",
     )
@@ -37,6 +37,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/logz/resource-manager/Microsoft.Logz/stable/2020-10-01/examples/MainAccount_listUserRoles.json
+# x-ms-original-file: specification/logz/resource-manager/Microsoft.Logz/stable/2020-10-01/examples/MainAccount_VMHosts_Update.json
 if __name__ == "__main__":
     main()

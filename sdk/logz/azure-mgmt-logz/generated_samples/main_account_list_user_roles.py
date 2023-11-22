@@ -14,7 +14,7 @@ from azure.mgmt.logz import MicrosoftLogz
     pip install azure-identity
     pip install azure-mgmt-logz
 # USAGE
-    python sub_account_list.py
+    python main_account_list_user_roles.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,7 +29,7 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.sub_account.list(
+    response = client.monitors.list_user_roles(
         resource_group_name="myResourceGroup",
         monitor_name="myMonitor",
     )
@@ -37,6 +37,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/logz/resource-manager/Microsoft.Logz/stable/2020-10-01/examples/SubAccount_ListByResourceGroup.json
+# x-ms-original-file: specification/logz/resource-manager/Microsoft.Logz/stable/2020-10-01/examples/MainAccount_listUserRoles.json
 if __name__ == "__main__":
     main()
