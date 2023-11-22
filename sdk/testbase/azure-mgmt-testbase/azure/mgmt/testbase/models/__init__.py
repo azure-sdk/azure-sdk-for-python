@@ -6,9 +6,14 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._models_py3 import ActionRequest
+from ._models_py3 import ActionRequests
 from ._models_py3 import AnalysisResultListResult
 from ._models_py3 import AnalysisResultSingletonResource
 from ._models_py3 import AnalysisResultSingletonResourceProperties
+from ._models_py3 import AnswerCitation
+from ._models_py3 import AvailableInplaceUpgradeOSListResult
+from ._models_py3 import AvailableInplaceUpgradeOSResource
 from ._models_py3 import AvailableOSListResult
 from ._models_py3 import AvailableOSResource
 from ._models_py3 import BillingHubExecutionUsageDetail
@@ -22,23 +27,67 @@ from ._models_py3 import BillingHubUsageGroup
 from ._models_py3 import BillingHubUsageGroupedByUpdateType
 from ._models_py3 import CPURegressionResultSingletonResourceProperties
 from ._models_py3 import CPUUtilizationResultSingletonResourceProperties
+from ._models_py3 import ChatRequest
+from ._models_py3 import ChatResponse
+from ._models_py3 import ChatSessionResource
+from ._models_py3 import ChatSessionResourceListResult
 from ._models_py3 import CheckNameAvailabilityResult
 from ._models_py3 import Command
+from ._models_py3 import CopyFromPackageOperationParameters
+from ._models_py3 import CredentialListResult
+from ._models_py3 import CredentialProperties
+from ._models_py3 import CredentialResource
+from ._models_py3 import CustomImageListResult
+from ._models_py3 import CustomImageResource
 from ._models_py3 import CustomerEventListResult
 from ._models_py3 import CustomerEventResource
 from ._models_py3 import DistributionGroupListReceiverValue
 from ._models_py3 import DownloadURLResponse
+from ._models_py3 import DraftPackageGetPathResponse
+from ._models_py3 import DraftPackageIntuneAppMetadata
+from ._models_py3 import DraftPackageIntuneAppMetadataItem
+from ._models_py3 import DraftPackageListResult
+from ._models_py3 import DraftPackageResource
+from ._models_py3 import DraftPackageUpdateParameters
 from ._models_py3 import EmailEventListResult
 from ._models_py3 import EmailEventResource
-from ._models_py3 import ErrorDefinition
+from ._models_py3 import EnrolledIntuneApp
+from ._models_py3 import ErrorAdditionalInfo
+from ._models_py3 import ErrorDetail
 from ._models_py3 import ErrorResponse
+from ._models_py3 import ExtractFileOperationParameters
 from ._models_py3 import FavoriteProcessListResult
 from ._models_py3 import FavoriteProcessResource
+from ._models_py3 import FeatureUpdateSupportedOsesResource
+from ._models_py3 import FeatureUpdateSupportedOsesResult
 from ._models_py3 import FileUploadURLResponse
+from ._models_py3 import FirstPartyAppDefinition
+from ._models_py3 import FirstPartyAppListResult
+from ._models_py3 import FirstPartyAppResource
 from ._models_py3 import FlightingRingListResult
 from ._models_py3 import FlightingRingResource
+from ._models_py3 import FreeHourBalanceResource
+from ._models_py3 import FreeHourBalancesListResult
+from ._models_py3 import GalleryAppDefinition
+from ._models_py3 import GalleryAppListResult
+from ._models_py3 import GalleryAppResource
+from ._models_py3 import GalleryAppSkuListResult
+from ._models_py3 import GalleryAppSkuProperties
+from ._models_py3 import GalleryAppSkuResource
+from ._models_py3 import GenerateOperationParameters
 from ._models_py3 import GetFileUploadURLParameters
+from ._models_py3 import GetImageDefinitionParameters
+from ._models_py3 import HighlightedFile
 from ._models_py3 import IdentifiedFailure
+from ._models_py3 import ImageDefinitionListResult
+from ._models_py3 import ImageDefinitionResource
+from ._models_py3 import ImageDefinitionsListResult
+from ._models_py3 import ImageNameCheckAvailabilityParameters
+from ._models_py3 import ImageValidationResults
+from ._models_py3 import InplaceUpgradeOSInfo
+from ._models_py3 import InplaceUpgradeProperties
+from ._models_py3 import IntuneEnrollmentMetadata
+from ._models_py3 import IntuneSingletonResourceProperties
 from ._models_py3 import MemoryRegressionResultSingletonResourceProperties
 from ._models_py3 import MemoryUtilizationResultSingletonResourceProperties
 from ._models_py3 import NotificationEventReceiver
@@ -50,22 +99,27 @@ from ._models_py3 import OSUpdatesTestSummary
 from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
 from ._models_py3 import OperationListResult
+from ._models_py3 import OsProperties
 from ._models_py3 import PackageCheckNameAvailabilityParameters
 from ._models_py3 import PackageListResult
 from ._models_py3 import PackageResource
 from ._models_py3 import PackageRunTestParameters
 from ._models_py3 import PackageUpdateParameters
 from ._models_py3 import PackageValidationResult
+from ._models_py3 import PreReleaseAccessRequestSpec
 from ._models_py3 import ProxyResource
 from ._models_py3 import RegressionResult
 from ._models_py3 import RegressionTestDetails
+from ._models_py3 import ReleaseProperties
 from ._models_py3 import ReliabilityResult
 from ._models_py3 import ReliabilityResultSingletonResourceProperties
 from ._models_py3 import Resource
 from ._models_py3 import ScriptExecutionResult
 from ._models_py3 import ScriptExecutionResultSingletonResourceProperties
 from ._models_py3 import SubscriptionReceiverValue
+from ._models_py3 import SystemAssignedServiceIdentity
 from ._models_py3 import SystemData
+from ._models_py3 import TabState
 from ._models_py3 import TargetOSInfo
 from ._models_py3 import Test
 from ._models_py3 import TestAnalysisResult
@@ -81,6 +135,7 @@ from ._models_py3 import TestBaseAccountUsageDataList
 from ._models_py3 import TestBaseAccountUsageName
 from ._models_py3 import TestResultAnalysisSummary
 from ._models_py3 import TestResultConsoleLogDownloadURLParameters
+from ._models_py3 import TestResultFirstPartyAppDefinition
 from ._models_py3 import TestResultListResult
 from ._models_py3 import TestResultResource
 from ._models_py3 import TestSummaryListResult
@@ -92,34 +147,70 @@ from ._models_py3 import UserObjectReceiverValue
 from ._models_py3 import UtilizationBound
 from ._models_py3 import UtilizationEntry
 from ._models_py3 import UtilizationResult
+from ._models_py3 import VHDListResult
+from ._models_py3 import VHDResource
+from ._models_py3 import VerificationResult
+from ._models_py3 import WingetAppSkuProperties
 
 from ._test_base_enums import Action
+from ._test_base_enums import ActionType
 from ._test_base_enums import AnalysisResultName
 from ._test_base_enums import AnalysisResultType
 from ._test_base_enums import AnalysisStatus
+from ._test_base_enums import ApplicationType
+from ._test_base_enums import Architecture
 from ._test_base_enums import Category
 from ._test_base_enums import ContentType
 from ._test_base_enums import CreatedByType
+from ._test_base_enums import CredentialType
+from ._test_base_enums import DraftPackageSourceType
+from ._test_base_enums import Engagements
 from ._test_base_enums import ExecutionStatus
+from ._test_base_enums import ExtractFileType
+from ._test_base_enums import FileUploadResourceType
+from ._test_base_enums import FreeHourBalanceName
+from ._test_base_enums import FreeHourStatus
+from ._test_base_enums import FreeHourType
 from ._test_base_enums import Grade
+from ._test_base_enums import ImageArchitecture
+from ._test_base_enums import ImageOSState
+from ._test_base_enums import ImageSecurityType
+from ._test_base_enums import ImageSource
+from ._test_base_enums import ImageStatus
+from ._test_base_enums import InteropExecutionMode
+from ._test_base_enums import IntuneExtractStatus
+from ._test_base_enums import OrderBy
+from ._test_base_enums import Origin
+from ._test_base_enums import OsProductState
 from ._test_base_enums import OsUpdateType
 from ._test_base_enums import PackageStatus
+from ._test_base_enums import PackageStudioTabs
 from ._test_base_enums import ProvisioningState
 from ._test_base_enums import Reason
+from ._test_base_enums import RequestStatus
+from ._test_base_enums import RequestTypes
+from ._test_base_enums import SystemAssignedServiceIdentityType
 from ._test_base_enums import TestAnalysisStatus
 from ._test_base_enums import TestStatus
 from ._test_base_enums import TestType
 from ._test_base_enums import Tier
 from ._test_base_enums import Type
+from ._test_base_enums import VHDStatus
 from ._test_base_enums import ValidationRunStatus
+from ._test_base_enums import VerificationStatus
 from ._patch import __all__ as _patch_all
-from ._patch import *  # type: ignore # pylint: disable=unused-wildcard-import
+from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "ActionRequest",
+    "ActionRequests",
     "AnalysisResultListResult",
     "AnalysisResultSingletonResource",
     "AnalysisResultSingletonResourceProperties",
+    "AnswerCitation",
+    "AvailableInplaceUpgradeOSListResult",
+    "AvailableInplaceUpgradeOSResource",
     "AvailableOSListResult",
     "AvailableOSResource",
     "BillingHubExecutionUsageDetail",
@@ -133,23 +224,67 @@ __all__ = [
     "BillingHubUsageGroupedByUpdateType",
     "CPURegressionResultSingletonResourceProperties",
     "CPUUtilizationResultSingletonResourceProperties",
+    "ChatRequest",
+    "ChatResponse",
+    "ChatSessionResource",
+    "ChatSessionResourceListResult",
     "CheckNameAvailabilityResult",
     "Command",
+    "CopyFromPackageOperationParameters",
+    "CredentialListResult",
+    "CredentialProperties",
+    "CredentialResource",
+    "CustomImageListResult",
+    "CustomImageResource",
     "CustomerEventListResult",
     "CustomerEventResource",
     "DistributionGroupListReceiverValue",
     "DownloadURLResponse",
+    "DraftPackageGetPathResponse",
+    "DraftPackageIntuneAppMetadata",
+    "DraftPackageIntuneAppMetadataItem",
+    "DraftPackageListResult",
+    "DraftPackageResource",
+    "DraftPackageUpdateParameters",
     "EmailEventListResult",
     "EmailEventResource",
-    "ErrorDefinition",
+    "EnrolledIntuneApp",
+    "ErrorAdditionalInfo",
+    "ErrorDetail",
     "ErrorResponse",
+    "ExtractFileOperationParameters",
     "FavoriteProcessListResult",
     "FavoriteProcessResource",
+    "FeatureUpdateSupportedOsesResource",
+    "FeatureUpdateSupportedOsesResult",
     "FileUploadURLResponse",
+    "FirstPartyAppDefinition",
+    "FirstPartyAppListResult",
+    "FirstPartyAppResource",
     "FlightingRingListResult",
     "FlightingRingResource",
+    "FreeHourBalanceResource",
+    "FreeHourBalancesListResult",
+    "GalleryAppDefinition",
+    "GalleryAppListResult",
+    "GalleryAppResource",
+    "GalleryAppSkuListResult",
+    "GalleryAppSkuProperties",
+    "GalleryAppSkuResource",
+    "GenerateOperationParameters",
     "GetFileUploadURLParameters",
+    "GetImageDefinitionParameters",
+    "HighlightedFile",
     "IdentifiedFailure",
+    "ImageDefinitionListResult",
+    "ImageDefinitionResource",
+    "ImageDefinitionsListResult",
+    "ImageNameCheckAvailabilityParameters",
+    "ImageValidationResults",
+    "InplaceUpgradeOSInfo",
+    "InplaceUpgradeProperties",
+    "IntuneEnrollmentMetadata",
+    "IntuneSingletonResourceProperties",
     "MemoryRegressionResultSingletonResourceProperties",
     "MemoryUtilizationResultSingletonResourceProperties",
     "NotificationEventReceiver",
@@ -161,22 +296,27 @@ __all__ = [
     "Operation",
     "OperationDisplay",
     "OperationListResult",
+    "OsProperties",
     "PackageCheckNameAvailabilityParameters",
     "PackageListResult",
     "PackageResource",
     "PackageRunTestParameters",
     "PackageUpdateParameters",
     "PackageValidationResult",
+    "PreReleaseAccessRequestSpec",
     "ProxyResource",
     "RegressionResult",
     "RegressionTestDetails",
+    "ReleaseProperties",
     "ReliabilityResult",
     "ReliabilityResultSingletonResourceProperties",
     "Resource",
     "ScriptExecutionResult",
     "ScriptExecutionResultSingletonResourceProperties",
     "SubscriptionReceiverValue",
+    "SystemAssignedServiceIdentity",
     "SystemData",
+    "TabState",
     "TargetOSInfo",
     "Test",
     "TestAnalysisResult",
@@ -192,6 +332,7 @@ __all__ = [
     "TestBaseAccountUsageName",
     "TestResultAnalysisSummary",
     "TestResultConsoleLogDownloadURLParameters",
+    "TestResultFirstPartyAppDefinition",
     "TestResultListResult",
     "TestResultResource",
     "TestSummaryListResult",
@@ -203,25 +344,56 @@ __all__ = [
     "UtilizationBound",
     "UtilizationEntry",
     "UtilizationResult",
+    "VHDListResult",
+    "VHDResource",
+    "VerificationResult",
+    "WingetAppSkuProperties",
     "Action",
+    "ActionType",
     "AnalysisResultName",
     "AnalysisResultType",
     "AnalysisStatus",
+    "ApplicationType",
+    "Architecture",
     "Category",
     "ContentType",
     "CreatedByType",
+    "CredentialType",
+    "DraftPackageSourceType",
+    "Engagements",
     "ExecutionStatus",
+    "ExtractFileType",
+    "FileUploadResourceType",
+    "FreeHourBalanceName",
+    "FreeHourStatus",
+    "FreeHourType",
     "Grade",
+    "ImageArchitecture",
+    "ImageOSState",
+    "ImageSecurityType",
+    "ImageSource",
+    "ImageStatus",
+    "InteropExecutionMode",
+    "IntuneExtractStatus",
+    "OrderBy",
+    "Origin",
+    "OsProductState",
     "OsUpdateType",
     "PackageStatus",
+    "PackageStudioTabs",
     "ProvisioningState",
     "Reason",
+    "RequestStatus",
+    "RequestTypes",
+    "SystemAssignedServiceIdentityType",
     "TestAnalysisStatus",
     "TestStatus",
     "TestType",
     "Tier",
     "Type",
+    "VHDStatus",
     "ValidationRunStatus",
+    "VerificationStatus",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()

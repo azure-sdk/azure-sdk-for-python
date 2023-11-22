@@ -34,6 +34,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/testbase/resource-manager/Microsoft.TestBase/preview/2022-04-01-preview/examples/OperationsList.json
+# x-ms-original-file: specification/testbase/resource-manager/Microsoft.TestBase/preview/2023-11-01-preview/examples/OperationsList.json
 if __name__ == "__main__":
     main()
