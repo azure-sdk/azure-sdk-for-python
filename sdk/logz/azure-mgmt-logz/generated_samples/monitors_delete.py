@@ -29,11 +29,10 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.monitors.begin_delete(
+    client.monitors.begin_delete(
         resource_group_name="myResourceGroup",
         monitor_name="myMonitor",
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/logz/resource-manager/Microsoft.Logz/stable/2020-10-01/examples/Monitors_Delete.json

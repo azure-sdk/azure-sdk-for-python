@@ -14,7 +14,7 @@ from azure.mgmt.logz import MicrosoftLogz
     pip install azure-identity
     pip install azure-mgmt-logz
 # USAGE
-    python tag_rules_delete.py
+    python sub_account_list_by_resource_group.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,13 +29,14 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    client.tag_rules.delete(
+    response = client.sub_account.list(
         resource_group_name="myResourceGroup",
         monitor_name="myMonitor",
-        rule_set_name="default",
     )
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/logz/resource-manager/Microsoft.Logz/stable/2020-10-01/examples/TagRules_Delete.json
+# x-ms-original-file: specification/logz/resource-manager/Microsoft.Logz/stable/2020-10-01/examples/SubAccount_ListByResourceGroup.json
 if __name__ == "__main__":
     main()
