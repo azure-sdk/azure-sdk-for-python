@@ -1,5 +1,5 @@
 # coding=utf-8
-# pylint: disable=too-many-lines,anomalous-backslash-in-string,name-too-long
+# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -98,6 +98,7 @@ class DistributionMode(_model_base.Model):
      values are: "bestWorker", "longestIdle", and "roundRobin".
     :vartype kind: str or ~azure.communication.jobrouter.models.DistributionModeKind
     """
+
     __mapping__: Dict[str, _model_base.Model] = {}
     min_concurrent_offers: Optional[int] = rest_field(name="minConcurrentOffers")
     """Governs the minimum desired number of active concurrent offers a job can have."""
