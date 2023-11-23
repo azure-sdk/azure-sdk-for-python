@@ -68,16 +68,20 @@ class SecurityCenter:  # pylint: disable=client-accepts-api-version-keyword
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
         self.sql_vulnerability_assessment_baseline_rules = SqlVulnerabilityAssessmentBaselineRulesOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2023-02-01-preview"
         )
         self.sql_vulnerability_assessment_scans = SqlVulnerabilityAssessmentScansOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2023-02-01-preview"
         )
         self.sql_vulnerability_assessment_scan_results = SqlVulnerabilityAssessmentScanResultsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2023-02-01-preview"
         )
-        self.health_reports = HealthReportsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.health_report = HealthReportOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.health_reports = HealthReportsOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2023-02-01-preview"
+        )
+        self.health_report = HealthReportOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2023-02-01-preview"
+        )
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> HttpResponse:
         """Runs the network request through the client's chained policies.
