@@ -65666,6 +65666,15 @@ class WebActivity(ExecutionActivity):  # pylint: disable=too-many-instance-attri
     :vartype authentication: ~azure.mgmt.datafactory.models.WebActivityAuthentication
     :ivar disable_cert_validation: When set to true, Certificate validation will be disabled.
     :vartype disable_cert_validation: bool
+    :ivar http_request_timeout: Timeout for the HTTP request to get a response. Format is in
+     TimeSpan (hh:mm:ss). This value is the timeout to get a response, not the activity timeout. The
+     default value is 00:01:00 (1 minute). The range is from 1 to 10 minutes.
+    :vartype http_request_timeout: JSON
+    :ivar turn_off_async: Option to disable invoking HTTP GET on location given in response header
+     of a HTTP 202 Response. If set true, it stops invoking HTTP GET on http location given in
+     response header. If set false then continues to invoke HTTP GET call on location given in http
+     response headers.
+    :vartype turn_off_async: bool
     :ivar datasets: List of datasets passed to web endpoint.
     :vartype datasets: list[~azure.mgmt.datafactory.models.DatasetReference]
     :ivar linked_services: List of linked services passed to web endpoint.
@@ -65698,6 +65707,8 @@ class WebActivity(ExecutionActivity):  # pylint: disable=too-many-instance-attri
         "body": {"key": "typeProperties.body", "type": "object"},
         "authentication": {"key": "typeProperties.authentication", "type": "WebActivityAuthentication"},
         "disable_cert_validation": {"key": "typeProperties.disableCertValidation", "type": "bool"},
+        "http_request_timeout": {"key": "typeProperties.httpRequestTimeout", "type": "object"},
+        "turn_off_async": {"key": "typeProperties.turnOffAsync", "type": "bool"},
         "datasets": {"key": "typeProperties.datasets", "type": "[DatasetReference]"},
         "linked_services": {"key": "typeProperties.linkedServices", "type": "[LinkedServiceReference]"},
         "connect_via": {"key": "typeProperties.connectVia", "type": "IntegrationRuntimeReference"},
@@ -65721,6 +65732,8 @@ class WebActivity(ExecutionActivity):  # pylint: disable=too-many-instance-attri
         body: Optional[JSON] = None,
         authentication: Optional["_models.WebActivityAuthentication"] = None,
         disable_cert_validation: Optional[bool] = None,
+        http_request_timeout: Optional[JSON] = None,
+        turn_off_async: Optional[bool] = None,
         datasets: Optional[List["_models.DatasetReference"]] = None,
         linked_services: Optional[List["_models.LinkedServiceReference"]] = None,
         connect_via: Optional["_models.IntegrationRuntimeReference"] = None,
@@ -65766,6 +65779,15 @@ class WebActivity(ExecutionActivity):  # pylint: disable=too-many-instance-attri
         :paramtype authentication: ~azure.mgmt.datafactory.models.WebActivityAuthentication
         :keyword disable_cert_validation: When set to true, Certificate validation will be disabled.
         :paramtype disable_cert_validation: bool
+        :keyword http_request_timeout: Timeout for the HTTP request to get a response. Format is in
+         TimeSpan (hh:mm:ss). This value is the timeout to get a response, not the activity timeout. The
+         default value is 00:01:00 (1 minute). The range is from 1 to 10 minutes.
+        :paramtype http_request_timeout: JSON
+        :keyword turn_off_async: Option to disable invoking HTTP GET on location given in response
+         header of a HTTP 202 Response. If set true, it stops invoking HTTP GET on http location given
+         in response header. If set false then continues to invoke HTTP GET call on location given in
+         http response headers.
+        :paramtype turn_off_async: bool
         :keyword datasets: List of datasets passed to web endpoint.
         :paramtype datasets: list[~azure.mgmt.datafactory.models.DatasetReference]
         :keyword linked_services: List of linked services passed to web endpoint.
@@ -65792,6 +65814,8 @@ class WebActivity(ExecutionActivity):  # pylint: disable=too-many-instance-attri
         self.body = body
         self.authentication = authentication
         self.disable_cert_validation = disable_cert_validation
+        self.http_request_timeout = http_request_timeout
+        self.turn_off_async = turn_off_async
         self.datasets = datasets
         self.linked_services = linked_services
         self.connect_via = connect_via
