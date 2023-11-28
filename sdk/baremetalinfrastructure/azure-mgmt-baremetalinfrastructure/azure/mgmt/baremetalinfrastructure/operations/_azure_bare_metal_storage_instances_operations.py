@@ -41,7 +41,7 @@ def build_list_by_subscription_request(subscription_id: str, **kwargs: Any) -> H
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-04-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -68,7 +68,7 @@ def build_list_by_resource_group_request(resource_group_name: str, subscription_
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-04-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -100,7 +100,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-04-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -135,7 +135,7 @@ def build_create_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-04-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -173,7 +173,7 @@ def build_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-04-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -211,7 +211,7 @@ def build_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-08-04-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -674,7 +674,7 @@ class AzureBareMetalStorageInstancesOperations:
         self,
         resource_group_name: str,
         azure_bare_metal_storage_instance_name: str,
-        tags_parameter: _models.Tags,
+        azure_bare_metal_storage_instance_body_parameter: _models.AzureBareMetalStorageInstanceBody,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -690,8 +690,10 @@ class AzureBareMetalStorageInstancesOperations:
         :param azure_bare_metal_storage_instance_name: Name of the Azure Bare Metal Storage Instance,
          also known as the ResourceName. Required.
         :type azure_bare_metal_storage_instance_name: str
-        :param tags_parameter: Request body that only contains the new Tags field. Required.
-        :type tags_parameter: ~azure.mgmt.baremetalinfrastructure.models.Tags
+        :param azure_bare_metal_storage_instance_body_parameter: Request body that only contains the
+         Tags and Identity Field. Required.
+        :type azure_bare_metal_storage_instance_body_parameter:
+         ~azure.mgmt.baremetalinfrastructure.models.AzureBareMetalStorageInstanceBody
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -706,7 +708,7 @@ class AzureBareMetalStorageInstancesOperations:
         self,
         resource_group_name: str,
         azure_bare_metal_storage_instance_name: str,
-        tags_parameter: IO,
+        azure_bare_metal_storage_instance_body_parameter: IO,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -722,8 +724,9 @@ class AzureBareMetalStorageInstancesOperations:
         :param azure_bare_metal_storage_instance_name: Name of the Azure Bare Metal Storage Instance,
          also known as the ResourceName. Required.
         :type azure_bare_metal_storage_instance_name: str
-        :param tags_parameter: Request body that only contains the new Tags field. Required.
-        :type tags_parameter: IO
+        :param azure_bare_metal_storage_instance_body_parameter: Request body that only contains the
+         Tags and Identity Field. Required.
+        :type azure_bare_metal_storage_instance_body_parameter: IO
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -738,7 +741,7 @@ class AzureBareMetalStorageInstancesOperations:
         self,
         resource_group_name: str,
         azure_bare_metal_storage_instance_name: str,
-        tags_parameter: Union[_models.Tags, IO],
+        azure_bare_metal_storage_instance_body_parameter: Union[_models.AzureBareMetalStorageInstanceBody, IO],
         **kwargs: Any
     ) -> _models.AzureBareMetalStorageInstance:
         """Patches the Tags field of a Azure Bare Metal Storage instance.
@@ -752,9 +755,11 @@ class AzureBareMetalStorageInstancesOperations:
         :param azure_bare_metal_storage_instance_name: Name of the Azure Bare Metal Storage Instance,
          also known as the ResourceName. Required.
         :type azure_bare_metal_storage_instance_name: str
-        :param tags_parameter: Request body that only contains the new Tags field. Is either a Tags
-         type or a IO type. Required.
-        :type tags_parameter: ~azure.mgmt.baremetalinfrastructure.models.Tags or IO
+        :param azure_bare_metal_storage_instance_body_parameter: Request body that only contains the
+         Tags and Identity Field. Is either a AzureBareMetalStorageInstanceBody type or a IO type.
+         Required.
+        :type azure_bare_metal_storage_instance_body_parameter:
+         ~azure.mgmt.baremetalinfrastructure.models.AzureBareMetalStorageInstanceBody or IO
         :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
          Default value is None.
         :paramtype content_type: str
@@ -781,10 +786,12 @@ class AzureBareMetalStorageInstancesOperations:
         content_type = content_type or "application/json"
         _json = None
         _content = None
-        if isinstance(tags_parameter, (IOBase, bytes)):
-            _content = tags_parameter
+        if isinstance(azure_bare_metal_storage_instance_body_parameter, (IOBase, bytes)):
+            _content = azure_bare_metal_storage_instance_body_parameter
         else:
-            _json = self._serialize.body(tags_parameter, "Tags")
+            _json = self._serialize.body(
+                azure_bare_metal_storage_instance_body_parameter, "AzureBareMetalStorageInstanceBody"
+            )
 
         request = build_update_request(
             resource_group_name=resource_group_name,

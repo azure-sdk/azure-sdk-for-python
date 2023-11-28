@@ -9,6 +9,8 @@
 from ._models_py3 import AzureBareMetalInstance
 from ._models_py3 import AzureBareMetalInstancesListResult
 from ._models_py3 import AzureBareMetalStorageInstance
+from ._models_py3 import AzureBareMetalStorageInstanceBody
+from ._models_py3 import AzureBareMetalStorageInstanceIdentity
 from ._models_py3 import AzureBareMetalStorageInstancesListResult
 from ._models_py3 import Disk
 from ._models_py3 import ErrorAdditionalInfo
@@ -42,6 +44,7 @@ from ._bare_metal_infrastructure_client_enums import AzureBareMetalProvisioningS
 from ._bare_metal_infrastructure_client_enums import CreatedByType
 from ._bare_metal_infrastructure_client_enums import Origin
 from ._bare_metal_infrastructure_client_enums import ProvisioningState
+from ._bare_metal_infrastructure_client_enums import ResourceIdentityType
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
@@ -50,6 +53,8 @@ __all__ = [
     "AzureBareMetalInstance",
     "AzureBareMetalInstancesListResult",
     "AzureBareMetalStorageInstance",
+    "AzureBareMetalStorageInstanceBody",
+    "AzureBareMetalStorageInstanceIdentity",
     "AzureBareMetalStorageInstancesListResult",
     "Disk",
     "ErrorAdditionalInfo",
@@ -82,6 +87,7 @@ __all__ = [
     "CreatedByType",
     "Origin",
     "ProvisioningState",
+    "ResourceIdentityType",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()

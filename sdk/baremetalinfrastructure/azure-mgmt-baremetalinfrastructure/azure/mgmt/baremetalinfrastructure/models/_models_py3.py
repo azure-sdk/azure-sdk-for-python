@@ -291,6 +291,9 @@ class AzureBareMetalStorageInstance(TrackedResource):
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
+    :ivar identity: The identity of Azure Bare Metal Storage Instance, if configured.
+    :vartype identity:
+     ~azure.mgmt.baremetalinfrastructure.models.AzureBareMetalStorageInstanceIdentity
     :ivar azure_bare_metal_storage_instance_unique_identifier: Specifies the
      AzureBareMetaStorageInstance unique ID.
     :vartype azure_bare_metal_storage_instance_unique_identifier: str
@@ -314,6 +317,7 @@ class AzureBareMetalStorageInstance(TrackedResource):
         "system_data": {"key": "systemData", "type": "SystemData"},
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
+        "identity": {"key": "identity", "type": "AzureBareMetalStorageInstanceIdentity"},
         "azure_bare_metal_storage_instance_unique_identifier": {
             "key": "properties.azureBareMetalStorageInstanceUniqueIdentifier",
             "type": "str",
@@ -326,6 +330,7 @@ class AzureBareMetalStorageInstance(TrackedResource):
         *,
         location: str,
         tags: Optional[Dict[str, str]] = None,
+        identity: Optional["_models.AzureBareMetalStorageInstanceIdentity"] = None,
         azure_bare_metal_storage_instance_unique_identifier: Optional[str] = None,
         storage_properties: Optional["_models.StorageProperties"] = None,
         **kwargs: Any
@@ -335,6 +340,9 @@ class AzureBareMetalStorageInstance(TrackedResource):
         :paramtype tags: dict[str, str]
         :keyword location: The geo-location where the resource lives. Required.
         :paramtype location: str
+        :keyword identity: The identity of Azure Bare Metal Storage Instance, if configured.
+        :paramtype identity:
+         ~azure.mgmt.baremetalinfrastructure.models.AzureBareMetalStorageInstanceIdentity
         :keyword azure_bare_metal_storage_instance_unique_identifier: Specifies the
          AzureBareMetaStorageInstance unique ID.
         :paramtype azure_bare_metal_storage_instance_unique_identifier: str
@@ -343,8 +351,86 @@ class AzureBareMetalStorageInstance(TrackedResource):
         :paramtype storage_properties: ~azure.mgmt.baremetalinfrastructure.models.StorageProperties
         """
         super().__init__(tags=tags, location=location, **kwargs)
+        self.identity = identity
         self.azure_bare_metal_storage_instance_unique_identifier = azure_bare_metal_storage_instance_unique_identifier
         self.storage_properties = storage_properties
+
+
+class AzureBareMetalStorageInstanceBody(_serialization.Model):
+    """properties of body during PUT/PATCH for an AzureBareMetalStorageInstance.
+
+    :ivar identity: The identity of Azure Bare Metal Storage Instance, if configured.
+    :vartype identity:
+     ~azure.mgmt.baremetalinfrastructure.models.AzureBareMetalStorageInstanceIdentity
+    :ivar tags: Tags field of the AzureBareMetal/AzureBareMetaStorage instance.
+    :vartype tags: dict[str, str]
+    """
+
+    _attribute_map = {
+        "identity": {"key": "identity", "type": "AzureBareMetalStorageInstanceIdentity"},
+        "tags": {"key": "tags", "type": "{str}"},
+    }
+
+    def __init__(
+        self,
+        *,
+        identity: Optional["_models.AzureBareMetalStorageInstanceIdentity"] = None,
+        tags: Optional[Dict[str, str]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword identity: The identity of Azure Bare Metal Storage Instance, if configured.
+        :paramtype identity:
+         ~azure.mgmt.baremetalinfrastructure.models.AzureBareMetalStorageInstanceIdentity
+        :keyword tags: Tags field of the AzureBareMetal/AzureBareMetaStorage instance.
+        :paramtype tags: dict[str, str]
+        """
+        super().__init__(**kwargs)
+        self.identity = identity
+        self.tags = tags
+
+
+class AzureBareMetalStorageInstanceIdentity(_serialization.Model):
+    """Identity for Azure Bare Metal Storage Instance.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar principal_id: The principal ID of Azure Bare Metal Storage Instance identity. This
+     property will only be provided for a system assigned identity.
+    :vartype principal_id: str
+    :ivar tenant_id: The tenant ID associated with the Azure Bare Metal Storage Instance. This
+     property will only be provided for a system assigned identity.
+    :vartype tenant_id: str
+    :ivar type: The type of identity used for the Azure Bare Metal Storage Instance. The type
+     'SystemAssigned' refers to an implicitly created identity. The type 'None' will remove any
+     identities from the Azure Bare Metal Storage Instance. Known values are: "SystemAssigned" and
+     "None".
+    :vartype type: str or ~azure.mgmt.baremetalinfrastructure.models.ResourceIdentityType
+    """
+
+    _validation = {
+        "principal_id": {"readonly": True},
+        "tenant_id": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "principal_id": {"key": "principalId", "type": "str"},
+        "tenant_id": {"key": "tenantId", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+    }
+
+    def __init__(self, *, type: Optional[Union[str, "_models.ResourceIdentityType"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword type: The type of identity used for the Azure Bare Metal Storage Instance. The type
+         'SystemAssigned' refers to an implicitly created identity. The type 'None' will remove any
+         identities from the Azure Bare Metal Storage Instance. Known values are: "SystemAssigned" and
+         "None".
+        :paramtype type: str or ~azure.mgmt.baremetalinfrastructure.models.ResourceIdentityType
+        """
+        super().__init__(**kwargs)
+        self.principal_id = None
+        self.tenant_id = None
+        self.type = type
 
 
 class AzureBareMetalStorageInstancesListResult(_serialization.Model):

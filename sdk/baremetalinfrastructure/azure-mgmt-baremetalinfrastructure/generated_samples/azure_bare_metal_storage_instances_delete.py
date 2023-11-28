@@ -35,6 +35,6 @@ def main():
     )
 
 
-# x-ms-original-file: specification/baremetalinfrastructure/resource-manager/Microsoft.BareMetalInfrastructure/preview/2023-08-04-preview/examples/AzureBareMetalStorageInstances_Delete.json
+# x-ms-original-file: specification/baremetalinfrastructure/resource-manager/Microsoft.BareMetalInfrastructure/preview/2023-11-01-preview/examples/AzureBareMetalStorageInstances_Delete.json
 if __name__ == "__main__":
     main()

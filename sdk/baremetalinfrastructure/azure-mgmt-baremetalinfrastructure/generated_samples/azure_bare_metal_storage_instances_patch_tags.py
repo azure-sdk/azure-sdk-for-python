@@ -32,11 +32,14 @@ def main():
     response = client.azure_bare_metal_storage_instances.update(
         resource_group_name="myResourceGroup",
         azure_bare_metal_storage_instance_name="myABMSInstance",
-        tags_parameter={"tags": {"testkey": "testvalue"}},
+        azure_bare_metal_storage_instance_body_parameter={
+            "identity": {"type": "SystemAssigned"},
+            "tags": {"testkey": "testvalue"},
+        },
     )
     print(response)
 
 
-# x-ms-original-file: specification/baremetalinfrastructure/resource-manager/Microsoft.BareMetalInfrastructure/preview/2023-08-04-preview/examples/AzureBareMetalStorageInstances_PatchTags.json
+# x-ms-original-file: specification/baremetalinfrastructure/resource-manager/Microsoft.BareMetalInfrastructure/preview/2023-11-01-preview/examples/AzureBareMetalStorageInstances_PatchTags.json
 if __name__ == "__main__":
     main()
