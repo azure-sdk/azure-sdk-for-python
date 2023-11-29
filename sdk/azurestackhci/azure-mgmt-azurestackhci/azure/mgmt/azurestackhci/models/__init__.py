@@ -56,9 +56,6 @@ from ._models_py3 import NetworkInterfacesListResult
 from ._models_py3 import NetworkInterfacesUpdateRequest
 from ._models_py3 import NetworkProfileUpdate
 from ._models_py3 import NetworkProfileUpdateNetworkInterfacesItem
-from ._models_py3 import Operation
-from ._models_py3 import OperationDisplay
-from ._models_py3 import OperationListResult
 from ._models_py3 import OsProfileUpdate
 from ._models_py3 import OsProfileUpdateLinuxConfiguration
 from ._models_py3 import OsProfileUpdateWindowsConfiguration
@@ -106,7 +103,6 @@ from ._models_py3 import VirtualMachineInstanceUpdateProperties
 from ._models_py3 import VirtualMachineInstanceUpdateRequest
 from ._models_py3 import VirtualMachineInstanceView
 
-from ._azure_stack_hci_client_enums import ActionType
 from ._azure_stack_hci_client_enums import CloudInitDataSource
 from ._azure_stack_hci_client_enums import CreatedByType
 from ._azure_stack_hci_client_enums import DiskFileFormat
@@ -115,7 +111,6 @@ from ._azure_stack_hci_client_enums import HyperVGeneration
 from ._azure_stack_hci_client_enums import IPPoolTypeEnum
 from ._azure_stack_hci_client_enums import IpAllocationMethodEnum
 from ._azure_stack_hci_client_enums import OperatingSystemTypes
-from ._azure_stack_hci_client_enums import Origin
 from ._azure_stack_hci_client_enums import PowerStateEnum
 from ._azure_stack_hci_client_enums import ProvisioningAction
 from ._azure_stack_hci_client_enums import ProvisioningStateEnum
@@ -179,9 +174,6 @@ __all__ = [
     "NetworkInterfacesUpdateRequest",
     "NetworkProfileUpdate",
     "NetworkProfileUpdateNetworkInterfacesItem",
-    "Operation",
-    "OperationDisplay",
-    "OperationListResult",
     "OsProfileUpdate",
     "OsProfileUpdateLinuxConfiguration",
     "OsProfileUpdateWindowsConfiguration",
@@ -228,7 +220,6 @@ __all__ = [
     "VirtualMachineInstanceUpdateProperties",
     "VirtualMachineInstanceUpdateRequest",
     "VirtualMachineInstanceView",
-    "ActionType",
     "CloudInitDataSource",
     "CreatedByType",
     "DiskFileFormat",
@@ -237,7 +228,6 @@ __all__ = [
     "IPPoolTypeEnum",
     "IpAllocationMethodEnum",
     "OperatingSystemTypes",
-    "Origin",
     "PowerStateEnum",
     "ProvisioningAction",
     "ProvisioningStateEnum",

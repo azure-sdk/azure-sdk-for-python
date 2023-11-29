@@ -46,6 +46,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/preview/2023-09-01-preview/examples/UpdateVirtualMachineInstance.json
+# x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2024-01-01/examples/UpdateVirtualMachineInstance.json
 if __name__ == "__main__":
     main()

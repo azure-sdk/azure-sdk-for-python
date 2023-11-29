@@ -10,12 +10,6 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
-class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs."""
-
-    INTERNAL = "Internal"
-
-
 class CloudInitDataSource(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Datasource for the gallery image when provisioning with cloud-init [NoCloud, Azure]."""
 
@@ -73,16 +67,6 @@ class OperatingSystemTypes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     WINDOWS = "Windows"
     LINUX = "Linux"
-
-
-class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit
-    logs UX. Default value is "user,system".
-    """
-
-    USER = "user"
-    SYSTEM = "system"
-    USER_SYSTEM = "user,system"
 
 
 class PowerStateEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):

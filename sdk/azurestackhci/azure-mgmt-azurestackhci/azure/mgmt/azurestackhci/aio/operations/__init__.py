@@ -7,7 +7,6 @@
 # --------------------------------------------------------------------------
 
 from ._gallery_images_operations import GalleryImagesOperations
-from ._operations import Operations
 from ._logical_networks_operations import LogicalNetworksOperations
 from ._marketplace_gallery_images_operations import MarketplaceGalleryImagesOperations
 from ._network_interfaces_operations import NetworkInterfacesOperations
@@ -24,7 +23,6 @@ from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
     "GalleryImagesOperations",
-    "Operations",
     "LogicalNetworksOperations",
     "MarketplaceGalleryImagesOperations",
     "NetworkInterfacesOperations",

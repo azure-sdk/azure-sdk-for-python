@@ -23,7 +23,6 @@ from .operations import (
     LogicalNetworksOperations,
     MarketplaceGalleryImagesOperations,
     NetworkInterfacesOperations,
-    Operations,
     StorageContainersOperations,
     VirtualHardDisksOperations,
     VirtualMachineInstancesOperations,
@@ -39,8 +38,6 @@ class AzureStackHCIClient:  # pylint: disable=client-accepts-api-version-keyword
 
     :ivar gallery_images: GalleryImagesOperations operations
     :vartype gallery_images: azure.mgmt.azurestackhci.operations.GalleryImagesOperations
-    :ivar operations: Operations operations
-    :vartype operations: azure.mgmt.azurestackhci.operations.Operations
     :ivar logical_networks: LogicalNetworksOperations operations
     :vartype logical_networks: azure.mgmt.azurestackhci.operations.LogicalNetworksOperations
     :ivar marketplace_gallery_images: MarketplaceGalleryImagesOperations operations
@@ -68,8 +65,8 @@ class AzureStackHCIClient:  # pylint: disable=client-accepts-api-version-keyword
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2023-09-01-preview". Note that overriding
-     this default value may result in unsupported behavior.
+    :keyword api_version: Api Version. Default value is "2024-01-01". Note that overriding this
+     default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
      Retry-After header is present.
@@ -92,7 +89,6 @@ class AzureStackHCIClient:  # pylint: disable=client-accepts-api-version-keyword
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
         self.gallery_images = GalleryImagesOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
         self.logical_networks = LogicalNetworksOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
