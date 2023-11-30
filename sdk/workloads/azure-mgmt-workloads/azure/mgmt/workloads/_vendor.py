@@ -6,11 +6,11 @@
 # --------------------------------------------------------------------------
 
 from abc import ABC
-from typing import List, TYPE_CHECKING, cast
+from typing import TYPE_CHECKING
 
 from azure.core.pipeline.transport import HttpRequest
 
-from ._configuration import WorkloadsMgmtClientConfiguration
+from ._configuration import WorkloadsClientConfiguration
 
 if TYPE_CHECKING:
     # pylint: disable=unused-import,ungrouped-imports
@@ -27,22 +27,10 @@ def _convert_request(request, files=None):
     return request
 
 
-def _format_url_section(template, **kwargs):
-    components = template.split("/")
-    while components:
-        try:
-            return template.format(**kwargs)
-        except KeyError as key:
-            # Need the cast, as for some reasons "split" is typed as list[str | Any]
-            formatted_components = cast(List[str], template.split("/"))
-            components = [c for c in formatted_components if "{}".format(key.args[0]) not in c]
-            template = "/".join(components)
-
-
-class WorkloadsMgmtClientMixinABC(ABC):
+class WorkloadsClientMixinABC(ABC):
     """DO NOT use this class. It is for internal typing use only."""
 
     _client: "PipelineClient"
-    _config: WorkloadsMgmtClientConfiguration
+    _config: WorkloadsClientConfiguration
     _serialize: "Serializer"
     _deserialize: "Deserializer"

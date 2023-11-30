@@ -7,7 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
-from azure.mgmt.workloads import WorkloadsMgmtClient
+from azure.mgmt.workloads import WorkloadsClient
 
 """
 # PREREQUISITES
@@ -24,7 +24,7 @@ from azure.mgmt.workloads import WorkloadsMgmtClient
 
 
 def main():
-    client = WorkloadsMgmtClient(
+    client = WorkloadsClient(
         credential=DefaultAzureCredential(),
         subscription_id="SUBSCRIPTION_ID",
     )
