@@ -42,3 +42,5 @@ extends:
       safeName: azurepurviewworkflow
     - name: azure-purview-sharing
       safeNAme: azurepurviewsharing
+    - name: azure-analytics-purview-datamap
+      safeName: azureanalyticspurviewdatamap
