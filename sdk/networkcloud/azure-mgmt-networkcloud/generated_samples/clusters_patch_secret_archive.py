@@ -14,7 +14,7 @@ from azure.mgmt.networkcloud import NetworkCloudMgmtClient
     pip install azure-identity
     pip install azure-mgmt-networkcloud
 # USAGE
-    python bare_metal_machines_cordon.py
+    python clusters_patch_secret_archive.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,13 +29,13 @@ def main():
         subscription_id="123e4567-e89b-12d3-a456-426655440000",
     )
 
-    response = client.bare_metal_machines.begin_cordon(
+    response = client.clusters.begin_update(
         resource_group_name="resourceGroupName",
-        bare_metal_machine_name="bareMetalMachineName",
+        cluster_name="clusterName",
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2023-10-01-preview/examples/BareMetalMachines_Cordon.json
+# x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2023-10-01-preview/examples/Clusters_Patch_SecretArchive.json
 if __name__ == "__main__":
     main()

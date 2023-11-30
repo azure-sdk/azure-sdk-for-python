@@ -29,12 +29,13 @@ def main():
         subscription_id="123e4567-e89b-12d3-a456-426655440000",
     )
 
-    client.cloud_services_networks.begin_delete(
+    response = client.cloud_services_networks.begin_delete(
         resource_group_name="resourceGroupName",
         cloud_services_network_name="cloudServicesNetworkName",
     ).result()
+    print(response)
 
 
-# x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/CloudServicesNetworks_Delete.json
+# x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2023-10-01-preview/examples/CloudServicesNetworks_Delete.json
 if __name__ == "__main__":
     main()

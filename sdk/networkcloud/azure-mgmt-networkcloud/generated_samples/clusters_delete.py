@@ -29,12 +29,13 @@ def main():
         subscription_id="123e4567-e89b-12d3-a456-426655440000",
     )
 
-    client.clusters.begin_delete(
+    response = client.clusters.begin_delete(
         resource_group_name="resourceGroupName",
         cluster_name="clusterName",
     ).result()
+    print(response)
 
 
-# x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2023-07-01/examples/Clusters_Delete.json
+# x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2023-10-01-preview/examples/Clusters_Delete.json
 if __name__ == "__main__":
     main()
