@@ -133,9 +133,9 @@ class LocalizableString(_serialization.Model):
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar value: the invariant value. Required.
+    :ivar value: The invariant value. Required.
     :vartype value: str
-    :ivar localized_value: the locale specific value.
+    :ivar localized_value: The display name.
     :vartype localized_value: str
     """
 
@@ -150,9 +150,9 @@ class LocalizableString(_serialization.Model):
 
     def __init__(self, *, value: str, localized_value: Optional[str] = None, **kwargs: Any) -> None:
         """
-        :keyword value: the invariant value. Required.
+        :keyword value: The invariant value. Required.
         :paramtype value: str
-        :keyword localized_value: the locale specific value.
+        :keyword localized_value: The display name.
         :paramtype localized_value: str
         """
         super().__init__(**kwargs)
