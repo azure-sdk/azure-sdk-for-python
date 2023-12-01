@@ -28,9 +28,9 @@ from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
 
 from ... import models as _models
-from ..._model_base import AzureJSONEncoder, _deserialize
+from ..._model_base import SdkJSONEncoder, _deserialize
 from ..._operations._operations import (
-    build_content_safety_add_block_items_request,
+    build_content_safety_add_or_update_blocklist_items_request,
     build_content_safety_analyze_image_request,
     build_content_safety_analyze_text_request,
     build_content_safety_create_or_update_text_blocklist_request,
@@ -39,7 +39,7 @@ from ..._operations._operations import (
     build_content_safety_get_text_blocklist_request,
     build_content_safety_list_text_blocklist_items_request,
     build_content_safety_list_text_blocklists_request,
-    build_content_safety_remove_block_items_request,
+    build_content_safety_remove_blocklist_items_request,
 )
 from .._vendor import ContentSafetyClientMixinABC
 
@@ -59,10 +59,10 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
     ) -> _models.AnalyzeTextResult:
         """Analyze Text.
 
-        A sync API for harmful content analysis for text. Currently, we support four categories: Hate,
-        SelfHarm, Sexual, Violence.
+        A synchronous API for the analysis of potentially harmful text content. Currently, it supports
+        four categories: Hate, SelfHarm, Sexual, and Violence.
 
-        :param body: The request of text analysis. Required.
+        :param body: The text analysis request. Required.
         :type body: ~azure.ai.contentsafety.models.AnalyzeTextOptions
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
@@ -80,10 +80,10 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
     ) -> _models.AnalyzeTextResult:
         """Analyze Text.
 
-        A sync API for harmful content analysis for text. Currently, we support four categories: Hate,
-        SelfHarm, Sexual, Violence.
+        A synchronous API for the analysis of potentially harmful text content. Currently, it supports
+        four categories: Hate, SelfHarm, Sexual, and Violence.
 
-        :param body: The request of text analysis. Required.
+        :param body: The text analysis request. Required.
         :type body: JSON
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
@@ -97,15 +97,15 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
 
     @overload
     async def analyze_text(
-        self, body: IO, *, content_type: str = "application/json", **kwargs: Any
+        self, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.AnalyzeTextResult:
         """Analyze Text.
 
-        A sync API for harmful content analysis for text. Currently, we support four categories: Hate,
-        SelfHarm, Sexual, Violence.
+        A synchronous API for the analysis of potentially harmful text content. Currently, it supports
+        four categories: Hate, SelfHarm, Sexual, and Violence.
 
-        :param body: The request of text analysis. Required.
-        :type body: IO
+        :param body: The text analysis request. Required.
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -118,16 +118,16 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
 
     @distributed_trace_async
     async def analyze_text(
-        self, body: Union[_models.AnalyzeTextOptions, JSON, IO], **kwargs: Any
+        self, body: Union[_models.AnalyzeTextOptions, JSON, IO[bytes]], **kwargs: Any
     ) -> _models.AnalyzeTextResult:
         """Analyze Text.
 
-        A sync API for harmful content analysis for text. Currently, we support four categories: Hate,
-        SelfHarm, Sexual, Violence.
+        A synchronous API for the analysis of potentially harmful text content. Currently, it supports
+        four categories: Hate, SelfHarm, Sexual, and Violence.
 
-        :param body: The request of text analysis. Is one of the following types: AnalyzeTextOptions,
-         JSON, IO Required.
-        :type body: ~azure.ai.contentsafety.models.AnalyzeTextOptions or JSON or IO
+        :param body: The text analysis request. Is one of the following types: AnalyzeTextOptions,
+         JSON, IO[bytes] Required.
+        :type body: ~azure.ai.contentsafety.models.AnalyzeTextOptions or JSON or IO[bytes]
         :keyword content_type: Body parameter Content-Type. Known values are: application/json. Default
          value is None.
         :paramtype content_type: str
@@ -156,7 +156,7 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
         if isinstance(body, (IOBase, bytes)):
             _content = body
         else:
-            _content = json.dumps(body, cls=AzureJSONEncoder, exclude_readonly=True)  # type: ignore
+            _content = json.dumps(body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
 
         _request = build_content_safety_analyze_text_request(
             content_type=content_type,
@@ -199,10 +199,10 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
     ) -> _models.AnalyzeImageResult:
         """Analyze Image.
 
-        A sync API for harmful content analysis for image. Currently, we support four categories: Hate,
-        SelfHarm, Sexual, Violence.
+        A synchronous API for the analysis of potentially harmful image content. Currently, it supports
+        four categories: Hate, SelfHarm, Sexual, and Violence.
 
-        :param body: The analysis request of the image. Required.
+        :param body: The image analysis request. Required.
         :type body: ~azure.ai.contentsafety.models.AnalyzeImageOptions
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
@@ -220,10 +220,10 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
     ) -> _models.AnalyzeImageResult:
         """Analyze Image.
 
-        A sync API for harmful content analysis for image. Currently, we support four categories: Hate,
-        SelfHarm, Sexual, Violence.
+        A synchronous API for the analysis of potentially harmful image content. Currently, it supports
+        four categories: Hate, SelfHarm, Sexual, and Violence.
 
-        :param body: The analysis request of the image. Required.
+        :param body: The image analysis request. Required.
         :type body: JSON
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
@@ -237,15 +237,15 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
 
     @overload
     async def analyze_image(
-        self, body: IO, *, content_type: str = "application/json", **kwargs: Any
+        self, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.AnalyzeImageResult:
         """Analyze Image.
 
-        A sync API for harmful content analysis for image. Currently, we support four categories: Hate,
-        SelfHarm, Sexual, Violence.
+        A synchronous API for the analysis of potentially harmful image content. Currently, it supports
+        four categories: Hate, SelfHarm, Sexual, and Violence.
 
-        :param body: The analysis request of the image. Required.
-        :type body: IO
+        :param body: The image analysis request. Required.
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -258,16 +258,16 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
 
     @distributed_trace_async
     async def analyze_image(
-        self, body: Union[_models.AnalyzeImageOptions, JSON, IO], **kwargs: Any
+        self, body: Union[_models.AnalyzeImageOptions, JSON, IO[bytes]], **kwargs: Any
     ) -> _models.AnalyzeImageResult:
         """Analyze Image.
 
-        A sync API for harmful content analysis for image. Currently, we support four categories: Hate,
-        SelfHarm, Sexual, Violence.
+        A synchronous API for the analysis of potentially harmful image content. Currently, it supports
+        four categories: Hate, SelfHarm, Sexual, and Violence.
 
-        :param body: The analysis request of the image. Is one of the following types:
-         AnalyzeImageOptions, JSON, IO Required.
-        :type body: ~azure.ai.contentsafety.models.AnalyzeImageOptions or JSON or IO
+        :param body: The image analysis request. Is one of the following types: AnalyzeImageOptions,
+         JSON, IO[bytes] Required.
+        :type body: ~azure.ai.contentsafety.models.AnalyzeImageOptions or JSON or IO[bytes]
         :keyword content_type: Body parameter Content-Type. Known values are: application/json. Default
          value is None.
         :paramtype content_type: str
@@ -296,7 +296,7 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
         if isinstance(body, (IOBase, bytes)):
             _content = body
         else:
-            _content = json.dumps(body, cls=AzureJSONEncoder, exclude_readonly=True)  # type: ignore
+            _content = json.dumps(body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
 
         _request = build_content_safety_analyze_image_request(
             content_type=content_type,
@@ -405,7 +405,7 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
     ) -> _models.TextBlocklist:
         """Create Or Update Text Blocklist.
 
-        Updates a text blocklist, if blocklistName does not exist, create a new blocklist.
+        Updates a text blocklist. If the blocklistName does not exist, a new blocklist will be created.
 
         :param blocklist_name: Text blocklist name. Required.
         :type blocklist_name: str
@@ -427,7 +427,7 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
     ) -> _models.TextBlocklist:
         """Create Or Update Text Blocklist.
 
-        Updates a text blocklist, if blocklistName does not exist, create a new blocklist.
+        Updates a text blocklist. If the blocklistName does not exist, a new blocklist will be created.
 
         :param blocklist_name: Text blocklist name. Required.
         :type blocklist_name: str
@@ -445,16 +445,21 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
 
     @overload
     async def create_or_update_text_blocklist(
-        self, blocklist_name: str, resource: IO, *, content_type: str = "application/merge-patch+json", **kwargs: Any
+        self,
+        blocklist_name: str,
+        resource: IO[bytes],
+        *,
+        content_type: str = "application/merge-patch+json",
+        **kwargs: Any
     ) -> _models.TextBlocklist:
         """Create Or Update Text Blocklist.
 
-        Updates a text blocklist, if blocklistName does not exist, create a new blocklist.
+        Updates a text blocklist. If the blocklistName does not exist, a new blocklist will be created.
 
         :param blocklist_name: Text blocklist name. Required.
         :type blocklist_name: str
         :param resource: The resource instance. Required.
-        :type resource: IO
+        :type resource: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/merge-patch+json".
         :paramtype content_type: str
@@ -467,17 +472,17 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
 
     @distributed_trace_async
     async def create_or_update_text_blocklist(
-        self, blocklist_name: str, resource: Union[_models.TextBlocklist, JSON, IO], **kwargs: Any
+        self, blocklist_name: str, resource: Union[_models.TextBlocklist, JSON, IO[bytes]], **kwargs: Any
     ) -> _models.TextBlocklist:
         """Create Or Update Text Blocklist.
 
-        Updates a text blocklist, if blocklistName does not exist, create a new blocklist.
+        Updates a text blocklist. If the blocklistName does not exist, a new blocklist will be created.
 
         :param blocklist_name: Text blocklist name. Required.
         :type blocklist_name: str
-        :param resource: The resource instance. Is one of the following types: TextBlocklist, JSON, IO
-         Required.
-        :type resource: ~azure.ai.contentsafety.models.TextBlocklist or JSON or IO
+        :param resource: The resource instance. Is one of the following types: TextBlocklist, JSON,
+         IO[bytes] Required.
+        :type resource: ~azure.ai.contentsafety.models.TextBlocklist or JSON or IO[bytes]
         :keyword content_type: This request has a JSON Merge Patch body. Default value is None.
         :paramtype content_type: str
         :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
@@ -505,7 +510,7 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
         if isinstance(resource, (IOBase, bytes)):
             _content = resource
         else:
-            _content = json.dumps(resource, cls=AzureJSONEncoder, exclude_readonly=True)  # type: ignore
+            _content = json.dumps(resource, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
 
         _request = build_content_safety_create_or_update_text_blocklist_request(
             blocklist_name=blocklist_name,
@@ -560,8 +565,6 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
 
         :param blocklist_name: Text blocklist name. Required.
         :type blocklist_name: str
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
         :return: None
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -590,7 +593,7 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
-        _stream = kwargs.pop("stream", False)
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
@@ -693,39 +696,42 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
         return AsyncItemPaged(get_next, extract_data)
 
     @overload
-    async def add_block_items(
+    async def add_or_update_blocklist_items(
         self,
         blocklist_name: str,
-        body: _models.AddBlockItemsOptions,
+        body: _models.AddOrUpdateTextBlocklistItemsOptions,
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> _models.AddBlockItemsResult:
-        """Add BlockItems To Text Blocklist.
+    ) -> _models.AddOrUpdateTextBlocklistItemsResult:
+        """Add or update BlocklistItems To Text Blocklist.
 
-        Add blockItems to a text blocklist. You can add at most 100 BlockItems in one request.
+        Add or update blocklistItems to a text blocklist. You can add or update at most 100
+        blocklistItems in one request.
 
         :param blocklist_name: Text blocklist name. Required.
         :type blocklist_name: str
         :param body: Required.
-        :type body: ~azure.ai.contentsafety.models.AddBlockItemsOptions
+        :type body: ~azure.ai.contentsafety.models.AddOrUpdateTextBlocklistItemsOptions
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
          will have to context manage the returned stream.
-        :return: AddBlockItemsResult. The AddBlockItemsResult is compatible with MutableMapping
-        :rtype: ~azure.ai.contentsafety.models.AddBlockItemsResult
+        :return: AddOrUpdateTextBlocklistItemsResult. The AddOrUpdateTextBlocklistItemsResult is
+         compatible with MutableMapping
+        :rtype: ~azure.ai.contentsafety.models.AddOrUpdateTextBlocklistItemsResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    async def add_block_items(
+    async def add_or_update_blocklist_items(
         self, blocklist_name: str, body: JSON, *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models.AddBlockItemsResult:
-        """Add BlockItems To Text Blocklist.
+    ) -> _models.AddOrUpdateTextBlocklistItemsResult:
+        """Add or update BlocklistItems To Text Blocklist.
 
-        Add blockItems to a text blocklist. You can add at most 100 BlockItems in one request.
+        Add or update blocklistItems to a text blocklist. You can add or update at most 100
+        blocklistItems in one request.
 
         :param blocklist_name: Text blocklist name. Required.
         :type blocklist_name: str
@@ -736,52 +742,62 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
         :paramtype content_type: str
         :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
          will have to context manage the returned stream.
-        :return: AddBlockItemsResult. The AddBlockItemsResult is compatible with MutableMapping
-        :rtype: ~azure.ai.contentsafety.models.AddBlockItemsResult
+        :return: AddOrUpdateTextBlocklistItemsResult. The AddOrUpdateTextBlocklistItemsResult is
+         compatible with MutableMapping
+        :rtype: ~azure.ai.contentsafety.models.AddOrUpdateTextBlocklistItemsResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    async def add_block_items(
-        self, blocklist_name: str, body: IO, *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models.AddBlockItemsResult:
-        """Add BlockItems To Text Blocklist.
+    async def add_or_update_blocklist_items(
+        self, blocklist_name: str, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.AddOrUpdateTextBlocklistItemsResult:
+        """Add or update BlocklistItems To Text Blocklist.
 
-        Add blockItems to a text blocklist. You can add at most 100 BlockItems in one request.
+        Add or update blocklistItems to a text blocklist. You can add or update at most 100
+        blocklistItems in one request.
 
         :param blocklist_name: Text blocklist name. Required.
         :type blocklist_name: str
         :param body: Required.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
         :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
          will have to context manage the returned stream.
-        :return: AddBlockItemsResult. The AddBlockItemsResult is compatible with MutableMapping
-        :rtype: ~azure.ai.contentsafety.models.AddBlockItemsResult
+        :return: AddOrUpdateTextBlocklistItemsResult. The AddOrUpdateTextBlocklistItemsResult is
+         compatible with MutableMapping
+        :rtype: ~azure.ai.contentsafety.models.AddOrUpdateTextBlocklistItemsResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @distributed_trace_async
-    async def add_block_items(
-        self, blocklist_name: str, body: Union[_models.AddBlockItemsOptions, JSON, IO], **kwargs: Any
-    ) -> _models.AddBlockItemsResult:
-        """Add BlockItems To Text Blocklist.
+    async def add_or_update_blocklist_items(
+        self,
+        blocklist_name: str,
+        body: Union[_models.AddOrUpdateTextBlocklistItemsOptions, JSON, IO[bytes]],
+        **kwargs: Any
+    ) -> _models.AddOrUpdateTextBlocklistItemsResult:
+        """Add or update BlocklistItems To Text Blocklist.
 
-        Add blockItems to a text blocklist. You can add at most 100 BlockItems in one request.
+        Add or update blocklistItems to a text blocklist. You can add or update at most 100
+        blocklistItems in one request.
 
         :param blocklist_name: Text blocklist name. Required.
         :type blocklist_name: str
-        :param body: Is one of the following types: AddBlockItemsOptions, JSON, IO Required.
-        :type body: ~azure.ai.contentsafety.models.AddBlockItemsOptions or JSON or IO
+        :param body: Is one of the following types: AddOrUpdateTextBlocklistItemsOptions, JSON,
+         IO[bytes] Required.
+        :type body: ~azure.ai.contentsafety.models.AddOrUpdateTextBlocklistItemsOptions or JSON or
+         IO[bytes]
         :keyword content_type: Body parameter Content-Type. Known values are: application/json. Default
          value is None.
         :paramtype content_type: str
         :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
          will have to context manage the returned stream.
-        :return: AddBlockItemsResult. The AddBlockItemsResult is compatible with MutableMapping
-        :rtype: ~azure.ai.contentsafety.models.AddBlockItemsResult
+        :return: AddOrUpdateTextBlocklistItemsResult. The AddOrUpdateTextBlocklistItemsResult is
+         compatible with MutableMapping
+        :rtype: ~azure.ai.contentsafety.models.AddOrUpdateTextBlocklistItemsResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map = {
@@ -796,16 +812,16 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.AddBlockItemsResult] = kwargs.pop("cls", None)
+        cls: ClsType[_models.AddOrUpdateTextBlocklistItemsResult] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _content = None
         if isinstance(body, (IOBase, bytes)):
             _content = body
         else:
-            _content = json.dumps(body, cls=AzureJSONEncoder, exclude_readonly=True)  # type: ignore
+            _content = json.dumps(body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
 
-        _request = build_content_safety_add_block_items_request(
+        _request = build_content_safety_add_or_update_blocklist_items_request(
             blocklist_name=blocklist_name,
             content_type=content_type,
             api_version=self._config.api_version,
@@ -834,7 +850,7 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.AddBlockItemsResult, response.json())
+            deserialized = _deserialize(_models.AddOrUpdateTextBlocklistItemsResult, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -842,39 +858,39 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
         return deserialized  # type: ignore
 
     @overload
-    async def remove_block_items(  # pylint: disable=inconsistent-return-statements
+    async def remove_blocklist_items(  # pylint: disable=inconsistent-return-statements
         self,
         blocklist_name: str,
-        body: _models.RemoveBlockItemsOptions,
+        body: _models.RemoveTextBlocklistItemsOptions,
         *,
         content_type: str = "application/json",
         **kwargs: Any
     ) -> None:
-        """Remove BlockItems From Text Blocklist.
+        """Remove BlocklistItems From Text Blocklist.
 
-        Remove blockItems from a text blocklist. You can remove at most 100 BlockItems in one request.
+        Remove blocklistItems from a text blocklist. You can remove at most 100 BlocklistItems in one
+        request.
 
         :param blocklist_name: Text blocklist name. Required.
         :type blocklist_name: str
         :param body: Required.
-        :type body: ~azure.ai.contentsafety.models.RemoveBlockItemsOptions
+        :type body: ~azure.ai.contentsafety.models.RemoveTextBlocklistItemsOptions
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
         :return: None
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    async def remove_block_items(  # pylint: disable=inconsistent-return-statements
+    async def remove_blocklist_items(  # pylint: disable=inconsistent-return-statements
         self, blocklist_name: str, body: JSON, *, content_type: str = "application/json", **kwargs: Any
     ) -> None:
-        """Remove BlockItems From Text Blocklist.
+        """Remove BlocklistItems From Text Blocklist.
 
-        Remove blockItems from a text blocklist. You can remove at most 100 BlockItems in one request.
+        Remove blocklistItems from a text blocklist. You can remove at most 100 BlocklistItems in one
+        request.
 
         :param blocklist_name: Text blocklist name. Required.
         :type blocklist_name: str
@@ -883,52 +899,49 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
         :return: None
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    async def remove_block_items(  # pylint: disable=inconsistent-return-statements
-        self, blocklist_name: str, body: IO, *, content_type: str = "application/json", **kwargs: Any
+    async def remove_blocklist_items(  # pylint: disable=inconsistent-return-statements
+        self, blocklist_name: str, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> None:
-        """Remove BlockItems From Text Blocklist.
+        """Remove BlocklistItems From Text Blocklist.
 
-        Remove blockItems from a text blocklist. You can remove at most 100 BlockItems in one request.
+        Remove blocklistItems from a text blocklist. You can remove at most 100 BlocklistItems in one
+        request.
 
         :param blocklist_name: Text blocklist name. Required.
         :type blocklist_name: str
         :param body: Required.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
         :return: None
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @distributed_trace_async
-    async def remove_block_items(  # pylint: disable=inconsistent-return-statements
-        self, blocklist_name: str, body: Union[_models.RemoveBlockItemsOptions, JSON, IO], **kwargs: Any
+    async def remove_blocklist_items(  # pylint: disable=inconsistent-return-statements
+        self, blocklist_name: str, body: Union[_models.RemoveTextBlocklistItemsOptions, JSON, IO[bytes]], **kwargs: Any
     ) -> None:
-        """Remove BlockItems From Text Blocklist.
+        """Remove BlocklistItems From Text Blocklist.
 
-        Remove blockItems from a text blocklist. You can remove at most 100 BlockItems in one request.
+        Remove blocklistItems from a text blocklist. You can remove at most 100 BlocklistItems in one
+        request.
 
         :param blocklist_name: Text blocklist name. Required.
         :type blocklist_name: str
-        :param body: Is one of the following types: RemoveBlockItemsOptions, JSON, IO Required.
-        :type body: ~azure.ai.contentsafety.models.RemoveBlockItemsOptions or JSON or IO
+        :param body: Is one of the following types: RemoveTextBlocklistItemsOptions, JSON, IO[bytes]
+         Required.
+        :type body: ~azure.ai.contentsafety.models.RemoveTextBlocklistItemsOptions or JSON or IO[bytes]
         :keyword content_type: Body parameter Content-Type. Known values are: application/json. Default
          value is None.
         :paramtype content_type: str
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
         :return: None
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -952,9 +965,9 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
         if isinstance(body, (IOBase, bytes)):
             _content = body
         else:
-            _content = json.dumps(body, cls=AzureJSONEncoder, exclude_readonly=True)  # type: ignore
+            _content = json.dumps(body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
 
-        _request = build_content_safety_remove_block_items_request(
+        _request = build_content_safety_remove_blocklist_items_request(
             blocklist_name=blocklist_name,
             content_type=content_type,
             api_version=self._config.api_version,
@@ -967,7 +980,7 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
-        _stream = kwargs.pop("stream", False)
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
@@ -985,20 +998,21 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
 
     @distributed_trace_async
     async def get_text_blocklist_item(
-        self, blocklist_name: str, block_item_id: str, **kwargs: Any
-    ) -> _models.TextBlockItem:
-        """Get BlockItem By blocklistName And blockItemId.
+        self, blocklist_name: str, blocklist_item_id: str, **kwargs: Any
+    ) -> _models.TextBlocklistItem:
+        """Get BlocklistItem By blocklistName And blocklistItemId.
 
-        Get blockItem By blockItemId from a text blocklist.
+        Get blocklistItem by blocklistName and blocklistItemId from a text blocklist.
 
         :param blocklist_name: Text blocklist name. Required.
         :type blocklist_name: str
-        :param block_item_id: Block Item Id. It will be uuid. Required.
-        :type block_item_id: str
+        :param blocklist_item_id: The service will generate a BlocklistItemId, which will be a UUID.
+         Required.
+        :type blocklist_item_id: str
         :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
          will have to context manage the returned stream.
-        :return: TextBlockItem. The TextBlockItem is compatible with MutableMapping
-        :rtype: ~azure.ai.contentsafety.models.TextBlockItem
+        :return: TextBlocklistItem. The TextBlocklistItem is compatible with MutableMapping
+        :rtype: ~azure.ai.contentsafety.models.TextBlocklistItem
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map = {
@@ -1012,11 +1026,11 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[_models.TextBlockItem] = kwargs.pop("cls", None)
+        cls: ClsType[_models.TextBlocklistItem] = kwargs.pop("cls", None)
 
         _request = build_content_safety_get_text_blocklist_item_request(
             blocklist_name=blocklist_name,
-            block_item_id=block_item_id,
+            blocklist_item_id=blocklist_item_id,
             api_version=self._config.api_version,
             headers=_headers,
             params=_params,
@@ -1042,7 +1056,7 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.TextBlockItem, response.json())
+            deserialized = _deserialize(_models.TextBlocklistItem, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -1052,10 +1066,10 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
     @distributed_trace
     def list_text_blocklist_items(
         self, blocklist_name: str, *, top: Optional[int] = None, skip: Optional[int] = None, **kwargs: Any
-    ) -> AsyncIterable["_models.TextBlockItem"]:
-        """Get All BlockItems By blocklistName.
+    ) -> AsyncIterable["_models.TextBlocklistItem"]:
+        """Get All BlocklistItems By blocklistName.
 
-        Get all blockItems in a text blocklist.
+        Get all blocklistItems in a text blocklist.
 
         :param blocklist_name: Text blocklist name. Required.
         :type blocklist_name: str
@@ -1063,15 +1077,16 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
         :paramtype top: int
         :keyword skip: The number of result items to skip. Default value is None.
         :paramtype skip: int
-        :return: An iterator like instance of TextBlockItem
-        :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.ai.contentsafety.models.TextBlockItem]
+        :return: An iterator like instance of TextBlocklistItem
+        :rtype:
+         ~azure.core.async_paging.AsyncItemPaged[~azure.ai.contentsafety.models.TextBlocklistItem]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
         maxpagesize = kwargs.pop("maxpagesize", None)
-        cls: ClsType[List[_models.TextBlockItem]] = kwargs.pop("cls", None)
+        cls: ClsType[List[_models.TextBlocklistItem]] = kwargs.pop("cls", None)
 
         error_map = {
             401: ClientAuthenticationError,
@@ -1124,7 +1139,7 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
 
         async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.TextBlockItem], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.TextBlocklistItem], deserialized["value"])
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
