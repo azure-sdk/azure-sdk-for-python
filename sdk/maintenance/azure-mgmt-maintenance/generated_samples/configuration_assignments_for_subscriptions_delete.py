@@ -35,6 +35,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2023-09-01-preview/examples/ConfigurationAssignmentsForSubscriptions_Delete.json
+# x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2023-11-01-preview/examples/ConfigurationAssignmentsForSubscriptions_Delete.json
 if __name__ == "__main__":
     main()
