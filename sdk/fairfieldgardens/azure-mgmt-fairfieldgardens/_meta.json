@@ -1,0 +1,11 @@
+{
+  "commit": "9fb0710c0c5e248adb98ee32cf173f5b9241340b",
+  "repository_url": "https://github.com/test-repo-billy/azure-rest-api-specs-pr",
+  "autorest": "3.9.7",
+  "use": [
+    "@autorest/python@6.7.1",
+    "@autorest/modelerfour@4.26.2"
+  ],
+  "autorest_command": "autorest specification/fairfieldgardens/resource-manager/readme.md --generate-sample=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/mnt/vss/_work/1/s/azure-sdk-for-python/sdk --use=@autorest/python@6.7.1 --use=@autorest/modelerfour@4.26.2 --version=3.9.7 --version-tolerant=False",
+  "readme": "specification/fairfieldgardens/resource-manager/readme.md"
+}
