@@ -10,7 +10,7 @@ import datetime
 from io import IOBase
 import json
 import sys
-from typing import Any, Callable, Dict, IO, List, Optional, TypeVar, Union, overload
+from typing import Any, AsyncIterable, Callable, Dict, IO, List, Optional, TypeVar, Union, overload
 import urllib.parse
 
 from azure.core import MatchConditions
@@ -161,7 +161,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
     async def upsert_distribution_policy(
         self,
         distribution_policy_id: str,
-        resource: IO,
+        resource: IO[bytes],
         *,
         content_type: str = "application/merge-patch+json",
         if_unmodified_since: Optional[datetime.datetime] = None,
@@ -176,7 +176,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
         :param distribution_policy_id: Id of a distribution policy. Required.
         :type distribution_policy_id: str
         :param resource: The resource instance. Required.
-        :type resource: IO
+        :type resource: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/merge-patch+json".
         :paramtype content_type: str
@@ -199,7 +199,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
     async def upsert_distribution_policy(
         self,
         distribution_policy_id: str,
-        resource: Union[_models.DistributionPolicy, JSON, IO],
+        resource: Union[_models.DistributionPolicy, JSON, IO[bytes]],
         *,
         if_unmodified_since: Optional[datetime.datetime] = None,
         etag: Optional[str] = None,
@@ -213,8 +213,8 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
         :param distribution_policy_id: Id of a distribution policy. Required.
         :type distribution_policy_id: str
         :param resource: The resource instance. Is one of the following types: DistributionPolicy,
-         JSON, IO Required.
-        :type resource: ~azure.communication.jobrouter.models.DistributionPolicy or JSON or IO
+         JSON, IO[bytes] Required.
+        :type resource: ~azure.communication.jobrouter.models.DistributionPolicy or JSON or IO[bytes]
         :keyword if_unmodified_since: The request should only proceed if the entity was not modified
          after this time. Default value is None.
         :paramtype if_unmodified_since: ~datetime.datetime
@@ -377,7 +377,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
         return deserialized  # type: ignore
 
     @distributed_trace
-    def list_distribution_policies(self, **kwargs: Any) -> AsyncItemPaged["_models.DistributionPolicy"]:
+    def list_distribution_policies(self, **kwargs: Any) -> AsyncIterable["_models.DistributionPolicy"]:
         """Retrieves existing distribution policies.
 
         Retrieves existing distribution policies.
@@ -599,7 +599,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
     async def upsert_classification_policy(
         self,
         classification_policy_id: str,
-        resource: IO,
+        resource: IO[bytes],
         *,
         content_type: str = "application/merge-patch+json",
         if_unmodified_since: Optional[datetime.datetime] = None,
@@ -614,7 +614,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
         :param classification_policy_id: Id of a classification policy. Required.
         :type classification_policy_id: str
         :param resource: The resource instance. Required.
-        :type resource: IO
+        :type resource: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/merge-patch+json".
         :paramtype content_type: str
@@ -637,7 +637,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
     async def upsert_classification_policy(
         self,
         classification_policy_id: str,
-        resource: Union[_models.ClassificationPolicy, JSON, IO],
+        resource: Union[_models.ClassificationPolicy, JSON, IO[bytes]],
         *,
         if_unmodified_since: Optional[datetime.datetime] = None,
         etag: Optional[str] = None,
@@ -651,8 +651,8 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
         :param classification_policy_id: Id of a classification policy. Required.
         :type classification_policy_id: str
         :param resource: The resource instance. Is one of the following types: ClassificationPolicy,
-         JSON, IO Required.
-        :type resource: ~azure.communication.jobrouter.models.ClassificationPolicy or JSON or IO
+         JSON, IO[bytes] Required.
+        :type resource: ~azure.communication.jobrouter.models.ClassificationPolicy or JSON or IO[bytes]
         :keyword if_unmodified_since: The request should only proceed if the entity was not modified
          after this time. Default value is None.
         :paramtype if_unmodified_since: ~datetime.datetime
@@ -817,7 +817,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
         return deserialized  # type: ignore
 
     @distributed_trace
-    def list_classification_policies(self, **kwargs: Any) -> AsyncItemPaged["_models.ClassificationPolicy"]:
+    def list_classification_policies(self, **kwargs: Any) -> AsyncIterable["_models.ClassificationPolicy"]:
         """Retrieves existing classification policies.
 
         Retrieves existing classification policies.
@@ -1039,7 +1039,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
     async def upsert_exception_policy(
         self,
         exception_policy_id: str,
-        resource: IO,
+        resource: IO[bytes],
         *,
         content_type: str = "application/merge-patch+json",
         if_unmodified_since: Optional[datetime.datetime] = None,
@@ -1054,7 +1054,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
         :param exception_policy_id: Id of an exception policy. Required.
         :type exception_policy_id: str
         :param resource: The resource instance. Required.
-        :type resource: IO
+        :type resource: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/merge-patch+json".
         :paramtype content_type: str
@@ -1077,7 +1077,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
     async def upsert_exception_policy(
         self,
         exception_policy_id: str,
-        resource: Union[_models.ExceptionPolicy, JSON, IO],
+        resource: Union[_models.ExceptionPolicy, JSON, IO[bytes]],
         *,
         if_unmodified_since: Optional[datetime.datetime] = None,
         etag: Optional[str] = None,
@@ -1091,8 +1091,8 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
         :param exception_policy_id: Id of an exception policy. Required.
         :type exception_policy_id: str
         :param resource: The resource instance. Is one of the following types: ExceptionPolicy, JSON,
-         IO Required.
-        :type resource: ~azure.communication.jobrouter.models.ExceptionPolicy or JSON or IO
+         IO[bytes] Required.
+        :type resource: ~azure.communication.jobrouter.models.ExceptionPolicy or JSON or IO[bytes]
         :keyword if_unmodified_since: The request should only proceed if the entity was not modified
          after this time. Default value is None.
         :paramtype if_unmodified_since: ~datetime.datetime
@@ -1255,7 +1255,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
         return deserialized  # type: ignore
 
     @distributed_trace
-    def list_exception_policies(self, **kwargs: Any) -> AsyncItemPaged["_models.ExceptionPolicy"]:
+    def list_exception_policies(self, **kwargs: Any) -> AsyncIterable["_models.ExceptionPolicy"]:
         """Retrieves existing exception policies.
 
         Retrieves existing exception policies.
@@ -1477,7 +1477,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
     async def upsert_queue(
         self,
         queue_id: str,
-        resource: IO,
+        resource: IO[bytes],
         *,
         content_type: str = "application/merge-patch+json",
         if_unmodified_since: Optional[datetime.datetime] = None,
@@ -1492,7 +1492,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
         :param queue_id: Id of a queue. Required.
         :type queue_id: str
         :param resource: The resource instance. Required.
-        :type resource: IO
+        :type resource: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/merge-patch+json".
         :paramtype content_type: str
@@ -1515,7 +1515,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
     async def upsert_queue(
         self,
         queue_id: str,
-        resource: Union[_models.RouterQueue, JSON, IO],
+        resource: Union[_models.RouterQueue, JSON, IO[bytes]],
         *,
         if_unmodified_since: Optional[datetime.datetime] = None,
         etag: Optional[str] = None,
@@ -1528,9 +1528,9 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
 
         :param queue_id: Id of a queue. Required.
         :type queue_id: str
-        :param resource: The resource instance. Is one of the following types: RouterQueue, JSON, IO
-         Required.
-        :type resource: ~azure.communication.jobrouter.models.RouterQueue or JSON or IO
+        :param resource: The resource instance. Is one of the following types: RouterQueue, JSON,
+         IO[bytes] Required.
+        :type resource: ~azure.communication.jobrouter.models.RouterQueue or JSON or IO[bytes]
         :keyword if_unmodified_since: The request should only proceed if the entity was not modified
          after this time. Default value is None.
         :paramtype if_unmodified_since: ~datetime.datetime
@@ -1693,7 +1693,7 @@ class JobRouterAdministrationClientOperationsMixin(  # pylint: disable=name-too-
         return deserialized  # type: ignore
 
     @distributed_trace
-    def list_queues(self, **kwargs: Any) -> AsyncItemPaged["_models.RouterQueue"]:
+    def list_queues(self, **kwargs: Any) -> AsyncIterable["_models.RouterQueue"]:
         """Retrieves existing queues.
 
         Retrieves existing queues.
@@ -1917,7 +1917,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
     async def upsert_job(
         self,
         job_id: str,
-        resource: IO,
+        resource: IO[bytes],
         *,
         content_type: str = "application/merge-patch+json",
         if_unmodified_since: Optional[datetime.datetime] = None,
@@ -1932,7 +1932,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         :param job_id: Id of a job. Required.
         :type job_id: str
         :param resource: The resource instance. Required.
-        :type resource: IO
+        :type resource: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/merge-patch+json".
         :paramtype content_type: str
@@ -1955,7 +1955,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
     async def upsert_job(
         self,
         job_id: str,
-        resource: Union[_models.RouterJob, JSON, IO],
+        resource: Union[_models.RouterJob, JSON, IO[bytes]],
         *,
         if_unmodified_since: Optional[datetime.datetime] = None,
         etag: Optional[str] = None,
@@ -1968,9 +1968,9 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
 
         :param job_id: Id of a job. Required.
         :type job_id: str
-        :param resource: The resource instance. Is one of the following types: RouterJob, JSON, IO
-         Required.
-        :type resource: ~azure.communication.jobrouter.models.RouterJob or JSON or IO
+        :param resource: The resource instance. Is one of the following types: RouterJob, JSON,
+         IO[bytes] Required.
+        :type resource: ~azure.communication.jobrouter.models.RouterJob or JSON or IO[bytes]
         :keyword if_unmodified_since: The request should only proceed if the entity was not modified
          after this time. Default value is None.
         :paramtype if_unmodified_since: ~datetime.datetime
@@ -2203,7 +2203,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
 
     @overload
     async def _reclassify_job(  # pylint: disable=protected-access
-        self, job_id: str, options: Optional[IO] = None, *, content_type: str = "application/json", **kwargs: Any
+        self, job_id: str, options: Optional[IO[bytes]] = None, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models._models.ReclassifyJobResult:
         ...
 
@@ -2211,7 +2211,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
     async def _reclassify_job(  # pylint: disable=protected-access
         self,
         job_id: str,
-        options: Optional[Union[_models._models.ReclassifyJobOptions, JSON, IO]] = None,
+        options: Optional[Union[_models._models.ReclassifyJobOptions, JSON, IO[bytes]]] = None,
         **kwargs: Any
     ) -> _models._models.ReclassifyJobResult:
         """Reclassify a job.
@@ -2221,8 +2221,8 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         :param job_id: Id of a job. Required.
         :type job_id: str
         :param options: Request object for reclassifying a job. Is one of the following types:
-         ReclassifyJobOptions, JSON, IO Default value is None.
-        :type options: ~azure.communication.jobrouter.models.ReclassifyJobOptions or JSON or IO
+         ReclassifyJobOptions, JSON, IO[bytes] Default value is None.
+        :type options: ~azure.communication.jobrouter.models.ReclassifyJobOptions or JSON or IO[bytes]
         :keyword content_type: Body parameter Content-Type. Known values are: application/json. Default
          value is None.
         :paramtype content_type: str
@@ -2313,13 +2313,13 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
 
     @overload
     async def _cancel_job(  # pylint: disable=protected-access
-        self, job_id: str, options: Optional[IO] = None, *, content_type: str = "application/json", **kwargs: Any
+        self, job_id: str, options: Optional[IO[bytes]] = None, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models._models.CancelJobResult:
         ...
 
     @distributed_trace_async
     async def _cancel_job(  # pylint: disable=protected-access
-        self, job_id: str, options: Optional[Union[_models.CancelJobOptions, JSON, IO]] = None, **kwargs: Any
+        self, job_id: str, options: Optional[Union[_models.CancelJobOptions, JSON, IO[bytes]]] = None, **kwargs: Any
     ) -> _models._models.CancelJobResult:
         """Submits request to cancel an existing job by Id while supplying free-form cancellation reason.
 
@@ -2328,8 +2328,8 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         :param job_id: Id of a job. Required.
         :type job_id: str
         :param options: Request model for cancelling job. Is one of the following types:
-         CancelJobOptions, JSON, IO Default value is None.
-        :type options: ~azure.communication.jobrouter.models.CancelJobOptions or JSON or IO
+         CancelJobOptions, JSON, IO[bytes] Default value is None.
+        :type options: ~azure.communication.jobrouter.models.CancelJobOptions or JSON or IO[bytes]
         :keyword content_type: Body parameter Content-Type. Known values are: application/json. Default
          value is None.
         :paramtype content_type: str
@@ -2430,7 +2430,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         self,
         job_id: str,
         assignment_id: str,
-        options: Optional[IO] = None,
+        options: Optional[IO[bytes]] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -2442,7 +2442,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         self,
         job_id: str,
         assignment_id: str,
-        options: Optional[Union[_models.CompleteJobOptions, JSON, IO]] = None,
+        options: Optional[Union[_models.CompleteJobOptions, JSON, IO[bytes]]] = None,
         **kwargs: Any
     ) -> _models._models.CompleteJobResult:
         """Completes an assigned job.
@@ -2454,8 +2454,8 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         :param assignment_id: Id of a job assignment. Required.
         :type assignment_id: str
         :param options: Request model for completing job. Is one of the following types:
-         CompleteJobOptions, JSON, IO Default value is None.
-        :type options: ~azure.communication.jobrouter.models.CompleteJobOptions or JSON or IO
+         CompleteJobOptions, JSON, IO[bytes] Default value is None.
+        :type options: ~azure.communication.jobrouter.models.CompleteJobOptions or JSON or IO[bytes]
         :keyword content_type: Body parameter Content-Type. Known values are: application/json. Default
          value is None.
         :paramtype content_type: str
@@ -2557,7 +2557,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         self,
         job_id: str,
         assignment_id: str,
-        options: Optional[IO] = None,
+        options: Optional[IO[bytes]] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -2569,7 +2569,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         self,
         job_id: str,
         assignment_id: str,
-        options: Optional[Union[_models.CloseJobOptions, JSON, IO]] = None,
+        options: Optional[Union[_models.CloseJobOptions, JSON, IO[bytes]]] = None,
         **kwargs: Any
     ) -> _models._models.CloseJobResult:
         """Closes a completed job.
@@ -2581,8 +2581,8 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         :param assignment_id: Id of a job assignment. Required.
         :type assignment_id: str
         :param options: Request model for closing job. Is one of the following types: CloseJobOptions,
-         JSON, IO Default value is None.
-        :type options: ~azure.communication.jobrouter.models.CloseJobOptions or JSON or IO
+         JSON, IO[bytes] Default value is None.
+        :type options: ~azure.communication.jobrouter.models.CloseJobOptions or JSON or IO[bytes]
         :keyword content_type: Body parameter Content-Type. Known values are: application/json. Default
          value is None.
         :paramtype content_type: str
@@ -2666,7 +2666,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         scheduled_before: Optional[datetime.datetime] = None,
         scheduled_after: Optional[datetime.datetime] = None,
         **kwargs: Any
-    ) -> AsyncItemPaged["_models.RouterJob"]:
+    ) -> AsyncIterable["_models.RouterJob"]:
         """Retrieves list of jobs based on filter parameters.
 
         Retrieves list of jobs based on filter parameters.
@@ -2905,7 +2905,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         self,
         job_id: str,
         assignment_id: str,
-        options: Optional[IO] = None,
+        options: Optional[IO[bytes]] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -2919,7 +2919,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         :param assignment_id: Id of a job assignment. Required.
         :type assignment_id: str
         :param options: Request body for unassign route. Default value is None.
-        :type options: IO
+        :type options: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -2935,7 +2935,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         self,
         job_id: str,
         assignment_id: str,
-        options: Optional[Union[_models.UnassignJobOptions, JSON, IO]] = None,
+        options: Optional[Union[_models.UnassignJobOptions, JSON, IO[bytes]]] = None,
         **kwargs: Any
     ) -> _models.UnassignJobResult:
         """Unassign a job.
@@ -2947,8 +2947,8 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         :param assignment_id: Id of a job assignment. Required.
         :type assignment_id: str
         :param options: Request body for unassign route. Is one of the following types:
-         UnassignJobOptions, JSON, IO Default value is None.
-        :type options: ~azure.communication.jobrouter.models.UnassignJobOptions or JSON or IO
+         UnassignJobOptions, JSON, IO[bytes] Default value is None.
+        :type options: ~azure.communication.jobrouter.models.UnassignJobOptions or JSON or IO[bytes]
         :keyword content_type: Body parameter Content-Type. Known values are: application/json. Default
          value is None.
         :paramtype content_type: str
@@ -3114,7 +3114,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         self,
         worker_id: str,
         offer_id: str,
-        options: Optional[IO] = None,
+        options: Optional[IO[bytes]] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -3126,7 +3126,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         self,
         worker_id: str,
         offer_id: str,
-        options: Optional[Union[_models.DeclineJobOfferOptions, JSON, IO]] = None,
+        options: Optional[Union[_models.DeclineJobOfferOptions, JSON, IO[bytes]]] = None,
         **kwargs: Any
     ) -> _models._models.DeclineJobOfferResult:
         """Declines an offer to work on a job.
@@ -3138,8 +3138,9 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         :param offer_id: Id of an offer. Required.
         :type offer_id: str
         :param options: Request model for declining offer. Is one of the following types:
-         DeclineJobOfferOptions, JSON, IO Default value is None.
-        :type options: ~azure.communication.jobrouter.models.DeclineJobOfferOptions or JSON or IO
+         DeclineJobOfferOptions, JSON, IO[bytes] Default value is None.
+        :type options: ~azure.communication.jobrouter.models.DeclineJobOfferOptions or JSON or
+         IO[bytes]
         :keyword content_type: Body parameter Content-Type. Known values are: application/json. Default
          value is None.
         :paramtype content_type: str
@@ -3355,7 +3356,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
     async def upsert_worker(
         self,
         worker_id: str,
-        resource: IO,
+        resource: IO[bytes],
         *,
         content_type: str = "application/merge-patch+json",
         if_unmodified_since: Optional[datetime.datetime] = None,
@@ -3370,7 +3371,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         :param worker_id: Id of a worker. Required.
         :type worker_id: str
         :param resource: The resource instance. Required.
-        :type resource: IO
+        :type resource: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/merge-patch+json".
         :paramtype content_type: str
@@ -3393,7 +3394,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
     async def upsert_worker(
         self,
         worker_id: str,
-        resource: Union[_models.RouterWorker, JSON, IO],
+        resource: Union[_models.RouterWorker, JSON, IO[bytes]],
         *,
         if_unmodified_since: Optional[datetime.datetime] = None,
         etag: Optional[str] = None,
@@ -3406,9 +3407,9 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
 
         :param worker_id: Id of a worker. Required.
         :type worker_id: str
-        :param resource: The resource instance. Is one of the following types: RouterWorker, JSON, IO
-         Required.
-        :type resource: ~azure.communication.jobrouter.models.RouterWorker or JSON or IO
+        :param resource: The resource instance. Is one of the following types: RouterWorker, JSON,
+         IO[bytes] Required.
+        :type resource: ~azure.communication.jobrouter.models.RouterWorker or JSON or IO[bytes]
         :keyword if_unmodified_since: The request should only proceed if the entity was not modified
          after this time. Default value is None.
         :paramtype if_unmodified_since: ~datetime.datetime
@@ -3633,7 +3634,7 @@ class JobRouterClientOperationsMixin(JobRouterClientMixinABC):
         queue_id: Optional[str] = None,
         has_capacity: Optional[bool] = None,
         **kwargs: Any
-    ) -> AsyncItemPaged["_models.RouterWorker"]:
+    ) -> AsyncIterable["_models.RouterWorker"]:
         """Retrieves existing workers.
 
         Retrieves existing workers.
