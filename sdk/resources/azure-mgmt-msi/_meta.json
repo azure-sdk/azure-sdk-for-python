@@ -1,11 +1,15 @@
 {
-  "commit": "51d4c24a011e300b9713179e0515fef35bf3f678",
+  "commit": "e599db212ebe5c87149d1dad69c04a530766ebf3",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
-  "autorest": "3.9.2",
+  "autorest": "3.9.7",
   "use": [
-    "@autorest/python@6.4.0",
-    "@autorest/modelerfour@4.24.3"
+    "@autorest/python@6.7.1",
+    "@autorest/modelerfour@4.26.2"
   ],
-  "autorest_command": "autorest specification/msi/resource-manager/readme.md --generate-sample=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/home/vsts/work/1/azure-sdk-for-python/sdk --use=@autorest/python@6.4.0 --use=@autorest/modelerfour@4.24.3 --version=3.9.2 --version-tolerant=False",
-  "readme": "specification/msi/resource-manager/readme.md"
+  "autorest_command": "autorest specification/msi/resource-manager/readme.md --generate-sample=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/mnt/vss/_work/1/s/azure-sdk-for-python/sdk --use=@autorest/python@6.7.1 --use=@autorest/modelerfour@4.26.2 --version=3.9.7 --version-tolerant=False",
+  "readme": "specification/msi/resource-manager/readme.md",
+  "package-2023-01-31": "2023-01-31 17:40:58 -0800 4afa6837cfb404d8e5ffa8a604a5e09996d6f79e Microsoft.ManagedIdentity/stable/2023-01-31/ManagedIdentity.json",
+  "package-preview-2022-01": "2022-06-22 03:12:24 +0100 5b336209b5083a44bde12fbde57c460b2104986e Microsoft.ManagedIdentity/preview/2022-01-31-preview/ManagedIdentity.json",
+  "package-preview-2021-09-30": "2022-03-16 04:16:29 +0000 9e6fdeab7f8235fb1a3e4f2fcf0be2801c5b9d32 Microsoft.ManagedIdentity/preview/2021-09-30-preview/ManagedIdentity.json",
+  "package-2018-11-30": "2022-03-30 01:52:23 -0700 2a939260357e0cba34cf9fba1d428b2da16dfa5e Microsoft.ManagedIdentity/stable/2018-11-30/ManagedIdentity.json"
 }
