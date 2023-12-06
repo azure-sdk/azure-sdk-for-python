@@ -33,6 +33,6 @@ def main():
     )
 
 
-# x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/scheduledActions/scheduledAction-sendNow-private.json
+# x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2023-11-01/examples/scheduledActions/scheduledAction-sendNow-private.json
 if __name__ == "__main__":
     main()

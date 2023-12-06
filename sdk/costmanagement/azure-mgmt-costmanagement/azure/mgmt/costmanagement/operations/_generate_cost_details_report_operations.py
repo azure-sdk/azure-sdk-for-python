@@ -28,7 +28,7 @@ from azure.mgmt.core.polling.arm_polling import ARMPolling
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import _convert_request, _format_url_section
+from .._vendor import _convert_request
 
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
@@ -41,7 +41,7 @@ def build_create_operation_request(scope: str, **kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -51,7 +51,7 @@ def build_create_operation_request(scope: str, **kwargs: Any) -> HttpRequest:
         "scope": _SERIALIZER.url("scope", scope, "str", skip_quote=True),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -68,7 +68,7 @@ def build_get_operation_results_request(scope: str, operation_id: str, **kwargs:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -80,7 +80,7 @@ def build_get_operation_results_request(scope: str, operation_id: str, **kwargs:
         "operationId": _SERIALIZER.url("operation_id", operation_id, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -201,13 +201,14 @@ class GenerateCostDetailsReportOperations:
         response along with details on the report blob(s) that are available for download. The details
         on the file(s) available for download will be available in the polling response body. To
         Understand cost details (formerly known as usage details) fields found in files ,see
-        https://learn.microsoft.com/azure/cost-management-billing/automate/understand-usage-details-fields.
+        https://learn.microsoft.com/en-us/azure/cost-management-billing/automate/understand-usage-details-fields.
 
         .. seealso::
            - https://docs.microsoft.com/en-us/rest/api/costmanagement/
 
-        :param scope: The ARM Resource ID for subscription, resource group, billing account, or other
-         billing scopes. For details, see https://aka.ms/costmgmt/scopes. Required.
+        :param scope: The ARM Resource ID for subscription, billing account, or other billing
+         scopes.Currently Resource Group and Management Group are not supported. For details, see
+         https://aka.ms/costmgmt/scopes. Required.
         :type scope: str
         :param parameters: Parameters supplied to the Create cost details operation. Required.
         :type parameters: ~azure.mgmt.costmanagement.models.GenerateCostDetailsReportRequestDefinition
@@ -244,13 +245,14 @@ class GenerateCostDetailsReportOperations:
         response along with details on the report blob(s) that are available for download. The details
         on the file(s) available for download will be available in the polling response body. To
         Understand cost details (formerly known as usage details) fields found in files ,see
-        https://learn.microsoft.com/azure/cost-management-billing/automate/understand-usage-details-fields.
+        https://learn.microsoft.com/en-us/azure/cost-management-billing/automate/understand-usage-details-fields.
 
         .. seealso::
            - https://docs.microsoft.com/en-us/rest/api/costmanagement/
 
-        :param scope: The ARM Resource ID for subscription, resource group, billing account, or other
-         billing scopes. For details, see https://aka.ms/costmgmt/scopes. Required.
+        :param scope: The ARM Resource ID for subscription, billing account, or other billing
+         scopes.Currently Resource Group and Management Group are not supported. For details, see
+         https://aka.ms/costmgmt/scopes. Required.
         :type scope: str
         :param parameters: Parameters supplied to the Create cost details operation. Required.
         :type parameters: IO
@@ -287,13 +289,14 @@ class GenerateCostDetailsReportOperations:
         response along with details on the report blob(s) that are available for download. The details
         on the file(s) available for download will be available in the polling response body. To
         Understand cost details (formerly known as usage details) fields found in files ,see
-        https://learn.microsoft.com/azure/cost-management-billing/automate/understand-usage-details-fields.
+        https://learn.microsoft.com/en-us/azure/cost-management-billing/automate/understand-usage-details-fields.
 
         .. seealso::
            - https://docs.microsoft.com/en-us/rest/api/costmanagement/
 
-        :param scope: The ARM Resource ID for subscription, resource group, billing account, or other
-         billing scopes. For details, see https://aka.ms/costmgmt/scopes. Required.
+        :param scope: The ARM Resource ID for subscription, billing account, or other billing
+         scopes.Currently Resource Group and Management Group are not supported. For details, see
+         https://aka.ms/costmgmt/scopes. Required.
         :type scope: str
         :param parameters: Parameters supplied to the Create cost details operation. Is either a
          GenerateCostDetailsReportRequestDefinition type or a IO type. Required.
@@ -423,8 +426,9 @@ class GenerateCostDetailsReportOperations:
         """Get the result of the specified operation. This link is provided in the CostDetails creation
         request response Location header.
 
-        :param scope: The ARM Resource ID for subscription, resource group, billing account, or other
-         billing scopes. For details, see https://aka.ms/costmgmt/scopes. Required.
+        :param scope: The ARM Resource ID for subscription, billing account, or other billing
+         scopes.Currently Resource Group and Management Group are not supported. For details, see
+         https://aka.ms/costmgmt/scopes. Required.
         :type scope: str
         :param operation_id: The target operation Id. Required.
         :type operation_id: str

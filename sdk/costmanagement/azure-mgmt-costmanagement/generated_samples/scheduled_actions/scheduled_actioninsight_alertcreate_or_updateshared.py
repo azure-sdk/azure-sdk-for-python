@@ -52,6 +52,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/scheduledActions/scheduledAction-insightAlert-createOrUpdate-shared.json
+# x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2023-11-01/examples/scheduledActions/scheduledAction-insightAlert-createOrUpdate-shared.json
 if __name__ == "__main__":
     main()

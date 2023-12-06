@@ -27,7 +27,11 @@ from azure.mgmt.core.polling.async_arm_polling import AsyncARMPolling
 
 from ... import models as _models
 from ..._vendor import _convert_request
-from ...operations._price_sheet_operations import build_download_by_billing_profile_request, build_download_request
+from ...operations._price_sheet_operations import (
+    build_download_by_billing_account_request,
+    build_download_by_billing_profile_request,
+    build_download_by_invoice_request,
+)
 
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
@@ -52,7 +56,7 @@ class PriceSheetOperations:
         self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
-    async def _download_initial(
+    async def _download_by_invoice_initial(
         self, billing_account_name: str, billing_profile_name: str, invoice_name: str, **kwargs: Any
     ) -> Optional[_models.DownloadURL]:
         error_map = {
@@ -69,12 +73,12 @@ class PriceSheetOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[Optional[_models.DownloadURL]] = kwargs.pop("cls", None)
 
-        request = build_download_request(
+        request = build_download_by_invoice_request(
             billing_account_name=billing_account_name,
             billing_profile_name=billing_profile_name,
             invoice_name=invoice_name,
             api_version=api_version,
-            template_url=self._download_initial.metadata["url"],
+            template_url=self._download_by_invoice_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
@@ -108,12 +112,12 @@ class PriceSheetOperations:
 
         return deserialized
 
-    _download_initial.metadata = {
+    _download_by_invoice_initial.metadata = {
         "url": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoices/{invoiceName}/providers/Microsoft.CostManagement/pricesheets/default/download"
     }
 
     @distributed_trace_async
-    async def begin_download(
+    async def begin_download_by_invoice(
         self, billing_account_name: str, billing_profile_name: str, invoice_name: str, **kwargs: Any
     ) -> AsyncLROPoller[_models.DownloadURL]:
         """Gets a URL to download the pricesheet for an invoice. The operation is supported for billing
@@ -147,7 +151,7 @@ class PriceSheetOperations:
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = await self._download_initial(
+            raw_result = await self._download_by_invoice_initial(
                 billing_account_name=billing_account_name,
                 billing_profile_name=billing_profile_name,
                 invoice_name=invoice_name,
@@ -182,13 +186,13 @@ class PriceSheetOperations:
             )
         return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
-    begin_download.metadata = {
+    begin_download_by_invoice.metadata = {
         "url": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoices/{invoiceName}/providers/Microsoft.CostManagement/pricesheets/default/download"
     }
 
     async def _download_by_billing_profile_initial(
         self, billing_account_name: str, billing_profile_name: str, **kwargs: Any
-    ) -> Optional[_models.DownloadURL]:
+    ) -> Optional[_models.PricesheetDownloadProperties]:
         error_map = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -201,7 +205,7 @@ class PriceSheetOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[Optional[_models.DownloadURL]] = kwargs.pop("cls", None)
+        cls: ClsType[Optional[_models.PricesheetDownloadProperties]] = kwargs.pop("cls", None)
 
         request = build_download_by_billing_profile_request(
             billing_account_name=billing_account_name,
@@ -229,7 +233,7 @@ class PriceSheetOperations:
         deserialized = None
         response_headers = {}
         if response.status_code == 200:
-            deserialized = self._deserialize("DownloadURL", pipeline_response)
+            deserialized = self._deserialize("PricesheetDownloadProperties", pipeline_response)
 
         if response.status_code == 202:
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
@@ -248,12 +252,17 @@ class PriceSheetOperations:
     @distributed_trace_async
     async def begin_download_by_billing_profile(
         self, billing_account_name: str, billing_profile_name: str, **kwargs: Any
-    ) -> AsyncLROPoller[_models.DownloadURL]:
+    ) -> AsyncLROPoller[_models.PricesheetDownloadProperties]:
         """Gets a URL to download the current month's pricesheet for a billing profile. The operation is
         supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft
-        Customer Agreement.Due to Azure product growth, the Azure price sheet download experience in
-        this preview version will be updated from a single csv file to a Zip file containing multiple
-        csv files, each with max 200k records.
+        Customer Agreement.
+
+         You can use the new 2023-09-01 API version for billing periods January 2023 onwards. Azure
+        Reserved Instance (RI) pricing is only available through the new version of the API.
+
+         Due to Azure product growth, the Azure price sheet download experience in this preview version
+        will be updated from a single csv/json file to a Zip file containing multiple csv/json files,
+        each with max size of 75MB.
 
         :param billing_account_name: The ID that uniquely identifies a billing account. Required.
         :type billing_account_name: str
@@ -267,16 +276,17 @@ class PriceSheetOperations:
         :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
         :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
          Retry-After header is present.
-        :return: An instance of AsyncLROPoller that returns either DownloadURL or the result of
-         cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.costmanagement.models.DownloadURL]
+        :return: An instance of AsyncLROPoller that returns either PricesheetDownloadProperties or the
+         result of cls(response)
+        :rtype:
+         ~azure.core.polling.AsyncLROPoller[~azure.mgmt.costmanagement.models.PricesheetDownloadProperties]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.DownloadURL] = kwargs.pop("cls", None)
+        cls: ClsType[_models.PricesheetDownloadProperties] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
@@ -293,7 +303,7 @@ class PriceSheetOperations:
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("DownloadURL", pipeline_response)
+            deserialized = self._deserialize("PricesheetDownloadProperties", pipeline_response)
             if cls:
                 return cls(pipeline_response, deserialized, {})
             return deserialized
@@ -317,4 +327,144 @@ class PriceSheetOperations:
 
     begin_download_by_billing_profile.metadata = {
         "url": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/providers/Microsoft.CostManagement/pricesheets/default/download"
+    }
+
+    async def _download_by_billing_account_initial(
+        self, billing_account_id: str, billing_period_name: str, **kwargs: Any
+    ) -> Optional[_models.OperationStatusAutoGenerated]:
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[Optional[_models.OperationStatusAutoGenerated]] = kwargs.pop("cls", None)
+
+        request = build_download_by_billing_account_request(
+            billing_account_id=billing_account_id,
+            billing_period_name=billing_period_name,
+            api_version=api_version,
+            template_url=self._download_by_billing_account_initial.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200, 202]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponseAutoGenerated2, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = None
+        response_headers = {}
+        if response.status_code == 200:
+            deserialized = self._deserialize("OperationStatusAutoGenerated", pipeline_response)
+
+        if response.status_code == 202:
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+            response_headers["Retry-After"] = self._deserialize("str", response.headers.get("Retry-After"))
+
+        if cls:
+            return cls(pipeline_response, deserialized, response_headers)
+
+        return deserialized
+
+    _download_by_billing_account_initial.metadata = {
+        "url": "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingPeriods/{billingPeriodName}/providers/Microsoft.CostManagement/pricesheets/default/download"
+    }
+
+    @distributed_trace_async
+    async def begin_download_by_billing_account(
+        self, billing_account_id: str, billing_period_name: str, **kwargs: Any
+    ) -> AsyncLROPoller[_models.OperationStatusAutoGenerated]:
+        """Generates the pricesheet for the provided billing period asynchronously based on the Enrollment
+        ID. This is for Enterprise Agreement customers.
+         You can use the new 2023-09-01 API version at
+        '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingPeriods/{billingPeriodName}/providers/Microsoft.CostManagement/pricesheets/default/download'
+        for billing periods January 2023 onwards. With a new schema detailed below, the new price sheet
+        provides more information and includes prices for Azure Reserved Instances (RI) for the current
+        billing period.
+
+         We recommend downloading an Azure Price Sheet for when entering a new billing period if you
+        would maintain a record of past Azure Reserved Instance (RI) pricing. Due to Azure product
+        growth, the Azure price sheet download experience in this preview version will be updated from
+        a single .csv file to a zip file containing multiple csv files, each with max size of 75MB.
+
+        :param billing_account_id: BillingAccount ID. Required.
+        :type billing_account_id: str
+        :param billing_period_name: Billing Period Name. Required.
+        :type billing_period_name: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
+        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
+         this operation to not poll, or pass in your own initialized polling object for a personal
+         polling strategy.
+        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
+        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
+         Retry-After header is present.
+        :return: An instance of AsyncLROPoller that returns either OperationStatusAutoGenerated or the
+         result of cls(response)
+        :rtype:
+         ~azure.core.polling.AsyncLROPoller[~azure.mgmt.costmanagement.models.OperationStatusAutoGenerated]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[_models.OperationStatusAutoGenerated] = kwargs.pop("cls", None)
+        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
+        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
+        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
+        if cont_token is None:
+            raw_result = await self._download_by_billing_account_initial(
+                billing_account_id=billing_account_id,
+                billing_period_name=billing_period_name,
+                api_version=api_version,
+                cls=lambda x, y, z: x,
+                headers=_headers,
+                params=_params,
+                **kwargs
+            )
+        kwargs.pop("error_map", None)
+
+        def get_long_running_output(pipeline_response):
+            deserialized = self._deserialize("OperationStatusAutoGenerated", pipeline_response)
+            if cls:
+                return cls(pipeline_response, deserialized, {})
+            return deserialized
+
+        if polling is True:
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
+        elif polling is False:
+            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
+        else:
+            polling_method = polling
+        if cont_token:
+            return AsyncLROPoller.from_continuation_token(
+                polling_method=polling_method,
+                continuation_token=cont_token,
+                client=self._client,
+                deserialization_callback=get_long_running_output,
+            )
+        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+
+    begin_download_by_billing_account.metadata = {
+        "url": "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingPeriods/{billingPeriodName}/providers/Microsoft.CostManagement/pricesheets/default/download"
     }
