@@ -29,11 +29,10 @@ def main():
         subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.workspace_aad_admins.begin_delete(
+    client.workspace_aad_admins.begin_delete(
         resource_group_name="resourceGroup1",
         workspace_name="workspace1",
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/DeleteWorkspaceAadAdmin.json

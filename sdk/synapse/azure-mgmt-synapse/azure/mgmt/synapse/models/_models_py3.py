@@ -5823,6 +5823,7 @@ class LibraryInfo(_serialization.Model):
     """
 
     _validation = {
+        "uploaded_timestamp": {"readonly": True},
         "provisioning_status": {"readonly": True},
         "creator_id": {"readonly": True},
     }
@@ -5843,7 +5844,6 @@ class LibraryInfo(_serialization.Model):
         name: Optional[str] = None,
         path: Optional[str] = None,
         container_name: Optional[str] = None,
-        uploaded_timestamp: Optional[datetime.datetime] = None,
         type: Optional[str] = None,
         **kwargs: Any
     ) -> None:
@@ -5854,8 +5854,6 @@ class LibraryInfo(_serialization.Model):
         :paramtype path: str
         :keyword container_name: Storage blob container name.
         :paramtype container_name: str
-        :keyword uploaded_timestamp: The last update time of the library.
-        :paramtype uploaded_timestamp: ~datetime.datetime
         :keyword type: Type of the library.
         :paramtype type: str
         """
@@ -5863,7 +5861,7 @@ class LibraryInfo(_serialization.Model):
         self.name = name
         self.path = path
         self.container_name = container_name
-        self.uploaded_timestamp = uploaded_timestamp
+        self.uploaded_timestamp = None
         self.type = type
         self.provisioning_status = None
         self.creator_id = None
@@ -5975,6 +5973,7 @@ class LibraryResource(SubResource):  # pylint: disable=too-many-instance-attribu
         "name": {"readonly": True},
         "type": {"readonly": True},
         "etag": {"readonly": True},
+        "uploaded_timestamp": {"readonly": True},
         "provisioning_status": {"readonly": True},
         "creator_id": {"readonly": True},
     }
@@ -5999,7 +5998,6 @@ class LibraryResource(SubResource):  # pylint: disable=too-many-instance-attribu
         name_properties_name: Optional[str] = None,
         path: Optional[str] = None,
         container_name: Optional[str] = None,
-        uploaded_timestamp: Optional[datetime.datetime] = None,
         type_properties_type: Optional[str] = None,
         **kwargs: Any
     ) -> None:
@@ -6010,8 +6008,6 @@ class LibraryResource(SubResource):  # pylint: disable=too-many-instance-attribu
         :paramtype path: str
         :keyword container_name: Storage blob container name.
         :paramtype container_name: str
-        :keyword uploaded_timestamp: The last update time of the library.
-        :paramtype uploaded_timestamp: ~datetime.datetime
         :keyword type_properties_type: Type of the library.
         :paramtype type_properties_type: str
         """
@@ -6019,7 +6015,7 @@ class LibraryResource(SubResource):  # pylint: disable=too-many-instance-attribu
         self.name_properties_name = name_properties_name
         self.path = path
         self.container_name = container_name
-        self.uploaded_timestamp = uploaded_timestamp
+        self.uploaded_timestamp = None
         self.type_properties_type = type_properties_type
         self.provisioning_status = None
         self.creator_id = None
@@ -8608,32 +8604,6 @@ class ReplicationLinkListResult(_serialization.Model):
         self.next_link = None
 
 
-class ResourceMoveDefinition(_serialization.Model):
-    """Contains the information necessary to perform a resource move (rename).
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar id: The target ID for the resource. Required.
-    :vartype id: str
-    """
-
-    _validation = {
-        "id": {"required": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-    }
-
-    def __init__(self, *, id: str, **kwargs: Any) -> None:  # pylint: disable=redefined-builtin
-        """
-        :keyword id: The target ID for the resource. Required.
-        :paramtype id: str
-        """
-        super().__init__(**kwargs)
-        self.id = id
-
-
 class RestorableDroppedSqlPool(ProxyResource):  # pylint: disable=too-many-instance-attributes
     """A restorable dropped Sql pool.
 
@@ -9121,6 +9091,10 @@ class SelfHostedIntegrationRuntimeStatus(IntegrationRuntimeStatus):  # pylint: d
     :vartype service_region: str
     :ivar newer_versions: The newer versions on download center.
     :vartype newer_versions: list[str]
+    :ivar os_type:
+    :vartype os_type: int
+    :ivar target_framework:
+    :vartype target_framework: int
     """
 
     _validation = {
@@ -9142,6 +9116,8 @@ class SelfHostedIntegrationRuntimeStatus(IntegrationRuntimeStatus):  # pylint: d
         "pushed_version": {"readonly": True},
         "latest_version": {"readonly": True},
         "auto_update_eta": {"readonly": True},
+        "os_type": {"readonly": True},
+        "target_framework": {"readonly": True},
     }
 
     _attribute_map = {
@@ -9171,9 +9147,11 @@ class SelfHostedIntegrationRuntimeStatus(IntegrationRuntimeStatus):  # pylint: d
         "auto_update_eta": {"key": "typeProperties.autoUpdateETA", "type": "iso-8601"},
         "service_region": {"key": "typeProperties.serviceRegion", "type": "str"},
         "newer_versions": {"key": "typeProperties.newerVersions", "type": "[str]"},
+        "os_type": {"key": "typeProperties.osType", "type": "int"},
+        "target_framework": {"key": "typeProperties.targetFramework", "type": "int"},
     }
 
-    def __init__(
+    def __init__(  # pylint: disable=too-many-locals
         self,
         *,
         additional_properties: Optional[Dict[str, JSON]] = None,
@@ -9218,6 +9196,8 @@ class SelfHostedIntegrationRuntimeStatus(IntegrationRuntimeStatus):  # pylint: d
         self.auto_update_eta = None
         self.service_region = service_region
         self.newer_versions = newer_versions
+        self.os_type = None
+        self.target_framework = None
 
 
 class SensitivityLabel(ProxyResource):  # pylint: disable=too-many-instance-attributes
@@ -13375,7 +13355,7 @@ class Workspace(TrackedResource):  # pylint: disable=too-many-instance-attribute
     :ivar workspace_uid: The workspace unique identifier.
     :vartype workspace_uid: str
     :ivar extra_properties: Workspace level configs and feature flags.
-    :vartype extra_properties: dict[str, JSON]
+    :vartype extra_properties: JSON
     :ivar managed_virtual_network_settings: Managed Virtual Network Settings.
     :vartype managed_virtual_network_settings:
      ~azure.mgmt.synapse.models.ManagedVirtualNetworkSettings
@@ -13407,6 +13387,7 @@ class Workspace(TrackedResource):  # pylint: disable=too-many-instance-attribute
         "type": {"readonly": True},
         "location": {"required": True},
         "provisioning_state": {"readonly": True},
+        "connectivity_endpoints": {"readonly": True},
         "workspace_uid": {"readonly": True},
         "extra_properties": {"readonly": True},
         "adla_resource_id": {"readonly": True},
@@ -13437,7 +13418,7 @@ class Workspace(TrackedResource):  # pylint: disable=too-many-instance-attribute
         },
         "encryption": {"key": "properties.encryption", "type": "EncryptionDetails"},
         "workspace_uid": {"key": "properties.workspaceUID", "type": "str"},
-        "extra_properties": {"key": "properties.extraProperties", "type": "{object}"},
+        "extra_properties": {"key": "properties.extraProperties", "type": "object"},
         "managed_virtual_network_settings": {
             "key": "properties.managedVirtualNetworkSettings",
             "type": "ManagedVirtualNetworkSettings",
@@ -13469,7 +13450,6 @@ class Workspace(TrackedResource):  # pylint: disable=too-many-instance-attribute
         managed_resource_group_name: Optional[str] = None,
         sql_administrator_login: Optional[str] = None,
         virtual_network_profile: Optional["_models.VirtualNetworkProfile"] = None,
-        connectivity_endpoints: Optional[Dict[str, str]] = None,
         managed_virtual_network: Optional[str] = None,
         private_endpoint_connections: Optional[List["_models.PrivateEndpointConnection"]] = None,
         encryption: Optional["_models.EncryptionDetails"] = None,
@@ -13502,8 +13482,6 @@ class Workspace(TrackedResource):  # pylint: disable=too-many-instance-attribute
         :paramtype sql_administrator_login: str
         :keyword virtual_network_profile: Virtual Network profile.
         :paramtype virtual_network_profile: ~azure.mgmt.synapse.models.VirtualNetworkProfile
-        :keyword connectivity_endpoints: Connectivity endpoints.
-        :paramtype connectivity_endpoints: dict[str, str]
         :keyword managed_virtual_network: Setting this to 'default' will ensure that all compute for
          this workspace is in a virtual network managed on behalf of the user.
         :paramtype managed_virtual_network: str
@@ -13542,7 +13520,7 @@ class Workspace(TrackedResource):  # pylint: disable=too-many-instance-attribute
         self.provisioning_state = None
         self.sql_administrator_login = sql_administrator_login
         self.virtual_network_profile = virtual_network_profile
-        self.connectivity_endpoints = connectivity_endpoints
+        self.connectivity_endpoints = None
         self.managed_virtual_network = managed_virtual_network
         self.private_endpoint_connections = private_endpoint_connections
         self.encryption = encryption
@@ -13781,7 +13759,7 @@ class WorkspaceRepositoryConfiguration(_serialization.Model):
     :ivar type: Type of workspace repositoryID configuration. Example WorkspaceVSTSConfiguration,
      WorkspaceGitHubConfiguration.
     :vartype type: str
-    :ivar host_name: GitHub Enterprise host name. For example: https://github.mydomain.com.
+    :ivar host_name: GitHub Enterprise host name. For example: ``https://github.mydomain.com``.
     :vartype host_name: str
     :ivar account_name: Account name.
     :vartype account_name: str
@@ -13829,7 +13807,7 @@ class WorkspaceRepositoryConfiguration(_serialization.Model):
         :keyword type: Type of workspace repositoryID configuration. Example
          WorkspaceVSTSConfiguration, WorkspaceGitHubConfiguration.
         :paramtype type: str
-        :keyword host_name: GitHub Enterprise host name. For example: https://github.mydomain.com.
+        :keyword host_name: GitHub Enterprise host name. For example: ``https://github.mydomain.com``.
         :paramtype host_name: str
         :keyword account_name: Account name.
         :paramtype account_name: str

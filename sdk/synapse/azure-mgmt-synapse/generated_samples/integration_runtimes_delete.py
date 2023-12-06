@@ -29,12 +29,11 @@ def main():
         subscription_id="12345678-1234-1234-1234-12345678abc",
     )
 
-    response = client.integration_runtimes.begin_delete(
+    client.integration_runtimes.begin_delete(
         resource_group_name="exampleResourceGroup",
         workspace_name="exampleWorkspace",
         integration_runtime_name="exampleIntegrationRuntime",
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/IntegrationRuntimes_Delete.json
