@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -57,6 +57,7 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
     async def analyze_text(
         self, options: _models.AnalyzeTextOptions, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.AnalyzeTextResult:
+        # pylint: disable=line-too-long
         """Analyze Text.
 
         A synchronous API for the analysis of potentially harmful text content. Currently, it supports
@@ -72,12 +73,81 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
         :return: AnalyzeTextResult. The AnalyzeTextResult is compatible with MutableMapping
         :rtype: ~azure.ai.contentsafety.models.AnalyzeTextResult
         :raises ~azure.core.exceptions.HttpResponseError:
+
+        Example:
+            .. code-block:: python
+
+                # JSON input template you can fill out and use as your body input.
+                options = {
+                    "text": "str",  # The text needs to be analyzed. We support a maximum of 10k
+                      Unicode characters (Unicode code points) in the text of one request. Required.
+                    "blocklistNames": [
+                        "str"  # Optional. The names of blocklists.
+                    ],
+                    "categories": [
+                        "str"  # Optional. The categories will be analyzed. If they are not
+                          assigned, a default set of analysis results for the categories will be
+                          returned.
+                    ],
+                    "haltOnBlocklistHit": bool,  # Optional. When set to true, further analyses
+                      of harmful content will not be performed in cases where blocklists are hit. When
+                      set to false, all analyses of harmful content will be performed, whether or not
+                      blocklists are hit.
+                    "incidents": {
+                        "haltOnIncidentHit": bool,  # Optional. When set to true, further
+                          analyses of harmful content will not be performed in cases where incidents
+                          are hit. When set to false, all analyses of harmful content will be
+                          performed, whether or not incidents are hit.
+                        "incidentNames": [
+                            "str"  # Optional. The accept decision made by service.
+                        ]
+                    },
+                    "outputType": "str"  # Optional. This refers to the type of text analysis
+                      output. If no value is assigned, the default value will be "FourSeverityLevels".
+                      Known values are: "FourSeverityLevels" and "EightSeverityLevels".
+                }
+
+                # response body for status code(s): 200
+                response == {
+                    "categoriesAnalysis": [
+                        {
+                            "category": "str",  # The text analysis category. Required.
+                              Known values are: "Hate", "SelfHarm", "Sexual", and "Violence".
+                            "severity": 0  # Optional. The value increases with the
+                              severity of the input content. The value of this field is determined by
+                              the output type specified in the request. The output type could be
+                              "u2018FourSeverityLevels"u2019 or "u2018EightSeverity Levels"u2019, and
+                              the output value can be 0, 2, 4, 6 or 0, 1, 2, 3, 4, 5, 6, or 7.
+                        }
+                    ],
+                    "blocklistsMatch": [
+                        {
+                            "blocklistItemId": "str",  # The ID of the matched item.
+                              Required.
+                            "blocklistItemText": "str",  # The content of the matched
+                              item. Required.
+                            "blocklistName": "str"  # The name of the matched blocklist.
+                              Required.
+                        }
+                    ],
+                    "citation": [
+                        "str"  # Optional. Chunks in the original text detected as harmful
+                          content. Analysis result and scores are caused by these.
+                    ],
+                    "incidentMatches": [
+                        {
+                            "incidentName": "str"  # The name of the matched incident.
+                              Required.
+                        }
+                    ]
+                }
         """
 
     @overload
     async def analyze_text(
         self, options: JSON, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.AnalyzeTextResult:
+        # pylint: disable=line-too-long
         """Analyze Text.
 
         A synchronous API for the analysis of potentially harmful text content. Currently, it supports
@@ -93,12 +163,51 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
         :return: AnalyzeTextResult. The AnalyzeTextResult is compatible with MutableMapping
         :rtype: ~azure.ai.contentsafety.models.AnalyzeTextResult
         :raises ~azure.core.exceptions.HttpResponseError:
+
+        Example:
+            .. code-block:: python
+
+                # response body for status code(s): 200
+                response == {
+                    "categoriesAnalysis": [
+                        {
+                            "category": "str",  # The text analysis category. Required.
+                              Known values are: "Hate", "SelfHarm", "Sexual", and "Violence".
+                            "severity": 0  # Optional. The value increases with the
+                              severity of the input content. The value of this field is determined by
+                              the output type specified in the request. The output type could be
+                              "u2018FourSeverityLevels"u2019 or "u2018EightSeverity Levels"u2019, and
+                              the output value can be 0, 2, 4, 6 or 0, 1, 2, 3, 4, 5, 6, or 7.
+                        }
+                    ],
+                    "blocklistsMatch": [
+                        {
+                            "blocklistItemId": "str",  # The ID of the matched item.
+                              Required.
+                            "blocklistItemText": "str",  # The content of the matched
+                              item. Required.
+                            "blocklistName": "str"  # The name of the matched blocklist.
+                              Required.
+                        }
+                    ],
+                    "citation": [
+                        "str"  # Optional. Chunks in the original text detected as harmful
+                          content. Analysis result and scores are caused by these.
+                    ],
+                    "incidentMatches": [
+                        {
+                            "incidentName": "str"  # The name of the matched incident.
+                              Required.
+                        }
+                    ]
+                }
         """
 
     @overload
     async def analyze_text(
         self, options: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.AnalyzeTextResult:
+        # pylint: disable=line-too-long
         """Analyze Text.
 
         A synchronous API for the analysis of potentially harmful text content. Currently, it supports
@@ -114,12 +223,51 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
         :return: AnalyzeTextResult. The AnalyzeTextResult is compatible with MutableMapping
         :rtype: ~azure.ai.contentsafety.models.AnalyzeTextResult
         :raises ~azure.core.exceptions.HttpResponseError:
+
+        Example:
+            .. code-block:: python
+
+                # response body for status code(s): 200
+                response == {
+                    "categoriesAnalysis": [
+                        {
+                            "category": "str",  # The text analysis category. Required.
+                              Known values are: "Hate", "SelfHarm", "Sexual", and "Violence".
+                            "severity": 0  # Optional. The value increases with the
+                              severity of the input content. The value of this field is determined by
+                              the output type specified in the request. The output type could be
+                              "u2018FourSeverityLevels"u2019 or "u2018EightSeverity Levels"u2019, and
+                              the output value can be 0, 2, 4, 6 or 0, 1, 2, 3, 4, 5, 6, or 7.
+                        }
+                    ],
+                    "blocklistsMatch": [
+                        {
+                            "blocklistItemId": "str",  # The ID of the matched item.
+                              Required.
+                            "blocklistItemText": "str",  # The content of the matched
+                              item. Required.
+                            "blocklistName": "str"  # The name of the matched blocklist.
+                              Required.
+                        }
+                    ],
+                    "citation": [
+                        "str"  # Optional. Chunks in the original text detected as harmful
+                          content. Analysis result and scores are caused by these.
+                    ],
+                    "incidentMatches": [
+                        {
+                            "incidentName": "str"  # The name of the matched incident.
+                              Required.
+                        }
+                    ]
+                }
         """
 
     @distributed_trace_async
     async def analyze_text(
         self, options: Union[_models.AnalyzeTextOptions, JSON, IO[bytes]], **kwargs: Any
     ) -> _models.AnalyzeTextResult:
+        # pylint: disable=line-too-long
         """Analyze Text.
 
         A synchronous API for the analysis of potentially harmful text content. Currently, it supports
@@ -136,6 +284,74 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
         :return: AnalyzeTextResult. The AnalyzeTextResult is compatible with MutableMapping
         :rtype: ~azure.ai.contentsafety.models.AnalyzeTextResult
         :raises ~azure.core.exceptions.HttpResponseError:
+
+        Example:
+            .. code-block:: python
+
+                # JSON input template you can fill out and use as your body input.
+                options = {
+                    "text": "str",  # The text needs to be analyzed. We support a maximum of 10k
+                      Unicode characters (Unicode code points) in the text of one request. Required.
+                    "blocklistNames": [
+                        "str"  # Optional. The names of blocklists.
+                    ],
+                    "categories": [
+                        "str"  # Optional. The categories will be analyzed. If they are not
+                          assigned, a default set of analysis results for the categories will be
+                          returned.
+                    ],
+                    "haltOnBlocklistHit": bool,  # Optional. When set to true, further analyses
+                      of harmful content will not be performed in cases where blocklists are hit. When
+                      set to false, all analyses of harmful content will be performed, whether or not
+                      blocklists are hit.
+                    "incidents": {
+                        "haltOnIncidentHit": bool,  # Optional. When set to true, further
+                          analyses of harmful content will not be performed in cases where incidents
+                          are hit. When set to false, all analyses of harmful content will be
+                          performed, whether or not incidents are hit.
+                        "incidentNames": [
+                            "str"  # Optional. The accept decision made by service.
+                        ]
+                    },
+                    "outputType": "str"  # Optional. This refers to the type of text analysis
+                      output. If no value is assigned, the default value will be "FourSeverityLevels".
+                      Known values are: "FourSeverityLevels" and "EightSeverityLevels".
+                }
+
+                # response body for status code(s): 200
+                response == {
+                    "categoriesAnalysis": [
+                        {
+                            "category": "str",  # The text analysis category. Required.
+                              Known values are: "Hate", "SelfHarm", "Sexual", and "Violence".
+                            "severity": 0  # Optional. The value increases with the
+                              severity of the input content. The value of this field is determined by
+                              the output type specified in the request. The output type could be
+                              "u2018FourSeverityLevels"u2019 or "u2018EightSeverity Levels"u2019, and
+                              the output value can be 0, 2, 4, 6 or 0, 1, 2, 3, 4, 5, 6, or 7.
+                        }
+                    ],
+                    "blocklistsMatch": [
+                        {
+                            "blocklistItemId": "str",  # The ID of the matched item.
+                              Required.
+                            "blocklistItemText": "str",  # The content of the matched
+                              item. Required.
+                            "blocklistName": "str"  # The name of the matched blocklist.
+                              Required.
+                        }
+                    ],
+                    "citation": [
+                        "str"  # Optional. Chunks in the original text detected as harmful
+                          content. Analysis result and scores are caused by these.
+                    ],
+                    "incidentMatches": [
+                        {
+                            "incidentName": "str"  # The name of the matched incident.
+                              Required.
+                        }
+                    ]
+                }
         """
         error_map = {
             401: ClientAuthenticationError,
@@ -197,6 +413,7 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
     async def analyze_image(
         self, options: _models.AnalyzeImageOptions, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.AnalyzeImageResult:
+        # pylint: disable=line-too-long
         """Analyze Image.
 
         A synchronous API for the analysis of potentially harmful image content. Currently, it supports
@@ -212,12 +429,62 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
         :return: AnalyzeImageResult. The AnalyzeImageResult is compatible with MutableMapping
         :rtype: ~azure.ai.contentsafety.models.AnalyzeImageResult
         :raises ~azure.core.exceptions.HttpResponseError:
+
+        Example:
+            .. code-block:: python
+
+                # JSON input template you can fill out and use as your body input.
+                options = {
+                    "image": {
+                        "blobUrl": "str",  # Optional. The blob url of the image.
+                        "content": bytes("bytes", encoding="utf-8")  # Optional. The Base64
+                          encoding of the image.
+                    },
+                    "categories": [
+                        "str"  # Optional. The categories will be analyzed. If they are not
+                          assigned, a default set of analysis results for the categories will be
+                          returned.
+                    ],
+                    "incidents": {
+                        "haltOnIncidentHit": bool,  # Optional. When set to true, further
+                          analyses of harmful content will not be performed in cases where incidents
+                          are hit. When set to false, all analyses of harmful content will be
+                          performed, whether or not incidents are hit.
+                        "incidentNames": [
+                            "str"  # Optional. The accept decision made by service.
+                        ]
+                    },
+                    "outputType": "str"  # Optional. This refers to the type of image analysis
+                      output. If no value is assigned, the default value will be "FourSeverityLevels".
+                      "FourSeverityLevels"
+                }
+
+                # response body for status code(s): 200
+                response == {
+                    "categoriesAnalysis": [
+                        {
+                            "category": "str",  # The image analysis category. Required.
+                              Known values are: "Hate", "SelfHarm", "Sexual", and "Violence".
+                            "severity": 0  # Optional. The value increases with the
+                              severity of the input content. The value of this field is determined by
+                              the output type specified in the request. The output type could be
+                              "u2018FourSeverityLevels"u2019, and the output value can be 0, 2, 4, 6.
+                        }
+                    ],
+                    "incidentMatches": [
+                        {
+                            "incidentName": "str"  # The name of the matched incident.
+                              Required.
+                        }
+                    ]
+                }
         """
 
     @overload
     async def analyze_image(
         self, options: JSON, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.AnalyzeImageResult:
+        # pylint: disable=line-too-long
         """Analyze Image.
 
         A synchronous API for the analysis of potentially harmful image content. Currently, it supports
@@ -233,12 +500,36 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
         :return: AnalyzeImageResult. The AnalyzeImageResult is compatible with MutableMapping
         :rtype: ~azure.ai.contentsafety.models.AnalyzeImageResult
         :raises ~azure.core.exceptions.HttpResponseError:
+
+        Example:
+            .. code-block:: python
+
+                # response body for status code(s): 200
+                response == {
+                    "categoriesAnalysis": [
+                        {
+                            "category": "str",  # The image analysis category. Required.
+                              Known values are: "Hate", "SelfHarm", "Sexual", and "Violence".
+                            "severity": 0  # Optional. The value increases with the
+                              severity of the input content. The value of this field is determined by
+                              the output type specified in the request. The output type could be
+                              "u2018FourSeverityLevels"u2019, and the output value can be 0, 2, 4, 6.
+                        }
+                    ],
+                    "incidentMatches": [
+                        {
+                            "incidentName": "str"  # The name of the matched incident.
+                              Required.
+                        }
+                    ]
+                }
         """
 
     @overload
     async def analyze_image(
         self, options: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.AnalyzeImageResult:
+        # pylint: disable=line-too-long
         """Analyze Image.
 
         A synchronous API for the analysis of potentially harmful image content. Currently, it supports
@@ -254,12 +545,36 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
         :return: AnalyzeImageResult. The AnalyzeImageResult is compatible with MutableMapping
         :rtype: ~azure.ai.contentsafety.models.AnalyzeImageResult
         :raises ~azure.core.exceptions.HttpResponseError:
+
+        Example:
+            .. code-block:: python
+
+                # response body for status code(s): 200
+                response == {
+                    "categoriesAnalysis": [
+                        {
+                            "category": "str",  # The image analysis category. Required.
+                              Known values are: "Hate", "SelfHarm", "Sexual", and "Violence".
+                            "severity": 0  # Optional. The value increases with the
+                              severity of the input content. The value of this field is determined by
+                              the output type specified in the request. The output type could be
+                              "u2018FourSeverityLevels"u2019, and the output value can be 0, 2, 4, 6.
+                        }
+                    ],
+                    "incidentMatches": [
+                        {
+                            "incidentName": "str"  # The name of the matched incident.
+                              Required.
+                        }
+                    ]
+                }
         """
 
     @distributed_trace_async
     async def analyze_image(
         self, options: Union[_models.AnalyzeImageOptions, JSON, IO[bytes]], **kwargs: Any
     ) -> _models.AnalyzeImageResult:
+        # pylint: disable=line-too-long
         """Analyze Image.
 
         A synchronous API for the analysis of potentially harmful image content. Currently, it supports
@@ -276,6 +591,55 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
         :return: AnalyzeImageResult. The AnalyzeImageResult is compatible with MutableMapping
         :rtype: ~azure.ai.contentsafety.models.AnalyzeImageResult
         :raises ~azure.core.exceptions.HttpResponseError:
+
+        Example:
+            .. code-block:: python
+
+                # JSON input template you can fill out and use as your body input.
+                options = {
+                    "image": {
+                        "blobUrl": "str",  # Optional. The blob url of the image.
+                        "content": bytes("bytes", encoding="utf-8")  # Optional. The Base64
+                          encoding of the image.
+                    },
+                    "categories": [
+                        "str"  # Optional. The categories will be analyzed. If they are not
+                          assigned, a default set of analysis results for the categories will be
+                          returned.
+                    ],
+                    "incidents": {
+                        "haltOnIncidentHit": bool,  # Optional. When set to true, further
+                          analyses of harmful content will not be performed in cases where incidents
+                          are hit. When set to false, all analyses of harmful content will be
+                          performed, whether or not incidents are hit.
+                        "incidentNames": [
+                            "str"  # Optional. The accept decision made by service.
+                        ]
+                    },
+                    "outputType": "str"  # Optional. This refers to the type of image analysis
+                      output. If no value is assigned, the default value will be "FourSeverityLevels".
+                      "FourSeverityLevels"
+                }
+
+                # response body for status code(s): 200
+                response == {
+                    "categoriesAnalysis": [
+                        {
+                            "category": "str",  # The image analysis category. Required.
+                              Known values are: "Hate", "SelfHarm", "Sexual", and "Violence".
+                            "severity": 0  # Optional. The value increases with the
+                              severity of the input content. The value of this field is determined by
+                              the output type specified in the request. The output type could be
+                              "u2018FourSeverityLevels"u2019, and the output value can be 0, 2, 4, 6.
+                        }
+                    ],
+                    "incidentMatches": [
+                        {
+                            "incidentName": "str"  # The name of the matched incident.
+                              Required.
+                        }
+                    ]
+                }
         """
         error_map = {
             401: ClientAuthenticationError,
@@ -362,6 +726,33 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
          compatible with MutableMapping
         :rtype: ~azure.ai.contentsafety.models.AddOrUpdateTextBlocklistItemsResult
         :raises ~azure.core.exceptions.HttpResponseError:
+
+        Example:
+            .. code-block:: python
+
+                # JSON input template you can fill out and use as your body input.
+                options = {
+                    "blocklistItems": [
+                        {
+                            "blocklistItemId": "str",  # The service will generate a
+                              BlocklistItemId, which will be a UUID. Required.
+                            "text": "str",  # BlocklistItem content. Required.
+                            "description": "str"  # Optional. BlocklistItem description.
+                        }
+                    ]
+                }
+
+                # response body for status code(s): 200
+                response == {
+                    "blocklistItems": [
+                        {
+                            "blocklistItemId": "str",  # The service will generate a
+                              BlocklistItemId, which will be a UUID. Required.
+                            "text": "str",  # BlocklistItem content. Required.
+                            "description": "str"  # Optional. BlocklistItem description.
+                        }
+                    ]
+                }
         """
 
     @overload
@@ -386,6 +777,21 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
          compatible with MutableMapping
         :rtype: ~azure.ai.contentsafety.models.AddOrUpdateTextBlocklistItemsResult
         :raises ~azure.core.exceptions.HttpResponseError:
+
+        Example:
+            .. code-block:: python
+
+                # response body for status code(s): 200
+                response == {
+                    "blocklistItems": [
+                        {
+                            "blocklistItemId": "str",  # The service will generate a
+                              BlocklistItemId, which will be a UUID. Required.
+                            "text": "str",  # BlocklistItem content. Required.
+                            "description": "str"  # Optional. BlocklistItem description.
+                        }
+                    ]
+                }
         """
 
     @overload
@@ -410,6 +816,21 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
          compatible with MutableMapping
         :rtype: ~azure.ai.contentsafety.models.AddOrUpdateTextBlocklistItemsResult
         :raises ~azure.core.exceptions.HttpResponseError:
+
+        Example:
+            .. code-block:: python
+
+                # response body for status code(s): 200
+                response == {
+                    "blocklistItems": [
+                        {
+                            "blocklistItemId": "str",  # The service will generate a
+                              BlocklistItemId, which will be a UUID. Required.
+                            "text": "str",  # BlocklistItem content. Required.
+                            "description": "str"  # Optional. BlocklistItem description.
+                        }
+                    ]
+                }
         """
 
     @distributed_trace_async
@@ -439,6 +860,33 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
          compatible with MutableMapping
         :rtype: ~azure.ai.contentsafety.models.AddOrUpdateTextBlocklistItemsResult
         :raises ~azure.core.exceptions.HttpResponseError:
+
+        Example:
+            .. code-block:: python
+
+                # JSON input template you can fill out and use as your body input.
+                options = {
+                    "blocklistItems": [
+                        {
+                            "blocklistItemId": "str",  # The service will generate a
+                              BlocklistItemId, which will be a UUID. Required.
+                            "text": "str",  # BlocklistItem content. Required.
+                            "description": "str"  # Optional. BlocklistItem description.
+                        }
+                    ]
+                }
+
+                # response body for status code(s): 200
+                response == {
+                    "blocklistItems": [
+                        {
+                            "blocklistItemId": "str",  # The service will generate a
+                              BlocklistItemId, which will be a UUID. Required.
+                            "text": "str",  # BlocklistItem content. Required.
+                            "description": "str"  # Optional. BlocklistItem description.
+                        }
+                    ]
+                }
         """
         error_map = {
             401: ClientAuthenticationError,
@@ -522,6 +970,21 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
         :return: TextBlocklist. The TextBlocklist is compatible with MutableMapping
         :rtype: ~azure.ai.contentsafety.models.TextBlocklist
         :raises ~azure.core.exceptions.HttpResponseError:
+
+        Example:
+            .. code-block:: python
+
+                # JSON input template you can fill out and use as your body input.
+                options = {
+                    "blocklistName": "str",  # Text blocklist name. Required.
+                    "description": "str"  # Optional. Text blocklist description.
+                }
+
+                # response body for status code(s): 201, 200
+                response == {
+                    "blocklistName": "str",  # Text blocklist name. Required.
+                    "description": "str"  # Optional. Text blocklist description.
+                }
         """
 
     @overload
@@ -544,6 +1007,15 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
         :return: TextBlocklist. The TextBlocklist is compatible with MutableMapping
         :rtype: ~azure.ai.contentsafety.models.TextBlocklist
         :raises ~azure.core.exceptions.HttpResponseError:
+
+        Example:
+            .. code-block:: python
+
+                # response body for status code(s): 201, 200
+                response == {
+                    "blocklistName": "str",  # Text blocklist name. Required.
+                    "description": "str"  # Optional. Text blocklist description.
+                }
         """
 
     @overload
@@ -571,6 +1043,15 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
         :return: TextBlocklist. The TextBlocklist is compatible with MutableMapping
         :rtype: ~azure.ai.contentsafety.models.TextBlocklist
         :raises ~azure.core.exceptions.HttpResponseError:
+
+        Example:
+            .. code-block:: python
+
+                # response body for status code(s): 201, 200
+                response == {
+                    "blocklistName": "str",  # Text blocklist name. Required.
+                    "description": "str"  # Optional. Text blocklist description.
+                }
         """
 
     @distributed_trace_async
@@ -593,6 +1074,21 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
         :return: TextBlocklist. The TextBlocklist is compatible with MutableMapping
         :rtype: ~azure.ai.contentsafety.models.TextBlocklist
         :raises ~azure.core.exceptions.HttpResponseError:
+
+        Example:
+            .. code-block:: python
+
+                # JSON input template you can fill out and use as your body input.
+                options = {
+                    "blocklistName": "str",  # Text blocklist name. Required.
+                    "description": "str"  # Optional. Text blocklist description.
+                }
+
+                # response body for status code(s): 201, 200
+                response == {
+                    "blocklistName": "str",  # Text blocklist name. Required.
+                    "description": "str"  # Optional. Text blocklist description.
+                }
         """
         error_map = {
             401: ClientAuthenticationError,
@@ -725,6 +1221,15 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
         :return: TextBlocklist. The TextBlocklist is compatible with MutableMapping
         :rtype: ~azure.ai.contentsafety.models.TextBlocklist
         :raises ~azure.core.exceptions.HttpResponseError:
+
+        Example:
+            .. code-block:: python
+
+                # response body for status code(s): 200
+                response == {
+                    "blocklistName": "str",  # Text blocklist name. Required.
+                    "description": "str"  # Optional. Text blocklist description.
+                }
         """
         error_map = {
             401: ClientAuthenticationError,
@@ -791,6 +1296,17 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
         :return: TextBlocklistItem. The TextBlocklistItem is compatible with MutableMapping
         :rtype: ~azure.ai.contentsafety.models.TextBlocklistItem
         :raises ~azure.core.exceptions.HttpResponseError:
+
+        Example:
+            .. code-block:: python
+
+                # response body for status code(s): 200
+                response == {
+                    "blocklistItemId": "str",  # The service will generate a BlocklistItemId,
+                      which will be a UUID. Required.
+                    "text": "str",  # BlocklistItem content. Required.
+                    "description": "str"  # Optional. BlocklistItem description.
+                }
         """
         error_map = {
             401: ClientAuthenticationError,
@@ -858,6 +1374,17 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.ai.contentsafety.models.TextBlocklistItem]
         :raises ~azure.core.exceptions.HttpResponseError:
+
+        Example:
+            .. code-block:: python
+
+                # response body for status code(s): 200
+                response == {
+                    "blocklistItemId": "str",  # The service will generate a BlocklistItemId,
+                      which will be a UUID. Required.
+                    "text": "str",  # BlocklistItem content. Required.
+                    "description": "str"  # Optional. BlocklistItem description.
+                }
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
@@ -949,6 +1476,15 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
         :return: An iterator like instance of TextBlocklist
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.ai.contentsafety.models.TextBlocklist]
         :raises ~azure.core.exceptions.HttpResponseError:
+
+        Example:
+            .. code-block:: python
+
+                # response body for status code(s): 200
+                response == {
+                    "blocklistName": "str",  # Text blocklist name. Required.
+                    "description": "str"  # Optional. Text blocklist description.
+                }
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
@@ -1050,6 +1586,16 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
         :return: None
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
+
+        Example:
+            .. code-block:: python
+
+                # JSON input template you can fill out and use as your body input.
+                options = {
+                    "blocklistItemIds": [
+                        "str"  # Array of blocklistItemIds to remove. Required.
+                    ]
+                }
         """
 
     @overload
@@ -1118,6 +1664,16 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
         :return: None
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
+
+        Example:
+            .. code-block:: python
+
+                # JSON input template you can fill out and use as your body input.
+                options = {
+                    "blocklistItemIds": [
+                        "str"  # Array of blocklistItemIds to remove. Required.
+                    ]
+                }
         """
         error_map = {
             401: ClientAuthenticationError,
