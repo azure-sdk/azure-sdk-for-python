@@ -14,6 +14,8 @@ from ._models import AnalyzeTextOptions
 from ._models import AnalyzeTextResult
 from ._models import ImageCategoriesAnalysis
 from ._models import ImageData
+from ._models import IncidentMatch
+from ._models import IncidentOptions
 from ._models import RemoveTextBlocklistItemsOptions
 from ._models import TextBlocklist
 from ._models import TextBlocklistItem
@@ -37,6 +39,8 @@ __all__ = [
     "AnalyzeTextResult",
     "ImageCategoriesAnalysis",
     "ImageData",
+    "IncidentMatch",
+    "IncidentOptions",
     "RemoveTextBlocklistItemsOptions",
     "TextBlocklist",
     "TextBlocklistItem",
