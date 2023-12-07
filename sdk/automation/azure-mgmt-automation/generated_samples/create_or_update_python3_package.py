@@ -29,7 +29,7 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.python3_package.create_or_update(
+    response = client.python3_package.begin_create_or_update(
         resource_group_name="rg",
         automation_account_name="myAutomationAccount33",
         package_name="OmsCompositeResources",
@@ -46,10 +46,10 @@ def main():
             },
             "tags": {},
         },
-    )
+    ).result()
     print(response)
 
 
-# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2022-08-08/examples/createOrUpdatePython3Package.json
+# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2023-11-01/examples/createOrUpdatePython3Package.json
 if __name__ == "__main__":
     main()

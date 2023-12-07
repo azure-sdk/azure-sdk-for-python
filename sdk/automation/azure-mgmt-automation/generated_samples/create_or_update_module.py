@@ -29,7 +29,7 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.module.create_or_update(
+    response = client.module.begin_create_or_update(
         resource_group_name="rg",
         automation_account_name="myAutomationAccount33",
         module_name="OmsCompositeResources",
@@ -45,10 +45,10 @@ def main():
                 }
             }
         },
-    )
+    ).result()
     print(response)
 
 
-# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2022-08-08/examples/createOrUpdateModule.json
+# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2023-11-01/examples/createOrUpdateModule.json
 if __name__ == "__main__":
     main()
