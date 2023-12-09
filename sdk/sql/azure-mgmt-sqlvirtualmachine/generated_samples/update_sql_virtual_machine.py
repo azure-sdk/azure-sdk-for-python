@@ -32,11 +32,11 @@ def main():
     response = client.sql_virtual_machines.begin_update(
         resource_group_name="testrg",
         sql_virtual_machine_name="testvm",
-        parameters={"tags": {"mytag": "myval"}},
+        parameters={"properties": {"additionalVmPatch": "WSUS"}, "tags": {"mytag": "myval"}},
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/UpdateSqlVirtualMachine.json
+# x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2023-10-01-preview/examples/UpdateSqlVirtualMachine.json
 if __name__ == "__main__":
     main()

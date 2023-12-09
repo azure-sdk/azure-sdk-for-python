@@ -84,16 +84,16 @@ class AgReplica(_serialization.Model):
 
     :ivar sql_virtual_machine_instance_id: Sql VirtualMachine Instance Id.
     :vartype sql_virtual_machine_instance_id: str
-    :ivar role: Replica Role in availability group. Known values are: "PRIMARY" and "SECONDARY".
+    :ivar role: Replica Role in availability group. Known values are: "Primary" and "Secondary".
     :vartype role: str or ~azure.mgmt.sqlvirtualmachine.models.Role
-    :ivar commit: Replica commit mode in availability group. Known values are: "SYNCHRONOUS_COMMIT"
-     and "ASYNCHRONOUS_COMMIT".
+    :ivar commit: Replica commit mode in availability group. Known values are: "Synchronous_Commit"
+     and "Asynchronous_Commit".
     :vartype commit: str or ~azure.mgmt.sqlvirtualmachine.models.Commit
-    :ivar failover: Replica failover mode in availability group. Known values are: "AUTOMATIC" and
-     "MANUAL".
+    :ivar failover: Replica failover mode in availability group. Known values are: "Automatic" and
+     "Manual".
     :vartype failover: str or ~azure.mgmt.sqlvirtualmachine.models.Failover
     :ivar readable_secondary: Replica readable secondary mode in availability group. Known values
-     are: "NO", "ALL", and "READ_ONLY".
+     are: "No", "All", and "Read_Only".
     :vartype readable_secondary: str or ~azure.mgmt.sqlvirtualmachine.models.ReadableSecondary
     """
 
@@ -118,16 +118,16 @@ class AgReplica(_serialization.Model):
         """
         :keyword sql_virtual_machine_instance_id: Sql VirtualMachine Instance Id.
         :paramtype sql_virtual_machine_instance_id: str
-        :keyword role: Replica Role in availability group. Known values are: "PRIMARY" and "SECONDARY".
+        :keyword role: Replica Role in availability group. Known values are: "Primary" and "Secondary".
         :paramtype role: str or ~azure.mgmt.sqlvirtualmachine.models.Role
         :keyword commit: Replica commit mode in availability group. Known values are:
-         "SYNCHRONOUS_COMMIT" and "ASYNCHRONOUS_COMMIT".
+         "Synchronous_Commit" and "Asynchronous_Commit".
         :paramtype commit: str or ~azure.mgmt.sqlvirtualmachine.models.Commit
-        :keyword failover: Replica failover mode in availability group. Known values are: "AUTOMATIC"
-         and "MANUAL".
+        :keyword failover: Replica failover mode in availability group. Known values are: "Automatic"
+         and "Manual".
         :paramtype failover: str or ~azure.mgmt.sqlvirtualmachine.models.Failover
         :keyword readable_secondary: Replica readable secondary mode in availability group. Known
-         values are: "NO", "ALL", and "READ_ONLY".
+         values are: "No", "All", and "Read_Only".
         :paramtype readable_secondary: str or ~azure.mgmt.sqlvirtualmachine.models.ReadableSecondary
         """
         super().__init__(**kwargs)
@@ -317,6 +317,9 @@ class AutoPatchingSettings(_serialization.Model):
     :vartype maintenance_window_starting_hour: int
     :ivar maintenance_window_duration: Duration of patching.
     :vartype maintenance_window_duration: int
+    :ivar additional_vm_patch: Additional Patch to be enable or enabled on the SQL Virtual Machine.
+     Known values are: "NotSet" and "MicrosoftUpdate".
+    :vartype additional_vm_patch: str or ~azure.mgmt.sqlvirtualmachine.models.AdditionalVmPatch
     """
 
     _attribute_map = {
@@ -324,6 +327,7 @@ class AutoPatchingSettings(_serialization.Model):
         "day_of_week": {"key": "dayOfWeek", "type": "str"},
         "maintenance_window_starting_hour": {"key": "maintenanceWindowStartingHour", "type": "int"},
         "maintenance_window_duration": {"key": "maintenanceWindowDuration", "type": "int"},
+        "additional_vm_patch": {"key": "additionalVmPatch", "type": "str"},
     }
 
     def __init__(
@@ -333,6 +337,7 @@ class AutoPatchingSettings(_serialization.Model):
         day_of_week: Optional[Union[str, "_models.DayOfWeek"]] = None,
         maintenance_window_starting_hour: Optional[int] = None,
         maintenance_window_duration: Optional[int] = None,
+        additional_vm_patch: Union[str, "_models.AdditionalVmPatch"] = "NotSet",
         **kwargs: Any
     ) -> None:
         """
@@ -346,12 +351,16 @@ class AutoPatchingSettings(_serialization.Model):
         :paramtype maintenance_window_starting_hour: int
         :keyword maintenance_window_duration: Duration of patching.
         :paramtype maintenance_window_duration: int
+        :keyword additional_vm_patch: Additional Patch to be enable or enabled on the SQL Virtual
+         Machine. Known values are: "NotSet" and "MicrosoftUpdate".
+        :paramtype additional_vm_patch: str or ~azure.mgmt.sqlvirtualmachine.models.AdditionalVmPatch
         """
         super().__init__(**kwargs)
         self.enable = enable
         self.day_of_week = day_of_week
         self.maintenance_window_starting_hour = maintenance_window_starting_hour
         self.maintenance_window_duration = maintenance_window_duration
+        self.additional_vm_patch = additional_vm_patch
 
 
 class Resource(_serialization.Model):
@@ -1227,25 +1236,36 @@ class SQLStorageSettings(_serialization.Model):
     :vartype luns: list[int]
     :ivar default_file_path: SQL Server default file path.
     :vartype default_file_path: str
+    :ivar use_storage_pool: Use storage pool to build a drive if true or not provided.
+    :vartype use_storage_pool: bool
     """
 
     _attribute_map = {
         "luns": {"key": "luns", "type": "[int]"},
         "default_file_path": {"key": "defaultFilePath", "type": "str"},
+        "use_storage_pool": {"key": "useStoragePool", "type": "bool"},
     }
 
     def __init__(
-        self, *, luns: Optional[List[int]] = None, default_file_path: Optional[str] = None, **kwargs: Any
+        self,
+        *,
+        luns: Optional[List[int]] = None,
+        default_file_path: Optional[str] = None,
+        use_storage_pool: Optional[bool] = None,
+        **kwargs: Any
     ) -> None:
         """
         :keyword luns: Logical Unit Numbers for the disks.
         :paramtype luns: list[int]
         :keyword default_file_path: SQL Server default file path.
         :paramtype default_file_path: str
+        :keyword use_storage_pool: Use storage pool to build a drive if true or not provided.
+        :paramtype use_storage_pool: bool
         """
         super().__init__(**kwargs)
         self.luns = luns
         self.default_file_path = default_file_path
+        self.use_storage_pool = use_storage_pool
 
 
 class SqlStorageUpdateSettings(_serialization.Model):
@@ -1312,6 +1332,8 @@ class SQLTempDbSettings(_serialization.Model):
     :vartype luns: list[int]
     :ivar default_file_path: SQL Server default file path.
     :vartype default_file_path: str
+    :ivar use_storage_pool: Use storage pool to build a drive if true or not provided.
+    :vartype use_storage_pool: bool
     """
 
     _attribute_map = {
@@ -1324,6 +1346,7 @@ class SQLTempDbSettings(_serialization.Model):
         "persist_folder_path": {"key": "persistFolderPath", "type": "str"},
         "luns": {"key": "luns", "type": "[int]"},
         "default_file_path": {"key": "defaultFilePath", "type": "str"},
+        "use_storage_pool": {"key": "useStoragePool", "type": "bool"},
     }
 
     def __init__(
@@ -1338,6 +1361,7 @@ class SQLTempDbSettings(_serialization.Model):
         persist_folder_path: Optional[str] = None,
         luns: Optional[List[int]] = None,
         default_file_path: Optional[str] = None,
+        use_storage_pool: Optional[bool] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -1359,6 +1383,8 @@ class SQLTempDbSettings(_serialization.Model):
         :paramtype luns: list[int]
         :keyword default_file_path: SQL Server default file path.
         :paramtype default_file_path: str
+        :keyword use_storage_pool: Use storage pool to build a drive if true or not provided.
+        :paramtype use_storage_pool: bool
         """
         super().__init__(**kwargs)
         self.data_file_size = data_file_size
@@ -1370,6 +1396,7 @@ class SQLTempDbSettings(_serialization.Model):
         self.persist_folder_path = persist_folder_path
         self.luns = luns
         self.default_file_path = default_file_path
+        self.use_storage_pool = use_storage_pool
 
 
 class TrackedResource(Resource):
@@ -1435,7 +1462,8 @@ class SqlVirtualMachine(TrackedResource):  # pylint: disable=too-many-instance-a
     :vartype location: str
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
-    :ivar identity: Azure Active Directory identity of the server.
+    :ivar identity: DO NOT USE. This value will be deprecated. Azure Active Directory identity of
+     the server.
     :vartype identity: ~azure.mgmt.sqlvirtualmachine.models.ResourceIdentity
     :ivar system_data: Metadata pertaining to creation and last modification of the resource.
     :vartype system_data: ~azure.mgmt.sqlvirtualmachine.models.SystemData
@@ -1450,8 +1478,9 @@ class SqlVirtualMachine(TrackedResource):  # pylint: disable=too-many-instance-a
      "DR".
     :vartype sql_server_license_type: str or
      ~azure.mgmt.sqlvirtualmachine.models.SqlServerLicenseType
-    :ivar sql_management: SQL Server Management type. Known values are: "Full", "LightWeight", and
-     "NoAgent".
+    :ivar sql_management: SQL Server Management type. NOTE: This parameter is not used anymore. API
+     will automatically detect the Sql Management, refrain from using it. Known values are: "Full",
+     "LightWeight", and "NoAgent".
     :vartype sql_management: str or ~azure.mgmt.sqlvirtualmachine.models.SqlManagementMode
     :ivar least_privilege_mode: SQL IaaS Agent least privilege mode. Known values are: "Enabled"
      and "NotSet".
@@ -1488,6 +1517,13 @@ class SqlVirtualMachine(TrackedResource):  # pylint: disable=too-many-instance-a
     :vartype assessment_settings: ~azure.mgmt.sqlvirtualmachine.models.AssessmentSettings
     :ivar enable_automatic_upgrade: Enable automatic upgrade of Sql IaaS extension Agent.
     :vartype enable_automatic_upgrade: bool
+    :ivar additional_vm_patch: Additional VM Patching solution enabled on the Virtual Machine.
+     Known values are: "WU", "WUMU", and "WSUS".
+    :vartype additional_vm_patch: str or ~azure.mgmt.sqlvirtualmachine.models.AdditionalOsPatch
+    :ivar virtual_machine_identity_settings: Virtual Machine Identity details used for Sql IaaS
+     extension configurations.
+    :vartype virtual_machine_identity_settings:
+     ~azure.mgmt.sqlvirtualmachine.models.VirtualMachineIdentity
     """
 
     _validation = {
@@ -1535,6 +1571,11 @@ class SqlVirtualMachine(TrackedResource):  # pylint: disable=too-many-instance-a
         "troubleshooting_status": {"key": "properties.troubleshootingStatus", "type": "TroubleshootingStatus"},
         "assessment_settings": {"key": "properties.assessmentSettings", "type": "AssessmentSettings"},
         "enable_automatic_upgrade": {"key": "properties.enableAutomaticUpgrade", "type": "bool"},
+        "additional_vm_patch": {"key": "properties.additionalVmPatch", "type": "str"},
+        "virtual_machine_identity_settings": {
+            "key": "properties.virtualMachineIdentitySettings",
+            "type": "VirtualMachineIdentity",
+        },
     }
 
     def __init__(  # pylint: disable=too-many-locals
@@ -1559,6 +1600,8 @@ class SqlVirtualMachine(TrackedResource):  # pylint: disable=too-many-instance-a
         storage_configuration_settings: Optional["_models.StorageConfigurationSettings"] = None,
         assessment_settings: Optional["_models.AssessmentSettings"] = None,
         enable_automatic_upgrade: bool = False,
+        additional_vm_patch: Optional[Union[str, "_models.AdditionalOsPatch"]] = None,
+        virtual_machine_identity_settings: Optional["_models.VirtualMachineIdentity"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -1566,7 +1609,8 @@ class SqlVirtualMachine(TrackedResource):  # pylint: disable=too-many-instance-a
         :paramtype location: str
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
-        :keyword identity: Azure Active Directory identity of the server.
+        :keyword identity: DO NOT USE. This value will be deprecated. Azure Active Directory identity
+         of the server.
         :paramtype identity: ~azure.mgmt.sqlvirtualmachine.models.ResourceIdentity
         :keyword virtual_machine_resource_id: ARM Resource id of underlying virtual machine created
          from SQL marketplace image.
@@ -1577,8 +1621,9 @@ class SqlVirtualMachine(TrackedResource):  # pylint: disable=too-many-instance-a
          and "DR".
         :paramtype sql_server_license_type: str or
          ~azure.mgmt.sqlvirtualmachine.models.SqlServerLicenseType
-        :keyword sql_management: SQL Server Management type. Known values are: "Full", "LightWeight",
-         and "NoAgent".
+        :keyword sql_management: SQL Server Management type. NOTE: This parameter is not used anymore.
+         API will automatically detect the Sql Management, refrain from using it. Known values are:
+         "Full", "LightWeight", and "NoAgent".
         :paramtype sql_management: str or ~azure.mgmt.sqlvirtualmachine.models.SqlManagementMode
         :keyword least_privilege_mode: SQL IaaS Agent least privilege mode. Known values are: "Enabled"
          and "NotSet".
@@ -1614,6 +1659,13 @@ class SqlVirtualMachine(TrackedResource):  # pylint: disable=too-many-instance-a
         :paramtype assessment_settings: ~azure.mgmt.sqlvirtualmachine.models.AssessmentSettings
         :keyword enable_automatic_upgrade: Enable automatic upgrade of Sql IaaS extension Agent.
         :paramtype enable_automatic_upgrade: bool
+        :keyword additional_vm_patch: Additional VM Patching solution enabled on the Virtual Machine.
+         Known values are: "WU", "WUMU", and "WSUS".
+        :paramtype additional_vm_patch: str or ~azure.mgmt.sqlvirtualmachine.models.AdditionalOsPatch
+        :keyword virtual_machine_identity_settings: Virtual Machine Identity details used for Sql IaaS
+         extension configurations.
+        :paramtype virtual_machine_identity_settings:
+         ~azure.mgmt.sqlvirtualmachine.models.VirtualMachineIdentity
         """
         super().__init__(location=location, tags=tags, **kwargs)
         self.identity = identity
@@ -1636,6 +1688,8 @@ class SqlVirtualMachine(TrackedResource):  # pylint: disable=too-many-instance-a
         self.troubleshooting_status = None
         self.assessment_settings = assessment_settings
         self.enable_automatic_upgrade = enable_automatic_upgrade
+        self.additional_vm_patch = additional_vm_patch
+        self.virtual_machine_identity_settings = virtual_machine_identity_settings
 
 
 class SqlVirtualMachineGroup(TrackedResource):  # pylint: disable=too-many-instance-attributes
@@ -1812,24 +1866,217 @@ class SqlVirtualMachineListResult(_serialization.Model):
         self.next_link = None
 
 
-class SqlVirtualMachineUpdate(_serialization.Model):
+class SqlVirtualMachineUpdate(_serialization.Model):  # pylint: disable=too-many-instance-attributes
     """An update to a SQL virtual machine.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
+    :ivar virtual_machine_resource_id: ARM Resource id of underlying virtual machine created from
+     SQL marketplace image.
+    :vartype virtual_machine_resource_id: str
+    :ivar provisioning_state: Provisioning state to track the async operation status.
+    :vartype provisioning_state: str
+    :ivar sql_image_offer: SQL image offer. Examples include SQL2016-WS2016, SQL2017-WS2016.
+    :vartype sql_image_offer: str
+    :ivar sql_server_license_type: SQL Server license type. Known values are: "PAYG", "AHUB", and
+     "DR".
+    :vartype sql_server_license_type: str or
+     ~azure.mgmt.sqlvirtualmachine.models.SqlServerLicenseType
+    :ivar sql_management: SQL Server Management type. NOTE: This parameter is not used anymore. API
+     will automatically detect the Sql Management, refrain from using it. Known values are: "Full",
+     "LightWeight", and "NoAgent".
+    :vartype sql_management: str or ~azure.mgmt.sqlvirtualmachine.models.SqlManagementMode
+    :ivar least_privilege_mode: SQL IaaS Agent least privilege mode. Known values are: "Enabled"
+     and "NotSet".
+    :vartype least_privilege_mode: str or ~azure.mgmt.sqlvirtualmachine.models.LeastPrivilegeMode
+    :ivar sql_image_sku: SQL Server edition type. Known values are: "Developer", "Express",
+     "Standard", "Enterprise", and "Web".
+    :vartype sql_image_sku: str or ~azure.mgmt.sqlvirtualmachine.models.SqlImageSku
+    :ivar sql_virtual_machine_group_resource_id: ARM resource id of the SQL virtual machine group
+     this SQL virtual machine is or will be part of.
+    :vartype sql_virtual_machine_group_resource_id: str
+    :ivar wsfc_domain_credentials: Domain credentials for setting up Windows Server Failover
+     Cluster for SQL availability group.
+    :vartype wsfc_domain_credentials: ~azure.mgmt.sqlvirtualmachine.models.WsfcDomainCredentials
+    :ivar wsfc_static_ip: Domain credentials for setting up Windows Server Failover Cluster for SQL
+     availability group.
+    :vartype wsfc_static_ip: str
+    :ivar auto_patching_settings: Auto patching settings for applying critical security updates to
+     SQL virtual machine.
+    :vartype auto_patching_settings: ~azure.mgmt.sqlvirtualmachine.models.AutoPatchingSettings
+    :ivar auto_backup_settings: Auto backup settings for SQL Server.
+    :vartype auto_backup_settings: ~azure.mgmt.sqlvirtualmachine.models.AutoBackupSettings
+    :ivar key_vault_credential_settings: Key vault credential settings.
+    :vartype key_vault_credential_settings:
+     ~azure.mgmt.sqlvirtualmachine.models.KeyVaultCredentialSettings
+    :ivar server_configurations_management_settings: SQL Server configuration management settings.
+    :vartype server_configurations_management_settings:
+     ~azure.mgmt.sqlvirtualmachine.models.ServerConfigurationsManagementSettings
+    :ivar storage_configuration_settings: Storage Configuration Settings.
+    :vartype storage_configuration_settings:
+     ~azure.mgmt.sqlvirtualmachine.models.StorageConfigurationSettings
+    :ivar troubleshooting_status: Troubleshooting status.
+    :vartype troubleshooting_status: ~azure.mgmt.sqlvirtualmachine.models.TroubleshootingStatus
+    :ivar assessment_settings: SQL best practices Assessment Settings.
+    :vartype assessment_settings: ~azure.mgmt.sqlvirtualmachine.models.AssessmentSettings
+    :ivar enable_automatic_upgrade: Enable automatic upgrade of Sql IaaS extension Agent.
+    :vartype enable_automatic_upgrade: bool
+    :ivar additional_vm_patch: Additional VM Patching solution enabled on the Virtual Machine.
+     Known values are: "WU", "WUMU", and "WSUS".
+    :vartype additional_vm_patch: str or ~azure.mgmt.sqlvirtualmachine.models.AdditionalOsPatch
+    :ivar virtual_machine_identity_settings: Virtual Machine Identity details used for Sql IaaS
+     extension configurations.
+    :vartype virtual_machine_identity_settings:
+     ~azure.mgmt.sqlvirtualmachine.models.VirtualMachineIdentity
     """
+
+    _validation = {
+        "provisioning_state": {"readonly": True},
+        "troubleshooting_status": {"readonly": True},
+    }
 
     _attribute_map = {
         "tags": {"key": "tags", "type": "{str}"},
+        "virtual_machine_resource_id": {"key": "properties.virtualMachineResourceId", "type": "str"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "sql_image_offer": {"key": "properties.sqlImageOffer", "type": "str"},
+        "sql_server_license_type": {"key": "properties.sqlServerLicenseType", "type": "str"},
+        "sql_management": {"key": "properties.sqlManagement", "type": "str"},
+        "least_privilege_mode": {"key": "properties.leastPrivilegeMode", "type": "str"},
+        "sql_image_sku": {"key": "properties.sqlImageSku", "type": "str"},
+        "sql_virtual_machine_group_resource_id": {"key": "properties.sqlVirtualMachineGroupResourceId", "type": "str"},
+        "wsfc_domain_credentials": {"key": "properties.wsfcDomainCredentials", "type": "WsfcDomainCredentials"},
+        "wsfc_static_ip": {"key": "properties.wsfcStaticIp", "type": "str"},
+        "auto_patching_settings": {"key": "properties.autoPatchingSettings", "type": "AutoPatchingSettings"},
+        "auto_backup_settings": {"key": "properties.autoBackupSettings", "type": "AutoBackupSettings"},
+        "key_vault_credential_settings": {
+            "key": "properties.keyVaultCredentialSettings",
+            "type": "KeyVaultCredentialSettings",
+        },
+        "server_configurations_management_settings": {
+            "key": "properties.serverConfigurationsManagementSettings",
+            "type": "ServerConfigurationsManagementSettings",
+        },
+        "storage_configuration_settings": {
+            "key": "properties.storageConfigurationSettings",
+            "type": "StorageConfigurationSettings",
+        },
+        "troubleshooting_status": {"key": "properties.troubleshootingStatus", "type": "TroubleshootingStatus"},
+        "assessment_settings": {"key": "properties.assessmentSettings", "type": "AssessmentSettings"},
+        "enable_automatic_upgrade": {"key": "properties.enableAutomaticUpgrade", "type": "bool"},
+        "additional_vm_patch": {"key": "properties.additionalVmPatch", "type": "str"},
+        "virtual_machine_identity_settings": {
+            "key": "properties.virtualMachineIdentitySettings",
+            "type": "VirtualMachineIdentity",
+        },
     }
 
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        *,
+        tags: Optional[Dict[str, str]] = None,
+        virtual_machine_resource_id: Optional[str] = None,
+        sql_image_offer: Optional[str] = None,
+        sql_server_license_type: Optional[Union[str, "_models.SqlServerLicenseType"]] = None,
+        sql_management: Optional[Union[str, "_models.SqlManagementMode"]] = None,
+        least_privilege_mode: Union[str, "_models.LeastPrivilegeMode"] = "NotSet",
+        sql_image_sku: Optional[Union[str, "_models.SqlImageSku"]] = None,
+        sql_virtual_machine_group_resource_id: Optional[str] = None,
+        wsfc_domain_credentials: Optional["_models.WsfcDomainCredentials"] = None,
+        wsfc_static_ip: Optional[str] = None,
+        auto_patching_settings: Optional["_models.AutoPatchingSettings"] = None,
+        auto_backup_settings: Optional["_models.AutoBackupSettings"] = None,
+        key_vault_credential_settings: Optional["_models.KeyVaultCredentialSettings"] = None,
+        server_configurations_management_settings: Optional["_models.ServerConfigurationsManagementSettings"] = None,
+        storage_configuration_settings: Optional["_models.StorageConfigurationSettings"] = None,
+        assessment_settings: Optional["_models.AssessmentSettings"] = None,
+        enable_automatic_upgrade: bool = False,
+        additional_vm_patch: Optional[Union[str, "_models.AdditionalOsPatch"]] = None,
+        virtual_machine_identity_settings: Optional["_models.VirtualMachineIdentity"] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
+        :keyword virtual_machine_resource_id: ARM Resource id of underlying virtual machine created
+         from SQL marketplace image.
+        :paramtype virtual_machine_resource_id: str
+        :keyword sql_image_offer: SQL image offer. Examples include SQL2016-WS2016, SQL2017-WS2016.
+        :paramtype sql_image_offer: str
+        :keyword sql_server_license_type: SQL Server license type. Known values are: "PAYG", "AHUB",
+         and "DR".
+        :paramtype sql_server_license_type: str or
+         ~azure.mgmt.sqlvirtualmachine.models.SqlServerLicenseType
+        :keyword sql_management: SQL Server Management type. NOTE: This parameter is not used anymore.
+         API will automatically detect the Sql Management, refrain from using it. Known values are:
+         "Full", "LightWeight", and "NoAgent".
+        :paramtype sql_management: str or ~azure.mgmt.sqlvirtualmachine.models.SqlManagementMode
+        :keyword least_privilege_mode: SQL IaaS Agent least privilege mode. Known values are: "Enabled"
+         and "NotSet".
+        :paramtype least_privilege_mode: str or ~azure.mgmt.sqlvirtualmachine.models.LeastPrivilegeMode
+        :keyword sql_image_sku: SQL Server edition type. Known values are: "Developer", "Express",
+         "Standard", "Enterprise", and "Web".
+        :paramtype sql_image_sku: str or ~azure.mgmt.sqlvirtualmachine.models.SqlImageSku
+        :keyword sql_virtual_machine_group_resource_id: ARM resource id of the SQL virtual machine
+         group this SQL virtual machine is or will be part of.
+        :paramtype sql_virtual_machine_group_resource_id: str
+        :keyword wsfc_domain_credentials: Domain credentials for setting up Windows Server Failover
+         Cluster for SQL availability group.
+        :paramtype wsfc_domain_credentials: ~azure.mgmt.sqlvirtualmachine.models.WsfcDomainCredentials
+        :keyword wsfc_static_ip: Domain credentials for setting up Windows Server Failover Cluster for
+         SQL availability group.
+        :paramtype wsfc_static_ip: str
+        :keyword auto_patching_settings: Auto patching settings for applying critical security updates
+         to SQL virtual machine.
+        :paramtype auto_patching_settings: ~azure.mgmt.sqlvirtualmachine.models.AutoPatchingSettings
+        :keyword auto_backup_settings: Auto backup settings for SQL Server.
+        :paramtype auto_backup_settings: ~azure.mgmt.sqlvirtualmachine.models.AutoBackupSettings
+        :keyword key_vault_credential_settings: Key vault credential settings.
+        :paramtype key_vault_credential_settings:
+         ~azure.mgmt.sqlvirtualmachine.models.KeyVaultCredentialSettings
+        :keyword server_configurations_management_settings: SQL Server configuration management
+         settings.
+        :paramtype server_configurations_management_settings:
+         ~azure.mgmt.sqlvirtualmachine.models.ServerConfigurationsManagementSettings
+        :keyword storage_configuration_settings: Storage Configuration Settings.
+        :paramtype storage_configuration_settings:
+         ~azure.mgmt.sqlvirtualmachine.models.StorageConfigurationSettings
+        :keyword assessment_settings: SQL best practices Assessment Settings.
+        :paramtype assessment_settings: ~azure.mgmt.sqlvirtualmachine.models.AssessmentSettings
+        :keyword enable_automatic_upgrade: Enable automatic upgrade of Sql IaaS extension Agent.
+        :paramtype enable_automatic_upgrade: bool
+        :keyword additional_vm_patch: Additional VM Patching solution enabled on the Virtual Machine.
+         Known values are: "WU", "WUMU", and "WSUS".
+        :paramtype additional_vm_patch: str or ~azure.mgmt.sqlvirtualmachine.models.AdditionalOsPatch
+        :keyword virtual_machine_identity_settings: Virtual Machine Identity details used for Sql IaaS
+         extension configurations.
+        :paramtype virtual_machine_identity_settings:
+         ~azure.mgmt.sqlvirtualmachine.models.VirtualMachineIdentity
         """
         super().__init__(**kwargs)
         self.tags = tags
+        self.virtual_machine_resource_id = virtual_machine_resource_id
+        self.provisioning_state = None
+        self.sql_image_offer = sql_image_offer
+        self.sql_server_license_type = sql_server_license_type
+        self.sql_management = sql_management
+        self.least_privilege_mode = least_privilege_mode
+        self.sql_image_sku = sql_image_sku
+        self.sql_virtual_machine_group_resource_id = sql_virtual_machine_group_resource_id
+        self.wsfc_domain_credentials = wsfc_domain_credentials
+        self.wsfc_static_ip = wsfc_static_ip
+        self.auto_patching_settings = auto_patching_settings
+        self.auto_backup_settings = auto_backup_settings
+        self.key_vault_credential_settings = key_vault_credential_settings
+        self.server_configurations_management_settings = server_configurations_management_settings
+        self.storage_configuration_settings = storage_configuration_settings
+        self.troubleshooting_status = None
+        self.assessment_settings = assessment_settings
+        self.enable_automatic_upgrade = enable_automatic_upgrade
+        self.additional_vm_patch = additional_vm_patch
+        self.virtual_machine_identity_settings = virtual_machine_identity_settings
 
 
 class SqlVmTroubleshooting(_serialization.Model):
@@ -1932,6 +2179,9 @@ class StorageConfigurationSettings(_serialization.Model):
     :ivar storage_workload_type: Storage workload type. Known values are: "GENERAL", "OLTP", and
      "DW".
     :vartype storage_workload_type: str or ~azure.mgmt.sqlvirtualmachine.models.StorageWorkloadType
+    :ivar enable_storage_config_blade: Enable SQL IaaS Agent storage configuration blade in Azure
+     Portal.
+    :vartype enable_storage_config_blade: bool
     """
 
     _attribute_map = {
@@ -1941,6 +2191,7 @@ class StorageConfigurationSettings(_serialization.Model):
         "sql_system_db_on_data_disk": {"key": "sqlSystemDbOnDataDisk", "type": "bool"},
         "disk_configuration_type": {"key": "diskConfigurationType", "type": "str"},
         "storage_workload_type": {"key": "storageWorkloadType", "type": "str"},
+        "enable_storage_config_blade": {"key": "enableStorageConfigBlade", "type": "bool"},
     }
 
     def __init__(
@@ -1952,6 +2203,7 @@ class StorageConfigurationSettings(_serialization.Model):
         sql_system_db_on_data_disk: Optional[bool] = None,
         disk_configuration_type: Optional[Union[str, "_models.DiskConfigurationType"]] = None,
         storage_workload_type: Optional[Union[str, "_models.StorageWorkloadType"]] = None,
+        enable_storage_config_blade: bool = False,
         **kwargs: Any
     ) -> None:
         """
@@ -1971,6 +2223,9 @@ class StorageConfigurationSettings(_serialization.Model):
          "DW".
         :paramtype storage_workload_type: str or
          ~azure.mgmt.sqlvirtualmachine.models.StorageWorkloadType
+        :keyword enable_storage_config_blade: Enable SQL IaaS Agent storage configuration blade in
+         Azure Portal.
+        :paramtype enable_storage_config_blade: bool
         """
         super().__init__(**kwargs)
         self.sql_data_settings = sql_data_settings
@@ -1979,6 +2234,7 @@ class StorageConfigurationSettings(_serialization.Model):
         self.sql_system_db_on_data_disk = sql_system_db_on_data_disk
         self.disk_configuration_type = disk_configuration_type
         self.storage_workload_type = storage_workload_type
+        self.enable_storage_config_blade = enable_storage_config_blade
 
 
 class SystemData(_serialization.Model):
@@ -2136,6 +2392,42 @@ class UnhealthyReplicaInfo(_serialization.Model):
         self.availability_group_name = availability_group_name
 
 
+class VirtualMachineIdentity(_serialization.Model):
+    """Virtual Machine Identity details used for Sql IaaS extension configurations.
+
+    :ivar type: Identity type of the virtual machine. Specify None to opt-out of Managed
+     Identities. Known values are: "None", "SystemAssigned", and "UserAssigned".
+    :vartype type: str or ~azure.mgmt.sqlvirtualmachine.models.VmIdentityType
+    :ivar resource_id: Resource Id of the identity. Only required when userAssigned identity is
+     selected.
+    :vartype resource_id: str
+    """
+
+    _attribute_map = {
+        "type": {"key": "type", "type": "str"},
+        "resource_id": {"key": "resourceId", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        type: Optional[Union[str, "_models.VmIdentityType"]] = None,
+        resource_id: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword type: Identity type of the virtual machine. Specify None to opt-out of Managed
+         Identities. Known values are: "None", "SystemAssigned", and "UserAssigned".
+        :paramtype type: str or ~azure.mgmt.sqlvirtualmachine.models.VmIdentityType
+        :keyword resource_id: Resource Id of the identity. Only required when userAssigned identity is
+         selected.
+        :paramtype resource_id: str
+        """
+        super().__init__(**kwargs)
+        self.type = type
+        self.resource_id = resource_id
+
+
 class WsfcDomainCredentials(_serialization.Model):
     """Domain credentials for setting up Windows Server Failover Cluster for SQL availability group.
 
@@ -2191,6 +2483,8 @@ class WsfcDomainProfile(_serialization.Model):
     :ivar sql_service_account: Account name under which SQL service will run on all participating
      SQL virtual machines in the cluster.
     :vartype sql_service_account: str
+    :ivar is_sql_service_account_gmsa: The flag to check if SQL service account is GMSA.
+    :vartype is_sql_service_account_gmsa: bool
     :ivar file_share_witness_path: Optional path for fileshare witness.
     :vartype file_share_witness_path: str
     :ivar storage_account_url: Fully qualified ARM resource id of the witness storage account.
@@ -2208,6 +2502,7 @@ class WsfcDomainProfile(_serialization.Model):
         "cluster_bootstrap_account": {"key": "clusterBootstrapAccount", "type": "str"},
         "cluster_operator_account": {"key": "clusterOperatorAccount", "type": "str"},
         "sql_service_account": {"key": "sqlServiceAccount", "type": "str"},
+        "is_sql_service_account_gmsa": {"key": "isSqlServiceAccountGmsa", "type": "bool"},
         "file_share_witness_path": {"key": "fileShareWitnessPath", "type": "str"},
         "storage_account_url": {"key": "storageAccountUrl", "type": "str"},
         "storage_account_primary_key": {"key": "storageAccountPrimaryKey", "type": "str"},
@@ -2222,6 +2517,7 @@ class WsfcDomainProfile(_serialization.Model):
         cluster_bootstrap_account: Optional[str] = None,
         cluster_operator_account: Optional[str] = None,
         sql_service_account: Optional[str] = None,
+        is_sql_service_account_gmsa: Optional[bool] = None,
         file_share_witness_path: Optional[str] = None,
         storage_account_url: Optional[str] = None,
         storage_account_primary_key: Optional[str] = None,
@@ -2242,6 +2538,8 @@ class WsfcDomainProfile(_serialization.Model):
         :keyword sql_service_account: Account name under which SQL service will run on all
          participating SQL virtual machines in the cluster.
         :paramtype sql_service_account: str
+        :keyword is_sql_service_account_gmsa: The flag to check if SQL service account is GMSA.
+        :paramtype is_sql_service_account_gmsa: bool
         :keyword file_share_witness_path: Optional path for fileshare witness.
         :paramtype file_share_witness_path: str
         :keyword storage_account_url: Fully qualified ARM resource id of the witness storage account.
@@ -2258,6 +2556,7 @@ class WsfcDomainProfile(_serialization.Model):
         self.cluster_bootstrap_account = cluster_bootstrap_account
         self.cluster_operator_account = cluster_operator_account
         self.sql_service_account = sql_service_account
+        self.is_sql_service_account_gmsa = is_sql_service_account_gmsa
         self.file_share_witness_path = file_share_witness_path
         self.storage_account_url = storage_account_url
         self.storage_account_primary_key = storage_account_primary_key
