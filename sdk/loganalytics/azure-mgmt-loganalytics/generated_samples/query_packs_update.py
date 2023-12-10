@@ -14,7 +14,7 @@ from azure.mgmt.loganalytics import LogAnalyticsManagementClient
     pip install azure-identity
     pip install azure-mgmt-loganalytics
 # USAGE
-    python clusters_create.py
+    python query_packs_update.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,21 +26,17 @@ from azure.mgmt.loganalytics import LogAnalyticsManagementClient
 def main():
     client = LogAnalyticsManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="53bc36c5-91e1-4d09-92c9-63b89e571926",
+        subscription_id="86dc51d3-92ed-4d7e-947a-775ea79b4919",
     )
 
-    response = client.clusters.begin_create_or_update(
-        resource_group_name="oiautorest6685",
-        cluster_name="oiautorest6685",
-        parameters={
-            "location": "australiasoutheast",
-            "sku": {"capacity": 1000, "name": "CapacityReservation"},
-            "tags": {"tag1": "val1"},
-        },
-    ).result()
+    response = client.query_packs.create_or_update(
+        resource_group_name="my-resource-group",
+        query_pack_name="my-querypack",
+        log_analytics_query_pack_payload={"location": "South Central US", "properties": {}, "tags": {"Tag1": "Value1"}},
+    )
     print(response)
 
 
-# x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2022-10-01/examples/ClustersCreate.json
+# x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPacksUpdate.json
 if __name__ == "__main__":
     main()

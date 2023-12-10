@@ -14,7 +14,7 @@ from azure.mgmt.loganalytics import LogAnalyticsManagementClient
     pip install azure-identity
     pip install azure-mgmt-loganalytics
 # USAGE
-    python query_packs_delete.py
+    python query_pack_queries_update.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,15 +26,26 @@ from azure.mgmt.loganalytics import LogAnalyticsManagementClient
 def main():
     client = LogAnalyticsManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="86dc51d3-92ed-4d7e-947a-775ea79b4919",
+        subscription_id="86dc51d3-92ed-4d7e-947a-775ea79b4918",
     )
 
-    client.query_packs.delete(
+    response = client.queries.update(
         resource_group_name="my-resource-group",
         query_pack_name="my-querypack",
+        id="a449f8af-8e64-4b3a-9b16-5a7165ff98c4",
+        query_payload={
+            "properties": {
+                "body": "let newExceptionsTimeRange = 1d;\nlet timeRangeToCheckBefore = 7d;\nexceptions\n| where timestamp < ago(timeRangeToCheckBefore)\n| summarize count() by problemId\n| join kind= rightanti (\nexceptions\n| where timestamp >= ago(newExceptionsTimeRange)\n| extend stack = tostring(details[0].rawStack)\n| summarize count(), dcount(user_AuthenticatedId), min(timestamp), max(timestamp), any(stack) by problemId  \n) on problemId \n| order by  count_ desc\n",
+                "description": "my description",
+                "displayName": "Exceptions - New in the last 24 hours",
+                "related": {"categories": ["analytics"]},
+                "tags": {"my-label": ["label1"], "my-other-label": ["label2"]},
+            }
+        },
     )
+    print(response)
 
 
-# x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPacksDelete.json
+# x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPackQueriesUpdate.json
 if __name__ == "__main__":
     main()
