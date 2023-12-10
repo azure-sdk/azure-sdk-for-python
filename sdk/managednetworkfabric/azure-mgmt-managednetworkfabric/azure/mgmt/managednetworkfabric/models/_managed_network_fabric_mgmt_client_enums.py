@@ -99,6 +99,8 @@ class ConfigurationState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DEPROVISIONED = "Deprovisioned"
     ERROR_DEPROVISIONING = "ErrorDeprovisioning"
     DEFERRED_CONTROL = "DeferredControl"
+    PROVISIONING = "Provisioning"
+    PENDING_COMMIT = "PendingCommit"
 
 
 class ConfigurationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -148,7 +150,7 @@ class Encapsulation(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class EncapsulationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Encapsulation Type."""
+    """Encapsulation Type that needs to be matched."""
 
     NONE = "None"
     GT_PV1 = "GTPv1"
@@ -240,6 +242,13 @@ class NetworkDeviceRoleName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     MANAGEMENT = "Management"
 
 
+class NetworkFabricUpgradeAction(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Action to be performed while upgrading the fabric."""
+
+    START = "Start"
+    COMPLETE = "Complete"
+
+
 class NetworkRackType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Network Rack SKU name."""
 
@@ -304,7 +313,7 @@ class PortType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class PrefixType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """IP Prefix Type."""
+    """IP Prefix Type that needs to be matched."""
 
     PREFIX = "Prefix"
     LONGEST_PREFIX = "LongestPrefix"
@@ -363,7 +372,7 @@ class RoutePolicyConditionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class SourceDestinationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """IP Address type."""
+    """IP Address type that needs to be matched."""
 
     SOURCE_IP = "SourceIP"
     DESTINATION_IP = "DestinationIP"

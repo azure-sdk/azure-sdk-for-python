@@ -30,7 +30,7 @@ from azure.mgmt.core.polling.arm_polling import ARMPolling
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import _convert_request, _format_url_section
+from .._vendor import _convert_request
 
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
@@ -62,7 +62,7 @@ def build_create_request(
         "networkFabricName": _SERIALIZER.url("network_fabric_name", network_fabric_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -97,7 +97,7 @@ def build_get_request(
         "networkFabricName": _SERIALIZER.url("network_fabric_name", network_fabric_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -131,7 +131,7 @@ def build_update_request(
         "networkFabricName": _SERIALIZER.url("network_fabric_name", network_fabric_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -166,7 +166,7 @@ def build_delete_request(
         "networkFabricName": _SERIALIZER.url("network_fabric_name", network_fabric_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -196,7 +196,7 @@ def build_list_by_resource_group_request(resource_group_name: str, subscription_
         ),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -222,7 +222,7 @@ def build_list_by_subscription_request(subscription_id: str, **kwargs: Any) -> H
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -255,7 +255,7 @@ def build_provision_request(
         "networkFabricName": _SERIALIZER.url("network_fabric_name", network_fabric_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -288,7 +288,7 @@ def build_deprovision_request(
         "networkFabricName": _SERIALIZER.url("network_fabric_name", network_fabric_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -322,7 +322,7 @@ def build_upgrade_request(
         "networkFabricName": _SERIALIZER.url("network_fabric_name", network_fabric_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -357,7 +357,7 @@ def build_refresh_configuration_request(
         "networkFabricName": _SERIALIZER.url("network_fabric_name", network_fabric_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -391,7 +391,7 @@ def build_update_workload_management_bfd_configuration_request(
         "networkFabricName": _SERIALIZER.url("network_fabric_name", network_fabric_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -427,7 +427,7 @@ def build_update_infra_management_bfd_configuration_request(
         "networkFabricName": _SERIALIZER.url("network_fabric_name", network_fabric_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -463,7 +463,7 @@ def build_validate_configuration_request(
         "networkFabricName": _SERIALIZER.url("network_fabric_name", network_fabric_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -498,7 +498,7 @@ def build_get_topology_request(
         "networkFabricName": _SERIALIZER.url("network_fabric_name", network_fabric_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -531,7 +531,7 @@ def build_commit_configuration_request(
         "networkFabricName": _SERIALIZER.url("network_fabric_name", network_fabric_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -1653,7 +1653,11 @@ class NetworkFabricsOperations:  # pylint: disable=too-many-public-methods
     }
 
     def _upgrade_initial(
-        self, resource_group_name: str, network_fabric_name: str, body: Union[_models.UpdateVersion, IO], **kwargs: Any
+        self,
+        resource_group_name: str,
+        network_fabric_name: str,
+        body: Union[_models.UpgradeNetworkFabricProperties, IO],
+        **kwargs: Any
     ) -> _models.CommonPostActionResponseForStateUpdate:
         error_map = {
             401: ClientAuthenticationError,
@@ -1676,7 +1680,7 @@ class NetworkFabricsOperations:  # pylint: disable=too-many-public-methods
         if isinstance(body, (IOBase, bytes)):
             _content = body
         else:
-            _json = self._serialize.body(body, "UpdateVersion")
+            _json = self._serialize.body(body, "UpgradeNetworkFabricProperties")
 
         request = build_upgrade_request(
             resource_group_name=resource_group_name,
@@ -1728,7 +1732,7 @@ class NetworkFabricsOperations:  # pylint: disable=too-many-public-methods
         self,
         resource_group_name: str,
         network_fabric_name: str,
-        body: _models.UpdateVersion,
+        body: _models.UpgradeNetworkFabricProperties,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1743,7 +1747,7 @@ class NetworkFabricsOperations:  # pylint: disable=too-many-public-methods
         :param network_fabric_name: Name of the Network Fabric. Required.
         :type network_fabric_name: str
         :param body: Network Fabric properties to update. Required.
-        :type body: ~azure.mgmt.managednetworkfabric.models.UpdateVersion
+        :type body: ~azure.mgmt.managednetworkfabric.models.UpgradeNetworkFabricProperties
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -1803,7 +1807,11 @@ class NetworkFabricsOperations:  # pylint: disable=too-many-public-methods
 
     @distributed_trace
     def begin_upgrade(
-        self, resource_group_name: str, network_fabric_name: str, body: Union[_models.UpdateVersion, IO], **kwargs: Any
+        self,
+        resource_group_name: str,
+        network_fabric_name: str,
+        body: Union[_models.UpgradeNetworkFabricProperties, IO],
+        **kwargs: Any
     ) -> LROPoller[_models.CommonPostActionResponseForStateUpdate]:
         """Implements the operation to the underlying resources.
 
@@ -1814,9 +1822,9 @@ class NetworkFabricsOperations:  # pylint: disable=too-many-public-methods
         :type resource_group_name: str
         :param network_fabric_name: Name of the Network Fabric. Required.
         :type network_fabric_name: str
-        :param body: Network Fabric properties to update. Is either a UpdateVersion type or a IO type.
-         Required.
-        :type body: ~azure.mgmt.managednetworkfabric.models.UpdateVersion or IO
+        :param body: Network Fabric properties to update. Is either a UpgradeNetworkFabricProperties
+         type or a IO type. Required.
+        :type body: ~azure.mgmt.managednetworkfabric.models.UpgradeNetworkFabricProperties or IO
         :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
          Default value is None.
         :paramtype content_type: str
