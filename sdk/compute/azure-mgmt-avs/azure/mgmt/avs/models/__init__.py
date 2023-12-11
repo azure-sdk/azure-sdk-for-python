@@ -58,9 +58,7 @@ from ._models_py3 import PlacementPolicyUpdate
 from ._models_py3 import PrivateCloud
 from ._models_py3 import PrivateCloudIdentity
 from ._models_py3 import PrivateCloudList
-from ._models_py3 import PrivateCloudProperties
 from ._models_py3 import PrivateCloudUpdate
-from ._models_py3 import PrivateCloudUpdateProperties
 from ._models_py3 import ProxyResource
 from ._models_py3 import Quota
 from ._models_py3 import Resource
@@ -217,9 +215,7 @@ __all__ = [
     "PrivateCloud",
     "PrivateCloudIdentity",
     "PrivateCloudList",
-    "PrivateCloudProperties",
     "PrivateCloudUpdate",
-    "PrivateCloudUpdateProperties",
     "ProxyResource",
     "Quota",
     "Resource",

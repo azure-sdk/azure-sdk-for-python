@@ -2146,10 +2146,6 @@ class PrivateCloud(TrackedResource):  # pylint: disable=too-many-instance-attrib
     :vartype availability: ~azure.mgmt.avs.models.AvailabilityProperties
     :ivar encryption: Customer managed key encryption, can be enabled or disabled.
     :vartype encryption: ~azure.mgmt.avs.models.Encryption
-    :ivar extended_network_blocks: Array of additional networks noncontiguous with networkBlock.
-     Networks must be unique and non-overlapping across VNet in your subscription, on-premise, and
-     this privateCloud networkBlock attribute. Make sure the CIDR format conforms to (A.B.C.D/X).
-    :vartype extended_network_blocks: list[str]
     :ivar provisioning_state: The provisioning state. Known values are: "Succeeded", "Failed",
      "Cancelled", "Pending", "Building", "Deleting", "Updating", and "Canceled".
     :vartype provisioning_state: str or ~azure.mgmt.avs.models.PrivateCloudProvisioningState
@@ -2187,6 +2183,10 @@ class PrivateCloud(TrackedResource):  # pylint: disable=too-many-instance-attrib
      provisioned NSX Public IP count raised from 64 to 1024. Known values are: "Enabled" and
      "Disabled".
     :vartype nsx_public_ip_quota_raised: str or ~azure.mgmt.avs.models.NsxPublicIpQuotaRaisedEnum
+    :ivar extended_network_blocks: Array of additional networks noncontiguous with networkBlock.
+     Networks must be unique and non-overlapping across VNet in your subscription, on-premise, and
+     this privateCloud networkBlock attribute. Make sure the CIDR format conforms to (A.B.C.D/X).
+    :vartype extended_network_blocks: list[str]
     """
 
     _validation = {
@@ -2218,7 +2218,6 @@ class PrivateCloud(TrackedResource):  # pylint: disable=too-many-instance-attrib
         "identity_sources": {"key": "properties.identitySources", "type": "[IdentitySource]"},
         "availability": {"key": "properties.availability", "type": "AvailabilityProperties"},
         "encryption": {"key": "properties.encryption", "type": "Encryption"},
-        "extended_network_blocks": {"key": "properties.extendedNetworkBlocks", "type": "[str]"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "circuit": {"key": "properties.circuit", "type": "Circuit"},
         "endpoints": {"key": "properties.endpoints", "type": "Endpoints"},
@@ -2233,6 +2232,7 @@ class PrivateCloud(TrackedResource):  # pylint: disable=too-many-instance-attrib
         "external_cloud_links": {"key": "properties.externalCloudLinks", "type": "[str]"},
         "secondary_circuit": {"key": "properties.secondaryCircuit", "type": "Circuit"},
         "nsx_public_ip_quota_raised": {"key": "properties.nsxPublicIpQuotaRaised", "type": "str"},
+        "extended_network_blocks": {"key": "properties.extendedNetworkBlocks", "type": "[str]"},
     }
 
     def __init__(  # pylint: disable=too-many-locals
@@ -2243,16 +2243,16 @@ class PrivateCloud(TrackedResource):  # pylint: disable=too-many-instance-attrib
         tags: Optional[Dict[str, str]] = None,
         identity: Optional["_models.PrivateCloudIdentity"] = None,
         management_cluster: Optional["_models.ManagementCluster"] = None,
-        internet: Union[str, "_models.InternetEnum"] = "Disabled",
+        internet: Optional[Union[str, "_models.InternetEnum"]] = None,
         identity_sources: Optional[List["_models.IdentitySource"]] = None,
         availability: Optional["_models.AvailabilityProperties"] = None,
         encryption: Optional["_models.Encryption"] = None,
-        extended_network_blocks: Optional[List[str]] = None,
         circuit: Optional["_models.Circuit"] = None,
         network_block: Optional[str] = None,
         vcenter_password: Optional[str] = None,
         nsxt_password: Optional[str] = None,
         secondary_circuit: Optional["_models.Circuit"] = None,
+        extended_network_blocks: Optional[List[str]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -2276,10 +2276,6 @@ class PrivateCloud(TrackedResource):  # pylint: disable=too-many-instance-attrib
         :paramtype availability: ~azure.mgmt.avs.models.AvailabilityProperties
         :keyword encryption: Customer managed key encryption, can be enabled or disabled.
         :paramtype encryption: ~azure.mgmt.avs.models.Encryption
-        :keyword extended_network_blocks: Array of additional networks noncontiguous with networkBlock.
-         Networks must be unique and non-overlapping across VNet in your subscription, on-premise, and
-         this privateCloud networkBlock attribute. Make sure the CIDR format conforms to (A.B.C.D/X).
-        :paramtype extended_network_blocks: list[str]
         :keyword circuit: An ExpressRoute Circuit.
         :paramtype circuit: ~azure.mgmt.avs.models.Circuit
         :keyword network_block: The block of addresses should be unique across VNet in your
@@ -2295,6 +2291,10 @@ class PrivateCloud(TrackedResource):  # pylint: disable=too-many-instance-attrib
         :keyword secondary_circuit: A secondary expressRoute circuit from a separate AZ. Only present
          in a stretched private cloud.
         :paramtype secondary_circuit: ~azure.mgmt.avs.models.Circuit
+        :keyword extended_network_blocks: Array of additional networks noncontiguous with networkBlock.
+         Networks must be unique and non-overlapping across VNet in your subscription, on-premise, and
+         this privateCloud networkBlock attribute. Make sure the CIDR format conforms to (A.B.C.D/X).
+        :paramtype extended_network_blocks: list[str]
         """
         super().__init__(location=location, tags=tags, **kwargs)
         self.sku = sku
@@ -2304,7 +2304,6 @@ class PrivateCloud(TrackedResource):  # pylint: disable=too-many-instance-attrib
         self.identity_sources = identity_sources
         self.availability = availability
         self.encryption = encryption
-        self.extended_network_blocks = extended_network_blocks
         self.provisioning_state = None
         self.circuit = circuit
         self.endpoints = None
@@ -2319,6 +2318,7 @@ class PrivateCloud(TrackedResource):  # pylint: disable=too-many-instance-attrib
         self.external_cloud_links = None
         self.secondary_circuit = secondary_circuit
         self.nsx_public_ip_quota_raised = None
+        self.extended_network_blocks = extended_network_blocks
 
 
 class PrivateCloudIdentity(_serialization.Model):
@@ -2390,246 +2390,6 @@ class PrivateCloudList(_serialization.Model):
         self.next_link = None
 
 
-class PrivateCloudUpdateProperties(_serialization.Model):
-    """The properties of a private cloud resource that may be updated.
-
-    :ivar management_cluster: The default cluster used for management.
-    :vartype management_cluster: ~azure.mgmt.avs.models.ManagementCluster
-    :ivar internet: Connectivity to internet is enabled or disabled. Known values are: "Enabled"
-     and "Disabled".
-    :vartype internet: str or ~azure.mgmt.avs.models.InternetEnum
-    :ivar identity_sources: vCenter Single Sign On Identity Sources.
-    :vartype identity_sources: list[~azure.mgmt.avs.models.IdentitySource]
-    :ivar availability: Properties describing how the cloud is distributed across availability
-     zones.
-    :vartype availability: ~azure.mgmt.avs.models.AvailabilityProperties
-    :ivar encryption: Customer managed key encryption, can be enabled or disabled.
-    :vartype encryption: ~azure.mgmt.avs.models.Encryption
-    :ivar extended_network_blocks: Array of additional networks noncontiguous with networkBlock.
-     Networks must be unique and non-overlapping across VNet in your subscription, on-premise, and
-     this privateCloud networkBlock attribute. Make sure the CIDR format conforms to (A.B.C.D/X).
-    :vartype extended_network_blocks: list[str]
-    """
-
-    _attribute_map = {
-        "management_cluster": {"key": "managementCluster", "type": "ManagementCluster"},
-        "internet": {"key": "internet", "type": "str"},
-        "identity_sources": {"key": "identitySources", "type": "[IdentitySource]"},
-        "availability": {"key": "availability", "type": "AvailabilityProperties"},
-        "encryption": {"key": "encryption", "type": "Encryption"},
-        "extended_network_blocks": {"key": "extendedNetworkBlocks", "type": "[str]"},
-    }
-
-    def __init__(
-        self,
-        *,
-        management_cluster: Optional["_models.ManagementCluster"] = None,
-        internet: Union[str, "_models.InternetEnum"] = "Disabled",
-        identity_sources: Optional[List["_models.IdentitySource"]] = None,
-        availability: Optional["_models.AvailabilityProperties"] = None,
-        encryption: Optional["_models.Encryption"] = None,
-        extended_network_blocks: Optional[List[str]] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword management_cluster: The default cluster used for management.
-        :paramtype management_cluster: ~azure.mgmt.avs.models.ManagementCluster
-        :keyword internet: Connectivity to internet is enabled or disabled. Known values are: "Enabled"
-         and "Disabled".
-        :paramtype internet: str or ~azure.mgmt.avs.models.InternetEnum
-        :keyword identity_sources: vCenter Single Sign On Identity Sources.
-        :paramtype identity_sources: list[~azure.mgmt.avs.models.IdentitySource]
-        :keyword availability: Properties describing how the cloud is distributed across availability
-         zones.
-        :paramtype availability: ~azure.mgmt.avs.models.AvailabilityProperties
-        :keyword encryption: Customer managed key encryption, can be enabled or disabled.
-        :paramtype encryption: ~azure.mgmt.avs.models.Encryption
-        :keyword extended_network_blocks: Array of additional networks noncontiguous with networkBlock.
-         Networks must be unique and non-overlapping across VNet in your subscription, on-premise, and
-         this privateCloud networkBlock attribute. Make sure the CIDR format conforms to (A.B.C.D/X).
-        :paramtype extended_network_blocks: list[str]
-        """
-        super().__init__(**kwargs)
-        self.management_cluster = management_cluster
-        self.internet = internet
-        self.identity_sources = identity_sources
-        self.availability = availability
-        self.encryption = encryption
-        self.extended_network_blocks = extended_network_blocks
-
-
-class PrivateCloudProperties(PrivateCloudUpdateProperties):  # pylint: disable=too-many-instance-attributes
-    """The properties of a private cloud resource.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar management_cluster: The default cluster used for management.
-    :vartype management_cluster: ~azure.mgmt.avs.models.ManagementCluster
-    :ivar internet: Connectivity to internet is enabled or disabled. Known values are: "Enabled"
-     and "Disabled".
-    :vartype internet: str or ~azure.mgmt.avs.models.InternetEnum
-    :ivar identity_sources: vCenter Single Sign On Identity Sources.
-    :vartype identity_sources: list[~azure.mgmt.avs.models.IdentitySource]
-    :ivar availability: Properties describing how the cloud is distributed across availability
-     zones.
-    :vartype availability: ~azure.mgmt.avs.models.AvailabilityProperties
-    :ivar encryption: Customer managed key encryption, can be enabled or disabled.
-    :vartype encryption: ~azure.mgmt.avs.models.Encryption
-    :ivar extended_network_blocks: Array of additional networks noncontiguous with networkBlock.
-     Networks must be unique and non-overlapping across VNet in your subscription, on-premise, and
-     this privateCloud networkBlock attribute. Make sure the CIDR format conforms to (A.B.C.D/X).
-    :vartype extended_network_blocks: list[str]
-    :ivar provisioning_state: The provisioning state. Known values are: "Succeeded", "Failed",
-     "Cancelled", "Pending", "Building", "Deleting", "Updating", and "Canceled".
-    :vartype provisioning_state: str or ~azure.mgmt.avs.models.PrivateCloudProvisioningState
-    :ivar circuit: An ExpressRoute Circuit.
-    :vartype circuit: ~azure.mgmt.avs.models.Circuit
-    :ivar endpoints: The endpoints.
-    :vartype endpoints: ~azure.mgmt.avs.models.Endpoints
-    :ivar network_block: The block of addresses should be unique across VNet in your subscription
-     as well as on-premise. Make sure the CIDR format is conformed to (A.B.C.D/X) where A,B,C,D are
-     between 0 and 255, and X is between 0 and 22. Required.
-    :vartype network_block: str
-    :ivar management_network: Network used to access vCenter Server and NSX-T Manager.
-    :vartype management_network: str
-    :ivar provisioning_network: Used for virtual machine cold migration, cloning, and snapshot
-     migration.
-    :vartype provisioning_network: str
-    :ivar vmotion_network: Used for live migration of virtual machines.
-    :vartype vmotion_network: str
-    :ivar vcenter_password: Optionally, set the vCenter admin password when the private cloud is
-     created.
-    :vartype vcenter_password: str
-    :ivar nsxt_password: Optionally, set the NSX-T Manager password when the private cloud is
-     created.
-    :vartype nsxt_password: str
-    :ivar vcenter_certificate_thumbprint: Thumbprint of the vCenter Server SSL certificate.
-    :vartype vcenter_certificate_thumbprint: str
-    :ivar nsxt_certificate_thumbprint: Thumbprint of the NSX-T Manager SSL certificate.
-    :vartype nsxt_certificate_thumbprint: str
-    :ivar external_cloud_links: Array of cloud link IDs from other clouds that connect to this one.
-    :vartype external_cloud_links: list[str]
-    :ivar secondary_circuit: A secondary expressRoute circuit from a separate AZ. Only present in a
-     stretched private cloud.
-    :vartype secondary_circuit: ~azure.mgmt.avs.models.Circuit
-    :ivar nsx_public_ip_quota_raised: Flag to indicate whether the private cloud has the quota for
-     provisioned NSX Public IP count raised from 64 to 1024. Known values are: "Enabled" and
-     "Disabled".
-    :vartype nsx_public_ip_quota_raised: str or ~azure.mgmt.avs.models.NsxPublicIpQuotaRaisedEnum
-    """
-
-    _validation = {
-        "provisioning_state": {"readonly": True},
-        "endpoints": {"readonly": True},
-        "network_block": {"required": True},
-        "management_network": {"readonly": True},
-        "provisioning_network": {"readonly": True},
-        "vmotion_network": {"readonly": True},
-        "vcenter_certificate_thumbprint": {"readonly": True},
-        "nsxt_certificate_thumbprint": {"readonly": True},
-        "external_cloud_links": {"readonly": True},
-        "nsx_public_ip_quota_raised": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "management_cluster": {"key": "managementCluster", "type": "ManagementCluster"},
-        "internet": {"key": "internet", "type": "str"},
-        "identity_sources": {"key": "identitySources", "type": "[IdentitySource]"},
-        "availability": {"key": "availability", "type": "AvailabilityProperties"},
-        "encryption": {"key": "encryption", "type": "Encryption"},
-        "extended_network_blocks": {"key": "extendedNetworkBlocks", "type": "[str]"},
-        "provisioning_state": {"key": "provisioningState", "type": "str"},
-        "circuit": {"key": "circuit", "type": "Circuit"},
-        "endpoints": {"key": "endpoints", "type": "Endpoints"},
-        "network_block": {"key": "networkBlock", "type": "str"},
-        "management_network": {"key": "managementNetwork", "type": "str"},
-        "provisioning_network": {"key": "provisioningNetwork", "type": "str"},
-        "vmotion_network": {"key": "vmotionNetwork", "type": "str"},
-        "vcenter_password": {"key": "vcenterPassword", "type": "str"},
-        "nsxt_password": {"key": "nsxtPassword", "type": "str"},
-        "vcenter_certificate_thumbprint": {"key": "vcenterCertificateThumbprint", "type": "str"},
-        "nsxt_certificate_thumbprint": {"key": "nsxtCertificateThumbprint", "type": "str"},
-        "external_cloud_links": {"key": "externalCloudLinks", "type": "[str]"},
-        "secondary_circuit": {"key": "secondaryCircuit", "type": "Circuit"},
-        "nsx_public_ip_quota_raised": {"key": "nsxPublicIpQuotaRaised", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        network_block: str,
-        management_cluster: Optional["_models.ManagementCluster"] = None,
-        internet: Union[str, "_models.InternetEnum"] = "Disabled",
-        identity_sources: Optional[List["_models.IdentitySource"]] = None,
-        availability: Optional["_models.AvailabilityProperties"] = None,
-        encryption: Optional["_models.Encryption"] = None,
-        extended_network_blocks: Optional[List[str]] = None,
-        circuit: Optional["_models.Circuit"] = None,
-        vcenter_password: Optional[str] = None,
-        nsxt_password: Optional[str] = None,
-        secondary_circuit: Optional["_models.Circuit"] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword management_cluster: The default cluster used for management.
-        :paramtype management_cluster: ~azure.mgmt.avs.models.ManagementCluster
-        :keyword internet: Connectivity to internet is enabled or disabled. Known values are: "Enabled"
-         and "Disabled".
-        :paramtype internet: str or ~azure.mgmt.avs.models.InternetEnum
-        :keyword identity_sources: vCenter Single Sign On Identity Sources.
-        :paramtype identity_sources: list[~azure.mgmt.avs.models.IdentitySource]
-        :keyword availability: Properties describing how the cloud is distributed across availability
-         zones.
-        :paramtype availability: ~azure.mgmt.avs.models.AvailabilityProperties
-        :keyword encryption: Customer managed key encryption, can be enabled or disabled.
-        :paramtype encryption: ~azure.mgmt.avs.models.Encryption
-        :keyword extended_network_blocks: Array of additional networks noncontiguous with networkBlock.
-         Networks must be unique and non-overlapping across VNet in your subscription, on-premise, and
-         this privateCloud networkBlock attribute. Make sure the CIDR format conforms to (A.B.C.D/X).
-        :paramtype extended_network_blocks: list[str]
-        :keyword circuit: An ExpressRoute Circuit.
-        :paramtype circuit: ~azure.mgmt.avs.models.Circuit
-        :keyword network_block: The block of addresses should be unique across VNet in your
-         subscription as well as on-premise. Make sure the CIDR format is conformed to (A.B.C.D/X) where
-         A,B,C,D are between 0 and 255, and X is between 0 and 22. Required.
-        :paramtype network_block: str
-        :keyword vcenter_password: Optionally, set the vCenter admin password when the private cloud is
-         created.
-        :paramtype vcenter_password: str
-        :keyword nsxt_password: Optionally, set the NSX-T Manager password when the private cloud is
-         created.
-        :paramtype nsxt_password: str
-        :keyword secondary_circuit: A secondary expressRoute circuit from a separate AZ. Only present
-         in a stretched private cloud.
-        :paramtype secondary_circuit: ~azure.mgmt.avs.models.Circuit
-        """
-        super().__init__(
-            management_cluster=management_cluster,
-            internet=internet,
-            identity_sources=identity_sources,
-            availability=availability,
-            encryption=encryption,
-            extended_network_blocks=extended_network_blocks,
-            **kwargs
-        )
-        self.provisioning_state = None
-        self.circuit = circuit
-        self.endpoints = None
-        self.network_block = network_block
-        self.management_network = None
-        self.provisioning_network = None
-        self.vmotion_network = None
-        self.vcenter_password = vcenter_password
-        self.nsxt_password = nsxt_password
-        self.vcenter_certificate_thumbprint = None
-        self.nsxt_certificate_thumbprint = None
-        self.external_cloud_links = None
-        self.secondary_circuit = secondary_circuit
-        self.nsx_public_ip_quota_raised = None
-
-
 class PrivateCloudUpdate(_serialization.Model):
     """An update to a private cloud resource.
 
@@ -2672,7 +2432,7 @@ class PrivateCloudUpdate(_serialization.Model):
         tags: Optional[Dict[str, str]] = None,
         identity: Optional["_models.PrivateCloudIdentity"] = None,
         management_cluster: Optional["_models.ManagementCluster"] = None,
-        internet: Union[str, "_models.InternetEnum"] = "Disabled",
+        internet: Optional[Union[str, "_models.InternetEnum"]] = None,
         identity_sources: Optional[List["_models.IdentitySource"]] = None,
         availability: Optional["_models.AvailabilityProperties"] = None,
         encryption: Optional["_models.Encryption"] = None,
