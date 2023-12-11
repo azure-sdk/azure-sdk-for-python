@@ -170,7 +170,6 @@ from .operations import (
     FirewallPolicyIdpsSignaturesOperations,
     FirewallPolicyIdpsSignaturesOverridesOperations,
     ManagementGroupNetworkManagerConnectionsOperations,
-    NetworkVirtualApplianceConnectionsOperations,
     RouteMapsOperations,
     RoutingIntentOperations,
     ScopeConnectionsOperations,
@@ -2294,20 +2293,6 @@ class NetworkManagementClient(NetworkManagementClientOperationsMixin, MultiApiCl
     def management_group_network_manager_connections(self):
         api_version = self._get_api_version("management_group_network_manager_connections")
         return ManagementGroupNetworkManagerConnectionsOperations(
-            self._client,
-            self._config,
-            Serializer(self._models_dict()),
-            Deserializer(self._models_dict()),
-            api_version=api_version,
-        )
-
-    @property
-    @api_version_validation(
-        method_valid_on=['2023-02-01', '2023-04-01', '2023-05-01']
-    )
-    def network_virtual_appliance_connections(self):
-        api_version = self._get_api_version("network_virtual_appliance_connections")
-        return NetworkVirtualApplianceConnectionsOperations(
             self._client,
             self._config,
             Serializer(self._models_dict()),

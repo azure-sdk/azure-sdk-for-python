@@ -37,7 +37,7 @@ def main():
                 "description": "My Test Network Manager",
                 "networkManagerScopeAccesses": ["Connectivity"],
                 "networkManagerScopes": {
-                    "managementGroups": ["/Microsoft.Management/testmg"],
+                    "managementGroups": ["/providers/Microsoft.Management/managementGroups/sampleMG"],
                     "subscriptions": ["/subscriptions/00000000-0000-0000-0000-000000000000"],
                 },
             }
