@@ -50,9 +50,9 @@ class MonitorManagementClient:  # pylint: disable=client-accepts-api-version-key
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
         self.metric_definitions = MetricDefinitionsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2018-01-01"
         )
-        self.metrics = MetricsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.metrics = MetricsOperations(self._client, self._config, self._serialize, self._deserialize, "2018-01-01")
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> HttpResponse:
         """Runs the network request through the client's chained policies.
