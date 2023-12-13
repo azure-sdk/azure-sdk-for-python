@@ -18,10 +18,21 @@ from ._start_menu_items_operations import StartMenuItemsOperations
 from ._applications_operations import ApplicationsOperations
 from ._desktops_operations import DesktopsOperations
 from ._host_pools_operations import HostPoolsOperations
+from ._session_host_managements_operations import SessionHostManagementsOperations
+from ._validate_session_host_update_operations import ValidateSessionHostUpdateOperations
+from ._initiate_session_host_update_operations import InitiateSessionHostUpdateOperations
+from ._control_session_host_update_operations import ControlSessionHostUpdateOperations
+from ._session_host_managements_operation_status_operations import SessionHostManagementsOperationStatusOperations
+from ._session_host_configurations_operations import SessionHostConfigurationsOperations
+from ._session_host_configurations_operation_status_operations import SessionHostConfigurationsOperationStatusOperations
+from ._active_session_host_configurations_operations import ActiveSessionHostConfigurationsOperations
 from ._user_sessions_operations import UserSessionsOperations
 from ._session_hosts_operations import SessionHostsOperations
+from ._session_host_operations import SessionHostOperations
 from ._msix_packages_operations import MSIXPackagesOperations
+from ._app_attach_package_info_operations import AppAttachPackageInfoOperations
 from ._msix_images_operations import MsixImagesOperations
+from ._app_attach_package_operations import AppAttachPackageOperations
 
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
@@ -40,10 +51,21 @@ __all__ = [
     "ApplicationsOperations",
     "DesktopsOperations",
     "HostPoolsOperations",
+    "SessionHostManagementsOperations",
+    "ValidateSessionHostUpdateOperations",
+    "InitiateSessionHostUpdateOperations",
+    "ControlSessionHostUpdateOperations",
+    "SessionHostManagementsOperationStatusOperations",
+    "SessionHostConfigurationsOperations",
+    "SessionHostConfigurationsOperationStatusOperations",
+    "ActiveSessionHostConfigurationsOperations",
     "UserSessionsOperations",
     "SessionHostsOperations",
+    "SessionHostOperations",
     "MSIXPackagesOperations",
+    "AppAttachPackageInfoOperations",
     "MsixImagesOperations",
+    "AppAttachPackageOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
