@@ -53,20 +53,22 @@ class Operations:
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    def list(self, **kwargs: Any) -> AsyncIterable["_models.AmlOperation"]:
+    def list(self, **kwargs: Any) -> AsyncIterable["_models.Operation"]:
         """Lists all of the available Azure Machine Learning Workspaces REST API operations.
 
+        Lists all of the available Azure Machine Learning Workspaces REST API operations.
+
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: An iterator like instance of either AmlOperation or the result of cls(response)
+        :return: An iterator like instance of either Operation or the result of cls(response)
         :rtype:
-         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.machinelearningservices.models.AmlOperation]
+         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.machinelearningservices.models.Operation]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.AmlOperationListResult] = kwargs.pop("cls", None)
+        cls: ClsType[_models.OperationListResult] = kwargs.pop("cls", None)
 
         error_map = {
             401: ClientAuthenticationError,
@@ -107,7 +109,7 @@ class Operations:
             return request
 
         async def extract_data(pipeline_response):
-            deserialized = self._deserialize("AmlOperationListResult", pipeline_response)
+            deserialized = self._deserialize("OperationListResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
