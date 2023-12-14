@@ -6,10 +6,17 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._database_migrations_mongo_to_cosmos_db_ru_mongo_operations import (
+    DatabaseMigrationsMongoToCosmosDbRUMongoOperations,
+)
+from ._database_migrations_mongo_to_cosmos_dbv_core_mongo_operations import (
+    DatabaseMigrationsMongoToCosmosDbvCoreMongoOperations,
+)
 from ._database_migrations_sql_db_operations import DatabaseMigrationsSqlDbOperations
 from ._database_migrations_sql_mi_operations import DatabaseMigrationsSqlMiOperations
 from ._database_migrations_sql_vm_operations import DatabaseMigrationsSqlVmOperations
 from ._operations import Operations
+from ._migration_services_operations import MigrationServicesOperations
 from ._sql_migration_services_operations import SqlMigrationServicesOperations
 from ._resource_skus_operations import ResourceSkusOperations
 from ._services_operations import ServicesOperations
@@ -24,10 +31,13 @@ from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "DatabaseMigrationsMongoToCosmosDbRUMongoOperations",
+    "DatabaseMigrationsMongoToCosmosDbvCoreMongoOperations",
     "DatabaseMigrationsSqlDbOperations",
     "DatabaseMigrationsSqlMiOperations",
     "DatabaseMigrationsSqlVmOperations",
     "Operations",
+    "MigrationServicesOperations",
     "SqlMigrationServicesOperations",
     "ResourceSkusOperations",
     "ServicesOperations",

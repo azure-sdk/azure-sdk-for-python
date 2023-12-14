@@ -16,10 +16,13 @@ from .. import models as _models
 from .._serialization import Deserializer, Serializer
 from ._configuration import DataMigrationManagementClientConfiguration
 from .operations import (
+    DatabaseMigrationsMongoToCosmosDbRUMongoOperations,
+    DatabaseMigrationsMongoToCosmosDbvCoreMongoOperations,
     DatabaseMigrationsSqlDbOperations,
     DatabaseMigrationsSqlMiOperations,
     DatabaseMigrationsSqlVmOperations,
     FilesOperations,
+    MigrationServicesOperations,
     Operations,
     ProjectsOperations,
     ResourceSkusOperations,
@@ -38,6 +41,14 @@ if TYPE_CHECKING:
 class DataMigrationManagementClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
     """Data Migration Client.
 
+    :ivar database_migrations_mongo_to_cosmos_db_ru_mongo:
+     DatabaseMigrationsMongoToCosmosDbRUMongoOperations operations
+    :vartype database_migrations_mongo_to_cosmos_db_ru_mongo:
+     azure.mgmt.datamigration.aio.operations.DatabaseMigrationsMongoToCosmosDbRUMongoOperations
+    :ivar database_migrations_mongo_to_cosmos_dbv_core_mongo:
+     DatabaseMigrationsMongoToCosmosDbvCoreMongoOperations operations
+    :vartype database_migrations_mongo_to_cosmos_dbv_core_mongo:
+     azure.mgmt.datamigration.aio.operations.DatabaseMigrationsMongoToCosmosDbvCoreMongoOperations
     :ivar database_migrations_sql_db: DatabaseMigrationsSqlDbOperations operations
     :vartype database_migrations_sql_db:
      azure.mgmt.datamigration.aio.operations.DatabaseMigrationsSqlDbOperations
@@ -49,6 +60,9 @@ class DataMigrationManagementClient:  # pylint: disable=client-accepts-api-versi
      azure.mgmt.datamigration.aio.operations.DatabaseMigrationsSqlVmOperations
     :ivar operations: Operations operations
     :vartype operations: azure.mgmt.datamigration.aio.operations.Operations
+    :ivar migration_services: MigrationServicesOperations operations
+    :vartype migration_services:
+     azure.mgmt.datamigration.aio.operations.MigrationServicesOperations
     :ivar sql_migration_services: SqlMigrationServicesOperations operations
     :vartype sql_migration_services:
      azure.mgmt.datamigration.aio.operations.SqlMigrationServicesOperations
@@ -72,7 +86,7 @@ class DataMigrationManagementClient:  # pylint: disable=client-accepts-api-versi
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2022-03-30-preview". Note that overriding
+    :keyword api_version: Api Version. Default value is "2023-07-15-preview". Note that overriding
      this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -89,12 +103,18 @@ class DataMigrationManagementClient:  # pylint: disable=client-accepts-api-versi
         self._config = DataMigrationManagementClientConfiguration(
             credential=credential, subscription_id=subscription_id, **kwargs
         )
-        self._client = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
+        self.database_migrations_mongo_to_cosmos_db_ru_mongo = DatabaseMigrationsMongoToCosmosDbRUMongoOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.database_migrations_mongo_to_cosmos_dbv_core_mongo = DatabaseMigrationsMongoToCosmosDbvCoreMongoOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.database_migrations_sql_db = DatabaseMigrationsSqlDbOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
@@ -105,6 +125,9 @@ class DataMigrationManagementClient:  # pylint: disable=client-accepts-api-versi
             self._client, self._config, self._serialize, self._deserialize
         )
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
+        self.migration_services = MigrationServicesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.sql_migration_services = SqlMigrationServicesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
@@ -145,5 +168,5 @@ class DataMigrationManagementClient:  # pylint: disable=client-accepts-api-versi
         await self._client.__aenter__()
         return self
 
-    async def __aexit__(self, *exc_details) -> None:
+    async def __aexit__(self, *exc_details: Any) -> None:
         await self._client.__aexit__(*exc_details)

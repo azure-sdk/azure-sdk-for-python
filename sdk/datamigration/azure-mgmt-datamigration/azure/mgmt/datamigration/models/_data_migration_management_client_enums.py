@@ -72,7 +72,7 @@ class CommandType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """CreatedByType."""
+    """The type of identity that created the resource."""
 
     USER = "User"
     APPLICATION = "Application"
@@ -270,6 +270,16 @@ class MongoDbShardKeyOrder(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     HASHED = "Hashed"
 
 
+class MongoMigrationStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Migration Status."""
+
+    NOT_STARTED = "NotStarted"
+    IN_PROGRESS = "InProgress"
+    COMPLETED = "Completed"
+    FAILED = "Failed"
+    CANCELED = "Canceled"
+
+
 class MySqlTargetPlatformType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """An enumeration of possible target types when migrating from MySQL."""
 
@@ -329,6 +339,18 @@ class ProjectTargetPlatform(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     UNKNOWN = "Unknown"
 
 
+class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Provisioning State of migration. ProvisioningState as Succeeded implies that validations have
+    been performed and migration has started.
+    """
+
+    PROVISIONING = "Provisioning"
+    UPDATING = "Updating"
+    SUCCEEDED = "Succeeded"
+    FAILED = "Failed"
+    CANCELED = "Canceled"
+
+
 class ReplicateMigrationState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Wrapper for replicate reported migration states."""
 
@@ -367,6 +389,7 @@ class ResourceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SQL_MI = "SqlMi"
     SQL_VM = "SqlVm"
     SQL_DB = "SqlDb"
+    MONGO_TO_COSMOS_DB_MONGO = "MongoToCosmosDbMongo"
 
 
 class ScenarioSource(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -471,7 +494,7 @@ class SqlSourcePlatform(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 class SsisMigrationOverwriteOption(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The overwrite option for SSIS object migration, only ignore and overwrite are supported in DMS
-    now and future may add Reuse option for container object.
+    (classic) now and future may add Reuse option for container object.
     """
 
     IGNORE = "Ignore"
@@ -488,7 +511,7 @@ class SsisMigrationStage(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class SsisStoreType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """An enumeration of supported source SSIS store type in DMS."""
+    """An enumeration of supported source SSIS store type in DMS (classic)."""
 
     SSIS_CATALOG = "SsisCatalog"
 
