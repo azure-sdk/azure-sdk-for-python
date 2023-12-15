@@ -734,6 +734,10 @@ from ._models_py3 import VerticaLinkedService
 from ._models_py3 import VerticaSource
 from ._models_py3 import VerticaTableDataset
 from ._models_py3 import WaitActivity
+from ._models_py3 import WarehouseLinkedService
+from ._models_py3 import WarehouseSink
+from ._models_py3 import WarehouseSource
+from ._models_py3 import WarehouseTableDataset
 from ._models_py3 import WebActivity
 from ._models_py3 import WebActivityAuthentication
 from ._models_py3 import WebAnonymousAuthentication
@@ -1611,6 +1615,10 @@ __all__ = [
     "VerticaSource",
     "VerticaTableDataset",
     "WaitActivity",
+    "WarehouseLinkedService",
+    "WarehouseSink",
+    "WarehouseSource",
+    "WarehouseTableDataset",
     "WebActivity",
     "WebActivityAuthentication",
     "WebAnonymousAuthentication",
