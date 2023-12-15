@@ -15,7 +15,13 @@ from azure.mgmt.core import ARMPipelineClient
 from . import models as _models
 from ._configuration import AzureMapsManagementClientConfiguration
 from ._serialization import Deserializer, Serializer
-from .operations import AccountsOperations, CreatorsOperations, MapsOperations
+from .operations import (
+    AccountsOperations,
+    CreatorsOperations,
+    MapsOperations,
+    PrivateEndpointConnectionsOperations,
+    PrivateLinkResourcesOperations,
+)
 
 if TYPE_CHECKING:
     # pylint: disable=unused-import,ungrouped-imports
@@ -31,15 +37,22 @@ class AzureMapsManagementClient:  # pylint: disable=client-accepts-api-version-k
     :vartype maps: azure.mgmt.maps.operations.MapsOperations
     :ivar creators: CreatorsOperations operations
     :vartype creators: azure.mgmt.maps.operations.CreatorsOperations
+    :ivar private_link_resources: PrivateLinkResourcesOperations operations
+    :vartype private_link_resources: azure.mgmt.maps.operations.PrivateLinkResourcesOperations
+    :ivar private_endpoint_connections: PrivateEndpointConnectionsOperations operations
+    :vartype private_endpoint_connections:
+     azure.mgmt.maps.operations.PrivateEndpointConnectionsOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
-    :param subscription_id: The ID of the target subscription. Required.
+    :param subscription_id: The ID of the target subscription. The value must be an UUID. Required.
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2023-06-01". Note that overriding this
-     default value may result in unsupported behavior.
+    :keyword api_version: Api Version. Default value is "2023-12-01-preview". Note that overriding
+     this default value may result in unsupported behavior.
     :paramtype api_version: str
+    :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
+     Retry-After header is present.
     """
 
     def __init__(
@@ -61,6 +74,12 @@ class AzureMapsManagementClient:  # pylint: disable=client-accepts-api-version-k
         self.accounts = AccountsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.maps = MapsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.creators = CreatorsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.private_link_resources = PrivateLinkResourcesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.private_endpoint_connections = PrivateEndpointConnectionsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> HttpResponse:
         """Runs the network request through the client's chained policies.

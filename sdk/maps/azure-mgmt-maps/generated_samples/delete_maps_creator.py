@@ -36,6 +36,6 @@ def main():
     )
 
 
-# x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/stable/2023-06-01/examples/DeleteMapsCreator.json
+# x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/preview/2023-12-01-preview/examples/DeleteMapsCreator.json
 if __name__ == "__main__":
     main()
