@@ -20,6 +20,8 @@ from ._models_py3 import ConfigurationResult
 from ._models_py3 import ConfluentBootstrapServer
 from ._models_py3 import ConfluentSchemaRegistry
 from ._models_py3 import CreateOrUpdateDryrunParameters
+from ._models_py3 import DaprMetadata
+from ._models_py3 import DaprProperties
 from ._models_py3 import DatabaseAadAuthInfo
 from ._models_py3 import DryrunList
 from ._models_py3 import DryrunOperationPreview
@@ -96,6 +98,8 @@ __all__ = [
     "ConfluentBootstrapServer",
     "ConfluentSchemaRegistry",
     "CreateOrUpdateDryrunParameters",
+    "DaprMetadata",
+    "DaprProperties",
     "DatabaseAadAuthInfo",
     "DryrunList",
     "DryrunOperationPreview",
