@@ -71,6 +71,38 @@ class BindingType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SNI_ENABLED = "SniEnabled"
 
 
+class BuilderProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Resource instance provisioning state."""
+
+    SUCCEEDED = "Succeeded"
+    FAILED = "Failed"
+    CANCELED = "Canceled"
+    CREATING = "Creating"
+    UPDATING = "Updating"
+    DELETING = "Deleting"
+
+
+class BuildProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Resource instance provisioning state."""
+
+    SUCCEEDED = "Succeeded"
+    FAILED = "Failed"
+    CANCELED = "Canceled"
+    CREATING = "Creating"
+    UPDATING = "Updating"
+    DELETING = "Deleting"
+
+
+class BuildStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Status of the build once it has been provisioned."""
+
+    NOT_STARTED = "NotStarted"
+    IN_PROGRESS = "InProgress"
+    SUCCEEDED = "Succeeded"
+    CANCELED = "Canceled"
+    FAILED = "Failed"
+
+
 class CertificateProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Provisioning state of the certificate."""
 
@@ -79,6 +111,15 @@ class CertificateProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta)
     CANCELED = "Canceled"
     DELETE_FAILED = "DeleteFailed"
     PENDING = "Pending"
+
+
+class CertificateType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of the certificate. Allowed values are ``ServerSSLCertificate`` and
+    ``ImagePullTrustedCA``.
+    """
+
+    SERVER_SSL_CERTIFICATE = "ServerSSLCertificate"
+    IMAGE_PULL_TRUSTED_CA = "ImagePullTrustedCA"
 
 
 class CheckNameAvailabilityReason(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -189,6 +230,13 @@ class IngressClientCertificateMode(str, Enum, metaclass=CaseInsensitiveEnumMeta)
     IGNORE = "ignore"
     ACCEPT = "accept"
     REQUIRE = "require"
+
+
+class IngressTargetPortHttpScheme(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Whether an http app listens on http or https."""
+
+    HTTP = "http"
+    HTTPS = "https"
 
 
 class IngressTransportMethod(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -303,6 +351,7 @@ class StorageType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     AZURE_FILE = "AzureFile"
     EMPTY_DIR = "EmptyDir"
     SECRET = "Secret"
+    NFS_AZURE_FILE = "NfsAzureFile"
 
 
 class TriggerType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
