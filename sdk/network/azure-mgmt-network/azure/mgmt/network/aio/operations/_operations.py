@@ -70237,12 +70237,18 @@ class ApplicationGatewayWafDynamicManifestsDefaultOperations:
         self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
         self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
+    @api_version_validation(
+        params_valid_on={
+            "location": ['2023-02-01', '2023-04-01', '2023-05-01'],
+            "locations": ['2023-06-01'],
+        }
+    )
     @distributed_trace_async
-    async def get(self, location: str, **kwargs: Any) -> _models.ApplicationGatewayWafDynamicManifestResult:
+    async def get(self, locations: str, **kwargs: Any) -> _models.ApplicationGatewayWafDynamicManifestResult:
         """Gets the regional application gateway waf manifest.
 
-        :param location: The region where the nrp are located at. Required.
-        :type location: str
+        :param locations: The region where the nrp are located at. Required.
+        :type locations: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ApplicationGatewayWafDynamicManifestResult or the result of cls(response)
         :rtype: ~azure.mgmt.network.models.ApplicationGatewayWafDynamicManifestResult
@@ -70263,7 +70269,7 @@ class ApplicationGatewayWafDynamicManifestsDefaultOperations:
         cls: ClsType[_models.ApplicationGatewayWafDynamicManifestResult] = kwargs.pop("cls", None)
 
         request = build_application_gateway_waf_dynamic_manifests_default_get_request(
-            location=location,
+            locations=locations,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             template_url=self.get.metadata["url"],
@@ -70291,7 +70297,7 @@ class ApplicationGatewayWafDynamicManifestsDefaultOperations:
 
         return deserialized
 
-    get.metadata = {'url': '/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/applicationGatewayWafDynamicManifests/dafault'}
+    get.metadata = {'url': '/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{locations}/applicationGatewayWafDynamicManifests/dafault'}
 
 class ApplicationGatewayWafDynamicManifestsOperations:
     """
