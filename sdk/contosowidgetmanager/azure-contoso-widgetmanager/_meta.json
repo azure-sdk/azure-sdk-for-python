@@ -1,0 +1,6 @@
+{
+  "commit": "5758d1088888f7c5fafe63b99a8887dce309da4e",
+  "repository_url": "https://github.com/test-repo-billy/azure-rest-api-specs",
+  "typespec_src": "specification/contosowidgetmanager/Contoso.WidgetManager",
+  "@azure-tools/typespec-python": "0.16.4"
+}
