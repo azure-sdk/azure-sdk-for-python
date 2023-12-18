@@ -36,13 +36,11 @@ from ...operations._operations import (
     build_availability_sets_delete_request,
     build_availability_sets_get_request,
     build_availability_sets_list_available_sizes_request,
-    build_availability_sets_list_by_subscription_request,
     build_availability_sets_list_request,
     build_availability_sets_update_request,
     build_capacity_reservation_groups_create_or_update_request,
     build_capacity_reservation_groups_delete_request,
     build_capacity_reservation_groups_get_request,
-    build_capacity_reservation_groups_list_by_resource_group_request,
     build_capacity_reservation_groups_list_by_subscription_request,
     build_capacity_reservation_groups_update_request,
     build_capacity_reservations_create_or_update_request,
@@ -15078,95 +15076,6 @@ class AvailabilitySetsOperations:
     }
 
     @distributed_trace
-    def list_by_subscription(
-        self, *, expand: Optional[str] = None, **kwargs: Any
-    ) -> AsyncIterable["_models.AvailabilitySet"]:
-        """Lists all availability sets in a subscription.
-
-        :keyword expand: The expand expression to apply to the operation. Allowed values are
-         'instanceView'. Default value is None.
-        :paramtype expand: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: An iterator like instance of either AvailabilitySet or the result of cls(response)
-        :rtype:
-         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.compute.v2023_09_01.models.AvailabilitySet]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-09-01"))
-        cls: ClsType[_models.AvailabilitySetListResult] = kwargs.pop("cls", None)
-
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(next_link=None):
-            if not next_link:
-
-                request = build_availability_sets_list_by_subscription_request(
-                    subscription_id=self._config.subscription_id,
-                    expand=expand,
-                    api_version=api_version,
-                    template_url=self.list_by_subscription.metadata["url"],
-                    headers=_headers,
-                    params=_params,
-                )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-
-            else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
-
-        async def extract_data(pipeline_response):
-            deserialized = self._deserialize("AvailabilitySetListResult", pipeline_response)
-            list_of_elem = deserialized.value
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.next_link or None, AsyncList(list_of_elem)
-
-        async def get_next(next_link=None):
-            request = prepare_request(next_link)
-
-            _stream = False
-            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-            return pipeline_response
-
-        return AsyncItemPaged(get_next, extract_data)
-
-    list_by_subscription.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/availabilitySets"
-    }
-
-    @distributed_trace
     def list(self, resource_group_name: str, **kwargs: Any) -> AsyncIterable["_models.AvailabilitySet"]:
         """Lists all availability sets in a resource group.
 
@@ -20781,107 +20690,6 @@ class CapacityReservationGroupsOperations:
 
     get.metadata = {
         "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}"
-    }
-
-    @distributed_trace
-    def list_by_resource_group(
-        self,
-        resource_group_name: str,
-        *,
-        expand: Optional[Union[str, _models.ExpandTypesForGetCapacityReservationGroups]] = None,
-        **kwargs: Any
-    ) -> AsyncIterable["_models.CapacityReservationGroup"]:
-        """Lists all of the capacity reservation groups in the specified resource group. Use the nextLink
-        property in the response to get the next page of capacity reservation groups.
-
-        :param resource_group_name: The name of the resource group. Required.
-        :type resource_group_name: str
-        :keyword expand: The expand expression to apply on the operation. Based on the expand param(s)
-         specified we return Virtual Machine or ScaleSet VM Instance or both resource Ids which are
-         associated to capacity reservation group in the response. Known values are:
-         "virtualMachineScaleSetVMs/$ref" and "virtualMachines/$ref". Default value is None.
-        :paramtype expand: str or
-         ~azure.mgmt.compute.v2023_09_01.models.ExpandTypesForGetCapacityReservationGroups
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: An iterator like instance of either CapacityReservationGroup or the result of
-         cls(response)
-        :rtype:
-         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.compute.v2023_09_01.models.CapacityReservationGroup]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-09-01"))
-        cls: ClsType[_models.CapacityReservationGroupListResult] = kwargs.pop("cls", None)
-
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(next_link=None):
-            if not next_link:
-
-                request = build_capacity_reservation_groups_list_by_resource_group_request(
-                    resource_group_name=resource_group_name,
-                    subscription_id=self._config.subscription_id,
-                    expand=expand,
-                    api_version=api_version,
-                    template_url=self.list_by_resource_group.metadata["url"],
-                    headers=_headers,
-                    params=_params,
-                )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-
-            else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
-
-        async def extract_data(pipeline_response):
-            deserialized = self._deserialize("CapacityReservationGroupListResult", pipeline_response)
-            list_of_elem = deserialized.value
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.next_link or None, AsyncList(list_of_elem)
-
-        async def get_next(next_link=None):
-            request = prepare_request(next_link)
-
-            _stream = False
-            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-            return pipeline_response
-
-        return AsyncItemPaged(get_next, extract_data)
-
-    list_by_resource_group.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups"
     }
 
     @distributed_trace

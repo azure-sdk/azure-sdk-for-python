@@ -37,13 +37,11 @@ def main():
             "properties": {
                 "orchestrationMode": "Flexible",
                 "priorityMixPolicy": {"baseRegularPriorityCount": 4, "regularPriorityPercentageAboveBase": 50},
-                "platformFaultDomainCount": 1,
                 "singlePlacementGroup": False,
                 "virtualMachineProfile": {
                     "billingProfile": {"maxPrice": -1},
                     "evictionPolicy": "Deallocate",
                     "networkProfile": {
-                        "networkApiVersion": "2020-11-01",
                         "networkInterfaceConfigurations": [
                             {
                                 "name": "{vmss-name}",
