@@ -14,7 +14,7 @@ from azure.mgmt.maps import AzureMapsManagementClient
     pip install azure-identity
     pip install azure-mgmt-maps
 # USAGE
-    python create_account_encryption.py
+    python private_link_resources_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,35 +29,14 @@ def main():
         subscription_id="21a9967a-e8a9-4656-a70b-96ff1c4d05a0",
     )
 
-    response = client.accounts.create_or_update(
+    response = client.private_link_resources.get(
         resource_group_name="myResourceGroup",
         account_name="myMapsAccount",
-        maps_account={
-            "identity": {
-                "type": "UserAssigned",
-                "userAssignedIdentities": {
-                    "/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identityName": {}
-                },
-            },
-            "kind": "Gen2",
-            "location": "eastus",
-            "properties": {
-                "encryption": {
-                    "customerManagedKeyEncryption": {
-                        "keyEncryptionKeyIdentity": {
-                            "identityType": "userAssignedIdentity",
-                            "userAssignedIdentityResourceId": "/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identityName",
-                        },
-                        "keyEncryptionKeyUrl": "https://contosovault.vault.azure.net/keys/contosokek",
-                    }
-                }
-            },
-            "sku": {"name": "G2"},
-        },
+        private_link_resource_name="mapsAccount",
     )
     print(response)
 
 
-# x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/preview/2023-12-01-preview/examples/CreateAccountEncryption.json
+# x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/preview/2023-12-01-preview/examples/PrivateLinkResources_Get.json
 if __name__ == "__main__":
     main()

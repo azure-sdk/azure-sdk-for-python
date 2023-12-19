@@ -37,6 +37,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/stable/2023-06-01/examples/ListMapsCreatorsByAccount.json
+# x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/preview/2023-12-01-preview/examples/ListMapsCreatorsByAccount.json
 if __name__ == "__main__":
     main()
