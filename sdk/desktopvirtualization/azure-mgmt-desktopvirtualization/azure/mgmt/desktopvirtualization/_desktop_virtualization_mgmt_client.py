@@ -16,10 +16,15 @@ from . import models as _models
 from ._configuration import DesktopVirtualizationMgmtClientConfiguration
 from ._serialization import Deserializer, Serializer
 from .operations import (
+    ActiveSessionHostConfigurationsOperations,
+    AppAttachPackageInfoOperations,
+    AppAttachPackageOperations,
     ApplicationGroupsOperations,
     ApplicationsOperations,
+    ControlSessionHostUpdateOperations,
     DesktopsOperations,
     HostPoolsOperations,
+    InitiateSessionHostUpdateOperations,
     MSIXPackagesOperations,
     MsixImagesOperations,
     Operations,
@@ -28,6 +33,11 @@ from .operations import (
     ScalingPlanPersonalSchedulesOperations,
     ScalingPlanPooledSchedulesOperations,
     ScalingPlansOperations,
+    SessionHostConfigurationsOperationStatusOperations,
+    SessionHostConfigurationsOperations,
+    SessionHostManagementsOperationStatusOperations,
+    SessionHostManagementsOperations,
+    SessionHostOperations,
     SessionHostsOperations,
     StartMenuItemsOperations,
     UserSessionsOperations,
@@ -71,23 +81,56 @@ class DesktopVirtualizationMgmtClient:  # pylint: disable=client-accepts-api-ver
     :vartype desktops: azure.mgmt.desktopvirtualization.operations.DesktopsOperations
     :ivar host_pools: HostPoolsOperations operations
     :vartype host_pools: azure.mgmt.desktopvirtualization.operations.HostPoolsOperations
+    :ivar session_host_managements: SessionHostManagementsOperations operations
+    :vartype session_host_managements:
+     azure.mgmt.desktopvirtualization.operations.SessionHostManagementsOperations
+    :ivar initiate_session_host_update: InitiateSessionHostUpdateOperations operations
+    :vartype initiate_session_host_update:
+     azure.mgmt.desktopvirtualization.operations.InitiateSessionHostUpdateOperations
+    :ivar control_session_host_update: ControlSessionHostUpdateOperations operations
+    :vartype control_session_host_update:
+     azure.mgmt.desktopvirtualization.operations.ControlSessionHostUpdateOperations
+    :ivar session_host_managements_operation_status:
+     SessionHostManagementsOperationStatusOperations operations
+    :vartype session_host_managements_operation_status:
+     azure.mgmt.desktopvirtualization.operations.SessionHostManagementsOperationStatusOperations
+    :ivar session_host_configurations: SessionHostConfigurationsOperations operations
+    :vartype session_host_configurations:
+     azure.mgmt.desktopvirtualization.operations.SessionHostConfigurationsOperations
+    :ivar session_host_configurations_operation_status:
+     SessionHostConfigurationsOperationStatusOperations operations
+    :vartype session_host_configurations_operation_status:
+     azure.mgmt.desktopvirtualization.operations.SessionHostConfigurationsOperationStatusOperations
+    :ivar active_session_host_configurations: ActiveSessionHostConfigurationsOperations operations
+    :vartype active_session_host_configurations:
+     azure.mgmt.desktopvirtualization.operations.ActiveSessionHostConfigurationsOperations
     :ivar user_sessions: UserSessionsOperations operations
     :vartype user_sessions: azure.mgmt.desktopvirtualization.operations.UserSessionsOperations
     :ivar session_hosts: SessionHostsOperations operations
     :vartype session_hosts: azure.mgmt.desktopvirtualization.operations.SessionHostsOperations
+    :ivar session_host: SessionHostOperations operations
+    :vartype session_host: azure.mgmt.desktopvirtualization.operations.SessionHostOperations
     :ivar msix_packages: MSIXPackagesOperations operations
     :vartype msix_packages: azure.mgmt.desktopvirtualization.operations.MSIXPackagesOperations
+    :ivar app_attach_package_info: AppAttachPackageInfoOperations operations
+    :vartype app_attach_package_info:
+     azure.mgmt.desktopvirtualization.operations.AppAttachPackageInfoOperations
     :ivar msix_images: MsixImagesOperations operations
     :vartype msix_images: azure.mgmt.desktopvirtualization.operations.MsixImagesOperations
+    :ivar app_attach_package: AppAttachPackageOperations operations
+    :vartype app_attach_package:
+     azure.mgmt.desktopvirtualization.operations.AppAttachPackageOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
     :param subscription_id: The ID of the target subscription. Required.
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2023-09-05". Note that overriding this
-     default value may result in unsupported behavior.
+    :keyword api_version: Api Version. Default value is "2023-11-01-preview". Note that overriding
+     this default value may result in unsupported behavior.
     :paramtype api_version: str
+    :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
+     Retry-After header is present.
     """
 
     def __init__(
@@ -128,10 +171,38 @@ class DesktopVirtualizationMgmtClient:  # pylint: disable=client-accepts-api-ver
         self.applications = ApplicationsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.desktops = DesktopsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.host_pools = HostPoolsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.session_host_managements = SessionHostManagementsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.initiate_session_host_update = InitiateSessionHostUpdateOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.control_session_host_update = ControlSessionHostUpdateOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.session_host_managements_operation_status = SessionHostManagementsOperationStatusOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.session_host_configurations = SessionHostConfigurationsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.session_host_configurations_operation_status = SessionHostConfigurationsOperationStatusOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.active_session_host_configurations = ActiveSessionHostConfigurationsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.user_sessions = UserSessionsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.session_hosts = SessionHostsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.session_host = SessionHostOperations(self._client, self._config, self._serialize, self._deserialize)
         self.msix_packages = MSIXPackagesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.app_attach_package_info = AppAttachPackageInfoOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.msix_images = MsixImagesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.app_attach_package = AppAttachPackageOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> HttpResponse:
         """Runs the network request through the client's chained policies.
