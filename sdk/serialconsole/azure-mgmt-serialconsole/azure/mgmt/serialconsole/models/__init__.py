@@ -19,10 +19,13 @@ from ._models_py3 import SerialConsoleStatus
 from ._models_py3 import SerialPort
 from ._models_py3 import SerialPortConnectResult
 from ._models_py3 import SerialPortListResult
+from ._models_py3 import SystemData
 
+from ._microsoft_serial_console_client_enums import CreatedByType
+from ._microsoft_serial_console_client_enums import SerialPortConnectionState
 from ._microsoft_serial_console_client_enums import SerialPortState
 from ._patch import __all__ as _patch_all
-from ._patch import *  # type: ignore # pylint: disable=unused-wildcard-import
+from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
@@ -39,6 +42,9 @@ __all__ = [
     "SerialPort",
     "SerialPortConnectResult",
     "SerialPortListResult",
+    "SystemData",
+    "CreatedByType",
+    "SerialPortConnectionState",
     "SerialPortState",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])

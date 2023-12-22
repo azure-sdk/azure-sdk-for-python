@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import List, Optional, TYPE_CHECKING, Union
+import datetime
+from typing import Any, List, Optional, TYPE_CHECKING, Union
 
 from .. import _serialization
 
@@ -46,8 +47,8 @@ class CloudErrorBody(_serialization.Model):
         message: Optional[str] = None,
         target: Optional[str] = None,
         details: Optional[List["_models.CloudErrorBody"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword code: An identifier for the error. Codes are invariant and are intended to be consumed
          programmatically.
@@ -79,7 +80,7 @@ class DisableSerialConsoleResult(_serialization.Model):
         "disabled": {"key": "disabled", "type": "bool"},
     }
 
-    def __init__(self, *, disabled: Optional[bool] = None, **kwargs):
+    def __init__(self, *, disabled: Optional[bool] = None, **kwargs: Any) -> None:
         """
         :keyword disabled: Whether or not Serial Console is disabled.
         :paramtype disabled: bool
@@ -91,7 +92,7 @@ class DisableSerialConsoleResult(_serialization.Model):
 class EnableSerialConsoleResult(_serialization.Model):
     """Returns whether or not Serial Console is disabled (enabled).
 
-    :ivar disabled: Whether or not Serial Console is disabled (enabled).
+    :ivar disabled: Whether or not Serial Console is disabled.
     :vartype disabled: bool
     """
 
@@ -99,9 +100,9 @@ class EnableSerialConsoleResult(_serialization.Model):
         "disabled": {"key": "disabled", "type": "bool"},
     }
 
-    def __init__(self, *, disabled: Optional[bool] = None, **kwargs):
+    def __init__(self, *, disabled: Optional[bool] = None, **kwargs: Any) -> None:
         """
-        :keyword disabled: Whether or not Serial Console is disabled (enabled).
+        :keyword disabled: Whether or not Serial Console is disabled.
         :paramtype disabled: bool
         """
         super().__init__(**kwargs)
@@ -122,7 +123,7 @@ class GetSerialConsoleSubscriptionNotFound(_serialization.Model):
         "message": {"key": "message", "type": "str"},
     }
 
-    def __init__(self, *, code: Optional[str] = None, message: Optional[str] = None, **kwargs):
+    def __init__(self, *, code: Optional[str] = None, message: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword code: Error code.
         :paramtype code: str
@@ -135,64 +136,80 @@ class GetSerialConsoleSubscriptionNotFound(_serialization.Model):
 
 
 class Resource(_serialization.Model):
-    """The Resource model definition.
+    """Common fields that are returned in the response for all Azure Resource Manager resources.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Resource Id.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
-    :ivar name: Resource name.
+    :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: Resource type.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.serialconsole.models.SystemData
     """
 
     _validation = {
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
         self.name = None
         self.type = None
+        self.system_data = None
 
 
 class ProxyResource(Resource):
-    """The resource model definition for a ARM proxy resource. It will have everything other than required location and tags.
+    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
+    tags and a location.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Resource Id.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
-    :ivar name: Resource name.
+    :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: Resource type.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.serialconsole.models.SystemData
     """
 
     _validation = {
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
 
@@ -208,7 +225,9 @@ class SerialConsoleOperations(_serialization.Model):
         "value": {"key": "value", "type": "[SerialConsoleOperationsValueItem]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.SerialConsoleOperationsValueItem"]] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.SerialConsoleOperationsValueItem"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: A list of Serial Console operations.
         :paramtype value: list[~azure.mgmt.serialconsole.models.SerialConsoleOperationsValueItem]
@@ -240,8 +259,8 @@ class SerialConsoleOperationsValueItem(_serialization.Model):
         name: Optional[str] = None,
         is_data_action: Optional[str] = None,
         display: Optional["_models.SerialConsoleOperationsValueItemDisplay"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name:
         :paramtype name: str
@@ -283,8 +302,8 @@ class SerialConsoleOperationsValueItemDisplay(_serialization.Model):
         resource: Optional[str] = None,
         operation: Optional[str] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword provider:
         :paramtype provider: str
@@ -313,7 +332,7 @@ class SerialConsoleStatus(_serialization.Model):
         "disabled": {"key": "disabled", "type": "bool"},
     }
 
-    def __init__(self, *, disabled: Optional[bool] = None, **kwargs):
+    def __init__(self, *, disabled: Optional[bool] = None, **kwargs: Any) -> None:
         """
         :keyword disabled: Whether or not Serial Console is disabled.
         :paramtype disabled: bool
@@ -327,38 +346,59 @@ class SerialPort(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Resource Id.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
-    :ivar name: Resource name.
+    :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: Resource type.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.serialconsole.models.SystemData
     :ivar state: Specifies whether the port is enabled for a serial console connection. Known
      values are: "enabled" and "disabled".
     :vartype state: str or ~azure.mgmt.serialconsole.models.SerialPortState
+    :ivar connection_state: Specifies whether the port is currently active. Known values are:
+     "active" and "inactive".
+    :vartype connection_state: str or ~azure.mgmt.serialconsole.models.SerialPortConnectionState
     """
 
     _validation = {
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "state": {"key": "properties.state", "type": "str"},
+        "connection_state": {"key": "properties.connectionState", "type": "str"},
     }
 
-    def __init__(self, *, state: Optional[Union[str, "_models.SerialPortState"]] = None, **kwargs):
+    def __init__(
+        self,
+        *,
+        state: Optional[Union[str, "_models.SerialPortState"]] = None,
+        connection_state: Optional[Union[str, "_models.SerialPortConnectionState"]] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword state: Specifies whether the port is enabled for a serial console connection. Known
          values are: "enabled" and "disabled".
         :paramtype state: str or ~azure.mgmt.serialconsole.models.SerialPortState
+        :keyword connection_state: Specifies whether the port is currently active. Known values are:
+         "active" and "inactive".
+        :paramtype connection_state: str or ~azure.mgmt.serialconsole.models.SerialPortConnectionState
         """
         super().__init__(**kwargs)
         self.state = state
+        self.connection_state = connection_state
 
 
 class SerialPortConnectResult(_serialization.Model):
@@ -372,7 +412,7 @@ class SerialPortConnectResult(_serialization.Model):
         "connection_string": {"key": "connectionString", "type": "str"},
     }
 
-    def __init__(self, *, connection_string: Optional[str] = None, **kwargs):
+    def __init__(self, *, connection_string: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword connection_string: Connection string to the serial port of the resource.
         :paramtype connection_string: str
@@ -392,10 +432,74 @@ class SerialPortListResult(_serialization.Model):
         "value": {"key": "value", "type": "[SerialPort]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.SerialPort"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.SerialPort"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The list of serial ports.
         :paramtype value: list[~azure.mgmt.serialconsole.models.SerialPort]
         """
         super().__init__(**kwargs)
         self.value = value
+
+
+class SystemData(_serialization.Model):
+    """Metadata pertaining to creation and last modification of the resource.
+
+    :ivar created_by: The identity that created the resource.
+    :vartype created_by: str
+    :ivar created_by_type: The type of identity that created the resource. Known values are:
+     "User", "Application", "ManagedIdentity", and "Key".
+    :vartype created_by_type: str or ~azure.mgmt.serialconsole.models.CreatedByType
+    :ivar created_at: The timestamp of resource creation (UTC).
+    :vartype created_at: ~datetime.datetime
+    :ivar last_modified_by: The identity that last modified the resource.
+    :vartype last_modified_by: str
+    :ivar last_modified_by_type: The type of identity that last modified the resource. Known values
+     are: "User", "Application", "ManagedIdentity", and "Key".
+    :vartype last_modified_by_type: str or ~azure.mgmt.serialconsole.models.CreatedByType
+    :ivar last_modified_at: The timestamp of resource last modification (UTC).
+    :vartype last_modified_at: ~datetime.datetime
+    """
+
+    _attribute_map = {
+        "created_by": {"key": "createdBy", "type": "str"},
+        "created_by_type": {"key": "createdByType", "type": "str"},
+        "created_at": {"key": "createdAt", "type": "iso-8601"},
+        "last_modified_by": {"key": "lastModifiedBy", "type": "str"},
+        "last_modified_by_type": {"key": "lastModifiedByType", "type": "str"},
+        "last_modified_at": {"key": "lastModifiedAt", "type": "iso-8601"},
+    }
+
+    def __init__(
+        self,
+        *,
+        created_by: Optional[str] = None,
+        created_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
+        created_at: Optional[datetime.datetime] = None,
+        last_modified_by: Optional[str] = None,
+        last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
+        last_modified_at: Optional[datetime.datetime] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword created_by: The identity that created the resource.
+        :paramtype created_by: str
+        :keyword created_by_type: The type of identity that created the resource. Known values are:
+         "User", "Application", "ManagedIdentity", and "Key".
+        :paramtype created_by_type: str or ~azure.mgmt.serialconsole.models.CreatedByType
+        :keyword created_at: The timestamp of resource creation (UTC).
+        :paramtype created_at: ~datetime.datetime
+        :keyword last_modified_by: The identity that last modified the resource.
+        :paramtype last_modified_by: str
+        :keyword last_modified_by_type: The type of identity that last modified the resource. Known
+         values are: "User", "Application", "ManagedIdentity", and "Key".
+        :paramtype last_modified_by_type: str or ~azure.mgmt.serialconsole.models.CreatedByType
+        :keyword last_modified_at: The timestamp of resource last modification (UTC).
+        :paramtype last_modified_at: ~datetime.datetime
+        """
+        super().__init__(**kwargs)
+        self.created_by = created_by
+        self.created_by_type = created_by_type
+        self.created_at = created_at
+        self.last_modified_by = last_modified_by
+        self.last_modified_by_type = last_modified_by_type
+        self.last_modified_at = last_modified_at

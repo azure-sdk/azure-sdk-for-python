@@ -10,6 +10,22 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
+class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of identity that created the resource."""
+
+    USER = "User"
+    APPLICATION = "Application"
+    MANAGED_IDENTITY = "ManagedIdentity"
+    KEY = "Key"
+
+
+class SerialPortConnectionState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Specifies whether the port is currently active."""
+
+    ACTIVE = "active"
+    INACTIVE = "inactive"
+
+
 class SerialPortState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Specifies whether the port is enabled for a serial console connection."""
 

@@ -14,7 +14,7 @@ from azure.mgmt.serialconsole import MicrosoftSerialConsoleClient
     pip install azure-identity
     pip install azure-mgmt-serialconsole
 # USAGE
-    python create_a_new_serial_port_resource..py
+    python get_operations_example.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,20 +26,13 @@ from azure.mgmt.serialconsole import MicrosoftSerialConsoleClient
 def main():
     client = MicrosoftSerialConsoleClient(
         credential=DefaultAzureCredential(),
-        subscription_id="00000000-00000-0000-0000-000000000000",
+        subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.serial_ports.create(
-        resource_group_name="myResourceGroup",
-        resource_provider_namespace="Microsoft.Compute",
-        parent_resource_type="virtualMachines",
-        parent_resource="myVM",
-        serial_port="0",
-        parameters={"properties": {"state": "enabled"}},
-    )
+    response = client.list_operations()
     print(response)
 
 
-# x-ms-original-file: specification/serialconsole/resource-manager/Microsoft.SerialConsole/stable/2018-05-01/examples/CreateSerialPort.json
+# x-ms-original-file: specification/serialconsole/resource-manager/Microsoft.SerialConsole/stable/2023-01-01/examples/GetOperationsExample.json
 if __name__ == "__main__":
     main()

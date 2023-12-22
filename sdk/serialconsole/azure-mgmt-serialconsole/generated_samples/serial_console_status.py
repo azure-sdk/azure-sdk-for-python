@@ -14,7 +14,7 @@ from azure.mgmt.serialconsole import MicrosoftSerialConsoleClient
     pip install azure-identity
     pip install azure-mgmt-serialconsole
 # USAGE
-    python enable_serial_console_for_a_subscription.py
+    python serial_console_status.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,12 +29,12 @@ def main():
         subscription_id="00000000-00000-0000-0000-000000000000",
     )
 
-    response = client.enable_console(
+    response = client.get_console_status(
         default="default",
     )
     print(response)
 
 
-# x-ms-original-file: specification/serialconsole/resource-manager/Microsoft.SerialConsole/stable/2018-05-01/examples/EnableConsoleExamples.json
+# x-ms-original-file: specification/serialconsole/resource-manager/Microsoft.SerialConsole/stable/2023-01-01/examples/SerialConsoleStatus.json
 if __name__ == "__main__":
     main()
