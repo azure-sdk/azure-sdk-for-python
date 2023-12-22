@@ -30,7 +30,7 @@ def main():
     )
 
     response = client.application_gateway_waf_dynamic_manifests_default.get(
-        location="westus",
+        locations="westus",
     )
     print(response)
 
