@@ -181,11 +181,11 @@ from ._database_sql_vulnerability_assessment_scans_operations import DatabaseSql
 from ._database_sql_vulnerability_assessments_settings_operations import (
     DatabaseSqlVulnerabilityAssessmentsSettingsOperations,
 )
+from ._servers_operations import ServersOperations
 from ._failover_groups_operations import FailoverGroupsOperations
 from ._instance_pools_operations import InstancePoolsOperations
 from ._long_term_retention_backups_operations import LongTermRetentionBackupsOperations
 from ._long_term_retention_policies_operations import LongTermRetentionPoliciesOperations
-from ._servers_operations import ServersOperations
 
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
@@ -337,11 +337,11 @@ __all__ = [
     "DatabaseSqlVulnerabilityAssessmentScanResultOperations",
     "DatabaseSqlVulnerabilityAssessmentScansOperations",
     "DatabaseSqlVulnerabilityAssessmentsSettingsOperations",
+    "ServersOperations",
     "FailoverGroupsOperations",
     "InstancePoolsOperations",
     "LongTermRetentionBackupsOperations",
     "LongTermRetentionPoliciesOperations",
-    "ServersOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()

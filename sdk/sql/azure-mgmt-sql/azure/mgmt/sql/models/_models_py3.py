@@ -17095,9 +17095,8 @@ class Server(TrackedResource):  # pylint: disable=too-many-instance-attributes
     :ivar private_endpoint_connections: List of private endpoint connections on a server.
     :vartype private_endpoint_connections:
      list[~azure.mgmt.sql.models.ServerPrivateEndpointConnection]
-    :ivar minimal_tls_version: Minimal TLS version. Allowed values: 'None', 1.0', '1.1', '1.2',
-     '1.3'. Known values are: "None", "1.0", "1.1", "1.2", and "1.3".
-    :vartype minimal_tls_version: str or ~azure.mgmt.sql.models.MinimalTlsVersion
+    :ivar minimal_tls_version: Minimal TLS version. Allowed values: 'None', '1.0', '1.1', '1.2'.
+    :vartype minimal_tls_version: str
     :ivar public_network_access: Whether or not public endpoint access is allowed for this server.
      Value is optional but if passed in, must be 'Enabled' or 'Disabled' or 'SecuredByPerimeter'.
      Known values are: "Enabled", "Disabled", and "SecuredByPerimeter".
@@ -17181,7 +17180,7 @@ class Server(TrackedResource):  # pylint: disable=too-many-instance-attributes
         administrator_login: Optional[str] = None,
         administrator_login_password: Optional[str] = None,
         version: Optional[str] = None,
-        minimal_tls_version: Optional[Union[str, "_models.MinimalTlsVersion"]] = None,
+        minimal_tls_version: Optional[str] = None,
         public_network_access: Optional[Union[str, "_models.ServerPublicNetworkAccessFlag"]] = None,
         primary_user_assigned_identity_id: Optional[str] = None,
         federated_client_id: Optional[str] = None,
@@ -17206,9 +17205,8 @@ class Server(TrackedResource):  # pylint: disable=too-many-instance-attributes
         :paramtype administrator_login_password: str
         :keyword version: The version of the server.
         :paramtype version: str
-        :keyword minimal_tls_version: Minimal TLS version. Allowed values: 'None', 1.0', '1.1', '1.2',
-         '1.3'. Known values are: "None", "1.0", "1.1", "1.2", and "1.3".
-        :paramtype minimal_tls_version: str or ~azure.mgmt.sql.models.MinimalTlsVersion
+        :keyword minimal_tls_version: Minimal TLS version. Allowed values: 'None', '1.0', '1.1', '1.2'.
+        :paramtype minimal_tls_version: str
         :keyword public_network_access: Whether or not public endpoint access is allowed for this
          server.  Value is optional but if passed in, must be 'Enabled' or 'Disabled' or
          'SecuredByPerimeter'. Known values are: "Enabled", "Disabled", and "SecuredByPerimeter".
@@ -18998,9 +18996,8 @@ class ServerUpdate(_serialization.Model):  # pylint: disable=too-many-instance-a
     :ivar private_endpoint_connections: List of private endpoint connections on a server.
     :vartype private_endpoint_connections:
      list[~azure.mgmt.sql.models.ServerPrivateEndpointConnection]
-    :ivar minimal_tls_version: Minimal TLS version. Allowed values: 'None', 1.0', '1.1', '1.2',
-     '1.3'. Known values are: "None", "1.0", "1.1", "1.2", and "1.3".
-    :vartype minimal_tls_version: str or ~azure.mgmt.sql.models.MinimalTlsVersion
+    :ivar minimal_tls_version: Minimal TLS version. Allowed values: 'None', '1.0', '1.1', '1.2'.
+    :vartype minimal_tls_version: str
     :ivar public_network_access: Whether or not public endpoint access is allowed for this server.
      Value is optional but if passed in, must be 'Enabled' or 'Disabled' or 'SecuredByPerimeter'.
      Known values are: "Enabled", "Disabled", and "SecuredByPerimeter".
@@ -19073,7 +19070,7 @@ class ServerUpdate(_serialization.Model):  # pylint: disable=too-many-instance-a
         administrator_login: Optional[str] = None,
         administrator_login_password: Optional[str] = None,
         version: Optional[str] = None,
-        minimal_tls_version: Optional[Union[str, "_models.MinimalTlsVersion"]] = None,
+        minimal_tls_version: Optional[str] = None,
         public_network_access: Optional[Union[str, "_models.ServerPublicNetworkAccessFlag"]] = None,
         primary_user_assigned_identity_id: Optional[str] = None,
         federated_client_id: Optional[str] = None,
@@ -19096,9 +19093,8 @@ class ServerUpdate(_serialization.Model):  # pylint: disable=too-many-instance-a
         :paramtype administrator_login_password: str
         :keyword version: The version of the server.
         :paramtype version: str
-        :keyword minimal_tls_version: Minimal TLS version. Allowed values: 'None', 1.0', '1.1', '1.2',
-         '1.3'. Known values are: "None", "1.0", "1.1", "1.2", and "1.3".
-        :paramtype minimal_tls_version: str or ~azure.mgmt.sql.models.MinimalTlsVersion
+        :keyword minimal_tls_version: Minimal TLS version. Allowed values: 'None', '1.0', '1.1', '1.2'.
+        :paramtype minimal_tls_version: str
         :keyword public_network_access: Whether or not public endpoint access is allowed for this
          server.  Value is optional but if passed in, must be 'Enabled' or 'Disabled' or
          'SecuredByPerimeter'. Known values are: "Enabled", "Disabled", and "SecuredByPerimeter".
