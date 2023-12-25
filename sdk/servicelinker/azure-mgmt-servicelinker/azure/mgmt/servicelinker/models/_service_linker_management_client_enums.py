@@ -67,6 +67,7 @@ class ClientType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     NODEJS = "nodejs"
     SPRING_BOOT = "springBoot"
     KAFKA_SPRING_BOOT = "kafka-springBoot"
+    DAPR = "dapr"
 
 
 class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
