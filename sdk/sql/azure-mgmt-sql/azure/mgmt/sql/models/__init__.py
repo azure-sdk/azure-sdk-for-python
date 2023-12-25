@@ -501,7 +501,6 @@ from ._sql_management_client_enums import ManagedShortTermRetentionPolicyName
 from ._sql_management_client_enums import ManagementOperationState
 from ._sql_management_client_enums import MaxSizeUnit
 from ._sql_management_client_enums import MetricType
-from ._sql_management_client_enums import MinimalTlsVersion
 from ._sql_management_client_enums import MoveOperationMode
 from ._sql_management_client_enums import OperationMode
 from ._sql_management_client_enums import OperationOrigin
@@ -1074,7 +1073,6 @@ __all__ = [
     "ManagementOperationState",
     "MaxSizeUnit",
     "MetricType",
-    "MinimalTlsVersion",
     "MoveOperationMode",
     "OperationMode",
     "OperationOrigin",
