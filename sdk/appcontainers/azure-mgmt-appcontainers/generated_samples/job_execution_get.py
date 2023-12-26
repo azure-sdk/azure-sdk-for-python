@@ -31,12 +31,12 @@ def main():
 
     response = client.job_execution(
         resource_group_name="rg",
-        job_name="testcontainerAppsJob0",
+        job_name="testcontainerappsjob0",
         job_execution_name="jobExecution1",
     )
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/Job_Execution_Get.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-08-01-preview/examples/Job_Execution_Get.json
 if __name__ == "__main__":
     main()
