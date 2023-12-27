@@ -4876,6 +4876,9 @@ class KubernetesClusterRestoreCriteria(ItemLevelRestoreCriteria):  # pylint: dis
      hook reference to be executed during restore.
     :vartype restore_hook_references:
      list[~azure.mgmt.dataprotection.models.NamespacedNameResource]
+    :ivar resource_modifier_reference: Gets or sets the resource modifier reference. This property
+     sets the reference for resource modifier during restore.
+    :vartype resource_modifier_reference: ~azure.mgmt.dataprotection.models.NamespacedNameResource
     """
 
     _validation = {
@@ -4895,6 +4898,7 @@ class KubernetesClusterRestoreCriteria(ItemLevelRestoreCriteria):  # pylint: dis
         "conflict_policy": {"key": "conflictPolicy", "type": "str"},
         "namespace_mappings": {"key": "namespaceMappings", "type": "{str}"},
         "restore_hook_references": {"key": "restoreHookReferences", "type": "[NamespacedNameResource]"},
+        "resource_modifier_reference": {"key": "resourceModifierReference", "type": "NamespacedNameResource"},
     }
 
     def __init__(
@@ -4910,6 +4914,7 @@ class KubernetesClusterRestoreCriteria(ItemLevelRestoreCriteria):  # pylint: dis
         conflict_policy: Optional[Union[str, "_models.ExistingResourcePolicy"]] = None,
         namespace_mappings: Optional[Dict[str, str]] = None,
         restore_hook_references: Optional[List["_models.NamespacedNameResource"]] = None,
+        resource_modifier_reference: Optional["_models.NamespacedNameResource"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -4946,6 +4951,10 @@ class KubernetesClusterRestoreCriteria(ItemLevelRestoreCriteria):  # pylint: dis
          the hook reference to be executed during restore.
         :paramtype restore_hook_references:
          list[~azure.mgmt.dataprotection.models.NamespacedNameResource]
+        :keyword resource_modifier_reference: Gets or sets the resource modifier reference. This
+         property sets the reference for resource modifier during restore.
+        :paramtype resource_modifier_reference:
+         ~azure.mgmt.dataprotection.models.NamespacedNameResource
         """
         super().__init__(**kwargs)
         self.object_type: str = "KubernetesClusterRestoreCriteria"
@@ -4959,6 +4968,7 @@ class KubernetesClusterRestoreCriteria(ItemLevelRestoreCriteria):  # pylint: dis
         self.conflict_policy = conflict_policy
         self.namespace_mappings = namespace_mappings
         self.restore_hook_references = restore_hook_references
+        self.resource_modifier_reference = resource_modifier_reference
 
 
 class KubernetesClusterVaultTierRestoreCriteria(
@@ -5010,6 +5020,9 @@ class KubernetesClusterVaultTierRestoreCriteria(
     :ivar staging_storage_account_id: Gets or sets the staging Storage Account Id for creating
      backup extension object store data during restore from vault.
     :vartype staging_storage_account_id: str
+    :ivar resource_modifier_reference: Gets or sets the resource modifier reference. This property
+     sets the reference for resource modifier during restore.
+    :vartype resource_modifier_reference: ~azure.mgmt.dataprotection.models.NamespacedNameResource
     """
 
     _validation = {
@@ -5031,6 +5044,7 @@ class KubernetesClusterVaultTierRestoreCriteria(
         "restore_hook_references": {"key": "restoreHookReferences", "type": "[NamespacedNameResource]"},
         "staging_resource_group_id": {"key": "stagingResourceGroupId", "type": "str"},
         "staging_storage_account_id": {"key": "stagingStorageAccountId", "type": "str"},
+        "resource_modifier_reference": {"key": "resourceModifierReference", "type": "NamespacedNameResource"},
     }
 
     def __init__(
@@ -5048,6 +5062,7 @@ class KubernetesClusterVaultTierRestoreCriteria(
         restore_hook_references: Optional[List["_models.NamespacedNameResource"]] = None,
         staging_resource_group_id: Optional[str] = None,
         staging_storage_account_id: Optional[str] = None,
+        resource_modifier_reference: Optional["_models.NamespacedNameResource"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -5091,6 +5106,10 @@ class KubernetesClusterVaultTierRestoreCriteria(
         :keyword staging_storage_account_id: Gets or sets the staging Storage Account Id for creating
          backup extension object store data during restore from vault.
         :paramtype staging_storage_account_id: str
+        :keyword resource_modifier_reference: Gets or sets the resource modifier reference. This
+         property sets the reference for resource modifier during restore.
+        :paramtype resource_modifier_reference:
+         ~azure.mgmt.dataprotection.models.NamespacedNameResource
         """
         super().__init__(**kwargs)
         self.object_type: str = "KubernetesClusterVaultTierRestoreCriteria"
@@ -5106,6 +5125,7 @@ class KubernetesClusterVaultTierRestoreCriteria(
         self.restore_hook_references = restore_hook_references
         self.staging_resource_group_id = staging_resource_group_id
         self.staging_storage_account_id = staging_storage_account_id
+        self.resource_modifier_reference = resource_modifier_reference
 
 
 class KubernetesPVRestoreCriteria(ItemLevelRestoreCriteria):
