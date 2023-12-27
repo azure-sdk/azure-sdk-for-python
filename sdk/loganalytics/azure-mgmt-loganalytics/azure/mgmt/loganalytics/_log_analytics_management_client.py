@@ -48,6 +48,14 @@ if TYPE_CHECKING:
 class LogAnalyticsManagementClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
     """Operational Insights Client.
 
+    :ivar operations: Operations operations
+    :vartype operations: azure.mgmt.loganalytics.operations.Operations
+    :ivar workspaces: WorkspacesOperations operations
+    :vartype workspaces: azure.mgmt.loganalytics.operations.WorkspacesOperations
+    :ivar deleted_workspaces: DeletedWorkspacesOperations operations
+    :vartype deleted_workspaces: azure.mgmt.loganalytics.operations.DeletedWorkspacesOperations
+    :ivar tables: TablesOperations operations
+    :vartype tables: azure.mgmt.loganalytics.operations.TablesOperations
     :ivar query_packs: QueryPacksOperations operations
     :vartype query_packs: azure.mgmt.loganalytics.operations.QueryPacksOperations
     :ivar queries: QueriesOperations operations
@@ -87,14 +95,6 @@ class LogAnalyticsManagementClient:  # pylint: disable=client-accepts-api-versio
     :vartype workspace_purge: azure.mgmt.loganalytics.operations.WorkspacePurgeOperations
     :ivar clusters: ClustersOperations operations
     :vartype clusters: azure.mgmt.loganalytics.operations.ClustersOperations
-    :ivar operations: Operations operations
-    :vartype operations: azure.mgmt.loganalytics.operations.Operations
-    :ivar workspaces: WorkspacesOperations operations
-    :vartype workspaces: azure.mgmt.loganalytics.operations.WorkspacesOperations
-    :ivar deleted_workspaces: DeletedWorkspacesOperations operations
-    :vartype deleted_workspaces: azure.mgmt.loganalytics.operations.DeletedWorkspacesOperations
-    :ivar tables: TablesOperations operations
-    :vartype tables: azure.mgmt.loganalytics.operations.TablesOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
     :param subscription_id: The ID of the target subscription. Required.
@@ -115,12 +115,18 @@ class LogAnalyticsManagementClient:  # pylint: disable=client-accepts-api-versio
         self._config = LogAnalyticsManagementClientConfiguration(
             credential=credential, subscription_id=subscription_id, **kwargs
         )
-        self._client = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        self._client: ARMPipelineClient = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
+        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
+        self.workspaces = WorkspacesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.deleted_workspaces = DeletedWorkspacesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.tables = TablesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.query_packs = QueryPacksOperations(self._client, self._config, self._serialize, self._deserialize)
         self.queries = QueriesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.data_exports = DataExportsOperations(self._client, self._config, self._serialize, self._deserialize)
@@ -151,12 +157,6 @@ class LogAnalyticsManagementClient:  # pylint: disable=client-accepts-api-versio
         self.schema = SchemaOperations(self._client, self._config, self._serialize, self._deserialize)
         self.workspace_purge = WorkspacePurgeOperations(self._client, self._config, self._serialize, self._deserialize)
         self.clusters = ClustersOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
-        self.workspaces = WorkspacesOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.deleted_workspaces = DeletedWorkspacesOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.tables = TablesOperations(self._client, self._config, self._serialize, self._deserialize)
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> HttpResponse:
         """Runs the network request through the client's chained policies.
@@ -187,5 +187,5 @@ class LogAnalyticsManagementClient:  # pylint: disable=client-accepts-api-versio
         self._client.__enter__()
         return self
 
-    def __exit__(self, *exc_details) -> None:
+    def __exit__(self, *exc_details: Any) -> None:
         self._client.__exit__(*exc_details)
