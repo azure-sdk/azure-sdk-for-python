@@ -33,7 +33,7 @@ def main():
         resource_group_name="rg1",
         policy_name="MicrosoftCdnWafPolicy",
         cdn_web_application_firewall_policy={
-            "location": "WestUs",
+            "location": "global",
             "properties": {
                 "customRules": {
                     "rules": [
