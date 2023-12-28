@@ -26,9 +26,7 @@ def get_translation_input(args, kwargs, continuation_token):
         if not inputs:
             inputs = args[0]
         request = (
-            DocumentTranslationInput._to_generated_list(  # pylint: disable=protected-access
-                inputs
-            )
+            DocumentTranslationInput._to_generated_list(inputs)  # pylint: disable=protected-access
             if not continuation_token
             else None
         )
@@ -56,10 +54,7 @@ def get_translation_input(args, kwargs, continuation_token):
                 _BatchRequest(
                     source=_SourceInput(
                         source_url=source_url,
-                        filter=_DocumentFilter(
-                            prefix=prefix,
-                            suffix=suffix
-                        ),
+                        filter=_DocumentFilter(prefix=prefix, suffix=suffix),
                         language=source_language,
                     ),
                     targets=[
@@ -67,11 +62,12 @@ def get_translation_input(args, kwargs, continuation_token):
                             target_url=target_url,
                             language=target_language,
                             glossaries=[g._to_generated() for g in glossaries]  # pylint: disable=protected-access
-                            if glossaries else None,
+                            if glossaries
+                            else None,
                             category=category_id,
                         )
                     ],
-                    storage_type=storage_type
+                    storage_type=storage_type,
                 )
             ]
         except (AttributeError, TypeError, IndexError) as exc:
@@ -88,9 +84,7 @@ def get_authentication_policy(credential):
     if credential is None:
         raise ValueError("Parameter 'credential' must not be None.")
     if isinstance(credential, AzureKeyCredential):
-        authentication_policy = AzureKeyCredentialPolicy(
-            name=COGNITIVE_KEY_HEADER, credential=credential
-        )
+        authentication_policy = AzureKeyCredentialPolicy(name=COGNITIVE_KEY_HEADER, credential=credential)
     elif credential is not None and not hasattr(credential, "get_token"):
         raise TypeError(
             "Unsupported credential: {}. Use an instance of AzureKeyCredential "

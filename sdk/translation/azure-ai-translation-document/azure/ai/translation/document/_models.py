@@ -11,7 +11,7 @@ from ._generated.models import (
     DocumentFilter as _DocumentFilter,
     TargetInput as _TargetInput,
     Glossary as _Glossary,
-    StorageInputType
+    StorageInputType,
 )
 
 
@@ -90,10 +90,7 @@ class TranslationGlossary:
 
     @staticmethod
     def _to_generated_list(glossaries):
-        return [
-            glossary._to_generated()  # pylint: disable=protected-access
-            for glossary in glossaries
-        ]
+        return [glossary._to_generated() for glossary in glossaries]  # pylint: disable=protected-access
 
     def __repr__(self) -> str:
         return (
@@ -164,19 +161,14 @@ class TranslationTarget:
             category=self.category_id,
             language=self.language,
             storage_source=self.storage_source,
-            glossaries=TranslationGlossary._to_generated_list(  # pylint: disable=protected-access
-                self.glossaries
-            )
+            glossaries=TranslationGlossary._to_generated_list(self.glossaries)  # pylint: disable=protected-access
             if self.glossaries
             else None,
         )
 
     @staticmethod
     def _to_generated_list(targets):
-        return [
-            target._to_generated()  # pylint: disable=protected-access
-            for target in targets
-        ]
+        return [target._to_generated() for target in targets]  # pylint: disable=protected-access
 
     def __repr__(self) -> str:
         return (
@@ -272,9 +264,7 @@ class DocumentTranslationInput:
                 language=self.source_language,
                 storage_source=self.storage_source,
             ),
-            targets=TranslationTarget._to_generated_list(  # pylint: disable=protected-access
-                self.targets
-            ),
+            targets=TranslationTarget._to_generated_list(self.targets),  # pylint: disable=protected-access
             storage_type=self.storage_type,
         )
 
@@ -302,8 +292,7 @@ class DocumentTranslationInput:
 
 
 class TranslationStatus:  # pylint: disable=too-many-instance-attributes
-    """Status information about the translation operation.
-    """
+    """Status information about the translation operation."""
 
     id: str  # pylint: disable=redefined-builtin
     """Id of the translation operation."""
@@ -349,12 +338,8 @@ class TranslationStatus:  # pylint: disable=too-many-instance-attributes
         self.documents_total_count = kwargs.get("documents_total_count", None)
         self.documents_failed_count = kwargs.get("documents_failed_count", None)
         self.documents_succeeded_count = kwargs.get("documents_succeeded_count", None)
-        self.documents_in_progress_count = kwargs.get(
-            "documents_in_progress_count", None
-        )
-        self.documents_not_started_count = kwargs.get(
-            "documents_not_started_count", None
-        )
+        self.documents_in_progress_count = kwargs.get("documents_in_progress_count", None)
+        self.documents_not_started_count = kwargs.get("documents_not_started_count", None)
         self.documents_canceled_count = kwargs.get("documents_canceled_count", None)
         self.total_characters_charged = kwargs.get("total_characters_charged", None)
 
@@ -403,8 +388,7 @@ class TranslationStatus:  # pylint: disable=too-many-instance-attributes
 
 
 class DocumentStatus:
-    """Status information about a particular document within a translation operation.
-    """
+    """Status information about a particular document within a translation operation."""
 
     id: str  # pylint: disable=redefined-builtin
     """Document Id."""
@@ -460,9 +444,7 @@ class DocumentStatus:
             last_updated_on=doc_status.last_action_date_time_utc,
             status=convert_status(doc_status.status),
             translated_to=doc_status.to,
-            error=DocumentTranslationError._from_generated(  # pylint: disable=protected-access
-                doc_status.error
-            )
+            error=DocumentTranslationError._from_generated(doc_status.error)  # pylint: disable=protected-access
             if doc_status.error
             else None,
             translation_progress=doc_status.progress,
@@ -517,21 +499,18 @@ class DocumentTranslationError:
             return cls(
                 code=inner_error.code,
                 message=inner_error.message,
-                target=inner_error.target
-                if inner_error.target is not None
-                else error.target,
+                target=inner_error.target if inner_error.target is not None else error.target,
             )
         return cls(code=error.code, message=error.message, target=error.target)
 
     def __repr__(self) -> str:
-        return "DocumentTranslationError(code={}, message={}, target={}".format(
-            self.code, self.message, self.target
-        )[:1024]
+        return "DocumentTranslationError(code={}, message={}, target={}".format(self.code, self.message, self.target)[
+            :1024
+        ]
 
 
 class DocumentTranslationFileFormat:
-    """Possible file formats supported by the Document Translation service.
-    """
+    """Possible file formats supported by the Document Translation service."""
 
     file_format: str
     """Name of the format."""
@@ -563,9 +542,7 @@ class DocumentTranslationFileFormat:
 
     @staticmethod
     def _from_generated_list(file_formats):
-        return [
-            DocumentTranslationFileFormat._from_generated(file_formats) for file_formats in file_formats
-        ]
+        return [DocumentTranslationFileFormat._from_generated(file_formats) for file_formats in file_formats]
 
     def __repr__(self) -> str:
         return (

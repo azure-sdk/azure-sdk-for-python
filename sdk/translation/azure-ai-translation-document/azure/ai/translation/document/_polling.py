@@ -46,12 +46,8 @@ class DocumentTranslationLROPoller(LROPoller[PollingReturnType_co]):
         :rtype: str
         """
         if self._polling_method._current_body:  # type: ignore # pylint: disable=protected-access
-            return (
-                self._polling_method._current_body.id  # type: ignore # pylint: disable=protected-access
-            )
-        return (
-            self._polling_method._get_id_from_headers()  # type: ignore # pylint: disable=protected-access
-        )
+            return self._polling_method._current_body.id  # type: ignore # pylint: disable=protected-access
+        return self._polling_method._get_id_from_headers()  # type: ignore # pylint: disable=protected-access
 
     @property
     def details(self) -> TranslationStatus:
@@ -67,11 +63,8 @@ class DocumentTranslationLROPoller(LROPoller[PollingReturnType_co]):
         return TranslationStatus(id=self._polling_method._get_id_from_headers())  # type: ignore # pylint: disable=protected-access
 
     @classmethod
-    def from_continuation_token( # pylint: disable=docstring-missing-return,docstring-missing-param,docstring-missing-rtype
-        cls,
-        polling_method,
-        continuation_token,
-        **kwargs: Any
+    def from_continuation_token(  # pylint: disable=docstring-missing-return,docstring-missing-param,docstring-missing-rtype
+        cls, polling_method, continuation_token, **kwargs: Any
     ):
         """
         :meta private:
@@ -97,9 +90,7 @@ class DocumentTranslationLROPollingMethod(LROBasePolling):
         return _TranslationStatus.deserialize(self._pipeline_response)
 
     def _get_id_from_headers(self) -> str:
-        return self._initial_response.http_response.headers[  # type: ignore
-            "Operation-Location"
-        ].split("/batches/")[1]
+        return self._initial_response.http_response.headers["Operation-Location"].split("/batches/")[1]  # type: ignore
 
     def finished(self) -> bool:
         """Is this polling finished?
@@ -131,16 +122,12 @@ class DocumentTranslationLROPollingMethod(LROBasePolling):
         try:
             client = kwargs["client"]
         except KeyError as exc:
-            raise ValueError(
-                "Need kwarg 'client' to be recreated from continuation_token"
-            ) from exc
+            raise ValueError("Need kwarg 'client' to be recreated from continuation_token") from exc
 
         try:
             deserialization_callback = kwargs["deserialization_callback"]
         except KeyError as exc:
-            raise ValueError(
-                "Need kwarg 'deserialization_callback' to be recreated from continuation_token"
-            ) from exc
+            raise ValueError("Need kwarg 'deserialization_callback' to be recreated from continuation_token") from exc
 
         return client, self._cont_token_response, deserialization_callback
 
@@ -213,9 +200,7 @@ class TranslationPolling(OperationResourcePolling):
             if status:
                 return self._map_nonstandard_statuses(status, body)
             raise BadResponse("No status found in body")
-        raise BadResponse(
-            "The response from long running operation does not contain a body."
-        )
+        raise BadResponse("The response from long running operation does not contain a body.")
 
     def _map_nonstandard_statuses(self, status: str, body: Dict[str, Any]) -> str:
         """Map non-standard statuses.
@@ -233,8 +218,6 @@ class TranslationPolling(OperationResourcePolling):
         error = body["error"]
         if body["error"].get("innerError", None):
             error = body["error"]["innerError"]
-        http_response_error = HttpResponseError(
-            message="({}): {}".format(error["code"], error["message"])
-        )
+        http_response_error = HttpResponseError(message="({}): {}".format(error["code"], error["message"]))
         http_response_error.error = ODataV4Format(error)  # set error.code
         raise http_response_error
