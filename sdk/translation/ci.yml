@@ -35,3 +35,5 @@ extends:
       safeName: azureaitranslationdocument
     - name: azure-ai-translation-text
       safeName: azureaitranslationtext
+    - name: azure-ai-documenttranslation
+      safeName: azureaidocumenttranslation
