@@ -14,7 +14,7 @@ from azure.mgmt.purview import PurviewManagementClient
     pip install azure-identity
     pip install azure-mgmt-purview
 # USAGE
-    python accounts_update.py
+    python usages_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,17 +26,15 @@ from azure.mgmt.purview import PurviewManagementClient
 def main():
     client = PurviewManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+        subscription_id="12345678-1234-1234-12345678abc",
     )
 
-    response = client.accounts.begin_update(
-        resource_group_name="SampleResourceGroup",
-        account_name="account1",
-        account_update_parameters={"tags": {"newTag": "New tag value."}},
-    ).result()
+    response = client.usages.get(
+        location="West US 2",
+    )
     print(response)
 
 
-# x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/preview/2023-05-01-preview/examples/Accounts_Update.json
+# x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/preview/2023-05-01-preview/examples/Usages_Get.json
 if __name__ == "__main__":
     main()
