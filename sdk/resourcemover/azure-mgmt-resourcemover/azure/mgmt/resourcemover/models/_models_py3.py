@@ -98,6 +98,8 @@ class ResourceSettings(_serialization.Model):
     :vartype target_resource_name: str
     :ivar target_resource_group_name: Gets or sets the target resource group name.
     :vartype target_resource_group_name: str
+    :ivar target_subscription_id: Gets or sets the target subscription Id.
+    :vartype target_subscription_id: str
     """
 
     _validation = {
@@ -108,6 +110,7 @@ class ResourceSettings(_serialization.Model):
         "resource_type": {"key": "resourceType", "type": "str"},
         "target_resource_name": {"key": "targetResourceName", "type": "str"},
         "target_resource_group_name": {"key": "targetResourceGroupName", "type": "str"},
+        "target_subscription_id": {"key": "targetSubscriptionId", "type": "str"},
     }
 
     _subtype_map = {
@@ -133,6 +136,7 @@ class ResourceSettings(_serialization.Model):
         *,
         target_resource_name: Optional[str] = None,
         target_resource_group_name: Optional[str] = None,
+        target_subscription_id: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -140,11 +144,14 @@ class ResourceSettings(_serialization.Model):
         :paramtype target_resource_name: str
         :keyword target_resource_group_name: Gets or sets the target resource group name.
         :paramtype target_resource_group_name: str
+        :keyword target_subscription_id: Gets or sets the target subscription Id.
+        :paramtype target_subscription_id: str
         """
         super().__init__(**kwargs)
         self.resource_type: Optional[str] = None
         self.target_resource_name = target_resource_name
         self.target_resource_group_name = target_resource_group_name
+        self.target_subscription_id = target_subscription_id
 
 
 class AvailabilitySetResourceSettings(ResourceSettings):
@@ -159,6 +166,8 @@ class AvailabilitySetResourceSettings(ResourceSettings):
     :vartype target_resource_name: str
     :ivar target_resource_group_name: Gets or sets the target resource group name.
     :vartype target_resource_group_name: str
+    :ivar target_subscription_id: Gets or sets the target subscription Id.
+    :vartype target_subscription_id: str
     :ivar tags: Gets or sets the Resource tags.
     :vartype tags: dict[str, str]
     :ivar fault_domain: Gets or sets the target fault domain.
@@ -177,6 +186,7 @@ class AvailabilitySetResourceSettings(ResourceSettings):
         "resource_type": {"key": "resourceType", "type": "str"},
         "target_resource_name": {"key": "targetResourceName", "type": "str"},
         "target_resource_group_name": {"key": "targetResourceGroupName", "type": "str"},
+        "target_subscription_id": {"key": "targetSubscriptionId", "type": "str"},
         "tags": {"key": "tags", "type": "{str}"},
         "fault_domain": {"key": "faultDomain", "type": "int"},
         "update_domain": {"key": "updateDomain", "type": "int"},
@@ -187,6 +197,7 @@ class AvailabilitySetResourceSettings(ResourceSettings):
         *,
         target_resource_name: Optional[str] = None,
         target_resource_group_name: Optional[str] = None,
+        target_subscription_id: Optional[str] = None,
         tags: Optional[Dict[str, str]] = None,
         fault_domain: Optional[int] = None,
         update_domain: Optional[int] = None,
@@ -197,6 +208,8 @@ class AvailabilitySetResourceSettings(ResourceSettings):
         :paramtype target_resource_name: str
         :keyword target_resource_group_name: Gets or sets the target resource group name.
         :paramtype target_resource_group_name: str
+        :keyword target_subscription_id: Gets or sets the target subscription Id.
+        :paramtype target_subscription_id: str
         :keyword tags: Gets or sets the Resource tags.
         :paramtype tags: dict[str, str]
         :keyword fault_domain: Gets or sets the target fault domain.
@@ -205,7 +218,10 @@ class AvailabilitySetResourceSettings(ResourceSettings):
         :paramtype update_domain: int
         """
         super().__init__(
-            target_resource_name=target_resource_name, target_resource_group_name=target_resource_group_name, **kwargs
+            target_resource_name=target_resource_name,
+            target_resource_group_name=target_resource_group_name,
+            target_subscription_id=target_subscription_id,
+            **kwargs
         )
         self.resource_type: str = "Microsoft.Compute/availabilitySets"
         self.tags = tags
@@ -458,6 +474,8 @@ class DiskEncryptionSetResourceSettings(ResourceSettings):
     :vartype target_resource_name: str
     :ivar target_resource_group_name: Gets or sets the target resource group name.
     :vartype target_resource_group_name: str
+    :ivar target_subscription_id: Gets or sets the target subscription Id.
+    :vartype target_subscription_id: str
     """
 
     _validation = {
@@ -468,6 +486,7 @@ class DiskEncryptionSetResourceSettings(ResourceSettings):
         "resource_type": {"key": "resourceType", "type": "str"},
         "target_resource_name": {"key": "targetResourceName", "type": "str"},
         "target_resource_group_name": {"key": "targetResourceGroupName", "type": "str"},
+        "target_subscription_id": {"key": "targetSubscriptionId", "type": "str"},
     }
 
     def __init__(
@@ -475,6 +494,7 @@ class DiskEncryptionSetResourceSettings(ResourceSettings):
         *,
         target_resource_name: Optional[str] = None,
         target_resource_group_name: Optional[str] = None,
+        target_subscription_id: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -482,9 +502,14 @@ class DiskEncryptionSetResourceSettings(ResourceSettings):
         :paramtype target_resource_name: str
         :keyword target_resource_group_name: Gets or sets the target resource group name.
         :paramtype target_resource_group_name: str
+        :keyword target_subscription_id: Gets or sets the target subscription Id.
+        :paramtype target_subscription_id: str
         """
         super().__init__(
-            target_resource_name=target_resource_name, target_resource_group_name=target_resource_group_name, **kwargs
+            target_resource_name=target_resource_name,
+            target_resource_group_name=target_resource_group_name,
+            target_subscription_id=target_subscription_id,
+            **kwargs
         )
         self.resource_type: str = "Microsoft.Compute/diskEncryptionSets"
 
@@ -672,6 +697,8 @@ class KeyVaultResourceSettings(ResourceSettings):
     :vartype target_resource_name: str
     :ivar target_resource_group_name: Gets or sets the target resource group name.
     :vartype target_resource_group_name: str
+    :ivar target_subscription_id: Gets or sets the target subscription Id.
+    :vartype target_subscription_id: str
     """
 
     _validation = {
@@ -682,6 +709,7 @@ class KeyVaultResourceSettings(ResourceSettings):
         "resource_type": {"key": "resourceType", "type": "str"},
         "target_resource_name": {"key": "targetResourceName", "type": "str"},
         "target_resource_group_name": {"key": "targetResourceGroupName", "type": "str"},
+        "target_subscription_id": {"key": "targetSubscriptionId", "type": "str"},
     }
 
     def __init__(
@@ -689,6 +717,7 @@ class KeyVaultResourceSettings(ResourceSettings):
         *,
         target_resource_name: Optional[str] = None,
         target_resource_group_name: Optional[str] = None,
+        target_subscription_id: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -696,9 +725,14 @@ class KeyVaultResourceSettings(ResourceSettings):
         :paramtype target_resource_name: str
         :keyword target_resource_group_name: Gets or sets the target resource group name.
         :paramtype target_resource_group_name: str
+        :keyword target_subscription_id: Gets or sets the target subscription Id.
+        :paramtype target_subscription_id: str
         """
         super().__init__(
-            target_resource_name=target_resource_name, target_resource_group_name=target_resource_group_name, **kwargs
+            target_resource_name=target_resource_name,
+            target_resource_group_name=target_resource_group_name,
+            target_subscription_id=target_subscription_id,
+            **kwargs
         )
         self.resource_type: str = "Microsoft.KeyVault/vaults"
 
@@ -890,6 +924,8 @@ class LoadBalancerResourceSettings(ResourceSettings):
     :vartype target_resource_name: str
     :ivar target_resource_group_name: Gets or sets the target resource group name.
     :vartype target_resource_group_name: str
+    :ivar target_subscription_id: Gets or sets the target subscription Id.
+    :vartype target_subscription_id: str
     :ivar tags: Gets or sets the Resource tags.
     :vartype tags: dict[str, str]
     :ivar sku: Gets or sets load balancer sku (Basic/Standard).
@@ -915,6 +951,7 @@ class LoadBalancerResourceSettings(ResourceSettings):
         "resource_type": {"key": "resourceType", "type": "str"},
         "target_resource_name": {"key": "targetResourceName", "type": "str"},
         "target_resource_group_name": {"key": "targetResourceGroupName", "type": "str"},
+        "target_subscription_id": {"key": "targetSubscriptionId", "type": "str"},
         "tags": {"key": "tags", "type": "{str}"},
         "sku": {"key": "sku", "type": "str"},
         "frontend_ip_configurations": {
@@ -930,6 +967,7 @@ class LoadBalancerResourceSettings(ResourceSettings):
         *,
         target_resource_name: Optional[str] = None,
         target_resource_group_name: Optional[str] = None,
+        target_subscription_id: Optional[str] = None,
         tags: Optional[Dict[str, str]] = None,
         sku: Optional[str] = None,
         frontend_ip_configurations: Optional[List["_models.LBFrontendIPConfigurationResourceSettings"]] = None,
@@ -942,6 +980,8 @@ class LoadBalancerResourceSettings(ResourceSettings):
         :paramtype target_resource_name: str
         :keyword target_resource_group_name: Gets or sets the target resource group name.
         :paramtype target_resource_group_name: str
+        :keyword target_subscription_id: Gets or sets the target subscription Id.
+        :paramtype target_subscription_id: str
         :keyword tags: Gets or sets the Resource tags.
         :paramtype tags: dict[str, str]
         :keyword sku: Gets or sets load balancer sku (Basic/Standard).
@@ -959,7 +999,10 @@ class LoadBalancerResourceSettings(ResourceSettings):
         :paramtype zones: str
         """
         super().__init__(
-            target_resource_name=target_resource_name, target_resource_group_name=target_resource_group_name, **kwargs
+            target_resource_name=target_resource_name,
+            target_resource_group_name=target_resource_group_name,
+            target_subscription_id=target_subscription_id,
+            **kwargs
         )
         self.resource_type: str = "Microsoft.Network/loadBalancers"
         self.tags = tags
@@ -1723,6 +1766,8 @@ class NetworkInterfaceResourceSettings(ResourceSettings):
     :vartype target_resource_name: str
     :ivar target_resource_group_name: Gets or sets the target resource group name.
     :vartype target_resource_group_name: str
+    :ivar target_subscription_id: Gets or sets the target subscription Id.
+    :vartype target_subscription_id: str
     :ivar tags: Gets or sets the Resource tags.
     :vartype tags: dict[str, str]
     :ivar ip_configurations: Gets or sets the IP configurations of the NIC.
@@ -1741,6 +1786,7 @@ class NetworkInterfaceResourceSettings(ResourceSettings):
         "resource_type": {"key": "resourceType", "type": "str"},
         "target_resource_name": {"key": "targetResourceName", "type": "str"},
         "target_resource_group_name": {"key": "targetResourceGroupName", "type": "str"},
+        "target_subscription_id": {"key": "targetSubscriptionId", "type": "str"},
         "tags": {"key": "tags", "type": "{str}"},
         "ip_configurations": {"key": "ipConfigurations", "type": "[NicIpConfigurationResourceSettings]"},
         "enable_accelerated_networking": {"key": "enableAcceleratedNetworking", "type": "bool"},
@@ -1751,6 +1797,7 @@ class NetworkInterfaceResourceSettings(ResourceSettings):
         *,
         target_resource_name: Optional[str] = None,
         target_resource_group_name: Optional[str] = None,
+        target_subscription_id: Optional[str] = None,
         tags: Optional[Dict[str, str]] = None,
         ip_configurations: Optional[List["_models.NicIpConfigurationResourceSettings"]] = None,
         enable_accelerated_networking: Optional[bool] = None,
@@ -1761,6 +1808,8 @@ class NetworkInterfaceResourceSettings(ResourceSettings):
         :paramtype target_resource_name: str
         :keyword target_resource_group_name: Gets or sets the target resource group name.
         :paramtype target_resource_group_name: str
+        :keyword target_subscription_id: Gets or sets the target subscription Id.
+        :paramtype target_subscription_id: str
         :keyword tags: Gets or sets the Resource tags.
         :paramtype tags: dict[str, str]
         :keyword ip_configurations: Gets or sets the IP configurations of the NIC.
@@ -1771,7 +1820,10 @@ class NetworkInterfaceResourceSettings(ResourceSettings):
         :paramtype enable_accelerated_networking: bool
         """
         super().__init__(
-            target_resource_name=target_resource_name, target_resource_group_name=target_resource_group_name, **kwargs
+            target_resource_name=target_resource_name,
+            target_resource_group_name=target_resource_group_name,
+            target_subscription_id=target_subscription_id,
+            **kwargs
         )
         self.resource_type: str = "Microsoft.Network/networkInterfaces"
         self.tags = tags
@@ -1791,6 +1843,8 @@ class NetworkSecurityGroupResourceSettings(ResourceSettings):
     :vartype target_resource_name: str
     :ivar target_resource_group_name: Gets or sets the target resource group name.
     :vartype target_resource_group_name: str
+    :ivar target_subscription_id: Gets or sets the target subscription Id.
+    :vartype target_subscription_id: str
     :ivar tags: Gets or sets the Resource tags.
     :vartype tags: dict[str, str]
     :ivar security_rules: Gets or sets Security rules of network security group.
@@ -1805,6 +1859,7 @@ class NetworkSecurityGroupResourceSettings(ResourceSettings):
         "resource_type": {"key": "resourceType", "type": "str"},
         "target_resource_name": {"key": "targetResourceName", "type": "str"},
         "target_resource_group_name": {"key": "targetResourceGroupName", "type": "str"},
+        "target_subscription_id": {"key": "targetSubscriptionId", "type": "str"},
         "tags": {"key": "tags", "type": "{str}"},
         "security_rules": {"key": "securityRules", "type": "[NsgSecurityRule]"},
     }
@@ -1814,6 +1869,7 @@ class NetworkSecurityGroupResourceSettings(ResourceSettings):
         *,
         target_resource_name: Optional[str] = None,
         target_resource_group_name: Optional[str] = None,
+        target_subscription_id: Optional[str] = None,
         tags: Optional[Dict[str, str]] = None,
         security_rules: Optional[List["_models.NsgSecurityRule"]] = None,
         **kwargs: Any
@@ -1823,13 +1879,18 @@ class NetworkSecurityGroupResourceSettings(ResourceSettings):
         :paramtype target_resource_name: str
         :keyword target_resource_group_name: Gets or sets the target resource group name.
         :paramtype target_resource_group_name: str
+        :keyword target_subscription_id: Gets or sets the target subscription Id.
+        :paramtype target_subscription_id: str
         :keyword tags: Gets or sets the Resource tags.
         :paramtype tags: dict[str, str]
         :keyword security_rules: Gets or sets Security rules of network security group.
         :paramtype security_rules: list[~azure.mgmt.resourcemover.models.NsgSecurityRule]
         """
         super().__init__(
-            target_resource_name=target_resource_name, target_resource_group_name=target_resource_group_name, **kwargs
+            target_resource_name=target_resource_name,
+            target_resource_group_name=target_resource_group_name,
+            target_subscription_id=target_subscription_id,
+            **kwargs
         )
         self.resource_type: str = "Microsoft.Network/networkSecurityGroups"
         self.tags = tags
@@ -2398,6 +2459,8 @@ class PublicIPAddressResourceSettings(ResourceSettings):
     :vartype target_resource_name: str
     :ivar target_resource_group_name: Gets or sets the target resource group name.
     :vartype target_resource_group_name: str
+    :ivar target_subscription_id: Gets or sets the target subscription Id.
+    :vartype target_subscription_id: str
     :ivar tags: Gets or sets the Resource tags.
     :vartype tags: dict[str, str]
     :ivar domain_name_label: Gets or sets the domain name label.
@@ -2420,6 +2483,7 @@ class PublicIPAddressResourceSettings(ResourceSettings):
         "resource_type": {"key": "resourceType", "type": "str"},
         "target_resource_name": {"key": "targetResourceName", "type": "str"},
         "target_resource_group_name": {"key": "targetResourceGroupName", "type": "str"},
+        "target_subscription_id": {"key": "targetSubscriptionId", "type": "str"},
         "tags": {"key": "tags", "type": "{str}"},
         "domain_name_label": {"key": "domainNameLabel", "type": "str"},
         "fqdn": {"key": "fqdn", "type": "str"},
@@ -2433,6 +2497,7 @@ class PublicIPAddressResourceSettings(ResourceSettings):
         *,
         target_resource_name: Optional[str] = None,
         target_resource_group_name: Optional[str] = None,
+        target_subscription_id: Optional[str] = None,
         tags: Optional[Dict[str, str]] = None,
         domain_name_label: Optional[str] = None,
         fqdn: Optional[str] = None,
@@ -2446,6 +2511,8 @@ class PublicIPAddressResourceSettings(ResourceSettings):
         :paramtype target_resource_name: str
         :keyword target_resource_group_name: Gets or sets the target resource group name.
         :paramtype target_resource_group_name: str
+        :keyword target_subscription_id: Gets or sets the target subscription Id.
+        :paramtype target_subscription_id: str
         :keyword tags: Gets or sets the Resource tags.
         :paramtype tags: dict[str, str]
         :keyword domain_name_label: Gets or sets the domain name label.
@@ -2460,7 +2527,10 @@ class PublicIPAddressResourceSettings(ResourceSettings):
         :paramtype zones: str
         """
         super().__init__(
-            target_resource_name=target_resource_name, target_resource_group_name=target_resource_group_name, **kwargs
+            target_resource_name=target_resource_name,
+            target_resource_group_name=target_resource_group_name,
+            target_subscription_id=target_subscription_id,
+            **kwargs
         )
         self.resource_type: str = "Microsoft.Network/publicIPAddresses"
         self.tags = tags
@@ -2531,6 +2601,8 @@ class ResourceGroupResourceSettings(ResourceSettings):
     :vartype target_resource_name: str
     :ivar target_resource_group_name: Gets or sets the target resource group name.
     :vartype target_resource_group_name: str
+    :ivar target_subscription_id: Gets or sets the target subscription Id.
+    :vartype target_subscription_id: str
     """
 
     _validation = {
@@ -2541,6 +2613,7 @@ class ResourceGroupResourceSettings(ResourceSettings):
         "resource_type": {"key": "resourceType", "type": "str"},
         "target_resource_name": {"key": "targetResourceName", "type": "str"},
         "target_resource_group_name": {"key": "targetResourceGroupName", "type": "str"},
+        "target_subscription_id": {"key": "targetSubscriptionId", "type": "str"},
     }
 
     def __init__(
@@ -2548,6 +2621,7 @@ class ResourceGroupResourceSettings(ResourceSettings):
         *,
         target_resource_name: Optional[str] = None,
         target_resource_group_name: Optional[str] = None,
+        target_subscription_id: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -2555,9 +2629,14 @@ class ResourceGroupResourceSettings(ResourceSettings):
         :paramtype target_resource_name: str
         :keyword target_resource_group_name: Gets or sets the target resource group name.
         :paramtype target_resource_group_name: str
+        :keyword target_subscription_id: Gets or sets the target subscription Id.
+        :paramtype target_subscription_id: str
         """
         super().__init__(
-            target_resource_name=target_resource_name, target_resource_group_name=target_resource_group_name, **kwargs
+            target_resource_name=target_resource_name,
+            target_resource_group_name=target_resource_group_name,
+            target_subscription_id=target_subscription_id,
+            **kwargs
         )
         self.resource_type: str = "resourceGroups"
 
@@ -2627,6 +2706,8 @@ class SqlDatabaseResourceSettings(ResourceSettings):
     :vartype target_resource_name: str
     :ivar target_resource_group_name: Gets or sets the target resource group name.
     :vartype target_resource_group_name: str
+    :ivar target_subscription_id: Gets or sets the target subscription Id.
+    :vartype target_subscription_id: str
     :ivar tags: Gets or sets the Resource tags.
     :vartype tags: dict[str, str]
     :ivar zone_redundant: Defines the zone redundant resource setting. Known values are: "Enable"
@@ -2642,6 +2723,7 @@ class SqlDatabaseResourceSettings(ResourceSettings):
         "resource_type": {"key": "resourceType", "type": "str"},
         "target_resource_name": {"key": "targetResourceName", "type": "str"},
         "target_resource_group_name": {"key": "targetResourceGroupName", "type": "str"},
+        "target_subscription_id": {"key": "targetSubscriptionId", "type": "str"},
         "tags": {"key": "tags", "type": "{str}"},
         "zone_redundant": {"key": "zoneRedundant", "type": "str"},
     }
@@ -2651,6 +2733,7 @@ class SqlDatabaseResourceSettings(ResourceSettings):
         *,
         target_resource_name: Optional[str] = None,
         target_resource_group_name: Optional[str] = None,
+        target_subscription_id: Optional[str] = None,
         tags: Optional[Dict[str, str]] = None,
         zone_redundant: Optional[Union[str, "_models.ZoneRedundant"]] = None,
         **kwargs: Any
@@ -2660,6 +2743,8 @@ class SqlDatabaseResourceSettings(ResourceSettings):
         :paramtype target_resource_name: str
         :keyword target_resource_group_name: Gets or sets the target resource group name.
         :paramtype target_resource_group_name: str
+        :keyword target_subscription_id: Gets or sets the target subscription Id.
+        :paramtype target_subscription_id: str
         :keyword tags: Gets or sets the Resource tags.
         :paramtype tags: dict[str, str]
         :keyword zone_redundant: Defines the zone redundant resource setting. Known values are:
@@ -2667,7 +2752,10 @@ class SqlDatabaseResourceSettings(ResourceSettings):
         :paramtype zone_redundant: str or ~azure.mgmt.resourcemover.models.ZoneRedundant
         """
         super().__init__(
-            target_resource_name=target_resource_name, target_resource_group_name=target_resource_group_name, **kwargs
+            target_resource_name=target_resource_name,
+            target_resource_group_name=target_resource_group_name,
+            target_subscription_id=target_subscription_id,
+            **kwargs
         )
         self.resource_type: str = "Microsoft.Sql/servers/databases"
         self.tags = tags
@@ -2686,6 +2774,8 @@ class SqlElasticPoolResourceSettings(ResourceSettings):
     :vartype target_resource_name: str
     :ivar target_resource_group_name: Gets or sets the target resource group name.
     :vartype target_resource_group_name: str
+    :ivar target_subscription_id: Gets or sets the target subscription Id.
+    :vartype target_subscription_id: str
     :ivar tags: Gets or sets the Resource tags.
     :vartype tags: dict[str, str]
     :ivar zone_redundant: Defines the zone redundant resource setting. Known values are: "Enable"
@@ -2701,6 +2791,7 @@ class SqlElasticPoolResourceSettings(ResourceSettings):
         "resource_type": {"key": "resourceType", "type": "str"},
         "target_resource_name": {"key": "targetResourceName", "type": "str"},
         "target_resource_group_name": {"key": "targetResourceGroupName", "type": "str"},
+        "target_subscription_id": {"key": "targetSubscriptionId", "type": "str"},
         "tags": {"key": "tags", "type": "{str}"},
         "zone_redundant": {"key": "zoneRedundant", "type": "str"},
     }
@@ -2710,6 +2801,7 @@ class SqlElasticPoolResourceSettings(ResourceSettings):
         *,
         target_resource_name: Optional[str] = None,
         target_resource_group_name: Optional[str] = None,
+        target_subscription_id: Optional[str] = None,
         tags: Optional[Dict[str, str]] = None,
         zone_redundant: Optional[Union[str, "_models.ZoneRedundant"]] = None,
         **kwargs: Any
@@ -2719,6 +2811,8 @@ class SqlElasticPoolResourceSettings(ResourceSettings):
         :paramtype target_resource_name: str
         :keyword target_resource_group_name: Gets or sets the target resource group name.
         :paramtype target_resource_group_name: str
+        :keyword target_subscription_id: Gets or sets the target subscription Id.
+        :paramtype target_subscription_id: str
         :keyword tags: Gets or sets the Resource tags.
         :paramtype tags: dict[str, str]
         :keyword zone_redundant: Defines the zone redundant resource setting. Known values are:
@@ -2726,7 +2820,10 @@ class SqlElasticPoolResourceSettings(ResourceSettings):
         :paramtype zone_redundant: str or ~azure.mgmt.resourcemover.models.ZoneRedundant
         """
         super().__init__(
-            target_resource_name=target_resource_name, target_resource_group_name=target_resource_group_name, **kwargs
+            target_resource_name=target_resource_name,
+            target_resource_group_name=target_resource_group_name,
+            target_subscription_id=target_subscription_id,
+            **kwargs
         )
         self.resource_type: str = "Microsoft.Sql/servers/elasticPools"
         self.tags = tags
@@ -2745,6 +2842,8 @@ class SqlServerResourceSettings(ResourceSettings):
     :vartype target_resource_name: str
     :ivar target_resource_group_name: Gets or sets the target resource group name.
     :vartype target_resource_group_name: str
+    :ivar target_subscription_id: Gets or sets the target subscription Id.
+    :vartype target_subscription_id: str
     """
 
     _validation = {
@@ -2755,6 +2854,7 @@ class SqlServerResourceSettings(ResourceSettings):
         "resource_type": {"key": "resourceType", "type": "str"},
         "target_resource_name": {"key": "targetResourceName", "type": "str"},
         "target_resource_group_name": {"key": "targetResourceGroupName", "type": "str"},
+        "target_subscription_id": {"key": "targetSubscriptionId", "type": "str"},
     }
 
     def __init__(
@@ -2762,6 +2862,7 @@ class SqlServerResourceSettings(ResourceSettings):
         *,
         target_resource_name: Optional[str] = None,
         target_resource_group_name: Optional[str] = None,
+        target_subscription_id: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -2769,9 +2870,14 @@ class SqlServerResourceSettings(ResourceSettings):
         :paramtype target_resource_name: str
         :keyword target_resource_group_name: Gets or sets the target resource group name.
         :paramtype target_resource_group_name: str
+        :keyword target_subscription_id: Gets or sets the target subscription Id.
+        :paramtype target_subscription_id: str
         """
         super().__init__(
-            target_resource_name=target_resource_name, target_resource_group_name=target_resource_group_name, **kwargs
+            target_resource_name=target_resource_name,
+            target_resource_group_name=target_resource_group_name,
+            target_subscription_id=target_subscription_id,
+            **kwargs
         )
         self.resource_type: str = "Microsoft.Sql/servers"
 
@@ -2815,6 +2921,8 @@ class SubnetResourceSettings(_serialization.Model):
     :vartype name: str
     :ivar address_prefix: Gets or sets address prefix for the subnet.
     :vartype address_prefix: str
+    :ivar address_prefixes: Gets or sets multiple address prefixes for the subnet.
+    :vartype address_prefixes: list[str]
     :ivar network_security_group: Defines reference to NSG.
     :vartype network_security_group: ~azure.mgmt.resourcemover.models.NsgReference
     """
@@ -2822,6 +2930,7 @@ class SubnetResourceSettings(_serialization.Model):
     _attribute_map = {
         "name": {"key": "name", "type": "str"},
         "address_prefix": {"key": "addressPrefix", "type": "str"},
+        "address_prefixes": {"key": "addressPrefixes", "type": "[str]"},
         "network_security_group": {"key": "networkSecurityGroup", "type": "NsgReference"},
     }
 
@@ -2830,6 +2939,7 @@ class SubnetResourceSettings(_serialization.Model):
         *,
         name: Optional[str] = None,
         address_prefix: Optional[str] = None,
+        address_prefixes: Optional[List[str]] = None,
         network_security_group: Optional["_models.NsgReference"] = None,
         **kwargs: Any
     ) -> None:
@@ -2838,12 +2948,15 @@ class SubnetResourceSettings(_serialization.Model):
         :paramtype name: str
         :keyword address_prefix: Gets or sets address prefix for the subnet.
         :paramtype address_prefix: str
+        :keyword address_prefixes: Gets or sets multiple address prefixes for the subnet.
+        :paramtype address_prefixes: list[str]
         :keyword network_security_group: Defines reference to NSG.
         :paramtype network_security_group: ~azure.mgmt.resourcemover.models.NsgReference
         """
         super().__init__(**kwargs)
         self.name = name
         self.address_prefix = address_prefix
+        self.address_prefixes = address_prefixes
         self.network_security_group = network_security_group
 
 
@@ -3127,6 +3240,8 @@ class VirtualMachineResourceSettings(ResourceSettings):
     :vartype target_resource_name: str
     :ivar target_resource_group_name: Gets or sets the target resource group name.
     :vartype target_resource_group_name: str
+    :ivar target_subscription_id: Gets or sets the target subscription Id.
+    :vartype target_subscription_id: str
     :ivar tags: Gets or sets the Resource tags.
     :vartype tags: dict[str, str]
     :ivar user_managed_identities: Gets or sets user-managed identities.
@@ -3150,6 +3265,7 @@ class VirtualMachineResourceSettings(ResourceSettings):
         "resource_type": {"key": "resourceType", "type": "str"},
         "target_resource_name": {"key": "targetResourceName", "type": "str"},
         "target_resource_group_name": {"key": "targetResourceGroupName", "type": "str"},
+        "target_subscription_id": {"key": "targetSubscriptionId", "type": "str"},
         "tags": {"key": "tags", "type": "{str}"},
         "user_managed_identities": {"key": "userManagedIdentities", "type": "[str]"},
         "target_availability_zone": {"key": "targetAvailabilityZone", "type": "str"},
@@ -3162,6 +3278,7 @@ class VirtualMachineResourceSettings(ResourceSettings):
         *,
         target_resource_name: Optional[str] = None,
         target_resource_group_name: Optional[str] = None,
+        target_subscription_id: Optional[str] = None,
         tags: Optional[Dict[str, str]] = None,
         user_managed_identities: Optional[List[str]] = None,
         target_availability_zone: Optional[Union[str, "_models.TargetAvailabilityZone"]] = None,
@@ -3174,6 +3291,8 @@ class VirtualMachineResourceSettings(ResourceSettings):
         :paramtype target_resource_name: str
         :keyword target_resource_group_name: Gets or sets the target resource group name.
         :paramtype target_resource_group_name: str
+        :keyword target_subscription_id: Gets or sets the target subscription Id.
+        :paramtype target_subscription_id: str
         :keyword tags: Gets or sets the Resource tags.
         :paramtype tags: dict[str, str]
         :keyword user_managed_identities: Gets or sets user-managed identities.
@@ -3189,7 +3308,10 @@ class VirtualMachineResourceSettings(ResourceSettings):
         :paramtype target_availability_set_id: str
         """
         super().__init__(
-            target_resource_name=target_resource_name, target_resource_group_name=target_resource_group_name, **kwargs
+            target_resource_name=target_resource_name,
+            target_resource_group_name=target_resource_group_name,
+            target_subscription_id=target_subscription_id,
+            **kwargs
         )
         self.resource_type: str = "Microsoft.Compute/virtualMachines"
         self.tags = tags
@@ -3211,6 +3333,8 @@ class VirtualNetworkResourceSettings(ResourceSettings):
     :vartype target_resource_name: str
     :ivar target_resource_group_name: Gets or sets the target resource group name.
     :vartype target_resource_group_name: str
+    :ivar target_subscription_id: Gets or sets the target subscription Id.
+    :vartype target_subscription_id: str
     :ivar tags: Gets or sets the Resource tags.
     :vartype tags: dict[str, str]
     :ivar enable_ddos_protection: Gets or sets a value indicating whether gets or sets whether the
@@ -3234,6 +3358,7 @@ class VirtualNetworkResourceSettings(ResourceSettings):
         "resource_type": {"key": "resourceType", "type": "str"},
         "target_resource_name": {"key": "targetResourceName", "type": "str"},
         "target_resource_group_name": {"key": "targetResourceGroupName", "type": "str"},
+        "target_subscription_id": {"key": "targetSubscriptionId", "type": "str"},
         "tags": {"key": "tags", "type": "{str}"},
         "enable_ddos_protection": {"key": "enableDdosProtection", "type": "bool"},
         "address_space": {"key": "addressSpace", "type": "[str]"},
@@ -3246,6 +3371,7 @@ class VirtualNetworkResourceSettings(ResourceSettings):
         *,
         target_resource_name: Optional[str] = None,
         target_resource_group_name: Optional[str] = None,
+        target_subscription_id: Optional[str] = None,
         tags: Optional[Dict[str, str]] = None,
         enable_ddos_protection: Optional[bool] = None,
         address_space: Optional[List[str]] = None,
@@ -3258,6 +3384,8 @@ class VirtualNetworkResourceSettings(ResourceSettings):
         :paramtype target_resource_name: str
         :keyword target_resource_group_name: Gets or sets the target resource group name.
         :paramtype target_resource_group_name: str
+        :keyword target_subscription_id: Gets or sets the target subscription Id.
+        :paramtype target_subscription_id: str
         :keyword tags: Gets or sets the Resource tags.
         :paramtype tags: dict[str, str]
         :keyword enable_ddos_protection: Gets or sets a value indicating whether gets or sets whether
@@ -3274,7 +3402,10 @@ class VirtualNetworkResourceSettings(ResourceSettings):
         :paramtype subnets: list[~azure.mgmt.resourcemover.models.SubnetResourceSettings]
         """
         super().__init__(
-            target_resource_name=target_resource_name, target_resource_group_name=target_resource_group_name, **kwargs
+            target_resource_name=target_resource_name,
+            target_resource_group_name=target_resource_group_name,
+            target_subscription_id=target_subscription_id,
+            **kwargs
         )
         self.resource_type: str = "Microsoft.Network/virtualNetworks"
         self.tags = tags
