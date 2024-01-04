@@ -65,7 +65,9 @@ class LicensesOperations:
         self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
-    async def _validate_license_initial(self, parameters: Union[_models.License, IO], **kwargs: Any) -> _models.License:
+    async def _validate_license_initial(
+        self, parameters: Union[_models.LicenseValidateModel, IO], **kwargs: Any
+    ) -> _models.License:
         error_map = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -87,7 +89,7 @@ class LicensesOperations:
         if isinstance(parameters, (IOBase, bytes)):
             _content = parameters
         else:
-            _json = self._serialize.body(parameters, "License")
+            _json = self._serialize.body(parameters, "LicenseValidateModel")
 
         request = build_validate_license_request(
             subscription_id=self._config.subscription_id,
@@ -127,12 +129,12 @@ class LicensesOperations:
 
     @overload
     async def begin_validate_license(
-        self, parameters: _models.License, *, content_type: str = "application/json", **kwargs: Any
+        self, parameters: _models.LicenseValidateModel, *, content_type: str = "application/json", **kwargs: Any
     ) -> AsyncLROPoller[_models.License]:
         """The operation to validate a license.
 
         :param parameters: Parameters supplied to the license validation operation. Required.
-        :type parameters: ~azure.mgmt.hybridcompute.models.License
+        :type parameters: ~azure.mgmt.hybridcompute.models.LicenseValidateModel
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -177,13 +179,13 @@ class LicensesOperations:
 
     @distributed_trace_async
     async def begin_validate_license(
-        self, parameters: Union[_models.License, IO], **kwargs: Any
+        self, parameters: Union[_models.LicenseValidateModel, IO], **kwargs: Any
     ) -> AsyncLROPoller[_models.License]:
         """The operation to validate a license.
 
-        :param parameters: Parameters supplied to the license validation operation. Is either a License
-         type or a IO type. Required.
-        :type parameters: ~azure.mgmt.hybridcompute.models.License or IO
+        :param parameters: Parameters supplied to the license validation operation. Is either a
+         LicenseValidateModel type or a IO type. Required.
+        :type parameters: ~azure.mgmt.hybridcompute.models.LicenseValidateModel or IO
         :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
          Default value is None.
         :paramtype content_type: str

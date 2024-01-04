@@ -43,7 +43,7 @@ def build_validate_license_request(subscription_id: str, **kwargs: Any) -> HttpR
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-20-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-03-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -74,7 +74,7 @@ def build_create_or_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-20-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-03-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -110,7 +110,7 @@ def build_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-20-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-03-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -144,7 +144,7 @@ def build_get_request(resource_group_name: str, license_name: str, subscription_
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-20-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-03-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -177,7 +177,7 @@ def build_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-20-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-03-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -208,7 +208,7 @@ def build_list_by_resource_group_request(resource_group_name: str, subscription_
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-20-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-03-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -238,7 +238,7 @@ def build_list_by_subscription_request(subscription_id: str, **kwargs: Any) -> H
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-20-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-03-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -277,7 +277,9 @@ class LicensesOperations:
         self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
-    def _validate_license_initial(self, parameters: Union[_models.License, IO], **kwargs: Any) -> _models.License:
+    def _validate_license_initial(
+        self, parameters: Union[_models.LicenseValidateModel, IO], **kwargs: Any
+    ) -> _models.License:
         error_map = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -299,7 +301,7 @@ class LicensesOperations:
         if isinstance(parameters, (IOBase, bytes)):
             _content = parameters
         else:
-            _json = self._serialize.body(parameters, "License")
+            _json = self._serialize.body(parameters, "LicenseValidateModel")
 
         request = build_validate_license_request(
             subscription_id=self._config.subscription_id,
@@ -339,12 +341,12 @@ class LicensesOperations:
 
     @overload
     def begin_validate_license(
-        self, parameters: _models.License, *, content_type: str = "application/json", **kwargs: Any
+        self, parameters: _models.LicenseValidateModel, *, content_type: str = "application/json", **kwargs: Any
     ) -> LROPoller[_models.License]:
         """The operation to validate a license.
 
         :param parameters: Parameters supplied to the license validation operation. Required.
-        :type parameters: ~azure.mgmt.hybridcompute.models.License
+        :type parameters: ~azure.mgmt.hybridcompute.models.LicenseValidateModel
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -387,13 +389,13 @@ class LicensesOperations:
 
     @distributed_trace
     def begin_validate_license(
-        self, parameters: Union[_models.License, IO], **kwargs: Any
+        self, parameters: Union[_models.LicenseValidateModel, IO], **kwargs: Any
     ) -> LROPoller[_models.License]:
         """The operation to validate a license.
 
-        :param parameters: Parameters supplied to the license validation operation. Is either a License
-         type or a IO type. Required.
-        :type parameters: ~azure.mgmt.hybridcompute.models.License or IO
+        :param parameters: Parameters supplied to the license validation operation. Is either a
+         LicenseValidateModel type or a IO type. Required.
+        :type parameters: ~azure.mgmt.hybridcompute.models.LicenseValidateModel or IO
         :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
          Default value is None.
         :paramtype content_type: str
