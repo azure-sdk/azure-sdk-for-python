@@ -1175,7 +1175,11 @@ class NetworkFabricsOperations:  # pylint: disable=too-many-public-methods
     }
 
     async def _upgrade_initial(
-        self, resource_group_name: str, network_fabric_name: str, body: Union[_models.UpdateVersion, IO], **kwargs: Any
+        self,
+        resource_group_name: str,
+        network_fabric_name: str,
+        body: Union[_models.UpgradeNetworkFabricProperties, IO],
+        **kwargs: Any
     ) -> _models.CommonPostActionResponseForStateUpdate:
         error_map = {
             401: ClientAuthenticationError,
@@ -1198,7 +1202,7 @@ class NetworkFabricsOperations:  # pylint: disable=too-many-public-methods
         if isinstance(body, (IOBase, bytes)):
             _content = body
         else:
-            _json = self._serialize.body(body, "UpdateVersion")
+            _json = self._serialize.body(body, "UpgradeNetworkFabricProperties")
 
         request = build_upgrade_request(
             resource_group_name=resource_group_name,
@@ -1250,7 +1254,7 @@ class NetworkFabricsOperations:  # pylint: disable=too-many-public-methods
         self,
         resource_group_name: str,
         network_fabric_name: str,
-        body: _models.UpdateVersion,
+        body: _models.UpgradeNetworkFabricProperties,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1265,7 +1269,7 @@ class NetworkFabricsOperations:  # pylint: disable=too-many-public-methods
         :param network_fabric_name: Name of the Network Fabric. Required.
         :type network_fabric_name: str
         :param body: Network Fabric properties to update. Required.
-        :type body: ~azure.mgmt.managednetworkfabric.models.UpdateVersion
+        :type body: ~azure.mgmt.managednetworkfabric.models.UpgradeNetworkFabricProperties
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -1325,7 +1329,11 @@ class NetworkFabricsOperations:  # pylint: disable=too-many-public-methods
 
     @distributed_trace_async
     async def begin_upgrade(
-        self, resource_group_name: str, network_fabric_name: str, body: Union[_models.UpdateVersion, IO], **kwargs: Any
+        self,
+        resource_group_name: str,
+        network_fabric_name: str,
+        body: Union[_models.UpgradeNetworkFabricProperties, IO],
+        **kwargs: Any
     ) -> AsyncLROPoller[_models.CommonPostActionResponseForStateUpdate]:
         """Implements the operation to the underlying resources.
 
@@ -1336,9 +1344,9 @@ class NetworkFabricsOperations:  # pylint: disable=too-many-public-methods
         :type resource_group_name: str
         :param network_fabric_name: Name of the Network Fabric. Required.
         :type network_fabric_name: str
-        :param body: Network Fabric properties to update. Is either a UpdateVersion type or a IO type.
-         Required.
-        :type body: ~azure.mgmt.managednetworkfabric.models.UpdateVersion or IO
+        :param body: Network Fabric properties to update. Is either a UpgradeNetworkFabricProperties
+         type or a IO type. Required.
+        :type body: ~azure.mgmt.managednetworkfabric.models.UpgradeNetworkFabricProperties or IO
         :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
          Default value is None.
         :paramtype content_type: str
