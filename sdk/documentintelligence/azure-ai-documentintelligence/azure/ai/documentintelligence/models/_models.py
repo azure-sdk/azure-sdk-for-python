@@ -1029,6 +1029,7 @@ class OperationDetails(_model_base.Model):
     :vartype error: ~azure.ai.documentintelligence.models.Error
     """
 
+    __mapping__: Dict[str, _model_base.Model] = {}
     operation_id: str = rest_field(name="operationId", visibility=["read", "create"])
     """Operation ID. Required."""
     status: Union[str, "_models.OperationStatus"] = rest_field()

@@ -51,6 +51,7 @@ class DocumentIntelligenceClient(
     def __init__(
         self, endpoint: str, credential: Union[AzureKeyCredential, "AsyncTokenCredential"], **kwargs: Any
     ) -> None:
+        super().__init__()
         _endpoint = "{endpoint}/documentintelligence"
         self._config = DocumentIntelligenceClientConfiguration(endpoint=endpoint, credential=credential, **kwargs)
         _policies = kwargs.pop("policies", None)
