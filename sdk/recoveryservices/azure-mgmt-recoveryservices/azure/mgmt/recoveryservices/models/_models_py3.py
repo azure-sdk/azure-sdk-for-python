@@ -677,6 +677,70 @@ class ErrorAdditionalInfo(_serialization.Model):
         self.type = None
 
 
+class ErrorDetail(_serialization.Model):
+    """The error detail.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar code: The error code.
+    :vartype code: str
+    :ivar message: The error message.
+    :vartype message: str
+    :ivar target: The error target.
+    :vartype target: str
+    :ivar details: The error details.
+    :vartype details: list[~azure.mgmt.recoveryservices.models.ErrorDetail]
+    :ivar additional_info: The error additional info.
+    :vartype additional_info: list[~azure.mgmt.recoveryservices.models.ErrorAdditionalInfo]
+    """
+
+    _validation = {
+        "code": {"readonly": True},
+        "message": {"readonly": True},
+        "target": {"readonly": True},
+        "details": {"readonly": True},
+        "additional_info": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "code": {"key": "code", "type": "str"},
+        "message": {"key": "message", "type": "str"},
+        "target": {"key": "target", "type": "str"},
+        "details": {"key": "details", "type": "[ErrorDetail]"},
+        "additional_info": {"key": "additionalInfo", "type": "[ErrorAdditionalInfo]"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.code = None
+        self.message = None
+        self.target = None
+        self.details = None
+        self.additional_info = None
+
+
+class ErrorResponse(_serialization.Model):
+    """Common error response for all Azure Resource Manager APIs to return error details for failed
+    operations. (This also follows the OData error response format.).
+
+    :ivar error: The error object.
+    :vartype error: ~azure.mgmt.recoveryservices.models.ErrorDetail
+    """
+
+    _attribute_map = {
+        "error": {"key": "error", "type": "ErrorDetail"},
+    }
+
+    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs: Any) -> None:
+        """
+        :keyword error: The error object.
+        :paramtype error: ~azure.mgmt.recoveryservices.models.ErrorDetail
+        """
+        super().__init__(**kwargs)
+        self.error = error
+
+
 class IdentityData(_serialization.Model):
     """Identity for the resource.
 
@@ -2027,11 +2091,16 @@ class SoftDeleteSettings(_serialization.Model):
     :vartype soft_delete_state: str or ~azure.mgmt.recoveryservices.models.SoftDeleteState
     :ivar soft_delete_retention_period_in_days: Soft delete retention period in days.
     :vartype soft_delete_retention_period_in_days: int
+    :ivar enhanced_security_state: Known values are: "Invalid", "Enabled", "Disabled", and
+     "AlwaysON".
+    :vartype enhanced_security_state: str or
+     ~azure.mgmt.recoveryservices.models.EnhancedSecurityState
     """
 
     _attribute_map = {
         "soft_delete_state": {"key": "softDeleteState", "type": "str"},
         "soft_delete_retention_period_in_days": {"key": "softDeleteRetentionPeriodInDays", "type": "int"},
+        "enhanced_security_state": {"key": "enhancedSecurityState", "type": "str"},
     }
 
     def __init__(
@@ -2039,6 +2108,7 @@ class SoftDeleteSettings(_serialization.Model):
         *,
         soft_delete_state: Optional[Union[str, "_models.SoftDeleteState"]] = None,
         soft_delete_retention_period_in_days: Optional[int] = None,
+        enhanced_security_state: Optional[Union[str, "_models.EnhancedSecurityState"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -2046,10 +2116,15 @@ class SoftDeleteSettings(_serialization.Model):
         :paramtype soft_delete_state: str or ~azure.mgmt.recoveryservices.models.SoftDeleteState
         :keyword soft_delete_retention_period_in_days: Soft delete retention period in days.
         :paramtype soft_delete_retention_period_in_days: int
+        :keyword enhanced_security_state: Known values are: "Invalid", "Enabled", "Disabled", and
+         "AlwaysON".
+        :paramtype enhanced_security_state: str or
+         ~azure.mgmt.recoveryservices.models.EnhancedSecurityState
         """
         super().__init__(**kwargs)
         self.soft_delete_state = soft_delete_state
         self.soft_delete_retention_period_in_days = soft_delete_retention_period_in_days
+        self.enhanced_security_state = enhanced_security_state
 
 
 class SystemData(_serialization.Model):
@@ -2710,10 +2785,8 @@ class VaultPropertiesMoveDetails(_serialization.Model):
 class VaultPropertiesRedundancySettings(_serialization.Model):
     """The redundancy Settings of a Vault.
 
-    Variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar standard_tier_storage_redundancy: The storage redundancy setting of a vault. Known values
-     are: "LocallyRedundant", "GeoRedundant", and "ZoneRedundant".
+     are: "Invalid", "LocallyRedundant", "GeoRedundant", and "ZoneRedundant".
     :vartype standard_tier_storage_redundancy: str or
      ~azure.mgmt.recoveryservices.models.StandardTierStorageRedundancy
     :ivar cross_region_restore: Flag to show if Cross Region Restore is enabled on the Vault or
@@ -2721,21 +2794,30 @@ class VaultPropertiesRedundancySettings(_serialization.Model):
     :vartype cross_region_restore: str or ~azure.mgmt.recoveryservices.models.CrossRegionRestore
     """
 
-    _validation = {
-        "standard_tier_storage_redundancy": {"readonly": True},
-        "cross_region_restore": {"readonly": True},
-    }
-
     _attribute_map = {
         "standard_tier_storage_redundancy": {"key": "standardTierStorageRedundancy", "type": "str"},
         "cross_region_restore": {"key": "crossRegionRestore", "type": "str"},
     }
 
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
+    def __init__(
+        self,
+        *,
+        standard_tier_storage_redundancy: Optional[Union[str, "_models.StandardTierStorageRedundancy"]] = None,
+        cross_region_restore: Optional[Union[str, "_models.CrossRegionRestore"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword standard_tier_storage_redundancy: The storage redundancy setting of a vault. Known
+         values are: "Invalid", "LocallyRedundant", "GeoRedundant", and "ZoneRedundant".
+        :paramtype standard_tier_storage_redundancy: str or
+         ~azure.mgmt.recoveryservices.models.StandardTierStorageRedundancy
+        :keyword cross_region_restore: Flag to show if Cross Region Restore is enabled on the Vault or
+         not. Known values are: "Enabled" and "Disabled".
+        :paramtype cross_region_restore: str or ~azure.mgmt.recoveryservices.models.CrossRegionRestore
+        """
         super().__init__(**kwargs)
-        self.standard_tier_storage_redundancy = None
-        self.cross_region_restore = None
+        self.standard_tier_storage_redundancy = standard_tier_storage_redundancy
+        self.cross_region_restore = cross_region_restore
 
 
 class VaultUsage(_serialization.Model):
