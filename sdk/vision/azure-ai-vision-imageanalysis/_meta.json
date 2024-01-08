@@ -1,0 +1,6 @@
+{
+  "commit": "e34c569d5219dae0267df9d6033a78acbcf9dc4d",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/ai/ImageAnalysis",
+  "@azure-tools/typespec-python": "0.18.0"
+}
