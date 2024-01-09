@@ -9465,11 +9465,6 @@ class LongTermRetentionPolicy(ProxyResource):
     :vartype name: str
     :ivar type: Resource type.
     :vartype type: str
-    :ivar make_backups_immutable: The setting whether to make LTR backups immutable.
-    :vartype make_backups_immutable: bool
-    :ivar backup_storage_access_tier: The BackupStorageAccessTier for the LTR backups. Known values
-     are: "Hot" and "Archive".
-    :vartype backup_storage_access_tier: str or ~azure.mgmt.sql.models.BackupStorageAccessTier
     :ivar weekly_retention: The weekly retention policy for an LTR backup in an ISO 8601 format.
     :vartype weekly_retention: str
     :ivar monthly_retention: The monthly retention policy for an LTR backup in an ISO 8601 format.
@@ -9490,8 +9485,6 @@ class LongTermRetentionPolicy(ProxyResource):
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "make_backups_immutable": {"key": "properties.makeBackupsImmutable", "type": "bool"},
-        "backup_storage_access_tier": {"key": "properties.backupStorageAccessTier", "type": "str"},
         "weekly_retention": {"key": "properties.weeklyRetention", "type": "str"},
         "monthly_retention": {"key": "properties.monthlyRetention", "type": "str"},
         "yearly_retention": {"key": "properties.yearlyRetention", "type": "str"},
@@ -9501,8 +9494,6 @@ class LongTermRetentionPolicy(ProxyResource):
     def __init__(
         self,
         *,
-        make_backups_immutable: Optional[bool] = None,
-        backup_storage_access_tier: Optional[Union[str, "_models.BackupStorageAccessTier"]] = None,
         weekly_retention: Optional[str] = None,
         monthly_retention: Optional[str] = None,
         yearly_retention: Optional[str] = None,
@@ -9510,11 +9501,6 @@ class LongTermRetentionPolicy(ProxyResource):
         **kwargs: Any
     ) -> None:
         """
-        :keyword make_backups_immutable: The setting whether to make LTR backups immutable.
-        :paramtype make_backups_immutable: bool
-        :keyword backup_storage_access_tier: The BackupStorageAccessTier for the LTR backups. Known
-         values are: "Hot" and "Archive".
-        :paramtype backup_storage_access_tier: str or ~azure.mgmt.sql.models.BackupStorageAccessTier
         :keyword weekly_retention: The weekly retention policy for an LTR backup in an ISO 8601 format.
         :paramtype weekly_retention: str
         :keyword monthly_retention: The monthly retention policy for an LTR backup in an ISO 8601
@@ -9526,8 +9512,6 @@ class LongTermRetentionPolicy(ProxyResource):
         :paramtype week_of_year: int
         """
         super().__init__(**kwargs)
-        self.make_backups_immutable = make_backups_immutable
-        self.backup_storage_access_tier = backup_storage_access_tier
         self.weekly_retention = weekly_retention
         self.monthly_retention = monthly_retention
         self.yearly_retention = yearly_retention
@@ -17095,9 +17079,8 @@ class Server(TrackedResource):  # pylint: disable=too-many-instance-attributes
     :ivar private_endpoint_connections: List of private endpoint connections on a server.
     :vartype private_endpoint_connections:
      list[~azure.mgmt.sql.models.ServerPrivateEndpointConnection]
-    :ivar minimal_tls_version: Minimal TLS version. Allowed values: 'None', 1.0', '1.1', '1.2',
-     '1.3'. Known values are: "None", "1.0", "1.1", "1.2", and "1.3".
-    :vartype minimal_tls_version: str or ~azure.mgmt.sql.models.MinimalTlsVersion
+    :ivar minimal_tls_version: Minimal TLS version. Allowed values: 'None', '1.0', '1.1', '1.2'.
+    :vartype minimal_tls_version: str
     :ivar public_network_access: Whether or not public endpoint access is allowed for this server.
      Value is optional but if passed in, must be 'Enabled' or 'Disabled' or 'SecuredByPerimeter'.
      Known values are: "Enabled", "Disabled", and "SecuredByPerimeter".
@@ -17181,7 +17164,7 @@ class Server(TrackedResource):  # pylint: disable=too-many-instance-attributes
         administrator_login: Optional[str] = None,
         administrator_login_password: Optional[str] = None,
         version: Optional[str] = None,
-        minimal_tls_version: Optional[Union[str, "_models.MinimalTlsVersion"]] = None,
+        minimal_tls_version: Optional[str] = None,
         public_network_access: Optional[Union[str, "_models.ServerPublicNetworkAccessFlag"]] = None,
         primary_user_assigned_identity_id: Optional[str] = None,
         federated_client_id: Optional[str] = None,
@@ -17206,9 +17189,8 @@ class Server(TrackedResource):  # pylint: disable=too-many-instance-attributes
         :paramtype administrator_login_password: str
         :keyword version: The version of the server.
         :paramtype version: str
-        :keyword minimal_tls_version: Minimal TLS version. Allowed values: 'None', 1.0', '1.1', '1.2',
-         '1.3'. Known values are: "None", "1.0", "1.1", "1.2", and "1.3".
-        :paramtype minimal_tls_version: str or ~azure.mgmt.sql.models.MinimalTlsVersion
+        :keyword minimal_tls_version: Minimal TLS version. Allowed values: 'None', '1.0', '1.1', '1.2'.
+        :paramtype minimal_tls_version: str
         :keyword public_network_access: Whether or not public endpoint access is allowed for this
          server.  Value is optional but if passed in, must be 'Enabled' or 'Disabled' or
          'SecuredByPerimeter'. Known values are: "Enabled", "Disabled", and "SecuredByPerimeter".
@@ -18998,9 +18980,8 @@ class ServerUpdate(_serialization.Model):  # pylint: disable=too-many-instance-a
     :ivar private_endpoint_connections: List of private endpoint connections on a server.
     :vartype private_endpoint_connections:
      list[~azure.mgmt.sql.models.ServerPrivateEndpointConnection]
-    :ivar minimal_tls_version: Minimal TLS version. Allowed values: 'None', 1.0', '1.1', '1.2',
-     '1.3'. Known values are: "None", "1.0", "1.1", "1.2", and "1.3".
-    :vartype minimal_tls_version: str or ~azure.mgmt.sql.models.MinimalTlsVersion
+    :ivar minimal_tls_version: Minimal TLS version. Allowed values: 'None', '1.0', '1.1', '1.2'.
+    :vartype minimal_tls_version: str
     :ivar public_network_access: Whether or not public endpoint access is allowed for this server.
      Value is optional but if passed in, must be 'Enabled' or 'Disabled' or 'SecuredByPerimeter'.
      Known values are: "Enabled", "Disabled", and "SecuredByPerimeter".
@@ -19073,7 +19054,7 @@ class ServerUpdate(_serialization.Model):  # pylint: disable=too-many-instance-a
         administrator_login: Optional[str] = None,
         administrator_login_password: Optional[str] = None,
         version: Optional[str] = None,
-        minimal_tls_version: Optional[Union[str, "_models.MinimalTlsVersion"]] = None,
+        minimal_tls_version: Optional[str] = None,
         public_network_access: Optional[Union[str, "_models.ServerPublicNetworkAccessFlag"]] = None,
         primary_user_assigned_identity_id: Optional[str] = None,
         federated_client_id: Optional[str] = None,
@@ -19096,9 +19077,8 @@ class ServerUpdate(_serialization.Model):  # pylint: disable=too-many-instance-a
         :paramtype administrator_login_password: str
         :keyword version: The version of the server.
         :paramtype version: str
-        :keyword minimal_tls_version: Minimal TLS version. Allowed values: 'None', 1.0', '1.1', '1.2',
-         '1.3'. Known values are: "None", "1.0", "1.1", "1.2", and "1.3".
-        :paramtype minimal_tls_version: str or ~azure.mgmt.sql.models.MinimalTlsVersion
+        :keyword minimal_tls_version: Minimal TLS version. Allowed values: 'None', '1.0', '1.1', '1.2'.
+        :paramtype minimal_tls_version: str
         :keyword public_network_access: Whether or not public endpoint access is allowed for this
          server.  Value is optional but if passed in, must be 'Enabled' or 'Disabled' or
          'SecuredByPerimeter'. Known values are: "Enabled", "Disabled", and "SecuredByPerimeter".
