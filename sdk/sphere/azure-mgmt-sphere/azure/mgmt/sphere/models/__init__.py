@@ -15,6 +15,7 @@ from ._models_py3 import CertificateListResult
 from ._models_py3 import CertificateProperties
 from ._models_py3 import ClaimDevicesRequest
 from ._models_py3 import CountDeviceResponse
+from ._models_py3 import CountDevicesResponse
 from ._models_py3 import CountElementsResponse
 from ._models_py3 import Deployment
 from ._models_py3 import DeploymentListResult
@@ -32,7 +33,6 @@ from ._models_py3 import ErrorResponse
 from ._models_py3 import GenerateCapabilityImageRequest
 from ._models_py3 import Image
 from ._models_py3 import ImageListResult
-from ._models_py3 import ImageUploadRequestBody
 from ._models_py3 import ListDeviceGroupsRequest
 from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
@@ -60,6 +60,7 @@ from ._azure_sphere_mgmt_client_enums import Origin
 from ._azure_sphere_mgmt_client_enums import ProvisioningState
 from ._azure_sphere_mgmt_client_enums import RegionalDataBoundary
 from ._azure_sphere_mgmt_client_enums import UpdatePolicy
+from ._azure_sphere_mgmt_client_enums import Versions
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
@@ -74,6 +75,7 @@ __all__ = [
     "CertificateProperties",
     "ClaimDevicesRequest",
     "CountDeviceResponse",
+    "CountDevicesResponse",
     "CountElementsResponse",
     "Deployment",
     "DeploymentListResult",
@@ -91,7 +93,6 @@ __all__ = [
     "GenerateCapabilityImageRequest",
     "Image",
     "ImageListResult",
-    "ImageUploadRequestBody",
     "ListDeviceGroupsRequest",
     "Operation",
     "OperationDisplay",
@@ -118,6 +119,7 @@ __all__ = [
     "ProvisioningState",
     "RegionalDataBoundary",
     "UpdatePolicy",
+    "Versions",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
