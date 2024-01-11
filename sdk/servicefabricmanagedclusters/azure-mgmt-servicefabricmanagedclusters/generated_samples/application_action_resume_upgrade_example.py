@@ -14,7 +14,7 @@ from azure.mgmt.servicefabricmanagedclusters import ServiceFabricManagedClusters
     pip install azure-identity
     pip install azure-mgmt-servicefabricmanagedclusters
 # USAGE
-    python long_running_operation_status_failed.py
+    python application_action_resume_upgrade_example.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,13 +29,14 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.operation_status.get(
-        location="eastus",
-        operation_id="00000000-0000-0000-0000-000000001234",
-    )
-    print(response)
+    client.applications.begin_resume_upgrade(
+        resource_group_name="resRg",
+        cluster_name="myCluster",
+        application_name="myApp",
+        parameters={"upgradeDomainName": "UD1"},
+    ).result()
 
 
-# x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2023-12-01-preview/examples/Long_running_operation_status_failed.json
+# x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2023-12-01-preview/examples/ApplicationActionResumeUpgrade_example.json
 if __name__ == "__main__":
     main()
