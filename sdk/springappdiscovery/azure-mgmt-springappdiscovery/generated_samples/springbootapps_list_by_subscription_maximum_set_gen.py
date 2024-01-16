@@ -7,14 +7,14 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
-from azure.mgmt.workloads import WorkloadsMgmtClient
+from azure.mgmt.springappdiscovery import SpringAppDiscoveryMgmtClient
 
 """
 # PREREQUISITES
     pip install azure-identity
-    pip install azure-mgmt-workloads
+    pip install azure-mgmt-springappdiscovery
 # USAGE
-    python sap_landscape_monitor_delete.py
+    python springbootapps_list_by_subscription_maximum_set_gen.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -24,18 +24,18 @@ from azure.mgmt.workloads import WorkloadsMgmtClient
 
 
 def main():
-    client = WorkloadsMgmtClient(
+    client = SpringAppDiscoveryMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="00000000-0000-0000-0000-000000000000",
+        subscription_id="jnetwlorzmxpxmcucorv",
     )
 
-    response = client.sap_landscape_monitor.delete(
-        resource_group_name="myResourceGroup",
-        monitor_name="mySapMonitor",
+    response = client.springbootapps.list_by_subscription(
+        site_name="pdfosfhtemfsaglvwjdyqlyeipucrd",
     )
-    print(response)
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/workloadmonitor/SapLandscapeMonitor_Delete.json
+# x-ms-original-file: specification/offazurespringboot/resource-manager/Microsoft.OffAzureSpringBoot/preview/2023-01-01-preview/examples/springbootapps_ListBySubscription_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()
