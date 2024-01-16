@@ -79,22 +79,22 @@ class MonitorManagementClient:  # pylint: disable=client-accepts-api-version-key
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
         self.autoscale_settings = AutoscaleSettingsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2021-05-01-preview"
         )
         self.predictive_metric = PredictiveMetricOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2021-05-01-preview"
         )
         self.diagnostic_settings = DiagnosticSettingsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2021-05-01-preview"
         )
         self.diagnostic_settings_category = DiagnosticSettingsCategoryOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2021-05-01-preview"
         )
         self.management_group_diagnostic_settings = ManagementGroupDiagnosticSettingsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2021-05-01-preview"
         )
         self.subscription_diagnostic_settings = SubscriptionDiagnosticSettingsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2021-05-01-preview"
         )
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> HttpResponse:
