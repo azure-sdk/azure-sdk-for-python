@@ -7,14 +7,14 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
-from azure.mgmt.hybridcontainerservice import HybridContainerServiceMgmtClient
+from azure.mgmt.apicenter import ApiCenterMgmtClient
 
 """
 # PREREQUISITES
     pip install azure-identity
-    pip install azure-mgmt-hybridcontainerservice
+    pip install azure-mgmt-apicenter
 # USAGE
-    python update_agent_pool.py
+    python metadata_schemas_create_or_update.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -24,19 +24,31 @@ from azure.mgmt.hybridcontainerservice import HybridContainerServiceMgmtClient
 
 
 def main():
-    client = HybridContainerServiceMgmtClient(
+    client = ApiCenterMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="SUBSCRIPTION_ID",
+        api_name="API_NAME",
+        version_name="VERSION_NAME",
+        definition_name="DEFINITION_NAME",
+        deployment_name="DEPLOYMENT_NAME",
+        environment_name="ENVIRONMENT_NAME",
+        metadata_schema_name="author",
+        workspace_name="default",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.agent_pool.begin_update(
-        connected_cluster_resource_uri="subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/testrg/providers/Microsoft.Kubernetes/connectedClusters/test-hybridakscluster",
-        agent_pool_name="test-hybridaksnodepool",
-        agent_pool={"tags": {"additionalProperties": "sample"}},
-    ).result()
+    response = client.metadata_schemas.create_or_update(
+        resource_group_name="contoso-resources",
+        service_name="contoso",
+        payload={
+            "properties": {
+                "assignedTo": [{"deprecated": True, "entity": "api"}],
+                "schema": '{"type":"string", "title":"Author", pattern: "^[a-zA-Z]+$"}',
+            }
+        },
+    )
     print(response)
 
 
-# x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2023-11-15-preview/examples/UpdateAgentPool.json
+# x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/MetadataSchemas_CreateOrUpdate.json
 if __name__ == "__main__":
     main()
