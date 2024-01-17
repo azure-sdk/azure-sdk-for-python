@@ -76,7 +76,7 @@ class Operations:
 
     @distributed_trace
     def list(self, **kwargs: Any) -> Iterable["_models.Operation"]:
-        """Gets a list of ElasticSan operations.
+        """List the operations for the provider.
 
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either Operation or the result of cls(response)
@@ -132,7 +132,7 @@ class Operations:
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
-            return None, iter(list_of_elem)
+            return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
             request = prepare_request(next_link)

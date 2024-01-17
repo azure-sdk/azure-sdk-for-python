@@ -33,7 +33,8 @@ def main():
         resource_group_name="resourcegroupname",
         elastic_san_name="elasticsanname",
     )
-    print(response)
+    for item in response:
+        print(item)
 
 
 # x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/PrivateLinkResources_ListByElasticSan_MinimumSet_Gen.json

@@ -51,7 +51,7 @@ def build_list_by_elastic_san_request(
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumeGroups",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
@@ -63,6 +63,54 @@ def build_list_by_elastic_san_request(
             elastic_san_name,
             "str",
             max_length=24,
+            min_length=3,
+            pattern=r"^[A-Za-z0-9]+((-|_)[a-z0-9A-Z]+)*$",
+        ),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_get_request(
+    resource_group_name: str, elastic_san_name: str, volume_group_name: str, subscription_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-01-01"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
+        "elasticSanName": _SERIALIZER.url(
+            "elastic_san_name",
+            elastic_san_name,
+            "str",
+            max_length=24,
+            min_length=3,
+            pattern=r"^[A-Za-z0-9]+((-|_)[a-z0-9A-Z]+)*$",
+        ),
+        "volumeGroupName": _SERIALIZER.url(
+            "volume_group_name",
+            volume_group_name,
+            "str",
+            max_length=63,
             min_length=3,
             pattern=r"^[A-Za-z0-9]+((-|_)[a-z0-9A-Z]+)*$",
         ),
@@ -229,54 +277,6 @@ def build_delete_request(
     return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_get_request(
-    resource_group_name: str, elastic_san_name: str, volume_group_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-01-01"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop(
-        "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}",
-    )  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
-        "resourceGroupName": _SERIALIZER.url(
-            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
-        ),
-        "elasticSanName": _SERIALIZER.url(
-            "elastic_san_name",
-            elastic_san_name,
-            "str",
-            max_length=24,
-            min_length=3,
-            pattern=r"^[A-Za-z0-9]+((-|_)[a-z0-9A-Z]+)*$",
-        ),
-        "volumeGroupName": _SERIALIZER.url(
-            "volume_group_name",
-            volume_group_name,
-            "str",
-            max_length=63,
-            min_length=3,
-            pattern=r"^[A-Za-z0-9]+((-|_)[a-z0-9A-Z]+)*$",
-        ),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
 class VolumeGroupsOperations:
     """
     .. warning::
@@ -316,7 +316,7 @@ class VolumeGroupsOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.VolumeGroupList] = kwargs.pop("cls", None)
+        cls: ClsType[_models.VolumeGroupListResult] = kwargs.pop("cls", None)
 
         error_map = {
             401: ClientAuthenticationError,
@@ -360,7 +360,7 @@ class VolumeGroupsOperations:
             return request
 
         def extract_data(pipeline_response):
-            deserialized = self._deserialize("VolumeGroupList", pipeline_response)
+            deserialized = self._deserialize("VolumeGroupListResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
@@ -385,7 +385,75 @@ class VolumeGroupsOperations:
         return ItemPaged(get_next, extract_data)
 
     list_by_elastic_san.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumeGroups"
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups"
+    }
+
+    @distributed_trace
+    def get(
+        self, resource_group_name: str, elastic_san_name: str, volume_group_name: str, **kwargs: Any
+    ) -> _models.VolumeGroup:
+        """Get an VolumeGroups.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param elastic_san_name: The name of the ElasticSan. Required.
+        :type elastic_san_name: str
+        :param volume_group_name: The name of the VolumeGroup. Required.
+        :type volume_group_name: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: VolumeGroup or the result of cls(response)
+        :rtype: ~azure.mgmt.elasticsan.models.VolumeGroup
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[_models.VolumeGroup] = kwargs.pop("cls", None)
+
+        request = build_get_request(
+            resource_group_name=resource_group_name,
+            elastic_san_name=elastic_san_name,
+            volume_group_name=volume_group_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            template_url=self.get.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("VolumeGroup", pipeline_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})
+
+        return deserialized
+
+    get.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}"
     }
 
     def _create_initial(
@@ -447,14 +515,18 @@ class VolumeGroupsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
+        response_headers = {}
         if response.status_code == 200:
             deserialized = self._deserialize("VolumeGroup", pipeline_response)
 
         if response.status_code == 201:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+
             deserialized = self._deserialize("VolumeGroup", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
 
@@ -692,6 +764,7 @@ class VolumeGroupsOperations:
             deserialized = self._deserialize("VolumeGroup", pipeline_response)
 
         if response.status_code == 202:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
 
         if cls:
@@ -913,6 +986,7 @@ class VolumeGroupsOperations:
 
         response_headers = {}
         if response.status_code == 202:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
 
         if cls:
@@ -990,73 +1064,5 @@ class VolumeGroupsOperations:
         return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     begin_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}"
-    }
-
-    @distributed_trace
-    def get(
-        self, resource_group_name: str, elastic_san_name: str, volume_group_name: str, **kwargs: Any
-    ) -> _models.VolumeGroup:
-        """Get an VolumeGroups.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param elastic_san_name: The name of the ElasticSan. Required.
-        :type elastic_san_name: str
-        :param volume_group_name: The name of the VolumeGroup. Required.
-        :type volume_group_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: VolumeGroup or the result of cls(response)
-        :rtype: ~azure.mgmt.elasticsan.models.VolumeGroup
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.VolumeGroup] = kwargs.pop("cls", None)
-
-        request = build_get_request(
-            resource_group_name=resource_group_name,
-            elastic_san_name=elastic_san_name,
-            volume_group_name=volume_group_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            template_url=self.get.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("VolumeGroup", pipeline_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})
-
-        return deserialized
-
-    get.metadata = {
         "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}"
     }

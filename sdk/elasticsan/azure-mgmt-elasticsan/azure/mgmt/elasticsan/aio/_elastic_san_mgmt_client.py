@@ -32,26 +32,26 @@ if TYPE_CHECKING:
 
 
 class ElasticSanMgmtClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
-    """ElasticSanMgmtClient.
+    """Microsoft Elastic San Management API.
 
     :ivar operations: Operations operations
     :vartype operations: azure.mgmt.elasticsan.aio.operations.Operations
-    :ivar skus: SkusOperations operations
-    :vartype skus: azure.mgmt.elasticsan.aio.operations.SkusOperations
     :ivar elastic_sans: ElasticSansOperations operations
     :vartype elastic_sans: azure.mgmt.elasticsan.aio.operations.ElasticSansOperations
-    :ivar volume_groups: VolumeGroupsOperations operations
-    :vartype volume_groups: azure.mgmt.elasticsan.aio.operations.VolumeGroupsOperations
-    :ivar volumes: VolumesOperations operations
-    :vartype volumes: azure.mgmt.elasticsan.aio.operations.VolumesOperations
+    :ivar skus: SkusOperations operations
+    :vartype skus: azure.mgmt.elasticsan.aio.operations.SkusOperations
     :ivar private_endpoint_connections: PrivateEndpointConnectionsOperations operations
     :vartype private_endpoint_connections:
      azure.mgmt.elasticsan.aio.operations.PrivateEndpointConnectionsOperations
     :ivar private_link_resources: PrivateLinkResourcesOperations operations
     :vartype private_link_resources:
      azure.mgmt.elasticsan.aio.operations.PrivateLinkResourcesOperations
+    :ivar volume_groups: VolumeGroupsOperations operations
+    :vartype volume_groups: azure.mgmt.elasticsan.aio.operations.VolumeGroupsOperations
     :ivar volume_snapshots: VolumeSnapshotsOperations operations
     :vartype volume_snapshots: azure.mgmt.elasticsan.aio.operations.VolumeSnapshotsOperations
+    :ivar volumes: VolumesOperations operations
+    :vartype volumes: azure.mgmt.elasticsan.aio.operations.VolumesOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
     :param subscription_id: The ID of the target subscription. Required.
@@ -82,19 +82,19 @@ class ElasticSanMgmtClient:  # pylint: disable=client-accepts-api-version-keywor
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
-        self.skus = SkusOperations(self._client, self._config, self._serialize, self._deserialize)
         self.elastic_sans = ElasticSansOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.volume_groups = VolumeGroupsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.volumes = VolumesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.skus = SkusOperations(self._client, self._config, self._serialize, self._deserialize)
         self.private_endpoint_connections = PrivateEndpointConnectionsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.private_link_resources = PrivateLinkResourcesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.volume_groups = VolumeGroupsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.volume_snapshots = VolumeSnapshotsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.volumes = VolumesOperations(self._client, self._config, self._serialize, self._deserialize)
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> Awaitable[AsyncHttpResponse]:
         """Runs the network request through the client's chained policies.

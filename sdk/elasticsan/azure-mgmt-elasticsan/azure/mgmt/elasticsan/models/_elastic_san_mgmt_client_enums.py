@@ -126,6 +126,13 @@ class StorageTargetType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     NONE = "None"
 
 
+class Versions(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The available API versions."""
+
+    V2023_01_01 = "2023-01-01"
+    """The 2023-01-01 API version."""
+
+
 class VolumeCreateOption(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """This enumerates the possible sources of a volume creation."""
 

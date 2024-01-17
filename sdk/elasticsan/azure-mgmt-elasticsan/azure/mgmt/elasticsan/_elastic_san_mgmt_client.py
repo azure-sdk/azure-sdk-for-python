@@ -32,26 +32,26 @@ if TYPE_CHECKING:
 
 
 class ElasticSanMgmtClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
-    """ElasticSanMgmtClient.
+    """Microsoft Elastic San Management API.
 
     :ivar operations: Operations operations
     :vartype operations: azure.mgmt.elasticsan.operations.Operations
-    :ivar skus: SkusOperations operations
-    :vartype skus: azure.mgmt.elasticsan.operations.SkusOperations
     :ivar elastic_sans: ElasticSansOperations operations
     :vartype elastic_sans: azure.mgmt.elasticsan.operations.ElasticSansOperations
-    :ivar volume_groups: VolumeGroupsOperations operations
-    :vartype volume_groups: azure.mgmt.elasticsan.operations.VolumeGroupsOperations
-    :ivar volumes: VolumesOperations operations
-    :vartype volumes: azure.mgmt.elasticsan.operations.VolumesOperations
+    :ivar skus: SkusOperations operations
+    :vartype skus: azure.mgmt.elasticsan.operations.SkusOperations
     :ivar private_endpoint_connections: PrivateEndpointConnectionsOperations operations
     :vartype private_endpoint_connections:
      azure.mgmt.elasticsan.operations.PrivateEndpointConnectionsOperations
     :ivar private_link_resources: PrivateLinkResourcesOperations operations
     :vartype private_link_resources:
      azure.mgmt.elasticsan.operations.PrivateLinkResourcesOperations
+    :ivar volume_groups: VolumeGroupsOperations operations
+    :vartype volume_groups: azure.mgmt.elasticsan.operations.VolumeGroupsOperations
     :ivar volume_snapshots: VolumeSnapshotsOperations operations
     :vartype volume_snapshots: azure.mgmt.elasticsan.operations.VolumeSnapshotsOperations
+    :ivar volumes: VolumesOperations operations
+    :vartype volumes: azure.mgmt.elasticsan.operations.VolumesOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
     :param subscription_id: The ID of the target subscription. Required.
@@ -82,19 +82,19 @@ class ElasticSanMgmtClient:  # pylint: disable=client-accepts-api-version-keywor
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
-        self.skus = SkusOperations(self._client, self._config, self._serialize, self._deserialize)
         self.elastic_sans = ElasticSansOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.volume_groups = VolumeGroupsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.volumes = VolumesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.skus = SkusOperations(self._client, self._config, self._serialize, self._deserialize)
         self.private_endpoint_connections = PrivateEndpointConnectionsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.private_link_resources = PrivateLinkResourcesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.volume_groups = VolumeGroupsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.volume_snapshots = VolumeSnapshotsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.volumes = VolumesOperations(self._client, self._config, self._serialize, self._deserialize)
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> HttpResponse:
         """Runs the network request through the client's chained policies.
