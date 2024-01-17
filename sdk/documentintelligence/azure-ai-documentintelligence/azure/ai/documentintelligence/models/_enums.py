@@ -17,7 +17,7 @@ class ContentFormat(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Plain text representation of the document content without any formatting."""
     MARKDOWN = "markdown"
     """Markdown representation of the document content with section headings, tables,
-    #: etc."""
+    etc."""
 
 
 class ContentSourceKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -147,7 +147,7 @@ class DocumentSelectionMarkState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     SELECTED = "selected"
     """The selection mark is selected, often indicated by a check ✓ or cross X inside
-    #: the selection mark."""
+    the selection mark."""
     UNSELECTED = "unselected"
     """The selection mark is not selected."""
 
@@ -214,7 +214,7 @@ class OperationKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Compose a new custom document model from existing models."""
     DOCUMENT_MODEL_COPY_TO = "documentModelCopyTo"
     """Copy an existing document model to potentially a different resource, region, or
-    #: subscription."""
+    subscription."""
     DOCUMENT_CLASSIFIER_BUILD = "documentClassifierBuild"
     """Build a new custom classifier model."""
 
@@ -269,9 +269,9 @@ class StringIndexType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     TEXT_ELEMENTS = "textElements"
     """User-perceived display character, or grapheme cluster, as defined by Unicode
-    #: 8.0.0."""
+    8.0.0."""
     UNICODE_CODE_POINT = "unicodeCodePoint"
     """Character unit represented by a single unicode code point.  Used by Python 3."""
     UTF16_CODE_UNIT = "utf16CodeUnit"
     """Character unit represented by a 16-bit Unicode code unit.  Used by JavaScript,
-    #: Java, and .NET."""
+    Java, and .NET."""
