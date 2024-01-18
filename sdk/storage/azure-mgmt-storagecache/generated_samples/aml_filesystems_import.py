@@ -14,7 +14,7 @@ from azure.mgmt.storagecache import StorageCacheManagementClient
     pip install azure-identity
     pip install azure-mgmt-storagecache
 # USAGE
-    python caches_update_ldap_only.py
+    python aml_filesystems_import.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,13 +29,12 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.caches.begin_update(
+    client.aml_filesystems.import_method(
         resource_group_name="scgroup",
-        cache_name="sc1",
-    ).result()
-    print(response)
+        aml_filesystem_name="sc",
+    )
 
 
-# x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2024-03-01/examples/Caches_Update_ldap_only.json
+# x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2024-03-01/examples/amlFilesystems_Import.json
 if __name__ == "__main__":
     main()

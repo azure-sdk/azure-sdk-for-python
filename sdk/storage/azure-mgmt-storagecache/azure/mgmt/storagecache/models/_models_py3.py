@@ -172,6 +172,8 @@ class AmlFilesystem(TrackedResource):  # pylint: disable=too-many-instance-attri
      ~azure.mgmt.storagecache.models.AmlFilesystemPropertiesMaintenanceWindow
     :ivar hsm: Hydration and archive settings and status.
     :vartype hsm: ~azure.mgmt.storagecache.models.AmlFilesystemPropertiesHsm
+    :ivar root_squash_settings: Specifies root squash settings of the AML file system.
+    :vartype root_squash_settings: ~azure.mgmt.storagecache.models.AmlFilesystemRootSquashSettings
     """
 
     _validation = {
@@ -208,6 +210,7 @@ class AmlFilesystem(TrackedResource):  # pylint: disable=too-many-instance-attri
             "type": "AmlFilesystemPropertiesMaintenanceWindow",
         },
         "hsm": {"key": "properties.hsm", "type": "AmlFilesystemPropertiesHsm"},
+        "root_squash_settings": {"key": "properties.rootSquashSettings", "type": "AmlFilesystemRootSquashSettings"},
     }
 
     def __init__(
@@ -223,6 +226,7 @@ class AmlFilesystem(TrackedResource):  # pylint: disable=too-many-instance-attri
         encryption_settings: Optional["_models.AmlFilesystemEncryptionSettings"] = None,
         maintenance_window: Optional["_models.AmlFilesystemPropertiesMaintenanceWindow"] = None,
         hsm: Optional["_models.AmlFilesystemPropertiesHsm"] = None,
+        root_squash_settings: Optional["_models.AmlFilesystemRootSquashSettings"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -250,6 +254,9 @@ class AmlFilesystem(TrackedResource):  # pylint: disable=too-many-instance-attri
          ~azure.mgmt.storagecache.models.AmlFilesystemPropertiesMaintenanceWindow
         :keyword hsm: Hydration and archive settings and status.
         :paramtype hsm: ~azure.mgmt.storagecache.models.AmlFilesystemPropertiesHsm
+        :keyword root_squash_settings: Specifies root squash settings of the AML file system.
+        :paramtype root_squash_settings:
+         ~azure.mgmt.storagecache.models.AmlFilesystemRootSquashSettings
         """
         super().__init__(tags=tags, location=location, **kwargs)
         self.identity = identity
@@ -264,6 +271,7 @@ class AmlFilesystem(TrackedResource):  # pylint: disable=too-many-instance-attri
         self.encryption_settings = encryption_settings
         self.maintenance_window = maintenance_window
         self.hsm = hsm
+        self.root_squash_settings = root_squash_settings
 
 
 class AmlFilesystemArchive(_serialization.Model):
@@ -583,7 +591,8 @@ class AmlFilesystemHsmSettings(_serialization.Model):
      account. Required.
     :vartype logging_container: str
     :ivar import_prefix: Only blobs in the non-logging container that start with this path/prefix
-     get hydrated into the cluster namespace.
+     get imported into the cluster namespace. This is only used during initial creation of the AML
+     file system.
     :vartype import_prefix: str
     """
 
@@ -610,7 +619,8 @@ class AmlFilesystemHsmSettings(_serialization.Model):
          account. Required.
         :paramtype logging_container: str
         :keyword import_prefix: Only blobs in the non-logging container that start with this
-         path/prefix get hydrated into the cluster namespace.
+         path/prefix get imported into the cluster namespace. This is only used during initial creation
+         of the AML file system.
         :paramtype import_prefix: str
         """
         super().__init__(**kwargs)
@@ -672,6 +682,178 @@ class AmlFilesystemIdentity(_serialization.Model):
         self.user_assigned_identities = user_assigned_identities
 
 
+class AmlFilesystemImport(_serialization.Model):
+    """Information about the AML file system import.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar filesystem_path: Lustre file system path to import into relative to the file system root.
+     Specify '/' to import all data.
+    :vartype filesystem_path: str
+    :ivar conflict_resolution_mode: How the import job will handle conflicts. For example, if the
+     import job is trying to bring in a directory, but a file is at that path, how it handles it.
+     Fail indicates that the import job should stop immediately and not do anything with the
+     conflict. Skip indicates that it should pass over the conflict. OverwriteIfDirty causes the
+     import job to delete and re-import the file or directory if it is a conflicting type, is dirty,
+     or was not previously imported. OverwriteAlways extends OverwriteIfDirty to include releasing
+     files that had been restored but were not dirty. Please reference
+     https://learn.microsoft.com/en-us/azure/azure-managed-lustre/ for a thorough explanation of
+     these resolution modes. Known values are: "Fail", "Skip", "OverwriteIfDirty", and
+     "OverwriteAlways".
+    :vartype conflict_resolution_mode: str or
+     ~azure.mgmt.storagecache.models.ConflictResolutionMode
+    :ivar status: The status of the import.
+    :vartype status: ~azure.mgmt.storagecache.models.AmlFilesystemImportStatus
+    """
+
+    _validation = {
+        "filesystem_path": {"readonly": True},
+        "status": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "filesystem_path": {"key": "filesystemPath", "type": "str"},
+        "conflict_resolution_mode": {"key": "conflictResolutionMode", "type": "str"},
+        "status": {"key": "status", "type": "AmlFilesystemImportStatus"},
+    }
+
+    def __init__(
+        self, *, conflict_resolution_mode: Optional[Union[str, "_models.ConflictResolutionMode"]] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword conflict_resolution_mode: How the import job will handle conflicts. For example, if
+         the import job is trying to bring in a directory, but a file is at that path, how it handles
+         it. Fail indicates that the import job should stop immediately and not do anything with the
+         conflict. Skip indicates that it should pass over the conflict. OverwriteIfDirty causes the
+         import job to delete and re-import the file or directory if it is a conflicting type, is dirty,
+         or was not previously imported. OverwriteAlways extends OverwriteIfDirty to include releasing
+         files that had been restored but were not dirty. Please reference
+         https://learn.microsoft.com/en-us/azure/azure-managed-lustre/ for a thorough explanation of
+         these resolution modes. Known values are: "Fail", "Skip", "OverwriteIfDirty", and
+         "OverwriteAlways".
+        :paramtype conflict_resolution_mode: str or
+         ~azure.mgmt.storagecache.models.ConflictResolutionMode
+        """
+        super().__init__(**kwargs)
+        self.filesystem_path = None
+        self.conflict_resolution_mode = conflict_resolution_mode
+        self.status = None
+
+
+class AmlFilesystemImportInfo(_serialization.Model):
+    """Information required to execute the import operation.
+
+    :ivar filesystem_path: Lustre file system path to import into relative to the file system root.
+     Specify '/' to import all data.
+    :vartype filesystem_path: str
+    :ivar conflict_resolution_mode: How the import job will handle conflicts. For example, if the
+     import job is trying to bring in a directory, but a file is at that path, how it handles it.
+     Fail indicates that the import job should stop immediately and not do anything with the
+     conflict. Skip indicates that it should pass over the conflict. OverwriteIfDirty causes the
+     import job to delete and re-import the file or directory if it is a conflicting type, is dirty,
+     or was not previously imported. OverwriteAlways extends OverwriteIfDirty to include releasing
+     files that had been restored but were not dirty. Please reference
+     https://learn.microsoft.com/en-us/azure/azure-managed-lustre/ for a thorough explanation of
+     these resolution modes. Known values are: "Fail", "Skip", "OverwriteIfDirty", and
+     "OverwriteAlways".
+    :vartype conflict_resolution_mode: str or
+     ~azure.mgmt.storagecache.models.ConflictResolutionMode
+    """
+
+    _attribute_map = {
+        "filesystem_path": {"key": "filesystemPath", "type": "str"},
+        "conflict_resolution_mode": {"key": "conflictResolutionMode", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        filesystem_path: str = "/",
+        conflict_resolution_mode: Optional[Union[str, "_models.ConflictResolutionMode"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword filesystem_path: Lustre file system path to import into relative to the file system
+         root. Specify '/' to import all data.
+        :paramtype filesystem_path: str
+        :keyword conflict_resolution_mode: How the import job will handle conflicts. For example, if
+         the import job is trying to bring in a directory, but a file is at that path, how it handles
+         it. Fail indicates that the import job should stop immediately and not do anything with the
+         conflict. Skip indicates that it should pass over the conflict. OverwriteIfDirty causes the
+         import job to delete and re-import the file or directory if it is a conflicting type, is dirty,
+         or was not previously imported. OverwriteAlways extends OverwriteIfDirty to include releasing
+         files that had been restored but were not dirty. Please reference
+         https://learn.microsoft.com/en-us/azure/azure-managed-lustre/ for a thorough explanation of
+         these resolution modes. Known values are: "Fail", "Skip", "OverwriteIfDirty", and
+         "OverwriteAlways".
+        :paramtype conflict_resolution_mode: str or
+         ~azure.mgmt.storagecache.models.ConflictResolutionMode
+        """
+        super().__init__(**kwargs)
+        self.filesystem_path = filesystem_path
+        self.conflict_resolution_mode = conflict_resolution_mode
+
+
+class AmlFilesystemImportStatus(_serialization.Model):
+    """The status of the import.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar state: The state of the import operation. InProgress indicates the import is still
+     running. Canceled indicates it has been canceled by the user. Completed indicates import
+     finished, successfully importing all discovered blobs into the Lustre namespace.
+     CompletedPartial indicates the import finished but some blobs either were found to be
+     conflicting and could not be imported or other errors were encountered. Failed means the import
+     was unable to complete due to a fatal error. Known values are: "InProgress", "Canceled",
+     "Completed", "CompletedPartial", and "Failed".
+    :vartype state: str or ~azure.mgmt.storagecache.models.ImportStatusType
+    :ivar total_blobs_walked: The total blob objects walked.
+    :vartype total_blobs_walked: int
+    :ivar blobs_walked_per_second: A recent and frequently updated rate of blobs walked per second.
+    :vartype blobs_walked_per_second: int
+    :ivar total_blobs_imported: The total blobs that have been imported since import began.
+    :vartype total_blobs_imported: int
+    :ivar blobs_imported_per_second: A recent and frequently updated rate of total files,
+     directories, and symlinks imported per second.
+    :vartype blobs_imported_per_second: int
+    :ivar total_errors: Number of errors in the import job.
+    :vartype total_errors: int
+    :ivar total_conflicts: Number of conflicts in the import job.
+    :vartype total_conflicts: int
+    """
+
+    _validation = {
+        "state": {"readonly": True},
+        "total_blobs_walked": {"readonly": True},
+        "blobs_walked_per_second": {"readonly": True},
+        "total_blobs_imported": {"readonly": True},
+        "blobs_imported_per_second": {"readonly": True},
+        "total_errors": {"readonly": True},
+        "total_conflicts": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "state": {"key": "state", "type": "str"},
+        "total_blobs_walked": {"key": "totalBlobsWalked", "type": "int"},
+        "blobs_walked_per_second": {"key": "blobsWalkedPerSecond", "type": "int"},
+        "total_blobs_imported": {"key": "totalBlobsImported", "type": "int"},
+        "blobs_imported_per_second": {"key": "blobsImportedPerSecond", "type": "int"},
+        "total_errors": {"key": "totalErrors", "type": "int"},
+        "total_conflicts": {"key": "totalConflicts", "type": "int"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.state = None
+        self.total_blobs_walked = None
+        self.blobs_walked_per_second = None
+        self.total_blobs_imported = None
+        self.blobs_imported_per_second = None
+        self.total_errors = None
+        self.total_conflicts = None
+
+
 class AmlFilesystemPropertiesHsm(_serialization.Model):
     """Hydration and archive settings and status.
 
@@ -681,15 +863,19 @@ class AmlFilesystemPropertiesHsm(_serialization.Model):
     :vartype settings: ~azure.mgmt.storagecache.models.AmlFilesystemHsmSettings
     :ivar archive_status: Archive status.
     :vartype archive_status: list[~azure.mgmt.storagecache.models.AmlFilesystemArchive]
+    :ivar import_status: Import status.
+    :vartype import_status: list[~azure.mgmt.storagecache.models.AmlFilesystemImport]
     """
 
     _validation = {
         "archive_status": {"readonly": True},
+        "import_status": {"readonly": True},
     }
 
     _attribute_map = {
         "settings": {"key": "settings", "type": "AmlFilesystemHsmSettings"},
         "archive_status": {"key": "archiveStatus", "type": "[AmlFilesystemArchive]"},
+        "import_status": {"key": "importStatus", "type": "[AmlFilesystemImport]"},
     }
 
     def __init__(self, *, settings: Optional["_models.AmlFilesystemHsmSettings"] = None, **kwargs: Any) -> None:
@@ -700,6 +886,7 @@ class AmlFilesystemPropertiesHsm(_serialization.Model):
         super().__init__(**kwargs)
         self.settings = settings
         self.archive_status = None
+        self.import_status = None
 
 
 class AmlFilesystemPropertiesMaintenanceWindow(_serialization.Model):
@@ -738,6 +925,72 @@ class AmlFilesystemPropertiesMaintenanceWindow(_serialization.Model):
         super().__init__(**kwargs)
         self.day_of_week = day_of_week
         self.time_of_day_utc = time_of_day_utc
+
+
+class AmlFilesystemRootSquashSettings(_serialization.Model):
+    """AML file system squash settings.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar mode: Squash mode of the AML file system. 'All': User and Group IDs on files will be
+     squashed to the provided values for all users on non-trusted systems. 'RootOnly': User and
+     Group IDs on files will be squashed to provided values for solely the root user on non-trusted
+     systems. 'None': No squashing of User and Group IDs is performed for any users on any systems.
+     Known values are: "None", "RootOnly", and "All".
+    :vartype mode: str or ~azure.mgmt.storagecache.models.AmlFilesystemSquashMode
+    :ivar no_squash_nid_lists: Semicolon separated NID IP Address list(s) to be added to the
+     TrustedSystems.
+    :vartype no_squash_nid_lists: str
+    :ivar squash_uid: User ID to squash to.
+    :vartype squash_uid: int
+    :ivar squash_gid: Group ID to squash to.
+    :vartype squash_gid: int
+    :ivar status: AML file system squash status.
+    :vartype status: str
+    """
+
+    _validation = {
+        "status": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "mode": {"key": "mode", "type": "str"},
+        "no_squash_nid_lists": {"key": "noSquashNidLists", "type": "str"},
+        "squash_uid": {"key": "squashUID", "type": "int"},
+        "squash_gid": {"key": "squashGID", "type": "int"},
+        "status": {"key": "status", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        mode: Optional[Union[str, "_models.AmlFilesystemSquashMode"]] = None,
+        no_squash_nid_lists: Optional[str] = None,
+        squash_uid: Optional[int] = None,
+        squash_gid: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword mode: Squash mode of the AML file system. 'All': User and Group IDs on files will be
+         squashed to the provided values for all users on non-trusted systems. 'RootOnly': User and
+         Group IDs on files will be squashed to provided values for solely the root user on non-trusted
+         systems. 'None': No squashing of User and Group IDs is performed for any users on any systems.
+         Known values are: "None", "RootOnly", and "All".
+        :paramtype mode: str or ~azure.mgmt.storagecache.models.AmlFilesystemSquashMode
+        :keyword no_squash_nid_lists: Semicolon separated NID IP Address list(s) to be added to the
+         TrustedSystems.
+        :paramtype no_squash_nid_lists: str
+        :keyword squash_uid: User ID to squash to.
+        :paramtype squash_uid: int
+        :keyword squash_gid: Group ID to squash to.
+        :paramtype squash_gid: int
+        """
+        super().__init__(**kwargs)
+        self.mode = mode
+        self.no_squash_nid_lists = no_squash_nid_lists
+        self.squash_uid = squash_uid
+        self.squash_gid = squash_gid
+        self.status = None
 
 
 class AmlFilesystemsListResult(_serialization.Model):
@@ -827,6 +1080,8 @@ class AmlFilesystemUpdate(_serialization.Model):
     :ivar maintenance_window: Start time of a 30-minute weekly maintenance window.
     :vartype maintenance_window:
      ~azure.mgmt.storagecache.models.AmlFilesystemUpdatePropertiesMaintenanceWindow
+    :ivar root_squash_settings: Specifies root squash settings of the AML file system.
+    :vartype root_squash_settings: ~azure.mgmt.storagecache.models.AmlFilesystemRootSquashSettings
     """
 
     _attribute_map = {
@@ -836,6 +1091,7 @@ class AmlFilesystemUpdate(_serialization.Model):
             "key": "properties.maintenanceWindow",
             "type": "AmlFilesystemUpdatePropertiesMaintenanceWindow",
         },
+        "root_squash_settings": {"key": "properties.rootSquashSettings", "type": "AmlFilesystemRootSquashSettings"},
     }
 
     def __init__(
@@ -844,6 +1100,7 @@ class AmlFilesystemUpdate(_serialization.Model):
         tags: Optional[Dict[str, str]] = None,
         encryption_settings: Optional["_models.AmlFilesystemEncryptionSettings"] = None,
         maintenance_window: Optional["_models.AmlFilesystemUpdatePropertiesMaintenanceWindow"] = None,
+        root_squash_settings: Optional["_models.AmlFilesystemRootSquashSettings"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -854,11 +1111,15 @@ class AmlFilesystemUpdate(_serialization.Model):
         :keyword maintenance_window: Start time of a 30-minute weekly maintenance window.
         :paramtype maintenance_window:
          ~azure.mgmt.storagecache.models.AmlFilesystemUpdatePropertiesMaintenanceWindow
+        :keyword root_squash_settings: Specifies root squash settings of the AML file system.
+        :paramtype root_squash_settings:
+         ~azure.mgmt.storagecache.models.AmlFilesystemRootSquashSettings
         """
         super().__init__(**kwargs)
         self.tags = tags
         self.encryption_settings = encryption_settings
         self.maintenance_window = maintenance_window
+        self.root_squash_settings = root_squash_settings
 
 
 class AmlFilesystemUpdatePropertiesMaintenanceWindow(_serialization.Model):
