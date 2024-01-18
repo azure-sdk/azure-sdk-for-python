@@ -322,11 +322,11 @@ class SharedPrivateLinkResourcesOperations:
         :param resource_group_name: The name of the resource group within the current subscription. You
          can obtain this value from the Azure Resource Manager API or the portal. Required.
         :type resource_group_name: str
-        :param search_service_name: The name of the Azure Cognitive Search service associated with the
-         specified resource group. Required.
+        :param search_service_name: The name of the search service associated with the specified
+         resource group. Required.
         :type search_service_name: str
         :param shared_private_link_resource_name: The name of the shared private link resource managed
-         by the Azure Cognitive Search service within the specified resource group. Required.
+         by the search service within the specified resource group. Required.
         :type shared_private_link_resource_name: str
         :param shared_private_link_resource: The definition of the shared private link resource to
          create or update. Required.
@@ -372,11 +372,11 @@ class SharedPrivateLinkResourcesOperations:
         :param resource_group_name: The name of the resource group within the current subscription. You
          can obtain this value from the Azure Resource Manager API or the portal. Required.
         :type resource_group_name: str
-        :param search_service_name: The name of the Azure Cognitive Search service associated with the
-         specified resource group. Required.
+        :param search_service_name: The name of the search service associated with the specified
+         resource group. Required.
         :type search_service_name: str
         :param shared_private_link_resource_name: The name of the shared private link resource managed
-         by the Azure Cognitive Search service within the specified resource group. Required.
+         by the search service within the specified resource group. Required.
         :type shared_private_link_resource_name: str
         :param shared_private_link_resource: The definition of the shared private link resource to
          create or update. Required.
@@ -420,11 +420,11 @@ class SharedPrivateLinkResourcesOperations:
         :param resource_group_name: The name of the resource group within the current subscription. You
          can obtain this value from the Azure Resource Manager API or the portal. Required.
         :type resource_group_name: str
-        :param search_service_name: The name of the Azure Cognitive Search service associated with the
-         specified resource group. Required.
+        :param search_service_name: The name of the search service associated with the specified
+         resource group. Required.
         :type search_service_name: str
         :param shared_private_link_resource_name: The name of the shared private link resource managed
-         by the Azure Cognitive Search service within the specified resource group. Required.
+         by the search service within the specified resource group. Required.
         :type shared_private_link_resource_name: str
         :param shared_private_link_resource: The definition of the shared private link resource to
          create or update. Is either a SharedPrivateLinkResource type or a IO type. Required.
@@ -518,11 +518,11 @@ class SharedPrivateLinkResourcesOperations:
         :param resource_group_name: The name of the resource group within the current subscription. You
          can obtain this value from the Azure Resource Manager API or the portal. Required.
         :type resource_group_name: str
-        :param search_service_name: The name of the Azure Cognitive Search service associated with the
-         specified resource group. Required.
+        :param search_service_name: The name of the search service associated with the specified
+         resource group. Required.
         :type search_service_name: str
         :param shared_private_link_resource_name: The name of the shared private link resource managed
-         by the Azure Cognitive Search service within the specified resource group. Required.
+         by the search service within the specified resource group. Required.
         :type shared_private_link_resource_name: str
         :param search_management_request_options: Parameter group. Default value is None.
         :type search_management_request_options:
@@ -661,11 +661,11 @@ class SharedPrivateLinkResourcesOperations:
         :param resource_group_name: The name of the resource group within the current subscription. You
          can obtain this value from the Azure Resource Manager API or the portal. Required.
         :type resource_group_name: str
-        :param search_service_name: The name of the Azure Cognitive Search service associated with the
-         specified resource group. Required.
+        :param search_service_name: The name of the search service associated with the specified
+         resource group. Required.
         :type search_service_name: str
         :param shared_private_link_resource_name: The name of the shared private link resource managed
-         by the Azure Cognitive Search service within the specified resource group. Required.
+         by the search service within the specified resource group. Required.
         :type shared_private_link_resource_name: str
         :param search_management_request_options: Parameter group. Default value is None.
         :type search_management_request_options:
@@ -745,8 +745,8 @@ class SharedPrivateLinkResourcesOperations:
         :param resource_group_name: The name of the resource group within the current subscription. You
          can obtain this value from the Azure Resource Manager API or the portal. Required.
         :type resource_group_name: str
-        :param search_service_name: The name of the Azure Cognitive Search service associated with the
-         specified resource group. Required.
+        :param search_service_name: The name of the search service associated with the specified
+         resource group. Required.
         :type search_service_name: str
         :param search_management_request_options: Parameter group. Default value is None.
         :type search_management_request_options:

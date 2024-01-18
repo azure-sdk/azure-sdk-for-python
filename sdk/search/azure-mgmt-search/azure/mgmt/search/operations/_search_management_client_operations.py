@@ -76,15 +76,14 @@ class SearchManagementClientOperationsMixin(SearchManagementClientMixinABC):
         search_management_request_options: Optional[_models.SearchManagementRequestOptions] = None,
         **kwargs: Any
     ) -> _models.QuotaUsageResult:
-        """Gets the quota usage for a search sku in the given subscription.
+        """Gets the quota usage for a search SKU in the given subscription.
 
         .. seealso::
            - https://aka.ms/search-manage
 
         :param location: The unique location name for a Microsoft Azure geographic region. Required.
         :type location: str
-        :param sku_name: The unique search service sku name supported by Azure Cognitive Search.
-         Required.
+        :param sku_name: The unique SKU name that identifies a billable tier. Required.
         :type sku_name: str
         :param search_management_request_options: Parameter group. Default value is None.
         :type search_management_request_options:

@@ -76,8 +76,8 @@ class QueryKeysOperations:
         :param resource_group_name: The name of the resource group within the current subscription. You
          can obtain this value from the Azure Resource Manager API or the portal. Required.
         :type resource_group_name: str
-        :param search_service_name: The name of the Azure Cognitive Search service associated with the
-         specified resource group. Required.
+        :param search_service_name: The name of the search service associated with the specified
+         resource group. Required.
         :type search_service_name: str
         :param name: The name of the new query API key. Required.
         :type name: str
@@ -151,7 +151,7 @@ class QueryKeysOperations:
         search_management_request_options: Optional[_models.SearchManagementRequestOptions] = None,
         **kwargs: Any
     ) -> AsyncIterable["_models.QueryKey"]:
-        """Returns the list of query API keys for the given Azure Cognitive Search service.
+        """Returns the list of query API keys for the given search service.
 
         .. seealso::
            - https://aka.ms/search-manage
@@ -159,8 +159,8 @@ class QueryKeysOperations:
         :param resource_group_name: The name of the resource group within the current subscription. You
          can obtain this value from the Azure Resource Manager API or the portal. Required.
         :type resource_group_name: str
-        :param search_service_name: The name of the Azure Cognitive Search service associated with the
-         specified resource group. Required.
+        :param search_service_name: The name of the search service associated with the specified
+         resource group. Required.
         :type search_service_name: str
         :param search_management_request_options: Parameter group. Default value is None.
         :type search_management_request_options:
@@ -267,8 +267,8 @@ class QueryKeysOperations:
         :param resource_group_name: The name of the resource group within the current subscription. You
          can obtain this value from the Azure Resource Manager API or the portal. Required.
         :type resource_group_name: str
-        :param search_service_name: The name of the Azure Cognitive Search service associated with the
-         specified resource group. Required.
+        :param search_service_name: The name of the search service associated with the specified
+         resource group. Required.
         :type search_service_name: str
         :param key: The query key to be deleted. Query keys are identified by value, not by name.
          Required.
