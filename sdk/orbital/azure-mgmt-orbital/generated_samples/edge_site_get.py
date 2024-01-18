@@ -14,7 +14,7 @@ from azure.mgmt.orbital import AzureOrbital
     pip install azure-identity
     pip install azure-mgmt-orbital
 # USAGE
-    python spacecraft_get.py
+    python edge_site_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,13 +29,13 @@ def main():
         subscription_id="c1be1141-a7c9-4aac-9608-3c2e2f1152c3",
     )
 
-    response = client.spacecrafts.get(
-        resource_group_name="contoso-Rgp",
-        spacecraft_name="CONTOSO_SAT",
+    response = client.edge_sites.get(
+        resource_group_name="rg1",
+        edge_site_name="es1",
     )
     print(response)
 
 
-# x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-11-01/examples/SpacecraftGet.json
+# x-ms-original-file: specification/aodgv1/resource-manager/Microsoft.Orbital/preview/2024-03-01-preview/examples/EdgeSiteGet.json
 if __name__ == "__main__":
     main()

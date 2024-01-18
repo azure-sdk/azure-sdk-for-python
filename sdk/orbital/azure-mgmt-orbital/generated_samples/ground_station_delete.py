@@ -14,7 +14,7 @@ from azure.mgmt.orbital import AzureOrbital
     pip install azure-identity
     pip install azure-mgmt-orbital
 # USAGE
-    python contact_profile_update_tag.py
+    python ground_station_delete.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,14 +29,12 @@ def main():
         subscription_id="c1be1141-a7c9-4aac-9608-3c2e2f1152c3",
     )
 
-    response = client.contact_profiles.begin_update_tags(
-        resource_group_name="contoso-Rgp",
-        contact_profile_name="CONTOSO-CP",
-        parameters={"tags": {"tag1": "value1", "tag2": "value2"}},
-    ).result()
-    print(response)
+    client.ground_stations.delete(
+        resource_group_name="rg1",
+        ground_station_name="westus_gs1",
+    )
 
 
-# x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-11-01/examples/ContactProfileUpdateTag.json
+# x-ms-original-file: specification/aodgv1/resource-manager/Microsoft.Orbital/preview/2024-03-01-preview/examples/GroundStationDelete.json
 if __name__ == "__main__":
     main()

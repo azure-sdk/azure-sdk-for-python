@@ -14,7 +14,7 @@ from azure.mgmt.orbital import AzureOrbital
     pip install azure-identity
     pip install azure-mgmt-orbital
 # USAGE
-    python operations_list.py
+    python ground_station_update_tags.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,14 +26,17 @@ from azure.mgmt.orbital import AzureOrbital
 def main():
     client = AzureOrbital(
         credential=DefaultAzureCredential(),
-        subscription_id="SUBSCRIPTION_ID",
+        subscription_id="c1be1141-a7c9-4aac-9608-3c2e2f1152c3",
     )
 
-    response = client.operations.list()
-    for item in response:
-        print(item)
+    response = client.ground_stations.update_tags(
+        resource_group_name="rg1",
+        ground_station_name="westus_gs1",
+        parameters={"tags": {"tag1": "value1", "tag2": "value2"}},
+    )
+    print(response)
 
 
-# x-ms-original-file: specification/aodgv1/resource-manager/Microsoft.Orbital/preview/2024-03-01-preview/examples/OperationsList.json
+# x-ms-original-file: specification/aodgv1/resource-manager/Microsoft.Orbital/preview/2024-03-01-preview/examples/GroundStationUpdateTags.json
 if __name__ == "__main__":
     main()

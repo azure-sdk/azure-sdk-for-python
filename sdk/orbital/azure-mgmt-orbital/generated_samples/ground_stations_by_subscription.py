@@ -14,7 +14,7 @@ from azure.mgmt.orbital import AzureOrbital
     pip install azure-identity
     pip install azure-mgmt-orbital
 # USAGE
-    python contact_delete.py
+    python ground_stations_by_subscription.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,14 +29,11 @@ def main():
         subscription_id="c1be1141-a7c9-4aac-9608-3c2e2f1152c3",
     )
 
-    response = client.contacts.begin_delete(
-        resource_group_name="contoso-Rgp",
-        spacecraft_name="CONTOSO_SAT",
-        contact_name="contact1",
-    ).result()
-    print(response)
+    response = client.ground_stations.list_by_subscription()
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-11-01/examples/ContactDelete.json
+# x-ms-original-file: specification/aodgv1/resource-manager/Microsoft.Orbital/preview/2024-03-01-preview/examples/GroundStationsBySubscription.json
 if __name__ == "__main__":
     main()

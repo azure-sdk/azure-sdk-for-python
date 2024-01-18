@@ -14,7 +14,7 @@ from azure.mgmt.orbital import AzureOrbital
     pip install azure-identity
     pip install azure-mgmt-orbital
 # USAGE
-    python contact_create.py
+    python l2_connection_delete.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,24 +29,12 @@ def main():
         subscription_id="c1be1141-a7c9-4aac-9608-3c2e2f1152c3",
     )
 
-    response = client.contacts.begin_create(
-        resource_group_name="contoso-Rgp",
-        spacecraft_name="CONTOSO_SAT",
-        contact_name="contact1",
-        parameters={
-            "properties": {
-                "contactProfile": {
-                    "id": "/subscriptions/c1be1141-a7c9-4aac-9608-3c2e2f1152c3/resourceGroups/contoso-Rgp/providers/Microsoft.Orbital/contactProfiles/CONTOSO-CP"
-                },
-                "groundStationName": "EASTUS2_0",
-                "reservationEndTime": "2023-02-22T11:10:45Z",
-                "reservationStartTime": "2023-02-22T10:58:30Z",
-            }
-        },
+    client.l2_connections.begin_delete(
+        resource_group_name="rg1",
+        l2_connection_name="connection1",
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-11-01/examples/ContactCreate.json
+# x-ms-original-file: specification/aodgv1/resource-manager/Microsoft.Orbital/preview/2024-03-01-preview/examples/L2ConnectionDelete.json
 if __name__ == "__main__":
     main()

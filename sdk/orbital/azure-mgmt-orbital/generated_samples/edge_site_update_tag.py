@@ -14,7 +14,7 @@ from azure.mgmt.orbital import AzureOrbital
     pip install azure-identity
     pip install azure-mgmt-orbital
 # USAGE
-    python contact_profiles_by_subscription_list.py
+    python edge_site_update_tag.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,11 +29,14 @@ def main():
         subscription_id="c1be1141-a7c9-4aac-9608-3c2e2f1152c3",
     )
 
-    response = client.contact_profiles.list_by_subscription()
-    for item in response:
-        print(item)
+    response = client.edge_sites.update_tags(
+        resource_group_name="rg1",
+        edge_site_name="oep1",
+        parameters={"tags": {"tag1": "value1", "tag2": "value2"}},
+    )
+    print(response)
 
 
-# x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-11-01/examples/ContactProfilesBySubscriptionList.json
+# x-ms-original-file: specification/aodgv1/resource-manager/Microsoft.Orbital/preview/2024-03-01-preview/examples/EdgeSiteUpdateTag.json
 if __name__ == "__main__":
     main()

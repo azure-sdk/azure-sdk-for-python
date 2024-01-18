@@ -7,11 +7,10 @@
 # --------------------------------------------------------------------------
 
 from ._operations import Operations
-from ._spacecrafts_operations import SpacecraftsOperations
-from ._contacts_operations import ContactsOperations
-from ._contact_profiles_operations import ContactProfilesOperations
-from ._available_ground_stations_operations import AvailableGroundStationsOperations
-from ._operations_results_operations import OperationsResultsOperations
+from ._ground_stations_operations import GroundStationsOperations
+from ._edge_sites_operations import EdgeSitesOperations
+from ._l2_connections_operations import L2ConnectionsOperations
+from ._global_communications_sites_operations import GlobalCommunicationsSitesOperations
 
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
@@ -19,11 +18,10 @@ from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
     "Operations",
-    "SpacecraftsOperations",
-    "ContactsOperations",
-    "ContactProfilesOperations",
-    "AvailableGroundStationsOperations",
-    "OperationsResultsOperations",
+    "GroundStationsOperations",
+    "EdgeSitesOperations",
+    "L2ConnectionsOperations",
+    "GlobalCommunicationsSitesOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()

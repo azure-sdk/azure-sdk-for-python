@@ -14,7 +14,7 @@ from azure.mgmt.orbital import AzureOrbital
     pip install azure-identity
     pip install azure-mgmt-orbital
 # USAGE
-    python operation_results_get.py
+    python global_communications_sites_by_subscription_list.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,16 +26,14 @@ from azure.mgmt.orbital import AzureOrbital
 def main():
     client = AzureOrbital(
         credential=DefaultAzureCredential(),
-        subscription_id="12345678-1234-1234-1234-123456789098",
+        subscription_id="c1be1141-a7c9-4aac-9608-3c2e2f1152c3",
     )
 
-    response = client.operations_results.begin_get(
-        location="eastus2",
-        operation_id="30972f1b-b61d-4fd8-bd34-3dcfa24670f3",
-    ).result()
-    print(response)
+    response = client.global_communications_sites.list_by_subscription()
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-11-01/examples/OperationResultsGet.json
+# x-ms-original-file: specification/aodgv1/resource-manager/Microsoft.Orbital/preview/2024-03-01-preview/examples/GlobalCommunicationsSitesBySubscriptionList.json
 if __name__ == "__main__":
     main()

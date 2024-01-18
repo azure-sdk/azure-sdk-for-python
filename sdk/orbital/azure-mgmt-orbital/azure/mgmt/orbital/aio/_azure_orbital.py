@@ -7,7 +7,7 @@
 # --------------------------------------------------------------------------
 
 from copy import deepcopy
-from typing import Any, Awaitable, TYPE_CHECKING
+from typing import Any, Awaitable, Optional, TYPE_CHECKING
 
 from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.mgmt.core import AsyncARMPipelineClient
@@ -16,12 +16,11 @@ from .. import models as _models
 from .._serialization import Deserializer, Serializer
 from ._configuration import AzureOrbitalConfiguration
 from .operations import (
-    AvailableGroundStationsOperations,
-    ContactProfilesOperations,
-    ContactsOperations,
+    EdgeSitesOperations,
+    GlobalCommunicationsSitesOperations,
+    GroundStationsOperations,
+    L2ConnectionsOperations,
     Operations,
-    OperationsResultsOperations,
-    SpacecraftsOperations,
 )
 
 if TYPE_CHECKING:
@@ -34,25 +33,29 @@ class AzureOrbital:  # pylint: disable=client-accepts-api-version-keyword
 
     :ivar operations: Operations operations
     :vartype operations: azure.mgmt.orbital.aio.operations.Operations
-    :ivar spacecrafts: SpacecraftsOperations operations
-    :vartype spacecrafts: azure.mgmt.orbital.aio.operations.SpacecraftsOperations
-    :ivar contacts: ContactsOperations operations
-    :vartype contacts: azure.mgmt.orbital.aio.operations.ContactsOperations
-    :ivar contact_profiles: ContactProfilesOperations operations
-    :vartype contact_profiles: azure.mgmt.orbital.aio.operations.ContactProfilesOperations
-    :ivar available_ground_stations: AvailableGroundStationsOperations operations
-    :vartype available_ground_stations:
-     azure.mgmt.orbital.aio.operations.AvailableGroundStationsOperations
-    :ivar operations_results: OperationsResultsOperations operations
-    :vartype operations_results: azure.mgmt.orbital.aio.operations.OperationsResultsOperations
+    :ivar ground_stations: GroundStationsOperations operations
+    :vartype ground_stations: azure.mgmt.orbital.aio.operations.GroundStationsOperations
+    :ivar edge_sites: EdgeSitesOperations operations
+    :vartype edge_sites: azure.mgmt.orbital.aio.operations.EdgeSitesOperations
+    :ivar l2_connections: L2ConnectionsOperations operations
+    :vartype l2_connections: azure.mgmt.orbital.aio.operations.L2ConnectionsOperations
+    :ivar global_communications_sites: GlobalCommunicationsSitesOperations operations
+    :vartype global_communications_sites:
+     azure.mgmt.orbital.aio.operations.GlobalCommunicationsSitesOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
-    :param subscription_id: The ID of the target subscription. Required.
+    :param subscription_id: The ID of the target subscription. The value must be an UUID. Required.
     :type subscription_id: str
+    :param skiptoken: An opaque string that the resource provider uses to skip over
+     previously-returned results. This is used when a previous list operation call returned a
+     partial result. If a previous response contains a nextLink element, the value of the nextLink
+     element will include a skiptoken parameter that specifies a starting point to use for
+     subsequent calls. Default value is None.
+    :type skiptoken: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2022-11-01". Note that overriding this
-     default value may result in unsupported behavior.
+    :keyword api_version: Api Version. Default value is "2024-03-01-preview". Note that overriding
+     this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
      Retry-After header is present.
@@ -62,26 +65,24 @@ class AzureOrbital:  # pylint: disable=client-accepts-api-version-keyword
         self,
         credential: "AsyncTokenCredential",
         subscription_id: str,
+        skiptoken: Optional[str] = None,
         base_url: str = "https://management.azure.com",
         **kwargs: Any
     ) -> None:
-        self._config = AzureOrbitalConfiguration(credential=credential, subscription_id=subscription_id, **kwargs)
-        self._client = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        self._config = AzureOrbitalConfiguration(
+            credential=credential, subscription_id=subscription_id, skiptoken=skiptoken, **kwargs
+        )
+        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
-        self.spacecrafts = SpacecraftsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.contacts = ContactsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.contact_profiles = ContactProfilesOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.available_ground_stations = AvailableGroundStationsOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.operations_results = OperationsResultsOperations(
+        self.ground_stations = GroundStationsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.edge_sites = EdgeSitesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.l2_connections = L2ConnectionsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.global_communications_sites = GlobalCommunicationsSitesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
 

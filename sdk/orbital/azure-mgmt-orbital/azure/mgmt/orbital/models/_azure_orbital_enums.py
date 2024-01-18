@@ -16,14 +16,6 @@ class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     INTERNAL = "Internal"
 
 
-class AutoTrackingConfiguration(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Auto-tracking configuration."""
-
-    DISABLED = "disabled"
-    X_BAND = "xBand"
-    S_BAND = "sBand"
-
-
 class Capability(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Capability of the Ground Station."""
 
@@ -38,38 +30,6 @@ class CapabilityParameter(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     COMMUNICATION = "Communication"
 
 
-class ContactProfilesPropertiesProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The current state of the resource's creation, deletion, or modification."""
-
-    CREATING = "creating"
-    SUCCEEDED = "succeeded"
-    FAILED = "failed"
-    CANCELED = "canceled"
-    UPDATING = "updating"
-    DELETING = "deleting"
-
-
-class ContactsPropertiesProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The current state of the resource's creation, deletion, or modification."""
-
-    CREATING = "creating"
-    SUCCEEDED = "succeeded"
-    FAILED = "failed"
-    CANCELED = "canceled"
-    UPDATING = "updating"
-    DELETING = "deleting"
-
-
-class ContactsStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Status of a contact."""
-
-    SCHEDULED = "scheduled"
-    CANCELLED = "cancelled"
-    SUCCEEDED = "succeeded"
-    FAILED = "failed"
-    PROVIDER_CANCELLED = "providerCancelled"
-
-
 class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of identity that created the resource."""
 
@@ -79,11 +39,31 @@ class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     KEY = "Key"
 
 
-class Direction(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Direction (Uplink or Downlink)."""
+class GlobalCommunicationsSitesPropertiesGlobalCommunicationsSiteType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of the Azure Orbital Digital Ground site. EdgeSite or GroundStation."""
 
-    UPLINK = "Uplink"
-    DOWNLINK = "Downlink"
+    EDGE = "Edge"
+    GROUND_STATION = "GroundStation"
+
+
+class GlobalCommunicationsSiteType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of the global communications site. groundStations can only use sites of type
+    GroundStation, and edgeSites can only use sites of type Edge.
+    """
+
+    EDGE = "Edge"
+    GROUND_STATION = "GroundStation"
+
+
+class L2ConnectionsPropertiesProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The current state of the resource's creation, deletion, or modification."""
+
+    CREATING = "Creating"
+    SUCCEEDED = "Succeeded"
+    FAILED = "Failed"
+    CANCELED = "Canceled"
+    UPDATING = "Updating"
+    DELETING = "Deleting"
 
 
 class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -96,31 +76,15 @@ class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     USER_SYSTEM = "user,system"
 
 
-class Polarization(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Polarization. e.g. (RHCP, LHCP)."""
-
-    RHCP = "RHCP"
-    LHCP = "LHCP"
-    LINEAR_VERTICAL = "linearVertical"
-    LINEAR_HORIZONTAL = "linearHorizontal"
-
-
-class Protocol(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Protocol either UDP or TCP."""
-
-    TCP = "TCP"
-    UDP = "UDP"
-
-
 class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The current state of the resource's creation, deletion, or modification."""
 
-    CREATING = "creating"
-    SUCCEEDED = "succeeded"
-    FAILED = "failed"
-    CANCELED = "canceled"
-    UPDATING = "updating"
-    DELETING = "deleting"
+    CREATING = "Creating"
+    SUCCEEDED = "Succeeded"
+    FAILED = "Failed"
+    CANCELED = "Canceled"
+    UPDATING = "Updating"
+    DELETING = "Deleting"
 
 
 class ReleaseMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -128,17 +92,6 @@ class ReleaseMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     PREVIEW = "Preview"
     GA = "GA"
-
-
-class SpacecraftsPropertiesProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The current state of the resource's creation, deletion, or modification."""
-
-    CREATING = "creating"
-    SUCCEEDED = "succeeded"
-    FAILED = "failed"
-    CANCELED = "canceled"
-    UPDATING = "updating"
-    DELETING = "deleting"
 
 
 class Status(str, Enum, metaclass=CaseInsensitiveEnumMeta):
