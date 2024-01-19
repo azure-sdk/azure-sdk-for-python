@@ -45,11 +45,13 @@ class ConfluentManagementClient:  # pylint: disable=client-accepts-api-version-k
     :vartype access: azure.mgmt.confluent.operations.AccessOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
+    :param role_binding_id: Confluent Role binding id. Required.
+    :type role_binding_id: str
     :param subscription_id: The ID of the target subscription. The value must be an UUID. Required.
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2023-08-22". Note that overriding this
+    :keyword api_version: Api Version. Default value is "2024-01-19". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -59,12 +61,13 @@ class ConfluentManagementClient:  # pylint: disable=client-accepts-api-version-k
     def __init__(
         self,
         credential: "TokenCredential",
+        role_binding_id: str,
         subscription_id: str,
         base_url: str = "https://management.azure.com",
         **kwargs: Any
     ) -> None:
         self._config = ConfluentManagementClientConfiguration(
-            credential=credential, subscription_id=subscription_id, **kwargs
+            credential=credential, role_binding_id=role_binding_id, subscription_id=subscription_id, **kwargs
         )
         self._client: ARMPipelineClient = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 

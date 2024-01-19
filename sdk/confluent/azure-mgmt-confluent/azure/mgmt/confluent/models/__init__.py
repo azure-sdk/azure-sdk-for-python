@@ -6,6 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._models_py3 import AccessCreateRoleBindingRequestModel
 from ._models_py3 import AccessInviteUserAccountModel
 from ._models_py3 import AccessInvitedUserDetails
 from ._models_py3 import AccessListClusterSuccessResponse
@@ -14,6 +15,7 @@ from ._models_py3 import AccessListInvitationsSuccessResponse
 from ._models_py3 import AccessListRoleBindingsSuccessResponse
 from ._models_py3 import AccessListServiceAccountsSuccessResponse
 from ._models_py3 import AccessListUsersSuccessResponse
+from ._models_py3 import AccessRoleBindingNameListSuccessResponse
 from ._models_py3 import ClusterByokEntity
 from ._models_py3 import ClusterConfigEntity
 from ._models_py3 import ClusterEnvironmentEntity
@@ -53,6 +55,7 @@ from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "AccessCreateRoleBindingRequestModel",
     "AccessInviteUserAccountModel",
     "AccessInvitedUserDetails",
     "AccessListClusterSuccessResponse",
@@ -61,6 +64,7 @@ __all__ = [
     "AccessListRoleBindingsSuccessResponse",
     "AccessListServiceAccountsSuccessResponse",
     "AccessListUsersSuccessResponse",
+    "AccessRoleBindingNameListSuccessResponse",
     "ClusterByokEntity",
     "ClusterConfigEntity",
     "ClusterEnvironmentEntity",

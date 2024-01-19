@@ -26,6 +26,7 @@ from azure.mgmt.confluent import ConfluentManagementClient
 def main():
     client = ConfluentManagementClient(
         credential=DefaultAzureCredential(),
+        role_binding_id="ROLE_BINDING_ID",
         subscription_id="SUBSCRIPTION_ID",
     )
 
@@ -34,6 +35,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2023-08-22/examples/OrganizationOperations_List.json
+# x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-01-19/examples/OrganizationOperations_List.json
 if __name__ == "__main__":
     main()

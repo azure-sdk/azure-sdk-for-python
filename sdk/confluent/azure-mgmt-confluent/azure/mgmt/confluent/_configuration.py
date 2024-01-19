@@ -27,23 +27,30 @@ class ConfluentManagementClientConfiguration(Configuration):  # pylint: disable=
 
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
+    :param role_binding_id: Confluent Role binding id. Required.
+    :type role_binding_id: str
     :param subscription_id: The ID of the target subscription. The value must be an UUID. Required.
     :type subscription_id: str
-    :keyword api_version: Api Version. Default value is "2023-08-22". Note that overriding this
+    :keyword api_version: Api Version. Default value is "2024-01-19". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str
     """
 
-    def __init__(self, credential: "TokenCredential", subscription_id: str, **kwargs: Any) -> None:
+    def __init__(
+        self, credential: "TokenCredential", role_binding_id: str, subscription_id: str, **kwargs: Any
+    ) -> None:
         super(ConfluentManagementClientConfiguration, self).__init__(**kwargs)
-        api_version: str = kwargs.pop("api_version", "2023-08-22")
+        api_version: str = kwargs.pop("api_version", "2024-01-19")
 
         if credential is None:
             raise ValueError("Parameter 'credential' must not be None.")
+        if role_binding_id is None:
+            raise ValueError("Parameter 'role_binding_id' must not be None.")
         if subscription_id is None:
             raise ValueError("Parameter 'subscription_id' must not be None.")
 
         self.credential = credential
+        self.role_binding_id = role_binding_id
         self.subscription_id = subscription_id
         self.api_version = api_version
         self.credential_scopes = kwargs.pop("credential_scopes", ["https://management.azure.com/.default"])

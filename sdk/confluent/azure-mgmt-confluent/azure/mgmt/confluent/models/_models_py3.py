@@ -17,6 +17,47 @@ if TYPE_CHECKING:
     from .. import models as _models
 
 
+class AccessCreateRoleBindingRequestModel(_serialization.Model):
+    """Create role binding request model.
+
+    :ivar principal: The principal User or Group to bind the role to.
+    :vartype principal: str
+    :ivar role_name: The name of the role to bind to the principal.
+    :vartype role_name: str
+    :ivar crn_pattern: A CRN that specifies the scope and resource patterns necessary for the role
+     to bind.
+    :vartype crn_pattern: str
+    """
+
+    _attribute_map = {
+        "principal": {"key": "principal", "type": "str"},
+        "role_name": {"key": "role_name", "type": "str"},
+        "crn_pattern": {"key": "crn_pattern", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        principal: Optional[str] = None,
+        role_name: Optional[str] = None,
+        crn_pattern: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword principal: The principal User or Group to bind the role to.
+        :paramtype principal: str
+        :keyword role_name: The name of the role to bind to the principal.
+        :paramtype role_name: str
+        :keyword crn_pattern: A CRN that specifies the scope and resource patterns necessary for the
+         role to bind.
+        :paramtype crn_pattern: str
+        """
+        super().__init__(**kwargs)
+        self.principal = principal
+        self.role_name = role_name
+        self.crn_pattern = crn_pattern
+
+
 class AccessInvitedUserDetails(_serialization.Model):
     """Details of the user being invited.
 
@@ -90,13 +131,13 @@ class AccessInviteUserAccountModel(_serialization.Model):
 
 
 class AccessListClusterSuccessResponse(_serialization.Model):
-    """List cluster success response.
+    """Details of the clusters returned on successful response.
 
     :ivar kind: Type of response.
     :vartype kind: str
     :ivar metadata: Metadata of the list.
     :vartype metadata: ~azure.mgmt.confluent.models.ConfluentListMetadata
-    :ivar data: Data of the environments list.
+    :ivar data: List of clusters.
     :vartype data: list[~azure.mgmt.confluent.models.ClusterRecord]
     """
 
@@ -119,7 +160,7 @@ class AccessListClusterSuccessResponse(_serialization.Model):
         :paramtype kind: str
         :keyword metadata: Metadata of the list.
         :paramtype metadata: ~azure.mgmt.confluent.models.ConfluentListMetadata
-        :keyword data: Data of the environments list.
+        :keyword data: List of clusters.
         :paramtype data: list[~azure.mgmt.confluent.models.ClusterRecord]
         """
         super().__init__(**kwargs)
@@ -129,13 +170,13 @@ class AccessListClusterSuccessResponse(_serialization.Model):
 
 
 class AccessListEnvironmentsSuccessResponse(_serialization.Model):
-    """List environments success response.
+    """Details of the environments returned on successful response.
 
     :ivar kind: Type of response.
     :vartype kind: str
-    :ivar metadata: Metadata of the list.
+    :ivar metadata: Metadata of the  environment list.
     :vartype metadata: ~azure.mgmt.confluent.models.ConfluentListMetadata
-    :ivar data: Data of the environments list.
+    :ivar data: Environment list data.
     :vartype data: list[~azure.mgmt.confluent.models.EnvironmentRecord]
     """
 
@@ -156,9 +197,9 @@ class AccessListEnvironmentsSuccessResponse(_serialization.Model):
         """
         :keyword kind: Type of response.
         :paramtype kind: str
-        :keyword metadata: Metadata of the list.
+        :keyword metadata: Metadata of the  environment list.
         :paramtype metadata: ~azure.mgmt.confluent.models.ConfluentListMetadata
-        :keyword data: Data of the environments list.
+        :keyword data: Environment list data.
         :paramtype data: list[~azure.mgmt.confluent.models.EnvironmentRecord]
         """
         super().__init__(**kwargs)
@@ -207,13 +248,13 @@ class AccessListInvitationsSuccessResponse(_serialization.Model):
 
 
 class AccessListRoleBindingsSuccessResponse(_serialization.Model):
-    """List cluster success response.
+    """Details of the role bindings returned on successful response.
 
     :ivar kind: Type of response.
     :vartype kind: str
     :ivar metadata: Metadata of the list.
     :vartype metadata: ~azure.mgmt.confluent.models.ConfluentListMetadata
-    :ivar data: Data of the environments list.
+    :ivar data: List of role binding.
     :vartype data: list[~azure.mgmt.confluent.models.RoleBindingRecord]
     """
 
@@ -236,7 +277,7 @@ class AccessListRoleBindingsSuccessResponse(_serialization.Model):
         :paramtype kind: str
         :keyword metadata: Metadata of the list.
         :paramtype metadata: ~azure.mgmt.confluent.models.ConfluentListMetadata
-        :keyword data: Data of the environments list.
+        :keyword data: List of role binding.
         :paramtype data: list[~azure.mgmt.confluent.models.RoleBindingRecord]
         """
         super().__init__(**kwargs)
@@ -316,6 +357,45 @@ class AccessListUsersSuccessResponse(_serialization.Model):
         :paramtype metadata: ~azure.mgmt.confluent.models.ConfluentListMetadata
         :keyword data: Data of the users list.
         :paramtype data: list[~azure.mgmt.confluent.models.UserRecord]
+        """
+        super().__init__(**kwargs)
+        self.kind = kind
+        self.metadata = metadata
+        self.data = data
+
+
+class AccessRoleBindingNameListSuccessResponse(_serialization.Model):
+    """Details of the role binding names returned on successful response.
+
+    :ivar kind: Type of response.
+    :vartype kind: str
+    :ivar metadata: Metadata of the list.
+    :vartype metadata: ~azure.mgmt.confluent.models.ConfluentListMetadata
+    :ivar data: List of role binding names.
+    :vartype data: list[str]
+    """
+
+    _attribute_map = {
+        "kind": {"key": "kind", "type": "str"},
+        "metadata": {"key": "metadata", "type": "ConfluentListMetadata"},
+        "data": {"key": "data", "type": "[str]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        kind: Optional[str] = None,
+        metadata: Optional["_models.ConfluentListMetadata"] = None,
+        data: Optional[List[str]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword kind: Type of response.
+        :paramtype kind: str
+        :keyword metadata: Metadata of the list.
+        :paramtype metadata: ~azure.mgmt.confluent.models.ConfluentListMetadata
+        :keyword data: List of role binding names.
+        :paramtype data: list[str]
         """
         super().__init__(**kwargs)
         self.kind = kind
@@ -475,11 +555,11 @@ class ClusterNetworkEntity(_serialization.Model):
 
 
 class ClusterRecord(_serialization.Model):
-    """Record of the environment.
+    """Details of cluster record.
 
-    :ivar kind: Type of environment.
+    :ivar kind: Type of cluster.
     :vartype kind: str
-    :ivar id: Id of the environment.
+    :ivar id: Id of the cluster.
     :vartype id: str
     :ivar metadata: Metadata of the record.
     :vartype metadata: ~azure.mgmt.confluent.models.MetadataEntity
@@ -512,9 +592,9 @@ class ClusterRecord(_serialization.Model):
         **kwargs: Any
     ) -> None:
         """
-        :keyword kind: Type of environment.
+        :keyword kind: Type of cluster.
         :paramtype kind: str
-        :keyword id: Id of the environment.
+        :keyword id: Id of the cluster.
         :paramtype id: str
         :keyword metadata: Metadata of the record.
         :paramtype metadata: ~azure.mgmt.confluent.models.MetadataEntity
@@ -1497,11 +1577,11 @@ class ResourceProviderDefaultErrorResponse(_serialization.Model):
 
 
 class RoleBindingRecord(_serialization.Model):
-    """Record of the environment.
+    """Details on principal, role name and crn pattern of a role binding.
 
     :ivar kind: The type of the resource.
     :vartype kind: str
-    :ivar id: Id of the role.
+    :ivar id: Id of the role binding.
     :vartype id: str
     :ivar metadata: Metadata of the record.
     :vartype metadata: ~azure.mgmt.confluent.models.MetadataEntity
@@ -1537,7 +1617,7 @@ class RoleBindingRecord(_serialization.Model):
         """
         :keyword kind: The type of the resource.
         :paramtype kind: str
-        :keyword id: Id of the role.
+        :keyword id: Id of the role binding.
         :paramtype id: str
         :keyword metadata: Metadata of the record.
         :paramtype metadata: ~azure.mgmt.confluent.models.MetadataEntity
