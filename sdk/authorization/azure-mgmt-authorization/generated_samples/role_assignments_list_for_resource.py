@@ -39,6 +39,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2022-04-01/examples/RoleAssignments_ListForResource.json
+# x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2022-09-01/examples/RoleAssignments_ListForResource.json
 if __name__ == "__main__":
     main()

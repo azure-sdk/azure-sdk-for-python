@@ -9,4 +9,5 @@ from .v2019_08_01_preview.models import *
 from .v2020_10_01.models import *
 from .v2021_01_01_preview.models import *
 from .v2021_12_01_preview.models import *
-from .v2022_04_01.models import *
+from .v2022_08_01_preview.models import *
+from .v2022_09_01.models import *

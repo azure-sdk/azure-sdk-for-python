@@ -53,7 +53,7 @@ class AuthorizationManagementClient(MultiApiClientMixin, _SDKClient):
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no Retry-After header is present.
     """
 
-    DEFAULT_API_VERSION = '2022-04-01'
+    DEFAULT_API_VERSION = '2022-09-01'
     _PROFILE_TAG = "azure.mgmt.authorization.AuthorizationManagementClient"
     LATEST_PROFILE = ProfileDefinition({
         _PROFILE_TAG: {
@@ -71,6 +71,11 @@ class AuthorizationManagementClient(MultiApiClientMixin, _SDKClient):
             'access_review_instances_assigned_for_my_approval': '2021-12-01-preview',
             'access_review_schedule_definitions': '2021-12-01-preview',
             'access_review_schedule_definitions_assigned_for_my_approval': '2021-12-01-preview',
+            'alert_configurations': '2022-08-01-preview',
+            'alert_definitions': '2022-08-01-preview',
+            'alert_incidents': '2022-08-01-preview',
+            'alert_operation': '2022-08-01-preview',
+            'alerts': '2022-08-01-preview',
             'classic_administrators': '2015-07-01',
             'eligible_child_resources': '2020-10-01',
             'global_administrator': '2015-07-01',
@@ -149,6 +154,7 @@ class AuthorizationManagementClient(MultiApiClientMixin, _SDKClient):
            * 2022-04-01-preview: :mod:`v2022_04_01_preview.models<azure.mgmt.authorization.v2022_04_01_preview.models>`
            * 2022-05-01-preview: :mod:`v2022_05_01_preview.models<azure.mgmt.authorization.v2022_05_01_preview.models>`
            * 2022-08-01-preview: :mod:`v2022_08_01_preview.models<azure.mgmt.authorization.v2022_08_01_preview.models>`
+           * 2022-09-01: :mod:`v2022_09_01.models<azure.mgmt.authorization.v2022_09_01.models>`
         """
         if api_version == '2015-06-01':
             from .v2015_06_01 import models
@@ -203,6 +209,9 @@ class AuthorizationManagementClient(MultiApiClientMixin, _SDKClient):
             return models
         elif api_version == '2022-08-01-preview':
             from .v2022_08_01_preview import models
+            return models
+        elif api_version == '2022-09-01':
+            from .v2022_09_01 import models
             return models
         raise ValueError("API version {} is not available".format(api_version))
 
@@ -556,12 +565,15 @@ class AuthorizationManagementClient(MultiApiClientMixin, _SDKClient):
 
            * 2018-07-01-preview: :class:`DenyAssignmentsOperations<azure.mgmt.authorization.v2018_07_01_preview.operations.DenyAssignmentsOperations>`
            * 2022-04-01: :class:`DenyAssignmentsOperations<azure.mgmt.authorization.v2022_04_01.operations.DenyAssignmentsOperations>`
+           * 2022-09-01: :class:`DenyAssignmentsOperations<azure.mgmt.authorization.v2022_09_01.operations.DenyAssignmentsOperations>`
         """
         api_version = self._get_api_version('deny_assignments')
         if api_version == '2018-07-01-preview':
             from .v2018_07_01_preview.operations import DenyAssignmentsOperations as OperationClass
         elif api_version == '2022-04-01':
             from .v2022_04_01.operations import DenyAssignmentsOperations as OperationClass
+        elif api_version == '2022-09-01':
+            from .v2022_09_01.operations import DenyAssignmentsOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'deny_assignments'".format(api_version))
         self._config.api_version = api_version
@@ -632,6 +644,7 @@ class AuthorizationManagementClient(MultiApiClientMixin, _SDKClient):
            * 2018-01-01-preview: :class:`PermissionsOperations<azure.mgmt.authorization.v2018_01_01_preview.operations.PermissionsOperations>`
            * 2022-04-01: :class:`PermissionsOperations<azure.mgmt.authorization.v2022_04_01.operations.PermissionsOperations>`
            * 2022-05-01-preview: :class:`PermissionsOperations<azure.mgmt.authorization.v2022_05_01_preview.operations.PermissionsOperations>`
+           * 2022-09-01: :class:`PermissionsOperations<azure.mgmt.authorization.v2022_09_01.operations.PermissionsOperations>`
         """
         api_version = self._get_api_version('permissions')
         if api_version == '2015-07-01':
@@ -642,6 +655,8 @@ class AuthorizationManagementClient(MultiApiClientMixin, _SDKClient):
             from .v2022_04_01.operations import PermissionsOperations as OperationClass
         elif api_version == '2022-05-01-preview':
             from .v2022_05_01_preview.operations import PermissionsOperations as OperationClass
+        elif api_version == '2022-09-01':
+            from .v2022_09_01.operations import PermissionsOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'permissions'".format(api_version))
         self._config.api_version = api_version
@@ -654,6 +669,7 @@ class AuthorizationManagementClient(MultiApiClientMixin, _SDKClient):
            * 2015-07-01: :class:`ProviderOperationsMetadataOperations<azure.mgmt.authorization.v2015_07_01.operations.ProviderOperationsMetadataOperations>`
            * 2018-01-01-preview: :class:`ProviderOperationsMetadataOperations<azure.mgmt.authorization.v2018_01_01_preview.operations.ProviderOperationsMetadataOperations>`
            * 2022-04-01: :class:`ProviderOperationsMetadataOperations<azure.mgmt.authorization.v2022_04_01.operations.ProviderOperationsMetadataOperations>`
+           * 2022-09-01: :class:`ProviderOperationsMetadataOperations<azure.mgmt.authorization.v2022_09_01.operations.ProviderOperationsMetadataOperations>`
         """
         api_version = self._get_api_version('provider_operations_metadata')
         if api_version == '2015-07-01':
@@ -662,6 +678,8 @@ class AuthorizationManagementClient(MultiApiClientMixin, _SDKClient):
             from .v2018_01_01_preview.operations import ProviderOperationsMetadataOperations as OperationClass
         elif api_version == '2022-04-01':
             from .v2022_04_01.operations import ProviderOperationsMetadataOperations as OperationClass
+        elif api_version == '2022-09-01':
+            from .v2022_09_01.operations import ProviderOperationsMetadataOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'provider_operations_metadata'".format(api_version))
         self._config.api_version = api_version
@@ -787,6 +805,7 @@ class AuthorizationManagementClient(MultiApiClientMixin, _SDKClient):
            * 2020-04-01-preview: :class:`RoleAssignmentsOperations<azure.mgmt.authorization.v2020_04_01_preview.operations.RoleAssignmentsOperations>`
            * 2020-10-01-preview: :class:`RoleAssignmentsOperations<azure.mgmt.authorization.v2020_10_01_preview.operations.RoleAssignmentsOperations>`
            * 2022-04-01: :class:`RoleAssignmentsOperations<azure.mgmt.authorization.v2022_04_01.operations.RoleAssignmentsOperations>`
+           * 2022-09-01: :class:`RoleAssignmentsOperations<azure.mgmt.authorization.v2022_09_01.operations.RoleAssignmentsOperations>`
         """
         api_version = self._get_api_version('role_assignments')
         if api_version == '2015-07-01':
@@ -801,6 +820,8 @@ class AuthorizationManagementClient(MultiApiClientMixin, _SDKClient):
             from .v2020_10_01_preview.operations import RoleAssignmentsOperations as OperationClass
         elif api_version == '2022-04-01':
             from .v2022_04_01.operations import RoleAssignmentsOperations as OperationClass
+        elif api_version == '2022-09-01':
+            from .v2022_09_01.operations import RoleAssignmentsOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'role_assignments'".format(api_version))
         self._config.api_version = api_version
@@ -814,6 +835,7 @@ class AuthorizationManagementClient(MultiApiClientMixin, _SDKClient):
            * 2018-01-01-preview: :class:`RoleDefinitionsOperations<azure.mgmt.authorization.v2018_01_01_preview.operations.RoleDefinitionsOperations>`
            * 2022-04-01: :class:`RoleDefinitionsOperations<azure.mgmt.authorization.v2022_04_01.operations.RoleDefinitionsOperations>`
            * 2022-05-01-preview: :class:`RoleDefinitionsOperations<azure.mgmt.authorization.v2022_05_01_preview.operations.RoleDefinitionsOperations>`
+           * 2022-09-01: :class:`RoleDefinitionsOperations<azure.mgmt.authorization.v2022_09_01.operations.RoleDefinitionsOperations>`
         """
         api_version = self._get_api_version('role_definitions')
         if api_version == '2015-07-01':
@@ -824,6 +846,8 @@ class AuthorizationManagementClient(MultiApiClientMixin, _SDKClient):
             from .v2022_04_01.operations import RoleDefinitionsOperations as OperationClass
         elif api_version == '2022-05-01-preview':
             from .v2022_05_01_preview.operations import RoleDefinitionsOperations as OperationClass
+        elif api_version == '2022-09-01':
+            from .v2022_09_01.operations import RoleDefinitionsOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'role_definitions'".format(api_version))
         self._config.api_version = api_version
