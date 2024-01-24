@@ -14,6 +14,7 @@ from ._prefix_list_global_rulestack_operations import PrefixListGlobalRulestackO
 from ._pre_rules_operations import PreRulesOperations
 from ._operations import Operations
 from ._firewalls_operations import FirewallsOperations
+from ._palo_alto_networks_cloudngfw_operations import PaloAltoNetworksCloudngfwOperations
 from ._local_rulestacks_operations import LocalRulestacksOperations
 from ._firewall_status_operations import FirewallStatusOperations
 from ._certificate_object_local_rulestack_operations import CertificateObjectLocalRulestackOperations
@@ -34,6 +35,7 @@ __all__ = [
     "PreRulesOperations",
     "Operations",
     "FirewallsOperations",
+    "PaloAltoNetworksCloudngfwOperations",
     "LocalRulestacksOperations",
     "FirewallStatusOperations",
     "CertificateObjectLocalRulestackOperations",

@@ -26,6 +26,7 @@ from .operations import (
     LocalRulesOperations,
     LocalRulestacksOperations,
     Operations,
+    PaloAltoNetworksCloudngfwOperations,
     PostRulesOperations,
     PreRulesOperations,
     PrefixListGlobalRulestackOperations,
@@ -61,6 +62,9 @@ class PaloAltoNetworksNgfwMgmtClient:  # pylint: disable=client-accepts-api-vers
     :vartype operations: azure.mgmt.paloaltonetworksngfw.aio.operations.Operations
     :ivar firewalls: FirewallsOperations operations
     :vartype firewalls: azure.mgmt.paloaltonetworksngfw.aio.operations.FirewallsOperations
+    :ivar palo_alto_networks_cloudngfw: PaloAltoNetworksCloudngfwOperations operations
+    :vartype palo_alto_networks_cloudngfw:
+     azure.mgmt.paloaltonetworksngfw.aio.operations.PaloAltoNetworksCloudngfwOperations
     :ivar local_rulestacks: LocalRulestacksOperations operations
     :vartype local_rulestacks:
      azure.mgmt.paloaltonetworksngfw.aio.operations.LocalRulestacksOperations
@@ -84,8 +88,8 @@ class PaloAltoNetworksNgfwMgmtClient:  # pylint: disable=client-accepts-api-vers
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2023-09-01". Note that overriding this
-     default value may result in unsupported behavior.
+    :keyword api_version: Api Version. Default value is "2024-01-19-preview". Note that overriding
+     this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
      Retry-After header is present.
@@ -123,6 +127,9 @@ class PaloAltoNetworksNgfwMgmtClient:  # pylint: disable=client-accepts-api-vers
         self.pre_rules = PreRulesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
         self.firewalls = FirewallsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.palo_alto_networks_cloudngfw = PaloAltoNetworksCloudngfwOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.local_rulestacks = LocalRulestacksOperations(
             self._client, self._config, self._serialize, self._deserialize
         )

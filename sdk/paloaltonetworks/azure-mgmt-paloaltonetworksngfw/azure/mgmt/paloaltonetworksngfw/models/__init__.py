@@ -86,7 +86,10 @@ from ._models_py3 import SecurityServicesResponse
 from ._models_py3 import SecurityServicesTypeList
 from ._models_py3 import SourceAddr
 from ._models_py3 import StorageAccount
+from ._models_py3 import StrataCloudManagerConfig
+from ._models_py3 import StrataCloudManagerInfo
 from ._models_py3 import SupportInfo
+from ._models_py3 import SupportInfoModel
 from ._models_py3 import SystemData
 from ._models_py3 import TagInfo
 from ._models_py3 import TrackedResource
@@ -103,6 +106,7 @@ from ._palo_alto_networks_ngfw_mgmt_client_enums import DNSProxy
 from ._palo_alto_networks_ngfw_mgmt_client_enums import DecryptionRuleTypeEnum
 from ._palo_alto_networks_ngfw_mgmt_client_enums import DefaultMode
 from ._palo_alto_networks_ngfw_mgmt_client_enums import EgressNat
+from ._palo_alto_networks_ngfw_mgmt_client_enums import EnableStatus
 from ._palo_alto_networks_ngfw_mgmt_client_enums import EnabledDNSType
 from ._palo_alto_networks_ngfw_mgmt_client_enums import HealthStatus
 from ._palo_alto_networks_ngfw_mgmt_client_enums import LogOption
@@ -114,6 +118,7 @@ from ._palo_alto_networks_ngfw_mgmt_client_enums import Origin
 from ._palo_alto_networks_ngfw_mgmt_client_enums import ProtocolType
 from ._palo_alto_networks_ngfw_mgmt_client_enums import ProvisioningState
 from ._palo_alto_networks_ngfw_mgmt_client_enums import ReadOnlyProvisioningState
+from ._palo_alto_networks_ngfw_mgmt_client_enums import RegistrationStatus
 from ._palo_alto_networks_ngfw_mgmt_client_enums import ScopeType
 from ._palo_alto_networks_ngfw_mgmt_client_enums import SecurityServicesTypeEnum
 from ._palo_alto_networks_ngfw_mgmt_client_enums import ServerStatus
@@ -204,7 +209,10 @@ __all__ = [
     "SecurityServicesTypeList",
     "SourceAddr",
     "StorageAccount",
+    "StrataCloudManagerConfig",
+    "StrataCloudManagerInfo",
     "SupportInfo",
+    "SupportInfoModel",
     "SystemData",
     "TagInfo",
     "TrackedResource",
@@ -220,6 +228,7 @@ __all__ = [
     "DecryptionRuleTypeEnum",
     "DefaultMode",
     "EgressNat",
+    "EnableStatus",
     "EnabledDNSType",
     "HealthStatus",
     "LogOption",
@@ -231,6 +240,7 @@ __all__ = [
     "ProtocolType",
     "ProvisioningState",
     "ReadOnlyProvisioningState",
+    "RegistrationStatus",
     "ScopeType",
     "SecurityServicesTypeEnum",
     "ServerStatus",

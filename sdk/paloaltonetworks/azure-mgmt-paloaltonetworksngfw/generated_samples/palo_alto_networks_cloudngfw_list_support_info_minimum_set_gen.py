@@ -14,7 +14,7 @@ from azure.mgmt.paloaltonetworksngfw import PaloAltoNetworksNgfwMgmtClient
     pip install azure-identity
     pip install azure-mgmt-paloaltonetworksngfw
 # USAGE
-    python certificate_object_global_rulestack_create_or_update_minimum_set_gen.py
+    python palo_alto_networks_cloudngfw_list_support_info_minimum_set_gen.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,17 +26,13 @@ from azure.mgmt.paloaltonetworksngfw import PaloAltoNetworksNgfwMgmtClient
 def main():
     client = PaloAltoNetworksNgfwMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="SUBSCRIPTION_ID",
+        subscription_id="2bf4a339-294d-4c25-b0b2-ef649e9f5c27",
     )
 
-    response = client.certificate_object_global_rulestack.begin_create_or_update(
-        global_rulestack_name="praval",
-        name="armid1",
-        resource={"properties": {"certificateSelfSigned": "TRUE"}},
-    ).result()
+    response = client.palo_alto_networks_cloudngfw.list_support_info()
     print(response)
 
 
-# x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/preview/2024-01-19-preview/examples/CertificateObjectGlobalRulestack_CreateOrUpdate_MinimumSet_Gen.json
+# x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/preview/2024-01-19-preview/examples/PaloAltoNetworksCloudngfw_listSupportInfo_MinimumSet_Gen.json
 if __name__ == "__main__":
     main()
