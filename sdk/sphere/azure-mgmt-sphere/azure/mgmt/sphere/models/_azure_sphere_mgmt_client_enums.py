@@ -129,7 +129,7 @@ class OSFeedType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Provisioning state of the resource."""
+    """Provisioning state of resource."""
 
     SUCCEEDED = "Succeeded"
     """Resource has been created."""
@@ -163,3 +163,12 @@ class UpdatePolicy(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Update all policy."""
     NO3_RD_PARTY_APP_UPDATES = "No3rdPartyAppUpdates"
     """No update for 3rd party app policy."""
+
+
+class Versions(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Azure Sphere API versions."""
+
+    V2022_09_01 = "2022-09-01-preview"
+    """Public preview API version."""
+    V2024_04_01 = "2024-04-01"
+    """Initial GA API version."""

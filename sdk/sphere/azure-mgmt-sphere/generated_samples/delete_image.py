@@ -32,7 +32,7 @@ def main():
     client.images.begin_delete(
         resource_group_name="MyResourceGroup1",
         catalog_name="MyCatalog1",
-        image_name="imageID",
+        image_name="00000000-0000-0000-0000-000000000000",
     ).result()
 
 
