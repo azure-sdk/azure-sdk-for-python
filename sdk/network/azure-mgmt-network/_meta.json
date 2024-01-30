@@ -1,12 +1,12 @@
 {
-  "commit": "1ca8b90e85a54ad3de34aae95e319fe33b60a94b",
+  "commit": "762d1ceccd88468609af40c3576941bb8832c73c",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
   "autorest": "3.9.7",
   "use": [
     "@autorest/python@6.7.1",
     "@autorest/modelerfour@4.26.2"
   ],
-  "autorest_command": "autorest specification/network/resource-manager/readme.md --generate-sample=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/home/vsts/work/1/azure-sdk-for-python/sdk --use=@autorest/python@6.7.1 --use=@autorest/modelerfour@4.26.2 --version=3.9.7 --version-tolerant=False",
+  "autorest_command": "autorest specification/network/resource-manager/readme.md --generate-sample=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/mnt/vss/_work/1/s/azure-sdk-for-python/sdk --use=@autorest/python@6.7.1 --use=@autorest/modelerfour@4.26.2 --version=3.9.7 --version-tolerant=False",
   "readme": "specification/network/resource-manager/readme.md",
   "package-2023-02": "2023-11-08 10:08:29 -0800 4b55e2d0e29fb2e829985485c9150f46157c3b80 Microsoft.Network/stable/2023-02-01/virtualWan.json",
   "package-2021-02": "2021-09-14 19:30:27 -0700 54f1c87938269d4706629dc04c26ee1f3634585a Microsoft.Network/stable/2021-02-01/privateLinkService.json",
@@ -33,5 +33,6 @@
   "package-2015-06split": "2019-06-13 02:17:06 +0300 f0f79bfa8191ac30cfb0f87665411769bd2063a6 Microsoft.Network/stable/2015-06-15/virtualNetworkGateway.json",
   "package-2023-04": "2023-11-08 10:08:29 -0800 4b55e2d0e29fb2e829985485c9150f46157c3b80 Microsoft.Network/stable/2023-04-01/virtualWan.json",
   "package-2023-05": "2023-11-08 10:08:29 -0800 4b55e2d0e29fb2e829985485c9150f46157c3b80 Microsoft.Network/stable/2023-05-01/virtualWan.json",
-  "package-2023-06": "2023-11-08 10:08:29 -0800 4b55e2d0e29fb2e829985485c9150f46157c3b80 Microsoft.Network/stable/2023-06-01/webapplicationfirewall.json"
+  "package-2023-06": "2023-11-08 10:08:29 -0800 4b55e2d0e29fb2e829985485c9150f46157c3b80 Microsoft.Network/stable/2023-06-01/webapplicationfirewall.json",
+  "package-2023-09": "2023-12-28 00:43:34 +0530 a6237cbef545ae4cd0d3674a7cb3effa2b7b13d8 Microsoft.Network/stable/2023-09-01/webapplicationfirewall.json"
 }
