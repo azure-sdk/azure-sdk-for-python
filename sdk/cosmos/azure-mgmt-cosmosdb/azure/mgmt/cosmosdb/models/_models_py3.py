@@ -5502,7 +5502,7 @@ class DataTransferJobGetResults(ARMProxyResource):  # pylint: disable=too-many-i
     :ivar error: Error response for Faulted job.
     :vartype error: ~azure.mgmt.cosmosdb.models.ErrorResponse
     :ivar duration: Total Duration of Job.
-    :vartype duration: str
+    :vartype duration: ~datetime.timedelta
     :ivar mode: Mode of job execution. Known values are: "Offline" and "Online".
     :vartype mode: str or ~azure.mgmt.cosmosdb.models.DataTransferJobMode
     """
@@ -5534,7 +5534,7 @@ class DataTransferJobGetResults(ARMProxyResource):  # pylint: disable=too-many-i
         "last_updated_utc_time": {"key": "properties.lastUpdatedUtcTime", "type": "iso-8601"},
         "worker_count": {"key": "properties.workerCount", "type": "int"},
         "error": {"key": "properties.error", "type": "ErrorResponse"},
-        "duration": {"key": "properties.duration", "type": "str"},
+        "duration": {"key": "properties.duration", "type": "duration"},
         "mode": {"key": "properties.mode", "type": "str"},
     }
 
@@ -5597,7 +5597,7 @@ class DataTransferJobProperties(_serialization.Model):  # pylint: disable=too-ma
     :ivar error: Error response for Faulted job.
     :vartype error: ~azure.mgmt.cosmosdb.models.ErrorResponse
     :ivar duration: Total Duration of Job.
-    :vartype duration: str
+    :vartype duration: ~datetime.timedelta
     :ivar mode: Mode of job execution. Known values are: "Offline" and "Online".
     :vartype mode: str or ~azure.mgmt.cosmosdb.models.DataTransferJobMode
     """
@@ -5625,7 +5625,7 @@ class DataTransferJobProperties(_serialization.Model):  # pylint: disable=too-ma
         "last_updated_utc_time": {"key": "lastUpdatedUtcTime", "type": "iso-8601"},
         "worker_count": {"key": "workerCount", "type": "int"},
         "error": {"key": "error", "type": "ErrorResponse"},
-        "duration": {"key": "duration", "type": "str"},
+        "duration": {"key": "duration", "type": "duration"},
         "mode": {"key": "mode", "type": "str"},
     }
 
