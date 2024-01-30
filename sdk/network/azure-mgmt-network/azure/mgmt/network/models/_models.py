@@ -5913,7 +5913,8 @@ class Subnet(SubResource):  # pylint: disable=too-many-instance-attributes
      "Succeeded", "Updating", "Deleting", and "Failed".
     :vartype provisioning_state: str or ~azure.mgmt.network.models.ProvisioningState
     :ivar private_endpoint_network_policies: Enable or Disable apply network policies on private
-     end point in the subnet. Known values are: "Enabled" and "Disabled".
+     end point in the subnet. Known values are: "Enabled", "Disabled",
+     "NetworkSecurityGroupEnabled", and "RouteTableEnabled".
     :vartype private_endpoint_network_policies: str or
      ~azure.mgmt.network.models.VirtualNetworkPrivateEndpointNetworkPolicies
     :ivar private_link_service_network_policies: Enable or Disable apply network policies on
@@ -6025,7 +6026,8 @@ class Subnet(SubResource):  # pylint: disable=too-many-instance-attributes
         :keyword delegations: An array of references to the delegations on the subnet.
         :paramtype delegations: list[~azure.mgmt.network.models.Delegation]
         :keyword private_endpoint_network_policies: Enable or Disable apply network policies on private
-         end point in the subnet. Known values are: "Enabled" and "Disabled".
+         end point in the subnet. Known values are: "Enabled", "Disabled",
+         "NetworkSecurityGroupEnabled", and "RouteTableEnabled".
         :paramtype private_endpoint_network_policies: str or
          ~azure.mgmt.network.models.VirtualNetworkPrivateEndpointNetworkPolicies
         :keyword private_link_service_network_policies: Enable or Disable apply network policies on
@@ -22929,6 +22931,8 @@ class BastionHost(Resource):  # pylint: disable=too-many-instance-attributes
     :vartype location: str
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
+    :ivar zones: A list of availability zones denoting where the resource needs to come from.
+    :vartype zones: list[str]
     :ivar etag: A unique read-only string that changes whenever the resource is updated.
     :vartype etag: str
     :ivar sku: The sku of this Bastion Host.
@@ -22977,6 +22981,7 @@ class BastionHost(Resource):  # pylint: disable=too-many-instance-attributes
         "type": {"key": "type", "type": "str"},
         "location": {"key": "location", "type": "str"},
         "tags": {"key": "tags", "type": "{str}"},
+        "zones": {"key": "zones", "type": "[str]"},
         "etag": {"key": "etag", "type": "str"},
         "sku": {"key": "sku", "type": "Sku"},
         "ip_configurations": {"key": "properties.ipConfigurations", "type": "[BastionHostIPConfiguration]"},
@@ -22999,6 +23004,7 @@ class BastionHost(Resource):  # pylint: disable=too-many-instance-attributes
         id: Optional[str] = None,  # pylint: disable=redefined-builtin
         location: Optional[str] = None,
         tags: Optional[Dict[str, str]] = None,
+        zones: Optional[List[str]] = None,
         sku: Optional["_models.Sku"] = None,
         ip_configurations: Optional[List["_models.BastionHostIPConfiguration"]] = None,
         dns_name: Optional[str] = None,
@@ -23020,6 +23026,8 @@ class BastionHost(Resource):  # pylint: disable=too-many-instance-attributes
         :paramtype location: str
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
+        :keyword zones: A list of availability zones denoting where the resource needs to come from.
+        :paramtype zones: list[str]
         :keyword sku: The sku of this Bastion Host.
         :paramtype sku: ~azure.mgmt.network.models.Sku
         :keyword ip_configurations: IP configuration of the Bastion Host resource.
@@ -23049,6 +23057,7 @@ class BastionHost(Resource):  # pylint: disable=too-many-instance-attributes
         :paramtype enable_kerberos: bool
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
+        self.zones = zones
         self.etag = None
         self.sku = sku
         self.ip_configurations = ip_configurations
@@ -41866,4 +41875,215 @@ class NetworkVirtualApplianceConnectionList(_serialization.Model):
         super().__init__(**kwargs)
         self.value = value
         self.next_link = next_link
+
+class FirewallPolicyDraft(Resource):  # pylint: disable=too-many-instance-attributes
+    """FirewallPolicy Resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Resource ID.
+    :vartype id: str
+    :ivar name: Resource name.
+    :vartype name: str
+    :ivar type: Resource type.
+    :vartype type: str
+    :ivar location: Resource location.
+    :vartype location: str
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar base_policy: The parent firewall policy from which rules are inherited.
+    :vartype base_policy: ~azure.mgmt.network.models.SubResource
+    :ivar threat_intel_mode: The operation mode for Threat Intelligence. Known values are: "Alert",
+     "Deny", and "Off".
+    :vartype threat_intel_mode: str or
+     ~azure.mgmt.network.models.AzureFirewallThreatIntelMode
+    :ivar threat_intel_whitelist: ThreatIntel Whitelist for Firewall Policy.
+    :vartype threat_intel_whitelist:
+     ~azure.mgmt.network.models.FirewallPolicyThreatIntelWhitelist
+    :ivar insights: Insights on Firewall Policy.
+    :vartype insights: ~azure.mgmt.network.models.FirewallPolicyInsights
+    :ivar snat: The private IP addresses/IP ranges to which traffic will not be SNAT.
+    :vartype snat: ~azure.mgmt.network.models.FirewallPolicySNAT
+    :ivar sql: SQL Settings definition.
+    :vartype sql: ~azure.mgmt.network.models.FirewallPolicySQL
+    :ivar dns_settings: DNS Proxy Settings definition.
+    :vartype dns_settings: ~azure.mgmt.network.models.DnsSettings
+    :ivar explicit_proxy: Explicit Proxy Settings definition.
+    :vartype explicit_proxy: ~azure.mgmt.network.models.ExplicitProxy
+    :ivar intrusion_detection: The configuration for Intrusion detection.
+    :vartype intrusion_detection:
+     ~azure.mgmt.network.models.FirewallPolicyIntrusionDetection
+    """
+
+    _validation = {
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "location": {"key": "location", "type": "str"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "base_policy": {"key": "properties.basePolicy", "type": "SubResource"},
+        "threat_intel_mode": {"key": "properties.threatIntelMode", "type": "str"},
+        "threat_intel_whitelist": {
+            "key": "properties.threatIntelWhitelist",
+            "type": "FirewallPolicyThreatIntelWhitelist",
+        },
+        "insights": {"key": "properties.insights", "type": "FirewallPolicyInsights"},
+        "snat": {"key": "properties.snat", "type": "FirewallPolicySNAT"},
+        "sql": {"key": "properties.sql", "type": "FirewallPolicySQL"},
+        "dns_settings": {"key": "properties.dnsSettings", "type": "DnsSettings"},
+        "explicit_proxy": {"key": "properties.explicitProxy", "type": "ExplicitProxy"},
+        "intrusion_detection": {"key": "properties.intrusionDetection", "type": "FirewallPolicyIntrusionDetection"},
+    }
+
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        location: Optional[str] = None,
+        tags: Optional[Dict[str, str]] = None,
+        base_policy: Optional["_models.SubResource"] = None,
+        threat_intel_mode: Optional[Union[str, "_models.AzureFirewallThreatIntelMode"]] = None,
+        threat_intel_whitelist: Optional["_models.FirewallPolicyThreatIntelWhitelist"] = None,
+        insights: Optional["_models.FirewallPolicyInsights"] = None,
+        snat: Optional["_models.FirewallPolicySNAT"] = None,
+        sql: Optional["_models.FirewallPolicySQL"] = None,
+        dns_settings: Optional["_models.DnsSettings"] = None,
+        explicit_proxy: Optional["_models.ExplicitProxy"] = None,
+        intrusion_detection: Optional["_models.FirewallPolicyIntrusionDetection"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword id: Resource ID.
+        :paramtype id: str
+        :keyword location: Resource location.
+        :paramtype location: str
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword base_policy: The parent firewall policy from which rules are inherited.
+        :paramtype base_policy: ~azure.mgmt.network.models.SubResource
+        :keyword threat_intel_mode: The operation mode for Threat Intelligence. Known values are:
+         "Alert", "Deny", and "Off".
+        :paramtype threat_intel_mode: str or
+         ~azure.mgmt.network.models.AzureFirewallThreatIntelMode
+        :keyword threat_intel_whitelist: ThreatIntel Whitelist for Firewall Policy.
+        :paramtype threat_intel_whitelist:
+         ~azure.mgmt.network.models.FirewallPolicyThreatIntelWhitelist
+        :keyword insights: Insights on Firewall Policy.
+        :paramtype insights: ~azure.mgmt.network.models.FirewallPolicyInsights
+        :keyword snat: The private IP addresses/IP ranges to which traffic will not be SNAT.
+        :paramtype snat: ~azure.mgmt.network.models.FirewallPolicySNAT
+        :keyword sql: SQL Settings definition.
+        :paramtype sql: ~azure.mgmt.network.models.FirewallPolicySQL
+        :keyword dns_settings: DNS Proxy Settings definition.
+        :paramtype dns_settings: ~azure.mgmt.network.models.DnsSettings
+        :keyword explicit_proxy: Explicit Proxy Settings definition.
+        :paramtype explicit_proxy: ~azure.mgmt.network.models.ExplicitProxy
+        :keyword intrusion_detection: The configuration for Intrusion detection.
+        :paramtype intrusion_detection:
+         ~azure.mgmt.network.models.FirewallPolicyIntrusionDetection
+        """
+        super().__init__(id=id, location=location, tags=tags, **kwargs)
+        self.base_policy = base_policy
+        self.threat_intel_mode = threat_intel_mode
+        self.threat_intel_whitelist = threat_intel_whitelist
+        self.insights = insights
+        self.snat = snat
+        self.sql = sql
+        self.dns_settings = dns_settings
+        self.explicit_proxy = explicit_proxy
+        self.intrusion_detection = intrusion_detection
+
+class FirewallPolicyRuleCollectionGroupDraft(SubResource):
+    """Rule Collection Group resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Resource ID.
+    :vartype id: str
+    :ivar name: The name of the resource that is unique within a resource group. This name can be
+     used to access the resource.
+    :vartype name: str
+    :ivar type: Rule Group type.
+    :vartype type: str
+    :ivar size: A read-only string that represents the size of the
+     FirewallPolicyRuleCollectionGroupProperties in MB. (ex 1.2MB).
+    :vartype size: str
+    :ivar priority: Priority of the Firewall Policy Rule Collection Group resource.
+    :vartype priority: int
+    :ivar rule_collections: Group of Firewall Policy rule collections.
+    :vartype rule_collections:
+     list[~azure.mgmt.network.models.FirewallPolicyRuleCollection]
+    """
+
+    _validation = {
+        "type": {"readonly": True},
+        "size": {"readonly": True},
+        "priority": {"maximum": 65000, "minimum": 100},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "size": {"key": "properties.size", "type": "str"},
+        "priority": {"key": "properties.priority", "type": "int"},
+        "rule_collections": {"key": "properties.ruleCollections", "type": "[FirewallPolicyRuleCollection]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        name: Optional[str] = None,
+        priority: Optional[int] = None,
+        rule_collections: Optional[List["_models.FirewallPolicyRuleCollection"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword id: Resource ID.
+        :paramtype id: str
+        :keyword name: The name of the resource that is unique within a resource group. This name can
+         be used to access the resource.
+        :paramtype name: str
+        :keyword priority: Priority of the Firewall Policy Rule Collection Group resource.
+        :paramtype priority: int
+        :keyword rule_collections: Group of Firewall Policy rule collections.
+        :paramtype rule_collections:
+         list[~azure.mgmt.network.models.FirewallPolicyRuleCollection]
+        """
+        super().__init__(id=id, **kwargs)
+        self.name = name
+        self.type = None
+        self.size = None
+        self.priority = priority
+        self.rule_collections = rule_collections
+
+class NetworkVirtualApplianceInstanceIds(_serialization.Model):
+    """Specifies a list of virtual machine instance IDs from the Network Virtual Appliance VM
+    instances.
+
+    :ivar instance_ids: The network virtual appliance instance ids. Omitting the network virtual
+     appliance instance ids will result in the operation being performed on all virtual machines
+     belonging to the network virtual appliance.
+    :vartype instance_ids: list[str]
+    """
+
+    _attribute_map = {
+        "instance_ids": {"key": "instanceIds", "type": "[str]"},
+    }
+
+    def __init__(self, *, instance_ids: Optional[List[str]] = None, **kwargs: Any) -> None:
+        """
+        :keyword instance_ids: The network virtual appliance instance ids. Omitting the network virtual
+         appliance instance ids will result in the operation being performed on all virtual machines
+         belonging to the network virtual appliance.
+        :paramtype instance_ids: list[str]
+        """
+        super().__init__(**kwargs)
+        self.instance_ids = instance_ids
 

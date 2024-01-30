@@ -762,6 +762,9 @@ from ._models import (
     InternetIngressPublicIpsProperties,
     NetworkVirtualApplianceConnection,
     NetworkVirtualApplianceConnectionList,
+    FirewallPolicyDraft,
+    FirewallPolicyRuleCollectionGroupDraft,
+    NetworkVirtualApplianceInstanceIds,
 )
 
 from ._enums import (
@@ -1768,6 +1771,9 @@ __all__ = [
     "InternetIngressPublicIpsProperties",
     "NetworkVirtualApplianceConnection",
     "NetworkVirtualApplianceConnectionList",
+    "FirewallPolicyDraft",
+    "FirewallPolicyRuleCollectionGroupDraft",
+    "NetworkVirtualApplianceInstanceIds",
     "ApplicationGatewayCookieBasedAffinity",
     "ApplicationGatewayOperationalState",
     "ApplicationGatewayProtocol",
