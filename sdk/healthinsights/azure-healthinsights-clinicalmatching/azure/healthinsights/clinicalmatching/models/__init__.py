@@ -6,103 +6,163 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from ._models import AcceptedAge
-from ._models import AcceptedAgeRange
+from ._models import Annotation
 from ._models import AreaGeometry
 from ._models import AreaProperties
 from ._models import ClinicalCodedElement
 from ._models import ClinicalNoteEvidence
-from ._models import ClinicalTrialDemographics
-from ._models import ClinicalTrialDetails
 from ._models import ClinicalTrialMetadata
 from ._models import ClinicalTrialRegistryFilter
 from ._models import ClinicalTrialResearchFacility
 from ._models import ClinicalTrials
+from ._models import CodeableConcept
+from ._models import Coding
+from ._models import Condition
+from ._models import ConditionStage
+from ._models import ContactDetail
 from ._models import ContactDetails
+from ._models import ContactPoint
+from ._models import DocumentAdministrativeMetadata
+from ._models import DocumentAuthor
 from ._models import DocumentContent
+from ._models import DomainResource
+from ._models import Element
+from ._models import Encounter
 from ._models import Error
 from ._models import ExtendedClinicalCodedElement
+from ._models import Extension
 from ._models import GeographicArea
 from ._models import GeographicLocation
+from ._models import HealthInsightsOperationStatus
+from ._models import Identifier
 from ._models import InnerError
+from ._models import Meta
+from ._models import Narrative
+from ._models import Observation
+from ._models import ObservationComponent
+from ._models import ObservationReferenceRange
+from ._models import OrderedProcedure
+from ._models import PatientDetails
 from ._models import PatientDocument
-from ._models import PatientInfo
 from ._models import PatientRecord
+from ._models import Period
+from ._models import Quantity
+from ._models import Range
+from ._models import Ratio
+from ._models import Reference
+from ._models import ResearchStudy
+from ._models import ResearchStudyArm
+from ._models import ResearchStudyObjective
+from ._models import Resource
+from ._models import SampledData
+from ._models import TimePeriod
 from ._models import TrialMatcherData
 from ._models import TrialMatcherInference
 from ._models import TrialMatcherInferenceEvidence
+from ._models import TrialMatcherInferenceResult
 from ._models import TrialMatcherModelConfiguration
 from ._models import TrialMatcherPatientResult
-from ._models import TrialMatcherResult
-from ._models import TrialMatcherResults
 
-from ._enums import AgeUnit
 from ._enums import ClinicalDocumentType
-from ._enums import ClinicalTrialAcceptedSex
 from ._enums import ClinicalTrialPhase
 from ._enums import ClinicalTrialPurpose
 from ._enums import ClinicalTrialRecruitmentStatus
 from ._enums import ClinicalTrialSource
 from ._enums import ClinicalTrialStudyType
+from ._enums import ContactPointSystem
+from ._enums import ContactPointUse
 from ._enums import DocumentContentSourceType
 from ._enums import DocumentType
+from ._enums import EncounterClass
 from ._enums import GeoJsonGeometryType
 from ._enums import GeoJsonPropertiesSubType
 from ._enums import GeoJsonType
 from ._enums import JobStatus
-from ._enums import PatientInfoSex
-from ._enums import RepeatabilityResultType
+from ._enums import ObservationStatusCodeType
+from ._enums import PatientSex
+from ._enums import ResearchStudyStatusCodeType
+from ._enums import SpecialtyType
 from ._enums import TrialMatcherInferenceType
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
-    "AcceptedAge",
-    "AcceptedAgeRange",
+    "Annotation",
     "AreaGeometry",
     "AreaProperties",
     "ClinicalCodedElement",
     "ClinicalNoteEvidence",
-    "ClinicalTrialDemographics",
-    "ClinicalTrialDetails",
     "ClinicalTrialMetadata",
     "ClinicalTrialRegistryFilter",
     "ClinicalTrialResearchFacility",
     "ClinicalTrials",
+    "CodeableConcept",
+    "Coding",
+    "Condition",
+    "ConditionStage",
+    "ContactDetail",
     "ContactDetails",
+    "ContactPoint",
+    "DocumentAdministrativeMetadata",
+    "DocumentAuthor",
     "DocumentContent",
+    "DomainResource",
+    "Element",
+    "Encounter",
     "Error",
     "ExtendedClinicalCodedElement",
+    "Extension",
     "GeographicArea",
     "GeographicLocation",
+    "HealthInsightsOperationStatus",
+    "Identifier",
     "InnerError",
+    "Meta",
+    "Narrative",
+    "Observation",
+    "ObservationComponent",
+    "ObservationReferenceRange",
+    "OrderedProcedure",
+    "PatientDetails",
     "PatientDocument",
-    "PatientInfo",
     "PatientRecord",
+    "Period",
+    "Quantity",
+    "Range",
+    "Ratio",
+    "Reference",
+    "ResearchStudy",
+    "ResearchStudyArm",
+    "ResearchStudyObjective",
+    "Resource",
+    "SampledData",
+    "TimePeriod",
     "TrialMatcherData",
     "TrialMatcherInference",
     "TrialMatcherInferenceEvidence",
+    "TrialMatcherInferenceResult",
     "TrialMatcherModelConfiguration",
     "TrialMatcherPatientResult",
-    "TrialMatcherResult",
-    "TrialMatcherResults",
-    "AgeUnit",
     "ClinicalDocumentType",
-    "ClinicalTrialAcceptedSex",
     "ClinicalTrialPhase",
     "ClinicalTrialPurpose",
     "ClinicalTrialRecruitmentStatus",
     "ClinicalTrialSource",
     "ClinicalTrialStudyType",
+    "ContactPointSystem",
+    "ContactPointUse",
     "DocumentContentSourceType",
     "DocumentType",
+    "EncounterClass",
     "GeoJsonGeometryType",
     "GeoJsonPropertiesSubType",
     "GeoJsonType",
     "JobStatus",
-    "PatientInfoSex",
-    "RepeatabilityResultType",
+    "ObservationStatusCodeType",
+    "PatientSex",
+    "ResearchStudyStatusCodeType",
+    "SpecialtyType",
     "TrialMatcherInferenceType",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])

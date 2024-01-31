@@ -1,0 +1,6 @@
+{
+  "commit": "0b86423a8256b66c84c4e0e0d7d52e75105bb4bb",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/ai/HealthInsights/HealthInsights.PatientTimeline",
+  "@azure-tools/typespec-python": "0.18.3"
+}
