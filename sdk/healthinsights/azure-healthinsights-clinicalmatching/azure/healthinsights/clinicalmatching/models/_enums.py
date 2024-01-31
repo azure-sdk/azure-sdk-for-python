@@ -10,35 +10,17 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
-class AgeUnit(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Possible units for a person's age."""
-
-    YEARS = "years"
-    MONTHS = "months"
-    DAYS = "days"
-
-
 class ClinicalDocumentType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of the clinical document."""
 
     CONSULTATION = "consultation"
     DISCHARGE_SUMMARY = "dischargeSummary"
     HISTORY_AND_PHYSICAL = "historyAndPhysical"
+    RADIOLOGY_REPORT = "radiologyReport"
     PROCEDURE = "procedure"
     PROGRESS = "progress"
-    IMAGING = "imaging"
     LABORATORY = "laboratory"
-    PATHOLOGY = "pathology"
-
-
-class ClinicalTrialAcceptedSex(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Possible values for the Sex eligibility criterion as accepted by clinical trials, which
-    indicates the sex of people who may participate in a clinical study.
-    """
-
-    ALL = "all"
-    FEMALE = "female"
-    MALE = "male"
+    PATHOLOGY_REPORT = "pathologyReport"
 
 
 class ClinicalTrialPhase(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -92,6 +74,44 @@ class ClinicalTrialStudyType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     PATIENT_REGISTRIES = "patientRegistries"
 
 
+class ContactPointSystem(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Contact Point System
+    see https://www.hl7.org/fhir/R4/valueset-contact-point-system.html.
+    """
+
+    PHONE = "phone"
+    """Phone"""
+    FAX = "fax"
+    """Fax"""
+    EMAIL = "email"
+    """Email"""
+    PAGER = "pager"
+    """Pager"""
+    URL = "url"
+    """Url"""
+    SMS = "sms"
+    """Sms"""
+    OTHER = "other"
+    """Other"""
+
+
+class ContactPointUse(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Contact Point Use
+    See:    http://hl7.org/fhir/ValueSet/contact-point-use.
+    """
+
+    HOME = "home"
+    """Home"""
+    WORK = "work"
+    """Work"""
+    TEMP = "temp"
+    """Temp"""
+    OLD = "old"
+    """Old"""
+    MOBILE = "mobile"
+    """Mobile"""
+
+
 class DocumentContentSourceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of the content's source.
     In case the source type is 'inline', the content is given as a string (for instance, text).
@@ -99,7 +119,9 @@ class DocumentContentSourceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """
 
     INLINE = "inline"
+    """The content is given as a string (for instance, text)."""
     REFERENCE = "reference"
+    """The content is given as a URI."""
 
 
 class DocumentType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -111,6 +133,35 @@ class DocumentType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     FHIR_BUNDLE = "fhirBundle"
     DICOM = "dicom"
     GENOMIC_SEQUENCING = "genomicSequencing"
+
+
+class EncounterClass(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Known values codes that can be used to indicate the class of encounter (TODO://Based on FHIR
+    value set--http://....).
+    """
+
+    IN_PATIENT = "inpatient"
+    """A patient encounter where a patient is admitted by a hospital or equivalent facility, assigned
+    to a location where patients generally stay at least overnight and provided with room, board,
+    and continuous nursing service."""
+    AMBULATORY = "ambulatory"
+    """The term ambulatory usually implies that the patient has come to the location and is not
+    assigned to a bed. Sometimes referred to as an outpatient encounter."""
+    OBSERVATION = "observation"
+    """An encounter where the patient usually will start in different encounter, such as one in the
+    emergency department but then transition to this type of encounter because they require a
+    significant period of treatment and monitoring to determine whether or not their condition
+    warrants an inpatient admission or discharge."""
+    EMERGENCY = "emergency"
+    """A patient encounter that takes place at a dedicated healthcare service delivery location where
+    the patient receives immediate evaluation and treatment, provided until the patient can be
+    discharged or responsibility for the patient's care is transferred elsewhere (for example, the
+    patient could be admitted as an inpatient or transferred to another facility."""
+    VIRTUAL = "virtual"
+    """A patient encounter where the patient is not physically present for the encounter, such as in a
+    telehealth encounter, phone call, or electronic communication."""
+    HEALTH_HOME = "healthHome"
+    """Healthcare encounter that takes place in the residence of the patient or a designee"""
 
 
 class GeoJsonGeometryType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -138,10 +189,38 @@ class JobStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     RUNNING = "running"
     SUCCEEDED = "succeeded"
     FAILED = "failed"
-    PARTIALLY_COMPLETED = "partiallyCompleted"
+    CANCELED = "canceled"
 
 
-class PatientInfoSex(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+class ObservationStatusCodeType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Observation Status
+    Based on `FHIR ObservationStatus
+    <https://www.hl7.org/fhir/R4/valueset-observation-status.html>`_.
+    """
+
+    REGISTERED = "registered"
+    """The existence of the observation is registered, but there is no result yet available."""
+    PRELIMINARY = "preliminary"
+    """This is an initial or interim observation: data may be incomplete or unverified."""
+    FINAL = "final"
+    """The observation is complete and verified by an authorized person."""
+    AMENDED = "amended"
+    """Subsequent to being Final, the observation has been modified subsequent.  This includes
+    updates/new information and corrections."""
+    CORRECTED = "corrected"
+    """Subsequent to being Final, the observation has been modified to correct an error in the test
+    result."""
+    CANCELLED = "cancelled"
+    """The observation is unavailable because the measurement was not started or not completed (also
+    sometimes called "aborted")."""
+    ENTERED_IN_ERROR = "entered-in-error"
+    """The observation has been withdrawn following previous final release."""
+    UNKNOWN = "unknown"
+    """The observation status is unknown.  Note that "unknown" is a value of last resort and every
+    attempt should be made to provide a meaningful value other than "unknown"."""
+
+
+class PatientSex(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The patient's sex."""
 
     FEMALE = "female"
@@ -149,11 +228,46 @@ class PatientInfoSex(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     UNSPECIFIED = "unspecified"
 
 
-class RepeatabilityResultType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Type of RepeatabilityResultType."""
+class ResearchStudyStatusCodeType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """https://www.hl7.org/fhir/R4/codesystem-research-study-status.html."""
 
-    ACCEPTED = "accepted"
-    REJECTED = "rejected"
+    ACTIVE = "active"
+    """The study is open for accrual."""
+    ADMINISTRATIVELY_COMPLETED = "administratively-completed"
+    """Study is completed prematurely and will not resume; patients are no longer examined nor
+    treated."""
+    APPROVED = "approved"
+    """Protocol is approved by the review board."""
+    CLOSED_TO_ACCRUAL = "closed-to-accrual"
+    """Study is closed for accrual; patients can be examined and treated."""
+    CLOSED_TO_ACCRUAL_AND_INTERVENTION = "closed-to-accrual-and-intervention"
+    """The study is closed to accrual and intervention, i.e. the study is closed to enrollment, all
+    study subjects have completed treatment or intervention but are still being followed according
+    to the primary objective of the study."""
+    COMPLETED = "completed"
+    """Study is closed to accrual and intervention, i.e. the study is closed to enrollment, all study
+    subjects have completed treatment or intervention but are still being followed according to the
+    primary objective of the study."""
+    DISAPPROVED = "disapproved"
+    """Protocol was disapproved by the review board."""
+    IN_REVIEW = "in-review"
+    """Protocol is submitted to the review board for approval."""
+    TEMPORARILY_CLOSED_TO_ACCRUAL = "temporarily-closed-to-accrual"
+    """The study is temporarily closed to accrual; a pause in accrual while study is reviewed, but is
+    expected to resume."""
+    TEMPORARILY_CLOSED_TO_ACCRUAL_AND_INTERVENTION = "temporarily-closed-to-accrual-and-intervention"
+    """Study is temporarily closed for accrual; can be potentially resumed in the future"""
+    WITHDRAWN = "withdrawn"
+    """Protocol was withdrawn by the lead organization."""
+
+
+class SpecialtyType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Known values codes that can be used to indicate the type of the Specialty."""
+
+    PATHOLOGY = "pathology"
+    """pathology"""
+    RADIOLOGY = "radiology"
+    """radiology"""
 
 
 class TrialMatcherInferenceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
