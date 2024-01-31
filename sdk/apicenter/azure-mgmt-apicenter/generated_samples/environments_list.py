@@ -14,7 +14,7 @@ from azure.mgmt.apicenter import ApiCenterMgmtClient
     pip install azure-identity
     pip install azure-mgmt-apicenter
 # USAGE
-    python services_list_by_subscription.py
+    python environments_list.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,11 +29,15 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.services.list_by_subscription()
+    response = client.environments.list(
+        resource_group_name="contoso-resources",
+        service_name="contoso",
+        workspace_name="default",
+    )
     for item in response:
         print(item)
 
 
-# x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/Services_ListBySubscription.json
+# x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/Environments_List.json
 if __name__ == "__main__":
     main()

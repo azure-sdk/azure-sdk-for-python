@@ -14,7 +14,7 @@ from azure.mgmt.apicenter import ApiCenterMgmtClient
     pip install azure-identity
     pip install azure-mgmt-apicenter
 # USAGE
-    python services_list_by_subscription.py
+    python metadata_schemas_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,11 +29,14 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.services.list_by_subscription()
-    for item in response:
-        print(item)
+    response = client.metadata_schemas.get(
+        resource_group_name="contoso-resources",
+        service_name="contoso",
+        metadata_schema_name="lastName",
+    )
+    print(response)
 
 
-# x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/Services_ListBySubscription.json
+# x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/MetadataSchemas_Get.json
 if __name__ == "__main__":
     main()
