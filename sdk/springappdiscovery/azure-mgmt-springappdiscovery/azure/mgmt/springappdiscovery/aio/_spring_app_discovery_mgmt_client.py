@@ -32,20 +32,20 @@ if TYPE_CHECKING:
 class SpringAppDiscoveryMgmtClient:  # pylint: disable=client-accepts-api-version-keyword
     """The Microsoft.OffAzureSpringBoot Rest API spec.
 
+    :ivar operations: Operations operations
+    :vartype operations: azure.mgmt.springappdiscovery.aio.operations.Operations
     :ivar springbootsites: SpringbootsitesOperations operations
     :vartype springbootsites:
      azure.mgmt.springappdiscovery.aio.operations.SpringbootsitesOperations
-    :ivar operations: Operations operations
-    :vartype operations: azure.mgmt.springappdiscovery.aio.operations.Operations
+    :ivar springbootapps: SpringbootappsOperations operations
+    :vartype springbootapps: azure.mgmt.springappdiscovery.aio.operations.SpringbootappsOperations
     :ivar springbootservers: SpringbootserversOperations operations
     :vartype springbootservers:
      azure.mgmt.springappdiscovery.aio.operations.SpringbootserversOperations
-    :ivar springbootapps: SpringbootappsOperations operations
-    :vartype springbootapps: azure.mgmt.springappdiscovery.aio.operations.SpringbootappsOperations
-    :ivar summaries: SummariesOperations operations
-    :vartype summaries: azure.mgmt.springappdiscovery.aio.operations.SummariesOperations
     :ivar error_summaries: ErrorSummariesOperations operations
     :vartype error_summaries: azure.mgmt.springappdiscovery.aio.operations.ErrorSummariesOperations
+    :ivar summaries: SummariesOperations operations
+    :vartype summaries: azure.mgmt.springappdiscovery.aio.operations.SummariesOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
     :param subscription_id: The ID of the target subscription. Required.
@@ -75,14 +75,14 @@ class SpringAppDiscoveryMgmtClient:  # pylint: disable=client-accepts-api-versio
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
-        self.springbootsites = SpringbootsitesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
+        self.springbootsites = SpringbootsitesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.springbootapps = SpringbootappsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.springbootservers = SpringbootserversOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
-        self.springbootapps = SpringbootappsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.summaries = SummariesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.error_summaries = ErrorSummariesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.summaries = SummariesOperations(self._client, self._config, self._serialize, self._deserialize)
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> Awaitable[AsyncHttpResponse]:
         """Runs the network request through the client's chained policies.

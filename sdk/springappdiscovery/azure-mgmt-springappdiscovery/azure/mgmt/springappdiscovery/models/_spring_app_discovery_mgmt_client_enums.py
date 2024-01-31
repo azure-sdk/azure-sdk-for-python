@@ -45,3 +45,10 @@ class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ACCEPTED = "Accepted"
     PROVISIONING = "Provisioning"
     DELETING = "Deleting"
+
+
+class Versions(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The available API versions."""
+
+    V2023_01_01_PREVIEW = "2023-01-01-preview"
+    """The 2023-01-01-preview API version."""

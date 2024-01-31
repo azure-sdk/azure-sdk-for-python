@@ -193,6 +193,8 @@ class ErrorResponse(_serialization.Model):
 class ErrorSummariesProperties(_serialization.Model):
     """Error summary properties.
 
+    Variables are only populated by the server, and will be ignored when sending a request.
+
     :ivar discovery_scope_error_summaries: The list of ErrorSummary.
     :vartype discovery_scope_error_summaries:
      list[~azure.mgmt.springappdiscovery.models.ErrorSummaryModel]
@@ -202,6 +204,10 @@ class ErrorSummariesProperties(_serialization.Model):
      "Succeeded", "Failed", "Canceled", "Accepted", "Provisioning", and "Deleting".
     :vartype provisioning_state: str or ~azure.mgmt.springappdiscovery.models.ProvisioningState
     """
+
+    _validation = {
+        "provisioning_state": {"readonly": True},
+    }
 
     _attribute_map = {
         "discovery_scope_error_summaries": {"key": "discoveryScopeErrorSummaries", "type": "[ErrorSummaryModel]"},
@@ -214,7 +220,6 @@ class ErrorSummariesProperties(_serialization.Model):
         *,
         discovery_scope_error_summaries: Optional[List["_models.ErrorSummaryModel"]] = None,
         errors: Optional[List["_models.Error"]] = None,
-        provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -223,14 +228,11 @@ class ErrorSummariesProperties(_serialization.Model):
          list[~azure.mgmt.springappdiscovery.models.ErrorSummaryModel]
         :keyword errors: The list of errors.
         :paramtype errors: list[~azure.mgmt.springappdiscovery.models.Error]
-        :keyword provisioning_state: The resource provisioning state. Known values are: "Unknown",
-         "Succeeded", "Failed", "Canceled", "Accepted", "Provisioning", and "Deleting".
-        :paramtype provisioning_state: str or ~azure.mgmt.springappdiscovery.models.ProvisioningState
         """
         super().__init__(**kwargs)
         self.discovery_scope_error_summaries = discovery_scope_error_summaries
         self.errors = errors
-        self.provisioning_state = provisioning_state
+        self.provisioning_state = None
 
 
 class ErrorSummariesResourcePatch(_serialization.Model):
@@ -360,10 +362,8 @@ class ErrorSummary(ProxyResource):
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
     :vartype system_data: ~azure.mgmt.springappdiscovery.models.SystemData
-    :ivar properties: Resource properties.
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties: ~azure.mgmt.springappdiscovery.models.ErrorSummariesProperties
-    :ivar tags: Resource tags.
-    :vartype tags: dict[str, str]
     """
 
     _validation = {
@@ -379,48 +379,42 @@ class ErrorSummary(ProxyResource):
         "type": {"key": "type", "type": "str"},
         "system_data": {"key": "systemData", "type": "SystemData"},
         "properties": {"key": "properties", "type": "ErrorSummariesProperties"},
-        "tags": {"key": "tags", "type": "{str}"},
     }
 
-    def __init__(
-        self,
-        *,
-        properties: Optional["_models.ErrorSummariesProperties"] = None,
-        tags: Optional[Dict[str, str]] = None,
-        **kwargs: Any
-    ) -> None:
+    def __init__(self, *, properties: Optional["_models.ErrorSummariesProperties"] = None, **kwargs: Any) -> None:
         """
-        :keyword properties: Resource properties.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties: ~azure.mgmt.springappdiscovery.models.ErrorSummariesProperties
-        :keyword tags: Resource tags.
-        :paramtype tags: dict[str, str]
         """
         super().__init__(**kwargs)
         self.properties = properties
-        self.tags = tags
 
 
-class ErrorSummaryList(_serialization.Model):
-    """The list of ErrorSummary.
+class ErrorSummaryListResult(_serialization.Model):
+    """The response of a ErrorSummary list operation.
 
-    :ivar value: The list of ErrorSummary.
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar value: The ErrorSummary items on this page. Required.
     :vartype value: list[~azure.mgmt.springappdiscovery.models.ErrorSummary]
-    :ivar next_link: Url to follow for getting next page of resources.
+    :ivar next_link: The link to the next page of items.
     :vartype next_link: str
     """
+
+    _validation = {
+        "value": {"required": True},
+    }
 
     _attribute_map = {
         "value": {"key": "value", "type": "[ErrorSummary]"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(
-        self, *, value: Optional[List["_models.ErrorSummary"]] = None, next_link: Optional[str] = None, **kwargs: Any
-    ) -> None:
+    def __init__(self, *, value: List["_models.ErrorSummary"], next_link: Optional[str] = None, **kwargs: Any) -> None:
         """
-        :keyword value: The list of ErrorSummary.
+        :keyword value: The ErrorSummary items on this page. Required.
         :paramtype value: list[~azure.mgmt.springappdiscovery.models.ErrorSummary]
-        :keyword next_link: Url to follow for getting next page of resources.
+        :keyword next_link: The link to the next page of items.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
@@ -581,38 +575,6 @@ class OperationListResult(_serialization.Model):
         self.next_link = None
 
 
-class SpringbootappsListResult(_serialization.Model):
-    """The springbootapps list resource definition.
-
-    :ivar value: The springbootsites list.
-    :vartype value: list[~azure.mgmt.springappdiscovery.models.SpringbootappsModel]
-    :ivar next_link: The link used to get the next page of springbootapps resources list.
-    :vartype next_link: str
-    """
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[SpringbootappsModel]"},
-        "next_link": {"key": "nextLink", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        value: Optional[List["_models.SpringbootappsModel"]] = None,
-        next_link: Optional[str] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword value: The springbootsites list.
-        :paramtype value: list[~azure.mgmt.springappdiscovery.models.SpringbootappsModel]
-        :keyword next_link: The link used to get the next page of springbootapps resources list.
-        :paramtype next_link: str
-        """
-        super().__init__(**kwargs)
-        self.value = value
-        self.next_link = next_link
-
-
 class SpringbootappsModel(ProxyResource):
     """The springbootapps envelope resource definition.
 
@@ -629,10 +591,8 @@ class SpringbootappsModel(ProxyResource):
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
     :vartype system_data: ~azure.mgmt.springappdiscovery.models.SystemData
-    :ivar properties: The springbootapps resource definition.
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties: ~azure.mgmt.springappdiscovery.models.SpringbootappsProperties
-    :ivar tags: Resource tags.
-    :vartype tags: dict[str, str]
     """
 
     _validation = {
@@ -648,25 +608,49 @@ class SpringbootappsModel(ProxyResource):
         "type": {"key": "type", "type": "str"},
         "system_data": {"key": "systemData", "type": "SystemData"},
         "properties": {"key": "properties", "type": "SpringbootappsProperties"},
-        "tags": {"key": "tags", "type": "{str}"},
     }
 
-    def __init__(
-        self,
-        *,
-        properties: Optional["_models.SpringbootappsProperties"] = None,
-        tags: Optional[Dict[str, str]] = None,
-        **kwargs: Any
-    ) -> None:
+    def __init__(self, *, properties: Optional["_models.SpringbootappsProperties"] = None, **kwargs: Any) -> None:
         """
-        :keyword properties: The springbootapps resource definition.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties: ~azure.mgmt.springappdiscovery.models.SpringbootappsProperties
-        :keyword tags: Resource tags.
-        :paramtype tags: dict[str, str]
         """
         super().__init__(**kwargs)
         self.properties = properties
-        self.tags = tags
+
+
+class SpringbootappsModelListResult(_serialization.Model):
+    """The response of a SpringbootappsModel list operation.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar value: The SpringbootappsModel items on this page. Required.
+    :vartype value: list[~azure.mgmt.springappdiscovery.models.SpringbootappsModel]
+    :ivar next_link: The link to the next page of items.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[SpringbootappsModel]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: List["_models.SpringbootappsModel"], next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: The SpringbootappsModel items on this page. Required.
+        :paramtype value: list[~azure.mgmt.springappdiscovery.models.SpringbootappsModel]
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
 
 
 class SpringbootappsPatch(ProxyResource):
@@ -685,10 +669,8 @@ class SpringbootappsPatch(ProxyResource):
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
     :vartype system_data: ~azure.mgmt.springappdiscovery.models.SystemData
-    :ivar properties: The springbootapps resource definition.
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties: ~azure.mgmt.springappdiscovery.models.SpringbootappsProperties
-    :ivar tags: Resource tags.
-    :vartype tags: dict[str, str]
     """
 
     _validation = {
@@ -704,29 +686,21 @@ class SpringbootappsPatch(ProxyResource):
         "type": {"key": "type", "type": "str"},
         "system_data": {"key": "systemData", "type": "SystemData"},
         "properties": {"key": "properties", "type": "SpringbootappsProperties"},
-        "tags": {"key": "tags", "type": "{str}"},
     }
 
-    def __init__(
-        self,
-        *,
-        properties: Optional["_models.SpringbootappsProperties"] = None,
-        tags: Optional[Dict[str, str]] = None,
-        **kwargs: Any
-    ) -> None:
+    def __init__(self, *, properties: Optional["_models.SpringbootappsProperties"] = None, **kwargs: Any) -> None:
         """
-        :keyword properties: The springbootapps resource definition.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties: ~azure.mgmt.springappdiscovery.models.SpringbootappsProperties
-        :keyword tags: Resource tags.
-        :paramtype tags: dict[str, str]
         """
         super().__init__(**kwargs)
         self.properties = properties
-        self.tags = tags
 
 
 class SpringbootappsProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
     """The springbootapps resource definition.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar app_name: The name of SpringBootApp.
     :vartype app_name: str
@@ -788,6 +762,10 @@ class SpringbootappsProperties(_serialization.Model):  # pylint: disable=too-man
     :ivar errors: The list of errors.
     :vartype errors: list[~azure.mgmt.springappdiscovery.models.Error]
     """
+
+    _validation = {
+        "provisioning_state": {"readonly": True},
+    }
 
     _attribute_map = {
         "app_name": {"key": "appName", "type": "str"},
@@ -854,7 +832,6 @@ class SpringbootappsProperties(_serialization.Model):  # pylint: disable=too-man
         connection_strings: Optional[List[str]] = None,
         last_modified_time: Optional[datetime.datetime] = None,
         last_updated_time: Optional[datetime.datetime] = None,
-        provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None,
         errors: Optional[List["_models.Error"]] = None,
         **kwargs: Any
     ) -> None:
@@ -913,9 +890,6 @@ class SpringbootappsProperties(_serialization.Model):  # pylint: disable=too-man
         :paramtype last_modified_time: ~datetime.datetime
         :keyword last_updated_time: Time when this springbootapps instance was last refreshed.
         :paramtype last_updated_time: ~datetime.datetime
-        :keyword provisioning_state: The resource provisioning state. Known values are: "Unknown",
-         "Succeeded", "Failed", "Canceled", "Accepted", "Provisioning", and "Deleting".
-        :paramtype provisioning_state: str or ~azure.mgmt.springappdiscovery.models.ProvisioningState
         :keyword errors: The list of errors.
         :paramtype errors: list[~azure.mgmt.springappdiscovery.models.Error]
         """
@@ -946,7 +920,7 @@ class SpringbootappsProperties(_serialization.Model):  # pylint: disable=too-man
         self.connection_strings = connection_strings
         self.last_modified_time = last_modified_time
         self.last_updated_time = last_updated_time
-        self.provisioning_state = provisioning_state
+        self.provisioning_state = None
         self.errors = errors
 
 
@@ -1059,38 +1033,6 @@ class SpringbootappsPropertiesMiscsItem(_serialization.Model):
         self.value = value
 
 
-class SpringbootserversListResult(_serialization.Model):
-    """The springbootservers list resource definition.
-
-    :ivar value: The springbootsites list.
-    :vartype value: list[~azure.mgmt.springappdiscovery.models.SpringbootserversModel]
-    :ivar next_link: The link used to get the next page of springbootservers resources list.
-    :vartype next_link: str
-    """
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[SpringbootserversModel]"},
-        "next_link": {"key": "nextLink", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        value: Optional[List["_models.SpringbootserversModel"]] = None,
-        next_link: Optional[str] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword value: The springbootsites list.
-        :paramtype value: list[~azure.mgmt.springappdiscovery.models.SpringbootserversModel]
-        :keyword next_link: The link used to get the next page of springbootservers resources list.
-        :paramtype next_link: str
-        """
-        super().__init__(**kwargs)
-        self.value = value
-        self.next_link = next_link
-
-
 class SpringbootserversModel(ProxyResource):
     """The springbootservers envelope resource definition.
 
@@ -1107,9 +1049,7 @@ class SpringbootserversModel(ProxyResource):
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
     :vartype system_data: ~azure.mgmt.springappdiscovery.models.SystemData
-    :ivar tags: Resource tags.
-    :vartype tags: dict[str, str]
-    :ivar properties: The springbootservers resource definition.
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties: ~azure.mgmt.springappdiscovery.models.SpringbootserversProperties
     """
 
@@ -1125,26 +1065,50 @@ class SpringbootserversModel(ProxyResource):
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "system_data": {"key": "systemData", "type": "SystemData"},
-        "tags": {"key": "tags", "type": "{str}"},
         "properties": {"key": "properties", "type": "SpringbootserversProperties"},
     }
 
-    def __init__(
-        self,
-        *,
-        tags: Optional[Dict[str, str]] = None,
-        properties: Optional["_models.SpringbootserversProperties"] = None,
-        **kwargs: Any
-    ) -> None:
+    def __init__(self, *, properties: Optional["_models.SpringbootserversProperties"] = None, **kwargs: Any) -> None:
         """
-        :keyword tags: Resource tags.
-        :paramtype tags: dict[str, str]
-        :keyword properties: The springbootservers resource definition.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties: ~azure.mgmt.springappdiscovery.models.SpringbootserversProperties
         """
         super().__init__(**kwargs)
-        self.tags = tags
         self.properties = properties
+
+
+class SpringbootserversModelListResult(_serialization.Model):
+    """The response of a SpringbootserversModel list operation.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar value: The SpringbootserversModel items on this page. Required.
+    :vartype value: list[~azure.mgmt.springappdiscovery.models.SpringbootserversModel]
+    :ivar next_link: The link to the next page of items.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[SpringbootserversModel]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: List["_models.SpringbootserversModel"], next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: The SpringbootserversModel items on this page. Required.
+        :paramtype value: list[~azure.mgmt.springappdiscovery.models.SpringbootserversModel]
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
 
 
 class SpringbootserversPatch(ProxyResource):
@@ -1163,9 +1127,7 @@ class SpringbootserversPatch(ProxyResource):
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
     :vartype system_data: ~azure.mgmt.springappdiscovery.models.SystemData
-    :ivar tags: Resource tags.
-    :vartype tags: dict[str, str]
-    :ivar properties: The springbootsites resource definition.
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties: ~azure.mgmt.springappdiscovery.models.SpringbootserversProperties
     """
 
@@ -1181,30 +1143,22 @@ class SpringbootserversPatch(ProxyResource):
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "system_data": {"key": "systemData", "type": "SystemData"},
-        "tags": {"key": "tags", "type": "{str}"},
         "properties": {"key": "properties", "type": "SpringbootserversProperties"},
     }
 
-    def __init__(
-        self,
-        *,
-        tags: Optional[Dict[str, str]] = None,
-        properties: Optional["_models.SpringbootserversProperties"] = None,
-        **kwargs: Any
-    ) -> None:
+    def __init__(self, *, properties: Optional["_models.SpringbootserversProperties"] = None, **kwargs: Any) -> None:
         """
-        :keyword tags: Resource tags.
-        :paramtype tags: dict[str, str]
-        :keyword properties: The springbootsites resource definition.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties: ~azure.mgmt.springappdiscovery.models.SpringbootserversProperties
         """
         super().__init__(**kwargs)
-        self.tags = tags
         self.properties = properties
 
 
 class SpringbootserversProperties(_serialization.Model):
     """The springbootservers resource definition.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -1231,6 +1185,7 @@ class SpringbootserversProperties(_serialization.Model):
 
     _validation = {
         "server": {"required": True},
+        "provisioning_state": {"readonly": True},
     }
 
     _attribute_map = {
@@ -1254,7 +1209,6 @@ class SpringbootserversProperties(_serialization.Model):
         total_apps: Optional[int] = None,
         spring_boot_apps: Optional[int] = None,
         errors: Optional[List["_models.Error"]] = None,
-        provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -1274,9 +1228,6 @@ class SpringbootserversProperties(_serialization.Model):
         :paramtype spring_boot_apps: int
         :keyword errors: The list of errors.
         :paramtype errors: list[~azure.mgmt.springappdiscovery.models.Error]
-        :keyword provisioning_state: The resource provisioning state. Known values are: "Unknown",
-         "Succeeded", "Failed", "Canceled", "Accepted", "Provisioning", and "Deleting".
-        :paramtype provisioning_state: str or ~azure.mgmt.springappdiscovery.models.ProvisioningState
         """
         super().__init__(**kwargs)
         self.port = port
@@ -1286,39 +1237,7 @@ class SpringbootserversProperties(_serialization.Model):
         self.total_apps = total_apps
         self.spring_boot_apps = spring_boot_apps
         self.errors = errors
-        self.provisioning_state = provisioning_state
-
-
-class SpringbootsitesListResult(_serialization.Model):
-    """The springbootsites list resource definition.
-
-    :ivar value: The springbootsites list.
-    :vartype value: list[~azure.mgmt.springappdiscovery.models.SpringbootsitesModel]
-    :ivar next_link: The link used to get the next page of springbootsites resources list.
-    :vartype next_link: str
-    """
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[SpringbootsitesModel]"},
-        "next_link": {"key": "nextLink", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        value: Optional[List["_models.SpringbootsitesModel"]] = None,
-        next_link: Optional[str] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword value: The springbootsites list.
-        :paramtype value: list[~azure.mgmt.springappdiscovery.models.SpringbootsitesModel]
-        :keyword next_link: The link used to get the next page of springbootsites resources list.
-        :paramtype next_link: str
-        """
-        super().__init__(**kwargs)
-        self.value = value
-        self.next_link = next_link
+        self.provisioning_state = None
 
 
 class TrackedResource(Resource):
@@ -1397,7 +1316,7 @@ class SpringbootsitesModel(TrackedResource):
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
-    :ivar properties: The springbootsites resource definition.
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties: ~azure.mgmt.springappdiscovery.models.SpringbootsitesProperties
     :ivar extended_location: The extended location definition.
     :vartype extended_location:
@@ -1437,7 +1356,7 @@ class SpringbootsitesModel(TrackedResource):
         :paramtype tags: dict[str, str]
         :keyword location: The geo-location where the resource lives. Required.
         :paramtype location: str
-        :keyword properties: The springbootsites resource definition.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties: ~azure.mgmt.springappdiscovery.models.SpringbootsitesProperties
         :keyword extended_location: The extended location definition.
         :paramtype extended_location:
@@ -1474,6 +1393,40 @@ class SpringbootsitesModelExtendedLocation(_serialization.Model):
         self.name = name
 
 
+class SpringbootsitesModelListResult(_serialization.Model):
+    """The response of a SpringbootsitesModel list operation.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar value: The SpringbootsitesModel items on this page. Required.
+    :vartype value: list[~azure.mgmt.springappdiscovery.models.SpringbootsitesModel]
+    :ivar next_link: The link to the next page of items.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[SpringbootsitesModel]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: List["_models.SpringbootsitesModel"], next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: The SpringbootsitesModel items on this page. Required.
+        :paramtype value: list[~azure.mgmt.springappdiscovery.models.SpringbootsitesModel]
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
 class SpringbootsitesPatch(TrackedResource):
     """The springbootsites resource patch definition.
 
@@ -1496,7 +1449,7 @@ class SpringbootsitesPatch(TrackedResource):
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
-    :ivar properties: The springbootsites resource definition.
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties: ~azure.mgmt.springappdiscovery.models.SpringbootsitesProperties
     """
 
@@ -1531,7 +1484,7 @@ class SpringbootsitesPatch(TrackedResource):
         :paramtype tags: dict[str, str]
         :keyword location: The geo-location where the resource lives. Required.
         :paramtype location: str
-        :keyword properties: The springbootsites resource definition.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties: ~azure.mgmt.springappdiscovery.models.SpringbootsitesProperties
         """
         super().__init__(tags=tags, location=location, **kwargs)
@@ -1540,6 +1493,8 @@ class SpringbootsitesPatch(TrackedResource):
 
 class SpringbootsitesProperties(_serialization.Model):
     """The springbootsites resource definition.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar master_site_id: The master site ID from Azure Migrate.
     :vartype master_site_id: str
@@ -1550,6 +1505,10 @@ class SpringbootsitesProperties(_serialization.Model):
     :vartype provisioning_state: str or ~azure.mgmt.springappdiscovery.models.ProvisioningState
     """
 
+    _validation = {
+        "provisioning_state": {"readonly": True},
+    }
+
     _attribute_map = {
         "master_site_id": {"key": "masterSiteId", "type": "str"},
         "migrate_project_id": {"key": "migrateProjectId", "type": "str"},
@@ -1557,30 +1516,24 @@ class SpringbootsitesProperties(_serialization.Model):
     }
 
     def __init__(
-        self,
-        *,
-        master_site_id: Optional[str] = None,
-        migrate_project_id: Optional[str] = None,
-        provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None,
-        **kwargs: Any
+        self, *, master_site_id: Optional[str] = None, migrate_project_id: Optional[str] = None, **kwargs: Any
     ) -> None:
         """
         :keyword master_site_id: The master site ID from Azure Migrate.
         :paramtype master_site_id: str
         :keyword migrate_project_id: The migrate project ID from Azure Migrate.
         :paramtype migrate_project_id: str
-        :keyword provisioning_state: The resource provisioning state. Known values are: "Unknown",
-         "Succeeded", "Failed", "Canceled", "Accepted", "Provisioning", and "Deleting".
-        :paramtype provisioning_state: str or ~azure.mgmt.springappdiscovery.models.ProvisioningState
         """
         super().__init__(**kwargs)
         self.master_site_id = master_site_id
         self.migrate_project_id = migrate_project_id
-        self.provisioning_state = provisioning_state
+        self.provisioning_state = None
 
 
 class SummariesProperties(_serialization.Model):
     """Summaries properties.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar discovered_servers: The of number discovered spring boot servers.
     :vartype discovered_servers: int
@@ -1592,6 +1545,10 @@ class SummariesProperties(_serialization.Model):
      "Succeeded", "Failed", "Canceled", "Accepted", "Provisioning", and "Deleting".
     :vartype provisioning_state: str or ~azure.mgmt.springappdiscovery.models.ProvisioningState
     """
+
+    _validation = {
+        "provisioning_state": {"readonly": True},
+    }
 
     _attribute_map = {
         "discovered_servers": {"key": "discoveredServers", "type": "int"},
@@ -1606,7 +1563,6 @@ class SummariesProperties(_serialization.Model):
         discovered_servers: Optional[int] = None,
         discovered_apps: Optional[int] = None,
         errors: Optional[List["_models.Error"]] = None,
-        provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -1616,15 +1572,12 @@ class SummariesProperties(_serialization.Model):
         :paramtype discovered_apps: int
         :keyword errors: The list of errors.
         :paramtype errors: list[~azure.mgmt.springappdiscovery.models.Error]
-        :keyword provisioning_state: The resource provisioning state. Known values are: "Unknown",
-         "Succeeded", "Failed", "Canceled", "Accepted", "Provisioning", and "Deleting".
-        :paramtype provisioning_state: str or ~azure.mgmt.springappdiscovery.models.ProvisioningState
         """
         super().__init__(**kwargs)
         self.discovered_servers = discovered_servers
         self.discovered_apps = discovered_apps
         self.errors = errors
-        self.provisioning_state = provisioning_state
+        self.provisioning_state = None
 
 
 class SummariesResourcePatch(_serialization.Model):
@@ -1675,10 +1628,8 @@ class Summary(ProxyResource):
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
     :vartype system_data: ~azure.mgmt.springappdiscovery.models.SystemData
-    :ivar properties: Resource properties.
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties: ~azure.mgmt.springappdiscovery.models.SummariesProperties
-    :ivar tags: Resource tags.
-    :vartype tags: dict[str, str]
     """
 
     _validation = {
@@ -1694,48 +1645,42 @@ class Summary(ProxyResource):
         "type": {"key": "type", "type": "str"},
         "system_data": {"key": "systemData", "type": "SystemData"},
         "properties": {"key": "properties", "type": "SummariesProperties"},
-        "tags": {"key": "tags", "type": "{str}"},
     }
 
-    def __init__(
-        self,
-        *,
-        properties: Optional["_models.SummariesProperties"] = None,
-        tags: Optional[Dict[str, str]] = None,
-        **kwargs: Any
-    ) -> None:
+    def __init__(self, *, properties: Optional["_models.SummariesProperties"] = None, **kwargs: Any) -> None:
         """
-        :keyword properties: Resource properties.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties: ~azure.mgmt.springappdiscovery.models.SummariesProperties
-        :keyword tags: Resource tags.
-        :paramtype tags: dict[str, str]
         """
         super().__init__(**kwargs)
         self.properties = properties
-        self.tags = tags
 
 
-class SummaryList(_serialization.Model):
-    """List of Sites.
+class SummaryListResult(_serialization.Model):
+    """The response of a Summary list operation.
 
-    :ivar value: List of Sites.
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar value: The Summary items on this page. Required.
     :vartype value: list[~azure.mgmt.springappdiscovery.models.Summary]
-    :ivar next_link: Url to follow for getting next page of resources.
+    :ivar next_link: The link to the next page of items.
     :vartype next_link: str
     """
+
+    _validation = {
+        "value": {"required": True},
+    }
 
     _attribute_map = {
         "value": {"key": "value", "type": "[Summary]"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(
-        self, *, value: Optional[List["_models.Summary"]] = None, next_link: Optional[str] = None, **kwargs: Any
-    ) -> None:
+    def __init__(self, *, value: List["_models.Summary"], next_link: Optional[str] = None, **kwargs: Any) -> None:
         """
-        :keyword value: List of Sites.
+        :keyword value: The Summary items on this page. Required.
         :paramtype value: list[~azure.mgmt.springappdiscovery.models.Summary]
-        :keyword next_link: Url to follow for getting next page of resources.
+        :keyword next_link: The link to the next page of items.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)

@@ -32,19 +32,19 @@ if TYPE_CHECKING:
 class SpringAppDiscoveryMgmtClient:  # pylint: disable=client-accepts-api-version-keyword
     """The Microsoft.OffAzureSpringBoot Rest API spec.
 
-    :ivar springbootsites: SpringbootsitesOperations operations
-    :vartype springbootsites: azure.mgmt.springappdiscovery.operations.SpringbootsitesOperations
     :ivar operations: Operations operations
     :vartype operations: azure.mgmt.springappdiscovery.operations.Operations
+    :ivar springbootsites: SpringbootsitesOperations operations
+    :vartype springbootsites: azure.mgmt.springappdiscovery.operations.SpringbootsitesOperations
+    :ivar springbootapps: SpringbootappsOperations operations
+    :vartype springbootapps: azure.mgmt.springappdiscovery.operations.SpringbootappsOperations
     :ivar springbootservers: SpringbootserversOperations operations
     :vartype springbootservers:
      azure.mgmt.springappdiscovery.operations.SpringbootserversOperations
-    :ivar springbootapps: SpringbootappsOperations operations
-    :vartype springbootapps: azure.mgmt.springappdiscovery.operations.SpringbootappsOperations
-    :ivar summaries: SummariesOperations operations
-    :vartype summaries: azure.mgmt.springappdiscovery.operations.SummariesOperations
     :ivar error_summaries: ErrorSummariesOperations operations
     :vartype error_summaries: azure.mgmt.springappdiscovery.operations.ErrorSummariesOperations
+    :ivar summaries: SummariesOperations operations
+    :vartype summaries: azure.mgmt.springappdiscovery.operations.SummariesOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
     :param subscription_id: The ID of the target subscription. Required.
@@ -74,14 +74,14 @@ class SpringAppDiscoveryMgmtClient:  # pylint: disable=client-accepts-api-versio
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
-        self.springbootsites = SpringbootsitesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
+        self.springbootsites = SpringbootsitesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.springbootapps = SpringbootappsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.springbootservers = SpringbootserversOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
-        self.springbootapps = SpringbootappsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.summaries = SummariesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.error_summaries = ErrorSummariesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.summaries = SummariesOperations(self._client, self._config, self._serialize, self._deserialize)
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> HttpResponse:
         """Runs the network request through the client's chained policies.

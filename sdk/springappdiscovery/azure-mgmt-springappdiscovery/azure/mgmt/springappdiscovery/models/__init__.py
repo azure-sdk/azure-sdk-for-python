@@ -13,33 +13,33 @@ from ._models_py3 import ErrorResponse
 from ._models_py3 import ErrorSummariesProperties
 from ._models_py3 import ErrorSummariesResourcePatch
 from ._models_py3 import ErrorSummary
-from ._models_py3 import ErrorSummaryList
+from ._models_py3 import ErrorSummaryListResult
 from ._models_py3 import ErrorSummaryModel
 from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
 from ._models_py3 import OperationListResult
 from ._models_py3 import ProxyResource
 from ._models_py3 import Resource
-from ._models_py3 import SpringbootappsListResult
 from ._models_py3 import SpringbootappsModel
+from ._models_py3 import SpringbootappsModelListResult
 from ._models_py3 import SpringbootappsPatch
 from ._models_py3 import SpringbootappsProperties
 from ._models_py3 import SpringbootappsPropertiesApplicationConfigurationsItem
 from ._models_py3 import SpringbootappsPropertiesInstancesItem
 from ._models_py3 import SpringbootappsPropertiesMiscsItem
-from ._models_py3 import SpringbootserversListResult
 from ._models_py3 import SpringbootserversModel
+from ._models_py3 import SpringbootserversModelListResult
 from ._models_py3 import SpringbootserversPatch
 from ._models_py3 import SpringbootserversProperties
-from ._models_py3 import SpringbootsitesListResult
 from ._models_py3 import SpringbootsitesModel
 from ._models_py3 import SpringbootsitesModelExtendedLocation
+from ._models_py3 import SpringbootsitesModelListResult
 from ._models_py3 import SpringbootsitesPatch
 from ._models_py3 import SpringbootsitesProperties
 from ._models_py3 import SummariesProperties
 from ._models_py3 import SummariesResourcePatch
 from ._models_py3 import Summary
-from ._models_py3 import SummaryList
+from ._models_py3 import SummaryListResult
 from ._models_py3 import SystemData
 from ._models_py3 import TrackedResource
 
@@ -47,6 +47,7 @@ from ._spring_app_discovery_mgmt_client_enums import ActionType
 from ._spring_app_discovery_mgmt_client_enums import CreatedByType
 from ._spring_app_discovery_mgmt_client_enums import Origin
 from ._spring_app_discovery_mgmt_client_enums import ProvisioningState
+from ._spring_app_discovery_mgmt_client_enums import Versions
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
@@ -59,39 +60,40 @@ __all__ = [
     "ErrorSummariesProperties",
     "ErrorSummariesResourcePatch",
     "ErrorSummary",
-    "ErrorSummaryList",
+    "ErrorSummaryListResult",
     "ErrorSummaryModel",
     "Operation",
     "OperationDisplay",
     "OperationListResult",
     "ProxyResource",
     "Resource",
-    "SpringbootappsListResult",
     "SpringbootappsModel",
+    "SpringbootappsModelListResult",
     "SpringbootappsPatch",
     "SpringbootappsProperties",
     "SpringbootappsPropertiesApplicationConfigurationsItem",
     "SpringbootappsPropertiesInstancesItem",
     "SpringbootappsPropertiesMiscsItem",
-    "SpringbootserversListResult",
     "SpringbootserversModel",
+    "SpringbootserversModelListResult",
     "SpringbootserversPatch",
     "SpringbootserversProperties",
-    "SpringbootsitesListResult",
     "SpringbootsitesModel",
     "SpringbootsitesModelExtendedLocation",
+    "SpringbootsitesModelListResult",
     "SpringbootsitesPatch",
     "SpringbootsitesProperties",
     "SummariesProperties",
     "SummariesResourcePatch",
     "Summary",
-    "SummaryList",
+    "SummaryListResult",
     "SystemData",
     "TrackedResource",
     "ActionType",
     "CreatedByType",
     "Origin",
     "ProvisioningState",
+    "Versions",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
