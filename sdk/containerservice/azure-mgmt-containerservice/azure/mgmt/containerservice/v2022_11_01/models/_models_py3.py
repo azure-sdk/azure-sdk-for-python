@@ -1128,8 +1128,7 @@ class ContainerServiceNetworkProfile(_serialization.Model):  # pylint: disable=t
     :ivar docker_bridge_cidr: A CIDR notation IP range assigned to the Docker bridge network. It
      must not overlap with any Subnet IP ranges or the Kubernetes service address range.
     :vartype docker_bridge_cidr: str
-    :ivar outbound_type: This can only be set at cluster creation time and cannot be changed later.
-     For more information see `egress outbound type
+    :ivar outbound_type: For more information see `egress outbound type
      <https://docs.microsoft.com/azure/aks/egress-outboundtype>`_. Known values are: "loadBalancer",
      "userDefinedRouting", "managedNATGateway", and "userAssignedNATGateway".
     :vartype outbound_type: str or ~azure.mgmt.containerservice.v2022_11_01.models.OutboundType
@@ -1223,8 +1222,7 @@ class ContainerServiceNetworkProfile(_serialization.Model):  # pylint: disable=t
         :keyword docker_bridge_cidr: A CIDR notation IP range assigned to the Docker bridge network. It
          must not overlap with any Subnet IP ranges or the Kubernetes service address range.
         :paramtype docker_bridge_cidr: str
-        :keyword outbound_type: This can only be set at cluster creation time and cannot be changed
-         later. For more information see `egress outbound type
+        :keyword outbound_type: For more information see `egress outbound type
          <https://docs.microsoft.com/azure/aks/egress-outboundtype>`_. Known values are: "loadBalancer",
          "userDefinedRouting", "managedNATGateway", and "userAssignedNATGateway".
         :paramtype outbound_type: str or ~azure.mgmt.containerservice.v2022_11_01.models.OutboundType

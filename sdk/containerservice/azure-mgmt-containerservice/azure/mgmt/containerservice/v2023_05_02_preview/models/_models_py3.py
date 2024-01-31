@@ -1122,8 +1122,7 @@ class ContainerServiceNetworkProfile(_serialization.Model):  # pylint: disable=t
     :ivar dns_service_ip: An IP address assigned to the Kubernetes DNS service. It must be within
      the Kubernetes service address range specified in serviceCidr.
     :vartype dns_service_ip: str
-    :ivar outbound_type: This can only be set at cluster creation time and cannot be changed later.
-     For more information see `egress outbound type
+    :ivar outbound_type: For more information see `egress outbound type
      <https://docs.microsoft.com/azure/aks/egress-outboundtype>`_. Known values are: "loadBalancer",
      "userDefinedRouting", "managedNATGateway", and "userAssignedNATGateway".
     :vartype outbound_type: str or
@@ -1242,8 +1241,7 @@ class ContainerServiceNetworkProfile(_serialization.Model):  # pylint: disable=t
         :keyword dns_service_ip: An IP address assigned to the Kubernetes DNS service. It must be
          within the Kubernetes service address range specified in serviceCidr.
         :paramtype dns_service_ip: str
-        :keyword outbound_type: This can only be set at cluster creation time and cannot be changed
-         later. For more information see `egress outbound type
+        :keyword outbound_type: For more information see `egress outbound type
          <https://docs.microsoft.com/azure/aks/egress-outboundtype>`_. Known values are: "loadBalancer",
          "userDefinedRouting", "managedNATGateway", and "userAssignedNATGateway".
         :paramtype outbound_type: str or

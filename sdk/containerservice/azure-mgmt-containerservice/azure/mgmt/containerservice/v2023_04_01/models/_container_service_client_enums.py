@@ -322,8 +322,8 @@ class OSType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class OutboundType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """This can only be set at cluster creation time and cannot be changed later. For more information
-    see `egress outbound type <https://docs.microsoft.com/azure/aks/egress-outboundtype>`_.
+    """For more information see `egress outbound type
+    <https://docs.microsoft.com/azure/aks/egress-outboundtype>`_.
     """
 
     LOAD_BALANCER = "loadBalancer"
