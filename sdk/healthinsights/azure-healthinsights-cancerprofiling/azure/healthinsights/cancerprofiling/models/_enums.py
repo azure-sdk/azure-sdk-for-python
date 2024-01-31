@@ -16,11 +16,11 @@ class ClinicalDocumentType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     CONSULTATION = "consultation"
     DISCHARGE_SUMMARY = "dischargeSummary"
     HISTORY_AND_PHYSICAL = "historyAndPhysical"
+    RADIOLOGY_REPORT = "radiologyReport"
     PROCEDURE = "procedure"
     PROGRESS = "progress"
-    IMAGING = "imaging"
     LABORATORY = "laboratory"
-    PATHOLOGY = "pathology"
+    PATHOLOGY_REPORT = "pathologyReport"
 
 
 class DocumentContentSourceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -30,7 +30,9 @@ class DocumentContentSourceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """
 
     INLINE = "inline"
+    """The content is given as a string (for instance, text)."""
     REFERENCE = "reference"
+    """The content is given as a URI."""
 
 
 class DocumentType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -44,6 +46,35 @@ class DocumentType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     GENOMIC_SEQUENCING = "genomicSequencing"
 
 
+class EncounterClass(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Known values codes that can be used to indicate the class of encounter (TODO://Based on FHIR
+    value set--http://....).
+    """
+
+    IN_PATIENT = "inpatient"
+    """A patient encounter where a patient is admitted by a hospital or equivalent facility, assigned
+    to a location where patients generally stay at least overnight and provided with room, board,
+    and continuous nursing service."""
+    AMBULATORY = "ambulatory"
+    """The term ambulatory usually implies that the patient has come to the location and is not
+    assigned to a bed. Sometimes referred to as an outpatient encounter."""
+    OBSERVATION = "observation"
+    """An encounter where the patient usually will start in different encounter, such as one in the
+    emergency department but then transition to this type of encounter because they require a
+    significant period of treatment and monitoring to determine whether or not their condition
+    warrants an inpatient admission or discharge."""
+    EMERGENCY = "emergency"
+    """A patient encounter that takes place at a dedicated healthcare service delivery location where
+    the patient receives immediate evaluation and treatment, provided until the patient can be
+    discharged or responsibility for the patient's care is transferred elsewhere (for example, the
+    patient could be admitted as an inpatient or transferred to another facility."""
+    VIRTUAL = "virtual"
+    """A patient encounter where the patient is not physically present for the encounter, such as in a
+    telehealth encounter, phone call, or electronic communication."""
+    HEALTH_HOME = "healthHome"
+    """Healthcare encounter that takes place in the residence of the patient or a designee"""
+
+
 class JobStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The status of the processing job."""
 
@@ -51,7 +82,7 @@ class JobStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     RUNNING = "running"
     SUCCEEDED = "succeeded"
     FAILED = "failed"
-    PARTIALLY_COMPLETED = "partiallyCompleted"
+    CANCELED = "canceled"
 
 
 class OncoPhenotypeInferenceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -65,9 +96,10 @@ class OncoPhenotypeInferenceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     PATHOLOGIC_STAGE_T = "pathologicStageT"
     PATHOLOGIC_STAGE_N = "pathologicStageN"
     PATHOLOGIC_STAGE_M = "pathologicStageM"
+    DIAGNOSIS_DATE = "diagnosisDate"
 
 
-class PatientInfoSex(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+class PatientSex(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The patient's sex."""
 
     FEMALE = "female"
@@ -75,8 +107,10 @@ class PatientInfoSex(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     UNSPECIFIED = "unspecified"
 
 
-class RepeatabilityResultType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Type of RepeatabilityResultType."""
+class SpecialtyType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Known values codes that can be used to indicate the type of the Specialty."""
 
-    ACCEPTED = "accepted"
-    REJECTED = "rejected"
+    PATHOLOGY = "pathology"
+    """pathology"""
+    RADIOLOGY = "radiology"
+    """radiology"""
