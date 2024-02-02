@@ -34,12 +34,20 @@ def main():
         workspace_name="myWorkspace",
         parameters={
             "location": "westus",
-            "properties": {"managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG"},
+            "properties": {
+                "accessConnector": {
+                    "id": "/subscriptions/subid/resourceGroups/rg/providers/accessConnectors/myAccessConnector",
+                    "identityType": "SystemAssigned",
+                },
+                "defaultCatalog": {"initialName": "", "initialType": "UnityCatalog"},
+                "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
+                "privateDbfsAccess": "Enabled",
+            },
         },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/WorkspaceCreate.json
+# x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/preview/2024-02-01-preview/examples/WorkspaceCreate.json
 if __name__ == "__main__":
     main()
