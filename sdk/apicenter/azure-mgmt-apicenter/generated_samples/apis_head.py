@@ -14,7 +14,7 @@ from azure.mgmt.apicenter import ApiCenterMgmtClient
     pip install azure-identity
     pip install azure-mgmt-apicenter
 # USAGE
-    python operations_list.py
+    python apis_head.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,14 +26,18 @@ from azure.mgmt.apicenter import ApiCenterMgmtClient
 def main():
     client = ApiCenterMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="SUBSCRIPTION_ID",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.operations.list()
-    for item in response:
-        print(item)
+    response = client.apis.head(
+        resource_group_name="contoso-resources",
+        service_name="contoso",
+        workspace_name="default",
+        api_name="echo-api",
+    )
+    print(response)
 
 
-# x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/Operations_List.json
+# x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/Apis_Head.json
 if __name__ == "__main__":
     main()
