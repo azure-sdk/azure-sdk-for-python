@@ -1,0 +1,6 @@
+{
+  "commit": "d0172d15061c84ada3974b6815f48b03016d3c29",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/purview/Azure.Analytics.Purview.DataMap",
+  "@azure-tools/typespec-python": "0.18.3"
+}
