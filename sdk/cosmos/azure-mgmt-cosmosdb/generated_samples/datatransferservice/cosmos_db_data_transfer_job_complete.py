@@ -14,7 +14,7 @@ from azure.mgmt.cosmosdb import CosmosDBManagementClient
     pip install azure-identity
     pip install azure-mgmt-cosmosdb
 # USAGE
-    python cosmos_db_gremlin_database_throughput_update.py
+    python cosmos_db_data_transfer_job_complete.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,19 +29,14 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.gremlin_resources.begin_update_gremlin_database_throughput(
+    response = client.data_transfer_jobs.complete(
         resource_group_name="rg1",
         account_name="ddb1",
-        database_name="databaseName",
-        update_throughput_parameters={
-            "location": "West US",
-            "properties": {"resource": {"throughput": 400}},
-            "tags": {},
-        },
-    ).result()
+        job_name="j1",
+    )
     print(response)
 
 
-# x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBGremlinDatabaseThroughputUpdate.json
+# x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/data-transfer-service/CosmosDBDataTransferJobComplete.json
 if __name__ == "__main__":
     main()
