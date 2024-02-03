@@ -31,11 +31,11 @@ def main():
 
     response = client.accounts.get(
         resource_group_name="dummyrg",
-        name="myPlaywrightAccount",
+        account_name="myPlaywrightAccount",
     )
     print(response)
 
 
-# x-ms-original-file: specification/playwrighttesting/resource-manager/Microsoft.AzurePlaywrightService/preview/2023-10-01-preview/examples/Accounts_Get.json
+# x-ms-original-file: specification/playwrighttesting/resource-manager/Microsoft.AzurePlaywrightService/stable/2024-02-01/examples/Accounts_Get.json
 if __name__ == "__main__":
     main()
