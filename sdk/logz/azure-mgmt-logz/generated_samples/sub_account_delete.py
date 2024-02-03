@@ -29,12 +29,11 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.sub_account.begin_delete(
+    client.sub_account.begin_delete(
         resource_group_name="myResourceGroup",
         monitor_name="myMonitor",
         sub_account_name="someName",
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/logz/resource-manager/Microsoft.Logz/stable/2020-10-01/examples/SubAccount_Delete.json
