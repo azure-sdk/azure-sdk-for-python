@@ -16,6 +16,13 @@ class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     INTERNAL = "Internal"
 
 
+class CheckNameAvailabilityReason(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The reason why the given name is not available."""
+
+    INVALID = "Invalid"
+    ALREADY_EXISTS = "AlreadyExists"
+
+
 class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of identity that created the resource."""
 
@@ -41,6 +48,10 @@ class FreeTrialState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The free-trial is Active."""
     EXPIRED = "Expired"
     """The free-trial is Expired."""
+    NOT_ELIGIBLE = "NotEligible"
+    """The free-trial is Not Eligible."""
+    NOT_REGISTERED = "NotRegistered"
+    """The free-trial is Not Registered."""
 
 
 class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -62,10 +73,12 @@ class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Resource creation failed."""
     CANCELED = "Canceled"
     """Resource creation was canceled."""
+    CREATING = "Creating"
+    """Creation in progress.."""
     DELETING = "Deleting"
-    """Deletion in progress"""
+    """Deletion in progress.."""
     ACCEPTED = "Accepted"
-    """Change accepted for processing"""
+    """Change accepted for processing.."""
 
 
 class QuotaNames(str, Enum, metaclass=CaseInsensitiveEnumMeta):
