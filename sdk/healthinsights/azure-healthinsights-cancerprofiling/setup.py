@@ -13,7 +13,7 @@ from setuptools import setup, find_packages
 
 
 PACKAGE_NAME = "azure-healthinsights-cancerprofiling"
-PACKAGE_PPRINT_NAME = "Cognitive Services Health Insights Cancer Profilings"
+PACKAGE_PPRINT_NAME = "Azure Health Insights - Cancer Profiling"
 
 # a-b-c => a/b/c
 package_folder_path = PACKAGE_NAME.replace("-", "/")
@@ -29,7 +29,7 @@ if not version:
 setup(
     name=PACKAGE_NAME,
     version=version,
-    description='Microsoft {} Client Library for Python'.format(PACKAGE_PPRINT_NAME),
+    description="Microsoft {} Client Library for Python".format(PACKAGE_PPRINT_NAME),
     long_description=open("README.md", "r").read(),
     long_description_content_type="text/markdown",
     license="MIT License",
@@ -42,11 +42,11 @@ setup(
         "Programming Language :: Python",
         "Programming Language :: Python :: 3 :: Only",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
         "License :: OSI Approved :: MIT License",
     ],
     zip_safe=False,
@@ -60,12 +60,11 @@ setup(
     ),
     include_package_data=True,
     package_data={
-        "pytyped": ["py.typed"],
+        "azure.healthinsights.cancerprofiling": ["py.typed"],
     },
     install_requires=[
         "isodate<1.0.0,>=0.6.1",
-        "azure-core<2.0.0,>=1.24.0",
-        "typing-extensions>=4.3.0; python_version<'3.8.0'",
+        "azure-core<2.0.0,>=1.30.0",
     ],
-    python_requires=">=3.7",
+    python_requires=">=3.8",
 )
