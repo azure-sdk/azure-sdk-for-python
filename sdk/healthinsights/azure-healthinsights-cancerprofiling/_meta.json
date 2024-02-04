@@ -1,0 +1,6 @@
+{
+  "commit": "e77bf4b444e25cf7210e51cc83b42496bccbd506",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/ai/HealthInsights/HealthInsights.OncoPhenotype",
+  "@azure-tools/typespec-python": "0.19.0"
+}
