@@ -36,6 +36,6 @@ def main():
     ).result()
 
 
-# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-11-01/examples/AgentPoolsAbortOperation.json
+# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-01-02-preview/examples/AgentPoolsAbortOperation.json
 if __name__ == "__main__":
     main()

@@ -35,6 +35,6 @@ def main():
     ).result()
 
 
-# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-11-01/examples/ManagedClustersDelete.json
+# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-01-02-preview/examples/ManagedClustersDelete.json
 if __name__ == "__main__":
     main()
