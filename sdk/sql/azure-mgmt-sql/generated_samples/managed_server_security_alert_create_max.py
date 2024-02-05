@@ -35,7 +35,7 @@ def main():
         security_alert_policy_name="Default",
         parameters={
             "properties": {
-                "disabledAlerts": ["Access_Anomaly", "Usage_Anomaly"],
+                "disabledAlerts": ["Access_Anomaly"],
                 "emailAccountAdmins": True,
                 "emailAddresses": ["testSecurityAlert@microsoft.com"],
                 "retentionDays": 5,

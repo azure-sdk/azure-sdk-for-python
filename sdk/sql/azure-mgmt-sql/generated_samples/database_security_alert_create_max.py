@@ -36,7 +36,7 @@ def main():
         security_alert_policy_name="Default",
         parameters={
             "properties": {
-                "disabledAlerts": ["Sql_Injection", "Usage_Anomaly"],
+                "disabledAlerts": ["Sql_Injection", "Access_Anomaly"],
                 "emailAccountAdmins": True,
                 "emailAddresses": ["test@microsoft.com", "user@microsoft.com"],
                 "retentionDays": 6,
