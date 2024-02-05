@@ -1,11 +1,13 @@
 {
-  "commit": "396209531039d3e211cb1ec0982606dbbdf64ac2",
-  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
-  "autorest": "3.9.2",
+  "commit": "84e36a702e517cec5f54303e879a3f9f88e61fa4",
+  "repository_url": "https://github.com/test-repo-billy/azure-rest-api-specs-pr",
+  "autorest": "3.9.7",
   "use": [
-    "@autorest/python@6.4.3",
-    "@autorest/modelerfour@4.24.3"
+    "@autorest/python@6.7.1",
+    "@autorest/modelerfour@4.26.2"
   ],
-  "autorest_command": "autorest specification/appconfiguration/resource-manager/readme.md --generate-sample=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/home/vsts/work/1/azure-sdk-for-python/sdk --use=@autorest/python@6.4.3 --use=@autorest/modelerfour@4.24.3 --version=3.9.2 --version-tolerant=False",
-  "readme": "specification/appconfiguration/resource-manager/readme.md"
+  "autorest_command": "autorest specification/appconfiguration/resource-manager/readme.md --generate-sample=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/mnt/vss/_work/1/s/azure-sdk-for-python/sdk --use=@autorest/python@6.7.1 --use=@autorest/modelerfour@4.26.2 --version=3.9.7 --version-tolerant=False",
+  "readme": "specification/appconfiguration/resource-manager/readme.md",
+  "package-2022-05-01": "2023-02-02 21:00:54 -0500 2c4244e5bcb8939167b79f633cdc17a1f0eae9be Microsoft.AppConfiguration/stable/2022-05-01/appconfiguration.json",
+  "package-2022-03-01-preview": "2024-02-05 14:50:23 +0800 b01330cb06a93ff3107fccbbd308a29def23ca85 Microsoft.AppConfiguration/preview/2022-03-01-preview/appconfiguration.json"
 }
