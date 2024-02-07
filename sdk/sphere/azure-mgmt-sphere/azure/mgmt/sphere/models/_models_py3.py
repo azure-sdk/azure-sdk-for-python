@@ -496,6 +496,31 @@ class CountElementsResponse(_serialization.Model):
 
 
 class CountDeviceResponse(CountElementsResponse):
+    """Response to the action call for count devices in a catalog (preview API).
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar value: Number of children resources in parent resource. Required.
+    :vartype value: int
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "int"},
+    }
+
+    def __init__(self, *, value: int, **kwargs: Any) -> None:
+        """
+        :keyword value: Number of children resources in parent resource. Required.
+        :paramtype value: int
+        """
+        super().__init__(value=value, **kwargs)
+
+
+class CountDevicesResponse(CountElementsResponse):
     """Response to the action call for count devices in a catalog.
 
     All required parameters must be populated in order to send to Azure.
@@ -1303,32 +1328,6 @@ class ImageListResult(_serialization.Model):
         super().__init__(**kwargs)
         self.value = value
         self.next_link = next_link
-
-
-class ImageUploadRequestBody(_serialization.Model):
-    """Image upload request body.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar images: . Required.
-    :vartype images: str
-    """
-
-    _validation = {
-        "images": {"required": True},
-    }
-
-    _attribute_map = {
-        "images": {"key": "images", "type": "str"},
-    }
-
-    def __init__(self, *, images: str, **kwargs: Any) -> None:
-        """
-        :keyword images: . Required.
-        :paramtype images: str
-        """
-        super().__init__(**kwargs)
-        self.images = images
 
 
 class ListDeviceGroupsRequest(_serialization.Model):
