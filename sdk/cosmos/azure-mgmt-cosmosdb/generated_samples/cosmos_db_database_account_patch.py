@@ -84,6 +84,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-11-15-preview/examples/CosmosDBDatabaseAccountPatch.json
+# x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-08-preview/examples/CosmosDBDatabaseAccountPatch.json
 if __name__ == "__main__":
     main()
