@@ -14,7 +14,7 @@ from azure.mgmt.managednetworkfabric import ManagedNetworkFabricMgmtClient
     pip install azure-identity
     pip install azure-mgmt-managednetworkfabric
 # USAGE
-    python network_fabrics_upgrade_maximum_set_gen.py
+    python network_devices_run_device_ro_command_maximum_set_gen.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,14 +29,14 @@ def main():
         subscription_id="1234ABCD-0A1B-1234-5678-123456ABCDEF",
     )
 
-    response = client.network_fabrics.begin_upgrade(
-        resource_group_name="example-rg",
-        network_fabric_name="example-fabric",
-        body={"action": "Start", "version": "3.x.x"},
+    response = client.network_devices.begin_run_ro_command(
+        resource_group_name="rgNetworkDevices",
+        network_device_name="example-device",
+        body={"command": "sh version"},
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/managednetworkfabric/resource-manager/Microsoft.ManagedNetworkFabric/stable/2023-06-15/examples/NetworkFabrics_upgrade_MaximumSet_Gen.json
+# x-ms-original-file: specification/managednetworkfabric/resource-manager/Microsoft.ManagedNetworkFabric/stable/2023-06-15/examples/NetworkDevices_RunDeviceRoCommand_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()

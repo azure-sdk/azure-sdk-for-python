@@ -25,6 +25,7 @@ from ._models_py3 import BfdConfiguration
 from ._models_py3 import BgpConfiguration
 from ._models_py3 import CommonDynamicMatchConfiguration
 from ._models_py3 import CommonMatchConditions
+from ._models_py3 import CommonPostActionResponseForDeviceROCommands
 from ._models_py3 import CommonPostActionResponseForDeviceUpdate
 from ._models_py3 import CommonPostActionResponseForStateUpdate
 from ._models_py3 import ConnectedSubnet
@@ -32,6 +33,7 @@ from ._models_py3 import ConnectedSubnetRoutePolicy
 from ._models_py3 import ControllerServices
 from ._models_py3 import DestinationProperties
 from ._models_py3 import DeviceInterfaceProperties
+from ._models_py3 import DeviceRoCommand
 from ._models_py3 import EnableDisableOnResources
 from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorDetail
@@ -213,6 +215,7 @@ from ._models_py3 import TrackedResource
 from ._models_py3 import UpdateAdministrativeState
 from ._models_py3 import UpdateDeviceAdministrativeState
 from ._models_py3 import UpdateVersion
+from ._models_py3 import UpgradeNetworkFabricProperties
 from ._models_py3 import ValidateConfigurationProperties
 from ._models_py3 import ValidateConfigurationResponse
 from ._models_py3 import VlanGroupProperties
@@ -251,6 +254,7 @@ from ._managed_network_fabric_mgmt_client_enums import IsWorkloadManagementNetwo
 from ._managed_network_fabric_mgmt_client_enums import Layer4Protocol
 from ._managed_network_fabric_mgmt_client_enums import NetworkDeviceRole
 from ._managed_network_fabric_mgmt_client_enums import NetworkDeviceRoleName
+from ._managed_network_fabric_mgmt_client_enums import NetworkFabricUpgradeAction
 from ._managed_network_fabric_mgmt_client_enums import NetworkRackType
 from ._managed_network_fabric_mgmt_client_enums import NfcSku
 from ._managed_network_fabric_mgmt_client_enums import NniType
@@ -294,6 +298,7 @@ __all__ = [
     "BgpConfiguration",
     "CommonDynamicMatchConfiguration",
     "CommonMatchConditions",
+    "CommonPostActionResponseForDeviceROCommands",
     "CommonPostActionResponseForDeviceUpdate",
     "CommonPostActionResponseForStateUpdate",
     "ConnectedSubnet",
@@ -301,6 +306,7 @@ __all__ = [
     "ControllerServices",
     "DestinationProperties",
     "DeviceInterfaceProperties",
+    "DeviceRoCommand",
     "EnableDisableOnResources",
     "ErrorAdditionalInfo",
     "ErrorDetail",
@@ -482,6 +488,7 @@ __all__ = [
     "UpdateAdministrativeState",
     "UpdateDeviceAdministrativeState",
     "UpdateVersion",
+    "UpgradeNetworkFabricProperties",
     "ValidateConfigurationProperties",
     "ValidateConfigurationResponse",
     "VlanGroupProperties",
@@ -519,6 +526,7 @@ __all__ = [
     "Layer4Protocol",
     "NetworkDeviceRole",
     "NetworkDeviceRoleName",
+    "NetworkFabricUpgradeAction",
     "NetworkRackType",
     "NfcSku",
     "NniType",
