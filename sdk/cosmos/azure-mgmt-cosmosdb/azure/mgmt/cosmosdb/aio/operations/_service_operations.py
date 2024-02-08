@@ -65,7 +65,7 @@ class ServiceOperations:
     def list(
         self, resource_group_name: str, account_name: str, **kwargs: Any
     ) -> AsyncIterable["_models.ServiceResource"]:
-        """Gets the status of service.
+        """Gets the status of service. test.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
