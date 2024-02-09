@@ -59,6 +59,15 @@ class CrossSubscriptionRestoreState(str, Enum, metaclass=CaseInsensitiveEnumMeta
     PERMANENTLY_DISABLED = "PermanentlyDisabled"
 
 
+class EnhancedSecurityState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """EnhancedSecurityState."""
+
+    INVALID = "Invalid"
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+    ALWAYS_ON = "AlwaysON"
+
+
 class ImmutabilityState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """ImmutabilityState."""
 
@@ -165,6 +174,7 @@ class SoftDeleteState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 class StandardTierStorageRedundancy(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The storage redundancy setting of a vault."""
 
+    INVALID = "Invalid"
     LOCALLY_REDUNDANT = "LocallyRedundant"
     GEO_REDUNDANT = "GeoRedundant"
     ZONE_REDUNDANT = "ZoneRedundant"

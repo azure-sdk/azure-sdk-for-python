@@ -14,7 +14,7 @@ from azure.mgmt.recoveryservices import RecoveryServicesClient
     pip install azure-identity
     pip install azure-mgmt-recoveryservices
 # USAGE
-    python patch_vault_with_cmk3.py
+    python patch_vault_with_redundancy_settings.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -33,25 +33,14 @@ def main():
         resource_group_name="HelloWorld",
         vault_name="swaggerExample",
         vault={
-            "identity": {
-                "type": "UserAssigned",
-                "userAssignedIdentities": {
-                    "/subscriptions/85bf5e8c-3084-4f42-add2-746ebb7e97b2/resourcegroups/defaultrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/examplemsi": {}
-                },
-            },
             "properties": {
-                "encryption": {
-                    "keyVaultProperties": {
-                        "keyUri": "https://cmk2xkv.vault.azure.net/keys/Key1/0767b348bb1a4c07baa6c4ec0055d2b3"
-                    }
-                }
-            },
-            "tags": {"PatchKey": "PatchKeyUpdated"},
+                "redundancySettings": {"crossRegionRestore": "Enabled", "standardTierStorageRedundancy": "GeoRedundant"}
+            }
         },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-02-01/examples/PATCHVault_WithCMK3.json
+# x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-02-01/examples/PATCHVault_WithRedundancySettings.json
 if __name__ == "__main__":
     main()

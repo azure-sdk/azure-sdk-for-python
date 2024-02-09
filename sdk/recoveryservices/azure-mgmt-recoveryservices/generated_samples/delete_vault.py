@@ -29,12 +29,12 @@ def main():
         subscription_id="77777777-b0c6-47a2-b37c-d8e65a629c18",
     )
 
-    client.vaults.delete(
+    client.vaults.begin_delete(
         resource_group_name="Default-RecoveryServices-ResourceGroup",
         vault_name="swaggerExample",
-    )
+    ).result()
 
 
-# x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-04-01/examples/DeleteVault.json
+# x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-02-01/examples/DeleteVault.json
 if __name__ == "__main__":
     main()
