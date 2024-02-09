@@ -25,6 +25,7 @@ from .operations import (
     FileSharesOperations,
     LocalUsersOperations,
     ManagementPoliciesOperations,
+    NetworkSecurityPerimeterConfigurationsOperations,
     ObjectReplicationPoliciesOperations,
     Operations,
     PrivateEndpointConnectionsOperations,
@@ -95,6 +96,10 @@ class StorageManagementClient:  # pylint: disable=client-accepts-api-version-key
     :vartype table_services: azure.mgmt.storage.v2022_09_01.aio.operations.TableServicesOperations
     :ivar table: TableOperations operations
     :vartype table: azure.mgmt.storage.v2022_09_01.aio.operations.TableOperations
+    :ivar network_security_perimeter_configurations:
+     NetworkSecurityPerimeterConfigurationsOperations operations
+    :vartype network_security_perimeter_configurations:
+     azure.mgmt.storage.v2022_09_01.aio.operations.NetworkSecurityPerimeterConfigurationsOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
     :param subscription_id: The ID of the target subscription. Required.
@@ -174,6 +179,9 @@ class StorageManagementClient:  # pylint: disable=client-accepts-api-version-key
             self._client, self._config, self._serialize, self._deserialize, "2022-09-01"
         )
         self.table = TableOperations(self._client, self._config, self._serialize, self._deserialize, "2022-09-01")
+        self.network_security_perimeter_configurations = NetworkSecurityPerimeterConfigurationsOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2022-09-01"
+        )
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> Awaitable[AsyncHttpResponse]:
         """Runs the network request through the client's chained policies.

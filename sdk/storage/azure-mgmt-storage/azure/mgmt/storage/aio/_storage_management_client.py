@@ -58,6 +58,7 @@ class StorageManagementClient(MultiApiClientMixin, _SDKClient):
     LATEST_PROFILE = ProfileDefinition({
         _PROFILE_TAG: {
             None: DEFAULT_API_VERSION,
+            'network_security_perimeter_configurations': '2022-09-01',
             'usage': '2018-02-01',
         }},
         _PROFILE_TAG + " latest"
@@ -587,6 +588,20 @@ class StorageManagementClient(MultiApiClientMixin, _SDKClient):
             from ..v2023_01_01.aio.operations import ManagementPoliciesOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'management_policies'".format(api_version))
+        self._config.api_version = api_version
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
+
+    @property
+    def network_security_perimeter_configurations(self):
+        """Instance depends on the API version:
+
+           * 2022-09-01: :class:`NetworkSecurityPerimeterConfigurationsOperations<azure.mgmt.storage.v2022_09_01.aio.operations.NetworkSecurityPerimeterConfigurationsOperations>`
+        """
+        api_version = self._get_api_version('network_security_perimeter_configurations')
+        if api_version == '2022-09-01':
+            from ..v2022_09_01.aio.operations import NetworkSecurityPerimeterConfigurationsOperations as OperationClass
+        else:
+            raise ValueError("API version {} does not have operation group 'network_security_perimeter_configurations'".format(api_version))
         self._config.api_version = api_version
         return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 

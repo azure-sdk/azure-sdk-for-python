@@ -26,6 +26,7 @@ from ._queue_services_operations import QueueServicesOperations
 from ._queue_operations import QueueOperations
 from ._table_services_operations import TableServicesOperations
 from ._table_operations import TableOperations
+from ._network_security_perimeter_configurations_operations import NetworkSecurityPerimeterConfigurationsOperations
 
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
@@ -52,6 +53,7 @@ __all__ = [
     "QueueOperations",
     "TableServicesOperations",
     "TableOperations",
+    "NetworkSecurityPerimeterConfigurationsOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()

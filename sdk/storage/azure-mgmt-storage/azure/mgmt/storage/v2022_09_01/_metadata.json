@@ -124,6 +124,7 @@
         "queue_services": "QueueServicesOperations",
         "queue": "QueueOperations",
         "table_services": "TableServicesOperations",
-        "table": "TableOperations"
+        "table": "TableOperations",
+        "network_security_perimeter_configurations": "NetworkSecurityPerimeterConfigurationsOperations"
     }
 }

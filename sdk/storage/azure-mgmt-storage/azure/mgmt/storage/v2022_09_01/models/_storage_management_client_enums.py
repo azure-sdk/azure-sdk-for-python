@@ -378,6 +378,22 @@ class Name(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ACCESS_TIME_TRACKING = "AccessTimeTracking"
 
 
+class NetworkSecurityPerimeterConfigurationProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Provisioning state of Network Security Perimeter configuration propagation."""
+
+    ACCEPTED = "Accepted"
+    SUCCEEDED = "Succeeded"
+    FAILED = "Failed"
+    DELETING = "Deleting"
+
+
+class NspAccessRuleDirection(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Direction of Access Rule."""
+
+    INBOUND = "Inbound"
+    OUTBOUND = "Outbound"
+
+
 class ObjectType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """This is a required field. This field specifies the scope of the inventory created either at the
     blob or container level.
@@ -419,6 +435,20 @@ class PrivateEndpointServiceConnectionStatus(str, Enum, metaclass=CaseInsensitiv
     REJECTED = "Rejected"
 
 
+class ProvisioningIssuePropertiesIssueType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of issue."""
+
+    UNKNOWN = "Unknown"
+    CONFIGURATION_PROPAGATION_FAILURE = "ConfigurationPropagationFailure"
+
+
+class ProvisioningIssuePropertiesSeverity(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Severity of the issue."""
+
+    WARNING = "Warning"
+    ERROR = "Error"
+
+
 class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Gets the status of the storage account at the time the operation was called."""
 
@@ -436,12 +466,14 @@ class PublicAccess(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class PublicNetworkAccess(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Allow or disallow public network access to Storage Account. Value is optional but if passed in,
-    must be 'Enabled' or 'Disabled'.
+    """Allow, disallow, or let Network Security Perimeter configuration to evaluate public network
+    access to Storage Account. Value is optional but if passed in, must be 'Enabled', 'Disabled' or
+    'SecuredByPerimeter'.
     """
 
     ENABLED = "Enabled"
     DISABLED = "Disabled"
+    SECURED_BY_PERIMETER = "SecuredByPerimeter"
 
 
 class Reason(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -462,6 +494,14 @@ class ReasonCode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     QUOTA_ID = "QuotaId"
     NOT_AVAILABLE_FOR_SUBSCRIPTION = "NotAvailableForSubscription"
+
+
+class ResourceAssociationAccessMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Access Mode of the resource association."""
+
+    ENFORCED = "Enforced"
+    LEARNING = "Learning"
+    AUDIT = "Audit"
 
 
 class RootSquashType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
