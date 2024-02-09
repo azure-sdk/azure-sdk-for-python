@@ -14,7 +14,7 @@ from azure.mgmt.relay import RelayAPI
     pip install azure-identity
     pip install azure-mgmt-relay
 # USAGE
-    python relay_delete.py
+    python private_endpoint_connections_create.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,14 +29,22 @@ def main():
         subscription_id="ffffffff-ffff-ffff-ffff-ffffffffffff",
     )
 
-    response = client.wcf_relays.delete(
+    response = client.private_endpoint_connections.create_or_update(
         resource_group_name="resourcegroup",
-        namespace_name="example-RelayNamespace-01",
-        relay_name="example-Relay-wcf-01",
+        namespace_name="example-RelayNamespace-5849",
+        private_endpoint_connection_name="{privateEndpointConnection name}",
+        parameters={
+            "properties": {
+                "privateEndpoint": {
+                    "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/resourcegroup/providers/Microsoft.Network/privateEndpoints/ali-relay-pve-1"
+                },
+                "privateLinkServiceConnectionState": {"description": "You may pass", "status": "Approved"},
+            }
+        },
     )
     print(response)
 
 
-# x-ms-original-file: specification/relay/resource-manager/Microsoft.Relay/stable/2021-11-01/examples/Relay/RelayDelete.json
+# x-ms-original-file: specification/relay/resource-manager/Microsoft.Relay/stable/2021-11-01/examples/PrivateEndpointConnections/PrivateEndpointConnectionsCreate.json
 if __name__ == "__main__":
     main()

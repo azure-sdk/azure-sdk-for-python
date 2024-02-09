@@ -14,7 +14,7 @@ from azure.mgmt.relay import RelayAPI
     pip install azure-identity
     pip install azure-mgmt-relay
 # USAGE
-    python relay_authorization_rule_list_key.json.py
+    python relay_authorization_rule_list_key.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,

@@ -14,7 +14,7 @@ from azure.mgmt.relay import RelayAPI
     pip install azure-identity
     pip install azure-mgmt-relay
 # USAGE
-    python name_space_private_end_point_connection_get.py
+    python relay_hybridconnection_delete.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,14 +29,13 @@ def main():
         subscription_id="ffffffff-ffff-ffff-ffff-ffffffffffff",
     )
 
-    response = client.private_endpoint_connections.get(
-        resource_group_name="myResourceGroup",
-        namespace_name="example-RelayNamespace-5849",
-        private_endpoint_connection_name="{privateEndpointConnection name}",
+    client.hybrid_connections.delete(
+        resource_group_name="resourcegroup",
+        namespace_name="example-RelayNamespace-01",
+        hybrid_connection_name="example-Relay-Hybrid-01",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/relay/resource-manager/Microsoft.Relay/stable/2021-11-01/examples/PrivateEndpointConnections/PrivateEndpointConnectionsGet.json
+# x-ms-original-file: specification/relay/resource-manager/Microsoft.Relay/stable/2021-11-01/examples/HybridConnection/RelayHybridconnectionDelete.json
 if __name__ == "__main__":
     main()

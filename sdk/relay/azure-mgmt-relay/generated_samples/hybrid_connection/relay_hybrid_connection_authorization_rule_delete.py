@@ -14,7 +14,7 @@ from azure.mgmt.relay import RelayAPI
     pip install azure-identity
     pip install azure-mgmt-relay
 # USAGE
-    python name_space_private_end_point_connection_create.py
+    python relay_hybrid_connection_authorization_rule_delete.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,22 +29,14 @@ def main():
         subscription_id="ffffffff-ffff-ffff-ffff-ffffffffffff",
     )
 
-    response = client.private_endpoint_connections.create_or_update(
+    client.hybrid_connections.delete_authorization_rule(
         resource_group_name="resourcegroup",
-        namespace_name="example-RelayNamespace-5849",
-        private_endpoint_connection_name="{privateEndpointConnection name}",
-        parameters={
-            "properties": {
-                "privateEndpoint": {
-                    "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/resourcegroup/providers/Microsoft.Network/privateEndpoints/ali-relay-pve-1"
-                },
-                "privateLinkServiceConnectionState": {"description": "You may pass", "status": "Approved"},
-            }
-        },
+        namespace_name="example-RelayNamespace-01",
+        hybrid_connection_name="example-Relay-Hybrid-01",
+        authorization_rule_name="example-RelayAuthRules-01",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/relay/resource-manager/Microsoft.Relay/stable/2021-11-01/examples/PrivateEndpointConnections/PrivateEndpointConnectionsCreate.json
+# x-ms-original-file: specification/relay/resource-manager/Microsoft.Relay/stable/2021-11-01/examples/HybridConnection/RelayHybridConnectionAuthorizationRuleDelete.json
 if __name__ == "__main__":
     main()
