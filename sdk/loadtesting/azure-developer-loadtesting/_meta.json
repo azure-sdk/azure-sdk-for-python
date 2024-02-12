@@ -1,6 +1,6 @@
 {
   "commit": "a718913e51a489e2ed6fa6a5966e5291b8018435",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
-  "typespec_src": "specification/ai/ImageAnalysis",
+  "typespec_src": "specification/loadtestservice/LoadTestService",
   "@azure-tools/typespec-python": "0.21.0"
 }
