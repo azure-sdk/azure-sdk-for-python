@@ -1,12 +1,12 @@
 {
-  "commit": "4792bce7667477529991457890b4a6b670e70508",
+  "commit": "3868e6eb04ffdc1c50de3ccbdb89b6bdd126c04c",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
   "autorest": "3.9.7",
   "use": [
     "@autorest/python@6.7.1",
     "@autorest/modelerfour@4.26.2"
   ],
-  "autorest_command": "autorest specification/compute/resource-manager/readme.md --generate-sample=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/home/vsts/work/1/azure-sdk-for-python/sdk --use=@autorest/python@6.7.1 --use=@autorest/modelerfour@4.26.2 --version=3.9.7 --version-tolerant=False",
+  "autorest_command": "autorest specification/compute/resource-manager/readme.md --generate-sample=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/mnt/vss/_work/1/s/azure-sdk-for-python/sdk --use=@autorest/python@6.7.1 --use=@autorest/modelerfour@4.26.2 --version=3.9.7 --version-tolerant=False",
   "readme": "specification/compute/resource-manager/readme.md",
   "package-2023-03-01-only": "2023-04-17 22:42:05 -0400 b06a6f45e472dd07c2e0dab06b1e52dfe2684c88 Microsoft.Compute/ComputeRP/stable/2023-03-01/virtualMachineScaleSet.json",
   "package-2023-01-02-only": "2023-06-28 00:48:15 -0400 b1d41f8dc643415d4dc6ee82bdb2fef04ef45bc9 Microsoft.Compute/DiskRP/stable/2023-01-02/snapshot.json",
@@ -19,7 +19,7 @@
   "package-2022-03-02-only": "2022-08-04 22:48:19 -0400 a31c376ede1e91abc3ab476ae8e8d316e80541c0 Microsoft.Compute/DiskRP/stable/2022-03-02/snapshot.json",
   "package-2022-03-01-only": "2022-10-13 19:55:58 -0700 ab898cdcc6e69ae41cb27ceee6abbe4e505e4a73 Microsoft.Compute/ComputeRP/stable/2022-03-01/virtualMachineScaleSet.json",
   "package-2022-01-03-only": "2023-02-02 02:56:58 -0600 5920340193de5e6cbfdc514218bd76a602c22b4b Microsoft.Compute/GalleryRP/stable/2022-01-03/gallery.json",
-  "package-2021-12-01-only": "2022-07-31 21:47:43 -0400 2dcad6d6e9a96882eb6d317e7500a94be007a9c6 Microsoft.Compute/DiskRP/stable/2021-12-01/disk.json",
+  "package-2021-12-01-only": "2024-02-12 12:29:21 +0530 0e2833cd7d3a605b5b56478eb03f79e96a55c64c Microsoft.Compute/DiskRP/stable/2021-12-01/disk.json",
   "package-2021-11-01-only": "2022-07-31 21:47:43 -0400 2dcad6d6e9a96882eb6d317e7500a94be007a9c6 Microsoft.Compute/ComputeRP/stable/2021-11-01/runCommands.json",
   "package-2021-10-01-only": "2023-02-02 02:56:58 -0600 5920340193de5e6cbfdc514218bd76a602c22b4b Microsoft.Compute/GalleryRP/stable/2021-10-01/gallery.json",
   "package-2021-08-01-only": "2022-07-31 21:47:43 -0400 2dcad6d6e9a96882eb6d317e7500a94be007a9c6 Microsoft.Compute/DiskRP/stable/2021-08-01/disk.json",

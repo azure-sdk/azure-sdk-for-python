@@ -1109,6 +1109,9 @@ class DiskRestorePoint(ProxyOnlyResource):  # pylint: disable=too-many-instance-
     :ivar source_resource_location: Location of source disk or source disk restore point when
      source resource is from a different region.
     :vartype source_resource_location: str
+    :ivar logical_sector_size: Logical sector size in bytes for disk restore points of UltraSSD_LRS
+     and PremiumV2_LRS disks. Supported values are 512 and 4096. 4096 is the default.
+    :vartype logical_sector_size: int
     """
 
     _validation = {
@@ -1123,6 +1126,7 @@ class DiskRestorePoint(ProxyOnlyResource):  # pylint: disable=too-many-instance-
         "encryption": {"readonly": True},
         "replication_state": {"readonly": True},
         "source_resource_location": {"readonly": True},
+        "logical_sector_size": {"readonly": True},
     }
 
     _attribute_map = {
@@ -1145,6 +1149,7 @@ class DiskRestorePoint(ProxyOnlyResource):  # pylint: disable=too-many-instance-
         "completion_percent": {"key": "properties.completionPercent", "type": "float"},
         "replication_state": {"key": "properties.replicationState", "type": "str"},
         "source_resource_location": {"key": "properties.sourceResourceLocation", "type": "str"},
+        "logical_sector_size": {"key": "properties.logicalSectorSize", "type": "int"},
     }
 
     def __init__(
@@ -1204,6 +1209,7 @@ class DiskRestorePoint(ProxyOnlyResource):  # pylint: disable=too-many-instance-
         self.completion_percent = completion_percent
         self.replication_state = None
         self.source_resource_location = None
+        self.logical_sector_size = None
 
 
 class DiskRestorePointList(_serialization.Model):
