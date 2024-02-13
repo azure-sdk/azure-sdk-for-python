@@ -8,27 +8,47 @@
 
 from ._models import ClinicalCodedElement
 from ._models import ClinicalNoteEvidence
+from ._models import CodeableConcept
+from ._models import Coding
+from ._models import DocumentAdministrativeMetadata
+from ._models import DocumentAuthor
 from ._models import DocumentContent
+from ._models import Element
+from ._models import Encounter
 from ._models import Error
+from ._models import Extension
+from ._models import HealthInsightsOperationStatus
+from ._models import Identifier
 from ._models import InferenceEvidence
 from ._models import InnerError
+from ._models import Meta
 from ._models import OncoPhenotypeData
 from ._models import OncoPhenotypeInference
+from ._models import OncoPhenotypeInferenceResult
 from ._models import OncoPhenotypeModelConfiguration
 from ._models import OncoPhenotypePatientResult
-from ._models import OncoPhenotypeResult
-from ._models import OncoPhenotypeResults
+from ._models import OrderedProcedure
+from ._models import PatientDetails
 from ._models import PatientDocument
-from ._models import PatientInfo
 from ._models import PatientRecord
+from ._models import Period
+from ._models import Quantity
+from ._models import Range
+from ._models import Ratio
+from ._models import Reference
+from ._models import Resource
+from ._models import SampledData
+from ._models import TimePeriod
 
 from ._enums import ClinicalDocumentType
 from ._enums import DocumentContentSourceType
 from ._enums import DocumentType
+from ._enums import EncounterClass
 from ._enums import JobStatus
 from ._enums import OncoPhenotypeInferenceType
-from ._enums import PatientInfoSex
-from ._enums import RepeatabilityResultType
+from ._enums import PatientSex
+from ._enums import RepeatabilityResult
+from ._enums import SpecialtyType
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
@@ -36,26 +56,46 @@ from ._patch import patch_sdk as _patch_sdk
 __all__ = [
     "ClinicalCodedElement",
     "ClinicalNoteEvidence",
+    "CodeableConcept",
+    "Coding",
+    "DocumentAdministrativeMetadata",
+    "DocumentAuthor",
     "DocumentContent",
+    "Element",
+    "Encounter",
     "Error",
+    "Extension",
+    "HealthInsightsOperationStatus",
+    "Identifier",
     "InferenceEvidence",
     "InnerError",
+    "Meta",
     "OncoPhenotypeData",
     "OncoPhenotypeInference",
+    "OncoPhenotypeInferenceResult",
     "OncoPhenotypeModelConfiguration",
     "OncoPhenotypePatientResult",
-    "OncoPhenotypeResult",
-    "OncoPhenotypeResults",
+    "OrderedProcedure",
+    "PatientDetails",
     "PatientDocument",
-    "PatientInfo",
     "PatientRecord",
+    "Period",
+    "Quantity",
+    "Range",
+    "Ratio",
+    "Reference",
+    "Resource",
+    "SampledData",
+    "TimePeriod",
     "ClinicalDocumentType",
     "DocumentContentSourceType",
     "DocumentType",
+    "EncounterClass",
     "JobStatus",
     "OncoPhenotypeInferenceType",
-    "PatientInfoSex",
-    "RepeatabilityResultType",
+    "PatientSex",
+    "RepeatabilityResult",
+    "SpecialtyType",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
