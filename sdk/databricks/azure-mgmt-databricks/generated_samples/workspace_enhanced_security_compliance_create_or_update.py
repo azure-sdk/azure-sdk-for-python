@@ -14,7 +14,7 @@ from azure.mgmt.databricks import AzureDatabricksManagementClient
     pip install azure-identity
     pip install azure-mgmt-databricks
 # USAGE
-    python workspace_managed_disk_encryption_update.py
+    python workspace_enhanced_security_compliance_create_or_update.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -33,29 +33,20 @@ def main():
         resource_group_name="rg",
         workspace_name="myWorkspace",
         parameters={
-            "location": "westus",
+            "location": "eastus2",
             "properties": {
-                "encryption": {
-                    "entities": {
-                        "managedDisk": {
-                            "keySource": "Microsoft.Keyvault",
-                            "keyVaultProperties": {
-                                "keyName": "test-cmk-key",
-                                "keyVaultUri": "https://test-vault-name.vault.azure.net/",
-                                "keyVersion": "00000000000000000000000000000000",
-                            },
-                            "rotationToLatestKeyVersionEnabled": True,
-                        }
-                    }
+                "enhancedSecurityCompliance": {
+                    "automaticClusterUpdate": {"value": "Enabled"},
+                    "complianceSecurityProfile": {"complianceStandards": ["PCI_DSS", "HIPAA"], "value": "Enabled"},
+                    "enhancedSecurityMonitoring": {"value": "Enabled"},
                 },
                 "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
             },
-            "tags": {"mytag1": "myvalue1"},
         },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/preview/2024-02-01-preview/examples/WorkspaceManagedDiskEncryptionUpdate.json
+# x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/preview/2024-02-01-preview/examples/WorkspaceEnhancedSecurityComplianceCreateOrUpdate.json
 if __name__ == "__main__":
     main()
