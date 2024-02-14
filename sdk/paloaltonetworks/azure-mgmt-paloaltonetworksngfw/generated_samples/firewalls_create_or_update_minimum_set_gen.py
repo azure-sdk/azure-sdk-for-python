@@ -54,6 +54,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/Firewalls_CreateOrUpdate_MinimumSet_Gen.json
+# x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/preview/2024-02-07-preview/examples/Firewalls_CreateOrUpdate_MinimumSet_Gen.json
 if __name__ == "__main__":
     main()
