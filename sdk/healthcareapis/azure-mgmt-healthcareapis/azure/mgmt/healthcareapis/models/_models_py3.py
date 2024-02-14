@@ -882,12 +882,17 @@ class FhirServiceAuthenticationConfiguration(_serialization.Model):
     :vartype audience: str
     :ivar smart_proxy_enabled: If the SMART on FHIR proxy is enabled.
     :vartype smart_proxy_enabled: bool
+    :ivar smart_identity_providers: The array of identity provider configurations for SMART on FHIR
+     authentication.
+    :vartype smart_identity_providers:
+     list[~azure.mgmt.healthcareapis.models.SmartIdentityProviderConfiguration]
     """
 
     _attribute_map = {
         "authority": {"key": "authority", "type": "str"},
         "audience": {"key": "audience", "type": "str"},
         "smart_proxy_enabled": {"key": "smartProxyEnabled", "type": "bool"},
+        "smart_identity_providers": {"key": "smartIdentityProviders", "type": "[SmartIdentityProviderConfiguration]"},
     }
 
     def __init__(
@@ -896,6 +901,7 @@ class FhirServiceAuthenticationConfiguration(_serialization.Model):
         authority: Optional[str] = None,
         audience: Optional[str] = None,
         smart_proxy_enabled: Optional[bool] = None,
+        smart_identity_providers: Optional[List["_models.SmartIdentityProviderConfiguration"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -905,11 +911,16 @@ class FhirServiceAuthenticationConfiguration(_serialization.Model):
         :paramtype audience: str
         :keyword smart_proxy_enabled: If the SMART on FHIR proxy is enabled.
         :paramtype smart_proxy_enabled: bool
+        :keyword smart_identity_providers: The array of identity provider configurations for SMART on
+         FHIR authentication.
+        :paramtype smart_identity_providers:
+         list[~azure.mgmt.healthcareapis.models.SmartIdentityProviderConfiguration]
         """
         super().__init__(**kwargs)
         self.authority = authority
         self.audience = audience
         self.smart_proxy_enabled = smart_proxy_enabled
+        self.smart_identity_providers = smart_identity_providers
 
 
 class FhirServiceCollection(_serialization.Model):
@@ -3224,6 +3235,89 @@ class ServicesResourceIdentity(_serialization.Model):
         self.principal_id = None
         self.tenant_id = None
         self.type = type
+
+
+class SmartIdentityProviderApplication(_serialization.Model):
+    """An Application configured in the Identity Provider used to access FHIR resources.
+
+    :ivar client_id: The application client id defined in the identity provider. This value will be
+     used to validate bearer tokens against the given authority.
+    :vartype client_id: str
+    :ivar audience: The audience that will be used to validate bearer tokens against the given
+     authority.
+    :vartype audience: str
+    :ivar allowed_data_actions: The actions that are permitted to be performed on FHIR resources
+     for the application.
+    :vartype allowed_data_actions: list[str or ~azure.mgmt.healthcareapis.models.SmartDataActions]
+    """
+
+    _attribute_map = {
+        "client_id": {"key": "clientId", "type": "str"},
+        "audience": {"key": "audience", "type": "str"},
+        "allowed_data_actions": {"key": "allowedDataActions", "type": "[str]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        client_id: Optional[str] = None,
+        audience: Optional[str] = None,
+        allowed_data_actions: Optional[List[Union[str, "_models.SmartDataActions"]]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword client_id: The application client id defined in the identity provider. This value will
+         be used to validate bearer tokens against the given authority.
+        :paramtype client_id: str
+        :keyword audience: The audience that will be used to validate bearer tokens against the given
+         authority.
+        :paramtype audience: str
+        :keyword allowed_data_actions: The actions that are permitted to be performed on FHIR resources
+         for the application.
+        :paramtype allowed_data_actions: list[str or
+         ~azure.mgmt.healthcareapis.models.SmartDataActions]
+        """
+        super().__init__(**kwargs)
+        self.client_id = client_id
+        self.audience = audience
+        self.allowed_data_actions = allowed_data_actions
+
+
+class SmartIdentityProviderConfiguration(_serialization.Model):
+    """An object to configure an identity provider for use with SMART on FHIR authentication.
+
+    :ivar authority: The identity provider token authority also known as the token issuing
+     authority.
+    :vartype authority: str
+    :ivar applications: The array of identity provider applications for SMART on FHIR
+     authentication.
+    :vartype applications: list[~azure.mgmt.healthcareapis.models.SmartIdentityProviderApplication]
+    """
+
+    _attribute_map = {
+        "authority": {"key": "authority", "type": "str"},
+        "applications": {"key": "applications", "type": "[SmartIdentityProviderApplication]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        authority: Optional[str] = None,
+        applications: Optional[List["_models.SmartIdentityProviderApplication"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword authority: The identity provider token authority also known as the token issuing
+         authority.
+        :paramtype authority: str
+        :keyword applications: The array of identity provider applications for SMART on FHIR
+         authentication.
+        :paramtype applications:
+         list[~azure.mgmt.healthcareapis.models.SmartIdentityProviderApplication]
+        """
+        super().__init__(**kwargs)
+        self.authority = authority
+        self.applications = applications
 
 
 class SystemData(_serialization.Model):
