@@ -32,6 +32,7 @@ from azure.mgmt.core.polling.async_arm_polling import AsyncARMPolling
 from ... import models as _models
 from ..._vendor import _convert_request
 from ...operations._accounts_operations import (
+    build_check_name_availability_request,
     build_create_or_update_request,
     build_delete_request,
     build_get_request,
@@ -146,6 +147,119 @@ class AccountsOperations:
         "url": "/subscriptions/{subscriptionId}/providers/Microsoft.AzurePlaywrightService/accounts"
     }
 
+    @overload
+    async def check_name_availability(
+        self, body: _models.CheckNameAvailabilityRequest, *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.CheckNameAvailabilityResponse:
+        """Adds check global name availability operation, normally used if a resource name must be
+        globally unique.
+
+        :param body: The CheckAvailability request. Required.
+        :type body: ~azure.mgmt.playwrighttesting.models.CheckNameAvailabilityRequest
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: CheckNameAvailabilityResponse or the result of cls(response)
+        :rtype: ~azure.mgmt.playwrighttesting.models.CheckNameAvailabilityResponse
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def check_name_availability(
+        self, body: IO, *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.CheckNameAvailabilityResponse:
+        """Adds check global name availability operation, normally used if a resource name must be
+        globally unique.
+
+        :param body: The CheckAvailability request. Required.
+        :type body: IO
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: CheckNameAvailabilityResponse or the result of cls(response)
+        :rtype: ~azure.mgmt.playwrighttesting.models.CheckNameAvailabilityResponse
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace_async
+    async def check_name_availability(
+        self, body: Union[_models.CheckNameAvailabilityRequest, IO], **kwargs: Any
+    ) -> _models.CheckNameAvailabilityResponse:
+        """Adds check global name availability operation, normally used if a resource name must be
+        globally unique.
+
+        :param body: The CheckAvailability request. Is either a CheckNameAvailabilityRequest type or a
+         IO type. Required.
+        :type body: ~azure.mgmt.playwrighttesting.models.CheckNameAvailabilityRequest or IO
+        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
+         Default value is None.
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: CheckNameAvailabilityResponse or the result of cls(response)
+        :rtype: ~azure.mgmt.playwrighttesting.models.CheckNameAvailabilityResponse
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.CheckNameAvailabilityResponse] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(body, (IOBase, bytes)):
+            _content = body
+        else:
+            _json = self._serialize.body(body, "CheckNameAvailabilityRequest")
+
+        request = build_check_name_availability_request(
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
+            template_url=self.check_name_availability.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("CheckNameAvailabilityResponse", pipeline_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})
+
+        return deserialized
+
+    check_name_availability.metadata = {
+        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.AzurePlaywrightService/checkNameAvailability"
+    }
+
     @distributed_trace
     def list_by_resource_group(self, resource_group_name: str, **kwargs: Any) -> AsyncIterable["_models.Account"]:
         """List Account resources by resource group.
@@ -234,14 +348,14 @@ class AccountsOperations:
     }
 
     @distributed_trace_async
-    async def get(self, resource_group_name: str, name: str, **kwargs: Any) -> _models.Account:
+    async def get(self, resource_group_name: str, account_name: str, **kwargs: Any) -> _models.Account:
         """Get a Account.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param name: Name of account. Required.
-        :type name: str
+        :param account_name: Name of account. Required.
+        :type account_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Account or the result of cls(response)
         :rtype: ~azure.mgmt.playwrighttesting.models.Account
@@ -263,7 +377,7 @@ class AccountsOperations:
 
         request = build_get_request(
             resource_group_name=resource_group_name,
-            name=name,
+            account_name=account_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             template_url=self.get.metadata["url"],
@@ -293,11 +407,11 @@ class AccountsOperations:
         return deserialized
 
     get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzurePlaywrightService/accounts/{name}"
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzurePlaywrightService/accounts/{accountName}"
     }
 
     async def _create_or_update_initial(
-        self, resource_group_name: str, name: str, resource: Union[_models.Account, IO], **kwargs: Any
+        self, resource_group_name: str, account_name: str, resource: Union[_models.Account, IO], **kwargs: Any
     ) -> _models.Account:
         error_map = {
             401: ClientAuthenticationError,
@@ -324,7 +438,7 @@ class AccountsOperations:
 
         request = build_create_or_update_request(
             resource_group_name=resource_group_name,
-            name=name,
+            account_name=account_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             content_type=content_type,
@@ -364,14 +478,14 @@ class AccountsOperations:
         return deserialized  # type: ignore
 
     _create_or_update_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzurePlaywrightService/accounts/{name}"
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzurePlaywrightService/accounts/{accountName}"
     }
 
     @overload
     async def begin_create_or_update(
         self,
         resource_group_name: str,
-        name: str,
+        account_name: str,
         resource: _models.Account,
         *,
         content_type: str = "application/json",
@@ -382,8 +496,8 @@ class AccountsOperations:
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param name: Name of account. Required.
-        :type name: str
+        :param account_name: Name of account. Required.
+        :type account_name: str
         :param resource: Resource create parameters. Required.
         :type resource: ~azure.mgmt.playwrighttesting.models.Account
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
@@ -407,7 +521,7 @@ class AccountsOperations:
     async def begin_create_or_update(
         self,
         resource_group_name: str,
-        name: str,
+        account_name: str,
         resource: IO,
         *,
         content_type: str = "application/json",
@@ -418,8 +532,8 @@ class AccountsOperations:
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param name: Name of account. Required.
-        :type name: str
+        :param account_name: Name of account. Required.
+        :type account_name: str
         :param resource: Resource create parameters. Required.
         :type resource: IO
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
@@ -441,15 +555,15 @@ class AccountsOperations:
 
     @distributed_trace_async
     async def begin_create_or_update(
-        self, resource_group_name: str, name: str, resource: Union[_models.Account, IO], **kwargs: Any
+        self, resource_group_name: str, account_name: str, resource: Union[_models.Account, IO], **kwargs: Any
     ) -> AsyncLROPoller[_models.Account]:
         """Create a Account.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param name: Name of account. Required.
-        :type name: str
+        :param account_name: Name of account. Required.
+        :type account_name: str
         :param resource: Resource create parameters. Is either a Account type or a IO type. Required.
         :type resource: ~azure.mgmt.playwrighttesting.models.Account or IO
         :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
@@ -480,7 +594,7 @@ class AccountsOperations:
         if cont_token is None:
             raw_result = await self._create_or_update_initial(
                 resource_group_name=resource_group_name,
-                name=name,
+                account_name=account_name,
                 resource=resource,
                 api_version=api_version,
                 content_type=content_type,
@@ -516,14 +630,14 @@ class AccountsOperations:
         return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     begin_create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzurePlaywrightService/accounts/{name}"
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzurePlaywrightService/accounts/{accountName}"
     }
 
     @overload
     async def update(
         self,
         resource_group_name: str,
-        name: str,
+        account_name: str,
         properties: _models.AccountUpdate,
         *,
         content_type: str = "application/json",
@@ -534,8 +648,8 @@ class AccountsOperations:
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param name: Name of account. Required.
-        :type name: str
+        :param account_name: Name of account. Required.
+        :type account_name: str
         :param properties: The resource properties to be updated. Required.
         :type properties: ~azure.mgmt.playwrighttesting.models.AccountUpdate
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
@@ -551,7 +665,7 @@ class AccountsOperations:
     async def update(
         self,
         resource_group_name: str,
-        name: str,
+        account_name: str,
         properties: IO,
         *,
         content_type: str = "application/json",
@@ -562,8 +676,8 @@ class AccountsOperations:
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param name: Name of account. Required.
-        :type name: str
+        :param account_name: Name of account. Required.
+        :type account_name: str
         :param properties: The resource properties to be updated. Required.
         :type properties: IO
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
@@ -577,15 +691,15 @@ class AccountsOperations:
 
     @distributed_trace_async
     async def update(
-        self, resource_group_name: str, name: str, properties: Union[_models.AccountUpdate, IO], **kwargs: Any
+        self, resource_group_name: str, account_name: str, properties: Union[_models.AccountUpdate, IO], **kwargs: Any
     ) -> _models.Account:
         """Update a Account.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param name: Name of account. Required.
-        :type name: str
+        :param account_name: Name of account. Required.
+        :type account_name: str
         :param properties: The resource properties to be updated. Is either a AccountUpdate type or a
          IO type. Required.
         :type properties: ~azure.mgmt.playwrighttesting.models.AccountUpdate or IO
@@ -622,7 +736,7 @@ class AccountsOperations:
 
         request = build_update_request(
             resource_group_name=resource_group_name,
-            name=name,
+            account_name=account_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             content_type=content_type,
@@ -655,11 +769,11 @@ class AccountsOperations:
         return deserialized
 
     update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzurePlaywrightService/accounts/{name}"
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzurePlaywrightService/accounts/{accountName}"
     }
 
     async def _delete_initial(  # pylint: disable=inconsistent-return-statements
-        self, resource_group_name: str, name: str, **kwargs: Any
+        self, resource_group_name: str, account_name: str, **kwargs: Any
     ) -> None:
         error_map = {
             401: ClientAuthenticationError,
@@ -677,7 +791,7 @@ class AccountsOperations:
 
         request = build_delete_request(
             resource_group_name=resource_group_name,
-            name=name,
+            account_name=account_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             template_url=self._delete_initial.metadata["url"],
@@ -708,18 +822,18 @@ class AccountsOperations:
             return cls(pipeline_response, None, response_headers)
 
     _delete_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzurePlaywrightService/accounts/{name}"
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzurePlaywrightService/accounts/{accountName}"
     }
 
     @distributed_trace_async
-    async def begin_delete(self, resource_group_name: str, name: str, **kwargs: Any) -> AsyncLROPoller[None]:
+    async def begin_delete(self, resource_group_name: str, account_name: str, **kwargs: Any) -> AsyncLROPoller[None]:
         """Delete a Account.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param name: Name of account. Required.
-        :type name: str
+        :param account_name: Name of account. Required.
+        :type account_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :keyword str continuation_token: A continuation token to restart a poller from a saved state.
         :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
@@ -743,7 +857,7 @@ class AccountsOperations:
         if cont_token is None:
             raw_result = await self._delete_initial(  # type: ignore
                 resource_group_name=resource_group_name,
-                name=name,
+                account_name=account_name,
                 api_version=api_version,
                 cls=lambda x, y, z: x,
                 headers=_headers,
@@ -774,5 +888,5 @@ class AccountsOperations:
         return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     begin_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzurePlaywrightService/accounts/{name}"
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzurePlaywrightService/accounts/{accountName}"
     }
