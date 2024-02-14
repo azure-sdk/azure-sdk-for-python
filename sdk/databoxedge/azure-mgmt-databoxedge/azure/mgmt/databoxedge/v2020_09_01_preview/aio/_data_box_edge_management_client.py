@@ -110,40 +110,64 @@ class DataBoxEdgeManagementClient:  # pylint: disable=client-accepts-api-version
         self._config = DataBoxEdgeManagementClientConfiguration(
             credential=credential, subscription_id=subscription_id, **kwargs
         )
-        self._client = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
-        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
-        self.available_skus = AvailableSkusOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.devices = DevicesOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.alerts = AlertsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.operations = Operations(
+            self._client, self._config, self._serialize, self._deserialize, "2020-09-01-preview"
+        )
+        self.available_skus = AvailableSkusOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2020-09-01-preview"
+        )
+        self.devices = DevicesOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2020-09-01-preview"
+        )
+        self.alerts = AlertsOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2020-09-01-preview"
+        )
         self.bandwidth_schedules = BandwidthSchedulesOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2020-09-01-preview"
         )
-        self.jobs = JobsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.nodes = NodesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.jobs = JobsOperations(self._client, self._config, self._serialize, self._deserialize, "2020-09-01-preview")
+        self.nodes = NodesOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2020-09-01-preview"
+        )
         self.operations_status = OperationsStatusOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2020-09-01-preview"
         )
-        self.orders = OrdersOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.roles = RolesOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.addons = AddonsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.orders = OrdersOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2020-09-01-preview"
+        )
+        self.roles = RolesOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2020-09-01-preview"
+        )
+        self.addons = AddonsOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2020-09-01-preview"
+        )
         self.monitoring_config = MonitoringConfigOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2020-09-01-preview"
         )
-        self.shares = SharesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.shares = SharesOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2020-09-01-preview"
+        )
         self.storage_account_credentials = StorageAccountCredentialsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2020-09-01-preview"
         )
         self.storage_accounts = StorageAccountsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2020-09-01-preview"
         )
-        self.containers = ContainersOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.triggers = TriggersOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.users = UsersOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.containers = ContainersOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2020-09-01-preview"
+        )
+        self.triggers = TriggersOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2020-09-01-preview"
+        )
+        self.users = UsersOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2020-09-01-preview"
+        )
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> Awaitable[AsyncHttpResponse]:
         """Runs the network request through the client's chained policies.

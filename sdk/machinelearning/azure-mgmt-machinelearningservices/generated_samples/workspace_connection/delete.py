@@ -36,6 +36,6 @@ def main():
     )
 
 
-# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2023-04-01/examples/WorkspaceConnection/delete.json
+# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2024-01-01-preview/examples/WorkspaceConnection/delete.json
 if __name__ == "__main__":
     main()
