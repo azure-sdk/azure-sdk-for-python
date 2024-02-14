@@ -2233,6 +2233,13 @@ class ManagedCluster(Resource):  # pylint: disable=too-many-instance-attributes
     :ivar upgrade_description: The policy to use when upgrading the cluster.
     :vartype upgrade_description:
      ~azure.mgmt.servicefabricmanagedclusters.models.ClusterUpgradePolicy
+    :ivar http_gateway_token_auth_connection_port: The port used for token-auth based HTTPS
+     connections to the cluster. Cannot be set to the same port as HttpGatewayEndpoint.
+    :vartype http_gateway_token_auth_connection_port: int
+    :ivar enable_http_gateway_exclusive_auth_mode: If true, token-based authentication is not
+     allowed on the HttpGatewayEndpoint. This is required to support TLS versions 1.3 and above. If
+     token-based authentication is used, HttpGatewayTokenAuthConnectionPort must be defined.
+    :vartype enable_http_gateway_exclusive_auth_mode: bool
     """
 
     _validation = {
@@ -2301,6 +2308,14 @@ class ManagedCluster(Resource):  # pylint: disable=too-many-instance-attributes
         "public_i_pv6_prefix_id": {"key": "properties.publicIPv6PrefixId", "type": "str"},
         "ddos_protection_plan_id": {"key": "properties.ddosProtectionPlanId", "type": "str"},
         "upgrade_description": {"key": "properties.upgradeDescription", "type": "ClusterUpgradePolicy"},
+        "http_gateway_token_auth_connection_port": {
+            "key": "properties.httpGatewayTokenAuthConnectionPort",
+            "type": "int",
+        },
+        "enable_http_gateway_exclusive_auth_mode": {
+            "key": "properties.enableHttpGatewayExclusiveAuthMode",
+            "type": "bool",
+        },
     }
 
     def __init__(  # pylint: disable=too-many-locals
@@ -2339,6 +2354,8 @@ class ManagedCluster(Resource):  # pylint: disable=too-many-instance-attributes
         public_i_pv6_prefix_id: Optional[str] = None,
         ddos_protection_plan_id: Optional[str] = None,
         upgrade_description: Optional["_models.ClusterUpgradePolicy"] = None,
+        http_gateway_token_auth_connection_port: Optional[int] = None,
+        enable_http_gateway_exclusive_auth_mode: Optional[bool] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -2446,6 +2463,13 @@ class ManagedCluster(Resource):  # pylint: disable=too-many-instance-attributes
         :keyword upgrade_description: The policy to use when upgrading the cluster.
         :paramtype upgrade_description:
          ~azure.mgmt.servicefabricmanagedclusters.models.ClusterUpgradePolicy
+        :keyword http_gateway_token_auth_connection_port: The port used for token-auth based HTTPS
+         connections to the cluster. Cannot be set to the same port as HttpGatewayEndpoint.
+        :paramtype http_gateway_token_auth_connection_port: int
+        :keyword enable_http_gateway_exclusive_auth_mode: If true, token-based authentication is not
+         allowed on the HttpGatewayEndpoint. This is required to support TLS versions 1.3 and above. If
+         token-based authentication is used, HttpGatewayTokenAuthConnectionPort must be defined.
+        :paramtype enable_http_gateway_exclusive_auth_mode: bool
         """
         super().__init__(location=location, tags=tags, **kwargs)
         self.sku = sku
@@ -2486,6 +2510,8 @@ class ManagedCluster(Resource):  # pylint: disable=too-many-instance-attributes
         self.public_i_pv6_prefix_id = public_i_pv6_prefix_id
         self.ddos_protection_plan_id = ddos_protection_plan_id
         self.upgrade_description = upgrade_description
+        self.http_gateway_token_auth_connection_port = http_gateway_token_auth_connection_port
+        self.enable_http_gateway_exclusive_auth_mode = enable_http_gateway_exclusive_auth_mode
 
 
 class ManagedClusterCodeVersionResult(_serialization.Model):
@@ -3185,8 +3211,8 @@ class NodeType(ManagedProxyResource):  # pylint: disable=too-many-instance-attri
      the service fabric runtime.
     :vartype vm_setup_actions: list[str or
      ~azure.mgmt.servicefabricmanagedclusters.models.VmSetupAction]
-    :ivar security_type: Specifies the security type of the nodeType. Only TrustedLaunch is
-     currently supported. "TrustedLaunch"
+    :ivar security_type: Specifies the security type of the nodeType. Only Standard and
+     TrustedLaunch are currently supported. Known values are: "TrustedLaunch" and "Standard".
     :vartype security_type: str or ~azure.mgmt.servicefabricmanagedclusters.models.SecurityType
     :ivar secure_boot_enabled: Specifies whether secure boot should be enabled on the nodeType. Can
      only be used with TrustedLaunch SecurityType.
@@ -3203,6 +3229,10 @@ class NodeType(ManagedProxyResource):  # pylint: disable=too-many-instance-attri
     :ivar nat_gateway_id: Specifies the resource id of a NAT Gateway to attach to the subnet of
      this node type. Node type must use custom load balancer.
     :vartype nat_gateway_id: str
+    :ivar nat_configurations: Specifies the NAT configuration on default public Load Balancer for
+     the node type. This is only supported for node types use the default public Load Balancer.
+    :vartype nat_configurations:
+     list[~azure.mgmt.servicefabricmanagedclusters.models.NodeTypeNatConfig]
     :ivar vm_image_plan: Specifies information about the marketplace image used to create the
      virtual machine. This element is only used for marketplace images. Before you can use a
      marketplace image from an API, you must enable the image for programmatic use. In the Azure
@@ -3281,6 +3311,7 @@ class NodeType(ManagedProxyResource):  # pylint: disable=too-many-instance-attri
         "enable_node_public_i_pv6": {"key": "properties.enableNodePublicIPv6", "type": "bool"},
         "vm_shared_gallery_image_id": {"key": "properties.vmSharedGalleryImageId", "type": "str"},
         "nat_gateway_id": {"key": "properties.natGatewayId", "type": "str"},
+        "nat_configurations": {"key": "properties.natConfigurations", "type": "[NodeTypeNatConfig]"},
         "vm_image_plan": {"key": "properties.vmImagePlan", "type": "VmImagePlan"},
         "service_artifact_reference_id": {"key": "properties.serviceArtifactReferenceId", "type": "str"},
         "dscp_configuration_id": {"key": "properties.dscpConfigurationId", "type": "str"},
@@ -3337,6 +3368,7 @@ class NodeType(ManagedProxyResource):  # pylint: disable=too-many-instance-attri
         enable_node_public_i_pv6: Optional[bool] = None,
         vm_shared_gallery_image_id: Optional[str] = None,
         nat_gateway_id: Optional[str] = None,
+        nat_configurations: Optional[List["_models.NodeTypeNatConfig"]] = None,
         vm_image_plan: Optional["_models.VmImagePlan"] = None,
         service_artifact_reference_id: Optional[str] = None,
         dscp_configuration_id: Optional[str] = None,
@@ -3472,8 +3504,8 @@ class NodeType(ManagedProxyResource):  # pylint: disable=too-many-instance-attri
          bootstrapping the service fabric runtime.
         :paramtype vm_setup_actions: list[str or
          ~azure.mgmt.servicefabricmanagedclusters.models.VmSetupAction]
-        :keyword security_type: Specifies the security type of the nodeType. Only TrustedLaunch is
-         currently supported. "TrustedLaunch"
+        :keyword security_type: Specifies the security type of the nodeType. Only Standard and
+         TrustedLaunch are currently supported. Known values are: "TrustedLaunch" and "Standard".
         :paramtype security_type: str or ~azure.mgmt.servicefabricmanagedclusters.models.SecurityType
         :keyword secure_boot_enabled: Specifies whether secure boot should be enabled on the nodeType.
          Can only be used with TrustedLaunch SecurityType.
@@ -3490,6 +3522,10 @@ class NodeType(ManagedProxyResource):  # pylint: disable=too-many-instance-attri
         :keyword nat_gateway_id: Specifies the resource id of a NAT Gateway to attach to the subnet of
          this node type. Node type must use custom load balancer.
         :paramtype nat_gateway_id: str
+        :keyword nat_configurations: Specifies the NAT configuration on default public Load Balancer
+         for the node type. This is only supported for node types use the default public Load Balancer.
+        :paramtype nat_configurations:
+         list[~azure.mgmt.servicefabricmanagedclusters.models.NodeTypeNatConfig]
         :keyword vm_image_plan: Specifies information about the marketplace image used to create the
          virtual machine. This element is only used for marketplace images. Before you can use a
          marketplace image from an API, you must enable the image for programmatic use. In the Azure
@@ -3552,6 +3588,7 @@ class NodeType(ManagedProxyResource):  # pylint: disable=too-many-instance-attri
         self.enable_node_public_i_pv6 = enable_node_public_i_pv6
         self.vm_shared_gallery_image_id = vm_shared_gallery_image_id
         self.nat_gateway_id = nat_gateway_id
+        self.nat_configurations = nat_configurations
         self.vm_image_plan = vm_image_plan
         self.service_artifact_reference_id = service_artifact_reference_id
         self.dscp_configuration_id = dscp_configuration_id
@@ -3692,6 +3729,52 @@ class NodeTypeListSkuResult(_serialization.Model):
         super().__init__(**kwargs)
         self.value = value
         self.next_link = next_link
+
+
+class NodeTypeNatConfig(_serialization.Model):
+    """Provides information about NAT configuration on the default public Load Balancer for the node
+    type.
+
+    :ivar backend_port: The internal port for the NAT configuration.
+    :vartype backend_port: int
+    :ivar frontend_port_range_start: The port range start for the external endpoint.
+    :vartype frontend_port_range_start: int
+    :ivar frontend_port_range_end: The port range end for the external endpoint.
+    :vartype frontend_port_range_end: int
+    """
+
+    _validation = {
+        "backend_port": {"maximum": 65535, "minimum": 1},
+        "frontend_port_range_start": {"maximum": 65534, "minimum": 1},
+        "frontend_port_range_end": {"maximum": 65534, "minimum": 1},
+    }
+
+    _attribute_map = {
+        "backend_port": {"key": "backendPort", "type": "int"},
+        "frontend_port_range_start": {"key": "frontendPortRangeStart", "type": "int"},
+        "frontend_port_range_end": {"key": "frontendPortRangeEnd", "type": "int"},
+    }
+
+    def __init__(
+        self,
+        *,
+        backend_port: Optional[int] = None,
+        frontend_port_range_start: Optional[int] = None,
+        frontend_port_range_end: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword backend_port: The internal port for the NAT configuration.
+        :paramtype backend_port: int
+        :keyword frontend_port_range_start: The port range start for the external endpoint.
+        :paramtype frontend_port_range_start: int
+        :keyword frontend_port_range_end: The port range end for the external endpoint.
+        :paramtype frontend_port_range_end: int
+        """
+        super().__init__(**kwargs)
+        self.backend_port = backend_port
+        self.frontend_port_range_start = frontend_port_range_start
+        self.frontend_port_range_end = frontend_port_range_end
 
 
 class NodeTypeSku(_serialization.Model):
