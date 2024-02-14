@@ -1024,7 +1024,7 @@ class Dimensions(_serialization.Model):
     :ivar width: Width of the device.
     :vartype width: float
     :ivar length_height_unit: Unit for the dimensions of length, height and width. Known values
-     are: "IN" and "CM".
+     are: "IN", "CM", and "IN".
     :vartype length_height_unit: str or
      ~azure.mgmt.edgeorder.v2020_12_01_preview.models.LengthHeightUnit
     :ivar weight: Weight of the device.
