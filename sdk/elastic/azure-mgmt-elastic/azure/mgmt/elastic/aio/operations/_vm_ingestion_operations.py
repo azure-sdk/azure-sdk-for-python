@@ -58,8 +58,8 @@ class VMIngestionOperations:
 
         List the vm ingestion details that will be monitored by the Elastic monitor resource.
 
-        :param resource_group_name: The name of the resource group to which the Elastic resource
-         belongs. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param monitor_name: Monitor resource name. Required.
         :type monitor_name: str
