@@ -5913,7 +5913,8 @@ class Subnet(SubResource):  # pylint: disable=too-many-instance-attributes
      "Succeeded", "Updating", "Deleting", and "Failed".
     :vartype provisioning_state: str or ~azure.mgmt.network.models.ProvisioningState
     :ivar private_endpoint_network_policies: Enable or Disable apply network policies on private
-     end point in the subnet. Known values are: "Enabled" and "Disabled".
+     end point in the subnet. Known values are: "Enabled", "Disabled",
+     "NetworkSecurityGroupEnabled", and "RouteTableEnabled".
     :vartype private_endpoint_network_policies: str or
      ~azure.mgmt.network.models.VirtualNetworkPrivateEndpointNetworkPolicies
     :ivar private_link_service_network_policies: Enable or Disable apply network policies on
@@ -6025,7 +6026,8 @@ class Subnet(SubResource):  # pylint: disable=too-many-instance-attributes
         :keyword delegations: An array of references to the delegations on the subnet.
         :paramtype delegations: list[~azure.mgmt.network.models.Delegation]
         :keyword private_endpoint_network_policies: Enable or Disable apply network policies on private
-         end point in the subnet. Known values are: "Enabled" and "Disabled".
+         end point in the subnet. Known values are: "Enabled", "Disabled",
+         "NetworkSecurityGroupEnabled", and "RouteTableEnabled".
         :paramtype private_endpoint_network_policies: str or
          ~azure.mgmt.network.models.VirtualNetworkPrivateEndpointNetworkPolicies
         :keyword private_link_service_network_policies: Enable or Disable apply network policies on
@@ -14063,6 +14065,12 @@ class VirtualNetworkPeering(SubResource):  # pylint: disable=too-many-instance-a
      and learn more
      (https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering).
     :vartype remote_virtual_network: ~azure.mgmt.network.models.SubResource
+    :ivar local_address_space: The local address space of the local virtual network that is peered.
+    :vartype local_address_space: ~azure.mgmt.network.models.AddressSpace
+    :ivar local_virtual_network_address_space: The current local address space of the local virtual
+     network that is peered.
+    :vartype local_virtual_network_address_space:
+     ~azure.mgmt.network.models.AddressSpace
     :ivar remote_address_space: The reference to the address space peered with the remote virtual
      network.
     :vartype remote_address_space: ~azure.mgmt.network.models.AddressSpace
@@ -14093,6 +14101,16 @@ class VirtualNetworkPeering(SubResource):  # pylint: disable=too-many-instance-a
     :vartype do_not_verify_remote_gateways: bool
     :ivar resource_guid: The resourceGuid property of the Virtual Network peering resource.
     :vartype resource_guid: str
+    :ivar peer_complete_vnets: Whether complete virtual network address space is peered.
+    :vartype peer_complete_vnets: bool
+    :ivar enable_only_i_pv6_peering: Whether only Ipv6 address space is peered for subnet peering.
+    :vartype enable_only_i_pv6_peering: bool
+    :ivar local_subnet_names: List of local subnet names that are subnet peered with remote virtual
+     network.
+    :vartype local_subnet_names: list[str]
+    :ivar remote_subnet_names: List of remote subnet names from remote virtual network that are
+     subnet peered.
+    :vartype remote_subnet_names: list[str]
     """
 
     _validation = {
@@ -14112,6 +14130,11 @@ class VirtualNetworkPeering(SubResource):  # pylint: disable=too-many-instance-a
         "allow_gateway_transit": {"key": "properties.allowGatewayTransit", "type": "bool"},
         "use_remote_gateways": {"key": "properties.useRemoteGateways", "type": "bool"},
         "remote_virtual_network": {"key": "properties.remoteVirtualNetwork", "type": "SubResource"},
+        "local_address_space": {"key": "properties.localAddressSpace", "type": "AddressSpace"},
+        "local_virtual_network_address_space": {
+            "key": "properties.localVirtualNetworkAddressSpace",
+            "type": "AddressSpace",
+        },
         "remote_address_space": {"key": "properties.remoteAddressSpace", "type": "AddressSpace"},
         "remote_virtual_network_address_space": {
             "key": "properties.remoteVirtualNetworkAddressSpace",
@@ -14127,9 +14150,13 @@ class VirtualNetworkPeering(SubResource):  # pylint: disable=too-many-instance-a
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "do_not_verify_remote_gateways": {"key": "properties.doNotVerifyRemoteGateways", "type": "bool"},
         "resource_guid": {"key": "properties.resourceGuid", "type": "str"},
+        "peer_complete_vnets": {"key": "properties.peerCompleteVnets", "type": "bool"},
+        "enable_only_i_pv6_peering": {"key": "properties.enableOnlyIPv6Peering", "type": "bool"},
+        "local_subnet_names": {"key": "properties.localSubnetNames", "type": "[str]"},
+        "remote_subnet_names": {"key": "properties.remoteSubnetNames", "type": "[str]"},
     }
 
-    def __init__(
+    def __init__(  # pylint: disable=too-many-locals
         self,
         *,
         id: Optional[str] = None,  # pylint: disable=redefined-builtin
@@ -14140,12 +14167,18 @@ class VirtualNetworkPeering(SubResource):  # pylint: disable=too-many-instance-a
         allow_gateway_transit: Optional[bool] = None,
         use_remote_gateways: Optional[bool] = None,
         remote_virtual_network: Optional["_models.SubResource"] = None,
+        local_address_space: Optional["_models.AddressSpace"] = None,
+        local_virtual_network_address_space: Optional["_models.AddressSpace"] = None,
         remote_address_space: Optional["_models.AddressSpace"] = None,
         remote_virtual_network_address_space: Optional["_models.AddressSpace"] = None,
         remote_bgp_communities: Optional["_models.VirtualNetworkBgpCommunities"] = None,
         peering_state: Optional[Union[str, "_models.VirtualNetworkPeeringState"]] = None,
         peering_sync_level: Optional[Union[str, "_models.VirtualNetworkPeeringLevel"]] = None,
         do_not_verify_remote_gateways: Optional[bool] = None,
+        peer_complete_vnets: Optional[bool] = None,
+        enable_only_i_pv6_peering: Optional[bool] = None,
+        local_subnet_names: Optional[List[str]] = None,
+        remote_subnet_names: Optional[List[str]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -14175,6 +14208,13 @@ class VirtualNetworkPeering(SubResource):  # pylint: disable=too-many-instance-a
          preview and learn more
          (https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering).
         :paramtype remote_virtual_network: ~azure.mgmt.network.models.SubResource
+        :keyword local_address_space: The local address space of the local virtual network that is
+         peered.
+        :paramtype local_address_space: ~azure.mgmt.network.models.AddressSpace
+        :keyword local_virtual_network_address_space: The current local address space of the local
+         virtual network that is peered.
+        :paramtype local_virtual_network_address_space:
+         ~azure.mgmt.network.models.AddressSpace
         :keyword remote_address_space: The reference to the address space peered with the remote
          virtual network.
         :paramtype remote_address_space: ~azure.mgmt.network.models.AddressSpace
@@ -14196,6 +14236,17 @@ class VirtualNetworkPeering(SubResource):  # pylint: disable=too-many-instance-a
         :keyword do_not_verify_remote_gateways: If we need to verify the provisioning state of the
          remote gateway.
         :paramtype do_not_verify_remote_gateways: bool
+        :keyword peer_complete_vnets: Whether complete virtual network address space is peered.
+        :paramtype peer_complete_vnets: bool
+        :keyword enable_only_i_pv6_peering: Whether only Ipv6 address space is peered for subnet
+         peering.
+        :paramtype enable_only_i_pv6_peering: bool
+        :keyword local_subnet_names: List of local subnet names that are subnet peered with remote
+         virtual network.
+        :paramtype local_subnet_names: list[str]
+        :keyword remote_subnet_names: List of remote subnet names from remote virtual network that are
+         subnet peered.
+        :paramtype remote_subnet_names: list[str]
         """
         super().__init__(id=id, **kwargs)
         self.name = name
@@ -14206,6 +14257,8 @@ class VirtualNetworkPeering(SubResource):  # pylint: disable=too-many-instance-a
         self.allow_gateway_transit = allow_gateway_transit
         self.use_remote_gateways = use_remote_gateways
         self.remote_virtual_network = remote_virtual_network
+        self.local_address_space = local_address_space
+        self.local_virtual_network_address_space = local_virtual_network_address_space
         self.remote_address_space = remote_address_space
         self.remote_virtual_network_address_space = remote_virtual_network_address_space
         self.remote_bgp_communities = remote_bgp_communities
@@ -14215,6 +14268,10 @@ class VirtualNetworkPeering(SubResource):  # pylint: disable=too-many-instance-a
         self.provisioning_state = None
         self.do_not_verify_remote_gateways = do_not_verify_remote_gateways
         self.resource_guid = None
+        self.peer_complete_vnets = peer_complete_vnets
+        self.enable_only_i_pv6_peering = enable_only_i_pv6_peering
+        self.local_subnet_names = local_subnet_names
+        self.remote_subnet_names = remote_subnet_names
 
 class VirtualNetworkPeeringListResult(_serialization.Model):
     """Response for ListSubnets API service call. Retrieves all subnets that belong to a virtual
@@ -17227,24 +17284,43 @@ class ApplicationGatewayHeaderConfiguration(_serialization.Model):
 
     :ivar header_name: Header name of the header configuration.
     :vartype header_name: str
+    :ivar header_value_matcher: An optional field under "Rewrite Action". It lets you capture and
+     modify the value(s) of a specific header when multiple headers with the same name exist.
+     Currently supported for Set-Cookie Response header only. For more details, visit
+     https://aka.ms/appgwheadercrud.
+    :vartype header_value_matcher: ~azure.mgmt.network.models.HeaderValueMatcher
     :ivar header_value: Header value of the header configuration.
     :vartype header_value: str
     """
 
     _attribute_map = {
         "header_name": {"key": "headerName", "type": "str"},
+        "header_value_matcher": {"key": "headerValueMatcher", "type": "HeaderValueMatcher"},
         "header_value": {"key": "headerValue", "type": "str"},
     }
 
-    def __init__(self, *, header_name: Optional[str] = None, header_value: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        *,
+        header_name: Optional[str] = None,
+        header_value_matcher: Optional["_models.HeaderValueMatcher"] = None,
+        header_value: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword header_name: Header name of the header configuration.
         :paramtype header_name: str
+        :keyword header_value_matcher: An optional field under "Rewrite Action". It lets you capture
+         and modify the value(s) of a specific header when multiple headers with the same name exist.
+         Currently supported for Set-Cookie Response header only. For more details, visit
+         https://aka.ms/appgwheadercrud.
+        :paramtype header_value_matcher: ~azure.mgmt.network.models.HeaderValueMatcher
         :keyword header_value: Header value of the header configuration.
         :paramtype header_value: str
         """
         super().__init__(**kwargs)
         self.header_name = header_name
+        self.header_value_matcher = header_value_matcher
         self.header_value = header_value
 
 class ApplicationGatewayRewriteRule(_serialization.Model):
@@ -22929,6 +23005,8 @@ class BastionHost(Resource):  # pylint: disable=too-many-instance-attributes
     :vartype location: str
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
+    :ivar zones: A list of availability zones denoting where the resource needs to come from.
+    :vartype zones: list[str]
     :ivar etag: A unique read-only string that changes whenever the resource is updated.
     :vartype etag: str
     :ivar sku: The sku of this Bastion Host.
@@ -22977,6 +23055,7 @@ class BastionHost(Resource):  # pylint: disable=too-many-instance-attributes
         "type": {"key": "type", "type": "str"},
         "location": {"key": "location", "type": "str"},
         "tags": {"key": "tags", "type": "{str}"},
+        "zones": {"key": "zones", "type": "[str]"},
         "etag": {"key": "etag", "type": "str"},
         "sku": {"key": "sku", "type": "Sku"},
         "ip_configurations": {"key": "properties.ipConfigurations", "type": "[BastionHostIPConfiguration]"},
@@ -22999,6 +23078,7 @@ class BastionHost(Resource):  # pylint: disable=too-many-instance-attributes
         id: Optional[str] = None,  # pylint: disable=redefined-builtin
         location: Optional[str] = None,
         tags: Optional[Dict[str, str]] = None,
+        zones: Optional[List[str]] = None,
         sku: Optional["_models.Sku"] = None,
         ip_configurations: Optional[List["_models.BastionHostIPConfiguration"]] = None,
         dns_name: Optional[str] = None,
@@ -23020,6 +23100,8 @@ class BastionHost(Resource):  # pylint: disable=too-many-instance-attributes
         :paramtype location: str
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
+        :keyword zones: A list of availability zones denoting where the resource needs to come from.
+        :paramtype zones: list[str]
         :keyword sku: The sku of this Bastion Host.
         :paramtype sku: ~azure.mgmt.network.models.Sku
         :keyword ip_configurations: IP configuration of the Bastion Host resource.
@@ -23049,6 +23131,7 @@ class BastionHost(Resource):  # pylint: disable=too-many-instance-attributes
         :paramtype enable_kerberos: bool
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
+        self.zones = zones
         self.etag = None
         self.sku = sku
         self.ip_configurations = ip_configurations
@@ -27378,19 +27461,32 @@ class ConnectionMonitorEndpoint(_serialization.Model):
     :ivar name: The name of the connection monitor endpoint. Required.
     :vartype name: str
     :ivar type: The endpoint type. Known values are: "AzureVM", "AzureVNet", "AzureSubnet",
-     "ExternalAddress", "MMAWorkspaceMachine", "MMAWorkspaceNetwork", "AzureArcVM", and "AzureVMSS".
+     "ExternalAddress", "MMAWorkspaceMachine", "MMAWorkspaceNetwork", "AzureArcVM", "AzureVMSS", and
+     "AzureArcNetwork".
     :vartype type: str or ~azure.mgmt.network.models.EndpointType
-    :ivar resource_id: Resource ID of the connection monitor endpoint.
+    :ivar resource_id: Resource ID of the connection monitor endpoint are supported for AzureVM,
+     AzureVMSS, AzureVNet, AzureSubnet, MMAWorkspaceMachine, MMAWorkspaceNetwork, AzureArcVM
+     endpoint type.
     :vartype resource_id: str
-    :ivar address: Address of the connection monitor endpoint (IP or domain name).
+    :ivar address: Address of the connection monitor endpoint. Supported for AzureVM,
+     ExternalAddress, ArcMachine, MMAWorkspaceMachine endpoint type.
     :vartype address: str
-    :ivar filter: Filter for sub-items within the endpoint.
+    :ivar filter: Filter field is getting deprecated and should not be used. Instead use
+     Include/Exclude scope fields for it.
     :vartype filter: ~azure.mgmt.network.models.ConnectionMonitorEndpointFilter
-    :ivar scope: Endpoint scope.
+    :ivar scope: Endpoint scope defines which target resource to monitor in case of compound
+     resource endpoints like VMSS, AzureSubnet, AzureVNet, MMAWorkspaceNetwork, AzureArcNetwork.
     :vartype scope: ~azure.mgmt.network.models.ConnectionMonitorEndpointScope
     :ivar coverage_level: Test coverage for the endpoint. Known values are: "Default", "Low",
      "BelowAverage", "Average", "AboveAverage", and "Full".
     :vartype coverage_level: str or ~azure.mgmt.network.models.CoverageLevel
+    :ivar location_details: Location details is optional and only being used for 'AzureArcNetwork'
+     type endpoints, which contains region details.
+    :vartype location_details:
+     ~azure.mgmt.network.models.ConnectionMonitorEndpointLocationDetails
+    :ivar subscription_id: Subscription ID for connection monitor endpoint. It's an optional
+     parameter which is being used for 'AzureArcNetwork' type endpoint.
+    :vartype subscription_id: str
     """
 
     _validation = {
@@ -27405,6 +27501,8 @@ class ConnectionMonitorEndpoint(_serialization.Model):
         "filter": {"key": "filter", "type": "ConnectionMonitorEndpointFilter"},
         "scope": {"key": "scope", "type": "ConnectionMonitorEndpointScope"},
         "coverage_level": {"key": "coverageLevel", "type": "str"},
+        "location_details": {"key": "locationDetails", "type": "ConnectionMonitorEndpointLocationDetails"},
+        "subscription_id": {"key": "subscriptionId", "type": "str"},
     }
 
     def __init__(
@@ -27417,25 +27515,40 @@ class ConnectionMonitorEndpoint(_serialization.Model):
         filter: Optional["_models.ConnectionMonitorEndpointFilter"] = None,  # pylint: disable=redefined-builtin
         scope: Optional["_models.ConnectionMonitorEndpointScope"] = None,
         coverage_level: Optional[Union[str, "_models.CoverageLevel"]] = None,
+        location_details: Optional["_models.ConnectionMonitorEndpointLocationDetails"] = None,
+        subscription_id: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword name: The name of the connection monitor endpoint. Required.
         :paramtype name: str
         :keyword type: The endpoint type. Known values are: "AzureVM", "AzureVNet", "AzureSubnet",
-         "ExternalAddress", "MMAWorkspaceMachine", "MMAWorkspaceNetwork", "AzureArcVM", and "AzureVMSS".
+         "ExternalAddress", "MMAWorkspaceMachine", "MMAWorkspaceNetwork", "AzureArcVM", "AzureVMSS", and
+         "AzureArcNetwork".
         :paramtype type: str or ~azure.mgmt.network.models.EndpointType
-        :keyword resource_id: Resource ID of the connection monitor endpoint.
+        :keyword resource_id: Resource ID of the connection monitor endpoint are supported for AzureVM,
+         AzureVMSS, AzureVNet, AzureSubnet, MMAWorkspaceMachine, MMAWorkspaceNetwork, AzureArcVM
+         endpoint type.
         :paramtype resource_id: str
-        :keyword address: Address of the connection monitor endpoint (IP or domain name).
+        :keyword address: Address of the connection monitor endpoint. Supported for AzureVM,
+         ExternalAddress, ArcMachine, MMAWorkspaceMachine endpoint type.
         :paramtype address: str
-        :keyword filter: Filter for sub-items within the endpoint.
+        :keyword filter: Filter field is getting deprecated and should not be used. Instead use
+         Include/Exclude scope fields for it.
         :paramtype filter: ~azure.mgmt.network.models.ConnectionMonitorEndpointFilter
-        :keyword scope: Endpoint scope.
+        :keyword scope: Endpoint scope defines which target resource to monitor in case of compound
+         resource endpoints like VMSS, AzureSubnet, AzureVNet, MMAWorkspaceNetwork, AzureArcNetwork.
         :paramtype scope: ~azure.mgmt.network.models.ConnectionMonitorEndpointScope
         :keyword coverage_level: Test coverage for the endpoint. Known values are: "Default", "Low",
          "BelowAverage", "Average", "AboveAverage", and "Full".
         :paramtype coverage_level: str or ~azure.mgmt.network.models.CoverageLevel
+        :keyword location_details: Location details is optional and only being used for
+         'AzureArcNetwork' type endpoints, which contains region details.
+        :paramtype location_details:
+         ~azure.mgmt.network.models.ConnectionMonitorEndpointLocationDetails
+        :keyword subscription_id: Subscription ID for connection monitor endpoint. It's an optional
+         parameter which is being used for 'AzureArcNetwork' type endpoint.
+        :paramtype subscription_id: str
         """
         super().__init__(**kwargs)
         self.name = name
@@ -27445,6 +27558,8 @@ class ConnectionMonitorEndpoint(_serialization.Model):
         self.filter = filter
         self.scope = scope
         self.coverage_level = coverage_level
+        self.location_details = location_details
+        self.subscription_id = subscription_id
 
 class ConnectionMonitorEndpointFilter(_serialization.Model):
     """Describes the connection monitor endpoint filter.
@@ -41866,4 +41981,281 @@ class NetworkVirtualApplianceConnectionList(_serialization.Model):
         super().__init__(**kwargs)
         self.value = value
         self.next_link = next_link
+
+class ConnectionMonitorEndpointLocationDetails(_serialization.Model):
+    """Connection monitor endpoint location details only being used for 'AzureArcNetwork' type
+    endpoints, which contains the region details.
+
+    :ivar region: Region for connection monitor endpoint.
+    :vartype region: str
+    """
+
+    _attribute_map = {
+        "region": {"key": "region", "type": "str"},
+    }
+
+    def __init__(self, *, region: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword region: Region for connection monitor endpoint.
+        :paramtype region: str
+        """
+        super().__init__(**kwargs)
+        self.region = region
+
+class FirewallPolicyDraft(Resource):  # pylint: disable=too-many-instance-attributes
+    """FirewallPolicy Resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Resource ID.
+    :vartype id: str
+    :ivar name: Resource name.
+    :vartype name: str
+    :ivar type: Resource type.
+    :vartype type: str
+    :ivar location: Resource location.
+    :vartype location: str
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar base_policy: The parent firewall policy from which rules are inherited.
+    :vartype base_policy: ~azure.mgmt.network.models.SubResource
+    :ivar threat_intel_mode: The operation mode for Threat Intelligence. Known values are: "Alert",
+     "Deny", and "Off".
+    :vartype threat_intel_mode: str or
+     ~azure.mgmt.network.models.AzureFirewallThreatIntelMode
+    :ivar threat_intel_whitelist: ThreatIntel Whitelist for Firewall Policy.
+    :vartype threat_intel_whitelist:
+     ~azure.mgmt.network.models.FirewallPolicyThreatIntelWhitelist
+    :ivar insights: Insights on Firewall Policy.
+    :vartype insights: ~azure.mgmt.network.models.FirewallPolicyInsights
+    :ivar snat: The private IP addresses/IP ranges to which traffic will not be SNAT.
+    :vartype snat: ~azure.mgmt.network.models.FirewallPolicySNAT
+    :ivar sql: SQL Settings definition.
+    :vartype sql: ~azure.mgmt.network.models.FirewallPolicySQL
+    :ivar dns_settings: DNS Proxy Settings definition.
+    :vartype dns_settings: ~azure.mgmt.network.models.DnsSettings
+    :ivar explicit_proxy: Explicit Proxy Settings definition.
+    :vartype explicit_proxy: ~azure.mgmt.network.models.ExplicitProxy
+    :ivar intrusion_detection: The configuration for Intrusion detection.
+    :vartype intrusion_detection:
+     ~azure.mgmt.network.models.FirewallPolicyIntrusionDetection
+    """
+
+    _validation = {
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "location": {"key": "location", "type": "str"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "base_policy": {"key": "properties.basePolicy", "type": "SubResource"},
+        "threat_intel_mode": {"key": "properties.threatIntelMode", "type": "str"},
+        "threat_intel_whitelist": {
+            "key": "properties.threatIntelWhitelist",
+            "type": "FirewallPolicyThreatIntelWhitelist",
+        },
+        "insights": {"key": "properties.insights", "type": "FirewallPolicyInsights"},
+        "snat": {"key": "properties.snat", "type": "FirewallPolicySNAT"},
+        "sql": {"key": "properties.sql", "type": "FirewallPolicySQL"},
+        "dns_settings": {"key": "properties.dnsSettings", "type": "DnsSettings"},
+        "explicit_proxy": {"key": "properties.explicitProxy", "type": "ExplicitProxy"},
+        "intrusion_detection": {"key": "properties.intrusionDetection", "type": "FirewallPolicyIntrusionDetection"},
+    }
+
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        location: Optional[str] = None,
+        tags: Optional[Dict[str, str]] = None,
+        base_policy: Optional["_models.SubResource"] = None,
+        threat_intel_mode: Optional[Union[str, "_models.AzureFirewallThreatIntelMode"]] = None,
+        threat_intel_whitelist: Optional["_models.FirewallPolicyThreatIntelWhitelist"] = None,
+        insights: Optional["_models.FirewallPolicyInsights"] = None,
+        snat: Optional["_models.FirewallPolicySNAT"] = None,
+        sql: Optional["_models.FirewallPolicySQL"] = None,
+        dns_settings: Optional["_models.DnsSettings"] = None,
+        explicit_proxy: Optional["_models.ExplicitProxy"] = None,
+        intrusion_detection: Optional["_models.FirewallPolicyIntrusionDetection"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword id: Resource ID.
+        :paramtype id: str
+        :keyword location: Resource location.
+        :paramtype location: str
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword base_policy: The parent firewall policy from which rules are inherited.
+        :paramtype base_policy: ~azure.mgmt.network.models.SubResource
+        :keyword threat_intel_mode: The operation mode for Threat Intelligence. Known values are:
+         "Alert", "Deny", and "Off".
+        :paramtype threat_intel_mode: str or
+         ~azure.mgmt.network.models.AzureFirewallThreatIntelMode
+        :keyword threat_intel_whitelist: ThreatIntel Whitelist for Firewall Policy.
+        :paramtype threat_intel_whitelist:
+         ~azure.mgmt.network.models.FirewallPolicyThreatIntelWhitelist
+        :keyword insights: Insights on Firewall Policy.
+        :paramtype insights: ~azure.mgmt.network.models.FirewallPolicyInsights
+        :keyword snat: The private IP addresses/IP ranges to which traffic will not be SNAT.
+        :paramtype snat: ~azure.mgmt.network.models.FirewallPolicySNAT
+        :keyword sql: SQL Settings definition.
+        :paramtype sql: ~azure.mgmt.network.models.FirewallPolicySQL
+        :keyword dns_settings: DNS Proxy Settings definition.
+        :paramtype dns_settings: ~azure.mgmt.network.models.DnsSettings
+        :keyword explicit_proxy: Explicit Proxy Settings definition.
+        :paramtype explicit_proxy: ~azure.mgmt.network.models.ExplicitProxy
+        :keyword intrusion_detection: The configuration for Intrusion detection.
+        :paramtype intrusion_detection:
+         ~azure.mgmt.network.models.FirewallPolicyIntrusionDetection
+        """
+        super().__init__(id=id, location=location, tags=tags, **kwargs)
+        self.base_policy = base_policy
+        self.threat_intel_mode = threat_intel_mode
+        self.threat_intel_whitelist = threat_intel_whitelist
+        self.insights = insights
+        self.snat = snat
+        self.sql = sql
+        self.dns_settings = dns_settings
+        self.explicit_proxy = explicit_proxy
+        self.intrusion_detection = intrusion_detection
+
+class FirewallPolicyRuleCollectionGroupDraft(SubResource):
+    """Rule Collection Group resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Resource ID.
+    :vartype id: str
+    :ivar name: The name of the resource that is unique within a resource group. This name can be
+     used to access the resource.
+    :vartype name: str
+    :ivar type: Rule Group type.
+    :vartype type: str
+    :ivar size: A read-only string that represents the size of the
+     FirewallPolicyRuleCollectionGroupProperties in MB. (ex 1.2MB).
+    :vartype size: str
+    :ivar priority: Priority of the Firewall Policy Rule Collection Group resource.
+    :vartype priority: int
+    :ivar rule_collections: Group of Firewall Policy rule collections.
+    :vartype rule_collections:
+     list[~azure.mgmt.network.models.FirewallPolicyRuleCollection]
+    """
+
+    _validation = {
+        "type": {"readonly": True},
+        "size": {"readonly": True},
+        "priority": {"maximum": 65000, "minimum": 100},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "size": {"key": "properties.size", "type": "str"},
+        "priority": {"key": "properties.priority", "type": "int"},
+        "rule_collections": {"key": "properties.ruleCollections", "type": "[FirewallPolicyRuleCollection]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        name: Optional[str] = None,
+        priority: Optional[int] = None,
+        rule_collections: Optional[List["_models.FirewallPolicyRuleCollection"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword id: Resource ID.
+        :paramtype id: str
+        :keyword name: The name of the resource that is unique within a resource group. This name can
+         be used to access the resource.
+        :paramtype name: str
+        :keyword priority: Priority of the Firewall Policy Rule Collection Group resource.
+        :paramtype priority: int
+        :keyword rule_collections: Group of Firewall Policy rule collections.
+        :paramtype rule_collections:
+         list[~azure.mgmt.network.models.FirewallPolicyRuleCollection]
+        """
+        super().__init__(id=id, **kwargs)
+        self.name = name
+        self.type = None
+        self.size = None
+        self.priority = priority
+        self.rule_collections = rule_collections
+
+class HeaderValueMatcher(_serialization.Model):
+    """An optional field under "Rewrite Action". It lets you capture and modify the value(s) of a
+    specific header when multiple headers with the same name exist. Currently supported for
+    Set-Cookie Response header only. For more details, visit https://aka.ms/appgwheadercrud.
+
+    :ivar pattern: The pattern, either fixed string or regular expression, that evaluates if a
+     header value should be selected for rewrite.
+    :vartype pattern: str
+    :ivar ignore_case: Setting this parameter to truth value with force the pattern to do a case
+     in-sensitive comparison.
+    :vartype ignore_case: bool
+    :ivar negate: Setting this value as truth will force to check the negation of the condition
+     given by the user in the pattern field.
+    :vartype negate: bool
+    """
+
+    _attribute_map = {
+        "pattern": {"key": "pattern", "type": "str"},
+        "ignore_case": {"key": "ignoreCase", "type": "bool"},
+        "negate": {"key": "negate", "type": "bool"},
+    }
+
+    def __init__(
+        self,
+        *,
+        pattern: Optional[str] = None,
+        ignore_case: Optional[bool] = None,
+        negate: Optional[bool] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword pattern: The pattern, either fixed string or regular expression, that evaluates if a
+         header value should be selected for rewrite.
+        :paramtype pattern: str
+        :keyword ignore_case: Setting this parameter to truth value with force the pattern to do a case
+         in-sensitive comparison.
+        :paramtype ignore_case: bool
+        :keyword negate: Setting this value as truth will force to check the negation of the condition
+         given by the user in the pattern field.
+        :paramtype negate: bool
+        """
+        super().__init__(**kwargs)
+        self.pattern = pattern
+        self.ignore_case = ignore_case
+        self.negate = negate
+
+class NetworkVirtualApplianceInstanceIds(_serialization.Model):
+    """Specifies a list of virtual machine instance IDs from the Network Virtual Appliance VM
+    instances.
+
+    :ivar instance_ids: The network virtual appliance instance ids. Omitting the network virtual
+     appliance instance ids will result in the operation being performed on all virtual machines
+     belonging to the network virtual appliance.
+    :vartype instance_ids: list[str]
+    """
+
+    _attribute_map = {
+        "instance_ids": {"key": "instanceIds", "type": "[str]"},
+    }
+
+    def __init__(self, *, instance_ids: Optional[List[str]] = None, **kwargs: Any) -> None:
+        """
+        :keyword instance_ids: The network virtual appliance instance ids. Omitting the network virtual
+         appliance instance ids will result in the operation being performed on all virtual machines
+         belonging to the network virtual appliance.
+        :paramtype instance_ids: list[str]
+        """
+        super().__init__(**kwargs)
+        self.instance_ids = instance_ids
 
