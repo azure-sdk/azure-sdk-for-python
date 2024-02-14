@@ -15,7 +15,7 @@ from azure.mgmt.core import AsyncARMPipelineClient
 from .. import models as _models
 from .._serialization import Deserializer, Serializer
 from ._configuration import PlaywrightTestingMgmtClientConfiguration
-from .operations import AccountsOperations, Operations, QuotasOperations
+from .operations import AccountQuotasOperations, AccountsOperations, Operations, QuotasOperations
 
 if TYPE_CHECKING:
     # pylint: disable=unused-import,ungrouped-imports
@@ -23,7 +23,7 @@ if TYPE_CHECKING:
 
 
 class PlaywrightTestingMgmtClient:  # pylint: disable=client-accepts-api-version-keyword
-    """Microsoft.AzurePlaywrightService Resource Provider management API.
+    """Azure Playwright testing management service.
 
     :ivar operations: Operations operations
     :vartype operations: azure.mgmt.playwrighttesting.aio.operations.Operations
@@ -31,13 +31,15 @@ class PlaywrightTestingMgmtClient:  # pylint: disable=client-accepts-api-version
     :vartype accounts: azure.mgmt.playwrighttesting.aio.operations.AccountsOperations
     :ivar quotas: QuotasOperations operations
     :vartype quotas: azure.mgmt.playwrighttesting.aio.operations.QuotasOperations
+    :ivar account_quotas: AccountQuotasOperations operations
+    :vartype account_quotas: azure.mgmt.playwrighttesting.aio.operations.AccountQuotasOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
-    :param subscription_id: The ID of the target subscription. Required.
+    :param subscription_id: The ID of the target subscription. The value must be an UUID. Required.
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2023-10-01-preview". Note that overriding
+    :keyword api_version: Api Version. Default value is "2024-02-01-preview". Note that overriding
      this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -63,6 +65,7 @@ class PlaywrightTestingMgmtClient:  # pylint: disable=client-accepts-api-version
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
         self.accounts = AccountsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.quotas = QuotasOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.account_quotas = AccountQuotasOperations(self._client, self._config, self._serialize, self._deserialize)
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> Awaitable[AsyncHttpResponse]:
         """Runs the network request through the client's chained policies.
