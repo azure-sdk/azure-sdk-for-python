@@ -1171,6 +1171,7 @@ class EndpointType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     MMA_WORKSPACE_NETWORK = "MMAWorkspaceNetwork"
     AZURE_ARC_VM = "AzureArcVM"
     AZURE_VMSS = "AzureVMSS"
+    AZURE_ARC_NETWORK = "AzureArcNetwork"
 
 class ExpressRouteLinkMacSecSciState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Sci mode enabled/disabled."""
@@ -1274,6 +1275,8 @@ class VirtualNetworkPrivateEndpointNetworkPolicies(str, Enum, metaclass=CaseInse
 
     ENABLED = "Enabled"
     DISABLED = "Disabled"
+    NETWORK_SECURITY_GROUP_ENABLED = "NetworkSecurityGroupEnabled"
+    ROUTE_TABLE_ENABLED = "RouteTableEnabled"
 
 class VirtualNetworkPrivateLinkServiceNetworkPolicies(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Enable or Disable apply network policies on private link service in the subnet."""
