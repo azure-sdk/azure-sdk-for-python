@@ -75,6 +75,7 @@ from ._models_py3 import ServicesPatchDescription
 from ._models_py3 import ServicesProperties
 from ._models_py3 import ServicesResource
 from ._models_py3 import ServicesResourceIdentity
+from ._models_py3 import StorageConfiguration
 from ._models_py3 import SystemData
 from ._models_py3 import TaggedResource
 from ._models_py3 import UserAssignedIdentity
@@ -172,6 +173,7 @@ __all__ = [
     "ServicesProperties",
     "ServicesResource",
     "ServicesResourceIdentity",
+    "StorageConfiguration",
     "SystemData",
     "TaggedResource",
     "UserAssignedIdentity",

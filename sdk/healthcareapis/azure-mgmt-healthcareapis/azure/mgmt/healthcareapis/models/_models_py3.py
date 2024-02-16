@@ -349,6 +349,8 @@ class DicomService(TaggedResource, ServiceManagedIdentity):  # pylint: disable=t
     :vartype event_state: str or ~azure.mgmt.healthcareapis.models.ServiceEventState
     :ivar encryption: The encryption settings of the DICOM service.
     :vartype encryption: ~azure.mgmt.healthcareapis.models.Encryption
+    :ivar storage_configuration: The configuration of external storage account.
+    :vartype storage_configuration: ~azure.mgmt.healthcareapis.models.StorageConfiguration
     """
 
     _validation = {
@@ -385,6 +387,7 @@ class DicomService(TaggedResource, ServiceManagedIdentity):  # pylint: disable=t
         "public_network_access": {"key": "properties.publicNetworkAccess", "type": "str"},
         "event_state": {"key": "properties.eventState", "type": "str"},
         "encryption": {"key": "properties.encryption", "type": "Encryption"},
+        "storage_configuration": {"key": "properties.storageConfiguration", "type": "StorageConfiguration"},
     }
 
     def __init__(
@@ -398,6 +401,7 @@ class DicomService(TaggedResource, ServiceManagedIdentity):  # pylint: disable=t
         cors_configuration: Optional["_models.CorsConfiguration"] = None,
         public_network_access: Optional[Union[str, "_models.PublicNetworkAccess"]] = None,
         encryption: Optional["_models.Encryption"] = None,
+        storage_configuration: Optional["_models.StorageConfiguration"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -421,6 +425,8 @@ class DicomService(TaggedResource, ServiceManagedIdentity):  # pylint: disable=t
         :paramtype public_network_access: str or ~azure.mgmt.healthcareapis.models.PublicNetworkAccess
         :keyword encryption: The encryption settings of the DICOM service.
         :paramtype encryption: ~azure.mgmt.healthcareapis.models.Encryption
+        :keyword storage_configuration: The configuration of external storage account.
+        :paramtype storage_configuration: ~azure.mgmt.healthcareapis.models.StorageConfiguration
         """
         super().__init__(etag=etag, location=location, tags=tags, identity=identity, **kwargs)
         self.identity = identity
@@ -433,6 +439,7 @@ class DicomService(TaggedResource, ServiceManagedIdentity):  # pylint: disable=t
         self.public_network_access = public_network_access
         self.event_state = None
         self.encryption = encryption
+        self.storage_configuration = storage_configuration
         self.id = None
         self.name = None
         self.type = None
@@ -3224,6 +3231,34 @@ class ServicesResourceIdentity(_serialization.Model):
         self.principal_id = None
         self.tenant_id = None
         self.type = type
+
+
+class StorageConfiguration(_serialization.Model):
+    """The configuration of external storage.
+
+    :ivar storage_resource_id: The resource id of external storage account.
+    :vartype storage_resource_id: str
+    :ivar file_system_name: The filesystem name of external storage account.
+    :vartype file_system_name: str
+    """
+
+    _attribute_map = {
+        "storage_resource_id": {"key": "storageResourceId", "type": "str"},
+        "file_system_name": {"key": "fileSystemName", "type": "str"},
+    }
+
+    def __init__(
+        self, *, storage_resource_id: Optional[str] = None, file_system_name: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword storage_resource_id: The resource id of external storage account.
+        :paramtype storage_resource_id: str
+        :keyword file_system_name: The filesystem name of external storage account.
+        :paramtype file_system_name: str
+        """
+        super().__init__(**kwargs)
+        self.storage_resource_id = storage_resource_id
+        self.file_system_name = file_system_name
 
 
 class SystemData(_serialization.Model):
