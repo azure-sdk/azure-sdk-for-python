@@ -36,6 +36,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2023-04-01/examples/Usage/list.json
+# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2024-01-01-preview/examples/Usage/list.json
 if __name__ == "__main__":
     main()
