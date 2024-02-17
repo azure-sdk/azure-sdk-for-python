@@ -29,7 +29,7 @@ def main():
         subscription_id="4385cf00-2d3a-425a-832f-f4285b1c9dce",
     )
 
-    response = client.devices.begin_create_or_update_security_settings(
+    client.devices.begin_create_or_update_security_settings(
         device_name="testedgedevice",
         resource_group_name="AzureVM",
         security_settings={
@@ -42,7 +42,6 @@ def main():
             }
         },
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/databoxedge/resource-manager/Microsoft.DataBoxEdge/stable/2022-03-01/examples/SecuritySettingsUpdatePost.json
