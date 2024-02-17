@@ -9,6 +9,7 @@
 from ._operations import Operations
 from ._accounts_operations import AccountsOperations
 from ._quotas_operations import QuotasOperations
+from ._account_quotas_operations import AccountQuotasOperations
 
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
@@ -18,6 +19,7 @@ __all__ = [
     "Operations",
     "AccountsOperations",
     "QuotasOperations",
+    "AccountQuotasOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
