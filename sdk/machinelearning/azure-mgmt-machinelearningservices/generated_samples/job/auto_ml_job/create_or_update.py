@@ -35,52 +35,59 @@ def main():
         id="string",
         body={
             "properties": {
+                "autologgerSettings": {"mlflowAutologger": "Disabled"},
+                "codeId": "string",
+                "command": "string",
+                "componentId": "string",
                 "computeId": "string",
                 "description": "string",
                 "displayName": "string",
+                "distribution": {"distributionType": "TensorFlow", "parameterServerCount": 1, "workerCount": 1},
                 "environmentId": "string",
                 "environmentVariables": {"string": "string"},
                 "experimentName": "string",
                 "identity": {"identityType": "AMLToken"},
+                "inputs": {"string": {"description": "string", "jobInputType": "literal", "value": "string"}},
                 "isArchived": False,
-                "jobType": "AutoML",
+                "jobType": "Command",
+                "limits": {"jobLimitsType": "Command", "timeout": "PT5M"},
+                "notificationSetting": {"emailOn": ["JobCompleted"], "emails": ["string"]},
                 "outputs": {
                     "string": {
+                        "assetName": "string",
+                        "assetVersion": "string",
                         "description": "string",
                         "jobOutputType": "uri_file",
-                        "mode": "ReadWriteMount",
+                        "mode": "Direct",
                         "uri": "string",
                     }
                 },
                 "properties": {"string": "string"},
+                "queueSettings": {"jobTier": "Premium", "priority": 1},
                 "resources": {
+                    "dockerArgs": "string",
                     "instanceCount": 1,
                     "instanceType": "string",
-                    "properties": {"string": {"9bec0ab0-c62f-4fa9-a97c-7b24bbcc90ad": None}},
+                    "locations": ["string"],
+                    "properties": {"string": {"f69c8d5a-9b39-4183-92d3-a2b18944cf95": None}},
+                    "shmSize": "2g",
                 },
                 "services": {
                     "string": {
                         "endpoint": "string",
                         "jobServiceType": "string",
+                        "nodes": {"nodesValueType": "All"},
                         "port": 1,
                         "properties": {"string": "string"},
                     }
                 },
                 "tags": {"string": "string"},
-                "taskDetails": {
-                    "limitSettings": {"maxTrials": 2},
-                    "modelSettings": {"validationCropSize": 2},
-                    "searchSpace": [{"validationCropSize": "choice(2, 360)"}],
-                    "targetColumnName": "string",
-                    "taskType": "ImageClassification",
-                    "trainingData": {"jobInputType": "mltable", "uri": "string"},
-                },
             }
         },
     )
     print(response)
 
 
-# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2023-04-01/examples/Job/AutoMLJob/createOrUpdate.json
+# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2024-01-01-preview/examples/Job/AutoMLJob/createOrUpdate.json
 if __name__ == "__main__":
     main()
