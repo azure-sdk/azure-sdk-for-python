@@ -29,11 +29,10 @@ def main():
         subscription_id="c1be1141-a7c9-4aac-9608-3c2e2f1152c3",
     )
 
-    response = client.contact_profiles.begin_delete(
+    client.contact_profiles.begin_delete(
         resource_group_name="contoso-Rgp",
         contact_profile_name="CONTOSO-CP",
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-11-01/examples/ContactProfileDelete.json
