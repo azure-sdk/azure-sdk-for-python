@@ -12,6 +12,9 @@ from ._elastic_versions_operations import ElasticVersionsOperations
 from ._monitored_resources_operations import MonitoredResourcesOperations
 from ._deployment_info_operations import DeploymentInfoOperations
 from ._external_user_operations import ExternalUserOperations
+from ._billing_info_operations import BillingInfoOperations
+from ._connected_partner_resources_operations import ConnectedPartnerResourcesOperations
+from ._open_ai_operations import OpenAIOperations
 from ._tag_rules_operations import TagRulesOperations
 from ._vm_host_operations import VMHostOperations
 from ._vm_ingestion_operations import VMIngestionOperations
@@ -39,6 +42,9 @@ __all__ = [
     "MonitoredResourcesOperations",
     "DeploymentInfoOperations",
     "ExternalUserOperations",
+    "BillingInfoOperations",
+    "ConnectedPartnerResourcesOperations",
+    "OpenAIOperations",
     "TagRulesOperations",
     "VMHostOperations",
     "VMIngestionOperations",
