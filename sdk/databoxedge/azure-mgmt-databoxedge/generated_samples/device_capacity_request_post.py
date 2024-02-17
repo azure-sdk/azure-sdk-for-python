@@ -29,12 +29,11 @@ def main():
         subscription_id="4385cf00-2d3a-425a-832f-f4285b1c9dce",
     )
 
-    response = client.device_capacity_check.begin_check_resource_creation_feasibility(
+    client.device_capacity_check.begin_check_resource_creation_feasibility(
         resource_group_name="GroupForEdgeAutomation",
         device_name="testedgedevice",
         device_capacity_request_info={"properties": {"vmPlacementQuery": [["Standard_D2_v2"]]}},
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/databoxedge/resource-manager/Microsoft.DataBoxEdge/stable/2022-03-01/examples/DeviceCapacityRequestPost.json
