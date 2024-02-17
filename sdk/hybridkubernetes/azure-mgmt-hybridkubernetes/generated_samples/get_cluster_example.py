@@ -36,6 +36,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/hybridkubernetes/resource-manager/Microsoft.Kubernetes/stable/2021-10-01/examples/GetClusterExample.json
+# x-ms-original-file: specification/hybridkubernetes/resource-manager/Microsoft.Kubernetes/stable/2024-01-01/examples/GetClusterExample.json
 if __name__ == "__main__":
     main()
