@@ -49,6 +49,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/ValidateAddressPost.json
+# x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2023-03-01/examples/ValidateAddressPost.json
 if __name__ == "__main__":
     main()
