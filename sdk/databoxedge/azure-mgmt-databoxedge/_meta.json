@@ -1,11 +1,21 @@
 {
-  "commit": "f1180941e238bc99ac71f9535ecd126bb8b77d8f",
+  "commit": "70a4ccdd2be61ae5bc524250c70270b0f4f2b540",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
-  "autorest": "3.9.2",
+  "autorest": "3.9.7",
   "use": [
-    "@autorest/python@6.4.0",
-    "@autorest/modelerfour@4.24.3"
+    "@autorest/python@6.7.1",
+    "@autorest/modelerfour@4.26.2"
   ],
-  "autorest_command": "autorest specification/databoxedge/resource-manager/readme.md --generate-sample=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/home/vsts/work/1/azure-sdk-for-python/sdk --use=@autorest/python@6.4.0 --use=@autorest/modelerfour@4.24.3 --version=3.9.2 --version-tolerant=False",
-  "readme": "specification/databoxedge/resource-manager/readme.md"
+  "autorest_command": "autorest specification/databoxedge/resource-manager/readme.md --generate-sample=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/mnt/vss/_work/1/s/azure-sdk-for-python/sdk --use=@autorest/python@6.7.1 --use=@autorest/modelerfour@4.26.2 --version=3.9.7 --version-tolerant=False",
+  "readme": "specification/databoxedge/resource-manager/readme.md",
+  "package-2022-03-01": "2022-04-18 06:37:29 +0300 5575aeff7364faef03c26a3661e1e64a6bb693a7 Microsoft.DataBoxEdge/stable/2022-03-01/databoxedge.json",
+  "package-2021-02-01": "2021-08-13 01:54:29 +0530 3b7f6403c2b2295b993cdfe8c033dff9619d8f13 Microsoft.DataBoxEdge/stable/2021-02-01/databoxedge.json",
+  "package-2021-02-01-preview": "2021-05-06 14:45:54 +0530 6266d33e5c87cfa38dc12b7ff33c594f4cc32f1e Microsoft.DataBoxEdge/preview/2021-02-01-preview/databoxedge.json",
+  "package-2020-12-01": "2021-02-24 10:24:29 +0530 8577daaf7e174e49904f89ae6478281289dc2860 Microsoft.DataBoxEdge/stable/2020-12-01/databoxedge.json",
+  "package-2020-09-01-preview": "2021-02-03 13:35:54 +0530 fbd281068937dcf905cb4a87a1c1a40646819bb4 Microsoft.DataBoxEdge/preview/2020-09-01-preview/databoxedge.json",
+  "package-2020-09-01": "2021-02-03 13:35:54 +0530 fbd281068937dcf905cb4a87a1c1a40646819bb4 Microsoft.DataBoxEdge/preview/2020-09-01-preview/databoxedge.json",
+  "package-2020-05-preview": "2020-11-03 10:36:22 +0530 ced4891d7f95a4ee3a83e14b5c8abcf2122d9856 Microsoft.DataBoxEdge/preview/2020-05-01-preview/databoxedge.json",
+  "package-2019-08": "2020-03-11 15:41:00 +0800 4032896969cbaec08c6438972fbb08ac309b0967 Microsoft.DataBoxEdge/stable/2019-08-01/databoxedge.json",
+  "package-2019-07": "2019-09-18 22:45:44 -0400 cd39848a8a35a212d8e3e7f18b9b6dfd43ee6cdc Microsoft.DataBoxEdge/stable/2019-07-01/databoxedge.json",
+  "package-2019-03": "2019-09-18 22:45:44 -0400 cd39848a8a35a212d8e3e7f18b9b6dfd43ee6cdc Microsoft.DataBoxEdge/stable/2019-03-01/databoxedge.json"
 }
