@@ -6,7 +6,11 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._models_py3 import BillingInfoResponse
 from ._models_py3 import CompanyInfo
+from ._models_py3 import ConnectedPartnerResourceProperties
+from ._models_py3 import ConnectedPartnerResourcesListFormat
+from ._models_py3 import ConnectedPartnerResourcesListResponse
 from ._models_py3 import DeploymentInfoResponse
 from ._models_py3 import ElasticCloudDeployment
 from ._models_py3 import ElasticCloudUser
@@ -14,6 +18,8 @@ from ._models_py3 import ElasticMonitorResource
 from ._models_py3 import ElasticMonitorResourceListResponse
 from ._models_py3 import ElasticMonitorResourceUpdateParameters
 from ._models_py3 import ElasticMonitorUpgrade
+from ._models_py3 import ElasticOrganizationToAzureSubscriptionMappingResponse
+from ._models_py3 import ElasticOrganizationToAzureSubscriptionMappingResponseProperties
 from ._models_py3 import ElasticProperties
 from ._models_py3 import ElasticTrafficFilter
 from ._models_py3 import ElasticTrafficFilterResponse
@@ -35,9 +41,16 @@ from ._models_py3 import MonitoredResourceListResponse
 from ._models_py3 import MonitoringTagRules
 from ._models_py3 import MonitoringTagRulesListResponse
 from ._models_py3 import MonitoringTagRulesProperties
+from ._models_py3 import OpenAIIntegrationProperties
+from ._models_py3 import OpenAIIntegrationRPModel
+from ._models_py3 import OpenAIIntegrationRPModelListResponse
+from ._models_py3 import OpenAIIntegrationStatusResponse
+from ._models_py3 import OpenAIIntegrationStatusResponseProperties
 from ._models_py3 import OperationDisplay
 from ._models_py3 import OperationListResult
 from ._models_py3 import OperationResult
+from ._models_py3 import PartnerBillingEntity
+from ._models_py3 import PlanDetails
 from ._models_py3 import ResourceProviderDefaultErrorResponse
 from ._models_py3 import ResourceSku
 from ._models_py3 import SystemData
@@ -66,7 +79,11 @@ from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "BillingInfoResponse",
     "CompanyInfo",
+    "ConnectedPartnerResourceProperties",
+    "ConnectedPartnerResourcesListFormat",
+    "ConnectedPartnerResourcesListResponse",
     "DeploymentInfoResponse",
     "ElasticCloudDeployment",
     "ElasticCloudUser",
@@ -74,6 +91,8 @@ __all__ = [
     "ElasticMonitorResourceListResponse",
     "ElasticMonitorResourceUpdateParameters",
     "ElasticMonitorUpgrade",
+    "ElasticOrganizationToAzureSubscriptionMappingResponse",
+    "ElasticOrganizationToAzureSubscriptionMappingResponseProperties",
     "ElasticProperties",
     "ElasticTrafficFilter",
     "ElasticTrafficFilterResponse",
@@ -95,9 +114,16 @@ __all__ = [
     "MonitoringTagRules",
     "MonitoringTagRulesListResponse",
     "MonitoringTagRulesProperties",
+    "OpenAIIntegrationProperties",
+    "OpenAIIntegrationRPModel",
+    "OpenAIIntegrationRPModelListResponse",
+    "OpenAIIntegrationStatusResponse",
+    "OpenAIIntegrationStatusResponseProperties",
     "OperationDisplay",
     "OperationListResult",
     "OperationResult",
+    "PartnerBillingEntity",
+    "PlanDetails",
     "ResourceProviderDefaultErrorResponse",
     "ResourceSku",
     "SystemData",
