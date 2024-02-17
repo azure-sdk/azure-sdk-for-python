@@ -29,13 +29,12 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.vm_collection.update(
+    client.vm_collection.update(
         resource_group_name="myResourceGroup",
         monitor_name="myMonitor",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/VMCollection_Update.json
+# x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/stable/2024-03-01/examples/VMCollection_Update.json
 if __name__ == "__main__":
     main()
