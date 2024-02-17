@@ -6,11 +6,14 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._models_py3 import APIKeys
+from ._models_py3 import ApiKey
 from ._models_py3 import CheckNameAvailabilityParameters
 from ._models_py3 import CheckNameAvailabilityResult
 from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorDetail
 from ._models_py3 import ErrorResponse
+from ._models_py3 import ListKeysResult
 from ._models_py3 import OfferingsListResult
 from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
@@ -34,6 +37,7 @@ from ._models_py3 import TrackedResource
 from ._models_py3 import WorkspaceListResult
 
 from ._azure_quantum_management_client_enums import CreatedByType
+from ._azure_quantum_management_client_enums import KeyType
 from ._azure_quantum_management_client_enums import ProvisioningStatus
 from ._azure_quantum_management_client_enums import ResourceIdentityType
 from ._azure_quantum_management_client_enums import Status
@@ -43,11 +47,14 @@ from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "APIKeys",
+    "ApiKey",
     "CheckNameAvailabilityParameters",
     "CheckNameAvailabilityResult",
     "ErrorAdditionalInfo",
     "ErrorDetail",
     "ErrorResponse",
+    "ListKeysResult",
     "OfferingsListResult",
     "Operation",
     "OperationDisplay",
@@ -70,6 +77,7 @@ __all__ = [
     "TrackedResource",
     "WorkspaceListResult",
     "CreatedByType",
+    "KeyType",
     "ProvisioningStatus",
     "ResourceIdentityType",
     "Status",
