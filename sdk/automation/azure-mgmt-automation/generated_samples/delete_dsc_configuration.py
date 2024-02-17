@@ -29,14 +29,13 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.dsc_configuration.delete(
+    client.dsc_configuration.delete(
         resource_group_name="rg",
         automation_account_name="myAutomationAccount33",
         configuration_name="TemplateBasic",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2022-08-08/examples/deleteDscConfiguration.json
+# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2023-11-01/examples/deleteDscConfiguration.json
 if __name__ == "__main__":
     main()
