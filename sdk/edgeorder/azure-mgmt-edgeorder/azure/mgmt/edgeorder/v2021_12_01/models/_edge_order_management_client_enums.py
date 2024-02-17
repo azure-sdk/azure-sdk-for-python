@@ -149,6 +149,8 @@ class LengthHeightUnit(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Inch, applicable for West US."""
     CM = "CM"
     """Centimeter."""
+    IN_ENUM = "IN"
+    """Inch, applicable for West US."""
 
 
 class LinkType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
