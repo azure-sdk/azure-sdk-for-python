@@ -36,8 +36,6 @@ def main():
         policy_name="default",
         parameters={
             "properties": {
-                "backupStorageAccessTier": "Hot",
-                "makeBackupsImmutable": True,
                 "monthlyRetention": "P1Y",
                 "weekOfYear": 5,
                 "weeklyRetention": "P1M",

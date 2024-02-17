@@ -133,8 +133,7 @@ class LongTermRetentionPoliciesOperations:
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-                raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+                raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
             return pipeline_response
 
@@ -206,8 +205,7 @@ class LongTermRetentionPoliciesOperations:
 
         if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         deserialized = self._deserialize("LongTermRetentionPolicy", pipeline_response)
 
@@ -278,8 +276,7 @@ class LongTermRetentionPoliciesOperations:
 
         if response.status_code not in [200, 202]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         deserialized = None
         if response.status_code == 200:
@@ -306,7 +303,7 @@ class LongTermRetentionPoliciesOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.LongTermRetentionPolicy]:
-        """Set or update a database's long term retention policy.
+        """Sets a database's long term retention policy.
 
         :param resource_group_name: The name of the resource group that contains the resource. You can
          obtain this value from the Azure Resource Manager API or the portal. Required.
@@ -348,7 +345,7 @@ class LongTermRetentionPoliciesOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.LongTermRetentionPolicy]:
-        """Set or update a database's long term retention policy.
+        """Sets a database's long term retention policy.
 
         :param resource_group_name: The name of the resource group that contains the resource. You can
          obtain this value from the Azure Resource Manager API or the portal. Required.
@@ -388,7 +385,7 @@ class LongTermRetentionPoliciesOperations:
         parameters: Union[_models.LongTermRetentionPolicy, IO],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.LongTermRetentionPolicy]:
-        """Set or update a database's long term retention policy.
+        """Sets a database's long term retention policy.
 
         :param resource_group_name: The name of the resource group that contains the resource. You can
          obtain this value from the Azure Resource Manager API or the portal. Required.
