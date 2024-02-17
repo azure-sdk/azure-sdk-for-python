@@ -141,14 +141,14 @@ class QuotasOperations:
     }
 
     @distributed_trace_async
-    async def get(self, location: str, name: Union[str, _models.QuotaNames], **kwargs: Any) -> _models.Quota:
-        """Get quota by name.
+    async def get(self, location: str, quota_name: Union[str, _models.QuotaNames], **kwargs: Any) -> _models.Quota:
+        """Get subscription quota by name.
 
         :param location: The location of quota in ARM Normalized format like eastus, southeastasia etc.
          Required.
         :type location: str
-        :param name: The quota name. "ScalableExecution" Required.
-        :type name: str or ~azure.mgmt.playwrighttesting.models.QuotaNames
+        :param quota_name: The quota name. "ScalableExecution" Required.
+        :type quota_name: str or ~azure.mgmt.playwrighttesting.models.QuotaNames
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Quota or the result of cls(response)
         :rtype: ~azure.mgmt.playwrighttesting.models.Quota
@@ -170,7 +170,7 @@ class QuotasOperations:
 
         request = build_get_request(
             location=location,
-            name=name,
+            quota_name=quota_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             template_url=self.get.metadata["url"],
@@ -200,5 +200,5 @@ class QuotasOperations:
         return deserialized
 
     get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.AzurePlaywrightService/locations/{location}/quotas/{name}"
+        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.AzurePlaywrightService/locations/{location}/quotas/{quotaName}"
     }
