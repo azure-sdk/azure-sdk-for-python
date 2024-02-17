@@ -29,13 +29,12 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.automation_account.delete(
+    client.automation_account.delete(
         resource_group_name="rg",
         automation_account_name="myAutomationAccount9",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2022-08-08/examples/deleteAutomationAccount.json
+# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2023-11-01/examples/deleteAutomationAccount.json
 if __name__ == "__main__":
     main()
