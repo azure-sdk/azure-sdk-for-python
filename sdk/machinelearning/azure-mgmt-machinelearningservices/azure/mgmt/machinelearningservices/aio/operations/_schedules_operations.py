@@ -36,6 +36,7 @@ from ...operations._schedules_operations import (
     build_delete_request,
     build_get_request,
     build_list_request,
+    build_trigger_request,
 )
 
 T = TypeVar("T")
@@ -608,4 +609,163 @@ class SchedulesOperations:
 
     begin_create_or_update.metadata = {
         "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/schedules/{name}"
+    }
+
+    @overload
+    async def trigger(
+        self,
+        resource_group_name: str,
+        workspace_name: str,
+        name: str,
+        body: _models.TriggerOnceRequest,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.TriggerRunSubmissionDto:
+        """Trigger run.
+
+        Trigger run.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param workspace_name: Name of Azure Machine Learning workspace. Required.
+        :type workspace_name: str
+        :param name: Schedule name. Required.
+        :type name: str
+        :param body: Request body for trigger once. Required.
+        :type body: ~azure.mgmt.machinelearningservices.models.TriggerOnceRequest
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: TriggerRunSubmissionDto or the result of cls(response)
+        :rtype: ~azure.mgmt.machinelearningservices.models.TriggerRunSubmissionDto
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def trigger(
+        self,
+        resource_group_name: str,
+        workspace_name: str,
+        name: str,
+        body: IO,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.TriggerRunSubmissionDto:
+        """Trigger run.
+
+        Trigger run.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param workspace_name: Name of Azure Machine Learning workspace. Required.
+        :type workspace_name: str
+        :param name: Schedule name. Required.
+        :type name: str
+        :param body: Request body for trigger once. Required.
+        :type body: IO
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: TriggerRunSubmissionDto or the result of cls(response)
+        :rtype: ~azure.mgmt.machinelearningservices.models.TriggerRunSubmissionDto
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace_async
+    async def trigger(
+        self,
+        resource_group_name: str,
+        workspace_name: str,
+        name: str,
+        body: Union[_models.TriggerOnceRequest, IO],
+        **kwargs: Any
+    ) -> _models.TriggerRunSubmissionDto:
+        """Trigger run.
+
+        Trigger run.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param workspace_name: Name of Azure Machine Learning workspace. Required.
+        :type workspace_name: str
+        :param name: Schedule name. Required.
+        :type name: str
+        :param body: Request body for trigger once. Is either a TriggerOnceRequest type or a IO type.
+         Required.
+        :type body: ~azure.mgmt.machinelearningservices.models.TriggerOnceRequest or IO
+        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
+         Default value is None.
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: TriggerRunSubmissionDto or the result of cls(response)
+        :rtype: ~azure.mgmt.machinelearningservices.models.TriggerRunSubmissionDto
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.TriggerRunSubmissionDto] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(body, (IOBase, bytes)):
+            _content = body
+        else:
+            _json = self._serialize.body(body, "TriggerOnceRequest")
+
+        request = build_trigger_request(
+            resource_group_name=resource_group_name,
+            workspace_name=workspace_name,
+            name=name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
+            template_url=self.trigger.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("TriggerRunSubmissionDto", pipeline_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})
+
+        return deserialized
+
+    trigger.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/schedules/{name}/trigger"
     }
