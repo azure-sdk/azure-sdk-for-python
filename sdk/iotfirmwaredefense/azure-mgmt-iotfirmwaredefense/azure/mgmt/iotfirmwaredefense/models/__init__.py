@@ -6,22 +6,20 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from ._models_py3 import BinaryHardening
-from ._models_py3 import BinaryHardeningList
-from ._models_py3 import BinaryHardeningSummary
-from ._models_py3 import Component
-from ._models_py3 import ComponentList
-from ._models_py3 import CryptoCertificate
+from ._models_py3 import BinaryHardeningListResult
+from ._models_py3 import BinaryHardeningResource
+from ._models_py3 import BinaryHardeningSummaryResource
 from ._models_py3 import CryptoCertificateEntity
-from ._models_py3 import CryptoCertificateList
-from ._models_py3 import CryptoCertificateSummary
-from ._models_py3 import CryptoKey
-from ._models_py3 import CryptoKeyList
-from ._models_py3 import CryptoKeySummary
-from ._models_py3 import Cve
+from ._models_py3 import CryptoCertificateListResult
+from ._models_py3 import CryptoCertificateResource
+from ._models_py3 import CryptoCertificateSummaryResource
+from ._models_py3 import CryptoKeyListResult
+from ._models_py3 import CryptoKeyResource
+from ._models_py3 import CryptoKeySummaryResource
 from ._models_py3 import CveComponent
 from ._models_py3 import CveLink
-from ._models_py3 import CveList
+from ._models_py3 import CveListResult
+from ._models_py3 import CveResource
 from ._models_py3 import CveSummary
 from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorDetail
@@ -35,10 +33,15 @@ from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
 from ._models_py3 import OperationListResult
 from ._models_py3 import PairedKey
-from ._models_py3 import PasswordHash
-from ._models_py3 import PasswordHashList
-from ._models_py3 import ProxyResource
+from ._models_py3 import PasswordHashListResult
+from ._models_py3 import PasswordHashResource
 from ._models_py3 import Resource
+from ._models_py3 import SbomComponentListResult
+from ._models_py3 import SbomComponentResource
+from ._models_py3 import StatusMessage
+from ._models_py3 import SummaryListResult
+from ._models_py3 import SummaryResource
+from ._models_py3 import SummaryResourceProperties
 from ._models_py3 import SystemData
 from ._models_py3 import TrackedResource
 from ._models_py3 import UrlToken
@@ -47,41 +50,31 @@ from ._models_py3 import WorkspaceList
 from ._models_py3 import WorkspaceUpdateDefinition
 
 from ._io_tfirmware_defense_mgmt_client_enums import ActionType
-from ._io_tfirmware_defense_mgmt_client_enums import CanaryFlag
 from ._io_tfirmware_defense_mgmt_client_enums import CreatedByType
-from ._io_tfirmware_defense_mgmt_client_enums import IsExpired
-from ._io_tfirmware_defense_mgmt_client_enums import IsSelfSigned
-from ._io_tfirmware_defense_mgmt_client_enums import IsShortKeySize
-from ._io_tfirmware_defense_mgmt_client_enums import IsUpdateAvailable
-from ._io_tfirmware_defense_mgmt_client_enums import IsWeakSignature
-from ._io_tfirmware_defense_mgmt_client_enums import NxFlag
 from ._io_tfirmware_defense_mgmt_client_enums import Origin
-from ._io_tfirmware_defense_mgmt_client_enums import PieFlag
 from ._io_tfirmware_defense_mgmt_client_enums import ProvisioningState
-from ._io_tfirmware_defense_mgmt_client_enums import RelroFlag
 from ._io_tfirmware_defense_mgmt_client_enums import Status
-from ._io_tfirmware_defense_mgmt_client_enums import StrippedFlag
+from ._io_tfirmware_defense_mgmt_client_enums import SummaryName
+from ._io_tfirmware_defense_mgmt_client_enums import SummaryType
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
-    "BinaryHardening",
-    "BinaryHardeningList",
-    "BinaryHardeningSummary",
-    "Component",
-    "ComponentList",
-    "CryptoCertificate",
+    "BinaryHardeningListResult",
+    "BinaryHardeningResource",
+    "BinaryHardeningSummaryResource",
     "CryptoCertificateEntity",
-    "CryptoCertificateList",
-    "CryptoCertificateSummary",
-    "CryptoKey",
-    "CryptoKeyList",
-    "CryptoKeySummary",
-    "Cve",
+    "CryptoCertificateListResult",
+    "CryptoCertificateResource",
+    "CryptoCertificateSummaryResource",
+    "CryptoKeyListResult",
+    "CryptoKeyResource",
+    "CryptoKeySummaryResource",
     "CveComponent",
     "CveLink",
-    "CveList",
+    "CveListResult",
+    "CveResource",
     "CveSummary",
     "ErrorAdditionalInfo",
     "ErrorDetail",
@@ -95,10 +88,15 @@ __all__ = [
     "OperationDisplay",
     "OperationListResult",
     "PairedKey",
-    "PasswordHash",
-    "PasswordHashList",
-    "ProxyResource",
+    "PasswordHashListResult",
+    "PasswordHashResource",
     "Resource",
+    "SbomComponentListResult",
+    "SbomComponentResource",
+    "StatusMessage",
+    "SummaryListResult",
+    "SummaryResource",
+    "SummaryResourceProperties",
     "SystemData",
     "TrackedResource",
     "UrlToken",
@@ -106,20 +104,12 @@ __all__ = [
     "WorkspaceList",
     "WorkspaceUpdateDefinition",
     "ActionType",
-    "CanaryFlag",
     "CreatedByType",
-    "IsExpired",
-    "IsSelfSigned",
-    "IsShortKeySize",
-    "IsUpdateAvailable",
-    "IsWeakSignature",
-    "NxFlag",
     "Origin",
-    "PieFlag",
     "ProvisioningState",
-    "RelroFlag",
     "Status",
-    "StrippedFlag",
+    "SummaryName",
+    "SummaryType",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
