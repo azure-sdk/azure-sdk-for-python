@@ -148,6 +148,7 @@ from ._instance_failover_groups_operations import InstanceFailoverGroupsOperatio
 from ._managed_database_restore_details_operations import ManagedDatabaseRestoreDetailsOperations
 from ._database_encryption_protectors_operations import DatabaseEncryptionProtectorsOperations
 from ._managed_databases_operations import ManagedDatabasesOperations
+from ._managed_instances_operations import ManagedInstancesOperations
 from ._managed_ledger_digest_uploads_operations import ManagedLedgerDigestUploadsOperations
 from ._recoverable_databases_operations import RecoverableDatabasesOperations
 from ._restorable_dropped_databases_operations import RestorableDroppedDatabasesOperations
@@ -180,12 +181,11 @@ from ._database_sql_vulnerability_assessment_scans_operations import DatabaseSql
 from ._database_sql_vulnerability_assessments_settings_operations import (
     DatabaseSqlVulnerabilityAssessmentsSettingsOperations,
 )
+from ._servers_operations import ServersOperations
 from ._failover_groups_operations import FailoverGroupsOperations
 from ._instance_pools_operations import InstancePoolsOperations
 from ._long_term_retention_backups_operations import LongTermRetentionBackupsOperations
 from ._long_term_retention_policies_operations import LongTermRetentionPoliciesOperations
-from ._managed_instances_operations import ManagedInstancesOperations
-from ._servers_operations import ServersOperations
 
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
@@ -314,6 +314,7 @@ __all__ = [
     "ManagedDatabaseRestoreDetailsOperations",
     "DatabaseEncryptionProtectorsOperations",
     "ManagedDatabasesOperations",
+    "ManagedInstancesOperations",
     "ManagedLedgerDigestUploadsOperations",
     "RecoverableDatabasesOperations",
     "RestorableDroppedDatabasesOperations",
@@ -336,12 +337,11 @@ __all__ = [
     "DatabaseSqlVulnerabilityAssessmentScanResultOperations",
     "DatabaseSqlVulnerabilityAssessmentScansOperations",
     "DatabaseSqlVulnerabilityAssessmentsSettingsOperations",
+    "ServersOperations",
     "FailoverGroupsOperations",
     "InstancePoolsOperations",
     "LongTermRetentionBackupsOperations",
     "LongTermRetentionPoliciesOperations",
-    "ManagedInstancesOperations",
-    "ServersOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()

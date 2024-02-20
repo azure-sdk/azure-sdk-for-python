@@ -504,6 +504,8 @@ class SqlManagementClient:  # pylint: disable=client-accepts-api-version-keyword
      azure.mgmt.sql.operations.DatabaseEncryptionProtectorsOperations
     :ivar managed_databases: ManagedDatabasesOperations operations
     :vartype managed_databases: azure.mgmt.sql.operations.ManagedDatabasesOperations
+    :ivar managed_instances: ManagedInstancesOperations operations
+    :vartype managed_instances: azure.mgmt.sql.operations.ManagedInstancesOperations
     :ivar managed_ledger_digest_uploads: ManagedLedgerDigestUploadsOperations operations
     :vartype managed_ledger_digest_uploads:
      azure.mgmt.sql.operations.ManagedLedgerDigestUploadsOperations
@@ -582,6 +584,8 @@ class SqlManagementClient:  # pylint: disable=client-accepts-api-version-keyword
      DatabaseSqlVulnerabilityAssessmentsSettingsOperations operations
     :vartype database_sql_vulnerability_assessments_settings:
      azure.mgmt.sql.operations.DatabaseSqlVulnerabilityAssessmentsSettingsOperations
+    :ivar servers: ServersOperations operations
+    :vartype servers: azure.mgmt.sql.operations.ServersOperations
     :ivar failover_groups: FailoverGroupsOperations operations
     :vartype failover_groups: azure.mgmt.sql.operations.FailoverGroupsOperations
     :ivar instance_pools: InstancePoolsOperations operations
@@ -592,10 +596,6 @@ class SqlManagementClient:  # pylint: disable=client-accepts-api-version-keyword
     :ivar long_term_retention_policies: LongTermRetentionPoliciesOperations operations
     :vartype long_term_retention_policies:
      azure.mgmt.sql.operations.LongTermRetentionPoliciesOperations
-    :ivar managed_instances: ManagedInstancesOperations operations
-    :vartype managed_instances: azure.mgmt.sql.operations.ManagedInstancesOperations
-    :ivar servers: ServersOperations operations
-    :vartype servers: azure.mgmt.sql.operations.ServersOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
     :param subscription_id: The subscription ID that identifies an Azure subscription. Required.
@@ -946,6 +946,9 @@ class SqlManagementClient:  # pylint: disable=client-accepts-api-version-keyword
         self.managed_databases = ManagedDatabasesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.managed_instances = ManagedInstancesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.managed_ledger_digest_uploads = ManagedLedgerDigestUploadsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
@@ -1016,6 +1019,7 @@ class SqlManagementClient:  # pylint: disable=client-accepts-api-version-keyword
         self.database_sql_vulnerability_assessments_settings = DatabaseSqlVulnerabilityAssessmentsSettingsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.servers = ServersOperations(self._client, self._config, self._serialize, self._deserialize)
         self.failover_groups = FailoverGroupsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.instance_pools = InstancePoolsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.long_term_retention_backups = LongTermRetentionBackupsOperations(
@@ -1024,10 +1028,6 @@ class SqlManagementClient:  # pylint: disable=client-accepts-api-version-keyword
         self.long_term_retention_policies = LongTermRetentionPoliciesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
-        self.managed_instances = ManagedInstancesOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.servers = ServersOperations(self._client, self._config, self._serialize, self._deserialize)
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> HttpResponse:
         """Runs the network request through the client's chained policies.
