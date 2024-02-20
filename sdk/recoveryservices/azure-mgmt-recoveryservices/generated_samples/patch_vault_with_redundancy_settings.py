@@ -14,7 +14,7 @@ from azure.mgmt.recoveryservices import RecoveryServicesClient
     pip install azure-identity
     pip install azure-mgmt-recoveryservices
 # USAGE
-    python list_usages.py
+    python patch_vault_with_redundancy_settings.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,14 +29,18 @@ def main():
         subscription_id="77777777-b0c6-47a2-b37c-d8e65a629c18",
     )
 
-    response = client.usages.list_by_vaults(
-        resource_group_name="Default-RecoveryServices-ResourceGroup",
+    response = client.vaults.begin_update(
+        resource_group_name="HelloWorld",
         vault_name="swaggerExample",
-    )
-    for item in response:
-        print(item)
+        vault={
+            "properties": {
+                "redundancySettings": {"crossRegionRestore": "Enabled", "standardTierStorageRedundancy": "GeoRedundant"}
+            }
+        },
+    ).result()
+    print(response)
 
 
-# x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-03-01/examples/ListUsages.json
+# x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-03-01/examples/PATCHVault_WithRedundancySettings.json
 if __name__ == "__main__":
     main()
