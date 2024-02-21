@@ -14,7 +14,7 @@ from azure.mgmt.alertsmanagement import AlertsManagementClient
     pip install azure-identity
     pip install azure-mgmt-alertsmanagement
 # USAGE
-    python alerts_meta_data_monitor_service.py
+    python alert_processing_rules_create_or_update_add_correlation.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,15 +26,34 @@ from azure.mgmt.alertsmanagement import AlertsManagementClient
 def main():
     client = AlertsManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="SUBSCRIPTION_ID",
+        subscription_id="subId1",
     )
 
-    response = client.alerts.meta_data(
-        identifier="MonitorServiceList",
+    response = client.alert_processing_rules.create_or_update(
+        resource_group_name="alertscorrelationrg",
+        alert_processing_rule_name="CorrelateAlerts",
+        alert_processing_rule={
+            "location": "Global",
+            "properties": {
+                "actions": [
+                    {
+                        "actionType": "CorrelateAlerts",
+                        "correlateBy": [{"field": "essentials.alertRule"}],
+                        "correlationInterval": "PT30M",
+                        "notificationsForCorrelatedAlerts": "SuppressAlways",
+                        "priority": 50,
+                    }
+                ],
+                "description": "Correlate Alerts Example.",
+                "enabled": True,
+                "scopes": ["/subscriptions/subId1"],
+            },
+            "tags": {},
+        },
     )
     print(response)
 
 
-# x-ms-original-file: specification/alertsmanagement/resource-manager/Microsoft.AlertsManagement/preview/2024-01-01-preview/examples/AlertsMetaData_MonitorService.json
+# x-ms-original-file: specification/alertsmanagement/resource-manager/Microsoft.AlertsManagement/preview/2023-05-01-preview/examples/AlertProcessingRules_Create_or_update_add_correlation.json
 if __name__ == "__main__":
     main()
