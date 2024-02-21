@@ -36,18 +36,18 @@ _SERIALIZER = Serializer()
 _SERIALIZER.client_side_validation = False
 
 
-def build_get_request(id: str, scope: str, **kwargs: Any) -> HttpRequest:
+def build_get_request(scope: str, id: str, **kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
     _url = kwargs.pop("template_url", "/{scope}/providers/Microsoft.Quota/quotaRequests/{id}")
     path_format_arguments = {
-        "id": _SERIALIZER.url("id", id, "str"),
         "scope": _SERIALIZER.url("scope", scope, "str", skip_quote=True),
+        "id": _SERIALIZER.url("id", id, "str"),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -72,7 +72,7 @@ def build_list_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -118,19 +118,19 @@ class QuotaRequestStatusOperations:
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    def get(self, id: str, scope: str, **kwargs: Any) -> _models.QuotaRequestDetails:
+    def get(self, scope: str, id: str, **kwargs: Any) -> _models.QuotaRequestDetails:
         """Get the quota request details and status by quota request ID for the resources of the resource
         provider at a specific location. The quota request ID **id** is returned in the response of the
         PUT operation.
 
-        :param id: Quota request ID. Required.
-        :type id: str
         :param scope: The target Azure resource URI. For example,
          ``/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/``.
          This is the target Azure resource URI for the List GET operation. If a ``{resourceName}`` is
          added after ``/quotas``\ , then it's the target Azure resource URI in the GET operation for the
          specific resource. Required.
         :type scope: str
+        :param id: Quota request ID. Required.
+        :type id: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: QuotaRequestDetails or the result of cls(response)
         :rtype: ~azure.mgmt.quota.models.QuotaRequestDetails
@@ -151,8 +151,8 @@ class QuotaRequestStatusOperations:
         cls: ClsType[_models.QuotaRequestDetails] = kwargs.pop("cls", None)
 
         request = build_get_request(
-            id=id,
             scope=scope,
+            id=id,
             api_version=api_version,
             template_url=self.get.metadata["url"],
             headers=_headers,

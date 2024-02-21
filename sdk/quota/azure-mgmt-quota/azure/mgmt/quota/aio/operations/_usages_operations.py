@@ -54,9 +54,15 @@ class UsagesOperations:
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace_async
-    async def get(self, resource_name: str, scope: str, **kwargs: Any) -> _models.CurrentUsagesBase:
+    async def get(self, scope: str, resource_name: str, **kwargs: Any) -> _models.CurrentUsagesBase:
         """Get the current usage of a resource.
 
+        :param scope: The target Azure resource URI. For example,
+         ``/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/``.
+         This is the target Azure resource URI for the List GET operation. If a ``{resourceName}`` is
+         added after ``/quotas``\ , then it's the target Azure resource URI in the GET operation for the
+         specific resource. Required.
+        :type scope: str
         :param resource_name: Resource name for a given resource provider. For example:
 
 
@@ -64,12 +70,6 @@ class UsagesOperations:
          * SKU or TotalLowPriorityCores for Microsoft.MachineLearningServices
            For Microsoft.Network PublicIPAddresses. Required.
         :type resource_name: str
-        :param scope: The target Azure resource URI. For example,
-         ``/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/``.
-         This is the target Azure resource URI for the List GET operation. If a ``{resourceName}`` is
-         added after ``/quotas``\ , then it's the target Azure resource URI in the GET operation for the
-         specific resource. Required.
-        :type scope: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: CurrentUsagesBase or the result of cls(response)
         :rtype: ~azure.mgmt.quota.models.CurrentUsagesBase
@@ -90,8 +90,8 @@ class UsagesOperations:
         cls: ClsType[_models.CurrentUsagesBase] = kwargs.pop("cls", None)
 
         request = build_get_request(
-            resource_name=resource_name,
             scope=scope,
+            resource_name=resource_name,
             api_version=api_version,
             template_url=self.get.metadata["url"],
             headers=_headers,

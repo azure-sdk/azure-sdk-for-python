@@ -36,18 +36,18 @@ _SERIALIZER = Serializer()
 _SERIALIZER.client_side_validation = False
 
 
-def build_get_request(resource_name: str, scope: str, **kwargs: Any) -> HttpRequest:
+def build_get_request(scope: str, resource_name: str, **kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
     _url = kwargs.pop("template_url", "/{scope}/providers/Microsoft.Quota/usages/{resourceName}")
     path_format_arguments = {
-        "resourceName": _SERIALIZER.url("resource_name", resource_name, "str"),
         "scope": _SERIALIZER.url("scope", scope, "str", skip_quote=True),
+        "resourceName": _SERIALIZER.url("resource_name", resource_name, "str"),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -65,7 +65,7 @@ def build_list_request(scope: str, **kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -105,9 +105,15 @@ class UsagesOperations:
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    def get(self, resource_name: str, scope: str, **kwargs: Any) -> _models.CurrentUsagesBase:
+    def get(self, scope: str, resource_name: str, **kwargs: Any) -> _models.CurrentUsagesBase:
         """Get the current usage of a resource.
 
+        :param scope: The target Azure resource URI. For example,
+         ``/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/``.
+         This is the target Azure resource URI for the List GET operation. If a ``{resourceName}`` is
+         added after ``/quotas``\ , then it's the target Azure resource URI in the GET operation for the
+         specific resource. Required.
+        :type scope: str
         :param resource_name: Resource name for a given resource provider. For example:
 
 
@@ -115,12 +121,6 @@ class UsagesOperations:
          * SKU or TotalLowPriorityCores for Microsoft.MachineLearningServices
            For Microsoft.Network PublicIPAddresses. Required.
         :type resource_name: str
-        :param scope: The target Azure resource URI. For example,
-         ``/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/``.
-         This is the target Azure resource URI for the List GET operation. If a ``{resourceName}`` is
-         added after ``/quotas``\ , then it's the target Azure resource URI in the GET operation for the
-         specific resource. Required.
-        :type scope: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: CurrentUsagesBase or the result of cls(response)
         :rtype: ~azure.mgmt.quota.models.CurrentUsagesBase
@@ -141,8 +141,8 @@ class UsagesOperations:
         cls: ClsType[_models.CurrentUsagesBase] = kwargs.pop("cls", None)
 
         request = build_get_request(
-            resource_name=resource_name,
             scope=scope,
+            resource_name=resource_name,
             api_version=api_version,
             template_url=self.get.metadata["url"],
             headers=_headers,

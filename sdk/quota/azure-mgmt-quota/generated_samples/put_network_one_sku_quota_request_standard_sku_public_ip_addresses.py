@@ -26,11 +26,12 @@ from azure.mgmt.quota import QuotaMgmtClient
 def main():
     client = QuotaMgmtClient(
         credential=DefaultAzureCredential(),
+        subscription_id="SUBSCRIPTION_ID",
     )
 
     response = client.quota.begin_create_or_update(
-        resource_name="StandardSkuPublicIpAddresses",
         scope="subscriptions/D7EC67B3-7657-4966-BFFC-41EFD36BAAB3/providers/Microsoft.Network/locations/eastus",
+        resource_name="StandardSkuPublicIpAddresses",
         create_quota_request={
             "properties": {
                 "limit": {"limitObjectType": "LimitValue", "value": 10},
@@ -42,6 +43,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/stable/2023-02-01/examples/putNetworkOneSkuQuotaRequestStandardSkuPublicIpAddresses.json
+# x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/putNetworkOneSkuQuotaRequestStandardSkuPublicIpAddresses.json
 if __name__ == "__main__":
     main()
