@@ -52,6 +52,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-01-01/examples/MaintenanceConfigurationsCreate_Update_MaintenanceWindow.json
+# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-02-02-preview/examples/MaintenanceConfigurationsCreate_Update_MaintenanceWindow.json
 if __name__ == "__main__":
     main()
