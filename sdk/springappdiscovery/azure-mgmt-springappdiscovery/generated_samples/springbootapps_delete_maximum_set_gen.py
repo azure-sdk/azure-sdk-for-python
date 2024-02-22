@@ -14,7 +14,7 @@ from azure.mgmt.springappdiscovery import SpringAppDiscoveryMgmtClient
     pip install azure-identity
     pip install azure-mgmt-springappdiscovery
 # USAGE
-    python springbootsites_update_minimum_set_gen.py
+    python springbootapps_delete_maximum_set_gen.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,17 +26,16 @@ from azure.mgmt.springappdiscovery import SpringAppDiscoveryMgmtClient
 def main():
     client = SpringAppDiscoveryMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="chshxczdscjpcyvyethat",
+        subscription_id="jnetwlorzmxpxmcucorv",
     )
 
-    response = client.springbootsites.begin_update(
-        resource_group_name="rgspringbootsites",
-        springbootsites_name="xrmzlavpewxtfeitghdrj",
-        springbootsites={"location": "icnumzvzzeqhuxtcefuqdcro"},
+    client.springbootapps.begin_delete(
+        resource_group_name="rgspringbootapps",
+        site_name="pdfosfhtemfsaglvwjdyqlyeipucrd",
+        springbootapps_name="ofjeesoahqtnovlbuvflyknpbhcpeqqhekntvqxyemuwbcqnuxjgfhsf",
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/offazurespringboot/resource-manager/Microsoft.OffAzureSpringBoot/preview/2023-01-01-preview/examples/springbootsites_Update_MinimumSet_Gen.json
+# x-ms-original-file: specification/offazurespringboot/resource-manager/Microsoft.OffAzureSpringBoot/preview/2023-01-01-preview/examples/springbootapps_Delete_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()
