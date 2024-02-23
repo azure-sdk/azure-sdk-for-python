@@ -1,0 +1,6 @@
+{
+  "commit": "79a1592df5fc6be70655226bdd129c6565c13742",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/programmableconnectivity/Azure.ProgrammableConnectivity",
+  "@azure-tools/typespec-python": "0.21.0"
+}
