@@ -87,7 +87,7 @@ class WorkspacesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15-preview"))
         cls: ClsType[_models.Workspace] = kwargs.pop("cls", None)
 
         request = build_get_request(
@@ -126,7 +126,7 @@ class WorkspacesOperations:
     }
 
     async def _delete_initial(  # pylint: disable=inconsistent-return-statements
-        self, resource_group_name: str, workspace_name: str, **kwargs: Any
+        self, resource_group_name: str, workspace_name: str, retain_uc_data: Optional[bool] = None, **kwargs: Any
     ) -> None:
         error_map = {
             401: ClientAuthenticationError,
@@ -139,13 +139,14 @@ class WorkspacesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15-preview"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         request = build_delete_request(
             resource_group_name=resource_group_name,
             workspace_name=workspace_name,
             subscription_id=self._config.subscription_id,
+            retain_uc_data=retain_uc_data,
             api_version=api_version,
             template_url=self._delete_initial.metadata["url"],
             headers=_headers,
@@ -174,7 +175,9 @@ class WorkspacesOperations:
     }
 
     @distributed_trace_async
-    async def begin_delete(self, resource_group_name: str, workspace_name: str, **kwargs: Any) -> AsyncLROPoller[None]:
+    async def begin_delete(
+        self, resource_group_name: str, workspace_name: str, retain_uc_data: Optional[bool] = None, **kwargs: Any
+    ) -> AsyncLROPoller[None]:
         """Deletes the workspace.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -182,6 +185,9 @@ class WorkspacesOperations:
         :type resource_group_name: str
         :param workspace_name: The name of the workspace. Required.
         :type workspace_name: str
+        :param retain_uc_data: Optional parameter to retain default unity catalog data. By default the
+         data will retained if Uc is enabled on the workspace. Default value is None.
+        :type retain_uc_data: bool
         :keyword callable cls: A custom type or function that will be passed the direct response
         :keyword str continuation_token: A continuation token to restart a poller from a saved state.
         :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
@@ -197,7 +203,7 @@ class WorkspacesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15-preview"))
         cls: ClsType[None] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
@@ -206,6 +212,7 @@ class WorkspacesOperations:
             raw_result = await self._delete_initial(  # type: ignore
                 resource_group_name=resource_group_name,
                 workspace_name=workspace_name,
+                retain_uc_data=retain_uc_data,
                 api_version=api_version,
                 cls=lambda x, y, z: x,
                 headers=_headers,
@@ -251,7 +258,7 @@ class WorkspacesOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15-preview"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.Workspace] = kwargs.pop("cls", None)
 
@@ -410,7 +417,7 @@ class WorkspacesOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15-preview"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.Workspace] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -473,7 +480,7 @@ class WorkspacesOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15-preview"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[Optional[_models.Workspace]] = kwargs.pop("cls", None)
 
@@ -634,7 +641,7 @@ class WorkspacesOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15-preview"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.Workspace] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -694,7 +701,7 @@ class WorkspacesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15-preview"))
         cls: ClsType[_models.WorkspaceListResult] = kwargs.pop("cls", None)
 
         error_map = {
@@ -767,7 +774,7 @@ class WorkspacesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-02-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-15-preview"))
         cls: ClsType[_models.WorkspaceListResult] = kwargs.pop("cls", None)
 
         error_map = {
