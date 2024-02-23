@@ -51,4 +51,5 @@ extends:
     - name: azure-communication-jobrouter
       safeName: azurecommunicationjobrouter
     - name: azure-communication-callautomation
-      safeName: azurecommunicationcallautomation
+      safeName: azurecommunicationcallautomation    - name: azure-communication-messages
+      safeName: azurecommunicationmessages

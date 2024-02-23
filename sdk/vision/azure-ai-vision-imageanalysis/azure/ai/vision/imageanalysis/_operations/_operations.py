@@ -41,7 +41,7 @@ _SERIALIZER = Serializer()
 _SERIALIZER.client_side_validation = False
 
 
-def build_image_analysis_analyze_from_image_data_request(  # pylint: disable=name-too-long
+def build_image_analysis_analyze_from_buffer_request(  # pylint: disable=name-too-long
     *,
     visual_features: List[Union[str, _models.VisualFeatures]],
     language: Optional[str] = None,
@@ -124,7 +124,7 @@ def build_image_analysis_analyze_from_url_request(  # pylint: disable=name-too-l
 
 class ImageAnalysisClientOperationsMixin(ImageAnalysisClientMixinABC):
     @distributed_trace
-    def _analyze_from_image_data(
+    def _analyze_from_buffer(
         self,
         image_content: bytes,
         *,
@@ -352,7 +352,7 @@ class ImageAnalysisClientOperationsMixin(ImageAnalysisClientMixinABC):
 
         _content = image_content
 
-        _request = build_image_analysis_analyze_from_image_data_request(
+        _request = build_image_analysis_analyze_from_buffer_request(
             visual_features=visual_features,
             language=language,
             gender_neutral_caption=gender_neutral_caption,
