@@ -27,7 +27,7 @@ from azure.core.utils import case_insensitive_dict
 from ... import models as _models
 from ..._model_base import SdkJSONEncoder, _deserialize
 from ..._operations._operations import (
-    build_image_analysis_analyze_from_image_data_request,
+    build_image_analysis_analyze_from_buffer_request,
     build_image_analysis_analyze_from_url_request,
 )
 from .._vendor import ImageAnalysisClientMixinABC
@@ -43,7 +43,7 @@ ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T
 
 class ImageAnalysisClientOperationsMixin(ImageAnalysisClientMixinABC):
     @distributed_trace_async
-    async def _analyze_from_image_data(
+    async def _analyze_from_buffer(
         self,
         image_content: bytes,
         *,
@@ -271,7 +271,7 @@ class ImageAnalysisClientOperationsMixin(ImageAnalysisClientMixinABC):
 
         _content = image_content
 
-        _request = build_image_analysis_analyze_from_image_data_request(
+        _request = build_image_analysis_analyze_from_buffer_request(
             visual_features=visual_features,
             language=language,
             gender_neutral_caption=gender_neutral_caption,
