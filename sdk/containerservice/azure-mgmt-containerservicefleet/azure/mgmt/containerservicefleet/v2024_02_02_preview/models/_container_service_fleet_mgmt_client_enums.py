@@ -59,6 +59,17 @@ class FleetProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The provisioning state of a fleet being deleted."""
 
 
+class FleetUpdateStrategyProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The provisioning state of the UpdateStrategy resource."""
+
+    SUCCEEDED = "Succeeded"
+    """Resource has been created."""
+    FAILED = "Failed"
+    """Resource creation failed."""
+    CANCELED = "Canceled"
+    """Resource creation was canceled."""
+
+
 class ManagedClusterUpgradeType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of upgrade to perform when targeting ManagedClusters."""
 
@@ -68,6 +79,10 @@ class ManagedClusterUpgradeType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     NODE_IMAGE_ONLY = "NodeImageOnly"
     """NodeImageOnly upgrades only the node images of the target ManagedClusters. Requires the
     #: ManagedClusterUpgradeSpec.KubernetesVersion property to NOT be set."""
+    CONTROL_PLANE_ONLY = "ControlPlaneOnly"
+    """ControlPlaneOnly upgrades only targets the KubernetesVersion of the ManagedClusters and will
+    #: not be applied to the AgentPool. Requires the ManagedClusterUpgradeSpec.KubernetesVersion
+    #: property to be set."""
 
 
 class ManagedServiceIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -107,6 +122,19 @@ class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     USER = "user"
     SYSTEM = "system"
     USER_SYSTEM = "user,system"
+
+
+class TargetType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The target type of a skip request."""
+
+    MEMBER = "Member"
+    """Skip the update of a member."""
+    GROUP = "Group"
+    """Skip the update of a group."""
+    STAGE = "Stage"
+    """Skip the update of an entire stage including the after stage wait."""
+    AFTER_STAGE_WAIT = "AfterStageWait"
+    """Skip the update of the after stage wait of a certain stage."""
 
 
 class UpdateRunProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
