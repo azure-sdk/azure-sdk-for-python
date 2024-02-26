@@ -14,7 +14,7 @@ from azure.mgmt.purview import PurviewManagementClient
     pip install azure-identity
     pip install azure-mgmt-purview
 # USAGE
-    python accounts_list_by_resource_group.py
+    python features_account_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,16 +26,17 @@ from azure.mgmt.purview import PurviewManagementClient
 def main():
     client = PurviewManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+        subscription_id="12345678-1234-1234-12345678abc",
     )
 
-    response = client.accounts.list_by_resource_group(
+    response = client.features.account_get(
         resource_group_name="SampleResourceGroup",
+        account_name="account1",
+        feature_request={"features": ["Feature1", "Feature2", "FeatureThatDoesntExist"]},
     )
-    for item in response:
-        print(item)
+    print(response)
 
 
-# x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/preview/2023-05-01-preview/examples/Accounts_ListByResourceGroup.json
+# x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/preview/2023-05-01-preview/examples/Features_AccountGet.json
 if __name__ == "__main__":
     main()

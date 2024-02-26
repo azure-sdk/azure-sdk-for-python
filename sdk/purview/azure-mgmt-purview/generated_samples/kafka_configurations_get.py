@@ -14,7 +14,7 @@ from azure.mgmt.purview import PurviewManagementClient
     pip install azure-identity
     pip install azure-mgmt-purview
 # USAGE
-    python accounts_list_by_resource_group.py
+    python kafka_configurations_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,13 +29,14 @@ def main():
         subscription_id="34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
     )
 
-    response = client.accounts.list_by_resource_group(
-        resource_group_name="SampleResourceGroup",
+    response = client.kafka_configurations.get(
+        resource_group_name="rgpurview",
+        account_name="account1",
+        kafka_configuration_name="kafkaConfigName",
     )
-    for item in response:
-        print(item)
+    print(response)
 
 
-# x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/preview/2023-05-01-preview/examples/Accounts_ListByResourceGroup.json
+# x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/preview/2023-05-01-preview/examples/KafkaConfigurations_Get.json
 if __name__ == "__main__":
     main()
