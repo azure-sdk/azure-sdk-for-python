@@ -7,14 +7,14 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
-from azure.mgmt.scvmm import SCVMM
+from azure.mgmt.scvmm import ScVmmMgmtClient
 
 """
 # PREREQUISITES
     pip install azure-identity
     pip install azure-mgmt-scvmm
 # USAGE
-    python stop_virtual_machine.py
+    python vm_instance_guest_agent_list_by_vm.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -24,18 +24,18 @@ from azure.mgmt.scvmm import SCVMM
 
 
 def main():
-    client = SCVMM(
+    client = ScVmmMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="fd3c3665-1729-4b7b-9a38-238e83b0f98b",
+        subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.virtual_machines.begin_stop(
-        resource_group_name="testrg",
-        virtual_machine_name="DemoVM",
-    ).result()
-    print(response)
+    response = client.vm_instance_guest_agents.list(
+        resource_uri="subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/testrg/providers/Microsoft.HybridCompute/machines/DemoVM",
+    )
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/preview/2020-06-05-preview/examples/StopVirtualMachine.json
+# x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/VMInstanceGuestAgent_ListByVm.json
 if __name__ == "__main__":
     main()

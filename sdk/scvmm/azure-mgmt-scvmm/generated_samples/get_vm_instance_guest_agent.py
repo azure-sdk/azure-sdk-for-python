@@ -14,7 +14,7 @@ from azure.mgmt.scvmm import ScVmmMgmtClient
     pip install azure-identity
     pip install azure-mgmt-scvmm
 # USAGE
-    python list_virtual_machine_templates_by_resource_group.py
+    python get_vm_instance_guest_agent.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,16 +26,15 @@ from azure.mgmt.scvmm import ScVmmMgmtClient
 def main():
     client = ScVmmMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="fd3c3665-1729-4b7b-9a38-238e83b0f98b",
+        subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.virtual_machine_templates.list_by_resource_group(
-        resource_group_name="testrg",
+    response = client.vm_instance_guest_agents.get(
+        resource_uri="subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/testrg/providers/Microsoft.HybridCompute/machines/DemoVM",
     )
-    for item in response:
-        print(item)
+    print(response)
 
 
-# x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/ListVirtualMachineTemplatesByResourceGroup.json
+# x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/GetVMInstanceGuestAgent.json
 if __name__ == "__main__":
     main()
