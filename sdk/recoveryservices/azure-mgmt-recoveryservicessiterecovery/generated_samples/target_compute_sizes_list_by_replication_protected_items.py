@@ -29,6 +29,9 @@ def main():
         subscription_id="6808dbbc-98c7-431f-a1b1-9580902423b7",
         resource_group_name="avraiMgDiskVaultRG",
         resource_name="avraiMgDiskVault",
+        fabric_name="asr-a2a-default-centraluseuap",
+        protection_container_name="asr-a2a-default-centraluseuap-container",
+        replication_protection_cluster_name="REPLICATION_PROTECTION_CLUSTER_NAME",
     )
 
     response = client.target_compute_sizes.list_by_replication_protected_items(
@@ -40,6 +43,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/TargetComputeSizes_ListByReplicationProtectedItems.json
+# x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2024-02-01/examples/TargetComputeSizes_ListByReplicationProtectedItems.json
 if __name__ == "__main__":
     main()

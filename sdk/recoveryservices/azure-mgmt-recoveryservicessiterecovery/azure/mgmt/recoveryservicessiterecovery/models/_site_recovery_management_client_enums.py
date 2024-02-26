@@ -91,6 +91,14 @@ class ChurnOptionSelected(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     HIGH = "High"
 
 
+class ClusterRecoveryPointType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The recovery point type."""
+
+    NOT_SPECIFIED = "NotSpecified"
+    APPLICATION_CONSISTENT = "ApplicationConsistent"
+    CRASH_CONSISTENT = "CrashConsistent"
+
+
 class DataSyncStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The data sync option."""
 

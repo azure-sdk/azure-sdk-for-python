@@ -16,6 +16,8 @@ from . import models as _models
 from ._configuration import SiteRecoveryManagementClientConfiguration
 from ._serialization import Deserializer, Serializer
 from .operations import (
+    ClusterRecoveryPointOperations,
+    ClusterRecoveryPointsOperations,
     MigrationRecoveryPointsOperations,
     Operations,
     RecoveryPointsOperations,
@@ -32,6 +34,7 @@ from .operations import (
     ReplicationPoliciesOperations,
     ReplicationProtectableItemsOperations,
     ReplicationProtectedItemsOperations,
+    ReplicationProtectionClustersOperations,
     ReplicationProtectionContainerMappingsOperations,
     ReplicationProtectionContainersOperations,
     ReplicationProtectionIntentsOperations,
@@ -101,6 +104,15 @@ class SiteRecoveryManagementClient:  # pylint: disable=client-accepts-api-versio
     :ivar target_compute_sizes: TargetComputeSizesOperations operations
     :vartype target_compute_sizes:
      azure.mgmt.recoveryservicessiterecovery.operations.TargetComputeSizesOperations
+    :ivar replication_protection_clusters: ReplicationProtectionClustersOperations operations
+    :vartype replication_protection_clusters:
+     azure.mgmt.recoveryservicessiterecovery.operations.ReplicationProtectionClustersOperations
+    :ivar cluster_recovery_points: ClusterRecoveryPointsOperations operations
+    :vartype cluster_recovery_points:
+     azure.mgmt.recoveryservicessiterecovery.operations.ClusterRecoveryPointsOperations
+    :ivar cluster_recovery_point: ClusterRecoveryPointOperations operations
+    :vartype cluster_recovery_point:
+     azure.mgmt.recoveryservicessiterecovery.operations.ClusterRecoveryPointOperations
     :ivar replication_protection_container_mappings:
      ReplicationProtectionContainerMappingsOperations operations
     :vartype replication_protection_container_mappings:
@@ -150,9 +162,15 @@ class SiteRecoveryManagementClient:  # pylint: disable=client-accepts-api-versio
     :type resource_group_name: str
     :param resource_name: The name of the recovery services vault. Required.
     :type resource_name: str
+    :param fabric_name: Fabric name. Required.
+    :type fabric_name: str
+    :param protection_container_name: Protection container name. Required.
+    :type protection_container_name: str
+    :param replication_protection_cluster_name: Replication protection cluster name. Required.
+    :type replication_protection_cluster_name: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2023-08-01". Note that overriding this
+    :keyword api_version: Api Version. Default value is "2024-02-01". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -165,6 +183,9 @@ class SiteRecoveryManagementClient:  # pylint: disable=client-accepts-api-versio
         subscription_id: str,
         resource_group_name: str,
         resource_name: str,
+        fabric_name: str,
+        protection_container_name: str,
+        replication_protection_cluster_name: str,
         base_url: str = "https://management.azure.com",
         **kwargs: Any
     ) -> None:
@@ -173,6 +194,9 @@ class SiteRecoveryManagementClient:  # pylint: disable=client-accepts-api-versio
             subscription_id=subscription_id,
             resource_group_name=resource_group_name,
             resource_name=resource_name,
+            fabric_name=fabric_name,
+            protection_container_name=protection_container_name,
+            replication_protection_cluster_name=replication_protection_cluster_name,
             **kwargs
         )
         self._client: ARMPipelineClient = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
@@ -223,6 +247,15 @@ class SiteRecoveryManagementClient:  # pylint: disable=client-accepts-api-versio
         )
         self.recovery_points = RecoveryPointsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.target_compute_sizes = TargetComputeSizesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.replication_protection_clusters = ReplicationProtectionClustersOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.cluster_recovery_points = ClusterRecoveryPointsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.cluster_recovery_point = ClusterRecoveryPointOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.replication_protection_container_mappings = ReplicationProtectionContainerMappingsOperations(

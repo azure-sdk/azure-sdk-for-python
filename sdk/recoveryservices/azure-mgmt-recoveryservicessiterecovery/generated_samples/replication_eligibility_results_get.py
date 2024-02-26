@@ -29,6 +29,9 @@ def main():
         subscription_id="d90d145a-4cdd-45a3-b2c4-971d69775278",
         resource_group_name="testRg1",
         resource_name="RESOURCE_NAME",
+        fabric_name="FABRIC_NAME",
+        protection_container_name="PROTECTION_CONTAINER_NAME",
+        replication_protection_cluster_name="REPLICATION_PROTECTION_CLUSTER_NAME",
     )
 
     response = client.replication_eligibility_results.get(
@@ -37,6 +40,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationEligibilityResults_Get.json
+# x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2024-02-01/examples/ReplicationEligibilityResults_Get.json
 if __name__ == "__main__":
     main()

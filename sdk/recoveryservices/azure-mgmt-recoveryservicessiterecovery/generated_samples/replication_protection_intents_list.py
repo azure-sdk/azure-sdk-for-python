@@ -29,6 +29,9 @@ def main():
         subscription_id="509099b2-9d2c-4636-b43e-bd5cafb6be69",
         resource_group_name="resourceGroupPS1",
         resource_name="2007vttp",
+        fabric_name="FABRIC_NAME",
+        protection_container_name="PROTECTION_CONTAINER_NAME",
+        replication_protection_cluster_name="REPLICATION_PROTECTION_CLUSTER_NAME",
     )
 
     response = client.replication_protection_intents.list()
@@ -36,6 +39,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectionIntents_List.json
+# x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2024-02-01/examples/ReplicationProtectionIntents_List.json
 if __name__ == "__main__":
     main()

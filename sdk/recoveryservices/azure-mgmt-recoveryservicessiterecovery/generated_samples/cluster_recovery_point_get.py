@@ -14,7 +14,7 @@ from azure.mgmt.recoveryservicessiterecovery import SiteRecoveryManagementClient
     pip install azure-identity
     pip install azure-mgmt-recoveryservicessiterecovery
 # USAGE
-    python replication_infrastructure_delete.py
+    python cluster_recovery_point_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,17 +26,20 @@ from azure.mgmt.recoveryservicessiterecovery import SiteRecoveryManagementClient
 def main():
     client = SiteRecoveryManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="c183865e-6077-46f2-a3b1-deb0f4f4650a",
+        subscription_id="7c943c1b-5122-4097-90c8-861411bdd574",
         resource_group_name="resourceGroupPS1",
         resource_name="vault1",
+        fabric_name="fabric-pri-eastus",
+        protection_container_name="pri-cloud-eastus",
+        replication_protection_cluster_name="testcluster",
     )
 
-    client.replication_fabrics.begin_remove_infra(
-        resource_name="vault1",
-        fabric_name="cloud1",
-    ).result()
+    response = client.cluster_recovery_point.get(
+        recovery_point_name="06b9ae7f-f21d-4a76-9897-5cf5d6004d80",
+    )
+    print(response)
 
 
-# x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationInfrastructure_Delete.json
+# x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2024-02-01/examples/ClusterRecoveryPoint_Get.json
 if __name__ == "__main__":
     main()

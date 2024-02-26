@@ -97,6 +97,57 @@ class A2AAddDisksInput(AddDisksProviderSpecificInput):
         self.vm_managed_disks = vm_managed_disks
 
 
+class ApplyClusterRecoveryPointProviderSpecificInput(_serialization.Model):
+    """Provider specific input for apply cluster recovery point.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    A2AApplyClusterRecoveryPointInput
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar instance_type: The class type. Required.
+    :vartype instance_type: str
+    """
+
+    _validation = {
+        "instance_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "instance_type": {"key": "instanceType", "type": "str"},
+    }
+
+    _subtype_map = {"instance_type": {"A2A": "A2AApplyClusterRecoveryPointInput"}}
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.instance_type: Optional[str] = None
+
+
+class A2AApplyClusterRecoveryPointInput(ApplyClusterRecoveryPointProviderSpecificInput):
+    """A2A provider specific input for apply cluster recovery point.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar instance_type: The class type. Required.
+    :vartype instance_type: str
+    """
+
+    _validation = {
+        "instance_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "instance_type": {"key": "instanceType", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.instance_type: str = "A2A"
+
+
 class ApplyRecoveryPointProviderSpecificInput(_serialization.Model):
     """Provider specific input for apply recovery point.
 
@@ -156,6 +207,228 @@ class A2AApplyRecoveryPointInput(ApplyRecoveryPointProviderSpecificInput):
         """ """
         super().__init__(**kwargs)
         self.instance_type: str = "A2A"
+
+
+class ClusterProviderSpecificRecoveryPointDetails(_serialization.Model):
+    """Replication provider specific cluster recovery point details.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    A2AClusterRecoveryPointDetails
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar instance_type: Gets the provider type. Required.
+    :vartype instance_type: str
+    """
+
+    _validation = {
+        "instance_type": {"required": True, "readonly": True},
+    }
+
+    _attribute_map = {
+        "instance_type": {"key": "instanceType", "type": "str"},
+    }
+
+    _subtype_map = {"instance_type": {"A2A": "A2AClusterRecoveryPointDetails"}}
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.instance_type: Optional[str] = None
+
+
+class A2AClusterRecoveryPointDetails(ClusterProviderSpecificRecoveryPointDetails):
+    """A2A provider specific cluster recovery point details.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar instance_type: Gets the provider type. Required.
+    :vartype instance_type: str
+    :ivar recovery_point_sync_type: A value indicating whether the recovery point is multi VM
+     consistent. Known values are: "MultiVmSyncRecoveryPoint" and "PerVmRecoveryPoint".
+    :vartype recovery_point_sync_type: str or
+     ~azure.mgmt.recoveryservicessiterecovery.models.RecoveryPointSyncType
+    :ivar nodes: The list of nodes representing the cluster.
+    :vartype nodes: list[str]
+    """
+
+    _validation = {
+        "instance_type": {"required": True, "readonly": True},
+    }
+
+    _attribute_map = {
+        "instance_type": {"key": "instanceType", "type": "str"},
+        "recovery_point_sync_type": {"key": "recoveryPointSyncType", "type": "str"},
+        "nodes": {"key": "nodes", "type": "[str]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        recovery_point_sync_type: Optional[Union[str, "_models.RecoveryPointSyncType"]] = None,
+        nodes: Optional[List[str]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword recovery_point_sync_type: A value indicating whether the recovery point is multi VM
+         consistent. Known values are: "MultiVmSyncRecoveryPoint" and "PerVmRecoveryPoint".
+        :paramtype recovery_point_sync_type: str or
+         ~azure.mgmt.recoveryservicessiterecovery.models.RecoveryPointSyncType
+        :keyword nodes: The list of nodes representing the cluster.
+        :paramtype nodes: list[str]
+        """
+        super().__init__(**kwargs)
+        self.instance_type: str = "A2A"
+        self.recovery_point_sync_type = recovery_point_sync_type
+        self.nodes = nodes
+
+
+class ClusterTestFailoverProviderSpecificInput(_serialization.Model):
+    """Provider specific test cluster failover input.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    A2AClusterTestFailoverInput
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar instance_type: The class type. Required.
+    :vartype instance_type: str
+    """
+
+    _validation = {
+        "instance_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "instance_type": {"key": "instanceType", "type": "str"},
+    }
+
+    _subtype_map = {"instance_type": {"A2A": "A2AClusterTestFailoverInput"}}
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.instance_type: Optional[str] = None
+
+
+class A2AClusterTestFailoverInput(ClusterTestFailoverProviderSpecificInput):
+    """A2A provider specific input for test cluster failover.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar instance_type: The class type. Required.
+    :vartype instance_type: str
+    :ivar cluster_recovery_point_id: The cluster recovery point id to be passed to failover to a
+     particular recovery point.
+    :vartype cluster_recovery_point_id: str
+    :ivar individual_node_recovery_points: The list of individual node recovery points.
+    :vartype individual_node_recovery_points: list[str]
+    """
+
+    _validation = {
+        "instance_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "instance_type": {"key": "instanceType", "type": "str"},
+        "cluster_recovery_point_id": {"key": "clusterRecoveryPointId", "type": "str"},
+        "individual_node_recovery_points": {"key": "individualNodeRecoveryPoints", "type": "[str]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        cluster_recovery_point_id: Optional[str] = None,
+        individual_node_recovery_points: Optional[List[str]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword cluster_recovery_point_id: The cluster recovery point id to be passed to failover to a
+         particular recovery point.
+        :paramtype cluster_recovery_point_id: str
+        :keyword individual_node_recovery_points: The list of individual node recovery points.
+        :paramtype individual_node_recovery_points: list[str]
+        """
+        super().__init__(**kwargs)
+        self.instance_type: str = "A2A"
+        self.cluster_recovery_point_id = cluster_recovery_point_id
+        self.individual_node_recovery_points = individual_node_recovery_points
+
+
+class ClusterUnplannedFailoverProviderSpecificInput(_serialization.Model):
+    """Provider specific unplanned cluster failover input.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    A2AClusterUnplannedFailoverInput
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar instance_type: The class type. Required.
+    :vartype instance_type: str
+    """
+
+    _validation = {
+        "instance_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "instance_type": {"key": "instanceType", "type": "str"},
+    }
+
+    _subtype_map = {"instance_type": {"A2A": "A2AClusterUnplannedFailoverInput"}}
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.instance_type: Optional[str] = None
+
+
+class A2AClusterUnplannedFailoverInput(ClusterUnplannedFailoverProviderSpecificInput):
+    """A2A provider specific input for unplanned cluster failover.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar instance_type: The class type. Required.
+    :vartype instance_type: str
+    :ivar cluster_recovery_point_id: The cluster recovery point id to be passed to failover to a
+     particular recovery point.
+    :vartype cluster_recovery_point_id: str
+    :ivar individual_node_recovery_points: The list of individual node recovery points.
+    :vartype individual_node_recovery_points: list[str]
+    """
+
+    _validation = {
+        "instance_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "instance_type": {"key": "instanceType", "type": "str"},
+        "cluster_recovery_point_id": {"key": "clusterRecoveryPointId", "type": "str"},
+        "individual_node_recovery_points": {"key": "individualNodeRecoveryPoints", "type": "[str]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        cluster_recovery_point_id: Optional[str] = None,
+        individual_node_recovery_points: Optional[List[str]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword cluster_recovery_point_id: The cluster recovery point id to be passed to failover to a
+         particular recovery point.
+        :paramtype cluster_recovery_point_id: str
+        :keyword individual_node_recovery_points: The list of individual node recovery points.
+        :paramtype individual_node_recovery_points: list[str]
+        """
+        super().__init__(**kwargs)
+        self.instance_type: str = "A2A"
+        self.cluster_recovery_point_id = cluster_recovery_point_id
+        self.individual_node_recovery_points = individual_node_recovery_points
 
 
 class ReplicationProviderSpecificContainerCreationInput(_serialization.Model):
@@ -923,6 +1196,8 @@ class A2AEnableProtectionInput(EnableProtectionProviderSpecificInput):  # pylint
     :vartype multi_vm_group_name: str
     :ivar multi_vm_group_id: The multi vm group id.
     :vartype multi_vm_group_id: str
+    :ivar protection_cluster_id: The replication protection cluster Id.
+    :vartype protection_cluster_id: str
     :ivar recovery_boot_diag_storage_account_id: The boot diagnostic storage account.
     :vartype recovery_boot_diag_storage_account_id: str
     :ivar disk_encryption_info: The recovery disk encryption information (for two pass flows).
@@ -941,10 +1216,6 @@ class A2AEnableProtectionInput(EnableProtectionProviderSpecificInput):  # pylint
     :vartype recovery_virtual_machine_scale_set_id: str
     :ivar recovery_capacity_reservation_group_id: The recovery capacity reservation group Id.
     :vartype recovery_capacity_reservation_group_id: str
-    :ivar auto_protection_of_data_disk: A value indicating whether the auto protection is enabled.
-     Known values are: "Disabled" and "Enabled".
-    :vartype auto_protection_of_data_disk: str or
-     ~azure.mgmt.recoveryservicessiterecovery.models.AutoProtectionOfDataDisk
     """
 
     _validation = {
@@ -964,6 +1235,7 @@ class A2AEnableProtectionInput(EnableProtectionProviderSpecificInput):  # pylint
         "vm_managed_disks": {"key": "vmManagedDisks", "type": "[A2AVmManagedDiskInputDetails]"},
         "multi_vm_group_name": {"key": "multiVmGroupName", "type": "str"},
         "multi_vm_group_id": {"key": "multiVmGroupId", "type": "str"},
+        "protection_cluster_id": {"key": "protectionClusterId", "type": "str"},
         "recovery_boot_diag_storage_account_id": {"key": "recoveryBootDiagStorageAccountId", "type": "str"},
         "disk_encryption_info": {"key": "diskEncryptionInfo", "type": "DiskEncryptionInfo"},
         "recovery_availability_zone": {"key": "recoveryAvailabilityZone", "type": "str"},
@@ -972,7 +1244,6 @@ class A2AEnableProtectionInput(EnableProtectionProviderSpecificInput):  # pylint
         "recovery_subnet_name": {"key": "recoverySubnetName", "type": "str"},
         "recovery_virtual_machine_scale_set_id": {"key": "recoveryVirtualMachineScaleSetId", "type": "str"},
         "recovery_capacity_reservation_group_id": {"key": "recoveryCapacityReservationGroupId", "type": "str"},
-        "auto_protection_of_data_disk": {"key": "autoProtectionOfDataDisk", "type": "str"},
     }
 
     def __init__(
@@ -988,6 +1259,7 @@ class A2AEnableProtectionInput(EnableProtectionProviderSpecificInput):  # pylint
         vm_managed_disks: Optional[List["_models.A2AVmManagedDiskInputDetails"]] = None,
         multi_vm_group_name: Optional[str] = None,
         multi_vm_group_id: Optional[str] = None,
+        protection_cluster_id: Optional[str] = None,
         recovery_boot_diag_storage_account_id: Optional[str] = None,
         disk_encryption_info: Optional["_models.DiskEncryptionInfo"] = None,
         recovery_availability_zone: Optional[str] = None,
@@ -996,7 +1268,6 @@ class A2AEnableProtectionInput(EnableProtectionProviderSpecificInput):  # pylint
         recovery_subnet_name: Optional[str] = None,
         recovery_virtual_machine_scale_set_id: Optional[str] = None,
         recovery_capacity_reservation_group_id: Optional[str] = None,
-        auto_protection_of_data_disk: Optional[Union[str, "_models.AutoProtectionOfDataDisk"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -1022,6 +1293,8 @@ class A2AEnableProtectionInput(EnableProtectionProviderSpecificInput):  # pylint
         :paramtype multi_vm_group_name: str
         :keyword multi_vm_group_id: The multi vm group id.
         :paramtype multi_vm_group_id: str
+        :keyword protection_cluster_id: The replication protection cluster Id.
+        :paramtype protection_cluster_id: str
         :keyword recovery_boot_diag_storage_account_id: The boot diagnostic storage account.
         :paramtype recovery_boot_diag_storage_account_id: str
         :keyword disk_encryption_info: The recovery disk encryption information (for two pass flows).
@@ -1040,10 +1313,6 @@ class A2AEnableProtectionInput(EnableProtectionProviderSpecificInput):  # pylint
         :paramtype recovery_virtual_machine_scale_set_id: str
         :keyword recovery_capacity_reservation_group_id: The recovery capacity reservation group Id.
         :paramtype recovery_capacity_reservation_group_id: str
-        :keyword auto_protection_of_data_disk: A value indicating whether the auto protection is
-         enabled. Known values are: "Disabled" and "Enabled".
-        :paramtype auto_protection_of_data_disk: str or
-         ~azure.mgmt.recoveryservicessiterecovery.models.AutoProtectionOfDataDisk
         """
         super().__init__(**kwargs)
         self.instance_type: str = "A2A"
@@ -1057,6 +1326,7 @@ class A2AEnableProtectionInput(EnableProtectionProviderSpecificInput):  # pylint
         self.vm_managed_disks = vm_managed_disks
         self.multi_vm_group_name = multi_vm_group_name
         self.multi_vm_group_id = multi_vm_group_id
+        self.protection_cluster_id = protection_cluster_id
         self.recovery_boot_diag_storage_account_id = recovery_boot_diag_storage_account_id
         self.disk_encryption_info = disk_encryption_info
         self.recovery_availability_zone = recovery_availability_zone
@@ -1065,7 +1335,6 @@ class A2AEnableProtectionInput(EnableProtectionProviderSpecificInput):  # pylint
         self.recovery_subnet_name = recovery_subnet_name
         self.recovery_virtual_machine_scale_set_id = recovery_virtual_machine_scale_set_id
         self.recovery_capacity_reservation_group_id = recovery_capacity_reservation_group_id
-        self.auto_protection_of_data_disk = auto_protection_of_data_disk
 
 
 class EventProviderSpecificDetails(_serialization.Model):
@@ -1690,6 +1959,98 @@ class A2AProtectedDiskDetails(_serialization.Model):  # pylint: disable=too-many
         self.kek_key_vault_arm_id = kek_key_vault_arm_id
         self.failover_disk_name = failover_disk_name
         self.tfo_disk_name = tfo_disk_name
+
+
+class A2AProtectedItemDetail(_serialization.Model):
+    """A2A specific switch cluster protection input.
+
+    :ivar vm_managed_disks: The list of vm managed disk details.
+    :vartype vm_managed_disks:
+     list[~azure.mgmt.recoveryservicessiterecovery.models.A2AVmManagedDiskInputDetails]
+    :ivar recovery_resource_group_id: The recovery resource group Id.
+    :vartype recovery_resource_group_id: str
+    :ivar recovery_availability_set_id: The recovery availability set.
+    :vartype recovery_availability_set_id: str
+    :ivar recovery_boot_diag_storage_account_id: The boot diagnostic storage account.
+    :vartype recovery_boot_diag_storage_account_id: str
+    :ivar recovery_availability_zone: The recovery availability zone.
+    :vartype recovery_availability_zone: str
+    :ivar recovery_proximity_placement_group_id: The recovery proximity placement group Id.
+    :vartype recovery_proximity_placement_group_id: str
+    :ivar recovery_virtual_machine_scale_set_id: The virtual machine scale set id.
+    :vartype recovery_virtual_machine_scale_set_id: str
+    :ivar recovery_capacity_reservation_group_id: The recovery capacity reservation group Id.
+    :vartype recovery_capacity_reservation_group_id: str
+    :ivar disk_encryption_info: The recovery disk encryption information.
+    :vartype disk_encryption_info:
+     ~azure.mgmt.recoveryservicessiterecovery.models.DiskEncryptionInfo
+    :ivar replication_protected_item_name: The Replication Protected item name.
+    :vartype replication_protected_item_name: str
+    """
+
+    _attribute_map = {
+        "vm_managed_disks": {"key": "vmManagedDisks", "type": "[A2AVmManagedDiskInputDetails]"},
+        "recovery_resource_group_id": {"key": "recoveryResourceGroupId", "type": "str"},
+        "recovery_availability_set_id": {"key": "recoveryAvailabilitySetId", "type": "str"},
+        "recovery_boot_diag_storage_account_id": {"key": "recoveryBootDiagStorageAccountId", "type": "str"},
+        "recovery_availability_zone": {"key": "recoveryAvailabilityZone", "type": "str"},
+        "recovery_proximity_placement_group_id": {"key": "recoveryProximityPlacementGroupId", "type": "str"},
+        "recovery_virtual_machine_scale_set_id": {"key": "recoveryVirtualMachineScaleSetId", "type": "str"},
+        "recovery_capacity_reservation_group_id": {"key": "recoveryCapacityReservationGroupId", "type": "str"},
+        "disk_encryption_info": {"key": "diskEncryptionInfo", "type": "DiskEncryptionInfo"},
+        "replication_protected_item_name": {"key": "replicationProtectedItemName", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        vm_managed_disks: Optional[List["_models.A2AVmManagedDiskInputDetails"]] = None,
+        recovery_resource_group_id: Optional[str] = None,
+        recovery_availability_set_id: Optional[str] = None,
+        recovery_boot_diag_storage_account_id: Optional[str] = None,
+        recovery_availability_zone: Optional[str] = None,
+        recovery_proximity_placement_group_id: Optional[str] = None,
+        recovery_virtual_machine_scale_set_id: Optional[str] = None,
+        recovery_capacity_reservation_group_id: Optional[str] = None,
+        disk_encryption_info: Optional["_models.DiskEncryptionInfo"] = None,
+        replication_protected_item_name: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword vm_managed_disks: The list of vm managed disk details.
+        :paramtype vm_managed_disks:
+         list[~azure.mgmt.recoveryservicessiterecovery.models.A2AVmManagedDiskInputDetails]
+        :keyword recovery_resource_group_id: The recovery resource group Id.
+        :paramtype recovery_resource_group_id: str
+        :keyword recovery_availability_set_id: The recovery availability set.
+        :paramtype recovery_availability_set_id: str
+        :keyword recovery_boot_diag_storage_account_id: The boot diagnostic storage account.
+        :paramtype recovery_boot_diag_storage_account_id: str
+        :keyword recovery_availability_zone: The recovery availability zone.
+        :paramtype recovery_availability_zone: str
+        :keyword recovery_proximity_placement_group_id: The recovery proximity placement group Id.
+        :paramtype recovery_proximity_placement_group_id: str
+        :keyword recovery_virtual_machine_scale_set_id: The virtual machine scale set id.
+        :paramtype recovery_virtual_machine_scale_set_id: str
+        :keyword recovery_capacity_reservation_group_id: The recovery capacity reservation group Id.
+        :paramtype recovery_capacity_reservation_group_id: str
+        :keyword disk_encryption_info: The recovery disk encryption information.
+        :paramtype disk_encryption_info:
+         ~azure.mgmt.recoveryservicessiterecovery.models.DiskEncryptionInfo
+        :keyword replication_protected_item_name: The Replication Protected item name.
+        :paramtype replication_protected_item_name: str
+        """
+        super().__init__(**kwargs)
+        self.vm_managed_disks = vm_managed_disks
+        self.recovery_resource_group_id = recovery_resource_group_id
+        self.recovery_availability_set_id = recovery_availability_set_id
+        self.recovery_boot_diag_storage_account_id = recovery_boot_diag_storage_account_id
+        self.recovery_availability_zone = recovery_availability_zone
+        self.recovery_proximity_placement_group_id = recovery_proximity_placement_group_id
+        self.recovery_virtual_machine_scale_set_id = recovery_virtual_machine_scale_set_id
+        self.recovery_capacity_reservation_group_id = recovery_capacity_reservation_group_id
+        self.disk_encryption_info = disk_encryption_info
+        self.replication_protected_item_name = replication_protected_item_name
 
 
 class A2AProtectedManagedDiskDetails(_serialization.Model):  # pylint: disable=too-many-instance-attributes
@@ -2360,6 +2721,10 @@ class A2AReplicationDetails(ReplicationProviderSpecificSettings):  # pylint: dis
      ~azure.mgmt.recoveryservicessiterecovery.models.MultiVmGroupCreateOption
     :ivar management_id: The management Id.
     :vartype management_id: str
+    :ivar protection_cluster_id: The replication protection cluster Id.
+    :vartype protection_cluster_id: str
+    :ivar is_cluster_infra_ready: A value indicating if the cluster infra is ready or not.
+    :vartype is_cluster_infra_ready: bool
     :ivar protected_disks: The list of protected disks.
     :vartype protected_disks:
      list[~azure.mgmt.recoveryservicessiterecovery.models.A2AProtectedDiskDetails]
@@ -2494,6 +2859,8 @@ class A2AReplicationDetails(ReplicationProviderSpecificSettings):  # pylint: dis
         "multi_vm_group_name": {"key": "multiVmGroupName", "type": "str"},
         "multi_vm_group_create_option": {"key": "multiVmGroupCreateOption", "type": "str"},
         "management_id": {"key": "managementId", "type": "str"},
+        "protection_cluster_id": {"key": "protectionClusterId", "type": "str"},
+        "is_cluster_infra_ready": {"key": "isClusterInfraReady", "type": "bool"},
         "protected_disks": {"key": "protectedDisks", "type": "[A2AProtectedDiskDetails]"},
         "unprotected_disks": {"key": "unprotectedDisks", "type": "[A2AUnprotectedDiskDetails]"},
         "protected_managed_disks": {"key": "protectedManagedDisks", "type": "[A2AProtectedManagedDiskDetails]"},
@@ -2552,6 +2919,8 @@ class A2AReplicationDetails(ReplicationProviderSpecificSettings):  # pylint: dis
         multi_vm_group_name: Optional[str] = None,
         multi_vm_group_create_option: Optional[Union[str, "_models.MultiVmGroupCreateOption"]] = None,
         management_id: Optional[str] = None,
+        protection_cluster_id: Optional[str] = None,
+        is_cluster_infra_ready: Optional[bool] = None,
         protected_disks: Optional[List["_models.A2AProtectedDiskDetails"]] = None,
         unprotected_disks: Optional[List["_models.A2AUnprotectedDiskDetails"]] = None,
         protected_managed_disks: Optional[List["_models.A2AProtectedManagedDiskDetails"]] = None,
@@ -2612,6 +2981,10 @@ class A2AReplicationDetails(ReplicationProviderSpecificSettings):  # pylint: dis
          ~azure.mgmt.recoveryservicessiterecovery.models.MultiVmGroupCreateOption
         :keyword management_id: The management Id.
         :paramtype management_id: str
+        :keyword protection_cluster_id: The replication protection cluster Id.
+        :paramtype protection_cluster_id: str
+        :keyword is_cluster_infra_ready: A value indicating if the cluster infra is ready or not.
+        :paramtype is_cluster_infra_ready: bool
         :keyword protected_disks: The list of protected disks.
         :paramtype protected_disks:
          list[~azure.mgmt.recoveryservicessiterecovery.models.A2AProtectedDiskDetails]
@@ -2721,6 +3094,8 @@ class A2AReplicationDetails(ReplicationProviderSpecificSettings):  # pylint: dis
         self.multi_vm_group_name = multi_vm_group_name
         self.multi_vm_group_create_option = multi_vm_group_create_option
         self.management_id = management_id
+        self.protection_cluster_id = protection_cluster_id
+        self.is_cluster_infra_ready = is_cluster_infra_ready
         self.protected_disks = protected_disks
         self.unprotected_disks = unprotected_disks
         self.protected_managed_disks = protected_managed_disks
@@ -3024,6 +3399,225 @@ class A2AReplicationIntentDetails(
         self.automation_account_authentication_type = automation_account_authentication_type
 
 
+class ReplicationClusterProviderSpecificSettings(_serialization.Model):
+    """Replication cluster provider specific settings.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    A2AReplicationProtectionClusterDetails
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar instance_type: Gets the Instance type. Required.
+    :vartype instance_type: str
+    """
+
+    _validation = {
+        "instance_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "instance_type": {"key": "instanceType", "type": "str"},
+    }
+
+    _subtype_map = {"instance_type": {"A2A": "A2AReplicationProtectionClusterDetails"}}
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.instance_type: Optional[str] = None
+
+
+class A2AReplicationProtectionClusterDetails(
+    ReplicationClusterProviderSpecificSettings
+):  # pylint: disable=too-many-instance-attributes
+    """A2A provider specific settings.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar instance_type: Gets the Instance type. Required.
+    :vartype instance_type: str
+    :ivar multi_vm_group_id: The multi vm group Id.
+    :vartype multi_vm_group_id: str
+    :ivar multi_vm_group_name: The multi vm group name.
+    :vartype multi_vm_group_name: str
+    :ivar multi_vm_group_create_option: Whether Multi VM group is auto created or specified by
+     user. Known values are: "AutoCreated" and "UserSpecified".
+    :vartype multi_vm_group_create_option: str or
+     ~azure.mgmt.recoveryservicessiterecovery.models.MultiVmGroupCreateOption
+    :ivar primary_fabric_location: Primary fabric location.
+    :vartype primary_fabric_location: str
+    :ivar recovery_fabric_location: The recovery fabric location.
+    :vartype recovery_fabric_location: str
+    :ivar failover_recovery_point_id: The recovery point Id to which the cluster was failed over.
+    :vartype failover_recovery_point_id: str
+    :ivar cluster_management_id: The cluster management Id.
+    :vartype cluster_management_id: str
+    :ivar rpo_in_seconds: The last RPO value in seconds.
+    :vartype rpo_in_seconds: int
+    :ivar last_rpo_calculated_time: The time (in UTC) when the last RPO value was calculated by
+     Protection Service.
+    :vartype last_rpo_calculated_time: ~datetime.datetime
+    :ivar initial_primary_zone: The initial primary availability zone.
+    :vartype initial_primary_zone: str
+    :ivar initial_primary_fabric_location: The initial primary fabric location.
+    :vartype initial_primary_fabric_location: str
+    :ivar initial_recovery_zone: The initial recovery availability zone.
+    :vartype initial_recovery_zone: str
+    :ivar initial_recovery_fabric_location: The initial recovery fabric location.
+    :vartype initial_recovery_fabric_location: str
+    :ivar initial_primary_extended_location: The initial primary extended location.
+    :vartype initial_primary_extended_location:
+     ~azure.mgmt.recoveryservicessiterecovery.models.ExtendedLocation
+    :ivar initial_recovery_extended_location: The initial recovery extended location.
+    :vartype initial_recovery_extended_location:
+     ~azure.mgmt.recoveryservicessiterecovery.models.ExtendedLocation
+    :ivar primary_availability_zone: The primary availability zone.
+    :vartype primary_availability_zone: str
+    :ivar recovery_availability_zone: The recovery availability zone.
+    :vartype recovery_availability_zone: str
+    :ivar primary_extended_location: The primary Extended Location.
+    :vartype primary_extended_location:
+     ~azure.mgmt.recoveryservicessiterecovery.models.ExtendedLocation
+    :ivar recovery_extended_location: The recovery Extended Location.
+    :vartype recovery_extended_location:
+     ~azure.mgmt.recoveryservicessiterecovery.models.ExtendedLocation
+    :ivar lifecycle_id: An id that survives actions like switch protection which change the backing
+     PE/CPE objects internally.The lifecycle id gets carried forward to have a link/continuity in
+     being able to have an Id that denotes the "same" protected cluster even though other internal
+     Ids/ARM Id might be changing.
+    :vartype lifecycle_id: str
+    """
+
+    _validation = {
+        "instance_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "instance_type": {"key": "instanceType", "type": "str"},
+        "multi_vm_group_id": {"key": "multiVmGroupId", "type": "str"},
+        "multi_vm_group_name": {"key": "multiVmGroupName", "type": "str"},
+        "multi_vm_group_create_option": {"key": "multiVmGroupCreateOption", "type": "str"},
+        "primary_fabric_location": {"key": "primaryFabricLocation", "type": "str"},
+        "recovery_fabric_location": {"key": "recoveryFabricLocation", "type": "str"},
+        "failover_recovery_point_id": {"key": "failoverRecoveryPointId", "type": "str"},
+        "cluster_management_id": {"key": "clusterManagementId", "type": "str"},
+        "rpo_in_seconds": {"key": "rpoInSeconds", "type": "int"},
+        "last_rpo_calculated_time": {"key": "lastRpoCalculatedTime", "type": "iso-8601"},
+        "initial_primary_zone": {"key": "initialPrimaryZone", "type": "str"},
+        "initial_primary_fabric_location": {"key": "initialPrimaryFabricLocation", "type": "str"},
+        "initial_recovery_zone": {"key": "initialRecoveryZone", "type": "str"},
+        "initial_recovery_fabric_location": {"key": "initialRecoveryFabricLocation", "type": "str"},
+        "initial_primary_extended_location": {"key": "initialPrimaryExtendedLocation", "type": "ExtendedLocation"},
+        "initial_recovery_extended_location": {"key": "initialRecoveryExtendedLocation", "type": "ExtendedLocation"},
+        "primary_availability_zone": {"key": "primaryAvailabilityZone", "type": "str"},
+        "recovery_availability_zone": {"key": "recoveryAvailabilityZone", "type": "str"},
+        "primary_extended_location": {"key": "primaryExtendedLocation", "type": "ExtendedLocation"},
+        "recovery_extended_location": {"key": "recoveryExtendedLocation", "type": "ExtendedLocation"},
+        "lifecycle_id": {"key": "lifecycleId", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        multi_vm_group_id: Optional[str] = None,
+        multi_vm_group_name: Optional[str] = None,
+        multi_vm_group_create_option: Optional[Union[str, "_models.MultiVmGroupCreateOption"]] = None,
+        primary_fabric_location: Optional[str] = None,
+        recovery_fabric_location: Optional[str] = None,
+        failover_recovery_point_id: Optional[str] = None,
+        cluster_management_id: Optional[str] = None,
+        rpo_in_seconds: Optional[int] = None,
+        last_rpo_calculated_time: Optional[datetime.datetime] = None,
+        initial_primary_zone: Optional[str] = None,
+        initial_primary_fabric_location: Optional[str] = None,
+        initial_recovery_zone: Optional[str] = None,
+        initial_recovery_fabric_location: Optional[str] = None,
+        initial_primary_extended_location: Optional["_models.ExtendedLocation"] = None,
+        initial_recovery_extended_location: Optional["_models.ExtendedLocation"] = None,
+        primary_availability_zone: Optional[str] = None,
+        recovery_availability_zone: Optional[str] = None,
+        primary_extended_location: Optional["_models.ExtendedLocation"] = None,
+        recovery_extended_location: Optional["_models.ExtendedLocation"] = None,
+        lifecycle_id: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword multi_vm_group_id: The multi vm group Id.
+        :paramtype multi_vm_group_id: str
+        :keyword multi_vm_group_name: The multi vm group name.
+        :paramtype multi_vm_group_name: str
+        :keyword multi_vm_group_create_option: Whether Multi VM group is auto created or specified by
+         user. Known values are: "AutoCreated" and "UserSpecified".
+        :paramtype multi_vm_group_create_option: str or
+         ~azure.mgmt.recoveryservicessiterecovery.models.MultiVmGroupCreateOption
+        :keyword primary_fabric_location: Primary fabric location.
+        :paramtype primary_fabric_location: str
+        :keyword recovery_fabric_location: The recovery fabric location.
+        :paramtype recovery_fabric_location: str
+        :keyword failover_recovery_point_id: The recovery point Id to which the cluster was failed
+         over.
+        :paramtype failover_recovery_point_id: str
+        :keyword cluster_management_id: The cluster management Id.
+        :paramtype cluster_management_id: str
+        :keyword rpo_in_seconds: The last RPO value in seconds.
+        :paramtype rpo_in_seconds: int
+        :keyword last_rpo_calculated_time: The time (in UTC) when the last RPO value was calculated by
+         Protection Service.
+        :paramtype last_rpo_calculated_time: ~datetime.datetime
+        :keyword initial_primary_zone: The initial primary availability zone.
+        :paramtype initial_primary_zone: str
+        :keyword initial_primary_fabric_location: The initial primary fabric location.
+        :paramtype initial_primary_fabric_location: str
+        :keyword initial_recovery_zone: The initial recovery availability zone.
+        :paramtype initial_recovery_zone: str
+        :keyword initial_recovery_fabric_location: The initial recovery fabric location.
+        :paramtype initial_recovery_fabric_location: str
+        :keyword initial_primary_extended_location: The initial primary extended location.
+        :paramtype initial_primary_extended_location:
+         ~azure.mgmt.recoveryservicessiterecovery.models.ExtendedLocation
+        :keyword initial_recovery_extended_location: The initial recovery extended location.
+        :paramtype initial_recovery_extended_location:
+         ~azure.mgmt.recoveryservicessiterecovery.models.ExtendedLocation
+        :keyword primary_availability_zone: The primary availability zone.
+        :paramtype primary_availability_zone: str
+        :keyword recovery_availability_zone: The recovery availability zone.
+        :paramtype recovery_availability_zone: str
+        :keyword primary_extended_location: The primary Extended Location.
+        :paramtype primary_extended_location:
+         ~azure.mgmt.recoveryservicessiterecovery.models.ExtendedLocation
+        :keyword recovery_extended_location: The recovery Extended Location.
+        :paramtype recovery_extended_location:
+         ~azure.mgmt.recoveryservicessiterecovery.models.ExtendedLocation
+        :keyword lifecycle_id: An id that survives actions like switch protection which change the
+         backing PE/CPE objects internally.The lifecycle id gets carried forward to have a
+         link/continuity in being able to have an Id that denotes the "same" protected cluster even
+         though other internal Ids/ARM Id might be changing.
+        :paramtype lifecycle_id: str
+        """
+        super().__init__(**kwargs)
+        self.instance_type: str = "A2A"
+        self.multi_vm_group_id = multi_vm_group_id
+        self.multi_vm_group_name = multi_vm_group_name
+        self.multi_vm_group_create_option = multi_vm_group_create_option
+        self.primary_fabric_location = primary_fabric_location
+        self.recovery_fabric_location = recovery_fabric_location
+        self.failover_recovery_point_id = failover_recovery_point_id
+        self.cluster_management_id = cluster_management_id
+        self.rpo_in_seconds = rpo_in_seconds
+        self.last_rpo_calculated_time = last_rpo_calculated_time
+        self.initial_primary_zone = initial_primary_zone
+        self.initial_primary_fabric_location = initial_primary_fabric_location
+        self.initial_recovery_zone = initial_recovery_zone
+        self.initial_recovery_fabric_location = initial_recovery_fabric_location
+        self.initial_primary_extended_location = initial_primary_extended_location
+        self.initial_recovery_extended_location = initial_recovery_extended_location
+        self.primary_availability_zone = primary_availability_zone
+        self.recovery_availability_zone = recovery_availability_zone
+        self.primary_extended_location = primary_extended_location
+        self.recovery_extended_location = recovery_extended_location
+        self.lifecycle_id = lifecycle_id
+
+
 class ReverseReplicationProviderSpecificInput(_serialization.Model):
     """Provider specific reverse replication input.
 
@@ -3131,6 +3725,277 @@ class A2AReprotectInput(ReverseReplicationProviderSpecificInput):
         self.recovery_cloud_service_id = recovery_cloud_service_id
         self.recovery_availability_set_id = recovery_availability_set_id
         self.policy_id = policy_id
+
+
+class A2ASharedDiskIRErrorDetails(_serialization.Model):
+    """Extended location of the resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar error_code: The error code.
+    :vartype error_code: str
+    :ivar error_code_enum: The error code enum.
+    :vartype error_code_enum: str
+    :ivar error_message: The error message.
+    :vartype error_message: str
+    :ivar possible_causes: The possible causes.
+    :vartype possible_causes: str
+    :ivar recommended_action: The recommended action.
+    :vartype recommended_action: str
+    """
+
+    _validation = {
+        "error_code": {"readonly": True},
+        "error_code_enum": {"readonly": True},
+        "error_message": {"readonly": True},
+        "possible_causes": {"readonly": True},
+        "recommended_action": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "error_code": {"key": "errorCode", "type": "str"},
+        "error_code_enum": {"key": "errorCodeEnum", "type": "str"},
+        "error_message": {"key": "errorMessage", "type": "str"},
+        "possible_causes": {"key": "possibleCauses", "type": "str"},
+        "recommended_action": {"key": "recommendedAction", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.error_code = None
+        self.error_code_enum = None
+        self.error_message = None
+        self.possible_causes = None
+        self.recommended_action = None
+
+
+class SharedDiskReplicationProviderSpecificSettings(_serialization.Model):
+    """Replication provider specific settings.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    A2ASharedDiskReplicationDetails
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar instance_type: Gets the Instance type. Required.
+    :vartype instance_type: str
+    """
+
+    _validation = {
+        "instance_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "instance_type": {"key": "instanceType", "type": "str"},
+    }
+
+    _subtype_map = {"instance_type": {"A2A": "A2ASharedDiskReplicationDetails"}}
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.instance_type: Optional[str] = None
+
+
+class A2ASharedDiskReplicationDetails(
+    SharedDiskReplicationProviderSpecificSettings
+):  # pylint: disable=too-many-instance-attributes
+    """A2A provider specific settings.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar instance_type: Gets the Instance type. Required.
+    :vartype instance_type: str
+    :ivar management_id: The management Id.
+    :vartype management_id: str
+    :ivar unprotected_disks: The list of unprotected disks.
+    :vartype unprotected_disks:
+     list[~azure.mgmt.recoveryservicessiterecovery.models.A2AUnprotectedDiskDetails]
+    :ivar protected_managed_disks: The list of protected managed disks.
+    :vartype protected_managed_disks:
+     list[~azure.mgmt.recoveryservicessiterecovery.models.A2AProtectedManagedDiskDetails]
+    :ivar primary_fabric_location: Primary fabric location.
+    :vartype primary_fabric_location: str
+    :ivar recovery_fabric_location: The recovery fabric location.
+    :vartype recovery_fabric_location: str
+    :ivar failover_recovery_point_id: The recovery point id to which the Virtual node was failed
+     over.
+    :vartype failover_recovery_point_id: str
+    :ivar monitoring_percentage_completion: The percentage of the monitoring job. The type of the
+     monitoring job is defined by MonitoringJobType property.
+    :vartype monitoring_percentage_completion: int
+    :ivar monitoring_job_type: The type of the monitoring job. The progress is contained in
+     MonitoringPercentageCompletion property.
+    :vartype monitoring_job_type: str
+    :ivar rpo_in_seconds: The last RPO value in seconds.
+    :vartype rpo_in_seconds: int
+    :ivar last_rpo_calculated_time: The time (in UTC) when the last RPO value was calculated by
+     Protection Service.
+    :vartype last_rpo_calculated_time: ~datetime.datetime
+    :ivar shared_disk_ir_errors: The IR Errors.
+    :vartype shared_disk_ir_errors:
+     list[~azure.mgmt.recoveryservicessiterecovery.models.A2ASharedDiskIRErrorDetails]
+    """
+
+    _validation = {
+        "instance_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "instance_type": {"key": "instanceType", "type": "str"},
+        "management_id": {"key": "managementId", "type": "str"},
+        "unprotected_disks": {"key": "unprotectedDisks", "type": "[A2AUnprotectedDiskDetails]"},
+        "protected_managed_disks": {"key": "protectedManagedDisks", "type": "[A2AProtectedManagedDiskDetails]"},
+        "primary_fabric_location": {"key": "primaryFabricLocation", "type": "str"},
+        "recovery_fabric_location": {"key": "recoveryFabricLocation", "type": "str"},
+        "failover_recovery_point_id": {"key": "failoverRecoveryPointId", "type": "str"},
+        "monitoring_percentage_completion": {"key": "monitoringPercentageCompletion", "type": "int"},
+        "monitoring_job_type": {"key": "monitoringJobType", "type": "str"},
+        "rpo_in_seconds": {"key": "rpoInSeconds", "type": "int"},
+        "last_rpo_calculated_time": {"key": "lastRpoCalculatedTime", "type": "iso-8601"},
+        "shared_disk_ir_errors": {"key": "sharedDiskIRErrors", "type": "[A2ASharedDiskIRErrorDetails]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        management_id: Optional[str] = None,
+        unprotected_disks: Optional[List["_models.A2AUnprotectedDiskDetails"]] = None,
+        protected_managed_disks: Optional[List["_models.A2AProtectedManagedDiskDetails"]] = None,
+        primary_fabric_location: Optional[str] = None,
+        recovery_fabric_location: Optional[str] = None,
+        failover_recovery_point_id: Optional[str] = None,
+        monitoring_percentage_completion: Optional[int] = None,
+        monitoring_job_type: Optional[str] = None,
+        rpo_in_seconds: Optional[int] = None,
+        last_rpo_calculated_time: Optional[datetime.datetime] = None,
+        shared_disk_ir_errors: Optional[List["_models.A2ASharedDiskIRErrorDetails"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword management_id: The management Id.
+        :paramtype management_id: str
+        :keyword unprotected_disks: The list of unprotected disks.
+        :paramtype unprotected_disks:
+         list[~azure.mgmt.recoveryservicessiterecovery.models.A2AUnprotectedDiskDetails]
+        :keyword protected_managed_disks: The list of protected managed disks.
+        :paramtype protected_managed_disks:
+         list[~azure.mgmt.recoveryservicessiterecovery.models.A2AProtectedManagedDiskDetails]
+        :keyword primary_fabric_location: Primary fabric location.
+        :paramtype primary_fabric_location: str
+        :keyword recovery_fabric_location: The recovery fabric location.
+        :paramtype recovery_fabric_location: str
+        :keyword failover_recovery_point_id: The recovery point id to which the Virtual node was failed
+         over.
+        :paramtype failover_recovery_point_id: str
+        :keyword monitoring_percentage_completion: The percentage of the monitoring job. The type of
+         the monitoring job is defined by MonitoringJobType property.
+        :paramtype monitoring_percentage_completion: int
+        :keyword monitoring_job_type: The type of the monitoring job. The progress is contained in
+         MonitoringPercentageCompletion property.
+        :paramtype monitoring_job_type: str
+        :keyword rpo_in_seconds: The last RPO value in seconds.
+        :paramtype rpo_in_seconds: int
+        :keyword last_rpo_calculated_time: The time (in UTC) when the last RPO value was calculated by
+         Protection Service.
+        :paramtype last_rpo_calculated_time: ~datetime.datetime
+        :keyword shared_disk_ir_errors: The IR Errors.
+        :paramtype shared_disk_ir_errors:
+         list[~azure.mgmt.recoveryservicessiterecovery.models.A2ASharedDiskIRErrorDetails]
+        """
+        super().__init__(**kwargs)
+        self.instance_type: str = "A2A"
+        self.management_id = management_id
+        self.unprotected_disks = unprotected_disks
+        self.protected_managed_disks = protected_managed_disks
+        self.primary_fabric_location = primary_fabric_location
+        self.recovery_fabric_location = recovery_fabric_location
+        self.failover_recovery_point_id = failover_recovery_point_id
+        self.monitoring_percentage_completion = monitoring_percentage_completion
+        self.monitoring_job_type = monitoring_job_type
+        self.rpo_in_seconds = rpo_in_seconds
+        self.last_rpo_calculated_time = last_rpo_calculated_time
+        self.shared_disk_ir_errors = shared_disk_ir_errors
+
+
+class SwitchClusterProtectionProviderSpecificInput(_serialization.Model):
+    """Provider specific switch cluster protection input.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    A2ASwitchClusterProtectionInput
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar instance_type: Gets the Instance type. Required.
+    :vartype instance_type: str
+    """
+
+    _validation = {
+        "instance_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "instance_type": {"key": "instanceType", "type": "str"},
+    }
+
+    _subtype_map = {"instance_type": {"A2A": "A2ASwitchClusterProtectionInput"}}
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.instance_type: Optional[str] = None
+
+
+class A2ASwitchClusterProtectionInput(SwitchClusterProtectionProviderSpecificInput):
+    """A2A specific switch cluster protection input.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar instance_type: Gets the Instance type. Required.
+    :vartype instance_type: str
+    :ivar recovery_container_id: The recovery container Id.
+    :vartype recovery_container_id: str
+    :ivar policy_id: The Policy Id.
+    :vartype policy_id: str
+    :ivar protected_items_detail:
+    :vartype protected_items_detail:
+     list[~azure.mgmt.recoveryservicessiterecovery.models.A2AProtectedItemDetail]
+    """
+
+    _validation = {
+        "instance_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "instance_type": {"key": "instanceType", "type": "str"},
+        "recovery_container_id": {"key": "recoveryContainerId", "type": "str"},
+        "policy_id": {"key": "policyId", "type": "str"},
+        "protected_items_detail": {"key": "protectedItemsDetail", "type": "[A2AProtectedItemDetail]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        recovery_container_id: Optional[str] = None,
+        policy_id: Optional[str] = None,
+        protected_items_detail: Optional[List["_models.A2AProtectedItemDetail"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword recovery_container_id: The recovery container Id.
+        :paramtype recovery_container_id: str
+        :keyword policy_id: The Policy Id.
+        :paramtype policy_id: str
+        :keyword protected_items_detail:
+        :paramtype protected_items_detail:
+         list[~azure.mgmt.recoveryservicessiterecovery.models.A2AProtectedItemDetail]
+        """
+        super().__init__(**kwargs)
+        self.instance_type: str = "A2A"
+        self.recovery_container_id = recovery_container_id
+        self.policy_id = policy_id
+        self.protected_items_detail = protected_items_detail
 
 
 class SwitchProtectionProviderSpecificInput(_serialization.Model):
@@ -4578,6 +5443,88 @@ class ApplianceSpecificDetails(_serialization.Model):
         self.instance_type: Optional[str] = None
 
 
+class ApplyClusterRecoveryPointInput(_serialization.Model):
+    """Input definition for apply cluster recovery point.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar properties: The properties to apply cluster recovery point input. Required.
+    :vartype properties:
+     ~azure.mgmt.recoveryservicessiterecovery.models.ApplyClusterRecoveryPointInputProperties
+    """
+
+    _validation = {
+        "properties": {"required": True},
+    }
+
+    _attribute_map = {
+        "properties": {"key": "properties", "type": "ApplyClusterRecoveryPointInputProperties"},
+    }
+
+    def __init__(self, *, properties: "_models.ApplyClusterRecoveryPointInputProperties", **kwargs: Any) -> None:
+        """
+        :keyword properties: The properties to apply cluster recovery point input. Required.
+        :paramtype properties:
+         ~azure.mgmt.recoveryservicessiterecovery.models.ApplyClusterRecoveryPointInputProperties
+        """
+        super().__init__(**kwargs)
+        self.properties = properties
+
+
+class ApplyClusterRecoveryPointInputProperties(_serialization.Model):
+    """Input definition for apply cluster recovery point properties.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar cluster_recovery_point_id: The cluster recovery point id to be passed to failover to a
+     particular recovery point.
+    :vartype cluster_recovery_point_id: str
+    :ivar individual_node_recovery_points: The list of individual node recovery points.
+    :vartype individual_node_recovery_points: list[str]
+    :ivar provider_specific_details: The provider specific input for applying cluster recovery
+     point. Required.
+    :vartype provider_specific_details:
+     ~azure.mgmt.recoveryservicessiterecovery.models.ApplyClusterRecoveryPointProviderSpecificInput
+    """
+
+    _validation = {
+        "provider_specific_details": {"required": True},
+    }
+
+    _attribute_map = {
+        "cluster_recovery_point_id": {"key": "clusterRecoveryPointId", "type": "str"},
+        "individual_node_recovery_points": {"key": "individualNodeRecoveryPoints", "type": "[str]"},
+        "provider_specific_details": {
+            "key": "providerSpecificDetails",
+            "type": "ApplyClusterRecoveryPointProviderSpecificInput",
+        },
+    }
+
+    def __init__(
+        self,
+        *,
+        provider_specific_details: "_models.ApplyClusterRecoveryPointProviderSpecificInput",
+        cluster_recovery_point_id: Optional[str] = None,
+        individual_node_recovery_points: Optional[List[str]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword cluster_recovery_point_id: The cluster recovery point id to be passed to failover to a
+         particular recovery point.
+        :paramtype cluster_recovery_point_id: str
+        :keyword individual_node_recovery_points: The list of individual node recovery points.
+        :paramtype individual_node_recovery_points: list[str]
+        :keyword provider_specific_details: The provider specific input for applying cluster recovery
+         point. Required.
+        :paramtype provider_specific_details:
+         ~azure.mgmt.recoveryservicessiterecovery.models.ApplyClusterRecoveryPointProviderSpecificInput
+        """
+        super().__init__(**kwargs)
+        self.cluster_recovery_point_id = cluster_recovery_point_id
+        self.individual_node_recovery_points = individual_node_recovery_points
+        self.provider_specific_details = provider_specific_details
+
+
 class ApplyRecoveryPointInput(_serialization.Model):
     """Input to apply recovery point.
 
@@ -4654,8 +5601,9 @@ class JobDetails(_serialization.Model):
     """Job details based on specific job type.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
-    AsrJobDetails, ExportJobDetails, FailoverJobDetails, SwitchProtectionJobDetails,
-    TestFailoverJobDetails
+    AsrJobDetails, ClusterFailoverJobDetails, ClusterSwitchProtectionJobDetails,
+    ClusterTestFailoverJobDetails, ExportJobDetails, FailoverJobDetails,
+    SwitchProtectionJobDetails, TestFailoverJobDetails
 
     All required parameters must be populated in order to send to Azure.
 
@@ -4679,6 +5627,9 @@ class JobDetails(_serialization.Model):
     _subtype_map = {
         "instance_type": {
             "AsrJobDetails": "AsrJobDetails",
+            "ClusterFailoverJobDetails": "ClusterFailoverJobDetails",
+            "ClusterSwitchProtectionJobDetails": "ClusterSwitchProtectionJobDetails",
+            "ClusterTestFailoverJobDetails": "ClusterTestFailoverJobDetails",
             "ExportJobDetails": "ExportJobDetails",
             "FailoverJobDetails": "FailoverJobDetails",
             "SwitchProtectionJobDetails": "SwitchProtectionJobDetails",
@@ -5463,6 +6414,509 @@ class AzureVmDiskDetails(_serialization.Model):
         self.lun_id = lun_id
         self.disk_encryption_set_id = disk_encryption_set_id
         self.custom_target_disk_name = custom_target_disk_name
+
+
+class ClusterFailoverJobDetails(JobDetails):
+    """This class represents the details for a failover job of cluster.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar instance_type: Gets the type of job details (see JobDetailsTypes enum for possible
+     values). Required.
+    :vartype instance_type: str
+    :ivar affected_object_details: The affected object properties like source server, source cloud,
+     target server, target cloud etc. based on the workflow object details.
+    :vartype affected_object_details: dict[str, str]
+    :ivar protected_item_details: The test VM details.
+    :vartype protected_item_details:
+     list[~azure.mgmt.recoveryservicessiterecovery.models.FailoverReplicationProtectedItemDetails]
+    """
+
+    _validation = {
+        "instance_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "instance_type": {"key": "instanceType", "type": "str"},
+        "affected_object_details": {"key": "affectedObjectDetails", "type": "{str}"},
+        "protected_item_details": {"key": "protectedItemDetails", "type": "[FailoverReplicationProtectedItemDetails]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        affected_object_details: Optional[Dict[str, str]] = None,
+        protected_item_details: Optional[List["_models.FailoverReplicationProtectedItemDetails"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword affected_object_details: The affected object properties like source server, source
+         cloud, target server, target cloud etc. based on the workflow object details.
+        :paramtype affected_object_details: dict[str, str]
+        :keyword protected_item_details: The test VM details.
+        :paramtype protected_item_details:
+         list[~azure.mgmt.recoveryservicessiterecovery.models.FailoverReplicationProtectedItemDetails]
+        """
+        super().__init__(affected_object_details=affected_object_details, **kwargs)
+        self.instance_type: str = "ClusterFailoverJobDetails"
+        self.protected_item_details = protected_item_details
+
+
+class ClusterRecoveryPoint(_serialization.Model):
+    """Recovery point.
+
+    :ivar id: The recovery point Id.
+    :vartype id: str
+    :ivar name: The name of the recovery point.
+    :vartype name: str
+    :ivar type: The resource type.
+    :vartype type: str
+    :ivar properties: The recovery point properties.
+    :vartype properties:
+     ~azure.mgmt.recoveryservicessiterecovery.models.ClusterRecoveryPointProperties
+    """
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "properties": {"key": "properties", "type": "ClusterRecoveryPointProperties"},
+    }
+
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        name: Optional[str] = None,
+        type: Optional[str] = None,
+        properties: Optional["_models.ClusterRecoveryPointProperties"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword id: The recovery point Id.
+        :paramtype id: str
+        :keyword name: The name of the recovery point.
+        :paramtype name: str
+        :keyword type: The resource type.
+        :paramtype type: str
+        :keyword properties: The recovery point properties.
+        :paramtype properties:
+         ~azure.mgmt.recoveryservicessiterecovery.models.ClusterRecoveryPointProperties
+        """
+        super().__init__(**kwargs)
+        self.id = id
+        self.name = name
+        self.type = type
+        self.properties = properties
+
+
+class ClusterRecoveryPointCollection(_serialization.Model):
+    """Collection of cluster recovery point details.
+
+    :ivar value: The cluster recovery point details.
+    :vartype value: list[~azure.mgmt.recoveryservicessiterecovery.models.ClusterRecoveryPoint]
+    :ivar next_link: The value of next link.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[ClusterRecoveryPoint]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        value: Optional[List["_models.ClusterRecoveryPoint"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: The cluster recovery point details.
+        :paramtype value: list[~azure.mgmt.recoveryservicessiterecovery.models.ClusterRecoveryPoint]
+        :keyword next_link: The value of next link.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class ClusterRecoveryPointProperties(_serialization.Model):
+    """Cluster recovery point properties.
+
+    :ivar recovery_point_time: The recovery point time.
+    :vartype recovery_point_time: ~datetime.datetime
+    :ivar recovery_point_type: The recovery point type. Known values are: "NotSpecified",
+     "ApplicationConsistent", and "CrashConsistent".
+    :vartype recovery_point_type: str or
+     ~azure.mgmt.recoveryservicessiterecovery.models.ClusterRecoveryPointType
+    :ivar provider_specific_details: The provider specific details for the recovery point.
+    :vartype provider_specific_details:
+     ~azure.mgmt.recoveryservicessiterecovery.models.ClusterProviderSpecificRecoveryPointDetails
+    """
+
+    _attribute_map = {
+        "recovery_point_time": {"key": "recoveryPointTime", "type": "iso-8601"},
+        "recovery_point_type": {"key": "recoveryPointType", "type": "str"},
+        "provider_specific_details": {
+            "key": "providerSpecificDetails",
+            "type": "ClusterProviderSpecificRecoveryPointDetails",
+        },
+    }
+
+    def __init__(
+        self,
+        *,
+        recovery_point_time: Optional[datetime.datetime] = None,
+        recovery_point_type: Optional[Union[str, "_models.ClusterRecoveryPointType"]] = None,
+        provider_specific_details: Optional["_models.ClusterProviderSpecificRecoveryPointDetails"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword recovery_point_time: The recovery point time.
+        :paramtype recovery_point_time: ~datetime.datetime
+        :keyword recovery_point_type: The recovery point type. Known values are: "NotSpecified",
+         "ApplicationConsistent", and "CrashConsistent".
+        :paramtype recovery_point_type: str or
+         ~azure.mgmt.recoveryservicessiterecovery.models.ClusterRecoveryPointType
+        :keyword provider_specific_details: The provider specific details for the recovery point.
+        :paramtype provider_specific_details:
+         ~azure.mgmt.recoveryservicessiterecovery.models.ClusterProviderSpecificRecoveryPointDetails
+        """
+        super().__init__(**kwargs)
+        self.recovery_point_time = recovery_point_time
+        self.recovery_point_type = recovery_point_type
+        self.provider_specific_details = provider_specific_details
+
+
+class ClusterSwitchProtectionJobDetails(JobDetails):
+    """This class represents details for switch cluster protection job.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar instance_type: Gets the type of job details (see JobDetailsTypes enum for possible
+     values). Required.
+    :vartype instance_type: str
+    :ivar affected_object_details: The affected object properties like source server, source cloud,
+     target server, target cloud etc. based on the workflow object details.
+    :vartype affected_object_details: dict[str, str]
+    :ivar new_replication_protection_cluster_id: ARM Id of the new replication protection cluster.
+    :vartype new_replication_protection_cluster_id: str
+    """
+
+    _validation = {
+        "instance_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "instance_type": {"key": "instanceType", "type": "str"},
+        "affected_object_details": {"key": "affectedObjectDetails", "type": "{str}"},
+        "new_replication_protection_cluster_id": {"key": "newReplicationProtectionClusterId", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        affected_object_details: Optional[Dict[str, str]] = None,
+        new_replication_protection_cluster_id: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword affected_object_details: The affected object properties like source server, source
+         cloud, target server, target cloud etc. based on the workflow object details.
+        :paramtype affected_object_details: dict[str, str]
+        :keyword new_replication_protection_cluster_id: ARM Id of the new replication protection
+         cluster.
+        :paramtype new_replication_protection_cluster_id: str
+        """
+        super().__init__(affected_object_details=affected_object_details, **kwargs)
+        self.instance_type: str = "ClusterSwitchProtectionJobDetails"
+        self.new_replication_protection_cluster_id = new_replication_protection_cluster_id
+
+
+class ClusterTestFailoverCleanupInput(_serialization.Model):
+    """Input definition for test failover cleanup for cluster.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar properties: Test failover cleanup input properties. Required.
+    :vartype properties:
+     ~azure.mgmt.recoveryservicessiterecovery.models.ClusterTestFailoverCleanupInputProperties
+    """
+
+    _validation = {
+        "properties": {"required": True},
+    }
+
+    _attribute_map = {
+        "properties": {"key": "properties", "type": "ClusterTestFailoverCleanupInputProperties"},
+    }
+
+    def __init__(self, *, properties: "_models.ClusterTestFailoverCleanupInputProperties", **kwargs: Any) -> None:
+        """
+        :keyword properties: Test failover cleanup input properties. Required.
+        :paramtype properties:
+         ~azure.mgmt.recoveryservicessiterecovery.models.ClusterTestFailoverCleanupInputProperties
+        """
+        super().__init__(**kwargs)
+        self.properties = properties
+
+
+class ClusterTestFailoverCleanupInputProperties(_serialization.Model):
+    """Input definition for test failover cleanup input properties.
+
+    :ivar comments: Test failover cleanup comments.
+    :vartype comments: str
+    """
+
+    _validation = {
+        "comments": {"max_length": 1024},
+    }
+
+    _attribute_map = {
+        "comments": {"key": "comments", "type": "str"},
+    }
+
+    def __init__(self, *, comments: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword comments: Test failover cleanup comments.
+        :paramtype comments: str
+        """
+        super().__init__(**kwargs)
+        self.comments = comments
+
+
+class ClusterTestFailoverInput(_serialization.Model):
+    """Input definition for test cluster failover.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar properties: Test failover input properties. Required.
+    :vartype properties:
+     ~azure.mgmt.recoveryservicessiterecovery.models.ClusterTestFailoverInputProperties
+    """
+
+    _validation = {
+        "properties": {"required": True},
+    }
+
+    _attribute_map = {
+        "properties": {"key": "properties", "type": "ClusterTestFailoverInputProperties"},
+    }
+
+    def __init__(self, *, properties: "_models.ClusterTestFailoverInputProperties", **kwargs: Any) -> None:
+        """
+        :keyword properties: Test failover input properties. Required.
+        :paramtype properties:
+         ~azure.mgmt.recoveryservicessiterecovery.models.ClusterTestFailoverInputProperties
+        """
+        super().__init__(**kwargs)
+        self.properties = properties
+
+
+class ClusterTestFailoverInputProperties(_serialization.Model):
+    """Input definition for test failover input properties.
+
+    :ivar failover_direction: Failover direction.
+    :vartype failover_direction: str
+    :ivar network_type: Network type to be used for test failover.
+    :vartype network_type: str
+    :ivar network_id: The id of the network to be used for test failover.
+    :vartype network_id: str
+    :ivar provider_specific_details: Provider specific settings.
+    :vartype provider_specific_details:
+     ~azure.mgmt.recoveryservicessiterecovery.models.ClusterTestFailoverProviderSpecificInput
+    """
+
+    _attribute_map = {
+        "failover_direction": {"key": "failoverDirection", "type": "str"},
+        "network_type": {"key": "networkType", "type": "str"},
+        "network_id": {"key": "networkId", "type": "str"},
+        "provider_specific_details": {
+            "key": "providerSpecificDetails",
+            "type": "ClusterTestFailoverProviderSpecificInput",
+        },
+    }
+
+    def __init__(
+        self,
+        *,
+        failover_direction: Optional[str] = None,
+        network_type: Optional[str] = None,
+        network_id: Optional[str] = None,
+        provider_specific_details: Optional["_models.ClusterTestFailoverProviderSpecificInput"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword failover_direction: Failover direction.
+        :paramtype failover_direction: str
+        :keyword network_type: Network type to be used for test failover.
+        :paramtype network_type: str
+        :keyword network_id: The id of the network to be used for test failover.
+        :paramtype network_id: str
+        :keyword provider_specific_details: Provider specific settings.
+        :paramtype provider_specific_details:
+         ~azure.mgmt.recoveryservicessiterecovery.models.ClusterTestFailoverProviderSpecificInput
+        """
+        super().__init__(**kwargs)
+        self.failover_direction = failover_direction
+        self.network_type = network_type
+        self.network_id = network_id
+        self.provider_specific_details = provider_specific_details
+
+
+class ClusterTestFailoverJobDetails(JobDetails):
+    """This class represents the details for a test failover job of cluster.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar instance_type: Gets the type of job details (see JobDetailsTypes enum for possible
+     values). Required.
+    :vartype instance_type: str
+    :ivar affected_object_details: The affected object properties like source server, source cloud,
+     target server, target cloud etc. based on the workflow object details.
+    :vartype affected_object_details: dict[str, str]
+    :ivar test_failover_status: The test failover status.
+    :vartype test_failover_status: str
+    :ivar comments: The test failover comments.
+    :vartype comments: str
+    :ivar network_name: The test network name.
+    :vartype network_name: str
+    :ivar network_friendly_name: The test network friendly name.
+    :vartype network_friendly_name: str
+    :ivar network_type: The test network type (see TestFailoverInput enum for possible values).
+    :vartype network_type: str
+    :ivar protected_item_details: The test VM details.
+    :vartype protected_item_details:
+     list[~azure.mgmt.recoveryservicessiterecovery.models.FailoverReplicationProtectedItemDetails]
+    """
+
+    _validation = {
+        "instance_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "instance_type": {"key": "instanceType", "type": "str"},
+        "affected_object_details": {"key": "affectedObjectDetails", "type": "{str}"},
+        "test_failover_status": {"key": "testFailoverStatus", "type": "str"},
+        "comments": {"key": "comments", "type": "str"},
+        "network_name": {"key": "networkName", "type": "str"},
+        "network_friendly_name": {"key": "networkFriendlyName", "type": "str"},
+        "network_type": {"key": "networkType", "type": "str"},
+        "protected_item_details": {"key": "protectedItemDetails", "type": "[FailoverReplicationProtectedItemDetails]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        affected_object_details: Optional[Dict[str, str]] = None,
+        test_failover_status: Optional[str] = None,
+        comments: Optional[str] = None,
+        network_name: Optional[str] = None,
+        network_friendly_name: Optional[str] = None,
+        network_type: Optional[str] = None,
+        protected_item_details: Optional[List["_models.FailoverReplicationProtectedItemDetails"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword affected_object_details: The affected object properties like source server, source
+         cloud, target server, target cloud etc. based on the workflow object details.
+        :paramtype affected_object_details: dict[str, str]
+        :keyword test_failover_status: The test failover status.
+        :paramtype test_failover_status: str
+        :keyword comments: The test failover comments.
+        :paramtype comments: str
+        :keyword network_name: The test network name.
+        :paramtype network_name: str
+        :keyword network_friendly_name: The test network friendly name.
+        :paramtype network_friendly_name: str
+        :keyword network_type: The test network type (see TestFailoverInput enum for possible values).
+        :paramtype network_type: str
+        :keyword protected_item_details: The test VM details.
+        :paramtype protected_item_details:
+         list[~azure.mgmt.recoveryservicessiterecovery.models.FailoverReplicationProtectedItemDetails]
+        """
+        super().__init__(affected_object_details=affected_object_details, **kwargs)
+        self.instance_type: str = "ClusterTestFailoverJobDetails"
+        self.test_failover_status = test_failover_status
+        self.comments = comments
+        self.network_name = network_name
+        self.network_friendly_name = network_friendly_name
+        self.network_type = network_type
+        self.protected_item_details = protected_item_details
+
+
+class ClusterUnplannedFailoverInput(_serialization.Model):
+    """Input definition for unplanned cluster failover.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar properties: Unplanned failover input properties. Required.
+    :vartype properties:
+     ~azure.mgmt.recoveryservicessiterecovery.models.ClusterUnplannedFailoverInputProperties
+    """
+
+    _validation = {
+        "properties": {"required": True},
+    }
+
+    _attribute_map = {
+        "properties": {"key": "properties", "type": "ClusterUnplannedFailoverInputProperties"},
+    }
+
+    def __init__(self, *, properties: "_models.ClusterUnplannedFailoverInputProperties", **kwargs: Any) -> None:
+        """
+        :keyword properties: Unplanned failover input properties. Required.
+        :paramtype properties:
+         ~azure.mgmt.recoveryservicessiterecovery.models.ClusterUnplannedFailoverInputProperties
+        """
+        super().__init__(**kwargs)
+        self.properties = properties
+
+
+class ClusterUnplannedFailoverInputProperties(_serialization.Model):
+    """Input definition for unplanned failover input properties.
+
+    :ivar failover_direction: Failover direction.
+    :vartype failover_direction: str
+    :ivar source_site_operations: Source site operations status.
+    :vartype source_site_operations: str
+    :ivar provider_specific_details: Provider specific settings.
+    :vartype provider_specific_details:
+     ~azure.mgmt.recoveryservicessiterecovery.models.ClusterUnplannedFailoverProviderSpecificInput
+    """
+
+    _attribute_map = {
+        "failover_direction": {"key": "failoverDirection", "type": "str"},
+        "source_site_operations": {"key": "sourceSiteOperations", "type": "str"},
+        "provider_specific_details": {
+            "key": "providerSpecificDetails",
+            "type": "ClusterUnplannedFailoverProviderSpecificInput",
+        },
+    }
+
+    def __init__(
+        self,
+        *,
+        failover_direction: Optional[str] = None,
+        source_site_operations: Optional[str] = None,
+        provider_specific_details: Optional["_models.ClusterUnplannedFailoverProviderSpecificInput"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword failover_direction: Failover direction.
+        :paramtype failover_direction: str
+        :keyword source_site_operations: Source site operations status.
+        :paramtype source_site_operations: str
+        :keyword provider_specific_details: Provider specific settings.
+        :paramtype provider_specific_details:
+         ~azure.mgmt.recoveryservicessiterecovery.models.ClusterUnplannedFailoverProviderSpecificInput
+        """
+        super().__init__(**kwargs)
+        self.failover_direction = failover_direction
+        self.source_site_operations = source_site_operations
+        self.provider_specific_details = provider_specific_details
 
 
 class ComputeSizeErrorDetails(_serialization.Model):
@@ -23030,6 +24484,54 @@ class RecoveryServicesProviderProperties(_serialization.Model):  # pylint: disab
         self.provider_version_details = provider_version_details
 
 
+class RegisteredClusterNodes(_serialization.Model):
+    """Extended location of the resource.
+
+    :ivar cluster_node_fqdn: The cluster node name.
+    :vartype cluster_node_fqdn: str
+    :ivar machine_id: The machine ID.
+    :vartype machine_id: str
+    :ivar bios_id: The BIOS ID.
+    :vartype bios_id: str
+    :ivar is_shared_disk_virtual_node: A value indicating whether this represents virtual entity
+     hosting all the shared disks.
+    :vartype is_shared_disk_virtual_node: bool
+    """
+
+    _attribute_map = {
+        "cluster_node_fqdn": {"key": "clusterNodeFqdn", "type": "str"},
+        "machine_id": {"key": "machineId", "type": "str"},
+        "bios_id": {"key": "biosId", "type": "str"},
+        "is_shared_disk_virtual_node": {"key": "isSharedDiskVirtualNode", "type": "bool"},
+    }
+
+    def __init__(
+        self,
+        *,
+        cluster_node_fqdn: Optional[str] = None,
+        machine_id: Optional[str] = None,
+        bios_id: Optional[str] = None,
+        is_shared_disk_virtual_node: Optional[bool] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword cluster_node_fqdn: The cluster node name.
+        :paramtype cluster_node_fqdn: str
+        :keyword machine_id: The machine ID.
+        :paramtype machine_id: str
+        :keyword bios_id: The BIOS ID.
+        :paramtype bios_id: str
+        :keyword is_shared_disk_virtual_node: A value indicating whether this represents virtual entity
+         hosting all the shared disks.
+        :paramtype is_shared_disk_virtual_node: bool
+        """
+        super().__init__(**kwargs)
+        self.cluster_node_fqdn = cluster_node_fqdn
+        self.machine_id = machine_id
+        self.bios_id = bios_id
+        self.is_shared_disk_virtual_node = is_shared_disk_virtual_node
+
+
 class RemoveDisksInput(_serialization.Model):
     """Input for remove disk(s) operation.
 
@@ -23786,6 +25288,339 @@ class ReplicationProtectedItemProperties(_serialization.Model):  # pylint: disab
         self.provider_specific_details = provider_specific_details
         self.recovery_container_id = recovery_container_id
         self.event_correlation_id = event_correlation_id
+
+
+class ReplicationProtectionCluster(_serialization.Model):
+    """Replication protection Cluster.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: The Id.
+    :vartype id: str
+    :ivar name: The name.
+    :vartype name: str
+    :ivar type: The Type of the object.
+    :vartype type: str
+    :ivar properties: The custom data.
+    :vartype properties:
+     ~azure.mgmt.recoveryservicessiterecovery.models.ReplicationProtectionClusterProperties
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "properties": {"key": "properties", "type": "ReplicationProtectionClusterProperties"},
+    }
+
+    def __init__(
+        self, *, properties: Optional["_models.ReplicationProtectionClusterProperties"] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword properties: The custom data.
+        :paramtype properties:
+         ~azure.mgmt.recoveryservicessiterecovery.models.ReplicationProtectionClusterProperties
+        """
+        super().__init__(**kwargs)
+        self.id = None
+        self.name = None
+        self.type = None
+        self.properties = properties
+
+
+class ReplicationProtectionClusterCollection(_serialization.Model):
+    """Replication protected item collection.
+
+    :ivar value: The Replication protection cluster details.
+    :vartype value:
+     list[~azure.mgmt.recoveryservicessiterecovery.models.ReplicationProtectionCluster]
+    :ivar next_link: The value of next link.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[ReplicationProtectionCluster]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        value: Optional[List["_models.ReplicationProtectionCluster"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: The Replication protection cluster details.
+        :paramtype value:
+         list[~azure.mgmt.recoveryservicessiterecovery.models.ReplicationProtectionCluster]
+        :keyword next_link: The value of next link.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class ReplicationProtectionClusterProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+    """Replication protection cluster custom data details.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar protection_cluster_type: The type of protection cluster type.
+    :vartype protection_cluster_type: str
+    :ivar primary_fabric_friendly_name: The friendly name of the primary fabric.
+    :vartype primary_fabric_friendly_name: str
+    :ivar primary_fabric_provider: The fabric provider of the primary fabric.
+    :vartype primary_fabric_provider: str
+    :ivar recovery_fabric_friendly_name: The friendly name of recovery fabric.
+    :vartype recovery_fabric_friendly_name: str
+    :ivar recovery_fabric_id: The Arm Id of recovery fabric.
+    :vartype recovery_fabric_id: str
+    :ivar primary_protection_container_friendly_name: The name of primary protection container
+     friendly name.
+    :vartype primary_protection_container_friendly_name: str
+    :ivar recovery_protection_container_friendly_name: The name of recovery container friendly
+     name.
+    :vartype recovery_protection_container_friendly_name: str
+    :ivar protection_state: The protection status.
+    :vartype protection_state: str
+    :ivar protection_state_description: The protection state description.
+    :vartype protection_state_description: str
+    :ivar active_location: The Current active location of the Protection cluster.
+    :vartype active_location: str
+    :ivar test_failover_state: The Test failover state.
+    :vartype test_failover_state: str
+    :ivar test_failover_state_description: The Test failover state description.
+    :vartype test_failover_state_description: str
+    :ivar allowed_operations: The allowed operations on the Replication protection cluster.
+    :vartype allowed_operations: list[str]
+    :ivar replication_health: The consolidated protection health for the VM taking any issues with
+     SRS as well as all the replication units associated with the VM's replication group into
+     account. This is a string representation of the ProtectionHealth enumeration.
+    :vartype replication_health: str
+    :ivar health_errors: List of health errors.
+    :vartype health_errors: list[~azure.mgmt.recoveryservicessiterecovery.models.HealthError]
+    :ivar last_successful_failover_time: The last successful failover time.
+    :vartype last_successful_failover_time: ~datetime.datetime
+    :ivar last_successful_test_failover_time: The last successful test failover time.
+    :vartype last_successful_test_failover_time: ~datetime.datetime
+    :ivar policy_friendly_name: The name of Policy governing this PE.
+    :vartype policy_friendly_name: str
+    :ivar current_scenario: The current scenario.
+    :vartype current_scenario:
+     ~azure.mgmt.recoveryservicessiterecovery.models.CurrentScenarioDetails
+    :ivar recovery_container_id: The recovery container Id.
+    :vartype recovery_container_id: str
+    :ivar agent_cluster_id: The Agent cluster Id.
+    :vartype agent_cluster_id: str
+    :ivar cluster_fqdn: The cluster FQDN.
+    :vartype cluster_fqdn: str
+    :ivar cluster_node_fqdns: The List of cluster Node FQDNs.
+    :vartype cluster_node_fqdns: list[str]
+    :ivar cluster_protected_item_ids: The List of Protected Item Id's.
+    :vartype cluster_protected_item_ids: list[str]
+    :ivar provisioning_state: The provisioning state of the cluster.
+    :vartype provisioning_state: str
+    :ivar are_all_cluster_nodes_registered: A value indicating whether all nodes of the cluster are
+     registered or not.
+    :vartype are_all_cluster_nodes_registered: bool
+    :ivar cluster_registered_nodes: The registered node details.
+    :vartype cluster_registered_nodes:
+     list[~azure.mgmt.recoveryservicessiterecovery.models.RegisteredClusterNodes]
+    :ivar provider_specific_details: The Replication cluster provider custom settings.
+    :vartype provider_specific_details:
+     ~azure.mgmt.recoveryservicessiterecovery.models.ReplicationClusterProviderSpecificSettings
+    :ivar shared_disk_properties: The shared disk properties.
+    :vartype shared_disk_properties:
+     ~azure.mgmt.recoveryservicessiterecovery.models.SharedDiskReplicationItemProperties
+    :ivar policy_id: The Policy Id.
+    :vartype policy_id: str
+    """
+
+    _validation = {
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "protection_cluster_type": {"key": "protectionClusterType", "type": "str"},
+        "primary_fabric_friendly_name": {"key": "primaryFabricFriendlyName", "type": "str"},
+        "primary_fabric_provider": {"key": "primaryFabricProvider", "type": "str"},
+        "recovery_fabric_friendly_name": {"key": "recoveryFabricFriendlyName", "type": "str"},
+        "recovery_fabric_id": {"key": "recoveryFabricId", "type": "str"},
+        "primary_protection_container_friendly_name": {"key": "primaryProtectionContainerFriendlyName", "type": "str"},
+        "recovery_protection_container_friendly_name": {
+            "key": "recoveryProtectionContainerFriendlyName",
+            "type": "str",
+        },
+        "protection_state": {"key": "protectionState", "type": "str"},
+        "protection_state_description": {"key": "protectionStateDescription", "type": "str"},
+        "active_location": {"key": "activeLocation", "type": "str"},
+        "test_failover_state": {"key": "testFailoverState", "type": "str"},
+        "test_failover_state_description": {"key": "testFailoverStateDescription", "type": "str"},
+        "allowed_operations": {"key": "allowedOperations", "type": "[str]"},
+        "replication_health": {"key": "replicationHealth", "type": "str"},
+        "health_errors": {"key": "healthErrors", "type": "[HealthError]"},
+        "last_successful_failover_time": {"key": "lastSuccessfulFailoverTime", "type": "iso-8601"},
+        "last_successful_test_failover_time": {"key": "lastSuccessfulTestFailoverTime", "type": "iso-8601"},
+        "policy_friendly_name": {"key": "policyFriendlyName", "type": "str"},
+        "current_scenario": {"key": "currentScenario", "type": "CurrentScenarioDetails"},
+        "recovery_container_id": {"key": "recoveryContainerId", "type": "str"},
+        "agent_cluster_id": {"key": "agentClusterId", "type": "str"},
+        "cluster_fqdn": {"key": "clusterFqdn", "type": "str"},
+        "cluster_node_fqdns": {"key": "clusterNodeFqdns", "type": "[str]"},
+        "cluster_protected_item_ids": {"key": "clusterProtectedItemIds", "type": "[str]"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+        "are_all_cluster_nodes_registered": {"key": "areAllClusterNodesRegistered", "type": "bool"},
+        "cluster_registered_nodes": {"key": "clusterRegisteredNodes", "type": "[RegisteredClusterNodes]"},
+        "provider_specific_details": {
+            "key": "providerSpecificDetails",
+            "type": "ReplicationClusterProviderSpecificSettings",
+        },
+        "shared_disk_properties": {"key": "sharedDiskProperties", "type": "SharedDiskReplicationItemProperties"},
+        "policy_id": {"key": "policyId", "type": "str"},
+    }
+
+    def __init__(  # pylint: disable=too-many-locals
+        self,
+        *,
+        protection_cluster_type: Optional[str] = None,
+        primary_fabric_friendly_name: Optional[str] = None,
+        primary_fabric_provider: Optional[str] = None,
+        recovery_fabric_friendly_name: Optional[str] = None,
+        recovery_fabric_id: Optional[str] = None,
+        primary_protection_container_friendly_name: Optional[str] = None,
+        recovery_protection_container_friendly_name: Optional[str] = None,
+        protection_state: Optional[str] = None,
+        protection_state_description: Optional[str] = None,
+        active_location: Optional[str] = None,
+        test_failover_state: Optional[str] = None,
+        test_failover_state_description: Optional[str] = None,
+        allowed_operations: Optional[List[str]] = None,
+        replication_health: Optional[str] = None,
+        health_errors: Optional[List["_models.HealthError"]] = None,
+        last_successful_failover_time: Optional[datetime.datetime] = None,
+        last_successful_test_failover_time: Optional[datetime.datetime] = None,
+        policy_friendly_name: Optional[str] = None,
+        current_scenario: Optional["_models.CurrentScenarioDetails"] = None,
+        recovery_container_id: Optional[str] = None,
+        agent_cluster_id: Optional[str] = None,
+        cluster_fqdn: Optional[str] = None,
+        cluster_node_fqdns: Optional[List[str]] = None,
+        cluster_protected_item_ids: Optional[List[str]] = None,
+        are_all_cluster_nodes_registered: Optional[bool] = None,
+        cluster_registered_nodes: Optional[List["_models.RegisteredClusterNodes"]] = None,
+        provider_specific_details: Optional["_models.ReplicationClusterProviderSpecificSettings"] = None,
+        shared_disk_properties: Optional["_models.SharedDiskReplicationItemProperties"] = None,
+        policy_id: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword protection_cluster_type: The type of protection cluster type.
+        :paramtype protection_cluster_type: str
+        :keyword primary_fabric_friendly_name: The friendly name of the primary fabric.
+        :paramtype primary_fabric_friendly_name: str
+        :keyword primary_fabric_provider: The fabric provider of the primary fabric.
+        :paramtype primary_fabric_provider: str
+        :keyword recovery_fabric_friendly_name: The friendly name of recovery fabric.
+        :paramtype recovery_fabric_friendly_name: str
+        :keyword recovery_fabric_id: The Arm Id of recovery fabric.
+        :paramtype recovery_fabric_id: str
+        :keyword primary_protection_container_friendly_name: The name of primary protection container
+         friendly name.
+        :paramtype primary_protection_container_friendly_name: str
+        :keyword recovery_protection_container_friendly_name: The name of recovery container friendly
+         name.
+        :paramtype recovery_protection_container_friendly_name: str
+        :keyword protection_state: The protection status.
+        :paramtype protection_state: str
+        :keyword protection_state_description: The protection state description.
+        :paramtype protection_state_description: str
+        :keyword active_location: The Current active location of the Protection cluster.
+        :paramtype active_location: str
+        :keyword test_failover_state: The Test failover state.
+        :paramtype test_failover_state: str
+        :keyword test_failover_state_description: The Test failover state description.
+        :paramtype test_failover_state_description: str
+        :keyword allowed_operations: The allowed operations on the Replication protection cluster.
+        :paramtype allowed_operations: list[str]
+        :keyword replication_health: The consolidated protection health for the VM taking any issues
+         with SRS as well as all the replication units associated with the VM's replication group into
+         account. This is a string representation of the ProtectionHealth enumeration.
+        :paramtype replication_health: str
+        :keyword health_errors: List of health errors.
+        :paramtype health_errors: list[~azure.mgmt.recoveryservicessiterecovery.models.HealthError]
+        :keyword last_successful_failover_time: The last successful failover time.
+        :paramtype last_successful_failover_time: ~datetime.datetime
+        :keyword last_successful_test_failover_time: The last successful test failover time.
+        :paramtype last_successful_test_failover_time: ~datetime.datetime
+        :keyword policy_friendly_name: The name of Policy governing this PE.
+        :paramtype policy_friendly_name: str
+        :keyword current_scenario: The current scenario.
+        :paramtype current_scenario:
+         ~azure.mgmt.recoveryservicessiterecovery.models.CurrentScenarioDetails
+        :keyword recovery_container_id: The recovery container Id.
+        :paramtype recovery_container_id: str
+        :keyword agent_cluster_id: The Agent cluster Id.
+        :paramtype agent_cluster_id: str
+        :keyword cluster_fqdn: The cluster FQDN.
+        :paramtype cluster_fqdn: str
+        :keyword cluster_node_fqdns: The List of cluster Node FQDNs.
+        :paramtype cluster_node_fqdns: list[str]
+        :keyword cluster_protected_item_ids: The List of Protected Item Id's.
+        :paramtype cluster_protected_item_ids: list[str]
+        :keyword are_all_cluster_nodes_registered: A value indicating whether all nodes of the cluster
+         are registered or not.
+        :paramtype are_all_cluster_nodes_registered: bool
+        :keyword cluster_registered_nodes: The registered node details.
+        :paramtype cluster_registered_nodes:
+         list[~azure.mgmt.recoveryservicessiterecovery.models.RegisteredClusterNodes]
+        :keyword provider_specific_details: The Replication cluster provider custom settings.
+        :paramtype provider_specific_details:
+         ~azure.mgmt.recoveryservicessiterecovery.models.ReplicationClusterProviderSpecificSettings
+        :keyword shared_disk_properties: The shared disk properties.
+        :paramtype shared_disk_properties:
+         ~azure.mgmt.recoveryservicessiterecovery.models.SharedDiskReplicationItemProperties
+        :keyword policy_id: The Policy Id.
+        :paramtype policy_id: str
+        """
+        super().__init__(**kwargs)
+        self.protection_cluster_type = protection_cluster_type
+        self.primary_fabric_friendly_name = primary_fabric_friendly_name
+        self.primary_fabric_provider = primary_fabric_provider
+        self.recovery_fabric_friendly_name = recovery_fabric_friendly_name
+        self.recovery_fabric_id = recovery_fabric_id
+        self.primary_protection_container_friendly_name = primary_protection_container_friendly_name
+        self.recovery_protection_container_friendly_name = recovery_protection_container_friendly_name
+        self.protection_state = protection_state
+        self.protection_state_description = protection_state_description
+        self.active_location = active_location
+        self.test_failover_state = test_failover_state
+        self.test_failover_state_description = test_failover_state_description
+        self.allowed_operations = allowed_operations
+        self.replication_health = replication_health
+        self.health_errors = health_errors
+        self.last_successful_failover_time = last_successful_failover_time
+        self.last_successful_test_failover_time = last_successful_test_failover_time
+        self.policy_friendly_name = policy_friendly_name
+        self.current_scenario = current_scenario
+        self.recovery_container_id = recovery_container_id
+        self.agent_cluster_id = agent_cluster_id
+        self.cluster_fqdn = cluster_fqdn
+        self.cluster_node_fqdns = cluster_node_fqdns
+        self.cluster_protected_item_ids = cluster_protected_item_ids
+        self.provisioning_state = None
+        self.are_all_cluster_nodes_registered = are_all_cluster_nodes_registered
+        self.cluster_registered_nodes = cluster_registered_nodes
+        self.provider_specific_details = provider_specific_details
+        self.shared_disk_properties = shared_disk_properties
+        self.policy_id = policy_id
 
 
 class ReplicationProtectionIntent(Resource):
@@ -24596,6 +26431,70 @@ class ScriptActionTaskDetails(TaskTypeDetails):
         self.is_primary_side_script = is_primary_side_script
 
 
+class ServiceDefaultError(_serialization.Model):
+    """The resource management error response.
+
+    :ivar error: ASR error model.
+    :vartype error: ~azure.mgmt.recoveryservicessiterecovery.models.ServiceDefaultErrorError
+    """
+
+    _attribute_map = {
+        "error": {"key": "error", "type": "ServiceDefaultErrorError"},
+    }
+
+    def __init__(self, *, error: Optional["_models.ServiceDefaultErrorError"] = None, **kwargs: Any) -> None:
+        """
+        :keyword error: ASR error model.
+        :paramtype error: ~azure.mgmt.recoveryservicessiterecovery.models.ServiceDefaultErrorError
+        """
+        super().__init__(**kwargs)
+        self.error = error
+
+
+class ServiceDefaultErrorError(_serialization.Model):
+    """ASR error model.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar code: The error code.
+    :vartype code: str
+    :ivar message: The error message.
+    :vartype message: str
+    :ivar target: The error target.
+    :vartype target: str
+    :ivar details: The error details.
+    :vartype details: list[~azure.mgmt.recoveryservicessiterecovery.models.ServiceDefaultError]
+    :ivar additional_info: The error additional info.
+    :vartype additional_info:
+     list[~azure.mgmt.recoveryservicessiterecovery.models.ErrorAdditionalInfo]
+    """
+
+    _validation = {
+        "code": {"readonly": True},
+        "message": {"readonly": True},
+        "target": {"readonly": True},
+        "details": {"readonly": True},
+        "additional_info": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "code": {"key": "code", "type": "str"},
+        "message": {"key": "message", "type": "str"},
+        "target": {"key": "target", "type": "str"},
+        "details": {"key": "details", "type": "[ServiceDefaultError]"},
+        "additional_info": {"key": "additionalInfo", "type": "[ErrorAdditionalInfo]"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.code = None
+        self.message = None
+        self.target = None
+        self.details = None
+        self.additional_info = None
+
+
 class ServiceError(_serialization.Model):
     """ASR error model.
 
@@ -24647,6 +26546,91 @@ class ServiceError(_serialization.Model):
         self.possible_causes = possible_causes
         self.recommended_action = recommended_action
         self.activity_id = activity_id
+
+
+class SharedDiskReplicationItemProperties(_serialization.Model):
+    """Shared Disk Replication item custom data details.
+
+    :ivar protection_state: The protection state of shared disk.
+    :vartype protection_state: str
+    :ivar test_failover_state: The tfo state of shared disk.
+    :vartype test_failover_state: str
+    :ivar active_location: The Current active location of the PE.
+    :vartype active_location: str
+    :ivar allowed_operations: The allowed operations on the Replication protected item.
+    :vartype allowed_operations: list[str]
+    :ivar replication_health: The consolidated protection health for the VM taking any issues with
+     SRS as well as all the replication units associated with the VM's replication group into
+     account. This is a string representation of the ProtectionHealth enumeration.
+    :vartype replication_health: str
+    :ivar health_errors: List of health errors.
+    :vartype health_errors: list[~azure.mgmt.recoveryservicessiterecovery.models.HealthError]
+    :ivar current_scenario: The current scenario.
+    :vartype current_scenario:
+     ~azure.mgmt.recoveryservicessiterecovery.models.CurrentScenarioDetails
+    :ivar shared_disk_provider_specific_details: The Replication provider custom settings.
+    :vartype shared_disk_provider_specific_details:
+     ~azure.mgmt.recoveryservicessiterecovery.models.SharedDiskReplicationProviderSpecificSettings
+    """
+
+    _attribute_map = {
+        "protection_state": {"key": "protectionState", "type": "str"},
+        "test_failover_state": {"key": "testFailoverState", "type": "str"},
+        "active_location": {"key": "activeLocation", "type": "str"},
+        "allowed_operations": {"key": "allowedOperations", "type": "[str]"},
+        "replication_health": {"key": "replicationHealth", "type": "str"},
+        "health_errors": {"key": "healthErrors", "type": "[HealthError]"},
+        "current_scenario": {"key": "currentScenario", "type": "CurrentScenarioDetails"},
+        "shared_disk_provider_specific_details": {
+            "key": "sharedDiskProviderSpecificDetails",
+            "type": "SharedDiskReplicationProviderSpecificSettings",
+        },
+    }
+
+    def __init__(
+        self,
+        *,
+        protection_state: Optional[str] = None,
+        test_failover_state: Optional[str] = None,
+        active_location: Optional[str] = None,
+        allowed_operations: Optional[List[str]] = None,
+        replication_health: Optional[str] = None,
+        health_errors: Optional[List["_models.HealthError"]] = None,
+        current_scenario: Optional["_models.CurrentScenarioDetails"] = None,
+        shared_disk_provider_specific_details: Optional["_models.SharedDiskReplicationProviderSpecificSettings"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword protection_state: The protection state of shared disk.
+        :paramtype protection_state: str
+        :keyword test_failover_state: The tfo state of shared disk.
+        :paramtype test_failover_state: str
+        :keyword active_location: The Current active location of the PE.
+        :paramtype active_location: str
+        :keyword allowed_operations: The allowed operations on the Replication protected item.
+        :paramtype allowed_operations: list[str]
+        :keyword replication_health: The consolidated protection health for the VM taking any issues
+         with SRS as well as all the replication units associated with the VM's replication group into
+         account. This is a string representation of the ProtectionHealth enumeration.
+        :paramtype replication_health: str
+        :keyword health_errors: List of health errors.
+        :paramtype health_errors: list[~azure.mgmt.recoveryservicessiterecovery.models.HealthError]
+        :keyword current_scenario: The current scenario.
+        :paramtype current_scenario:
+         ~azure.mgmt.recoveryservicessiterecovery.models.CurrentScenarioDetails
+        :keyword shared_disk_provider_specific_details: The Replication provider custom settings.
+        :paramtype shared_disk_provider_specific_details:
+         ~azure.mgmt.recoveryservicessiterecovery.models.SharedDiskReplicationProviderSpecificSettings
+        """
+        super().__init__(**kwargs)
+        self.protection_state = protection_state
+        self.test_failover_state = test_failover_state
+        self.active_location = active_location
+        self.allowed_operations = allowed_operations
+        self.replication_health = replication_health
+        self.health_errors = health_errors
+        self.current_scenario = current_scenario
+        self.shared_disk_provider_specific_details = shared_disk_provider_specific_details
 
 
 class StorageClassification(Resource):
@@ -25078,6 +27062,67 @@ class SupportedOSProperty(_serialization.Model):
         super().__init__(**kwargs)
         self.instance_type = instance_type
         self.supported_os = supported_os
+
+
+class SwitchClusterProtectionInput(_serialization.Model):
+    """Switch cluster protection input.
+
+    :ivar properties: Switch cluster protection properties.
+    :vartype properties:
+     ~azure.mgmt.recoveryservicessiterecovery.models.SwitchClusterProtectionInputProperties
+    """
+
+    _attribute_map = {
+        "properties": {"key": "properties", "type": "SwitchClusterProtectionInputProperties"},
+    }
+
+    def __init__(
+        self, *, properties: Optional["_models.SwitchClusterProtectionInputProperties"] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword properties: Switch cluster protection properties.
+        :paramtype properties:
+         ~azure.mgmt.recoveryservicessiterecovery.models.SwitchClusterProtectionInputProperties
+        """
+        super().__init__(**kwargs)
+        self.properties = properties
+
+
+class SwitchClusterProtectionInputProperties(_serialization.Model):
+    """Switch cluster protection input properties.
+
+    :ivar replication_protection_cluster_name: The unique replication protection cluster name.
+    :vartype replication_protection_cluster_name: str
+    :ivar provider_specific_details: Provider specific switch protection input.
+    :vartype provider_specific_details:
+     ~azure.mgmt.recoveryservicessiterecovery.models.SwitchClusterProtectionProviderSpecificInput
+    """
+
+    _attribute_map = {
+        "replication_protection_cluster_name": {"key": "replicationProtectionClusterName", "type": "str"},
+        "provider_specific_details": {
+            "key": "providerSpecificDetails",
+            "type": "SwitchClusterProtectionProviderSpecificInput",
+        },
+    }
+
+    def __init__(
+        self,
+        *,
+        replication_protection_cluster_name: Optional[str] = None,
+        provider_specific_details: Optional["_models.SwitchClusterProtectionProviderSpecificInput"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword replication_protection_cluster_name: The unique replication protection cluster name.
+        :paramtype replication_protection_cluster_name: str
+        :keyword provider_specific_details: Provider specific switch protection input.
+        :paramtype provider_specific_details:
+         ~azure.mgmt.recoveryservicessiterecovery.models.SwitchClusterProtectionProviderSpecificInput
+        """
+        super().__init__(**kwargs)
+        self.replication_protection_cluster_name = replication_protection_cluster_name
+        self.provider_specific_details = provider_specific_details
 
 
 class SwitchProtectionInput(_serialization.Model):
