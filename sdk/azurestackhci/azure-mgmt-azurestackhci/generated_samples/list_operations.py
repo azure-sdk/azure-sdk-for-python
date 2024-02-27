@@ -30,10 +30,9 @@ def main():
     )
 
     response = client.operations.list()
-    for item in response:
-        print(item)
+    print(response)
 
 
-# x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/preview/2023-09-01-preview/examples/ListOperations.json
+# x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2024-01-01/examples/ListOperations.json
 if __name__ == "__main__":
     main()
