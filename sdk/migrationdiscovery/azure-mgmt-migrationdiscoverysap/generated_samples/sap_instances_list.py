@@ -7,14 +7,14 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
-from azure.mgmt.workloads import WorkloadsMgmtClient
+from azure.mgmt.migrationdiscoverysap import MigrationDiscoverySapClient
 
 """
 # PREREQUISITES
     pip install azure-identity
-    pip install azure-mgmt-workloads
+    pip install azure-mgmt-migrationdiscoverysap
 # USAGE
-    python sap_landscape_monitor_delete.py
+    python sap_instances_list.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -24,18 +24,19 @@ from azure.mgmt.workloads import WorkloadsMgmtClient
 
 
 def main():
-    client = WorkloadsMgmtClient(
+    client = MigrationDiscoverySapClient(
         credential=DefaultAzureCredential(),
-        subscription_id="00000000-0000-0000-0000-000000000000",
+        subscription_id="6d875e77-e412-4d7d-9af4-8895278b4443",
     )
 
-    response = client.sap_landscape_monitor.delete(
-        resource_group_name="myResourceGroup",
-        monitor_name="mySapMonitor",
+    response = client.sap_instances.list_by_sap_discovery_site(
+        resource_group_name="test-rg",
+        sap_discovery_site_name="SampleSite",
     )
-    print(response)
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/workloadmonitor/SapLandscapeMonitor_Delete.json
+# x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPDiscoverySites/preview/2023-10-01-preview/examples/SAPInstances_List.json
 if __name__ == "__main__":
     main()
