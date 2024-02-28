@@ -9,6 +9,7 @@
 from ._models import AddressValue
 from ._models import AnalyzeDocumentRequest
 from ._models import AnalyzeResult
+from ._models import AnalyzeResultOperation
 from ._models import AuthorizeCopyRequest
 from ._models import AzureBlobContentSource
 from ._models import AzureBlobFileListContentSource
@@ -85,6 +86,7 @@ __all__ = [
     "AddressValue",
     "AnalyzeDocumentRequest",
     "AnalyzeResult",
+    "AnalyzeResultOperation",
     "AuthorizeCopyRequest",
     "AzureBlobContentSource",
     "AzureBlobFileListContentSource",
