@@ -7,7 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
-from azure.mgmt.scvmm import SCVMM
+from azure.mgmt.scvmm import ScVmmMgmtClient
 
 """
 # PREREQUISITES
@@ -24,7 +24,7 @@ from azure.mgmt.scvmm import SCVMM
 
 
 def main():
-    client = SCVMM(
+    client = ScVmmMgmtClient(
         credential=DefaultAzureCredential(),
         subscription_id="fd3c3665-1729-4b7b-9a38-238e83b0f98b",
     )
@@ -32,11 +32,11 @@ def main():
     response = client.inventory_items.get(
         resource_group_name="testrg",
         vmm_server_name="ContosoVMMServer",
-        inventory_item_name="12345678-1234-1234-1234-123456789abc",
+        inventory_item_resource_name="12345678-1234-1234-1234-123456789abc",
     )
     print(response)
 
 
-# x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/preview/2020-06-05-preview/examples/GetInventoryItem.json
+# x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/GetInventoryItem.json
 if __name__ == "__main__":
     main()
