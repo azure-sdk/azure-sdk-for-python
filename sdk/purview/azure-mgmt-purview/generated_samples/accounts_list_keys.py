@@ -36,6 +36,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/stable/2021-07-01/examples/Accounts_ListKeys.json
+# x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/preview/2023-05-01-preview/examples/Accounts_ListKeys.json
 if __name__ == "__main__":
     main()

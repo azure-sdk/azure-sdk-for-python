@@ -278,10 +278,14 @@ class RollingUpgradeMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class SecurityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Specifies the security type of the nodeType. Only TrustedLaunch is currently supported."""
+    """Specifies the security type of the nodeType. Only Standard and TrustedLaunch are currently
+    supported.
+    """
 
     TRUSTED_LAUNCH = "TrustedLaunch"
     """Trusted Launch is a security type that secures generation 2 virtual machines."""
+    STANDARD = "Standard"
+    """Standard is the default security type for all machines."""
 
 
 class ServiceCorrelationScheme(str, Enum, metaclass=CaseInsensitiveEnumMeta):
