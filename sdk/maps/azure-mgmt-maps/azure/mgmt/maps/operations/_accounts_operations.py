@@ -43,7 +43,7 @@ def build_create_or_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -53,11 +53,18 @@ def build_create_or_update_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
-        "accountName": _SERIALIZER.url("account_name", account_name, "str"),
+        "accountName": _SERIALIZER.url(
+            "account_name",
+            account_name,
+            "str",
+            max_length=98,
+            min_length=3,
+            pattern=r"^[a-zA-Z][a-zA-Z0-9-]{3,98}[a-zA-Z0-9]$",
+        ),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -79,7 +86,7 @@ def build_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -89,11 +96,18 @@ def build_update_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
-        "accountName": _SERIALIZER.url("account_name", account_name, "str"),
+        "accountName": _SERIALIZER.url(
+            "account_name",
+            account_name,
+            "str",
+            max_length=98,
+            min_length=3,
+            pattern=r"^[a-zA-Z][a-zA-Z0-9-]{3,98}[a-zA-Z0-9]$",
+        ),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -115,7 +129,7 @@ def build_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -124,11 +138,18 @@ def build_delete_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
-        "accountName": _SERIALIZER.url("account_name", account_name, "str"),
+        "accountName": _SERIALIZER.url(
+            "account_name",
+            account_name,
+            "str",
+            max_length=98,
+            min_length=3,
+            pattern=r"^[a-zA-Z][a-zA-Z0-9-]{3,98}[a-zA-Z0-9]$",
+        ),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -146,7 +167,7 @@ def build_get_request(resource_group_name: str, account_name: str, subscription_
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -155,11 +176,18 @@ def build_get_request(resource_group_name: str, account_name: str, subscription_
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
-        "accountName": _SERIALIZER.url("account_name", account_name, "str"),
+        "accountName": _SERIALIZER.url(
+            "account_name",
+            account_name,
+            "str",
+            max_length=98,
+            min_length=3,
+            pattern=r"^[a-zA-Z][a-zA-Z0-9-]{3,98}[a-zA-Z0-9]$",
+        ),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -177,7 +205,7 @@ def build_list_by_resource_group_request(resource_group_name: str, subscription_
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -186,7 +214,7 @@ def build_list_by_resource_group_request(resource_group_name: str, subscription_
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
@@ -207,13 +235,13 @@ def build_list_by_subscription_request(subscription_id: str, **kwargs: Any) -> H
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
     _url = kwargs.pop("template_url", "/subscriptions/{subscriptionId}/providers/Microsoft.Maps/accounts")
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -233,7 +261,7 @@ def build_list_sas_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -243,11 +271,18 @@ def build_list_sas_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/listSas",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
-        "accountName": _SERIALIZER.url("account_name", account_name, "str"),
+        "accountName": _SERIALIZER.url(
+            "account_name",
+            account_name,
+            "str",
+            max_length=98,
+            min_length=3,
+            pattern=r"^[a-zA-Z][a-zA-Z0-9-]{3,98}[a-zA-Z0-9]$",
+        ),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -269,7 +304,7 @@ def build_list_keys_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -278,11 +313,18 @@ def build_list_keys_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/listKeys",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
-        "accountName": _SERIALIZER.url("account_name", account_name, "str"),
+        "accountName": _SERIALIZER.url(
+            "account_name",
+            account_name,
+            "str",
+            max_length=98,
+            min_length=3,
+            pattern=r"^[a-zA-Z][a-zA-Z0-9-]{3,98}[a-zA-Z0-9]$",
+        ),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -302,7 +344,7 @@ def build_regenerate_keys_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-06-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -312,11 +354,18 @@ def build_regenerate_keys_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/regenerateKey",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
-        "accountName": _SERIALIZER.url("account_name", account_name, "str"),
+        "accountName": _SERIALIZER.url(
+            "account_name",
+            account_name,
+            "str",
+            max_length=98,
+            min_length=3,
+            pattern=r"^[a-zA-Z][a-zA-Z0-9-]{3,98}[a-zA-Z0-9]$",
+        ),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -953,7 +1002,7 @@ class AccountsOperations:
 
         #. Create or have an existing User Assigned Managed Identity in the same Azure region as the
         account.
-        #. Create or update an Azure Map account with the same Azure region as the User Assigned
+        #. Create or update an Azure Maps account with the same Azure region as the User Assigned
         Managed Identity is placed.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -990,7 +1039,7 @@ class AccountsOperations:
 
         #. Create or have an existing User Assigned Managed Identity in the same Azure region as the
         account.
-        #. Create or update an Azure Map account with the same Azure region as the User Assigned
+        #. Create or update an Azure Maps account with the same Azure region as the User Assigned
         Managed Identity is placed.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -1025,7 +1074,7 @@ class AccountsOperations:
 
         #. Create or have an existing User Assigned Managed Identity in the same Azure region as the
         account.
-        #. Create or update an Azure Map account with the same Azure region as the User Assigned
+        #. Create or update an Azure Maps account with the same Azure region as the User Assigned
         Managed Identity is placed.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
