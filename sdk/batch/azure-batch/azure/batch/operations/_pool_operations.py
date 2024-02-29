@@ -39,7 +39,8 @@ class PoolOperations(object):
         self.config = config
 
     def list_usage_metrics(
-            self, pool_list_usage_metrics_options=None, custom_headers=None, raw=False, **operation_config):
+        self, pool_list_usage_metrics_options=None, custom_headers=None, raw=False, **operation_config
+    ):
         """Lists the usage metrics, aggregated by Pool across individual time
         intervals, for the specified Account.
 
@@ -93,25 +94,29 @@ class PoolOperations(object):
         def prepare_request(next_link=None):
             if not next_link:
                 # Construct URL
-                url = self.list_usage_metrics.metadata['url']
+                url = self.list_usage_metrics.metadata["url"]
                 path_format_arguments = {
-                    'batchUrl': self._serialize.url("self.config.batch_url", self.config.batch_url, 'str', skip_quote=True)
+                    "batchUrl": self._serialize.url(
+                        "self.config.batch_url", self.config.batch_url, "str", skip_quote=True
+                    )
                 }
                 url = self._client.format_url(url, **path_format_arguments)
 
                 # Construct parameters
                 query_parameters = {}
-                query_parameters['api-version'] = self._serialize.query("self.api_version", self.api_version, 'str')
+                query_parameters["api-version"] = self._serialize.query("self.api_version", self.api_version, "str")
                 if start_time is not None:
-                    query_parameters['starttime'] = self._serialize.query("start_time", start_time, 'iso-8601')
+                    query_parameters["starttime"] = self._serialize.query("start_time", start_time, "iso-8601")
                 if end_time is not None:
-                    query_parameters['endtime'] = self._serialize.query("end_time", end_time, 'iso-8601')
+                    query_parameters["endtime"] = self._serialize.query("end_time", end_time, "iso-8601")
                 if filter is not None:
-                    query_parameters['$filter'] = self._serialize.query("filter", filter, 'str')
+                    query_parameters["$filter"] = self._serialize.query("filter", filter, "str")
                 if max_results is not None:
-                    query_parameters['maxresults'] = self._serialize.query("max_results", max_results, 'int', maximum=1000, minimum=1)
+                    query_parameters["maxresults"] = self._serialize.query(
+                        "max_results", max_results, "int", maximum=1000, minimum=1
+                    )
                 if timeout is not None:
-                    query_parameters['timeout'] = self._serialize.query("timeout", timeout, 'int')
+                    query_parameters["timeout"] = self._serialize.query("timeout", timeout, "int")
 
             else:
                 url = next_link
@@ -119,19 +124,25 @@ class PoolOperations(object):
 
             # Construct headers
             header_parameters = {}
-            header_parameters['Accept'] = 'application/json'
+            header_parameters["Accept"] = "application/json"
             if self.config.generate_client_request_id:
-                header_parameters['client-request-id'] = str(uuid.uuid1())
+                header_parameters["client-request-id"] = str(uuid.uuid1())
             if custom_headers:
                 header_parameters.update(custom_headers)
             if self.config.accept_language is not None:
-                header_parameters['accept-language'] = self._serialize.header("self.config.accept_language", self.config.accept_language, 'str')
+                header_parameters["accept-language"] = self._serialize.header(
+                    "self.config.accept_language", self.config.accept_language, "str"
+                )
             if client_request_id is not None:
-                header_parameters['client-request-id'] = self._serialize.header("client_request_id", client_request_id, 'str')
+                header_parameters["client-request-id"] = self._serialize.header(
+                    "client_request_id", client_request_id, "str"
+                )
             if return_client_request_id is not None:
-                header_parameters['return-client-request-id'] = self._serialize.header("return_client_request_id", return_client_request_id, 'bool')
+                header_parameters["return-client-request-id"] = self._serialize.header(
+                    "return_client_request_id", return_client_request_id, "bool"
+                )
             if ocp_date is not None:
-                header_parameters['ocp-date'] = self._serialize.header("ocp_date", ocp_date, 'rfc-1123')
+                header_parameters["ocp-date"] = self._serialize.header("ocp_date", ocp_date, "rfc-1123")
 
             # Construct and send request
             request = self._client.get(url, query_parameters, header_parameters)
@@ -154,10 +165,10 @@ class PoolOperations(object):
         deserialized = models.PoolUsageMetricsPaged(internal_paging, self._deserialize.dependencies, header_dict)
 
         return deserialized
-    list_usage_metrics.metadata = {'url': '/poolusagemetrics'}
 
-    def add(
-            self, pool, pool_add_options=None, custom_headers=None, raw=False, **operation_config):
+    list_usage_metrics.metadata = {"url": "/poolusagemetrics"}
+
+    def add(self, pool, pool_add_options=None, custom_headers=None, raw=False, **operation_config):
         """Adds a Pool to the specified Account.
 
         When naming Pools, avoid including sensitive information such as user
@@ -192,36 +203,42 @@ class PoolOperations(object):
             ocp_date = pool_add_options.ocp_date
 
         # Construct URL
-        url = self.add.metadata['url']
+        url = self.add.metadata["url"]
         path_format_arguments = {
-            'batchUrl': self._serialize.url("self.config.batch_url", self.config.batch_url, 'str', skip_quote=True)
+            "batchUrl": self._serialize.url("self.config.batch_url", self.config.batch_url, "str", skip_quote=True)
         }
         url = self._client.format_url(url, **path_format_arguments)
 
         # Construct parameters
         query_parameters = {}
-        query_parameters['api-version'] = self._serialize.query("self.api_version", self.api_version, 'str')
+        query_parameters["api-version"] = self._serialize.query("self.api_version", self.api_version, "str")
         if timeout is not None:
-            query_parameters['timeout'] = self._serialize.query("timeout", timeout, 'int')
+            query_parameters["timeout"] = self._serialize.query("timeout", timeout, "int")
 
         # Construct headers
         header_parameters = {}
-        header_parameters['Content-Type'] = 'application/json; odata=minimalmetadata; charset=utf-8'
+        header_parameters["Content-Type"] = "application/json; odata=minimalmetadata; charset=utf-8"
         if self.config.generate_client_request_id:
-            header_parameters['client-request-id'] = str(uuid.uuid1())
+            header_parameters["client-request-id"] = str(uuid.uuid1())
         if custom_headers:
             header_parameters.update(custom_headers)
         if self.config.accept_language is not None:
-            header_parameters['accept-language'] = self._serialize.header("self.config.accept_language", self.config.accept_language, 'str')
+            header_parameters["accept-language"] = self._serialize.header(
+                "self.config.accept_language", self.config.accept_language, "str"
+            )
         if client_request_id is not None:
-            header_parameters['client-request-id'] = self._serialize.header("client_request_id", client_request_id, 'str')
+            header_parameters["client-request-id"] = self._serialize.header(
+                "client_request_id", client_request_id, "str"
+            )
         if return_client_request_id is not None:
-            header_parameters['return-client-request-id'] = self._serialize.header("return_client_request_id", return_client_request_id, 'bool')
+            header_parameters["return-client-request-id"] = self._serialize.header(
+                "return_client_request_id", return_client_request_id, "bool"
+            )
         if ocp_date is not None:
-            header_parameters['ocp-date'] = self._serialize.header("ocp_date", ocp_date, 'rfc-1123')
+            header_parameters["ocp-date"] = self._serialize.header("ocp_date", ocp_date, "rfc-1123")
 
         # Construct body
-        body_content = self._serialize.body(pool, 'PoolAddParameter')
+        body_content = self._serialize.body(pool, "PoolAddParameter")
 
         # Construct and send request
         request = self._client.post(url, query_parameters, header_parameters, body_content)
@@ -232,18 +249,20 @@ class PoolOperations(object):
 
         if raw:
             client_raw_response = ClientRawResponse(None, response)
-            client_raw_response.add_headers({
-                'client-request-id': 'str',
-                'request-id': 'str',
-                'ETag': 'str',
-                'Last-Modified': 'rfc-1123',
-                'DataServiceId': 'str',
-            })
+            client_raw_response.add_headers(
+                {
+                    "client-request-id": "str",
+                    "request-id": "str",
+                    "ETag": "str",
+                    "Last-Modified": "rfc-1123",
+                    "DataServiceId": "str",
+                }
+            )
             return client_raw_response
-    add.metadata = {'url': '/pools'}
 
-    def list(
-            self, pool_list_options=None, custom_headers=None, raw=False, **operation_config):
+    add.metadata = {"url": "/pools"}
+
+    def list(self, pool_list_options=None, custom_headers=None, raw=False, **operation_config):
         """Lists all of the Pools in the specified Account.
 
         :param pool_list_options: Additional parameters for the operation
@@ -287,25 +306,29 @@ class PoolOperations(object):
         def prepare_request(next_link=None):
             if not next_link:
                 # Construct URL
-                url = self.list.metadata['url']
+                url = self.list.metadata["url"]
                 path_format_arguments = {
-                    'batchUrl': self._serialize.url("self.config.batch_url", self.config.batch_url, 'str', skip_quote=True)
+                    "batchUrl": self._serialize.url(
+                        "self.config.batch_url", self.config.batch_url, "str", skip_quote=True
+                    )
                 }
                 url = self._client.format_url(url, **path_format_arguments)
 
                 # Construct parameters
                 query_parameters = {}
-                query_parameters['api-version'] = self._serialize.query("self.api_version", self.api_version, 'str')
+                query_parameters["api-version"] = self._serialize.query("self.api_version", self.api_version, "str")
                 if filter is not None:
-                    query_parameters['$filter'] = self._serialize.query("filter", filter, 'str')
+                    query_parameters["$filter"] = self._serialize.query("filter", filter, "str")
                 if select is not None:
-                    query_parameters['$select'] = self._serialize.query("select", select, 'str')
+                    query_parameters["$select"] = self._serialize.query("select", select, "str")
                 if expand is not None:
-                    query_parameters['$expand'] = self._serialize.query("expand", expand, 'str')
+                    query_parameters["$expand"] = self._serialize.query("expand", expand, "str")
                 if max_results is not None:
-                    query_parameters['maxresults'] = self._serialize.query("max_results", max_results, 'int', maximum=1000, minimum=1)
+                    query_parameters["maxresults"] = self._serialize.query(
+                        "max_results", max_results, "int", maximum=1000, minimum=1
+                    )
                 if timeout is not None:
-                    query_parameters['timeout'] = self._serialize.query("timeout", timeout, 'int')
+                    query_parameters["timeout"] = self._serialize.query("timeout", timeout, "int")
 
             else:
                 url = next_link
@@ -313,19 +336,25 @@ class PoolOperations(object):
 
             # Construct headers
             header_parameters = {}
-            header_parameters['Accept'] = 'application/json'
+            header_parameters["Accept"] = "application/json"
             if self.config.generate_client_request_id:
-                header_parameters['client-request-id'] = str(uuid.uuid1())
+                header_parameters["client-request-id"] = str(uuid.uuid1())
             if custom_headers:
                 header_parameters.update(custom_headers)
             if self.config.accept_language is not None:
-                header_parameters['accept-language'] = self._serialize.header("self.config.accept_language", self.config.accept_language, 'str')
+                header_parameters["accept-language"] = self._serialize.header(
+                    "self.config.accept_language", self.config.accept_language, "str"
+                )
             if client_request_id is not None:
-                header_parameters['client-request-id'] = self._serialize.header("client_request_id", client_request_id, 'str')
+                header_parameters["client-request-id"] = self._serialize.header(
+                    "client_request_id", client_request_id, "str"
+                )
             if return_client_request_id is not None:
-                header_parameters['return-client-request-id'] = self._serialize.header("return_client_request_id", return_client_request_id, 'bool')
+                header_parameters["return-client-request-id"] = self._serialize.header(
+                    "return_client_request_id", return_client_request_id, "bool"
+                )
             if ocp_date is not None:
-                header_parameters['ocp-date'] = self._serialize.header("ocp_date", ocp_date, 'rfc-1123')
+                header_parameters["ocp-date"] = self._serialize.header("ocp_date", ocp_date, "rfc-1123")
 
             # Construct and send request
             request = self._client.get(url, query_parameters, header_parameters)
@@ -348,10 +377,10 @@ class PoolOperations(object):
         deserialized = models.CloudPoolPaged(internal_paging, self._deserialize.dependencies, header_dict)
 
         return deserialized
-    list.metadata = {'url': '/pools'}
 
-    def delete(
-            self, pool_id, pool_delete_options=None, custom_headers=None, raw=False, **operation_config):
+    list.metadata = {"url": "/pools"}
+
+    def delete(self, pool_id, pool_delete_options=None, custom_headers=None, raw=False, **operation_config):
         """Deletes a Pool from the specified Account.
 
         When you request that a Pool be deleted, the following actions occur:
@@ -408,41 +437,51 @@ class PoolOperations(object):
             if_unmodified_since = pool_delete_options.if_unmodified_since
 
         # Construct URL
-        url = self.delete.metadata['url']
+        url = self.delete.metadata["url"]
         path_format_arguments = {
-            'batchUrl': self._serialize.url("self.config.batch_url", self.config.batch_url, 'str', skip_quote=True),
-            'poolId': self._serialize.url("pool_id", pool_id, 'str')
+            "batchUrl": self._serialize.url("self.config.batch_url", self.config.batch_url, "str", skip_quote=True),
+            "poolId": self._serialize.url("pool_id", pool_id, "str"),
         }
         url = self._client.format_url(url, **path_format_arguments)
 
         # Construct parameters
         query_parameters = {}
-        query_parameters['api-version'] = self._serialize.query("self.api_version", self.api_version, 'str')
+        query_parameters["api-version"] = self._serialize.query("self.api_version", self.api_version, "str")
         if timeout is not None:
-            query_parameters['timeout'] = self._serialize.query("timeout", timeout, 'int')
+            query_parameters["timeout"] = self._serialize.query("timeout", timeout, "int")
 
         # Construct headers
         header_parameters = {}
         if self.config.generate_client_request_id:
-            header_parameters['client-request-id'] = str(uuid.uuid1())
+            header_parameters["client-request-id"] = str(uuid.uuid1())
         if custom_headers:
             header_parameters.update(custom_headers)
         if self.config.accept_language is not None:
-            header_parameters['accept-language'] = self._serialize.header("self.config.accept_language", self.config.accept_language, 'str')
+            header_parameters["accept-language"] = self._serialize.header(
+                "self.config.accept_language", self.config.accept_language, "str"
+            )
         if client_request_id is not None:
-            header_parameters['client-request-id'] = self._serialize.header("client_request_id", client_request_id, 'str')
+            header_parameters["client-request-id"] = self._serialize.header(
+                "client_request_id", client_request_id, "str"
+            )
         if return_client_request_id is not None:
-            header_parameters['return-client-request-id'] = self._serialize.header("return_client_request_id", return_client_request_id, 'bool')
+            header_parameters["return-client-request-id"] = self._serialize.header(
+                "return_client_request_id", return_client_request_id, "bool"
+            )
         if ocp_date is not None:
-            header_parameters['ocp-date'] = self._serialize.header("ocp_date", ocp_date, 'rfc-1123')
+            header_parameters["ocp-date"] = self._serialize.header("ocp_date", ocp_date, "rfc-1123")
         if if_match is not None:
-            header_parameters['If-Match'] = self._serialize.header("if_match", if_match, 'str')
+            header_parameters["If-Match"] = self._serialize.header("if_match", if_match, "str")
         if if_none_match is not None:
-            header_parameters['If-None-Match'] = self._serialize.header("if_none_match", if_none_match, 'str')
+            header_parameters["If-None-Match"] = self._serialize.header("if_none_match", if_none_match, "str")
         if if_modified_since is not None:
-            header_parameters['If-Modified-Since'] = self._serialize.header("if_modified_since", if_modified_since, 'rfc-1123')
+            header_parameters["If-Modified-Since"] = self._serialize.header(
+                "if_modified_since", if_modified_since, "rfc-1123"
+            )
         if if_unmodified_since is not None:
-            header_parameters['If-Unmodified-Since'] = self._serialize.header("if_unmodified_since", if_unmodified_since, 'rfc-1123')
+            header_parameters["If-Unmodified-Since"] = self._serialize.header(
+                "if_unmodified_since", if_unmodified_since, "rfc-1123"
+            )
 
         # Construct and send request
         request = self._client.delete(url, query_parameters, header_parameters)
@@ -453,15 +492,17 @@ class PoolOperations(object):
 
         if raw:
             client_raw_response = ClientRawResponse(None, response)
-            client_raw_response.add_headers({
-                'client-request-id': 'str',
-                'request-id': 'str',
-            })
+            client_raw_response.add_headers(
+                {
+                    "client-request-id": "str",
+                    "request-id": "str",
+                }
+            )
             return client_raw_response
-    delete.metadata = {'url': '/pools/{poolId}'}
 
-    def exists(
-            self, pool_id, pool_exists_options=None, custom_headers=None, raw=False, **operation_config):
+    delete.metadata = {"url": "/pools/{poolId}"}
+
+    def exists(self, pool_id, pool_exists_options=None, custom_headers=None, raw=False, **operation_config):
         """Gets basic properties of a Pool.
 
         :param pool_id: The ID of the Pool to get.
@@ -504,41 +545,51 @@ class PoolOperations(object):
             if_unmodified_since = pool_exists_options.if_unmodified_since
 
         # Construct URL
-        url = self.exists.metadata['url']
+        url = self.exists.metadata["url"]
         path_format_arguments = {
-            'batchUrl': self._serialize.url("self.config.batch_url", self.config.batch_url, 'str', skip_quote=True),
-            'poolId': self._serialize.url("pool_id", pool_id, 'str')
+            "batchUrl": self._serialize.url("self.config.batch_url", self.config.batch_url, "str", skip_quote=True),
+            "poolId": self._serialize.url("pool_id", pool_id, "str"),
         }
         url = self._client.format_url(url, **path_format_arguments)
 
         # Construct parameters
         query_parameters = {}
-        query_parameters['api-version'] = self._serialize.query("self.api_version", self.api_version, 'str')
+        query_parameters["api-version"] = self._serialize.query("self.api_version", self.api_version, "str")
         if timeout is not None:
-            query_parameters['timeout'] = self._serialize.query("timeout", timeout, 'int')
+            query_parameters["timeout"] = self._serialize.query("timeout", timeout, "int")
 
         # Construct headers
         header_parameters = {}
         if self.config.generate_client_request_id:
-            header_parameters['client-request-id'] = str(uuid.uuid1())
+            header_parameters["client-request-id"] = str(uuid.uuid1())
         if custom_headers:
             header_parameters.update(custom_headers)
         if self.config.accept_language is not None:
-            header_parameters['accept-language'] = self._serialize.header("self.config.accept_language", self.config.accept_language, 'str')
+            header_parameters["accept-language"] = self._serialize.header(
+                "self.config.accept_language", self.config.accept_language, "str"
+            )
         if client_request_id is not None:
-            header_parameters['client-request-id'] = self._serialize.header("client_request_id", client_request_id, 'str')
+            header_parameters["client-request-id"] = self._serialize.header(
+                "client_request_id", client_request_id, "str"
+            )
         if return_client_request_id is not None:
-            header_parameters['return-client-request-id'] = self._serialize.header("return_client_request_id", return_client_request_id, 'bool')
+            header_parameters["return-client-request-id"] = self._serialize.header(
+                "return_client_request_id", return_client_request_id, "bool"
+            )
         if ocp_date is not None:
-            header_parameters['ocp-date'] = self._serialize.header("ocp_date", ocp_date, 'rfc-1123')
+            header_parameters["ocp-date"] = self._serialize.header("ocp_date", ocp_date, "rfc-1123")
         if if_match is not None:
-            header_parameters['If-Match'] = self._serialize.header("if_match", if_match, 'str')
+            header_parameters["If-Match"] = self._serialize.header("if_match", if_match, "str")
         if if_none_match is not None:
-            header_parameters['If-None-Match'] = self._serialize.header("if_none_match", if_none_match, 'str')
+            header_parameters["If-None-Match"] = self._serialize.header("if_none_match", if_none_match, "str")
         if if_modified_since is not None:
-            header_parameters['If-Modified-Since'] = self._serialize.header("if_modified_since", if_modified_since, 'rfc-1123')
+            header_parameters["If-Modified-Since"] = self._serialize.header(
+                "if_modified_since", if_modified_since, "rfc-1123"
+            )
         if if_unmodified_since is not None:
-            header_parameters['If-Unmodified-Since'] = self._serialize.header("if_unmodified_since", if_unmodified_since, 'rfc-1123')
+            header_parameters["If-Unmodified-Since"] = self._serialize.header(
+                "if_unmodified_since", if_unmodified_since, "rfc-1123"
+            )
 
         # Construct and send request
         request = self._client.head(url, query_parameters, header_parameters)
@@ -547,21 +598,23 @@ class PoolOperations(object):
         if response.status_code not in [200, 404]:
             raise models.BatchErrorException(self._deserialize, response)
 
-        deserialized = (response.status_code == 200)
+        deserialized = response.status_code == 200
         if raw:
             client_raw_response = ClientRawResponse(deserialized, response)
-            client_raw_response.add_headers({
-                'client-request-id': 'str',
-                'request-id': 'str',
-                'ETag': 'str',
-                'Last-Modified': 'rfc-1123',
-                })
+            client_raw_response.add_headers(
+                {
+                    "client-request-id": "str",
+                    "request-id": "str",
+                    "ETag": "str",
+                    "Last-Modified": "rfc-1123",
+                }
+            )
             return client_raw_response
         return deserialized
-    exists.metadata = {'url': '/pools/{poolId}'}
 
-    def get(
-            self, pool_id, pool_get_options=None, custom_headers=None, raw=False, **operation_config):
+    exists.metadata = {"url": "/pools/{poolId}"}
+
+    def get(self, pool_id, pool_get_options=None, custom_headers=None, raw=False, **operation_config):
         """Gets information about the specified Pool.
 
         :param pool_id: The ID of the Pool to get.
@@ -611,46 +664,56 @@ class PoolOperations(object):
             if_unmodified_since = pool_get_options.if_unmodified_since
 
         # Construct URL
-        url = self.get.metadata['url']
+        url = self.get.metadata["url"]
         path_format_arguments = {
-            'batchUrl': self._serialize.url("self.config.batch_url", self.config.batch_url, 'str', skip_quote=True),
-            'poolId': self._serialize.url("pool_id", pool_id, 'str')
+            "batchUrl": self._serialize.url("self.config.batch_url", self.config.batch_url, "str", skip_quote=True),
+            "poolId": self._serialize.url("pool_id", pool_id, "str"),
         }
         url = self._client.format_url(url, **path_format_arguments)
 
         # Construct parameters
         query_parameters = {}
-        query_parameters['api-version'] = self._serialize.query("self.api_version", self.api_version, 'str')
+        query_parameters["api-version"] = self._serialize.query("self.api_version", self.api_version, "str")
         if select is not None:
-            query_parameters['$select'] = self._serialize.query("select", select, 'str')
+            query_parameters["$select"] = self._serialize.query("select", select, "str")
         if expand is not None:
-            query_parameters['$expand'] = self._serialize.query("expand", expand, 'str')
+            query_parameters["$expand"] = self._serialize.query("expand", expand, "str")
         if timeout is not None:
-            query_parameters['timeout'] = self._serialize.query("timeout", timeout, 'int')
+            query_parameters["timeout"] = self._serialize.query("timeout", timeout, "int")
 
         # Construct headers
         header_parameters = {}
-        header_parameters['Accept'] = 'application/json'
+        header_parameters["Accept"] = "application/json"
         if self.config.generate_client_request_id:
-            header_parameters['client-request-id'] = str(uuid.uuid1())
+            header_parameters["client-request-id"] = str(uuid.uuid1())
         if custom_headers:
             header_parameters.update(custom_headers)
         if self.config.accept_language is not None:
-            header_parameters['accept-language'] = self._serialize.header("self.config.accept_language", self.config.accept_language, 'str')
+            header_parameters["accept-language"] = self._serialize.header(
+                "self.config.accept_language", self.config.accept_language, "str"
+            )
         if client_request_id is not None:
-            header_parameters['client-request-id'] = self._serialize.header("client_request_id", client_request_id, 'str')
+            header_parameters["client-request-id"] = self._serialize.header(
+                "client_request_id", client_request_id, "str"
+            )
         if return_client_request_id is not None:
-            header_parameters['return-client-request-id'] = self._serialize.header("return_client_request_id", return_client_request_id, 'bool')
+            header_parameters["return-client-request-id"] = self._serialize.header(
+                "return_client_request_id", return_client_request_id, "bool"
+            )
         if ocp_date is not None:
-            header_parameters['ocp-date'] = self._serialize.header("ocp_date", ocp_date, 'rfc-1123')
+            header_parameters["ocp-date"] = self._serialize.header("ocp_date", ocp_date, "rfc-1123")
         if if_match is not None:
-            header_parameters['If-Match'] = self._serialize.header("if_match", if_match, 'str')
+            header_parameters["If-Match"] = self._serialize.header("if_match", if_match, "str")
         if if_none_match is not None:
-            header_parameters['If-None-Match'] = self._serialize.header("if_none_match", if_none_match, 'str')
+            header_parameters["If-None-Match"] = self._serialize.header("if_none_match", if_none_match, "str")
         if if_modified_since is not None:
-            header_parameters['If-Modified-Since'] = self._serialize.header("if_modified_since", if_modified_since, 'rfc-1123')
+            header_parameters["If-Modified-Since"] = self._serialize.header(
+                "if_modified_since", if_modified_since, "rfc-1123"
+            )
         if if_unmodified_since is not None:
-            header_parameters['If-Unmodified-Since'] = self._serialize.header("if_unmodified_since", if_unmodified_since, 'rfc-1123')
+            header_parameters["If-Unmodified-Since"] = self._serialize.header(
+                "if_unmodified_since", if_unmodified_since, "rfc-1123"
+            )
 
         # Construct and send request
         request = self._client.get(url, query_parameters, header_parameters)
@@ -662,12 +725,12 @@ class PoolOperations(object):
         header_dict = {}
         deserialized = None
         if response.status_code == 200:
-            deserialized = self._deserialize('CloudPool', response)
+            deserialized = self._deserialize("CloudPool", response)
             header_dict = {
-                'client-request-id': 'str',
-                'request-id': 'str',
-                'ETag': 'str',
-                'Last-Modified': 'rfc-1123',
+                "client-request-id": "str",
+                "request-id": "str",
+                "ETag": "str",
+                "Last-Modified": "rfc-1123",
             }
 
         if raw:
@@ -676,10 +739,12 @@ class PoolOperations(object):
             return client_raw_response
 
         return deserialized
-    get.metadata = {'url': '/pools/{poolId}'}
+
+    get.metadata = {"url": "/pools/{poolId}"}
 
     def patch(
-            self, pool_id, pool_patch_parameter, pool_patch_options=None, custom_headers=None, raw=False, **operation_config):
+        self, pool_id, pool_patch_parameter, pool_patch_options=None, custom_headers=None, raw=False, **operation_config
+    ):
         """Updates the properties of the specified Pool.
 
         This only replaces the Pool properties specified in the request. For
@@ -729,45 +794,55 @@ class PoolOperations(object):
             if_unmodified_since = pool_patch_options.if_unmodified_since
 
         # Construct URL
-        url = self.patch.metadata['url']
+        url = self.patch.metadata["url"]
         path_format_arguments = {
-            'batchUrl': self._serialize.url("self.config.batch_url", self.config.batch_url, 'str', skip_quote=True),
-            'poolId': self._serialize.url("pool_id", pool_id, 'str')
+            "batchUrl": self._serialize.url("self.config.batch_url", self.config.batch_url, "str", skip_quote=True),
+            "poolId": self._serialize.url("pool_id", pool_id, "str"),
         }
         url = self._client.format_url(url, **path_format_arguments)
 
         # Construct parameters
         query_parameters = {}
-        query_parameters['api-version'] = self._serialize.query("self.api_version", self.api_version, 'str')
+        query_parameters["api-version"] = self._serialize.query("self.api_version", self.api_version, "str")
         if timeout is not None:
-            query_parameters['timeout'] = self._serialize.query("timeout", timeout, 'int')
+            query_parameters["timeout"] = self._serialize.query("timeout", timeout, "int")
 
         # Construct headers
         header_parameters = {}
-        header_parameters['Content-Type'] = 'application/json; odata=minimalmetadata; charset=utf-8'
+        header_parameters["Content-Type"] = "application/json; odata=minimalmetadata; charset=utf-8"
         if self.config.generate_client_request_id:
-            header_parameters['client-request-id'] = str(uuid.uuid1())
+            header_parameters["client-request-id"] = str(uuid.uuid1())
         if custom_headers:
             header_parameters.update(custom_headers)
         if self.config.accept_language is not None:
-            header_parameters['accept-language'] = self._serialize.header("self.config.accept_language", self.config.accept_language, 'str')
+            header_parameters["accept-language"] = self._serialize.header(
+                "self.config.accept_language", self.config.accept_language, "str"
+            )
         if client_request_id is not None:
-            header_parameters['client-request-id'] = self._serialize.header("client_request_id", client_request_id, 'str')
+            header_parameters["client-request-id"] = self._serialize.header(
+                "client_request_id", client_request_id, "str"
+            )
         if return_client_request_id is not None:
-            header_parameters['return-client-request-id'] = self._serialize.header("return_client_request_id", return_client_request_id, 'bool')
+            header_parameters["return-client-request-id"] = self._serialize.header(
+                "return_client_request_id", return_client_request_id, "bool"
+            )
         if ocp_date is not None:
-            header_parameters['ocp-date'] = self._serialize.header("ocp_date", ocp_date, 'rfc-1123')
+            header_parameters["ocp-date"] = self._serialize.header("ocp_date", ocp_date, "rfc-1123")
         if if_match is not None:
-            header_parameters['If-Match'] = self._serialize.header("if_match", if_match, 'str')
+            header_parameters["If-Match"] = self._serialize.header("if_match", if_match, "str")
         if if_none_match is not None:
-            header_parameters['If-None-Match'] = self._serialize.header("if_none_match", if_none_match, 'str')
+            header_parameters["If-None-Match"] = self._serialize.header("if_none_match", if_none_match, "str")
         if if_modified_since is not None:
-            header_parameters['If-Modified-Since'] = self._serialize.header("if_modified_since", if_modified_since, 'rfc-1123')
+            header_parameters["If-Modified-Since"] = self._serialize.header(
+                "if_modified_since", if_modified_since, "rfc-1123"
+            )
         if if_unmodified_since is not None:
-            header_parameters['If-Unmodified-Since'] = self._serialize.header("if_unmodified_since", if_unmodified_since, 'rfc-1123')
+            header_parameters["If-Unmodified-Since"] = self._serialize.header(
+                "if_unmodified_since", if_unmodified_since, "rfc-1123"
+            )
 
         # Construct body
-        body_content = self._serialize.body(pool_patch_parameter, 'PoolPatchParameter')
+        body_content = self._serialize.body(pool_patch_parameter, "PoolPatchParameter")
 
         # Construct and send request
         request = self._client.patch(url, query_parameters, header_parameters, body_content)
@@ -778,18 +853,22 @@ class PoolOperations(object):
 
         if raw:
             client_raw_response = ClientRawResponse(None, response)
-            client_raw_response.add_headers({
-                'client-request-id': 'str',
-                'request-id': 'str',
-                'ETag': 'str',
-                'Last-Modified': 'rfc-1123',
-                'DataServiceId': 'str',
-            })
+            client_raw_response.add_headers(
+                {
+                    "client-request-id": "str",
+                    "request-id": "str",
+                    "ETag": "str",
+                    "Last-Modified": "rfc-1123",
+                    "DataServiceId": "str",
+                }
+            )
             return client_raw_response
-    patch.metadata = {'url': '/pools/{poolId}'}
+
+    patch.metadata = {"url": "/pools/{poolId}"}
 
     def disable_auto_scale(
-            self, pool_id, pool_disable_auto_scale_options=None, custom_headers=None, raw=False, **operation_config):
+        self, pool_id, pool_disable_auto_scale_options=None, custom_headers=None, raw=False, **operation_config
+    ):
         """Disables automatic scaling for a Pool.
 
         :param pool_id: The ID of the Pool on which to disable automatic
@@ -823,33 +902,39 @@ class PoolOperations(object):
             ocp_date = pool_disable_auto_scale_options.ocp_date
 
         # Construct URL
-        url = self.disable_auto_scale.metadata['url']
+        url = self.disable_auto_scale.metadata["url"]
         path_format_arguments = {
-            'batchUrl': self._serialize.url("self.config.batch_url", self.config.batch_url, 'str', skip_quote=True),
-            'poolId': self._serialize.url("pool_id", pool_id, 'str')
+            "batchUrl": self._serialize.url("self.config.batch_url", self.config.batch_url, "str", skip_quote=True),
+            "poolId": self._serialize.url("pool_id", pool_id, "str"),
         }
         url = self._client.format_url(url, **path_format_arguments)
 
         # Construct parameters
         query_parameters = {}
-        query_parameters['api-version'] = self._serialize.query("self.api_version", self.api_version, 'str')
+        query_parameters["api-version"] = self._serialize.query("self.api_version", self.api_version, "str")
         if timeout is not None:
-            query_parameters['timeout'] = self._serialize.query("timeout", timeout, 'int')
+            query_parameters["timeout"] = self._serialize.query("timeout", timeout, "int")
 
         # Construct headers
         header_parameters = {}
         if self.config.generate_client_request_id:
-            header_parameters['client-request-id'] = str(uuid.uuid1())
+            header_parameters["client-request-id"] = str(uuid.uuid1())
         if custom_headers:
             header_parameters.update(custom_headers)
         if self.config.accept_language is not None:
-            header_parameters['accept-language'] = self._serialize.header("self.config.accept_language", self.config.accept_language, 'str')
+            header_parameters["accept-language"] = self._serialize.header(
+                "self.config.accept_language", self.config.accept_language, "str"
+            )
         if client_request_id is not None:
-            header_parameters['client-request-id'] = self._serialize.header("client_request_id", client_request_id, 'str')
+            header_parameters["client-request-id"] = self._serialize.header(
+                "client_request_id", client_request_id, "str"
+            )
         if return_client_request_id is not None:
-            header_parameters['return-client-request-id'] = self._serialize.header("return_client_request_id", return_client_request_id, 'bool')
+            header_parameters["return-client-request-id"] = self._serialize.header(
+                "return_client_request_id", return_client_request_id, "bool"
+            )
         if ocp_date is not None:
-            header_parameters['ocp-date'] = self._serialize.header("ocp_date", ocp_date, 'rfc-1123')
+            header_parameters["ocp-date"] = self._serialize.header("ocp_date", ocp_date, "rfc-1123")
 
         # Construct and send request
         request = self._client.post(url, query_parameters, header_parameters)
@@ -860,18 +945,29 @@ class PoolOperations(object):
 
         if raw:
             client_raw_response = ClientRawResponse(None, response)
-            client_raw_response.add_headers({
-                'client-request-id': 'str',
-                'request-id': 'str',
-                'ETag': 'str',
-                'Last-Modified': 'rfc-1123',
-                'DataServiceId': 'str',
-            })
+            client_raw_response.add_headers(
+                {
+                    "client-request-id": "str",
+                    "request-id": "str",
+                    "ETag": "str",
+                    "Last-Modified": "rfc-1123",
+                    "DataServiceId": "str",
+                }
+            )
             return client_raw_response
-    disable_auto_scale.metadata = {'url': '/pools/{poolId}/disableautoscale'}
+
+    disable_auto_scale.metadata = {"url": "/pools/{poolId}/disableautoscale"}
 
     def enable_auto_scale(
-            self, pool_id, auto_scale_formula=None, auto_scale_evaluation_interval=None, pool_enable_auto_scale_options=None, custom_headers=None, raw=False, **operation_config):
+        self,
+        pool_id,
+        auto_scale_formula=None,
+        auto_scale_evaluation_interval=None,
+        pool_enable_auto_scale_options=None,
+        custom_headers=None,
+        raw=False,
+        **operation_config
+    ):
         """Enables automatic scaling for a Pool.
 
         You cannot enable automatic scaling on a Pool if a resize operation is
@@ -939,48 +1035,60 @@ class PoolOperations(object):
         if_unmodified_since = None
         if pool_enable_auto_scale_options is not None:
             if_unmodified_since = pool_enable_auto_scale_options.if_unmodified_since
-        pool_enable_auto_scale_parameter = models.PoolEnableAutoScaleParameter(auto_scale_formula=auto_scale_formula, auto_scale_evaluation_interval=auto_scale_evaluation_interval)
+        pool_enable_auto_scale_parameter = models.PoolEnableAutoScaleParameter(
+            auto_scale_formula=auto_scale_formula, auto_scale_evaluation_interval=auto_scale_evaluation_interval
+        )
 
         # Construct URL
-        url = self.enable_auto_scale.metadata['url']
+        url = self.enable_auto_scale.metadata["url"]
         path_format_arguments = {
-            'batchUrl': self._serialize.url("self.config.batch_url", self.config.batch_url, 'str', skip_quote=True),
-            'poolId': self._serialize.url("pool_id", pool_id, 'str')
+            "batchUrl": self._serialize.url("self.config.batch_url", self.config.batch_url, "str", skip_quote=True),
+            "poolId": self._serialize.url("pool_id", pool_id, "str"),
         }
         url = self._client.format_url(url, **path_format_arguments)
 
         # Construct parameters
         query_parameters = {}
-        query_parameters['api-version'] = self._serialize.query("self.api_version", self.api_version, 'str')
+        query_parameters["api-version"] = self._serialize.query("self.api_version", self.api_version, "str")
         if timeout is not None:
-            query_parameters['timeout'] = self._serialize.query("timeout", timeout, 'int')
+            query_parameters["timeout"] = self._serialize.query("timeout", timeout, "int")
 
         # Construct headers
         header_parameters = {}
-        header_parameters['Content-Type'] = 'application/json; odata=minimalmetadata; charset=utf-8'
+        header_parameters["Content-Type"] = "application/json; odata=minimalmetadata; charset=utf-8"
         if self.config.generate_client_request_id:
-            header_parameters['client-request-id'] = str(uuid.uuid1())
+            header_parameters["client-request-id"] = str(uuid.uuid1())
         if custom_headers:
             header_parameters.update(custom_headers)
         if self.config.accept_language is not None:
-            header_parameters['accept-language'] = self._serialize.header("self.config.accept_language", self.config.accept_language, 'str')
+            header_parameters["accept-language"] = self._serialize.header(
+                "self.config.accept_language", self.config.accept_language, "str"
+            )
         if client_request_id is not None:
-            header_parameters['client-request-id'] = self._serialize.header("client_request_id", client_request_id, 'str')
+            header_parameters["client-request-id"] = self._serialize.header(
+                "client_request_id", client_request_id, "str"
+            )
         if return_client_request_id is not None:
-            header_parameters['return-client-request-id'] = self._serialize.header("return_client_request_id", return_client_request_id, 'bool')
+            header_parameters["return-client-request-id"] = self._serialize.header(
+                "return_client_request_id", return_client_request_id, "bool"
+            )
         if ocp_date is not None:
-            header_parameters['ocp-date'] = self._serialize.header("ocp_date", ocp_date, 'rfc-1123')
+            header_parameters["ocp-date"] = self._serialize.header("ocp_date", ocp_date, "rfc-1123")
         if if_match is not None:
-            header_parameters['If-Match'] = self._serialize.header("if_match", if_match, 'str')
+            header_parameters["If-Match"] = self._serialize.header("if_match", if_match, "str")
         if if_none_match is not None:
-            header_parameters['If-None-Match'] = self._serialize.header("if_none_match", if_none_match, 'str')
+            header_parameters["If-None-Match"] = self._serialize.header("if_none_match", if_none_match, "str")
         if if_modified_since is not None:
-            header_parameters['If-Modified-Since'] = self._serialize.header("if_modified_since", if_modified_since, 'rfc-1123')
+            header_parameters["If-Modified-Since"] = self._serialize.header(
+                "if_modified_since", if_modified_since, "rfc-1123"
+            )
         if if_unmodified_since is not None:
-            header_parameters['If-Unmodified-Since'] = self._serialize.header("if_unmodified_since", if_unmodified_since, 'rfc-1123')
+            header_parameters["If-Unmodified-Since"] = self._serialize.header(
+                "if_unmodified_since", if_unmodified_since, "rfc-1123"
+            )
 
         # Construct body
-        body_content = self._serialize.body(pool_enable_auto_scale_parameter, 'PoolEnableAutoScaleParameter')
+        body_content = self._serialize.body(pool_enable_auto_scale_parameter, "PoolEnableAutoScaleParameter")
 
         # Construct and send request
         request = self._client.post(url, query_parameters, header_parameters, body_content)
@@ -991,18 +1099,28 @@ class PoolOperations(object):
 
         if raw:
             client_raw_response = ClientRawResponse(None, response)
-            client_raw_response.add_headers({
-                'client-request-id': 'str',
-                'request-id': 'str',
-                'ETag': 'str',
-                'Last-Modified': 'rfc-1123',
-                'DataServiceId': 'str',
-            })
+            client_raw_response.add_headers(
+                {
+                    "client-request-id": "str",
+                    "request-id": "str",
+                    "ETag": "str",
+                    "Last-Modified": "rfc-1123",
+                    "DataServiceId": "str",
+                }
+            )
             return client_raw_response
-    enable_auto_scale.metadata = {'url': '/pools/{poolId}/enableautoscale'}
+
+    enable_auto_scale.metadata = {"url": "/pools/{poolId}/enableautoscale"}
 
     def evaluate_auto_scale(
-            self, pool_id, auto_scale_formula, pool_evaluate_auto_scale_options=None, custom_headers=None, raw=False, **operation_config):
+        self,
+        pool_id,
+        auto_scale_formula,
+        pool_evaluate_auto_scale_options=None,
+        custom_headers=None,
+        raw=False,
+        **operation_config
+    ):
         """Gets the result of evaluating an automatic scaling formula on the Pool.
 
         This API is primarily for validating an autoscale formula, as it simply
@@ -1046,41 +1164,49 @@ class PoolOperations(object):
         ocp_date = None
         if pool_evaluate_auto_scale_options is not None:
             ocp_date = pool_evaluate_auto_scale_options.ocp_date
-        pool_evaluate_auto_scale_parameter = models.PoolEvaluateAutoScaleParameter(auto_scale_formula=auto_scale_formula)
+        pool_evaluate_auto_scale_parameter = models.PoolEvaluateAutoScaleParameter(
+            auto_scale_formula=auto_scale_formula
+        )
 
         # Construct URL
-        url = self.evaluate_auto_scale.metadata['url']
+        url = self.evaluate_auto_scale.metadata["url"]
         path_format_arguments = {
-            'batchUrl': self._serialize.url("self.config.batch_url", self.config.batch_url, 'str', skip_quote=True),
-            'poolId': self._serialize.url("pool_id", pool_id, 'str')
+            "batchUrl": self._serialize.url("self.config.batch_url", self.config.batch_url, "str", skip_quote=True),
+            "poolId": self._serialize.url("pool_id", pool_id, "str"),
         }
         url = self._client.format_url(url, **path_format_arguments)
 
         # Construct parameters
         query_parameters = {}
-        query_parameters['api-version'] = self._serialize.query("self.api_version", self.api_version, 'str')
+        query_parameters["api-version"] = self._serialize.query("self.api_version", self.api_version, "str")
         if timeout is not None:
-            query_parameters['timeout'] = self._serialize.query("timeout", timeout, 'int')
+            query_parameters["timeout"] = self._serialize.query("timeout", timeout, "int")
 
         # Construct headers
         header_parameters = {}
-        header_parameters['Accept'] = 'application/json'
-        header_parameters['Content-Type'] = 'application/json; odata=minimalmetadata; charset=utf-8'
+        header_parameters["Accept"] = "application/json"
+        header_parameters["Content-Type"] = "application/json; odata=minimalmetadata; charset=utf-8"
         if self.config.generate_client_request_id:
-            header_parameters['client-request-id'] = str(uuid.uuid1())
+            header_parameters["client-request-id"] = str(uuid.uuid1())
         if custom_headers:
             header_parameters.update(custom_headers)
         if self.config.accept_language is not None:
-            header_parameters['accept-language'] = self._serialize.header("self.config.accept_language", self.config.accept_language, 'str')
+            header_parameters["accept-language"] = self._serialize.header(
+                "self.config.accept_language", self.config.accept_language, "str"
+            )
         if client_request_id is not None:
-            header_parameters['client-request-id'] = self._serialize.header("client_request_id", client_request_id, 'str')
+            header_parameters["client-request-id"] = self._serialize.header(
+                "client_request_id", client_request_id, "str"
+            )
         if return_client_request_id is not None:
-            header_parameters['return-client-request-id'] = self._serialize.header("return_client_request_id", return_client_request_id, 'bool')
+            header_parameters["return-client-request-id"] = self._serialize.header(
+                "return_client_request_id", return_client_request_id, "bool"
+            )
         if ocp_date is not None:
-            header_parameters['ocp-date'] = self._serialize.header("ocp_date", ocp_date, 'rfc-1123')
+            header_parameters["ocp-date"] = self._serialize.header("ocp_date", ocp_date, "rfc-1123")
 
         # Construct body
-        body_content = self._serialize.body(pool_evaluate_auto_scale_parameter, 'PoolEvaluateAutoScaleParameter')
+        body_content = self._serialize.body(pool_evaluate_auto_scale_parameter, "PoolEvaluateAutoScaleParameter")
 
         # Construct and send request
         request = self._client.post(url, query_parameters, header_parameters, body_content)
@@ -1092,13 +1218,13 @@ class PoolOperations(object):
         header_dict = {}
         deserialized = None
         if response.status_code == 200:
-            deserialized = self._deserialize('AutoScaleRun', response)
+            deserialized = self._deserialize("AutoScaleRun", response)
             header_dict = {
-                'client-request-id': 'str',
-                'request-id': 'str',
-                'ETag': 'str',
-                'Last-Modified': 'rfc-1123',
-                'DataServiceId': 'str',
+                "client-request-id": "str",
+                "request-id": "str",
+                "ETag": "str",
+                "Last-Modified": "rfc-1123",
+                "DataServiceId": "str",
             }
 
         if raw:
@@ -1107,10 +1233,18 @@ class PoolOperations(object):
             return client_raw_response
 
         return deserialized
-    evaluate_auto_scale.metadata = {'url': '/pools/{poolId}/evaluateautoscale'}
+
+    evaluate_auto_scale.metadata = {"url": "/pools/{poolId}/evaluateautoscale"}
 
     def resize(
-            self, pool_id, pool_resize_parameter, pool_resize_options=None, custom_headers=None, raw=False, **operation_config):
+        self,
+        pool_id,
+        pool_resize_parameter,
+        pool_resize_options=None,
+        custom_headers=None,
+        raw=False,
+        **operation_config
+    ):
         """Changes the number of Compute Nodes that are assigned to a Pool.
 
         You can only resize a Pool when its allocation state is steady. If the
@@ -1164,45 +1298,55 @@ class PoolOperations(object):
             if_unmodified_since = pool_resize_options.if_unmodified_since
 
         # Construct URL
-        url = self.resize.metadata['url']
+        url = self.resize.metadata["url"]
         path_format_arguments = {
-            'batchUrl': self._serialize.url("self.config.batch_url", self.config.batch_url, 'str', skip_quote=True),
-            'poolId': self._serialize.url("pool_id", pool_id, 'str')
+            "batchUrl": self._serialize.url("self.config.batch_url", self.config.batch_url, "str", skip_quote=True),
+            "poolId": self._serialize.url("pool_id", pool_id, "str"),
         }
         url = self._client.format_url(url, **path_format_arguments)
 
         # Construct parameters
         query_parameters = {}
-        query_parameters['api-version'] = self._serialize.query("self.api_version", self.api_version, 'str')
+        query_parameters["api-version"] = self._serialize.query("self.api_version", self.api_version, "str")
         if timeout is not None:
-            query_parameters['timeout'] = self._serialize.query("timeout", timeout, 'int')
+            query_parameters["timeout"] = self._serialize.query("timeout", timeout, "int")
 
         # Construct headers
         header_parameters = {}
-        header_parameters['Content-Type'] = 'application/json; odata=minimalmetadata; charset=utf-8'
+        header_parameters["Content-Type"] = "application/json; odata=minimalmetadata; charset=utf-8"
         if self.config.generate_client_request_id:
-            header_parameters['client-request-id'] = str(uuid.uuid1())
+            header_parameters["client-request-id"] = str(uuid.uuid1())
         if custom_headers:
             header_parameters.update(custom_headers)
         if self.config.accept_language is not None:
-            header_parameters['accept-language'] = self._serialize.header("self.config.accept_language", self.config.accept_language, 'str')
+            header_parameters["accept-language"] = self._serialize.header(
+                "self.config.accept_language", self.config.accept_language, "str"
+            )
         if client_request_id is not None:
-            header_parameters['client-request-id'] = self._serialize.header("client_request_id", client_request_id, 'str')
+            header_parameters["client-request-id"] = self._serialize.header(
+                "client_request_id", client_request_id, "str"
+            )
         if return_client_request_id is not None:
-            header_parameters['return-client-request-id'] = self._serialize.header("return_client_request_id", return_client_request_id, 'bool')
+            header_parameters["return-client-request-id"] = self._serialize.header(
+                "return_client_request_id", return_client_request_id, "bool"
+            )
         if ocp_date is not None:
-            header_parameters['ocp-date'] = self._serialize.header("ocp_date", ocp_date, 'rfc-1123')
+            header_parameters["ocp-date"] = self._serialize.header("ocp_date", ocp_date, "rfc-1123")
         if if_match is not None:
-            header_parameters['If-Match'] = self._serialize.header("if_match", if_match, 'str')
+            header_parameters["If-Match"] = self._serialize.header("if_match", if_match, "str")
         if if_none_match is not None:
-            header_parameters['If-None-Match'] = self._serialize.header("if_none_match", if_none_match, 'str')
+            header_parameters["If-None-Match"] = self._serialize.header("if_none_match", if_none_match, "str")
         if if_modified_since is not None:
-            header_parameters['If-Modified-Since'] = self._serialize.header("if_modified_since", if_modified_since, 'rfc-1123')
+            header_parameters["If-Modified-Since"] = self._serialize.header(
+                "if_modified_since", if_modified_since, "rfc-1123"
+            )
         if if_unmodified_since is not None:
-            header_parameters['If-Unmodified-Since'] = self._serialize.header("if_unmodified_since", if_unmodified_since, 'rfc-1123')
+            header_parameters["If-Unmodified-Since"] = self._serialize.header(
+                "if_unmodified_since", if_unmodified_since, "rfc-1123"
+            )
 
         # Construct body
-        body_content = self._serialize.body(pool_resize_parameter, 'PoolResizeParameter')
+        body_content = self._serialize.body(pool_resize_parameter, "PoolResizeParameter")
 
         # Construct and send request
         request = self._client.post(url, query_parameters, header_parameters, body_content)
@@ -1213,18 +1357,20 @@ class PoolOperations(object):
 
         if raw:
             client_raw_response = ClientRawResponse(None, response)
-            client_raw_response.add_headers({
-                'client-request-id': 'str',
-                'request-id': 'str',
-                'ETag': 'str',
-                'Last-Modified': 'rfc-1123',
-                'DataServiceId': 'str',
-            })
+            client_raw_response.add_headers(
+                {
+                    "client-request-id": "str",
+                    "request-id": "str",
+                    "ETag": "str",
+                    "Last-Modified": "rfc-1123",
+                    "DataServiceId": "str",
+                }
+            )
             return client_raw_response
-    resize.metadata = {'url': '/pools/{poolId}/resize'}
 
-    def stop_resize(
-            self, pool_id, pool_stop_resize_options=None, custom_headers=None, raw=False, **operation_config):
+    resize.metadata = {"url": "/pools/{poolId}/resize"}
+
+    def stop_resize(self, pool_id, pool_stop_resize_options=None, custom_headers=None, raw=False, **operation_config):
         """Stops an ongoing resize operation on the Pool.
 
         This does not restore the Pool to its previous state before the resize
@@ -1278,41 +1424,51 @@ class PoolOperations(object):
             if_unmodified_since = pool_stop_resize_options.if_unmodified_since
 
         # Construct URL
-        url = self.stop_resize.metadata['url']
+        url = self.stop_resize.metadata["url"]
         path_format_arguments = {
-            'batchUrl': self._serialize.url("self.config.batch_url", self.config.batch_url, 'str', skip_quote=True),
-            'poolId': self._serialize.url("pool_id", pool_id, 'str')
+            "batchUrl": self._serialize.url("self.config.batch_url", self.config.batch_url, "str", skip_quote=True),
+            "poolId": self._serialize.url("pool_id", pool_id, "str"),
         }
         url = self._client.format_url(url, **path_format_arguments)
 
         # Construct parameters
         query_parameters = {}
-        query_parameters['api-version'] = self._serialize.query("self.api_version", self.api_version, 'str')
+        query_parameters["api-version"] = self._serialize.query("self.api_version", self.api_version, "str")
         if timeout is not None:
-            query_parameters['timeout'] = self._serialize.query("timeout", timeout, 'int')
+            query_parameters["timeout"] = self._serialize.query("timeout", timeout, "int")
 
         # Construct headers
         header_parameters = {}
         if self.config.generate_client_request_id:
-            header_parameters['client-request-id'] = str(uuid.uuid1())
+            header_parameters["client-request-id"] = str(uuid.uuid1())
         if custom_headers:
             header_parameters.update(custom_headers)
         if self.config.accept_language is not None:
-            header_parameters['accept-language'] = self._serialize.header("self.config.accept_language", self.config.accept_language, 'str')
+            header_parameters["accept-language"] = self._serialize.header(
+                "self.config.accept_language", self.config.accept_language, "str"
+            )
         if client_request_id is not None:
-            header_parameters['client-request-id'] = self._serialize.header("client_request_id", client_request_id, 'str')
+            header_parameters["client-request-id"] = self._serialize.header(
+                "client_request_id", client_request_id, "str"
+            )
         if return_client_request_id is not None:
-            header_parameters['return-client-request-id'] = self._serialize.header("return_client_request_id", return_client_request_id, 'bool')
+            header_parameters["return-client-request-id"] = self._serialize.header(
+                "return_client_request_id", return_client_request_id, "bool"
+            )
         if ocp_date is not None:
-            header_parameters['ocp-date'] = self._serialize.header("ocp_date", ocp_date, 'rfc-1123')
+            header_parameters["ocp-date"] = self._serialize.header("ocp_date", ocp_date, "rfc-1123")
         if if_match is not None:
-            header_parameters['If-Match'] = self._serialize.header("if_match", if_match, 'str')
+            header_parameters["If-Match"] = self._serialize.header("if_match", if_match, "str")
         if if_none_match is not None:
-            header_parameters['If-None-Match'] = self._serialize.header("if_none_match", if_none_match, 'str')
+            header_parameters["If-None-Match"] = self._serialize.header("if_none_match", if_none_match, "str")
         if if_modified_since is not None:
-            header_parameters['If-Modified-Since'] = self._serialize.header("if_modified_since", if_modified_since, 'rfc-1123')
+            header_parameters["If-Modified-Since"] = self._serialize.header(
+                "if_modified_since", if_modified_since, "rfc-1123"
+            )
         if if_unmodified_since is not None:
-            header_parameters['If-Unmodified-Since'] = self._serialize.header("if_unmodified_since", if_unmodified_since, 'rfc-1123')
+            header_parameters["If-Unmodified-Since"] = self._serialize.header(
+                "if_unmodified_since", if_unmodified_since, "rfc-1123"
+            )
 
         # Construct and send request
         request = self._client.post(url, query_parameters, header_parameters)
@@ -1323,18 +1479,28 @@ class PoolOperations(object):
 
         if raw:
             client_raw_response = ClientRawResponse(None, response)
-            client_raw_response.add_headers({
-                'client-request-id': 'str',
-                'request-id': 'str',
-                'ETag': 'str',
-                'Last-Modified': 'rfc-1123',
-                'DataServiceId': 'str',
-            })
+            client_raw_response.add_headers(
+                {
+                    "client-request-id": "str",
+                    "request-id": "str",
+                    "ETag": "str",
+                    "Last-Modified": "rfc-1123",
+                    "DataServiceId": "str",
+                }
+            )
             return client_raw_response
-    stop_resize.metadata = {'url': '/pools/{poolId}/stopresize'}
+
+    stop_resize.metadata = {"url": "/pools/{poolId}/stopresize"}
 
     def update_properties(
-            self, pool_id, pool_update_properties_parameter, pool_update_properties_options=None, custom_headers=None, raw=False, **operation_config):
+        self,
+        pool_id,
+        pool_update_properties_parameter,
+        pool_update_properties_options=None,
+        custom_headers=None,
+        raw=False,
+        **operation_config
+    ):
         """Updates the properties of the specified Pool.
 
         This fully replaces all the updatable properties of the Pool. For
@@ -1376,37 +1542,43 @@ class PoolOperations(object):
             ocp_date = pool_update_properties_options.ocp_date
 
         # Construct URL
-        url = self.update_properties.metadata['url']
+        url = self.update_properties.metadata["url"]
         path_format_arguments = {
-            'batchUrl': self._serialize.url("self.config.batch_url", self.config.batch_url, 'str', skip_quote=True),
-            'poolId': self._serialize.url("pool_id", pool_id, 'str')
+            "batchUrl": self._serialize.url("self.config.batch_url", self.config.batch_url, "str", skip_quote=True),
+            "poolId": self._serialize.url("pool_id", pool_id, "str"),
         }
         url = self._client.format_url(url, **path_format_arguments)
 
         # Construct parameters
         query_parameters = {}
-        query_parameters['api-version'] = self._serialize.query("self.api_version", self.api_version, 'str')
+        query_parameters["api-version"] = self._serialize.query("self.api_version", self.api_version, "str")
         if timeout is not None:
-            query_parameters['timeout'] = self._serialize.query("timeout", timeout, 'int')
+            query_parameters["timeout"] = self._serialize.query("timeout", timeout, "int")
 
         # Construct headers
         header_parameters = {}
-        header_parameters['Content-Type'] = 'application/json; odata=minimalmetadata; charset=utf-8'
+        header_parameters["Content-Type"] = "application/json; odata=minimalmetadata; charset=utf-8"
         if self.config.generate_client_request_id:
-            header_parameters['client-request-id'] = str(uuid.uuid1())
+            header_parameters["client-request-id"] = str(uuid.uuid1())
         if custom_headers:
             header_parameters.update(custom_headers)
         if self.config.accept_language is not None:
-            header_parameters['accept-language'] = self._serialize.header("self.config.accept_language", self.config.accept_language, 'str')
+            header_parameters["accept-language"] = self._serialize.header(
+                "self.config.accept_language", self.config.accept_language, "str"
+            )
         if client_request_id is not None:
-            header_parameters['client-request-id'] = self._serialize.header("client_request_id", client_request_id, 'str')
+            header_parameters["client-request-id"] = self._serialize.header(
+                "client_request_id", client_request_id, "str"
+            )
         if return_client_request_id is not None:
-            header_parameters['return-client-request-id'] = self._serialize.header("return_client_request_id", return_client_request_id, 'bool')
+            header_parameters["return-client-request-id"] = self._serialize.header(
+                "return_client_request_id", return_client_request_id, "bool"
+            )
         if ocp_date is not None:
-            header_parameters['ocp-date'] = self._serialize.header("ocp_date", ocp_date, 'rfc-1123')
+            header_parameters["ocp-date"] = self._serialize.header("ocp_date", ocp_date, "rfc-1123")
 
         # Construct body
-        body_content = self._serialize.body(pool_update_properties_parameter, 'PoolUpdatePropertiesParameter')
+        body_content = self._serialize.body(pool_update_properties_parameter, "PoolUpdatePropertiesParameter")
 
         # Construct and send request
         request = self._client.post(url, query_parameters, header_parameters, body_content)
@@ -1417,18 +1589,28 @@ class PoolOperations(object):
 
         if raw:
             client_raw_response = ClientRawResponse(None, response)
-            client_raw_response.add_headers({
-                'client-request-id': 'str',
-                'request-id': 'str',
-                'ETag': 'str',
-                'Last-Modified': 'rfc-1123',
-                'DataServiceId': 'str',
-            })
+            client_raw_response.add_headers(
+                {
+                    "client-request-id": "str",
+                    "request-id": "str",
+                    "ETag": "str",
+                    "Last-Modified": "rfc-1123",
+                    "DataServiceId": "str",
+                }
+            )
             return client_raw_response
-    update_properties.metadata = {'url': '/pools/{poolId}/updateproperties'}
+
+    update_properties.metadata = {"url": "/pools/{poolId}/updateproperties"}
 
     def remove_nodes(
-            self, pool_id, node_remove_parameter, pool_remove_nodes_options=None, custom_headers=None, raw=False, **operation_config):
+        self,
+        pool_id,
+        node_remove_parameter,
+        pool_remove_nodes_options=None,
+        custom_headers=None,
+        raw=False,
+        **operation_config
+    ):
         """Removes Compute Nodes from the specified Pool.
 
         This operation can only run when the allocation state of the Pool is
@@ -1480,45 +1662,55 @@ class PoolOperations(object):
             if_unmodified_since = pool_remove_nodes_options.if_unmodified_since
 
         # Construct URL
-        url = self.remove_nodes.metadata['url']
+        url = self.remove_nodes.metadata["url"]
         path_format_arguments = {
-            'batchUrl': self._serialize.url("self.config.batch_url", self.config.batch_url, 'str', skip_quote=True),
-            'poolId': self._serialize.url("pool_id", pool_id, 'str')
+            "batchUrl": self._serialize.url("self.config.batch_url", self.config.batch_url, "str", skip_quote=True),
+            "poolId": self._serialize.url("pool_id", pool_id, "str"),
         }
         url = self._client.format_url(url, **path_format_arguments)
 
         # Construct parameters
         query_parameters = {}
-        query_parameters['api-version'] = self._serialize.query("self.api_version", self.api_version, 'str')
+        query_parameters["api-version"] = self._serialize.query("self.api_version", self.api_version, "str")
         if timeout is not None:
-            query_parameters['timeout'] = self._serialize.query("timeout", timeout, 'int')
+            query_parameters["timeout"] = self._serialize.query("timeout", timeout, "int")
 
         # Construct headers
         header_parameters = {}
-        header_parameters['Content-Type'] = 'application/json; odata=minimalmetadata; charset=utf-8'
+        header_parameters["Content-Type"] = "application/json; odata=minimalmetadata; charset=utf-8"
         if self.config.generate_client_request_id:
-            header_parameters['client-request-id'] = str(uuid.uuid1())
+            header_parameters["client-request-id"] = str(uuid.uuid1())
         if custom_headers:
             header_parameters.update(custom_headers)
         if self.config.accept_language is not None:
-            header_parameters['accept-language'] = self._serialize.header("self.config.accept_language", self.config.accept_language, 'str')
+            header_parameters["accept-language"] = self._serialize.header(
+                "self.config.accept_language", self.config.accept_language, "str"
+            )
         if client_request_id is not None:
-            header_parameters['client-request-id'] = self._serialize.header("client_request_id", client_request_id, 'str')
+            header_parameters["client-request-id"] = self._serialize.header(
+                "client_request_id", client_request_id, "str"
+            )
         if return_client_request_id is not None:
-            header_parameters['return-client-request-id'] = self._serialize.header("return_client_request_id", return_client_request_id, 'bool')
+            header_parameters["return-client-request-id"] = self._serialize.header(
+                "return_client_request_id", return_client_request_id, "bool"
+            )
         if ocp_date is not None:
-            header_parameters['ocp-date'] = self._serialize.header("ocp_date", ocp_date, 'rfc-1123')
+            header_parameters["ocp-date"] = self._serialize.header("ocp_date", ocp_date, "rfc-1123")
         if if_match is not None:
-            header_parameters['If-Match'] = self._serialize.header("if_match", if_match, 'str')
+            header_parameters["If-Match"] = self._serialize.header("if_match", if_match, "str")
         if if_none_match is not None:
-            header_parameters['If-None-Match'] = self._serialize.header("if_none_match", if_none_match, 'str')
+            header_parameters["If-None-Match"] = self._serialize.header("if_none_match", if_none_match, "str")
         if if_modified_since is not None:
-            header_parameters['If-Modified-Since'] = self._serialize.header("if_modified_since", if_modified_since, 'rfc-1123')
+            header_parameters["If-Modified-Since"] = self._serialize.header(
+                "if_modified_since", if_modified_since, "rfc-1123"
+            )
         if if_unmodified_since is not None:
-            header_parameters['If-Unmodified-Since'] = self._serialize.header("if_unmodified_since", if_unmodified_since, 'rfc-1123')
+            header_parameters["If-Unmodified-Since"] = self._serialize.header(
+                "if_unmodified_since", if_unmodified_since, "rfc-1123"
+            )
 
         # Construct body
-        body_content = self._serialize.body(node_remove_parameter, 'NodeRemoveParameter')
+        body_content = self._serialize.body(node_remove_parameter, "NodeRemoveParameter")
 
         # Construct and send request
         request = self._client.post(url, query_parameters, header_parameters, body_content)
@@ -1529,12 +1721,15 @@ class PoolOperations(object):
 
         if raw:
             client_raw_response = ClientRawResponse(None, response)
-            client_raw_response.add_headers({
-                'client-request-id': 'str',
-                'request-id': 'str',
-                'ETag': 'str',
-                'Last-Modified': 'rfc-1123',
-                'DataServiceId': 'str',
-            })
+            client_raw_response.add_headers(
+                {
+                    "client-request-id": "str",
+                    "request-id": "str",
+                    "ETag": "str",
+                    "Last-Modified": "rfc-1123",
+                    "DataServiceId": "str",
+                }
+            )
             return client_raw_response
-    remove_nodes.metadata = {'url': '/pools/{poolId}/removenodes'}
+
+    remove_nodes.metadata = {"url": "/pools/{poolId}/removenodes"}
