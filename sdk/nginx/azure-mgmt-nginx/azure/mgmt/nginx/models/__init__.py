@@ -6,9 +6,16 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from ._models_py3 import ErrorResponseBody
+from ._models_py3 import AnalysisCreate
+from ._models_py3 import AnalysisCreateConfig
+from ._models_py3 import AnalysisError
+from ._models_py3 import AnalysisResult
+from ._models_py3 import AnalysisResultData
+from ._models_py3 import ErrorAdditionalInfo
+from ._models_py3 import ErrorDetail
 from ._models_py3 import IdentityProperties
 from ._models_py3 import NginxCertificate
+from ._models_py3 import NginxCertificateErrorResponseBody
 from ._models_py3 import NginxCertificateListResponse
 from ._models_py3 import NginxCertificateProperties
 from ._models_py3 import NginxConfiguration
@@ -47,9 +54,16 @@ from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
-    "ErrorResponseBody",
+    "AnalysisCreate",
+    "AnalysisCreateConfig",
+    "AnalysisError",
+    "AnalysisResult",
+    "AnalysisResultData",
+    "ErrorAdditionalInfo",
+    "ErrorDetail",
     "IdentityProperties",
     "NginxCertificate",
+    "NginxCertificateErrorResponseBody",
     "NginxCertificateListResponse",
     "NginxCertificateProperties",
     "NginxConfiguration",

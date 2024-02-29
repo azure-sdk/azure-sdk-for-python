@@ -12,15 +12,19 @@ from typing import Any, Awaitable, TYPE_CHECKING
 from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.mgmt.core import AsyncARMPipelineClient
 
-from .. import models
+from .. import models as _models
 from .._serialization import Deserializer, Serializer
 from ._configuration import PurviewManagementClientConfiguration
 from .operations import (
     AccountsOperations,
     DefaultAccountsOperations,
+    FeaturesOperations,
+    IngestionPrivateEndpointConnectionsOperations,
+    KafkaConfigurationsOperations,
     Operations,
     PrivateEndpointConnectionsOperations,
     PrivateLinkResourcesOperations,
+    UsagesOperations,
 )
 
 if TYPE_CHECKING:
@@ -28,13 +32,21 @@ if TYPE_CHECKING:
     from azure.core.credentials_async import AsyncTokenCredential
 
 
-class PurviewManagementClient:  # pylint: disable=client-accepts-api-version-keyword
+class PurviewManagementClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
     """Creates a Microsoft.Purview management client.
 
     :ivar accounts: AccountsOperations operations
     :vartype accounts: azure.mgmt.purview.aio.operations.AccountsOperations
     :ivar default_accounts: DefaultAccountsOperations operations
     :vartype default_accounts: azure.mgmt.purview.aio.operations.DefaultAccountsOperations
+    :ivar features: FeaturesOperations operations
+    :vartype features: azure.mgmt.purview.aio.operations.FeaturesOperations
+    :ivar ingestion_private_endpoint_connections: IngestionPrivateEndpointConnectionsOperations
+     operations
+    :vartype ingestion_private_endpoint_connections:
+     azure.mgmt.purview.aio.operations.IngestionPrivateEndpointConnectionsOperations
+    :ivar kafka_configurations: KafkaConfigurationsOperations operations
+    :vartype kafka_configurations: azure.mgmt.purview.aio.operations.KafkaConfigurationsOperations
     :ivar operations: Operations operations
     :vartype operations: azure.mgmt.purview.aio.operations.Operations
     :ivar private_endpoint_connections: PrivateEndpointConnectionsOperations operations
@@ -43,14 +55,16 @@ class PurviewManagementClient:  # pylint: disable=client-accepts-api-version-key
     :ivar private_link_resources: PrivateLinkResourcesOperations operations
     :vartype private_link_resources:
      azure.mgmt.purview.aio.operations.PrivateLinkResourcesOperations
+    :ivar usages: UsagesOperations operations
+    :vartype usages: azure.mgmt.purview.aio.operations.UsagesOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
     :param subscription_id: The subscription identifier. Required.
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2021-07-01". Note that overriding this
-     default value may result in unsupported behavior.
+    :keyword api_version: Api Version. Default value is "2023-05-01-preview". Note that overriding
+     this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
      Retry-After header is present.
@@ -66,14 +80,21 @@ class PurviewManagementClient:  # pylint: disable=client-accepts-api-version-key
         self._config = PurviewManagementClientConfiguration(
             credential=credential, subscription_id=subscription_id, **kwargs
         )
-        self._client = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
 
-        client_models = {k: v for k, v in models.__dict__.items() if isinstance(v, type)}
+        client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
         self.accounts = AccountsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.default_accounts = DefaultAccountsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.features = FeaturesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.ingestion_private_endpoint_connections = IngestionPrivateEndpointConnectionsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.kafka_configurations = KafkaConfigurationsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
@@ -83,6 +104,7 @@ class PurviewManagementClient:  # pylint: disable=client-accepts-api-version-key
         self.private_link_resources = PrivateLinkResourcesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.usages = UsagesOperations(self._client, self._config, self._serialize, self._deserialize)
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> Awaitable[AsyncHttpResponse]:
         """Runs the network request through the client's chained policies.
@@ -113,5 +135,5 @@ class PurviewManagementClient:  # pylint: disable=client-accepts-api-version-key
         await self._client.__aenter__()
         return self
 
-    async def __aexit__(self, *exc_details) -> None:
+    async def __aexit__(self, *exc_details: Any) -> None:
         await self._client.__aexit__(*exc_details)
