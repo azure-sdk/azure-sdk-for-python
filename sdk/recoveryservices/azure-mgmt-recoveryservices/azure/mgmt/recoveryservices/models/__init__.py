@@ -76,6 +76,7 @@ from ._recovery_services_client_enums import BackupStorageVersion
 from ._recovery_services_client_enums import CreatedByType
 from ._recovery_services_client_enums import CrossRegionRestore
 from ._recovery_services_client_enums import CrossSubscriptionRestoreState
+from ._recovery_services_client_enums import EnhancedSecurityState
 from ._recovery_services_client_enums import ImmutabilityState
 from ._recovery_services_client_enums import InfrastructureEncryptionState
 from ._recovery_services_client_enums import MultiUserAuthorization
@@ -167,6 +168,7 @@ __all__ = [
     "CreatedByType",
     "CrossRegionRestore",
     "CrossSubscriptionRestoreState",
+    "EnhancedSecurityState",
     "ImmutabilityState",
     "InfrastructureEncryptionState",
     "MultiUserAuthorization",
