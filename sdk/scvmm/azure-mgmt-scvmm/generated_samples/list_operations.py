@@ -7,7 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
-from azure.mgmt.scvmm import SCVMM
+from azure.mgmt.scvmm import ScVmmMgmtClient
 
 """
 # PREREQUISITES
@@ -24,7 +24,7 @@ from azure.mgmt.scvmm import SCVMM
 
 
 def main():
-    client = SCVMM(
+    client = ScVmmMgmtClient(
         credential=DefaultAzureCredential(),
         subscription_id="SUBSCRIPTION_ID",
     )
@@ -34,6 +34,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/preview/2020-06-05-preview/examples/ListOperations.json
+# x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/ListOperations.json
 if __name__ == "__main__":
     main()
