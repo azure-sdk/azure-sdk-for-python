@@ -35,6 +35,6 @@ def main():
     ).result()
 
 
-# x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2023-04-01/examples/Deployments_Delete.json
+# x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2023-09-01/examples/Deployments_Delete.json
 if __name__ == "__main__":
     main()
