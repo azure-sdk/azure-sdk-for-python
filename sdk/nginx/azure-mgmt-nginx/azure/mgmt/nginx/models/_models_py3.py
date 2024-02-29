@@ -17,50 +17,279 @@ if TYPE_CHECKING:
     from .. import models as _models
 
 
-class ErrorResponseBody(_serialization.Model):
-    """ErrorResponseBody.
+class AnalysisCreate(_serialization.Model):
+    """The request body for creating an analysis for an NGINX configuration.
 
-    :ivar code:
-    :vartype code: str
-    :ivar message:
-    :vartype message: str
-    :ivar target:
-    :vartype target: str
-    :ivar details:
-    :vartype details: list[~azure.mgmt.nginx.models.ErrorResponseBody]
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar config: Required.
+    :vartype config: ~azure.mgmt.nginx.models.AnalysisCreateConfig
+    """
+
+    _validation = {
+        "config": {"required": True},
+    }
+
+    _attribute_map = {
+        "config": {"key": "config", "type": "AnalysisCreateConfig"},
+    }
+
+    def __init__(self, *, config: "_models.AnalysisCreateConfig", **kwargs: Any) -> None:
+        """
+        :keyword config: Required.
+        :paramtype config: ~azure.mgmt.nginx.models.AnalysisCreateConfig
+        """
+        super().__init__(**kwargs)
+        self.config = config
+
+
+class AnalysisCreateConfig(_serialization.Model):
+    """AnalysisCreateConfig.
+
+    :ivar root_file: The root file of the NGINX config file(s). It must match one of the files'
+     filepath.
+    :vartype root_file: str
+    :ivar files:
+    :vartype files: list[~azure.mgmt.nginx.models.NginxConfigurationFile]
+    :ivar protected_files:
+    :vartype protected_files: list[~azure.mgmt.nginx.models.NginxConfigurationFile]
+    :ivar package:
+    :vartype package: ~azure.mgmt.nginx.models.NginxConfigurationPackage
     """
 
     _attribute_map = {
-        "code": {"key": "code", "type": "str"},
-        "message": {"key": "message", "type": "str"},
-        "target": {"key": "target", "type": "str"},
-        "details": {"key": "details", "type": "[ErrorResponseBody]"},
+        "root_file": {"key": "rootFile", "type": "str"},
+        "files": {"key": "files", "type": "[NginxConfigurationFile]"},
+        "protected_files": {"key": "protectedFiles", "type": "[NginxConfigurationFile]"},
+        "package": {"key": "package", "type": "NginxConfigurationPackage"},
     }
 
     def __init__(
         self,
         *,
-        code: Optional[str] = None,
-        message: Optional[str] = None,
-        target: Optional[str] = None,
-        details: Optional[List["_models.ErrorResponseBody"]] = None,
+        root_file: Optional[str] = None,
+        files: Optional[List["_models.NginxConfigurationFile"]] = None,
+        protected_files: Optional[List["_models.NginxConfigurationFile"]] = None,
+        package: Optional["_models.NginxConfigurationPackage"] = None,
         **kwargs: Any
     ) -> None:
         """
-        :keyword code:
-        :paramtype code: str
-        :keyword message:
-        :paramtype message: str
-        :keyword target:
-        :paramtype target: str
-        :keyword details:
-        :paramtype details: list[~azure.mgmt.nginx.models.ErrorResponseBody]
+        :keyword root_file: The root file of the NGINX config file(s). It must match one of the files'
+         filepath.
+        :paramtype root_file: str
+        :keyword files:
+        :paramtype files: list[~azure.mgmt.nginx.models.NginxConfigurationFile]
+        :keyword protected_files:
+        :paramtype protected_files: list[~azure.mgmt.nginx.models.NginxConfigurationFile]
+        :keyword package:
+        :paramtype package: ~azure.mgmt.nginx.models.NginxConfigurationPackage
         """
         super().__init__(**kwargs)
-        self.code = code
+        self.root_file = root_file
+        self.files = files
+        self.protected_files = protected_files
+        self.package = package
+
+
+class AnalysisError(_serialization.Model):
+    """An error object found during the analysis of an NGINX configuration.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar id: Unique identifier for the error.
+    :vartype id: str
+    :ivar directive: Required.
+    :vartype directive: str
+    :ivar description: Required.
+    :vartype description: str
+    :ivar file: the filepath of the most relevant config file. Required.
+    :vartype file: str
+    :ivar line: Required.
+    :vartype line: float
+    :ivar message: Required.
+    :vartype message: str
+    :ivar rule: Required.
+    :vartype rule: str
+    """
+
+    _validation = {
+        "directive": {"required": True},
+        "description": {"required": True},
+        "file": {"required": True},
+        "line": {"required": True},
+        "message": {"required": True},
+        "rule": {"required": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "directive": {"key": "directive", "type": "str"},
+        "description": {"key": "description", "type": "str"},
+        "file": {"key": "file", "type": "str"},
+        "line": {"key": "line", "type": "float"},
+        "message": {"key": "message", "type": "str"},
+        "rule": {"key": "rule", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        directive: str,
+        description: str,
+        file: str,
+        line: float,
+        message: str,
+        rule: str,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword id: Unique identifier for the error.
+        :paramtype id: str
+        :keyword directive: Required.
+        :paramtype directive: str
+        :keyword description: Required.
+        :paramtype description: str
+        :keyword file: the filepath of the most relevant config file. Required.
+        :paramtype file: str
+        :keyword line: Required.
+        :paramtype line: float
+        :keyword message: Required.
+        :paramtype message: str
+        :keyword rule: Required.
+        :paramtype rule: str
+        """
+        super().__init__(**kwargs)
+        self.id = id
+        self.directive = directive
+        self.description = description
+        self.file = file
+        self.line = line
         self.message = message
-        self.target = target
-        self.details = details
+        self.rule = rule
+
+
+class AnalysisResult(_serialization.Model):
+    """The response body for an analysis request. Contains the status of the analysis and any errors.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar status: The status of the analysis. Required.
+    :vartype status: str
+    :ivar data:
+    :vartype data: ~azure.mgmt.nginx.models.AnalysisResultData
+    """
+
+    _validation = {
+        "status": {"required": True},
+    }
+
+    _attribute_map = {
+        "status": {"key": "status", "type": "str"},
+        "data": {"key": "data", "type": "AnalysisResultData"},
+    }
+
+    def __init__(self, *, status: str, data: Optional["_models.AnalysisResultData"] = None, **kwargs: Any) -> None:
+        """
+        :keyword status: The status of the analysis. Required.
+        :paramtype status: str
+        :keyword data:
+        :paramtype data: ~azure.mgmt.nginx.models.AnalysisResultData
+        """
+        super().__init__(**kwargs)
+        self.status = status
+        self.data = data
+
+
+class AnalysisResultData(_serialization.Model):
+    """AnalysisResultData.
+
+    :ivar errors:
+    :vartype errors: list[~azure.mgmt.nginx.models.AnalysisError]
+    """
+
+    _attribute_map = {
+        "errors": {"key": "errors", "type": "[AnalysisError]"},
+    }
+
+    def __init__(self, *, errors: Optional[List["_models.AnalysisError"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword errors:
+        :paramtype errors: list[~azure.mgmt.nginx.models.AnalysisError]
+        """
+        super().__init__(**kwargs)
+        self.errors = errors
+
+
+class ErrorAdditionalInfo(_serialization.Model):
+    """The resource management error additional info.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar type: The additional info type.
+    :vartype type: str
+    :ivar info: The additional info.
+    :vartype info: JSON
+    """
+
+    _validation = {
+        "type": {"readonly": True},
+        "info": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "type": {"key": "type", "type": "str"},
+        "info": {"key": "info", "type": "object"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.type = None
+        self.info = None
+
+
+class ErrorDetail(_serialization.Model):
+    """The error detail.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar code: The error code.
+    :vartype code: str
+    :ivar message: The error message.
+    :vartype message: str
+    :ivar target: The error target.
+    :vartype target: str
+    :ivar details: The error details.
+    :vartype details: list[~azure.mgmt.nginx.models.ErrorDetail]
+    :ivar additional_info: The error additional info.
+    :vartype additional_info: list[~azure.mgmt.nginx.models.ErrorAdditionalInfo]
+    """
+
+    _validation = {
+        "code": {"readonly": True},
+        "message": {"readonly": True},
+        "target": {"readonly": True},
+        "details": {"readonly": True},
+        "additional_info": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "code": {"key": "code", "type": "str"},
+        "message": {"key": "message", "type": "str"},
+        "target": {"key": "target", "type": "str"},
+        "details": {"key": "details", "type": "[ErrorDetail]"},
+        "additional_info": {"key": "additionalInfo", "type": "[ErrorAdditionalInfo]"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.code = None
+        self.message = None
+        self.target = None
+        self.details = None
+        self.additional_info = None
 
 
 class IdentityProperties(_serialization.Model):
@@ -169,6 +398,32 @@ class NginxCertificate(_serialization.Model):
         self.system_data = None
 
 
+class NginxCertificateErrorResponseBody(_serialization.Model):
+    """NginxCertificateErrorResponseBody.
+
+    :ivar code:
+    :vartype code: str
+    :ivar message:
+    :vartype message: str
+    """
+
+    _attribute_map = {
+        "code": {"key": "code", "type": "str"},
+        "message": {"key": "message", "type": "str"},
+    }
+
+    def __init__(self, *, code: Optional[str] = None, message: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword code:
+        :paramtype code: str
+        :keyword message:
+        :paramtype message: str
+        """
+        super().__init__(**kwargs)
+        self.code = code
+        self.message = message
+
+
 class NginxCertificateListResponse(_serialization.Model):
     """NginxCertificateListResponse.
 
@@ -215,10 +470,21 @@ class NginxCertificateProperties(_serialization.Model):
     :vartype certificate_virtual_path: str
     :ivar key_vault_secret_id:
     :vartype key_vault_secret_id: str
+    :ivar sha1_thumbprint:
+    :vartype sha1_thumbprint: str
+    :ivar key_vault_secret_version:
+    :vartype key_vault_secret_version: str
+    :ivar key_vault_secret_created:
+    :vartype key_vault_secret_created: ~datetime.datetime
+    :ivar certificate_error:
+    :vartype certificate_error: ~azure.mgmt.nginx.models.NginxCertificateErrorResponseBody
     """
 
     _validation = {
         "provisioning_state": {"readonly": True},
+        "sha1_thumbprint": {"readonly": True},
+        "key_vault_secret_version": {"readonly": True},
+        "key_vault_secret_created": {"readonly": True},
     }
 
     _attribute_map = {
@@ -226,6 +492,10 @@ class NginxCertificateProperties(_serialization.Model):
         "key_virtual_path": {"key": "keyVirtualPath", "type": "str"},
         "certificate_virtual_path": {"key": "certificateVirtualPath", "type": "str"},
         "key_vault_secret_id": {"key": "keyVaultSecretId", "type": "str"},
+        "sha1_thumbprint": {"key": "sha1Thumbprint", "type": "str"},
+        "key_vault_secret_version": {"key": "keyVaultSecretVersion", "type": "str"},
+        "key_vault_secret_created": {"key": "keyVaultSecretCreated", "type": "iso-8601"},
+        "certificate_error": {"key": "certificateError", "type": "NginxCertificateErrorResponseBody"},
     }
 
     def __init__(
@@ -234,6 +504,7 @@ class NginxCertificateProperties(_serialization.Model):
         key_virtual_path: Optional[str] = None,
         certificate_virtual_path: Optional[str] = None,
         key_vault_secret_id: Optional[str] = None,
+        certificate_error: Optional["_models.NginxCertificateErrorResponseBody"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -243,12 +514,18 @@ class NginxCertificateProperties(_serialization.Model):
         :paramtype certificate_virtual_path: str
         :keyword key_vault_secret_id:
         :paramtype key_vault_secret_id: str
+        :keyword certificate_error:
+        :paramtype certificate_error: ~azure.mgmt.nginx.models.NginxCertificateErrorResponseBody
         """
         super().__init__(**kwargs)
         self.provisioning_state = None
         self.key_virtual_path = key_virtual_path
         self.certificate_virtual_path = certificate_virtual_path
         self.key_vault_secret_id = key_vault_secret_id
+        self.sha1_thumbprint = None
+        self.key_vault_secret_version = None
+        self.key_vault_secret_created = None
+        self.certificate_error = certificate_error
 
 
 class NginxConfiguration(_serialization.Model):
@@ -1099,18 +1376,18 @@ class OperationResult(_serialization.Model):
 class ResourceProviderDefaultErrorResponse(_serialization.Model):
     """ResourceProviderDefaultErrorResponse.
 
-    :ivar error:
-    :vartype error: ~azure.mgmt.nginx.models.ErrorResponseBody
+    :ivar error: The error detail.
+    :vartype error: ~azure.mgmt.nginx.models.ErrorDetail
     """
 
     _attribute_map = {
-        "error": {"key": "error", "type": "ErrorResponseBody"},
+        "error": {"key": "error", "type": "ErrorDetail"},
     }
 
-    def __init__(self, *, error: Optional["_models.ErrorResponseBody"] = None, **kwargs: Any) -> None:
+    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs: Any) -> None:
         """
-        :keyword error:
-        :paramtype error: ~azure.mgmt.nginx.models.ErrorResponseBody
+        :keyword error: The error detail.
+        :paramtype error: ~azure.mgmt.nginx.models.ErrorDetail
         """
         super().__init__(**kwargs)
         self.error = error
