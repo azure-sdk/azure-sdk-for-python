@@ -561,13 +561,6 @@ class DocumentIntelligenceClientOperationsMixin(DocumentIntelligenceClientMixinA
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be LROBasePolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns AnalyzeResult. The AnalyzeResult is compatible
          with MutableMapping
         :rtype: ~azure.core.polling.LROPoller[~azure.ai.documentintelligence.models.AnalyzeResult]
@@ -1342,13 +1335,6 @@ class DocumentIntelligenceClientOperationsMixin(DocumentIntelligenceClientMixinA
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be LROBasePolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns AnalyzeResult. The AnalyzeResult is compatible
          with MutableMapping
         :rtype: ~azure.core.polling.LROPoller[~azure.ai.documentintelligence.models.AnalyzeResult]
@@ -2114,13 +2100,6 @@ class DocumentIntelligenceClientOperationsMixin(DocumentIntelligenceClientMixinA
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be LROBasePolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns AnalyzeResult. The AnalyzeResult is compatible
          with MutableMapping
         :rtype: ~azure.core.polling.LROPoller[~azure.ai.documentintelligence.models.AnalyzeResult]
@@ -2884,15 +2863,6 @@ class DocumentIntelligenceClientOperationsMixin(DocumentIntelligenceClientMixinA
         :keyword output_content_format: Format of the analyze result top-level content. Known values
          are: "text" and "markdown". Default value is None.
         :paramtype output_content_format: str or ~azure.ai.documentintelligence.models.ContentFormat
-        :keyword content_type: Input content type. Default value is None.
-        :paramtype content_type: str
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be LROBasePolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns AnalyzeResult. The AnalyzeResult is compatible
          with MutableMapping
         :rtype: ~azure.core.polling.LROPoller[~azure.ai.documentintelligence.models.AnalyzeResult]
@@ -3775,13 +3745,6 @@ class DocumentIntelligenceClientOperationsMixin(DocumentIntelligenceClientMixinA
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be LROBasePolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns AnalyzeResult. The AnalyzeResult is compatible
          with MutableMapping
         :rtype: ~azure.core.polling.LROPoller[~azure.ai.documentintelligence.models.AnalyzeResult]
@@ -4539,13 +4502,6 @@ class DocumentIntelligenceClientOperationsMixin(DocumentIntelligenceClientMixinA
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be LROBasePolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns AnalyzeResult. The AnalyzeResult is compatible
          with MutableMapping
         :rtype: ~azure.core.polling.LROPoller[~azure.ai.documentintelligence.models.AnalyzeResult]
@@ -5294,13 +5250,6 @@ class DocumentIntelligenceClientOperationsMixin(DocumentIntelligenceClientMixinA
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be LROBasePolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns AnalyzeResult. The AnalyzeResult is compatible
          with MutableMapping
         :rtype: ~azure.core.polling.LROPoller[~azure.ai.documentintelligence.models.AnalyzeResult]
@@ -6047,15 +5996,6 @@ class DocumentIntelligenceClientOperationsMixin(DocumentIntelligenceClientMixinA
         :keyword split: Document splitting mode. Known values are: "auto", "none", and "perPage".
          Default value is None.
         :paramtype split: str or ~azure.ai.documentintelligence.models.SplitMode
-        :keyword content_type: Input content type. Default value is None.
-        :paramtype content_type: str
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be LROBasePolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns AnalyzeResult. The AnalyzeResult is compatible
          with MutableMapping
         :rtype: ~azure.core.polling.LROPoller[~azure.ai.documentintelligence.models.AnalyzeResult]
@@ -6914,13 +6854,6 @@ class DocumentIntelligenceAdministrationClientOperationsMixin(  # pylint: disabl
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be LROBasePolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns DocumentModelDetails. The DocumentModelDetails
          is compatible with MutableMapping
         :rtype:
@@ -7020,13 +6953,6 @@ class DocumentIntelligenceAdministrationClientOperationsMixin(  # pylint: disabl
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be LROBasePolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns DocumentModelDetails. The DocumentModelDetails
          is compatible with MutableMapping
         :rtype:
@@ -7105,13 +7031,6 @@ class DocumentIntelligenceAdministrationClientOperationsMixin(  # pylint: disabl
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be LROBasePolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns DocumentModelDetails. The DocumentModelDetails
          is compatible with MutableMapping
         :rtype:
@@ -7189,16 +7108,6 @@ class DocumentIntelligenceAdministrationClientOperationsMixin(  # pylint: disabl
          BuildDocumentModelRequest, JSON, IO[bytes] Required.
         :type build_request: ~azure.ai.documentintelligence.models.BuildDocumentModelRequest or JSON or
          IO[bytes]
-        :keyword content_type: Body parameter Content-Type. Known values are: application/json. Default
-         value is None.
-        :paramtype content_type: str
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be LROBasePolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns DocumentModelDetails. The DocumentModelDetails
          is compatible with MutableMapping
         :rtype:
@@ -7411,13 +7320,6 @@ class DocumentIntelligenceAdministrationClientOperationsMixin(  # pylint: disabl
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be LROBasePolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns DocumentModelDetails. The DocumentModelDetails
          is compatible with MutableMapping
         :rtype:
@@ -7511,13 +7413,6 @@ class DocumentIntelligenceAdministrationClientOperationsMixin(  # pylint: disabl
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be LROBasePolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns DocumentModelDetails. The DocumentModelDetails
          is compatible with MutableMapping
         :rtype:
@@ -7596,13 +7491,6 @@ class DocumentIntelligenceAdministrationClientOperationsMixin(  # pylint: disabl
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be LROBasePolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns DocumentModelDetails. The DocumentModelDetails
          is compatible with MutableMapping
         :rtype:
@@ -7680,16 +7568,6 @@ class DocumentIntelligenceAdministrationClientOperationsMixin(  # pylint: disabl
          ComposeDocumentModelRequest, JSON, IO[bytes] Required.
         :type compose_request: ~azure.ai.documentintelligence.models.ComposeDocumentModelRequest or
          JSON or IO[bytes]
-        :keyword content_type: Body parameter Content-Type. Known values are: application/json. Default
-         value is None.
-        :paramtype content_type: str
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be LROBasePolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns DocumentModelDetails. The DocumentModelDetails
          is compatible with MutableMapping
         :rtype:
@@ -7841,8 +7719,6 @@ class DocumentIntelligenceAdministrationClientOperationsMixin(  # pylint: disabl
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
         :return: CopyAuthorization. The CopyAuthorization is compatible with MutableMapping
         :rtype: ~azure.ai.documentintelligence.models.CopyAuthorization
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -7888,8 +7764,6 @@ class DocumentIntelligenceAdministrationClientOperationsMixin(  # pylint: disabl
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
         :return: CopyAuthorization. The CopyAuthorization is compatible with MutableMapping
         :rtype: ~azure.ai.documentintelligence.models.CopyAuthorization
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -7925,8 +7799,6 @@ class DocumentIntelligenceAdministrationClientOperationsMixin(  # pylint: disabl
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
         :return: CopyAuthorization. The CopyAuthorization is compatible with MutableMapping
         :rtype: ~azure.ai.documentintelligence.models.CopyAuthorization
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -7961,11 +7833,6 @@ class DocumentIntelligenceAdministrationClientOperationsMixin(  # pylint: disabl
          types: AuthorizeCopyRequest, JSON, IO[bytes] Required.
         :type authorize_copy_request: ~azure.ai.documentintelligence.models.AuthorizeCopyRequest or
          JSON or IO[bytes]
-        :keyword content_type: Body parameter Content-Type. Known values are: application/json. Default
-         value is None.
-        :paramtype content_type: str
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
         :return: CopyAuthorization. The CopyAuthorization is compatible with MutableMapping
         :rtype: ~azure.ai.documentintelligence.models.CopyAuthorization
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -8130,13 +7997,6 @@ class DocumentIntelligenceAdministrationClientOperationsMixin(  # pylint: disabl
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be LROBasePolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns DocumentModelDetails. The DocumentModelDetails
          is compatible with MutableMapping
         :rtype:
@@ -8231,13 +8091,6 @@ class DocumentIntelligenceAdministrationClientOperationsMixin(  # pylint: disabl
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be LROBasePolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns DocumentModelDetails. The DocumentModelDetails
          is compatible with MutableMapping
         :rtype:
@@ -8318,13 +8171,6 @@ class DocumentIntelligenceAdministrationClientOperationsMixin(  # pylint: disabl
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be LROBasePolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns DocumentModelDetails. The DocumentModelDetails
          is compatible with MutableMapping
         :rtype:
@@ -8404,16 +8250,6 @@ class DocumentIntelligenceAdministrationClientOperationsMixin(  # pylint: disabl
          CopyAuthorization, JSON, IO[bytes] Required.
         :type copy_to_request: ~azure.ai.documentintelligence.models.CopyAuthorization or JSON or
          IO[bytes]
-        :keyword content_type: Body parameter Content-Type. Known values are: application/json. Default
-         value is None.
-        :paramtype content_type: str
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be LROBasePolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns DocumentModelDetails. The DocumentModelDetails
          is compatible with MutableMapping
         :rtype:
@@ -8555,8 +8391,6 @@ class DocumentIntelligenceAdministrationClientOperationsMixin(  # pylint: disabl
 
         :param model_id: Unique document model name. Required.
         :type model_id: str
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
         :return: DocumentModelDetails. The DocumentModelDetails is compatible with MutableMapping
         :rtype: ~azure.ai.documentintelligence.models.DocumentModelDetails
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -8870,8 +8704,6 @@ class DocumentIntelligenceAdministrationClientOperationsMixin(  # pylint: disabl
         # pylint: disable=line-too-long
         """Return information about the current resource.
 
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
         :return: ResourceDetails. The ResourceDetails is compatible with MutableMapping
         :rtype: ~azure.ai.documentintelligence.models.ResourceDetails
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -8949,8 +8781,6 @@ class DocumentIntelligenceAdministrationClientOperationsMixin(  # pylint: disabl
 
         :param operation_id: Operation ID. Required.
         :type operation_id: str
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
         :return: OperationDetails. The OperationDetails is compatible with MutableMapping
         :rtype: ~azure.ai.documentintelligence.models.OperationDetails
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -9019,99 +8849,6 @@ class DocumentIntelligenceAdministrationClientOperationsMixin(  # pylint: disabl
                         "description": "str",  # Optional. Document classifier description.
                         "expirationDateTime": "2020-02-20 00:00:00"  # Optional. Date and
                           time (UTC) when the document classifier will expire.
-                    },
-                    "tags": {
-                        "str": "str"  # Optional. List of key-value tag attributes associated
-                          with the document model.
-                    }
-                }
-
-                # JSON input template for discriminator value "documentModelBuild":
-                operation_details = {
-                    "createdDateTime": "2020-02-20 00:00:00",  # Date and time (UTC) when the
-                      operation was created. Required.
-                    "kind": "documentModelBuild",
-                    "lastUpdatedDateTime": "2020-02-20 00:00:00",  # Date and time (UTC) when the
-                      status was last updated. Required.
-                    "operationId": "str",  # Operation ID. Required.
-                    "resourceLocation": "str",  # URL of the resource targeted by this operation.
-                      Required.
-                    "status": "str",  # Operation status. Required. Known values are:
-                      "notStarted", "running", "failed", "succeeded", and "canceled".
-                    "apiVersion": "str",  # Optional. API version used to create this operation.
-                    "error": {
-                        "code": "str",  # One of a server-defined set of error codes.
-                          Required.
-                        "message": "str",  # A human-readable representation of the error.
-                          Required.
-                        "details": [
-                            ...
-                        ],
-                        "innererror": {
-                            "code": "str",  # Optional. One of a server-defined set of
-                              error codes.
-                            "innererror": ...,
-                            "message": "str"  # Optional. A human-readable representation
-                              of the error.
-                        },
-                        "target": "str"  # Optional. The target of the error.
-                    },
-                    "percentCompleted": 0,  # Optional. Operation progress (0-100).
-                    "result": {
-                        "createdDateTime": "2020-02-20 00:00:00",  # Date and time (UTC) when
-                          the document model was created. Required.
-                        "modelId": "str",  # Unique document model name. Required.
-                        "apiVersion": "str",  # Optional. API version used to create this
-                          document model.
-                        "azureBlobFileListSource": {
-                            "containerUrl": "str",  # Azure Blob Storage container URL.
-                              Required.
-                            "fileList": "str"  # Path to a JSONL file within the
-                              container specifying a subset of documents. Required.
-                        },
-                        "azureBlobSource": {
-                            "containerUrl": "str",  # Azure Blob Storage container URL.
-                              Required.
-                            "prefix": "str"  # Optional. Blob name prefix.
-                        },
-                        "buildMode": "str",  # Optional. Custom document model build mode.
-                          Known values are: "template" and "neural".
-                        "description": "str",  # Optional. Document model description.
-                        "docTypes": {
-                            "str": {
-                                "fieldSchema": {
-                                    "str": {
-                                        "type": "str",  # Semantic data type
-                                          of the field value. Required. Known values are: "string",
-                                          "date", "time", "phoneNumber", "number", "integer",
-                                          "selectionMark", "countryRegion", "signature", "array",
-                                          "object", "currency", "address", and "boolean".
-                                        "description": "str",  # Optional.
-                                          Field description.
-                                        "example": "str",  # Optional.
-                                          Example field content.
-                                        "items": ...,
-                                        "properties": {
-                                            "str": ...
-                                        }
-                                    }
-                                },
-                                "buildMode": "str",  # Optional. Custom document
-                                  model build mode. Known values are: "template" and "neural".
-                                "description": "str",  # Optional. Document model
-                                  description.
-                                "fieldConfidence": {
-                                    "str": 0.0  # Optional. Estimated confidence
-                                      for each field.
-                                }
-                            }
-                        },
-                        "expirationDateTime": "2020-02-20 00:00:00",  # Optional. Date and
-                          time (UTC) when the document model will expire.
-                        "tags": {
-                            "str": "str"  # Optional. List of key-value tag attributes
-                              associated with the document model.
-                        }
                     },
                     "tags": {
                         "str": "str"  # Optional. List of key-value tag attributes associated
@@ -9429,99 +9166,6 @@ class DocumentIntelligenceAdministrationClientOperationsMixin(  # pylint: disabl
                         "description": "str",  # Optional. Document classifier description.
                         "expirationDateTime": "2020-02-20 00:00:00"  # Optional. Date and
                           time (UTC) when the document classifier will expire.
-                    },
-                    "tags": {
-                        "str": "str"  # Optional. List of key-value tag attributes associated
-                          with the document model.
-                    }
-                }
-
-                # JSON input template for discriminator value "documentModelBuild":
-                operation_details = {
-                    "createdDateTime": "2020-02-20 00:00:00",  # Date and time (UTC) when the
-                      operation was created. Required.
-                    "kind": "documentModelBuild",
-                    "lastUpdatedDateTime": "2020-02-20 00:00:00",  # Date and time (UTC) when the
-                      status was last updated. Required.
-                    "operationId": "str",  # Operation ID. Required.
-                    "resourceLocation": "str",  # URL of the resource targeted by this operation.
-                      Required.
-                    "status": "str",  # Operation status. Required. Known values are:
-                      "notStarted", "running", "failed", "succeeded", and "canceled".
-                    "apiVersion": "str",  # Optional. API version used to create this operation.
-                    "error": {
-                        "code": "str",  # One of a server-defined set of error codes.
-                          Required.
-                        "message": "str",  # A human-readable representation of the error.
-                          Required.
-                        "details": [
-                            ...
-                        ],
-                        "innererror": {
-                            "code": "str",  # Optional. One of a server-defined set of
-                              error codes.
-                            "innererror": ...,
-                            "message": "str"  # Optional. A human-readable representation
-                              of the error.
-                        },
-                        "target": "str"  # Optional. The target of the error.
-                    },
-                    "percentCompleted": 0,  # Optional. Operation progress (0-100).
-                    "result": {
-                        "createdDateTime": "2020-02-20 00:00:00",  # Date and time (UTC) when
-                          the document model was created. Required.
-                        "modelId": "str",  # Unique document model name. Required.
-                        "apiVersion": "str",  # Optional. API version used to create this
-                          document model.
-                        "azureBlobFileListSource": {
-                            "containerUrl": "str",  # Azure Blob Storage container URL.
-                              Required.
-                            "fileList": "str"  # Path to a JSONL file within the
-                              container specifying a subset of documents. Required.
-                        },
-                        "azureBlobSource": {
-                            "containerUrl": "str",  # Azure Blob Storage container URL.
-                              Required.
-                            "prefix": "str"  # Optional. Blob name prefix.
-                        },
-                        "buildMode": "str",  # Optional. Custom document model build mode.
-                          Known values are: "template" and "neural".
-                        "description": "str",  # Optional. Document model description.
-                        "docTypes": {
-                            "str": {
-                                "fieldSchema": {
-                                    "str": {
-                                        "type": "str",  # Semantic data type
-                                          of the field value. Required. Known values are: "string",
-                                          "date", "time", "phoneNumber", "number", "integer",
-                                          "selectionMark", "countryRegion", "signature", "array",
-                                          "object", "currency", "address", and "boolean".
-                                        "description": "str",  # Optional.
-                                          Field description.
-                                        "example": "str",  # Optional.
-                                          Example field content.
-                                        "items": ...,
-                                        "properties": {
-                                            "str": ...
-                                        }
-                                    }
-                                },
-                                "buildMode": "str",  # Optional. Custom document
-                                  model build mode. Known values are: "template" and "neural".
-                                "description": "str",  # Optional. Document model
-                                  description.
-                                "fieldConfidence": {
-                                    "str": 0.0  # Optional. Estimated confidence
-                                      for each field.
-                                }
-                            }
-                        },
-                        "expirationDateTime": "2020-02-20 00:00:00",  # Optional. Date and
-                          time (UTC) when the document model will expire.
-                        "tags": {
-                            "str": "str"  # Optional. List of key-value tag attributes
-                              associated with the document model.
-                        }
                     },
                     "tags": {
                         "str": "str"  # Optional. List of key-value tag attributes associated
@@ -9867,13 +9511,6 @@ class DocumentIntelligenceAdministrationClientOperationsMixin(  # pylint: disabl
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be LROBasePolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns DocumentClassifierDetails. The
          DocumentClassifierDetails is compatible with MutableMapping
         :rtype:
@@ -9950,13 +9587,6 @@ class DocumentIntelligenceAdministrationClientOperationsMixin(  # pylint: disabl
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be LROBasePolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns DocumentClassifierDetails. The
          DocumentClassifierDetails is compatible with MutableMapping
         :rtype:
@@ -10009,13 +9639,6 @@ class DocumentIntelligenceAdministrationClientOperationsMixin(  # pylint: disabl
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be LROBasePolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns DocumentClassifierDetails. The
          DocumentClassifierDetails is compatible with MutableMapping
         :rtype:
@@ -10067,16 +9690,6 @@ class DocumentIntelligenceAdministrationClientOperationsMixin(  # pylint: disabl
          BuildDocumentClassifierRequest, JSON, IO[bytes] Required.
         :type build_request: ~azure.ai.documentintelligence.models.BuildDocumentClassifierRequest or
          JSON or IO[bytes]
-        :keyword content_type: Body parameter Content-Type. Known values are: application/json. Default
-         value is None.
-        :paramtype content_type: str
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be LROBasePolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns DocumentClassifierDetails. The
          DocumentClassifierDetails is compatible with MutableMapping
         :rtype:
@@ -10201,8 +9814,6 @@ class DocumentIntelligenceAdministrationClientOperationsMixin(  # pylint: disabl
 
         :param classifier_id: Unique document classifier name. Required.
         :type classifier_id: str
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
         :return: DocumentClassifierDetails. The DocumentClassifierDetails is compatible with
          MutableMapping
         :rtype: ~azure.ai.documentintelligence.models.DocumentClassifierDetails
