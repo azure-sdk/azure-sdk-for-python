@@ -57,6 +57,7 @@ from ._models_py3 import NodeTypeActionParameters
 from ._models_py3 import NodeTypeAvailableSku
 from ._models_py3 import NodeTypeListResult
 from ._models_py3 import NodeTypeListSkuResult
+from ._models_py3 import NodeTypeNatConfig
 from ._models_py3 import NodeTypeSku
 from ._models_py3 import NodeTypeSkuCapacity
 from ._models_py3 import NodeTypeSupportedSku
@@ -202,6 +203,7 @@ __all__ = [
     "NodeTypeAvailableSku",
     "NodeTypeListResult",
     "NodeTypeListSkuResult",
+    "NodeTypeNatConfig",
     "NodeTypeSku",
     "NodeTypeSkuCapacity",
     "NodeTypeSupportedSku",
