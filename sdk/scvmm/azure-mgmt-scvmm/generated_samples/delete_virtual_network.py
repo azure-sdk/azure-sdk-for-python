@@ -7,7 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
-from azure.mgmt.scvmm import SCVMM
+from azure.mgmt.scvmm import ScVmmMgmtClient
 
 """
 # PREREQUISITES
@@ -24,18 +24,17 @@ from azure.mgmt.scvmm import SCVMM
 
 
 def main():
-    client = SCVMM(
+    client = ScVmmMgmtClient(
         credential=DefaultAzureCredential(),
         subscription_id="fd3c3665-1729-4b7b-9a38-238e83b0f98b",
     )
 
-    response = client.virtual_networks.begin_delete(
+    client.virtual_networks.begin_delete(
         resource_group_name="testrg",
         virtual_network_name="HRVirtualNetwork",
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/preview/2020-06-05-preview/examples/DeleteVirtualNetwork.json
+# x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/DeleteVirtualNetwork.json
 if __name__ == "__main__":
     main()
