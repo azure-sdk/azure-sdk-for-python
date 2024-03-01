@@ -63,9 +63,7 @@ class AddonsOperations:
 
     @distributed_trace
     def list(self, resource_group_name: str, private_cloud_name: str, **kwargs: Any) -> AsyncIterable["_models.Addon"]:
-        """List addons in a private cloud.
-
-        List addons in a private cloud.
+        """List Addon resources by PrivateCloud.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -81,7 +79,7 @@ class AddonsOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.AddonList] = kwargs.pop("cls", None)
+        cls: ClsType[_models.AddonListResult] = kwargs.pop("cls", None)
 
         error_map = {
             401: ClientAuthenticationError,
@@ -125,7 +123,7 @@ class AddonsOperations:
             return request
 
         async def extract_data(pipeline_response):
-            deserialized = self._deserialize("AddonList", pipeline_response)
+            deserialized = self._deserialize("AddonListResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
@@ -157,16 +155,14 @@ class AddonsOperations:
     async def get(
         self, resource_group_name: str, private_cloud_name: str, addon_name: str, **kwargs: Any
     ) -> _models.Addon:
-        """Get an addon by name in a private cloud.
-
-        Get an addon by name in a private cloud.
+        """Get a Addon.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param addon_name: Name of the addon for the private cloud. Required.
+        :param addon_name: Name of the addon. Required.
         :type addon_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Addon or the result of cls(response)
@@ -282,14 +278,17 @@ class AddonsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
+        response_headers = {}
         if response.status_code == 200:
             deserialized = self._deserialize("Addon", pipeline_response)
 
         if response.status_code == 201:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+
             deserialized = self._deserialize("Addon", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
 
@@ -308,18 +307,16 @@ class AddonsOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.Addon]:
-        """Create or update a addon in a private cloud.
-
-        Create or update a addon in a private cloud.
+        """Create a Addon.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param private_cloud_name: The name of the private cloud. Required.
+        :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param addon_name: Name of the addon for the private cloud. Required.
+        :param addon_name: Name of the addon. Required.
         :type addon_name: str
-        :param addon: A addon in the private cloud. Required.
+        :param addon: Resource create parameters. Required.
         :type addon: ~azure.mgmt.avs.models.Addon
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
@@ -348,18 +345,16 @@ class AddonsOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.Addon]:
-        """Create or update a addon in a private cloud.
-
-        Create or update a addon in a private cloud.
+        """Create a Addon.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param private_cloud_name: The name of the private cloud. Required.
+        :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param addon_name: Name of the addon for the private cloud. Required.
+        :param addon_name: Name of the addon. Required.
         :type addon_name: str
-        :param addon: A addon in the private cloud. Required.
+        :param addon: Resource create parameters. Required.
         :type addon: IO
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
@@ -386,18 +381,16 @@ class AddonsOperations:
         addon: Union[_models.Addon, IO],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.Addon]:
-        """Create or update a addon in a private cloud.
-
-        Create or update a addon in a private cloud.
+        """Create a Addon.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param private_cloud_name: The name of the private cloud. Required.
+        :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param addon_name: Name of the addon for the private cloud. Required.
+        :param addon_name: Name of the addon. Required.
         :type addon_name: str
-        :param addon: A addon in the private cloud. Is either a Addon type or a IO type. Required.
+        :param addon: Resource create parameters. Is either a Addon type or a IO type. Required.
         :type addon: ~azure.mgmt.avs.models.Addon or IO
         :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
          Default value is None.
@@ -445,7 +438,10 @@ class AddonsOperations:
             return deserialized
 
         if polling is True:
-            polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod,
+                AsyncARMPolling(lro_delay, lro_options={"final-state-via": "azure-async-operation"}, **kwargs),
+            )
         elif polling is False:
             polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
@@ -505,8 +501,13 @@ class AddonsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
+        response_headers = {}
+        if response.status_code == 202:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+
         if cls:
-            return cls(pipeline_response, None, {})
+            return cls(pipeline_response, None, response_headers)
 
     _delete_initial.metadata = {
         "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/addons/{addonName}"
@@ -516,16 +517,14 @@ class AddonsOperations:
     async def begin_delete(
         self, resource_group_name: str, private_cloud_name: str, addon_name: str, **kwargs: Any
     ) -> AsyncLROPoller[None]:
-        """Delete a addon in a private cloud.
-
-        Delete a addon in a private cloud.
+        """Delete a Addon.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param addon_name: Name of the addon for the private cloud. Required.
+        :param addon_name: Name of the addon. Required.
         :type addon_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :keyword str continuation_token: A continuation token to restart a poller from a saved state.
@@ -565,7 +564,9 @@ class AddonsOperations:
                 return cls(pipeline_response, None, {})
 
         if polling is True:
-            polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
         elif polling is False:
             polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:

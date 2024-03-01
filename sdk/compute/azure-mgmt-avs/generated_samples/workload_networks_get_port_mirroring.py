@@ -14,7 +14,7 @@ from azure.mgmt.avs import AVSClient
     pip install azure-identity
     pip install azure-mgmt-avs
 # USAGE
-    python workload_networks_create_dhcp_configurations.py
+    python workload_networks_get_port_mirroring.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,23 +29,14 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.workload_networks.begin_create_dhcp(
+    response = client.workload_networks.get_port_mirroring(
         resource_group_name="group1",
         private_cloud_name="cloud1",
-        dhcp_id="dhcp1",
-        workload_network_dhcp={
-            "properties": {
-                "dhcpType": "SERVER",
-                "displayName": "dhcpConfigurations1",
-                "leaseTime": 86400,
-                "revision": 1,
-                "serverAddress": "40.1.5.1/24",
-            }
-        },
-    ).result()
+        port_mirroring_id="portMirroring1",
+    )
     print(response)
 
 
-# x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-03-01/examples/WorkloadNetworks_CreateDhcpConfigurations.json
+# x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/WorkloadNetworks_GetPortMirroring.json
 if __name__ == "__main__":
     main()

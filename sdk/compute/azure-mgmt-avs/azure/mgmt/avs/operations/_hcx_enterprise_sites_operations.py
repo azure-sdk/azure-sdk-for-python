@@ -43,7 +43,7 @@ def build_list_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-03-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -80,7 +80,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-03-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -120,7 +120,7 @@ def build_create_or_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-03-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -134,7 +134,7 @@ def build_create_or_update_request(
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
-        "privateCloudName": _SERIALIZER.url("private_cloud_name", private_cloud_name, "str"),
+        "privateCloudName": _SERIALIZER.url("private_cloud_name", private_cloud_name, "str", pattern=r"^[-\w\._]+$"),
         "hcxEnterpriseSiteName": _SERIALIZER.url(
             "hcx_enterprise_site_name", hcx_enterprise_site_name, "str", pattern=r"^[-\w\._]+$"
         ),
@@ -163,7 +163,7 @@ def build_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-03-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -216,9 +216,7 @@ class HcxEnterpriseSitesOperations:
     def list(
         self, resource_group_name: str, private_cloud_name: str, **kwargs: Any
     ) -> Iterable["_models.HcxEnterpriseSite"]:
-        """List HCX on-premises key in a private cloud.
-
-        List HCX on-premises key in a private cloud.
+        """List HcxEnterpriseSite resources by PrivateCloud.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -234,7 +232,7 @@ class HcxEnterpriseSitesOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.HcxEnterpriseSiteList] = kwargs.pop("cls", None)
+        cls: ClsType[_models.HcxEnterpriseSiteListResult] = kwargs.pop("cls", None)
 
         error_map = {
             401: ClientAuthenticationError,
@@ -278,7 +276,7 @@ class HcxEnterpriseSitesOperations:
             return request
 
         def extract_data(pipeline_response):
-            deserialized = self._deserialize("HcxEnterpriseSiteList", pipeline_response)
+            deserialized = self._deserialize("HcxEnterpriseSiteListResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
@@ -310,17 +308,14 @@ class HcxEnterpriseSitesOperations:
     def get(
         self, resource_group_name: str, private_cloud_name: str, hcx_enterprise_site_name: str, **kwargs: Any
     ) -> _models.HcxEnterpriseSite:
-        """Get an HCX on-premises key by name in a private cloud.
-
-        Get an HCX on-premises key by name in a private cloud.
+        """Get a HcxEnterpriseSite.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param hcx_enterprise_site_name: Name of the HCX Enterprise Site in the private cloud.
-         Required.
+        :param hcx_enterprise_site_name: Name of the HCX Enterprise Site. Required.
         :type hcx_enterprise_site_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: HcxEnterpriseSite or the result of cls(response)
@@ -388,19 +383,16 @@ class HcxEnterpriseSitesOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> _models.HcxEnterpriseSite:
-        """Create or update an activation key for on-premises HCX site.
-
-        Create or update an activation key for on-premises HCX site.
+        """Create a HcxEnterpriseSite.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param private_cloud_name: The name of the private cloud. Required.
+        :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param hcx_enterprise_site_name: Name of the HCX Enterprise Site in the private cloud.
-         Required.
+        :param hcx_enterprise_site_name: Name of the HCX Enterprise Site. Required.
         :type hcx_enterprise_site_name: str
-        :param hcx_enterprise_site: The HCX Enterprise Site. Required.
+        :param hcx_enterprise_site: Resource create parameters. Required.
         :type hcx_enterprise_site: ~azure.mgmt.avs.models.HcxEnterpriseSite
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
@@ -422,19 +414,16 @@ class HcxEnterpriseSitesOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> _models.HcxEnterpriseSite:
-        """Create or update an activation key for on-premises HCX site.
-
-        Create or update an activation key for on-premises HCX site.
+        """Create a HcxEnterpriseSite.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param private_cloud_name: The name of the private cloud. Required.
+        :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param hcx_enterprise_site_name: Name of the HCX Enterprise Site in the private cloud.
-         Required.
+        :param hcx_enterprise_site_name: Name of the HCX Enterprise Site. Required.
         :type hcx_enterprise_site_name: str
-        :param hcx_enterprise_site: The HCX Enterprise Site. Required.
+        :param hcx_enterprise_site: Resource create parameters. Required.
         :type hcx_enterprise_site: IO
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
@@ -454,20 +443,17 @@ class HcxEnterpriseSitesOperations:
         hcx_enterprise_site: Union[_models.HcxEnterpriseSite, IO],
         **kwargs: Any
     ) -> _models.HcxEnterpriseSite:
-        """Create or update an activation key for on-premises HCX site.
-
-        Create or update an activation key for on-premises HCX site.
+        """Create a HcxEnterpriseSite.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param private_cloud_name: The name of the private cloud. Required.
+        :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param hcx_enterprise_site_name: Name of the HCX Enterprise Site in the private cloud.
-         Required.
+        :param hcx_enterprise_site_name: Name of the HCX Enterprise Site. Required.
         :type hcx_enterprise_site_name: str
-        :param hcx_enterprise_site: The HCX Enterprise Site. Is either a HcxEnterpriseSite type or a IO
-         type. Required.
+        :param hcx_enterprise_site: Resource create parameters. Is either a HcxEnterpriseSite type or a
+         IO type. Required.
         :type hcx_enterprise_site: ~azure.mgmt.avs.models.HcxEnterpriseSite or IO
         :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
          Default value is None.
@@ -547,17 +533,14 @@ class HcxEnterpriseSitesOperations:
     def delete(  # pylint: disable=inconsistent-return-statements
         self, resource_group_name: str, private_cloud_name: str, hcx_enterprise_site_name: str, **kwargs: Any
     ) -> None:
-        """Delete HCX on-premises key in a private cloud.
-
-        Delete HCX on-premises key in a private cloud.
+        """Delete a HcxEnterpriseSite.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param hcx_enterprise_site_name: Name of the HCX Enterprise Site in the private cloud.
-         Required.
+        :param hcx_enterprise_site_name: Name of the HCX Enterprise Site. Required.
         :type hcx_enterprise_site_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)

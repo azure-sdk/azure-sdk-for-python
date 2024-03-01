@@ -65,9 +65,7 @@ class GlobalReachConnectionsOperations:
     def list(
         self, resource_group_name: str, private_cloud_name: str, **kwargs: Any
     ) -> AsyncIterable["_models.GlobalReachConnection"]:
-        """List global reach connections in a private cloud.
-
-        List global reach connections in a private cloud.
+        """List GlobalReachConnection resources by PrivateCloud.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -84,7 +82,7 @@ class GlobalReachConnectionsOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.GlobalReachConnectionList] = kwargs.pop("cls", None)
+        cls: ClsType[_models.GlobalReachConnectionListResult] = kwargs.pop("cls", None)
 
         error_map = {
             401: ClientAuthenticationError,
@@ -128,7 +126,7 @@ class GlobalReachConnectionsOperations:
             return request
 
         async def extract_data(pipeline_response):
-            deserialized = self._deserialize("GlobalReachConnectionList", pipeline_response)
+            deserialized = self._deserialize("GlobalReachConnectionListResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
@@ -160,17 +158,14 @@ class GlobalReachConnectionsOperations:
     async def get(
         self, resource_group_name: str, private_cloud_name: str, global_reach_connection_name: str, **kwargs: Any
     ) -> _models.GlobalReachConnection:
-        """Get a global reach connection by name in a private cloud.
-
-        Get a global reach connection by name in a private cloud.
+        """Get a GlobalReachConnection.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param global_reach_connection_name: Name of the global reach connection in the private cloud.
-         Required.
+        :param global_reach_connection_name: Name of the global reach connection. Required.
         :type global_reach_connection_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: GlobalReachConnection or the result of cls(response)
@@ -286,14 +281,17 @@ class GlobalReachConnectionsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
+        response_headers = {}
         if response.status_code == 200:
             deserialized = self._deserialize("GlobalReachConnection", pipeline_response)
 
         if response.status_code == 201:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+
             deserialized = self._deserialize("GlobalReachConnection", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
 
@@ -312,19 +310,16 @@ class GlobalReachConnectionsOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.GlobalReachConnection]:
-        """Create or update a global reach connection in a private cloud.
-
-        Create or update a global reach connection in a private cloud.
+        """Create a GlobalReachConnection.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param private_cloud_name: The name of the private cloud. Required.
+        :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param global_reach_connection_name: Name of the global reach connection in the private cloud.
-         Required.
+        :param global_reach_connection_name: Name of the global reach connection. Required.
         :type global_reach_connection_name: str
-        :param global_reach_connection: A global reach connection in the private cloud. Required.
+        :param global_reach_connection: Resource create parameters. Required.
         :type global_reach_connection: ~azure.mgmt.avs.models.GlobalReachConnection
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
@@ -354,19 +349,16 @@ class GlobalReachConnectionsOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.GlobalReachConnection]:
-        """Create or update a global reach connection in a private cloud.
-
-        Create or update a global reach connection in a private cloud.
+        """Create a GlobalReachConnection.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param private_cloud_name: The name of the private cloud. Required.
+        :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param global_reach_connection_name: Name of the global reach connection in the private cloud.
-         Required.
+        :param global_reach_connection_name: Name of the global reach connection. Required.
         :type global_reach_connection_name: str
-        :param global_reach_connection: A global reach connection in the private cloud. Required.
+        :param global_reach_connection: Resource create parameters. Required.
         :type global_reach_connection: IO
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
@@ -394,20 +386,17 @@ class GlobalReachConnectionsOperations:
         global_reach_connection: Union[_models.GlobalReachConnection, IO],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.GlobalReachConnection]:
-        """Create or update a global reach connection in a private cloud.
-
-        Create or update a global reach connection in a private cloud.
+        """Create a GlobalReachConnection.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param private_cloud_name: The name of the private cloud. Required.
+        :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param global_reach_connection_name: Name of the global reach connection in the private cloud.
-         Required.
+        :param global_reach_connection_name: Name of the global reach connection. Required.
         :type global_reach_connection_name: str
-        :param global_reach_connection: A global reach connection in the private cloud. Is either a
-         GlobalReachConnection type or a IO type. Required.
+        :param global_reach_connection: Resource create parameters. Is either a GlobalReachConnection
+         type or a IO type. Required.
         :type global_reach_connection: ~azure.mgmt.avs.models.GlobalReachConnection or IO
         :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
          Default value is None.
@@ -456,7 +445,10 @@ class GlobalReachConnectionsOperations:
             return deserialized
 
         if polling is True:
-            polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod,
+                AsyncARMPolling(lro_delay, lro_options={"final-state-via": "azure-async-operation"}, **kwargs),
+            )
         elif polling is False:
             polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
@@ -516,8 +508,13 @@ class GlobalReachConnectionsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
+        response_headers = {}
+        if response.status_code == 202:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+
         if cls:
-            return cls(pipeline_response, None, {})
+            return cls(pipeline_response, None, response_headers)
 
     _delete_initial.metadata = {
         "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/globalReachConnections/{globalReachConnectionName}"
@@ -527,17 +524,14 @@ class GlobalReachConnectionsOperations:
     async def begin_delete(
         self, resource_group_name: str, private_cloud_name: str, global_reach_connection_name: str, **kwargs: Any
     ) -> AsyncLROPoller[None]:
-        """Delete a global reach connection in a private cloud.
-
-        Delete a global reach connection in a private cloud.
+        """Delete a GlobalReachConnection.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param global_reach_connection_name: Name of the global reach connection in the private cloud.
-         Required.
+        :param global_reach_connection_name: Name of the global reach connection. Required.
         :type global_reach_connection_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :keyword str continuation_token: A continuation token to restart a poller from a saved state.
@@ -577,7 +571,9 @@ class GlobalReachConnectionsOperations:
                 return cls(pipeline_response, None, {})
 
         if polling is True:
-            polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
         elif polling is False:
             polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:

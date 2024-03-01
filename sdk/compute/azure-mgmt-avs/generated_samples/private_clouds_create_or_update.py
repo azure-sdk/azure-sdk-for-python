@@ -35,7 +35,14 @@ def main():
         private_cloud={
             "identity": {"type": "SystemAssigned"},
             "location": "eastus2",
-            "properties": {"managementCluster": {"clusterSize": 4}, "networkBlock": "192.168.48.0/22"},
+            "properties": {
+                "managementCluster": {
+                    "clusterSize": 4,
+                    "displayName": "renamedCluster1",
+                    "vsanDatastoreName": "renamedDatastore1",
+                },
+                "networkBlock": "192.168.48.0/22",
+            },
             "sku": {"name": "AV36"},
             "tags": {},
         },
@@ -43,6 +50,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-03-01/examples/PrivateClouds_CreateOrUpdate.json
+# x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/PrivateClouds_CreateOrUpdate.json
 if __name__ == "__main__":
     main()

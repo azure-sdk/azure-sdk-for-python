@@ -65,16 +65,14 @@ class DatastoresOperations:
     def list(
         self, resource_group_name: str, private_cloud_name: str, cluster_name: str, **kwargs: Any
     ) -> AsyncIterable["_models.Datastore"]:
-        """List datastores in a private cloud cluster.
-
-        List datastores in a private cloud cluster.
+        """List Datastore resources by Cluster.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param cluster_name: Name of the cluster in the private cloud. Required.
+        :param cluster_name: Name of the cluster. Required.
         :type cluster_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either Datastore or the result of cls(response)
@@ -85,7 +83,7 @@ class DatastoresOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.DatastoreList] = kwargs.pop("cls", None)
+        cls: ClsType[_models.DatastoreListResult] = kwargs.pop("cls", None)
 
         error_map = {
             401: ClientAuthenticationError,
@@ -130,7 +128,7 @@ class DatastoresOperations:
             return request
 
         async def extract_data(pipeline_response):
-            deserialized = self._deserialize("DatastoreList", pipeline_response)
+            deserialized = self._deserialize("DatastoreListResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
@@ -162,18 +160,16 @@ class DatastoresOperations:
     async def get(
         self, resource_group_name: str, private_cloud_name: str, cluster_name: str, datastore_name: str, **kwargs: Any
     ) -> _models.Datastore:
-        """Get a datastore in a private cloud cluster.
-
-        Get a datastore in a private cloud cluster.
+        """Get a Datastore.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param cluster_name: Name of the cluster in the private cloud. Required.
+        :param cluster_name: Name of the cluster. Required.
         :type cluster_name: str
-        :param datastore_name: Name of the datastore in the private cloud cluster. Required.
+        :param datastore_name: Name of the datastore. Required.
         :type datastore_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Datastore or the result of cls(response)
@@ -292,14 +288,17 @@ class DatastoresOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
+        response_headers = {}
         if response.status_code == 200:
             deserialized = self._deserialize("Datastore", pipeline_response)
 
         if response.status_code == 201:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+
             deserialized = self._deserialize("Datastore", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
 
@@ -319,20 +318,18 @@ class DatastoresOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.Datastore]:
-        """Create or update a datastore in a private cloud cluster.
-
-        Create or update a datastore in a private cloud cluster.
+        """Create a Datastore.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param cluster_name: Name of the cluster in the private cloud. Required.
+        :param cluster_name: Name of the cluster. Required.
         :type cluster_name: str
-        :param datastore_name: Name of the datastore in the private cloud cluster. Required.
+        :param datastore_name: Name of the datastore. Required.
         :type datastore_name: str
-        :param datastore: A datastore in a private cloud cluster. Required.
+        :param datastore: Resource create parameters. Required.
         :type datastore: ~azure.mgmt.avs.models.Datastore
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
@@ -363,20 +360,18 @@ class DatastoresOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.Datastore]:
-        """Create or update a datastore in a private cloud cluster.
-
-        Create or update a datastore in a private cloud cluster.
+        """Create a Datastore.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param cluster_name: Name of the cluster in the private cloud. Required.
+        :param cluster_name: Name of the cluster. Required.
         :type cluster_name: str
-        :param datastore_name: Name of the datastore in the private cloud cluster. Required.
+        :param datastore_name: Name of the datastore. Required.
         :type datastore_name: str
-        :param datastore: A datastore in a private cloud cluster. Required.
+        :param datastore: Resource create parameters. Required.
         :type datastore: IO
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
@@ -405,21 +400,19 @@ class DatastoresOperations:
         datastore: Union[_models.Datastore, IO],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.Datastore]:
-        """Create or update a datastore in a private cloud cluster.
-
-        Create or update a datastore in a private cloud cluster.
+        """Create a Datastore.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param cluster_name: Name of the cluster in the private cloud. Required.
+        :param cluster_name: Name of the cluster. Required.
         :type cluster_name: str
-        :param datastore_name: Name of the datastore in the private cloud cluster. Required.
+        :param datastore_name: Name of the datastore. Required.
         :type datastore_name: str
-        :param datastore: A datastore in a private cloud cluster. Is either a Datastore type or a IO
-         type. Required.
+        :param datastore: Resource create parameters. Is either a Datastore type or a IO type.
+         Required.
         :type datastore: ~azure.mgmt.avs.models.Datastore or IO
         :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
          Default value is None.
@@ -469,7 +462,10 @@ class DatastoresOperations:
             return deserialized
 
         if polling is True:
-            polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod,
+                AsyncARMPolling(lro_delay, lro_options={"final-state-via": "azure-async-operation"}, **kwargs),
+            )
         elif polling is False:
             polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
@@ -530,8 +526,13 @@ class DatastoresOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
+        response_headers = {}
+        if response.status_code == 202:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+
         if cls:
-            return cls(pipeline_response, None, {})
+            return cls(pipeline_response, None, response_headers)
 
     _delete_initial.metadata = {
         "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/datastores/{datastoreName}"
@@ -541,18 +542,16 @@ class DatastoresOperations:
     async def begin_delete(
         self, resource_group_name: str, private_cloud_name: str, cluster_name: str, datastore_name: str, **kwargs: Any
     ) -> AsyncLROPoller[None]:
-        """Delete a datastore in a private cloud cluster.
-
-        Delete a datastore in a private cloud cluster.
+        """Delete a Datastore.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param cluster_name: Name of the cluster in the private cloud. Required.
+        :param cluster_name: Name of the cluster. Required.
         :type cluster_name: str
-        :param datastore_name: Name of the datastore in the private cloud cluster. Required.
+        :param datastore_name: Name of the datastore. Required.
         :type datastore_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :keyword str continuation_token: A continuation token to restart a poller from a saved state.
@@ -593,7 +592,9 @@ class DatastoresOperations:
                 return cls(pipeline_response, None, {})
 
         if polling is True:
-            polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
         elif polling is False:
             polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:

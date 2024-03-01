@@ -35,6 +35,7 @@ def main():
         private_cloud_update={
             "identity": {"type": "None"},
             "properties": {
+                "displayName": "renamedDatacenter1",
                 "encryption": {
                     "keyVaultProperties": {
                         "keyName": "keyname1",
@@ -43,13 +44,17 @@ def main():
                     },
                     "status": "Enabled",
                 },
-                "managementCluster": {"clusterSize": 4},
+                "managementCluster": {
+                    "clusterSize": 4,
+                    "displayName": "renamedCluster1",
+                    "vsanDatastoreName": "renamedDatastore1",
+                },
             },
         },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-03-01/examples/PrivateClouds_Update.json
+# x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/PrivateClouds_Update.json
 if __name__ == "__main__":
     main()
