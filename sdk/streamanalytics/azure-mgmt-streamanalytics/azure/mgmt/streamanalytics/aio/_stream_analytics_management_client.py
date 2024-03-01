@@ -22,7 +22,6 @@ from .operations import (
     Operations,
     OutputsOperations,
     PrivateEndpointsOperations,
-    SkuOperations,
     StreamingJobsOperations,
     SubscriptionsOperations,
     TransformationsOperations,
@@ -36,22 +35,20 @@ if TYPE_CHECKING:
 class StreamAnalyticsManagementClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
     """Stream Analytics Client.
 
-    :ivar functions: FunctionsOperations operations
-    :vartype functions: azure.mgmt.streamanalytics.aio.operations.FunctionsOperations
-    :ivar inputs: InputsOperations operations
-    :vartype inputs: azure.mgmt.streamanalytics.aio.operations.InputsOperations
-    :ivar outputs: OutputsOperations operations
-    :vartype outputs: azure.mgmt.streamanalytics.aio.operations.OutputsOperations
     :ivar operations: Operations operations
     :vartype operations: azure.mgmt.streamanalytics.aio.operations.Operations
     :ivar streaming_jobs: StreamingJobsOperations operations
     :vartype streaming_jobs: azure.mgmt.streamanalytics.aio.operations.StreamingJobsOperations
-    :ivar sku: SkuOperations operations
-    :vartype sku: azure.mgmt.streamanalytics.aio.operations.SkuOperations
-    :ivar subscriptions: SubscriptionsOperations operations
-    :vartype subscriptions: azure.mgmt.streamanalytics.aio.operations.SubscriptionsOperations
+    :ivar inputs: InputsOperations operations
+    :vartype inputs: azure.mgmt.streamanalytics.aio.operations.InputsOperations
+    :ivar outputs: OutputsOperations operations
+    :vartype outputs: azure.mgmt.streamanalytics.aio.operations.OutputsOperations
     :ivar transformations: TransformationsOperations operations
     :vartype transformations: azure.mgmt.streamanalytics.aio.operations.TransformationsOperations
+    :ivar functions: FunctionsOperations operations
+    :vartype functions: azure.mgmt.streamanalytics.aio.operations.FunctionsOperations
+    :ivar subscriptions: SubscriptionsOperations operations
+    :vartype subscriptions: azure.mgmt.streamanalytics.aio.operations.SubscriptionsOperations
     :ivar clusters: ClustersOperations operations
     :vartype clusters: azure.mgmt.streamanalytics.aio.operations.ClustersOperations
     :ivar private_endpoints: PrivateEndpointsOperations operations
@@ -63,6 +60,9 @@ class StreamAnalyticsManagementClient:  # pylint: disable=client-accepts-api-ver
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
+    :keyword api_version: Api Version. Default value is "2020-03-01". Note that overriding this
+     default value may result in unsupported behavior.
+    :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
      Retry-After header is present.
     """
@@ -83,14 +83,13 @@ class StreamAnalyticsManagementClient:  # pylint: disable=client-accepts-api-ver
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
-        self.functions = FunctionsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.inputs = InputsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.outputs = OutputsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
         self.streaming_jobs = StreamingJobsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.sku = SkuOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.subscriptions = SubscriptionsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.inputs = InputsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.outputs = OutputsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.transformations = TransformationsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.functions = FunctionsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.subscriptions = SubscriptionsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.clusters = ClustersOperations(self._client, self._config, self._serialize, self._deserialize)
         self.private_endpoints = PrivateEndpointsOperations(
             self._client, self._config, self._serialize, self._deserialize

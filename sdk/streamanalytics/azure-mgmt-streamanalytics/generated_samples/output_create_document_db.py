@@ -39,7 +39,6 @@ def main():
                     "properties": {
                         "accountId": "someAccountId",
                         "accountKey": "accountKey==",
-                        "authenticationMode": "Msi",
                         "collectionNamePattern": "collection",
                         "database": "db01",
                         "documentId": "documentId",
@@ -53,6 +52,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Create_DocumentDB.json
+# x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Output_Create_DocumentDB.json
 if __name__ == "__main__":
     main()
