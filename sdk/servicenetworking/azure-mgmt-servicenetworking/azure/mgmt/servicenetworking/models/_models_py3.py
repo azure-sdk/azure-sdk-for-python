@@ -193,6 +193,8 @@ class Association(TrackedResource):
 class AssociationListResult(_serialization.Model):
     """The response of a Association list operation.
 
+    Variables are only populated by the server, and will be ignored when sending a request.
+
     All required parameters must be populated in order to send to Azure.
 
     :ivar value: The Association items on this page. Required.
@@ -203,6 +205,7 @@ class AssociationListResult(_serialization.Model):
 
     _validation = {
         "value": {"required": True},
+        "next_link": {"readonly": True},
     }
 
     _attribute_map = {
@@ -210,16 +213,14 @@ class AssociationListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: List["_models.Association"], next_link: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(self, *, value: List["_models.Association"], **kwargs: Any) -> None:
         """
         :keyword value: The Association items on this page. Required.
         :paramtype value: list[~azure.mgmt.servicenetworking.models.Association]
-        :keyword next_link: The link to the next page of items.
-        :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = next_link
+        self.next_link = None
 
 
 class AssociationSubnet(_serialization.Model):
@@ -466,6 +467,8 @@ class Frontend(TrackedResource):
 class FrontendListResult(_serialization.Model):
     """The response of a Frontend list operation.
 
+    Variables are only populated by the server, and will be ignored when sending a request.
+
     All required parameters must be populated in order to send to Azure.
 
     :ivar value: The Frontend items on this page. Required.
@@ -476,6 +479,7 @@ class FrontendListResult(_serialization.Model):
 
     _validation = {
         "value": {"required": True},
+        "next_link": {"readonly": True},
     }
 
     _attribute_map = {
@@ -483,16 +487,14 @@ class FrontendListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: List["_models.Frontend"], next_link: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(self, *, value: List["_models.Frontend"], **kwargs: Any) -> None:
         """
         :keyword value: The Frontend items on this page. Required.
         :paramtype value: list[~azure.mgmt.servicenetworking.models.Frontend]
-        :keyword next_link: The link to the next page of items.
-        :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = next_link
+        self.next_link = None
 
 
 class FrontendUpdate(_serialization.Model):
@@ -802,6 +804,8 @@ class TrafficController(TrackedResource):
 class TrafficControllerListResult(_serialization.Model):
     """The response of a TrafficController list operation.
 
+    Variables are only populated by the server, and will be ignored when sending a request.
+
     All required parameters must be populated in order to send to Azure.
 
     :ivar value: The TrafficController items on this page. Required.
@@ -812,6 +816,7 @@ class TrafficControllerListResult(_serialization.Model):
 
     _validation = {
         "value": {"required": True},
+        "next_link": {"readonly": True},
     }
 
     _attribute_map = {
@@ -819,18 +824,14 @@ class TrafficControllerListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(
-        self, *, value: List["_models.TrafficController"], next_link: Optional[str] = None, **kwargs: Any
-    ) -> None:
+    def __init__(self, *, value: List["_models.TrafficController"], **kwargs: Any) -> None:
         """
         :keyword value: The TrafficController items on this page. Required.
         :paramtype value: list[~azure.mgmt.servicenetworking.models.TrafficController]
-        :keyword next_link: The link to the next page of items.
-        :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = next_link
+        self.next_link = None
 
 
 class TrafficControllerUpdate(_serialization.Model):
