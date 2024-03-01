@@ -427,6 +427,8 @@ class DataProductInformation(_serialization.Model):
 class DataProductListResult(_serialization.Model):
     """The response of a DataProduct list operation.
 
+    Variables are only populated by the server, and will be ignored when sending a request.
+
     All required parameters must be populated in order to send to Azure.
 
     :ivar value: The DataProduct items on this page. Required.
@@ -437,6 +439,7 @@ class DataProductListResult(_serialization.Model):
 
     _validation = {
         "value": {"required": True},
+        "next_link": {"readonly": True},
     }
 
     _attribute_map = {
@@ -444,16 +447,14 @@ class DataProductListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: List["_models.DataProduct"], next_link: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(self, *, value: List["_models.DataProduct"], **kwargs: Any) -> None:
         """
         :keyword value: The DataProduct items on this page. Required.
         :paramtype value: list[~azure.mgmt.networkanalytics.models.DataProduct]
-        :keyword next_link: The link to the next page of items.
-        :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = next_link
+        self.next_link = None
 
 
 class DataProductNetworkAcls(_serialization.Model):
@@ -771,6 +772,8 @@ class DataProductsCatalog(ProxyResource):
 class DataProductsCatalogListResult(_serialization.Model):
     """The response of a DataProductsCatalog list operation.
 
+    Variables are only populated by the server, and will be ignored when sending a request.
+
     All required parameters must be populated in order to send to Azure.
 
     :ivar value: The DataProductsCatalog items on this page. Required.
@@ -781,6 +784,7 @@ class DataProductsCatalogListResult(_serialization.Model):
 
     _validation = {
         "value": {"required": True},
+        "next_link": {"readonly": True},
     }
 
     _attribute_map = {
@@ -788,18 +792,14 @@ class DataProductsCatalogListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(
-        self, *, value: List["_models.DataProductsCatalog"], next_link: Optional[str] = None, **kwargs: Any
-    ) -> None:
+    def __init__(self, *, value: List["_models.DataProductsCatalog"], **kwargs: Any) -> None:
         """
         :keyword value: The DataProductsCatalog items on this page. Required.
         :paramtype value: list[~azure.mgmt.networkanalytics.models.DataProductsCatalog]
-        :keyword next_link: The link to the next page of items.
-        :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = next_link
+        self.next_link = None
 
 
 class DataProductsCatalogProperties(_serialization.Model):
@@ -1003,6 +1003,8 @@ class DataType(ProxyResource):
 class DataTypeListResult(_serialization.Model):
     """The response of a DataType list operation.
 
+    Variables are only populated by the server, and will be ignored when sending a request.
+
     All required parameters must be populated in order to send to Azure.
 
     :ivar value: The DataType items on this page. Required.
@@ -1013,6 +1015,7 @@ class DataTypeListResult(_serialization.Model):
 
     _validation = {
         "value": {"required": True},
+        "next_link": {"readonly": True},
     }
 
     _attribute_map = {
@@ -1020,16 +1023,14 @@ class DataTypeListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: List["_models.DataType"], next_link: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(self, *, value: List["_models.DataType"], **kwargs: Any) -> None:
         """
         :keyword value: The DataType items on this page. Required.
         :paramtype value: list[~azure.mgmt.networkanalytics.models.DataType]
-        :keyword next_link: The link to the next page of items.
-        :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = next_link
+        self.next_link = None
 
 
 class DataTypeProperties(_serialization.Model):
