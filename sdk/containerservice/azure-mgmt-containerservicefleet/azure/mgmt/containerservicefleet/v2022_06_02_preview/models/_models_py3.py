@@ -382,6 +382,8 @@ class FleetHubProfile(_serialization.Model):
 class FleetListResult(_serialization.Model):
     """The response of a Fleet list operation.
 
+    Variables are only populated by the server, and will be ignored when sending a request.
+
     All required parameters must be populated in order to send to Azure.
 
     :ivar value: The Fleet items on this page. Required.
@@ -392,6 +394,7 @@ class FleetListResult(_serialization.Model):
 
     _validation = {
         "value": {"required": True},
+        "next_link": {"readonly": True},
     }
 
     _attribute_map = {
@@ -399,16 +402,14 @@ class FleetListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: List["_models.Fleet"], next_link: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(self, *, value: List["_models.Fleet"], **kwargs: Any) -> None:
         """
         :keyword value: The Fleet items on this page. Required.
         :paramtype value: list[~azure.mgmt.containerservicefleet.v2022_06_02_preview.models.Fleet]
-        :keyword next_link: The link to the next page of items.
-        :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = next_link
+        self.next_link = None
 
 
 class ProxyResource(Resource):
@@ -515,6 +516,8 @@ class FleetMember(ProxyResource):
 class FleetMemberListResult(_serialization.Model):
     """The response of a FleetMember list operation.
 
+    Variables are only populated by the server, and will be ignored when sending a request.
+
     All required parameters must be populated in order to send to Azure.
 
     :ivar value: The FleetMember items on this page. Required.
@@ -525,6 +528,7 @@ class FleetMemberListResult(_serialization.Model):
 
     _validation = {
         "value": {"required": True},
+        "next_link": {"readonly": True},
     }
 
     _attribute_map = {
@@ -532,17 +536,15 @@ class FleetMemberListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: List["_models.FleetMember"], next_link: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(self, *, value: List["_models.FleetMember"], **kwargs: Any) -> None:
         """
         :keyword value: The FleetMember items on this page. Required.
         :paramtype value:
          list[~azure.mgmt.containerservicefleet.v2022_06_02_preview.models.FleetMember]
-        :keyword next_link: The link to the next page of items.
-        :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = next_link
+        self.next_link = None
 
 
 class FleetPatch(_serialization.Model):
