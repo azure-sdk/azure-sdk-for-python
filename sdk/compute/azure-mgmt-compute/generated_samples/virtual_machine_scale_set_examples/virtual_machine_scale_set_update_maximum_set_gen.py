@@ -240,6 +240,7 @@ def main():
                         },
                         "osDisk": {
                             "caching": "ReadWrite",
+                            "diffDiskSettings": {"option": "Local", "placement": "CacheDisk"},
                             "diskSizeGB": 6,
                             "image": {
                                 "uri": "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk.vhd"

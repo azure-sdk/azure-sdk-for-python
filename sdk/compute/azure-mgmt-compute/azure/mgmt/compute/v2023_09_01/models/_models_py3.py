@@ -14117,6 +14117,9 @@ class VirtualMachineScaleSetUpdateOSDisk(_serialization.Model):
     :ivar write_accelerator_enabled: Specifies whether writeAccelerator should be enabled or
      disabled on the disk.
     :vartype write_accelerator_enabled: bool
+    :ivar diff_disk_settings: Specifies the ephemeral disk Settings for the operating system disk
+     used by the virtual machine scale set.
+    :vartype diff_disk_settings: ~azure.mgmt.compute.v2023_09_01.models.DiffDiskSettings
     :ivar disk_size_gb: Specifies the size of an empty data disk in gigabytes. This element can be
      used to overwrite the size of the disk in a virtual machine image. :code:`<br>`:code:`<br>`
      diskSizeGB is the number of bytes x 1024^3 for the disk and the value cannot be larger than
@@ -14145,6 +14148,7 @@ class VirtualMachineScaleSetUpdateOSDisk(_serialization.Model):
     _attribute_map = {
         "caching": {"key": "caching", "type": "str"},
         "write_accelerator_enabled": {"key": "writeAcceleratorEnabled", "type": "bool"},
+        "diff_disk_settings": {"key": "diffDiskSettings", "type": "DiffDiskSettings"},
         "disk_size_gb": {"key": "diskSizeGB", "type": "int"},
         "image": {"key": "image", "type": "VirtualHardDisk"},
         "vhd_containers": {"key": "vhdContainers", "type": "[str]"},
@@ -14157,6 +14161,7 @@ class VirtualMachineScaleSetUpdateOSDisk(_serialization.Model):
         *,
         caching: Optional[Union[str, "_models.CachingTypes"]] = None,
         write_accelerator_enabled: Optional[bool] = None,
+        diff_disk_settings: Optional["_models.DiffDiskSettings"] = None,
         disk_size_gb: Optional[int] = None,
         image: Optional["_models.VirtualHardDisk"] = None,
         vhd_containers: Optional[List[str]] = None,
@@ -14170,6 +14175,9 @@ class VirtualMachineScaleSetUpdateOSDisk(_serialization.Model):
         :keyword write_accelerator_enabled: Specifies whether writeAccelerator should be enabled or
          disabled on the disk.
         :paramtype write_accelerator_enabled: bool
+        :keyword diff_disk_settings: Specifies the ephemeral disk Settings for the operating system
+         disk used by the virtual machine scale set.
+        :paramtype diff_disk_settings: ~azure.mgmt.compute.v2023_09_01.models.DiffDiskSettings
         :keyword disk_size_gb: Specifies the size of an empty data disk in gigabytes. This element can
          be used to overwrite the size of the disk in a virtual machine image. :code:`<br>`:code:`<br>`
          diskSizeGB is the number of bytes x 1024^3 for the disk and the value cannot be larger than
@@ -14197,6 +14205,7 @@ class VirtualMachineScaleSetUpdateOSDisk(_serialization.Model):
         super().__init__(**kwargs)
         self.caching = caching
         self.write_accelerator_enabled = write_accelerator_enabled
+        self.diff_disk_settings = diff_disk_settings
         self.disk_size_gb = disk_size_gb
         self.image = image
         self.vhd_containers = vhd_containers
