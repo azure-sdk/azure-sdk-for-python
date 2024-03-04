@@ -10,6 +10,12 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
+class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs."""
+
+    INTERNAL = "Internal"
+
+
 class AllocationState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Allocation state of the compute. Possible values are: steady - Indicates that the compute is
     not resizing. There are no changes to the number of compute nodes in the compute in progress. A
@@ -56,6 +62,12 @@ class Autosave(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     NONE = "None"
     LOCAL = "Local"
     REMOTE = "Remote"
+
+
+class BaseEnvironmentSourceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Base environment type."""
+
+    ENVIRONMENT_ASSET = "EnvironmentAsset"
 
 
 class BatchLoggingLevel(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -117,6 +129,39 @@ class Caching(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     NONE = "None"
     READ_ONLY = "ReadOnly"
     READ_WRITE = "ReadWrite"
+
+
+class CategoricalDataDriftMetric(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """CategoricalDataDriftMetric."""
+
+    JENSEN_SHANNON_DISTANCE = "JensenShannonDistance"
+    """The Jensen Shannon Distance (JSD) metric."""
+    POPULATION_STABILITY_INDEX = "PopulationStabilityIndex"
+    """The Population Stability Index (PSI) metric."""
+    PEARSONS_CHI_SQUARED_TEST = "PearsonsChiSquaredTest"
+    """The Pearsons Chi Squared Test metric."""
+
+
+class CategoricalDataQualityMetric(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """CategoricalDataQualityMetric."""
+
+    NULL_VALUE_RATE = "NullValueRate"
+    """Calculates the rate of null values."""
+    DATA_TYPE_ERROR_RATE = "DataTypeErrorRate"
+    """Calculates the rate of data type errors."""
+    OUT_OF_BOUNDS_RATE = "OutOfBoundsRate"
+    """Calculates the rate values are out of bounds."""
+
+
+class CategoricalPredictionDriftMetric(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """CategoricalPredictionDriftMetric."""
+
+    JENSEN_SHANNON_DISTANCE = "JensenShannonDistance"
+    """The Jensen Shannon Distance (JSD) metric."""
+    POPULATION_STABILITY_INDEX = "PopulationStabilityIndex"
+    """The Population Stability Index (PSI) metric."""
+    PEARSONS_CHI_SQUARED_TEST = "PearsonsChiSquaredTest"
+    """The Pearsons Chi Squared Test metric."""
 
 
 class ClassificationModels(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -266,6 +311,28 @@ class ComputePowerAction(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     STOP = "Stop"
 
 
+class ComputeRecurrenceFrequency(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Enum to describe the frequency of a compute recurrence schedule."""
+
+    MINUTE = "Minute"
+    """Minute frequency"""
+    HOUR = "Hour"
+    """Hour frequency"""
+    DAY = "Day"
+    """Day frequency"""
+    WEEK = "Week"
+    """Week frequency"""
+    MONTH = "Month"
+    """Month frequency"""
+
+
+class ComputeTriggerType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Is the trigger type recurrence or cron."""
+
+    RECURRENCE = "Recurrence"
+    CRON = "Cron"
+
+
 class ComputeType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of compute."""
 
@@ -279,6 +346,25 @@ class ComputeType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DATABRICKS = "Databricks"
     DATA_LAKE_ANALYTICS = "DataLakeAnalytics"
     SYNAPSE_SPARK = "SynapseSpark"
+
+
+class ComputeWeekDay(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Enum of weekday."""
+
+    MONDAY = "Monday"
+    """Monday weekday"""
+    TUESDAY = "Tuesday"
+    """Tuesday weekday"""
+    WEDNESDAY = "Wednesday"
+    """Wednesday weekday"""
+    THURSDAY = "Thursday"
+    """Thursday weekday"""
+    FRIDAY = "Friday"
+    """Friday weekday"""
+    SATURDAY = "Saturday"
+    """Saturday weekday"""
+    SUNDAY = "Sunday"
+    """Sunday weekday"""
 
 
 class ConnectionAuthType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -323,6 +409,24 @@ class CredentialsType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     NONE = "None"
     SAS = "Sas"
     SERVICE_PRINCIPAL = "ServicePrincipal"
+
+
+class DataAvailabilityStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """DataAvailabilityStatus."""
+
+    NONE = "None"
+    PENDING = "Pending"
+    INCOMPLETE = "Incomplete"
+    COMPLETE = "Complete"
+
+
+class DataReferenceCredentialType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Enum to determine the DataReference credentials type."""
+
+    SAS = "SAS"
+    DOCKER_CREDENTIALS = "DockerCredentials"
+    MANAGED_IDENTITY = "ManagedIdentity"
+    NO_CREDENTIALS = "NoCredentials"
 
 
 class DatastoreType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -387,6 +491,14 @@ class EgressPublicNetworkAccessType(str, Enum, metaclass=CaseInsensitiveEnumMeta
     DISABLED = "Disabled"
 
 
+class EmailNotificationEnableType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Enum to determine the email notification type."""
+
+    JOB_COMPLETED = "JobCompleted"
+    JOB_FAILED = "JobFailed"
+    JOB_CANCELLED = "JobCancelled"
+
+
 class EncryptionStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Indicates whether or not the encryption is enabled for the workspace."""
 
@@ -441,6 +553,35 @@ class EnvironmentVariableType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Type of the Environment Variable. Possible values are: local - For local variable."""
 
     LOCAL = "local"
+
+
+class FeatureAttributionMetric(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """FeatureAttributionMetric."""
+
+    NORMALIZED_DISCOUNTED_CUMULATIVE_GAIN = "NormalizedDiscountedCumulativeGain"
+    """The Normalized Discounted Cumulative Gain metric."""
+
+
+class FeatureDataType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """FeatureDataType."""
+
+    STRING = "String"
+    INTEGER = "Integer"
+    LONG = "Long"
+    FLOAT = "Float"
+    DOUBLE = "Double"
+    BINARY = "Binary"
+    DATETIME = "Datetime"
+    BOOLEAN = "Boolean"
+
+
+class FeatureImportanceMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The mode of operation for computing feature importance."""
+
+    DISABLED = "Disabled"
+    """Disables computing feature importance within a signal."""
+    ENABLED = "Enabled"
+    """Enables computing feature importance within a signal."""
 
 
 class FeatureLags(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -591,6 +732,15 @@ class ImageType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     AZUREML = "azureml"
 
 
+class InferencingServerType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Inferencing server type for various targets."""
+
+    AZURE_ML_ONLINE = "AzureMLOnline"
+    AZURE_ML_BATCH = "AzureMLBatch"
+    TRITON = "Triton"
+    CUSTOM = "Custom"
+
+
 class InputDeliveryMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Enum to determine the input data delivery mode."""
 
@@ -602,12 +752,28 @@ class InputDeliveryMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     EVAL_DOWNLOAD = "EvalDownload"
 
 
+class InputPathType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Input path type for package inputs."""
+
+    URL = "Url"
+    PATH_ID = "PathId"
+    PATH_VERSION = "PathVersion"
+
+
 class InstanceSegmentationPrimaryMetrics(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Primary metrics for InstanceSegmentation tasks."""
 
     MEAN_AVERAGE_PRECISION = "MeanAveragePrecision"
     """Mean Average Precision (MAP) is the average of AP (Average Precision).
     #: AP is calculated for each class and averaged to get the MAP."""
+
+
+class IsolationMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Isolation mode for the managed network of a machine learning workspace."""
+
+    DISABLED = "Disabled"
+    ALLOW_INTERNET_OUTBOUND = "AllowInternetOutbound"
+    ALLOW_ONLY_APPROVED_OUTBOUND = "AllowOnlyApprovedOutbound"
 
 
 class JobInputType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -678,6 +844,16 @@ class JobStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Default job status if not mapped to all other statuses"""
 
 
+class JobTier(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Enum to determine the job tier."""
+
+    NULL = "Null"
+    SPOT = "Spot"
+    BASIC = "Basic"
+    STANDARD = "Standard"
+    PREMIUM = "Premium"
+
+
 class JobType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Enum to determine the type of job."""
 
@@ -737,6 +913,13 @@ class LogVerbosity(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Only critical statements logged."""
 
 
+class ManagedNetworkStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Status for the managed network of a machine learning workspace."""
+
+    INACTIVE = "Inactive"
+    ACTIVE = "Active"
+
+
 class ManagedServiceIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Type of managed service identity (where both SystemAssigned and UserAssigned types are
     allowed).
@@ -746,6 +929,15 @@ class ManagedServiceIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SYSTEM_ASSIGNED = "SystemAssigned"
     USER_ASSIGNED = "UserAssigned"
     SYSTEM_ASSIGNED_USER_ASSIGNED = "SystemAssigned,UserAssigned"
+
+
+class MaterializationStoreType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """MaterializationStoreType."""
+
+    NONE = "None"
+    ONLINE = "Online"
+    OFFLINE = "Offline"
+    ONLINE_AND_OFFLINE = "OnlineAndOffline"
 
 
 class ModelSize(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -761,6 +953,85 @@ class ModelSize(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Large size."""
     EXTRA_LARGE = "ExtraLarge"
     """Extra large size."""
+
+
+class ModelTaskType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Model task type enum."""
+
+    CLASSIFICATION = "Classification"
+    REGRESSION = "Regression"
+
+
+class MonitorComputeIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Monitor compute identity type enum."""
+
+    AML_TOKEN = "AmlToken"
+    """Authenticates through user's AML token."""
+    MANAGED_IDENTITY = "ManagedIdentity"
+    """Authenticates through a user-provided managed identity."""
+
+
+class MonitorComputeType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Monitor compute type enum."""
+
+    SERVERLESS_SPARK = "ServerlessSpark"
+    """Serverless Spark compute."""
+
+
+class MonitoringFeatureDataType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """MonitoringFeatureDataType."""
+
+    NUMERICAL = "Numerical"
+    """Used for features of numerical data type."""
+    CATEGORICAL = "Categorical"
+    """Used for features of categorical data type."""
+
+
+class MonitoringFeatureFilterType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """MonitoringFeatureFilterType."""
+
+    ALL_FEATURES = "AllFeatures"
+    """Includes all features."""
+    TOP_N_BY_ATTRIBUTION = "TopNByAttribution"
+    """Only includes the top contributing features, measured by feature attribution."""
+    FEATURE_SUBSET = "FeatureSubset"
+    """Includes a user-defined subset of features."""
+
+
+class MonitoringInputDataType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Monitoring input data type enum."""
+
+    STATIC = "Static"
+    """An input data with a fixed window size."""
+    ROLLING = "Rolling"
+    """An input data which rolls relatively to the monitor's current run time."""
+    FIXED = "Fixed"
+    """An input data with tabular format which doesn't require preprocessing."""
+
+
+class MonitoringNotificationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """MonitoringNotificationType."""
+
+    AML_NOTIFICATION = "AmlNotification"
+    """Enables email notifications through AML notifications."""
+
+
+class MonitoringSignalType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """MonitoringSignalType."""
+
+    DATA_DRIFT = "DataDrift"
+    """Tracks model input data distribution change, comparing against training data or past production
+    #: data."""
+    PREDICTION_DRIFT = "PredictionDrift"
+    """Tracks prediction result data distribution change, comparing against validation/test label data
+    #: or past production data."""
+    DATA_QUALITY = "DataQuality"
+    """Tracks model input data integrity."""
+    FEATURE_ATTRIBUTION_DRIFT = "FeatureAttributionDrift"
+    """Tracks feature importance change in production, comparing against feature importance at
+    #: training time."""
+    CUSTOM = "Custom"
+    """Tracks a custom signal provided by users."""
 
 
 class MountAction(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -815,6 +1086,43 @@ class NodesValueType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The enumerated types for the nodes value."""
 
     ALL = "All"
+
+
+class NumericalDataDriftMetric(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """NumericalDataDriftMetric."""
+
+    JENSEN_SHANNON_DISTANCE = "JensenShannonDistance"
+    """The Jensen Shannon Distance (JSD) metric."""
+    POPULATION_STABILITY_INDEX = "PopulationStabilityIndex"
+    """The Population Stability Index (PSI) metric."""
+    NORMALIZED_WASSERSTEIN_DISTANCE = "NormalizedWassersteinDistance"
+    """The Normalized Wasserstein Distance metric."""
+    TWO_SAMPLE_KOLMOGOROV_SMIRNOV_TEST = "TwoSampleKolmogorovSmirnovTest"
+    """The Two Sample Kolmogorov-Smirnov Test (two-sample K–S) metric."""
+
+
+class NumericalDataQualityMetric(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """NumericalDataQualityMetric."""
+
+    NULL_VALUE_RATE = "NullValueRate"
+    """Calculates the rate of null values."""
+    DATA_TYPE_ERROR_RATE = "DataTypeErrorRate"
+    """Calculates the rate of data type errors."""
+    OUT_OF_BOUNDS_RATE = "OutOfBoundsRate"
+    """Calculates the rate values are out of bounds."""
+
+
+class NumericalPredictionDriftMetric(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """NumericalPredictionDriftMetric."""
+
+    JENSEN_SHANNON_DISTANCE = "JensenShannonDistance"
+    """The Jensen Shannon Distance (JSD) metric."""
+    POPULATION_STABILITY_INDEX = "PopulationStabilityIndex"
+    """The Population Stability Index (PSI) metric."""
+    NORMALIZED_WASSERSTEIN_DISTANCE = "NormalizedWassersteinDistance"
+    """The Normalized Wasserstein Distance metric."""
+    TWO_SAMPLE_KOLMOGOROV_SMIRNOV_TEST = "TwoSampleKolmogorovSmirnovTest"
+    """The Two Sample Kolmogorov-Smirnov Test (two-sample K–S) metric."""
 
 
 class ObjectDetectionPrimaryMetrics(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -873,6 +1181,16 @@ class OrderString(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     UPDATED_AT_ASC = "UpdatedAtAsc"
 
 
+class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit
+    logs UX. Default value is "user,system".
+    """
+
+    USER = "user"
+    SYSTEM = "system"
+    USER_SYSTEM = "user,system"
+
+
 class OsType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Compute OS Type."""
 
@@ -885,6 +1203,29 @@ class OutputDeliveryMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     READ_WRITE_MOUNT = "ReadWriteMount"
     UPLOAD = "Upload"
+
+
+class PackageBuildState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Package build state returned in package response."""
+
+    NOT_STARTED = "NotStarted"
+    RUNNING = "Running"
+    SUCCEEDED = "Succeeded"
+    FAILED = "Failed"
+
+
+class PackageInputDeliveryMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Mounting type of the model or the inputs."""
+
+    COPY = "Copy"
+    DOWNLOAD = "Download"
+
+
+class PackageInputType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of the inputs."""
+
+    URI_FILE = "UriFile"
+    URI_FOLDER = "UriFolder"
 
 
 class PendingUploadCredentialType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -1073,6 +1414,36 @@ class RemoteLoginPortPublicAccess(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     NOT_SPECIFIED = "NotSpecified"
 
 
+class RuleAction(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The action enum for networking rule."""
+
+    ALLOW = "Allow"
+    DENY = "Deny"
+
+
+class RuleCategory(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Category of a managed network Outbound Rule of a machine learning workspace."""
+
+    REQUIRED = "Required"
+    RECOMMENDED = "Recommended"
+    USER_DEFINED = "UserDefined"
+
+
+class RuleStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of a managed network Outbound Rule of a machine learning workspace."""
+
+    INACTIVE = "Inactive"
+    ACTIVE = "Active"
+
+
+class RuleType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of a managed network Outbound Rule of a machine learning workspace."""
+
+    FQDN = "FQDN"
+    PRIVATE_ENDPOINT = "PrivateEndpoint"
+    SERVICE_TAG = "ServiceTag"
+
+
 class SamplingAlgorithmType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """SamplingAlgorithmType."""
 
@@ -1093,6 +1464,7 @@ class ScheduleActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     CREATE_JOB = "CreateJob"
     INVOKE_BATCH_ENDPOINT = "InvokeBatchEndpoint"
+    CREATE_MONITOR = "CreateMonitor"
 
 
 class ScheduleListViewType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -1432,6 +1804,12 @@ class VolumeDefinitionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     VOLUME = "volume"
     TMPFS = "tmpfs"
     NPIPE = "npipe"
+
+
+class WebhookType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Enum to determine the webhook callback service type."""
+
+    AZURE_DEV_OPS = "AzureDevOps"
 
 
 class WeekDay(str, Enum, metaclass=CaseInsensitiveEnumMeta):
