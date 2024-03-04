@@ -19,30 +19,36 @@ if TYPE_CHECKING:
     from azure.core.credentials_async import AsyncTokenCredential
 
 
-class ServiceLinkerManagementClientConfiguration(Configuration):  # pylint: disable=too-many-instance-attributes
-    """Configuration for ServiceLinkerManagementClient.
+class ComputeManagementClientConfiguration(Configuration):  # pylint: disable=too-many-instance-attributes
+    """Configuration for ComputeManagementClient.
 
     Note that all parameters used to create this instance are saved as instance
     attributes.
 
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
-    :keyword api_version: Api Version. Default value is "2023-05-01". Note that overriding this
+    :param subscription_id: Subscription credentials which uniquely identify Microsoft Azure
+     subscription. The subscription ID forms part of the URI for every service call. Required.
+    :type subscription_id: str
+    :keyword api_version: Api Version. Default value is "2023-07-03". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str
     """
 
-    def __init__(self, credential: "AsyncTokenCredential", **kwargs: Any) -> None:
-        super(ServiceLinkerManagementClientConfiguration, self).__init__(**kwargs)
-        api_version: str = kwargs.pop("api_version", "2023-05-01")
+    def __init__(self, credential: "AsyncTokenCredential", subscription_id: str, **kwargs: Any) -> None:
+        super(ComputeManagementClientConfiguration, self).__init__(**kwargs)
+        api_version: str = kwargs.pop("api_version", "2023-07-03")
 
         if credential is None:
             raise ValueError("Parameter 'credential' must not be None.")
+        if subscription_id is None:
+            raise ValueError("Parameter 'subscription_id' must not be None.")
 
         self.credential = credential
+        self.subscription_id = subscription_id
         self.api_version = api_version
         self.credential_scopes = kwargs.pop("credential_scopes", ["https://management.azure.com/.default"])
-        kwargs.setdefault("sdk_moniker", "mgmt-servicelinker/{}".format(VERSION))
+        kwargs.setdefault("sdk_moniker", "mgmt-compute/{}".format(VERSION))
         self._configure(**kwargs)
 
     def _configure(self, **kwargs: Any) -> None:

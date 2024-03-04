@@ -8,7 +8,7 @@
 # --------------------------------------------------------------------------
 
 import datetime
-from typing import Dict, List, Optional, TYPE_CHECKING, Union
+from typing import Any, List, Optional, TYPE_CHECKING, Union
 
 from .. import _serialization
 
@@ -21,15 +21,13 @@ class AuthInfoBase(_serialization.Model):
     """The authentication info.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
-    AccessKeyInfoBase, SecretAuthInfo, ServicePrincipalCertificateAuthInfo,
-    ServicePrincipalSecretAuthInfo, SystemAssignedIdentityAuthInfo, UserAccountAuthInfo,
-    UserAssignedIdentityAuthInfo
+    SecretAuthInfo, ServicePrincipalCertificateAuthInfo, ServicePrincipalSecretAuthInfo,
+    SystemAssignedIdentityAuthInfo, UserAssignedIdentityAuthInfo
 
     All required parameters must be populated in order to send to Azure.
 
     :ivar auth_type: The authentication type. Required. Known values are: "systemAssignedIdentity",
-     "userAssignedIdentity", "servicePrincipalSecret", "servicePrincipalCertificate", "secret",
-     "accessKey", and "userAccount".
+     "userAssignedIdentity", "servicePrincipalSecret", "servicePrincipalCertificate", and "secret".
     :vartype auth_type: str or ~azure.mgmt.servicelinker.models.AuthType
     """
 
@@ -43,56 +41,18 @@ class AuthInfoBase(_serialization.Model):
 
     _subtype_map = {
         "auth_type": {
-            "accessKey": "AccessKeyInfoBase",
             "secret": "SecretAuthInfo",
             "servicePrincipalCertificate": "ServicePrincipalCertificateAuthInfo",
             "servicePrincipalSecret": "ServicePrincipalSecretAuthInfo",
             "systemAssignedIdentity": "SystemAssignedIdentityAuthInfo",
-            "userAccount": "UserAccountAuthInfo",
             "userAssignedIdentity": "UserAssignedIdentityAuthInfo",
         }
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.auth_type: Optional[str] = None
-
-
-class AccessKeyInfoBase(AuthInfoBase):
-    """The access key directly from target resource properties, which target service is Azure Resource, such as Microsoft.Storage.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar auth_type: The authentication type. Required. Known values are: "systemAssignedIdentity",
-     "userAssignedIdentity", "servicePrincipalSecret", "servicePrincipalCertificate", "secret",
-     "accessKey", and "userAccount".
-    :vartype auth_type: str or ~azure.mgmt.servicelinker.models.AuthType
-    :ivar permissions: Permissions of the accessKey. ``Read`` and ``Write`` are for Azure Cosmos DB
-     and Azure App Configuration, ``Listen``\ , ``Send`` and ``Manage`` are for Azure Event Hub and
-     Azure Service Bus.
-    :vartype permissions: list[str or ~azure.mgmt.servicelinker.models.AccessKeyPermissions]
-    """
-
-    _validation = {
-        "auth_type": {"required": True},
-    }
-
-    _attribute_map = {
-        "auth_type": {"key": "authType", "type": "str"},
-        "permissions": {"key": "permissions", "type": "[str]"},
-    }
-
-    def __init__(self, *, permissions: Optional[List[Union[str, "_models.AccessKeyPermissions"]]] = None, **kwargs):
-        """
-        :keyword permissions: Permissions of the accessKey. ``Read`` and ``Write`` are for Azure Cosmos
-         DB and Azure App Configuration, ``Listen``\ , ``Send`` and ``Manage`` are for Azure Event Hub
-         and Azure Service Bus.
-        :paramtype permissions: list[str or ~azure.mgmt.servicelinker.models.AccessKeyPermissions]
-        """
-        super().__init__(**kwargs)
-        self.auth_type: str = "accessKey"
-        self.permissions = permissions
 
 
 class AzureResourcePropertiesBase(_serialization.Model):
@@ -117,7 +77,7 @@ class AzureResourcePropertiesBase(_serialization.Model):
 
     _subtype_map = {"type": {"KeyVault": "AzureKeyVaultProperties"}}
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.type: Optional[str] = None
@@ -143,7 +103,7 @@ class AzureKeyVaultProperties(AzureResourcePropertiesBase):
         "connect_as_kubernetes_csi_driver": {"key": "connectAsKubernetesCsiDriver", "type": "bool"},
     }
 
-    def __init__(self, *, connect_as_kubernetes_csi_driver: Optional[bool] = None, **kwargs):
+    def __init__(self, *, connect_as_kubernetes_csi_driver: Optional[bool] = None, **kwargs: Any) -> None:
         """
         :keyword connect_as_kubernetes_csi_driver: True if connect via Kubernetes CSI Driver.
         :paramtype connect_as_kubernetes_csi_driver: bool
@@ -157,12 +117,12 @@ class TargetServiceBase(_serialization.Model):
     """The target service properties.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
-    AzureResource, ConfluentBootstrapServer, ConfluentSchemaRegistry, SelfHostedServer
+    AzureResource, ConfluentBootstrapServer, ConfluentSchemaRegistry
 
     All required parameters must be populated in order to send to Azure.
 
     :ivar type: The target service type. Required. Known values are: "AzureResource",
-     "ConfluentBootstrapServer", "ConfluentSchemaRegistry", and "SelfHostedServer".
+     "ConfluentBootstrapServer", and "ConfluentSchemaRegistry".
     :vartype type: str or ~azure.mgmt.servicelinker.models.TargetServiceType
     """
 
@@ -179,11 +139,10 @@ class TargetServiceBase(_serialization.Model):
             "AzureResource": "AzureResource",
             "ConfluentBootstrapServer": "ConfluentBootstrapServer",
             "ConfluentSchemaRegistry": "ConfluentSchemaRegistry",
-            "SelfHostedServer": "SelfHostedServer",
         }
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.type: Optional[str] = None
@@ -195,7 +154,7 @@ class AzureResource(TargetServiceBase):
     All required parameters must be populated in order to send to Azure.
 
     :ivar type: The target service type. Required. Known values are: "AzureResource",
-     "ConfluentBootstrapServer", "ConfluentSchemaRegistry", and "SelfHostedServer".
+     "ConfluentBootstrapServer", and "ConfluentSchemaRegistry".
     :vartype type: str or ~azure.mgmt.servicelinker.models.TargetServiceType
     :ivar id: The Id of azure resource.
     :vartype id: str
@@ -218,8 +177,8 @@ class AzureResource(TargetServiceBase):
         *,
         id: Optional[str] = None,  # pylint: disable=redefined-builtin
         resource_properties: Optional["_models.AzureResourcePropertiesBase"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: The Id of azure resource.
         :paramtype id: str
@@ -232,276 +191,13 @@ class AzureResource(TargetServiceBase):
         self.resource_properties = resource_properties
 
 
-class DryrunPrerequisiteResult(_serialization.Model):
-    """A result of dryrun.
-
-    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
-    BasicErrorDryrunPrerequisiteResult, PermissionsMissingDryrunPrerequisiteResult
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar type: The type of dryrun result. Required. Known values are: "basicError" and
-     "permissionsMissing".
-    :vartype type: str or ~azure.mgmt.servicelinker.models.DryrunPrerequisiteResultType
-    """
-
-    _validation = {
-        "type": {"required": True},
-    }
-
-    _attribute_map = {
-        "type": {"key": "type", "type": "str"},
-    }
-
-    _subtype_map = {
-        "type": {
-            "basicError": "BasicErrorDryrunPrerequisiteResult",
-            "permissionsMissing": "PermissionsMissingDryrunPrerequisiteResult",
-        }
-    }
-
-    def __init__(self, **kwargs):
-        """ """
-        super().__init__(**kwargs)
-        self.type: Optional[str] = None
-
-
-class BasicErrorDryrunPrerequisiteResult(DryrunPrerequisiteResult):
-    """The represent of basic error.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar type: The type of dryrun result. Required. Known values are: "basicError" and
-     "permissionsMissing".
-    :vartype type: str or ~azure.mgmt.servicelinker.models.DryrunPrerequisiteResultType
-    :ivar code: The error code.
-    :vartype code: str
-    :ivar message: The error message.
-    :vartype message: str
-    """
-
-    _validation = {
-        "type": {"required": True},
-    }
-
-    _attribute_map = {
-        "type": {"key": "type", "type": "str"},
-        "code": {"key": "code", "type": "str"},
-        "message": {"key": "message", "type": "str"},
-    }
-
-    def __init__(self, *, code: Optional[str] = None, message: Optional[str] = None, **kwargs):
-        """
-        :keyword code: The error code.
-        :paramtype code: str
-        :keyword message: The error message.
-        :paramtype message: str
-        """
-        super().__init__(**kwargs)
-        self.type: str = "basicError"
-        self.code = code
-        self.message = message
-
-
-class ConfigurationInfo(_serialization.Model):
-    """The configuration information, used to generate configurations or save to applications.
-
-    :ivar delete_or_update_behavior: Indicates whether to clean up previous operation when Linker
-     is updating or deleting. Known values are: "Default" and "ForcedCleanup".
-    :vartype delete_or_update_behavior: str or
-     ~azure.mgmt.servicelinker.models.DeleteOrUpdateBehavior
-    :ivar action: Optional, indicate whether to apply configurations on source application. If
-     enable, generate configurations and applied to the source application. Default is enable. If
-     optOut, no configuration change will be made on source. Known values are: "Internal", "enable",
-     and "optOut".
-    :vartype action: str or ~azure.mgmt.servicelinker.models.ActionType
-    :ivar customized_keys: Optional. A dictionary of default key name and customized key name
-     mapping. If not specified, default key name will be used for generate configurations.
-    :vartype customized_keys: dict[str, str]
-    :ivar additional_configurations: A dictionary of additional configurations to be added. Service
-     will auto generate a set of basic configurations and this property is to full fill more
-     customized configurations.
-    :vartype additional_configurations: dict[str, str]
-    """
-
-    _attribute_map = {
-        "delete_or_update_behavior": {"key": "deleteOrUpdateBehavior", "type": "str"},
-        "action": {"key": "action", "type": "str"},
-        "customized_keys": {"key": "customizedKeys", "type": "{str}"},
-        "additional_configurations": {"key": "additionalConfigurations", "type": "{str}"},
-    }
-
-    def __init__(
-        self,
-        *,
-        delete_or_update_behavior: Optional[Union[str, "_models.DeleteOrUpdateBehavior"]] = None,
-        action: Optional[Union[str, "_models.ActionType"]] = None,
-        customized_keys: Optional[Dict[str, str]] = None,
-        additional_configurations: Optional[Dict[str, str]] = None,
-        **kwargs
-    ):
-        """
-        :keyword delete_or_update_behavior: Indicates whether to clean up previous operation when
-         Linker is updating or deleting. Known values are: "Default" and "ForcedCleanup".
-        :paramtype delete_or_update_behavior: str or
-         ~azure.mgmt.servicelinker.models.DeleteOrUpdateBehavior
-        :keyword action: Optional, indicate whether to apply configurations on source application. If
-         enable, generate configurations and applied to the source application. Default is enable. If
-         optOut, no configuration change will be made on source. Known values are: "Internal", "enable",
-         and "optOut".
-        :paramtype action: str or ~azure.mgmt.servicelinker.models.ActionType
-        :keyword customized_keys: Optional. A dictionary of default key name and customized key name
-         mapping. If not specified, default key name will be used for generate configurations.
-        :paramtype customized_keys: dict[str, str]
-        :keyword additional_configurations: A dictionary of additional configurations to be added.
-         Service will auto generate a set of basic configurations and this property is to full fill more
-         customized configurations.
-        :paramtype additional_configurations: dict[str, str]
-        """
-        super().__init__(**kwargs)
-        self.delete_or_update_behavior = delete_or_update_behavior
-        self.action = action
-        self.customized_keys = customized_keys
-        self.additional_configurations = additional_configurations
-
-
-class ConfigurationName(_serialization.Model):
-    """The configuration names.
-
-    :ivar value:
-    :vartype value: str
-    :ivar description: Description for the configuration name.
-    :vartype description: str
-    """
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "str"},
-        "description": {"key": "description", "type": "str"},
-    }
-
-    def __init__(self, *, value: Optional[str] = None, description: Optional[str] = None, **kwargs):
-        """
-        :keyword value:
-        :paramtype value: str
-        :keyword description: Description for the configuration name.
-        :paramtype description: str
-        """
-        super().__init__(**kwargs)
-        self.value = value
-        self.description = description
-
-
-class ConfigurationNameItem(_serialization.Model):
-    """ConfigurationNameItem.
-
-    :ivar target_service: The target service provider name and resource name.
-    :vartype target_service: str
-    :ivar client_type: The client type for configuration names. Known values are: "none", "dotnet",
-     "java", "python", "go", "php", "ruby", "django", "nodejs", "springBoot", and
-     "kafka-springBoot".
-    :vartype client_type: str or ~azure.mgmt.servicelinker.models.ClientType
-    :ivar auth_type: The auth type. Known values are: "systemAssignedIdentity",
-     "userAssignedIdentity", "servicePrincipalSecret", "servicePrincipalCertificate", "secret",
-     "accessKey", and "userAccount".
-    :vartype auth_type: str or ~azure.mgmt.servicelinker.models.AuthType
-    :ivar names: The configuration names to be set in compute service environment.
-    :vartype names: list[~azure.mgmt.servicelinker.models.ConfigurationName]
-    """
-
-    _attribute_map = {
-        "target_service": {"key": "properties.targetService", "type": "str"},
-        "client_type": {"key": "properties.clientType", "type": "str"},
-        "auth_type": {"key": "properties.authType", "type": "str"},
-        "names": {"key": "properties.names", "type": "[ConfigurationName]"},
-    }
-
-    def __init__(
-        self,
-        *,
-        target_service: Optional[str] = None,
-        client_type: Optional[Union[str, "_models.ClientType"]] = None,
-        auth_type: Optional[Union[str, "_models.AuthType"]] = None,
-        names: Optional[List["_models.ConfigurationName"]] = None,
-        **kwargs
-    ):
-        """
-        :keyword target_service: The target service provider name and resource name.
-        :paramtype target_service: str
-        :keyword client_type: The client type for configuration names. Known values are: "none",
-         "dotnet", "java", "python", "go", "php", "ruby", "django", "nodejs", "springBoot", and
-         "kafka-springBoot".
-        :paramtype client_type: str or ~azure.mgmt.servicelinker.models.ClientType
-        :keyword auth_type: The auth type. Known values are: "systemAssignedIdentity",
-         "userAssignedIdentity", "servicePrincipalSecret", "servicePrincipalCertificate", "secret",
-         "accessKey", and "userAccount".
-        :paramtype auth_type: str or ~azure.mgmt.servicelinker.models.AuthType
-        :keyword names: The configuration names to be set in compute service environment.
-        :paramtype names: list[~azure.mgmt.servicelinker.models.ConfigurationName]
-        """
-        super().__init__(**kwargs)
-        self.target_service = target_service
-        self.client_type = client_type
-        self.auth_type = auth_type
-        self.names = names
-
-
-class ConfigurationNameResult(_serialization.Model):
-    """Configuration Name list which will be set based on different target resource, client type, auth type.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar value: Expected configuration names for each target service.
-    :vartype value: list[~azure.mgmt.servicelinker.models.ConfigurationNameItem]
-    :ivar next_link: Link to next page of resources.
-    :vartype next_link: str
-    """
-
-    _validation = {
-        "next_link": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[ConfigurationNameItem]"},
-        "next_link": {"key": "nextLink", "type": "str"},
-    }
-
-    def __init__(self, *, value: Optional[List["_models.ConfigurationNameItem"]] = None, **kwargs):
-        """
-        :keyword value: Expected configuration names for each target service.
-        :paramtype value: list[~azure.mgmt.servicelinker.models.ConfigurationNameItem]
-        """
-        super().__init__(**kwargs)
-        self.value = value
-        self.next_link = None
-
-
-class ConfigurationResult(_serialization.Model):
-    """Configurations for source resource, include appSettings, connectionString and serviceBindings.
-
-    :ivar configurations: The configuration properties for source resource.
-    :vartype configurations: list[~azure.mgmt.servicelinker.models.SourceConfiguration]
-    """
-
-    _attribute_map = {
-        "configurations": {"key": "configurations", "type": "[SourceConfiguration]"},
-    }
-
-    def __init__(self, *, configurations: Optional[List["_models.SourceConfiguration"]] = None, **kwargs):
-        """
-        :keyword configurations: The configuration properties for source resource.
-        :paramtype configurations: list[~azure.mgmt.servicelinker.models.SourceConfiguration]
-        """
-        super().__init__(**kwargs)
-        self.configurations = configurations
-
-
 class ConfluentBootstrapServer(TargetServiceBase):
     """The service properties when target service type is ConfluentBootstrapServer.
 
     All required parameters must be populated in order to send to Azure.
 
     :ivar type: The target service type. Required. Known values are: "AzureResource",
-     "ConfluentBootstrapServer", "ConfluentSchemaRegistry", and "SelfHostedServer".
+     "ConfluentBootstrapServer", and "ConfluentSchemaRegistry".
     :vartype type: str or ~azure.mgmt.servicelinker.models.TargetServiceType
     :ivar endpoint: The endpoint of service.
     :vartype endpoint: str
@@ -516,7 +212,7 @@ class ConfluentBootstrapServer(TargetServiceBase):
         "endpoint": {"key": "endpoint", "type": "str"},
     }
 
-    def __init__(self, *, endpoint: Optional[str] = None, **kwargs):
+    def __init__(self, *, endpoint: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword endpoint: The endpoint of service.
         :paramtype endpoint: str
@@ -532,7 +228,7 @@ class ConfluentSchemaRegistry(TargetServiceBase):
     All required parameters must be populated in order to send to Azure.
 
     :ivar type: The target service type. Required. Known values are: "AzureResource",
-     "ConfluentBootstrapServer", "ConfluentSchemaRegistry", and "SelfHostedServer".
+     "ConfluentBootstrapServer", and "ConfluentSchemaRegistry".
     :vartype type: str or ~azure.mgmt.servicelinker.models.TargetServiceType
     :ivar endpoint: The endpoint of service.
     :vartype endpoint: str
@@ -547,7 +243,7 @@ class ConfluentSchemaRegistry(TargetServiceBase):
         "endpoint": {"key": "endpoint", "type": "str"},
     }
 
-    def __init__(self, *, endpoint: Optional[str] = None, **kwargs):
+    def __init__(self, *, endpoint: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword endpoint: The endpoint of service.
         :paramtype endpoint: str
@@ -555,511 +251,6 @@ class ConfluentSchemaRegistry(TargetServiceBase):
         super().__init__(**kwargs)
         self.type: str = "ConfluentSchemaRegistry"
         self.endpoint = endpoint
-
-
-class LinkerProperties(_serialization.Model):
-    """The properties of the Linker.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar target_service: The target service properties.
-    :vartype target_service: ~azure.mgmt.servicelinker.models.TargetServiceBase
-    :ivar auth_info: The authentication type.
-    :vartype auth_info: ~azure.mgmt.servicelinker.models.AuthInfoBase
-    :ivar client_type: The application client type. Known values are: "none", "dotnet", "java",
-     "python", "go", "php", "ruby", "django", "nodejs", "springBoot", and "kafka-springBoot".
-    :vartype client_type: str or ~azure.mgmt.servicelinker.models.ClientType
-    :ivar provisioning_state: The provisioning state.
-    :vartype provisioning_state: str
-    :ivar v_net_solution: The VNet solution.
-    :vartype v_net_solution: ~azure.mgmt.servicelinker.models.VNetSolution
-    :ivar secret_store: An option to store secret value in secure place.
-    :vartype secret_store: ~azure.mgmt.servicelinker.models.SecretStore
-    :ivar scope: connection scope in source service.
-    :vartype scope: str
-    :ivar public_network_solution: The network solution.
-    :vartype public_network_solution: ~azure.mgmt.servicelinker.models.PublicNetworkSolution
-    :ivar configuration_info: The connection information consumed by applications, including
-     secrets, connection strings.
-    :vartype configuration_info: ~azure.mgmt.servicelinker.models.ConfigurationInfo
-    """
-
-    _validation = {
-        "provisioning_state": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "target_service": {"key": "targetService", "type": "TargetServiceBase"},
-        "auth_info": {"key": "authInfo", "type": "AuthInfoBase"},
-        "client_type": {"key": "clientType", "type": "str"},
-        "provisioning_state": {"key": "provisioningState", "type": "str"},
-        "v_net_solution": {"key": "vNetSolution", "type": "VNetSolution"},
-        "secret_store": {"key": "secretStore", "type": "SecretStore"},
-        "scope": {"key": "scope", "type": "str"},
-        "public_network_solution": {"key": "publicNetworkSolution", "type": "PublicNetworkSolution"},
-        "configuration_info": {"key": "configurationInfo", "type": "ConfigurationInfo"},
-    }
-
-    def __init__(
-        self,
-        *,
-        target_service: Optional["_models.TargetServiceBase"] = None,
-        auth_info: Optional["_models.AuthInfoBase"] = None,
-        client_type: Optional[Union[str, "_models.ClientType"]] = None,
-        v_net_solution: Optional["_models.VNetSolution"] = None,
-        secret_store: Optional["_models.SecretStore"] = None,
-        scope: Optional[str] = None,
-        public_network_solution: Optional["_models.PublicNetworkSolution"] = None,
-        configuration_info: Optional["_models.ConfigurationInfo"] = None,
-        **kwargs
-    ):
-        """
-        :keyword target_service: The target service properties.
-        :paramtype target_service: ~azure.mgmt.servicelinker.models.TargetServiceBase
-        :keyword auth_info: The authentication type.
-        :paramtype auth_info: ~azure.mgmt.servicelinker.models.AuthInfoBase
-        :keyword client_type: The application client type. Known values are: "none", "dotnet", "java",
-         "python", "go", "php", "ruby", "django", "nodejs", "springBoot", and "kafka-springBoot".
-        :paramtype client_type: str or ~azure.mgmt.servicelinker.models.ClientType
-        :keyword v_net_solution: The VNet solution.
-        :paramtype v_net_solution: ~azure.mgmt.servicelinker.models.VNetSolution
-        :keyword secret_store: An option to store secret value in secure place.
-        :paramtype secret_store: ~azure.mgmt.servicelinker.models.SecretStore
-        :keyword scope: connection scope in source service.
-        :paramtype scope: str
-        :keyword public_network_solution: The network solution.
-        :paramtype public_network_solution: ~azure.mgmt.servicelinker.models.PublicNetworkSolution
-        :keyword configuration_info: The connection information consumed by applications, including
-         secrets, connection strings.
-        :paramtype configuration_info: ~azure.mgmt.servicelinker.models.ConfigurationInfo
-        """
-        super().__init__(**kwargs)
-        self.target_service = target_service
-        self.auth_info = auth_info
-        self.client_type = client_type
-        self.provisioning_state = None
-        self.v_net_solution = v_net_solution
-        self.secret_store = secret_store
-        self.scope = scope
-        self.public_network_solution = public_network_solution
-        self.configuration_info = configuration_info
-
-
-class DryrunParameters(_serialization.Model):
-    """The parameters of the dryrun.
-
-    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
-    CreateOrUpdateDryrunParameters
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar action_name: The name of action for you dryrun job. Required. "createOrUpdate"
-    :vartype action_name: str or ~azure.mgmt.servicelinker.models.DryrunActionName
-    """
-
-    _validation = {
-        "action_name": {"required": True},
-    }
-
-    _attribute_map = {
-        "action_name": {"key": "actionName", "type": "str"},
-    }
-
-    _subtype_map = {"action_name": {"createOrUpdate": "CreateOrUpdateDryrunParameters"}}
-
-    def __init__(self, **kwargs):
-        """ """
-        super().__init__(**kwargs)
-        self.action_name: Optional[str] = None
-
-
-class CreateOrUpdateDryrunParameters(DryrunParameters, LinkerProperties):
-    """The dryrun parameters for creation or update a linker.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar target_service: The target service properties.
-    :vartype target_service: ~azure.mgmt.servicelinker.models.TargetServiceBase
-    :ivar auth_info: The authentication type.
-    :vartype auth_info: ~azure.mgmt.servicelinker.models.AuthInfoBase
-    :ivar client_type: The application client type. Known values are: "none", "dotnet", "java",
-     "python", "go", "php", "ruby", "django", "nodejs", "springBoot", and "kafka-springBoot".
-    :vartype client_type: str or ~azure.mgmt.servicelinker.models.ClientType
-    :ivar provisioning_state: The provisioning state.
-    :vartype provisioning_state: str
-    :ivar v_net_solution: The VNet solution.
-    :vartype v_net_solution: ~azure.mgmt.servicelinker.models.VNetSolution
-    :ivar secret_store: An option to store secret value in secure place.
-    :vartype secret_store: ~azure.mgmt.servicelinker.models.SecretStore
-    :ivar scope: connection scope in source service.
-    :vartype scope: str
-    :ivar public_network_solution: The network solution.
-    :vartype public_network_solution: ~azure.mgmt.servicelinker.models.PublicNetworkSolution
-    :ivar configuration_info: The connection information consumed by applications, including
-     secrets, connection strings.
-    :vartype configuration_info: ~azure.mgmt.servicelinker.models.ConfigurationInfo
-    :ivar action_name: The name of action for you dryrun job. Required. "createOrUpdate"
-    :vartype action_name: str or ~azure.mgmt.servicelinker.models.DryrunActionName
-    """
-
-    _validation = {
-        "provisioning_state": {"readonly": True},
-        "action_name": {"required": True},
-    }
-
-    _attribute_map = {
-        "target_service": {"key": "targetService", "type": "TargetServiceBase"},
-        "auth_info": {"key": "authInfo", "type": "AuthInfoBase"},
-        "client_type": {"key": "clientType", "type": "str"},
-        "provisioning_state": {"key": "provisioningState", "type": "str"},
-        "v_net_solution": {"key": "vNetSolution", "type": "VNetSolution"},
-        "secret_store": {"key": "secretStore", "type": "SecretStore"},
-        "scope": {"key": "scope", "type": "str"},
-        "public_network_solution": {"key": "publicNetworkSolution", "type": "PublicNetworkSolution"},
-        "configuration_info": {"key": "configurationInfo", "type": "ConfigurationInfo"},
-        "action_name": {"key": "actionName", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        target_service: Optional["_models.TargetServiceBase"] = None,
-        auth_info: Optional["_models.AuthInfoBase"] = None,
-        client_type: Optional[Union[str, "_models.ClientType"]] = None,
-        v_net_solution: Optional["_models.VNetSolution"] = None,
-        secret_store: Optional["_models.SecretStore"] = None,
-        scope: Optional[str] = None,
-        public_network_solution: Optional["_models.PublicNetworkSolution"] = None,
-        configuration_info: Optional["_models.ConfigurationInfo"] = None,
-        **kwargs
-    ):
-        """
-        :keyword target_service: The target service properties.
-        :paramtype target_service: ~azure.mgmt.servicelinker.models.TargetServiceBase
-        :keyword auth_info: The authentication type.
-        :paramtype auth_info: ~azure.mgmt.servicelinker.models.AuthInfoBase
-        :keyword client_type: The application client type. Known values are: "none", "dotnet", "java",
-         "python", "go", "php", "ruby", "django", "nodejs", "springBoot", and "kafka-springBoot".
-        :paramtype client_type: str or ~azure.mgmt.servicelinker.models.ClientType
-        :keyword v_net_solution: The VNet solution.
-        :paramtype v_net_solution: ~azure.mgmt.servicelinker.models.VNetSolution
-        :keyword secret_store: An option to store secret value in secure place.
-        :paramtype secret_store: ~azure.mgmt.servicelinker.models.SecretStore
-        :keyword scope: connection scope in source service.
-        :paramtype scope: str
-        :keyword public_network_solution: The network solution.
-        :paramtype public_network_solution: ~azure.mgmt.servicelinker.models.PublicNetworkSolution
-        :keyword configuration_info: The connection information consumed by applications, including
-         secrets, connection strings.
-        :paramtype configuration_info: ~azure.mgmt.servicelinker.models.ConfigurationInfo
-        """
-        super().__init__(
-            target_service=target_service,
-            auth_info=auth_info,
-            client_type=client_type,
-            v_net_solution=v_net_solution,
-            secret_store=secret_store,
-            scope=scope,
-            public_network_solution=public_network_solution,
-            configuration_info=configuration_info,
-            **kwargs
-        )
-        self.target_service = target_service
-        self.auth_info = auth_info
-        self.client_type = client_type
-        self.provisioning_state = None
-        self.v_net_solution = v_net_solution
-        self.secret_store = secret_store
-        self.scope = scope
-        self.public_network_solution = public_network_solution
-        self.configuration_info = configuration_info
-        self.action_name: str = "createOrUpdate"
-
-
-class DatabaseAadAuthInfo(_serialization.Model):
-    """The extra auth info required by Database AAD authentication.
-
-    :ivar user_name: Username created in the database which is mapped to a user in AAD.
-    :vartype user_name: str
-    """
-
-    _attribute_map = {
-        "user_name": {"key": "userName", "type": "str"},
-    }
-
-    def __init__(self, *, user_name: Optional[str] = None, **kwargs):
-        """
-        :keyword user_name: Username created in the database which is mapped to a user in AAD.
-        :paramtype user_name: str
-        """
-        super().__init__(**kwargs)
-        self.user_name = user_name
-
-
-class DryrunList(_serialization.Model):
-    """The list of dryrun.
-
-    :ivar next_link: The link used to get the next page of dryrun list.
-    :vartype next_link: str
-    :ivar value: The list of dryrun.
-    :vartype value: list[~azure.mgmt.servicelinker.models.DryrunResource]
-    """
-
-    _attribute_map = {
-        "next_link": {"key": "nextLink", "type": "str"},
-        "value": {"key": "value", "type": "[DryrunResource]"},
-    }
-
-    def __init__(
-        self, *, next_link: Optional[str] = None, value: Optional[List["_models.DryrunResource"]] = None, **kwargs
-    ):
-        """
-        :keyword next_link: The link used to get the next page of dryrun list.
-        :paramtype next_link: str
-        :keyword value: The list of dryrun.
-        :paramtype value: list[~azure.mgmt.servicelinker.models.DryrunResource]
-        """
-        super().__init__(**kwargs)
-        self.next_link = next_link
-        self.value = value
-
-
-class DryrunOperationPreview(_serialization.Model):
-    """The preview of the operations for creation.
-
-    :ivar name: The operation name.
-    :vartype name: str
-    :ivar operation_type: The operation type. Known values are: "configConnection",
-     "configNetwork", and "configAuth".
-    :vartype operation_type: str or ~azure.mgmt.servicelinker.models.DryrunPreviewOperationType
-    :ivar description: The description of the operation.
-    :vartype description: str
-    :ivar action: The action defined by RBAC, refer
-     https://docs.microsoft.com/azure/role-based-access-control/role-definitions#actions-format.
-    :vartype action: str
-    :ivar scope: The scope of the operation, refer
-     https://docs.microsoft.com/azure/role-based-access-control/scope-overview.
-    :vartype scope: str
-    """
-
-    _attribute_map = {
-        "name": {"key": "name", "type": "str"},
-        "operation_type": {"key": "operationType", "type": "str"},
-        "description": {"key": "description", "type": "str"},
-        "action": {"key": "action", "type": "str"},
-        "scope": {"key": "scope", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        name: Optional[str] = None,
-        operation_type: Optional[Union[str, "_models.DryrunPreviewOperationType"]] = None,
-        description: Optional[str] = None,
-        action: Optional[str] = None,
-        scope: Optional[str] = None,
-        **kwargs
-    ):
-        """
-        :keyword name: The operation name.
-        :paramtype name: str
-        :keyword operation_type: The operation type. Known values are: "configConnection",
-         "configNetwork", and "configAuth".
-        :paramtype operation_type: str or ~azure.mgmt.servicelinker.models.DryrunPreviewOperationType
-        :keyword description: The description of the operation.
-        :paramtype description: str
-        :keyword action: The action defined by RBAC, refer
-         https://docs.microsoft.com/azure/role-based-access-control/role-definitions#actions-format.
-        :paramtype action: str
-        :keyword scope: The scope of the operation, refer
-         https://docs.microsoft.com/azure/role-based-access-control/scope-overview.
-        :paramtype scope: str
-        """
-        super().__init__(**kwargs)
-        self.name = name
-        self.operation_type = operation_type
-        self.description = description
-        self.action = action
-        self.scope = scope
-
-
-class DryrunPatch(_serialization.Model):
-    """a dryrun job to be updated.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar parameters: The parameters of the dryrun.
-    :vartype parameters: ~azure.mgmt.servicelinker.models.DryrunParameters
-    :ivar prerequisite_results: the result of the dryrun.
-    :vartype prerequisite_results: list[~azure.mgmt.servicelinker.models.DryrunPrerequisiteResult]
-    :ivar operation_previews: the preview of the operations for creation.
-    :vartype operation_previews: list[~azure.mgmt.servicelinker.models.DryrunOperationPreview]
-    :ivar provisioning_state: The provisioning state.
-    :vartype provisioning_state: str
-    """
-
-    _validation = {
-        "prerequisite_results": {"readonly": True},
-        "operation_previews": {"readonly": True},
-        "provisioning_state": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "parameters": {"key": "properties.parameters", "type": "DryrunParameters"},
-        "prerequisite_results": {"key": "properties.prerequisiteResults", "type": "[DryrunPrerequisiteResult]"},
-        "operation_previews": {"key": "properties.operationPreviews", "type": "[DryrunOperationPreview]"},
-        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
-    }
-
-    def __init__(self, *, parameters: Optional["_models.DryrunParameters"] = None, **kwargs):
-        """
-        :keyword parameters: The parameters of the dryrun.
-        :paramtype parameters: ~azure.mgmt.servicelinker.models.DryrunParameters
-        """
-        super().__init__(**kwargs)
-        self.parameters = parameters
-        self.prerequisite_results = None
-        self.operation_previews = None
-        self.provisioning_state = None
-
-
-class Resource(_serialization.Model):
-    """Common fields that are returned in the response for all Azure Resource Manager resources.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-    :vartype id: str
-    :ivar name: The name of the resource.
-    :vartype name: str
-    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-     "Microsoft.Storage/storageAccounts".
-    :vartype type: str
-    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
-     information.
-    :vartype system_data: ~azure.mgmt.servicelinker.models.SystemData
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-    }
-
-    def __init__(self, **kwargs):
-        """ """
-        super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.system_data = None
-
-
-class ProxyResource(Resource):
-    """The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-    :vartype id: str
-    :ivar name: The name of the resource.
-    :vartype name: str
-    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-     "Microsoft.Storage/storageAccounts".
-    :vartype type: str
-    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
-     information.
-    :vartype system_data: ~azure.mgmt.servicelinker.models.SystemData
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-    }
-
-    def __init__(self, **kwargs):
-        """ """
-        super().__init__(**kwargs)
-
-
-class DryrunResource(ProxyResource):
-    """a dryrun job resource.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-    :vartype id: str
-    :ivar name: The name of the resource.
-    :vartype name: str
-    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-     "Microsoft.Storage/storageAccounts".
-    :vartype type: str
-    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
-     information.
-    :vartype system_data: ~azure.mgmt.servicelinker.models.SystemData
-    :ivar parameters: The parameters of the dryrun.
-    :vartype parameters: ~azure.mgmt.servicelinker.models.DryrunParameters
-    :ivar prerequisite_results: the result of the dryrun.
-    :vartype prerequisite_results: list[~azure.mgmt.servicelinker.models.DryrunPrerequisiteResult]
-    :ivar operation_previews: the preview of the operations for creation.
-    :vartype operation_previews: list[~azure.mgmt.servicelinker.models.DryrunOperationPreview]
-    :ivar provisioning_state: The provisioning state.
-    :vartype provisioning_state: str
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-        "prerequisite_results": {"readonly": True},
-        "operation_previews": {"readonly": True},
-        "provisioning_state": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-        "parameters": {"key": "properties.parameters", "type": "DryrunParameters"},
-        "prerequisite_results": {"key": "properties.prerequisiteResults", "type": "[DryrunPrerequisiteResult]"},
-        "operation_previews": {"key": "properties.operationPreviews", "type": "[DryrunOperationPreview]"},
-        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
-    }
-
-    def __init__(self, *, parameters: Optional["_models.DryrunParameters"] = None, **kwargs):
-        """
-        :keyword parameters: The parameters of the dryrun.
-        :paramtype parameters: ~azure.mgmt.servicelinker.models.DryrunParameters
-        """
-        super().__init__(**kwargs)
-        self.parameters = parameters
-        self.prerequisite_results = None
-        self.operation_previews = None
-        self.provisioning_state = None
 
 
 class ErrorAdditionalInfo(_serialization.Model):
@@ -1083,7 +274,7 @@ class ErrorAdditionalInfo(_serialization.Model):
         "info": {"key": "info", "type": "object"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.type = None
@@ -1123,7 +314,7 @@ class ErrorDetail(_serialization.Model):
         "additional_info": {"key": "additionalInfo", "type": "[ErrorAdditionalInfo]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.code = None
@@ -1134,7 +325,8 @@ class ErrorDetail(_serialization.Model):
 
 
 class ErrorResponse(_serialization.Model):
-    """Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.).
+    """Common error response for all Azure Resource Manager APIs to return error details for failed
+    operations. (This also follows the OData error response format.).
 
     :ivar error: The error object.
     :vartype error: ~azure.mgmt.servicelinker.models.ErrorDetail
@@ -1144,60 +336,13 @@ class ErrorResponse(_serialization.Model):
         "error": {"key": "error", "type": "ErrorDetail"},
     }
 
-    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs):
+    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs: Any) -> None:
         """
         :keyword error: The error object.
         :paramtype error: ~azure.mgmt.servicelinker.models.ErrorDetail
         """
         super().__init__(**kwargs)
         self.error = error
-
-
-class FirewallRules(_serialization.Model):
-    """Target service's firewall rules. to allow connections from source service.
-
-    :ivar ip_ranges: This value specifies the set of IP addresses or IP address ranges in CIDR form
-     to be included as the allowed list of client IPs for a given database account.
-    :vartype ip_ranges: list[str]
-    :ivar azure_services: Allow Azure services to access the target service if true. Known values
-     are: "true" and "false".
-    :vartype azure_services: str or ~azure.mgmt.servicelinker.models.AllowType
-    :ivar caller_client_ip: Allow caller client IP to access the target service if true. the
-     property is used when connecting local application to target service. Known values are: "true"
-     and "false".
-    :vartype caller_client_ip: str or ~azure.mgmt.servicelinker.models.AllowType
-    """
-
-    _attribute_map = {
-        "ip_ranges": {"key": "ipRanges", "type": "[str]"},
-        "azure_services": {"key": "azureServices", "type": "str"},
-        "caller_client_ip": {"key": "callerClientIP", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        ip_ranges: Optional[List[str]] = None,
-        azure_services: Optional[Union[str, "_models.AllowType"]] = None,
-        caller_client_ip: Optional[Union[str, "_models.AllowType"]] = None,
-        **kwargs
-    ):
-        """
-        :keyword ip_ranges: This value specifies the set of IP addresses or IP address ranges in CIDR
-         form to be included as the allowed list of client IPs for a given database account.
-        :paramtype ip_ranges: list[str]
-        :keyword azure_services: Allow Azure services to access the target service if true. Known
-         values are: "true" and "false".
-        :paramtype azure_services: str or ~azure.mgmt.servicelinker.models.AllowType
-        :keyword caller_client_ip: Allow caller client IP to access the target service if true. the
-         property is used when connecting local application to target service. Known values are: "true"
-         and "false".
-        :paramtype caller_client_ip: str or ~azure.mgmt.servicelinker.models.AllowType
-        """
-        super().__init__(**kwargs)
-        self.ip_ranges = ip_ranges
-        self.azure_services = azure_services
-        self.caller_client_ip = caller_client_ip
 
 
 class SecretInfoBase(_serialization.Model):
@@ -1229,14 +374,16 @@ class SecretInfoBase(_serialization.Model):
         }
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.secret_type: Optional[str] = None
 
 
 class KeyVaultSecretReferenceSecretInfo(SecretInfoBase):
-    """The secret info when type is keyVaultSecretReference. It's for scenario that user provides a secret stored in user's keyvault and source is Azure Kubernetes. The key Vault's resource id is linked to secretStore.keyVaultId.
+    """The secret info when type is keyVaultSecretReference. It's for scenario that user provides a
+    secret stored in user's keyvault and source is Azure Kubernetes. The key Vault's resource id is
+    linked to secretStore.keyVaultId.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -1259,7 +406,7 @@ class KeyVaultSecretReferenceSecretInfo(SecretInfoBase):
         "version": {"key": "version", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, version: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, version: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Name of the Key Vault secret.
         :paramtype name: str
@@ -1273,7 +420,8 @@ class KeyVaultSecretReferenceSecretInfo(SecretInfoBase):
 
 
 class KeyVaultSecretUriSecretInfo(SecretInfoBase):
-    """The secret info when type is keyVaultSecretUri. It's for scenario that user provides a secret stored in user's keyvault and source is Web App, Spring Cloud or Container App.
+    """The secret info when type is keyVaultSecretUri. It's for scenario that user provides a secret
+    stored in user's keyvault and source is Web App, Spring Cloud or Container App.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -1293,7 +441,7 @@ class KeyVaultSecretUriSecretInfo(SecretInfoBase):
         "value": {"key": "value", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[str] = None, **kwargs):
+    def __init__(self, *, value: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword value: URI to the keyvault secret.
         :paramtype value: str
@@ -1303,8 +451,36 @@ class KeyVaultSecretUriSecretInfo(SecretInfoBase):
         self.value = value
 
 
+class LinkerList(_serialization.Model):
+    """The list of Linker.
+
+    :ivar next_link: The link used to get the next page of Linker list.
+    :vartype next_link: str
+    :ivar value: The list of Linkers.
+    :vartype value: list[~azure.mgmt.servicelinker.models.LinkerResource]
+    """
+
+    _attribute_map = {
+        "next_link": {"key": "nextLink", "type": "str"},
+        "value": {"key": "value", "type": "[LinkerResource]"},
+    }
+
+    def __init__(
+        self, *, next_link: Optional[str] = None, value: Optional[List["_models.LinkerResource"]] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword next_link: The link used to get the next page of Linker list.
+        :paramtype next_link: str
+        :keyword value: The list of Linkers.
+        :paramtype value: list[~azure.mgmt.servicelinker.models.LinkerResource]
+        """
+        super().__init__(**kwargs)
+        self.next_link = next_link
+        self.value = value
+
+
 class LinkerPatch(_serialization.Model):
-    """A Linker to be updated.
+    """A linker to be updated.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -1323,11 +499,6 @@ class LinkerPatch(_serialization.Model):
     :vartype secret_store: ~azure.mgmt.servicelinker.models.SecretStore
     :ivar scope: connection scope in source service.
     :vartype scope: str
-    :ivar public_network_solution: The network solution.
-    :vartype public_network_solution: ~azure.mgmt.servicelinker.models.PublicNetworkSolution
-    :ivar configuration_info: The connection information consumed by applications, including
-     secrets, connection strings.
-    :vartype configuration_info: ~azure.mgmt.servicelinker.models.ConfigurationInfo
     """
 
     _validation = {
@@ -1342,8 +513,6 @@ class LinkerPatch(_serialization.Model):
         "v_net_solution": {"key": "properties.vNetSolution", "type": "VNetSolution"},
         "secret_store": {"key": "properties.secretStore", "type": "SecretStore"},
         "scope": {"key": "properties.scope", "type": "str"},
-        "public_network_solution": {"key": "properties.publicNetworkSolution", "type": "PublicNetworkSolution"},
-        "configuration_info": {"key": "properties.configurationInfo", "type": "ConfigurationInfo"},
     }
 
     def __init__(
@@ -1355,10 +524,8 @@ class LinkerPatch(_serialization.Model):
         v_net_solution: Optional["_models.VNetSolution"] = None,
         secret_store: Optional["_models.SecretStore"] = None,
         scope: Optional[str] = None,
-        public_network_solution: Optional["_models.PublicNetworkSolution"] = None,
-        configuration_info: Optional["_models.ConfigurationInfo"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword target_service: The target service properties.
         :paramtype target_service: ~azure.mgmt.servicelinker.models.TargetServiceBase
@@ -1373,11 +540,6 @@ class LinkerPatch(_serialization.Model):
         :paramtype secret_store: ~azure.mgmt.servicelinker.models.SecretStore
         :keyword scope: connection scope in source service.
         :paramtype scope: str
-        :keyword public_network_solution: The network solution.
-        :paramtype public_network_solution: ~azure.mgmt.servicelinker.models.PublicNetworkSolution
-        :keyword configuration_info: The connection information consumed by applications, including
-         secrets, connection strings.
-        :paramtype configuration_info: ~azure.mgmt.servicelinker.models.ConfigurationInfo
         """
         super().__init__(**kwargs)
         self.target_service = target_service
@@ -1387,8 +549,74 @@ class LinkerPatch(_serialization.Model):
         self.v_net_solution = v_net_solution
         self.secret_store = secret_store
         self.scope = scope
-        self.public_network_solution = public_network_solution
-        self.configuration_info = configuration_info
+
+
+class Resource(_serialization.Model):
+    """Common fields that are returned in the response for all Azure Resource Manager resources.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.id = None
+        self.name = None
+        self.type = None
+
+
+class ProxyResource(Resource):
+    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
+    tags and a location.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
 
 
 class LinkerResource(ProxyResource):  # pylint: disable=too-many-instance-attributes
@@ -1404,8 +632,7 @@ class LinkerResource(ProxyResource):  # pylint: disable=too-many-instance-attrib
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
-     information.
+    :ivar system_data: The system data.
     :vartype system_data: ~azure.mgmt.servicelinker.models.SystemData
     :ivar target_service: The target service properties.
     :vartype target_service: ~azure.mgmt.servicelinker.models.TargetServiceBase
@@ -1422,11 +649,6 @@ class LinkerResource(ProxyResource):  # pylint: disable=too-many-instance-attrib
     :vartype secret_store: ~azure.mgmt.servicelinker.models.SecretStore
     :ivar scope: connection scope in source service.
     :vartype scope: str
-    :ivar public_network_solution: The network solution.
-    :vartype public_network_solution: ~azure.mgmt.servicelinker.models.PublicNetworkSolution
-    :ivar configuration_info: The connection information consumed by applications, including
-     secrets, connection strings.
-    :vartype configuration_info: ~azure.mgmt.servicelinker.models.ConfigurationInfo
     """
 
     _validation = {
@@ -1449,8 +671,6 @@ class LinkerResource(ProxyResource):  # pylint: disable=too-many-instance-attrib
         "v_net_solution": {"key": "properties.vNetSolution", "type": "VNetSolution"},
         "secret_store": {"key": "properties.secretStore", "type": "SecretStore"},
         "scope": {"key": "properties.scope", "type": "str"},
-        "public_network_solution": {"key": "properties.publicNetworkSolution", "type": "PublicNetworkSolution"},
-        "configuration_info": {"key": "properties.configurationInfo", "type": "ConfigurationInfo"},
     }
 
     def __init__(
@@ -1462,10 +682,8 @@ class LinkerResource(ProxyResource):  # pylint: disable=too-many-instance-attrib
         v_net_solution: Optional["_models.VNetSolution"] = None,
         secret_store: Optional["_models.SecretStore"] = None,
         scope: Optional[str] = None,
-        public_network_solution: Optional["_models.PublicNetworkSolution"] = None,
-        configuration_info: Optional["_models.ConfigurationInfo"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword target_service: The target service properties.
         :paramtype target_service: ~azure.mgmt.servicelinker.models.TargetServiceBase
@@ -1480,13 +698,9 @@ class LinkerResource(ProxyResource):  # pylint: disable=too-many-instance-attrib
         :paramtype secret_store: ~azure.mgmt.servicelinker.models.SecretStore
         :keyword scope: connection scope in source service.
         :paramtype scope: str
-        :keyword public_network_solution: The network solution.
-        :paramtype public_network_solution: ~azure.mgmt.servicelinker.models.PublicNetworkSolution
-        :keyword configuration_info: The connection information consumed by applications, including
-         secrets, connection strings.
-        :paramtype configuration_info: ~azure.mgmt.servicelinker.models.ConfigurationInfo
         """
         super().__init__(**kwargs)
+        self.system_data = None
         self.target_service = target_service
         self.auth_info = auth_info
         self.client_type = client_type
@@ -1494,8 +708,6 @@ class LinkerResource(ProxyResource):  # pylint: disable=too-many-instance-attrib
         self.v_net_solution = v_net_solution
         self.secret_store = secret_store
         self.scope = scope
-        self.public_network_solution = public_network_solution
-        self.configuration_info = configuration_info
 
 
 class Operation(_serialization.Model):
@@ -1516,7 +728,7 @@ class Operation(_serialization.Model):
      and "user,system".
     :vartype origin: str or ~azure.mgmt.servicelinker.models.Origin
     :ivar action_type: Enum. Indicates the action type. "Internal" refers to actions that are for
-     internal only APIs. Known values are: "Internal", "enable", and "optOut".
+     internal only APIs. "Internal"
     :vartype action_type: str or ~azure.mgmt.servicelinker.models.ActionType
     """
 
@@ -1535,7 +747,7 @@ class Operation(_serialization.Model):
         "action_type": {"key": "actionType", "type": "str"},
     }
 
-    def __init__(self, *, display: Optional["_models.OperationDisplay"] = None, **kwargs):
+    def __init__(self, *, display: Optional["_models.OperationDisplay"] = None, **kwargs: Any) -> None:
         """
         :keyword display: Localized display information for this particular operation.
         :paramtype display: ~azure.mgmt.servicelinker.models.OperationDisplay
@@ -1581,7 +793,7 @@ class OperationDisplay(_serialization.Model):
         "description": {"key": "description", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.provider = None
@@ -1591,7 +803,8 @@ class OperationDisplay(_serialization.Model):
 
 
 class OperationListResult(_serialization.Model):
-    """A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results.
+    """A list of REST API operations supported by an Azure Resource Provider. It contains an URL link
+    to get the next set of results.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -1611,140 +824,11 @@ class OperationListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
         self.next_link = None
-
-
-class PermissionsMissingDryrunPrerequisiteResult(DryrunPrerequisiteResult):
-    """The represent of missing permissions.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar type: The type of dryrun result. Required. Known values are: "basicError" and
-     "permissionsMissing".
-    :vartype type: str or ~azure.mgmt.servicelinker.models.DryrunPrerequisiteResultType
-    :ivar scope: The permission scope.
-    :vartype scope: str
-    :ivar permissions: The permission list.
-    :vartype permissions: list[str]
-    :ivar recommended_role: The recommended role to resolve permissions missing.
-    :vartype recommended_role: str
-    """
-
-    _validation = {
-        "type": {"required": True},
-    }
-
-    _attribute_map = {
-        "type": {"key": "type", "type": "str"},
-        "scope": {"key": "scope", "type": "str"},
-        "permissions": {"key": "permissions", "type": "[str]"},
-        "recommended_role": {"key": "recommendedRole", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        scope: Optional[str] = None,
-        permissions: Optional[List[str]] = None,
-        recommended_role: Optional[str] = None,
-        **kwargs
-    ):
-        """
-        :keyword scope: The permission scope.
-        :paramtype scope: str
-        :keyword permissions: The permission list.
-        :paramtype permissions: list[str]
-        :keyword recommended_role: The recommended role to resolve permissions missing.
-        :paramtype recommended_role: str
-        """
-        super().__init__(**kwargs)
-        self.type: str = "permissionsMissing"
-        self.scope = scope
-        self.permissions = permissions
-        self.recommended_role = recommended_role
-
-
-class PublicNetworkSolution(_serialization.Model):
-    """Indicates public network solution, include firewall rules.
-
-    :ivar delete_or_update_behavior: Indicates whether to clean up previous operation(such as
-     firewall rules) when Linker is updating or deleting. Known values are: "Default" and
-     "ForcedCleanup".
-    :vartype delete_or_update_behavior: str or
-     ~azure.mgmt.servicelinker.models.DeleteOrUpdateBehavior
-    :ivar action: Optional. Indicates public network solution. If enable, enable public network
-     access of target service with best try. Default is enable. If optOut, opt out public network
-     access configuration. Known values are: "Internal", "enable", and "optOut".
-    :vartype action: str or ~azure.mgmt.servicelinker.models.ActionType
-    :ivar firewall_rules: Describe firewall rules of target service to make sure source application
-     could connect to the target.
-    :vartype firewall_rules: ~azure.mgmt.servicelinker.models.FirewallRules
-    """
-
-    _attribute_map = {
-        "delete_or_update_behavior": {"key": "deleteOrUpdateBehavior", "type": "str"},
-        "action": {"key": "action", "type": "str"},
-        "firewall_rules": {"key": "firewallRules", "type": "FirewallRules"},
-    }
-
-    def __init__(
-        self,
-        *,
-        delete_or_update_behavior: Optional[Union[str, "_models.DeleteOrUpdateBehavior"]] = None,
-        action: Optional[Union[str, "_models.ActionType"]] = None,
-        firewall_rules: Optional["_models.FirewallRules"] = None,
-        **kwargs
-    ):
-        """
-        :keyword delete_or_update_behavior: Indicates whether to clean up previous operation(such as
-         firewall rules) when Linker is updating or deleting. Known values are: "Default" and
-         "ForcedCleanup".
-        :paramtype delete_or_update_behavior: str or
-         ~azure.mgmt.servicelinker.models.DeleteOrUpdateBehavior
-        :keyword action: Optional. Indicates public network solution. If enable, enable public network
-         access of target service with best try. Default is enable. If optOut, opt out public network
-         access configuration. Known values are: "Internal", "enable", and "optOut".
-        :paramtype action: str or ~azure.mgmt.servicelinker.models.ActionType
-        :keyword firewall_rules: Describe firewall rules of target service to make sure source
-         application could connect to the target.
-        :paramtype firewall_rules: ~azure.mgmt.servicelinker.models.FirewallRules
-        """
-        super().__init__(**kwargs)
-        self.delete_or_update_behavior = delete_or_update_behavior
-        self.action = action
-        self.firewall_rules = firewall_rules
-
-
-class ResourceList(_serialization.Model):
-    """The list of Linker.
-
-    :ivar next_link: The Linker used to get the next page of Linker list.
-    :vartype next_link: str
-    :ivar value: The list of Linkers.
-    :vartype value: list[~azure.mgmt.servicelinker.models.LinkerResource]
-    """
-
-    _attribute_map = {
-        "next_link": {"key": "nextLink", "type": "str"},
-        "value": {"key": "value", "type": "[LinkerResource]"},
-    }
-
-    def __init__(
-        self, *, next_link: Optional[str] = None, value: Optional[List["_models.LinkerResource"]] = None, **kwargs
-    ):
-        """
-        :keyword next_link: The Linker used to get the next page of Linker list.
-        :paramtype next_link: str
-        :keyword value: The list of Linkers.
-        :paramtype value: list[~azure.mgmt.servicelinker.models.LinkerResource]
-        """
-        super().__init__(**kwargs)
-        self.next_link = next_link
-        self.value = value
 
 
 class SecretAuthInfo(AuthInfoBase):
@@ -1753,8 +837,7 @@ class SecretAuthInfo(AuthInfoBase):
     All required parameters must be populated in order to send to Azure.
 
     :ivar auth_type: The authentication type. Required. Known values are: "systemAssignedIdentity",
-     "userAssignedIdentity", "servicePrincipalSecret", "servicePrincipalCertificate", "secret",
-     "accessKey", and "userAccount".
+     "userAssignedIdentity", "servicePrincipalSecret", "servicePrincipalCertificate", and "secret".
     :vartype auth_type: str or ~azure.mgmt.servicelinker.models.AuthType
     :ivar name: Username or account name for secret auth.
     :vartype name: str
@@ -1772,7 +855,9 @@ class SecretAuthInfo(AuthInfoBase):
         "secret_info": {"key": "secretInfo", "type": "SecretInfoBase"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, secret_info: Optional["_models.SecretInfoBase"] = None, **kwargs):
+    def __init__(
+        self, *, name: Optional[str] = None, secret_info: Optional["_models.SecretInfoBase"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword name: Username or account name for secret auth.
         :paramtype name: str
@@ -1790,58 +875,19 @@ class SecretStore(_serialization.Model):
 
     :ivar key_vault_id: The key vault id to store secret.
     :vartype key_vault_id: str
-    :ivar key_vault_secret_name: The key vault secret name to store secret, only valid when storing
-     one secret.
-    :vartype key_vault_secret_name: str
     """
 
     _attribute_map = {
         "key_vault_id": {"key": "keyVaultId", "type": "str"},
-        "key_vault_secret_name": {"key": "keyVaultSecretName", "type": "str"},
     }
 
-    def __init__(self, *, key_vault_id: Optional[str] = None, key_vault_secret_name: Optional[str] = None, **kwargs):
+    def __init__(self, *, key_vault_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword key_vault_id: The key vault id to store secret.
         :paramtype key_vault_id: str
-        :keyword key_vault_secret_name: The key vault secret name to store secret, only valid when
-         storing one secret.
-        :paramtype key_vault_secret_name: str
         """
         super().__init__(**kwargs)
         self.key_vault_id = key_vault_id
-        self.key_vault_secret_name = key_vault_secret_name
-
-
-class SelfHostedServer(TargetServiceBase):
-    """The service properties when target service type is SelfHostedServer.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar type: The target service type. Required. Known values are: "AzureResource",
-     "ConfluentBootstrapServer", "ConfluentSchemaRegistry", and "SelfHostedServer".
-    :vartype type: str or ~azure.mgmt.servicelinker.models.TargetServiceType
-    :ivar endpoint: The endpoint of service.
-    :vartype endpoint: str
-    """
-
-    _validation = {
-        "type": {"required": True},
-    }
-
-    _attribute_map = {
-        "type": {"key": "type", "type": "str"},
-        "endpoint": {"key": "endpoint", "type": "str"},
-    }
-
-    def __init__(self, *, endpoint: Optional[str] = None, **kwargs):
-        """
-        :keyword endpoint: The endpoint of service.
-        :paramtype endpoint: str
-        """
-        super().__init__(**kwargs)
-        self.type: str = "SelfHostedServer"
-        self.endpoint = endpoint
 
 
 class ServicePrincipalCertificateAuthInfo(AuthInfoBase):
@@ -1850,8 +896,7 @@ class ServicePrincipalCertificateAuthInfo(AuthInfoBase):
     All required parameters must be populated in order to send to Azure.
 
     :ivar auth_type: The authentication type. Required. Known values are: "systemAssignedIdentity",
-     "userAssignedIdentity", "servicePrincipalSecret", "servicePrincipalCertificate", "secret",
-     "accessKey", and "userAccount".
+     "userAssignedIdentity", "servicePrincipalSecret", "servicePrincipalCertificate", and "secret".
     :vartype auth_type: str or ~azure.mgmt.servicelinker.models.AuthType
     :ivar client_id: Application clientId for servicePrincipal auth. Required.
     :vartype client_id: str
@@ -1859,12 +904,6 @@ class ServicePrincipalCertificateAuthInfo(AuthInfoBase):
     :vartype principal_id: str
     :ivar certificate: ServicePrincipal certificate for servicePrincipal auth. Required.
     :vartype certificate: str
-    :ivar delete_or_update_behavior: Indicates whether to clean up previous operation when Linker
-     is updating or deleting. Known values are: "Default" and "ForcedCleanup".
-    :vartype delete_or_update_behavior: str or
-     ~azure.mgmt.servicelinker.models.DeleteOrUpdateBehavior
-    :ivar roles: Optional, this value specifies the Azure roles to be assigned. Automatically.
-    :vartype roles: list[str]
     """
 
     _validation = {
@@ -1879,20 +918,9 @@ class ServicePrincipalCertificateAuthInfo(AuthInfoBase):
         "client_id": {"key": "clientId", "type": "str"},
         "principal_id": {"key": "principalId", "type": "str"},
         "certificate": {"key": "certificate", "type": "str"},
-        "delete_or_update_behavior": {"key": "deleteOrUpdateBehavior", "type": "str"},
-        "roles": {"key": "roles", "type": "[str]"},
     }
 
-    def __init__(
-        self,
-        *,
-        client_id: str,
-        principal_id: str,
-        certificate: str,
-        delete_or_update_behavior: Optional[Union[str, "_models.DeleteOrUpdateBehavior"]] = None,
-        roles: Optional[List[str]] = None,
-        **kwargs
-    ):
+    def __init__(self, *, client_id: str, principal_id: str, certificate: str, **kwargs: Any) -> None:
         """
         :keyword client_id: Application clientId for servicePrincipal auth. Required.
         :paramtype client_id: str
@@ -1900,32 +928,21 @@ class ServicePrincipalCertificateAuthInfo(AuthInfoBase):
         :paramtype principal_id: str
         :keyword certificate: ServicePrincipal certificate for servicePrincipal auth. Required.
         :paramtype certificate: str
-        :keyword delete_or_update_behavior: Indicates whether to clean up previous operation when
-         Linker is updating or deleting. Known values are: "Default" and "ForcedCleanup".
-        :paramtype delete_or_update_behavior: str or
-         ~azure.mgmt.servicelinker.models.DeleteOrUpdateBehavior
-        :keyword roles: Optional, this value specifies the Azure roles to be assigned. Automatically.
-        :paramtype roles: list[str]
         """
         super().__init__(**kwargs)
         self.auth_type: str = "servicePrincipalCertificate"
         self.client_id = client_id
         self.principal_id = principal_id
         self.certificate = certificate
-        self.delete_or_update_behavior = delete_or_update_behavior
-        self.roles = roles
 
 
-class ServicePrincipalSecretAuthInfo(AuthInfoBase, DatabaseAadAuthInfo):
+class ServicePrincipalSecretAuthInfo(AuthInfoBase):
     """The authentication info when authType is servicePrincipal secret.
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar user_name: Username created in the database which is mapped to a user in AAD.
-    :vartype user_name: str
     :ivar auth_type: The authentication type. Required. Known values are: "systemAssignedIdentity",
-     "userAssignedIdentity", "servicePrincipalSecret", "servicePrincipalCertificate", "secret",
-     "accessKey", and "userAccount".
+     "userAssignedIdentity", "servicePrincipalSecret", "servicePrincipalCertificate", and "secret".
     :vartype auth_type: str or ~azure.mgmt.servicelinker.models.AuthType
     :ivar client_id: ServicePrincipal application clientId for servicePrincipal auth. Required.
     :vartype client_id: str
@@ -1933,12 +950,6 @@ class ServicePrincipalSecretAuthInfo(AuthInfoBase, DatabaseAadAuthInfo):
     :vartype principal_id: str
     :ivar secret: Secret for servicePrincipal auth. Required.
     :vartype secret: str
-    :ivar delete_or_update_behavior: Indicates whether to clean up previous operation when Linker
-     is updating or deleting. Known values are: "Default" and "ForcedCleanup".
-    :vartype delete_or_update_behavior: str or
-     ~azure.mgmt.servicelinker.models.DeleteOrUpdateBehavior
-    :ivar roles: Optional, this value specifies the Azure roles to be assigned. Automatically.
-    :vartype roles: list[str]
     """
 
     _validation = {
@@ -1949,50 +960,26 @@ class ServicePrincipalSecretAuthInfo(AuthInfoBase, DatabaseAadAuthInfo):
     }
 
     _attribute_map = {
-        "user_name": {"key": "userName", "type": "str"},
         "auth_type": {"key": "authType", "type": "str"},
         "client_id": {"key": "clientId", "type": "str"},
         "principal_id": {"key": "principalId", "type": "str"},
         "secret": {"key": "secret", "type": "str"},
-        "delete_or_update_behavior": {"key": "deleteOrUpdateBehavior", "type": "str"},
-        "roles": {"key": "roles", "type": "[str]"},
     }
 
-    def __init__(
-        self,
-        *,
-        client_id: str,
-        principal_id: str,
-        secret: str,
-        user_name: Optional[str] = None,
-        delete_or_update_behavior: Optional[Union[str, "_models.DeleteOrUpdateBehavior"]] = None,
-        roles: Optional[List[str]] = None,
-        **kwargs
-    ):
+    def __init__(self, *, client_id: str, principal_id: str, secret: str, **kwargs: Any) -> None:
         """
-        :keyword user_name: Username created in the database which is mapped to a user in AAD.
-        :paramtype user_name: str
         :keyword client_id: ServicePrincipal application clientId for servicePrincipal auth. Required.
         :paramtype client_id: str
         :keyword principal_id: Principal Id for servicePrincipal auth. Required.
         :paramtype principal_id: str
         :keyword secret: Secret for servicePrincipal auth. Required.
         :paramtype secret: str
-        :keyword delete_or_update_behavior: Indicates whether to clean up previous operation when
-         Linker is updating or deleting. Known values are: "Default" and "ForcedCleanup".
-        :paramtype delete_or_update_behavior: str or
-         ~azure.mgmt.servicelinker.models.DeleteOrUpdateBehavior
-        :keyword roles: Optional, this value specifies the Azure roles to be assigned. Automatically.
-        :paramtype roles: list[str]
         """
-        super().__init__(user_name=user_name, **kwargs)
-        self.user_name = user_name
+        super().__init__(**kwargs)
         self.auth_type: str = "servicePrincipalSecret"
         self.client_id = client_id
         self.principal_id = principal_id
         self.secret = secret
-        self.delete_or_update_behavior = delete_or_update_behavior
-        self.roles = roles
 
 
 class SourceConfiguration(_serialization.Model):
@@ -2009,7 +996,7 @@ class SourceConfiguration(_serialization.Model):
         "value": {"key": "value", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, value: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, value: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: The name of setting.
         :paramtype name: str
@@ -2021,23 +1008,34 @@ class SourceConfiguration(_serialization.Model):
         self.value = value
 
 
-class SystemAssignedIdentityAuthInfo(AuthInfoBase, DatabaseAadAuthInfo):
+class SourceConfigurationResult(_serialization.Model):
+    """Configurations for source resource, include appSettings, connectionString and serviceBindings.
+
+    :ivar configurations: The configuration properties for source resource.
+    :vartype configurations: list[~azure.mgmt.servicelinker.models.SourceConfiguration]
+    """
+
+    _attribute_map = {
+        "configurations": {"key": "configurations", "type": "[SourceConfiguration]"},
+    }
+
+    def __init__(self, *, configurations: Optional[List["_models.SourceConfiguration"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword configurations: The configuration properties for source resource.
+        :paramtype configurations: list[~azure.mgmt.servicelinker.models.SourceConfiguration]
+        """
+        super().__init__(**kwargs)
+        self.configurations = configurations
+
+
+class SystemAssignedIdentityAuthInfo(AuthInfoBase):
     """The authentication info when authType is systemAssignedIdentity.
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar user_name: Username created in the database which is mapped to a user in AAD.
-    :vartype user_name: str
     :ivar auth_type: The authentication type. Required. Known values are: "systemAssignedIdentity",
-     "userAssignedIdentity", "servicePrincipalSecret", "servicePrincipalCertificate", "secret",
-     "accessKey", and "userAccount".
+     "userAssignedIdentity", "servicePrincipalSecret", "servicePrincipalCertificate", and "secret".
     :vartype auth_type: str or ~azure.mgmt.servicelinker.models.AuthType
-    :ivar delete_or_update_behavior: Indicates whether to clean up previous operation when Linker
-     is updating or deleting. Known values are: "Default" and "ForcedCleanup".
-    :vartype delete_or_update_behavior: str or
-     ~azure.mgmt.servicelinker.models.DeleteOrUpdateBehavior
-    :ivar roles: Optional, this value specifies the Azure role to be assigned.
-    :vartype roles: list[str]
     """
 
     _validation = {
@@ -2045,35 +1043,13 @@ class SystemAssignedIdentityAuthInfo(AuthInfoBase, DatabaseAadAuthInfo):
     }
 
     _attribute_map = {
-        "user_name": {"key": "userName", "type": "str"},
         "auth_type": {"key": "authType", "type": "str"},
-        "delete_or_update_behavior": {"key": "deleteOrUpdateBehavior", "type": "str"},
-        "roles": {"key": "roles", "type": "[str]"},
     }
 
-    def __init__(
-        self,
-        *,
-        user_name: Optional[str] = None,
-        delete_or_update_behavior: Optional[Union[str, "_models.DeleteOrUpdateBehavior"]] = None,
-        roles: Optional[List[str]] = None,
-        **kwargs
-    ):
-        """
-        :keyword user_name: Username created in the database which is mapped to a user in AAD.
-        :paramtype user_name: str
-        :keyword delete_or_update_behavior: Indicates whether to clean up previous operation when
-         Linker is updating or deleting. Known values are: "Default" and "ForcedCleanup".
-        :paramtype delete_or_update_behavior: str or
-         ~azure.mgmt.servicelinker.models.DeleteOrUpdateBehavior
-        :keyword roles: Optional, this value specifies the Azure role to be assigned.
-        :paramtype roles: list[str]
-        """
-        super().__init__(user_name=user_name, **kwargs)
-        self.user_name = user_name
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
         self.auth_type: str = "systemAssignedIdentity"
-        self.delete_or_update_behavior = delete_or_update_behavior
-        self.roles = roles
 
 
 class SystemData(_serialization.Model):
@@ -2113,8 +1089,8 @@ class SystemData(_serialization.Model):
         last_modified_by: Optional[str] = None,
         last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
         last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword created_by: The identity that created the resource.
         :paramtype created_by: str
@@ -2140,89 +1116,18 @@ class SystemData(_serialization.Model):
         self.last_modified_at = last_modified_at
 
 
-class UserAccountAuthInfo(AuthInfoBase, DatabaseAadAuthInfo):
-    """The authentication info when authType is user account.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar user_name: Username created in the database which is mapped to a user in AAD.
-    :vartype user_name: str
-    :ivar auth_type: The authentication type. Required. Known values are: "systemAssignedIdentity",
-     "userAssignedIdentity", "servicePrincipalSecret", "servicePrincipalCertificate", "secret",
-     "accessKey", and "userAccount".
-    :vartype auth_type: str or ~azure.mgmt.servicelinker.models.AuthType
-    :ivar principal_id: Principal Id for user account.
-    :vartype principal_id: str
-    :ivar delete_or_update_behavior: Indicates whether to clean up previous operation when Linker
-     is updating or deleting. Known values are: "Default" and "ForcedCleanup".
-    :vartype delete_or_update_behavior: str or
-     ~azure.mgmt.servicelinker.models.DeleteOrUpdateBehavior
-    :ivar roles: Optional, this value specifies the Azure roles to be assigned. Automatically.
-    :vartype roles: list[str]
-    """
-
-    _validation = {
-        "auth_type": {"required": True},
-    }
-
-    _attribute_map = {
-        "user_name": {"key": "userName", "type": "str"},
-        "auth_type": {"key": "authType", "type": "str"},
-        "principal_id": {"key": "principalId", "type": "str"},
-        "delete_or_update_behavior": {"key": "deleteOrUpdateBehavior", "type": "str"},
-        "roles": {"key": "roles", "type": "[str]"},
-    }
-
-    def __init__(
-        self,
-        *,
-        user_name: Optional[str] = None,
-        principal_id: Optional[str] = None,
-        delete_or_update_behavior: Optional[Union[str, "_models.DeleteOrUpdateBehavior"]] = None,
-        roles: Optional[List[str]] = None,
-        **kwargs
-    ):
-        """
-        :keyword user_name: Username created in the database which is mapped to a user in AAD.
-        :paramtype user_name: str
-        :keyword principal_id: Principal Id for user account.
-        :paramtype principal_id: str
-        :keyword delete_or_update_behavior: Indicates whether to clean up previous operation when
-         Linker is updating or deleting. Known values are: "Default" and "ForcedCleanup".
-        :paramtype delete_or_update_behavior: str or
-         ~azure.mgmt.servicelinker.models.DeleteOrUpdateBehavior
-        :keyword roles: Optional, this value specifies the Azure roles to be assigned. Automatically.
-        :paramtype roles: list[str]
-        """
-        super().__init__(user_name=user_name, **kwargs)
-        self.user_name = user_name
-        self.auth_type: str = "userAccount"
-        self.principal_id = principal_id
-        self.delete_or_update_behavior = delete_or_update_behavior
-        self.roles = roles
-
-
-class UserAssignedIdentityAuthInfo(AuthInfoBase, DatabaseAadAuthInfo):
+class UserAssignedIdentityAuthInfo(AuthInfoBase):
     """The authentication info when authType is userAssignedIdentity.
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar user_name: Username created in the database which is mapped to a user in AAD.
-    :vartype user_name: str
     :ivar auth_type: The authentication type. Required. Known values are: "systemAssignedIdentity",
-     "userAssignedIdentity", "servicePrincipalSecret", "servicePrincipalCertificate", "secret",
-     "accessKey", and "userAccount".
+     "userAssignedIdentity", "servicePrincipalSecret", "servicePrincipalCertificate", and "secret".
     :vartype auth_type: str or ~azure.mgmt.servicelinker.models.AuthType
     :ivar client_id: Client Id for userAssignedIdentity.
     :vartype client_id: str
     :ivar subscription_id: Subscription id for userAssignedIdentity.
     :vartype subscription_id: str
-    :ivar delete_or_update_behavior: Indicates whether to clean up previous operation when Linker
-     is updating or deleting. Known values are: "Default" and "ForcedCleanup".
-    :vartype delete_or_update_behavior: str or
-     ~azure.mgmt.servicelinker.models.DeleteOrUpdateBehavior
-    :ivar roles: Optional, this value specifies the Azure role to be assigned.
-    :vartype roles: list[str]
     """
 
     _validation = {
@@ -2230,51 +1135,30 @@ class UserAssignedIdentityAuthInfo(AuthInfoBase, DatabaseAadAuthInfo):
     }
 
     _attribute_map = {
-        "user_name": {"key": "userName", "type": "str"},
         "auth_type": {"key": "authType", "type": "str"},
         "client_id": {"key": "clientId", "type": "str"},
         "subscription_id": {"key": "subscriptionId", "type": "str"},
-        "delete_or_update_behavior": {"key": "deleteOrUpdateBehavior", "type": "str"},
-        "roles": {"key": "roles", "type": "[str]"},
     }
 
     def __init__(
-        self,
-        *,
-        user_name: Optional[str] = None,
-        client_id: Optional[str] = None,
-        subscription_id: Optional[str] = None,
-        delete_or_update_behavior: Optional[Union[str, "_models.DeleteOrUpdateBehavior"]] = None,
-        roles: Optional[List[str]] = None,
-        **kwargs
-    ):
+        self, *, client_id: Optional[str] = None, subscription_id: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
-        :keyword user_name: Username created in the database which is mapped to a user in AAD.
-        :paramtype user_name: str
         :keyword client_id: Client Id for userAssignedIdentity.
         :paramtype client_id: str
         :keyword subscription_id: Subscription id for userAssignedIdentity.
         :paramtype subscription_id: str
-        :keyword delete_or_update_behavior: Indicates whether to clean up previous operation when
-         Linker is updating or deleting. Known values are: "Default" and "ForcedCleanup".
-        :paramtype delete_or_update_behavior: str or
-         ~azure.mgmt.servicelinker.models.DeleteOrUpdateBehavior
-        :keyword roles: Optional, this value specifies the Azure role to be assigned.
-        :paramtype roles: list[str]
         """
-        super().__init__(user_name=user_name, **kwargs)
-        self.user_name = user_name
+        super().__init__(**kwargs)
         self.auth_type: str = "userAssignedIdentity"
         self.client_id = client_id
         self.subscription_id = subscription_id
-        self.delete_or_update_behavior = delete_or_update_behavior
-        self.roles = roles
 
 
 class ValidateOperationResult(_serialization.Model):
-    """The validation operation result for a Linker.
+    """The validation operation result for a linker.
 
-    :ivar resource_id: Validated Linker id.
+    :ivar resource_id: Validated linker id.
     :vartype resource_id: str
     :ivar status: Validation operation status.
     :vartype status: str
@@ -2287,13 +1171,12 @@ class ValidateOperationResult(_serialization.Model):
     :vartype report_start_time_utc: ~datetime.datetime
     :ivar report_end_time_utc: The end time of the validation report.
     :vartype report_end_time_utc: ~datetime.datetime
-    :ivar source_id: The resource id of the Linker source application.
+    :ivar source_id: The resource id of the linker source application.
     :vartype source_id: str
     :ivar target_id: The resource Id of target service.
     :vartype target_id: str
     :ivar auth_type: The authentication type. Known values are: "systemAssignedIdentity",
-     "userAssignedIdentity", "servicePrincipalSecret", "servicePrincipalCertificate", "secret",
-     "accessKey", and "userAccount".
+     "userAssignedIdentity", "servicePrincipalSecret", "servicePrincipalCertificate", and "secret".
     :vartype auth_type: str or ~azure.mgmt.servicelinker.models.AuthType
     :ivar validation_detail: The detail of validation result.
     :vartype validation_detail: list[~azure.mgmt.servicelinker.models.ValidationResultItem]
@@ -2325,10 +1208,10 @@ class ValidateOperationResult(_serialization.Model):
         target_id: Optional[str] = None,
         auth_type: Optional[Union[str, "_models.AuthType"]] = None,
         validation_detail: Optional[List["_models.ValidationResultItem"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword resource_id: Validated Linker id.
+        :keyword resource_id: Validated linker id.
         :paramtype resource_id: str
         :keyword status: Validation operation status.
         :paramtype status: str
@@ -2341,13 +1224,12 @@ class ValidateOperationResult(_serialization.Model):
         :paramtype report_start_time_utc: ~datetime.datetime
         :keyword report_end_time_utc: The end time of the validation report.
         :paramtype report_end_time_utc: ~datetime.datetime
-        :keyword source_id: The resource id of the Linker source application.
+        :keyword source_id: The resource id of the linker source application.
         :paramtype source_id: str
         :keyword target_id: The resource Id of target service.
         :paramtype target_id: str
         :keyword auth_type: The authentication type. Known values are: "systemAssignedIdentity",
-         "userAssignedIdentity", "servicePrincipalSecret", "servicePrincipalCertificate", "secret",
-         "accessKey", and "userAccount".
+         "userAssignedIdentity", "servicePrincipalSecret", "servicePrincipalCertificate", and "secret".
         :paramtype auth_type: str or ~azure.mgmt.servicelinker.models.AuthType
         :keyword validation_detail: The detail of validation result.
         :paramtype validation_detail: list[~azure.mgmt.servicelinker.models.ValidationResultItem]
@@ -2366,7 +1248,7 @@ class ValidateOperationResult(_serialization.Model):
 
 
 class ValidationResultItem(_serialization.Model):
-    """The validation item for a Linker.
+    """The validation item for a linker.
 
     :ivar name: The validation item name.
     :vartype name: str
@@ -2396,8 +1278,8 @@ class ValidationResultItem(_serialization.Model):
         result: Optional[Union[str, "_models.ValidationResultStatus"]] = None,
         error_message: Optional[str] = None,
         error_code: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: The validation item name.
         :paramtype name: str
@@ -2440,7 +1322,7 @@ class ValueSecretInfo(SecretInfoBase):
         "value": {"key": "value", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[str] = None, **kwargs):
+    def __init__(self, *, value: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword value: The actual value of the secret.
         :paramtype value: str
@@ -2455,32 +1337,16 @@ class VNetSolution(_serialization.Model):
 
     :ivar type: Type of VNet solution. Known values are: "serviceEndpoint" and "privateLink".
     :vartype type: str or ~azure.mgmt.servicelinker.models.VNetSolutionType
-    :ivar delete_or_update_behavior: Indicates whether to clean up previous operation when Linker
-     is updating or deleting. Known values are: "Default" and "ForcedCleanup".
-    :vartype delete_or_update_behavior: str or
-     ~azure.mgmt.servicelinker.models.DeleteOrUpdateBehavior
     """
 
     _attribute_map = {
         "type": {"key": "type", "type": "str"},
-        "delete_or_update_behavior": {"key": "deleteOrUpdateBehavior", "type": "str"},
     }
 
-    def __init__(
-        self,
-        *,
-        type: Optional[Union[str, "_models.VNetSolutionType"]] = None,
-        delete_or_update_behavior: Optional[Union[str, "_models.DeleteOrUpdateBehavior"]] = None,
-        **kwargs
-    ):
+    def __init__(self, *, type: Optional[Union[str, "_models.VNetSolutionType"]] = None, **kwargs: Any) -> None:
         """
         :keyword type: Type of VNet solution. Known values are: "serviceEndpoint" and "privateLink".
         :paramtype type: str or ~azure.mgmt.servicelinker.models.VNetSolutionType
-        :keyword delete_or_update_behavior: Indicates whether to clean up previous operation when
-         Linker is updating or deleting. Known values are: "Default" and "ForcedCleanup".
-        :paramtype delete_or_update_behavior: str or
-         ~azure.mgmt.servicelinker.models.DeleteOrUpdateBehavior
         """
         super().__init__(**kwargs)
         self.type = type
-        self.delete_or_update_behavior = delete_or_update_behavior
