@@ -14,7 +14,7 @@ from azure.mgmt.servicelinker import ServiceLinkerManagementClient
     pip install azure-identity
     pip install azure-mgmt-servicelinker
 # USAGE
-    python operations_list.py
+    python put_link.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -28,11 +28,26 @@ def main():
         credential=DefaultAzureCredential(),
     )
 
-    response = client.operations.list()
-    for item in response:
-        print(item)
+    response = client.linker.begin_create_or_update(
+        resource_uri="subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Web/sites/test-app",
+        linker_name="linkName",
+        parameters={
+            "properties": {
+                "authInfo": {
+                    "authType": "secret",
+                    "name": "name",
+                    "secretInfo": {"secretType": "rawValue", "value": "secret"},
+                },
+                "targetService": {
+                    "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DBforPostgreSQL/servers/test-pg/databases/test-db",
+                    "type": "AzureResource",
+                },
+            }
+        },
+    ).result()
+    print(response)
 
 
-# x-ms-original-file: specification/servicelinker/resource-manager/Microsoft.ServiceLinker/stable/2023-05-01/examples/OperationsList.json
+# x-ms-original-file: specification/servicelinker/resource-manager/Microsoft.ServiceLinker/stable/2023-05-01/examples/PutLink.json
 if __name__ == "__main__":
     main()
