@@ -8,6 +8,7 @@
 # --------------------------------------------------------------------------
 from io import IOBase
 from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
+import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
 from azure.core.exceptions import (
@@ -81,7 +82,7 @@ class LongTermRetentionPoliciesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.LongTermRetentionPolicyListResult] = kwargs.pop("cls", None)
 
         error_map = {
@@ -109,7 +110,18 @@ class LongTermRetentionPoliciesOperations:
                 request.url = self._client.format_url(request.url)
 
             else:
-                request = HttpRequest("GET", next_link)
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._config.api_version
+                request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
                 request = _convert_request(request)
                 request.url = self._client.format_url(request.url)
                 request.method = "GET"
@@ -180,7 +192,7 @@ class LongTermRetentionPoliciesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.LongTermRetentionPolicy] = kwargs.pop("cls", None)
 
         request = build_get_request(
@@ -240,7 +252,7 @@ class LongTermRetentionPoliciesOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[Optional[_models.LongTermRetentionPolicy]] = kwargs.pop("cls", None)
 
@@ -306,7 +318,7 @@ class LongTermRetentionPoliciesOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.LongTermRetentionPolicy]:
-        """Set or update a database's long term retention policy.
+        """Sets a database's long term retention policy.
 
         :param resource_group_name: The name of the resource group that contains the resource. You can
          obtain this value from the Azure Resource Manager API or the portal. Required.
@@ -348,7 +360,7 @@ class LongTermRetentionPoliciesOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.LongTermRetentionPolicy]:
-        """Set or update a database's long term retention policy.
+        """Sets a database's long term retention policy.
 
         :param resource_group_name: The name of the resource group that contains the resource. You can
          obtain this value from the Azure Resource Manager API or the portal. Required.
@@ -388,7 +400,7 @@ class LongTermRetentionPoliciesOperations:
         parameters: Union[_models.LongTermRetentionPolicy, IO],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.LongTermRetentionPolicy]:
-        """Set or update a database's long term retention policy.
+        """Sets a database's long term retention policy.
 
         :param resource_group_name: The name of the resource group that contains the resource. You can
          obtain this value from the Azure Resource Manager API or the portal. Required.
@@ -421,7 +433,7 @@ class LongTermRetentionPoliciesOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.LongTermRetentionPolicy] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)

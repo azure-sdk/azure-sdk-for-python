@@ -7,6 +7,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from typing import Any, Callable, Dict, Iterable, Optional, TypeVar
+import urllib.parse
 
 from azure.core.exceptions import (
     ClientAuthenticationError,
@@ -47,7 +48,7 @@ def build_list_by_location_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -84,7 +85,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -160,7 +161,7 @@ class ManagedDatabaseMoveOperationsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ManagedDatabaseMoveOperationListResult] = kwargs.pop("cls", None)
 
         error_map = {
@@ -189,7 +190,18 @@ class ManagedDatabaseMoveOperationsOperations:
                 request.url = self._client.format_url(request.url)
 
             else:
-                request = HttpRequest("GET", next_link)
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._config.api_version
+                request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
                 request = _convert_request(request)
                 request.url = self._client.format_url(request.url)
                 request.method = "GET"
@@ -213,7 +225,8 @@ class ManagedDatabaseMoveOperationsOperations:
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+                error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+                raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
 
@@ -252,7 +265,7 @@ class ManagedDatabaseMoveOperationsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-05-01-preview"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ManagedDatabaseMoveOperationResult] = kwargs.pop("cls", None)
 
         request = build_get_request(
@@ -277,7 +290,8 @@ class ManagedDatabaseMoveOperationsOperations:
 
         if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         deserialized = self._deserialize("ManagedDatabaseMoveOperationResult", pipeline_response)
 
