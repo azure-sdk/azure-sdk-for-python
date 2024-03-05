@@ -11085,12 +11085,11 @@ class ManagedInstance(TrackedResource):  # pylint: disable=too-many-instance-att
      Increments of 32 GB allowed only. Maximum value depends on the selected hardware family and
      number of vCores.
     :vartype storage_size_in_gb: int
-    :ivar storage_i_ops: Storage IOps. Minimum value: 120. Maximum value: 120000. Increments of 1
+    :ivar storage_i_ops: Storage IOps. Minimum value: 300. Maximum value: 80000. Increments of 1
      IOps allowed only. Maximum value depends on the selected hardware family and number of vCores.
     :vartype storage_i_ops: int
-    :ivar storage_throughput_m_bps: Storage throughput in MBps. Minimum value: 25. Maximum value:
-     4000. Increments of 1 MBps allowed only. Maximum value depends on the selected hardware family
-     and number of vCores.
+    :ivar storage_throughput_m_bps: Storage throughput MBps parameter is not supported in the
+     instance create/update operation.
     :vartype storage_throughput_m_bps: int
     :ivar collation: Collation of the managed instance.
     :vartype collation: str
@@ -11324,13 +11323,11 @@ class ManagedInstance(TrackedResource):  # pylint: disable=too-many-instance-att
          Increments of 32 GB allowed only. Maximum value depends on the selected hardware family and
          number of vCores.
         :paramtype storage_size_in_gb: int
-        :keyword storage_i_ops: Storage IOps. Minimum value: 120. Maximum value: 120000. Increments of
-         1 IOps allowed only. Maximum value depends on the selected hardware family and number of
-         vCores.
+        :keyword storage_i_ops: Storage IOps. Minimum value: 300. Maximum value: 80000. Increments of 1
+         IOps allowed only. Maximum value depends on the selected hardware family and number of vCores.
         :paramtype storage_i_ops: int
-        :keyword storage_throughput_m_bps: Storage throughput in MBps. Minimum value: 25. Maximum
-         value: 4000. Increments of 1 MBps allowed only. Maximum value depends on the selected hardware
-         family and number of vCores.
+        :keyword storage_throughput_m_bps: Storage throughput MBps parameter is not supported in the
+         instance create/update operation.
         :paramtype storage_throughput_m_bps: int
         :keyword collation: Collation of the managed instance.
         :paramtype collation: str
@@ -13165,12 +13162,11 @@ class ManagedInstanceUpdate(_serialization.Model):  # pylint: disable=too-many-i
      Increments of 32 GB allowed only. Maximum value depends on the selected hardware family and
      number of vCores.
     :vartype storage_size_in_gb: int
-    :ivar storage_i_ops: Storage IOps. Minimum value: 120. Maximum value: 120000. Increments of 1
+    :ivar storage_i_ops: Storage IOps. Minimum value: 300. Maximum value: 80000. Increments of 1
      IOps allowed only. Maximum value depends on the selected hardware family and number of vCores.
     :vartype storage_i_ops: int
-    :ivar storage_throughput_m_bps: Storage throughput in MBps. Minimum value: 25. Maximum value:
-     4000. Increments of 1 MBps allowed only. Maximum value depends on the selected hardware family
-     and number of vCores.
+    :ivar storage_throughput_m_bps: Storage throughput MBps parameter is not supported in the
+     instance create/update operation.
     :vartype storage_throughput_m_bps: int
     :ivar collation: Collation of the managed instance.
     :vartype collation: str
@@ -13392,13 +13388,11 @@ class ManagedInstanceUpdate(_serialization.Model):  # pylint: disable=too-many-i
          Increments of 32 GB allowed only. Maximum value depends on the selected hardware family and
          number of vCores.
         :paramtype storage_size_in_gb: int
-        :keyword storage_i_ops: Storage IOps. Minimum value: 120. Maximum value: 120000. Increments of
-         1 IOps allowed only. Maximum value depends on the selected hardware family and number of
-         vCores.
+        :keyword storage_i_ops: Storage IOps. Minimum value: 300. Maximum value: 80000. Increments of 1
+         IOps allowed only. Maximum value depends on the selected hardware family and number of vCores.
         :paramtype storage_i_ops: int
-        :keyword storage_throughput_m_bps: Storage throughput in MBps. Minimum value: 25. Maximum
-         value: 4000. Increments of 1 MBps allowed only. Maximum value depends on the selected hardware
-         family and number of vCores.
+        :keyword storage_throughput_m_bps: Storage throughput MBps parameter is not supported in the
+         instance create/update operation.
         :paramtype storage_throughput_m_bps: int
         :keyword collation: Collation of the managed instance.
         :paramtype collation: str
