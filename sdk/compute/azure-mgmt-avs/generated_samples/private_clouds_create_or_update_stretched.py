@@ -36,7 +36,7 @@ def main():
             "location": "eastus2",
             "properties": {
                 "availability": {"secondaryZone": 2, "strategy": "DualZone", "zone": 1},
-                "managementCluster": {"clusterSize": 4},
+                "managementCluster": {"clusterSize": 4, "displayName": "renamedCluster1"},
                 "networkBlock": "192.168.48.0/22",
             },
             "sku": {"name": "AV36"},
@@ -46,6 +46,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-03-01/examples/PrivateClouds_CreateOrUpdate_Stretched.json
+# x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/PrivateClouds_CreateOrUpdate_Stretched.json
 if __name__ == "__main__":
     main()

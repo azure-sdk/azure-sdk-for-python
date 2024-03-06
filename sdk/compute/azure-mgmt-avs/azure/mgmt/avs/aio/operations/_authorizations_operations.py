@@ -65,9 +65,7 @@ class AuthorizationsOperations:
     def list(
         self, resource_group_name: str, private_cloud_name: str, **kwargs: Any
     ) -> AsyncIterable["_models.ExpressRouteAuthorization"]:
-        """List ExpressRoute Circuit Authorizations in a private cloud.
-
-        List ExpressRoute Circuit Authorizations in a private cloud.
+        """List ExpressRouteAuthorization resources by PrivateCloud.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -85,7 +83,7 @@ class AuthorizationsOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.ExpressRouteAuthorizationList] = kwargs.pop("cls", None)
+        cls: ClsType[_models.ExpressRouteAuthorizationListResult] = kwargs.pop("cls", None)
 
         error_map = {
             401: ClientAuthenticationError,
@@ -129,7 +127,7 @@ class AuthorizationsOperations:
             return request
 
         async def extract_data(pipeline_response):
-            deserialized = self._deserialize("ExpressRouteAuthorizationList", pipeline_response)
+            deserialized = self._deserialize("ExpressRouteAuthorizationListResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
@@ -161,17 +159,14 @@ class AuthorizationsOperations:
     async def get(
         self, resource_group_name: str, private_cloud_name: str, authorization_name: str, **kwargs: Any
     ) -> _models.ExpressRouteAuthorization:
-        """Get an ExpressRoute Circuit Authorization by name in a private cloud.
-
-        Get an ExpressRoute Circuit Authorization by name in a private cloud.
+        """Get a ExpressRouteAuthorization.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param authorization_name: Name of the ExpressRoute Circuit Authorization in the private cloud.
-         Required.
+        :param authorization_name: Name of the ExpressRoute Circuit Authorization. Required.
         :type authorization_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ExpressRouteAuthorization or the result of cls(response)
@@ -287,14 +282,17 @@ class AuthorizationsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
+        response_headers = {}
         if response.status_code == 200:
             deserialized = self._deserialize("ExpressRouteAuthorization", pipeline_response)
 
         if response.status_code == 201:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+
             deserialized = self._deserialize("ExpressRouteAuthorization", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
 
@@ -313,19 +311,16 @@ class AuthorizationsOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.ExpressRouteAuthorization]:
-        """Create or update an ExpressRoute Circuit Authorization in a private cloud.
-
-        Create or update an ExpressRoute Circuit Authorization in a private cloud.
+        """Create a ExpressRouteAuthorization.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param private_cloud_name: The name of the private cloud. Required.
+        :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param authorization_name: Name of the ExpressRoute Circuit Authorization in the private cloud.
-         Required.
+        :param authorization_name: Name of the ExpressRoute Circuit Authorization. Required.
         :type authorization_name: str
-        :param authorization: An ExpressRoute Circuit Authorization. Required.
+        :param authorization: Resource create parameters. Required.
         :type authorization: ~azure.mgmt.avs.models.ExpressRouteAuthorization
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
@@ -355,19 +350,16 @@ class AuthorizationsOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.ExpressRouteAuthorization]:
-        """Create or update an ExpressRoute Circuit Authorization in a private cloud.
-
-        Create or update an ExpressRoute Circuit Authorization in a private cloud.
+        """Create a ExpressRouteAuthorization.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param private_cloud_name: The name of the private cloud. Required.
+        :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param authorization_name: Name of the ExpressRoute Circuit Authorization in the private cloud.
-         Required.
+        :param authorization_name: Name of the ExpressRoute Circuit Authorization. Required.
         :type authorization_name: str
-        :param authorization: An ExpressRoute Circuit Authorization. Required.
+        :param authorization: Resource create parameters. Required.
         :type authorization: IO
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
@@ -395,20 +387,17 @@ class AuthorizationsOperations:
         authorization: Union[_models.ExpressRouteAuthorization, IO],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.ExpressRouteAuthorization]:
-        """Create or update an ExpressRoute Circuit Authorization in a private cloud.
-
-        Create or update an ExpressRoute Circuit Authorization in a private cloud.
+        """Create a ExpressRouteAuthorization.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param private_cloud_name: The name of the private cloud. Required.
+        :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param authorization_name: Name of the ExpressRoute Circuit Authorization in the private cloud.
-         Required.
+        :param authorization_name: Name of the ExpressRoute Circuit Authorization. Required.
         :type authorization_name: str
-        :param authorization: An ExpressRoute Circuit Authorization. Is either a
-         ExpressRouteAuthorization type or a IO type. Required.
+        :param authorization: Resource create parameters. Is either a ExpressRouteAuthorization type or
+         a IO type. Required.
         :type authorization: ~azure.mgmt.avs.models.ExpressRouteAuthorization or IO
         :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
          Default value is None.
@@ -457,7 +446,10 @@ class AuthorizationsOperations:
             return deserialized
 
         if polling is True:
-            polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod,
+                AsyncARMPolling(lro_delay, lro_options={"final-state-via": "azure-async-operation"}, **kwargs),
+            )
         elif polling is False:
             polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
@@ -517,8 +509,13 @@ class AuthorizationsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
+        response_headers = {}
+        if response.status_code == 202:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+
         if cls:
-            return cls(pipeline_response, None, {})
+            return cls(pipeline_response, None, response_headers)
 
     _delete_initial.metadata = {
         "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/authorizations/{authorizationName}"
@@ -528,17 +525,14 @@ class AuthorizationsOperations:
     async def begin_delete(
         self, resource_group_name: str, private_cloud_name: str, authorization_name: str, **kwargs: Any
     ) -> AsyncLROPoller[None]:
-        """Delete an ExpressRoute Circuit Authorization in a private cloud.
-
-        Delete an ExpressRoute Circuit Authorization in a private cloud.
+        """Delete a ExpressRouteAuthorization.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param authorization_name: Name of the ExpressRoute Circuit Authorization in the private cloud.
-         Required.
+        :param authorization_name: Name of the ExpressRoute Circuit Authorization. Required.
         :type authorization_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :keyword str continuation_token: A continuation token to restart a poller from a saved state.
@@ -578,7 +572,9 @@ class AuthorizationsOperations:
                 return cls(pipeline_response, None, {})
 
         if polling is True:
-            polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
         elif polling is False:
             polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:

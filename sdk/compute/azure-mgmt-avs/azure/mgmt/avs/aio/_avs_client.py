@@ -23,6 +23,7 @@ from .operations import (
     DatastoresOperations,
     GlobalReachConnectionsOperations,
     HcxEnterpriseSitesOperations,
+    IscsiPathsOperations,
     LocationsOperations,
     Operations,
     PlacementPoliciesOperations,
@@ -48,40 +49,42 @@ class AVSClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-
     :vartype locations: azure.mgmt.avs.aio.operations.LocationsOperations
     :ivar private_clouds: PrivateCloudsOperations operations
     :vartype private_clouds: azure.mgmt.avs.aio.operations.PrivateCloudsOperations
+    :ivar addons: AddonsOperations operations
+    :vartype addons: azure.mgmt.avs.aio.operations.AddonsOperations
+    :ivar authorizations: AuthorizationsOperations operations
+    :vartype authorizations: azure.mgmt.avs.aio.operations.AuthorizationsOperations
+    :ivar cloud_links: CloudLinksOperations operations
+    :vartype cloud_links: azure.mgmt.avs.aio.operations.CloudLinksOperations
     :ivar clusters: ClustersOperations operations
     :vartype clusters: azure.mgmt.avs.aio.operations.ClustersOperations
     :ivar datastores: DatastoresOperations operations
     :vartype datastores: azure.mgmt.avs.aio.operations.DatastoresOperations
-    :ivar hcx_enterprise_sites: HcxEnterpriseSitesOperations operations
-    :vartype hcx_enterprise_sites: azure.mgmt.avs.aio.operations.HcxEnterpriseSitesOperations
-    :ivar authorizations: AuthorizationsOperations operations
-    :vartype authorizations: azure.mgmt.avs.aio.operations.AuthorizationsOperations
+    :ivar placement_policies: PlacementPoliciesOperations operations
+    :vartype placement_policies: azure.mgmt.avs.aio.operations.PlacementPoliciesOperations
+    :ivar virtual_machines: VirtualMachinesOperations operations
+    :vartype virtual_machines: azure.mgmt.avs.aio.operations.VirtualMachinesOperations
     :ivar global_reach_connections: GlobalReachConnectionsOperations operations
     :vartype global_reach_connections:
      azure.mgmt.avs.aio.operations.GlobalReachConnectionsOperations
-    :ivar workload_networks: WorkloadNetworksOperations operations
-    :vartype workload_networks: azure.mgmt.avs.aio.operations.WorkloadNetworksOperations
-    :ivar cloud_links: CloudLinksOperations operations
-    :vartype cloud_links: azure.mgmt.avs.aio.operations.CloudLinksOperations
-    :ivar addons: AddonsOperations operations
-    :vartype addons: azure.mgmt.avs.aio.operations.AddonsOperations
-    :ivar virtual_machines: VirtualMachinesOperations operations
-    :vartype virtual_machines: azure.mgmt.avs.aio.operations.VirtualMachinesOperations
-    :ivar placement_policies: PlacementPoliciesOperations operations
-    :vartype placement_policies: azure.mgmt.avs.aio.operations.PlacementPoliciesOperations
+    :ivar hcx_enterprise_sites: HcxEnterpriseSitesOperations operations
+    :vartype hcx_enterprise_sites: azure.mgmt.avs.aio.operations.HcxEnterpriseSitesOperations
+    :ivar iscsi_paths: IscsiPathsOperations operations
+    :vartype iscsi_paths: azure.mgmt.avs.aio.operations.IscsiPathsOperations
+    :ivar script_executions: ScriptExecutionsOperations operations
+    :vartype script_executions: azure.mgmt.avs.aio.operations.ScriptExecutionsOperations
     :ivar script_packages: ScriptPackagesOperations operations
     :vartype script_packages: azure.mgmt.avs.aio.operations.ScriptPackagesOperations
     :ivar script_cmdlets: ScriptCmdletsOperations operations
     :vartype script_cmdlets: azure.mgmt.avs.aio.operations.ScriptCmdletsOperations
-    :ivar script_executions: ScriptExecutionsOperations operations
-    :vartype script_executions: azure.mgmt.avs.aio.operations.ScriptExecutionsOperations
+    :ivar workload_networks: WorkloadNetworksOperations operations
+    :vartype workload_networks: azure.mgmt.avs.aio.operations.WorkloadNetworksOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
     :param subscription_id: The ID of the target subscription. Required.
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2023-03-01". Note that overriding this
+    :keyword api_version: Api Version. Default value is "2023-09-01". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -105,29 +108,30 @@ class AVSClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
         self.locations = LocationsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.private_clouds = PrivateCloudsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.addons = AddonsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.authorizations = AuthorizationsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.cloud_links = CloudLinksOperations(self._client, self._config, self._serialize, self._deserialize)
         self.clusters = ClustersOperations(self._client, self._config, self._serialize, self._deserialize)
         self.datastores = DatastoresOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.hcx_enterprise_sites = HcxEnterpriseSitesOperations(
+        self.placement_policies = PlacementPoliciesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
-        self.authorizations = AuthorizationsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.global_reach_connections = GlobalReachConnectionsOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.workload_networks = WorkloadNetworksOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.cloud_links = CloudLinksOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.addons = AddonsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.virtual_machines = VirtualMachinesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
-        self.placement_policies = PlacementPoliciesOperations(
+        self.global_reach_connections = GlobalReachConnectionsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.hcx_enterprise_sites = HcxEnterpriseSitesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.iscsi_paths = IscsiPathsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.script_executions = ScriptExecutionsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.script_packages = ScriptPackagesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.script_cmdlets = ScriptCmdletsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.script_executions = ScriptExecutionsOperations(
+        self.workload_networks = WorkloadNetworksOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
 
