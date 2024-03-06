@@ -631,8 +631,6 @@ class SpringbootappsModel(ProxyResource):
     :vartype system_data: ~azure.mgmt.springappdiscovery.models.SystemData
     :ivar properties: The springbootapps resource definition.
     :vartype properties: ~azure.mgmt.springappdiscovery.models.SpringbootappsProperties
-    :ivar tags: Resource tags.
-    :vartype tags: dict[str, str]
     """
 
     _validation = {
@@ -648,25 +646,15 @@ class SpringbootappsModel(ProxyResource):
         "type": {"key": "type", "type": "str"},
         "system_data": {"key": "systemData", "type": "SystemData"},
         "properties": {"key": "properties", "type": "SpringbootappsProperties"},
-        "tags": {"key": "tags", "type": "{str}"},
     }
 
-    def __init__(
-        self,
-        *,
-        properties: Optional["_models.SpringbootappsProperties"] = None,
-        tags: Optional[Dict[str, str]] = None,
-        **kwargs: Any
-    ) -> None:
+    def __init__(self, *, properties: Optional["_models.SpringbootappsProperties"] = None, **kwargs: Any) -> None:
         """
         :keyword properties: The springbootapps resource definition.
         :paramtype properties: ~azure.mgmt.springappdiscovery.models.SpringbootappsProperties
-        :keyword tags: Resource tags.
-        :paramtype tags: dict[str, str]
         """
         super().__init__(**kwargs)
         self.properties = properties
-        self.tags = tags
 
 
 class SpringbootappsPatch(ProxyResource):
@@ -687,8 +675,6 @@ class SpringbootappsPatch(ProxyResource):
     :vartype system_data: ~azure.mgmt.springappdiscovery.models.SystemData
     :ivar properties: The springbootapps resource definition.
     :vartype properties: ~azure.mgmt.springappdiscovery.models.SpringbootappsProperties
-    :ivar tags: Resource tags.
-    :vartype tags: dict[str, str]
     """
 
     _validation = {
@@ -704,29 +690,21 @@ class SpringbootappsPatch(ProxyResource):
         "type": {"key": "type", "type": "str"},
         "system_data": {"key": "systemData", "type": "SystemData"},
         "properties": {"key": "properties", "type": "SpringbootappsProperties"},
-        "tags": {"key": "tags", "type": "{str}"},
     }
 
-    def __init__(
-        self,
-        *,
-        properties: Optional["_models.SpringbootappsProperties"] = None,
-        tags: Optional[Dict[str, str]] = None,
-        **kwargs: Any
-    ) -> None:
+    def __init__(self, *, properties: Optional["_models.SpringbootappsProperties"] = None, **kwargs: Any) -> None:
         """
         :keyword properties: The springbootapps resource definition.
         :paramtype properties: ~azure.mgmt.springappdiscovery.models.SpringbootappsProperties
-        :keyword tags: Resource tags.
-        :paramtype tags: dict[str, str]
         """
         super().__init__(**kwargs)
         self.properties = properties
-        self.tags = tags
 
 
 class SpringbootappsProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
     """The springbootapps resource definition.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar app_name: The name of SpringBootApp.
     :vartype app_name: str
@@ -770,8 +748,6 @@ class SpringbootappsProperties(_serialization.Model):  # pylint: disable=too-man
     :vartype servers: list[str]
     :ivar machine_arm_ids: The machine ARM id list the app belongs to.
     :vartype machine_arm_ids: list[str]
-    :ivar site_name: The site name.
-    :vartype site_name: str
     :ivar spring_boot_version: The spring boot version.
     :vartype spring_boot_version: str
     :ivar static_content_locations: The static content location list.
@@ -787,7 +763,13 @@ class SpringbootappsProperties(_serialization.Model):  # pylint: disable=too-man
     :vartype provisioning_state: str or ~azure.mgmt.springappdiscovery.models.ProvisioningState
     :ivar errors: The list of errors.
     :vartype errors: list[~azure.mgmt.springappdiscovery.models.Error]
+    :ivar labels: Resource labels.
+    :vartype labels: dict[str, str]
     """
+
+    _validation = {
+        "provisioning_state": {"readonly": True},
+    }
 
     _attribute_map = {
         "app_name": {"key": "appName", "type": "str"},
@@ -813,7 +795,6 @@ class SpringbootappsProperties(_serialization.Model):  # pylint: disable=too-man
         "runtime_jdk_version": {"key": "runtimeJdkVersion", "type": "str"},
         "servers": {"key": "servers", "type": "[str]"},
         "machine_arm_ids": {"key": "machineArmIds", "type": "[str]"},
-        "site_name": {"key": "siteName", "type": "str"},
         "spring_boot_version": {"key": "springBootVersion", "type": "str"},
         "static_content_locations": {"key": "staticContentLocations", "type": "[str]"},
         "connection_strings": {"key": "connectionStrings", "type": "[str]"},
@@ -821,6 +802,7 @@ class SpringbootappsProperties(_serialization.Model):  # pylint: disable=too-man
         "last_updated_time": {"key": "lastUpdatedTime", "type": "iso-8601"},
         "provisioning_state": {"key": "provisioningState", "type": "str"},
         "errors": {"key": "errors", "type": "[Error]"},
+        "labels": {"key": "labels", "type": "{str}"},
     }
 
     def __init__(  # pylint: disable=too-many-locals
@@ -848,14 +830,13 @@ class SpringbootappsProperties(_serialization.Model):  # pylint: disable=too-man
         runtime_jdk_version: Optional[str] = None,
         servers: Optional[List[str]] = None,
         machine_arm_ids: Optional[List[str]] = None,
-        site_name: Optional[str] = None,
         spring_boot_version: Optional[str] = None,
         static_content_locations: Optional[List[str]] = None,
         connection_strings: Optional[List[str]] = None,
         last_modified_time: Optional[datetime.datetime] = None,
         last_updated_time: Optional[datetime.datetime] = None,
-        provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None,
         errors: Optional[List["_models.Error"]] = None,
+        labels: Optional[Dict[str, str]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -901,8 +882,6 @@ class SpringbootappsProperties(_serialization.Model):  # pylint: disable=too-man
         :paramtype servers: list[str]
         :keyword machine_arm_ids: The machine ARM id list the app belongs to.
         :paramtype machine_arm_ids: list[str]
-        :keyword site_name: The site name.
-        :paramtype site_name: str
         :keyword spring_boot_version: The spring boot version.
         :paramtype spring_boot_version: str
         :keyword static_content_locations: The static content location list.
@@ -913,11 +892,10 @@ class SpringbootappsProperties(_serialization.Model):  # pylint: disable=too-man
         :paramtype last_modified_time: ~datetime.datetime
         :keyword last_updated_time: Time when this springbootapps instance was last refreshed.
         :paramtype last_updated_time: ~datetime.datetime
-        :keyword provisioning_state: The resource provisioning state. Known values are: "Unknown",
-         "Succeeded", "Failed", "Canceled", "Accepted", "Provisioning", and "Deleting".
-        :paramtype provisioning_state: str or ~azure.mgmt.springappdiscovery.models.ProvisioningState
         :keyword errors: The list of errors.
         :paramtype errors: list[~azure.mgmt.springappdiscovery.models.Error]
+        :keyword labels: Resource labels.
+        :paramtype labels: dict[str, str]
         """
         super().__init__(**kwargs)
         self.app_name = app_name
@@ -940,14 +918,14 @@ class SpringbootappsProperties(_serialization.Model):  # pylint: disable=too-man
         self.runtime_jdk_version = runtime_jdk_version
         self.servers = servers
         self.machine_arm_ids = machine_arm_ids
-        self.site_name = site_name
         self.spring_boot_version = spring_boot_version
         self.static_content_locations = static_content_locations
         self.connection_strings = connection_strings
         self.last_modified_time = last_modified_time
         self.last_updated_time = last_updated_time
-        self.provisioning_state = provisioning_state
+        self.provisioning_state = None
         self.errors = errors
+        self.labels = labels
 
 
 class SpringbootappsPropertiesApplicationConfigurationsItem(_serialization.Model):
@@ -1107,8 +1085,6 @@ class SpringbootserversModel(ProxyResource):
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
     :vartype system_data: ~azure.mgmt.springappdiscovery.models.SystemData
-    :ivar tags: Resource tags.
-    :vartype tags: dict[str, str]
     :ivar properties: The springbootservers resource definition.
     :vartype properties: ~azure.mgmt.springappdiscovery.models.SpringbootserversProperties
     """
@@ -1125,25 +1101,15 @@ class SpringbootserversModel(ProxyResource):
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "system_data": {"key": "systemData", "type": "SystemData"},
-        "tags": {"key": "tags", "type": "{str}"},
         "properties": {"key": "properties", "type": "SpringbootserversProperties"},
     }
 
-    def __init__(
-        self,
-        *,
-        tags: Optional[Dict[str, str]] = None,
-        properties: Optional["_models.SpringbootserversProperties"] = None,
-        **kwargs: Any
-    ) -> None:
+    def __init__(self, *, properties: Optional["_models.SpringbootserversProperties"] = None, **kwargs: Any) -> None:
         """
-        :keyword tags: Resource tags.
-        :paramtype tags: dict[str, str]
         :keyword properties: The springbootservers resource definition.
         :paramtype properties: ~azure.mgmt.springappdiscovery.models.SpringbootserversProperties
         """
         super().__init__(**kwargs)
-        self.tags = tags
         self.properties = properties
 
 
@@ -1163,8 +1129,6 @@ class SpringbootserversPatch(ProxyResource):
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
     :vartype system_data: ~azure.mgmt.springappdiscovery.models.SystemData
-    :ivar tags: Resource tags.
-    :vartype tags: dict[str, str]
     :ivar properties: The springbootsites resource definition.
     :vartype properties: ~azure.mgmt.springappdiscovery.models.SpringbootserversProperties
     """
@@ -1181,25 +1145,15 @@ class SpringbootserversPatch(ProxyResource):
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "system_data": {"key": "systemData", "type": "SystemData"},
-        "tags": {"key": "tags", "type": "{str}"},
         "properties": {"key": "properties", "type": "SpringbootserversProperties"},
     }
 
-    def __init__(
-        self,
-        *,
-        tags: Optional[Dict[str, str]] = None,
-        properties: Optional["_models.SpringbootserversProperties"] = None,
-        **kwargs: Any
-    ) -> None:
+    def __init__(self, *, properties: Optional["_models.SpringbootserversProperties"] = None, **kwargs: Any) -> None:
         """
-        :keyword tags: Resource tags.
-        :paramtype tags: dict[str, str]
         :keyword properties: The springbootsites resource definition.
         :paramtype properties: ~azure.mgmt.springappdiscovery.models.SpringbootserversProperties
         """
         super().__init__(**kwargs)
-        self.tags = tags
         self.properties = properties
 
 
@@ -1227,6 +1181,8 @@ class SpringbootserversProperties(_serialization.Model):
     :ivar provisioning_state: The resource provisioning state. Known values are: "Unknown",
      "Succeeded", "Failed", "Canceled", "Accepted", "Provisioning", and "Deleting".
     :vartype provisioning_state: str or ~azure.mgmt.springappdiscovery.models.ProvisioningState
+    :ivar labels: Resource labels.
+    :vartype labels: dict[str, str]
     """
 
     _validation = {
@@ -1242,6 +1198,7 @@ class SpringbootserversProperties(_serialization.Model):
         "spring_boot_apps": {"key": "springBootApps", "type": "int"},
         "errors": {"key": "errors", "type": "[Error]"},
         "provisioning_state": {"key": "provisioningState", "type": "str"},
+        "labels": {"key": "labels", "type": "{str}"},
     }
 
     def __init__(
@@ -1255,6 +1212,7 @@ class SpringbootserversProperties(_serialization.Model):
         spring_boot_apps: Optional[int] = None,
         errors: Optional[List["_models.Error"]] = None,
         provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None,
+        labels: Optional[Dict[str, str]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -1277,6 +1235,8 @@ class SpringbootserversProperties(_serialization.Model):
         :keyword provisioning_state: The resource provisioning state. Known values are: "Unknown",
          "Succeeded", "Failed", "Canceled", "Accepted", "Provisioning", and "Deleting".
         :paramtype provisioning_state: str or ~azure.mgmt.springappdiscovery.models.ProvisioningState
+        :keyword labels: Resource labels.
+        :paramtype labels: dict[str, str]
         """
         super().__init__(**kwargs)
         self.port = port
@@ -1287,6 +1247,7 @@ class SpringbootserversProperties(_serialization.Model):
         self.spring_boot_apps = spring_boot_apps
         self.errors = errors
         self.provisioning_state = provisioning_state
+        self.labels = labels
 
 
 class SpringbootsitesListResult(_serialization.Model):
@@ -1474,54 +1435,23 @@ class SpringbootsitesModelExtendedLocation(_serialization.Model):
         self.name = name
 
 
-class SpringbootsitesPatch(TrackedResource):
+class SpringbootsitesPatch(_serialization.Model):
     """The springbootsites resource patch definition.
 
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
-    :vartype id: str
-    :ivar name: The name of the resource.
-    :vartype name: str
-    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-     "Microsoft.Storage/storageAccounts".
-    :vartype type: str
-    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
-     information.
-    :vartype system_data: ~azure.mgmt.springappdiscovery.models.SystemData
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
-    :ivar location: The geo-location where the resource lives. Required.
-    :vartype location: str
     :ivar properties: The springbootsites resource definition.
     :vartype properties: ~azure.mgmt.springappdiscovery.models.SpringbootsitesProperties
     """
 
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-        "location": {"required": True},
-    }
-
     _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
         "tags": {"key": "tags", "type": "{str}"},
-        "location": {"key": "location", "type": "str"},
         "properties": {"key": "properties", "type": "SpringbootsitesProperties"},
     }
 
     def __init__(
         self,
         *,
-        location: str,
         tags: Optional[Dict[str, str]] = None,
         properties: Optional["_models.SpringbootsitesProperties"] = None,
         **kwargs: Any
@@ -1529,12 +1459,11 @@ class SpringbootsitesPatch(TrackedResource):
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
-        :keyword location: The geo-location where the resource lives. Required.
-        :paramtype location: str
         :keyword properties: The springbootsites resource definition.
         :paramtype properties: ~azure.mgmt.springappdiscovery.models.SpringbootsitesProperties
         """
-        super().__init__(tags=tags, location=location, **kwargs)
+        super().__init__(**kwargs)
+        self.tags = tags
         self.properties = properties
 
 

@@ -32,11 +32,11 @@ def main():
     response = client.springbootsites.begin_update(
         resource_group_name="rgspringbootsites",
         springbootsites_name="xrmzlavpewxtfeitghdrj",
-        springbootsites={"location": "icnumzvzzeqhuxtcefuqdcro", "tags": {"key9581": "cgdqvbknjrwcwuesquddsxu"}},
+        springbootsites={"tags": {"key9581": "cgdqvbknjrwcwuesquddsxu"}},
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/offazurespringboot/resource-manager/Microsoft.OffAzureSpringBoot/preview/2023-01-01-preview/examples/springbootsites_Update_MaximumSet_Gen.json
+# x-ms-original-file: specification/offazurespringboot/resource-manager/Microsoft.OffAzureSpringBoot/preview/2024-04-01-preview/examples/springbootsites_Update_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()
