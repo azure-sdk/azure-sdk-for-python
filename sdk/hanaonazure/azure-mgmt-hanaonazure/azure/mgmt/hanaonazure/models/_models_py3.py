@@ -7,7 +7,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Dict, List, Optional, TYPE_CHECKING
+from typing import Any, Dict, List, Optional, TYPE_CHECKING
 
 from .. import _serialization
 
@@ -58,7 +58,7 @@ class Display(_serialization.Model):
         "origin": {"key": "origin", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.provider = None
@@ -79,7 +79,7 @@ class ErrorResponse(_serialization.Model):
         "error": {"key": "error", "type": "ErrorResponseError"},
     }
 
-    def __init__(self, *, error: Optional["_models.ErrorResponseError"] = None, **kwargs):
+    def __init__(self, *, error: Optional["_models.ErrorResponseError"] = None, **kwargs: Any) -> None:
         """
         :keyword error: Describes the error object.
         :paramtype error: ~azure.mgmt.hanaonazure.models.ErrorResponseError
@@ -109,7 +109,7 @@ class ErrorResponseError(_serialization.Model):
         "message": {"key": "message", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.code = None
@@ -137,7 +137,7 @@ class Operation(_serialization.Model):
         "display": {"key": "display", "type": "Display"},
     }
 
-    def __init__(self, *, display: Optional["_models.Display"] = None, **kwargs):
+    def __init__(self, *, display: Optional["_models.Display"] = None, **kwargs: Any) -> None:
         """
         :keyword display: Displayed HANA operation information.
         :paramtype display: ~azure.mgmt.hanaonazure.models.Display
@@ -158,7 +158,7 @@ class OperationList(_serialization.Model):
         "value": {"key": "value", "type": "[Operation]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Operation"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.Operation"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: List of HANA operations.
         :paramtype value: list[~azure.mgmt.hanaonazure.models.Operation]
@@ -194,7 +194,7 @@ class Resource(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -203,7 +203,8 @@ class Resource(_serialization.Model):
 
 
 class ProxyResource(Resource):
-    """The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location.
+    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
+    tags and a location.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -229,7 +230,7 @@ class ProxyResource(Resource):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
 
@@ -281,8 +282,8 @@ class ProviderInstance(ProxyResource):
         type_properties_type: Optional[str] = None,
         properties: Optional[str] = None,
         metadata: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword type_properties_type: The type of provider instance.
         :paramtype type_properties_type: str
@@ -313,8 +314,12 @@ class ProviderInstanceListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.ProviderInstance"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self,
+        *,
+        value: Optional[List["_models.ProviderInstance"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: The list of provider instances.
         :paramtype value: list[~azure.mgmt.hanaonazure.models.ProviderInstance]
@@ -327,7 +332,8 @@ class ProviderInstanceListResult(_serialization.Model):
 
 
 class TrackedResource(Resource):
-    """The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'.
+    """The resource model definition for an Azure Resource Manager tracked top level resource which
+    has 'tags' and a 'location'.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -362,7 +368,7 @@ class TrackedResource(Resource):
         "location": {"key": "location", "type": "str"},
     }
 
-    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -452,8 +458,8 @@ class SapMonitor(TrackedResource):  # pylint: disable=too-many-instance-attribut
         log_analytics_workspace_id: Optional[str] = None,
         log_analytics_workspace_shared_key: Optional[str] = None,
         monitor_subnet: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -500,8 +506,8 @@ class SapMonitorListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.SapMonitor"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.SapMonitor"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: The list of SAP monitors.
         :paramtype value: list[~azure.mgmt.hanaonazure.models.SapMonitor]
@@ -524,7 +530,7 @@ class Tags(_serialization.Model):
         "tags": {"key": "tags", "type": "{str}"},
     }
 
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword tags: Tags field of the resource.
         :paramtype tags: dict[str, str]

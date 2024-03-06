@@ -14,7 +14,7 @@ from azure.mgmt.hanaonazure import HanaManagementClient
     pip install azure-identity
     pip install azure-mgmt-hanaonazure
 # USAGE
-    python get_properties_of_a_sap_monitor.py
+    python provider_instances_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,13 +29,14 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.sap_monitors.get(
+    response = client.provider_instances.get(
         resource_group_name="myResourceGroup",
         sap_monitor_name="mySapMonitor",
+        provider_instance_name="myProviderInstance",
     )
     print(response)
 
 
-# x-ms-original-file: specification/hanaonazure/resource-manager/Microsoft.HanaOnAzure/preview/2020-02-07-preview/examples/SapMonitors_Get.json
+# x-ms-original-file: specification/hanaonazure/resource-manager/Microsoft.HanaOnAzure/preview/2020-02-07-preview/examples/ProviderInstances_Get.json
 if __name__ == "__main__":
     main()
