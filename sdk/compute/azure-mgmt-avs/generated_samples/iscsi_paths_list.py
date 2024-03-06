@@ -14,7 +14,7 @@ from azure.mgmt.avs import AVSClient
     pip install azure-identity
     pip install azure-mgmt-avs
 # USAGE
-    python workload_networks_create_vm_groups.py
+    python iscsi_paths_list.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,21 +29,14 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.workload_networks.begin_create_vm_group(
+    response = client.iscsi_paths.list_by_private_cloud(
         resource_group_name="group1",
         private_cloud_name="cloud1",
-        vm_group_id="vmGroup1",
-        workload_network_vm_group={
-            "properties": {
-                "displayName": "vmGroup1",
-                "members": ["564d43da-fefc-2a3b-1d92-42855622fa50"],
-                "revision": 1,
-            }
-        },
-    ).result()
-    print(response)
+    )
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-03-01/examples/WorkloadNetworks_CreateVMGroups.json
+# x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/IscsiPaths_List.json
 if __name__ == "__main__":
     main()

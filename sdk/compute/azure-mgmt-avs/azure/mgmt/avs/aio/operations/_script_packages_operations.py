@@ -57,7 +57,7 @@ class ScriptPackagesOperations:
     def list(
         self, resource_group_name: str, private_cloud_name: str, **kwargs: Any
     ) -> AsyncIterable["_models.ScriptPackage"]:
-        """List script packages available to run on the private cloud.
+        """List ScriptPackage resources by PrivateCloud.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -73,7 +73,7 @@ class ScriptPackagesOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.ScriptPackagesList] = kwargs.pop("cls", None)
+        cls: ClsType[_models.ScriptPackageListResult] = kwargs.pop("cls", None)
 
         error_map = {
             401: ClientAuthenticationError,
@@ -117,7 +117,7 @@ class ScriptPackagesOperations:
             return request
 
         async def extract_data(pipeline_response):
-            deserialized = self._deserialize("ScriptPackagesList", pipeline_response)
+            deserialized = self._deserialize("ScriptPackageListResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
@@ -149,14 +149,14 @@ class ScriptPackagesOperations:
     async def get(
         self, resource_group_name: str, private_cloud_name: str, script_package_name: str, **kwargs: Any
     ) -> _models.ScriptPackage:
-        """Get a script package available to run on a private cloud.
+        """Get a ScriptPackage.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param script_package_name: Name of the script package in the private cloud. Required.
+        :param script_package_name: Name of the script package. Required.
         :type script_package_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ScriptPackage or the result of cls(response)

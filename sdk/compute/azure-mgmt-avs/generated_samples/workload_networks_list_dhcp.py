@@ -14,7 +14,7 @@ from azure.mgmt.avs import AVSClient
     pip install azure-identity
     pip install azure-mgmt-avs
 # USAGE
-    python workload_networks_get_dns_services.py
+    python workload_networks_list_dhcp.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,14 +29,14 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.workload_networks.get_dns_service(
+    response = client.workload_networks.list_dhcp(
         resource_group_name="group1",
         private_cloud_name="cloud1",
-        dns_service_id="dnsService1",
     )
-    print(response)
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-03-01/examples/WorkloadNetworks_GetDnsServices.json
+# x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/WorkloadNetworks_ListDhcp.json
 if __name__ == "__main__":
     main()

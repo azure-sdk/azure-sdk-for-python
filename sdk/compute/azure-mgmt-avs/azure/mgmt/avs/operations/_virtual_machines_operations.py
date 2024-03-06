@@ -45,7 +45,7 @@ def build_list_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-03-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -84,7 +84,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-03-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -99,7 +99,7 @@ def build_get_request(
         ),
         "privateCloudName": _SERIALIZER.url("private_cloud_name", private_cloud_name, "str", pattern=r"^[-\w\._]+$"),
         "clusterName": _SERIALIZER.url("cluster_name", cluster_name, "str", pattern=r"^[-\w\._]+$"),
-        "virtualMachineId": _SERIALIZER.url("virtual_machine_id", virtual_machine_id, "str"),
+        "virtualMachineId": _SERIALIZER.url("virtual_machine_id", virtual_machine_id, "str", pattern=r"^[-\w\._]+$"),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -124,7 +124,7 @@ def build_restrict_movement_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-03-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -140,7 +140,7 @@ def build_restrict_movement_request(
         ),
         "privateCloudName": _SERIALIZER.url("private_cloud_name", private_cloud_name, "str", pattern=r"^[-\w\._]+$"),
         "clusterName": _SERIALIZER.url("cluster_name", cluster_name, "str", pattern=r"^[-\w\._]+$"),
-        "virtualMachineId": _SERIALIZER.url("virtual_machine_id", virtual_machine_id, "str"),
+        "virtualMachineId": _SERIALIZER.url("virtual_machine_id", virtual_machine_id, "str", pattern=r"^[-\w\._]+$"),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -179,16 +179,14 @@ class VirtualMachinesOperations:
     def list(
         self, resource_group_name: str, private_cloud_name: str, cluster_name: str, **kwargs: Any
     ) -> Iterable["_models.VirtualMachine"]:
-        """List of virtual machines in a private cloud cluster.
-
-        List of virtual machines in a private cloud cluster.
+        """List VirtualMachine resources by Cluster.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param cluster_name: Name of the cluster in the private cloud. Required.
+        :param cluster_name: Name of the cluster. Required.
         :type cluster_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either VirtualMachine or the result of cls(response)
@@ -199,7 +197,7 @@ class VirtualMachinesOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.VirtualMachinesList] = kwargs.pop("cls", None)
+        cls: ClsType[_models.VirtualMachineListResult] = kwargs.pop("cls", None)
 
         error_map = {
             401: ClientAuthenticationError,
@@ -244,7 +242,7 @@ class VirtualMachinesOperations:
             return request
 
         def extract_data(pipeline_response):
-            deserialized = self._deserialize("VirtualMachinesList", pipeline_response)
+            deserialized = self._deserialize("VirtualMachineListResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
@@ -281,18 +279,16 @@ class VirtualMachinesOperations:
         virtual_machine_id: str,
         **kwargs: Any
     ) -> _models.VirtualMachine:
-        """Get a virtual machine by id in a private cloud cluster.
-
-        Get a virtual machine by id in a private cloud cluster.
+        """Get a VirtualMachine.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param cluster_name: Name of the cluster in the private cloud. Required.
+        :param cluster_name: Name of the cluster. Required.
         :type cluster_name: str
-        :param virtual_machine_id: Virtual Machine identifier. Required.
+        :param virtual_machine_id: ID of the virtual machine. Required.
         :type virtual_machine_id: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: VirtualMachine or the result of cls(response)
@@ -411,8 +407,12 @@ class VirtualMachinesOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
+        response_headers = {}
+        response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+        response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+
         if cls:
-            return cls(pipeline_response, None, {})
+            return cls(pipeline_response, None, response_headers)
 
     _restrict_movement_initial.metadata = {
         "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/virtualMachines/{virtualMachineId}/restrictMovement"
@@ -432,19 +432,16 @@ class VirtualMachinesOperations:
     ) -> LROPoller[None]:
         """Enable or disable DRS-driven VM movement restriction.
 
-        Enable or disable DRS-driven VM movement restriction.
-
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param cluster_name: Name of the cluster in the private cloud. Required.
+        :param cluster_name: Name of the cluster. Required.
         :type cluster_name: str
-        :param virtual_machine_id: Virtual Machine identifier. Required.
+        :param virtual_machine_id: ID of the virtual machine. Required.
         :type virtual_machine_id: str
-        :param restrict_movement: Whether VM DRS-driven movement is restricted (Enabled) or not
-         (Disabled). Required.
+        :param restrict_movement: The body type of the operation request. Required.
         :type restrict_movement: ~azure.mgmt.avs.models.VirtualMachineRestrictMovement
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
@@ -476,19 +473,16 @@ class VirtualMachinesOperations:
     ) -> LROPoller[None]:
         """Enable or disable DRS-driven VM movement restriction.
 
-        Enable or disable DRS-driven VM movement restriction.
-
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param cluster_name: Name of the cluster in the private cloud. Required.
+        :param cluster_name: Name of the cluster. Required.
         :type cluster_name: str
-        :param virtual_machine_id: Virtual Machine identifier. Required.
+        :param virtual_machine_id: ID of the virtual machine. Required.
         :type virtual_machine_id: str
-        :param restrict_movement: Whether VM DRS-driven movement is restricted (Enabled) or not
-         (Disabled). Required.
+        :param restrict_movement: The body type of the operation request. Required.
         :type restrict_movement: IO
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
@@ -518,19 +512,17 @@ class VirtualMachinesOperations:
     ) -> LROPoller[None]:
         """Enable or disable DRS-driven VM movement restriction.
 
-        Enable or disable DRS-driven VM movement restriction.
-
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param cluster_name: Name of the cluster in the private cloud. Required.
+        :param cluster_name: Name of the cluster. Required.
         :type cluster_name: str
-        :param virtual_machine_id: Virtual Machine identifier. Required.
+        :param virtual_machine_id: ID of the virtual machine. Required.
         :type virtual_machine_id: str
-        :param restrict_movement: Whether VM DRS-driven movement is restricted (Enabled) or not
-         (Disabled). Is either a VirtualMachineRestrictMovement type or a IO type. Required.
+        :param restrict_movement: The body type of the operation request. Is either a
+         VirtualMachineRestrictMovement type or a IO type. Required.
         :type restrict_movement: ~azure.mgmt.avs.models.VirtualMachineRestrictMovement or IO
         :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
          Default value is None.
@@ -577,7 +569,9 @@ class VirtualMachinesOperations:
                 return cls(pipeline_response, None, {})
 
         if polling is True:
-            polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
+            polling_method: PollingMethod = cast(
+                PollingMethod, ARMPolling(lro_delay, lro_options={"final-state-via": "azure-async-operation"}, **kwargs)
+            )
         elif polling is False:
             polling_method = cast(PollingMethod, NoPolling())
         else:
