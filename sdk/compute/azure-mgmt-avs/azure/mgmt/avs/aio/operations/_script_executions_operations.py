@@ -66,9 +66,7 @@ class ScriptExecutionsOperations:
     def list(
         self, resource_group_name: str, private_cloud_name: str, **kwargs: Any
     ) -> AsyncIterable["_models.ScriptExecution"]:
-        """List script executions in a private cloud.
-
-        List script executions in a private cloud.
+        """List ScriptExecution resources by PrivateCloud.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -84,7 +82,7 @@ class ScriptExecutionsOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.ScriptExecutionsList] = kwargs.pop("cls", None)
+        cls: ClsType[_models.ScriptExecutionListResult] = kwargs.pop("cls", None)
 
         error_map = {
             401: ClientAuthenticationError,
@@ -128,7 +126,7 @@ class ScriptExecutionsOperations:
             return request
 
         async def extract_data(pipeline_response):
-            deserialized = self._deserialize("ScriptExecutionsList", pipeline_response)
+            deserialized = self._deserialize("ScriptExecutionListResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
@@ -160,16 +158,14 @@ class ScriptExecutionsOperations:
     async def get(
         self, resource_group_name: str, private_cloud_name: str, script_execution_name: str, **kwargs: Any
     ) -> _models.ScriptExecution:
-        """Get an script execution by name in a private cloud.
-
-        Get an script execution by name in a private cloud.
+        """Get a ScriptExecution.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param script_execution_name: Name of the user-invoked script execution resource. Required.
+        :param script_execution_name: Name of the script cmdlet. Required.
         :type script_execution_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ScriptExecution or the result of cls(response)
@@ -285,14 +281,17 @@ class ScriptExecutionsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
+        response_headers = {}
         if response.status_code == 200:
             deserialized = self._deserialize("ScriptExecution", pipeline_response)
 
         if response.status_code == 201:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+
             deserialized = self._deserialize("ScriptExecution", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
 
@@ -311,18 +310,16 @@ class ScriptExecutionsOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.ScriptExecution]:
-        """Create or update a script execution in a private cloud.
-
-        Create or update a script execution in a private cloud.
+        """Create a ScriptExecution.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param private_cloud_name: The name of the private cloud. Required.
+        :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param script_execution_name: Name of the user-invoked script execution resource. Required.
+        :param script_execution_name: Name of the script cmdlet. Required.
         :type script_execution_name: str
-        :param script_execution: A script running in the private cloud. Required.
+        :param script_execution: Resource create parameters. Required.
         :type script_execution: ~azure.mgmt.avs.models.ScriptExecution
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
@@ -352,18 +349,16 @@ class ScriptExecutionsOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.ScriptExecution]:
-        """Create or update a script execution in a private cloud.
-
-        Create or update a script execution in a private cloud.
+        """Create a ScriptExecution.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param private_cloud_name: The name of the private cloud. Required.
+        :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param script_execution_name: Name of the user-invoked script execution resource. Required.
+        :param script_execution_name: Name of the script cmdlet. Required.
         :type script_execution_name: str
-        :param script_execution: A script running in the private cloud. Required.
+        :param script_execution: Resource create parameters. Required.
         :type script_execution: IO
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
@@ -391,19 +386,17 @@ class ScriptExecutionsOperations:
         script_execution: Union[_models.ScriptExecution, IO],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.ScriptExecution]:
-        """Create or update a script execution in a private cloud.
-
-        Create or update a script execution in a private cloud.
+        """Create a ScriptExecution.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param private_cloud_name: The name of the private cloud. Required.
+        :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param script_execution_name: Name of the user-invoked script execution resource. Required.
+        :param script_execution_name: Name of the script cmdlet. Required.
         :type script_execution_name: str
-        :param script_execution: A script running in the private cloud. Is either a ScriptExecution
-         type or a IO type. Required.
+        :param script_execution: Resource create parameters. Is either a ScriptExecution type or a IO
+         type. Required.
         :type script_execution: ~azure.mgmt.avs.models.ScriptExecution or IO
         :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
          Default value is None.
@@ -452,7 +445,10 @@ class ScriptExecutionsOperations:
             return deserialized
 
         if polling is True:
-            polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod,
+                AsyncARMPolling(lro_delay, lro_options={"final-state-via": "azure-async-operation"}, **kwargs),
+            )
         elif polling is False:
             polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
@@ -512,8 +508,13 @@ class ScriptExecutionsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
+        response_headers = {}
+        if response.status_code == 202:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+
         if cls:
-            return cls(pipeline_response, None, {})
+            return cls(pipeline_response, None, response_headers)
 
     _delete_initial.metadata = {
         "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptExecutions/{scriptExecutionName}"
@@ -523,16 +524,14 @@ class ScriptExecutionsOperations:
     async def begin_delete(
         self, resource_group_name: str, private_cloud_name: str, script_execution_name: str, **kwargs: Any
     ) -> AsyncLROPoller[None]:
-        """Cancel a ScriptExecution in a private cloud.
-
-        Cancel a ScriptExecution in a private cloud.
+        """Delete a ScriptExecution.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param script_execution_name: Name of the user-invoked script execution resource. Required.
+        :param script_execution_name: Name of the script cmdlet. Required.
         :type script_execution_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :keyword str continuation_token: A continuation token to restart a poller from a saved state.
@@ -572,7 +571,9 @@ class ScriptExecutionsOperations:
                 return cls(pipeline_response, None, {})
 
         if polling is True:
-            polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
         elif polling is False:
             polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
@@ -608,7 +609,7 @@ class ScriptExecutionsOperations:
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param script_execution_name: Name of the user-invoked script execution resource. Required.
+        :param script_execution_name: Name of the script cmdlet. Required.
         :type script_execution_name: str
         :param script_output_stream_type: Name of the desired output stream to return. If not provided,
          will return all. An empty array will return nothing. Default value is None.
@@ -640,7 +641,7 @@ class ScriptExecutionsOperations:
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param script_execution_name: Name of the user-invoked script execution resource. Required.
+        :param script_execution_name: Name of the script cmdlet. Required.
         :type script_execution_name: str
         :param script_output_stream_type: Name of the desired output stream to return. If not provided,
          will return all. An empty array will return nothing. Default value is None.
@@ -670,7 +671,7 @@ class ScriptExecutionsOperations:
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param script_execution_name: Name of the user-invoked script execution resource. Required.
+        :param script_execution_name: Name of the script cmdlet. Required.
         :type script_execution_name: str
         :param script_output_stream_type: Name of the desired output stream to return. If not provided,
          will return all. An empty array will return nothing. Is either a [Union[str,
