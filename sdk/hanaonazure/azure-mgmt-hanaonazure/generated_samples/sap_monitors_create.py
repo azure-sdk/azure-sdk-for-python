@@ -14,7 +14,7 @@ from azure.mgmt.hanaonazure import HanaManagementClient
     pip install azure-identity
     pip install azure-mgmt-hanaonazure
 # USAGE
-    python update_tags_field_of_a_sap_monitor.py
+    python sap_monitors_create.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,14 +29,24 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.sap_monitors.update(
+    response = client.sap_monitors.begin_create(
         resource_group_name="myResourceGroup",
         sap_monitor_name="mySapMonitor",
-        tags_parameter={"tags": {"testkey": "testvalue"}},
-    )
+        sap_monitor_parameter={
+            "location": "westus",
+            "properties": {
+                "enableCustomerAnalytics": True,
+                "logAnalyticsWorkspaceArmId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/microsoft.operationalinsights/workspaces/myWorkspace",
+                "logAnalyticsWorkspaceId": "00000000-0000-0000-0000-000000000000",
+                "logAnalyticsWorkspaceSharedKey": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000==",
+                "monitorSubnet": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet",
+            },
+            "tags": {"key": "value"},
+        },
+    ).result()
     print(response)
 
 
-# x-ms-original-file: specification/hanaonazure/resource-manager/Microsoft.HanaOnAzure/preview/2020-02-07-preview/examples/SapMonitors_PatchTags.json
+# x-ms-original-file: specification/hanaonazure/resource-manager/Microsoft.HanaOnAzure/preview/2020-02-07-preview/examples/SapMonitors_Create.json
 if __name__ == "__main__":
     main()
