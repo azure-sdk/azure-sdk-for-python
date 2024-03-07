@@ -35,6 +35,6 @@ def main():
     ).result()
 
 
-# x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/WorkspaceDelete.json
+# x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2024-05-01/examples/WorkspaceDelete.json
 if __name__ == "__main__":
     main()
