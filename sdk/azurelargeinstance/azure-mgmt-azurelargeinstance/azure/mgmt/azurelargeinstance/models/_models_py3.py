@@ -180,6 +180,8 @@ class AzureLargeInstance(TrackedResource):
 class AzureLargeInstanceListResult(_serialization.Model):
     """The response of a AzureLargeInstance list operation.
 
+    Variables are only populated by the server, and will be ignored when sending a request.
+
     All required parameters must be populated in order to send to Azure.
 
     :ivar value: The AzureLargeInstance items on this page. Required.
@@ -190,6 +192,7 @@ class AzureLargeInstanceListResult(_serialization.Model):
 
     _validation = {
         "value": {"required": True},
+        "next_link": {"readonly": True},
     }
 
     _attribute_map = {
@@ -197,18 +200,14 @@ class AzureLargeInstanceListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(
-        self, *, value: List["_models.AzureLargeInstance"], next_link: Optional[str] = None, **kwargs: Any
-    ) -> None:
+    def __init__(self, *, value: List["_models.AzureLargeInstance"], **kwargs: Any) -> None:
         """
         :keyword value: The AzureLargeInstance items on this page. Required.
         :paramtype value: list[~azure.mgmt.azurelargeinstance.models.AzureLargeInstance]
-        :keyword next_link: The link to the next page of items.
-        :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = next_link
+        self.next_link = None
 
 
 class AzureLargeInstanceProperties(_serialization.Model):
@@ -391,6 +390,8 @@ class AzureLargeStorageInstance(TrackedResource):
 class AzureLargeStorageInstanceListResult(_serialization.Model):
     """The response of a AzureLargeStorageInstance list operation.
 
+    Variables are only populated by the server, and will be ignored when sending a request.
+
     All required parameters must be populated in order to send to Azure.
 
     :ivar value: The AzureLargeStorageInstance items on this page. Required.
@@ -401,6 +402,7 @@ class AzureLargeStorageInstanceListResult(_serialization.Model):
 
     _validation = {
         "value": {"required": True},
+        "next_link": {"readonly": True},
     }
 
     _attribute_map = {
@@ -408,18 +410,14 @@ class AzureLargeStorageInstanceListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(
-        self, *, value: List["_models.AzureLargeStorageInstance"], next_link: Optional[str] = None, **kwargs: Any
-    ) -> None:
+    def __init__(self, *, value: List["_models.AzureLargeStorageInstance"], **kwargs: Any) -> None:
         """
         :keyword value: The AzureLargeStorageInstance items on this page. Required.
         :paramtype value: list[~azure.mgmt.azurelargeinstance.models.AzureLargeStorageInstance]
-        :keyword next_link: The link to the next page of items.
-        :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = next_link
+        self.next_link = None
 
 
 class AzureLargeStorageInstanceProperties(_serialization.Model):
