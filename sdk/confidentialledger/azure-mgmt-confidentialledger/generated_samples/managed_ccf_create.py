@@ -54,6 +54,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-01-26-preview/examples/ManagedCCF_Create.json
+# x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2024-03-07-preview/examples/ManagedCCF_Create.json
 if __name__ == "__main__":
     main()

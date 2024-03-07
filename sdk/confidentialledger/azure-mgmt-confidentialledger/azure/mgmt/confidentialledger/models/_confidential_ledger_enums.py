@@ -26,6 +26,13 @@ class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     KEY = "Key"
 
 
+class EnclavePlatform(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Object representing the enclave platform for the Managed CCF application. Defaults to IntelSgx."""
+
+    INTEL_SGX = "IntelSgx"
+    AMD_SEV_SNP = "AmdSevSnp"
+
+
 class LanguageRuntime(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Object representing LanguageRuntime for Manged CCF."""
 
@@ -39,6 +46,14 @@ class LedgerRoleName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     READER = "Reader"
     CONTRIBUTOR = "Contributor"
     ADMINISTRATOR = "Administrator"
+
+
+class LedgerSku(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """SKU associated with the ledger resource."""
+
+    STANDARD = "Standard"
+    BASIC = "Basic"
+    UNKNOWN = "Unknown"
 
 
 class LedgerType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
