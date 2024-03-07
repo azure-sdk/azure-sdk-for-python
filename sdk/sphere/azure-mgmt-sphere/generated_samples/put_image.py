@@ -32,7 +32,7 @@ def main():
     response = client.images.begin_create_or_update(
         resource_group_name="MyResourceGroup1",
         catalog_name="MyCatalog1",
-        image_name="default",
+        image_name=".default",
         resource={"properties": {"image": "bXliYXNlNjRzdHJpbmc="}},
     ).result()
     print(response)

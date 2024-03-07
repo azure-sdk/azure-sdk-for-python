@@ -32,7 +32,7 @@ def main():
     response = client.images.get(
         resource_group_name="MyResourceGroup1",
         catalog_name="MyCatalog1",
-        image_name="myImageId",
+        image_name="00000000-0000-0000-0000-000000000000",
     )
     print(response)
 
