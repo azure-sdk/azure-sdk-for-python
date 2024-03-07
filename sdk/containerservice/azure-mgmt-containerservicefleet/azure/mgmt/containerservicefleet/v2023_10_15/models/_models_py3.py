@@ -711,10 +711,8 @@ class ManagedClusterUpgradeSpec(_serialization.Model):
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar type: The upgrade type.
-     Full requires the KubernetesVersion property to be set.
-     NodeImageOnly requires the KubernetesVersion property not to be set. Required. Known values
-     are: "Full" and "NodeImageOnly".
+    :ivar type: ManagedClusterUpgradeType is the type of upgrade to be applied. Required. Known
+     values are: "Full", "NodeImageOnly", and "ControlPlaneOnly".
     :vartype type: str or
      ~azure.mgmt.containerservicefleet.v2023_10_15.models.ManagedClusterUpgradeType
     :ivar kubernetes_version: The Kubernetes version to upgrade the member clusters to.
@@ -738,10 +736,8 @@ class ManagedClusterUpgradeSpec(_serialization.Model):
         **kwargs: Any
     ) -> None:
         """
-        :keyword type: The upgrade type.
-         Full requires the KubernetesVersion property to be set.
-         NodeImageOnly requires the KubernetesVersion property not to be set. Required. Known values
-         are: "Full" and "NodeImageOnly".
+        :keyword type: ManagedClusterUpgradeType is the type of upgrade to be applied. Required. Known
+         values are: "Full", "NodeImageOnly", and "ControlPlaneOnly".
         :paramtype type: str or
          ~azure.mgmt.containerservicefleet.v2023_10_15.models.ManagedClusterUpgradeType
         :keyword kubernetes_version: The Kubernetes version to upgrade the member clusters to.
@@ -1057,6 +1053,71 @@ class OperationListResult(_serialization.Model):
         super().__init__(**kwargs)
         self.value = None
         self.next_link = None
+
+
+class SkipProperties(_serialization.Model):
+    """The properties of a skip operation containing multiple skip requests.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar targets: The targets to skip. Required.
+    :vartype targets: list[~azure.mgmt.containerservicefleet.v2023_10_15.models.SkipTarget]
+    """
+
+    _validation = {
+        "targets": {"required": True},
+    }
+
+    _attribute_map = {
+        "targets": {"key": "targets", "type": "[SkipTarget]"},
+    }
+
+    def __init__(self, *, targets: List["_models.SkipTarget"], **kwargs: Any) -> None:
+        """
+        :keyword targets: The targets to skip. Required.
+        :paramtype targets: list[~azure.mgmt.containerservicefleet.v2023_10_15.models.SkipTarget]
+        """
+        super().__init__(**kwargs)
+        self.targets = targets
+
+
+class SkipTarget(_serialization.Model):
+    """The definition of a single skip request.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar type: The skip target type. Required. Known values are: "Member", "Group", "Stage", and
+     "AfterStageWait".
+    :vartype type: str or ~azure.mgmt.containerservicefleet.v2023_10_15.models.TargetType
+    :ivar name: The skip target's name.
+     To skip a member/group/stage, use the member/group/stage's name;
+     Tp skip an after stage wait, use the parent stage's name. Required.
+    :vartype name: str
+    """
+
+    _validation = {
+        "type": {"required": True},
+        "name": {"required": True},
+    }
+
+    _attribute_map = {
+        "type": {"key": "type", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+    }
+
+    def __init__(self, *, type: Union[str, "_models.TargetType"], name: str, **kwargs: Any) -> None:
+        """
+        :keyword type: The skip target type. Required. Known values are: "Member", "Group", "Stage",
+         and "AfterStageWait".
+        :paramtype type: str or ~azure.mgmt.containerservicefleet.v2023_10_15.models.TargetType
+        :keyword name: The skip target's name.
+         To skip a member/group/stage, use the member/group/stage's name;
+         Tp skip an after stage wait, use the parent stage's name. Required.
+        :paramtype name: str
+        """
+        super().__init__(**kwargs)
+        self.type = type
+        self.name = name
 
 
 class SystemData(_serialization.Model):
