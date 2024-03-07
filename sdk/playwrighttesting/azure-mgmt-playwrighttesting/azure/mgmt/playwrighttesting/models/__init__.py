@@ -7,10 +7,16 @@
 # --------------------------------------------------------------------------
 
 from ._models_py3 import Account
+from ._models_py3 import AccountFreeTrialProperties
 from ._models_py3 import AccountListResult
 from ._models_py3 import AccountProperties
+from ._models_py3 import AccountQuota
+from ._models_py3 import AccountQuotaListResult
+from ._models_py3 import AccountQuotaProperties
 from ._models_py3 import AccountUpdate
 from ._models_py3 import AccountUpdateProperties
+from ._models_py3 import CheckNameAvailabilityRequest
+from ._models_py3 import CheckNameAvailabilityResponse
 from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorDetail
 from ._models_py3 import ErrorResponse
@@ -27,6 +33,7 @@ from ._models_py3 import SystemData
 from ._models_py3 import TrackedResource
 
 from ._playwright_testing_mgmt_client_enums import ActionType
+from ._playwright_testing_mgmt_client_enums import CheckNameAvailabilityReason
 from ._playwright_testing_mgmt_client_enums import CreatedByType
 from ._playwright_testing_mgmt_client_enums import EnablementStatus
 from ._playwright_testing_mgmt_client_enums import FreeTrialState
@@ -39,10 +46,16 @@ from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
     "Account",
+    "AccountFreeTrialProperties",
     "AccountListResult",
     "AccountProperties",
+    "AccountQuota",
+    "AccountQuotaListResult",
+    "AccountQuotaProperties",
     "AccountUpdate",
     "AccountUpdateProperties",
+    "CheckNameAvailabilityRequest",
+    "CheckNameAvailabilityResponse",
     "ErrorAdditionalInfo",
     "ErrorDetail",
     "ErrorResponse",
@@ -58,6 +71,7 @@ __all__ = [
     "SystemData",
     "TrackedResource",
     "ActionType",
+    "CheckNameAvailabilityReason",
     "CreatedByType",
     "EnablementStatus",
     "FreeTrialState",
