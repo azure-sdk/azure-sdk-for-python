@@ -14,7 +14,7 @@ from azure.mgmt.databricks import AzureDatabricksManagementClient
     pip install azure-identity
     pip install azure-mgmt-databricks
 # USAGE
-    python private_endpoint_connections_get.py
+    python workspace_enhanced_security_compliance_create_or_update.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,17 +26,27 @@ from azure.mgmt.databricks import AzureDatabricksManagementClient
 def main():
     client = AzureDatabricksManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="11111111-1111-1111-1111-111111111111",
+        subscription_id="subid",
     )
 
-    response = client.private_endpoint_connections.get(
-        resource_group_name="myResourceGroup",
+    response = client.workspaces.begin_create_or_update(
+        resource_group_name="rg",
         workspace_name="myWorkspace",
-        private_endpoint_connection_name="myWorkspace.23456789-1111-1111-1111-111111111111",
-    )
+        parameters={
+            "location": "eastus2",
+            "properties": {
+                "enhancedSecurityCompliance": {
+                    "automaticClusterUpdate": {"value": "Enabled"},
+                    "complianceSecurityProfile": {"complianceStandards": ["PCI_DSS", "HIPAA"], "value": "Enabled"},
+                    "enhancedSecurityMonitoring": {"value": "Enabled"},
+                },
+                "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
+            },
+        },
+    ).result()
     print(response)
 
 
-# x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2024-05-01/examples/PrivateEndpointConnectionsGet.json
+# x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2024-05-01/examples/WorkspaceEnhancedSecurityComplianceCreateOrUpdate.json
 if __name__ == "__main__":
     main()

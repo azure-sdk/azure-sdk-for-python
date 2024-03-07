@@ -55,6 +55,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/WorkspaceManagedDiskEncryptionCreate.json
+# x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2024-05-01/examples/WorkspaceManagedDiskEncryptionCreate.json
 if __name__ == "__main__":
     main()
