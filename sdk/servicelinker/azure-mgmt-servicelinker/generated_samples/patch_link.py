@@ -14,7 +14,7 @@ from azure.mgmt.servicelinker import ServiceLinkerManagementClient
     pip install azure-identity
     pip install azure-mgmt-servicelinker
 # USAGE
-    python validate_connector_success.py
+    python patch_link.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -28,15 +28,27 @@ def main():
         credential=DefaultAzureCredential(),
     )
 
-    response = client.connector.begin_validate(
-        subscription_id="00000000-0000-0000-0000-000000000000",
-        resource_group_name="test-rg",
-        location="westus",
-        connector_name="connectorName",
+    response = client.linker.begin_update(
+        resource_uri="subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Web/sites/test-app",
+        linker_name="linkName",
+        parameters={
+            "properties": {
+                "authInfo": {
+                    "authType": "servicePrincipalSecret",
+                    "clientId": "name",
+                    "principalId": "id",
+                    "secret": "secret",
+                },
+                "targetService": {
+                    "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DocumentDb/databaseAccounts/test-acc/mongodbDatabases/test-db",
+                    "type": "AzureResource",
+                },
+            }
+        },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/servicelinker/resource-manager/Microsoft.ServiceLinker/preview/2022-11-01-preview/examples/ValidateConnectorSuccess.json
+# x-ms-original-file: specification/servicelinker/resource-manager/Microsoft.ServiceLinker/stable/2023-05-01/examples/PatchLink.json
 if __name__ == "__main__":
     main()
