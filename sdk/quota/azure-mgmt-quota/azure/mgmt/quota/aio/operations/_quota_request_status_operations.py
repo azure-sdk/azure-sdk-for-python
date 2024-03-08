@@ -54,19 +54,19 @@ class QuotaRequestStatusOperations:
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace_async
-    async def get(self, id: str, scope: str, **kwargs: Any) -> _models.QuotaRequestDetails:
+    async def get(self, scope: str, id: str, **kwargs: Any) -> _models.QuotaRequestDetails:
         """Get the quota request details and status by quota request ID for the resources of the resource
         provider at a specific location. The quota request ID **id** is returned in the response of the
         PUT operation.
 
-        :param id: Quota request ID. Required.
-        :type id: str
         :param scope: The target Azure resource URI. For example,
          ``/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/``.
          This is the target Azure resource URI for the List GET operation. If a ``{resourceName}`` is
          added after ``/quotas``\ , then it's the target Azure resource URI in the GET operation for the
          specific resource. Required.
         :type scope: str
+        :param id: Quota request ID. Required.
+        :type id: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: QuotaRequestDetails or the result of cls(response)
         :rtype: ~azure.mgmt.quota.models.QuotaRequestDetails
@@ -87,8 +87,8 @@ class QuotaRequestStatusOperations:
         cls: ClsType[_models.QuotaRequestDetails] = kwargs.pop("cls", None)
 
         request = build_get_request(
-            id=id,
             scope=scope,
+            id=id,
             api_version=api_version,
             template_url=self.get.metadata["url"],
             headers=_headers,

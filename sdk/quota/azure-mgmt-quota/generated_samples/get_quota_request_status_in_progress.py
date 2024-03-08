@@ -26,15 +26,16 @@ from azure.mgmt.quota import QuotaMgmtClient
 def main():
     client = QuotaMgmtClient(
         credential=DefaultAzureCredential(),
+        subscription_id="SUBSCRIPTION_ID",
     )
 
     response = client.quota_request_status.get(
-        id="2B5C8515-37D8-4B6A-879B-CD641A2CF605",
         scope="subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/eastus",
+        id="2B5C8515-37D8-4B6A-879B-CD641A2CF605",
     )
     print(response)
 
 
-# x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/stable/2023-02-01/examples/getQuotaRequestStatusInProgress.json
+# x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/getQuotaRequestStatusInProgress.json
 if __name__ == "__main__":
     main()

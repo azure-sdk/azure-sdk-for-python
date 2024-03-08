@@ -62,10 +62,16 @@ class QuotaOperations:
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace_async
-    async def get(self, resource_name: str, scope: str, **kwargs: Any) -> _models.CurrentQuotaLimitBase:
+    async def get(self, scope: str, resource_name: str, **kwargs: Any) -> _models.CurrentQuotaLimitBase:
         """Get the quota limit of a resource. The response can be used to determine the remaining quota to
         calculate a new quota limit that can be submitted with a PUT request.
 
+        :param scope: The target Azure resource URI. For example,
+         ``/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/``.
+         This is the target Azure resource URI for the List GET operation. If a ``{resourceName}`` is
+         added after ``/quotas``\ , then it's the target Azure resource URI in the GET operation for the
+         specific resource. Required.
+        :type scope: str
         :param resource_name: Resource name for a given resource provider. For example:
 
 
@@ -73,12 +79,6 @@ class QuotaOperations:
          * SKU or TotalLowPriorityCores for Microsoft.MachineLearningServices
            For Microsoft.Network PublicIPAddresses. Required.
         :type resource_name: str
-        :param scope: The target Azure resource URI. For example,
-         ``/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/``.
-         This is the target Azure resource URI for the List GET operation. If a ``{resourceName}`` is
-         added after ``/quotas``\ , then it's the target Azure resource URI in the GET operation for the
-         specific resource. Required.
-        :type scope: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: CurrentQuotaLimitBase or the result of cls(response)
         :rtype: ~azure.mgmt.quota.models.CurrentQuotaLimitBase
@@ -99,8 +99,8 @@ class QuotaOperations:
         cls: ClsType[_models.CurrentQuotaLimitBase] = kwargs.pop("cls", None)
 
         request = build_get_request(
-            resource_name=resource_name,
             scope=scope,
+            resource_name=resource_name,
             api_version=api_version,
             template_url=self.get.metadata["url"],
             headers=_headers,
@@ -135,8 +135,8 @@ class QuotaOperations:
 
     async def _create_or_update_initial(
         self,
-        resource_name: str,
         scope: str,
+        resource_name: str,
         create_quota_request: Union[_models.CurrentQuotaLimitBase, IO],
         **kwargs: Any
     ) -> Optional[_models.CurrentQuotaLimitBase]:
@@ -164,8 +164,8 @@ class QuotaOperations:
             _json = self._serialize.body(create_quota_request, "CurrentQuotaLimitBase")
 
         request = build_create_or_update_request(
-            resource_name=resource_name,
             scope=scope,
+            resource_name=resource_name,
             api_version=api_version,
             content_type=content_type,
             json=_json,
@@ -203,8 +203,8 @@ class QuotaOperations:
     @overload
     async def begin_create_or_update(
         self,
-        resource_name: str,
         scope: str,
+        resource_name: str,
         create_quota_request: _models.CurrentQuotaLimitBase,
         *,
         content_type: str = "application/json",
@@ -221,6 +221,12 @@ class QuotaOperations:
         #. Use this PUT operation to update the quota limit. Please check the URI in location header
         for the detailed status of the request.
 
+        :param scope: The target Azure resource URI. For example,
+         ``/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/``.
+         This is the target Azure resource URI for the List GET operation. If a ``{resourceName}`` is
+         added after ``/quotas``\ , then it's the target Azure resource URI in the GET operation for the
+         specific resource. Required.
+        :type scope: str
         :param resource_name: Resource name for a given resource provider. For example:
 
 
@@ -228,12 +234,6 @@ class QuotaOperations:
          * SKU or TotalLowPriorityCores for Microsoft.MachineLearningServices
            For Microsoft.Network PublicIPAddresses. Required.
         :type resource_name: str
-        :param scope: The target Azure resource URI. For example,
-         ``/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/``.
-         This is the target Azure resource URI for the List GET operation. If a ``{resourceName}`` is
-         added after ``/quotas``\ , then it's the target Azure resource URI in the GET operation for the
-         specific resource. Required.
-        :type scope: str
         :param create_quota_request: Quota request payload. Required.
         :type create_quota_request: ~azure.mgmt.quota.models.CurrentQuotaLimitBase
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
@@ -256,8 +256,8 @@ class QuotaOperations:
     @overload
     async def begin_create_or_update(
         self,
-        resource_name: str,
         scope: str,
+        resource_name: str,
         create_quota_request: IO,
         *,
         content_type: str = "application/json",
@@ -274,6 +274,12 @@ class QuotaOperations:
         #. Use this PUT operation to update the quota limit. Please check the URI in location header
         for the detailed status of the request.
 
+        :param scope: The target Azure resource URI. For example,
+         ``/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/``.
+         This is the target Azure resource URI for the List GET operation. If a ``{resourceName}`` is
+         added after ``/quotas``\ , then it's the target Azure resource URI in the GET operation for the
+         specific resource. Required.
+        :type scope: str
         :param resource_name: Resource name for a given resource provider. For example:
 
 
@@ -281,12 +287,6 @@ class QuotaOperations:
          * SKU or TotalLowPriorityCores for Microsoft.MachineLearningServices
            For Microsoft.Network PublicIPAddresses. Required.
         :type resource_name: str
-        :param scope: The target Azure resource URI. For example,
-         ``/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/``.
-         This is the target Azure resource URI for the List GET operation. If a ``{resourceName}`` is
-         added after ``/quotas``\ , then it's the target Azure resource URI in the GET operation for the
-         specific resource. Required.
-        :type scope: str
         :param create_quota_request: Quota request payload. Required.
         :type create_quota_request: IO
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
@@ -309,8 +309,8 @@ class QuotaOperations:
     @distributed_trace_async
     async def begin_create_or_update(
         self,
-        resource_name: str,
         scope: str,
+        resource_name: str,
         create_quota_request: Union[_models.CurrentQuotaLimitBase, IO],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.CurrentQuotaLimitBase]:
@@ -325,6 +325,12 @@ class QuotaOperations:
         #. Use this PUT operation to update the quota limit. Please check the URI in location header
         for the detailed status of the request.
 
+        :param scope: The target Azure resource URI. For example,
+         ``/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/``.
+         This is the target Azure resource URI for the List GET operation. If a ``{resourceName}`` is
+         added after ``/quotas``\ , then it's the target Azure resource URI in the GET operation for the
+         specific resource. Required.
+        :type scope: str
         :param resource_name: Resource name for a given resource provider. For example:
 
 
@@ -332,12 +338,6 @@ class QuotaOperations:
          * SKU or TotalLowPriorityCores for Microsoft.MachineLearningServices
            For Microsoft.Network PublicIPAddresses. Required.
         :type resource_name: str
-        :param scope: The target Azure resource URI. For example,
-         ``/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/``.
-         This is the target Azure resource URI for the List GET operation. If a ``{resourceName}`` is
-         added after ``/quotas``\ , then it's the target Azure resource URI in the GET operation for the
-         specific resource. Required.
-        :type scope: str
         :param create_quota_request: Quota request payload. Is either a CurrentQuotaLimitBase type or a
          IO type. Required.
         :type create_quota_request: ~azure.mgmt.quota.models.CurrentQuotaLimitBase or IO
@@ -368,8 +368,8 @@ class QuotaOperations:
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
             raw_result = await self._create_or_update_initial(
-                resource_name=resource_name,
                 scope=scope,
+                resource_name=resource_name,
                 create_quota_request=create_quota_request,
                 api_version=api_version,
                 content_type=content_type,
@@ -408,8 +408,8 @@ class QuotaOperations:
 
     async def _update_initial(
         self,
-        resource_name: str,
         scope: str,
+        resource_name: str,
         create_quota_request: Union[_models.CurrentQuotaLimitBase, IO],
         **kwargs: Any
     ) -> Optional[_models.CurrentQuotaLimitBase]:
@@ -437,8 +437,8 @@ class QuotaOperations:
             _json = self._serialize.body(create_quota_request, "CurrentQuotaLimitBase")
 
         request = build_update_request(
-            resource_name=resource_name,
             scope=scope,
+            resource_name=resource_name,
             api_version=api_version,
             content_type=content_type,
             json=_json,
@@ -476,8 +476,8 @@ class QuotaOperations:
     @overload
     async def begin_update(
         self,
-        resource_name: str,
         scope: str,
+        resource_name: str,
         create_quota_request: _models.CurrentQuotaLimitBase,
         *,
         content_type: str = "application/json",
@@ -493,6 +493,12 @@ class QuotaOperations:
         #. Use this PUT operation to update the quota limit. Please check the URI in location header
         for the detailed status of the request.
 
+        :param scope: The target Azure resource URI. For example,
+         ``/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/``.
+         This is the target Azure resource URI for the List GET operation. If a ``{resourceName}`` is
+         added after ``/quotas``\ , then it's the target Azure resource URI in the GET operation for the
+         specific resource. Required.
+        :type scope: str
         :param resource_name: Resource name for a given resource provider. For example:
 
 
@@ -500,12 +506,6 @@ class QuotaOperations:
          * SKU or TotalLowPriorityCores for Microsoft.MachineLearningServices
            For Microsoft.Network PublicIPAddresses. Required.
         :type resource_name: str
-        :param scope: The target Azure resource URI. For example,
-         ``/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/``.
-         This is the target Azure resource URI for the List GET operation. If a ``{resourceName}`` is
-         added after ``/quotas``\ , then it's the target Azure resource URI in the GET operation for the
-         specific resource. Required.
-        :type scope: str
         :param create_quota_request: Quota requests payload. Required.
         :type create_quota_request: ~azure.mgmt.quota.models.CurrentQuotaLimitBase
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
@@ -528,8 +528,8 @@ class QuotaOperations:
     @overload
     async def begin_update(
         self,
-        resource_name: str,
         scope: str,
+        resource_name: str,
         create_quota_request: IO,
         *,
         content_type: str = "application/json",
@@ -545,6 +545,12 @@ class QuotaOperations:
         #. Use this PUT operation to update the quota limit. Please check the URI in location header
         for the detailed status of the request.
 
+        :param scope: The target Azure resource URI. For example,
+         ``/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/``.
+         This is the target Azure resource URI for the List GET operation. If a ``{resourceName}`` is
+         added after ``/quotas``\ , then it's the target Azure resource URI in the GET operation for the
+         specific resource. Required.
+        :type scope: str
         :param resource_name: Resource name for a given resource provider. For example:
 
 
@@ -552,12 +558,6 @@ class QuotaOperations:
          * SKU or TotalLowPriorityCores for Microsoft.MachineLearningServices
            For Microsoft.Network PublicIPAddresses. Required.
         :type resource_name: str
-        :param scope: The target Azure resource URI. For example,
-         ``/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/``.
-         This is the target Azure resource URI for the List GET operation. If a ``{resourceName}`` is
-         added after ``/quotas``\ , then it's the target Azure resource URI in the GET operation for the
-         specific resource. Required.
-        :type scope: str
         :param create_quota_request: Quota requests payload. Required.
         :type create_quota_request: IO
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
@@ -580,8 +580,8 @@ class QuotaOperations:
     @distributed_trace_async
     async def begin_update(
         self,
-        resource_name: str,
         scope: str,
+        resource_name: str,
         create_quota_request: Union[_models.CurrentQuotaLimitBase, IO],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.CurrentQuotaLimitBase]:
@@ -595,6 +595,12 @@ class QuotaOperations:
         #. Use this PUT operation to update the quota limit. Please check the URI in location header
         for the detailed status of the request.
 
+        :param scope: The target Azure resource URI. For example,
+         ``/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/``.
+         This is the target Azure resource URI for the List GET operation. If a ``{resourceName}`` is
+         added after ``/quotas``\ , then it's the target Azure resource URI in the GET operation for the
+         specific resource. Required.
+        :type scope: str
         :param resource_name: Resource name for a given resource provider. For example:
 
 
@@ -602,12 +608,6 @@ class QuotaOperations:
          * SKU or TotalLowPriorityCores for Microsoft.MachineLearningServices
            For Microsoft.Network PublicIPAddresses. Required.
         :type resource_name: str
-        :param scope: The target Azure resource URI. For example,
-         ``/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/qms-test/providers/Microsoft.Batch/batchAccounts/testAccount/``.
-         This is the target Azure resource URI for the List GET operation. If a ``{resourceName}`` is
-         added after ``/quotas``\ , then it's the target Azure resource URI in the GET operation for the
-         specific resource. Required.
-        :type scope: str
         :param create_quota_request: Quota requests payload. Is either a CurrentQuotaLimitBase type or
          a IO type. Required.
         :type create_quota_request: ~azure.mgmt.quota.models.CurrentQuotaLimitBase or IO
@@ -638,8 +638,8 @@ class QuotaOperations:
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
             raw_result = await self._update_initial(
-                resource_name=resource_name,
                 scope=scope,
+                resource_name=resource_name,
                 create_quota_request=create_quota_request,
                 api_version=api_version,
                 content_type=content_type,
