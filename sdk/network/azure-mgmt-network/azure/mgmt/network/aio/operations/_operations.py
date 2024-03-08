@@ -46,7 +46,6 @@ from ...operations._operations import (
     build_application_gateway_private_endpoint_connections_update_request,
     build_application_gateway_private_link_resources_list_request,
     build_application_gateway_waf_dynamic_manifests_default_get_request,
-    build_application_gateway_waf_dynamic_manifests_get_request,
     build_application_gateways_backend_health_on_demand_request,
     build_application_gateways_backend_health_request,
     build_application_gateways_create_or_update_request,
@@ -64,7 +63,6 @@ from ...operations._operations import (
     build_application_gateways_start_request,
     build_application_gateways_stop_request,
     build_application_gateways_update_tags_request,
-    build_application_security_groups_create_or_update_request,
     build_application_security_groups_delete_request,
     build_application_security_groups_get_request,
     build_application_security_groups_list_all_request,
@@ -690,6 +688,7 @@ from ...operations._operations import build_public_ip_addresses_update_tags_requ
 from ...operations._operations import build_route_tables_update_tags_request
 from ...operations._operations import build_virtual_networks_update_tags_request
 from ...operations._operations import build_virtual_networks_get_bastion_hosts_request
+from ...operations._operations import build_application_security_groups_create_or_update_request
 from ...operations._operations import build_application_security_groups_update_tags_request
 from ...operations._operations import build_route_filter_rules_update_request
 from ...operations._operations import build_route_filters_update_request
@@ -785,6 +784,7 @@ from ...operations._operations import build_user_rules_create_or_update_request
 from ...operations._operations import build_user_rules_delete_request
 from ...operations._operations import build_user_rules_get_request
 from ...operations._operations import build_user_rules_list_request
+from ...operations._operations import build_application_gateway_waf_dynamic_manifests_get_request
 class ApplicationGatewaysOperations:
     """
     
@@ -18184,7 +18184,7 @@ class ApplicationSecurityGroupsOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-06-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.ApplicationSecurityGroup] = kwargs.pop("cls", None)
 
@@ -18280,6 +18280,9 @@ class ApplicationSecurityGroupsOperations:
 
     _delete_initial.metadata = {'url': '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}'}
 
+    @api_version_validation(
+       method_valid_on=['2017-10-01', '2018-04-01', '2018-11-01', '2018-12-01', '2019-02-01', '2019-04-01', '2019-06-01', '2019-07-01', '2019-08-01', '2019-09-01', '2019-11-01', '2019-12-01', '2020-03-01', '2020-04-01', '2020-05-01', '2020-06-01', '2020-07-01', '2020-08-01', '2020-11-01', '2021-02-01', '2023-02-01', '2023-04-01', '2023-05-01', '2023-06-01'],
+    )
     @distributed_trace_async
     async def begin_create_or_update(
         self,
@@ -18317,7 +18320,7 @@ class ApplicationSecurityGroupsOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-06-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.ApplicationSecurityGroup] = kwargs.pop("cls", None)
         polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
@@ -70329,7 +70332,7 @@ class ApplicationGatewayWafDynamicManifestsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-09-01"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-06-01"))
         cls: ClsType[_models.ApplicationGatewayWafDynamicManifestResultList] = kwargs.pop("cls", None)
 
         error_map = {

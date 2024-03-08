@@ -221,6 +221,7 @@ class NetworkManagementClient(NetworkManagementClientOperationsMixin, MultiApiCl
             'active_connectivity_configurations': '2021-02-01-preview',
             'active_security_admin_rules': '2021-02-01-preview',
             'active_security_user_rules': '2021-02-01-preview',
+            'application_gateway_waf_dynamic_manifests': '2023-06-01',
             'effective_connectivity_configurations': '2021-02-01-preview',
             'effective_virtual_networks': '2021-02-01-preview',
             'firewall_policy_rule_groups': '2020-04-01',
@@ -2191,7 +2192,7 @@ class NetworkManagementClient(NetworkManagementClientOperationsMixin, MultiApiCl
 
     @property
     @api_version_validation(
-        method_valid_on=['2023-02-01', '2023-04-01', '2023-05-01', '2023-06-01', '2023-09-01']
+        method_valid_on=['2023-02-01', '2023-04-01', '2023-05-01', '2023-06-01']
     )
     def application_gateway_waf_dynamic_manifests(self):
         api_version = self._get_api_version("application_gateway_waf_dynamic_manifests")

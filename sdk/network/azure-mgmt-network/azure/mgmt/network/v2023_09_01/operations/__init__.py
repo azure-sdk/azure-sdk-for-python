@@ -10,7 +10,6 @@ from ._operations import ApplicationGatewaysOperations
 from ._operations import ApplicationGatewayPrivateLinkResourcesOperations
 from ._operations import ApplicationGatewayPrivateEndpointConnectionsOperations
 from ._operations import ApplicationGatewayWafDynamicManifestsDefaultOperations
-from ._operations import ApplicationGatewayWafDynamicManifestsOperations
 from ._operations import ApplicationSecurityGroupsOperations
 from ._operations import AvailableDelegationsOperations
 from ._operations import AvailableResourceGroupDelegationsOperations
@@ -149,7 +148,6 @@ __all__ = [
     "ApplicationGatewayPrivateLinkResourcesOperations",
     "ApplicationGatewayPrivateEndpointConnectionsOperations",
     "ApplicationGatewayWafDynamicManifestsDefaultOperations",
-    "ApplicationGatewayWafDynamicManifestsOperations",
     "ApplicationSecurityGroupsOperations",
     "AvailableDelegationsOperations",
     "AvailableResourceGroupDelegationsOperations",

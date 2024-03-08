@@ -109,7 +109,6 @@
         "application_gateway_private_link_resources": "ApplicationGatewayPrivateLinkResourcesOperations",
         "application_gateway_private_endpoint_connections": "ApplicationGatewayPrivateEndpointConnectionsOperations",
         "application_gateway_waf_dynamic_manifests_default": "ApplicationGatewayWafDynamicManifestsDefaultOperations",
-        "application_gateway_waf_dynamic_manifests": "ApplicationGatewayWafDynamicManifestsOperations",
         "application_security_groups": "ApplicationSecurityGroupsOperations",
         "available_delegations": "AvailableDelegationsOperations",
         "available_resource_group_delegations": "AvailableResourceGroupDelegationsOperations",

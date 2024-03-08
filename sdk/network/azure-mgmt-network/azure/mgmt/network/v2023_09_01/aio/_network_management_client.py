@@ -21,7 +21,6 @@ from .operations import (
     ApplicationGatewayPrivateEndpointConnectionsOperations,
     ApplicationGatewayPrivateLinkResourcesOperations,
     ApplicationGatewayWafDynamicManifestsDefaultOperations,
-    ApplicationGatewayWafDynamicManifestsOperations,
     ApplicationGatewaysOperations,
     ApplicationSecurityGroupsOperations,
     AvailableDelegationsOperations,
@@ -176,10 +175,6 @@ class NetworkManagementClient(
      ApplicationGatewayWafDynamicManifestsDefaultOperations operations
     :vartype application_gateway_waf_dynamic_manifests_default:
      azure.mgmt.network.v2023_09_01.aio.operations.ApplicationGatewayWafDynamicManifestsDefaultOperations
-    :ivar application_gateway_waf_dynamic_manifests:
-     ApplicationGatewayWafDynamicManifestsOperations operations
-    :vartype application_gateway_waf_dynamic_manifests:
-     azure.mgmt.network.v2023_09_01.aio.operations.ApplicationGatewayWafDynamicManifestsOperations
     :ivar application_security_groups: ApplicationSecurityGroupsOperations operations
     :vartype application_security_groups:
      azure.mgmt.network.v2023_09_01.aio.operations.ApplicationSecurityGroupsOperations
@@ -588,9 +583,6 @@ class NetworkManagementClient(
             self._client, self._config, self._serialize, self._deserialize, "2023-09-01"
         )
         self.application_gateway_waf_dynamic_manifests_default = ApplicationGatewayWafDynamicManifestsDefaultOperations(
-            self._client, self._config, self._serialize, self._deserialize, "2023-09-01"
-        )
-        self.application_gateway_waf_dynamic_manifests = ApplicationGatewayWafDynamicManifestsOperations(
             self._client, self._config, self._serialize, self._deserialize, "2023-09-01"
         )
         self.application_security_groups = ApplicationSecurityGroupsOperations(
