@@ -35,6 +35,13 @@ def main():
         parameters={
             "location": "westus",
             "properties": {
+                "accessConnector": {
+                    "id": "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/adbrg/providers/Microsoft.Databricks/accessConnectors/myAccessConnector",
+                    "identityType": "UserAssigned",
+                    "userAssignedIdentityId": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myIdentity",
+                },
+                "defaultCatalog": {"initialName": "", "initialType": "HiveMetastore"},
+                "defaultStorageFirewall": "Enabled",
                 "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
                 "parameters": {
                     "customPrivateSubnetName": {"value": "myPrivateSubnet"},
@@ -49,6 +56,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/WorkspaceCreateWithParameters.json
+# x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2024-05-01/examples/WorkspaceCreateWithParameters.json
 if __name__ == "__main__":
     main()
