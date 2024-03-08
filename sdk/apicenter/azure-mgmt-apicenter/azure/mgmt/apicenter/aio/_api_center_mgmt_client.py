@@ -33,7 +33,7 @@ if TYPE_CHECKING:
 
 
 class ApiCenterMgmtClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
-    """Azure API Center Resource Provider.
+    """Azure API Center Resource Provider. tetetetetetet.
 
     :ivar operations: Operations operations
     :vartype operations: azure.mgmt.apicenter.aio.operations.Operations
@@ -59,7 +59,7 @@ class ApiCenterMgmtClient:  # pylint: disable=client-accepts-api-version-keyword
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2024-03-01". Note that overriding this
+    :keyword api_version: Api Version. Default value is "2023-03-01". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no

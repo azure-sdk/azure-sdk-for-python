@@ -176,5 +176,5 @@ class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 class Versions(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The available API versions."""
 
-    V2024_03_01 = "2024-03-01"
+    V2024_03_01 = "2023-03-01"
     """The initial service version"""
