@@ -846,7 +846,7 @@ class ProductsOperations:
     @distributed_trace_async
     async def count_devices(
         self, resource_group_name: str, catalog_name: str, product_name: str, **kwargs: Any
-    ) -> _models.CountDeviceResponse:
+    ) -> _models.CountDevicesResponse:
         """Counts devices in product. '.default' and '.unassigned' are system defined values and cannot be
         used for product name.
 
@@ -858,8 +858,8 @@ class ProductsOperations:
         :param product_name: Name of product. Required.
         :type product_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: CountDeviceResponse or the result of cls(response)
-        :rtype: ~azure.mgmt.sphere.models.CountDeviceResponse
+        :return: CountDevicesResponse or the result of cls(response)
+        :rtype: ~azure.mgmt.sphere.models.CountDevicesResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map = {
@@ -874,7 +874,7 @@ class ProductsOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.CountDeviceResponse] = kwargs.pop("cls", None)
+        cls: ClsType[_models.CountDevicesResponse] = kwargs.pop("cls", None)
 
         request = build_count_devices_request(
             resource_group_name=resource_group_name,
@@ -901,7 +901,7 @@ class ProductsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("CountDeviceResponse", pipeline_response)
+        deserialized = self._deserialize("CountDevicesResponse", pipeline_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})

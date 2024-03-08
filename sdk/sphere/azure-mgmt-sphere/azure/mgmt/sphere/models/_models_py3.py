@@ -134,6 +134,8 @@ class Catalog(TrackedResource):
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
+    :ivar tenant_id: The Azure Sphere tenant ID associated with the catalog.
+    :vartype tenant_id: str
     :ivar provisioning_state: The status of the last operation. Known values are: "Succeeded",
      "Failed", "Canceled", "Provisioning", "Updating", "Deleting", and "Accepted".
     :vartype provisioning_state: str or ~azure.mgmt.sphere.models.ProvisioningState
@@ -145,6 +147,7 @@ class Catalog(TrackedResource):
         "type": {"readonly": True},
         "system_data": {"readonly": True},
         "location": {"required": True},
+        "tenant_id": {"readonly": True},
         "provisioning_state": {"readonly": True},
     }
 
@@ -155,6 +158,7 @@ class Catalog(TrackedResource):
         "system_data": {"key": "systemData", "type": "SystemData"},
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
+        "tenant_id": {"key": "properties.tenantId", "type": "str"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
     }
 
@@ -166,11 +170,14 @@ class Catalog(TrackedResource):
         :paramtype location: str
         """
         super().__init__(tags=tags, location=location, **kwargs)
+        self.tenant_id = None
         self.provisioning_state = None
 
 
 class CatalogListResult(_serialization.Model):
     """The response of a Catalog list operation.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
 
     All required parameters must be populated in order to send to Azure.
 
@@ -182,6 +189,7 @@ class CatalogListResult(_serialization.Model):
 
     _validation = {
         "value": {"required": True},
+        "next_link": {"readonly": True},
     }
 
     _attribute_map = {
@@ -189,16 +197,14 @@ class CatalogListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: List["_models.Catalog"], next_link: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(self, *, value: List["_models.Catalog"], **kwargs: Any) -> None:
         """
         :keyword value: The Catalog items on this page. Required.
         :paramtype value: list[~azure.mgmt.sphere.models.Catalog]
-        :keyword next_link: The link to the next page of items.
-        :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = next_link
+        self.next_link = None
 
 
 class CatalogUpdate(_serialization.Model):
@@ -359,6 +365,8 @@ class CertificateChainResponse(_serialization.Model):
 class CertificateListResult(_serialization.Model):
     """The response of a Certificate list operation.
 
+    Variables are only populated by the server, and will be ignored when sending a request.
+
     All required parameters must be populated in order to send to Azure.
 
     :ivar value: The Certificate items on this page. Required.
@@ -369,6 +377,7 @@ class CertificateListResult(_serialization.Model):
 
     _validation = {
         "value": {"required": True},
+        "next_link": {"readonly": True},
     }
 
     _attribute_map = {
@@ -376,16 +385,14 @@ class CertificateListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: List["_models.Certificate"], next_link: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(self, *, value: List["_models.Certificate"], **kwargs: Any) -> None:
         """
         :keyword value: The Certificate items on this page. Required.
         :paramtype value: list[~azure.mgmt.sphere.models.Certificate]
-        :keyword next_link: The link to the next page of items.
-        :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = next_link
+        self.next_link = None
 
 
 class CertificateProperties(_serialization.Model):
@@ -496,6 +503,31 @@ class CountElementsResponse(_serialization.Model):
 
 
 class CountDeviceResponse(CountElementsResponse):
+    """Response to the action call for count devices in a catalog (preview API).
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar value: Number of children resources in parent resource. Required.
+    :vartype value: int
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "int"},
+    }
+
+    def __init__(self, *, value: int, **kwargs: Any) -> None:
+        """
+        :keyword value: Number of children resources in parent resource. Required.
+        :paramtype value: int
+        """
+        super().__init__(value=value, **kwargs)
+
+
+class CountDevicesResponse(CountElementsResponse):
     """Response to the action call for count devices in a catalog.
 
     All required parameters must be populated in order to send to Azure.
@@ -590,6 +622,8 @@ class Deployment(ProxyResource):
 class DeploymentListResult(_serialization.Model):
     """The response of a Deployment list operation.
 
+    Variables are only populated by the server, and will be ignored when sending a request.
+
     All required parameters must be populated in order to send to Azure.
 
     :ivar value: The Deployment items on this page. Required.
@@ -600,6 +634,7 @@ class DeploymentListResult(_serialization.Model):
 
     _validation = {
         "value": {"required": True},
+        "next_link": {"readonly": True},
     }
 
     _attribute_map = {
@@ -607,16 +642,14 @@ class DeploymentListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: List["_models.Deployment"], next_link: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(self, *, value: List["_models.Deployment"], **kwargs: Any) -> None:
         """
         :keyword value: The Deployment items on this page. Required.
         :paramtype value: list[~azure.mgmt.sphere.models.Deployment]
-        :keyword next_link: The link to the next page of items.
-        :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = next_link
+        self.next_link = None
 
 
 class Device(ProxyResource):  # pylint: disable=too-many-instance-attributes
@@ -795,6 +828,8 @@ class DeviceGroup(ProxyResource):  # pylint: disable=too-many-instance-attribute
 class DeviceGroupListResult(_serialization.Model):
     """The response of a DeviceGroup list operation.
 
+    Variables are only populated by the server, and will be ignored when sending a request.
+
     All required parameters must be populated in order to send to Azure.
 
     :ivar value: The DeviceGroup items on this page. Required.
@@ -805,6 +840,7 @@ class DeviceGroupListResult(_serialization.Model):
 
     _validation = {
         "value": {"required": True},
+        "next_link": {"readonly": True},
     }
 
     _attribute_map = {
@@ -812,16 +848,14 @@ class DeviceGroupListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: List["_models.DeviceGroup"], next_link: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(self, *, value: List["_models.DeviceGroup"], **kwargs: Any) -> None:
         """
         :keyword value: The DeviceGroup items on this page. Required.
         :paramtype value: list[~azure.mgmt.sphere.models.DeviceGroup]
-        :keyword next_link: The link to the next page of items.
-        :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = next_link
+        self.next_link = None
 
 
 class DeviceGroupUpdate(_serialization.Model):
@@ -977,6 +1011,8 @@ class DeviceInsight(_serialization.Model):
 class DeviceListResult(_serialization.Model):
     """The response of a Device list operation.
 
+    Variables are only populated by the server, and will be ignored when sending a request.
+
     All required parameters must be populated in order to send to Azure.
 
     :ivar value: The Device items on this page. Required.
@@ -987,6 +1023,7 @@ class DeviceListResult(_serialization.Model):
 
     _validation = {
         "value": {"required": True},
+        "next_link": {"readonly": True},
     }
 
     _attribute_map = {
@@ -994,16 +1031,14 @@ class DeviceListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: List["_models.Device"], next_link: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(self, *, value: List["_models.Device"], **kwargs: Any) -> None:
         """
         :keyword value: The Device items on this page. Required.
         :paramtype value: list[~azure.mgmt.sphere.models.Device]
-        :keyword next_link: The link to the next page of items.
-        :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = next_link
+        self.next_link = None
 
 
 class DevicePatchProperties(_serialization.Model):
@@ -1276,6 +1311,8 @@ class Image(ProxyResource):  # pylint: disable=too-many-instance-attributes
 class ImageListResult(_serialization.Model):
     """The response of a Image list operation.
 
+    Variables are only populated by the server, and will be ignored when sending a request.
+
     All required parameters must be populated in order to send to Azure.
 
     :ivar value: The Image items on this page. Required.
@@ -1286,6 +1323,7 @@ class ImageListResult(_serialization.Model):
 
     _validation = {
         "value": {"required": True},
+        "next_link": {"readonly": True},
     }
 
     _attribute_map = {
@@ -1293,42 +1331,14 @@ class ImageListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: List["_models.Image"], next_link: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(self, *, value: List["_models.Image"], **kwargs: Any) -> None:
         """
         :keyword value: The Image items on this page. Required.
         :paramtype value: list[~azure.mgmt.sphere.models.Image]
-        :keyword next_link: The link to the next page of items.
-        :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = next_link
-
-
-class ImageUploadRequestBody(_serialization.Model):
-    """Image upload request body.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar images: . Required.
-    :vartype images: str
-    """
-
-    _validation = {
-        "images": {"required": True},
-    }
-
-    _attribute_map = {
-        "images": {"key": "images", "type": "str"},
-    }
-
-    def __init__(self, *, images: str, **kwargs: Any) -> None:
-        """
-        :keyword images: . Required.
-        :paramtype images: str
-        """
-        super().__init__(**kwargs)
-        self.images = images
+        self.next_link = None
 
 
 class ListDeviceGroupsRequest(_serialization.Model):
@@ -1475,6 +1485,8 @@ class OperationListResult(_serialization.Model):
 class PagedDeviceInsight(_serialization.Model):
     """Paged collection of DeviceInsight items.
 
+    Variables are only populated by the server, and will be ignored when sending a request.
+
     All required parameters must be populated in order to send to Azure.
 
     :ivar value: The DeviceInsight items on this page. Required.
@@ -1485,6 +1497,7 @@ class PagedDeviceInsight(_serialization.Model):
 
     _validation = {
         "value": {"required": True},
+        "next_link": {"readonly": True},
     }
 
     _attribute_map = {
@@ -1492,16 +1505,14 @@ class PagedDeviceInsight(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: List["_models.DeviceInsight"], next_link: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(self, *, value: List["_models.DeviceInsight"], **kwargs: Any) -> None:
         """
         :keyword value: The DeviceInsight items on this page. Required.
         :paramtype value: list[~azure.mgmt.sphere.models.DeviceInsight]
-        :keyword next_link: The link to the next page of items.
-        :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = next_link
+        self.next_link = None
 
 
 class Product(ProxyResource):
@@ -1557,6 +1568,8 @@ class Product(ProxyResource):
 class ProductListResult(_serialization.Model):
     """The response of a Product list operation.
 
+    Variables are only populated by the server, and will be ignored when sending a request.
+
     All required parameters must be populated in order to send to Azure.
 
     :ivar value: The Product items on this page. Required.
@@ -1567,6 +1580,7 @@ class ProductListResult(_serialization.Model):
 
     _validation = {
         "value": {"required": True},
+        "next_link": {"readonly": True},
     }
 
     _attribute_map = {
@@ -1574,16 +1588,14 @@ class ProductListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: List["_models.Product"], next_link: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(self, *, value: List["_models.Product"], **kwargs: Any) -> None:
         """
         :keyword value: The Product items on this page. Required.
         :paramtype value: list[~azure.mgmt.sphere.models.Product]
-        :keyword next_link: The link to the next page of items.
-        :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = next_link
+        self.next_link = None
 
 
 class ProductUpdate(_serialization.Model):
