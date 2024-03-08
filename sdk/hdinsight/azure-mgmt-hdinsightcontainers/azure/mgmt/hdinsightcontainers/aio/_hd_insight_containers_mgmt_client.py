@@ -18,8 +18,13 @@ from ._configuration import HDInsightContainersMgmtClientConfiguration
 from .operations import (
     AvailableClusterPoolVersionsOperations,
     AvailableClusterVersionsOperations,
+    ClusterAvailableUpgradesOperations,
     ClusterJobsOperations,
+    ClusterLibrariesOperations,
+    ClusterPoolAvailableUpgradesOperations,
+    ClusterPoolUpgradeHistoriesOperations,
     ClusterPoolsOperations,
+    ClusterUpgradeHistoriesOperations,
     ClustersOperations,
     LocationsOperations,
     Operations,
@@ -31,12 +36,24 @@ if TYPE_CHECKING:
 
 
 class HDInsightContainersMgmtClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
-    """HDInsight On Aks Management Client.
+    """HDInsight Containers Management Client.
 
     :ivar cluster_pools: ClusterPoolsOperations operations
     :vartype cluster_pools: azure.mgmt.hdinsightcontainers.aio.operations.ClusterPoolsOperations
+    :ivar cluster_pool_available_upgrades: ClusterPoolAvailableUpgradesOperations operations
+    :vartype cluster_pool_available_upgrades:
+     azure.mgmt.hdinsightcontainers.aio.operations.ClusterPoolAvailableUpgradesOperations
+    :ivar cluster_pool_upgrade_histories: ClusterPoolUpgradeHistoriesOperations operations
+    :vartype cluster_pool_upgrade_histories:
+     azure.mgmt.hdinsightcontainers.aio.operations.ClusterPoolUpgradeHistoriesOperations
     :ivar clusters: ClustersOperations operations
     :vartype clusters: azure.mgmt.hdinsightcontainers.aio.operations.ClustersOperations
+    :ivar cluster_available_upgrades: ClusterAvailableUpgradesOperations operations
+    :vartype cluster_available_upgrades:
+     azure.mgmt.hdinsightcontainers.aio.operations.ClusterAvailableUpgradesOperations
+    :ivar cluster_upgrade_histories: ClusterUpgradeHistoriesOperations operations
+    :vartype cluster_upgrade_histories:
+     azure.mgmt.hdinsightcontainers.aio.operations.ClusterUpgradeHistoriesOperations
     :ivar cluster_jobs: ClusterJobsOperations operations
     :vartype cluster_jobs: azure.mgmt.hdinsightcontainers.aio.operations.ClusterJobsOperations
     :ivar locations: LocationsOperations operations
@@ -49,14 +66,17 @@ class HDInsightContainersMgmtClient:  # pylint: disable=client-accepts-api-versi
     :ivar available_cluster_versions: AvailableClusterVersionsOperations operations
     :vartype available_cluster_versions:
      azure.mgmt.hdinsightcontainers.aio.operations.AvailableClusterVersionsOperations
+    :ivar cluster_libraries: ClusterLibrariesOperations operations
+    :vartype cluster_libraries:
+     azure.mgmt.hdinsightcontainers.aio.operations.ClusterLibrariesOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
     :param subscription_id: The ID of the target subscription. The value must be an UUID. Required.
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2023-06-01-preview". Note that overriding
-     this default value may result in unsupported behavior.
+    :keyword api_version: Api Version. Default value is "2024-05-01". Note that overriding this
+     default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
      Retry-After header is present.
@@ -79,7 +99,19 @@ class HDInsightContainersMgmtClient:  # pylint: disable=client-accepts-api-versi
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
         self.cluster_pools = ClusterPoolsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.cluster_pool_available_upgrades = ClusterPoolAvailableUpgradesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.cluster_pool_upgrade_histories = ClusterPoolUpgradeHistoriesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.clusters = ClustersOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.cluster_available_upgrades = ClusterAvailableUpgradesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.cluster_upgrade_histories = ClusterUpgradeHistoriesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.cluster_jobs = ClusterJobsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.locations = LocationsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
@@ -87,6 +119,9 @@ class HDInsightContainersMgmtClient:  # pylint: disable=client-accepts-api-versi
             self._client, self._config, self._serialize, self._deserialize
         )
         self.available_cluster_versions = AvailableClusterVersionsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.cluster_libraries = ClusterLibrariesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
 
