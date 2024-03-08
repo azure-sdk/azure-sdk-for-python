@@ -78,6 +78,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/CrossRegionRestore/ValidateCrossRegionRestore.json
+# x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-12-01/examples/CrossRegionRestore/ValidateCrossRegionRestore.json
 if __name__ == "__main__":
     main()
