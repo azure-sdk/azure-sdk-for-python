@@ -281,7 +281,6 @@ from ._compute_management_client_enums import ArchitectureTypes
 from ._compute_management_client_enums import AvailabilitySetSkuTypes
 from ._compute_management_client_enums import CachingTypes
 from ._compute_management_client_enums import CapacityReservationGroupInstanceViewTypes
-from ._compute_management_client_enums import CapacityReservationInstanceViewTypes
 from ._compute_management_client_enums import ConsistencyModeTypes
 from ._compute_management_client_enums import DedicatedHostLicenseTypes
 from ._compute_management_client_enums import DeleteOptions
@@ -638,7 +637,6 @@ __all__ = [
     "AvailabilitySetSkuTypes",
     "CachingTypes",
     "CapacityReservationGroupInstanceViewTypes",
-    "CapacityReservationInstanceViewTypes",
     "ConsistencyModeTypes",
     "DedicatedHostLicenseTypes",
     "DeleteOptions",

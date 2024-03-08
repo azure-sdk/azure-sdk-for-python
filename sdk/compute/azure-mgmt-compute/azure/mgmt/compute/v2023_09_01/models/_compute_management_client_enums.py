@@ -50,12 +50,6 @@ class CapacityReservationGroupInstanceViewTypes(str, Enum, metaclass=CaseInsensi
     INSTANCE_VIEW = "instanceView"
 
 
-class CapacityReservationInstanceViewTypes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """CapacityReservationInstanceViewTypes."""
-
-    INSTANCE_VIEW = "instanceView"
-
-
 class ConsistencyModeTypes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """ConsistencyMode of the RestorePoint. Can be specified in the input while creating a restore
     point. For now, only CrashConsistent is accepted as a valid input. Please refer to
