@@ -73,17 +73,19 @@ class MonitorManagementClient:  # pylint: disable=client-accepts-api-version-key
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
         self.diagnostic_settings_category = DiagnosticSettingsCategoryOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2017-05-01-preview"
         )
         self.diagnostic_settings = DiagnosticSettingsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2017-05-01-preview"
         )
         self.metric_definitions = MetricDefinitionsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2017-05-01-preview"
         )
-        self.metrics = MetricsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.metrics = MetricsOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2017-05-01-preview"
+        )
         self.subscription_diagnostic_settings = SubscriptionDiagnosticSettingsOperations(
-            self._client, self._config, self._serialize, self._deserialize
+            self._client, self._config, self._serialize, self._deserialize, "2017-05-01-preview"
         )
 
     def _send_request(self, request: HttpRequest, **kwargs: Any) -> HttpResponse:

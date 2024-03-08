@@ -85,8 +85,8 @@ class AzureResource(_serialization.Model):
     :vartype name: str
     :ivar type: The type of the resource.
     :vartype type: str
-    :ivar location: The location of the resource. Since Azure Activity Log Alerts is a global
-     service, the location of the rules should always be 'global'.
+    :ivar location: The location of the resource. Azure Activity Log Alert rules are supported on
+     Global, West Europe and North Europe regions.
     :vartype location: str
     :ivar tags: The tags of the resource.
     :vartype tags: dict[str, str]
@@ -108,8 +108,8 @@ class AzureResource(_serialization.Model):
 
     def __init__(self, *, location: str = "global", tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
-        :keyword location: The location of the resource. Since Azure Activity Log Alerts is a global
-         service, the location of the rules should always be 'global'.
+        :keyword location: The location of the resource. Azure Activity Log Alert rules are supported
+         on Global, West Europe and North Europe regions.
         :paramtype location: str
         :keyword tags: The tags of the resource.
         :paramtype tags: dict[str, str]
@@ -133,8 +133,8 @@ class ActivityLogAlertResource(AzureResource):
     :vartype name: str
     :ivar type: The type of the resource.
     :vartype type: str
-    :ivar location: The location of the resource. Since Azure Activity Log Alerts is a global
-     service, the location of the rules should always be 'global'.
+    :ivar location: The location of the resource. Azure Activity Log Alert rules are supported on
+     Global, West Europe and North Europe regions.
     :vartype location: str
     :ivar tags: The tags of the resource.
     :vartype tags: dict[str, str]
@@ -185,8 +185,8 @@ class ActivityLogAlertResource(AzureResource):
         **kwargs: Any
     ) -> None:
         """
-        :keyword location: The location of the resource. Since Azure Activity Log Alerts is a global
-         service, the location of the rules should always be 'global'.
+        :keyword location: The location of the resource. Azure Activity Log Alert rules are supported
+         on Global, West Europe and North Europe regions.
         :paramtype location: str
         :keyword tags: The tags of the resource.
         :paramtype tags: dict[str, str]
