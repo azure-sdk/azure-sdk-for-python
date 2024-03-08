@@ -382,6 +382,8 @@ class FleetHubProfile(_serialization.Model):
 class FleetListResult(_serialization.Model):
     """The response of a Fleet list operation.
 
+    Variables are only populated by the server, and will be ignored when sending a request.
+
     All required parameters must be populated in order to send to Azure.
 
     :ivar value: The Fleet items on this page. Required.
@@ -392,6 +394,7 @@ class FleetListResult(_serialization.Model):
 
     _validation = {
         "value": {"required": True},
+        "next_link": {"readonly": True},
     }
 
     _attribute_map = {
@@ -399,16 +402,14 @@ class FleetListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: List["_models.Fleet"], next_link: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(self, *, value: List["_models.Fleet"], **kwargs: Any) -> None:
         """
         :keyword value: The Fleet items on this page. Required.
         :paramtype value: list[~azure.mgmt.containerservicefleet.v2023_03_15_preview.models.Fleet]
-        :keyword next_link: The link to the next page of items.
-        :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = next_link
+        self.next_link = None
 
 
 class ProxyResource(Resource):
@@ -524,6 +525,8 @@ class FleetMember(ProxyResource):
 class FleetMemberListResult(_serialization.Model):
     """The response of a FleetMember list operation.
 
+    Variables are only populated by the server, and will be ignored when sending a request.
+
     All required parameters must be populated in order to send to Azure.
 
     :ivar value: The FleetMember items on this page. Required.
@@ -534,6 +537,7 @@ class FleetMemberListResult(_serialization.Model):
 
     _validation = {
         "value": {"required": True},
+        "next_link": {"readonly": True},
     }
 
     _attribute_map = {
@@ -541,17 +545,15 @@ class FleetMemberListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: List["_models.FleetMember"], next_link: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(self, *, value: List["_models.FleetMember"], **kwargs: Any) -> None:
         """
         :keyword value: The FleetMember items on this page. Required.
         :paramtype value:
          list[~azure.mgmt.containerservicefleet.v2023_03_15_preview.models.FleetMember]
-        :keyword next_link: The link to the next page of items.
-        :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = next_link
+        self.next_link = None
 
 
 class FleetMemberUpdate(_serialization.Model):
@@ -631,10 +633,8 @@ class ManagedClusterUpgradeSpec(_serialization.Model):
 
     All required parameters must be populated in order to send to Azure.
 
-    :ivar type: The upgrade type.
-     Full requires the KubernetesVersion property to be set.
-     NodeImageOnly requires the KubernetesVersion property not to be set. Required. Known values
-     are: "Full" and "NodeImageOnly".
+    :ivar type: ManagedClusterUpgradeType is the type of upgrade to be applied. Required. Known
+     values are: "Full" and "NodeImageOnly".
     :vartype type: str or
      ~azure.mgmt.containerservicefleet.v2023_03_15_preview.models.ManagedClusterUpgradeType
     :ivar kubernetes_version: The Kubernetes version to upgrade the member clusters to.
@@ -658,10 +658,8 @@ class ManagedClusterUpgradeSpec(_serialization.Model):
         **kwargs: Any
     ) -> None:
         """
-        :keyword type: The upgrade type.
-         Full requires the KubernetesVersion property to be set.
-         NodeImageOnly requires the KubernetesVersion property not to be set. Required. Known values
-         are: "Full" and "NodeImageOnly".
+        :keyword type: ManagedClusterUpgradeType is the type of upgrade to be applied. Required. Known
+         values are: "Full" and "NodeImageOnly".
         :paramtype type: str or
          ~azure.mgmt.containerservicefleet.v2023_03_15_preview.models.ManagedClusterUpgradeType
         :keyword kubernetes_version: The Kubernetes version to upgrade the member clusters to.
@@ -1054,6 +1052,8 @@ class UpdateRun(ProxyResource):
 class UpdateRunListResult(_serialization.Model):
     """The response of a UpdateRun list operation.
 
+    Variables are only populated by the server, and will be ignored when sending a request.
+
     All required parameters must be populated in order to send to Azure.
 
     :ivar value: The UpdateRun items on this page. Required.
@@ -1064,6 +1064,7 @@ class UpdateRunListResult(_serialization.Model):
 
     _validation = {
         "value": {"required": True},
+        "next_link": {"readonly": True},
     }
 
     _attribute_map = {
@@ -1071,16 +1072,14 @@ class UpdateRunListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: List["_models.UpdateRun"], next_link: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(self, *, value: List["_models.UpdateRun"], **kwargs: Any) -> None:
         """
         :keyword value: The UpdateRun items on this page. Required.
         :paramtype value: list[~azure.mgmt.containerservicefleet.v2023_03_15_preview.models.UpdateRun]
-        :keyword next_link: The link to the next page of items.
-        :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = next_link
+        self.next_link = None
 
 
 class UpdateRunStatus(_serialization.Model):
