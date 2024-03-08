@@ -31,7 +31,7 @@ def main():
 
     response = client.jobs.begin_create_or_update(
         resource_group_name="rg",
-        job_name="testcontainerAppsJob0",
+        job_name="testcontainerappsjob0",
         job_envelope={
             "location": "East US",
             "properties": {
@@ -58,14 +58,14 @@ def main():
                 },
                 "environmentId": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.App/managedEnvironments/demokube",
                 "template": {
-                    "containers": [{"image": "repo/testcontainerAppsJob0:v1", "name": "testcontainerAppsJob0"}],
+                    "containers": [{"image": "repo/testcontainerappsjob0:v1", "name": "testcontainerappsjob0"}],
                     "initContainers": [
                         {
                             "args": ["-c", "while true; do echo hello; sleep 10;done"],
                             "command": ["/bin/sh"],
-                            "image": "repo/testcontainerAppsJob0:v4",
+                            "image": "repo/testcontainerappsjob0:v4",
                             "name": "testinitcontainerAppsJob0",
-                            "resources": {"cpu": 0.2, "memory": "100Mi"},
+                            "resources": {"cpu": 0.5, "memory": "1Gi"},
                         }
                     ],
                 },
@@ -75,6 +75,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/Job_CreateorUpdate_EventTrigger.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/Job_CreateorUpdate_EventTrigger.json
 if __name__ == "__main__":
     main()

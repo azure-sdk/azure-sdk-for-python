@@ -136,6 +136,8 @@ from ._models_py3 import ManagedCertificatePatch
 from ._models_py3 import ManagedCertificateProperties
 from ._models_py3 import ManagedEnvironment
 from ._models_py3 import ManagedEnvironmentPropertiesPeerAuthentication
+from ._models_py3 import ManagedEnvironmentPropertiesPeerTrafficConfiguration
+from ._models_py3 import ManagedEnvironmentPropertiesPeerTrafficConfigurationEncryption
 from ._models_py3 import ManagedEnvironmentStorage
 from ._models_py3 import ManagedEnvironmentStorageProperties
 from ._models_py3 import ManagedEnvironmentStoragesCollection
@@ -355,6 +357,8 @@ __all__ = [
     "ManagedCertificateProperties",
     "ManagedEnvironment",
     "ManagedEnvironmentPropertiesPeerAuthentication",
+    "ManagedEnvironmentPropertiesPeerTrafficConfiguration",
+    "ManagedEnvironmentPropertiesPeerTrafficConfigurationEncryption",
     "ManagedEnvironmentStorage",
     "ManagedEnvironmentStorageProperties",
     "ManagedEnvironmentStoragesCollection",

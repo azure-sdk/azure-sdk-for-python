@@ -5319,7 +5319,7 @@ class JobExecution(_serialization.Model):
     :vartype name: str
     :ivar id: Job execution Id.
     :vartype id: str
-    :ivar type: Job Type.
+    :ivar type: Job execution type.
     :vartype type: str
     :ivar status: Current running State of the job. Known values are: "Running", "Processing",
      "Stopped", "Degraded", "Failed", "Unknown", and "Succeeded".
@@ -5340,10 +5340,10 @@ class JobExecution(_serialization.Model):
         "name": {"key": "name", "type": "str"},
         "id": {"key": "id", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "status": {"key": "status", "type": "str"},
-        "start_time": {"key": "startTime", "type": "iso-8601"},
-        "end_time": {"key": "endTime", "type": "iso-8601"},
-        "template": {"key": "template", "type": "JobExecutionTemplate"},
+        "status": {"key": "properties.status", "type": "str"},
+        "start_time": {"key": "properties.startTime", "type": "iso-8601"},
+        "end_time": {"key": "properties.endTime", "type": "iso-8601"},
+        "template": {"key": "properties.template", "type": "JobExecutionTemplate"},
     }
 
     def __init__(
@@ -5362,7 +5362,7 @@ class JobExecution(_serialization.Model):
         :paramtype name: str
         :keyword id: Job execution Id.
         :paramtype id: str
-        :keyword type: Job Type.
+        :keyword type: Job execution type.
         :paramtype type: str
         :keyword start_time: Job execution start time.
         :paramtype start_time: ~datetime.datetime
@@ -6250,6 +6250,9 @@ class ManagedEnvironment(TrackedResource):  # pylint: disable=too-many-instance-
     :ivar peer_authentication: Peer authentication settings for the Managed Environment.
     :vartype peer_authentication:
      ~azure.mgmt.appcontainers.models.ManagedEnvironmentPropertiesPeerAuthentication
+    :ivar peer_traffic_configuration: Peer traffic settings for the Managed Environment.
+    :vartype peer_traffic_configuration:
+     ~azure.mgmt.appcontainers.models.ManagedEnvironmentPropertiesPeerTrafficConfiguration
     """
 
     _validation = {
@@ -6295,9 +6298,13 @@ class ManagedEnvironment(TrackedResource):  # pylint: disable=too-many-instance-
             "key": "properties.peerAuthentication",
             "type": "ManagedEnvironmentPropertiesPeerAuthentication",
         },
+        "peer_traffic_configuration": {
+            "key": "properties.peerTrafficConfiguration",
+            "type": "ManagedEnvironmentPropertiesPeerTrafficConfiguration",
+        },
     }
 
-    def __init__(
+    def __init__(  # pylint: disable=too-many-locals
         self,
         *,
         location: str,
@@ -6314,6 +6321,7 @@ class ManagedEnvironment(TrackedResource):  # pylint: disable=too-many-instance-
         dapr_configuration: Optional["_models.DaprConfiguration"] = None,
         infrastructure_resource_group: Optional[str] = None,
         peer_authentication: Optional["_models.ManagedEnvironmentPropertiesPeerAuthentication"] = None,
+        peer_traffic_configuration: Optional["_models.ManagedEnvironmentPropertiesPeerTrafficConfiguration"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -6353,6 +6361,9 @@ class ManagedEnvironment(TrackedResource):  # pylint: disable=too-many-instance-
         :keyword peer_authentication: Peer authentication settings for the Managed Environment.
         :paramtype peer_authentication:
          ~azure.mgmt.appcontainers.models.ManagedEnvironmentPropertiesPeerAuthentication
+        :keyword peer_traffic_configuration: Peer traffic settings for the Managed Environment.
+        :paramtype peer_traffic_configuration:
+         ~azure.mgmt.appcontainers.models.ManagedEnvironmentPropertiesPeerTrafficConfiguration
         """
         super().__init__(tags=tags, location=location, **kwargs)
         self.kind = kind
@@ -6372,6 +6383,7 @@ class ManagedEnvironment(TrackedResource):  # pylint: disable=too-many-instance-
         self.dapr_configuration = dapr_configuration
         self.infrastructure_resource_group = infrastructure_resource_group
         self.peer_authentication = peer_authentication
+        self.peer_traffic_configuration = peer_traffic_configuration
 
 
 class ManagedEnvironmentPropertiesPeerAuthentication(_serialization.Model):
@@ -6392,6 +6404,53 @@ class ManagedEnvironmentPropertiesPeerAuthentication(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.mtls = mtls
+
+
+class ManagedEnvironmentPropertiesPeerTrafficConfiguration(_serialization.Model):
+    """Peer traffic settings for the Managed Environment.
+
+    :ivar encryption: Peer traffic encryption settings for the Managed Environment.
+    :vartype encryption:
+     ~azure.mgmt.appcontainers.models.ManagedEnvironmentPropertiesPeerTrafficConfigurationEncryption
+    """
+
+    _attribute_map = {
+        "encryption": {"key": "encryption", "type": "ManagedEnvironmentPropertiesPeerTrafficConfigurationEncryption"},
+    }
+
+    def __init__(
+        self,
+        *,
+        encryption: Optional["_models.ManagedEnvironmentPropertiesPeerTrafficConfigurationEncryption"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword encryption: Peer traffic encryption settings for the Managed Environment.
+        :paramtype encryption:
+         ~azure.mgmt.appcontainers.models.ManagedEnvironmentPropertiesPeerTrafficConfigurationEncryption
+        """
+        super().__init__(**kwargs)
+        self.encryption = encryption
+
+
+class ManagedEnvironmentPropertiesPeerTrafficConfigurationEncryption(_serialization.Model):
+    """Peer traffic encryption settings for the Managed Environment.
+
+    :ivar enabled: Boolean indicating whether the peer traffic encryption is enabled.
+    :vartype enabled: bool
+    """
+
+    _attribute_map = {
+        "enabled": {"key": "enabled", "type": "bool"},
+    }
+
+    def __init__(self, *, enabled: Optional[bool] = None, **kwargs: Any) -> None:
+        """
+        :keyword enabled: Boolean indicating whether the peer traffic encryption is enabled.
+        :paramtype enabled: bool
+        """
+        super().__init__(**kwargs)
+        self.enabled = enabled
 
 
 class ManagedEnvironmentsCollection(_serialization.Model):
