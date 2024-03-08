@@ -26,7 +26,6 @@ from ._operations import DedicatedHostsOperations
 from ._operations import SshPublicKeysOperations
 from ._operations import ImagesOperations
 from ._operations import RestorePointCollectionsOperations
-from ._operations import RestorePointsOperations
 from ._operations import CapacityReservationGroupsOperations
 from ._operations import CapacityReservationsOperations
 from ._operations import LogAnalyticsOperations
@@ -58,7 +57,6 @@ __all__ = [
     "SshPublicKeysOperations",
     "ImagesOperations",
     "RestorePointCollectionsOperations",
-    "RestorePointsOperations",
     "CapacityReservationGroupsOperations",
     "CapacityReservationsOperations",
     "LogAnalyticsOperations",

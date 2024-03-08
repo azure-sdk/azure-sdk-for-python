@@ -26,7 +26,6 @@ from .operations import (
     Operations,
     ProximityPlacementGroupsOperations,
     RestorePointCollectionsOperations,
-    RestorePointsOperations,
     SshPublicKeysOperations,
     UsageOperations,
     VirtualMachineExtensionImagesOperations,
@@ -111,8 +110,6 @@ class ComputeManagementClient:  # pylint: disable=client-accepts-api-version-key
     :ivar restore_point_collections: RestorePointCollectionsOperations operations
     :vartype restore_point_collections:
      azure.mgmt.compute.v2023_09_01.aio.operations.RestorePointCollectionsOperations
-    :ivar restore_points: RestorePointsOperations operations
-    :vartype restore_points: azure.mgmt.compute.v2023_09_01.aio.operations.RestorePointsOperations
     :ivar capacity_reservation_groups: CapacityReservationGroupsOperations operations
     :vartype capacity_reservation_groups:
      azure.mgmt.compute.v2023_09_01.aio.operations.CapacityReservationGroupsOperations
@@ -210,9 +207,6 @@ class ComputeManagementClient:  # pylint: disable=client-accepts-api-version-key
         )
         self.images = ImagesOperations(self._client, self._config, self._serialize, self._deserialize, "2023-09-01")
         self.restore_point_collections = RestorePointCollectionsOperations(
-            self._client, self._config, self._serialize, self._deserialize, "2023-09-01"
-        )
-        self.restore_points = RestorePointsOperations(
             self._client, self._config, self._serialize, self._deserialize, "2023-09-01"
         )
         self.capacity_reservation_groups = CapacityReservationGroupsOperations(

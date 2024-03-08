@@ -522,12 +522,6 @@ class RestorePointEncryptionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     #: Customer managed and the other key is Platform managed."""
 
 
-class RestorePointExpandOptions(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """RestorePointExpandOptions."""
-
-    INSTANCE_VIEW = "instanceView"
-
-
 class RollingUpgradeActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The last action performed on the rolling upgrade."""
 
