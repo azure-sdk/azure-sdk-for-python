@@ -1,5 +1,5 @@
 # coding=utf-8
-# pylint: disable=too-many-lines, line-too-long, too-many-locals
+# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -12,7 +12,6 @@ from typing import Any, Dict, List, Literal, Mapping, Optional, TYPE_CHECKING, U
 
 from .. import _model_base
 from .._model_base import rest_discriminator, rest_field
-from ._enums import RadiologyInsightsInferenceType
 
 if TYPE_CHECKING:
     # pylint: disable=unused-import,ungrouped-imports
@@ -44,20 +43,15 @@ class RadiologyInsightsInference(_model_base.Model):
 
     :ivar extension: Additional Content defined by implementations.
     :vartype extension: list[~azure.healthinsights.radiologyinsights.models.Extension]
-    :ivar kind: Required. Known values are: "ageMismatch", "lateralityDiscrepancy", "sexMismatch",
-     "completeOrderDiscrepancy", "limitedOrderDiscrepancy", "finding", "criticalResult",
-     "followupRecommendation", "followupCommunication", and "radiologyProcedure".
-    :vartype kind: str or
-     ~azure.healthinsights.radiologyinsights.models.RadiologyInsightsInferenceType
+    :ivar kind: Required. Default value is None.
+    :vartype kind: str
     """
 
     __mapping__: Dict[str, _model_base.Model] = {}
     extension: Optional[List["_models.Extension"]] = rest_field()
     """Additional Content defined by implementations."""
     kind: str = rest_discriminator(name="kind")
-    """Required. Known values are: \"ageMismatch\", \"lateralityDiscrepancy\", \"sexMismatch\",
-     \"completeOrderDiscrepancy\", \"limitedOrderDiscrepancy\", \"finding\", \"criticalResult\",
-     \"followupRecommendation\", \"followupCommunication\", and \"radiologyProcedure\"."""
+    """Required. Default value is None."""
 
     @overload
     def __init__(
@@ -87,12 +81,12 @@ class AgeMismatchInference(RadiologyInsightsInference, discriminator="ageMismatc
 
     :ivar extension: Additional Content defined by implementations.
     :vartype extension: list[~azure.healthinsights.radiologyinsights.models.Extension]
-    :ivar kind: Inference type. Required. Age mismatch inference type
-    :vartype kind: str or ~azure.healthinsights.radiologyinsights.models.AGE_MISMATCH
+    :ivar kind: Inference type. Required. Default value is "ageMismatch".
+    :vartype kind: str
     """
 
-    kind: Literal[RadiologyInsightsInferenceType.AGE_MISMATCH] = rest_discriminator(name="kind")  # type: ignore
-    """Inference type. Required. Age mismatch inference type"""
+    kind: Literal["ageMismatch"] = rest_discriminator(name="kind")  # type: ignore
+    """Inference type. Required. Default value is \"ageMismatch\"."""
 
     @overload
     def __init__(
@@ -110,7 +104,7 @@ class AgeMismatchInference(RadiologyInsightsInference, discriminator="ageMismatc
         """
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, kind=RadiologyInsightsInferenceType.AGE_MISMATCH, **kwargs)
+        super().__init__(*args, kind="ageMismatch", **kwargs)
 
 
 class Element(_model_base.Model):
@@ -290,8 +284,8 @@ class CompleteOrderDiscrepancyInference(RadiologyInsightsInference, discriminato
 
     :ivar extension: Additional Content defined by implementations.
     :vartype extension: list[~azure.healthinsights.radiologyinsights.models.Extension]
-    :ivar kind: Inference type. Required. Complete order discrepancy inference type
-    :vartype kind: str or ~azure.healthinsights.radiologyinsights.models.COMPLETE_ORDER_DISCREPANCY
+    :ivar kind: Inference type. Required. Default value is "completeOrderDiscrepancy".
+    :vartype kind: str
     :ivar order_type: Order type : CPT ultrasound complete code for abdomen, retroperitoneal,
      pelvis or breast. Required.
     :vartype order_type: ~azure.healthinsights.radiologyinsights.models.CodeableConcept
@@ -305,8 +299,8 @@ class CompleteOrderDiscrepancyInference(RadiologyInsightsInference, discriminato
      list[~azure.healthinsights.radiologyinsights.models.CodeableConcept]
     """
 
-    kind: Literal[RadiologyInsightsInferenceType.COMPLETE_ORDER_DISCREPANCY] = rest_discriminator(name="kind")  # type: ignore
-    """Inference type. Required. Complete order discrepancy inference type"""
+    kind: Literal["completeOrderDiscrepancy"] = rest_discriminator(name="kind")  # type: ignore
+    """Inference type. Required. Default value is \"completeOrderDiscrepancy\"."""
     order_type: "_models.CodeableConcept" = rest_field(name="orderType")
     """Order type : CPT ultrasound complete code for abdomen, retroperitoneal, pelvis or breast.
      Required."""
@@ -336,7 +330,7 @@ class CompleteOrderDiscrepancyInference(RadiologyInsightsInference, discriminato
         """
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, kind=RadiologyInsightsInferenceType.COMPLETE_ORDER_DISCREPANCY, **kwargs)
+        super().__init__(*args, kind="completeOrderDiscrepancy", **kwargs)
 
 
 class Resource(_model_base.Model):
@@ -795,15 +789,15 @@ class CriticalResultInference(RadiologyInsightsInference, discriminator="critica
 
     :ivar extension: Additional Content defined by implementations.
     :vartype extension: list[~azure.healthinsights.radiologyinsights.models.Extension]
-    :ivar kind: Inference type. Required. Critical finding inference type
-    :vartype kind: str or ~azure.healthinsights.radiologyinsights.models.CRITICAL_RESULT
+    :ivar kind: Inference type. Required. Default value is "criticalResult".
+    :vartype kind: str
     :ivar result: The complete Critical Result, as outlined below, will be reused for the
      recommendation. Required.
     :vartype result: ~azure.healthinsights.radiologyinsights.models.CriticalResult
     """
 
-    kind: Literal[RadiologyInsightsInferenceType.CRITICAL_RESULT] = rest_discriminator(name="kind")  # type: ignore
-    """Inference type. Required. Critical finding inference type"""
+    kind: Literal["criticalResult"] = rest_discriminator(name="kind")  # type: ignore
+    """Inference type. Required. Default value is \"criticalResult\"."""
     result: "_models.CriticalResult" = rest_field()
     """The complete Critical Result, as outlined below, will be reused for the recommendation.
      Required."""
@@ -825,7 +819,7 @@ class CriticalResultInference(RadiologyInsightsInference, discriminator="critica
         """
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, kind=RadiologyInsightsInferenceType.CRITICAL_RESULT, **kwargs)
+        super().__init__(*args, kind="criticalResult", **kwargs)
 
 
 class DocumentAdministrativeMetadata(_model_base.Model):
@@ -1141,15 +1135,15 @@ class FindingInference(RadiologyInsightsInference, discriminator="finding"):
 
     :ivar extension: Additional Content defined by implementations.
     :vartype extension: list[~azure.healthinsights.radiologyinsights.models.Extension]
-    :ivar kind: Inference type. Required. Finding inference type
-    :vartype kind: str or ~azure.healthinsights.radiologyinsights.models.FINDING
+    :ivar kind: Inference type. Required. Default value is "finding".
+    :vartype kind: str
     :ivar finding: Finding data : contains extensions, fields and components linked with the
      finding. Required.
     :vartype finding: ~azure.healthinsights.radiologyinsights.models.Observation
     """
 
-    kind: Literal[RadiologyInsightsInferenceType.FINDING] = rest_discriminator(name="kind")  # type: ignore
-    """Inference type. Required. Finding inference type"""
+    kind: Literal["finding"] = rest_discriminator(name="kind")  # type: ignore
+    """Inference type. Required. Default value is \"finding\"."""
     finding: "_models.Observation" = rest_field()
     """Finding data : contains extensions, fields and components linked with the finding. Required."""
 
@@ -1170,7 +1164,7 @@ class FindingInference(RadiologyInsightsInference, discriminator="finding"):
         """
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, kind=RadiologyInsightsInferenceType.FINDING, **kwargs)
+        super().__init__(*args, kind="finding", **kwargs)
 
 
 class FindingOptions(_model_base.Model):
@@ -1215,8 +1209,8 @@ class FollowupCommunicationInference(RadiologyInsightsInference, discriminator="
 
     :ivar extension: Additional Content defined by implementations.
     :vartype extension: list[~azure.healthinsights.radiologyinsights.models.Extension]
-    :ivar kind: Inference type. Required. Followup Communication inference type
-    :vartype kind: str or ~azure.healthinsights.radiologyinsights.models.FOLLOWUP_COMMUNICATION
+    :ivar kind: Inference type. Required. Default value is "followupCommunication".
+    :vartype kind: str
     :ivar date_time: Communication date and time.
     :vartype date_time: list[~datetime.datetime]
     :ivar recipient: Recipient of the communication.
@@ -1226,8 +1220,8 @@ class FollowupCommunicationInference(RadiologyInsightsInference, discriminator="
     :vartype was_acknowledged: bool
     """
 
-    kind: Literal[RadiologyInsightsInferenceType.FOLLOWUP_COMMUNICATION] = rest_discriminator(name="kind")  # type: ignore
-    """Inference type. Required. Followup Communication inference type"""
+    kind: Literal["followupCommunication"] = rest_discriminator(name="kind")  # type: ignore
+    """Inference type. Required. Default value is \"followupCommunication\"."""
     date_time: Optional[List[datetime.datetime]] = rest_field(name="dateTime", format="rfc3339")
     """Communication date and time."""
     recipient: Optional[List[Union[str, "_models.MedicalProfessionalType"]]] = rest_field()
@@ -1254,7 +1248,7 @@ class FollowupCommunicationInference(RadiologyInsightsInference, discriminator="
         """
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, kind=RadiologyInsightsInferenceType.FOLLOWUP_COMMUNICATION, **kwargs)
+        super().__init__(*args, kind="followupCommunication", **kwargs)
 
 
 class FollowupRecommendationInference(RadiologyInsightsInference, discriminator="followupRecommendation"):
@@ -1265,8 +1259,8 @@ class FollowupRecommendationInference(RadiologyInsightsInference, discriminator=
 
     :ivar extension: Additional Content defined by implementations.
     :vartype extension: list[~azure.healthinsights.radiologyinsights.models.Extension]
-    :ivar kind: Inference type. Required. Recommendation inference type
-    :vartype kind: str or ~azure.healthinsights.radiologyinsights.models.FOLLOWUP_RECOMMENDATION
+    :ivar kind: Inference type. Required. Default value is "followupRecommendation".
+    :vartype kind: str
     :ivar effective_date_time: Date and time are displayed when the procedure is recommended to be
      done at a specific point in time.
     :vartype effective_date_time: str
@@ -1295,8 +1289,8 @@ class FollowupRecommendationInference(RadiologyInsightsInference, discriminator=
      ~azure.healthinsights.radiologyinsights.models.ProcedureRecommendation
     """
 
-    kind: Literal[RadiologyInsightsInferenceType.FOLLOWUP_RECOMMENDATION] = rest_discriminator(name="kind")  # type: ignore
-    """Inference type. Required. Recommendation inference type"""
+    kind: Literal["followupRecommendation"] = rest_discriminator(name="kind")  # type: ignore
+    """Inference type. Required. Default value is \"followupRecommendation\"."""
     effective_date_time: Optional[str] = rest_field(name="effectiveDateTime")
     """Date and time are displayed when the procedure is recommended to be done at a specific point in
      time."""
@@ -1345,7 +1339,7 @@ class FollowupRecommendationInference(RadiologyInsightsInference, discriminator=
         """
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, kind=RadiologyInsightsInferenceType.FOLLOWUP_RECOMMENDATION, **kwargs)
+        super().__init__(*args, kind="followupRecommendation", **kwargs)
 
 
 class FollowupRecommendationOptions(_model_base.Model):
@@ -1735,8 +1729,8 @@ class LateralityDiscrepancyInference(RadiologyInsightsInference, discriminator="
 
     :ivar extension: Additional Content defined by implementations.
     :vartype extension: list[~azure.healthinsights.radiologyinsights.models.Extension]
-    :ivar kind: Inference type. Required. Laterality discrepancy inference type
-    :vartype kind: str or ~azure.healthinsights.radiologyinsights.models.LATERALITY_DISCREPANCY
+    :ivar kind: Inference type. Required. Default value is "lateralityDiscrepancy".
+    :vartype kind: str
     :ivar laterality_indication: Laterality indication : SNOMED CT code for laterality qualifier
      value.
     :vartype laterality_indication: ~azure.healthinsights.radiologyinsights.models.CodeableConcept
@@ -1747,8 +1741,8 @@ class LateralityDiscrepancyInference(RadiologyInsightsInference, discriminator="
      ~azure.healthinsights.radiologyinsights.models.LateralityDiscrepancyType
     """
 
-    kind: Literal[RadiologyInsightsInferenceType.LATERALITY_DISCREPANCY] = rest_discriminator(name="kind")  # type: ignore
-    """Inference type. Required. Laterality discrepancy inference type"""
+    kind: Literal["lateralityDiscrepancy"] = rest_discriminator(name="kind")  # type: ignore
+    """Inference type. Required. Default value is \"lateralityDiscrepancy\"."""
     laterality_indication: Optional["_models.CodeableConcept"] = rest_field(name="lateralityIndication")
     """Laterality indication : SNOMED CT code for laterality qualifier value."""
     discrepancy_type: Union[str, "_models.LateralityDiscrepancyType"] = rest_field(name="discrepancyType")
@@ -1774,7 +1768,7 @@ class LateralityDiscrepancyInference(RadiologyInsightsInference, discriminator="
         """
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, kind=RadiologyInsightsInferenceType.LATERALITY_DISCREPANCY, **kwargs)
+        super().__init__(*args, kind="lateralityDiscrepancy", **kwargs)
 
 
 class LimitedOrderDiscrepancyInference(RadiologyInsightsInference, discriminator="limitedOrderDiscrepancy"):
@@ -1785,8 +1779,8 @@ class LimitedOrderDiscrepancyInference(RadiologyInsightsInference, discriminator
 
     :ivar extension: Additional Content defined by implementations.
     :vartype extension: list[~azure.healthinsights.radiologyinsights.models.Extension]
-    :ivar kind: Inference type. Required. Limited order discrepancy inference type
-    :vartype kind: str or ~azure.healthinsights.radiologyinsights.models.LIMITED_ORDER_DISCREPANCY
+    :ivar kind: Inference type. Required. Default value is "limitedOrderDiscrepancy".
+    :vartype kind: str
     :ivar order_type: Order type : CPT ultrasound complete code for abdomen, retroperitoneal,
      pelvis or breast. Required.
     :vartype order_type: ~azure.healthinsights.radiologyinsights.models.CodeableConcept
@@ -1799,8 +1793,8 @@ class LimitedOrderDiscrepancyInference(RadiologyInsightsInference, discriminator
      list[~azure.healthinsights.radiologyinsights.models.CodeableConcept]
     """
 
-    kind: Literal[RadiologyInsightsInferenceType.LIMITED_ORDER_DISCREPANCY] = rest_discriminator(name="kind")  # type: ignore
-    """Inference type. Required. Limited order discrepancy inference type"""
+    kind: Literal["limitedOrderDiscrepancy"] = rest_discriminator(name="kind")  # type: ignore
+    """Inference type. Required. Default value is \"limitedOrderDiscrepancy\"."""
     order_type: "_models.CodeableConcept" = rest_field(name="orderType")
     """Order type : CPT ultrasound complete code for abdomen, retroperitoneal, pelvis or breast.
      Required."""
@@ -1830,7 +1824,7 @@ class LimitedOrderDiscrepancyInference(RadiologyInsightsInference, discriminator
         """
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, kind=RadiologyInsightsInferenceType.LIMITED_ORDER_DISCREPANCY, **kwargs)
+        super().__init__(*args, kind="limitedOrderDiscrepancy", **kwargs)
 
 
 class Meta(_model_base.Model):
@@ -2964,8 +2958,8 @@ class RadiologyProcedureInference(RadiologyInsightsInference, discriminator="rad
 
     :ivar extension: Additional Content defined by implementations.
     :vartype extension: list[~azure.healthinsights.radiologyinsights.models.Extension]
-    :ivar kind: Inference type. Required. Radiology Procedure inference type
-    :vartype kind: str or ~azure.healthinsights.radiologyinsights.models.RADIOLOGY_PROCEDURE
+    :ivar kind: Inference type. Required. Default value is "radiologyProcedure".
+    :vartype kind: str
     :ivar procedure_codes: LOINC codes for the procedure.
     :vartype procedure_codes: list[~azure.healthinsights.radiologyinsights.models.CodeableConcept]
     :ivar imaging_procedures: Imaging procedures. Required.
@@ -2976,8 +2970,8 @@ class RadiologyProcedureInference(RadiologyInsightsInference, discriminator="rad
     :vartype ordered_procedure: ~azure.healthinsights.radiologyinsights.models.OrderedProcedure
     """
 
-    kind: Literal[RadiologyInsightsInferenceType.RADIOLOGY_PROCEDURE] = rest_discriminator(name="kind")  # type: ignore
-    """Inference type. Required. Radiology Procedure inference type"""
+    kind: Literal["radiologyProcedure"] = rest_discriminator(name="kind")  # type: ignore
+    """Inference type. Required. Default value is \"radiologyProcedure\"."""
     procedure_codes: Optional[List["_models.CodeableConcept"]] = rest_field(name="procedureCodes")
     """LOINC codes for the procedure."""
     imaging_procedures: List["_models.ImagingProcedure"] = rest_field(name="imagingProcedures")
@@ -3004,7 +2998,7 @@ class RadiologyProcedureInference(RadiologyInsightsInference, discriminator="rad
         """
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, kind=RadiologyInsightsInferenceType.RADIOLOGY_PROCEDURE, **kwargs)
+        super().__init__(*args, kind="radiologyProcedure", **kwargs)
 
 
 class Range(Element):
@@ -3511,14 +3505,14 @@ class SexMismatchInference(RadiologyInsightsInference, discriminator="sexMismatc
 
     :ivar extension: Additional Content defined by implementations.
     :vartype extension: list[~azure.healthinsights.radiologyinsights.models.Extension]
-    :ivar kind: Inference type. Required. Sex mismatch inference type
-    :vartype kind: str or ~azure.healthinsights.radiologyinsights.models.SEX_MISMATCH
+    :ivar kind: Inference type. Required. Default value is "sexMismatch".
+    :vartype kind: str
     :ivar sex_indication: Sex indication : SNOMED CT code for gender finding. Required.
     :vartype sex_indication: ~azure.healthinsights.radiologyinsights.models.CodeableConcept
     """
 
-    kind: Literal[RadiologyInsightsInferenceType.SEX_MISMATCH] = rest_discriminator(name="kind")  # type: ignore
-    """Inference type. Required. Sex mismatch inference type"""
+    kind: Literal["sexMismatch"] = rest_discriminator(name="kind")  # type: ignore
+    """Inference type. Required. Default value is \"sexMismatch\"."""
     sex_indication: "_models.CodeableConcept" = rest_field(name="sexIndication")
     """Sex indication : SNOMED CT code for gender finding. Required."""
 
@@ -3539,7 +3533,7 @@ class SexMismatchInference(RadiologyInsightsInference, discriminator="sexMismatc
         """
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=useless-super-delegation
-        super().__init__(*args, kind=RadiologyInsightsInferenceType.SEX_MISMATCH, **kwargs)
+        super().__init__(*args, kind="sexMismatch", **kwargs)
 
 
 class TimePeriod(_model_base.Model):
