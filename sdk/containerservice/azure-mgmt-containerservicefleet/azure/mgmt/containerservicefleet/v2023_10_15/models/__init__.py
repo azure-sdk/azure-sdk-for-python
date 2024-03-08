@@ -31,6 +31,8 @@ from ._models_py3 import OperationDisplay
 from ._models_py3 import OperationListResult
 from ._models_py3 import ProxyResource
 from ._models_py3 import Resource
+from ._models_py3 import SkipProperties
+from ._models_py3 import SkipTarget
 from ._models_py3 import SystemData
 from ._models_py3 import TrackedResource
 from ._models_py3 import UpdateGroup
@@ -54,6 +56,7 @@ from ._container_service_fleet_mgmt_client_enums import ManagedClusterUpgradeTyp
 from ._container_service_fleet_mgmt_client_enums import ManagedServiceIdentityType
 from ._container_service_fleet_mgmt_client_enums import NodeImageSelectionType
 from ._container_service_fleet_mgmt_client_enums import Origin
+from ._container_service_fleet_mgmt_client_enums import TargetType
 from ._container_service_fleet_mgmt_client_enums import UpdateRunProvisioningState
 from ._container_service_fleet_mgmt_client_enums import UpdateState
 from ._patch import __all__ as _patch_all
@@ -86,6 +89,8 @@ __all__ = [
     "OperationListResult",
     "ProxyResource",
     "Resource",
+    "SkipProperties",
+    "SkipTarget",
     "SystemData",
     "TrackedResource",
     "UpdateGroup",
@@ -108,6 +113,7 @@ __all__ = [
     "ManagedServiceIdentityType",
     "NodeImageSelectionType",
     "Origin",
+    "TargetType",
     "UpdateRunProvisioningState",
     "UpdateState",
 ]
