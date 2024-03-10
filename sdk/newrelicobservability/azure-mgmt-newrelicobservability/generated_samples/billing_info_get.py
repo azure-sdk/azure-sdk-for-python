@@ -14,7 +14,7 @@ from azure.mgmt.newrelicobservability import NewRelicObservabilityMgmtClient
     pip install azure-identity
     pip install azure-mgmt-newrelicobservability
 # USAGE
-    python accounts_list_maximum_set_gen.py
+    python billing_info_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,14 +29,13 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.accounts.list(
-        user_email="ruxvg@xqkmdhrnoo.hlmbpm",
-        location="egh",
+    response = client.billing_info.get(
+        resource_group_name="myResourceGroup",
+        monitor_name="myMonitor",
     )
-    for item in response:
-        print(item)
+    print(response)
 
 
-# x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-03-01/examples/Accounts_List_MaximumSet_Gen.json
+# x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-03-01/examples/BillingInfo_Get.json
 if __name__ == "__main__":
     main()

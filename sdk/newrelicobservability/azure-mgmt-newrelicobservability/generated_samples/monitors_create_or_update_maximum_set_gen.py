@@ -26,7 +26,7 @@ from azure.mgmt.newrelicobservability import NewRelicObservabilityMgmtClient
 def main():
     client = NewRelicObservabilityMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="hfmjmpyqgezxkp",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
     response = client.monitors.begin_create_or_update(
@@ -53,12 +53,14 @@ def main():
                 },
                 "orgCreationSource": "LIFTR",
                 "planData": {
-                    "billingCycle": "YEARLY",
+                    "billingCycle": "Yearly",
                     "effectiveDate": "2022-12-05T14:11:37.786Z",
                     "planDetails": "tbbiaga",
                     "usageType": "PAYG",
                 },
                 "provisioningState": "Accepted",
+                "saaSAzureSubscriptionStatus": "Subscribed",
+                "subscriptionState": "Suspended",
                 "userInfo": {
                     "country": "hslqnwdanrconqyekwbnttaetv",
                     "emailAddress": "%6%@4-g.N1.3F-kI1.Ue-.lJso",
@@ -73,6 +75,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2022-07-01/examples/Monitors_CreateOrUpdate_MaximumSet_Gen.json
+# x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-03-01/examples/Monitors_CreateOrUpdate_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()
