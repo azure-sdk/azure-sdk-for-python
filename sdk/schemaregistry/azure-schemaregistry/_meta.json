@@ -1,0 +1,6 @@
+{
+  "commit": "2eee6a7308cbba1651a2d7db56044549c12f58ab",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/schemaregistry/SchemaRegistry",
+  "@azure-tools/typespec-python": "0.21.1"
+}
