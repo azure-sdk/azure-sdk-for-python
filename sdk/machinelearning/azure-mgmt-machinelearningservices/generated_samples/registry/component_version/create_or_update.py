@@ -47,6 +47,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2023-04-01/examples/Registry/ComponentVersion/createOrUpdate.json
+# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2024-04-01-preview/examples/Registry/ComponentVersion/createOrUpdate.json
 if __name__ == "__main__":
     main()
