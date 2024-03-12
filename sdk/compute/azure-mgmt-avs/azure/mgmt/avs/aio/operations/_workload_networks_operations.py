@@ -97,88 +97,11 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
-    @distributed_trace_async
-    async def get(
-        self,
-        resource_group_name: str,
-        private_cloud_name: str,
-        workload_network_name: Union[str, _models.WorkloadNetworkName],
-        **kwargs: Any
-    ) -> _models.WorkloadNetwork:
-        """Get a private cloud workload network.
-
-        Get a private cloud workload network.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param private_cloud_name: Name of the private cloud. Required.
-        :type private_cloud_name: str
-        :param workload_network_name: Name for the workload network in the private cloud. "default"
-         Required.
-        :type workload_network_name: str or ~azure.mgmt.avs.models.WorkloadNetworkName
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: WorkloadNetwork or the result of cls(response)
-        :rtype: ~azure.mgmt.avs.models.WorkloadNetwork
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.WorkloadNetwork] = kwargs.pop("cls", None)
-
-        request = build_get_request(
-            resource_group_name=resource_group_name,
-            private_cloud_name=private_cloud_name,
-            workload_network_name=workload_network_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            template_url=self.get.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("WorkloadNetwork", pipeline_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})
-
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/{workloadNetworkName}"
-    }
-
     @distributed_trace
     def list(
         self, resource_group_name: str, private_cloud_name: str, **kwargs: Any
     ) -> AsyncIterable["_models.WorkloadNetwork"]:
-        """List of workload networks in a private cloud.
-
-        List of workload networks in a private cloud.
+        """List WorkloadNetwork resources by PrivateCloud.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -194,7 +117,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.WorkloadNetworkList] = kwargs.pop("cls", None)
+        cls: ClsType[_models.WorkloadNetworkListResult] = kwargs.pop("cls", None)
 
         error_map = {
             401: ClientAuthenticationError,
@@ -238,7 +161,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
             return request
 
         async def extract_data(pipeline_response):
-            deserialized = self._deserialize("WorkloadNetworkList", pipeline_response)
+            deserialized = self._deserialize("WorkloadNetworkListResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
@@ -266,120 +189,18 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks"
     }
 
-    @distributed_trace
-    def list_segments(
-        self, resource_group_name: str, private_cloud_name: str, **kwargs: Any
-    ) -> AsyncIterable["_models.WorkloadNetworkSegment"]:
-        """List of segments in a private cloud workload network.
-
-        List of segments in a private cloud workload network.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param private_cloud_name: Name of the private cloud. Required.
-        :type private_cloud_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: An iterator like instance of either WorkloadNetworkSegment or the result of
-         cls(response)
-        :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.avs.models.WorkloadNetworkSegment]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.WorkloadNetworkSegmentsList] = kwargs.pop("cls", None)
-
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(next_link=None):
-            if not next_link:
-
-                request = build_list_segments_request(
-                    resource_group_name=resource_group_name,
-                    private_cloud_name=private_cloud_name,
-                    subscription_id=self._config.subscription_id,
-                    api_version=api_version,
-                    template_url=self.list_segments.metadata["url"],
-                    headers=_headers,
-                    params=_params,
-                )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-
-            else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
-
-        async def extract_data(pipeline_response):
-            deserialized = self._deserialize("WorkloadNetworkSegmentsList", pipeline_response)
-            list_of_elem = deserialized.value
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.next_link or None, AsyncList(list_of_elem)
-
-        async def get_next(next_link=None):
-            request = prepare_request(next_link)
-
-            _stream = False
-            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-                raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-            return pipeline_response
-
-        return AsyncItemPaged(get_next, extract_data)
-
-    list_segments.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/segments"
-    }
-
     @distributed_trace_async
-    async def get_segment(
-        self, resource_group_name: str, private_cloud_name: str, segment_id: str, **kwargs: Any
-    ) -> _models.WorkloadNetworkSegment:
-        """Get a segment by id in a private cloud workload network.
-
-        Get a segment by id in a private cloud workload network.
+    async def get(self, resource_group_name: str, private_cloud_name: str, **kwargs: Any) -> _models.WorkloadNetwork:
+        """Get a WorkloadNetwork.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param segment_id: NSX Segment identifier. Generally the same as the Segment's display name.
-         Required.
-        :type segment_id: str
         :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: WorkloadNetworkSegment or the result of cls(response)
-        :rtype: ~azure.mgmt.avs.models.WorkloadNetworkSegment
+        :return: WorkloadNetwork or the result of cls(response)
+        :rtype: ~azure.mgmt.avs.models.WorkloadNetwork
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map = {
@@ -394,15 +215,14 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.WorkloadNetworkSegment] = kwargs.pop("cls", None)
+        cls: ClsType[_models.WorkloadNetwork] = kwargs.pop("cls", None)
 
-        request = build_get_segment_request(
+        request = build_get_request(
             resource_group_name=resource_group_name,
             private_cloud_name=private_cloud_name,
-            segment_id=segment_id,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_segment.metadata["url"],
+            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
@@ -421,637 +241,22 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("WorkloadNetworkSegment", pipeline_response)
+        deserialized = self._deserialize("WorkloadNetwork", pipeline_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})
 
         return deserialized
 
-    get_segment.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/segments/{segmentId}"
-    }
-
-    async def _create_segments_initial(
-        self,
-        resource_group_name: str,
-        private_cloud_name: str,
-        segment_id: str,
-        workload_network_segment: Union[_models.WorkloadNetworkSegment, IO],
-        **kwargs: Any
-    ) -> _models.WorkloadNetworkSegment:
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.WorkloadNetworkSegment] = kwargs.pop("cls", None)
-
-        content_type = content_type or "application/json"
-        _json = None
-        _content = None
-        if isinstance(workload_network_segment, (IOBase, bytes)):
-            _content = workload_network_segment
-        else:
-            _json = self._serialize.body(workload_network_segment, "WorkloadNetworkSegment")
-
-        request = build_create_segments_request(
-            resource_group_name=resource_group_name,
-            private_cloud_name=private_cloud_name,
-            segment_id=segment_id,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            content_type=content_type,
-            json=_json,
-            content=_content,
-            template_url=self._create_segments_initial.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200, 201]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-        if response.status_code == 200:
-            deserialized = self._deserialize("WorkloadNetworkSegment", pipeline_response)
-
-        if response.status_code == 201:
-            deserialized = self._deserialize("WorkloadNetworkSegment", pipeline_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-    _create_segments_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/segments/{segmentId}"
-    }
-
-    @overload
-    async def begin_create_segments(
-        self,
-        resource_group_name: str,
-        private_cloud_name: str,
-        segment_id: str,
-        workload_network_segment: _models.WorkloadNetworkSegment,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> AsyncLROPoller[_models.WorkloadNetworkSegment]:
-        """Create a segment by id in a private cloud workload network.
-
-        Create a segment by id in a private cloud workload network.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param private_cloud_name: Name of the private cloud. Required.
-        :type private_cloud_name: str
-        :param segment_id: NSX Segment identifier. Generally the same as the Segment's display name.
-         Required.
-        :type segment_id: str
-        :param workload_network_segment: NSX Segment. Required.
-        :type workload_network_segment: ~azure.mgmt.avs.models.WorkloadNetworkSegment
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
-        :return: An instance of AsyncLROPoller that returns either WorkloadNetworkSegment or the result
-         of cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.avs.models.WorkloadNetworkSegment]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    async def begin_create_segments(
-        self,
-        resource_group_name: str,
-        private_cloud_name: str,
-        segment_id: str,
-        workload_network_segment: IO,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> AsyncLROPoller[_models.WorkloadNetworkSegment]:
-        """Create a segment by id in a private cloud workload network.
-
-        Create a segment by id in a private cloud workload network.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param private_cloud_name: Name of the private cloud. Required.
-        :type private_cloud_name: str
-        :param segment_id: NSX Segment identifier. Generally the same as the Segment's display name.
-         Required.
-        :type segment_id: str
-        :param workload_network_segment: NSX Segment. Required.
-        :type workload_network_segment: IO
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
-        :return: An instance of AsyncLROPoller that returns either WorkloadNetworkSegment or the result
-         of cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.avs.models.WorkloadNetworkSegment]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @distributed_trace_async
-    async def begin_create_segments(
-        self,
-        resource_group_name: str,
-        private_cloud_name: str,
-        segment_id: str,
-        workload_network_segment: Union[_models.WorkloadNetworkSegment, IO],
-        **kwargs: Any
-    ) -> AsyncLROPoller[_models.WorkloadNetworkSegment]:
-        """Create a segment by id in a private cloud workload network.
-
-        Create a segment by id in a private cloud workload network.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param private_cloud_name: Name of the private cloud. Required.
-        :type private_cloud_name: str
-        :param segment_id: NSX Segment identifier. Generally the same as the Segment's display name.
-         Required.
-        :type segment_id: str
-        :param workload_network_segment: NSX Segment. Is either a WorkloadNetworkSegment type or a IO
-         type. Required.
-        :type workload_network_segment: ~azure.mgmt.avs.models.WorkloadNetworkSegment or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
-        :return: An instance of AsyncLROPoller that returns either WorkloadNetworkSegment or the result
-         of cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.avs.models.WorkloadNetworkSegment]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.WorkloadNetworkSegment] = kwargs.pop("cls", None)
-        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
-        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
-        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
-        if cont_token is None:
-            raw_result = await self._create_segments_initial(
-                resource_group_name=resource_group_name,
-                private_cloud_name=private_cloud_name,
-                segment_id=segment_id,
-                workload_network_segment=workload_network_segment,
-                api_version=api_version,
-                content_type=content_type,
-                cls=lambda x, y, z: x,
-                headers=_headers,
-                params=_params,
-                **kwargs
-            )
-        kwargs.pop("error_map", None)
-
-        def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("WorkloadNetworkSegment", pipeline_response)
-            if cls:
-                return cls(pipeline_response, deserialized, {})
-            return deserialized
-
-        if polling is True:
-            polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
-        elif polling is False:
-            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
-        else:
-            polling_method = polling
-        if cont_token:
-            return AsyncLROPoller.from_continuation_token(
-                polling_method=polling_method,
-                continuation_token=cont_token,
-                client=self._client,
-                deserialization_callback=get_long_running_output,
-            )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_segments.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/segments/{segmentId}"
-    }
-
-    async def _update_segments_initial(
-        self,
-        resource_group_name: str,
-        private_cloud_name: str,
-        segment_id: str,
-        workload_network_segment: Union[_models.WorkloadNetworkSegment, IO],
-        **kwargs: Any
-    ) -> Optional[_models.WorkloadNetworkSegment]:
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[Optional[_models.WorkloadNetworkSegment]] = kwargs.pop("cls", None)
-
-        content_type = content_type or "application/json"
-        _json = None
-        _content = None
-        if isinstance(workload_network_segment, (IOBase, bytes)):
-            _content = workload_network_segment
-        else:
-            _json = self._serialize.body(workload_network_segment, "WorkloadNetworkSegment")
-
-        request = build_update_segments_request(
-            resource_group_name=resource_group_name,
-            private_cloud_name=private_cloud_name,
-            segment_id=segment_id,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            content_type=content_type,
-            json=_json,
-            content=_content,
-            template_url=self._update_segments_initial.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200, 202]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-        deserialized = None
-        if response.status_code == 200:
-            deserialized = self._deserialize("WorkloadNetworkSegment", pipeline_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})
-
-        return deserialized
-
-    _update_segments_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/segments/{segmentId}"
-    }
-
-    @overload
-    async def begin_update_segments(
-        self,
-        resource_group_name: str,
-        private_cloud_name: str,
-        segment_id: str,
-        workload_network_segment: _models.WorkloadNetworkSegment,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> AsyncLROPoller[_models.WorkloadNetworkSegment]:
-        """Create or update a segment by id in a private cloud workload network.
-
-        Create or update a segment by id in a private cloud workload network.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param private_cloud_name: Name of the private cloud. Required.
-        :type private_cloud_name: str
-        :param segment_id: NSX Segment identifier. Generally the same as the Segment's display name.
-         Required.
-        :type segment_id: str
-        :param workload_network_segment: NSX Segment. Required.
-        :type workload_network_segment: ~azure.mgmt.avs.models.WorkloadNetworkSegment
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
-        :return: An instance of AsyncLROPoller that returns either WorkloadNetworkSegment or the result
-         of cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.avs.models.WorkloadNetworkSegment]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    async def begin_update_segments(
-        self,
-        resource_group_name: str,
-        private_cloud_name: str,
-        segment_id: str,
-        workload_network_segment: IO,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> AsyncLROPoller[_models.WorkloadNetworkSegment]:
-        """Create or update a segment by id in a private cloud workload network.
-
-        Create or update a segment by id in a private cloud workload network.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param private_cloud_name: Name of the private cloud. Required.
-        :type private_cloud_name: str
-        :param segment_id: NSX Segment identifier. Generally the same as the Segment's display name.
-         Required.
-        :type segment_id: str
-        :param workload_network_segment: NSX Segment. Required.
-        :type workload_network_segment: IO
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
-        :return: An instance of AsyncLROPoller that returns either WorkloadNetworkSegment or the result
-         of cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.avs.models.WorkloadNetworkSegment]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @distributed_trace_async
-    async def begin_update_segments(
-        self,
-        resource_group_name: str,
-        private_cloud_name: str,
-        segment_id: str,
-        workload_network_segment: Union[_models.WorkloadNetworkSegment, IO],
-        **kwargs: Any
-    ) -> AsyncLROPoller[_models.WorkloadNetworkSegment]:
-        """Create or update a segment by id in a private cloud workload network.
-
-        Create or update a segment by id in a private cloud workload network.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param private_cloud_name: Name of the private cloud. Required.
-        :type private_cloud_name: str
-        :param segment_id: NSX Segment identifier. Generally the same as the Segment's display name.
-         Required.
-        :type segment_id: str
-        :param workload_network_segment: NSX Segment. Is either a WorkloadNetworkSegment type or a IO
-         type. Required.
-        :type workload_network_segment: ~azure.mgmt.avs.models.WorkloadNetworkSegment or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
-        :return: An instance of AsyncLROPoller that returns either WorkloadNetworkSegment or the result
-         of cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.avs.models.WorkloadNetworkSegment]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.WorkloadNetworkSegment] = kwargs.pop("cls", None)
-        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
-        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
-        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
-        if cont_token is None:
-            raw_result = await self._update_segments_initial(
-                resource_group_name=resource_group_name,
-                private_cloud_name=private_cloud_name,
-                segment_id=segment_id,
-                workload_network_segment=workload_network_segment,
-                api_version=api_version,
-                content_type=content_type,
-                cls=lambda x, y, z: x,
-                headers=_headers,
-                params=_params,
-                **kwargs
-            )
-        kwargs.pop("error_map", None)
-
-        def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("WorkloadNetworkSegment", pipeline_response)
-            if cls:
-                return cls(pipeline_response, deserialized, {})
-            return deserialized
-
-        if polling is True:
-            polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
-        elif polling is False:
-            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
-        else:
-            polling_method = polling
-        if cont_token:
-            return AsyncLROPoller.from_continuation_token(
-                polling_method=polling_method,
-                continuation_token=cont_token,
-                client=self._client,
-                deserialization_callback=get_long_running_output,
-            )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_update_segments.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/segments/{segmentId}"
-    }
-
-    async def _delete_segment_initial(  # pylint: disable=inconsistent-return-statements
-        self, resource_group_name: str, private_cloud_name: str, segment_id: str, **kwargs: Any
-    ) -> None:
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[None] = kwargs.pop("cls", None)
-
-        request = build_delete_segment_request(
-            resource_group_name=resource_group_name,
-            private_cloud_name=private_cloud_name,
-            segment_id=segment_id,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            template_url=self._delete_segment_initial.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200, 202, 204]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-        if cls:
-            return cls(pipeline_response, None, {})
-
-    _delete_segment_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/segments/{segmentId}"
-    }
-
-    @distributed_trace_async
-    async def begin_delete_segment(
-        self, resource_group_name: str, private_cloud_name: str, segment_id: str, **kwargs: Any
-    ) -> AsyncLROPoller[None]:
-        """Delete a segment by id in a private cloud workload network.
-
-        Delete a segment by id in a private cloud workload network.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param private_cloud_name: Name of the private cloud. Required.
-        :type private_cloud_name: str
-        :param segment_id: NSX Segment identifier. Generally the same as the Segment's display name.
-         Required.
-        :type segment_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
-        :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[None]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[None] = kwargs.pop("cls", None)
-        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
-        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
-        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
-        if cont_token is None:
-            raw_result = await self._delete_segment_initial(  # type: ignore
-                resource_group_name=resource_group_name,
-                private_cloud_name=private_cloud_name,
-                segment_id=segment_id,
-                api_version=api_version,
-                cls=lambda x, y, z: x,
-                headers=_headers,
-                params=_params,
-                **kwargs
-            )
-        kwargs.pop("error_map", None)
-
-        def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
-            if cls:
-                return cls(pipeline_response, None, {})
-
-        if polling is True:
-            polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
-        elif polling is False:
-            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
-        else:
-            polling_method = polling
-        if cont_token:
-            return AsyncLROPoller.from_continuation_token(
-                polling_method=polling_method,
-                continuation_token=cont_token,
-                client=self._client,
-                deserialization_callback=get_long_running_output,
-            )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete_segment.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/segments/{segmentId}"
+    get.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default"
     }
 
     @distributed_trace
     def list_dhcp(
         self, resource_group_name: str, private_cloud_name: str, **kwargs: Any
     ) -> AsyncIterable["_models.WorkloadNetworkDhcp"]:
-        """List dhcp in a private cloud workload network.
-
-        List dhcp in a private cloud workload network.
+        """List WorkloadNetworkDhcp resources by WorkloadNetwork.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -1067,7 +272,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.WorkloadNetworkDhcpList] = kwargs.pop("cls", None)
+        cls: ClsType[_models.WorkloadNetworkDhcpListResult] = kwargs.pop("cls", None)
 
         error_map = {
             401: ClientAuthenticationError,
@@ -1111,7 +316,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
             return request
 
         async def extract_data(pipeline_response):
-            deserialized = self._deserialize("WorkloadNetworkDhcpList", pipeline_response)
+            deserialized = self._deserialize("WorkloadNetworkDhcpListResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
@@ -1143,14 +348,12 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
     async def get_dhcp(
         self, resource_group_name: str, dhcp_id: str, private_cloud_name: str, **kwargs: Any
     ) -> _models.WorkloadNetworkDhcp:
-        """Get dhcp by id in a private cloud workload network.
-
-        Get dhcp by id in a private cloud workload network.
+        """Get a WorkloadNetworkDhcp.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param dhcp_id: NSX DHCP identifier. Generally the same as the DHCP display name. Required.
+        :param dhcp_id: The ID of the DHCP configuration. Required.
         :type dhcp_id: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
@@ -1268,14 +471,17 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
+        response_headers = {}
         if response.status_code == 200:
             deserialized = self._deserialize("WorkloadNetworkDhcp", pipeline_response)
 
         if response.status_code == 201:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+
             deserialized = self._deserialize("WorkloadNetworkDhcp", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
 
@@ -1294,18 +500,16 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.WorkloadNetworkDhcp]:
-        """Create dhcp by id in a private cloud workload network.
-
-        Create dhcp by id in a private cloud workload network.
+        """Create a WorkloadNetworkDhcp.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param dhcp_id: NSX DHCP identifier. Generally the same as the DHCP display name. Required.
+        :param dhcp_id: The ID of the DHCP configuration. Required.
         :type dhcp_id: str
-        :param workload_network_dhcp: NSX DHCP. Required.
+        :param workload_network_dhcp: Resource create parameters. Required.
         :type workload_network_dhcp: ~azure.mgmt.avs.models.WorkloadNetworkDhcp
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
@@ -1335,18 +539,16 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.WorkloadNetworkDhcp]:
-        """Create dhcp by id in a private cloud workload network.
-
-        Create dhcp by id in a private cloud workload network.
+        """Create a WorkloadNetworkDhcp.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param dhcp_id: NSX DHCP identifier. Generally the same as the DHCP display name. Required.
+        :param dhcp_id: The ID of the DHCP configuration. Required.
         :type dhcp_id: str
-        :param workload_network_dhcp: NSX DHCP. Required.
+        :param workload_network_dhcp: Resource create parameters. Required.
         :type workload_network_dhcp: IO
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
@@ -1374,19 +576,17 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         workload_network_dhcp: Union[_models.WorkloadNetworkDhcp, IO],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.WorkloadNetworkDhcp]:
-        """Create dhcp by id in a private cloud workload network.
-
-        Create dhcp by id in a private cloud workload network.
+        """Create a WorkloadNetworkDhcp.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param dhcp_id: NSX DHCP identifier. Generally the same as the DHCP display name. Required.
+        :param dhcp_id: The ID of the DHCP configuration. Required.
         :type dhcp_id: str
-        :param workload_network_dhcp: NSX DHCP. Is either a WorkloadNetworkDhcp type or a IO type.
-         Required.
+        :param workload_network_dhcp: Resource create parameters. Is either a WorkloadNetworkDhcp type
+         or a IO type. Required.
         :type workload_network_dhcp: ~azure.mgmt.avs.models.WorkloadNetworkDhcp or IO
         :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
          Default value is None.
@@ -1435,7 +635,10 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
             return deserialized
 
         if polling is True:
-            polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod,
+                AsyncARMPolling(lro_delay, lro_options={"final-state-via": "azure-async-operation"}, **kwargs),
+            )
         elif polling is False:
             polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
@@ -1458,7 +661,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         resource_group_name: str,
         private_cloud_name: str,
         dhcp_id: str,
-        workload_network_dhcp: Union[_models.WorkloadNetworkDhcp, IO],
+        workload_network_dhcp: Union[_models.WorkloadNetworkDhcpUpdate, IO],
         **kwargs: Any
     ) -> Optional[_models.WorkloadNetworkDhcp]:
         error_map = {
@@ -1482,7 +685,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         if isinstance(workload_network_dhcp, (IOBase, bytes)):
             _content = workload_network_dhcp
         else:
-            _json = self._serialize.body(workload_network_dhcp, "WorkloadNetworkDhcp")
+            _json = self._serialize.body(workload_network_dhcp, "WorkloadNetworkDhcpUpdate")
 
         request = build_update_dhcp_request(
             resource_group_name=resource_group_name,
@@ -1513,11 +716,16 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         deserialized = None
+        response_headers = {}
         if response.status_code == 200:
             deserialized = self._deserialize("WorkloadNetworkDhcp", pipeline_response)
 
+        if response.status_code == 202:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, response_headers)
 
         return deserialized
 
@@ -1531,24 +739,22 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         resource_group_name: str,
         private_cloud_name: str,
         dhcp_id: str,
-        workload_network_dhcp: _models.WorkloadNetworkDhcp,
+        workload_network_dhcp: _models.WorkloadNetworkDhcpUpdate,
         *,
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.WorkloadNetworkDhcp]:
-        """Create or update dhcp by id in a private cloud workload network.
-
-        Create or update dhcp by id in a private cloud workload network.
+        """Update a WorkloadNetworkDhcp.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param dhcp_id: NSX DHCP identifier. Generally the same as the DHCP display name. Required.
+        :param dhcp_id: The ID of the DHCP configuration. Required.
         :type dhcp_id: str
-        :param workload_network_dhcp: NSX DHCP. Required.
-        :type workload_network_dhcp: ~azure.mgmt.avs.models.WorkloadNetworkDhcp
+        :param workload_network_dhcp: The resource properties to be updated. Required.
+        :type workload_network_dhcp: ~azure.mgmt.avs.models.WorkloadNetworkDhcpUpdate
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -1577,18 +783,16 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.WorkloadNetworkDhcp]:
-        """Create or update dhcp by id in a private cloud workload network.
-
-        Create or update dhcp by id in a private cloud workload network.
+        """Update a WorkloadNetworkDhcp.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param dhcp_id: NSX DHCP identifier. Generally the same as the DHCP display name. Required.
+        :param dhcp_id: The ID of the DHCP configuration. Required.
         :type dhcp_id: str
-        :param workload_network_dhcp: NSX DHCP. Required.
+        :param workload_network_dhcp: The resource properties to be updated. Required.
         :type workload_network_dhcp: IO
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
@@ -1613,23 +817,21 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         resource_group_name: str,
         private_cloud_name: str,
         dhcp_id: str,
-        workload_network_dhcp: Union[_models.WorkloadNetworkDhcp, IO],
+        workload_network_dhcp: Union[_models.WorkloadNetworkDhcpUpdate, IO],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.WorkloadNetworkDhcp]:
-        """Create or update dhcp by id in a private cloud workload network.
-
-        Create or update dhcp by id in a private cloud workload network.
+        """Update a WorkloadNetworkDhcp.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param dhcp_id: NSX DHCP identifier. Generally the same as the DHCP display name. Required.
+        :param dhcp_id: The ID of the DHCP configuration. Required.
         :type dhcp_id: str
-        :param workload_network_dhcp: NSX DHCP. Is either a WorkloadNetworkDhcp type or a IO type.
-         Required.
-        :type workload_network_dhcp: ~azure.mgmt.avs.models.WorkloadNetworkDhcp or IO
+        :param workload_network_dhcp: The resource properties to be updated. Is either a
+         WorkloadNetworkDhcpUpdate type or a IO type. Required.
+        :type workload_network_dhcp: ~azure.mgmt.avs.models.WorkloadNetworkDhcpUpdate or IO
         :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
          Default value is None.
         :paramtype content_type: str
@@ -1677,7 +879,9 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
             return deserialized
 
         if polling is True:
-            polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
         elif polling is False:
             polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
@@ -1737,8 +941,13 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
+        response_headers = {}
+        if response.status_code == 202:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+
         if cls:
-            return cls(pipeline_response, None, {})
+            return cls(pipeline_response, None, response_headers)
 
     _delete_dhcp_initial.metadata = {
         "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dhcpConfigurations/{dhcpId}"
@@ -1748,16 +957,14 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
     async def begin_delete_dhcp(
         self, resource_group_name: str, private_cloud_name: str, dhcp_id: str, **kwargs: Any
     ) -> AsyncLROPoller[None]:
-        """Delete dhcp by id in a private cloud workload network.
-
-        Delete dhcp by id in a private cloud workload network.
+        """Delete a WorkloadNetworkDhcp.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param dhcp_id: NSX DHCP identifier. Generally the same as the DHCP display name. Required.
+        :param dhcp_id: The ID of the DHCP configuration. Required.
         :type dhcp_id: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :keyword str continuation_token: A continuation token to restart a poller from a saved state.
@@ -1797,7 +1004,9 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
                 return cls(pipeline_response, None, {})
 
         if polling is True:
-            polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
         elif polling is False:
             polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
@@ -1816,1905 +1025,10 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
     }
 
     @distributed_trace
-    def list_gateways(
-        self, resource_group_name: str, private_cloud_name: str, **kwargs: Any
-    ) -> AsyncIterable["_models.WorkloadNetworkGateway"]:
-        """List of gateways in a private cloud workload network.
-
-        List of gateways in a private cloud workload network.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param private_cloud_name: Name of the private cloud. Required.
-        :type private_cloud_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: An iterator like instance of either WorkloadNetworkGateway or the result of
-         cls(response)
-        :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.avs.models.WorkloadNetworkGateway]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.WorkloadNetworkGatewayList] = kwargs.pop("cls", None)
-
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(next_link=None):
-            if not next_link:
-
-                request = build_list_gateways_request(
-                    resource_group_name=resource_group_name,
-                    private_cloud_name=private_cloud_name,
-                    subscription_id=self._config.subscription_id,
-                    api_version=api_version,
-                    template_url=self.list_gateways.metadata["url"],
-                    headers=_headers,
-                    params=_params,
-                )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-
-            else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
-
-        async def extract_data(pipeline_response):
-            deserialized = self._deserialize("WorkloadNetworkGatewayList", pipeline_response)
-            list_of_elem = deserialized.value
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.next_link or None, AsyncList(list_of_elem)
-
-        async def get_next(next_link=None):
-            request = prepare_request(next_link)
-
-            _stream = False
-            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-                raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-            return pipeline_response
-
-        return AsyncItemPaged(get_next, extract_data)
-
-    list_gateways.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/gateways"
-    }
-
-    @distributed_trace_async
-    async def get_gateway(
-        self, resource_group_name: str, private_cloud_name: str, gateway_id: str, **kwargs: Any
-    ) -> _models.WorkloadNetworkGateway:
-        """Get a gateway by id in a private cloud workload network.
-
-        Get a gateway by id in a private cloud workload network.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param private_cloud_name: Name of the private cloud. Required.
-        :type private_cloud_name: str
-        :param gateway_id: NSX Gateway identifier. Generally the same as the Gateway's display name.
-         Required.
-        :type gateway_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: WorkloadNetworkGateway or the result of cls(response)
-        :rtype: ~azure.mgmt.avs.models.WorkloadNetworkGateway
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.WorkloadNetworkGateway] = kwargs.pop("cls", None)
-
-        request = build_get_gateway_request(
-            resource_group_name=resource_group_name,
-            private_cloud_name=private_cloud_name,
-            gateway_id=gateway_id,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            template_url=self.get_gateway.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("WorkloadNetworkGateway", pipeline_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})
-
-        return deserialized
-
-    get_gateway.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/gateways/{gatewayId}"
-    }
-
-    @distributed_trace
-    def list_port_mirroring(
-        self, resource_group_name: str, private_cloud_name: str, **kwargs: Any
-    ) -> AsyncIterable["_models.WorkloadNetworkPortMirroring"]:
-        """List of port mirroring profiles in a private cloud workload network.
-
-        List of port mirroring profiles in a private cloud workload network.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param private_cloud_name: Name of the private cloud. Required.
-        :type private_cloud_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: An iterator like instance of either WorkloadNetworkPortMirroring or the result of
-         cls(response)
-        :rtype:
-         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.avs.models.WorkloadNetworkPortMirroring]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.WorkloadNetworkPortMirroringList] = kwargs.pop("cls", None)
-
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(next_link=None):
-            if not next_link:
-
-                request = build_list_port_mirroring_request(
-                    resource_group_name=resource_group_name,
-                    private_cloud_name=private_cloud_name,
-                    subscription_id=self._config.subscription_id,
-                    api_version=api_version,
-                    template_url=self.list_port_mirroring.metadata["url"],
-                    headers=_headers,
-                    params=_params,
-                )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-
-            else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
-
-        async def extract_data(pipeline_response):
-            deserialized = self._deserialize("WorkloadNetworkPortMirroringList", pipeline_response)
-            list_of_elem = deserialized.value
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.next_link or None, AsyncList(list_of_elem)
-
-        async def get_next(next_link=None):
-            request = prepare_request(next_link)
-
-            _stream = False
-            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-                raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-            return pipeline_response
-
-        return AsyncItemPaged(get_next, extract_data)
-
-    list_port_mirroring.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/portMirroringProfiles"
-    }
-
-    @distributed_trace_async
-    async def get_port_mirroring(
-        self, resource_group_name: str, private_cloud_name: str, port_mirroring_id: str, **kwargs: Any
-    ) -> _models.WorkloadNetworkPortMirroring:
-        """Get a port mirroring profile by id in a private cloud workload network.
-
-        Get a port mirroring profile by id in a private cloud workload network.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param private_cloud_name: Name of the private cloud. Required.
-        :type private_cloud_name: str
-        :param port_mirroring_id: NSX Port Mirroring identifier. Generally the same as the Port
-         Mirroring display name. Required.
-        :type port_mirroring_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: WorkloadNetworkPortMirroring or the result of cls(response)
-        :rtype: ~azure.mgmt.avs.models.WorkloadNetworkPortMirroring
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.WorkloadNetworkPortMirroring] = kwargs.pop("cls", None)
-
-        request = build_get_port_mirroring_request(
-            resource_group_name=resource_group_name,
-            private_cloud_name=private_cloud_name,
-            port_mirroring_id=port_mirroring_id,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            template_url=self.get_port_mirroring.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("WorkloadNetworkPortMirroring", pipeline_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})
-
-        return deserialized
-
-    get_port_mirroring.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/portMirroringProfiles/{portMirroringId}"
-    }
-
-    async def _create_port_mirroring_initial(
-        self,
-        resource_group_name: str,
-        private_cloud_name: str,
-        port_mirroring_id: str,
-        workload_network_port_mirroring: Union[_models.WorkloadNetworkPortMirroring, IO],
-        **kwargs: Any
-    ) -> _models.WorkloadNetworkPortMirroring:
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.WorkloadNetworkPortMirroring] = kwargs.pop("cls", None)
-
-        content_type = content_type or "application/json"
-        _json = None
-        _content = None
-        if isinstance(workload_network_port_mirroring, (IOBase, bytes)):
-            _content = workload_network_port_mirroring
-        else:
-            _json = self._serialize.body(workload_network_port_mirroring, "WorkloadNetworkPortMirroring")
-
-        request = build_create_port_mirroring_request(
-            resource_group_name=resource_group_name,
-            private_cloud_name=private_cloud_name,
-            port_mirroring_id=port_mirroring_id,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            content_type=content_type,
-            json=_json,
-            content=_content,
-            template_url=self._create_port_mirroring_initial.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200, 201]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-        if response.status_code == 200:
-            deserialized = self._deserialize("WorkloadNetworkPortMirroring", pipeline_response)
-
-        if response.status_code == 201:
-            deserialized = self._deserialize("WorkloadNetworkPortMirroring", pipeline_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-    _create_port_mirroring_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/portMirroringProfiles/{portMirroringId}"
-    }
-
-    @overload
-    async def begin_create_port_mirroring(
-        self,
-        resource_group_name: str,
-        private_cloud_name: str,
-        port_mirroring_id: str,
-        workload_network_port_mirroring: _models.WorkloadNetworkPortMirroring,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> AsyncLROPoller[_models.WorkloadNetworkPortMirroring]:
-        """Create a port mirroring profile by id in a private cloud workload network.
-
-        Create a port mirroring profile by id in a private cloud workload network.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param private_cloud_name: Name of the private cloud. Required.
-        :type private_cloud_name: str
-        :param port_mirroring_id: NSX Port Mirroring identifier. Generally the same as the Port
-         Mirroring display name. Required.
-        :type port_mirroring_id: str
-        :param workload_network_port_mirroring: NSX port mirroring. Required.
-        :type workload_network_port_mirroring: ~azure.mgmt.avs.models.WorkloadNetworkPortMirroring
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
-        :return: An instance of AsyncLROPoller that returns either WorkloadNetworkPortMirroring or the
-         result of cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.avs.models.WorkloadNetworkPortMirroring]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    async def begin_create_port_mirroring(
-        self,
-        resource_group_name: str,
-        private_cloud_name: str,
-        port_mirroring_id: str,
-        workload_network_port_mirroring: IO,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> AsyncLROPoller[_models.WorkloadNetworkPortMirroring]:
-        """Create a port mirroring profile by id in a private cloud workload network.
-
-        Create a port mirroring profile by id in a private cloud workload network.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param private_cloud_name: Name of the private cloud. Required.
-        :type private_cloud_name: str
-        :param port_mirroring_id: NSX Port Mirroring identifier. Generally the same as the Port
-         Mirroring display name. Required.
-        :type port_mirroring_id: str
-        :param workload_network_port_mirroring: NSX port mirroring. Required.
-        :type workload_network_port_mirroring: IO
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
-        :return: An instance of AsyncLROPoller that returns either WorkloadNetworkPortMirroring or the
-         result of cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.avs.models.WorkloadNetworkPortMirroring]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @distributed_trace_async
-    async def begin_create_port_mirroring(
-        self,
-        resource_group_name: str,
-        private_cloud_name: str,
-        port_mirroring_id: str,
-        workload_network_port_mirroring: Union[_models.WorkloadNetworkPortMirroring, IO],
-        **kwargs: Any
-    ) -> AsyncLROPoller[_models.WorkloadNetworkPortMirroring]:
-        """Create a port mirroring profile by id in a private cloud workload network.
-
-        Create a port mirroring profile by id in a private cloud workload network.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param private_cloud_name: Name of the private cloud. Required.
-        :type private_cloud_name: str
-        :param port_mirroring_id: NSX Port Mirroring identifier. Generally the same as the Port
-         Mirroring display name. Required.
-        :type port_mirroring_id: str
-        :param workload_network_port_mirroring: NSX port mirroring. Is either a
-         WorkloadNetworkPortMirroring type or a IO type. Required.
-        :type workload_network_port_mirroring: ~azure.mgmt.avs.models.WorkloadNetworkPortMirroring or
-         IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
-        :return: An instance of AsyncLROPoller that returns either WorkloadNetworkPortMirroring or the
-         result of cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.avs.models.WorkloadNetworkPortMirroring]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.WorkloadNetworkPortMirroring] = kwargs.pop("cls", None)
-        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
-        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
-        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
-        if cont_token is None:
-            raw_result = await self._create_port_mirroring_initial(
-                resource_group_name=resource_group_name,
-                private_cloud_name=private_cloud_name,
-                port_mirroring_id=port_mirroring_id,
-                workload_network_port_mirroring=workload_network_port_mirroring,
-                api_version=api_version,
-                content_type=content_type,
-                cls=lambda x, y, z: x,
-                headers=_headers,
-                params=_params,
-                **kwargs
-            )
-        kwargs.pop("error_map", None)
-
-        def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("WorkloadNetworkPortMirroring", pipeline_response)
-            if cls:
-                return cls(pipeline_response, deserialized, {})
-            return deserialized
-
-        if polling is True:
-            polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
-        elif polling is False:
-            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
-        else:
-            polling_method = polling
-        if cont_token:
-            return AsyncLROPoller.from_continuation_token(
-                polling_method=polling_method,
-                continuation_token=cont_token,
-                client=self._client,
-                deserialization_callback=get_long_running_output,
-            )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_port_mirroring.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/portMirroringProfiles/{portMirroringId}"
-    }
-
-    async def _update_port_mirroring_initial(
-        self,
-        resource_group_name: str,
-        private_cloud_name: str,
-        port_mirroring_id: str,
-        workload_network_port_mirroring: Union[_models.WorkloadNetworkPortMirroring, IO],
-        **kwargs: Any
-    ) -> Optional[_models.WorkloadNetworkPortMirroring]:
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[Optional[_models.WorkloadNetworkPortMirroring]] = kwargs.pop("cls", None)
-
-        content_type = content_type or "application/json"
-        _json = None
-        _content = None
-        if isinstance(workload_network_port_mirroring, (IOBase, bytes)):
-            _content = workload_network_port_mirroring
-        else:
-            _json = self._serialize.body(workload_network_port_mirroring, "WorkloadNetworkPortMirroring")
-
-        request = build_update_port_mirroring_request(
-            resource_group_name=resource_group_name,
-            private_cloud_name=private_cloud_name,
-            port_mirroring_id=port_mirroring_id,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            content_type=content_type,
-            json=_json,
-            content=_content,
-            template_url=self._update_port_mirroring_initial.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200, 202]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-        deserialized = None
-        if response.status_code == 200:
-            deserialized = self._deserialize("WorkloadNetworkPortMirroring", pipeline_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})
-
-        return deserialized
-
-    _update_port_mirroring_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/portMirroringProfiles/{portMirroringId}"
-    }
-
-    @overload
-    async def begin_update_port_mirroring(
-        self,
-        resource_group_name: str,
-        private_cloud_name: str,
-        port_mirroring_id: str,
-        workload_network_port_mirroring: _models.WorkloadNetworkPortMirroring,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> AsyncLROPoller[_models.WorkloadNetworkPortMirroring]:
-        """Create or update a port mirroring profile by id in a private cloud workload network.
-
-        Create or update a port mirroring profile by id in a private cloud workload network.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param private_cloud_name: Name of the private cloud. Required.
-        :type private_cloud_name: str
-        :param port_mirroring_id: NSX Port Mirroring identifier. Generally the same as the Port
-         Mirroring display name. Required.
-        :type port_mirroring_id: str
-        :param workload_network_port_mirroring: NSX port mirroring. Required.
-        :type workload_network_port_mirroring: ~azure.mgmt.avs.models.WorkloadNetworkPortMirroring
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
-        :return: An instance of AsyncLROPoller that returns either WorkloadNetworkPortMirroring or the
-         result of cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.avs.models.WorkloadNetworkPortMirroring]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    async def begin_update_port_mirroring(
-        self,
-        resource_group_name: str,
-        private_cloud_name: str,
-        port_mirroring_id: str,
-        workload_network_port_mirroring: IO,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> AsyncLROPoller[_models.WorkloadNetworkPortMirroring]:
-        """Create or update a port mirroring profile by id in a private cloud workload network.
-
-        Create or update a port mirroring profile by id in a private cloud workload network.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param private_cloud_name: Name of the private cloud. Required.
-        :type private_cloud_name: str
-        :param port_mirroring_id: NSX Port Mirroring identifier. Generally the same as the Port
-         Mirroring display name. Required.
-        :type port_mirroring_id: str
-        :param workload_network_port_mirroring: NSX port mirroring. Required.
-        :type workload_network_port_mirroring: IO
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
-        :return: An instance of AsyncLROPoller that returns either WorkloadNetworkPortMirroring or the
-         result of cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.avs.models.WorkloadNetworkPortMirroring]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @distributed_trace_async
-    async def begin_update_port_mirroring(
-        self,
-        resource_group_name: str,
-        private_cloud_name: str,
-        port_mirroring_id: str,
-        workload_network_port_mirroring: Union[_models.WorkloadNetworkPortMirroring, IO],
-        **kwargs: Any
-    ) -> AsyncLROPoller[_models.WorkloadNetworkPortMirroring]:
-        """Create or update a port mirroring profile by id in a private cloud workload network.
-
-        Create or update a port mirroring profile by id in a private cloud workload network.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param private_cloud_name: Name of the private cloud. Required.
-        :type private_cloud_name: str
-        :param port_mirroring_id: NSX Port Mirroring identifier. Generally the same as the Port
-         Mirroring display name. Required.
-        :type port_mirroring_id: str
-        :param workload_network_port_mirroring: NSX port mirroring. Is either a
-         WorkloadNetworkPortMirroring type or a IO type. Required.
-        :type workload_network_port_mirroring: ~azure.mgmt.avs.models.WorkloadNetworkPortMirroring or
-         IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
-        :return: An instance of AsyncLROPoller that returns either WorkloadNetworkPortMirroring or the
-         result of cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.avs.models.WorkloadNetworkPortMirroring]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.WorkloadNetworkPortMirroring] = kwargs.pop("cls", None)
-        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
-        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
-        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
-        if cont_token is None:
-            raw_result = await self._update_port_mirroring_initial(
-                resource_group_name=resource_group_name,
-                private_cloud_name=private_cloud_name,
-                port_mirroring_id=port_mirroring_id,
-                workload_network_port_mirroring=workload_network_port_mirroring,
-                api_version=api_version,
-                content_type=content_type,
-                cls=lambda x, y, z: x,
-                headers=_headers,
-                params=_params,
-                **kwargs
-            )
-        kwargs.pop("error_map", None)
-
-        def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("WorkloadNetworkPortMirroring", pipeline_response)
-            if cls:
-                return cls(pipeline_response, deserialized, {})
-            return deserialized
-
-        if polling is True:
-            polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
-        elif polling is False:
-            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
-        else:
-            polling_method = polling
-        if cont_token:
-            return AsyncLROPoller.from_continuation_token(
-                polling_method=polling_method,
-                continuation_token=cont_token,
-                client=self._client,
-                deserialization_callback=get_long_running_output,
-            )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_update_port_mirroring.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/portMirroringProfiles/{portMirroringId}"
-    }
-
-    async def _delete_port_mirroring_initial(  # pylint: disable=inconsistent-return-statements
-        self, resource_group_name: str, port_mirroring_id: str, private_cloud_name: str, **kwargs: Any
-    ) -> None:
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[None] = kwargs.pop("cls", None)
-
-        request = build_delete_port_mirroring_request(
-            resource_group_name=resource_group_name,
-            port_mirroring_id=port_mirroring_id,
-            private_cloud_name=private_cloud_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            template_url=self._delete_port_mirroring_initial.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200, 202, 204]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-        if cls:
-            return cls(pipeline_response, None, {})
-
-    _delete_port_mirroring_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/portMirroringProfiles/{portMirroringId}"
-    }
-
-    @distributed_trace_async
-    async def begin_delete_port_mirroring(
-        self, resource_group_name: str, port_mirroring_id: str, private_cloud_name: str, **kwargs: Any
-    ) -> AsyncLROPoller[None]:
-        """Delete a port mirroring profile by id in a private cloud workload network.
-
-        Delete a port mirroring profile by id in a private cloud workload network.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param port_mirroring_id: NSX Port Mirroring identifier. Generally the same as the Port
-         Mirroring display name. Required.
-        :type port_mirroring_id: str
-        :param private_cloud_name: Name of the private cloud. Required.
-        :type private_cloud_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
-        :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[None]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[None] = kwargs.pop("cls", None)
-        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
-        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
-        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
-        if cont_token is None:
-            raw_result = await self._delete_port_mirroring_initial(  # type: ignore
-                resource_group_name=resource_group_name,
-                port_mirroring_id=port_mirroring_id,
-                private_cloud_name=private_cloud_name,
-                api_version=api_version,
-                cls=lambda x, y, z: x,
-                headers=_headers,
-                params=_params,
-                **kwargs
-            )
-        kwargs.pop("error_map", None)
-
-        def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
-            if cls:
-                return cls(pipeline_response, None, {})
-
-        if polling is True:
-            polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
-        elif polling is False:
-            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
-        else:
-            polling_method = polling
-        if cont_token:
-            return AsyncLROPoller.from_continuation_token(
-                polling_method=polling_method,
-                continuation_token=cont_token,
-                client=self._client,
-                deserialization_callback=get_long_running_output,
-            )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete_port_mirroring.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/portMirroringProfiles/{portMirroringId}"
-    }
-
-    @distributed_trace
-    def list_vm_groups(
-        self, resource_group_name: str, private_cloud_name: str, **kwargs: Any
-    ) -> AsyncIterable["_models.WorkloadNetworkVMGroup"]:
-        """List of vm groups in a private cloud workload network.
-
-        List of vm groups in a private cloud workload network.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param private_cloud_name: Name of the private cloud. Required.
-        :type private_cloud_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: An iterator like instance of either WorkloadNetworkVMGroup or the result of
-         cls(response)
-        :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.avs.models.WorkloadNetworkVMGroup]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.WorkloadNetworkVMGroupsList] = kwargs.pop("cls", None)
-
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(next_link=None):
-            if not next_link:
-
-                request = build_list_vm_groups_request(
-                    resource_group_name=resource_group_name,
-                    private_cloud_name=private_cloud_name,
-                    subscription_id=self._config.subscription_id,
-                    api_version=api_version,
-                    template_url=self.list_vm_groups.metadata["url"],
-                    headers=_headers,
-                    params=_params,
-                )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-
-            else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
-
-        async def extract_data(pipeline_response):
-            deserialized = self._deserialize("WorkloadNetworkVMGroupsList", pipeline_response)
-            list_of_elem = deserialized.value
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.next_link or None, AsyncList(list_of_elem)
-
-        async def get_next(next_link=None):
-            request = prepare_request(next_link)
-
-            _stream = False
-            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-                raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-            return pipeline_response
-
-        return AsyncItemPaged(get_next, extract_data)
-
-    list_vm_groups.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/vmGroups"
-    }
-
-    @distributed_trace_async
-    async def get_vm_group(
-        self, resource_group_name: str, private_cloud_name: str, vm_group_id: str, **kwargs: Any
-    ) -> _models.WorkloadNetworkVMGroup:
-        """Get a vm group by id in a private cloud workload network.
-
-        Get a vm group by id in a private cloud workload network.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param private_cloud_name: Name of the private cloud. Required.
-        :type private_cloud_name: str
-        :param vm_group_id: NSX VM Group identifier. Generally the same as the VM Group's display name.
-         Required.
-        :type vm_group_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: WorkloadNetworkVMGroup or the result of cls(response)
-        :rtype: ~azure.mgmt.avs.models.WorkloadNetworkVMGroup
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.WorkloadNetworkVMGroup] = kwargs.pop("cls", None)
-
-        request = build_get_vm_group_request(
-            resource_group_name=resource_group_name,
-            private_cloud_name=private_cloud_name,
-            vm_group_id=vm_group_id,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            template_url=self.get_vm_group.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("WorkloadNetworkVMGroup", pipeline_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})
-
-        return deserialized
-
-    get_vm_group.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/vmGroups/{vmGroupId}"
-    }
-
-    async def _create_vm_group_initial(
-        self,
-        resource_group_name: str,
-        private_cloud_name: str,
-        vm_group_id: str,
-        workload_network_vm_group: Union[_models.WorkloadNetworkVMGroup, IO],
-        **kwargs: Any
-    ) -> _models.WorkloadNetworkVMGroup:
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.WorkloadNetworkVMGroup] = kwargs.pop("cls", None)
-
-        content_type = content_type or "application/json"
-        _json = None
-        _content = None
-        if isinstance(workload_network_vm_group, (IOBase, bytes)):
-            _content = workload_network_vm_group
-        else:
-            _json = self._serialize.body(workload_network_vm_group, "WorkloadNetworkVMGroup")
-
-        request = build_create_vm_group_request(
-            resource_group_name=resource_group_name,
-            private_cloud_name=private_cloud_name,
-            vm_group_id=vm_group_id,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            content_type=content_type,
-            json=_json,
-            content=_content,
-            template_url=self._create_vm_group_initial.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200, 201]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-        if response.status_code == 200:
-            deserialized = self._deserialize("WorkloadNetworkVMGroup", pipeline_response)
-
-        if response.status_code == 201:
-            deserialized = self._deserialize("WorkloadNetworkVMGroup", pipeline_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-    _create_vm_group_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/vmGroups/{vmGroupId}"
-    }
-
-    @overload
-    async def begin_create_vm_group(
-        self,
-        resource_group_name: str,
-        private_cloud_name: str,
-        vm_group_id: str,
-        workload_network_vm_group: _models.WorkloadNetworkVMGroup,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> AsyncLROPoller[_models.WorkloadNetworkVMGroup]:
-        """Create a vm group by id in a private cloud workload network.
-
-        Create a vm group by id in a private cloud workload network.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param private_cloud_name: Name of the private cloud. Required.
-        :type private_cloud_name: str
-        :param vm_group_id: NSX VM Group identifier. Generally the same as the VM Group's display name.
-         Required.
-        :type vm_group_id: str
-        :param workload_network_vm_group: NSX VM Group. Required.
-        :type workload_network_vm_group: ~azure.mgmt.avs.models.WorkloadNetworkVMGroup
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
-        :return: An instance of AsyncLROPoller that returns either WorkloadNetworkVMGroup or the result
-         of cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.avs.models.WorkloadNetworkVMGroup]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    async def begin_create_vm_group(
-        self,
-        resource_group_name: str,
-        private_cloud_name: str,
-        vm_group_id: str,
-        workload_network_vm_group: IO,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> AsyncLROPoller[_models.WorkloadNetworkVMGroup]:
-        """Create a vm group by id in a private cloud workload network.
-
-        Create a vm group by id in a private cloud workload network.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param private_cloud_name: Name of the private cloud. Required.
-        :type private_cloud_name: str
-        :param vm_group_id: NSX VM Group identifier. Generally the same as the VM Group's display name.
-         Required.
-        :type vm_group_id: str
-        :param workload_network_vm_group: NSX VM Group. Required.
-        :type workload_network_vm_group: IO
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
-        :return: An instance of AsyncLROPoller that returns either WorkloadNetworkVMGroup or the result
-         of cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.avs.models.WorkloadNetworkVMGroup]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @distributed_trace_async
-    async def begin_create_vm_group(
-        self,
-        resource_group_name: str,
-        private_cloud_name: str,
-        vm_group_id: str,
-        workload_network_vm_group: Union[_models.WorkloadNetworkVMGroup, IO],
-        **kwargs: Any
-    ) -> AsyncLROPoller[_models.WorkloadNetworkVMGroup]:
-        """Create a vm group by id in a private cloud workload network.
-
-        Create a vm group by id in a private cloud workload network.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param private_cloud_name: Name of the private cloud. Required.
-        :type private_cloud_name: str
-        :param vm_group_id: NSX VM Group identifier. Generally the same as the VM Group's display name.
-         Required.
-        :type vm_group_id: str
-        :param workload_network_vm_group: NSX VM Group. Is either a WorkloadNetworkVMGroup type or a IO
-         type. Required.
-        :type workload_network_vm_group: ~azure.mgmt.avs.models.WorkloadNetworkVMGroup or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
-        :return: An instance of AsyncLROPoller that returns either WorkloadNetworkVMGroup or the result
-         of cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.avs.models.WorkloadNetworkVMGroup]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.WorkloadNetworkVMGroup] = kwargs.pop("cls", None)
-        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
-        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
-        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
-        if cont_token is None:
-            raw_result = await self._create_vm_group_initial(
-                resource_group_name=resource_group_name,
-                private_cloud_name=private_cloud_name,
-                vm_group_id=vm_group_id,
-                workload_network_vm_group=workload_network_vm_group,
-                api_version=api_version,
-                content_type=content_type,
-                cls=lambda x, y, z: x,
-                headers=_headers,
-                params=_params,
-                **kwargs
-            )
-        kwargs.pop("error_map", None)
-
-        def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("WorkloadNetworkVMGroup", pipeline_response)
-            if cls:
-                return cls(pipeline_response, deserialized, {})
-            return deserialized
-
-        if polling is True:
-            polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
-        elif polling is False:
-            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
-        else:
-            polling_method = polling
-        if cont_token:
-            return AsyncLROPoller.from_continuation_token(
-                polling_method=polling_method,
-                continuation_token=cont_token,
-                client=self._client,
-                deserialization_callback=get_long_running_output,
-            )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_vm_group.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/vmGroups/{vmGroupId}"
-    }
-
-    async def _update_vm_group_initial(
-        self,
-        resource_group_name: str,
-        private_cloud_name: str,
-        vm_group_id: str,
-        workload_network_vm_group: Union[_models.WorkloadNetworkVMGroup, IO],
-        **kwargs: Any
-    ) -> Optional[_models.WorkloadNetworkVMGroup]:
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[Optional[_models.WorkloadNetworkVMGroup]] = kwargs.pop("cls", None)
-
-        content_type = content_type or "application/json"
-        _json = None
-        _content = None
-        if isinstance(workload_network_vm_group, (IOBase, bytes)):
-            _content = workload_network_vm_group
-        else:
-            _json = self._serialize.body(workload_network_vm_group, "WorkloadNetworkVMGroup")
-
-        request = build_update_vm_group_request(
-            resource_group_name=resource_group_name,
-            private_cloud_name=private_cloud_name,
-            vm_group_id=vm_group_id,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            content_type=content_type,
-            json=_json,
-            content=_content,
-            template_url=self._update_vm_group_initial.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200, 202]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-        deserialized = None
-        if response.status_code == 200:
-            deserialized = self._deserialize("WorkloadNetworkVMGroup", pipeline_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})
-
-        return deserialized
-
-    _update_vm_group_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/vmGroups/{vmGroupId}"
-    }
-
-    @overload
-    async def begin_update_vm_group(
-        self,
-        resource_group_name: str,
-        private_cloud_name: str,
-        vm_group_id: str,
-        workload_network_vm_group: _models.WorkloadNetworkVMGroup,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> AsyncLROPoller[_models.WorkloadNetworkVMGroup]:
-        """Create or update a vm group by id in a private cloud workload network.
-
-        Create or update a vm group by id in a private cloud workload network.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param private_cloud_name: Name of the private cloud. Required.
-        :type private_cloud_name: str
-        :param vm_group_id: NSX VM Group identifier. Generally the same as the VM Group's display name.
-         Required.
-        :type vm_group_id: str
-        :param workload_network_vm_group: NSX VM Group. Required.
-        :type workload_network_vm_group: ~azure.mgmt.avs.models.WorkloadNetworkVMGroup
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
-        :return: An instance of AsyncLROPoller that returns either WorkloadNetworkVMGroup or the result
-         of cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.avs.models.WorkloadNetworkVMGroup]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    async def begin_update_vm_group(
-        self,
-        resource_group_name: str,
-        private_cloud_name: str,
-        vm_group_id: str,
-        workload_network_vm_group: IO,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> AsyncLROPoller[_models.WorkloadNetworkVMGroup]:
-        """Create or update a vm group by id in a private cloud workload network.
-
-        Create or update a vm group by id in a private cloud workload network.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param private_cloud_name: Name of the private cloud. Required.
-        :type private_cloud_name: str
-        :param vm_group_id: NSX VM Group identifier. Generally the same as the VM Group's display name.
-         Required.
-        :type vm_group_id: str
-        :param workload_network_vm_group: NSX VM Group. Required.
-        :type workload_network_vm_group: IO
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
-        :return: An instance of AsyncLROPoller that returns either WorkloadNetworkVMGroup or the result
-         of cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.avs.models.WorkloadNetworkVMGroup]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @distributed_trace_async
-    async def begin_update_vm_group(
-        self,
-        resource_group_name: str,
-        private_cloud_name: str,
-        vm_group_id: str,
-        workload_network_vm_group: Union[_models.WorkloadNetworkVMGroup, IO],
-        **kwargs: Any
-    ) -> AsyncLROPoller[_models.WorkloadNetworkVMGroup]:
-        """Create or update a vm group by id in a private cloud workload network.
-
-        Create or update a vm group by id in a private cloud workload network.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param private_cloud_name: Name of the private cloud. Required.
-        :type private_cloud_name: str
-        :param vm_group_id: NSX VM Group identifier. Generally the same as the VM Group's display name.
-         Required.
-        :type vm_group_id: str
-        :param workload_network_vm_group: NSX VM Group. Is either a WorkloadNetworkVMGroup type or a IO
-         type. Required.
-        :type workload_network_vm_group: ~azure.mgmt.avs.models.WorkloadNetworkVMGroup or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
-        :return: An instance of AsyncLROPoller that returns either WorkloadNetworkVMGroup or the result
-         of cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.avs.models.WorkloadNetworkVMGroup]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.WorkloadNetworkVMGroup] = kwargs.pop("cls", None)
-        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
-        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
-        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
-        if cont_token is None:
-            raw_result = await self._update_vm_group_initial(
-                resource_group_name=resource_group_name,
-                private_cloud_name=private_cloud_name,
-                vm_group_id=vm_group_id,
-                workload_network_vm_group=workload_network_vm_group,
-                api_version=api_version,
-                content_type=content_type,
-                cls=lambda x, y, z: x,
-                headers=_headers,
-                params=_params,
-                **kwargs
-            )
-        kwargs.pop("error_map", None)
-
-        def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("WorkloadNetworkVMGroup", pipeline_response)
-            if cls:
-                return cls(pipeline_response, deserialized, {})
-            return deserialized
-
-        if polling is True:
-            polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
-        elif polling is False:
-            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
-        else:
-            polling_method = polling
-        if cont_token:
-            return AsyncLROPoller.from_continuation_token(
-                polling_method=polling_method,
-                continuation_token=cont_token,
-                client=self._client,
-                deserialization_callback=get_long_running_output,
-            )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_update_vm_group.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/vmGroups/{vmGroupId}"
-    }
-
-    async def _delete_vm_group_initial(  # pylint: disable=inconsistent-return-statements
-        self, resource_group_name: str, vm_group_id: str, private_cloud_name: str, **kwargs: Any
-    ) -> None:
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[None] = kwargs.pop("cls", None)
-
-        request = build_delete_vm_group_request(
-            resource_group_name=resource_group_name,
-            vm_group_id=vm_group_id,
-            private_cloud_name=private_cloud_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            template_url=self._delete_vm_group_initial.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200, 202, 204]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-        if cls:
-            return cls(pipeline_response, None, {})
-
-    _delete_vm_group_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/vmGroups/{vmGroupId}"
-    }
-
-    @distributed_trace_async
-    async def begin_delete_vm_group(
-        self, resource_group_name: str, vm_group_id: str, private_cloud_name: str, **kwargs: Any
-    ) -> AsyncLROPoller[None]:
-        """Delete a vm group by id in a private cloud workload network.
-
-        Delete a vm group by id in a private cloud workload network.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param vm_group_id: NSX VM Group identifier. Generally the same as the VM Group's display name.
-         Required.
-        :type vm_group_id: str
-        :param private_cloud_name: Name of the private cloud. Required.
-        :type private_cloud_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
-        :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[None]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[None] = kwargs.pop("cls", None)
-        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
-        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
-        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
-        if cont_token is None:
-            raw_result = await self._delete_vm_group_initial(  # type: ignore
-                resource_group_name=resource_group_name,
-                vm_group_id=vm_group_id,
-                private_cloud_name=private_cloud_name,
-                api_version=api_version,
-                cls=lambda x, y, z: x,
-                headers=_headers,
-                params=_params,
-                **kwargs
-            )
-        kwargs.pop("error_map", None)
-
-        def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
-            if cls:
-                return cls(pipeline_response, None, {})
-
-        if polling is True:
-            polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
-        elif polling is False:
-            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
-        else:
-            polling_method = polling
-        if cont_token:
-            return AsyncLROPoller.from_continuation_token(
-                polling_method=polling_method,
-                continuation_token=cont_token,
-                client=self._client,
-                deserialization_callback=get_long_running_output,
-            )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete_vm_group.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/vmGroups/{vmGroupId}"
-    }
-
-    @distributed_trace
-    def list_virtual_machines(
-        self, resource_group_name: str, private_cloud_name: str, **kwargs: Any
-    ) -> AsyncIterable["_models.WorkloadNetworkVirtualMachine"]:
-        """List of virtual machines in a private cloud workload network.
-
-        List of virtual machines in a private cloud workload network.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param private_cloud_name: Name of the private cloud. Required.
-        :type private_cloud_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: An iterator like instance of either WorkloadNetworkVirtualMachine or the result of
-         cls(response)
-        :rtype:
-         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.avs.models.WorkloadNetworkVirtualMachine]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.WorkloadNetworkVirtualMachinesList] = kwargs.pop("cls", None)
-
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(next_link=None):
-            if not next_link:
-
-                request = build_list_virtual_machines_request(
-                    resource_group_name=resource_group_name,
-                    private_cloud_name=private_cloud_name,
-                    subscription_id=self._config.subscription_id,
-                    api_version=api_version,
-                    template_url=self.list_virtual_machines.metadata["url"],
-                    headers=_headers,
-                    params=_params,
-                )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-
-            else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
-
-        async def extract_data(pipeline_response):
-            deserialized = self._deserialize("WorkloadNetworkVirtualMachinesList", pipeline_response)
-            list_of_elem = deserialized.value
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.next_link or None, AsyncList(list_of_elem)
-
-        async def get_next(next_link=None):
-            request = prepare_request(next_link)
-
-            _stream = False
-            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-                raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-            return pipeline_response
-
-        return AsyncItemPaged(get_next, extract_data)
-
-    list_virtual_machines.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/virtualMachines"
-    }
-
-    @distributed_trace_async
-    async def get_virtual_machine(
-        self, resource_group_name: str, private_cloud_name: str, virtual_machine_id: str, **kwargs: Any
-    ) -> _models.WorkloadNetworkVirtualMachine:
-        """Get a virtual machine by id in a private cloud workload network.
-
-        Get a virtual machine by id in a private cloud workload network.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param private_cloud_name: Name of the private cloud. Required.
-        :type private_cloud_name: str
-        :param virtual_machine_id: Virtual Machine identifier. Required.
-        :type virtual_machine_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: WorkloadNetworkVirtualMachine or the result of cls(response)
-        :rtype: ~azure.mgmt.avs.models.WorkloadNetworkVirtualMachine
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.WorkloadNetworkVirtualMachine] = kwargs.pop("cls", None)
-
-        request = build_get_virtual_machine_request(
-            resource_group_name=resource_group_name,
-            private_cloud_name=private_cloud_name,
-            virtual_machine_id=virtual_machine_id,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            template_url=self.get_virtual_machine.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("WorkloadNetworkVirtualMachine", pipeline_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})
-
-        return deserialized
-
-    get_virtual_machine.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/virtualMachines/{virtualMachineId}"
-    }
-
-    @distributed_trace
     def list_dns_services(
         self, resource_group_name: str, private_cloud_name: str, **kwargs: Any
     ) -> AsyncIterable["_models.WorkloadNetworkDnsService"]:
-        """List of DNS services in a private cloud workload network.
-
-        List of DNS services in a private cloud workload network.
+        """List WorkloadNetworkDnsService resources by WorkloadNetwork.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -3732,7 +1046,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.WorkloadNetworkDnsServicesList] = kwargs.pop("cls", None)
+        cls: ClsType[_models.WorkloadNetworkDnsServiceListResult] = kwargs.pop("cls", None)
 
         error_map = {
             401: ClientAuthenticationError,
@@ -3776,7 +1090,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
             return request
 
         async def extract_data(pipeline_response):
-            deserialized = self._deserialize("WorkloadNetworkDnsServicesList", pipeline_response)
+            deserialized = self._deserialize("WorkloadNetworkDnsServiceListResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
@@ -3808,17 +1122,14 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
     async def get_dns_service(
         self, resource_group_name: str, private_cloud_name: str, dns_service_id: str, **kwargs: Any
     ) -> _models.WorkloadNetworkDnsService:
-        """Get a DNS service by id in a private cloud workload network.
-
-        Get a DNS service by id in a private cloud workload network.
+        """Get a WorkloadNetworkDnsService.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param dns_service_id: NSX DNS Service identifier. Generally the same as the DNS Service's
-         display name. Required.
+        :param dns_service_id: ID of the DNS service. Required.
         :type dns_service_id: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: WorkloadNetworkDnsService or the result of cls(response)
@@ -3934,14 +1245,17 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
+        response_headers = {}
         if response.status_code == 200:
             deserialized = self._deserialize("WorkloadNetworkDnsService", pipeline_response)
 
         if response.status_code == 201:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+
             deserialized = self._deserialize("WorkloadNetworkDnsService", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
 
@@ -3960,19 +1274,16 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.WorkloadNetworkDnsService]:
-        """Create a DNS service by id in a private cloud workload network.
-
-        Create a DNS service by id in a private cloud workload network.
+        """Create a WorkloadNetworkDnsService.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param dns_service_id: NSX DNS Service identifier. Generally the same as the DNS Service's
-         display name. Required.
+        :param dns_service_id: ID of the DNS service. Required.
         :type dns_service_id: str
-        :param workload_network_dns_service: NSX DNS Service. Required.
+        :param workload_network_dns_service: Resource create parameters. Required.
         :type workload_network_dns_service: ~azure.mgmt.avs.models.WorkloadNetworkDnsService
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
@@ -4002,19 +1313,16 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.WorkloadNetworkDnsService]:
-        """Create a DNS service by id in a private cloud workload network.
-
-        Create a DNS service by id in a private cloud workload network.
+        """Create a WorkloadNetworkDnsService.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param dns_service_id: NSX DNS Service identifier. Generally the same as the DNS Service's
-         display name. Required.
+        :param dns_service_id: ID of the DNS service. Required.
         :type dns_service_id: str
-        :param workload_network_dns_service: NSX DNS Service. Required.
+        :param workload_network_dns_service: Resource create parameters. Required.
         :type workload_network_dns_service: IO
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
@@ -4042,20 +1350,17 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         workload_network_dns_service: Union[_models.WorkloadNetworkDnsService, IO],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.WorkloadNetworkDnsService]:
-        """Create a DNS service by id in a private cloud workload network.
-
-        Create a DNS service by id in a private cloud workload network.
+        """Create a WorkloadNetworkDnsService.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param dns_service_id: NSX DNS Service identifier. Generally the same as the DNS Service's
-         display name. Required.
+        :param dns_service_id: ID of the DNS service. Required.
         :type dns_service_id: str
-        :param workload_network_dns_service: NSX DNS Service. Is either a WorkloadNetworkDnsService
-         type or a IO type. Required.
+        :param workload_network_dns_service: Resource create parameters. Is either a
+         WorkloadNetworkDnsService type or a IO type. Required.
         :type workload_network_dns_service: ~azure.mgmt.avs.models.WorkloadNetworkDnsService or IO
         :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
          Default value is None.
@@ -4104,7 +1409,10 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
             return deserialized
 
         if polling is True:
-            polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod,
+                AsyncARMPolling(lro_delay, lro_options={"final-state-via": "azure-async-operation"}, **kwargs),
+            )
         elif polling is False:
             polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
@@ -4127,7 +1435,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         resource_group_name: str,
         private_cloud_name: str,
         dns_service_id: str,
-        workload_network_dns_service: Union[_models.WorkloadNetworkDnsService, IO],
+        workload_network_dns_service: Union[_models.WorkloadNetworkDnsServiceUpdate, IO],
         **kwargs: Any
     ) -> Optional[_models.WorkloadNetworkDnsService]:
         error_map = {
@@ -4151,7 +1459,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         if isinstance(workload_network_dns_service, (IOBase, bytes)):
             _content = workload_network_dns_service
         else:
-            _json = self._serialize.body(workload_network_dns_service, "WorkloadNetworkDnsService")
+            _json = self._serialize.body(workload_network_dns_service, "WorkloadNetworkDnsServiceUpdate")
 
         request = build_update_dns_service_request(
             resource_group_name=resource_group_name,
@@ -4182,11 +1490,16 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         deserialized = None
+        response_headers = {}
         if response.status_code == 200:
             deserialized = self._deserialize("WorkloadNetworkDnsService", pipeline_response)
 
+        if response.status_code == 202:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, response_headers)
 
         return deserialized
 
@@ -4200,25 +1513,22 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         resource_group_name: str,
         private_cloud_name: str,
         dns_service_id: str,
-        workload_network_dns_service: _models.WorkloadNetworkDnsService,
+        workload_network_dns_service: _models.WorkloadNetworkDnsServiceUpdate,
         *,
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.WorkloadNetworkDnsService]:
-        """Create or update a DNS service by id in a private cloud workload network.
-
-        Create or update a DNS service by id in a private cloud workload network.
+        """Update a WorkloadNetworkDnsService.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param dns_service_id: NSX DNS Service identifier. Generally the same as the DNS Service's
-         display name. Required.
+        :param dns_service_id: ID of the DNS service. Required.
         :type dns_service_id: str
-        :param workload_network_dns_service: NSX DNS Service. Required.
-        :type workload_network_dns_service: ~azure.mgmt.avs.models.WorkloadNetworkDnsService
+        :param workload_network_dns_service: The resource properties to be updated. Required.
+        :type workload_network_dns_service: ~azure.mgmt.avs.models.WorkloadNetworkDnsServiceUpdate
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -4247,19 +1557,16 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.WorkloadNetworkDnsService]:
-        """Create or update a DNS service by id in a private cloud workload network.
-
-        Create or update a DNS service by id in a private cloud workload network.
+        """Update a WorkloadNetworkDnsService.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param dns_service_id: NSX DNS Service identifier. Generally the same as the DNS Service's
-         display name. Required.
+        :param dns_service_id: ID of the DNS service. Required.
         :type dns_service_id: str
-        :param workload_network_dns_service: NSX DNS Service. Required.
+        :param workload_network_dns_service: The resource properties to be updated. Required.
         :type workload_network_dns_service: IO
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
@@ -4284,24 +1591,22 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         resource_group_name: str,
         private_cloud_name: str,
         dns_service_id: str,
-        workload_network_dns_service: Union[_models.WorkloadNetworkDnsService, IO],
+        workload_network_dns_service: Union[_models.WorkloadNetworkDnsServiceUpdate, IO],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.WorkloadNetworkDnsService]:
-        """Create or update a DNS service by id in a private cloud workload network.
-
-        Create or update a DNS service by id in a private cloud workload network.
+        """Update a WorkloadNetworkDnsService.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param dns_service_id: NSX DNS Service identifier. Generally the same as the DNS Service's
-         display name. Required.
+        :param dns_service_id: ID of the DNS service. Required.
         :type dns_service_id: str
-        :param workload_network_dns_service: NSX DNS Service. Is either a WorkloadNetworkDnsService
-         type or a IO type. Required.
-        :type workload_network_dns_service: ~azure.mgmt.avs.models.WorkloadNetworkDnsService or IO
+        :param workload_network_dns_service: The resource properties to be updated. Is either a
+         WorkloadNetworkDnsServiceUpdate type or a IO type. Required.
+        :type workload_network_dns_service: ~azure.mgmt.avs.models.WorkloadNetworkDnsServiceUpdate or
+         IO
         :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
          Default value is None.
         :paramtype content_type: str
@@ -4349,7 +1654,9 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
             return deserialized
 
         if polling is True:
-            polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
         elif polling is False:
             polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
@@ -4409,8 +1716,13 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
+        response_headers = {}
+        if response.status_code == 202:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+
         if cls:
-            return cls(pipeline_response, None, {})
+            return cls(pipeline_response, None, response_headers)
 
     _delete_dns_service_initial.metadata = {
         "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dnsServices/{dnsServiceId}"
@@ -4420,15 +1732,12 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
     async def begin_delete_dns_service(
         self, resource_group_name: str, dns_service_id: str, private_cloud_name: str, **kwargs: Any
     ) -> AsyncLROPoller[None]:
-        """Delete a DNS service by id in a private cloud workload network.
-
-        Delete a DNS service by id in a private cloud workload network.
+        """Delete a WorkloadNetworkDnsService.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param dns_service_id: NSX DNS Service identifier. Generally the same as the DNS Service's
-         display name. Required.
+        :param dns_service_id: ID of the DNS service. Required.
         :type dns_service_id: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
@@ -4470,7 +1779,9 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
                 return cls(pipeline_response, None, {})
 
         if polling is True:
-            polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
         elif polling is False:
             polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
@@ -4492,9 +1803,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
     def list_dns_zones(
         self, resource_group_name: str, private_cloud_name: str, **kwargs: Any
     ) -> AsyncIterable["_models.WorkloadNetworkDnsZone"]:
-        """List of DNS zones in a private cloud workload network.
-
-        List of DNS zones in a private cloud workload network.
+        """List WorkloadNetworkDnsZone resources by WorkloadNetwork.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -4511,7 +1820,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.WorkloadNetworkDnsZonesList] = kwargs.pop("cls", None)
+        cls: ClsType[_models.WorkloadNetworkDnsZoneListResult] = kwargs.pop("cls", None)
 
         error_map = {
             401: ClientAuthenticationError,
@@ -4555,7 +1864,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
             return request
 
         async def extract_data(pipeline_response):
-            deserialized = self._deserialize("WorkloadNetworkDnsZonesList", pipeline_response)
+            deserialized = self._deserialize("WorkloadNetworkDnsZoneListResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
@@ -4587,17 +1896,14 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
     async def get_dns_zone(
         self, resource_group_name: str, private_cloud_name: str, dns_zone_id: str, **kwargs: Any
     ) -> _models.WorkloadNetworkDnsZone:
-        """Get a DNS zone by id in a private cloud workload network.
-
-        Get a DNS zone by id in a private cloud workload network.
+        """Get a WorkloadNetworkDnsZone.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param dns_zone_id: NSX DNS Zone identifier. Generally the same as the DNS Zone's display name.
-         Required.
+        :param dns_zone_id: ID of the DNS zone. Required.
         :type dns_zone_id: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: WorkloadNetworkDnsZone or the result of cls(response)
@@ -4713,14 +2019,17 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
+        response_headers = {}
         if response.status_code == 200:
             deserialized = self._deserialize("WorkloadNetworkDnsZone", pipeline_response)
 
         if response.status_code == 201:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+
             deserialized = self._deserialize("WorkloadNetworkDnsZone", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
 
@@ -4739,19 +2048,16 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.WorkloadNetworkDnsZone]:
-        """Create a DNS zone by id in a private cloud workload network.
-
-        Create a DNS zone by id in a private cloud workload network.
+        """Create a WorkloadNetworkDnsZone.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param dns_zone_id: NSX DNS Zone identifier. Generally the same as the DNS Zone's display name.
-         Required.
+        :param dns_zone_id: ID of the DNS zone. Required.
         :type dns_zone_id: str
-        :param workload_network_dns_zone: NSX DNS Zone. Required.
+        :param workload_network_dns_zone: Resource create parameters. Required.
         :type workload_network_dns_zone: ~azure.mgmt.avs.models.WorkloadNetworkDnsZone
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
@@ -4781,19 +2087,16 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.WorkloadNetworkDnsZone]:
-        """Create a DNS zone by id in a private cloud workload network.
-
-        Create a DNS zone by id in a private cloud workload network.
+        """Create a WorkloadNetworkDnsZone.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param dns_zone_id: NSX DNS Zone identifier. Generally the same as the DNS Zone's display name.
-         Required.
+        :param dns_zone_id: ID of the DNS zone. Required.
         :type dns_zone_id: str
-        :param workload_network_dns_zone: NSX DNS Zone. Required.
+        :param workload_network_dns_zone: Resource create parameters. Required.
         :type workload_network_dns_zone: IO
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
@@ -4821,20 +2124,17 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         workload_network_dns_zone: Union[_models.WorkloadNetworkDnsZone, IO],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.WorkloadNetworkDnsZone]:
-        """Create a DNS zone by id in a private cloud workload network.
-
-        Create a DNS zone by id in a private cloud workload network.
+        """Create a WorkloadNetworkDnsZone.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param dns_zone_id: NSX DNS Zone identifier. Generally the same as the DNS Zone's display name.
-         Required.
+        :param dns_zone_id: ID of the DNS zone. Required.
         :type dns_zone_id: str
-        :param workload_network_dns_zone: NSX DNS Zone. Is either a WorkloadNetworkDnsZone type or a IO
-         type. Required.
+        :param workload_network_dns_zone: Resource create parameters. Is either a
+         WorkloadNetworkDnsZone type or a IO type. Required.
         :type workload_network_dns_zone: ~azure.mgmt.avs.models.WorkloadNetworkDnsZone or IO
         :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
          Default value is None.
@@ -4883,7 +2183,10 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
             return deserialized
 
         if polling is True:
-            polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod,
+                AsyncARMPolling(lro_delay, lro_options={"final-state-via": "azure-async-operation"}, **kwargs),
+            )
         elif polling is False:
             polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
@@ -4906,7 +2209,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         resource_group_name: str,
         private_cloud_name: str,
         dns_zone_id: str,
-        workload_network_dns_zone: Union[_models.WorkloadNetworkDnsZone, IO],
+        workload_network_dns_zone: Union[_models.WorkloadNetworkDnsZoneUpdate, IO],
         **kwargs: Any
     ) -> Optional[_models.WorkloadNetworkDnsZone]:
         error_map = {
@@ -4930,7 +2233,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         if isinstance(workload_network_dns_zone, (IOBase, bytes)):
             _content = workload_network_dns_zone
         else:
-            _json = self._serialize.body(workload_network_dns_zone, "WorkloadNetworkDnsZone")
+            _json = self._serialize.body(workload_network_dns_zone, "WorkloadNetworkDnsZoneUpdate")
 
         request = build_update_dns_zone_request(
             resource_group_name=resource_group_name,
@@ -4961,11 +2264,16 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         deserialized = None
+        response_headers = {}
         if response.status_code == 200:
             deserialized = self._deserialize("WorkloadNetworkDnsZone", pipeline_response)
 
+        if response.status_code == 202:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, response_headers)
 
         return deserialized
 
@@ -4979,25 +2287,22 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         resource_group_name: str,
         private_cloud_name: str,
         dns_zone_id: str,
-        workload_network_dns_zone: _models.WorkloadNetworkDnsZone,
+        workload_network_dns_zone: _models.WorkloadNetworkDnsZoneUpdate,
         *,
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.WorkloadNetworkDnsZone]:
-        """Create or update a DNS zone by id in a private cloud workload network.
-
-        Create or update a DNS zone by id in a private cloud workload network.
+        """Update a WorkloadNetworkDnsZone.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param dns_zone_id: NSX DNS Zone identifier. Generally the same as the DNS Zone's display name.
-         Required.
+        :param dns_zone_id: ID of the DNS zone. Required.
         :type dns_zone_id: str
-        :param workload_network_dns_zone: NSX DNS Zone. Required.
-        :type workload_network_dns_zone: ~azure.mgmt.avs.models.WorkloadNetworkDnsZone
+        :param workload_network_dns_zone: The resource properties to be updated. Required.
+        :type workload_network_dns_zone: ~azure.mgmt.avs.models.WorkloadNetworkDnsZoneUpdate
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -5026,19 +2331,16 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.WorkloadNetworkDnsZone]:
-        """Create or update a DNS zone by id in a private cloud workload network.
-
-        Create or update a DNS zone by id in a private cloud workload network.
+        """Update a WorkloadNetworkDnsZone.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param dns_zone_id: NSX DNS Zone identifier. Generally the same as the DNS Zone's display name.
-         Required.
+        :param dns_zone_id: ID of the DNS zone. Required.
         :type dns_zone_id: str
-        :param workload_network_dns_zone: NSX DNS Zone. Required.
+        :param workload_network_dns_zone: The resource properties to be updated. Required.
         :type workload_network_dns_zone: IO
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
@@ -5063,24 +2365,21 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         resource_group_name: str,
         private_cloud_name: str,
         dns_zone_id: str,
-        workload_network_dns_zone: Union[_models.WorkloadNetworkDnsZone, IO],
+        workload_network_dns_zone: Union[_models.WorkloadNetworkDnsZoneUpdate, IO],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.WorkloadNetworkDnsZone]:
-        """Create or update a DNS zone by id in a private cloud workload network.
-
-        Create or update a DNS zone by id in a private cloud workload network.
+        """Update a WorkloadNetworkDnsZone.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param dns_zone_id: NSX DNS Zone identifier. Generally the same as the DNS Zone's display name.
-         Required.
+        :param dns_zone_id: ID of the DNS zone. Required.
         :type dns_zone_id: str
-        :param workload_network_dns_zone: NSX DNS Zone. Is either a WorkloadNetworkDnsZone type or a IO
-         type. Required.
-        :type workload_network_dns_zone: ~azure.mgmt.avs.models.WorkloadNetworkDnsZone or IO
+        :param workload_network_dns_zone: The resource properties to be updated. Is either a
+         WorkloadNetworkDnsZoneUpdate type or a IO type. Required.
+        :type workload_network_dns_zone: ~azure.mgmt.avs.models.WorkloadNetworkDnsZoneUpdate or IO
         :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
          Default value is None.
         :paramtype content_type: str
@@ -5128,7 +2427,9 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
             return deserialized
 
         if polling is True:
-            polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
         elif polling is False:
             polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
@@ -5188,8 +2489,13 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
+        response_headers = {}
+        if response.status_code == 202:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+
         if cls:
-            return cls(pipeline_response, None, {})
+            return cls(pipeline_response, None, response_headers)
 
     _delete_dns_zone_initial.metadata = {
         "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dnsZones/{dnsZoneId}"
@@ -5199,15 +2505,12 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
     async def begin_delete_dns_zone(
         self, resource_group_name: str, dns_zone_id: str, private_cloud_name: str, **kwargs: Any
     ) -> AsyncLROPoller[None]:
-        """Delete a DNS zone by id in a private cloud workload network.
-
-        Delete a DNS zone by id in a private cloud workload network.
+        """Delete a WorkloadNetworkDnsZone.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param dns_zone_id: NSX DNS Zone identifier. Generally the same as the DNS Zone's display name.
-         Required.
+        :param dns_zone_id: ID of the DNS zone. Required.
         :type dns_zone_id: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
@@ -5249,7 +2552,9 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
                 return cls(pipeline_response, None, {})
 
         if polling is True:
-            polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
         elif polling is False:
             polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
@@ -5268,12 +2573,948 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
     }
 
     @distributed_trace
+    def list_gateways(
+        self, resource_group_name: str, private_cloud_name: str, **kwargs: Any
+    ) -> AsyncIterable["_models.WorkloadNetworkGateway"]:
+        """List WorkloadNetworkGateway resources by WorkloadNetwork.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param private_cloud_name: Name of the private cloud. Required.
+        :type private_cloud_name: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: An iterator like instance of either WorkloadNetworkGateway or the result of
+         cls(response)
+        :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.avs.models.WorkloadNetworkGateway]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[_models.WorkloadNetworkGatewayListResult] = kwargs.pop("cls", None)
+
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(next_link=None):
+            if not next_link:
+
+                request = build_list_gateways_request(
+                    resource_group_name=resource_group_name,
+                    private_cloud_name=private_cloud_name,
+                    subscription_id=self._config.subscription_id,
+                    api_version=api_version,
+                    template_url=self.list_gateways.metadata["url"],
+                    headers=_headers,
+                    params=_params,
+                )
+                request = _convert_request(request)
+                request.url = self._client.format_url(request.url)
+
+            else:
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._config.api_version
+                request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
+                request = _convert_request(request)
+                request.url = self._client.format_url(request.url)
+                request.method = "GET"
+            return request
+
+        async def extract_data(pipeline_response):
+            deserialized = self._deserialize("WorkloadNetworkGatewayListResult", pipeline_response)
+            list_of_elem = deserialized.value
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.next_link or None, AsyncList(list_of_elem)
+
+        async def get_next(next_link=None):
+            request = prepare_request(next_link)
+
+            _stream = False
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+                request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+                raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+            return pipeline_response
+
+        return AsyncItemPaged(get_next, extract_data)
+
+    list_gateways.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/gateways"
+    }
+
+    @distributed_trace_async
+    async def get_gateway(
+        self, resource_group_name: str, private_cloud_name: str, gateway_id: str, **kwargs: Any
+    ) -> _models.WorkloadNetworkGateway:
+        """Get a WorkloadNetworkGateway.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param private_cloud_name: Name of the private cloud. Required.
+        :type private_cloud_name: str
+        :param gateway_id: The ID of the NSX Gateway. Required.
+        :type gateway_id: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: WorkloadNetworkGateway or the result of cls(response)
+        :rtype: ~azure.mgmt.avs.models.WorkloadNetworkGateway
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[_models.WorkloadNetworkGateway] = kwargs.pop("cls", None)
+
+        request = build_get_gateway_request(
+            resource_group_name=resource_group_name,
+            private_cloud_name=private_cloud_name,
+            gateway_id=gateway_id,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            template_url=self.get_gateway.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("WorkloadNetworkGateway", pipeline_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})
+
+        return deserialized
+
+    get_gateway.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/gateways/{gatewayId}"
+    }
+
+    @distributed_trace
+    def list_port_mirroring(
+        self, resource_group_name: str, private_cloud_name: str, **kwargs: Any
+    ) -> AsyncIterable["_models.WorkloadNetworkPortMirroring"]:
+        """List WorkloadNetworkPortMirroring resources by WorkloadNetwork.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param private_cloud_name: Name of the private cloud. Required.
+        :type private_cloud_name: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: An iterator like instance of either WorkloadNetworkPortMirroring or the result of
+         cls(response)
+        :rtype:
+         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.avs.models.WorkloadNetworkPortMirroring]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[_models.WorkloadNetworkPortMirroringListResult] = kwargs.pop("cls", None)
+
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(next_link=None):
+            if not next_link:
+
+                request = build_list_port_mirroring_request(
+                    resource_group_name=resource_group_name,
+                    private_cloud_name=private_cloud_name,
+                    subscription_id=self._config.subscription_id,
+                    api_version=api_version,
+                    template_url=self.list_port_mirroring.metadata["url"],
+                    headers=_headers,
+                    params=_params,
+                )
+                request = _convert_request(request)
+                request.url = self._client.format_url(request.url)
+
+            else:
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._config.api_version
+                request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
+                request = _convert_request(request)
+                request.url = self._client.format_url(request.url)
+                request.method = "GET"
+            return request
+
+        async def extract_data(pipeline_response):
+            deserialized = self._deserialize("WorkloadNetworkPortMirroringListResult", pipeline_response)
+            list_of_elem = deserialized.value
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.next_link or None, AsyncList(list_of_elem)
+
+        async def get_next(next_link=None):
+            request = prepare_request(next_link)
+
+            _stream = False
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+                request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+                raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+            return pipeline_response
+
+        return AsyncItemPaged(get_next, extract_data)
+
+    list_port_mirroring.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/portMirroringProfiles"
+    }
+
+    @distributed_trace_async
+    async def get_port_mirroring(
+        self, resource_group_name: str, private_cloud_name: str, port_mirroring_id: str, **kwargs: Any
+    ) -> _models.WorkloadNetworkPortMirroring:
+        """Get a WorkloadNetworkPortMirroring.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param private_cloud_name: Name of the private cloud. Required.
+        :type private_cloud_name: str
+        :param port_mirroring_id: ID of the NSX port mirroring profile. Required.
+        :type port_mirroring_id: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: WorkloadNetworkPortMirroring or the result of cls(response)
+        :rtype: ~azure.mgmt.avs.models.WorkloadNetworkPortMirroring
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[_models.WorkloadNetworkPortMirroring] = kwargs.pop("cls", None)
+
+        request = build_get_port_mirroring_request(
+            resource_group_name=resource_group_name,
+            private_cloud_name=private_cloud_name,
+            port_mirroring_id=port_mirroring_id,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            template_url=self.get_port_mirroring.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("WorkloadNetworkPortMirroring", pipeline_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})
+
+        return deserialized
+
+    get_port_mirroring.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/portMirroringProfiles/{portMirroringId}"
+    }
+
+    async def _create_port_mirroring_initial(
+        self,
+        resource_group_name: str,
+        private_cloud_name: str,
+        port_mirroring_id: str,
+        workload_network_port_mirroring: Union[_models.WorkloadNetworkPortMirroring, IO],
+        **kwargs: Any
+    ) -> _models.WorkloadNetworkPortMirroring:
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.WorkloadNetworkPortMirroring] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(workload_network_port_mirroring, (IOBase, bytes)):
+            _content = workload_network_port_mirroring
+        else:
+            _json = self._serialize.body(workload_network_port_mirroring, "WorkloadNetworkPortMirroring")
+
+        request = build_create_port_mirroring_request(
+            resource_group_name=resource_group_name,
+            private_cloud_name=private_cloud_name,
+            port_mirroring_id=port_mirroring_id,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
+            template_url=self._create_port_mirroring_initial.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200, 201]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        response_headers = {}
+        if response.status_code == 200:
+            deserialized = self._deserialize("WorkloadNetworkPortMirroring", pipeline_response)
+
+        if response.status_code == 201:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+
+            deserialized = self._deserialize("WorkloadNetworkPortMirroring", pipeline_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+
+        return deserialized  # type: ignore
+
+    _create_port_mirroring_initial.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/portMirroringProfiles/{portMirroringId}"
+    }
+
+    @overload
+    async def begin_create_port_mirroring(
+        self,
+        resource_group_name: str,
+        private_cloud_name: str,
+        port_mirroring_id: str,
+        workload_network_port_mirroring: _models.WorkloadNetworkPortMirroring,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> AsyncLROPoller[_models.WorkloadNetworkPortMirroring]:
+        """Create a WorkloadNetworkPortMirroring.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param private_cloud_name: Name of the private cloud. Required.
+        :type private_cloud_name: str
+        :param port_mirroring_id: ID of the NSX port mirroring profile. Required.
+        :type port_mirroring_id: str
+        :param workload_network_port_mirroring: Resource create parameters. Required.
+        :type workload_network_port_mirroring: ~azure.mgmt.avs.models.WorkloadNetworkPortMirroring
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
+        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
+         this operation to not poll, or pass in your own initialized polling object for a personal
+         polling strategy.
+        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
+        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
+         Retry-After header is present.
+        :return: An instance of AsyncLROPoller that returns either WorkloadNetworkPortMirroring or the
+         result of cls(response)
+        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.avs.models.WorkloadNetworkPortMirroring]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def begin_create_port_mirroring(
+        self,
+        resource_group_name: str,
+        private_cloud_name: str,
+        port_mirroring_id: str,
+        workload_network_port_mirroring: IO,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> AsyncLROPoller[_models.WorkloadNetworkPortMirroring]:
+        """Create a WorkloadNetworkPortMirroring.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param private_cloud_name: Name of the private cloud. Required.
+        :type private_cloud_name: str
+        :param port_mirroring_id: ID of the NSX port mirroring profile. Required.
+        :type port_mirroring_id: str
+        :param workload_network_port_mirroring: Resource create parameters. Required.
+        :type workload_network_port_mirroring: IO
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
+        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
+         this operation to not poll, or pass in your own initialized polling object for a personal
+         polling strategy.
+        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
+        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
+         Retry-After header is present.
+        :return: An instance of AsyncLROPoller that returns either WorkloadNetworkPortMirroring or the
+         result of cls(response)
+        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.avs.models.WorkloadNetworkPortMirroring]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace_async
+    async def begin_create_port_mirroring(
+        self,
+        resource_group_name: str,
+        private_cloud_name: str,
+        port_mirroring_id: str,
+        workload_network_port_mirroring: Union[_models.WorkloadNetworkPortMirroring, IO],
+        **kwargs: Any
+    ) -> AsyncLROPoller[_models.WorkloadNetworkPortMirroring]:
+        """Create a WorkloadNetworkPortMirroring.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param private_cloud_name: Name of the private cloud. Required.
+        :type private_cloud_name: str
+        :param port_mirroring_id: ID of the NSX port mirroring profile. Required.
+        :type port_mirroring_id: str
+        :param workload_network_port_mirroring: Resource create parameters. Is either a
+         WorkloadNetworkPortMirroring type or a IO type. Required.
+        :type workload_network_port_mirroring: ~azure.mgmt.avs.models.WorkloadNetworkPortMirroring or
+         IO
+        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
+         Default value is None.
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
+        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
+         this operation to not poll, or pass in your own initialized polling object for a personal
+         polling strategy.
+        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
+        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
+         Retry-After header is present.
+        :return: An instance of AsyncLROPoller that returns either WorkloadNetworkPortMirroring or the
+         result of cls(response)
+        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.avs.models.WorkloadNetworkPortMirroring]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.WorkloadNetworkPortMirroring] = kwargs.pop("cls", None)
+        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
+        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
+        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
+        if cont_token is None:
+            raw_result = await self._create_port_mirroring_initial(
+                resource_group_name=resource_group_name,
+                private_cloud_name=private_cloud_name,
+                port_mirroring_id=port_mirroring_id,
+                workload_network_port_mirroring=workload_network_port_mirroring,
+                api_version=api_version,
+                content_type=content_type,
+                cls=lambda x, y, z: x,
+                headers=_headers,
+                params=_params,
+                **kwargs
+            )
+        kwargs.pop("error_map", None)
+
+        def get_long_running_output(pipeline_response):
+            deserialized = self._deserialize("WorkloadNetworkPortMirroring", pipeline_response)
+            if cls:
+                return cls(pipeline_response, deserialized, {})
+            return deserialized
+
+        if polling is True:
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod,
+                AsyncARMPolling(lro_delay, lro_options={"final-state-via": "azure-async-operation"}, **kwargs),
+            )
+        elif polling is False:
+            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
+        else:
+            polling_method = polling
+        if cont_token:
+            return AsyncLROPoller.from_continuation_token(
+                polling_method=polling_method,
+                continuation_token=cont_token,
+                client=self._client,
+                deserialization_callback=get_long_running_output,
+            )
+        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+
+    begin_create_port_mirroring.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/portMirroringProfiles/{portMirroringId}"
+    }
+
+    async def _update_port_mirroring_initial(
+        self,
+        resource_group_name: str,
+        private_cloud_name: str,
+        port_mirroring_id: str,
+        workload_network_port_mirroring: Union[_models.WorkloadNetworkPortMirroringUpdate, IO],
+        **kwargs: Any
+    ) -> Optional[_models.WorkloadNetworkPortMirroring]:
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[Optional[_models.WorkloadNetworkPortMirroring]] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(workload_network_port_mirroring, (IOBase, bytes)):
+            _content = workload_network_port_mirroring
+        else:
+            _json = self._serialize.body(workload_network_port_mirroring, "WorkloadNetworkPortMirroringUpdate")
+
+        request = build_update_port_mirroring_request(
+            resource_group_name=resource_group_name,
+            private_cloud_name=private_cloud_name,
+            port_mirroring_id=port_mirroring_id,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
+            template_url=self._update_port_mirroring_initial.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200, 202]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = None
+        response_headers = {}
+        if response.status_code == 200:
+            deserialized = self._deserialize("WorkloadNetworkPortMirroring", pipeline_response)
+
+        if response.status_code == 202:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+
+        if cls:
+            return cls(pipeline_response, deserialized, response_headers)
+
+        return deserialized
+
+    _update_port_mirroring_initial.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/portMirroringProfiles/{portMirroringId}"
+    }
+
+    @overload
+    async def begin_update_port_mirroring(
+        self,
+        resource_group_name: str,
+        private_cloud_name: str,
+        port_mirroring_id: str,
+        workload_network_port_mirroring: _models.WorkloadNetworkPortMirroringUpdate,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> AsyncLROPoller[_models.WorkloadNetworkPortMirroring]:
+        """Update a WorkloadNetworkPortMirroring.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param private_cloud_name: Name of the private cloud. Required.
+        :type private_cloud_name: str
+        :param port_mirroring_id: ID of the NSX port mirroring profile. Required.
+        :type port_mirroring_id: str
+        :param workload_network_port_mirroring: The resource properties to be updated. Required.
+        :type workload_network_port_mirroring:
+         ~azure.mgmt.avs.models.WorkloadNetworkPortMirroringUpdate
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
+        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
+         this operation to not poll, or pass in your own initialized polling object for a personal
+         polling strategy.
+        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
+        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
+         Retry-After header is present.
+        :return: An instance of AsyncLROPoller that returns either WorkloadNetworkPortMirroring or the
+         result of cls(response)
+        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.avs.models.WorkloadNetworkPortMirroring]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def begin_update_port_mirroring(
+        self,
+        resource_group_name: str,
+        private_cloud_name: str,
+        port_mirroring_id: str,
+        workload_network_port_mirroring: IO,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> AsyncLROPoller[_models.WorkloadNetworkPortMirroring]:
+        """Update a WorkloadNetworkPortMirroring.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param private_cloud_name: Name of the private cloud. Required.
+        :type private_cloud_name: str
+        :param port_mirroring_id: ID of the NSX port mirroring profile. Required.
+        :type port_mirroring_id: str
+        :param workload_network_port_mirroring: The resource properties to be updated. Required.
+        :type workload_network_port_mirroring: IO
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
+        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
+         this operation to not poll, or pass in your own initialized polling object for a personal
+         polling strategy.
+        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
+        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
+         Retry-After header is present.
+        :return: An instance of AsyncLROPoller that returns either WorkloadNetworkPortMirroring or the
+         result of cls(response)
+        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.avs.models.WorkloadNetworkPortMirroring]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace_async
+    async def begin_update_port_mirroring(
+        self,
+        resource_group_name: str,
+        private_cloud_name: str,
+        port_mirroring_id: str,
+        workload_network_port_mirroring: Union[_models.WorkloadNetworkPortMirroringUpdate, IO],
+        **kwargs: Any
+    ) -> AsyncLROPoller[_models.WorkloadNetworkPortMirroring]:
+        """Update a WorkloadNetworkPortMirroring.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param private_cloud_name: Name of the private cloud. Required.
+        :type private_cloud_name: str
+        :param port_mirroring_id: ID of the NSX port mirroring profile. Required.
+        :type port_mirroring_id: str
+        :param workload_network_port_mirroring: The resource properties to be updated. Is either a
+         WorkloadNetworkPortMirroringUpdate type or a IO type. Required.
+        :type workload_network_port_mirroring:
+         ~azure.mgmt.avs.models.WorkloadNetworkPortMirroringUpdate or IO
+        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
+         Default value is None.
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
+        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
+         this operation to not poll, or pass in your own initialized polling object for a personal
+         polling strategy.
+        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
+        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
+         Retry-After header is present.
+        :return: An instance of AsyncLROPoller that returns either WorkloadNetworkPortMirroring or the
+         result of cls(response)
+        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.avs.models.WorkloadNetworkPortMirroring]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.WorkloadNetworkPortMirroring] = kwargs.pop("cls", None)
+        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
+        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
+        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
+        if cont_token is None:
+            raw_result = await self._update_port_mirroring_initial(
+                resource_group_name=resource_group_name,
+                private_cloud_name=private_cloud_name,
+                port_mirroring_id=port_mirroring_id,
+                workload_network_port_mirroring=workload_network_port_mirroring,
+                api_version=api_version,
+                content_type=content_type,
+                cls=lambda x, y, z: x,
+                headers=_headers,
+                params=_params,
+                **kwargs
+            )
+        kwargs.pop("error_map", None)
+
+        def get_long_running_output(pipeline_response):
+            deserialized = self._deserialize("WorkloadNetworkPortMirroring", pipeline_response)
+            if cls:
+                return cls(pipeline_response, deserialized, {})
+            return deserialized
+
+        if polling is True:
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
+        elif polling is False:
+            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
+        else:
+            polling_method = polling
+        if cont_token:
+            return AsyncLROPoller.from_continuation_token(
+                polling_method=polling_method,
+                continuation_token=cont_token,
+                client=self._client,
+                deserialization_callback=get_long_running_output,
+            )
+        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+
+    begin_update_port_mirroring.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/portMirroringProfiles/{portMirroringId}"
+    }
+
+    async def _delete_port_mirroring_initial(  # pylint: disable=inconsistent-return-statements
+        self, resource_group_name: str, port_mirroring_id: str, private_cloud_name: str, **kwargs: Any
+    ) -> None:
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[None] = kwargs.pop("cls", None)
+
+        request = build_delete_port_mirroring_request(
+            resource_group_name=resource_group_name,
+            port_mirroring_id=port_mirroring_id,
+            private_cloud_name=private_cloud_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            template_url=self._delete_port_mirroring_initial.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200, 202, 204]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        response_headers = {}
+        if response.status_code == 202:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+
+        if cls:
+            return cls(pipeline_response, None, response_headers)
+
+    _delete_port_mirroring_initial.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/portMirroringProfiles/{portMirroringId}"
+    }
+
+    @distributed_trace_async
+    async def begin_delete_port_mirroring(
+        self, resource_group_name: str, port_mirroring_id: str, private_cloud_name: str, **kwargs: Any
+    ) -> AsyncLROPoller[None]:
+        """Delete a WorkloadNetworkPortMirroring.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param port_mirroring_id: ID of the NSX port mirroring profile. Required.
+        :type port_mirroring_id: str
+        :param private_cloud_name: Name of the private cloud. Required.
+        :type private_cloud_name: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
+        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
+         this operation to not poll, or pass in your own initialized polling object for a personal
+         polling strategy.
+        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
+        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
+         Retry-After header is present.
+        :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
+        :rtype: ~azure.core.polling.AsyncLROPoller[None]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[None] = kwargs.pop("cls", None)
+        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
+        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
+        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
+        if cont_token is None:
+            raw_result = await self._delete_port_mirroring_initial(  # type: ignore
+                resource_group_name=resource_group_name,
+                port_mirroring_id=port_mirroring_id,
+                private_cloud_name=private_cloud_name,
+                api_version=api_version,
+                cls=lambda x, y, z: x,
+                headers=_headers,
+                params=_params,
+                **kwargs
+            )
+        kwargs.pop("error_map", None)
+
+        def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
+            if cls:
+                return cls(pipeline_response, None, {})
+
+        if polling is True:
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
+        elif polling is False:
+            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
+        else:
+            polling_method = polling
+        if cont_token:
+            return AsyncLROPoller.from_continuation_token(
+                polling_method=polling_method,
+                continuation_token=cont_token,
+                client=self._client,
+                deserialization_callback=get_long_running_output,
+            )
+        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+
+    begin_delete_port_mirroring.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/portMirroringProfiles/{portMirroringId}"
+    }
+
+    @distributed_trace
     def list_public_i_ps(
         self, resource_group_name: str, private_cloud_name: str, **kwargs: Any
     ) -> AsyncIterable["_models.WorkloadNetworkPublicIP"]:
-        """List of Public IP Blocks in a private cloud workload network.
-
-        List of Public IP Blocks in a private cloud workload network.
+        """List WorkloadNetworkPublicIP resources by WorkloadNetwork.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -5290,7 +3531,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.WorkloadNetworkPublicIPsList] = kwargs.pop("cls", None)
+        cls: ClsType[_models.WorkloadNetworkPublicIPListResult] = kwargs.pop("cls", None)
 
         error_map = {
             401: ClientAuthenticationError,
@@ -5334,7 +3575,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
             return request
 
         async def extract_data(pipeline_response):
-            deserialized = self._deserialize("WorkloadNetworkPublicIPsList", pipeline_response)
+            deserialized = self._deserialize("WorkloadNetworkPublicIPListResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
@@ -5366,17 +3607,14 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
     async def get_public_ip(
         self, resource_group_name: str, private_cloud_name: str, public_ip_id: str, **kwargs: Any
     ) -> _models.WorkloadNetworkPublicIP:
-        """Get a Public IP Block by id in a private cloud workload network.
-
-        Get a Public IP Block by id in a private cloud workload network.
+        """Get a WorkloadNetworkPublicIP.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param public_ip_id: NSX Public IP Block identifier. Generally the same as the Public IP
-         Block's display name. Required.
+        :param public_ip_id: ID of the DNS zone. Required.
         :type public_ip_id: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: WorkloadNetworkPublicIP or the result of cls(response)
@@ -5492,14 +3730,17 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
+        response_headers = {}
         if response.status_code == 200:
             deserialized = self._deserialize("WorkloadNetworkPublicIP", pipeline_response)
 
         if response.status_code == 201:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+
             deserialized = self._deserialize("WorkloadNetworkPublicIP", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
 
@@ -5518,19 +3759,16 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.WorkloadNetworkPublicIP]:
-        """Create a Public IP Block by id in a private cloud workload network.
-
-        Create a Public IP Block by id in a private cloud workload network.
+        """Create a WorkloadNetworkPublicIP.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param public_ip_id: NSX Public IP Block identifier. Generally the same as the Public IP
-         Block's display name. Required.
+        :param public_ip_id: ID of the DNS zone. Required.
         :type public_ip_id: str
-        :param workload_network_public_ip: NSX Public IP Block. Required.
+        :param workload_network_public_ip: Resource create parameters. Required.
         :type workload_network_public_ip: ~azure.mgmt.avs.models.WorkloadNetworkPublicIP
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
@@ -5560,19 +3798,16 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.WorkloadNetworkPublicIP]:
-        """Create a Public IP Block by id in a private cloud workload network.
-
-        Create a Public IP Block by id in a private cloud workload network.
+        """Create a WorkloadNetworkPublicIP.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param public_ip_id: NSX Public IP Block identifier. Generally the same as the Public IP
-         Block's display name. Required.
+        :param public_ip_id: ID of the DNS zone. Required.
         :type public_ip_id: str
-        :param workload_network_public_ip: NSX Public IP Block. Required.
+        :param workload_network_public_ip: Resource create parameters. Required.
         :type workload_network_public_ip: IO
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
@@ -5600,20 +3835,17 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         workload_network_public_ip: Union[_models.WorkloadNetworkPublicIP, IO],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.WorkloadNetworkPublicIP]:
-        """Create a Public IP Block by id in a private cloud workload network.
-
-        Create a Public IP Block by id in a private cloud workload network.
+        """Create a WorkloadNetworkPublicIP.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param public_ip_id: NSX Public IP Block identifier. Generally the same as the Public IP
-         Block's display name. Required.
+        :param public_ip_id: ID of the DNS zone. Required.
         :type public_ip_id: str
-        :param workload_network_public_ip: NSX Public IP Block. Is either a WorkloadNetworkPublicIP
-         type or a IO type. Required.
+        :param workload_network_public_ip: Resource create parameters. Is either a
+         WorkloadNetworkPublicIP type or a IO type. Required.
         :type workload_network_public_ip: ~azure.mgmt.avs.models.WorkloadNetworkPublicIP or IO
         :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
          Default value is None.
@@ -5662,7 +3894,10 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
             return deserialized
 
         if polling is True:
-            polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod,
+                AsyncARMPolling(lro_delay, lro_options={"final-state-via": "azure-async-operation"}, **kwargs),
+            )
         elif polling is False:
             polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
@@ -5722,8 +3957,13 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
+        response_headers = {}
+        if response.status_code == 202:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+
         if cls:
-            return cls(pipeline_response, None, {})
+            return cls(pipeline_response, None, response_headers)
 
     _delete_public_ip_initial.metadata = {
         "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/publicIPs/{publicIPId}"
@@ -5733,15 +3973,12 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
     async def begin_delete_public_ip(
         self, resource_group_name: str, public_ip_id: str, private_cloud_name: str, **kwargs: Any
     ) -> AsyncLROPoller[None]:
-        """Delete a Public IP Block by id in a private cloud workload network.
-
-        Delete a Public IP Block by id in a private cloud workload network.
+        """Delete a WorkloadNetworkPublicIP.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param public_ip_id: NSX Public IP Block identifier. Generally the same as the Public IP
-         Block's display name. Required.
+        :param public_ip_id: ID of the DNS zone. Required.
         :type public_ip_id: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
@@ -5783,7 +4020,9 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
                 return cls(pipeline_response, None, {})
 
         if polling is True:
-            polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
         elif polling is False:
             polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
@@ -5799,4 +4038,1712 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
 
     begin_delete_public_ip.metadata = {
         "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/publicIPs/{publicIPId}"
+    }
+
+    @distributed_trace
+    def list_segments(
+        self, resource_group_name: str, private_cloud_name: str, **kwargs: Any
+    ) -> AsyncIterable["_models.WorkloadNetworkSegment"]:
+        """List WorkloadNetworkSegment resources by WorkloadNetwork.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param private_cloud_name: Name of the private cloud. Required.
+        :type private_cloud_name: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: An iterator like instance of either WorkloadNetworkSegment or the result of
+         cls(response)
+        :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.avs.models.WorkloadNetworkSegment]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[_models.WorkloadNetworkSegmentListResult] = kwargs.pop("cls", None)
+
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(next_link=None):
+            if not next_link:
+
+                request = build_list_segments_request(
+                    resource_group_name=resource_group_name,
+                    private_cloud_name=private_cloud_name,
+                    subscription_id=self._config.subscription_id,
+                    api_version=api_version,
+                    template_url=self.list_segments.metadata["url"],
+                    headers=_headers,
+                    params=_params,
+                )
+                request = _convert_request(request)
+                request.url = self._client.format_url(request.url)
+
+            else:
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._config.api_version
+                request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
+                request = _convert_request(request)
+                request.url = self._client.format_url(request.url)
+                request.method = "GET"
+            return request
+
+        async def extract_data(pipeline_response):
+            deserialized = self._deserialize("WorkloadNetworkSegmentListResult", pipeline_response)
+            list_of_elem = deserialized.value
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.next_link or None, AsyncList(list_of_elem)
+
+        async def get_next(next_link=None):
+            request = prepare_request(next_link)
+
+            _stream = False
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+                request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+                raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+            return pipeline_response
+
+        return AsyncItemPaged(get_next, extract_data)
+
+    list_segments.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/segments"
+    }
+
+    @distributed_trace_async
+    async def get_segment(
+        self, resource_group_name: str, private_cloud_name: str, segment_id: str, **kwargs: Any
+    ) -> _models.WorkloadNetworkSegment:
+        """Get a WorkloadNetworkSegment.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param private_cloud_name: Name of the private cloud. Required.
+        :type private_cloud_name: str
+        :param segment_id: The ID of the NSX Segment. Required.
+        :type segment_id: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: WorkloadNetworkSegment or the result of cls(response)
+        :rtype: ~azure.mgmt.avs.models.WorkloadNetworkSegment
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[_models.WorkloadNetworkSegment] = kwargs.pop("cls", None)
+
+        request = build_get_segment_request(
+            resource_group_name=resource_group_name,
+            private_cloud_name=private_cloud_name,
+            segment_id=segment_id,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            template_url=self.get_segment.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("WorkloadNetworkSegment", pipeline_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})
+
+        return deserialized
+
+    get_segment.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/segments/{segmentId}"
+    }
+
+    async def _create_segments_initial(
+        self,
+        resource_group_name: str,
+        private_cloud_name: str,
+        segment_id: str,
+        workload_network_segment: Union[_models.WorkloadNetworkSegment, IO],
+        **kwargs: Any
+    ) -> _models.WorkloadNetworkSegment:
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.WorkloadNetworkSegment] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(workload_network_segment, (IOBase, bytes)):
+            _content = workload_network_segment
+        else:
+            _json = self._serialize.body(workload_network_segment, "WorkloadNetworkSegment")
+
+        request = build_create_segments_request(
+            resource_group_name=resource_group_name,
+            private_cloud_name=private_cloud_name,
+            segment_id=segment_id,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
+            template_url=self._create_segments_initial.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200, 201]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        response_headers = {}
+        if response.status_code == 200:
+            deserialized = self._deserialize("WorkloadNetworkSegment", pipeline_response)
+
+        if response.status_code == 201:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+
+            deserialized = self._deserialize("WorkloadNetworkSegment", pipeline_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+
+        return deserialized  # type: ignore
+
+    _create_segments_initial.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/segments/{segmentId}"
+    }
+
+    @overload
+    async def begin_create_segments(
+        self,
+        resource_group_name: str,
+        private_cloud_name: str,
+        segment_id: str,
+        workload_network_segment: _models.WorkloadNetworkSegment,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> AsyncLROPoller[_models.WorkloadNetworkSegment]:
+        """Create a WorkloadNetworkSegment.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param private_cloud_name: Name of the private cloud. Required.
+        :type private_cloud_name: str
+        :param segment_id: The ID of the NSX Segment. Required.
+        :type segment_id: str
+        :param workload_network_segment: Resource create parameters. Required.
+        :type workload_network_segment: ~azure.mgmt.avs.models.WorkloadNetworkSegment
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
+        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
+         this operation to not poll, or pass in your own initialized polling object for a personal
+         polling strategy.
+        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
+        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
+         Retry-After header is present.
+        :return: An instance of AsyncLROPoller that returns either WorkloadNetworkSegment or the result
+         of cls(response)
+        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.avs.models.WorkloadNetworkSegment]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def begin_create_segments(
+        self,
+        resource_group_name: str,
+        private_cloud_name: str,
+        segment_id: str,
+        workload_network_segment: IO,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> AsyncLROPoller[_models.WorkloadNetworkSegment]:
+        """Create a WorkloadNetworkSegment.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param private_cloud_name: Name of the private cloud. Required.
+        :type private_cloud_name: str
+        :param segment_id: The ID of the NSX Segment. Required.
+        :type segment_id: str
+        :param workload_network_segment: Resource create parameters. Required.
+        :type workload_network_segment: IO
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
+        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
+         this operation to not poll, or pass in your own initialized polling object for a personal
+         polling strategy.
+        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
+        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
+         Retry-After header is present.
+        :return: An instance of AsyncLROPoller that returns either WorkloadNetworkSegment or the result
+         of cls(response)
+        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.avs.models.WorkloadNetworkSegment]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace_async
+    async def begin_create_segments(
+        self,
+        resource_group_name: str,
+        private_cloud_name: str,
+        segment_id: str,
+        workload_network_segment: Union[_models.WorkloadNetworkSegment, IO],
+        **kwargs: Any
+    ) -> AsyncLROPoller[_models.WorkloadNetworkSegment]:
+        """Create a WorkloadNetworkSegment.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param private_cloud_name: Name of the private cloud. Required.
+        :type private_cloud_name: str
+        :param segment_id: The ID of the NSX Segment. Required.
+        :type segment_id: str
+        :param workload_network_segment: Resource create parameters. Is either a WorkloadNetworkSegment
+         type or a IO type. Required.
+        :type workload_network_segment: ~azure.mgmt.avs.models.WorkloadNetworkSegment or IO
+        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
+         Default value is None.
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
+        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
+         this operation to not poll, or pass in your own initialized polling object for a personal
+         polling strategy.
+        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
+        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
+         Retry-After header is present.
+        :return: An instance of AsyncLROPoller that returns either WorkloadNetworkSegment or the result
+         of cls(response)
+        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.avs.models.WorkloadNetworkSegment]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.WorkloadNetworkSegment] = kwargs.pop("cls", None)
+        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
+        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
+        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
+        if cont_token is None:
+            raw_result = await self._create_segments_initial(
+                resource_group_name=resource_group_name,
+                private_cloud_name=private_cloud_name,
+                segment_id=segment_id,
+                workload_network_segment=workload_network_segment,
+                api_version=api_version,
+                content_type=content_type,
+                cls=lambda x, y, z: x,
+                headers=_headers,
+                params=_params,
+                **kwargs
+            )
+        kwargs.pop("error_map", None)
+
+        def get_long_running_output(pipeline_response):
+            deserialized = self._deserialize("WorkloadNetworkSegment", pipeline_response)
+            if cls:
+                return cls(pipeline_response, deserialized, {})
+            return deserialized
+
+        if polling is True:
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod,
+                AsyncARMPolling(lro_delay, lro_options={"final-state-via": "azure-async-operation"}, **kwargs),
+            )
+        elif polling is False:
+            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
+        else:
+            polling_method = polling
+        if cont_token:
+            return AsyncLROPoller.from_continuation_token(
+                polling_method=polling_method,
+                continuation_token=cont_token,
+                client=self._client,
+                deserialization_callback=get_long_running_output,
+            )
+        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+
+    begin_create_segments.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/segments/{segmentId}"
+    }
+
+    async def _update_segments_initial(
+        self,
+        resource_group_name: str,
+        private_cloud_name: str,
+        segment_id: str,
+        workload_network_segment: Union[_models.WorkloadNetworkSegmentUpdate, IO],
+        **kwargs: Any
+    ) -> Optional[_models.WorkloadNetworkSegment]:
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[Optional[_models.WorkloadNetworkSegment]] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(workload_network_segment, (IOBase, bytes)):
+            _content = workload_network_segment
+        else:
+            _json = self._serialize.body(workload_network_segment, "WorkloadNetworkSegmentUpdate")
+
+        request = build_update_segments_request(
+            resource_group_name=resource_group_name,
+            private_cloud_name=private_cloud_name,
+            segment_id=segment_id,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
+            template_url=self._update_segments_initial.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200, 202]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = None
+        response_headers = {}
+        if response.status_code == 200:
+            deserialized = self._deserialize("WorkloadNetworkSegment", pipeline_response)
+
+        if response.status_code == 202:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+
+        if cls:
+            return cls(pipeline_response, deserialized, response_headers)
+
+        return deserialized
+
+    _update_segments_initial.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/segments/{segmentId}"
+    }
+
+    @overload
+    async def begin_update_segments(
+        self,
+        resource_group_name: str,
+        private_cloud_name: str,
+        segment_id: str,
+        workload_network_segment: _models.WorkloadNetworkSegmentUpdate,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> AsyncLROPoller[_models.WorkloadNetworkSegment]:
+        """Update a WorkloadNetworkSegment.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param private_cloud_name: Name of the private cloud. Required.
+        :type private_cloud_name: str
+        :param segment_id: The ID of the NSX Segment. Required.
+        :type segment_id: str
+        :param workload_network_segment: The resource properties to be updated. Required.
+        :type workload_network_segment: ~azure.mgmt.avs.models.WorkloadNetworkSegmentUpdate
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
+        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
+         this operation to not poll, or pass in your own initialized polling object for a personal
+         polling strategy.
+        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
+        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
+         Retry-After header is present.
+        :return: An instance of AsyncLROPoller that returns either WorkloadNetworkSegment or the result
+         of cls(response)
+        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.avs.models.WorkloadNetworkSegment]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def begin_update_segments(
+        self,
+        resource_group_name: str,
+        private_cloud_name: str,
+        segment_id: str,
+        workload_network_segment: IO,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> AsyncLROPoller[_models.WorkloadNetworkSegment]:
+        """Update a WorkloadNetworkSegment.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param private_cloud_name: Name of the private cloud. Required.
+        :type private_cloud_name: str
+        :param segment_id: The ID of the NSX Segment. Required.
+        :type segment_id: str
+        :param workload_network_segment: The resource properties to be updated. Required.
+        :type workload_network_segment: IO
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
+        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
+         this operation to not poll, or pass in your own initialized polling object for a personal
+         polling strategy.
+        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
+        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
+         Retry-After header is present.
+        :return: An instance of AsyncLROPoller that returns either WorkloadNetworkSegment or the result
+         of cls(response)
+        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.avs.models.WorkloadNetworkSegment]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace_async
+    async def begin_update_segments(
+        self,
+        resource_group_name: str,
+        private_cloud_name: str,
+        segment_id: str,
+        workload_network_segment: Union[_models.WorkloadNetworkSegmentUpdate, IO],
+        **kwargs: Any
+    ) -> AsyncLROPoller[_models.WorkloadNetworkSegment]:
+        """Update a WorkloadNetworkSegment.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param private_cloud_name: Name of the private cloud. Required.
+        :type private_cloud_name: str
+        :param segment_id: The ID of the NSX Segment. Required.
+        :type segment_id: str
+        :param workload_network_segment: The resource properties to be updated. Is either a
+         WorkloadNetworkSegmentUpdate type or a IO type. Required.
+        :type workload_network_segment: ~azure.mgmt.avs.models.WorkloadNetworkSegmentUpdate or IO
+        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
+         Default value is None.
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
+        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
+         this operation to not poll, or pass in your own initialized polling object for a personal
+         polling strategy.
+        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
+        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
+         Retry-After header is present.
+        :return: An instance of AsyncLROPoller that returns either WorkloadNetworkSegment or the result
+         of cls(response)
+        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.avs.models.WorkloadNetworkSegment]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.WorkloadNetworkSegment] = kwargs.pop("cls", None)
+        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
+        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
+        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
+        if cont_token is None:
+            raw_result = await self._update_segments_initial(
+                resource_group_name=resource_group_name,
+                private_cloud_name=private_cloud_name,
+                segment_id=segment_id,
+                workload_network_segment=workload_network_segment,
+                api_version=api_version,
+                content_type=content_type,
+                cls=lambda x, y, z: x,
+                headers=_headers,
+                params=_params,
+                **kwargs
+            )
+        kwargs.pop("error_map", None)
+
+        def get_long_running_output(pipeline_response):
+            deserialized = self._deserialize("WorkloadNetworkSegment", pipeline_response)
+            if cls:
+                return cls(pipeline_response, deserialized, {})
+            return deserialized
+
+        if polling is True:
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
+        elif polling is False:
+            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
+        else:
+            polling_method = polling
+        if cont_token:
+            return AsyncLROPoller.from_continuation_token(
+                polling_method=polling_method,
+                continuation_token=cont_token,
+                client=self._client,
+                deserialization_callback=get_long_running_output,
+            )
+        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+
+    begin_update_segments.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/segments/{segmentId}"
+    }
+
+    async def _delete_segment_initial(  # pylint: disable=inconsistent-return-statements
+        self, resource_group_name: str, private_cloud_name: str, segment_id: str, **kwargs: Any
+    ) -> None:
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[None] = kwargs.pop("cls", None)
+
+        request = build_delete_segment_request(
+            resource_group_name=resource_group_name,
+            private_cloud_name=private_cloud_name,
+            segment_id=segment_id,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            template_url=self._delete_segment_initial.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200, 202, 204]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        response_headers = {}
+        if response.status_code == 202:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+
+        if cls:
+            return cls(pipeline_response, None, response_headers)
+
+    _delete_segment_initial.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/segments/{segmentId}"
+    }
+
+    @distributed_trace_async
+    async def begin_delete_segment(
+        self, resource_group_name: str, private_cloud_name: str, segment_id: str, **kwargs: Any
+    ) -> AsyncLROPoller[None]:
+        """Delete a WorkloadNetworkSegment.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param private_cloud_name: Name of the private cloud. Required.
+        :type private_cloud_name: str
+        :param segment_id: The ID of the NSX Segment. Required.
+        :type segment_id: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
+        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
+         this operation to not poll, or pass in your own initialized polling object for a personal
+         polling strategy.
+        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
+        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
+         Retry-After header is present.
+        :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
+        :rtype: ~azure.core.polling.AsyncLROPoller[None]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[None] = kwargs.pop("cls", None)
+        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
+        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
+        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
+        if cont_token is None:
+            raw_result = await self._delete_segment_initial(  # type: ignore
+                resource_group_name=resource_group_name,
+                private_cloud_name=private_cloud_name,
+                segment_id=segment_id,
+                api_version=api_version,
+                cls=lambda x, y, z: x,
+                headers=_headers,
+                params=_params,
+                **kwargs
+            )
+        kwargs.pop("error_map", None)
+
+        def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
+            if cls:
+                return cls(pipeline_response, None, {})
+
+        if polling is True:
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
+        elif polling is False:
+            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
+        else:
+            polling_method = polling
+        if cont_token:
+            return AsyncLROPoller.from_continuation_token(
+                polling_method=polling_method,
+                continuation_token=cont_token,
+                client=self._client,
+                deserialization_callback=get_long_running_output,
+            )
+        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+
+    begin_delete_segment.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/segments/{segmentId}"
+    }
+
+    @distributed_trace
+    def list_virtual_machines(
+        self, resource_group_name: str, private_cloud_name: str, **kwargs: Any
+    ) -> AsyncIterable["_models.WorkloadNetworkVirtualMachine"]:
+        """List WorkloadNetworkVirtualMachine resources by WorkloadNetwork.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param private_cloud_name: Name of the private cloud. Required.
+        :type private_cloud_name: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: An iterator like instance of either WorkloadNetworkVirtualMachine or the result of
+         cls(response)
+        :rtype:
+         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.avs.models.WorkloadNetworkVirtualMachine]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[_models.WorkloadNetworkVirtualMachineListResult] = kwargs.pop("cls", None)
+
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(next_link=None):
+            if not next_link:
+
+                request = build_list_virtual_machines_request(
+                    resource_group_name=resource_group_name,
+                    private_cloud_name=private_cloud_name,
+                    subscription_id=self._config.subscription_id,
+                    api_version=api_version,
+                    template_url=self.list_virtual_machines.metadata["url"],
+                    headers=_headers,
+                    params=_params,
+                )
+                request = _convert_request(request)
+                request.url = self._client.format_url(request.url)
+
+            else:
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._config.api_version
+                request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
+                request = _convert_request(request)
+                request.url = self._client.format_url(request.url)
+                request.method = "GET"
+            return request
+
+        async def extract_data(pipeline_response):
+            deserialized = self._deserialize("WorkloadNetworkVirtualMachineListResult", pipeline_response)
+            list_of_elem = deserialized.value
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.next_link or None, AsyncList(list_of_elem)
+
+        async def get_next(next_link=None):
+            request = prepare_request(next_link)
+
+            _stream = False
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+                request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+                raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+            return pipeline_response
+
+        return AsyncItemPaged(get_next, extract_data)
+
+    list_virtual_machines.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/virtualMachines"
+    }
+
+    @distributed_trace_async
+    async def get_virtual_machine(
+        self, resource_group_name: str, private_cloud_name: str, virtual_machine_id: str, **kwargs: Any
+    ) -> _models.WorkloadNetworkVirtualMachine:
+        """Get a WorkloadNetworkVirtualMachine.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param private_cloud_name: Name of the private cloud. Required.
+        :type private_cloud_name: str
+        :param virtual_machine_id: ID of the virtual machine. Required.
+        :type virtual_machine_id: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: WorkloadNetworkVirtualMachine or the result of cls(response)
+        :rtype: ~azure.mgmt.avs.models.WorkloadNetworkVirtualMachine
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[_models.WorkloadNetworkVirtualMachine] = kwargs.pop("cls", None)
+
+        request = build_get_virtual_machine_request(
+            resource_group_name=resource_group_name,
+            private_cloud_name=private_cloud_name,
+            virtual_machine_id=virtual_machine_id,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            template_url=self.get_virtual_machine.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("WorkloadNetworkVirtualMachine", pipeline_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})
+
+        return deserialized
+
+    get_virtual_machine.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/virtualMachines/{virtualMachineId}"
+    }
+
+    @distributed_trace
+    def list_vm_groups(
+        self, resource_group_name: str, private_cloud_name: str, **kwargs: Any
+    ) -> AsyncIterable["_models.WorkloadNetworkVMGroup"]:
+        """List WorkloadNetworkVMGroup resources by WorkloadNetwork.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param private_cloud_name: Name of the private cloud. Required.
+        :type private_cloud_name: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: An iterator like instance of either WorkloadNetworkVMGroup or the result of
+         cls(response)
+        :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.avs.models.WorkloadNetworkVMGroup]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[_models.WorkloadNetworkVMGroupListResult] = kwargs.pop("cls", None)
+
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(next_link=None):
+            if not next_link:
+
+                request = build_list_vm_groups_request(
+                    resource_group_name=resource_group_name,
+                    private_cloud_name=private_cloud_name,
+                    subscription_id=self._config.subscription_id,
+                    api_version=api_version,
+                    template_url=self.list_vm_groups.metadata["url"],
+                    headers=_headers,
+                    params=_params,
+                )
+                request = _convert_request(request)
+                request.url = self._client.format_url(request.url)
+
+            else:
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._config.api_version
+                request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
+                request = _convert_request(request)
+                request.url = self._client.format_url(request.url)
+                request.method = "GET"
+            return request
+
+        async def extract_data(pipeline_response):
+            deserialized = self._deserialize("WorkloadNetworkVMGroupListResult", pipeline_response)
+            list_of_elem = deserialized.value
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.next_link or None, AsyncList(list_of_elem)
+
+        async def get_next(next_link=None):
+            request = prepare_request(next_link)
+
+            _stream = False
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+                request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+                raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+            return pipeline_response
+
+        return AsyncItemPaged(get_next, extract_data)
+
+    list_vm_groups.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/vmGroups"
+    }
+
+    @distributed_trace_async
+    async def get_vm_group(
+        self, resource_group_name: str, private_cloud_name: str, vm_group_id: str, **kwargs: Any
+    ) -> _models.WorkloadNetworkVMGroup:
+        """Get a WorkloadNetworkVMGroup.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param private_cloud_name: Name of the private cloud. Required.
+        :type private_cloud_name: str
+        :param vm_group_id: ID of the VM group. Required.
+        :type vm_group_id: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: WorkloadNetworkVMGroup or the result of cls(response)
+        :rtype: ~azure.mgmt.avs.models.WorkloadNetworkVMGroup
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[_models.WorkloadNetworkVMGroup] = kwargs.pop("cls", None)
+
+        request = build_get_vm_group_request(
+            resource_group_name=resource_group_name,
+            private_cloud_name=private_cloud_name,
+            vm_group_id=vm_group_id,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            template_url=self.get_vm_group.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("WorkloadNetworkVMGroup", pipeline_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})
+
+        return deserialized
+
+    get_vm_group.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/vmGroups/{vmGroupId}"
+    }
+
+    async def _create_vm_group_initial(
+        self,
+        resource_group_name: str,
+        private_cloud_name: str,
+        vm_group_id: str,
+        workload_network_vm_group: Union[_models.WorkloadNetworkVMGroup, IO],
+        **kwargs: Any
+    ) -> _models.WorkloadNetworkVMGroup:
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.WorkloadNetworkVMGroup] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(workload_network_vm_group, (IOBase, bytes)):
+            _content = workload_network_vm_group
+        else:
+            _json = self._serialize.body(workload_network_vm_group, "WorkloadNetworkVMGroup")
+
+        request = build_create_vm_group_request(
+            resource_group_name=resource_group_name,
+            private_cloud_name=private_cloud_name,
+            vm_group_id=vm_group_id,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
+            template_url=self._create_vm_group_initial.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200, 201]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        response_headers = {}
+        if response.status_code == 200:
+            deserialized = self._deserialize("WorkloadNetworkVMGroup", pipeline_response)
+
+        if response.status_code == 201:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+
+            deserialized = self._deserialize("WorkloadNetworkVMGroup", pipeline_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+
+        return deserialized  # type: ignore
+
+    _create_vm_group_initial.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/vmGroups/{vmGroupId}"
+    }
+
+    @overload
+    async def begin_create_vm_group(
+        self,
+        resource_group_name: str,
+        private_cloud_name: str,
+        vm_group_id: str,
+        workload_network_vm_group: _models.WorkloadNetworkVMGroup,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> AsyncLROPoller[_models.WorkloadNetworkVMGroup]:
+        """Create a WorkloadNetworkVMGroup.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param private_cloud_name: Name of the private cloud. Required.
+        :type private_cloud_name: str
+        :param vm_group_id: ID of the VM group. Required.
+        :type vm_group_id: str
+        :param workload_network_vm_group: Resource create parameters. Required.
+        :type workload_network_vm_group: ~azure.mgmt.avs.models.WorkloadNetworkVMGroup
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
+        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
+         this operation to not poll, or pass in your own initialized polling object for a personal
+         polling strategy.
+        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
+        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
+         Retry-After header is present.
+        :return: An instance of AsyncLROPoller that returns either WorkloadNetworkVMGroup or the result
+         of cls(response)
+        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.avs.models.WorkloadNetworkVMGroup]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def begin_create_vm_group(
+        self,
+        resource_group_name: str,
+        private_cloud_name: str,
+        vm_group_id: str,
+        workload_network_vm_group: IO,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> AsyncLROPoller[_models.WorkloadNetworkVMGroup]:
+        """Create a WorkloadNetworkVMGroup.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param private_cloud_name: Name of the private cloud. Required.
+        :type private_cloud_name: str
+        :param vm_group_id: ID of the VM group. Required.
+        :type vm_group_id: str
+        :param workload_network_vm_group: Resource create parameters. Required.
+        :type workload_network_vm_group: IO
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
+        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
+         this operation to not poll, or pass in your own initialized polling object for a personal
+         polling strategy.
+        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
+        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
+         Retry-After header is present.
+        :return: An instance of AsyncLROPoller that returns either WorkloadNetworkVMGroup or the result
+         of cls(response)
+        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.avs.models.WorkloadNetworkVMGroup]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace_async
+    async def begin_create_vm_group(
+        self,
+        resource_group_name: str,
+        private_cloud_name: str,
+        vm_group_id: str,
+        workload_network_vm_group: Union[_models.WorkloadNetworkVMGroup, IO],
+        **kwargs: Any
+    ) -> AsyncLROPoller[_models.WorkloadNetworkVMGroup]:
+        """Create a WorkloadNetworkVMGroup.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param private_cloud_name: Name of the private cloud. Required.
+        :type private_cloud_name: str
+        :param vm_group_id: ID of the VM group. Required.
+        :type vm_group_id: str
+        :param workload_network_vm_group: Resource create parameters. Is either a
+         WorkloadNetworkVMGroup type or a IO type. Required.
+        :type workload_network_vm_group: ~azure.mgmt.avs.models.WorkloadNetworkVMGroup or IO
+        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
+         Default value is None.
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
+        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
+         this operation to not poll, or pass in your own initialized polling object for a personal
+         polling strategy.
+        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
+        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
+         Retry-After header is present.
+        :return: An instance of AsyncLROPoller that returns either WorkloadNetworkVMGroup or the result
+         of cls(response)
+        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.avs.models.WorkloadNetworkVMGroup]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.WorkloadNetworkVMGroup] = kwargs.pop("cls", None)
+        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
+        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
+        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
+        if cont_token is None:
+            raw_result = await self._create_vm_group_initial(
+                resource_group_name=resource_group_name,
+                private_cloud_name=private_cloud_name,
+                vm_group_id=vm_group_id,
+                workload_network_vm_group=workload_network_vm_group,
+                api_version=api_version,
+                content_type=content_type,
+                cls=lambda x, y, z: x,
+                headers=_headers,
+                params=_params,
+                **kwargs
+            )
+        kwargs.pop("error_map", None)
+
+        def get_long_running_output(pipeline_response):
+            deserialized = self._deserialize("WorkloadNetworkVMGroup", pipeline_response)
+            if cls:
+                return cls(pipeline_response, deserialized, {})
+            return deserialized
+
+        if polling is True:
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod,
+                AsyncARMPolling(lro_delay, lro_options={"final-state-via": "azure-async-operation"}, **kwargs),
+            )
+        elif polling is False:
+            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
+        else:
+            polling_method = polling
+        if cont_token:
+            return AsyncLROPoller.from_continuation_token(
+                polling_method=polling_method,
+                continuation_token=cont_token,
+                client=self._client,
+                deserialization_callback=get_long_running_output,
+            )
+        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+
+    begin_create_vm_group.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/vmGroups/{vmGroupId}"
+    }
+
+    async def _update_vm_group_initial(
+        self,
+        resource_group_name: str,
+        private_cloud_name: str,
+        vm_group_id: str,
+        workload_network_vm_group: Union[_models.WorkloadNetworkVMGroupUpdate, IO],
+        **kwargs: Any
+    ) -> Optional[_models.WorkloadNetworkVMGroup]:
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[Optional[_models.WorkloadNetworkVMGroup]] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(workload_network_vm_group, (IOBase, bytes)):
+            _content = workload_network_vm_group
+        else:
+            _json = self._serialize.body(workload_network_vm_group, "WorkloadNetworkVMGroupUpdate")
+
+        request = build_update_vm_group_request(
+            resource_group_name=resource_group_name,
+            private_cloud_name=private_cloud_name,
+            vm_group_id=vm_group_id,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
+            template_url=self._update_vm_group_initial.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200, 202]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = None
+        response_headers = {}
+        if response.status_code == 200:
+            deserialized = self._deserialize("WorkloadNetworkVMGroup", pipeline_response)
+
+        if response.status_code == 202:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+
+        if cls:
+            return cls(pipeline_response, deserialized, response_headers)
+
+        return deserialized
+
+    _update_vm_group_initial.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/vmGroups/{vmGroupId}"
+    }
+
+    @overload
+    async def begin_update_vm_group(
+        self,
+        resource_group_name: str,
+        private_cloud_name: str,
+        vm_group_id: str,
+        workload_network_vm_group: _models.WorkloadNetworkVMGroupUpdate,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> AsyncLROPoller[_models.WorkloadNetworkVMGroup]:
+        """Update a WorkloadNetworkVMGroup.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param private_cloud_name: Name of the private cloud. Required.
+        :type private_cloud_name: str
+        :param vm_group_id: ID of the VM group. Required.
+        :type vm_group_id: str
+        :param workload_network_vm_group: The resource properties to be updated. Required.
+        :type workload_network_vm_group: ~azure.mgmt.avs.models.WorkloadNetworkVMGroupUpdate
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
+        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
+         this operation to not poll, or pass in your own initialized polling object for a personal
+         polling strategy.
+        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
+        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
+         Retry-After header is present.
+        :return: An instance of AsyncLROPoller that returns either WorkloadNetworkVMGroup or the result
+         of cls(response)
+        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.avs.models.WorkloadNetworkVMGroup]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def begin_update_vm_group(
+        self,
+        resource_group_name: str,
+        private_cloud_name: str,
+        vm_group_id: str,
+        workload_network_vm_group: IO,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> AsyncLROPoller[_models.WorkloadNetworkVMGroup]:
+        """Update a WorkloadNetworkVMGroup.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param private_cloud_name: Name of the private cloud. Required.
+        :type private_cloud_name: str
+        :param vm_group_id: ID of the VM group. Required.
+        :type vm_group_id: str
+        :param workload_network_vm_group: The resource properties to be updated. Required.
+        :type workload_network_vm_group: IO
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
+        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
+         this operation to not poll, or pass in your own initialized polling object for a personal
+         polling strategy.
+        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
+        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
+         Retry-After header is present.
+        :return: An instance of AsyncLROPoller that returns either WorkloadNetworkVMGroup or the result
+         of cls(response)
+        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.avs.models.WorkloadNetworkVMGroup]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace_async
+    async def begin_update_vm_group(
+        self,
+        resource_group_name: str,
+        private_cloud_name: str,
+        vm_group_id: str,
+        workload_network_vm_group: Union[_models.WorkloadNetworkVMGroupUpdate, IO],
+        **kwargs: Any
+    ) -> AsyncLROPoller[_models.WorkloadNetworkVMGroup]:
+        """Update a WorkloadNetworkVMGroup.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param private_cloud_name: Name of the private cloud. Required.
+        :type private_cloud_name: str
+        :param vm_group_id: ID of the VM group. Required.
+        :type vm_group_id: str
+        :param workload_network_vm_group: The resource properties to be updated. Is either a
+         WorkloadNetworkVMGroupUpdate type or a IO type. Required.
+        :type workload_network_vm_group: ~azure.mgmt.avs.models.WorkloadNetworkVMGroupUpdate or IO
+        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
+         Default value is None.
+        :paramtype content_type: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
+        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
+         this operation to not poll, or pass in your own initialized polling object for a personal
+         polling strategy.
+        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
+        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
+         Retry-After header is present.
+        :return: An instance of AsyncLROPoller that returns either WorkloadNetworkVMGroup or the result
+         of cls(response)
+        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.avs.models.WorkloadNetworkVMGroup]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.WorkloadNetworkVMGroup] = kwargs.pop("cls", None)
+        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
+        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
+        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
+        if cont_token is None:
+            raw_result = await self._update_vm_group_initial(
+                resource_group_name=resource_group_name,
+                private_cloud_name=private_cloud_name,
+                vm_group_id=vm_group_id,
+                workload_network_vm_group=workload_network_vm_group,
+                api_version=api_version,
+                content_type=content_type,
+                cls=lambda x, y, z: x,
+                headers=_headers,
+                params=_params,
+                **kwargs
+            )
+        kwargs.pop("error_map", None)
+
+        def get_long_running_output(pipeline_response):
+            deserialized = self._deserialize("WorkloadNetworkVMGroup", pipeline_response)
+            if cls:
+                return cls(pipeline_response, deserialized, {})
+            return deserialized
+
+        if polling is True:
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
+        elif polling is False:
+            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
+        else:
+            polling_method = polling
+        if cont_token:
+            return AsyncLROPoller.from_continuation_token(
+                polling_method=polling_method,
+                continuation_token=cont_token,
+                client=self._client,
+                deserialization_callback=get_long_running_output,
+            )
+        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+
+    begin_update_vm_group.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/vmGroups/{vmGroupId}"
+    }
+
+    async def _delete_vm_group_initial(  # pylint: disable=inconsistent-return-statements
+        self, resource_group_name: str, vm_group_id: str, private_cloud_name: str, **kwargs: Any
+    ) -> None:
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[None] = kwargs.pop("cls", None)
+
+        request = build_delete_vm_group_request(
+            resource_group_name=resource_group_name,
+            vm_group_id=vm_group_id,
+            private_cloud_name=private_cloud_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            template_url=self._delete_vm_group_initial.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200, 202, 204]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        response_headers = {}
+        if response.status_code == 202:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+
+        if cls:
+            return cls(pipeline_response, None, response_headers)
+
+    _delete_vm_group_initial.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/vmGroups/{vmGroupId}"
+    }
+
+    @distributed_trace_async
+    async def begin_delete_vm_group(
+        self, resource_group_name: str, vm_group_id: str, private_cloud_name: str, **kwargs: Any
+    ) -> AsyncLROPoller[None]:
+        """Delete a WorkloadNetworkVMGroup.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param vm_group_id: ID of the VM group. Required.
+        :type vm_group_id: str
+        :param private_cloud_name: Name of the private cloud. Required.
+        :type private_cloud_name: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
+        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
+         this operation to not poll, or pass in your own initialized polling object for a personal
+         polling strategy.
+        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
+        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
+         Retry-After header is present.
+        :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
+        :rtype: ~azure.core.polling.AsyncLROPoller[None]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[None] = kwargs.pop("cls", None)
+        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
+        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
+        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
+        if cont_token is None:
+            raw_result = await self._delete_vm_group_initial(  # type: ignore
+                resource_group_name=resource_group_name,
+                vm_group_id=vm_group_id,
+                private_cloud_name=private_cloud_name,
+                api_version=api_version,
+                cls=lambda x, y, z: x,
+                headers=_headers,
+                params=_params,
+                **kwargs
+            )
+        kwargs.pop("error_map", None)
+
+        def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
+            if cls:
+                return cls(pipeline_response, None, {})
+
+        if polling is True:
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
+        elif polling is False:
+            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
+        else:
+            polling_method = polling
+        if cont_token:
+            return AsyncLROPoller.from_continuation_token(
+                polling_method=polling_method,
+                continuation_token=cont_token,
+                client=self._client,
+                deserialization_callback=get_long_running_output,
+            )
+        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+
+    begin_delete_vm_group.metadata = {
+        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/vmGroups/{vmGroupId}"
     }
