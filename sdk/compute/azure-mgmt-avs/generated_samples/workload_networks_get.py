@@ -32,11 +32,10 @@ def main():
     response = client.workload_networks.get(
         resource_group_name="group1",
         private_cloud_name="cloud1",
-        workload_network_name="default",
     )
     print(response)
 
 
-# x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-03-01/examples/WorkloadNetworks_Get.json
+# x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/WorkloadNetworks_Get.json
 if __name__ == "__main__":
     main()
