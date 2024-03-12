@@ -1,18 +1,18 @@
 {
-  "commit": "1f0722d117a66ec48674c9644f786972d57a29b5",
+  "commit": "3221d23f444163533c99bc292647af6fa5c41a5e",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
   "autorest": "3.9.7",
   "use": [
     "@autorest/python@6.7.1",
     "@autorest/modelerfour@4.26.2"
   ],
-  "autorest_command": "autorest specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/readme.md --generate-sample=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/home/vsts/work/1/azure-sdk-for-python/sdk --use=@autorest/python@6.7.1 --use=@autorest/modelerfour@4.26.2 --version=3.9.7 --version-tolerant=False",
+  "autorest_command": "autorest specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/readme.md --generate-sample=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/mnt/vss/_work/1/s/azure-sdk-for-python/sdk --use=@autorest/python@6.7.1 --use=@autorest/modelerfour@4.26.2 --version=3.9.7 --version-tolerant=False",
   "readme": "specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/readme.md",
-  "package-2023-06-preview": "2023-09-25 18:13:20 -0700 3f4960b89849332a527280332fab992a4e99e0f0 preview/2023-06-15-preview/fleets.json",
-  "package-2023-03-preview": "2023-09-25 18:13:20 -0700 3f4960b89849332a527280332fab992a4e99e0f0 preview/2023-03-15-preview/fleets.json",
-  "package-2022-09-preview": "2023-08-24 23:54:30 -0700 802fc0a5edd13b96e8a6aeadb742657188e9e866 preview/2022-09-02-preview/fleets.json",
+  "package-2023-06-preview": "2024-03-12 18:44:16 +0000 a8da7f73cc580087d7a85561cb35c9439792a8b4 preview/2023-06-15-preview/fleets.json",
+  "package-2023-03-preview": "2024-03-07 12:03:40 -0800 6dedbc067a6e53f56fd502d545eaedc84884f61f preview/2023-03-15-preview/fleets.json",
+  "package-2022-09-preview": "2024-03-07 12:03:40 -0800 6dedbc067a6e53f56fd502d545eaedc84884f61f preview/2022-09-02-preview/fleets.json",
   "package-2022-07-preview": "2023-02-15 15:17:59 +0800 67527326606bd3c71700e2b96ff3c9ce9e655e29 preview/2022-07-02-preview/fleets.json",
   "package-2022-06-preview": "2023-02-15 15:17:59 +0800 67527326606bd3c71700e2b96ff3c9ce9e655e29 preview/2022-06-02-preview/fleets.json",
-  "package-2023-08-preview": "2023-09-25 18:13:20 -0700 3f4960b89849332a527280332fab992a4e99e0f0 preview/2023-08-15-preview/fleets.json",
-  "package-2023-10": "2023-10-19 11:14:26 -0700 8f889f0967e411fc1042aed0a097868b360f525a stable/2023-10-15/fleets.json"
+  "package-2023-08-preview": "2024-03-12 18:44:16 +0000 a8da7f73cc580087d7a85561cb35c9439792a8b4 preview/2023-08-15-preview/fleets.json",
+  "package-2023-10": "2024-03-12 18:44:16 +0000 a8da7f73cc580087d7a85561cb35c9439792a8b4 stable/2023-10-15/fleets.json"
 }
