@@ -181,7 +181,7 @@ class ImagesOperations:
         :type resource_group_name: str
         :param catalog_name: Name of catalog. Required.
         :type catalog_name: str
-        :param image_name: Image name. Use .default for image creation. Required.
+        :param image_name: Image name. Use an image GUID for GA versions of the API. Required.
         :type image_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Image or the result of cls(response)
@@ -333,7 +333,7 @@ class ImagesOperations:
         :type resource_group_name: str
         :param catalog_name: Name of catalog. Required.
         :type catalog_name: str
-        :param image_name: Image name. Use .default for image creation. Required.
+        :param image_name: Image name. Use an image GUID for GA versions of the API. Required.
         :type image_name: str
         :param resource: Resource create parameters. Required.
         :type resource: ~azure.mgmt.sphere.models.Image
@@ -371,7 +371,7 @@ class ImagesOperations:
         :type resource_group_name: str
         :param catalog_name: Name of catalog. Required.
         :type catalog_name: str
-        :param image_name: Image name. Use .default for image creation. Required.
+        :param image_name: Image name. Use an image GUID for GA versions of the API. Required.
         :type image_name: str
         :param resource: Resource create parameters. Required.
         :type resource: IO
@@ -407,7 +407,7 @@ class ImagesOperations:
         :type resource_group_name: str
         :param catalog_name: Name of catalog. Required.
         :type catalog_name: str
-        :param image_name: Image name. Use .default for image creation. Required.
+        :param image_name: Image name. Use an image GUID for GA versions of the API. Required.
         :type image_name: str
         :param resource: Resource create parameters. Is either a Image type or a IO type. Required.
         :type resource: ~azure.mgmt.sphere.models.Image or IO
@@ -543,7 +543,7 @@ class ImagesOperations:
         :type resource_group_name: str
         :param catalog_name: Name of catalog. Required.
         :type catalog_name: str
-        :param image_name: Image name. Use .default for image creation. Required.
+        :param image_name: Image name. Use an image GUID for GA versions of the API. Required.
         :type image_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :keyword str continuation_token: A continuation token to restart a poller from a saved state.
