@@ -333,7 +333,6 @@ from ._compute_management_client_enums import RepairAction
 from ._compute_management_client_enums import ResourceIdentityType
 from ._compute_management_client_enums import RestorePointCollectionExpandOptions
 from ._compute_management_client_enums import RestorePointEncryptionType
-from ._compute_management_client_enums import RestorePointExpandOptions
 from ._compute_management_client_enums import RollingUpgradeActionType
 from ._compute_management_client_enums import RollingUpgradeStatusCode
 from ._compute_management_client_enums import SecurityEncryptionTypes
@@ -690,7 +689,6 @@ __all__ = [
     "ResourceIdentityType",
     "RestorePointCollectionExpandOptions",
     "RestorePointEncryptionType",
-    "RestorePointExpandOptions",
     "RollingUpgradeActionType",
     "RollingUpgradeStatusCode",
     "SecurityEncryptionTypes",
