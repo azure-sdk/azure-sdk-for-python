@@ -35,11 +35,39 @@ _SERIALIZER = Serializer()
 _SERIALIZER.client_side_validation = False
 
 
+def build_check_quota_availability_request(location: str, subscription_id: str, **kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/providers/Microsoft.AVS/locations/{location}/checkQuotaAvailability",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "location": _SERIALIZER.url("location", location, "str", min_length=1),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
 def build_check_trial_availability_request(location: str, subscription_id: str, **kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-03-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -50,7 +78,7 @@ def build_check_trial_availability_request(location: str, subscription_id: str, 
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
-        "location": _SERIALIZER.url("location", location, "str"),
+        "location": _SERIALIZER.url("location", location, "str", min_length=1),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -61,34 +89,6 @@ def build_check_trial_availability_request(location: str, subscription_id: str, 
     # Construct headers
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_check_quota_availability_request(location: str, subscription_id: str, **kwargs: Any) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-03-01"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop(
-        "template_url",
-        "/subscriptions/{subscriptionId}/providers/Microsoft.AVS/locations/{location}/checkQuotaAvailability",
-    )  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
-        "location": _SERIALIZER.url("location", location, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
@@ -113,15 +113,74 @@ class LocationsOperations:
         self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
+    @distributed_trace
+    def check_quota_availability(self, location: str, **kwargs: Any) -> _models.Quota:
+        """Return quota for subscription by region.
+
+        :param location: The name of Azure region. Required.
+        :type location: str
+        :keyword callable cls: A custom type or function that will be passed the direct response
+        :return: Quota or the result of cls(response)
+        :rtype: ~azure.mgmt.avs.models.Quota
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[_models.Quota] = kwargs.pop("cls", None)
+
+        request = build_check_quota_availability_request(
+            location=location,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            template_url=self.check_quota_availability.metadata["url"],
+            headers=_headers,
+            params=_params,
+        )
+        request = _convert_request(request)
+        request.url = self._client.format_url(request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("Quota", pipeline_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})
+
+        return deserialized
+
+    check_quota_availability.metadata = {
+        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.AVS/locations/{location}/checkQuotaAvailability"
+    }
+
     @overload
     def check_trial_availability(
         self, location: str, sku: Optional[_models.Sku] = None, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.Trial:
         """Return trial status for subscription by region.
 
-        :param location: Azure region. Required.
+        :param location: The name of Azure region. Required.
         :type location: str
-        :param sku: The sku to check for trial availability. Default value is None.
+        :param sku: Optionally, check for a specific SKU. Default value is None.
         :type sku: ~azure.mgmt.avs.models.Sku
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
@@ -138,9 +197,9 @@ class LocationsOperations:
     ) -> _models.Trial:
         """Return trial status for subscription by region.
 
-        :param location: Azure region. Required.
+        :param location: The name of Azure region. Required.
         :type location: str
-        :param sku: The sku to check for trial availability. Default value is None.
+        :param sku: Optionally, check for a specific SKU. Default value is None.
         :type sku: IO
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
@@ -157,9 +216,9 @@ class LocationsOperations:
     ) -> _models.Trial:
         """Return trial status for subscription by region.
 
-        :param location: Azure region. Required.
+        :param location: The name of Azure region. Required.
         :type location: str
-        :param sku: The sku to check for trial availability. Is either a Sku type or a IO type. Default
+        :param sku: Optionally, check for a specific SKU. Is either a Sku type or a IO type. Default
          value is None.
         :type sku: ~azure.mgmt.avs.models.Sku or IO
         :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
@@ -231,63 +290,4 @@ class LocationsOperations:
 
     check_trial_availability.metadata = {
         "url": "/subscriptions/{subscriptionId}/providers/Microsoft.AVS/locations/{location}/checkTrialAvailability"
-    }
-
-    @distributed_trace
-    def check_quota_availability(self, location: str, **kwargs: Any) -> _models.Quota:
-        """Return quota for subscription by region.
-
-        :param location: Azure region. Required.
-        :type location: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: Quota or the result of cls(response)
-        :rtype: ~azure.mgmt.avs.models.Quota
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.Quota] = kwargs.pop("cls", None)
-
-        request = build_check_quota_availability_request(
-            location=location,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            template_url=self.check_quota_availability.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("Quota", pipeline_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})
-
-        return deserialized
-
-    check_quota_availability.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.AVS/locations/{location}/checkQuotaAvailability"
     }
