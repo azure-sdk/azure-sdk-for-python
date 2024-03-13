@@ -29,12 +29,11 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.frontend_endpoints.begin_disable_https(
+    client.frontend_endpoints.begin_disable_https(
         resource_group_name="rg1",
         front_door_name="frontDoor1",
         frontend_endpoint_name="frontendEndpoint1",
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2021-06-01/examples/FrontdoorDisableHttps.json

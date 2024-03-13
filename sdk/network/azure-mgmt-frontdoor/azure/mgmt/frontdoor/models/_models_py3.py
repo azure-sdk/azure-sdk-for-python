@@ -667,10 +667,12 @@ class CustomRule(_serialization.Model):
     :vartype rate_limit_duration_in_minutes: int
     :ivar rate_limit_threshold: Number of allowed requests per client within the time window.
     :vartype rate_limit_threshold: int
+    :ivar group_by: Describes the list of variables to group the rate limit requests.
+    :vartype group_by: list[~azure.mgmt.frontdoor.models.GroupByVariable]
     :ivar match_conditions: List of match conditions. Required.
     :vartype match_conditions: list[~azure.mgmt.frontdoor.models.MatchCondition]
     :ivar action: Describes what action to be applied when rule matches. Required. Known values
-     are: "Allow", "Block", "Log", "Redirect", and "AnomalyScoring".
+     are: "Allow", "Block", "Log", "Redirect", "AnomalyScoring", and "JSChallenge".
     :vartype action: str or ~azure.mgmt.frontdoor.models.ActionType
     """
 
@@ -691,6 +693,7 @@ class CustomRule(_serialization.Model):
         "rule_type": {"key": "ruleType", "type": "str"},
         "rate_limit_duration_in_minutes": {"key": "rateLimitDurationInMinutes", "type": "int"},
         "rate_limit_threshold": {"key": "rateLimitThreshold", "type": "int"},
+        "group_by": {"key": "groupBy", "type": "[GroupByVariable]"},
         "match_conditions": {"key": "matchConditions", "type": "[MatchCondition]"},
         "action": {"key": "action", "type": "str"},
     }
@@ -706,6 +709,7 @@ class CustomRule(_serialization.Model):
         enabled_state: Optional[Union[str, "_models.CustomRuleEnabledState"]] = None,
         rate_limit_duration_in_minutes: Optional[int] = None,
         rate_limit_threshold: Optional[int] = None,
+        group_by: Optional[List["_models.GroupByVariable"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -725,10 +729,12 @@ class CustomRule(_serialization.Model):
         :paramtype rate_limit_duration_in_minutes: int
         :keyword rate_limit_threshold: Number of allowed requests per client within the time window.
         :paramtype rate_limit_threshold: int
+        :keyword group_by: Describes the list of variables to group the rate limit requests.
+        :paramtype group_by: list[~azure.mgmt.frontdoor.models.GroupByVariable]
         :keyword match_conditions: List of match conditions. Required.
         :paramtype match_conditions: list[~azure.mgmt.frontdoor.models.MatchCondition]
         :keyword action: Describes what action to be applied when rule matches. Required. Known values
-         are: "Allow", "Block", "Log", "Redirect", and "AnomalyScoring".
+         are: "Allow", "Block", "Log", "Redirect", "AnomalyScoring", and "JSChallenge".
         :paramtype action: str or ~azure.mgmt.frontdoor.models.ActionType
         """
         super().__init__(**kwargs)
@@ -738,6 +744,7 @@ class CustomRule(_serialization.Model):
         self.rule_type = rule_type
         self.rate_limit_duration_in_minutes = rate_limit_duration_in_minutes
         self.rate_limit_threshold = rate_limit_threshold
+        self.group_by = group_by
         self.match_conditions = match_conditions
         self.action = action
 
@@ -1969,6 +1976,34 @@ class FrontendEndpointUpdateParametersWebApplicationFirewallPolicyLink(_serializ
         self.id = id
 
 
+class GroupByVariable(_serialization.Model):
+    """Describes the variables available to group the rate limit requests.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar variable_name: Describes the supported variable for group by. Required. Known values are:
+     "SocketAddr", "GeoLocation", and "None".
+    :vartype variable_name: str or ~azure.mgmt.frontdoor.models.VariableName
+    """
+
+    _validation = {
+        "variable_name": {"required": True},
+    }
+
+    _attribute_map = {
+        "variable_name": {"key": "variableName", "type": "str"},
+    }
+
+    def __init__(self, *, variable_name: Union[str, "_models.VariableName"], **kwargs: Any) -> None:
+        """
+        :keyword variable_name: Describes the supported variable for group by. Required. Known values
+         are: "SocketAddr", "GeoLocation", and "None".
+        :paramtype variable_name: str or ~azure.mgmt.frontdoor.models.VariableName
+        """
+        super().__init__(**kwargs)
+        self.variable_name = variable_name
+
+
 class HeaderAction(_serialization.Model):
     """An action that can manipulate an http header.
 
@@ -2665,7 +2700,7 @@ class ManagedRuleDefinition(_serialization.Model):
      "Disabled" and "Enabled".
     :vartype default_state: str or ~azure.mgmt.frontdoor.models.ManagedRuleEnabledState
     :ivar default_action: Describes the default action to be applied when the managed rule matches.
-     Known values are: "Allow", "Block", "Log", "Redirect", and "AnomalyScoring".
+     Known values are: "Allow", "Block", "Log", "Redirect", "AnomalyScoring", and "JSChallenge".
     :vartype default_action: str or ~azure.mgmt.frontdoor.models.ActionType
     :ivar description: Describes the functionality of the managed rule.
     :vartype description: str
@@ -2845,7 +2880,7 @@ class ManagedRuleOverride(_serialization.Model):
      Disabled if not specified. Known values are: "Disabled" and "Enabled".
     :vartype enabled_state: str or ~azure.mgmt.frontdoor.models.ManagedRuleEnabledState
     :ivar action: Describes the override action to be applied when rule matches. Known values are:
-     "Allow", "Block", "Log", "Redirect", and "AnomalyScoring".
+     "Allow", "Block", "Log", "Redirect", "AnomalyScoring", and "JSChallenge".
     :vartype action: str or ~azure.mgmt.frontdoor.models.ActionType
     :ivar exclusions: Describes the exclusions that are applied to this specific rule.
     :vartype exclusions: list[~azure.mgmt.frontdoor.models.ManagedRuleExclusion]
@@ -2878,7 +2913,7 @@ class ManagedRuleOverride(_serialization.Model):
          to Disabled if not specified. Known values are: "Disabled" and "Enabled".
         :paramtype enabled_state: str or ~azure.mgmt.frontdoor.models.ManagedRuleEnabledState
         :keyword action: Describes the override action to be applied when rule matches. Known values
-         are: "Allow", "Block", "Log", "Redirect", and "AnomalyScoring".
+         are: "Allow", "Block", "Log", "Redirect", "AnomalyScoring", and "JSChallenge".
         :paramtype action: str or ~azure.mgmt.frontdoor.models.ActionType
         :keyword exclusions: Describes the exclusions that are applied to this specific rule.
         :paramtype exclusions: list[~azure.mgmt.frontdoor.models.ManagedRuleExclusion]
@@ -3167,12 +3202,24 @@ class PolicySettings(_serialization.Model):
     :ivar request_body_check: Describes if policy managed rules will inspect the request body
      content. Known values are: "Disabled" and "Enabled".
     :vartype request_body_check: str or ~azure.mgmt.frontdoor.models.PolicyRequestBodyCheck
+    :ivar javascript_challenge_expiration_in_minutes: Defines the JavaScript challenge cookie
+     validity lifetime in minutes. Value must be an integer between 5 and 1440 with the default
+     value being 30.
+    :vartype javascript_challenge_expiration_in_minutes: int
+    :ivar state: State of the log scrubbing config. Default value is Enabled. Known values are:
+     "Enabled" and "Disabled".
+    :vartype state: str or ~azure.mgmt.frontdoor.models.WebApplicationFirewallScrubbingState
+    :ivar scrubbing_rules: List of log scrubbing rules applied to the Web Application Firewall
+     logs.
+    :vartype scrubbing_rules:
+     list[~azure.mgmt.frontdoor.models.WebApplicationFirewallScrubbingRules]
     """
 
     _validation = {
         "custom_block_response_body": {
             "pattern": r"^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{4})$"
         },
+        "javascript_challenge_expiration_in_minutes": {"maximum": 1440, "minimum": 5},
     }
 
     _attribute_map = {
@@ -3182,6 +3229,9 @@ class PolicySettings(_serialization.Model):
         "custom_block_response_status_code": {"key": "customBlockResponseStatusCode", "type": "int"},
         "custom_block_response_body": {"key": "customBlockResponseBody", "type": "str"},
         "request_body_check": {"key": "requestBodyCheck", "type": "str"},
+        "javascript_challenge_expiration_in_minutes": {"key": "javascriptChallengeExpirationInMinutes", "type": "int"},
+        "state": {"key": "logScrubbing.state", "type": "str"},
+        "scrubbing_rules": {"key": "logScrubbing.scrubbingRules", "type": "[WebApplicationFirewallScrubbingRules]"},
     }
 
     def __init__(
@@ -3193,6 +3243,9 @@ class PolicySettings(_serialization.Model):
         custom_block_response_status_code: Optional[int] = None,
         custom_block_response_body: Optional[str] = None,
         request_body_check: Optional[Union[str, "_models.PolicyRequestBodyCheck"]] = None,
+        javascript_challenge_expiration_in_minutes: int = 30,
+        state: Optional[Union[str, "_models.WebApplicationFirewallScrubbingState"]] = None,
+        scrubbing_rules: Optional[List["_models.WebApplicationFirewallScrubbingRules"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -3214,6 +3267,17 @@ class PolicySettings(_serialization.Model):
         :keyword request_body_check: Describes if policy managed rules will inspect the request body
          content. Known values are: "Disabled" and "Enabled".
         :paramtype request_body_check: str or ~azure.mgmt.frontdoor.models.PolicyRequestBodyCheck
+        :keyword javascript_challenge_expiration_in_minutes: Defines the JavaScript challenge cookie
+         validity lifetime in minutes. Value must be an integer between 5 and 1440 with the default
+         value being 30.
+        :paramtype javascript_challenge_expiration_in_minutes: int
+        :keyword state: State of the log scrubbing config. Default value is Enabled. Known values are:
+         "Enabled" and "Disabled".
+        :paramtype state: str or ~azure.mgmt.frontdoor.models.WebApplicationFirewallScrubbingState
+        :keyword scrubbing_rules: List of log scrubbing rules applied to the Web Application Firewall
+         logs.
+        :paramtype scrubbing_rules:
+         list[~azure.mgmt.frontdoor.models.WebApplicationFirewallScrubbingRules]
         """
         super().__init__(**kwargs)
         self.enabled_state = enabled_state
@@ -3222,6 +3286,9 @@ class PolicySettings(_serialization.Model):
         self.custom_block_response_status_code = custom_block_response_status_code
         self.custom_block_response_body = custom_block_response_body
         self.request_body_check = request_body_check
+        self.javascript_challenge_expiration_in_minutes = javascript_challenge_expiration_in_minutes
+        self.state = state
+        self.scrubbing_rules = scrubbing_rules
 
 
 class PreconfiguredEndpoint(Resource):
@@ -4654,3 +4721,70 @@ class WebApplicationFirewallPolicyList(_serialization.Model):
         super().__init__(**kwargs)
         self.value = None
         self.next_link = next_link
+
+
+class WebApplicationFirewallScrubbingRules(_serialization.Model):
+    """Defines the contents of the log scrubbing rules.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar match_variable: The variable to be scrubbed from the logs. Required. Known values are:
+     "RequestIPAddress", "RequestUri", "QueryStringArgNames", "RequestHeaderNames",
+     "RequestCookieNames", "RequestBodyPostArgNames", and "RequestBodyJsonArgNames".
+    :vartype match_variable: str or ~azure.mgmt.frontdoor.models.ScrubbingRuleEntryMatchVariable
+    :ivar selector_match_operator: When matchVariable is a collection, operate on the selector to
+     specify which elements in the collection this rule applies to. Required. Known values are:
+     "EqualsAny" and "Equals".
+    :vartype selector_match_operator: str or
+     ~azure.mgmt.frontdoor.models.ScrubbingRuleEntryMatchOperator
+    :ivar selector: When matchVariable is a collection, operator used to specify which elements in
+     the collection this rule applies to.
+    :vartype selector: str
+    :ivar state: Defines the state of a log scrubbing rule. Default value is enabled. Known values
+     are: "Enabled" and "Disabled".
+    :vartype state: str or ~azure.mgmt.frontdoor.models.ScrubbingRuleEntryState
+    """
+
+    _validation = {
+        "match_variable": {"required": True},
+        "selector_match_operator": {"required": True},
+    }
+
+    _attribute_map = {
+        "match_variable": {"key": "matchVariable", "type": "str"},
+        "selector_match_operator": {"key": "selectorMatchOperator", "type": "str"},
+        "selector": {"key": "selector", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        match_variable: Union[str, "_models.ScrubbingRuleEntryMatchVariable"],
+        selector_match_operator: Union[str, "_models.ScrubbingRuleEntryMatchOperator"],
+        selector: Optional[str] = None,
+        state: Optional[Union[str, "_models.ScrubbingRuleEntryState"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword match_variable: The variable to be scrubbed from the logs. Required. Known values are:
+         "RequestIPAddress", "RequestUri", "QueryStringArgNames", "RequestHeaderNames",
+         "RequestCookieNames", "RequestBodyPostArgNames", and "RequestBodyJsonArgNames".
+        :paramtype match_variable: str or ~azure.mgmt.frontdoor.models.ScrubbingRuleEntryMatchVariable
+        :keyword selector_match_operator: When matchVariable is a collection, operate on the selector
+         to specify which elements in the collection this rule applies to. Required. Known values are:
+         "EqualsAny" and "Equals".
+        :paramtype selector_match_operator: str or
+         ~azure.mgmt.frontdoor.models.ScrubbingRuleEntryMatchOperator
+        :keyword selector: When matchVariable is a collection, operator used to specify which elements
+         in the collection this rule applies to.
+        :paramtype selector: str
+        :keyword state: Defines the state of a log scrubbing rule. Default value is enabled. Known
+         values are: "Enabled" and "Disabled".
+        :paramtype state: str or ~azure.mgmt.frontdoor.models.ScrubbingRuleEntryState
+        """
+        super().__init__(**kwargs)
+        self.match_variable = match_variable
+        self.selector_match_operator = selector_match_operator
+        self.selector = selector
+        self.state = state

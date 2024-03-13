@@ -29,12 +29,11 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.endpoints.begin_purge_content(
+    client.endpoints.begin_purge_content(
         resource_group_name="rg1",
         front_door_name="frontDoor1",
         content_file_paths={"contentPaths": ["/pictures.aspx", "/pictures/*"]},
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2021-06-01/examples/FrontdoorPurgeContent.json
