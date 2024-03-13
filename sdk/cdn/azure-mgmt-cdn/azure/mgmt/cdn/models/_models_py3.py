@@ -9139,6 +9139,9 @@ class Profile(TrackedResource):  # pylint: disable=too-many-instance-attributes
     :ivar origin_response_timeout_seconds: Send and receive timeout on forwarding request to the
      origin. When timeout is reached, the request fails and returns.
     :vartype origin_response_timeout_seconds: int
+    :ivar log_scrubbing: Defines rules that scrub sensitive fields in the Azure Front Door profile
+     logs.
+    :vartype log_scrubbing: ~azure.mgmt.cdn.models.ProfileLogScrubbing
     """
 
     _validation = {
@@ -9171,6 +9174,7 @@ class Profile(TrackedResource):  # pylint: disable=too-many-instance-attributes
         "extended_properties": {"key": "properties.extendedProperties", "type": "{str}"},
         "front_door_id": {"key": "properties.frontDoorId", "type": "str"},
         "origin_response_timeout_seconds": {"key": "properties.originResponseTimeoutSeconds", "type": "int"},
+        "log_scrubbing": {"key": "properties.logScrubbing", "type": "ProfileLogScrubbing"},
     }
 
     def __init__(
@@ -9181,6 +9185,7 @@ class Profile(TrackedResource):  # pylint: disable=too-many-instance-attributes
         tags: Optional[Dict[str, str]] = None,
         identity: Optional["_models.ManagedServiceIdentity"] = None,
         origin_response_timeout_seconds: Optional[int] = None,
+        log_scrubbing: Optional["_models.ProfileLogScrubbing"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -9196,6 +9201,9 @@ class Profile(TrackedResource):  # pylint: disable=too-many-instance-attributes
         :keyword origin_response_timeout_seconds: Send and receive timeout on forwarding request to the
          origin. When timeout is reached, the request fails and returns.
         :paramtype origin_response_timeout_seconds: int
+        :keyword log_scrubbing: Defines rules that scrub sensitive fields in the Azure Front Door
+         profile logs.
+        :paramtype log_scrubbing: ~azure.mgmt.cdn.models.ProfileLogScrubbing
         """
         super().__init__(location=location, tags=tags, **kwargs)
         self.sku = sku
@@ -9206,6 +9214,7 @@ class Profile(TrackedResource):  # pylint: disable=too-many-instance-attributes
         self.extended_properties = None
         self.front_door_id = None
         self.origin_response_timeout_seconds = origin_response_timeout_seconds
+        self.log_scrubbing = log_scrubbing
 
 
 class ProfileChangeSkuWafMapping(_serialization.Model):
@@ -9274,6 +9283,104 @@ class ProfileListResult(_serialization.Model):
         self.next_link = next_link
 
 
+class ProfileLogScrubbing(_serialization.Model):
+    """Defines rules that scrub sensitive fields in the Azure Front Door profile logs.
+
+    :ivar state: State of the log scrubbing config. Default value is Enabled. Known values are:
+     "Enabled" and "Disabled".
+    :vartype state: str or ~azure.mgmt.cdn.models.ProfileScrubbingState
+    :ivar scrubbing_rules: List of log scrubbing rules applied to the Azure Front Door profile
+     logs.
+    :vartype scrubbing_rules: list[~azure.mgmt.cdn.models.ProfileScrubbingRules]
+    """
+
+    _attribute_map = {
+        "state": {"key": "state", "type": "str"},
+        "scrubbing_rules": {"key": "scrubbingRules", "type": "[ProfileScrubbingRules]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        state: Optional[Union[str, "_models.ProfileScrubbingState"]] = None,
+        scrubbing_rules: Optional[List["_models.ProfileScrubbingRules"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword state: State of the log scrubbing config. Default value is Enabled. Known values are:
+         "Enabled" and "Disabled".
+        :paramtype state: str or ~azure.mgmt.cdn.models.ProfileScrubbingState
+        :keyword scrubbing_rules: List of log scrubbing rules applied to the Azure Front Door profile
+         logs.
+        :paramtype scrubbing_rules: list[~azure.mgmt.cdn.models.ProfileScrubbingRules]
+        """
+        super().__init__(**kwargs)
+        self.state = state
+        self.scrubbing_rules = scrubbing_rules
+
+
+class ProfileScrubbingRules(_serialization.Model):
+    """Defines the contents of the log scrubbing rules.
+
+    All required parameters must be populated in order to send to Azure.
+
+    :ivar match_variable: The variable to be scrubbed from the logs. Required. Known values are:
+     "RequestIPAddress", "RequestUri", and "QueryStringArgNames".
+    :vartype match_variable: str or ~azure.mgmt.cdn.models.ScrubbingRuleEntryMatchVariable
+    :ivar selector_match_operator: When matchVariable is a collection, operate on the selector to
+     specify which elements in the collection this rule applies to. Required. "EqualsAny"
+    :vartype selector_match_operator: str or ~azure.mgmt.cdn.models.ScrubbingRuleEntryMatchOperator
+    :ivar selector: When matchVariable is a collection, operator used to specify which elements in
+     the collection this rule applies to.
+    :vartype selector: str
+    :ivar state: Defines the state of a log scrubbing rule. Default value is enabled. Known values
+     are: "Enabled" and "Disabled".
+    :vartype state: str or ~azure.mgmt.cdn.models.ScrubbingRuleEntryState
+    """
+
+    _validation = {
+        "match_variable": {"required": True},
+        "selector_match_operator": {"required": True},
+    }
+
+    _attribute_map = {
+        "match_variable": {"key": "matchVariable", "type": "str"},
+        "selector_match_operator": {"key": "selectorMatchOperator", "type": "str"},
+        "selector": {"key": "selector", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        match_variable: Union[str, "_models.ScrubbingRuleEntryMatchVariable"],
+        selector_match_operator: Union[str, "_models.ScrubbingRuleEntryMatchOperator"],
+        selector: Optional[str] = None,
+        state: Optional[Union[str, "_models.ScrubbingRuleEntryState"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword match_variable: The variable to be scrubbed from the logs. Required. Known values are:
+         "RequestIPAddress", "RequestUri", and "QueryStringArgNames".
+        :paramtype match_variable: str or ~azure.mgmt.cdn.models.ScrubbingRuleEntryMatchVariable
+        :keyword selector_match_operator: When matchVariable is a collection, operate on the selector
+         to specify which elements in the collection this rule applies to. Required. "EqualsAny"
+        :paramtype selector_match_operator: str or
+         ~azure.mgmt.cdn.models.ScrubbingRuleEntryMatchOperator
+        :keyword selector: When matchVariable is a collection, operator used to specify which elements
+         in the collection this rule applies to.
+        :paramtype selector: str
+        :keyword state: Defines the state of a log scrubbing rule. Default value is enabled. Known
+         values are: "Enabled" and "Disabled".
+        :paramtype state: str or ~azure.mgmt.cdn.models.ScrubbingRuleEntryState
+        """
+        super().__init__(**kwargs)
+        self.match_variable = match_variable
+        self.selector_match_operator = selector_match_operator
+        self.selector = selector
+        self.state = state
+
+
 class ProfileUpdateParameters(_serialization.Model):
     """Properties required to update a profile.
 
@@ -9284,6 +9391,8 @@ class ProfileUpdateParameters(_serialization.Model):
     :ivar origin_response_timeout_seconds: Send and receive timeout on forwarding request to the
      origin. When timeout is reached, the request fails and returns.
     :vartype origin_response_timeout_seconds: int
+    :ivar log_scrubbing: Defines rules to scrub sensitive fields in logs.
+    :vartype log_scrubbing: ~azure.mgmt.cdn.models.ProfileLogScrubbing
     """
 
     _validation = {
@@ -9294,6 +9403,7 @@ class ProfileUpdateParameters(_serialization.Model):
         "tags": {"key": "tags", "type": "{str}"},
         "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
         "origin_response_timeout_seconds": {"key": "properties.originResponseTimeoutSeconds", "type": "int"},
+        "log_scrubbing": {"key": "properties.logScrubbing", "type": "ProfileLogScrubbing"},
     }
 
     def __init__(
@@ -9302,6 +9412,7 @@ class ProfileUpdateParameters(_serialization.Model):
         tags: Optional[Dict[str, str]] = None,
         identity: Optional["_models.ManagedServiceIdentity"] = None,
         origin_response_timeout_seconds: Optional[int] = None,
+        log_scrubbing: Optional["_models.ProfileLogScrubbing"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -9312,11 +9423,14 @@ class ProfileUpdateParameters(_serialization.Model):
         :keyword origin_response_timeout_seconds: Send and receive timeout on forwarding request to the
          origin. When timeout is reached, the request fails and returns.
         :paramtype origin_response_timeout_seconds: int
+        :keyword log_scrubbing: Defines rules to scrub sensitive fields in logs.
+        :paramtype log_scrubbing: ~azure.mgmt.cdn.models.ProfileLogScrubbing
         """
         super().__init__(**kwargs)
         self.tags = tags
         self.identity = identity
         self.origin_response_timeout_seconds = origin_response_timeout_seconds
+        self.log_scrubbing = log_scrubbing
 
 
 class ProfileUpgradeParameters(_serialization.Model):
