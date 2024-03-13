@@ -45,7 +45,7 @@ def build_list_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-03-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -54,7 +54,7 @@ def build_list_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/placementPolicies",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
@@ -84,7 +84,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-03-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -93,7 +93,7 @@ def build_get_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/placementPolicies/{placementPolicyName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
@@ -126,7 +126,7 @@ def build_create_or_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-03-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -136,7 +136,7 @@ def build_create_or_update_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/placementPolicies/{placementPolicyName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
@@ -171,7 +171,7 @@ def build_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-03-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -181,7 +181,7 @@ def build_update_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/placementPolicies/{placementPolicyName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
@@ -216,7 +216,7 @@ def build_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-03-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -225,7 +225,7 @@ def build_delete_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/placementPolicies/{placementPolicyName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
@@ -270,16 +270,14 @@ class PlacementPoliciesOperations:
     def list(
         self, resource_group_name: str, private_cloud_name: str, cluster_name: str, **kwargs: Any
     ) -> Iterable["_models.PlacementPolicy"]:
-        """List placement policies in a private cloud cluster.
-
-        List placement policies in a private cloud cluster.
+        """List PlacementPolicy resources by Cluster.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param cluster_name: Name of the cluster in the private cloud. Required.
+        :param cluster_name: Name of the cluster. Required.
         :type cluster_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either PlacementPolicy or the result of cls(response)
@@ -290,7 +288,7 @@ class PlacementPoliciesOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.PlacementPoliciesList] = kwargs.pop("cls", None)
+        cls: ClsType[_models.PlacementPolicyListResult] = kwargs.pop("cls", None)
 
         error_map = {
             401: ClientAuthenticationError,
@@ -335,7 +333,7 @@ class PlacementPoliciesOperations:
             return request
 
         def extract_data(pipeline_response):
-            deserialized = self._deserialize("PlacementPoliciesList", pipeline_response)
+            deserialized = self._deserialize("PlacementPolicyListResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
@@ -372,19 +370,16 @@ class PlacementPoliciesOperations:
         placement_policy_name: str,
         **kwargs: Any
     ) -> _models.PlacementPolicy:
-        """Get a placement policy by name in a private cloud cluster.
-
-        Get a placement policy by name in a private cloud cluster.
+        """Get a PlacementPolicy.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param cluster_name: Name of the cluster in the private cloud. Required.
+        :param cluster_name: Name of the cluster. Required.
         :type cluster_name: str
-        :param placement_policy_name: Name of the VMware vSphere Distributed Resource Scheduler (DRS)
-         placement policy. Required.
+        :param placement_policy_name: Name of the placement policy. Required.
         :type placement_policy_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: PlacementPolicy or the result of cls(response)
@@ -503,14 +498,17 @@ class PlacementPoliciesOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
+        response_headers = {}
         if response.status_code == 200:
             deserialized = self._deserialize("PlacementPolicy", pipeline_response)
 
         if response.status_code == 201:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+
             deserialized = self._deserialize("PlacementPolicy", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
 
@@ -530,21 +528,18 @@ class PlacementPoliciesOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> LROPoller[_models.PlacementPolicy]:
-        """Create or update a placement policy in a private cloud cluster.
-
-        Create or update a placement policy in a private cloud cluster.
+        """Create a PlacementPolicy.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param cluster_name: Name of the cluster in the private cloud. Required.
+        :param cluster_name: Name of the cluster. Required.
         :type cluster_name: str
-        :param placement_policy_name: Name of the VMware vSphere Distributed Resource Scheduler (DRS)
-         placement policy. Required.
+        :param placement_policy_name: Name of the placement policy. Required.
         :type placement_policy_name: str
-        :param placement_policy: A placement policy in the private cloud cluster. Required.
+        :param placement_policy: Resource create parameters. Required.
         :type placement_policy: ~azure.mgmt.avs.models.PlacementPolicy
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
@@ -575,21 +570,18 @@ class PlacementPoliciesOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> LROPoller[_models.PlacementPolicy]:
-        """Create or update a placement policy in a private cloud cluster.
-
-        Create or update a placement policy in a private cloud cluster.
+        """Create a PlacementPolicy.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param cluster_name: Name of the cluster in the private cloud. Required.
+        :param cluster_name: Name of the cluster. Required.
         :type cluster_name: str
-        :param placement_policy_name: Name of the VMware vSphere Distributed Resource Scheduler (DRS)
-         placement policy. Required.
+        :param placement_policy_name: Name of the placement policy. Required.
         :type placement_policy_name: str
-        :param placement_policy: A placement policy in the private cloud cluster. Required.
+        :param placement_policy: Resource create parameters. Required.
         :type placement_policy: IO
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
@@ -618,22 +610,19 @@ class PlacementPoliciesOperations:
         placement_policy: Union[_models.PlacementPolicy, IO],
         **kwargs: Any
     ) -> LROPoller[_models.PlacementPolicy]:
-        """Create or update a placement policy in a private cloud cluster.
-
-        Create or update a placement policy in a private cloud cluster.
+        """Create a PlacementPolicy.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param cluster_name: Name of the cluster in the private cloud. Required.
+        :param cluster_name: Name of the cluster. Required.
         :type cluster_name: str
-        :param placement_policy_name: Name of the VMware vSphere Distributed Resource Scheduler (DRS)
-         placement policy. Required.
+        :param placement_policy_name: Name of the placement policy. Required.
         :type placement_policy_name: str
-        :param placement_policy: A placement policy in the private cloud cluster. Is either a
-         PlacementPolicy type or a IO type. Required.
+        :param placement_policy: Resource create parameters. Is either a PlacementPolicy type or a IO
+         type. Required.
         :type placement_policy: ~azure.mgmt.avs.models.PlacementPolicy or IO
         :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
          Default value is None.
@@ -683,7 +672,9 @@ class PlacementPoliciesOperations:
             return deserialized
 
         if polling is True:
-            polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
+            polling_method: PollingMethod = cast(
+                PollingMethod, ARMPolling(lro_delay, lro_options={"final-state-via": "azure-async-operation"}, **kwargs)
+            )
         elif polling is False:
             polling_method = cast(PollingMethod, NoPolling())
         else:
@@ -762,14 +753,18 @@ class PlacementPoliciesOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
+        response_headers = {}
         if response.status_code == 200:
             deserialized = self._deserialize("PlacementPolicy", pipeline_response)
 
         if response.status_code == 202:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+
             deserialized = self._deserialize("PlacementPolicy", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
 
@@ -789,21 +784,18 @@ class PlacementPoliciesOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> LROPoller[_models.PlacementPolicy]:
-        """Update a placement policy in a private cloud cluster.
-
-        Update a placement policy in a private cloud cluster.
+        """Update a PlacementPolicy.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param cluster_name: Name of the cluster in the private cloud. Required.
+        :param cluster_name: Name of the cluster. Required.
         :type cluster_name: str
-        :param placement_policy_name: Name of the VMware vSphere Distributed Resource Scheduler (DRS)
-         placement policy. Required.
+        :param placement_policy_name: Name of the placement policy. Required.
         :type placement_policy_name: str
-        :param placement_policy_update: The placement policy properties that may be updated. Required.
+        :param placement_policy_update: The placement policy properties to be updated. Required.
         :type placement_policy_update: ~azure.mgmt.avs.models.PlacementPolicyUpdate
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
@@ -834,21 +826,18 @@ class PlacementPoliciesOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> LROPoller[_models.PlacementPolicy]:
-        """Update a placement policy in a private cloud cluster.
-
-        Update a placement policy in a private cloud cluster.
+        """Update a PlacementPolicy.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param cluster_name: Name of the cluster in the private cloud. Required.
+        :param cluster_name: Name of the cluster. Required.
         :type cluster_name: str
-        :param placement_policy_name: Name of the VMware vSphere Distributed Resource Scheduler (DRS)
-         placement policy. Required.
+        :param placement_policy_name: Name of the placement policy. Required.
         :type placement_policy_name: str
-        :param placement_policy_update: The placement policy properties that may be updated. Required.
+        :param placement_policy_update: The placement policy properties to be updated. Required.
         :type placement_policy_update: IO
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
@@ -877,22 +866,19 @@ class PlacementPoliciesOperations:
         placement_policy_update: Union[_models.PlacementPolicyUpdate, IO],
         **kwargs: Any
     ) -> LROPoller[_models.PlacementPolicy]:
-        """Update a placement policy in a private cloud cluster.
-
-        Update a placement policy in a private cloud cluster.
+        """Update a PlacementPolicy.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param cluster_name: Name of the cluster in the private cloud. Required.
+        :param cluster_name: Name of the cluster. Required.
         :type cluster_name: str
-        :param placement_policy_name: Name of the VMware vSphere Distributed Resource Scheduler (DRS)
-         placement policy. Required.
+        :param placement_policy_name: Name of the placement policy. Required.
         :type placement_policy_name: str
-        :param placement_policy_update: The placement policy properties that may be updated. Is either
-         a PlacementPolicyUpdate type or a IO type. Required.
+        :param placement_policy_update: The placement policy properties to be updated. Is either a
+         PlacementPolicyUpdate type or a IO type. Required.
         :type placement_policy_update: ~azure.mgmt.avs.models.PlacementPolicyUpdate or IO
         :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
          Default value is None.
@@ -942,7 +928,9 @@ class PlacementPoliciesOperations:
             return deserialized
 
         if polling is True:
-            polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
+            polling_method: PollingMethod = cast(
+                PollingMethod, ARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
         elif polling is False:
             polling_method = cast(PollingMethod, NoPolling())
         else:
@@ -1008,8 +996,13 @@ class PlacementPoliciesOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
+        response_headers = {}
+        if response.status_code == 202:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+
         if cls:
-            return cls(pipeline_response, None, {})
+            return cls(pipeline_response, None, response_headers)
 
     _delete_initial.metadata = {
         "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/placementPolicies/{placementPolicyName}"
@@ -1024,19 +1017,16 @@ class PlacementPoliciesOperations:
         placement_policy_name: str,
         **kwargs: Any
     ) -> LROPoller[None]:
-        """Delete a placement policy in a private cloud cluster.
-
-        Delete a placement policy in a private cloud cluster.
+        """Delete a PlacementPolicy.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param cluster_name: Name of the cluster in the private cloud. Required.
+        :param cluster_name: Name of the cluster. Required.
         :type cluster_name: str
-        :param placement_policy_name: Name of the VMware vSphere Distributed Resource Scheduler (DRS)
-         placement policy. Required.
+        :param placement_policy_name: Name of the placement policy. Required.
         :type placement_policy_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :keyword str continuation_token: A continuation token to restart a poller from a saved state.
@@ -1077,7 +1067,9 @@ class PlacementPoliciesOperations:
                 return cls(pipeline_response, None, {})
 
         if polling is True:
-            polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
+            polling_method: PollingMethod = cast(
+                PollingMethod, ARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
         elif polling is False:
             polling_method = cast(PollingMethod, NoPolling())
         else:

@@ -42,7 +42,7 @@ def build_list_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-03-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -51,7 +51,7 @@ def build_list_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptPackages/{scriptPackageName}/scriptCmdlets",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
@@ -83,7 +83,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-03-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -92,7 +92,7 @@ def build_get_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptPackages/{scriptPackageName}/scriptCmdlets/{scriptCmdletName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
@@ -137,15 +137,14 @@ class ScriptCmdletsOperations:
     def list(
         self, resource_group_name: str, private_cloud_name: str, script_package_name: str, **kwargs: Any
     ) -> Iterable["_models.ScriptCmdlet"]:
-        """List script cmdlet resources available for a private cloud to create a script execution
-        resource on a private cloud.
+        """List ScriptCmdlet resources by ScriptPackage.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param script_package_name: Name of the script package in the private cloud. Required.
+        :param script_package_name: Name of the script package. Required.
         :type script_package_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ScriptCmdlet or the result of cls(response)
@@ -156,7 +155,7 @@ class ScriptCmdletsOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.ScriptCmdletsList] = kwargs.pop("cls", None)
+        cls: ClsType[_models.ScriptCmdletListResult] = kwargs.pop("cls", None)
 
         error_map = {
             401: ClientAuthenticationError,
@@ -201,7 +200,7 @@ class ScriptCmdletsOperations:
             return request
 
         def extract_data(pipeline_response):
-            deserialized = self._deserialize("ScriptCmdletsList", pipeline_response)
+            deserialized = self._deserialize("ScriptCmdletListResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
@@ -238,17 +237,16 @@ class ScriptCmdletsOperations:
         script_cmdlet_name: str,
         **kwargs: Any
     ) -> _models.ScriptCmdlet:
-        """Return information about a script cmdlet resource in a specific package on a private cloud.
+        """Get a ScriptCmdlet.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param script_package_name: Name of the script package in the private cloud. Required.
+        :param script_package_name: Name of the script package. Required.
         :type script_package_name: str
-        :param script_cmdlet_name: Name of the script cmdlet resource in the script package in the
-         private cloud. Required.
+        :param script_cmdlet_name: Name of the script cmdlet. Required.
         :type script_cmdlet_name: str
         :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ScriptCmdlet or the result of cls(response)
