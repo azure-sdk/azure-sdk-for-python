@@ -22,6 +22,7 @@ from .operations import (
     SignalROperations,
     SignalRPrivateEndpointConnectionsOperations,
     SignalRPrivateLinkResourcesOperations,
+    SignalRReplicaOperations,
     SignalRReplicasOperations,
     SignalRSharedPrivateLinkResourcesOperations,
     UsagesOperations,
@@ -56,6 +57,8 @@ class SignalRManagementClient:  # pylint: disable=client-accepts-api-version-key
      azure.mgmt.signalr.aio.operations.SignalRPrivateLinkResourcesOperations
     :ivar signal_rreplicas: SignalRReplicasOperations operations
     :vartype signal_rreplicas: azure.mgmt.signalr.aio.operations.SignalRReplicasOperations
+    :ivar signal_rreplica: SignalRReplicaOperations operations
+    :vartype signal_rreplica: azure.mgmt.signalr.aio.operations.SignalRReplicaOperations
     :ivar signal_rshared_private_link_resources: SignalRSharedPrivateLinkResourcesOperations
      operations
     :vartype signal_rshared_private_link_resources:
@@ -66,7 +69,7 @@ class SignalRManagementClient:  # pylint: disable=client-accepts-api-version-key
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2023-08-01-preview". Note that overriding
+    :keyword api_version: Api Version. Default value is "2024-01-01-preview". Note that overriding
      this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -107,6 +110,7 @@ class SignalRManagementClient:  # pylint: disable=client-accepts-api-version-key
         self.signal_rreplicas = SignalRReplicasOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.signal_rreplica = SignalRReplicaOperations(self._client, self._config, self._serialize, self._deserialize)
         self.signal_rshared_private_link_resources = SignalRSharedPrivateLinkResourcesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
