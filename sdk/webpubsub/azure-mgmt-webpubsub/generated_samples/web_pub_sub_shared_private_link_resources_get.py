@@ -37,6 +37,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/preview/2023-08-01-preview/examples/WebPubSubSharedPrivateLinkResources_Get.json
+# x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/preview/2024-01-01-preview/examples/WebPubSubSharedPrivateLinkResources_Get.json
 if __name__ == "__main__":
     main()
