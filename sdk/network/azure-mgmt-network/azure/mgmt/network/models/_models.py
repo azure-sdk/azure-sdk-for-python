@@ -1613,12 +1613,16 @@ class ApplicationGatewaySku(_serialization.Model):
     :vartype tier: str or ~azure.mgmt.network.models.ApplicationGatewayTier
     :ivar capacity: Capacity (instance count) of an application gateway.
     :vartype capacity: int
+    :ivar family: Family of an application gateway SKU. Known values are: "Generation_1" and
+     "Generation_2".
+    :vartype family: str or ~azure.mgmt.network.models.ApplicationGatewaySkuFamily
     """
 
     _attribute_map = {
         "name": {"key": "name", "type": "str"},
         "tier": {"key": "tier", "type": "str"},
         "capacity": {"key": "capacity", "type": "int"},
+        "family": {"key": "family", "type": "str"},
     }
 
     def __init__(
@@ -1627,6 +1631,7 @@ class ApplicationGatewaySku(_serialization.Model):
         name: Optional[Union[str, "_models.ApplicationGatewaySkuName"]] = None,
         tier: Optional[Union[str, "_models.ApplicationGatewayTier"]] = None,
         capacity: Optional[int] = None,
+        family: Optional[Union[str, "_models.ApplicationGatewaySkuFamily"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -1639,11 +1644,15 @@ class ApplicationGatewaySku(_serialization.Model):
         :paramtype tier: str or ~azure.mgmt.network.models.ApplicationGatewayTier
         :keyword capacity: Capacity (instance count) of an application gateway.
         :paramtype capacity: int
+        :keyword family: Family of an application gateway SKU. Known values are: "Generation_1" and
+         "Generation_2".
+        :paramtype family: str or ~azure.mgmt.network.models.ApplicationGatewaySkuFamily
         """
         super().__init__(**kwargs)
         self.name = name
         self.tier = tier
         self.capacity = capacity
+        self.family = family
 
 class ApplicationGatewaySslCertificate(SubResource):
     """SSL certificates of an application gateway.
@@ -2344,6 +2353,9 @@ class ExpressRouteCircuit(Resource):  # pylint: disable=too-many-instance-attrib
     :vartype authorization_key: str
     :ivar authorization_status: The authorization status of the Circuit.
     :vartype authorization_status: str
+    :ivar enable_direct_port_rate_limit: Flag denoting rate-limiting status of the ExpressRoute
+     direct-port circuit.
+    :vartype enable_direct_port_rate_limit: bool
     """
 
     _validation = {
@@ -2382,9 +2394,10 @@ class ExpressRouteCircuit(Resource):  # pylint: disable=too-many-instance-attrib
         "global_reach_enabled": {"key": "properties.globalReachEnabled", "type": "bool"},
         "authorization_key": {"key": "properties.authorizationKey", "type": "str"},
         "authorization_status": {"key": "properties.authorizationStatus", "type": "str"},
+        "enable_direct_port_rate_limit": {"key": "properties.enableDirectPortRateLimit", "type": "bool"},
     }
 
-    def __init__(
+    def __init__(  # pylint: disable=too-many-locals
         self,
         *,
         id: Optional[str] = None,  # pylint: disable=redefined-builtin
@@ -2404,6 +2417,7 @@ class ExpressRouteCircuit(Resource):  # pylint: disable=too-many-instance-attrib
         gateway_manager_etag: Optional[str] = None,
         global_reach_enabled: Optional[bool] = None,
         authorization_key: Optional[str] = None,
+        enable_direct_port_rate_limit: Optional[bool] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -2448,6 +2462,9 @@ class ExpressRouteCircuit(Resource):  # pylint: disable=too-many-instance-attrib
         :paramtype global_reach_enabled: bool
         :keyword authorization_key: The authorizationKey.
         :paramtype authorization_key: str
+        :keyword enable_direct_port_rate_limit: Flag denoting rate-limiting status of the ExpressRoute
+         direct-port circuit.
+        :paramtype enable_direct_port_rate_limit: bool
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
         self.sku = sku
@@ -2468,6 +2485,7 @@ class ExpressRouteCircuit(Resource):  # pylint: disable=too-many-instance-attrib
         self.global_reach_enabled = global_reach_enabled
         self.authorization_key = authorization_key
         self.authorization_status = None
+        self.enable_direct_port_rate_limit = enable_direct_port_rate_limit
 
 class ExpressRouteCircuitArpTable(_serialization.Model):
     """The ARP table associated with the ExpressRouteCircuit.
@@ -5925,6 +5943,11 @@ class Subnet(SubResource):  # pylint: disable=too-many-instance-attributes
      network resource.
     :vartype application_gateway_ip_configurations:
      list[~azure.mgmt.network.models.ApplicationGatewayIPConfiguration]
+    :ivar sharing_scope: Set this property to Tenant to allow sharing subnet with other
+     subscriptions in your AAD tenant. This property can only be set if defaultOutboundAccess is set
+     to false, both properties can only be set if subnet is empty. Known values are: "Tenant" and
+     "DelegatedServices".
+    :vartype sharing_scope: str or ~azure.mgmt.network.models.SharingScope
     :ivar default_outbound_access: Set this property to false to disable default outbound
      connectivity for all VMs in the subnet. This property can only be set at the time of subnet
      creation and cannot be updated for an existing subnet.
@@ -5969,6 +5992,7 @@ class Subnet(SubResource):  # pylint: disable=too-many-instance-attributes
             "key": "properties.applicationGatewayIPConfigurations",
             "type": "[ApplicationGatewayIPConfiguration]",
         },
+        "sharing_scope": {"key": "properties.sharingScope", "type": "str"},
         "default_outbound_access": {"key": "properties.defaultOutboundAccess", "type": "bool"},
     }
 
@@ -5994,6 +6018,7 @@ class Subnet(SubResource):  # pylint: disable=too-many-instance-attributes
             str, "_models.VirtualNetworkPrivateLinkServiceNetworkPolicies"
         ] = "Enabled",
         application_gateway_ip_configurations: Optional[List["_models.ApplicationGatewayIPConfiguration"]] = None,
+        sharing_scope: Optional[Union[str, "_models.SharingScope"]] = None,
         default_outbound_access: Optional[bool] = None,
         **kwargs: Any
     ) -> None:
@@ -6038,6 +6063,11 @@ class Subnet(SubResource):  # pylint: disable=too-many-instance-attributes
          virtual network resource.
         :paramtype application_gateway_ip_configurations:
          list[~azure.mgmt.network.models.ApplicationGatewayIPConfiguration]
+        :keyword sharing_scope: Set this property to Tenant to allow sharing subnet with other
+         subscriptions in your AAD tenant. This property can only be set if defaultOutboundAccess is set
+         to false, both properties can only be set if subnet is empty. Known values are: "Tenant" and
+         "DelegatedServices".
+        :paramtype sharing_scope: str or ~azure.mgmt.network.models.SharingScope
         :keyword default_outbound_access: Set this property to false to disable default outbound
          connectivity for all VMs in the subnet. This property can only be set at the time of subnet
          creation and cannot be updated for an existing subnet.
@@ -6066,6 +6096,7 @@ class Subnet(SubResource):  # pylint: disable=too-many-instance-attributes
         self.private_endpoint_network_policies = private_endpoint_network_policies
         self.private_link_service_network_policies = private_link_service_network_policies
         self.application_gateway_ip_configurations = application_gateway_ip_configurations
+        self.sharing_scope = sharing_scope
         self.default_outbound_access = default_outbound_access
 
 class SubnetListResult(_serialization.Model):
@@ -10728,6 +10759,8 @@ class FlowLogInformation(_serialization.Model):
      analytics.
     :vartype flow_analytics_configuration:
      ~azure.mgmt.network.models.TrafficAnalyticsProperties
+    :ivar identity: FlowLog resource Managed Identity.
+    :vartype identity: ~azure.mgmt.network.models.ManagedServiceIdentity
     :ivar storage_id: ID of the storage account which is used to store the flow log. Required.
     :vartype storage_id: str
     :ivar enabled: Flag to enable/disable flow logging. Required.
@@ -10747,6 +10780,7 @@ class FlowLogInformation(_serialization.Model):
     _attribute_map = {
         "target_resource_id": {"key": "targetResourceId", "type": "str"},
         "flow_analytics_configuration": {"key": "flowAnalyticsConfiguration", "type": "TrafficAnalyticsProperties"},
+        "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
         "storage_id": {"key": "properties.storageId", "type": "str"},
         "enabled": {"key": "properties.enabled", "type": "bool"},
         "retention_policy": {"key": "properties.retentionPolicy", "type": "RetentionPolicyParameters"},
@@ -10760,6 +10794,7 @@ class FlowLogInformation(_serialization.Model):
         storage_id: str,
         enabled: bool,
         flow_analytics_configuration: Optional["_models.TrafficAnalyticsProperties"] = None,
+        identity: Optional["_models.ManagedServiceIdentity"] = None,
         retention_policy: Optional["_models.RetentionPolicyParameters"] = None,
         format: Optional["_models.FlowLogFormatParameters"] = None,
         **kwargs: Any
@@ -10772,6 +10807,8 @@ class FlowLogInformation(_serialization.Model):
          analytics.
         :paramtype flow_analytics_configuration:
          ~azure.mgmt.network.models.TrafficAnalyticsProperties
+        :keyword identity: FlowLog resource Managed Identity.
+        :paramtype identity: ~azure.mgmt.network.models.ManagedServiceIdentity
         :keyword storage_id: ID of the storage account which is used to store the flow log. Required.
         :paramtype storage_id: str
         :keyword enabled: Flag to enable/disable flow logging. Required.
@@ -10784,6 +10821,7 @@ class FlowLogInformation(_serialization.Model):
         super().__init__(**kwargs)
         self.target_resource_id = target_resource_id
         self.flow_analytics_configuration = flow_analytics_configuration
+        self.identity = identity
         self.storage_id = storage_id
         self.enabled = enabled
         self.retention_policy = retention_policy
@@ -11868,6 +11906,13 @@ class PacketCapture(_serialization.Model):
     :vartype storage_location: ~azure.mgmt.network.models.PacketCaptureStorageLocation
     :ivar filters: A list of packet capture filters.
     :vartype filters: list[~azure.mgmt.network.models.PacketCaptureFilter]
+    :ivar continuous_capture: This continuous capture is a nullable boolean, which can hold 'null',
+     'true' or 'false' value. If we do not pass this parameter, it would be consider as 'null',
+     default value is 'null'.
+    :vartype continuous_capture: bool
+    :ivar capture_settings: The capture setting holds the 'FileCount', 'FileSizeInBytes',
+     'SessionTimeLimitInSeconds' values.
+    :vartype capture_settings: ~azure.mgmt.network.models.PacketCaptureSettings
     """
 
     _validation = {
@@ -11887,6 +11932,8 @@ class PacketCapture(_serialization.Model):
         "time_limit_in_seconds": {"key": "properties.timeLimitInSeconds", "type": "int"},
         "storage_location": {"key": "properties.storageLocation", "type": "PacketCaptureStorageLocation"},
         "filters": {"key": "properties.filters", "type": "[PacketCaptureFilter]"},
+        "continuous_capture": {"key": "properties.continuousCapture", "type": "bool"},
+        "capture_settings": {"key": "properties.captureSettings", "type": "PacketCaptureSettings"},
     }
 
     def __init__(
@@ -11900,6 +11947,8 @@ class PacketCapture(_serialization.Model):
         total_bytes_per_session: int = 1073741824,
         time_limit_in_seconds: int = 18000,
         filters: Optional[List["_models.PacketCaptureFilter"]] = None,
+        continuous_capture: Optional[bool] = None,
+        capture_settings: Optional["_models.PacketCaptureSettings"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -11925,6 +11974,13 @@ class PacketCapture(_serialization.Model):
          ~azure.mgmt.network.models.PacketCaptureStorageLocation
         :keyword filters: A list of packet capture filters.
         :paramtype filters: list[~azure.mgmt.network.models.PacketCaptureFilter]
+        :keyword continuous_capture: This continuous capture is a nullable boolean, which can hold
+         'null', 'true' or 'false' value. If we do not pass this parameter, it would be consider as
+         'null', default value is 'null'.
+        :paramtype continuous_capture: bool
+        :keyword capture_settings: The capture setting holds the 'FileCount', 'FileSizeInBytes',
+         'SessionTimeLimitInSeconds' values.
+        :paramtype capture_settings: ~azure.mgmt.network.models.PacketCaptureSettings
         """
         super().__init__(**kwargs)
         self.target = target
@@ -11935,6 +11991,8 @@ class PacketCapture(_serialization.Model):
         self.time_limit_in_seconds = time_limit_in_seconds
         self.storage_location = storage_location
         self.filters = filters
+        self.continuous_capture = continuous_capture
+        self.capture_settings = capture_settings
 
 class PacketCaptureFilter(_serialization.Model):
     """Filter that is applied to packet capture request. Multiple filters can be applied.
@@ -12053,6 +12111,13 @@ class PacketCaptureParameters(_serialization.Model):
     :vartype storage_location: ~azure.mgmt.network.models.PacketCaptureStorageLocation
     :ivar filters: A list of packet capture filters.
     :vartype filters: list[~azure.mgmt.network.models.PacketCaptureFilter]
+    :ivar continuous_capture: This continuous capture is a nullable boolean, which can hold 'null',
+     'true' or 'false' value. If we do not pass this parameter, it would be consider as 'null',
+     default value is 'null'.
+    :vartype continuous_capture: bool
+    :ivar capture_settings: The capture setting holds the 'FileCount', 'FileSizeInBytes',
+     'SessionTimeLimitInSeconds' values.
+    :vartype capture_settings: ~azure.mgmt.network.models.PacketCaptureSettings
     """
 
     _validation = {
@@ -12072,6 +12137,8 @@ class PacketCaptureParameters(_serialization.Model):
         "time_limit_in_seconds": {"key": "timeLimitInSeconds", "type": "int"},
         "storage_location": {"key": "storageLocation", "type": "PacketCaptureStorageLocation"},
         "filters": {"key": "filters", "type": "[PacketCaptureFilter]"},
+        "continuous_capture": {"key": "continuousCapture", "type": "bool"},
+        "capture_settings": {"key": "captureSettings", "type": "PacketCaptureSettings"},
     }
 
     def __init__(
@@ -12085,6 +12152,8 @@ class PacketCaptureParameters(_serialization.Model):
         total_bytes_per_session: int = 1073741824,
         time_limit_in_seconds: int = 18000,
         filters: Optional[List["_models.PacketCaptureFilter"]] = None,
+        continuous_capture: Optional[bool] = None,
+        capture_settings: Optional["_models.PacketCaptureSettings"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -12110,6 +12179,13 @@ class PacketCaptureParameters(_serialization.Model):
          ~azure.mgmt.network.models.PacketCaptureStorageLocation
         :keyword filters: A list of packet capture filters.
         :paramtype filters: list[~azure.mgmt.network.models.PacketCaptureFilter]
+        :keyword continuous_capture: This continuous capture is a nullable boolean, which can hold
+         'null', 'true' or 'false' value. If we do not pass this parameter, it would be consider as
+         'null', default value is 'null'.
+        :paramtype continuous_capture: bool
+        :keyword capture_settings: The capture setting holds the 'FileCount', 'FileSizeInBytes',
+         'SessionTimeLimitInSeconds' values.
+        :paramtype capture_settings: ~azure.mgmt.network.models.PacketCaptureSettings
         """
         super().__init__(**kwargs)
         self.target = target
@@ -12120,6 +12196,8 @@ class PacketCaptureParameters(_serialization.Model):
         self.time_limit_in_seconds = time_limit_in_seconds
         self.storage_location = storage_location
         self.filters = filters
+        self.continuous_capture = continuous_capture
+        self.capture_settings = capture_settings
 
 class PacketCaptureQueryStatusResult(_serialization.Model):
     """Status of packet capture session.
@@ -12214,6 +12292,13 @@ class PacketCaptureResult(_serialization.Model):  # pylint: disable=too-many-ins
     :vartype storage_location: ~azure.mgmt.network.models.PacketCaptureStorageLocation
     :ivar filters: A list of packet capture filters.
     :vartype filters: list[~azure.mgmt.network.models.PacketCaptureFilter]
+    :ivar continuous_capture: This continuous capture is a nullable boolean, which can hold 'null',
+     'true' or 'false' value. If we do not pass this parameter, it would be consider as 'null',
+     default value is 'null'.
+    :vartype continuous_capture: bool
+    :ivar capture_settings: The capture setting holds the 'FileCount', 'FileSizeInBytes',
+     'SessionTimeLimitInSeconds' values.
+    :vartype capture_settings: ~azure.mgmt.network.models.PacketCaptureSettings
     :ivar provisioning_state: The provisioning state of the packet capture session. Known values
      are: "Succeeded", "Updating", "Deleting", and "Failed".
     :vartype provisioning_state: str or ~azure.mgmt.network.models.ProvisioningState
@@ -12241,6 +12326,8 @@ class PacketCaptureResult(_serialization.Model):  # pylint: disable=too-many-ins
         "time_limit_in_seconds": {"key": "properties.timeLimitInSeconds", "type": "int"},
         "storage_location": {"key": "properties.storageLocation", "type": "PacketCaptureStorageLocation"},
         "filters": {"key": "properties.filters", "type": "[PacketCaptureFilter]"},
+        "continuous_capture": {"key": "properties.continuousCapture", "type": "bool"},
+        "capture_settings": {"key": "properties.captureSettings", "type": "PacketCaptureSettings"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
     }
 
@@ -12255,6 +12342,8 @@ class PacketCaptureResult(_serialization.Model):  # pylint: disable=too-many-ins
         time_limit_in_seconds: int = 18000,
         storage_location: Optional["_models.PacketCaptureStorageLocation"] = None,
         filters: Optional[List["_models.PacketCaptureFilter"]] = None,
+        continuous_capture: Optional[bool] = None,
+        capture_settings: Optional["_models.PacketCaptureSettings"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -12280,6 +12369,13 @@ class PacketCaptureResult(_serialization.Model):  # pylint: disable=too-many-ins
          ~azure.mgmt.network.models.PacketCaptureStorageLocation
         :keyword filters: A list of packet capture filters.
         :paramtype filters: list[~azure.mgmt.network.models.PacketCaptureFilter]
+        :keyword continuous_capture: This continuous capture is a nullable boolean, which can hold
+         'null', 'true' or 'false' value. If we do not pass this parameter, it would be consider as
+         'null', default value is 'null'.
+        :paramtype continuous_capture: bool
+        :keyword capture_settings: The capture setting holds the 'FileCount', 'FileSizeInBytes',
+         'SessionTimeLimitInSeconds' values.
+        :paramtype capture_settings: ~azure.mgmt.network.models.PacketCaptureSettings
         """
         super().__init__(**kwargs)
         self.name = None
@@ -12293,9 +12389,11 @@ class PacketCaptureResult(_serialization.Model):  # pylint: disable=too-many-ins
         self.time_limit_in_seconds = time_limit_in_seconds
         self.storage_location = storage_location
         self.filters = filters
+        self.continuous_capture = continuous_capture
+        self.capture_settings = capture_settings
         self.provisioning_state = None
 
-class PacketCaptureResultProperties(PacketCaptureParameters):
+class PacketCaptureResultProperties(PacketCaptureParameters):  # pylint: disable=too-many-instance-attributes
     """The properties of a packet capture session.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -12323,6 +12421,13 @@ class PacketCaptureResultProperties(PacketCaptureParameters):
     :vartype storage_location: ~azure.mgmt.network.models.PacketCaptureStorageLocation
     :ivar filters: A list of packet capture filters.
     :vartype filters: list[~azure.mgmt.network.models.PacketCaptureFilter]
+    :ivar continuous_capture: This continuous capture is a nullable boolean, which can hold 'null',
+     'true' or 'false' value. If we do not pass this parameter, it would be consider as 'null',
+     default value is 'null'.
+    :vartype continuous_capture: bool
+    :ivar capture_settings: The capture setting holds the 'FileCount', 'FileSizeInBytes',
+     'SessionTimeLimitInSeconds' values.
+    :vartype capture_settings: ~azure.mgmt.network.models.PacketCaptureSettings
     :ivar provisioning_state: The provisioning state of the packet capture session. Known values
      are: "Succeeded", "Updating", "Deleting", and "Failed".
     :vartype provisioning_state: str or ~azure.mgmt.network.models.ProvisioningState
@@ -12346,6 +12451,8 @@ class PacketCaptureResultProperties(PacketCaptureParameters):
         "time_limit_in_seconds": {"key": "timeLimitInSeconds", "type": "int"},
         "storage_location": {"key": "storageLocation", "type": "PacketCaptureStorageLocation"},
         "filters": {"key": "filters", "type": "[PacketCaptureFilter]"},
+        "continuous_capture": {"key": "continuousCapture", "type": "bool"},
+        "capture_settings": {"key": "captureSettings", "type": "PacketCaptureSettings"},
         "provisioning_state": {"key": "provisioningState", "type": "str"},
     }
 
@@ -12360,6 +12467,8 @@ class PacketCaptureResultProperties(PacketCaptureParameters):
         total_bytes_per_session: int = 1073741824,
         time_limit_in_seconds: int = 18000,
         filters: Optional[List["_models.PacketCaptureFilter"]] = None,
+        continuous_capture: Optional[bool] = None,
+        capture_settings: Optional["_models.PacketCaptureSettings"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -12385,6 +12494,13 @@ class PacketCaptureResultProperties(PacketCaptureParameters):
          ~azure.mgmt.network.models.PacketCaptureStorageLocation
         :keyword filters: A list of packet capture filters.
         :paramtype filters: list[~azure.mgmt.network.models.PacketCaptureFilter]
+        :keyword continuous_capture: This continuous capture is a nullable boolean, which can hold
+         'null', 'true' or 'false' value. If we do not pass this parameter, it would be consider as
+         'null', default value is 'null'.
+        :paramtype continuous_capture: bool
+        :keyword capture_settings: The capture setting holds the 'FileCount', 'FileSizeInBytes',
+         'SessionTimeLimitInSeconds' values.
+        :paramtype capture_settings: ~azure.mgmt.network.models.PacketCaptureSettings
         """
         super().__init__(
             target=target,
@@ -12395,6 +12511,8 @@ class PacketCaptureResultProperties(PacketCaptureParameters):
             time_limit_in_seconds=time_limit_in_seconds,
             storage_location=storage_location,
             filters=filters,
+            continuous_capture=continuous_capture,
+            capture_settings=capture_settings,
             **kwargs
         )
         self.provisioning_state = None
@@ -12403,21 +12521,27 @@ class PacketCaptureStorageLocation(_serialization.Model):
     """The storage location for a packet capture session.
 
     :ivar storage_id: The ID of the storage account to save the packet capture session. Required if
-     no local file path is provided.
+     no localPath or filePath is provided.
     :vartype storage_id: str
     :ivar storage_path: The URI of the storage path to save the packet capture. Must be a
      well-formed URI describing the location to save the packet capture.
     :vartype storage_path: str
-    :ivar file_path: A valid local path on the targeting VM. Must include the name of the capture
-     file (*.cap). For linux virtual machine it must start with /var/captures. Required if no
-     storage ID is provided, otherwise optional.
+    :ivar file_path: This path is invalid if 'Continuous Capture' is provided with 'true' or
+     'false'. A valid local path on the targeting VM. Must include the name of the capture file
+     (*.cap). For linux virtual machine it must start with /var/captures. Required if no storage ID
+     is provided, otherwise optional.
     :vartype file_path: str
+    :ivar local_path: This path is valid if 'Continuous Capture' is provided with 'true' or 'false'
+     and required if no storage ID is provided, otherwise optional. Must include the name of the
+     capture file (*.cap). For linux virtual machine it must start with /var/captures.
+    :vartype local_path: str
     """
 
     _attribute_map = {
         "storage_id": {"key": "storageId", "type": "str"},
         "storage_path": {"key": "storagePath", "type": "str"},
         "file_path": {"key": "filePath", "type": "str"},
+        "local_path": {"key": "localPath", "type": "str"},
     }
 
     def __init__(
@@ -12426,24 +12550,31 @@ class PacketCaptureStorageLocation(_serialization.Model):
         storage_id: Optional[str] = None,
         storage_path: Optional[str] = None,
         file_path: Optional[str] = None,
+        local_path: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword storage_id: The ID of the storage account to save the packet capture session. Required
-         if no local file path is provided.
+         if no localPath or filePath is provided.
         :paramtype storage_id: str
         :keyword storage_path: The URI of the storage path to save the packet capture. Must be a
          well-formed URI describing the location to save the packet capture.
         :paramtype storage_path: str
-        :keyword file_path: A valid local path on the targeting VM. Must include the name of the
-         capture file (*.cap). For linux virtual machine it must start with /var/captures. Required if
-         no storage ID is provided, otherwise optional.
+        :keyword file_path: This path is invalid if 'Continuous Capture' is provided with 'true' or
+         'false'. A valid local path on the targeting VM. Must include the name of the capture file
+         (*.cap). For linux virtual machine it must start with /var/captures. Required if no storage ID
+         is provided, otherwise optional.
         :paramtype file_path: str
+        :keyword local_path: This path is valid if 'Continuous Capture' is provided with 'true' or
+         'false' and required if no storage ID is provided, otherwise optional. Must include the name of
+         the capture file (*.cap). For linux virtual machine it must start with /var/captures.
+        :paramtype local_path: str
         """
         super().__init__(**kwargs)
         self.storage_id = storage_id
         self.storage_path = storage_path
         self.file_path = file_path
+        self.local_path = local_path
 
 class PatchRouteFilter(SubResource):
     """Route Filter Resource.
@@ -14065,6 +14196,12 @@ class VirtualNetworkPeering(SubResource):  # pylint: disable=too-many-instance-a
      and learn more
      (https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering).
     :vartype remote_virtual_network: ~azure.mgmt.network.models.SubResource
+    :ivar local_address_space: The local address space of the local virtual network that is peered.
+    :vartype local_address_space: ~azure.mgmt.network.models.AddressSpace
+    :ivar local_virtual_network_address_space: The current local address space of the local virtual
+     network that is peered.
+    :vartype local_virtual_network_address_space:
+     ~azure.mgmt.network.models.AddressSpace
     :ivar remote_address_space: The reference to the address space peered with the remote virtual
      network.
     :vartype remote_address_space: ~azure.mgmt.network.models.AddressSpace
@@ -14095,6 +14232,16 @@ class VirtualNetworkPeering(SubResource):  # pylint: disable=too-many-instance-a
     :vartype do_not_verify_remote_gateways: bool
     :ivar resource_guid: The resourceGuid property of the Virtual Network peering resource.
     :vartype resource_guid: str
+    :ivar peer_complete_vnets: Whether complete virtual network address space is peered.
+    :vartype peer_complete_vnets: bool
+    :ivar enable_only_i_pv6_peering: Whether only Ipv6 address space is peered for subnet peering.
+    :vartype enable_only_i_pv6_peering: bool
+    :ivar local_subnet_names: List of local subnet names that are subnet peered with remote virtual
+     network.
+    :vartype local_subnet_names: list[str]
+    :ivar remote_subnet_names: List of remote subnet names from remote virtual network that are
+     subnet peered.
+    :vartype remote_subnet_names: list[str]
     """
 
     _validation = {
@@ -14114,6 +14261,11 @@ class VirtualNetworkPeering(SubResource):  # pylint: disable=too-many-instance-a
         "allow_gateway_transit": {"key": "properties.allowGatewayTransit", "type": "bool"},
         "use_remote_gateways": {"key": "properties.useRemoteGateways", "type": "bool"},
         "remote_virtual_network": {"key": "properties.remoteVirtualNetwork", "type": "SubResource"},
+        "local_address_space": {"key": "properties.localAddressSpace", "type": "AddressSpace"},
+        "local_virtual_network_address_space": {
+            "key": "properties.localVirtualNetworkAddressSpace",
+            "type": "AddressSpace",
+        },
         "remote_address_space": {"key": "properties.remoteAddressSpace", "type": "AddressSpace"},
         "remote_virtual_network_address_space": {
             "key": "properties.remoteVirtualNetworkAddressSpace",
@@ -14129,9 +14281,13 @@ class VirtualNetworkPeering(SubResource):  # pylint: disable=too-many-instance-a
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "do_not_verify_remote_gateways": {"key": "properties.doNotVerifyRemoteGateways", "type": "bool"},
         "resource_guid": {"key": "properties.resourceGuid", "type": "str"},
+        "peer_complete_vnets": {"key": "properties.peerCompleteVnets", "type": "bool"},
+        "enable_only_i_pv6_peering": {"key": "properties.enableOnlyIPv6Peering", "type": "bool"},
+        "local_subnet_names": {"key": "properties.localSubnetNames", "type": "[str]"},
+        "remote_subnet_names": {"key": "properties.remoteSubnetNames", "type": "[str]"},
     }
 
-    def __init__(
+    def __init__(  # pylint: disable=too-many-locals
         self,
         *,
         id: Optional[str] = None,  # pylint: disable=redefined-builtin
@@ -14142,12 +14298,18 @@ class VirtualNetworkPeering(SubResource):  # pylint: disable=too-many-instance-a
         allow_gateway_transit: Optional[bool] = None,
         use_remote_gateways: Optional[bool] = None,
         remote_virtual_network: Optional["_models.SubResource"] = None,
+        local_address_space: Optional["_models.AddressSpace"] = None,
+        local_virtual_network_address_space: Optional["_models.AddressSpace"] = None,
         remote_address_space: Optional["_models.AddressSpace"] = None,
         remote_virtual_network_address_space: Optional["_models.AddressSpace"] = None,
         remote_bgp_communities: Optional["_models.VirtualNetworkBgpCommunities"] = None,
         peering_state: Optional[Union[str, "_models.VirtualNetworkPeeringState"]] = None,
         peering_sync_level: Optional[Union[str, "_models.VirtualNetworkPeeringLevel"]] = None,
         do_not_verify_remote_gateways: Optional[bool] = None,
+        peer_complete_vnets: Optional[bool] = None,
+        enable_only_i_pv6_peering: Optional[bool] = None,
+        local_subnet_names: Optional[List[str]] = None,
+        remote_subnet_names: Optional[List[str]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -14177,6 +14339,13 @@ class VirtualNetworkPeering(SubResource):  # pylint: disable=too-many-instance-a
          preview and learn more
          (https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering).
         :paramtype remote_virtual_network: ~azure.mgmt.network.models.SubResource
+        :keyword local_address_space: The local address space of the local virtual network that is
+         peered.
+        :paramtype local_address_space: ~azure.mgmt.network.models.AddressSpace
+        :keyword local_virtual_network_address_space: The current local address space of the local
+         virtual network that is peered.
+        :paramtype local_virtual_network_address_space:
+         ~azure.mgmt.network.models.AddressSpace
         :keyword remote_address_space: The reference to the address space peered with the remote
          virtual network.
         :paramtype remote_address_space: ~azure.mgmt.network.models.AddressSpace
@@ -14198,6 +14367,17 @@ class VirtualNetworkPeering(SubResource):  # pylint: disable=too-many-instance-a
         :keyword do_not_verify_remote_gateways: If we need to verify the provisioning state of the
          remote gateway.
         :paramtype do_not_verify_remote_gateways: bool
+        :keyword peer_complete_vnets: Whether complete virtual network address space is peered.
+        :paramtype peer_complete_vnets: bool
+        :keyword enable_only_i_pv6_peering: Whether only Ipv6 address space is peered for subnet
+         peering.
+        :paramtype enable_only_i_pv6_peering: bool
+        :keyword local_subnet_names: List of local subnet names that are subnet peered with remote
+         virtual network.
+        :paramtype local_subnet_names: list[str]
+        :keyword remote_subnet_names: List of remote subnet names from remote virtual network that are
+         subnet peered.
+        :paramtype remote_subnet_names: list[str]
         """
         super().__init__(id=id, **kwargs)
         self.name = name
@@ -14208,6 +14388,8 @@ class VirtualNetworkPeering(SubResource):  # pylint: disable=too-many-instance-a
         self.allow_gateway_transit = allow_gateway_transit
         self.use_remote_gateways = use_remote_gateways
         self.remote_virtual_network = remote_virtual_network
+        self.local_address_space = local_address_space
+        self.local_virtual_network_address_space = local_virtual_network_address_space
         self.remote_address_space = remote_address_space
         self.remote_virtual_network_address_space = remote_virtual_network_address_space
         self.remote_bgp_communities = remote_bgp_communities
@@ -14217,6 +14399,10 @@ class VirtualNetworkPeering(SubResource):  # pylint: disable=too-many-instance-a
         self.provisioning_state = None
         self.do_not_verify_remote_gateways = do_not_verify_remote_gateways
         self.resource_guid = None
+        self.peer_complete_vnets = peer_complete_vnets
+        self.enable_only_i_pv6_peering = enable_only_i_pv6_peering
+        self.local_subnet_names = local_subnet_names
+        self.remote_subnet_names = remote_subnet_names
 
 class VirtualNetworkPeeringListResult(_serialization.Model):
     """Response for ListSubnets API service call. Retrieves all subnets that belong to a virtual
@@ -17229,24 +17415,43 @@ class ApplicationGatewayHeaderConfiguration(_serialization.Model):
 
     :ivar header_name: Header name of the header configuration.
     :vartype header_name: str
+    :ivar header_value_matcher: An optional field under "Rewrite Action". It lets you capture and
+     modify the value(s) of a specific header when multiple headers with the same name exist.
+     Currently supported for Set-Cookie Response header only. For more details, visit
+     https://aka.ms/appgwheadercrud.
+    :vartype header_value_matcher: ~azure.mgmt.network.models.HeaderValueMatcher
     :ivar header_value: Header value of the header configuration.
     :vartype header_value: str
     """
 
     _attribute_map = {
         "header_name": {"key": "headerName", "type": "str"},
+        "header_value_matcher": {"key": "headerValueMatcher", "type": "HeaderValueMatcher"},
         "header_value": {"key": "headerValue", "type": "str"},
     }
 
-    def __init__(self, *, header_name: Optional[str] = None, header_value: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        *,
+        header_name: Optional[str] = None,
+        header_value_matcher: Optional["_models.HeaderValueMatcher"] = None,
+        header_value: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword header_name: Header name of the header configuration.
         :paramtype header_name: str
+        :keyword header_value_matcher: An optional field under "Rewrite Action". It lets you capture
+         and modify the value(s) of a specific header when multiple headers with the same name exist.
+         Currently supported for Set-Cookie Response header only. For more details, visit
+         https://aka.ms/appgwheadercrud.
+        :paramtype header_value_matcher: ~azure.mgmt.network.models.HeaderValueMatcher
         :keyword header_value: Header value of the header configuration.
         :paramtype header_value: str
         """
         super().__init__(**kwargs)
         self.header_name = header_name
+        self.header_value_matcher = header_value_matcher
         self.header_value = header_value
 
 class ApplicationGatewayRewriteRule(_serialization.Model):
@@ -27387,19 +27592,32 @@ class ConnectionMonitorEndpoint(_serialization.Model):
     :ivar name: The name of the connection monitor endpoint. Required.
     :vartype name: str
     :ivar type: The endpoint type. Known values are: "AzureVM", "AzureVNet", "AzureSubnet",
-     "ExternalAddress", "MMAWorkspaceMachine", "MMAWorkspaceNetwork", "AzureArcVM", and "AzureVMSS".
+     "ExternalAddress", "MMAWorkspaceMachine", "MMAWorkspaceNetwork", "AzureArcVM", "AzureVMSS", and
+     "AzureArcNetwork".
     :vartype type: str or ~azure.mgmt.network.models.EndpointType
-    :ivar resource_id: Resource ID of the connection monitor endpoint.
+    :ivar resource_id: Resource ID of the connection monitor endpoint are supported for AzureVM,
+     AzureVMSS, AzureVNet, AzureSubnet, MMAWorkspaceMachine, MMAWorkspaceNetwork, AzureArcVM
+     endpoint type.
     :vartype resource_id: str
-    :ivar address: Address of the connection monitor endpoint (IP or domain name).
+    :ivar address: Address of the connection monitor endpoint. Supported for AzureVM,
+     ExternalAddress, ArcMachine, MMAWorkspaceMachine endpoint type.
     :vartype address: str
-    :ivar filter: Filter for sub-items within the endpoint.
+    :ivar filter: Filter field is getting deprecated and should not be used. Instead use
+     Include/Exclude scope fields for it.
     :vartype filter: ~azure.mgmt.network.models.ConnectionMonitorEndpointFilter
-    :ivar scope: Endpoint scope.
+    :ivar scope: Endpoint scope defines which target resource to monitor in case of compound
+     resource endpoints like VMSS, AzureSubnet, AzureVNet, MMAWorkspaceNetwork, AzureArcNetwork.
     :vartype scope: ~azure.mgmt.network.models.ConnectionMonitorEndpointScope
     :ivar coverage_level: Test coverage for the endpoint. Known values are: "Default", "Low",
      "BelowAverage", "Average", "AboveAverage", and "Full".
     :vartype coverage_level: str or ~azure.mgmt.network.models.CoverageLevel
+    :ivar location_details: Location details is optional and only being used for 'AzureArcNetwork'
+     type endpoints, which contains region details.
+    :vartype location_details:
+     ~azure.mgmt.network.models.ConnectionMonitorEndpointLocationDetails
+    :ivar subscription_id: Subscription ID for connection monitor endpoint. It's an optional
+     parameter which is being used for 'AzureArcNetwork' type endpoint.
+    :vartype subscription_id: str
     """
 
     _validation = {
@@ -27414,6 +27632,8 @@ class ConnectionMonitorEndpoint(_serialization.Model):
         "filter": {"key": "filter", "type": "ConnectionMonitorEndpointFilter"},
         "scope": {"key": "scope", "type": "ConnectionMonitorEndpointScope"},
         "coverage_level": {"key": "coverageLevel", "type": "str"},
+        "location_details": {"key": "locationDetails", "type": "ConnectionMonitorEndpointLocationDetails"},
+        "subscription_id": {"key": "subscriptionId", "type": "str"},
     }
 
     def __init__(
@@ -27426,25 +27646,40 @@ class ConnectionMonitorEndpoint(_serialization.Model):
         filter: Optional["_models.ConnectionMonitorEndpointFilter"] = None,  # pylint: disable=redefined-builtin
         scope: Optional["_models.ConnectionMonitorEndpointScope"] = None,
         coverage_level: Optional[Union[str, "_models.CoverageLevel"]] = None,
+        location_details: Optional["_models.ConnectionMonitorEndpointLocationDetails"] = None,
+        subscription_id: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword name: The name of the connection monitor endpoint. Required.
         :paramtype name: str
         :keyword type: The endpoint type. Known values are: "AzureVM", "AzureVNet", "AzureSubnet",
-         "ExternalAddress", "MMAWorkspaceMachine", "MMAWorkspaceNetwork", "AzureArcVM", and "AzureVMSS".
+         "ExternalAddress", "MMAWorkspaceMachine", "MMAWorkspaceNetwork", "AzureArcVM", "AzureVMSS", and
+         "AzureArcNetwork".
         :paramtype type: str or ~azure.mgmt.network.models.EndpointType
-        :keyword resource_id: Resource ID of the connection monitor endpoint.
+        :keyword resource_id: Resource ID of the connection monitor endpoint are supported for AzureVM,
+         AzureVMSS, AzureVNet, AzureSubnet, MMAWorkspaceMachine, MMAWorkspaceNetwork, AzureArcVM
+         endpoint type.
         :paramtype resource_id: str
-        :keyword address: Address of the connection monitor endpoint (IP or domain name).
+        :keyword address: Address of the connection monitor endpoint. Supported for AzureVM,
+         ExternalAddress, ArcMachine, MMAWorkspaceMachine endpoint type.
         :paramtype address: str
-        :keyword filter: Filter for sub-items within the endpoint.
+        :keyword filter: Filter field is getting deprecated and should not be used. Instead use
+         Include/Exclude scope fields for it.
         :paramtype filter: ~azure.mgmt.network.models.ConnectionMonitorEndpointFilter
-        :keyword scope: Endpoint scope.
+        :keyword scope: Endpoint scope defines which target resource to monitor in case of compound
+         resource endpoints like VMSS, AzureSubnet, AzureVNet, MMAWorkspaceNetwork, AzureArcNetwork.
         :paramtype scope: ~azure.mgmt.network.models.ConnectionMonitorEndpointScope
         :keyword coverage_level: Test coverage for the endpoint. Known values are: "Default", "Low",
          "BelowAverage", "Average", "AboveAverage", and "Full".
         :paramtype coverage_level: str or ~azure.mgmt.network.models.CoverageLevel
+        :keyword location_details: Location details is optional and only being used for
+         'AzureArcNetwork' type endpoints, which contains region details.
+        :paramtype location_details:
+         ~azure.mgmt.network.models.ConnectionMonitorEndpointLocationDetails
+        :keyword subscription_id: Subscription ID for connection monitor endpoint. It's an optional
+         parameter which is being used for 'AzureArcNetwork' type endpoint.
+        :paramtype subscription_id: str
         """
         super().__init__(**kwargs)
         self.name = name
@@ -27454,6 +27689,8 @@ class ConnectionMonitorEndpoint(_serialization.Model):
         self.filter = filter
         self.scope = scope
         self.coverage_level = coverage_level
+        self.location_details = location_details
+        self.subscription_id = subscription_id
 
 class ConnectionMonitorEndpointFilter(_serialization.Model):
     """Describes the connection monitor endpoint filter.
@@ -27925,6 +28162,8 @@ class FlowLog(Resource):  # pylint: disable=too-many-instance-attributes
     :vartype tags: dict[str, str]
     :ivar etag: A unique read-only string that changes whenever the resource is updated.
     :vartype etag: str
+    :ivar identity: FlowLog resource Managed Identity.
+    :vartype identity: ~azure.mgmt.network.models.ManagedServiceIdentity
     :ivar target_resource_id: ID of network security group to which flow log will be applied.
     :vartype target_resource_id: str
     :ivar target_resource_guid: Guid of network security group to which flow log will be applied.
@@ -27961,6 +28200,7 @@ class FlowLog(Resource):  # pylint: disable=too-many-instance-attributes
         "location": {"key": "location", "type": "str"},
         "tags": {"key": "tags", "type": "{str}"},
         "etag": {"key": "etag", "type": "str"},
+        "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
         "target_resource_id": {"key": "properties.targetResourceId", "type": "str"},
         "target_resource_guid": {"key": "properties.targetResourceGuid", "type": "str"},
         "storage_id": {"key": "properties.storageId", "type": "str"},
@@ -27980,6 +28220,7 @@ class FlowLog(Resource):  # pylint: disable=too-many-instance-attributes
         id: Optional[str] = None,  # pylint: disable=redefined-builtin
         location: Optional[str] = None,
         tags: Optional[Dict[str, str]] = None,
+        identity: Optional["_models.ManagedServiceIdentity"] = None,
         target_resource_id: Optional[str] = None,
         storage_id: Optional[str] = None,
         enabled: Optional[bool] = None,
@@ -27995,6 +28236,8 @@ class FlowLog(Resource):  # pylint: disable=too-many-instance-attributes
         :paramtype location: str
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
+        :keyword identity: FlowLog resource Managed Identity.
+        :paramtype identity: ~azure.mgmt.network.models.ManagedServiceIdentity
         :keyword target_resource_id: ID of network security group to which flow log will be applied.
         :paramtype target_resource_id: str
         :keyword storage_id: ID of the storage account which is used to store the flow log.
@@ -28012,6 +28255,7 @@ class FlowLog(Resource):  # pylint: disable=too-many-instance-attributes
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
         self.etag = None
+        self.identity = identity
         self.target_resource_id = target_resource_id
         self.target_resource_guid = None
         self.storage_id = storage_id
@@ -41875,4 +42119,331 @@ class NetworkVirtualApplianceConnectionList(_serialization.Model):
         super().__init__(**kwargs)
         self.value = value
         self.next_link = next_link
+
+class ConnectionMonitorEndpointLocationDetails(_serialization.Model):
+    """Connection monitor endpoint location details only being used for 'AzureArcNetwork' type
+    endpoints, which contains the region details.
+
+    :ivar region: Region for connection monitor endpoint.
+    :vartype region: str
+    """
+
+    _attribute_map = {
+        "region": {"key": "region", "type": "str"},
+    }
+
+    def __init__(self, *, region: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword region: Region for connection monitor endpoint.
+        :paramtype region: str
+        """
+        super().__init__(**kwargs)
+        self.region = region
+
+class FirewallPolicyDraft(Resource):  # pylint: disable=too-many-instance-attributes
+    """FirewallPolicy Resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Resource ID.
+    :vartype id: str
+    :ivar name: Resource name.
+    :vartype name: str
+    :ivar type: Resource type.
+    :vartype type: str
+    :ivar location: Resource location.
+    :vartype location: str
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar base_policy: The parent firewall policy from which rules are inherited.
+    :vartype base_policy: ~azure.mgmt.network.models.SubResource
+    :ivar threat_intel_mode: The operation mode for Threat Intelligence. Known values are: "Alert",
+     "Deny", and "Off".
+    :vartype threat_intel_mode: str or
+     ~azure.mgmt.network.models.AzureFirewallThreatIntelMode
+    :ivar threat_intel_whitelist: ThreatIntel Whitelist for Firewall Policy.
+    :vartype threat_intel_whitelist:
+     ~azure.mgmt.network.models.FirewallPolicyThreatIntelWhitelist
+    :ivar insights: Insights on Firewall Policy.
+    :vartype insights: ~azure.mgmt.network.models.FirewallPolicyInsights
+    :ivar snat: The private IP addresses/IP ranges to which traffic will not be SNAT.
+    :vartype snat: ~azure.mgmt.network.models.FirewallPolicySNAT
+    :ivar sql: SQL Settings definition.
+    :vartype sql: ~azure.mgmt.network.models.FirewallPolicySQL
+    :ivar dns_settings: DNS Proxy Settings definition.
+    :vartype dns_settings: ~azure.mgmt.network.models.DnsSettings
+    :ivar explicit_proxy: Explicit Proxy Settings definition.
+    :vartype explicit_proxy: ~azure.mgmt.network.models.ExplicitProxy
+    :ivar intrusion_detection: The configuration for Intrusion detection.
+    :vartype intrusion_detection:
+     ~azure.mgmt.network.models.FirewallPolicyIntrusionDetection
+    """
+
+    _validation = {
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "location": {"key": "location", "type": "str"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "base_policy": {"key": "properties.basePolicy", "type": "SubResource"},
+        "threat_intel_mode": {"key": "properties.threatIntelMode", "type": "str"},
+        "threat_intel_whitelist": {
+            "key": "properties.threatIntelWhitelist",
+            "type": "FirewallPolicyThreatIntelWhitelist",
+        },
+        "insights": {"key": "properties.insights", "type": "FirewallPolicyInsights"},
+        "snat": {"key": "properties.snat", "type": "FirewallPolicySNAT"},
+        "sql": {"key": "properties.sql", "type": "FirewallPolicySQL"},
+        "dns_settings": {"key": "properties.dnsSettings", "type": "DnsSettings"},
+        "explicit_proxy": {"key": "properties.explicitProxy", "type": "ExplicitProxy"},
+        "intrusion_detection": {"key": "properties.intrusionDetection", "type": "FirewallPolicyIntrusionDetection"},
+    }
+
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        location: Optional[str] = None,
+        tags: Optional[Dict[str, str]] = None,
+        base_policy: Optional["_models.SubResource"] = None,
+        threat_intel_mode: Optional[Union[str, "_models.AzureFirewallThreatIntelMode"]] = None,
+        threat_intel_whitelist: Optional["_models.FirewallPolicyThreatIntelWhitelist"] = None,
+        insights: Optional["_models.FirewallPolicyInsights"] = None,
+        snat: Optional["_models.FirewallPolicySNAT"] = None,
+        sql: Optional["_models.FirewallPolicySQL"] = None,
+        dns_settings: Optional["_models.DnsSettings"] = None,
+        explicit_proxy: Optional["_models.ExplicitProxy"] = None,
+        intrusion_detection: Optional["_models.FirewallPolicyIntrusionDetection"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword id: Resource ID.
+        :paramtype id: str
+        :keyword location: Resource location.
+        :paramtype location: str
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword base_policy: The parent firewall policy from which rules are inherited.
+        :paramtype base_policy: ~azure.mgmt.network.models.SubResource
+        :keyword threat_intel_mode: The operation mode for Threat Intelligence. Known values are:
+         "Alert", "Deny", and "Off".
+        :paramtype threat_intel_mode: str or
+         ~azure.mgmt.network.models.AzureFirewallThreatIntelMode
+        :keyword threat_intel_whitelist: ThreatIntel Whitelist for Firewall Policy.
+        :paramtype threat_intel_whitelist:
+         ~azure.mgmt.network.models.FirewallPolicyThreatIntelWhitelist
+        :keyword insights: Insights on Firewall Policy.
+        :paramtype insights: ~azure.mgmt.network.models.FirewallPolicyInsights
+        :keyword snat: The private IP addresses/IP ranges to which traffic will not be SNAT.
+        :paramtype snat: ~azure.mgmt.network.models.FirewallPolicySNAT
+        :keyword sql: SQL Settings definition.
+        :paramtype sql: ~azure.mgmt.network.models.FirewallPolicySQL
+        :keyword dns_settings: DNS Proxy Settings definition.
+        :paramtype dns_settings: ~azure.mgmt.network.models.DnsSettings
+        :keyword explicit_proxy: Explicit Proxy Settings definition.
+        :paramtype explicit_proxy: ~azure.mgmt.network.models.ExplicitProxy
+        :keyword intrusion_detection: The configuration for Intrusion detection.
+        :paramtype intrusion_detection:
+         ~azure.mgmt.network.models.FirewallPolicyIntrusionDetection
+        """
+        super().__init__(id=id, location=location, tags=tags, **kwargs)
+        self.base_policy = base_policy
+        self.threat_intel_mode = threat_intel_mode
+        self.threat_intel_whitelist = threat_intel_whitelist
+        self.insights = insights
+        self.snat = snat
+        self.sql = sql
+        self.dns_settings = dns_settings
+        self.explicit_proxy = explicit_proxy
+        self.intrusion_detection = intrusion_detection
+
+class FirewallPolicyRuleCollectionGroupDraft(SubResource):
+    """Rule Collection Group resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Resource ID.
+    :vartype id: str
+    :ivar name: The name of the resource that is unique within a resource group. This name can be
+     used to access the resource.
+    :vartype name: str
+    :ivar type: Rule Group type.
+    :vartype type: str
+    :ivar size: A read-only string that represents the size of the
+     FirewallPolicyRuleCollectionGroupProperties in MB. (ex 1.2MB).
+    :vartype size: str
+    :ivar priority: Priority of the Firewall Policy Rule Collection Group resource.
+    :vartype priority: int
+    :ivar rule_collections: Group of Firewall Policy rule collections.
+    :vartype rule_collections:
+     list[~azure.mgmt.network.models.FirewallPolicyRuleCollection]
+    """
+
+    _validation = {
+        "type": {"readonly": True},
+        "size": {"readonly": True},
+        "priority": {"maximum": 65000, "minimum": 100},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "size": {"key": "properties.size", "type": "str"},
+        "priority": {"key": "properties.priority", "type": "int"},
+        "rule_collections": {"key": "properties.ruleCollections", "type": "[FirewallPolicyRuleCollection]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        name: Optional[str] = None,
+        priority: Optional[int] = None,
+        rule_collections: Optional[List["_models.FirewallPolicyRuleCollection"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword id: Resource ID.
+        :paramtype id: str
+        :keyword name: The name of the resource that is unique within a resource group. This name can
+         be used to access the resource.
+        :paramtype name: str
+        :keyword priority: Priority of the Firewall Policy Rule Collection Group resource.
+        :paramtype priority: int
+        :keyword rule_collections: Group of Firewall Policy rule collections.
+        :paramtype rule_collections:
+         list[~azure.mgmt.network.models.FirewallPolicyRuleCollection]
+        """
+        super().__init__(id=id, **kwargs)
+        self.name = name
+        self.type = None
+        self.size = None
+        self.priority = priority
+        self.rule_collections = rule_collections
+
+class HeaderValueMatcher(_serialization.Model):
+    """An optional field under "Rewrite Action". It lets you capture and modify the value(s) of a
+    specific header when multiple headers with the same name exist. Currently supported for
+    Set-Cookie Response header only. For more details, visit https://aka.ms/appgwheadercrud.
+
+    :ivar pattern: The pattern, either fixed string or regular expression, that evaluates if a
+     header value should be selected for rewrite.
+    :vartype pattern: str
+    :ivar ignore_case: Setting this parameter to truth value with force the pattern to do a case
+     in-sensitive comparison.
+    :vartype ignore_case: bool
+    :ivar negate: Setting this value as truth will force to check the negation of the condition
+     given by the user in the pattern field.
+    :vartype negate: bool
+    """
+
+    _attribute_map = {
+        "pattern": {"key": "pattern", "type": "str"},
+        "ignore_case": {"key": "ignoreCase", "type": "bool"},
+        "negate": {"key": "negate", "type": "bool"},
+    }
+
+    def __init__(
+        self,
+        *,
+        pattern: Optional[str] = None,
+        ignore_case: Optional[bool] = None,
+        negate: Optional[bool] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword pattern: The pattern, either fixed string or regular expression, that evaluates if a
+         header value should be selected for rewrite.
+        :paramtype pattern: str
+        :keyword ignore_case: Setting this parameter to truth value with force the pattern to do a case
+         in-sensitive comparison.
+        :paramtype ignore_case: bool
+        :keyword negate: Setting this value as truth will force to check the negation of the condition
+         given by the user in the pattern field.
+        :paramtype negate: bool
+        """
+        super().__init__(**kwargs)
+        self.pattern = pattern
+        self.ignore_case = ignore_case
+        self.negate = negate
+
+class NetworkVirtualApplianceInstanceIds(_serialization.Model):
+    """Specifies a list of virtual machine instance IDs from the Network Virtual Appliance VM
+    instances.
+
+    :ivar instance_ids: The network virtual appliance instance ids. Omitting the network virtual
+     appliance instance ids will result in the operation being performed on all virtual machines
+     belonging to the network virtual appliance.
+    :vartype instance_ids: list[str]
+    """
+
+    _attribute_map = {
+        "instance_ids": {"key": "instanceIds", "type": "[str]"},
+    }
+
+    def __init__(self, *, instance_ids: Optional[List[str]] = None, **kwargs: Any) -> None:
+        """
+        :keyword instance_ids: The network virtual appliance instance ids. Omitting the network virtual
+         appliance instance ids will result in the operation being performed on all virtual machines
+         belonging to the network virtual appliance.
+        :paramtype instance_ids: list[str]
+        """
+        super().__init__(**kwargs)
+        self.instance_ids = instance_ids
+
+class PacketCaptureSettings(_serialization.Model):
+    """The storage location for a packet capture session.
+
+    :ivar file_count: Number of file count. Default value of count is 10 and maximum number is
+     10000.
+    :vartype file_count: int
+    :ivar file_size_in_bytes: Number of bytes captured per packet. Default value in bytes 104857600
+     (100MB) and maximum in bytes 4294967295 (4GB).
+    :vartype file_size_in_bytes: int
+    :ivar session_time_limit_in_seconds: Maximum duration of the capture session in seconds is
+     604800s (7 days) for a file. Default value in second 86400s (1 day).
+    :vartype session_time_limit_in_seconds: int
+    """
+
+    _validation = {
+        "file_count": {"maximum": 10000, "minimum": 0},
+        "file_size_in_bytes": {"maximum": 4294967295, "minimum": 0},
+        "session_time_limit_in_seconds": {"maximum": 604800, "minimum": 0},
+    }
+
+    _attribute_map = {
+        "file_count": {"key": "fileCount", "type": "int"},
+        "file_size_in_bytes": {"key": "fileSizeInBytes", "type": "int"},
+        "session_time_limit_in_seconds": {"key": "sessionTimeLimitInSeconds", "type": "int"},
+    }
+
+    def __init__(
+        self,
+        *,
+        file_count: int = 10,
+        file_size_in_bytes: int = 104857600,
+        session_time_limit_in_seconds: int = 86400,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword file_count: Number of file count. Default value of count is 10 and maximum number is
+         10000.
+        :paramtype file_count: int
+        :keyword file_size_in_bytes: Number of bytes captured per packet. Default value in bytes
+         104857600 (100MB) and maximum in bytes 4294967295 (4GB).
+        :paramtype file_size_in_bytes: int
+        :keyword session_time_limit_in_seconds: Maximum duration of the capture session in seconds is
+         604800s (7 days) for a file. Default value in second 86400s (1 day).
+        :paramtype session_time_limit_in_seconds: int
+        """
+        super().__init__(**kwargs)
+        self.file_count = file_count
+        self.file_size_in_bytes = file_size_in_bytes
+        self.session_time_limit_in_seconds = session_time_limit_in_seconds
 

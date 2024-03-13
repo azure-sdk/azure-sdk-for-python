@@ -1171,6 +1171,7 @@ class EndpointType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     MMA_WORKSPACE_NETWORK = "MMAWorkspaceNetwork"
     AZURE_ARC_VM = "AzureArcVM"
     AZURE_VMSS = "AzureVMSS"
+    AZURE_ARC_NETWORK = "AzureArcNetwork"
 
 class ExpressRouteLinkMacSecSciState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Sci mode enabled/disabled."""
@@ -1876,4 +1877,19 @@ class FirewallPolicyIntrusionDetectionProfileType(str, Enum, metaclass=CaseInsen
     STANDARD = "Standard"
     ADVANCED = "Advanced"
     EXTENDED = "Extended"
+
+class ApplicationGatewaySkuFamily(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Family of an application gateway SKU."""
+
+    GENERATION1 = "Generation_1"
+    GENERATION2 = "Generation_2"
+
+class SharingScope(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Set this property to Tenant to allow sharing subnet with other subscriptions in your AAD
+    tenant. This property can only be set if defaultOutboundAccess is set to false, both properties
+    can only be set if subnet is empty.
+    """
+
+    TENANT = "Tenant"
+    DELEGATED_SERVICES = "DelegatedServices"
 
