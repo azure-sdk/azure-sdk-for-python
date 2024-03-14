@@ -1,6 +1,6 @@
 {
-    "chosen_version": "2023-09-01",
-    "total_api_version_list": ["2023-09-01"],
+    "chosen_version": "2023-07-03",
+    "total_api_version_list": ["2023-07-03"],
     "client": {
         "name": "ComputeManagementClient",
         "filename": "_compute_management_client",
@@ -105,30 +105,17 @@
         "async_imports": "{\"regular\": {\"azurecore\": {\"azure.core.configuration\": [\"Configuration\"], \"azure.core.pipeline\": [\"policies\"], \"azure.mgmt.core.policies\": [\"ARMHttpLoggingPolicy\", \"AsyncARMChallengeAuthenticationPolicy\"]}, \"local\": {\".._version\": [\"VERSION\"]}}, \"conditional\": {\"stdlib\": {\"typing\": [\"Any\"]}}, \"typing\": {\"azurecore\": {\"azure.core.credentials_async\": [\"AsyncTokenCredential\"]}}}"
     },
     "operation_groups": {
-        "operations": "Operations",
-        "usage": "UsageOperations",
-        "virtual_machine_scale_sets": "VirtualMachineScaleSetsOperations",
-        "virtual_machine_scale_set_extensions": "VirtualMachineScaleSetExtensionsOperations",
-        "virtual_machine_scale_set_rolling_upgrades": "VirtualMachineScaleSetRollingUpgradesOperations",
-        "virtual_machine_scale_set_vm_extensions": "VirtualMachineScaleSetVMExtensionsOperations",
-        "virtual_machine_scale_set_vms": "VirtualMachineScaleSetVMsOperations",
-        "virtual_machine_extensions": "VirtualMachineExtensionsOperations",
-        "virtual_machines": "VirtualMachinesOperations",
-        "virtual_machine_images": "VirtualMachineImagesOperations",
-        "virtual_machine_images_edge_zone": "VirtualMachineImagesEdgeZoneOperations",
-        "virtual_machine_extension_images": "VirtualMachineExtensionImagesOperations",
-        "availability_sets": "AvailabilitySetsOperations",
-        "proximity_placement_groups": "ProximityPlacementGroupsOperations",
-        "dedicated_host_groups": "DedicatedHostGroupsOperations",
-        "dedicated_hosts": "DedicatedHostsOperations",
-        "ssh_public_keys": "SshPublicKeysOperations",
-        "images": "ImagesOperations",
-        "restore_point_collections": "RestorePointCollectionsOperations",
-        "restore_points": "RestorePointsOperations",
-        "capacity_reservation_groups": "CapacityReservationGroupsOperations",
-        "capacity_reservations": "CapacityReservationsOperations",
-        "log_analytics": "LogAnalyticsOperations",
-        "virtual_machine_run_commands": "VirtualMachineRunCommandsOperations",
-        "virtual_machine_scale_set_vm_run_commands": "VirtualMachineScaleSetVMRunCommandsOperations"
+        "galleries": "GalleriesOperations",
+        "gallery_images": "GalleryImagesOperations",
+        "gallery_image_versions": "GalleryImageVersionsOperations",
+        "gallery_applications": "GalleryApplicationsOperations",
+        "gallery_application_versions": "GalleryApplicationVersionsOperations",
+        "gallery_sharing_profile": "GallerySharingProfileOperations",
+        "shared_galleries": "SharedGalleriesOperations",
+        "shared_gallery_images": "SharedGalleryImagesOperations",
+        "shared_gallery_image_versions": "SharedGalleryImageVersionsOperations",
+        "community_galleries": "CommunityGalleriesOperations",
+        "community_gallery_images": "CommunityGalleryImagesOperations",
+        "community_gallery_image_versions": "CommunityGalleryImageVersionsOperations"
     }
 }
