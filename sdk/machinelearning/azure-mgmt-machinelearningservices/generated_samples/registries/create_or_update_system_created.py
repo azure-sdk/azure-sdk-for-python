@@ -6,7 +6,10 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from typing import Any, IO, Union
+
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.machinelearningservices import MachineLearningServicesMgmtClient
 
 """
@@ -40,6 +43,7 @@ def main():
                 "discoveryUrl": "string",
                 "intellectualPropertyPublisher": "string",
                 "managedResourceGroup": {"resourceId": "string"},
+                "managedResourceGroupSettings": {"assignedIdentities": [{"principalId": "string"}]},
                 "mlFlowRegistryUri": "string",
                 "publicNetworkAccess": "string",
                 "regionDetails": [
@@ -91,6 +95,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2023-04-01/examples/Registries/createOrUpdate-SystemCreated.json
+# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Registries/createOrUpdate-SystemCreated.json
 if __name__ == "__main__":
     main()
