@@ -762,6 +762,12 @@ from ._models import (
     InternetIngressPublicIpsProperties,
     NetworkVirtualApplianceConnection,
     NetworkVirtualApplianceConnectionList,
+    ConnectionMonitorEndpointLocationDetails,
+    FirewallPolicyDraft,
+    FirewallPolicyRuleCollectionGroupDraft,
+    HeaderValueMatcher,
+    NetworkVirtualApplianceInstanceIds,
+    PacketCaptureSettings,
 )
 
 from ._enums import (
@@ -1005,6 +1011,7 @@ from ._enums import (
     WebApplicationFirewallState,
     SyncMode,
     FirewallPolicyIntrusionDetectionProfileType,
+    SharingScope,
 )
 
 from ._patch import __all__ as _patch_all
@@ -1768,6 +1775,12 @@ __all__ = [
     "InternetIngressPublicIpsProperties",
     "NetworkVirtualApplianceConnection",
     "NetworkVirtualApplianceConnectionList",
+    "ConnectionMonitorEndpointLocationDetails",
+    "FirewallPolicyDraft",
+    "FirewallPolicyRuleCollectionGroupDraft",
+    "HeaderValueMatcher",
+    "NetworkVirtualApplianceInstanceIds",
+    "PacketCaptureSettings",
     "ApplicationGatewayCookieBasedAffinity",
     "ApplicationGatewayOperationalState",
     "ApplicationGatewayProtocol",
@@ -2008,6 +2021,7 @@ __all__ = [
     "WebApplicationFirewallState",
     "SyncMode",
     "FirewallPolicyIntrusionDetectionProfileType",
+    "SharingScope",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()

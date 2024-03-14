@@ -165,6 +165,7 @@ def main():
                     ],
                 },
                 "policySettings": {
+                    "jsChallengeCookieExpirationInMins": 100,
                     "logScrubbing": {
                         "scrubbingRules": [
                             {
@@ -180,7 +181,7 @@ def main():
                             },
                         ],
                         "state": "Enabled",
-                    }
+                    },
                 },
             },
         },
@@ -188,6 +189,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/WafPolicyCreateOrUpdate.json
+# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/WafPolicyCreateOrUpdate.json
 if __name__ == "__main__":
     main()
