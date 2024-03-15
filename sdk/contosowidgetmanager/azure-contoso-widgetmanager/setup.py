@@ -12,8 +12,8 @@ import re
 from setuptools import setup, find_packages
 
 
-PACKAGE_NAME = "azure-ai-translation-text"
-PACKAGE_PPRINT_NAME = "Azure Ai Translation Text"
+PACKAGE_NAME = "azure-contoso-widgetmanager"
+PACKAGE_PPRINT_NAME = "Azure Contoso Widgetmanager"
 
 # a-b-c => a/b/c
 package_folder_path = PACKAGE_NAME.replace("-", "/")
@@ -55,13 +55,12 @@ setup(
             "tests",
             # Exclude packages that will be covered by PEP420 or nspkg
             "azure",
-            "azure.ai",
-            "azure.ai.translation",
+            "azure.contoso",
         ]
     ),
     include_package_data=True,
     package_data={
-        "azure.ai.translation.text": ["py.typed"],
+        "azure.contoso.widgetmanager": ["py.typed"],
     },
     install_requires=[
         "isodate<1.0.0,>=0.6.1",
