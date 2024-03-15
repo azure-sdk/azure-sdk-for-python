@@ -10,31 +10,6 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
-class AccessKeyPermissions(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """AccessKeyPermissions."""
-
-    READ = "Read"
-    WRITE = "Write"
-    LISTEN = "Listen"
-    SEND = "Send"
-    MANAGE = "Manage"
-
-
-class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs."""
-
-    INTERNAL = "Internal"
-    ENABLE = "enable"
-    OPT_OUT = "optOut"
-
-
-class AllowType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Whether to allow firewall rules."""
-
-    TRUE = "true"
-    FALSE = "false"
-
-
 class AuthType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The authentication type."""
 
@@ -43,8 +18,6 @@ class AuthType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SERVICE_PRINCIPAL_SECRET = "servicePrincipalSecret"
     SERVICE_PRINCIPAL_CERTIFICATE = "servicePrincipalCertificate"
     SECRET = "secret"
-    ACCESS_KEY = "accessKey"
-    USER_ACCOUNT = "userAccount"
 
 
 class AzureResourceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -78,46 +51,6 @@ class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     KEY = "Key"
 
 
-class DeleteOrUpdateBehavior(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The cleanup behavior to indicate whether clean up operation when resource is deleted or
-    updated.
-    """
-
-    DEFAULT = "Default"
-    FORCED_CLEANUP = "ForcedCleanup"
-
-
-class DryrunActionName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The name of action for you dryrun job."""
-
-    CREATE_OR_UPDATE = "createOrUpdate"
-
-
-class DryrunPrerequisiteResultType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The type of dryrun result."""
-
-    BASIC_ERROR = "basicError"
-    PERMISSIONS_MISSING = "permissionsMissing"
-
-
-class DryrunPreviewOperationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The operation type."""
-
-    CONFIG_CONNECTION = "configConnection"
-    CONFIG_NETWORK = "configNetwork"
-    CONFIG_AUTH = "configAuth"
-
-
-class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit
-    logs UX. Default value is "user,system".
-    """
-
-    USER = "user"
-    SYSTEM = "system"
-    USER_SYSTEM = "user,system"
-
-
 class SecretType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The secret type."""
 
@@ -132,7 +65,6 @@ class TargetServiceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     AZURE_RESOURCE = "AzureResource"
     CONFLUENT_BOOTSTRAP_SERVER = "ConfluentBootstrapServer"
     CONFLUENT_SCHEMA_REGISTRY = "ConfluentSchemaRegistry"
-    SELF_HOSTED_SERVER = "SelfHostedServer"
 
 
 class ValidationResultStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
