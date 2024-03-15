@@ -49,7 +49,7 @@ class ApiSpecImportSourceFormat(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The inlined content of a specification document."""
     LINK = "link"
     """The link to a specification document hosted on a publicly accessible internet
-    #: address."""
+    address."""
 
 
 class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
