@@ -57,7 +57,7 @@ class DataProductUserRole(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Field to specify user of type Reader."""
     SENSITIVE_READER = "SensitiveReader"
     """Field to specify user of type SensitiveReader.
-    #: This user has privileged access to read sensitive data of a data product."""
+    This user has privileged access to read sensitive data of a data product."""
 
 
 class DataTypeState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
