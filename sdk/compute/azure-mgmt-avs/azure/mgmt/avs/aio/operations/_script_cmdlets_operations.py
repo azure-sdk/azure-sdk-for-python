@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -57,17 +57,15 @@ class ScriptCmdletsOperations:
     def list(
         self, resource_group_name: str, private_cloud_name: str, script_package_name: str, **kwargs: Any
     ) -> AsyncIterable["_models.ScriptCmdlet"]:
-        """List script cmdlet resources available for a private cloud to create a script execution
-        resource on a private cloud.
+        """List ScriptCmdlet resources by ScriptPackage.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param script_package_name: Name of the script package in the private cloud. Required.
+        :param script_package_name: Name of the script package. Required.
         :type script_package_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ScriptCmdlet or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.avs.models.ScriptCmdlet]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -76,7 +74,7 @@ class ScriptCmdletsOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.ScriptCmdletsList] = kwargs.pop("cls", None)
+        cls: ClsType[_models.ScriptCmdletListResult] = kwargs.pop("cls", None)
 
         error_map = {
             401: ClientAuthenticationError,
@@ -89,18 +87,17 @@ class ScriptCmdletsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_request(
+                _request = build_list_request(
                     resource_group_name=resource_group_name,
                     private_cloud_name=private_cloud_name,
                     script_package_name=script_package_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -112,27 +109,27 @@ class ScriptCmdletsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = _convert_request(_request)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
-            deserialized = self._deserialize("ScriptCmdletsList", pipeline_response)
+            deserialized = self._deserialize("ScriptCmdletListResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -145,10 +142,6 @@ class ScriptCmdletsOperations:
 
         return AsyncItemPaged(get_next, extract_data)
 
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptPackages/{scriptPackageName}/scriptCmdlets"
-    }
-
     @distributed_trace_async
     async def get(
         self,
@@ -158,19 +151,17 @@ class ScriptCmdletsOperations:
         script_cmdlet_name: str,
         **kwargs: Any
     ) -> _models.ScriptCmdlet:
-        """Return information about a script cmdlet resource in a specific package on a private cloud.
+        """Get a ScriptCmdlet.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param private_cloud_name: Name of the private cloud. Required.
         :type private_cloud_name: str
-        :param script_package_name: Name of the script package in the private cloud. Required.
+        :param script_package_name: Name of the script package. Required.
         :type script_package_name: str
-        :param script_cmdlet_name: Name of the script cmdlet resource in the script package in the
-         private cloud. Required.
+        :param script_cmdlet_name: Name of the script cmdlet. Required.
         :type script_cmdlet_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ScriptCmdlet or the result of cls(response)
         :rtype: ~azure.mgmt.avs.models.ScriptCmdlet
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -189,23 +180,22 @@ class ScriptCmdletsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ScriptCmdlet] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             private_cloud_name=private_cloud_name,
             script_package_name=script_package_name,
             script_cmdlet_name=script_cmdlet_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request = _convert_request(_request)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -218,10 +208,6 @@ class ScriptCmdletsOperations:
         deserialized = self._deserialize("ScriptCmdlet", pipeline_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptPackages/{scriptPackageName}/scriptCmdlets/{scriptCmdletName}"
-    }
+        return deserialized  # type: ignore
