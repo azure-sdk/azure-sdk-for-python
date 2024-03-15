@@ -15,7 +15,7 @@ from azure.mgmt.mobilenetwork import MobileNetworkManagementClient
     pip install azure-identity
     pip install azure-mgmt-mobilenetwork
 # USAGE
-    python slice_delete.py
+    python extended_ue_info4_gget.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,13 +30,14 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    client.slices.begin_delete(
+    response = client.extended_ue_information.get(
         resource_group_name="rg1",
-        mobile_network_name="testMobileNetwork",
-        slice_name="testSlice",
-    ).result()
+        packet_core_control_plane_name="TestPacketCoreCP",
+        ue_id="84449105622",
+    )
+    print(response)
 
 
-# x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/SliceDelete.json
+# x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-02-01/examples/ExtendedUeInfo4GGet.json
 if __name__ == "__main__":
     main()
