@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.appcontainers import ContainerAppsAPIClient
 
 """
@@ -26,6 +27,7 @@ from azure.mgmt.appcontainers import ContainerAppsAPIClient
 def main():
     client = ContainerAppsAPIClient(
         credential=DefaultAzureCredential(),
+        container_app_name="mikono-capp-stage1",
         subscription_id="f07f3711-b45e-40fe-a941-4e6d93f851e6",
     )
 
@@ -37,6 +39,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ContainerAppsDiagnostics_List.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-02-02-preview/examples/ContainerAppsDiagnostics_List.json
 if __name__ == "__main__":
     main()
